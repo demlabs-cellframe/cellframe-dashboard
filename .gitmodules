@@ -1,0 +1,3 @@
+[submodule "KelvinGUI"]
+	path = KelvinGUI
+	url = git://github.com/kelvinblockchain/libdap-qt-ui-qml.git
