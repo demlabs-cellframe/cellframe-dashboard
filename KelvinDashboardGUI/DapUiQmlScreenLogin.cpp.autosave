@@ -1,0 +1,16 @@
+#include "DapUiQmlScreenLogin.h"
+
+DapUiQmlScreenLogin::DapUiQmlScreenLogin(QObject *parent) : QObject(parent)
+{
+    
+}
+
+QString DapUiQmlScreenLogin::getPassword() const
+{
+    
+}
+
+void DapUiQmlScreenLogin::setPassword(const QString &password)
+{
+    
+}
