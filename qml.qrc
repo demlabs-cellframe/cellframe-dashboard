@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>DapUiQmlScreenDashboard.qml</file>
+        <file>DapUiQmlScreenMainWindow.ui.qml</file>
+        <file>kelvin.conf</file>
+        <file>DapUiQmlScreenLogin.ui.qml</file>
+        <file>DapUiQmlWidgetChainBlockExplorer.ui.qml</file>
+        <file>DapUiQmlWidgetChainExchanges.ui.qml</file>
+        <file>DapUiQmlWidgetChainServicesClient.ui.qml</file>
+        <file>DapUiQmlWidgetChainServicesShareControl.ui.qml</file>
+        <file>DapUiQmlWidgetChainSettings.ui.qml</file>
+        <file>DapUiQmlWidgetChainWallet.ui.qml</file>
+        <file>DapUiQmlScreenDialog.qml</file>
+        <file>Resources/Icons/icon.png</file>
+        <file>Resources/Icons/icon.ico</file>
+        <file>DapUiQmlListModelWidgets.qml</file>
+        <file>Resources/Icons/add.png</file>
+    </qresource>
+</RCC>
