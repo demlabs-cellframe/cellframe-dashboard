@@ -1,4 +1,4 @@
-[submodule "KelvinGUI"]
-	path = KelvinGUI
+[submodule "libdap-qt-ui-qml"]
+	path = libdap-qt-ui-qml
 	url = git://github.com/kelvinblockchain/libdap-qt-ui-qml.git
 	branch = master
