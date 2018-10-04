@@ -6,7 +6,7 @@
 class DapUiQmlWidgetChainTransctions : public DapUiQmlWidget
 {
 public:
-    DapUiQmlWidgetChainTransctions();
+    explicit DapUiQmlWidgetChainTransctions(const QString &name, const QString &URLpage, const QString &image);
 };
 
 #endif // DAPUIQMLWIDGETCHAINTRANSCTIONS_H

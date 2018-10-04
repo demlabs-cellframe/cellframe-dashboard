@@ -26,6 +26,7 @@ class DapSettings : public QObject
 {
     Q_OBJECT
     
+protected:
     /// Standart constructor.
     explicit DapSettings(QObject *parent = nullptr);
     /// Overloaded constructor.
@@ -33,7 +34,6 @@ class DapSettings : public QObject
     /// @param parent Parent.
     explicit DapSettings(const QString &fileName, QObject *parent = nullptr);
     
-protected:
     /// Settings file.
     QFile       m_file;
     /// Settings file name.
@@ -42,13 +42,20 @@ protected:
     /// Initialize the components.
     virtual void init();
     /// Read settings file.
+    /// @return Virtual json file.
     virtual QJsonDocument readFile();
     /// Write settings to file.
     /// @param json Virtual json file.
     /// @return Returns true if the recording was successful, false if the recording failed.
     virtual bool writeFile(const QJsonDocument& json);
     
+    
+    
 public:
+    virtual QByteArray encrypt(const QByteArray &byteArray) const;
+    
+    virtual QByteArray decrypt(const QByteArray &byteArray) const;
+    
     /// Removed as part of the implementation of the pattern sington.
     DapSettings(const DapSettings&) = delete;
     DapSettings& operator= (const DapSettings &) = delete;

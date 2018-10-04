@@ -6,7 +6,7 @@
 class DapUiQmlWidgetChainNodeLogs : public DapUiQmlWidget
 {
 public:
-    DapUiQmlWidgetChainNodeLogs();
+    explicit DapUiQmlWidgetChainNodeLogs(const QString &name, const QString &URLpage, const QString &image);
 };
 
 #endif // DAPUIQMLWIDGETCHAINNODELOGS_H

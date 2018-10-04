@@ -30,11 +30,12 @@ void DapSettings::init()
 }
 
 /// Read settings file.
+/// @return Virtual json file.
 QJsonDocument DapSettings::readFile()
 {
     qDebug() << "File name " << m_file.fileName();
     m_file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString textFile = m_file.readAll();
+    QString textFile = decrypt(m_file.readAll());
     m_file.close();
     return QJsonDocument::fromJson(textFile.toUtf8());
 }
@@ -52,10 +53,20 @@ bool DapSettings::writeFile(const QJsonDocument &json)
     else
     {
         m_file.open(QIODevice::WriteOnly);
-        m_file.write(json.toJson());
+        m_file.write(encrypt(json.toJson()));
         m_file.close();
         return true;
     }
+}
+
+QByteArray DapSettings::encrypt(const QByteArray &byteArray) const
+{
+    return byteArray;
+}
+
+QByteArray DapSettings::decrypt(const QByteArray &byteArray) const
+{
+    return byteArray;
 }
 
 /// Get an instance of a class.

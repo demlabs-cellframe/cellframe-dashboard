@@ -6,7 +6,8 @@
 class DapUiQmlWidgetChainBallance : public DapUiQmlWidget
 {
 public:
-    DapUiQmlWidgetChainBallance();
+    explicit DapUiQmlWidgetChainBallance(const QString &name, const QString &URLpage, const QString &image); 
+        
 };
 
 #endif // DAPUIQMLWIDGETCHAINBALLANCE_H

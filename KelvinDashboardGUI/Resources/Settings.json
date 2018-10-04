@@ -1,0 +1,12 @@
+    {
+      "user": "Andrey",
+      "widgets":
+	[
+		{"name": "Blockchain explorer", "URLpage": "DapUiQmlWidgetChainBlockExplorer.ui.qml", "image": "qrc:/Resources/Icons/add.png", "visible": "false"},
+		{"name": "Exchanges", "URLpage": "DapUiQmlWidgetChainExchanges.ui.qml", "image": "qrc:/Resources/Icons/add.png", "visible": "false"},
+		{"name": "Services client", "URLpage": "DapUiQmlWidgetChainServicesClient.ui.qml", "image": "qrc:/Resources/Icons/add.png", "visible": "false"},
+		{"name": "Services share control", "URLpage": "DapUiQmlWidgetChainServicesShareControl.ui.qml", "image": "qrc:/Resources/Icons/add.png", "visible": "false"},
+		{"name": "Settings", "URLpage": "DapUiQmlWidgetChainSettings.ui.qml", "image": "qrc:/Resources/Icons/add.png", "visible": "false"},
+		{"name": "Wallet", "URLpage": "DapUiQmlWidgetChainWallet.ui.qml", "image": "qrc:/Resources/Icons/add.png", "visible": "false"}
+        ]
+    }
