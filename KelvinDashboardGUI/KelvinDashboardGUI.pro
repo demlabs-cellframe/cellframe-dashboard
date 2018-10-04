@@ -79,7 +79,7 @@ HEADERS += \
 
 
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/;
+INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 	       $$_PRO_FILE_PWD_/../libdap/
 
 DISTFILES +=
