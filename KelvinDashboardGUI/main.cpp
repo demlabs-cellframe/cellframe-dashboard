@@ -10,6 +10,11 @@
 #include "DapHalper.h"
 #include "DapClient.h"
 #include "DapScreenLogin.h"
+#include "DapScreenDialog.h"
+#include "DapScreenDialogChangeWidget.h"
+#include "DapUiQmlWidgetModel.h"
+#include "DapSettings.h"
+#include "DapSettingsCipher.h"
 
 int main(int argc, char *argv[])
 {
@@ -41,12 +46,23 @@ int main(int argc, char *argv[])
     DapClient::getInstance().connectToService("Kelvin Client");
     
     qmlRegisterType<DapScreenLogin>("KelvinDashboard", 1, 0, "DapScreenLogin");
+    qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
+    qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterSingletonType<DapClient>("KelvinDashboard", 1, 0, "DapClient", DapClient::singletonProvider);
+    qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("dapClient", &DapClient::getInstance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
+    DapSettings &settings = DapSettings::getInstance("Settings.json");
+    DapSettingsCipher &set = DapSettingsCipher::getInstance(settings);
+    qDebug() << "Settings file name: " << set.getFileName();
+    set.setKeyValue("user", "Vasy");
+    bool f = false;
+    set.setGroupPropertyValue("widgets", "name", "Services client", "visible", f);
+    qDebug() << set.getGroupPropertyValue("widgets", "name", "Services client", "visible").toBool();
+    qDebug() << set.getKeyValue("user");
     
     if (engine.rootObjects().isEmpty())
         return -1;

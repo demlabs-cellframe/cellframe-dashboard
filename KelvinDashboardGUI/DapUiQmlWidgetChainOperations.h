@@ -6,7 +6,7 @@
 class DapUiQmlWidgeChainOperations : public DapUiQmlWidget
 {
 public:
-    DapUiQmlWidgeChainOperations();
+    explicit DapUiQmlWidgeChainOperations(const QString &name, const QString &URLpage, const QString &image);
 };
 
 #endif // DAPUIQMLWIDGECHAINOPERATIONS_H

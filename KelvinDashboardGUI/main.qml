@@ -4,6 +4,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Window 2.0
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.platform 1.0
+import KelvinDashboard 1.0
 
 ApplicationWindow {
     id: window
@@ -102,11 +103,7 @@ ApplicationWindow {
         ListView {
             id: listViewMenu
             anchors.fill: parent
-            model: listModelMenu
-            
-            DapUiQmlListModelWidgets {
-                id: listModelMenu
-            }
+            model: DapUiQmlWidgetModel
 
             delegate: 
                 Component {
@@ -133,12 +130,13 @@ ApplicationWindow {
                                onClicked: 
                                {
                                    listViewMenu.currentIndex = index
-                                   stackView.push(Qt.resolvedUrl(page), StackView.Immediate)
+                                   stackView.push(Qt.resolvedUrl(URLpage), StackView.Immediate)
                                    drawerMenu.close()
                                }
                            }
                         }
                     }
+            
             highlight: Rectangle { color: "aliceblue"; radius: 5 }
             focus: true
         }

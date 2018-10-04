@@ -14,12 +14,14 @@
         <file>DapUiQmlScreenDialog.qml</file>
         <file>Resources/Icons/icon.png</file>
         <file>Resources/Icons/icon.ico</file>
-        <file>DapUiQmlListModelWidgets.qml</file>
         <file>Resources/Icons/add.png</file>
         <file>DapQmlScreenLogin.qml</file>
         <file>DapUiQmlScreenAbout.ui.qml</file>
         <file>DapQmlScreenAbout.qml</file>
         <file>Resources/Icons/iconErrorNetwork.png</file>
         <file>Resources/Icons/iconNetwork.png</file>
+        <file>DapUiQmlWidgetDelegate.qml</file>
+        <file>DapUiQmlWidgetDelegateForm.ui.qml</file>
+        <file>DapUiQmlScreenChangeWidget.qml</file>
     </qresource>
 </RCC>

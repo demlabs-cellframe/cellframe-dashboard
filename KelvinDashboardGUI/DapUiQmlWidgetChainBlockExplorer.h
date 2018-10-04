@@ -6,7 +6,7 @@
 class DapUiQmlWidgetChainBlockExplorer : public DapUiQmlWidget
 {
 public:
-    DapUiQmlWidgetChainBlockExplorer();
+    DapUiQmlWidgetChainBlockExplorer(const QString &name, const QString &URLpage, const QString &image);
 };
 
 #endif // DAPUIQMLWIDGETCHAINBLOCKEXPLORER_H

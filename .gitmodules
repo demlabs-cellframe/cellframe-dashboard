@@ -1,3 +1,7 @@
+[submodule "libdap"]
+	path = libdap
+	url = https://github.com/kelvinblockchain/libdap.git
+	branch = master
 [submodule "libdap-qt-ui-qml"]
 	path = libdap-qt-ui-qml
 	url = git://github.com/kelvinblockchain/libdap-qt-ui-qml.git

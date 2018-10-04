@@ -38,15 +38,17 @@ ICON = icon.ico
 
 SOURCES += \
         main.cpp \
-    DapUiQmlWidget.cpp \
     DapUiQmlWidgetChainBallance.cpp \
-    DapUiQmlScreenDialog.cpp \
     DapUiQmlWidgetChainBlockExplorer.cpp \
     DapUiQmlWidgetChainNodeLogs.cpp \
     DapUiQmlWidgetChainTransctions.cpp \
     DapUiQmlWidgetChainOperations.cpp \
     DapScreenLogin.cpp \
-    DapClient.cpp
+    DapClient.cpp \
+    DapUiQmlWidgetModel.cpp \
+    DapUiQmlWidget.cpp \
+    DapScreenDialog.cpp \
+    DapScreenDialogChangeWidget.cpp
 
 RESOURCES += qml.qrc
 
@@ -62,16 +64,22 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    DapUiQmlWidget.h \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \
     DapUiQmlWidgetChainNodeLogs.h \
     DapUiQmlWidgetChainTransctions.h \
     DapUiQmlScreenDashboard.h \
     DapUiQmlWidgetChainOperations.h \
-    DapScreenDialog.h \
     DapScreenLogin.h \
-    DapClient.h
+    DapClient.h \
+    DapUiQmlWidgetModel.h \
+    DapUiQmlWidget.h \
+    DapScreenDialog.h \
+    DapScreenDialogChangeWidget.h
+
 
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
+INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/;
+	       $$_PRO_FILE_PWD_/../libdap/
+
+DISTFILES +=

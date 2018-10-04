@@ -1,6 +1,6 @@
 #include "DapUiQmlWidgetChainBlockExplorer.h"
 
-DapUiQmlWidgetChainBlockExplorer::DapUiQmlWidgetChainBlockExplorer()
+DapUiQmlWidgetChainBlockExplorer::DapUiQmlWidgetChainBlockExplorer(const QString &name, const QString &URLpage, const QString &image) : DapUiQmlWidget(name, URLpage, image)
 {
     
 }
