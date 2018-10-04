@@ -1,11 +1,17 @@
-#ifndef DAPUIQMLSCREENDIALOG_H
-#define DAPUIQMLSCREENDIALOG_H
+#ifndef DAPSCREENDIALOG_H
+#define DAPSCREENDIALOG_H
 
+#include <QObject>
 
-class DapUiQmlScreenDialog
+class DapScreenDialog : public QObject
 {
+    Q_OBJECT
 public:
-    DapUiQmlScreenDialog();
+    explicit DapScreenDialog(QObject *parent = nullptr);
+    
+signals:
+    
+public slots:
 };
 
-#endif // DAPUIQMLSCREENDIALOG_H
+#endif // DAPSCREENDIALOG_H

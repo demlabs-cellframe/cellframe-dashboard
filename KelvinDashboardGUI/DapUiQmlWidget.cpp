@@ -1,6 +1,6 @@
 #include "DapUiQmlWidget.h"
 
-DapUiQmlWidget::DapUiQmlWidget()
+DapUiQmlWidget::DapUiQmlWidget(QObject *parent) : QObject(parent)
 {
     
 }

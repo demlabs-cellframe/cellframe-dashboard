@@ -1,11 +1,17 @@
 #ifndef DAPUIQMLWIDGET_H
 #define DAPUIQMLWIDGET_H
 
+#include <QObject>
 
-class DapUiQmlWidget
+class DapUiQmlWidget : public QObject
 {
+    Q_OBJECT
 public:
-    DapUiQmlWidget();
+    explicit DapUiQmlWidget(QObject *parent = nullptr);
+    
+signals:
+    
+public slots:
 };
 
 #endif // DAPUIQMLWIDGET_H
