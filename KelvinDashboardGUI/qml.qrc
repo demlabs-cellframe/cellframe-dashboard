@@ -23,5 +23,8 @@
         <file>DapUiQmlWidgetDelegate.qml</file>
         <file>DapUiQmlWidgetDelegateForm.ui.qml</file>
         <file>DapUiQmlScreenChangeWidget.qml</file>
+        <file>DapUiQmlWidgetChainWallet.qml</file>
+        <file>Resources/Icons/save_icon.png</file>
+        <file>Resources/Icons/settings_icon.png</file>
     </qresource>
 </RCC>

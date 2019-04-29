@@ -55,14 +55,14 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapClient", &DapClient::getInstance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
-    DapSettings &settings = DapSettings::getInstance("Settings.json");
-    DapSettingsCipher &set = DapSettingsCipher::getInstance(settings);
-    qDebug() << "Settings file name: " << set.getFileName();
-    set.setKeyValue("user", "Vasy");
-    bool f = false;
-    set.setGroupPropertyValue("widgets", "name", "Services client", "visible", f);
-    qDebug() << set.getGroupPropertyValue("widgets", "name", "Services client", "visible").toBool();
-    qDebug() << set.getKeyValue("user");
+    //DapSettings &settings = DapSettings::getInstance("Settings.json");
+    //DapSettingsCipher &set = DapSettingsCipher::getInstance(settings);
+    //qDebug() << "Settings file name: " << set.getFileName();
+    //set.setKeyValue("user", "Vasy");
+    //bool f = false;
+    //set.setGroupPropertyValue("widgets", "name", "Services client", "visible", f);
+    //qDebug() << set.getGroupPropertyValue("widgets", "name", "Services client", "visible").toBool();
+    //qDebug() << set.getKeyValue("user");
     
     if (engine.rootObjects().isEmpty())
         return -1;
