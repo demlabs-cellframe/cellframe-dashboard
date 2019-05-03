@@ -12,8 +12,6 @@
         <file>DapUiQmlWidgetChainWallet.ui.qml</file>
         <file>DapUiQmlScreenDialog.qml</file>
         <file>Resources/Icons/icon.png</file>
-        <file>Resources/Icons/icon.ico</file>
-        <file>Resources/Icons/add.png</file>
         <file>DapUiQmlScreenAbout.ui.qml</file>
         <file>DapQmlScreenAbout.qml</file>
         <file>Resources/Icons/iconErrorNetwork.png</file>
@@ -22,5 +20,7 @@
         <file>DapUiQmlWidgetDelegateForm.ui.qml</file>
         <file>DapUiQmlScreenChangeWidget.qml</file>
         <file>DapUiQmlWidgetChainNodeLogs.ui.qml</file>
+        <file>Resources/Icons/add.png</file>
+        <file>Resources/Icons/icon.ico</file>
     </qresource>
 </RCC>
