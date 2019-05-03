@@ -10,3 +10,8 @@ KelvinDashboardGUI.depends = KelvinDashboardService
     BRAND = KelvinDashboard
 }
 
+unix: !mac : !android {
+    share_target.files = debian/share/*
+    share_target.path = /opt/dap/$$lower($$BRAND)/share/
+    INSTALLS += share_target
+}

@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     
     // Creating the main application object
     DapChainDashboardService service;
+    service.start();
     // Initialization of the application in the system tray
     service.initTray();
     

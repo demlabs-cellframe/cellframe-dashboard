@@ -12,17 +12,11 @@
 QT += quick quickwidgets
 
 SOURCES +=\
-    $$PWD/DapCommand.cpp \
-    $$PWD/DapLocalServer.cpp \
-    $$PWD/DapLocalClient.cpp \
     $$PWD/DapHalper.cpp \
     $$PWD/DapSettings.cpp \
     $$PWD/DapSettingsCipher.cpp
 
 HEADERS +=\
-    $$PWD/DapCommand.h \
-    $$PWD/DapLocalServer.h \
-    $$PWD/DapLocalClient.h \
     $$PWD/DapHalper.h \
     $$PWD/DapSettings.h \
     $$PWD/DapSettingsCipher.h

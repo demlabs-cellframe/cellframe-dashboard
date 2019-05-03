@@ -1,4 +1,4 @@
-QT += quick widgets quickwidgets
+QT += qml quick widgets
 
 TEMPLATE = app
 CONFIG += c++11
@@ -29,6 +29,7 @@ else {
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
+DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 ICON = icon.ico
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -43,12 +44,15 @@ SOURCES += \
     DapUiQmlWidgetChainNodeLogs.cpp \
     DapUiQmlWidgetChainTransctions.cpp \
     DapUiQmlWidgetChainOperations.cpp \
-    DapScreenLogin.cpp \
-    DapClient.cpp \
     DapUiQmlWidgetModel.cpp \
     DapUiQmlWidget.cpp \
     DapScreenDialog.cpp \
-    DapScreenDialogChangeWidget.cpp
+    DapScreenDialogChangeWidget.cpp \
+    DapServiceClient.cpp \
+    DapServiceController.cpp \
+    DapCommandController.cpp \
+    DapServiceClientNativeAbstract.cpp \
+    DapServiceClientNativeLinux.cpp
 
 RESOURCES += qml.qrc
 
@@ -70,15 +74,19 @@ HEADERS += \
     DapUiQmlWidgetChainTransctions.h \
     DapUiQmlScreenDashboard.h \
     DapUiQmlWidgetChainOperations.h \
-    DapScreenLogin.h \
-    DapClient.h \
     DapUiQmlWidgetModel.h \
     DapUiQmlWidget.h \
     DapScreenDialog.h \
-    DapScreenDialogChangeWidget.h
+    DapScreenDialogChangeWidget.h \
+    DapServiceClient.h \
+    DapServiceController.h \
+    DapCommandController.h \
+    DapServiceClientNativeAbstract.h \
+    DapServiceClientNativeLinux.h
 
 
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
+include (../DapRPCProtocol/DapRPCProtocol.pri)
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 	       $$_PRO_FILE_PWD_/../libdap/
 

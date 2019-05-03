@@ -18,10 +18,6 @@ Page {
                 id: listModelTabs
                 
                 ListElement {
-                    name:  qsTr("Login")
-                    page: "DapQmlScreenLogin.qml"
-                }
-                ListElement {
                     name:  qsTr("Dashboard")
                     page: "DapUiQmlScreenDialog.qml"
                 }
@@ -80,7 +76,7 @@ Page {
                 id: stackViewScreenDashboard
                 anchors.fill: parent
                 anchors.margins: 1
-                source: "DapQmlScreenLogin.qml"
+                source: "DapUiQmlScreenDialog.qml"
             }
         }
 }

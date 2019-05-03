@@ -1,4 +1,4 @@
-QT += network widgets
+QT += core network widgets
 QT += gui
 
 CONFIG += c++11
@@ -8,6 +8,7 @@ CONFIG -= app_bundle
 #  Default brand
     BRAND = KelvinDashboard
 }
+DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 
 TARGET = $${BRAND}Service
 
@@ -38,17 +39,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
     DapChainDashboardService.cpp \
-    DapChainDashboardAuth.cpp \
     DapChainNode.cpp \
     DapChainNodeCache.cpp
 
 HEADERS += \
     DapChainDashboardService.h \
-    DapChainDashboardAuth.h \
     DapChainNode.h \
     DapChainNodeCache.h
 
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
+include (../DapRPCProtocol/DapRPCProtocol.pri)
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 	       $$_PRO_FILE_PWD_/../libdap/
 

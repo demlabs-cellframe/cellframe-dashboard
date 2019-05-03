@@ -102,7 +102,7 @@ Dialog {
             
             anchors.margins: 1
             
-            model: DapUiQmlWidgetModel
+            model: dapUiQmlWidgetModel
             
             clip: true
             
@@ -135,8 +135,8 @@ Dialog {
                            {
                                listViewDapWidgets.currentIndex = index
                                var item = DapUiQmlWidgetModel.get(index)
-                               DapUiQmlWidgetModel.set(index, DapUiQmlWidgetModel.get(index).name, DapUiQmlWidgetModel.get(index).URLpage, DapUiQmlWidgetModel.get(index).image, !item.visible)
-                               console.log("I: " +index + " : " + DapUiQmlWidgetModel.get(index) + " value = " + !item.visible)
+                               dapUiQmlWidgetModel.set(index, dapUiQmlWidgetModel.get(index).name, dapUiQmlWidgetModel.get(index).URLpage, dapUiQmlWidgetModel.get(index).image, !item.visible)
+                               console.log("I: " +index + " : " + dapUiQmlWidgetModel.get(index) + " value = " + !item.visible)
                                
                                if(checkBoxWidget.checked)
                                {

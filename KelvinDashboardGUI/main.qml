@@ -13,11 +13,12 @@ ApplicationWindow {
     height: 480
     
     onClosing: {
+        console.log("Close")
         window.hide()
     }
     
     Connections {
-        target: dapClient
+        target: dapServiceController
         
         onActivateWindow: {
             if(window.visibility === Window.Hidden) {
@@ -29,19 +30,19 @@ ApplicationWindow {
             }
         }
         
-        onErrorConnect: {
-            imageNetwork.visible = false
-            if(imageErrorNetwork.visible)
-                imageErrorNetwork.visible = false
-            else
-                imageErrorNetwork.visible = true
-        }
+//        onErrorConnect: {
+//            imageNetwork.visible = false
+//            if(imageErrorNetwork.visible)
+//                imageErrorNetwork.visible = false
+//            else
+//                imageErrorNetwork.visible = true
+//        }
         
-        onConnectedToService: {
-            imageNetwork.visible = true
-            imageErrorNetwork.visible = false
-            console.log("Connected")
-        }
+//        onConnectedToService: {
+//            imageNetwork.visible = true
+//            imageErrorNetwork.visible = false
+//            console.log("Connected")
+//        }
     }
     
     
@@ -103,7 +104,7 @@ ApplicationWindow {
         ListView {
             id: listViewMenu
             anchors.fill: parent
-            model: DapUiQmlWidgetModel
+            model: dapUiQmlWidgetModel
 
             delegate: 
                 Component {

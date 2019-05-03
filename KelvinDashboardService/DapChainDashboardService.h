@@ -18,29 +18,35 @@
 #include <QAction>
 #include <QApplication>
 
-#include "DapLocalServer.h"
-#include "DapChainDashboardAuth.h"
+#include "DapRpcAbstractServer.h"
+#include "DapRpcLocalServer.h"
+#include "DapRpcTCPServer.h"
+#include "DapRpcService.h"
 
-class DapChainDashboardService : public QObject
+#include <QLocalServer>
+typedef class DapRpcLocalServer DapUiService;
+typedef class QLocalServer DapUiSocketServer;
+
+class DapChainDashboardService : public DapRpcService
 {
     Q_OBJECT
-    
-    /// The object responsible for authorization of the user in the application.
-    DapChainDashboardAuth   m_dapChainDashboardAuth;
-    /// Local server for establishing connection with GUI client.
-    DapLocalServer          *m_dapLocalServer;
+    Q_CLASSINFO("serviceName", "RPCServer")
+    DapUiService            * m_pServer {nullptr};
+    DapUiSocketServer       * m_pSocketService {nullptr};
 public:
     /// Standard сonstructor.
-    explicit DapChainDashboardService(QObject *parent = nullptr);
+    explicit DapChainDashboardService();
+    
+    bool start();
+    
+signals:
+    /// The signal is emitted in case of successful connection of a new client.
+    void onNewClientConnected();
     
 public slots:
-    /// Identification of the command received.
-    /// @param command Command received.
-    /// @return Returns true if the command is identified, otherwise - false.
-    bool identificationCommand(const DapCommand &command);
     /// Activate the main client window by double-clicking the application icon in the system tray.
     /// @param reason Type of action on the icon in the system tray.
-    void clientActivated(const QSystemTrayIcon::ActivationReason& reason);
+    void activateClient(const QSystemTrayIcon::ActivationReason& reason);
     /// Shut down client.
     void closeClient();
     /// System tray initialization.

@@ -4,7 +4,6 @@
         <file>DapUiQmlScreenDashboard.qml</file>
         <file>DapUiQmlScreenMainWindow.ui.qml</file>
         <file>KelvinDashboardGUI.conf</file>
-        <file>DapUiQmlScreenLogin.ui.qml</file>
         <file>DapUiQmlWidgetChainBlockExplorer.ui.qml</file>
         <file>DapUiQmlWidgetChainExchanges.ui.qml</file>
         <file>DapUiQmlWidgetChainServicesClient.ui.qml</file>
@@ -15,7 +14,6 @@
         <file>Resources/Icons/icon.png</file>
         <file>Resources/Icons/icon.ico</file>
         <file>Resources/Icons/add.png</file>
-        <file>DapQmlScreenLogin.qml</file>
         <file>DapUiQmlScreenAbout.ui.qml</file>
         <file>DapQmlScreenAbout.qml</file>
         <file>Resources/Icons/iconErrorNetwork.png</file>
@@ -23,5 +21,6 @@
         <file>DapUiQmlWidgetDelegate.qml</file>
         <file>DapUiQmlWidgetDelegateForm.ui.qml</file>
         <file>DapUiQmlScreenChangeWidget.qml</file>
+        <file>DapUiQmlWidgetChainNodeLogs.ui.qml</file>
     </qresource>
 </RCC>

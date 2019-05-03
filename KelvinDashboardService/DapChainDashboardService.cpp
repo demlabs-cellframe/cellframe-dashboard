@@ -1,49 +1,44 @@
 #include "DapChainDashboardService.h"
 
-DapChainDashboardService::DapChainDashboardService(QObject *parent) : QObject(parent)
+DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 {
-    // Creating a local server to establish connection with the GUI client and then connect to it.
-    m_dapLocalServer = new DapLocalServer("Kelvin Client");
-    m_dapLocalServer->connectWithClient();
-    
-    // Signal-slot connection that triggers the identification of a received command.
-    connect(m_dapLocalServer, &DapLocalServer::commandRecieved, this, &DapChainDashboardService::identificationCommand);
-    // Signal-slot connection, starts processing the user authorization command.
-    connect(&m_dapChainDashboardAuth, &DapChainDashboardAuth::onCommandCompleted, m_dapLocalServer, &DapLocalServer::sendCommand);
+    connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
+        qDebug() << "New client";
+    });
 }
 
-/// Identification of the command received.
-/// @param command Command received
-/// @return Returns true if the command is identified, otherwise - false.
-bool DapChainDashboardService::identificationCommand(const DapCommand &command)
+bool DapChainDashboardService::start()
 {
-    qDebug() << "Identification command: " << command.getTypeCommand();
-    switch (command.getTypeCommand()) 
+    qInfo() << "DapChainDashboardService::start()";
+    
+    m_pSocketService = new DapUiSocketServer();
+    m_pServer = new DapUiService();
+    if(m_pServer->listen(DAP_BRAND)) 
     {
-    // User authorization
-    case TypeDapCommand::Authorization:
-        m_dapChainDashboardAuth.runCommand(command);
-        return true;
-    default:
+        connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
+        m_pServer->addService(this);
+    }
+    else
+    {
+        qCritical() << QString("Can't listen on %1").arg(DAP_BRAND);
         return false;
     }
+    return true;
 }
+
 
 /// Activate the main client window by double-clicking the application icon in the system tray.
 /// @param reason Type of action on the icon in the system tray.
-void DapChainDashboardService::clientActivated(const QSystemTrayIcon::ActivationReason& reason)
+void DapChainDashboardService::activateClient(const QSystemTrayIcon::ActivationReason& reason)
 {
-    qDebug() << "Client activated";
+    qInfo() << "DapChainDashboardService::activateClient()";
     switch (reason)
     {
         case QSystemTrayIcon::Trigger:
             {
-                if(m_dapLocalServer->isClientExist())
-                {
-                    qDebug() << "Send command activated";
-                    DapCommand *command = new DapCommand(TypeDapCommand::ActivateWindowClient, {true});
-                    m_dapLocalServer->sendCommand(*command);
-                }
+                QJsonArray arguments;
+                arguments.append(true);
+                m_pServer->notifyConnectedClients("RPCClient.activateClient", arguments);
             }
             break;
         default:
@@ -54,8 +49,11 @@ void DapChainDashboardService::clientActivated(const QSystemTrayIcon::Activation
 /// Shut down client.
 void DapChainDashboardService::closeClient()
 {
-    DapCommand *command = new DapCommand(TypeDapCommand::CloseClient, {true});
-    m_dapLocalServer->sendCommand(*command);
+    qDebug() << "Close client";
+    QJsonArray arguments;
+    m_pServer->notifyConnectedClients("RPCClient.closeClient", arguments);
+    // Signal-slot connection shutting down the service after closing the client
+    connect(m_pServer, SIGNAL(onClientDisconnected()), qApp, SLOT(quit()));
 }
 
 /// System tray initialization.
@@ -75,11 +73,10 @@ void DapChainDashboardService::initTray()
     connect(quitAction, &QAction::triggered, this, [=]
     {
         closeClient();
-        qApp->quit();
     });
     
     // With a double click on the icon in the system tray, 
     // we send a command to the client to activate the main window
     connect(trayIconKelvinDashboard, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(clientActivated(QSystemTrayIcon::ActivationReason)));
+            this, SLOT(activateClient(QSystemTrayIcon::ActivationReason)));
 }
