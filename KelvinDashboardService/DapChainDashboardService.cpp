@@ -59,6 +59,7 @@ void DapChainDashboardService::closeClient()
 /// System tray initialization.
 void DapChainDashboardService::initTray()
 {
+    qDebug() << "В ините";
     QSystemTrayIcon *trayIconKelvinDashboard = new QSystemTrayIcon();
     trayIconKelvinDashboard->setIcon(QIcon(":/Resources/Icons/icon.ico"));
     trayIconKelvinDashboard->setToolTip("KelvinDashboard");
@@ -66,7 +67,7 @@ void DapChainDashboardService::initTray()
     QAction * quitAction = new QAction("Выход");
     menuKelvinDashboardService->addAction(quitAction);
     trayIconKelvinDashboard->setContextMenu(menuKelvinDashboardService);
-    trayIconKelvinDashboard->show();
+//    trayIconKelvinDashboard->show();
     
     // If the "Exit" menu item is selected, then we shut down the service, 
     // and also send a command to shut down the client.

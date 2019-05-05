@@ -40,12 +40,17 @@ SOURCES += \
         main.cpp \
     DapChainDashboardService.cpp \
     DapChainNode.cpp \
-    DapChainNodeCache.cpp
+    DapChainNodeCache.cpp \
+    CSI.cpp \
+    MainProcess.cpp
 
 HEADERS += \
     DapChainDashboardService.h \
     DapChainNode.h \
-    DapChainNodeCache.h
+    DapChainNodeCache.h \
+    CSI.h \
+    Config.h \
+    MainProcess.h
 
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
