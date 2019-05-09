@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
     a.setApplicationName("KelvinDashboardService");
     
     DapLogger dapLogger;
+    /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
         dapLogger.setLogFile(QString("/opt/%1/log/%2Service.log").arg(QString(DAP_BRAND)).arg(DAP_BRAND));
