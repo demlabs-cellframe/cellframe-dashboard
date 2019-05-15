@@ -74,7 +74,7 @@ ApplicationWindow {
             scale: 0.7
             visible: false
             anchors.verticalCenter: parent.verticalCenter
-            anchors.right: labelBalance.left
+            anchors.right: imageDollars.left
         }
         
         Image {
@@ -83,12 +83,23 @@ ApplicationWindow {
             scale: 0.7
             visible: true
             anchors.verticalCenter: parent.verticalCenter
-            anchors.right: labelBalance.left
+            anchors.right: imageDollars.left
+        }
+        
+        Image {
+            id: imageDollars
+            source: "qrc:/Resources/Icons/dollar.png"
+            scale: 0.7
+            visible: true
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: labelBalance.right
+            anchors.leftMargin: 5 
+            anchors.rightMargin: 5 
         }
         
         Text {
             id: labelBalance
-            text: "$0"
+            text: "0"
             font.pointSize: 16
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
