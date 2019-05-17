@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.4
 import QtQuick.Window 2.0
+import QtQuick.Controls.Styles 1.3
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.platform 1.0
 import KelvinDashboard 1.0
@@ -46,64 +47,102 @@ ApplicationWindow {
     }
     
     
-    header: ToolBar {
-        contentHeight: buttomMenu.implicitHeight
-        spacing: 20
-        ToolButton {
-            id: buttomMenu
-            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-            font.pixelSize: Qt.application.font.pixelSize * 1.6
-            onClicked: {
-                if (stackView.depth > 1) {
-                    stackView.pop()
-                } else {
-                    drawerMenu.open()
+    header:
+    Column
+    {
+        ToolBar
+        {
+            width: parent.width
+            height: buttomMenu.implicitHeight
+            contentItem: Item {
+                anchors.fill: parent
+                Rectangle
+                {
+                    anchors.fill: parent
+                    color: "#353841"
+                }
+
+            }
+
+            ToolButton {
+                id: buttomMenu
+
+                contentItem: Item {
+                    anchors.fill: parent
+                    Rectangle
+                    {
+                        anchors.fill: parent
+                        color: "#353841"
+
+                        Text {
+                            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+                            font.pixelSize: Qt.application.font.pixelSize * 2
+                            anchors.centerIn: parent
+                            color: "#A5A7AA"
+                        }
+                    }
+
+                }
+
+                onClicked: {
+                    if (stackView.depth > 1) {
+                        stackView.pop()
+                    } else {
+                        drawerMenu.open()
+                    }
                 }
             }
+
+            Label {
+                id: labelTitleWidget
+                text: stackView.currentItem.title
+                anchors.centerIn: parent
+                color: "white"
+            }
+
+            Image {
+                id: imageNetwork
+                source: "qrc:/Resources/Icons/iconNetwork.png"
+                scale: 0.7
+                visible: false
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: imageDollars.left
+            }
+
+            Image {
+                id: imageErrorNetwork
+                source: "qrc:/Resources/Icons/iconErrorNetwork.png"
+                scale: 0.7
+                visible: true
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: imageDollars.left
+            }
+
+            Image {
+                id: imageDollars
+                source: "qrc:/Resources/Icons/dollar.png"
+                scale: 0.7
+                visible: true
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: labelBalance.right
+                anchors.leftMargin: 5
+                anchors.rightMargin: 5
+            }
+
+            Text {
+                id: labelBalance
+                text: "0"
+                font.pointSize: 16
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+            }
         }
-        
-        Label {
-            id: labelTitleWidget
-            text: stackView.currentItem.title
-            anchors.centerIn: parent
-        }
-        
-        Image {
-            id: imageNetwork
-            source: "qrc:/Resources/Icons/iconNetwork.png"
-            scale: 0.7
-            visible: false
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: imageDollars.left
-        }
-        
-        Image {
-            id: imageErrorNetwork
-            source: "qrc:/Resources/Icons/iconErrorNetwork.png"
-            scale: 0.7
-            visible: true
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: imageDollars.left
-        }
-        
-        Image {
-            id: imageDollars
-            source: "qrc:/Resources/Icons/dollar.png"
-            scale: 0.7
-            visible: true
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: labelBalance.right
-            anchors.leftMargin: 5 
-            anchors.rightMargin: 5 
-        }
-        
-        Text {
-            id: labelBalance
-            text: "0"
-            font.pointSize: 16
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 10
+        Rectangle
+        {
+            height: 1
+            width: parent.width
+            color: "green"
         }
     }
     

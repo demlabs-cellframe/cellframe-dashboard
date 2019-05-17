@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 Page {
     id: dapUiQmlScreenDashboard
     title: qsTr("General")
+
     Rectangle {
         id: rectangleTabs
         anchors.top: parent.top
@@ -20,7 +21,7 @@ Page {
 
             ListModel {
                 id: listModelTabs
-                
+
                 ListElement {
                     name:  qsTr("Home")
                     page: "DapUiQmlScreenDialog.qml"
@@ -37,21 +38,21 @@ Page {
                     source: "qrc:/Resources/Icons/about.png"
                 }
             }
-            
-            
-            
-            delegate: 
+
+
+
+            delegate:
                 Component {
                     id: componentTab
                     Item {
                         id: componentItem
-                        width: listViewTabs.width 
+                        width: listViewTabs.width
                         height: 64
                         Column
                         {
                             anchors.centerIn: parent
-                            Image 
-                            { 
+                            Image
+                            {
                                 id: imageMenu
                                 source: model.source
                                 height: 36
@@ -65,10 +66,10 @@ Page {
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
                         }
-                        
+
                         MouseArea {
                                anchors.fill: parent
-                               onClicked: 
+                               onClicked:
                                {
                                    listViewTabs.currentIndex = index
                                    stackViewScreenDashboard.setSource(Qt.resolvedUrl(page))
@@ -76,26 +77,79 @@ Page {
                            }
                         }
                     }
-            
+
 //            highlight: Rectangle { color: "aliceblue"; radius: 1 }
-            highlight: 
-                Component 
+            highlight:
+                Component
                 {
                     Rectangle {
                         id: rectangleMenu
                         color: "#121B28"
-                        Rectangle 
-                        { 
+                        Rectangle
+                        {
                             height: rectangleMenu.height
                             width: 4
-                            color: "#EE5321"
+                            color: "green"
                         }
                     }
                 }
             focus: true
         }
     }
-        Rectangle {    
+        Rectangle
+        {
+            id: rectangleExit
+            color: "transparent"
+            width: listViewTabs.width
+            height: 64
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+
+            Rectangle
+            {
+                color: "transparent"
+                width: listViewTabs.width
+                height: 64
+                anchors.left: parent.left
+                anchors.bottom: parent.bottom
+
+                Rectangle
+                {
+                    id: rectangleBorder
+                    anchors.left: parent.left
+                    height: rectangleExit.height
+                    width: 4
+                    color: "transparent"
+                }
+                Column
+                {
+                    anchors.centerIn: parent
+                    Image
+                    {
+                        id: imageMenu
+                        source: "qrc:/Resources/Icons/home.png"
+                        height: 36
+                        width: 36
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Text
+                    {
+                        text: qsTr("Exit")
+                        color: "#BBBEBF"
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                }
+                MouseArea {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           rectangleBorder.color = "#EE5321"
+                       }
+                   }
+            }
+        }
+        Rectangle {
+            id: mainDashboard
             anchors.left: rectangleTabs.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
