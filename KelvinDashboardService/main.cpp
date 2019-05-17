@@ -5,6 +5,7 @@
 #include "DapHalper.h"
 #include "DapChainDashboardService.h"
 #include "DapLogger.h"
+#include "DapLogReader.h"
 
 int main(int argc, char *argv[])
 {
@@ -26,7 +27,7 @@ int main(int argc, char *argv[])
     a.setOrganizationName("DEMLABS");
     a.setOrganizationDomain("demlabs.com");
     a.setApplicationName("KelvinDashboardService");
-    
+
     DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
@@ -34,7 +35,10 @@ int main(int argc, char *argv[])
         dapLogger.setLogFile(QString("/opt/%1/log/%2Service.log").arg(QString(DAP_BRAND)).arg(DAP_BRAND));
     #endif
 //#endif
-        
+        DapLogReader dapLogReader;
+        auto var = dapLogReader.request(0, 100);
+        auto var1 = dapLogReader.request(1, 100);
+        auto var2 = dapLogReader.request(2, 100);
     // Creating the main application object
     DapChainDashboardService service;
     service.start();
