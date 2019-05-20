@@ -91,3 +91,5 @@ include (../DapRPCProtocol/DapRPCProtocol.pri)
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
                $$_PRO_FILE_PWD_/../DapRPCProtocol/
 	       $$_PRO_FILE_PWD_/../libdap-qt/
+
+DISTFILES +=

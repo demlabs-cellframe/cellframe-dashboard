@@ -106,10 +106,98 @@ Page {
                     }
             }
         }
-    }
-    
-
-    
+   
+        TabView
+        {
+            id: tabViewLogs
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            Repeater {
+                anchors.fill: parent
+            model: dapUiQmlWidgetModel
+            delegate:
+                Tab{
                 
-    
+                
+                
+                title: qsTr(name)
+                
+                    TableView {
+                        id: tableViewLogs
+                        model: dataModel
+                clip: true
+                
+                        TableViewColumn {
+                            id: columnType
+                            role: "type"
+                            title: "Type"
+                             delegate:
+                                 Item
+                                 {
+                                     height: parent.height
+                                     width: parent.height
+                                     Rectangle {
+                                         anchors.fill: parent
+                                         color: "transparent"
+                                             Image {
+                                                 id: names
+                                                 height: parent.height
+                                                 width: parent.height
+//                                                 source: model.type
+                                                 anchors.centerIn: parent
+                                             }
+                                     }
+                                 }
+                        }
+                        TableViewColumn {
+                            id: columnDate
+                            role: "name"
+                            title: "Date"
+                        }
+                        TableViewColumn {
+                            id: columnTime
+                            role: "cost"
+                            title: "Time"
+                        }
+                        TableViewColumn {
+                            id: columnFile
+                            role: "file"
+                            title: "File"
+                        }
+                        TableViewColumn {
+                            id: columnMessage
+                            role: "Message"
+                            title: "Message"
+                        }
+                        itemDelegate: Item {
+                                    Text {
+                                        anchors.centerIn: parent
+                                        renderType: Text.NativeRendering
+                                        text: styleData.value
+                                    }
+                                }
+                        headerDelegate: Rectangle {
+                            height: 20
+                            color: "#29333f"
+                            
+                            Text {
+                                text: styleData.value
+                                color: "#FFF"
+                                width: parent.width
+                                height: parent.height
+                                font.pointSize: 24
+                                minimumPointSize: 3
+                                font.family: "Roboto"
+                                fontSizeMode: Text.Fit
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                        }
+
+                    }
+            }
+        }
+    }
 }
