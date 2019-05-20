@@ -34,6 +34,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(onClientActivate(bool)), SLOT(activateClient(bool)));
     // Signal-slot connection that implements the client display control when you click on the tray icon
     connect(m_pDapCommandController, SIGNAL(onClientClose()), SLOT(closeClient()));
+    // Signal-slot connection for receiving node logs from the service
+    connect(m_pDapCommandController, SIGNAL(sigNodeLogsReceived(QStringList)), SLOT(processGetNodeLogs(QStringList)));
 }
 
 QString DapServiceController::getBrand() const
@@ -46,6 +48,23 @@ QString DapServiceController::getBrand() const
 QString DapServiceController::getVersion() const
 {
     return m_sVersion;
+}
+
+/// Get node logs.
+/// @param aiTimeStamp Timestamp start reading logging.
+/// @param aiRowCount Number of lines displayed.
+void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
+{
+    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
+    m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
+}
+
+/// Handling service response for receiving node logs.
+/// @param aNodeLogs List of node logs.
+void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
+{
+    for(QString s : aNodeLogs)
+        qDebug() << s;
 }
 
 /// Get an instance of a class.

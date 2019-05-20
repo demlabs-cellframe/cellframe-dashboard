@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);
     dapServiceClient.init();
+    controller.getNodeLogs(0, 100);
     
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");

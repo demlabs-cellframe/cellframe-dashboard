@@ -52,6 +52,10 @@ public:
     /// Get app version.
     /// @return Application version.
     QString getVersion() const;
+    /// Get node logs.
+    /// @param aiTimeStamp Timestamp start reading logging.
+    /// @param aiRowCount Number of lines displayed.
+    void getNodeLogs(int aiTimeStamp, int aiRowCount) const;
     
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -63,6 +67,11 @@ signals:
     /// The signal is emitted when checking the existence of an already running copy of the application.
     void isExistenceClient(bool isExistenceClient);
     
+private slots:
+    /// Handling service response for receiving node logs.
+    /// @param aNodeLogs List of node logs.
+    void processGetNodeLogs(const QStringList& aNodeLogs);
+
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 

@@ -35,8 +35,6 @@ int main(int argc, char *argv[])
         dapLogger.setLogFile(QString("/opt/%1/log/%2Service.log").arg(QString(DAP_BRAND)).arg(DAP_BRAND));
     #endif
 //#endif
-        DapLogReader dapLogReader;
-        auto var = dapLogReader.request(0, 100);
     // Creating the main application object
     DapChainDashboardService service;
     service.start();
