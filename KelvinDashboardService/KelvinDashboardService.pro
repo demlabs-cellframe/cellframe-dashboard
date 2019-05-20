@@ -40,12 +40,14 @@ SOURCES += \
         main.cpp \
     DapChainDashboardService.cpp \
     DapChainNode.cpp \
-    DapChainNodeCache.cpp
+    DapChainNodeCache.cpp \
+    DapLogReader.cpp
 
 HEADERS += \
     DapChainDashboardService.h \
     DapChainNode.h \
-    DapChainNodeCache.h
+    DapChainNodeCache.h \
+    DapLogReader.h
 
 include (../libdap-qt/libdap-qt.pri)
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)

@@ -23,6 +23,8 @@
 #include "DapRpcTCPServer.h"
 #include "DapRpcService.h"
 
+#include "DapLogReader.h"
+
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
 typedef class QLocalServer DapUiSocketServer;
@@ -31,13 +33,19 @@ class DapChainDashboardService : public DapRpcService
 {
     Q_OBJECT
     Q_CLASSINFO("serviceName", "RPCServer")
+    /// Service core.
     DapUiService            * m_pServer {nullptr};
+    /// Socket of client connection with the service.
     DapUiSocketServer       * m_pSocketService {nullptr};
+    /// Log reader.
+    DapLogReader            * m_pDapLogReader {nullptr};
 public:
     /// Standard сonstructor.
     explicit DapChainDashboardService();
     
     bool start();
+
+
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
@@ -51,6 +59,11 @@ public slots:
     void closeClient();
     /// System tray initialization.
     void initTray();
+    /// Get node logs.
+    /// @param aiTimeStamp Timestamp start reading logging.
+    /// @param aiRowCount Number of lines displayed.
+    /// @return Logs node.
+    QStringList getNodeLogs(int aiTimeStamp, int aiRowCount);
     
 };
 

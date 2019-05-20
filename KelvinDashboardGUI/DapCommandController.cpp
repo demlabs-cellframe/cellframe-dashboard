@@ -30,12 +30,26 @@ void DapCommandController::messageProcessing(const DapRpcMessage &asMessage)
 /// Process the result of the command execution.
 void DapCommandController::processCommandResult()
 {
+    qInfo() << "processCommandResult()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
     if (!reply) {
         qWarning() << "Invalid response received";
         return;
     }
     emit sigCommandResult(reply->response().result());
+}
+
+/// Handling service response for receiving node logs.
+void DapCommandController::processGetNodeLogs()
+{
+    qInfo() << "processGetNodeLogs()";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    if (!reply) {
+        qWarning() << "Invalid response received";
+        return;
+    }
+    emit sigCommandResult(reply->response().result());
+    emit sigNodeLogsReceived(reply->response().result().toVariant().toStringList());
 }
 
 /// Show or hide GUI client by clicking on the tray icon.
@@ -50,4 +64,14 @@ void DapCommandController::activateClient(bool aIsActivated)
 void DapCommandController::closeClient()
 {
     emit onClientClose();
+}
+
+/// Get node logs.
+/// @param aiTimeStamp Timestamp start reading logging.
+/// @param aiRowCount Number of lines displayed.
+void DapCommandController::getNodeLogs(int aiTimeStamp, int aiRowCount)
+{
+    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeLogs", aiTimeStamp, aiRowCount);
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeLogs()));
 }

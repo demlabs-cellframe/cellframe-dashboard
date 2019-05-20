@@ -1,6 +1,8 @@
 #include "DapServiceController.h"
 #include "DapUiQmlWidgetModel.h"
-DapServiceController::DapServiceController(QObject *apParent) 
+#include "DapLogMessage.h"
+
+DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
     
@@ -34,6 +36,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(onClientActivate(bool)), SLOT(activateClient(bool)));
     // Signal-slot connection that implements the client display control when you click on the tray icon
     connect(m_pDapCommandController, SIGNAL(onClientClose()), SLOT(closeClient()));
+    // Signal-slot connection for receiving node logs from the service
+    connect(m_pDapCommandController, SIGNAL(sigNodeLogsReceived(QStringList)), SLOT(processGetNodeLogs(QStringList)));
 }
 
 QString DapServiceController::getBrand() const
@@ -46,6 +50,44 @@ QString DapServiceController::getBrand() const
 QString DapServiceController::getVersion() const
 {
     return m_sVersion;
+}
+
+/// Get node logs.
+/// @param aiTimeStamp Timestamp start reading logging.
+/// @param aiRowCount Number of lines displayed.
+void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
+{
+    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
+    m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
+}
+
+/// Handling service response for receiving node logs.
+/// @param aNodeLogs List of node logs.
+void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
+{
+    for(QString s : aNodeLogs)
+    {
+        qDebug() << s;
+        QStringList tempList = s.split(" ");
+        DapLogMessage message;
+        if(tempList.at(1) == "[INF]")
+            message.setType(Type::Info);
+        else if(tempList.at(1) == "[WRN]")
+            message.setType(Type::Warning);
+        else if(tempList.at(1) == "[DBG]")
+            message.setType(Type::Debug);
+        else if(tempList.at(1) == "[ERR]")
+            message.setType(Type::Error);
+        QString str = tempList.at(0);
+        message.setTimeStamp(str.remove("[").remove("]"));
+        QStringList tempList2 = tempList.at(2).split("\t");
+        QString str2 = tempList2.at(0);
+        message.setFile(str2.remove("[").remove("]"));
+        QString str3 = s.split("\t").at(1);
+        int pos = str3.indexOf('\n');
+        message.setMessage(str3.remove(pos, str3.size()-pos));
+        DapLogModel::getInstance().append(message);
+    }
 }
 
 /// Get an instance of a class.

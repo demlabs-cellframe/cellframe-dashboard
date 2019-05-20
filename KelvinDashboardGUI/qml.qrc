@@ -25,5 +25,6 @@
         <file>Resources/Icons/about.png</file>
         <file>Resources/Icons/home.png</file>
         <file>Resources/Icons/settings.png</file>
+        <file>Resources/Icons/dialog.png</file>
     </qresource>
 </RCC>

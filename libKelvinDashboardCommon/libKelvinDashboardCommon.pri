@@ -14,9 +14,13 @@ QT += quick quickwidgets
 SOURCES +=\
     $$PWD/DapHalper.cpp \
     $$PWD/DapSettings.cpp \
-    $$PWD/DapSettingsCipher.cpp
+    $$PWD/DapSettingsCipher.cpp \
+    $$PWD/DapLogMessage.cpp \
+    $$PWD/DapLogModel.cpp
 
 HEADERS +=\
     $$PWD/DapHalper.h \
     $$PWD/DapSettings.h \
-    $$PWD/DapSettingsCipher.h
+    $$PWD/DapSettingsCipher.h \
+    $$PWD/DapLogMessage.h \
+    $$PWD/DapLogModel.h

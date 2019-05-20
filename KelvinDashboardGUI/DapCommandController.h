@@ -22,6 +22,9 @@ class DapCommandController : public DapRpcService, public DapRpcServiceProvider
 signals:    
     /// The signal is emitted after receiving a response from the service about the command execution.
     void sigCommandResult(QJsonValue );
+    /// The signal is emitted when node logs are received from the service.
+    /// @param aNodeLogs List of node logs.
+    void sigNodeLogsReceived(const QStringList& aNodeLogs);
     /// The signal is emitted when the main application window is activated.
     void onClientActivate(bool aIsActivated);
     
@@ -39,6 +42,8 @@ private slots:
     void messageProcessing(const DapRpcMessage &asMessage);
     /// Process the result of the command execution.
     void processCommandResult();
+    /// Handling service response for receiving node logs.
+    void processGetNodeLogs();
     
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -47,6 +52,10 @@ public slots:
     void activateClient(bool aIsActivated);
     /// Shut down client.
     void closeClient();
+    /// Get node logs.
+    /// @param aiTimeStamp Timestamp start reading logging.
+    /// @param aiRowCount Number of lines displayed.
+    void getNodeLogs(int aiTimeStamp, int aiRowCount);
 };
 
 #endif // COMMANDCONTROLLER_H
