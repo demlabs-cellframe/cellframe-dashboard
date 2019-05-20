@@ -1,13 +1,27 @@
 #include "DapLogReader.h"
 
+
+
 DapLogReader::DapLogReader(QObject *parent) : QObject(parent)
 {
 
 }
 
-QList<QString> DapLogReader::request(int aiTimeStamp, int aiRowCount)
+QStringList DapLogReader::parse(const QByteArray &aLogMessages)
 {
-    QList<QString> str;
+    auto list = QString::fromLatin1(aLogMessages).split(";");
+
+    for(QString l : list)
+    {
+        if(l.contains("["))
+            qDebug() << l;
+    }
+
+    return list;
+}
+
+QStringList DapLogReader::request(int aiTimeStamp, int aiRowCount)
+{
     QByteArray result;
     QProcess process;
     process.start(QString("%1 print_log ts_after %2 limit %3").arg("/home/andrey/Demlabs/build-kelvin-node/kelvin-node-cli").arg(aiTimeStamp).arg(aiRowCount));
@@ -19,7 +33,6 @@ QList<QString> DapLogReader::request(int aiTimeStamp, int aiRowCount)
     else
     {
         qDebug() << "TRUE";
-        qDebug() << QString::fromLatin1(result);
     }
-    return str;
+    return parse(result);
 }

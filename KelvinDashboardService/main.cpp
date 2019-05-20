@@ -37,8 +37,6 @@ int main(int argc, char *argv[])
 //#endif
         DapLogReader dapLogReader;
         auto var = dapLogReader.request(0, 100);
-        auto var1 = dapLogReader.request(1, 100);
-        auto var2 = dapLogReader.request(2, 100);
     // Creating the main application object
     DapChainDashboardService service;
     service.start();
