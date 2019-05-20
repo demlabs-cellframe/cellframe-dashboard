@@ -9,14 +9,14 @@ DapLogReader::DapLogReader(QObject *parent) : QObject(parent)
 
 QStringList DapLogReader::parse(const QByteArray &aLogMessages)
 {
-    auto list = QString::fromLatin1(aLogMessages).split(";");
+    QStringList list = QString::fromLatin1(aLogMessages).split(";");
 
-    for(QString l : list)
+    auto resultEnd = std::remove_if(list.begin(), list.end(),
+    [] (const QString& aLogMessage)
     {
-        if(l.contains("["))
-            qDebug() << l;
-    }
-
+        return !aLogMessage.contains('[');
+    });
+    list.erase(resultEnd, list.end());
     return list;
 }
 

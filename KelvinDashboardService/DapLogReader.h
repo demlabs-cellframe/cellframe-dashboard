@@ -4,7 +4,10 @@
 #include <QObject>
 #include <QString>
 #include <QProcess>
+#include <algorithm>
 #include <QDebug>
+
+#include "DapLogMessage.h"
 
 class DapLogReader : public QObject
 {

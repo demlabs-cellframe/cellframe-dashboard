@@ -33,8 +33,11 @@ class DapChainDashboardService : public DapRpcService
 {
     Q_OBJECT
     Q_CLASSINFO("serviceName", "RPCServer")
+    /// Service core.
     DapUiService            * m_pServer {nullptr};
+    /// Socket of client connection with the service.
     DapUiSocketServer       * m_pSocketService {nullptr};
+    /// Log reader.
     DapLogReader            * m_pDapLogReader {nullptr};
 public:
     /// Standard сonstructor.

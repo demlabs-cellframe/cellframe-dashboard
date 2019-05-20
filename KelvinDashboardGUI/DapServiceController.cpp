@@ -1,6 +1,8 @@
 #include "DapServiceController.h"
 #include "DapUiQmlWidgetModel.h"
-DapServiceController::DapServiceController(QObject *apParent) 
+#include "DapLogMessage.h"
+
+DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
     
@@ -64,7 +66,28 @@ void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
 void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
 {
     for(QString s : aNodeLogs)
+    {
         qDebug() << s;
+        QStringList tempList = s.split(" ");
+        DapLogMessage message;
+        if(tempList.at(1) == "[INF]")
+            message.setType(Type::Info);
+        else if(tempList.at(1) == "[WRN]")
+            message.setType(Type::Warning);
+        else if(tempList.at(1) == "[DBG]")
+            message.setType(Type::Debug);
+        else if(tempList.at(1) == "[ERR]")
+            message.setType(Type::Error);
+        QString str = tempList.at(0);
+        message.setTimeStamp(str.remove("[").remove("]"));
+        QStringList tempList2 = tempList.at(2).split("\t");
+        QString str2 = tempList2.at(0);
+        message.setFile(str2.remove("[").remove("]"));
+        QString str3 = s.split("\t").at(1);
+        int pos = str3.indexOf('\n');
+        message.setMessage(str3.remove(pos, str3.size()-pos));
+        DapLogModel::getInstance().append(message);
+    }
 }
 
 /// Get an instance of a class.

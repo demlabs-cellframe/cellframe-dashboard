@@ -7,24 +7,6 @@ Page {
     id: dapUiQmlWidgetChainNodeLogs
     title: "Logs"
     
-    
-    ListModel {
-            id: dataModel
-    
-            ListElement {
-                    name: "Apple"
-                    cost: 2.45
-                }
-                ListElement {
-                    name: "Orange"
-                    cost: 3.25
-                }
-                ListElement {
-                    name: "Banana"
-                    cost: 1.95
-                }
-        }
-    
         TabView
         {
             id: tabViewLogs
@@ -48,47 +30,62 @@ Page {
 //                        anchors.bottom: parent.bottom
 //                        anchors.left: parent.left
 //                        anchors.right: parent.right
-                        model: dataModel
+                        model: dapLogModel
                 clip: true
                 
                         TableViewColumn {
                             id: columnType
-                            role: "type"
+//                            role: "type"
                             title: "Type"
                             
                              delegate:
+                                 Item{
                                          Image {
                                              id: names
-                                             source: "qrc:/Resources/Icons/icon.png"
+                                             anchors.centerIn: parent
+                                             source: "qrc:/Resources/Icons/dialog.png"
+                                             width: 14
+                                             height: 14
                                          }
-                        }
-                        TableViewColumn {
-                            id: columnDate
-                            role: "name"
-                            title: "Date"
+                             }
                         }
                         TableViewColumn {
                             id: columnTime
-                            role: "cost"
-                            title: "Time"
+                            role: "timestamp"
+                            title: "Timestamp"
+                            delegate: Item {
+                                        Text {
+                                            anchors.centerIn: parent
+                                            renderType: Text.NativeRendering
+                                            text: styleData.value
+                                        }
+                                    }
                         }
                         TableViewColumn {
                             id: columnFile
                             role: "file"
                             title: "File"
+                            delegate: Item {
+                                        Text {
+                                            anchors.centerIn: parent
+                                            renderType: Text.NativeRendering
+                                            text: styleData.value
+                                        }
+                                    }
                         }
                         TableViewColumn {
                             id: columnMessage
-                            role: "Message"
+                            role: "message"
                             title: "Message"
-                        }
-                        itemDelegate: Item {
-                                    Text {
-                                        anchors.centerIn: parent
-                                        renderType: Text.NativeRendering
-                                        text: styleData.value
+                            delegate: Item {
+                                        Text {
+                                            renderType: Text.NativeRendering
+                                            text: styleData.value
+                                        }
                                     }
-                                }
+                        }
+
+
                         headerDelegate: Rectangle {
                             height: 20
                             color: "red"

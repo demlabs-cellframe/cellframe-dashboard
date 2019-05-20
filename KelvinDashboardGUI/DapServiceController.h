@@ -9,6 +9,7 @@
 
 #include "DapCommandController.h"
 #include "DapServiceClient.h"
+#include "DapLogModel.h"
 
 class DapServiceController : public QObject
 {
@@ -57,6 +58,9 @@ public:
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount) const;
     
+    DapLogModel getLogModel() const;
+    void setLogModel(const DapLogModel &dapLogModel);
+
 signals:
     /// The signal is emitted when the Brand company property changes.
     void brandChanged(const QString &brand);

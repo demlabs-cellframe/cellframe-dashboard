@@ -16,6 +16,8 @@
 #include "DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
+#include "DapLogMessage.h"
+#include "DapLogModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -45,12 +47,14 @@ int main(int argc, char *argv[])
     
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");
+    qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
     qmlRegisterSingletonType<DapServiceController>("KelvinDashboard", 1, 0, "DapServiceController", DapServiceController::singletonProvider);
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
+    engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
 //    DapSettings &settings = DapSettings::getInstance("Settings.json");
