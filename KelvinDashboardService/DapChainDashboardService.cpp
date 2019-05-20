@@ -2,6 +2,9 @@
 
 DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 {
+    // Log reader
+    m_pDapLogReader = new DapLogReader(this);
+
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "New client";
     });
@@ -24,6 +27,16 @@ bool DapChainDashboardService::start()
         return false;
     }
     return true;
+}
+
+/// Get node logs.
+/// @param aiTimeStamp Timestamp start reading logging.
+/// @param aiRowCount Number of lines displayed.
+/// @return Logs node.
+QStringList DapChainDashboardService::getNodeLogs(int aiTimeStamp, int aiRowCount)
+{
+    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
+    return m_pDapLogReader->request(aiTimeStamp, aiRowCount);
 }
 
 

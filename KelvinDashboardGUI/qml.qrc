@@ -22,5 +22,6 @@
         <file>DapUiQmlWidgetChainNodeLogs.ui.qml</file>
         <file>Resources/Icons/add.png</file>
         <file>Resources/Icons/icon.ico</file>
+        <file>Resources/Icons/dialog.png</file>
     </qresource>
 </RCC>
