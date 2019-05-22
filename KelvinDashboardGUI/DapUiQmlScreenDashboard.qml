@@ -127,9 +127,9 @@ Page {
                     Image
                     {
                         id: imageMenu
-                        source: "qrc:/Resources/Icons/home.png"
-                        height: 36
-                        width: 36
+                        source: "qrc:/Resources/Icons/exit.png"
+                        height: 32
+                        width: 32
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     Text
@@ -139,11 +139,18 @@ Page {
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
+
                 MouseArea {
                        anchors.fill: parent
-                       onClicked:
+                       onHoveredChanged:
                        {
                            rectangleBorder.color = "#EE5321"
+                       }
+
+                       onClicked:
+                       {
+
+                           Qt.quit()
                        }
                    }
             }
