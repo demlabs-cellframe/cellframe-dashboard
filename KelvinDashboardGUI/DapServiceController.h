@@ -61,6 +61,8 @@ public:
     DapLogModel getLogModel() const;
     void setLogModel(const DapLogModel &dapLogModel);
 
+    Q_INVOKABLE void addWallet(const QString& asName);
+
 signals:
     /// The signal is emitted when the Brand company property changes.
     void brandChanged(const QString &brand);

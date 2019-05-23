@@ -1,10 +1,13 @@
-import QtQuick 2.9
+import QtQuick 2.11
 import QtQuick.Controls 2.2
 
 Page {
     id: dapUiQmlWidgetChainWallet
-    
+
     title: qsTr("Wallet")
+
+    property alias save: save
+    property alias dialogAddWallet: dialogAddWallet
 
     ListView {
         id: listViewWallet
@@ -12,14 +15,14 @@ Page {
         anchors.margins: 10
         spacing: 10
 
-        delegate: Item {
+       delegate: Item {
             width: parent.width
             height: 150
 
             Rectangle {
                 id: rectangleWallet
                 anchors.fill: parent
-                color: "lightgray"
+               color: "lightgray"
                 opacity: 0.5
                 radius: 5
                 border.color: "gray"
@@ -32,7 +35,7 @@ Page {
                     width: 140
                     border.color: "gray"
                     anchors.left: parent.left
-                    anchors.leftMargin: 5
+                   anchors.leftMargin: 5
                     anchors.verticalCenter: parent.verticalCenter
                     radius: 3.5
 
@@ -43,7 +46,7 @@ Page {
                     }
                 }
 
-                Column
+               Column
                 {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: iconWallet.right
@@ -62,7 +65,7 @@ Page {
 
                     Text {
                         id: lableAddress
-                        text: "Address:"
+                       text: "Address:"
                         font.pixelSize: 18
                         color: "gray"
                     }
@@ -74,7 +77,7 @@ Page {
                         font.pixelSize: 16
                         wrapMode: Text.Wrap
                         selectByMouse: true
-    //                    clip: true
+   //                    clip: true
     //                    elide: Text.ElideRight
                     }
                 }
@@ -84,12 +87,12 @@ Page {
         model: ListModel {
             ListElement {
                 name: "mywallet"
-                address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
+               address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
             }
 
             ListElement {
                 name: "mywallet"
-                address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
+               address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
             }
 
             ListElement {
@@ -103,8 +106,12 @@ Page {
             }
         }
     }
+    DapUiQmlScreenDialogAddWallet {
+        id: dialogAddWallet
+            }
 
     RoundButton {
+            id: save
            text: qsTr("+")
            highlighted: true
            anchors.margins: 10
@@ -112,3 +119,4 @@ Page {
            anchors.bottom: parent.bottom
     }
 }
+

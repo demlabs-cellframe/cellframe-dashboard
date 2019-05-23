@@ -61,6 +61,11 @@ void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
     m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
 }
 
+void DapServiceController::addWallet(const QString &asName)
+{
+    qDebug() << "NAME WALLET " << asName;
+}
+
 /// Handling service response for receiving node logs.
 /// @param aNodeLogs List of node logs.
 void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
