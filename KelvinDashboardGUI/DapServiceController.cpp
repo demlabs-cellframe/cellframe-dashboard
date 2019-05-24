@@ -38,6 +38,10 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(onClientClose()), SLOT(closeClient()));
     // Signal-slot connection for receiving node logs from the service
     connect(m_pDapCommandController, SIGNAL(sigNodeLogsReceived(QStringList)), SLOT(processGetNodeLogs(QStringList)));
+
+    connect(m_pDapCommandController, SIGNAL(sigWalletAdded(QString)), SLOT(processAddWallet(QString)));
+
+    connect(m_pDapCommandController, SIGNAL(sigWalletsReceived(QMap<QString,QVariant>)), SLOT(processGetWallets(QMap<QString,QVariant>)));
 }
 
 QString DapServiceController::getBrand() const
@@ -61,9 +65,10 @@ void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
     m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
 }
 
-void DapServiceController::addWallet(const QString &asName)
+void DapServiceController::getWallets() const
 {
-    qDebug() << "NAME WALLET " << asName;
+    qInfo() << QString("getNodeLogs()");
+    m_pDapCommandController->getWallets();
 }
 
 /// Handling service response for receiving node logs.
@@ -93,6 +98,25 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
         message.setMessage(str3.remove(pos, str3.size()-pos));
         DapLogModel::getInstance().append(message);
     }
+}
+
+void DapServiceController::addWallet(const QString &asWalletName)
+{
+    qInfo() << QString("addWallet(%1)").arg(asWalletName);
+    m_pDapCommandController->addWallet(asWalletName);
+}
+
+void DapServiceController::processAddWallet(const QString &asWalletAddress)
+{
+    qInfo() << QString("processAddWallet(%1)").arg(asWalletAddress);
+    qDebug() << "Wallet address() " << asWalletAddress;
+}
+
+void DapServiceController::processGetWallets(const QMap<QString, QVariant> &aWallets)
+{
+    qInfo() << QString("processGetWallets()") << aWallets.size();
+    for(QString wallet : aWallets.keys())
+        qDebug() << "W" << wallet << " " << aWallets.value(wallet).toString();
 }
 
 /// Get an instance of a class.

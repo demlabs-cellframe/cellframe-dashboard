@@ -18,6 +18,7 @@
 #include "DapLogger.h"
 #include "DapLogMessage.h"
 #include "DapLogModel.h"
+#include "DapChainWalletsModel.h"
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
     controller.init(&dapServiceClient);
     dapServiceClient.init();
     controller.getNodeLogs(0, 100);
+    controller.getWallets();
     
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");
@@ -55,6 +57,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
+    engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
 //    DapSettings &settings = DapSettings::getInstance("Settings.json");

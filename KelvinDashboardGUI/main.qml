@@ -12,7 +12,7 @@ ApplicationWindow {
     visible: true
     width: 640
     height: 480
-    
+
     onClosing: {
         console.log("Close")
         window.hide()
@@ -172,7 +172,7 @@ ApplicationWindow {
             focus: true
         }
     }
-    
+
     StackView {
         id: stackView
         initialItem: "DapUiQmlScreenDashboard.qml"

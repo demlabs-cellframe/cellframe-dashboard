@@ -39,6 +39,21 @@ QStringList DapChainDashboardService::getNodeLogs(int aiTimeStamp, int aiRowCoun
     return m_pDapLogReader->request(aiTimeStamp, aiRowCount);
 }
 
+QString DapChainDashboardService::addWallet(const QString &asWalletName)
+{
+    qInfo() << QString("addWallet(%1)").arg(asWalletName);
+    return "NULL";
+}
+
+QMap<QString, QVariant> DapChainDashboardService::getWallets()
+{
+    qInfo() << QString("getWallets()");
+
+    QMap<QString, QVariant> map;
+    map.insert("My", "454asf6das4f6fd68df6877dsf");
+    return map;
+}
+
 
 /// Activate the main client window by double-clicking the application icon in the system tray.
 /// @param reason Type of action on the icon in the system tray.

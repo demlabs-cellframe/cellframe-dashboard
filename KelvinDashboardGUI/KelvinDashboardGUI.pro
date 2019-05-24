@@ -52,7 +52,8 @@ SOURCES += \
     DapServiceController.cpp \
     DapCommandController.cpp \
     DapServiceClientNativeAbstract.cpp \
-    DapServiceClientNativeLinux.cpp
+    DapServiceClientNativeLinux.cpp \
+    DapChainWalletsModel.cpp
 
 RESOURCES += qml.qrc
 
@@ -82,7 +83,8 @@ HEADERS += \
     DapServiceController.h \
     DapCommandController.h \
     DapServiceClientNativeAbstract.h \
-    DapServiceClientNativeLinux.h
+    DapServiceClientNativeLinux.h \
+    DapChainWalletsModel.h
 
 include (../libdap-qt/libdap-qt.pri)
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)

@@ -64,6 +64,10 @@ public slots:
     /// @param aiRowCount Number of lines displayed.
     /// @return Logs node.
     QStringList getNodeLogs(int aiTimeStamp, int aiRowCount);
+
+    QString addWallet(const QString &asWalletName);
+
+    QMap<QString, QVariant> getWallets();
     
 };
 

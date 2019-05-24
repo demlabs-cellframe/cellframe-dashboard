@@ -162,6 +162,7 @@ Page {
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             border.color: "whitesmoke"
+
             Loader {
                 id: stackViewScreenDashboard
                 anchors.fill: parent
