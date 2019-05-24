@@ -48,14 +48,31 @@ Dialog {
 
             Button
             {
-                id: buttonCancle
-                text: "Cancel"
-                width: 100
-                height: 30
+                id: buttonCancel
+                text: qsTr("Cancel")
                 anchors.right: buttonOk.left
                 anchors.rightMargin: 10
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
+
+                contentItem: Text {
+                        text: buttonCancel.text
+                        font: buttonCancel.font
+                        opacity: enabled ? 1.0 : 0.3
+                        color: buttonCancel.down ? "#353841" : "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 30
+                        opacity: enabled ? 1 : 0.3
+                        color: buttonCancel.down ? "white" : "#353841"
+                        radius: 4
+                    }
+
                 onClicked:
                 {
                     textFieldNameWallet.clear()
@@ -67,12 +84,28 @@ Dialog {
             {
                 id: buttonOk
                 text: "OK"
-                width: 100
-                height: 30
                 anchors.right: parent.right
                 anchors.rightMargin: 10
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10
+                contentItem: Text {
+                        text: buttonOk.text
+                        font: buttonOk.font
+                        opacity: enabled ? 1.0 : 0.3
+                        color: buttonOk.down ? "#353841" : "white"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+
+                    background: Rectangle {
+                        implicitWidth: 100
+                        implicitHeight: 30
+                        opacity: enabled ? 1 : 0.3
+                        color: buttonOk.down ? "white" : "#353841"
+                        radius: 4
+                    }
+
                 onClicked:
                 {
                     dapServiceController.addWallet(textFieldNameWallet.text)

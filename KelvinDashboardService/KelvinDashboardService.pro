@@ -41,13 +41,15 @@ SOURCES += \
     DapChainDashboardService.cpp \
     DapChainNode.cpp \
     DapChainNodeCache.cpp \
-    DapLogReader.cpp
+    DapLogReader.cpp \
+    DapChainWalletHandler.cpp
 
 HEADERS += \
     DapChainDashboardService.h \
     DapChainNode.h \
     DapChainNodeCache.h \
-    DapLogReader.h
+    DapLogReader.h \
+    DapChainWalletHandler.h
 
 include (../libdap-qt/libdap-qt.pri)
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)

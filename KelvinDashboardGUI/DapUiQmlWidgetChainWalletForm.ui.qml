@@ -7,6 +7,7 @@ Page {
 
     title: qsTr("Wallet")
 
+    property alias listViewWallet: listViewWallet
     property alias save: save
     property alias dialogAddWallet: dialogAddWallet
 
@@ -15,6 +16,7 @@ Page {
         anchors.fill: parent
         anchors.margins: 10
         spacing: 10
+        model: dapChainWalletsModel
 
        delegate: Item {
             width: parent.width
@@ -85,27 +87,7 @@ Page {
             }
         }
 
-        model: ListModel {
-            ListElement {
-                name: "mywallet"
-               address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
-            }
 
-            ListElement {
-                name: "mywallet"
-               address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
-            }
-
-            ListElement {
-                name: "mywallet"
-                address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
-            }
-
-            ListElement {
-                name: "mywallet"
-                address: "RpiDC8c1SxrTNbxwSTVP6mAHhXvUAgCthoCfpVmUSm889M3zt5JfBxo6iRoAPmJkCPihSWNxhRtdTxnd7LXwcj1nbVd5NQyW1kCgXyM6"
-            }
-        }
     }
     DapUiQmlScreenDialogAddWallet {
         id: dialogAddWallet

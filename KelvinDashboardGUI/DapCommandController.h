@@ -26,7 +26,7 @@ signals:
     /// @param aNodeLogs List of node logs.
     void sigNodeLogsReceived(const QStringList& aNodeLogs);
 
-    void sigWalletAdded(const QString& asWalletAddress);
+    void sigWalletAdded(const QString& asWalletName, const QString& asWalletAddress);
 
     void sigWalletsReceived(const QMap<QString, QVariant>& aWallets);
     /// The signal is emitted when the main application window is activated.

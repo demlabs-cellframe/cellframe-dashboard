@@ -24,6 +24,7 @@
 #include "DapRpcService.h"
 
 #include "DapLogReader.h"
+#include "DapChainWalletHandler.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -39,6 +40,8 @@ class DapChainDashboardService : public DapRpcService
     DapUiSocketServer       * m_pSocketService {nullptr};
     /// Log reader.
     DapLogReader            * m_pDapLogReader {nullptr};
+
+    DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
 public:
     /// Standard сonstructor.
     explicit DapChainDashboardService();
@@ -65,7 +68,7 @@ public slots:
     /// @return Logs node.
     QStringList getNodeLogs(int aiTimeStamp, int aiRowCount);
 
-    QString addWallet(const QString &asWalletName);
+    QStringList addWallet(const QString &asWalletName);
 
     QMap<QString, QVariant> getWallets();
     

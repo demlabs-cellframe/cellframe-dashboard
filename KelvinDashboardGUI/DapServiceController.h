@@ -12,6 +12,7 @@
 #include "DapCommandController.h"
 #include "DapServiceClient.h"
 #include "DapLogModel.h"
+#include "DapChainWalletsModel.h"
 
 class DapServiceController : public QObject
 {
@@ -82,7 +83,7 @@ private slots:
     /// @param aNodeLogs List of node logs.
     void processGetNodeLogs(const QStringList& aNodeLogs);
 
-    void processAddWallet(const QString& asWalletAddress);
+    void processAddWallet(const QString& asWalletName, const QString& asWalletAddress);
 
     void processGetWallets(const QMap<QString, QVariant>& aWallets);
 

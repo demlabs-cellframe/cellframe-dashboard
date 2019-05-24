@@ -83,6 +83,12 @@ void DapChainWalletsModel::remove(int row)
         endRemoveRows();
 }
 
+void DapChainWalletsModel::clear()
+{
+    if(m_dapChainWallets.count() > 0)
+        m_dapChainWallets.clear();
+}
+
 QObject *DapChainWalletsModel::singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
 {
     Q_UNUSED(engine)

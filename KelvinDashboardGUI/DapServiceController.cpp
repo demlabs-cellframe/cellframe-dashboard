@@ -1,6 +1,7 @@
 #include "DapServiceController.h"
 #include "DapUiQmlWidgetModel.h"
 #include "DapLogMessage.h"
+#include "DapChainWallet.h"
 
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
@@ -39,7 +40,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     // Signal-slot connection for receiving node logs from the service
     connect(m_pDapCommandController, SIGNAL(sigNodeLogsReceived(QStringList)), SLOT(processGetNodeLogs(QStringList)));
 
-    connect(m_pDapCommandController, SIGNAL(sigWalletAdded(QString)), SLOT(processAddWallet(QString)));
+    connect(m_pDapCommandController, SIGNAL(sigWalletAdded(QString, QString)), SLOT(processAddWallet(QString, QString)));
 
     connect(m_pDapCommandController, SIGNAL(sigWalletsReceived(QMap<QString,QVariant>)), SLOT(processGetWallets(QMap<QString,QVariant>)));
 }
@@ -106,17 +107,21 @@ void DapServiceController::addWallet(const QString &asWalletName)
     m_pDapCommandController->addWallet(asWalletName);
 }
 
-void DapServiceController::processAddWallet(const QString &asWalletAddress)
+void DapServiceController::processAddWallet(const QString& asWalletName, const QString& asWalletAddress)
 {
-    qInfo() << QString("processAddWallet(%1)").arg(asWalletAddress);
-    qDebug() << "Wallet address() " << asWalletAddress;
+    qInfo() << QString("processAddWallet(%1, %2)").arg(asWalletName).arg(asWalletAddress);;
+    DapChainWallet wallet("", asWalletName, asWalletAddress);
+    DapChainWalletsModel::getInstance().append(wallet);
 }
 
 void DapServiceController::processGetWallets(const QMap<QString, QVariant> &aWallets)
 {
     qInfo() << QString("processGetWallets()") << aWallets.size();
-    for(QString wallet : aWallets.keys())
-        qDebug() << "W" << wallet << " " << aWallets.value(wallet).toString();
+    for(QString w : aWallets.keys())
+    {
+        DapChainWallet wallet("", w, aWallets.value(w).toString());
+        DapChainWalletsModel::getInstance().append(wallet);
+    }
 }
 
 /// Get an instance of a class.

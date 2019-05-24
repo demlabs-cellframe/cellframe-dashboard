@@ -20,6 +20,8 @@
 #include "DapLogModel.h"
 #include "DapChainWalletsModel.h"
 
+#include <QRegExp>
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -37,7 +39,7 @@ int main(int argc, char *argv[])
         dapLogger.setLogFile(QString("/opt/%1/log/%2Gui.log").arg(QString(DAP_BRAND)).arg(DAP_BRAND));
     #endif
 //#endif
-        
+
     /// Local client.
     DapServiceClient dapServiceClient;
     // Creating a service controller

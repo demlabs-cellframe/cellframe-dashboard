@@ -39,6 +39,7 @@ public:
     Q_INVOKABLE void append(const QString& asIconPath, const QString &asName, const QString  &asAddress);
     Q_INVOKABLE void set(int row, const QString& asIconPath, const QString &asName, const QString  &asAddresss);
     Q_INVOKABLE void remove(int row);
+    Q_INVOKABLE void clear();
 
 public slots:
     /// Method that implements the singleton pattern for the qml layer.

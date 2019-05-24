@@ -62,7 +62,9 @@ void DapCommandController::processAddWallet()
         return;
     }
     emit sigCommandResult(reply->response().result());
-    emit sigWalletAdded(reply->response().result().toVariant().toString());
+    auto name = reply->response().result().toVariant().toStringList().at(0);
+    auto address = reply->response().result().toVariant().toStringList().at(1);
+    emit sigWalletAdded(name, address);
 }
 
 void DapCommandController::processGetWallets()
