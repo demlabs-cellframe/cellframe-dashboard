@@ -52,6 +52,33 @@ void DapCommandController::processGetNodeLogs()
     emit sigNodeLogsReceived(reply->response().result().toVariant().toStringList());
 }
 
+///
+void DapCommandController::processAddWallet()
+{
+    qInfo() << "processAddWallet()";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    if (!reply) {
+        qWarning() << "Invalid response received";
+        return;
+    }
+    emit sigCommandResult(reply->response().result());
+    auto name = reply->response().result().toVariant().toStringList().at(0);
+    auto address = reply->response().result().toVariant().toStringList().at(1);
+    emit sigWalletAdded(name, address);
+}
+
+void DapCommandController::processGetWallets()
+{
+    qInfo() << "processGetWallets()";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    if (!reply) {
+        qWarning() << "Invalid response received";
+        return;
+    }
+    emit sigCommandResult(reply->response().result());
+    emit sigWalletsReceived(reply->response().result().toVariant().toMap());
+}
+
 /// Show or hide GUI client by clicking on the tray icon.
 /// @param aIsActivated Accepts true - when requesting to 
 /// display a client, falso - when requesting to hide a client.
@@ -74,4 +101,17 @@ void DapCommandController::getNodeLogs(int aiTimeStamp, int aiRowCount)
     qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeLogs", aiTimeStamp, aiRowCount);
     connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeLogs()));
+}
+
+void DapCommandController::addWallet(const QString &asWalletName)
+{
+     qInfo() << QString("addWallet(%1)").arg(asWalletName);
+     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.addWallet", asWalletName);
+     connect(reply, SIGNAL(finished()), this, SLOT(processAddWallet()));
+}
+
+void DapCommandController::getWallets()
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getWallets");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetWallets()));
 }

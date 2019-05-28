@@ -16,11 +16,13 @@ SOURCES +=\
     $$PWD/DapSettings.cpp \
     $$PWD/DapSettingsCipher.cpp \
     $$PWD/DapLogMessage.cpp \
-    $$PWD/DapLogModel.cpp
+    $$PWD/DapLogModel.cpp \
+    $$PWD/DapChainWallet.cpp
 
 HEADERS +=\
     $$PWD/DapHalper.h \
     $$PWD/DapSettings.h \
     $$PWD/DapSettingsCipher.h \
     $$PWD/DapLogMessage.h \
-    $$PWD/DapLogModel.h
+    $$PWD/DapLogModel.h \
+    $$PWD/DapChainWallet.h

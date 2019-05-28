@@ -25,6 +25,10 @@ signals:
     /// The signal is emitted when node logs are received from the service.
     /// @param aNodeLogs List of node logs.
     void sigNodeLogsReceived(const QStringList& aNodeLogs);
+
+    void sigWalletAdded(const QString& asWalletName, const QString& asWalletAddress);
+
+    void sigWalletsReceived(const QMap<QString, QVariant>& aWallets);
     /// The signal is emitted when the main application window is activated.
     void onClientActivate(bool aIsActivated);
     
@@ -44,6 +48,10 @@ private slots:
     void processCommandResult();
     /// Handling service response for receiving node logs.
     void processGetNodeLogs();
+
+    void processAddWallet();
+
+    void processGetWallets();
     
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -56,6 +64,10 @@ public slots:
     /// @param aiTimeStamp Timestamp start reading logging.
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount);
+
+    void addWallet(const QString& asWalletName);
+
+    void getWallets();
 };
 
 #endif // COMMANDCONTROLLER_H

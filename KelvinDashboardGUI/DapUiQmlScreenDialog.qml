@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.11
 import QtQuick.Controls 2.4
 import KelvinDashboard 1.0
 
@@ -16,7 +16,7 @@ Page {
                 }
     
     Rectangle {
-        color: "white"
+
         anchors.fill: parent
         
         GridView {

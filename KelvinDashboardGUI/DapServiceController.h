@@ -6,10 +6,13 @@
 #include <QJSEngine>
 #include <QApplication>
 #include <QTimer>
+#include <QMap>
+#include <QPair>
 
 #include "DapCommandController.h"
 #include "DapServiceClient.h"
 #include "DapLogModel.h"
+#include "DapChainWalletsModel.h"
 
 class DapServiceController : public QObject
 {
@@ -57,9 +60,13 @@ public:
     /// @param aiTimeStamp Timestamp start reading logging.
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount) const;
+
+    void getWallets() const;
     
     DapLogModel getLogModel() const;
     void setLogModel(const DapLogModel &dapLogModel);
+
+    Q_INVOKABLE void addWallet(const QString& asWalletName);
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -75,6 +82,10 @@ private slots:
     /// Handling service response for receiving node logs.
     /// @param aNodeLogs List of node logs.
     void processGetNodeLogs(const QStringList& aNodeLogs);
+
+    void processAddWallet(const QString& asWalletName, const QString& asWalletAddress);
+
+    void processGetWallets(const QMap<QString, QVariant>& aWallets);
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.

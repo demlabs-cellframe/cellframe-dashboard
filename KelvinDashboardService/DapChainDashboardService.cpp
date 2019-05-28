@@ -5,6 +5,8 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     // Log reader
     m_pDapLogReader = new DapLogReader(this);
 
+    m_pDapChainWalletHandler = new DapChainWalletHandler(this);
+
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "New client";
     });
@@ -37,6 +39,19 @@ QStringList DapChainDashboardService::getNodeLogs(int aiTimeStamp, int aiRowCoun
 {
     qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
     return m_pDapLogReader->request(aiTimeStamp, aiRowCount);
+}
+
+QStringList DapChainDashboardService::addWallet(const QString &asWalletName)
+{
+    qInfo() << QString("addWallet(%1)").arg(asWalletName);
+    return m_pDapChainWalletHandler->createWallet(asWalletName);
+}
+
+QMap<QString, QVariant> DapChainDashboardService::getWallets()
+{
+    qInfo() << QString("getWallets()");
+
+    return m_pDapChainWalletHandler->getWallets();
 }
 
 

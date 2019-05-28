@@ -1,6 +1,7 @@
 #include "DapServiceController.h"
 #include "DapUiQmlWidgetModel.h"
 #include "DapLogMessage.h"
+#include "DapChainWallet.h"
 
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
@@ -38,6 +39,10 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(onClientClose()), SLOT(closeClient()));
     // Signal-slot connection for receiving node logs from the service
     connect(m_pDapCommandController, SIGNAL(sigNodeLogsReceived(QStringList)), SLOT(processGetNodeLogs(QStringList)));
+
+    connect(m_pDapCommandController, SIGNAL(sigWalletAdded(QString, QString)), SLOT(processAddWallet(QString, QString)));
+
+    connect(m_pDapCommandController, SIGNAL(sigWalletsReceived(QMap<QString,QVariant>)), SLOT(processGetWallets(QMap<QString,QVariant>)));
 }
 
 QString DapServiceController::getBrand() const
@@ -59,6 +64,12 @@ void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
 {
     qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
     m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
+}
+
+void DapServiceController::getWallets() const
+{
+    qInfo() << QString("getNodeLogs()");
+    m_pDapCommandController->getWallets();
 }
 
 /// Handling service response for receiving node logs.
@@ -87,6 +98,29 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
         int pos = str3.indexOf('\n');
         message.setMessage(str3.remove(pos, str3.size()-pos));
         DapLogModel::getInstance().append(message);
+    }
+}
+
+void DapServiceController::addWallet(const QString &asWalletName)
+{
+    qInfo() << QString("addWallet(%1)").arg(asWalletName);
+    m_pDapCommandController->addWallet(asWalletName);
+}
+
+void DapServiceController::processAddWallet(const QString& asWalletName, const QString& asWalletAddress)
+{
+    qInfo() << QString("processAddWallet(%1, %2)").arg(asWalletName).arg(asWalletAddress);;
+    DapChainWallet wallet("", asWalletName, asWalletAddress);
+    DapChainWalletsModel::getInstance().append(wallet);
+}
+
+void DapServiceController::processGetWallets(const QMap<QString, QVariant> &aWallets)
+{
+    qInfo() << QString("processGetWallets()") << aWallets.size();
+    for(QString w : aWallets.keys())
+    {
+        DapChainWallet wallet("", w, aWallets.value(w).toString());
+        DapChainWalletsModel::getInstance().append(wallet);
     }
 }
 
