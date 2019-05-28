@@ -86,12 +86,12 @@ HEADERS += \
     DapServiceClientNativeLinux.h \
     DapChainWalletsModel.h
 
-include (../libdap-qt/libdap-qt.pri)
+include (../kelvin-node/kelvin-node.pri)
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
                $$_PRO_FILE_PWD_/../DapRPCProtocol/
-	       $$_PRO_FILE_PWD_/../libdap-qt/
+               $$_PRO_FILE_PWD_/../kelvin-node/
 
 DISTFILES +=
