@@ -51,7 +51,9 @@ HEADERS += \
     DapLogReader.h \
     DapChainWalletHandler.h
 
-include (../kelvin-node/kelvin-node.pri)
+include (../libdap/libdap.pri)
+include (../libdap-crypto/libdap-crypto.pri)
+include (../libdap-qt/libdap-qt.pri)
 include (../libKelvinDashboardCommon/libKelvinDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
 

@@ -5,3 +5,16 @@
 [submodule "kelvin-node"]
 	path = kelvin-node
 	url = https://github.com/kelvinblockchain/kelvin-node.git
+	branch = master
+[submodule "libdap-qt"]
+	path = libdap-qt
+	url = https://github.com/cellframe/libdap-qt
+	branch = master
+[submodule "libdap"]
+	path = libdap
+	url = https://github.com/cellframe/libdap
+	branch = master
+[submodule "libdap-crypto"]
+	path = libdap-crypto
+	url = https://github.com/cellframe/libdap-crypto
+	branch = master
