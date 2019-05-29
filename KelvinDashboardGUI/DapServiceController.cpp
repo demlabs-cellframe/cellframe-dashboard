@@ -76,28 +76,37 @@ void DapServiceController::getWallets() const
 /// @param aNodeLogs List of node logs.
 void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
 {
-    for(QString s : aNodeLogs)
+    int counter {0};
+    QStringList list;
+    for(int x{0}; x < aNodeLogs.size(); ++x)
     {
-        qDebug() << s;
-        QStringList tempList = s.split(" ");
-        DapLogMessage message;
-        if(tempList.at(1) == "[INF]")
-            message.setType(Type::Info);
-        else if(tempList.at(1) == "[WRN]")
-            message.setType(Type::Warning);
-        else if(tempList.at(1) == "[DBG]")
-            message.setType(Type::Debug);
-        else if(tempList.at(1) == "[ERR]")
-            message.setType(Type::Error);
-        QString str = tempList.at(0);
-        message.setTimeStamp(str.remove("[").remove("]"));
-        QStringList tempList2 = tempList.at(2).split("\t");
-        QString str2 = tempList2.at(0);
-        message.setFile(str2.remove("[").remove("]"));
-        QString str3 = s.split("\t").at(1);
-        int pos = str3.indexOf('\n');
-        message.setMessage(str3.remove(pos, str3.size()-pos));
-        DapLogModel::getInstance().append(message);
+        qDebug() << aNodeLogs[x];
+        if(counter == 4)
+        {
+            DapLogMessage message;
+            message.setTimeStamp(list.at(0));
+            if(list.at(1) == "INF")
+                message.setType(Type::Info);
+            else if(list.at(1) == "WRN")
+                message.setType(Type::Warning);
+            else if(list.at(1) == "DBG")
+                message.setType(Type::Debug);
+            else if(list.at(1) == "ERR")
+                message.setType(Type::Error);
+            else if(list.at(1) == " * ")
+                message.setType(Type::Error);
+            message.setFile(list.at(2));
+            message.setMessage(list.at(3));
+            DapLogModel::getInstance().append(message);
+            list.clear();
+            counter = 0;
+            --x;
+        }
+        else
+        {
+            list.append(aNodeLogs[x]);
+            ++counter;
+        }
     }
 }
 

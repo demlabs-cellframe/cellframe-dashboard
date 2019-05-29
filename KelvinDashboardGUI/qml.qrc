@@ -24,10 +24,13 @@
         <file>Resources/Icons/about.png</file>
         <file>Resources/Icons/home.png</file>
         <file>Resources/Icons/settings.png</file>
-        <file>Resources/Icons/dialog.png</file>
         <file>Resources/Icons/exit.png</file>
         <file>DapUiQmlScreenDialogAddWallet.qml</file>
         <file>DapUiQmlWidgetChainWallet.qml</file>
         <file>DapUiQmlWidgetChainWalletForm.ui.qml</file>
+        <file>Resources/Icons/dialog-error.png</file>
+        <file>Resources/Icons/dialog-information.png</file>
+        <file>Resources/Icons/dialog-question.png</file>
+        <file>Resources/Icons/dialog-warning.png</file>
     </qresource>
 </RCC>

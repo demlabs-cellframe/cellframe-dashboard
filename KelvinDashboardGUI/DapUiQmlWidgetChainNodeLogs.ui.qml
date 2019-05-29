@@ -16,15 +16,15 @@ Page {
             name: "Node 1"
         }
 
-        ListElement
-        {
-            name: "Node 2"
-        }
+//        ListElement
+//        {
+//            name: "Node 2"
+//        }
 
-        ListElement
-        {
-            name: "Node 3"
-        }
+//        ListElement
+//        {
+//            name: "Node 3"
+//        }
     }
 
         TabView
@@ -55,18 +55,22 @@ Page {
                 
                         TableViewColumn {
                             id: columnType
-//                            role: "type"
+                            role: "type"
                             title: "Type"
                             
                              delegate:
                                  Item{
-                                         Image {
-                                             id: names
-                                             anchors.centerIn: parent
-                                             source: "qrc:/Resources/Icons/dialog.png"
-                                             width: 14
-                                             height: 14
-                                         }
+                                 Text {
+                                     anchors.centerIn: parent
+                                     renderType: Text.NativeRendering
+                                     text: styleData.value
+                                 }
+//                                     Image {
+//                                         anchors.centerIn: parent
+//                                         source: styleData.value
+//                                         width: 14
+//                                         height: 14
+//                                     }
                              }
                         }
                         TableViewColumn {

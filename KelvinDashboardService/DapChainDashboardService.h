@@ -23,7 +23,7 @@
 #include "DapRpcTCPServer.h"
 #include "DapRpcService.h"
 
-#include "DapLogReader.h"
+#include "DapChainLogHandler.h"
 #include "DapChainWalletHandler.h"
 
 #include <QLocalServer>
@@ -39,7 +39,7 @@ class DapChainDashboardService : public DapRpcService
     /// Socket of client connection with the service.
     DapUiSocketServer       * m_pSocketService {nullptr};
     /// Log reader.
-    DapLogReader            * m_pDapLogReader {nullptr};
+    DapChainLogHandler            * m_pDapChainLogHandler {nullptr};
 
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
 public:

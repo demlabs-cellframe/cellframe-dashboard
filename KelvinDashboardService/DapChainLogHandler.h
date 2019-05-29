@@ -9,7 +9,7 @@
 
 #include "DapLogMessage.h"
 
-class DapLogReader : public QObject
+class DapChainLogHandler : public QObject
 {
     Q_OBJECT
 
@@ -17,7 +17,7 @@ protected:
     virtual QStringList parse(const QByteArray& aLogMessages);
 
 public:
-    explicit DapLogReader(QObject *parent = nullptr);
+    explicit DapChainLogHandler(QObject *parent = nullptr);
 
 public slots:
     QStringList request(int aiTimeStamp, int aiRowCount);

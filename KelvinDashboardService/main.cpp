@@ -5,7 +5,7 @@
 #include "DapHalper.h"
 #include "DapChainDashboardService.h"
 #include "DapLogger.h"
-#include "DapLogReader.h"
+#include "DapChainLogHandler.h"
 
 int main(int argc, char *argv[])
 {

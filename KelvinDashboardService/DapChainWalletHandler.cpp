@@ -16,7 +16,7 @@ QStringList DapChainWalletHandler::createWallet(const QString &asNameWallet)
 {
     QByteArray result;
     QProcess process;
-    process.start(QString("%1 wallet new -w %2").arg("/home/andrey/Demlabs/build-kelvin-node/kelvin-node-cli").arg(asNameWallet));
+    process.start(QString("%1 wallet new -w %2").arg("/home/andrey/Project/build-kelvin-node/kelvin-node-cli").arg(asNameWallet));
     process.waitForFinished(-1);
     result = process.readAll();
     QStringList list;
@@ -29,7 +29,7 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 {
     QMap<QString, QVariant> map;
     QProcess process;
-    process.start(QString("%1 wallet list").arg("/home/andrey/Demlabs/build-kelvin-node/kelvin-node-cli"));
+    process.start(QString("%1 wallet list").arg("/home/andrey/Project/build-kelvin-node/kelvin-node-cli"));
     process.waitForFinished(-1);
     QString str = QString::fromLatin1(process.readAll()).remove(" ");
     QRegExp rx( ":\\b([a-zA-Z0-9]+)\\n" );
