@@ -52,7 +52,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
-    qmlRegisterSingletonType<DapServiceController>("KelvinDashboard", 1, 0, "DapServiceController", DapServiceController::singletonProvider);
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     
     QQmlApplicationEngine engine;
