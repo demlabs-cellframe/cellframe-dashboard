@@ -33,6 +33,8 @@ signals:
     void onClientActivate(bool aIsActivated);
     
     void onClientClose();
+
+    void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QString& aBalance);
     
 public:
     /// Overloaded constructor.
@@ -52,6 +54,8 @@ private slots:
     void processAddWallet();
 
     void processGetWallets();
+
+    void processGetWalletInfo();
     
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -68,6 +72,8 @@ public slots:
     void addWallet(const QString& asWalletName);
 
     void getWallets();
+
+    void getWalletInfo(const QString& asWalletName);
 };
 
 #endif // COMMANDCONTROLLER_H

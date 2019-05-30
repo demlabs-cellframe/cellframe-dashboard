@@ -11,87 +11,91 @@ Page {
     property alias save: save
     property alias dialogAddWallet: dialogAddWallet
 
-    ListView {
-        id: listViewWallet
-        anchors.fill: parent
-        anchors.margins: 10
-        spacing: 10
-        model: dapChainWalletsModel
+    Rectangle
+    {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        color: "#353841"
+        width: 100
+        ListView {
+            id: listViewWallet
+            anchors.fill: parent
+            keyNavigationEnabled: true
+            model: dapChainWalletsModel
 
-       delegate: Item {
-            width: parent.width
-            height: 150
+           delegate: Item {
+                width: parent.width
+                height: 100
 
-            Rectangle {
-                id: rectangleWallet
-                anchors.fill: parent
-               color: "lightgray"
-                opacity: 0.5
-                radius: 5
-                border.color: "gray"
-                clip: true
-
-                Rectangle
-                {
-                    id: iconWallet
-                    height: 140
-                    width: 140
-                    border.color: "gray"
-                    anchors.left: parent.left
-                   anchors.leftMargin: 5
-                    anchors.verticalCenter: parent.verticalCenter
-                    radius: 3.5
-
-                    Image
+                   Column
                     {
-                        anchors.fill: parent
-                        source: "qrc:/Resources/Icons/add.png"
-                    }
+                        anchors.centerIn: parent
+                        spacing: 5
+
+                        Text {
+                            id: nameWallet
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: qsTr(name)
+                            font.pixelSize: 14
+                            color: "#BBBEBF"
+                            font.family: "Roboto"
+                        }
+
+                        Text {
+                            id: lableBalance
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: qsTr(balance)
+                            font.pixelSize: 18
+                            color: "#BBBEBF"
+                            font.family: "Roboto"
+                        }
+
+                        Text {
+                            id: lableCurrency
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: "Dollars"
+                            font.pixelSize: 14
+                            color: "#BBBEBF"
+                            font.weight: Font.Light
+                            font.family: "Roboto"
+                        }
+
+//                        TextEdit {
+//                            id: addressWallet
+//                            text:  address
+//                            width: parent.width
+//                            font.pixelSize: 16
+//                            wrapMode: Text.Wrap
+//                            selectByMouse: true
+//       //                    clip: true
+//        //                    elide: Text.ElideRight
+//                        }
                 }
 
-               Column
-                {
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: iconWallet.right
-                    anchors.leftMargin: 10
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    spacing: 5
-
-                    Text {
-                        id: nameWallet
-                        text: name
-                        bottomPadding: 15
-                        font.bold: true
-                        font.pixelSize: 20
-                    }
-
-                    Text {
-                        id: lableAddress
-                       text: "Address:"
-                        font.pixelSize: 18
-                        color: "gray"
-                    }
-
-                    TextEdit {
-                        id: addressWallet
-                        text:  address
-                        width: parent.width
-                        font.pixelSize: 16
-                        wrapMode: Text.Wrap
-                        selectByMouse: true
-   //                    clip: true
-    //                    elide: Text.ElideRight
-                    }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: listViewWallet.currentIndex = index
                 }
             }
+
+           focus: true
         }
-
-
     }
+
+
     DapUiQmlScreenDialogAddWallet {
         id: dialogAddWallet
             }
+
+    RoundButton {
+            id: deleteWallet
+           text: qsTr("-")
+           highlighted: true
+           anchors.margins: 10
+           anchors.right: parent.right
+           anchors.bottom: save.top
+    }
 
     RoundButton {
             id: save

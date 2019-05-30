@@ -8,7 +8,7 @@ DapUiQmlWidgetModel::DapUiQmlWidgetModel(QObject *parent) : QAbstractListModel(p
     m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Services share control", "DapUiQmlWidgetChainServicesShareControl.ui.qml", "qrc:/Resources/Icons/add.png"));
     m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Settings", "DapUiQmlWidgetChainSettings.ui.qml", "qrc:/Resources/Icons/add.png"));
     m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Wallet", "DapUiQmlWidgetChainWallet.qml", "qrc:/Resources/Icons/add.png"));
-    m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Logs", "DapUiQmlWidgetChainNodeLogs.ui.qml", "qrc:/Resources/Icons/add.png"));
+    m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Logs", "DapUiQmlWidgetChainNodeLogsForm.ui.qml", "qrc:/Resources/Icons/add.png"));
 }
 
 DapUiQmlWidgetModel &DapUiQmlWidgetModel::getInstance()

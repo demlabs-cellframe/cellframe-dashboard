@@ -18,7 +18,6 @@
         <file>DapUiQmlWidgetDelegate.qml</file>
         <file>DapUiQmlWidgetDelegateForm.ui.qml</file>
         <file>DapUiQmlScreenChangeWidget.qml</file>
-        <file>DapUiQmlWidgetChainNodeLogs.ui.qml</file>
         <file>Resources/Icons/add.png</file>
         <file>Resources/Icons/icon.ico</file>
         <file>Resources/Icons/about.png</file>
@@ -32,5 +31,7 @@
         <file>Resources/Icons/dialog-information.png</file>
         <file>Resources/Icons/dialog-question.png</file>
         <file>Resources/Icons/dialog-warning.png</file>
+        <file>DapUiQmlWidgetChainNodeLogs.qml</file>
+        <file>DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
     </qresource>
 </RCC>

@@ -53,3 +53,31 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 
     return map;
 }
+
+QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
+{
+    QProcess process;
+    process.start(QString("%1 wallet info -w %2 -net kelvin-testnet").arg("/home/andrey/Project/build-kelvin-node/kelvin-node-cli").arg(asNameWallet));
+    process.waitForFinished(-1);
+    QStringList list;
+    QString str = QString::fromLatin1(process.readAll()).remove(" ");
+    QRegExp rx( "(\\\\n|:)([A-Z0-9]{1,1}[\\w\\S]+)\\\\n" );
+    rx.setMinimal(true);
+    int pos = 0;
+    list = str.split(":");
+    QStringList res;
+    for(QString s : list)
+    {
+        qDebug() << s;
+        if(!s.contains(":"))
+            res.append(s.remove(s.indexOf('\n'), s.size()));
+    }
+qDebug() << str;
+//    while ((pos = rx.indexIn(str, pos)) != -1)
+//    {
+//        list.append(rx.cap(2));
+//        pos += rx.matchedLength();
+//    }
+    qDebug() << list;
+    return res;
+}

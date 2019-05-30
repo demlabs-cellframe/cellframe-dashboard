@@ -23,6 +23,7 @@ QVariant DapChainWalletsModel::data(const QModelIndex &index, int role) const
             case IconWalletRole: return m_dapChainWallets.at(index.row())->getIconPath();
             case NameWalletRole: return m_dapChainWallets.at(index.row())->getName();
             case AddressWalletRole: return m_dapChainWallets.at(index.row())->getAddress();
+            case BalanceWalletRole: return m_dapChainWallets.at(index.row())->getBalance();
             default:
                 return QVariant();
         }
@@ -34,7 +35,8 @@ QHash<int, QByteArray> DapChainWalletsModel::roleNames() const
     static const QHash<int, QByteArray> roles {
             { IconWalletRole, "iconPath" },
             { NameWalletRole, "name" },
-            { AddressWalletRole, "address" }
+            { AddressWalletRole, "address" },
+            { BalanceWalletRole, "balance" }
         };
 
     return roles;
@@ -43,25 +45,25 @@ QHash<int, QByteArray> DapChainWalletsModel::roleNames() const
 QVariantMap DapChainWalletsModel::get(int row) const
 {
     const DapChainWallet *wallet = m_dapChainWallets.value(row);
-    return { {"iconPath", wallet->getIconPath()}, {"name", wallet->getName()}, {"address", wallet->getAddress()} };
+    return { {"iconPath", wallet->getIconPath()}, {"name", wallet->getName()}, {"address", wallet->getAddress()}, {"balance", wallet->getBalance()} };
 }
 
 void DapChainWalletsModel::append(const DapChainWallet &arWallet)
 {
-    this->append(arWallet.getIconPath(), arWallet.getName(), arWallet.getAddress());
+    this->append(arWallet.getIconPath(), arWallet.getName(), arWallet.getAddress(), arWallet.getBalance());
 }
 
-void DapChainWalletsModel::append(const QString& asIconPath, const QString &asName, const QString  &asAddress)
+void DapChainWalletsModel::append(const QString& asIconPath, const QString &asName, const QString  &asAddress, const QString& aBalance)
 {
     int row = 0;
     while (row < m_dapChainWallets.count())
         ++row;
     beginInsertRows(QModelIndex(), row, row);
-    m_dapChainWallets.insert(row, new DapChainWallet(asIconPath, asName, asAddress));
+    m_dapChainWallets.insert(row, new DapChainWallet(asIconPath, asName, asAddress, aBalance));
     endInsertRows();
 }
 
-void DapChainWalletsModel::set(int row, const QString& asIconPath, const QString &asName, const QString  &asAddresss)
+void DapChainWalletsModel::set(int row, const QString& asIconPath, const QString &asName, const QString  &asAddresss, const QString& aBalance)
 {
     if (row < 0 || row >= m_dapChainWallets.count())
             return;
@@ -70,7 +72,8 @@ void DapChainWalletsModel::set(int row, const QString& asIconPath, const QString
         wallet->setIconPath(asIconPath);
         wallet->setName(asName);
         wallet->setAddress(asAddresss);
-        dataChanged(index(row, 0), index(row, 0), { IconWalletRole, NameWalletRole, AddressWalletRole });
+        wallet->setBalance(aBalance);
+        dataChanged(index(row, 0), index(row, 0), { IconWalletRole, NameWalletRole, AddressWalletRole, BalanceWalletRole });
 }
 
 void DapChainWalletsModel::remove(int row)

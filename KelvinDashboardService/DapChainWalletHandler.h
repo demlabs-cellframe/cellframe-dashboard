@@ -21,6 +21,7 @@ signals:
 public slots:
     QStringList createWallet(const QString& asNameWallet);
     QMap<QString, QVariant> getWallets();
+    QStringList getWalletInfo(const QString& asNameWallet);
 };
 
 #endif // DAPCHAINWALLETHANDLER_H

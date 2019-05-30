@@ -6,71 +6,47 @@ import KelvinDashboard 1.0
 Page {
     id: dapUiQmlWidgetChainNodeLogs
     title: "Logs"
-    
-    ListModel
-    {
-        id: nodeModel
 
-        ListElement
-        {
-            name: "Node 1"
-        }
-
-//        ListElement
+//        TabView
 //        {
-//            name: "Node 2"
-//        }
+//            id: tabViewLogs
+//            anchors.top: parent.top
+//            anchors.bottom: parent.bottom
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+//            Repeater {
+//                anchors.fill: parent
+//            model: nodeModel
+//            delegate:
+//                Tab{
 
-//        ListElement
-//        {
-//            name: "Node 3"
-//        }
-    }
 
-        TabView
-        {
-            id: tabViewLogs
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            Repeater {
-                anchors.fill: parent
-            model: nodeModel
-            delegate:
-                Tab{
-                
-                
-                
-                title: qsTr(name)
-                
+
+//                title: qsTr(name)
+
                     TableView {
                         id: tableViewLogs
-//                        anchors.top: parent.top
-//                        anchors.bottom: parent.bottom
-//                        anchors.left: parent.left
-//                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.right: parent.right
                         model: dapLogModel
                 clip: true
-                
+
                         TableViewColumn {
                             id: columnType
                             role: "type"
                             title: "Type"
-                            
+
                              delegate:
                                  Item{
-                                 Text {
-                                     anchors.centerIn: parent
-                                     renderType: Text.NativeRendering
-                                     text: styleData.value
-                                 }
-//                                     Image {
-//                                         anchors.centerIn: parent
-//                                         source: styleData.value
-//                                         width: 14
-//                                         height: 14
-//                                     }
+                                     Image {
+                                         id: img
+                                         anchors.centerIn: parent
+                                         source: styleData.value
+                                         width: 14
+                                         height: 14
+                                     }
                              }
                         }
                         TableViewColumn {
@@ -113,7 +89,7 @@ Page {
                         headerDelegate: Rectangle {
                             height: 20
                             color: "orange"
-                        
+
                             Text {
                                 text: styleData.value
                                 color: "#FFF"
@@ -129,8 +105,8 @@ Page {
 
                     }
             }
-        }
-   
+//        }
+
 //        TabView
 //        {
 //            id: tabViewLogs
@@ -143,16 +119,16 @@ Page {
 //            model: dapUiQmlWidgetModel
 //            delegate:
 //                Tab{
-                
-                
-                
+
+
+
 //                title: qsTr(name)
-                
+
 //                    TableView {
 //                        id: tableViewLogs
 //                        model: dataModel
 //                clip: true
-                
+
 //                        TableViewColumn {
 //                            id: columnType
 //                            role: "type"
@@ -205,7 +181,7 @@ Page {
 //                        headerDelegate: Rectangle {
 //                            height: 20
 //                            color: "#29333f"
-                            
+
 //                            Text {
 //                                text: styleData.value
 //                                color: "#FFF"
@@ -224,5 +200,5 @@ Page {
 //            }
 //            }
 //        }
-    }
-}
+//    }
+//}

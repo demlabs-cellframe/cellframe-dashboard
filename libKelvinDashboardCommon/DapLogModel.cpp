@@ -23,25 +23,15 @@ QVariant DapLogModel::data(const QModelIndex &index, int role) const
             case TypeRole:
                 switch (m_dapLogMessage.at(index.row())->getType()) {
                 case Type::Info:
-                    return "INF";
+                    return "qrc:/Resources/Icons/dialog-information.png";
                 case Type::Warning:
-                    return "WRG";
+                    return "qrc:/Resources/Icons/dialog-warning.png";
                 case Type::Error:
-                    return "ERR";
+                    return "qrc:/Resources/Icons/dialog-error.png";
                 case Type::Debug:
-                    return "DBG";
+                    return "qrc:/Resources/Icons/dialog-question.png";
                 default:
                     break;
-//                case Type::Info:
-//                    return "qrc:/Resources/Icons/dialog-information.png";
-//                case Type::Warning:
-//                    return "qrc:/Resources/Icons/dialog-warning.png";
-//                case Type::Error:
-//                    return "qrc:/Resources/Icons/dialog-error.png";
-//                case Type::Debug:
-//                    return "qrc:/Resources/Icons/dialog-question.png";
-//                default:
-//                    break;
                 }
 
             case TimeStampRole: return m_dapLogMessage.at(index.row())->getTimeStamp();

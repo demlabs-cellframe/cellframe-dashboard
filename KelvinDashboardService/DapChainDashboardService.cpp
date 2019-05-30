@@ -6,7 +6,6 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     m_pDapChainLogHandler = new DapChainLogHandler(this);
 
     m_pDapChainWalletHandler = new DapChainWalletHandler(this);
-
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "New client";
     });
@@ -52,6 +51,12 @@ QMap<QString, QVariant> DapChainDashboardService::getWallets()
     qInfo() << QString("getWallets()");
 
     return m_pDapChainWalletHandler->getWallets();
+}
+
+QStringList DapChainDashboardService::getWalletInfo(const QString &asWalletName)
+{
+    qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
+    return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
 }
 
 

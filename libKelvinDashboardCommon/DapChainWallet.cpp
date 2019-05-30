@@ -1,7 +1,13 @@
 #include "DapChainWallet.h"
 
+DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, const QString &aBalance, QObject *parent)
+    : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddresss), m_balance(aBalance)
+{
+
+}
+
 DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, QObject *parent)
-    : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddresss)
+    : DapChainWallet(asIconPath, asName, asAddresss, 0, parent)
 {
 
 }
@@ -40,4 +46,16 @@ void DapChainWallet::setAddress(const QString &asAddress)
     m_sAddress = asAddress;
 
     emit addressChanged(m_sAddress);
+}
+
+QString DapChainWallet::getBalance() const
+{
+    return m_balance;
+}
+
+void DapChainWallet::setBalance(const QString &aBalance)
+{
+    m_balance = aBalance;
+
+    emit balanceChanged(m_balance);
 }

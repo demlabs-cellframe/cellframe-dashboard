@@ -128,48 +128,70 @@ ApplicationWindow {
     
     Drawer {
         id: drawerMenu
-        width: window.width * 0.25
+        width: window.width * 0.3
         height: window.height
-        
-        ListView {
-            id: listViewMenu
+        Rectangle
+        {
             anchors.fill: parent
-            model: dapUiQmlWidgetModel
+            color: "#353841"
 
-            delegate: 
-                Component {
-                    id: listViewItemMenu
-                    Item {
-                        id: itemMenu
-                        
-                        width: listViewMenu.width 
-                        height: textItemMenu.height + 10
-                        
-                        Row {
-                            anchors.margins: 5
-                            anchors.fill: parent
-                            
-                            Text 
-                            { 
-                                id: textItemMenu
-                                text: qsTr(name)
+            ListView {
+                id: listViewMenu
+                anchors.fill: parent
+                model: dapUiQmlWidgetModel
+
+                delegate:
+                    Component {
+                        id: listViewItemMenu
+                        Item {
+                            id: itemMenu
+
+                            width: listViewMenu.width
+                            height: textItemMenu.height + 10
+
+                            Row {
+                                anchors.margins: 5
+                                anchors.fill: parent
+
+                                Text
+                                {
+                                    id: textItemMenu
+                                    text: qsTr(name)
+                                    color: "#BBBEBF"
+                                    font.pointSize: 12
+                                    font.weight: Font.Light
+                                    font.family: "Roboto"
+                                }
+                            }
+
+                            MouseArea {
+                                   anchors.fill: parent
+                                   onClicked:
+                                   {
+                                       listViewMenu.currentIndex = index
+                                       stackView.push(Qt.resolvedUrl(URLpage), StackView.Immediate)
+                                       drawerMenu.close()
+                                   }
+                               }
                             }
                         }
-                        
-                        MouseArea {
-                               anchors.fill: parent
-                               onClicked: 
-                               {
-                                   listViewMenu.currentIndex = index
-                                   stackView.push(Qt.resolvedUrl(URLpage), StackView.Immediate)
-                                   drawerMenu.close()
-                               }
-                           }
+
+                highlight:
+                    Component
+                    {
+                        Rectangle {
+                            id: rectangleMenu
+                            color: "#121B28"
+                            Rectangle
+                            {
+                                height: rectangleMenu.height
+                                width: 4
+                                color: "green"
+                            }
                         }
                     }
-            
-            highlight: Rectangle { color: "aliceblue"; radius: 5 }
-            focus: true
+                focus: true
+            }
         }
     }
 

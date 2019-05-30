@@ -64,6 +64,8 @@ Page {
                                 text: qsTr(name)
                                 color: "#BBBEBF"
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                font.weight: Font.Light
+                                font.family: "Roboto"
                             }
                         }
 

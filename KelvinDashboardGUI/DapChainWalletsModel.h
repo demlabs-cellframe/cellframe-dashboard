@@ -15,7 +15,8 @@
 enum DapChainWalletRole {
         IconWalletRole = Qt::DisplayRole,
         NameWalletRole = Qt::UserRole,
-        AddressWalletRole
+        AddressWalletRole,
+        BalanceWalletRole
     };
 
 class DapChainWalletsModel : public QAbstractListModel
@@ -36,8 +37,8 @@ public:
 
     Q_INVOKABLE QVariantMap get(int row) const;
     Q_INVOKABLE void append(const DapChainWallet &arWallet);
-    Q_INVOKABLE void append(const QString& asIconPath, const QString &asName, const QString  &asAddress);
-    Q_INVOKABLE void set(int row, const QString& asIconPath, const QString &asName, const QString  &asAddresss);
+    Q_INVOKABLE void append(const QString& asIconPath, const QString &asName, const QString  &asAddress, const QString &aBalance);
+    Q_INVOKABLE void set(int row, const QString& asIconPath, const QString &asName, const QString  &asAddresss, const QString &aBalance);
     Q_INVOKABLE void remove(int row);
     Q_INVOKABLE void clear();
 

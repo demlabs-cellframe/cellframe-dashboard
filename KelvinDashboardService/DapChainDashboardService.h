@@ -71,6 +71,8 @@ public slots:
     QStringList addWallet(const QString &asWalletName);
 
     QMap<QString, QVariant> getWallets();
+
+    QStringList getWalletInfo(const QString &asWalletName);
     
 };
 

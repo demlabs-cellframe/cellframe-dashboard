@@ -1,5 +1,5 @@
-#ifndef DAPLOGREADER_H
-#define DAPLOGREADER_H
+#ifndef DAPCHAINLOGHANDLER_H
+#define DAPCHAINLOGHANDLER_H
 
 #include <QObject>
 #include <QString>
@@ -23,4 +23,4 @@ public slots:
     QStringList request(int aiTimeStamp, int aiRowCount);
 };
 
-#endif // DAPLOGREADER_H
+#endif // DAPCHAINLOGHANDLER_H

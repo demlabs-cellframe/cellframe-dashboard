@@ -68,6 +68,8 @@ public:
 
     Q_INVOKABLE void addWallet(const QString& asWalletName);
 
+    void getWalletInfo(const QString& asWalletName);
+
 signals:
     /// The signal is emitted when the Brand company property changes.
     void brandChanged(const QString &brand);
@@ -86,6 +88,8 @@ private slots:
     void processAddWallet(const QString& asWalletName, const QString& asWalletAddress);
 
     void processGetWallets(const QMap<QString, QVariant>& aWallets);
+
+    void processGetWalletInfo(const QString& asWalletName, const QString& asWalletAddress, const QString& aBalance);
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
