@@ -67,6 +67,19 @@ void DapCommandController::processAddWallet()
     emit sigWalletAdded(name, address);
 }
 
+void DapCommandController::processSendToken()
+{
+    qInfo() << "processSendToken()";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    if (!reply) {
+        qWarning() << "Invalid response received";
+        return;
+    }
+    emit sigCommandResult(reply->response().result());
+    auto answer = reply->response().result().toVariant().toString();
+    emit onTokenSended(answer);
+}
+
 void DapCommandController::processGetWallets()
 {
     qInfo() << "processGetWallets()";
@@ -90,8 +103,26 @@ void DapCommandController::processGetWalletInfo()
     emit sigCommandResult(reply->response().result());
     QString name = reply->response().result().toVariant().toStringList().at(0);
     QString address = reply->response().result().toVariant().toStringList().at(1);
-    QString balance = reply->response().result().toVariant().toStringList().at(2);
-    emit sigWalletInfoChanged(name, address, balance);
+    QStringList temp = reply->response().result().toVariant().toStringList();
+    QStringList tokens;
+    QStringList balance;
+    for(int x{2}; x < temp.count(); x++)
+    {
+        if(x%2)
+        {
+           tokens.append(temp[x]); 
+           qDebug() << "TOKKEN " << temp[x];
+        }
+        else
+        {
+            QString s;
+            s.setNum(x*10);
+            balance.append(temp[x] + s);
+            qDebug() << "BALANCE " << temp[x];
+        }
+    }
+    
+    emit sigWalletInfoChanged(name, address, balance, tokens);
 }
 
 /// Show or hide GUI client by clicking on the tray icon.
@@ -123,6 +154,13 @@ void DapCommandController::addWallet(const QString &asWalletName)
      qInfo() << QString("addWallet(%1)").arg(asWalletName);
      DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.addWallet", asWalletName);
      connect(reply, SIGNAL(finished()), this, SLOT(processAddWallet()));
+}
+
+void DapCommandController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const double &aAmount)
+{
+    qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.sendToken", asSendWallet, asAddressReceiver, asToken, aAmount);
+    connect(reply, SIGNAL(finished()), this, SLOT(processSendToken()));
 }
 
 void DapCommandController::getWallets()

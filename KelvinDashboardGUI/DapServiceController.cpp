@@ -44,7 +44,9 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, SIGNAL(sigWalletsReceived(QMap<QString,QVariant>)), SLOT(processGetWallets(QMap<QString,QVariant>)));
 
-    connect(m_pDapCommandController, SIGNAL(sigWalletInfoChanged(QString,QString,QString)), SLOT(processGetWalletInfo(QString,QString,QString)));
+    connect(m_pDapCommandController, SIGNAL(sigWalletInfoChanged(QString,QString, QStringList, QStringList)), SLOT(processGetWalletInfo(QString,QString, QStringList, QStringList)));
+
+    connect(m_pDapCommandController, SIGNAL(onTokenSended(QString)), SLOT(processSendToken(QString)));
 }
 
 QString DapServiceController::getBrand() const
@@ -118,6 +120,12 @@ void DapServiceController::addWallet(const QString &asWalletName)
     m_pDapCommandController->addWallet(asWalletName);
 }
 
+void DapServiceController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const double &aAmount)
+{
+    qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
+    m_pDapCommandController->sendToken(asSendWallet, asAddressReceiver, asToken, aAmount);
+}
+
 void DapServiceController::getWalletInfo(const QString &asWalletName)
 {
     qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
@@ -126,9 +134,14 @@ void DapServiceController::getWalletInfo(const QString &asWalletName)
 
 void DapServiceController::processAddWallet(const QString& asWalletName, const QString& asWalletAddress)
 {
-    qInfo() << QString("processAddWallet(%1, %2)").arg(asWalletName).arg(asWalletAddress);;
+    qInfo() << QString("processAddWallet(%1, %2)").arg(asWalletName).arg(asWalletAddress);
     DapChainWallet wallet("", asWalletName, asWalletAddress);
     DapChainWalletsModel::getInstance().append(wallet);
+}
+
+void DapServiceController::processSendToken(const QString &asAnswer)
+{
+    qInfo() << QString("processSendToken(%1)").arg(asAnswer);
 }
 
 void DapServiceController::processGetWallets(const QMap<QString, QVariant> &aWallets)
@@ -136,16 +149,19 @@ void DapServiceController::processGetWallets(const QMap<QString, QVariant> &aWal
     qInfo() << QString("processGetWallets()") << aWallets.size();
     for(QString w : aWallets.keys())
     {
-        DapChainWallet wallet("", w, aWallets.value(w).toString());
         getWalletInfo(w);
     }
 }
 
-void DapServiceController::processGetWalletInfo(const QString &asWalletName, const QString &asWalletAddress, const QString &aBalance)
+void DapServiceController::processGetWalletInfo(const QString &asWalletName, const QString &asWalletAddress, const QStringList& aBalance, const QStringList &aTokens)
 {
-    qInfo() << QString("processGetWalletInfo(%1, %2, %3)").arg(asWalletName).arg(asWalletAddress).arg(aBalance);
-    DapChainWallet wallet("", asWalletName, asWalletAddress, aBalance);
+    qInfo() << QString("processGetWalletInfo(%1, %2)").arg(asWalletName).arg(asWalletAddress);
+    DapChainWallet wallet("", asWalletName, asWalletAddress, aBalance, aTokens);
     DapChainWalletsModel::getInstance().append(wallet);
+    
+    for (QString s : aBalance) {
+        qDebug() << s;
+    }
 }
 
 /// Get an instance of a class.

@@ -67,6 +67,7 @@ public:
     void setLogModel(const DapLogModel &dapLogModel);
 
     Q_INVOKABLE void addWallet(const QString& asWalletName);
+    Q_INVOKABLE void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const double& aAmount);
 
     void getWalletInfo(const QString& asWalletName);
 
@@ -87,9 +88,11 @@ private slots:
 
     void processAddWallet(const QString& asWalletName, const QString& asWalletAddress);
 
+    void processSendToken(const QString& asAnswer);
+
     void processGetWallets(const QMap<QString, QVariant>& aWallets);
 
-    void processGetWalletInfo(const QString& asWalletName, const QString& asWalletAddress, const QString& aBalance);
+    void processGetWalletInfo(const QString& asWalletName, const QString& asWalletAddress, const QStringList &aBalance, const QStringList& aTokens);
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.

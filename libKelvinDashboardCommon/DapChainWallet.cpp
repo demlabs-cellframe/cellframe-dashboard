@@ -1,13 +1,13 @@
 #include "DapChainWallet.h"
 
-DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, const QString &aBalance, QObject *parent)
-    : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddresss), m_balance(aBalance)
+DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, const QStringList &aBalance, const QStringList &aTokens, QObject *parent)
+    : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddresss), m_balance(aBalance), m_tokens(aTokens)
 {
 
 }
 
 DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, QObject *parent)
-    : DapChainWallet(asIconPath, asName, asAddresss, 0, parent)
+    : DapChainWallet(asIconPath, asName, asAddresss, QStringList(), QStringList(), parent)
 {
 
 }
@@ -48,14 +48,26 @@ void DapChainWallet::setAddress(const QString &asAddress)
     emit addressChanged(m_sAddress);
 }
 
-QString DapChainWallet::getBalance() const
+QStringList DapChainWallet::getBalance() const
 {
     return m_balance;
 }
 
-void DapChainWallet::setBalance(const QString &aBalance)
+void DapChainWallet::setBalance(const QStringList &aBalance)
 {
     m_balance = aBalance;
 
     emit balanceChanged(m_balance);
+}
+
+QStringList DapChainWallet::getTokens() const
+{
+    return m_tokens;
+}
+
+void DapChainWallet::setTokens(const QStringList &aTokens)
+{
+    m_tokens = aTokens;
+    
+    emit tokensChanged(m_tokens);
 }

@@ -25,11 +25,25 @@ DapUiQmlWidgetChainWalletForm {
         }
 
     listViewWallet.onCurrentItemChanged:
+    {
+        listViewTokens.model = listViewWallet.model.get(listViewWallet.currentIndex).tokens
+//        console.log("Заголовок " + listViewWallet.model.get(listViewWallet.currentIndex).address)
         console.log(listViewWallet.currentIndex)
+        
+        
+    }
+    
+    listViewTokens.onCurrentItemChanged:
+    {
+        textBalance.text = listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex]
+    }
 
-    save.onClicked: {
+    buttonSaveWallet.onClicked: {
         dialogAddWallet.show()
-}
+    }
+    buttonSendToken.onClicked: {
+        dialogSendToken.show()
+    }
 
 
 }

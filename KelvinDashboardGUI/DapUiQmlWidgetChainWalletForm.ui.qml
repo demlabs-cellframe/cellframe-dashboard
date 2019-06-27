@@ -1,6 +1,8 @@
 import QtQuick 2.11
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Styles 1.4
+import KelvinDashboard 1.0
 
 Page {
     id: dapUiQmlWidgetChainWallet
@@ -8,11 +10,17 @@ Page {
     title: qsTr("Wallet")
 
     property alias listViewWallet: listViewWallet
-    property alias save: save
+    property alias buttonSaveWallet: buttonSaveWallet
     property alias dialogAddWallet: dialogAddWallet
+    property alias buttonSendToken: buttonSendToken
+    property alias dialogSendToken: dialogSendToken
+    property alias addressWallet: addressWallet
+    property alias listViewTokens: listViewTokens
+    property alias textBalance: textBalance
 
     Rectangle
     {
+        id: rectanglePanel
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -25,6 +33,7 @@ Page {
             model: dapChainWalletsModel
 
            delegate: Item {
+               id: delegateWallet
                 width: parent.width
                 height: 100
 
@@ -33,44 +42,17 @@ Page {
                         anchors.centerIn: parent
                         spacing: 5
 
-                        Text {
+                        Label {
                             id: nameWallet
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: qsTr(name)
                             font.pixelSize: 14
                             color: "#BBBEBF"
                             font.family: "Roboto"
+                            width: delegateWallet.width
+                            elide: Text.ElideRight
+                            leftPadding: 5
                         }
-
-                        Text {
-                            id: lableBalance
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: qsTr(balance)
-                            font.pixelSize: 18
-                            color: "#BBBEBF"
-                            font.family: "Roboto"
-                        }
-
-                        Text {
-                            id: lableCurrency
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: "Dollars"
-                            font.pixelSize: 14
-                            color: "#BBBEBF"
-                            font.weight: Font.Light
-                            font.family: "Roboto"
-                        }
-
-//                        TextEdit {
-//                            id: addressWallet
-//                            text:  address
-//                            width: parent.width
-//                            font.pixelSize: 16
-//                            wrapMode: Text.Wrap
-//                            selectByMouse: true
-//       //                    clip: true
-//        //                    elide: Text.ElideRight
-//                        }
                 }
 
                 MouseArea {
@@ -83,27 +65,126 @@ Page {
         }
     }
 
+    Rectangle
+    {
+        anchors.left: rectanglePanel.right
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        TextEdit {
+            id: addressWallet
+            font.pixelSize: 16
+            wrapMode: Text.Wrap
+            selectByMouse: true
+            color: "black"
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        
+        ListView {
+            id: listViewTokens
+            orientation: ListView.Horizontal
+            anchors.top: addressWallet.bottom
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            width: parent.width*2/3
+            delegate:  Item {
+                width: 200; height: 50
+                Text { id: nameField; text: modelData }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: listViewTokens.currentIndex = index
+                }
+            }
+            
+            focus: true
+        }
+        
+        Text 
+        {
+            id: textBalance
+            anchors.top: addressWallet.bottom
+            anchors.left: listViewTokens.right
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            
+            font.pixelSize: 70
+            font.bold: true
+        }
+    }
 
     DapUiQmlScreenDialogAddWallet {
         id: dialogAddWallet
             }
+    DapUiQmlScreenDialogSendToken {
+        id: dialogSendToken
+            }
 
     RoundButton {
-            id: deleteWallet
-           text: qsTr("-")
+            id: buttonDeleteWallet
            highlighted: true
            anchors.margins: 10
-           anchors.right: parent.right
-           anchors.bottom: save.top
+           anchors.left: parent.left
+           anchors.bottom: buttonSaveWallet.top
+           height: 40
+           width: 40
+           contentItem: Text {
+               text: qsTr("-")
+               color: "#121B28"
+               horizontalAlignment: Text.AlignHCenter
+               verticalAlignment: Text.AlignVCenter
+               elide: Text.ElideRight
+       
+           }
+                   background: Rectangle {
+                       color: "white"
+                       border.color: "#121B28"
+                       radius: 20
+                   }
     }
 
     RoundButton {
-            id: save
-           text: qsTr("+")
+            id: buttonSaveWallet
+            contentItem: Text {
+                text: qsTr("+")
+                color: "#121B28"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideRight
+        
+            }
+            background: Rectangle {
+                id: inSave
+                color: "white"
+                border.color: "#121B28"
+                radius: 20
+            }
+            
+           highlighted: true
+           anchors.margins: 10
+           anchors.left: parent.left
+           anchors.bottom: parent.bottom
+           height: 40
+           width: 40
+    }
+    
+    RoundButton {
+            id: buttonSendToken
+            text: qsTr("->")
            highlighted: true
            anchors.margins: 10
            anchors.right: parent.right
            anchors.bottom: parent.bottom
+    }
+    
+    RoundButton {
+            id: buttonAddToken
+            text: qsTr("+")
+           highlighted: true
+           anchors.margins: 10
+           anchors.right: parent.right
+           anchors.bottom: buttonSendToken.top
     }
 }
 
