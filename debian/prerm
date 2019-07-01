@@ -1,0 +1,26 @@
+#!/bin/bash
+
+case "$1" in
+    purge|remove|abort-upgrade|failed-upgrade|upgrade)
+    [ -f /etc/init.d/kelvindashboardservice ] && service kelvindashboardservice stop
+    [ -d /opt/KelvinDashboard ] && rm -rf /opt/KelvinDashboard/
+    [ -f /usr/local/bin/KelvinDashboard ] && rm /usr/local/bin/KelvinDashboard
+    [ -f /etc/init.d/kelvindashboardservice ] && rm /etc/init.d/kelvindashboardservice
+    systemctl daemon-reload
+    [ -f /usr/share/applications/kelvindashboard.desktop ] && rm /usr/share/applications/kelvindashboard.desktop
+    [ -f /usr/share/pixmaps/kelvindashboard.ico ] && rm /usr/share/pixmaps/kelvindashboard.ico
+<< --COMMENT--
+    killall UltraPAD
+	userdel --remove UltraPAD
+    systemctl daemon-reload
+    rm /usr/share/applications/ultrapad.desktop
+    rm /usr/share/pixmaps/ultrapad.png
+--COMMENT--
+    ;;
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0

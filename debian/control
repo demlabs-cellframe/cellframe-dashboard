@@ -1,0 +1,17 @@
+Source: kelvindashboard
+Section: unknown
+Priority: optional
+Maintainer: support <support@ncodedcommunications.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 5.8-4
+Homepage: https://ncodedcommunications.com
+
+Package: kelvindashboard
+Architecture: any
+Depends: psmisc, menu, net-tools, ${shlibs:Depends}, ${misc:Depends}
+Replaces: KelvinDashboard
+Description: KelvinDashboard
+ KelvinDashboard
+
+
+

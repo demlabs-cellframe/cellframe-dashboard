@@ -61,5 +61,11 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
                $$_PRO_FILE_PWD_/../DapRPCProtocol/
                 $$_PRO_FILE_PWD_/../kelvin-node/
 
+unix: !mac : !android {
+    service_target.files = $${BRAND}Service
+    service_target.path = /opt/$$BRAND/bin/
+    INSTALLS += service_target
+}
+
 RESOURCES += \
     KelvinDashboardService.qrc

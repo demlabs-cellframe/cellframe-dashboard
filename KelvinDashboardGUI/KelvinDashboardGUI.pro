@@ -96,4 +96,11 @@ include (../DapRPCProtocol/DapRPCProtocol.pri)
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
                $$_PRO_FILE_PWD_/../DapRPCProtocol/
 
+
+unix: !mac : !android {
+    gui_target.files = $${BRAND}
+    gui_target.path = /opt/$$BRAND/bin/
+    INSTALLS += gui_target
+}
+
 DISTFILES +=
