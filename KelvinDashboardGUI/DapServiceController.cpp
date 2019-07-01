@@ -120,10 +120,10 @@ void DapServiceController::addWallet(const QString &asWalletName)
     m_pDapCommandController->addWallet(asWalletName);
 }
 
-void DapServiceController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const double &aAmount)
+void DapServiceController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)
 {
     qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
-    m_pDapCommandController->sendToken(asSendWallet, asAddressReceiver, asToken, aAmount);
+    m_pDapCommandController->sendToken(asSendWallet.trimmed(), asAddressReceiver.trimmed(), asToken.trimmed(), aAmount);
 }
 
 void DapServiceController::getWalletInfo(const QString &asWalletName)

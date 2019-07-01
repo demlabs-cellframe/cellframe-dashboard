@@ -67,7 +67,7 @@ public:
     void setLogModel(const DapLogModel &dapLogModel);
 
     Q_INVOKABLE void addWallet(const QString& asWalletName);
-    Q_INVOKABLE void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const double& aAmount);
+    Q_INVOKABLE void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
 
     void getWalletInfo(const QString& asWalletName);
 

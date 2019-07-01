@@ -252,6 +252,7 @@ DapRpcMessage DapRpcService::dispatch(const DapRpcMessage &aRequest)
     }
 
     const QByteArray &method(methodName(aRequest));
+    qDebug() << method;
     if (!m_invokableMethodHash.contains(method)) {
         return aRequest.createErrorResponse(DapErrorCode::MethodNotFound, "invalid method called");
     }

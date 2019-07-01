@@ -38,11 +38,11 @@ ICON = icon.ico
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    DapUiQmlWidgetChainTransactions.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
     DapUiQmlWidgetChainBlockExplorer.cpp \
     DapUiQmlWidgetChainNodeLogs.cpp \
-    DapUiQmlWidgetChainTransctions.cpp \
     DapUiQmlWidgetChainOperations.cpp \
     DapUiQmlWidgetModel.cpp \
     DapUiQmlWidget.cpp \
@@ -72,9 +72,9 @@ HEADERS += \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \
     DapUiQmlWidgetChainNodeLogs.h \
-    DapUiQmlWidgetChainTransctions.h \
     DapUiQmlScreenDashboard.h \
     DapUiQmlWidgetChainOperations.h \
+    DapUiQmlWidgetChainTransactions.h \
     DapUiQmlWidgetModel.h \
     DapUiQmlWidget.h \
     DapScreenDialog.h \

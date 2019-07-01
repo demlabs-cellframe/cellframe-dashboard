@@ -73,6 +73,8 @@ public slots:
     QMap<QString, QVariant> getWallets();
 
     QStringList getWalletInfo(const QString &asWalletName);
+
+    QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
     
 };
 

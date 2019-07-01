@@ -59,6 +59,12 @@ QStringList DapChainDashboardService::getWalletInfo(const QString &asWalletName)
     return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
 }
 
+QString DapChainDashboardService::sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount)
+{
+    qInfo() << QString("sendToken(%1;%2;%3;%4)").arg(asWalletName).arg(asReceiverAddr).arg(asToken).arg(asAmount);
+    return m_pDapChainWalletHandler->sendToken(asWalletName, asReceiverAddr, asToken, asAmount);
+}
+
 
 /// Activate the main client window by double-clicking the application icon in the system tray.
 /// @param reason Type of action on the icon in the system tray.

@@ -75,6 +75,7 @@ void DapCommandController::processSendToken()
         qWarning() << "Invalid response received";
         return;
     }
+    qInfo() << reply->response();
     emit sigCommandResult(reply->response().result());
     auto answer = reply->response().result().toVariant().toString();
     emit onTokenSended(answer);
@@ -115,9 +116,7 @@ void DapCommandController::processGetWalletInfo()
         }
         else
         {
-            QString s;
-            s.setNum(x*10);
-            balance.append(temp[x] + s);
+            balance.append(temp[x]);
             qDebug() << "BALANCE " << temp[x];
         }
     }
@@ -156,7 +155,7 @@ void DapCommandController::addWallet(const QString &asWalletName)
      connect(reply, SIGNAL(finished()), this, SLOT(processAddWallet()));
 }
 
-void DapCommandController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const double &aAmount)
+void DapCommandController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)
 {
     qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.sendToken", asSendWallet, asAddressReceiver, asToken, aAmount);

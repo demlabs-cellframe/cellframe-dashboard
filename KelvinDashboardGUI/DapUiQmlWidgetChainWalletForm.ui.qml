@@ -12,11 +12,11 @@ Page {
     property alias listViewWallet: listViewWallet
     property alias buttonSaveWallet: buttonSaveWallet
     property alias dialogAddWallet: dialogAddWallet
-    property alias buttonSendToken: buttonSendToken
     property alias dialogSendToken: dialogSendToken
     property alias addressWallet: addressWallet
-    property alias listViewTokens: listViewTokens
     property alias textBalance: textBalance
+    property alias listViewTokens: listViewTokens
+    property alias buttonSendToken: buttonSendToken
 
     Rectangle
     {
@@ -74,24 +74,29 @@ Page {
 
         TextEdit {
             id: addressWallet
-            font.pixelSize: 16
+            font.pixelSize: 11
             wrapMode: Text.Wrap
             selectByMouse: true
             color: "black"
+            selectionColor: "#008080"
+            clip: true
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
+            anchors.left: parent.left
+            readOnly: true
         }
         
         ListView {
             id: listViewTokens
-            orientation: ListView.Horizontal
+            orientation: ListView.Vertical
             anchors.top: addressWallet.bottom
             anchors.left: parent.left
             anchors.bottom: parent.bottom
             width: parent.width*2/3
+            flickableDirection: Flickable.VerticalFlick
             delegate:  Item {
                 width: 200; height: 50
-                Text { id: nameField; text: modelData }
+                Text { id: nameField; text: modelData; color: listViewTokens.currentIndex === index ? 'green' : 'black'; }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: listViewTokens.currentIndex = index
@@ -104,12 +109,15 @@ Page {
         Text 
         {
             id: textBalance
+            wrapMode: Text.NoWrap
+            textFormat: Text.PlainText
+            clip: false
             anchors.top: addressWallet.bottom
             anchors.left: listViewTokens.right
             anchors.bottom: parent.bottom
             anchors.right: parent.right
             
-            font.pixelSize: 70
+            font.pixelSize: 30
             font.bold: true
         }
     }

@@ -78,10 +78,10 @@ QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
     return list;
 }
 
-QString DapChainWalletHandler::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const double &aAmount)
+QString DapChainWalletHandler::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)
 {
     QString answer;
-    qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
+    qInfo() << QString("sendTokenTest(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
     QProcess processCreate;
     processCreate.start(QString("%1 tx_create -net private -chain gdb -from_wallet %2 -to_addr %3 -token %4 -value %5")
                   .arg("/opt/kelvin-node/bin/kelvin-node-cli")

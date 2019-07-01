@@ -27,15 +27,14 @@ DapUiQmlWidgetChainWalletForm {
     listViewWallet.onCurrentItemChanged:
     {
         listViewTokens.model = listViewWallet.model.get(listViewWallet.currentIndex).tokens
-//        console.log("Заголовок " + listViewWallet.model.get(listViewWallet.currentIndex).address)
-        console.log(listViewWallet.currentIndex)
-        
-        
+        updateBalanceText();
+        addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
     }
     
     listViewTokens.onCurrentItemChanged:
     {
-        textBalance.text = listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex]
+        updateBalanceText();
+        console.log(textBalance.text);
     }
 
     buttonSaveWallet.onClicked: {
@@ -45,5 +44,11 @@ DapUiQmlWidgetChainWalletForm {
         dialogSendToken.show()
     }
 
-
+    function updateBalanceText() {
+        let value = listViewTokens.currentIndex > -1 ? listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex] : "";
+        if (value)
+            textBalance.text = value.replace(/[^\d.-]/g, '');
+        else
+            textBalance.text = '';
+    }
 }
