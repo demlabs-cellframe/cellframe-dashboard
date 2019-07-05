@@ -9,13 +9,6 @@ case "$1" in
     systemctl daemon-reload
     [ -f /usr/share/applications/kelvindashboard.desktop ] && rm /usr/share/applications/kelvindashboard.desktop
     [ -f /usr/share/pixmaps/kelvindashboard.ico ] && rm /usr/share/pixmaps/kelvindashboard.ico
-<< --COMMENT--
-    killall UltraPAD
-	userdel --remove UltraPAD
-    systemctl daemon-reload
-    rm /usr/share/applications/ultrapad.desktop
-    rm /usr/share/pixmaps/ultrapad.png
---COMMENT--
     ;;
     *)
         echo "postrm called with unknown argument \`$1'" >&2

@@ -8,7 +8,7 @@ Homepage: https://ncodedcommunications.com
 
 Package: kelvindashboard
 Architecture: any
-Depends: psmisc, menu, net-tools, ${shlibs:Depends}, ${misc:Depends}
+Depends: psmisc, menu, ${shlibs:Depends}, ${misc:Depends}
 Replaces: KelvinDashboard
 Description: KelvinDashboard
  KelvinDashboard

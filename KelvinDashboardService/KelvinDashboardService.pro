@@ -1,7 +1,7 @@
-QT += core network widgets
-QT += gui
+QT += core network
+QT -= gui
 
-CONFIG += c++11
+CONFIG += c++11 console
 CONFIG -= app_bundle
 
 !defined(BRAND,var){
