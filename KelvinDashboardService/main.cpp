@@ -1,11 +1,16 @@
-#include <QApplication>
+#include <QCoreApplication>
 #include <QSystemSemaphore>
 #include <QSharedMemory>
+#include <QCommandLineParser>
+
+#include <unistd.h>
 
 #include "DapHalper.h"
 #include "DapChainDashboardService.h"
 #include "DapLogger.h"
 #include "DapChainLogHandler.h"
+
+void processArgs();
 
 int main(int argc, char *argv[])
 {
@@ -22,8 +27,8 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-    
-    QApplication a(argc, argv);
+
+    QCoreApplication a(argc, argv);
     a.setOrganizationName("DEMLABS");
     a.setOrganizationDomain("demlabs.com");
     a.setApplicationName("KelvinDashboardService");
@@ -36,10 +41,29 @@ int main(int argc, char *argv[])
     #endif
 //#endif
     // Creating the main application object
+    processArgs();
     DapChainDashboardService service;
     service.start();
     // Initialization of the application in the system tray
-    service.initTray();
+//    service.initTray();
+
     
     return a.exec();
+}
+
+void processArgs()
+{
+#ifdef Q_OS_LINUX
+    QCommandLineParser clParser;
+    clParser.parse(QCoreApplication::arguments());
+    auto options = clParser.unknownOptionNames();
+    if (options.contains("D")) {
+        daemon(1, 0);
+    }
+    else if (options.contains("stop")) {
+        qint64 pid = QCoreApplication::applicationPid();
+        QProcess::startDetached("kill -9 " + QString::number(pid));
+        exit(0);
+    }
+#endif
 }

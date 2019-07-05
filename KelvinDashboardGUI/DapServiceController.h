@@ -61,7 +61,7 @@ public:
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount) const;
 
-    void getWallets() const;
+    Q_INVOKABLE void getWallets() const;
     
     DapLogModel getLogModel() const;
     void setLogModel(const DapLogModel &dapLogModel);

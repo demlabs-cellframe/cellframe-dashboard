@@ -25,6 +25,7 @@ bool DapChainDashboardService::start()
     else
     {
         qCritical() << QString("Can't listen on %1").arg(DAP_BRAND);
+        qCritical() << m_pServer->errorString();
         return false;
     }
     return true;
@@ -68,22 +69,22 @@ QString DapChainDashboardService::sendToken(const QString &asWalletName, const Q
 
 /// Activate the main client window by double-clicking the application icon in the system tray.
 /// @param reason Type of action on the icon in the system tray.
-void DapChainDashboardService::activateClient(const QSystemTrayIcon::ActivationReason& reason)
-{
-    qInfo() << "DapChainDashboardService::activateClient()";
-    switch (reason)
-    {
-        case QSystemTrayIcon::Trigger:
-            {
-                QJsonArray arguments;
-                arguments.append(true);
-                m_pServer->notifyConnectedClients("RPCClient.activateClient", arguments);
-            }
-            break;
-        default:
-            break;
-    }
-}
+//void DapChainDashboardService::activateClient(const QSystemTrayIcon::ActivationReason& reason)
+//{
+//    qInfo() << "DapChainDashboardService::activateClient()";
+//    switch (reason)
+//    {
+//        case QSystemTrayIcon::Trigger:
+//            {
+//                QJsonArray arguments;
+//                arguments.append(true);
+//                m_pServer->notifyConnectedClients("RPCClient.activateClient", arguments);
+//            }
+//            break;
+//        default:
+//            break;
+//    }
+//}
 
 /// Shut down client.
 void DapChainDashboardService::closeClient()
@@ -96,26 +97,26 @@ void DapChainDashboardService::closeClient()
 }
 
 /// System tray initialization.
-void DapChainDashboardService::initTray()
-{
-    QSystemTrayIcon *trayIconKelvinDashboard = new QSystemTrayIcon();
-    trayIconKelvinDashboard->setIcon(QIcon(":/Resources/Icons/icon.ico"));
-    trayIconKelvinDashboard->setToolTip("KelvinDashboard");
-    QMenu * menuKelvinDashboardService = new QMenu();
-    QAction * quitAction = new QAction("Выход");
-    menuKelvinDashboardService->addAction(quitAction);
-    trayIconKelvinDashboard->setContextMenu(menuKelvinDashboardService);
-    trayIconKelvinDashboard->show();
+//void DapChainDashboardService::initTray()
+//{
+//    QSystemTrayIcon *trayIconKelvinDashboard = new QSystemTrayIcon();
+//    trayIconKelvinDashboard->setIcon(QIcon(":/Resources/Icons/icon.ico"));
+//    trayIconKelvinDashboard->setToolTip("KelvinDashboard");
+//    QMenu * menuKelvinDashboardService = new QMenu();
+//    QAction * quitAction = new QAction("Выход");
+//    menuKelvinDashboardService->addAction(quitAction);
+//    trayIconKelvinDashboard->setContextMenu(menuKelvinDashboardService);
+//    trayIconKelvinDashboard->show();
     
-    // If the "Exit" menu item is selected, then we shut down the service, 
-    // and also send a command to shut down the client.
-    connect(quitAction, &QAction::triggered, this, [=]
-    {
-        closeClient();
-    });
+//    // If the "Exit" menu item is selected, then we shut down the service,
+//    // and also send a command to shut down the client.
+//    connect(quitAction, &QAction::triggered, this, [=]
+//    {
+//        closeClient();
+//    });
     
-    // With a double click on the icon in the system tray, 
-    // we send a command to the client to activate the main window
-    connect(trayIconKelvinDashboard, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(activateClient(QSystemTrayIcon::ActivationReason)));
-}
+//    // With a double click on the icon in the system tray,
+//    // we send a command to the client to activate the main window
+//    connect(trayIconKelvinDashboard, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+//            this, SLOT(activateClient(QSystemTrayIcon::ActivationReason)));
+//}

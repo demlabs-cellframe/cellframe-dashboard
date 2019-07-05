@@ -1,5 +1,6 @@
 #include "DapChainWalletsModel.h"
 
+
 DapChainWalletsModel::DapChainWalletsModel(QObject *parent)
 {
 
@@ -46,6 +47,9 @@ QHash<int, QByteArray> DapChainWalletsModel::roleNames() const
 
 QVariantMap DapChainWalletsModel::get(int row) const
 {
+    if (m_dapChainWallets.count() == 0) {
+        return { {"iconPath", ""}, {"name", ""}, {"address", ""}, {"balance", ""}, {"tokens", QStringList()} };
+    }
     const DapChainWallet *wallet = m_dapChainWallets.value(row);
     return { {"iconPath", wallet->getIconPath()}, {"name", wallet->getName()}, {"address", wallet->getAddress()}, {"balance", wallet->getBalance()}, {"tokens", wallet->getTokens()} };
 }
@@ -91,8 +95,12 @@ void DapChainWalletsModel::remove(int row)
 
 void DapChainWalletsModel::clear()
 {
-    if(m_dapChainWallets.count() > 0)
+    beginResetModel();
+    if(m_dapChainWallets.count() > 0) {
+        qDeleteAll(m_dapChainWallets);
         m_dapChainWallets.clear();
+    }
+    endResetModel();
 }
 
 QObject *DapChainWalletsModel::singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine)

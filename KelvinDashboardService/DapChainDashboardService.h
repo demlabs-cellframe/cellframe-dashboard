@@ -13,10 +13,10 @@
 #define DAPCHAINDASHBOARDSERVICE_H
 
 #include <QObject>
-#include <QSystemTrayIcon>
-#include <QMenu>
-#include <QAction>
-#include <QApplication>
+//#include <QSystemTrayIcon>
+//#include <QMenu>
+//#include <QAction>
+#include <QCoreApplication>
 
 #include "DapRpcAbstractServer.h"
 #include "DapRpcLocalServer.h"
@@ -57,11 +57,11 @@ signals:
 public slots:
     /// Activate the main client window by double-clicking the application icon in the system tray.
     /// @param reason Type of action on the icon in the system tray.
-    void activateClient(const QSystemTrayIcon::ActivationReason& reason);
+//    void activateClient(const QSystemTrayIcon::ActivationReason& reason);
     /// Shut down client.
     void closeClient();
     /// System tray initialization.
-    void initTray();
+    //void initTray();
     /// Get node logs.
     /// @param aiTimeStamp Timestamp start reading logging.
     /// @param aiRowCount Number of lines displayed.
