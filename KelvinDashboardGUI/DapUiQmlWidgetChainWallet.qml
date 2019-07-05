@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.4
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.2
 import QtQuick.Window 2.0
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Controls.Styles 1.4
@@ -45,7 +45,10 @@ DapUiQmlWidgetChainWalletForm {
     }
 
     function updateBalanceText() {
-        let value = listViewTokens.currentIndex > -1 ? listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex] : "";
+        var value = "";
+        if (listViewTokens.currentIndex > -1) {
+            value = listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex];
+        }
         if (value)
             textBalance.text = value.replace(/[^\d.-]/g, '');
         else

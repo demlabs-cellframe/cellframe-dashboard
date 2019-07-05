@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.4
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.2
 //import QtQuick.Controls 2.5
 import KelvinDashboard 1.0
 
@@ -159,14 +159,16 @@ Dialog {
 
             onClicked:
             {
-                let wallet = listViewWallet.model.get(listViewWallet.currentIndex).name;
-                let token = comboBoxToken.currentText;
-                let amount = textFieldAmount.realValue.toString();
-                let receiver = comboBoxAddressWallet.editText;
+                var wallet = listViewWallet.model.get(listViewWallet.currentIndex).name;
+                var token = comboBoxToken.currentText;
+                var amount = textFieldAmount.realValue.toString();
+                var receiver = comboBoxAddressWallet.editText;
 
                 if (wallet && token && amount && receiver) {
                     console.log("Send " + token + "(" + amount + ") to address " + receiver + " from wallet " + wallet );
                     dapServiceController.sendToken(wallet, receiver, token, amount);
+                    dapChainWalletsModel.clear();
+                    dapServiceController.getWallets();
                 } else {
                     console.log("There's error!");
                     console.log(amount);
