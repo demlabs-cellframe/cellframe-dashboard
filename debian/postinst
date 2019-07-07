@@ -1,0 +1,23 @@
+#!/bin/bash -
+
+case "$1" in
+    configure)
+
+    ln -sf /opt/KelvinDashboard/share/init.d/KelvinDashboardService.service /etc/systemd/user/KelvinDashboardService.service
+    systemctl --system enable /opt/KelvinDashboard/share/init.d/KelvinDashboardService.service
+    ln -s /opt/KelvinDashboard/bin/KelvinDashboard /usr/local/bin/
+    cp -f /opt/KelvinDashboard/share/kelvindashboard.desktop /usr/share/applications/kelvindashboard.desktop
+	cp -f /opt/KelvinDashboard/share/kelvindashboard.ico	/usr/share/pixmaps/kelvindashboard.ico
+    update-menus
+    echo "For start Kelvin Dashboard Service - run 'systemctl start KelvinDashboardService'"
+;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 2
+    ;;
+esac
+exit 0
+
+

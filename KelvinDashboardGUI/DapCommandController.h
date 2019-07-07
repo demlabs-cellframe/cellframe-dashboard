@@ -27,6 +27,7 @@ signals:
     void sigNodeLogsReceived(const QStringList& aNodeLogs);
 
     void sigWalletAdded(const QString& asWalletName, const QString& asWalletAddress);
+    void onTokenSended(const QString& asAnswer);
 
     void sigWalletsReceived(const QMap<QString, QVariant>& aWallets);
     /// The signal is emitted when the main application window is activated.
@@ -34,7 +35,7 @@ signals:
     
     void onClientClose();
 
-    void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QString& aBalance);
+    void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QStringList& aBalance, const QStringList& aTokens);
     
 public:
     /// Overloaded constructor.
@@ -52,7 +53,7 @@ private slots:
     void processGetNodeLogs();
 
     void processAddWallet();
-
+    void processSendToken();
     void processGetWallets();
 
     void processGetWalletInfo();
@@ -70,6 +71,7 @@ public slots:
     void getNodeLogs(int aiTimeStamp, int aiRowCount);
 
     void addWallet(const QString& asWalletName);
+    void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
 
     void getWallets();
 

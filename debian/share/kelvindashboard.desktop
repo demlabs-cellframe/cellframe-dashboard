@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Kelvin Dashboard
+Exec=/opt/KelvinDashboard/bin/KelvinDashboard
+Icon=/opt/sap/ultrapad/share/kelvindashboard.ico
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;
+Name[en_US]=Kelvin Dashboard

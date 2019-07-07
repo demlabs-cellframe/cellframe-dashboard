@@ -33,5 +33,6 @@
         <file>Resources/Icons/dialog-warning.png</file>
         <file>DapUiQmlWidgetChainNodeLogs.qml</file>
         <file>DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
+        <file>DapUiQmlScreenDialogSendToken.qml</file>
     </qresource>
 </RCC>
