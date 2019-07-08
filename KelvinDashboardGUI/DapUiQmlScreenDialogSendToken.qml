@@ -1,6 +1,8 @@
 import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Styles 1.3
+import QtQuick.Controls.Private 1.0
 //import QtQuick.Controls 2.5
 import KelvinDashboard 1.0
 
@@ -8,7 +10,31 @@ Dialog {
     id: dialogSendToken
     focus: true
     modal: true
-    title: qsTr("Send token...")
+
+    header:
+        Rectangle
+        {
+            height: 30
+            color: "#353841"
+
+            Text
+            {
+                id: textTitle
+                leftPadding: 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Send token...")
+                font.family: "Roboto"
+                font.pixelSize: 16
+                color: "white"
+            }
+            Rectangle
+            {
+                anchors.bottom: parent.bottom
+                height: 2
+                width: parent.width
+                color: "green"
+            }
+        }
 
     width: parent.width/1.5
     height: 280
@@ -17,6 +43,9 @@ Dialog {
     y: parent.height / 2 - height / 2
 
     function show() {
+        textFieldAmount.clear()
+        comboBoxToken.currentIndex = -1
+        comboBoxAddressWallet.editText = ""
         dialogSendToken.open();
     }
 
@@ -49,53 +78,120 @@ Dialog {
 
         //                }
 
-        ComboBox {
-            id: comboBoxToken
-            anchors { bottom: comboBoxAddressWallet.top; bottomMargin: 20; right: parent.right; rightMargin: 10;
+        Row
+        {
+            anchors { bottom: rowAddress.top; bottomMargin: 20; right: parent.right; rightMargin: 10;
                 left: parent.left; leftMargin: 10 }
-            model: listViewTokens.model
-            delegate: ItemDelegate {
-                width: comboBoxToken.width
-                contentItem: Text {
-                    text: token
-                    font: comboBoxToken.font
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
+            Rectangle
+            {
+                id: rectangleToken
+                color: "green"
+                width: 100
+                height: comboBoxToken.height
+                Text
+                {
+                    font.family: "Roboto"
+                    font.weight: Font.Thin
+                    anchors.centerIn: parent
+                    text: qsTr("Token")
+                    color: "white"
                 }
-                highlighted: comboBoxToken.highlightedIndex !== index
+            }
+
+            ComboBox {
+                id: comboBoxToken
+                width: parent.width - rectangleToken.width
+                model: listViewTokens.model
+                displayText: currentIndex === -1 ? "Please choose..." : currentText
+                textRole: "token"
+                delegate: ItemDelegate {
+                    width: comboBoxToken.width
+                    contentItem: Text {
+                        text: token
+                        font: comboBoxToken.font
+                        elide: Text.ElideRight
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                    highlighted: comboBoxToken.highlightedIndex !== index
+                }
+                onAccepted: {
+                       currentText = listViewTokens.model.get(currentIndex).token
+                    }
             }
         }
 
-        ComboBox {
-            id: comboBoxAddressWallet
-            anchors.bottom: textFieldAmount.top
-            anchors.bottomMargin: 20
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-            anchors.left: parent.left
-            anchors.leftMargin: 10
-            editable: true
-            textRole: "text"
-            onAccepted: {
-                if (find(currentText) === -1) {
-                    model.append({text: editText})
-                    //                        currentIndex = find(editText)
-                    //                        fnameField.insert(currentIndex)
+        Row
+        {
+            id: rowAddress
+            anchors { bottom: rowAmount.top; bottomMargin: 20; right: parent.right; rightMargin: 10;
+                left: parent.left; leftMargin: 10 }
+            Rectangle
+            {
+                id: rectangleAddress
+                color: "green"
+                width: 100
+                height: comboBoxAddressWallet.height
+                Text
+                {
+                    font.family: "Roboto"
+                    font.weight: Font.Thin
+                    anchors.centerIn: parent
+                    text: qsTr("Receiver")
+                    color: "white"
+                }
+            }
 
+            ComboBox {
+                id: comboBoxAddressWallet
+                width: parent.width - rectangleAddress.width
+                editable: true
+                textRole: "text"
+                editText: currentIndex === -1 ? "Please enter..." : currentText
+                onAccepted: {
+                    if (find(currentText) === -1) {
+                        model.append({text: editText})
+                        //                        currentIndex = find(editText)
+                        //                        fnameField.insert(currentIndex)
+
+                    }
                 }
             }
         }
 
-        TextField {
-            property real realValue: parseFloat(textFieldAmount.text.replace(',', '.')) * 1e12;
+        Row
+        {
+            id: rowAmount
+            anchors { bottom: buttonCancel.top; bottomMargin: 20; right: parent.right; rightMargin: 10;
+                left: parent.left; leftMargin: 10 }
+            Rectangle
+            {
+                id: rectangleAmount
+                color: "green"
+                width: 100
+                height: comboBoxToken.height
+                Text
+                {
+                    font.family: "Roboto"
+                    font.weight: Font.Thin
+                    anchors.centerIn: parent
+                    text: qsTr("Amount")
+                    color: "white"
+                }
+            }
 
-            id: textFieldAmount
-            anchors.bottom: buttonOk.top
-            anchors.bottomMargin: 20
-            anchors.right: parent.right
-            anchors.rightMargin: 10
-            placeholderText: "Amount (Ex. 2,9103)"
-            validator: DoubleValidator{}
+            TextField {
+                property real realValue: parseFloat(textFieldAmount.text.replace(',', '.')) * 1e12;
+                height: rectangleAmount.height
+                width: parent.width - rectangleAmount.width
+                id: textFieldAmount
+                placeholderText: "Amount (Ex. 2,9103)"
+                validator: DoubleValidator{}
+                background: Rectangle {
+                    radius: 1
+                    border.color: "green"
+                    border.width: 1
+                }
+            }
         }
 
         Button

@@ -6,8 +6,32 @@ Dialog {
     id: dialogRemoveWallet
     focus: true
     modal: true
-    title: qsTr("Remove wallet...")
     
+    header:
+        Rectangle
+        {
+            height: 30
+            color: "#353841"
+
+            Text
+            {
+                id: textTitle
+                leftPadding: 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Remove wallet...")
+                font.family: "Roboto"
+                font.pixelSize: 16
+                color: "white"
+            }
+            Rectangle
+            {
+                anchors.bottom: parent.bottom
+                height: 2
+                width: parent.width
+                color: "green"
+            }
+        }
+
     width: parent.width/1.5
     height: 150
 

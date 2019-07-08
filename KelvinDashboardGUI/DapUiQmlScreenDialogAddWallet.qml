@@ -6,7 +6,31 @@ Dialog {
     id: dialogAddWallet
     focus: true
     modal: true
-    title: qsTr("Add wallet...")
+
+    header:
+        Rectangle
+        {
+            height: 30
+            color: "#353841"
+
+            Text
+            {
+                id: textTitle
+                leftPadding: 10
+                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Add wallet...")
+                font.family: "Roboto"
+                font.pixelSize: 16
+                color: "white"
+            }
+            Rectangle
+            {
+                anchors.bottom: parent.bottom
+                height: 2
+                width: parent.width
+                color: "green"
+            }
+        }
 
     width: parent.width/1.5
     height: 150
@@ -26,8 +50,8 @@ Dialog {
             TextField
                 {
                             background: Rectangle {
-                                radius: 2
-                                border.color: "gray"
+                                radius: 1
+                                border.color: "green"
                                 border.width: 1
                             }
 
@@ -42,7 +66,7 @@ Dialog {
                     anchors.leftMargin: 10
                     font.pixelSize: 20
                     clip: true
-
+                    placeholderText: qsTr("Enter the name of the wallet")
 
                 }
 
