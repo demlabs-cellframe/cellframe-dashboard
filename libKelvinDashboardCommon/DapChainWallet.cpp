@@ -71,3 +71,8 @@ void DapChainWallet::setTokens(const QStringList &aTokens)
     
     emit tokensChanged(m_tokens);
 }
+
+int DapChainWallet::getCount() const
+{
+    return m_tokens.count();
+}

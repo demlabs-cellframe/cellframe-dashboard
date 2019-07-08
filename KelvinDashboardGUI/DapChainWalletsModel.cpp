@@ -26,6 +26,7 @@ QVariant DapChainWalletsModel::data(const QModelIndex &index, int role) const
             case AddressWalletRole: return m_dapChainWallets.at(index.row())->getAddress();
             case BalanceWalletRole: return m_dapChainWallets.at(index.row())->getBalance();
             case TokensWalletRole: return m_dapChainWallets.at(index.row())->getTokens();
+            case CountWalletRole: return m_dapChainWallets.at(index.row())->getCount();
             default:
                 return QVariant();
         }
@@ -39,7 +40,8 @@ QHash<int, QByteArray> DapChainWalletsModel::roleNames() const
             { NameWalletRole, "name" },
             { AddressWalletRole, "address" },
             { BalanceWalletRole, "balance" },
-            { TokensWalletRole, "tokens" }
+            { TokensWalletRole, "tokens" },
+            { CountWalletRole, "count" }
         };
 
     return roles;
@@ -48,10 +50,10 @@ QHash<int, QByteArray> DapChainWalletsModel::roleNames() const
 QVariantMap DapChainWalletsModel::get(int row) const
 {
     if (m_dapChainWallets.count() == 0) {
-        return { {"iconPath", ""}, {"name", ""}, {"address", ""}, {"balance", ""}, {"tokens", QStringList()} };
+        return { {"iconPath", ""}, {"name", ""}, {"address", ""}, {"balance", ""}, {"tokens", QStringList()}, {"count", 0} };
     }
     const DapChainWallet *wallet = m_dapChainWallets.value(row);
-    return { {"iconPath", wallet->getIconPath()}, {"name", wallet->getName()}, {"address", wallet->getAddress()}, {"balance", wallet->getBalance()}, {"tokens", wallet->getTokens()} };
+    return { {"iconPath", wallet->getIconPath()}, {"name", wallet->getName()}, {"address", wallet->getAddress()}, {"balance", wallet->getBalance()}, {"tokens", wallet->getTokens()}, {"count", wallet->getCount()} };
 }
 
 void DapChainWalletsModel::append(const DapChainWallet &arWallet)
@@ -80,7 +82,7 @@ void DapChainWalletsModel::set(int row, const QString& asIconPath, const QString
         wallet->setAddress(asAddresss);
         wallet->setBalance(aBalance);
         wallet->setTokens(aTokens);
-        dataChanged(index(row, 0), index(row, 0), { IconWalletRole, NameWalletRole, AddressWalletRole, BalanceWalletRole });
+        dataChanged(index(row, 0), index(row, 0), { IconWalletRole, NameWalletRole, AddressWalletRole, BalanceWalletRole, CountWalletRole });
 }
 
 void DapChainWalletsModel::remove(int row)

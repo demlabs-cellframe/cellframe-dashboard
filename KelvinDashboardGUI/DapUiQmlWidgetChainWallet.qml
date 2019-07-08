@@ -27,15 +27,28 @@ DapUiQmlWidgetChainWalletForm {
                 }
             }
         }
-    
-    
-    
-    
-    
-    listViewTokens.onCurrentItemChanged:
+
+    listViewWallet.onCurrentItemChanged:
     {
-        updateBalanceText();
-        console.log(textBalance.text);
+        listViewTokens.model.clear()
+        for(var i = 0; i < listViewWallet.model.get(listViewWallet.currentIndex).count; i++)
+        {
+            var value = listViewWallet.model.get(listViewWallet.currentIndex).balance[i]
+            listViewTokens.model.append({token: listViewWallet.model.get(listViewWallet.currentIndex).tokens[i], balance: value.replace(/[^\d.-]/g, '')});
+        }
+
+        if(listViewWallet.currentIndex >= 0)
+        {
+            indexWallet = listViewWallet.currentIndex
+            nameWallet = listViewWallet.model.get(listViewWallet.currentIndex).name
+            console.log("++++++" + indexWallet)
+        }
+        else
+        {
+            listViewWallet.currentIndex = 0
+        }
+        
+        addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
     }
 
     buttonSaveWallet.onClicked: {
@@ -48,24 +61,5 @@ DapUiQmlWidgetChainWalletForm {
     
     buttonSendToken.onClicked: {
         dialogSendToken.show()
-    }
-
-    listViewWallet.onCurrentItemChanged:
-    {
-//        listViewTokens.model = listViewWallet.model.get(listViewWallet.currentIndex).tokens
-        
-        if(listViewWallet.currentIndex >= 0)
-        {
-            indexWallet = listViewWallet.currentIndex
-            nameWallet = listViewWallet.model.get(listViewWallet.currentIndex).name
-            console.log("++++++" + indexWallet)
-        }
-        else
-        {
-            listViewWallet.currentIndex = 0
-        }
-        
-//        updateBalanceText();
-//        addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
     }
 }

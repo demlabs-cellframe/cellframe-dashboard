@@ -57,7 +57,7 @@ Dialog {
             delegate: ItemDelegate {
                 width: comboBoxToken.width
                 contentItem: Text {
-                    text: modelData
+                    text: token
                     font: comboBoxToken.font
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
