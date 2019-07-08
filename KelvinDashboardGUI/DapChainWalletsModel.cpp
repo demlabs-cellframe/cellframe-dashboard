@@ -49,7 +49,7 @@ QHash<int, QByteArray> DapChainWalletsModel::roleNames() const
 
 QVariantMap DapChainWalletsModel::get(int row) const
 {
-    if (m_dapChainWallets.count() == 0) {
+    if (m_dapChainWallets.count() == 0 || m_dapChainWallets.count() == row) {
         return { {"iconPath", ""}, {"name", ""}, {"address", ""}, {"balance", ""}, {"tokens", QStringList()}, {"count", 0} };
     }
     const DapChainWallet *wallet = m_dapChainWallets.value(row);

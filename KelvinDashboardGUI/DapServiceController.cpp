@@ -125,6 +125,7 @@ void DapServiceController::removeWallet(int index, const QString &asWalletName)
     qInfo() << QString("removeWallet(%1)").arg(index);
         qInfo() << QString("removeWallet(%1)").arg(asWalletName);
         m_pDapCommandController->removeWallet(asWalletName.trimmed());
+        DapChainWalletsModel::getInstance().remove(index);
 }
 
 void DapServiceController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)

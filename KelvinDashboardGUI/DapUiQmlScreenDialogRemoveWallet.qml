@@ -26,23 +26,6 @@ Dialog {
         {
             anchors.fill: parent
             
-//            Text {
-//                id: textWalletName
-//                text: qsTr(listViewWallet.model.get(listViewWallet.currentIndex < 0 ? 0 : listViewWallet.currentIndex).name)
-//                verticalAlignment: Text.AlignVCenter
-//                horizontalAlignment: Text.AlignHCenter
-                
-//                height: 35
-//                anchors.bottom: textQuery.top
-//                anchors.bottomMargin: 20
-//                anchors.right: parent.right
-//                anchors.rightMargin: 10
-//                anchors.left: parent.left
-//                anchors.leftMargin: 10
-//                font.pixelSize: 20
-//                clip: true
-//            }
-            
             TextEdit {
                 
                 
@@ -124,12 +107,7 @@ Dialog {
 
                 onClicked:
                 {
-                    console.log("COUNT " + listViewWallet.model.count)
-                    console.log("INDEX " + dapQmlWidgetChainWallet.indexWallet + "      " + dapQmlWidgetChainWallet.nameWallet)
-                    
-//                    listViewWallet.model.remove(dapQmlWidgetChainWallet.indexWallet)
-//                    dapServiceController.removeWallet(dapQmlWidgetChainWallet.indexWallet, dapQmlWidgetChainWallet.nameWallet)
-//                    console.log("INDEX " + dapQmlWidgetChainWallet.indexWallet + "      " + dapQmlWidgetChainWallet.nameWallet)
+                    dapServiceController.removeWallet(dapQmlWidgetChainWallet.indexWallet, dapQmlWidgetChainWallet.nameWallet)
                     close()
                 }
             }

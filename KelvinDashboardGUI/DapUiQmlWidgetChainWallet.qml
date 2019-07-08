@@ -41,7 +41,6 @@ DapUiQmlWidgetChainWalletForm {
         {
             indexWallet = listViewWallet.currentIndex
             nameWallet = listViewWallet.model.get(listViewWallet.currentIndex).name
-            console.log("++++++" + indexWallet)
         }
         else
         {
