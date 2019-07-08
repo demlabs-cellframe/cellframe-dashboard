@@ -26,15 +26,14 @@ DapUiQmlWidgetChainWalletForm {
 
     listViewWallet.onCurrentItemChanged:
     {
-        listViewTokens.model = listViewWallet.model.get(listViewWallet.currentIndex).tokens
-        updateBalanceText();
+        listViewTokens.model.clear()
+        for(var i = 0; i < listViewWallet.model.get(listViewWallet.currentIndex).count; i++)
+        {
+            var value = listViewWallet.model.get(listViewWallet.currentIndex).balance[i]
+            listViewTokens.model.append({token: listViewWallet.model.get(listViewWallet.currentIndex).tokens[i], balance: value.replace(/[^\d.-]/g, '')});
+        }
+
         addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
-    }
-    
-    listViewTokens.onCurrentItemChanged:
-    {
-        updateBalanceText();
-        console.log(textBalance.text);
     }
 
     buttonSaveWallet.onClicked: {
@@ -42,16 +41,5 @@ DapUiQmlWidgetChainWalletForm {
     }
     buttonSendToken.onClicked: {
         dialogSendToken.show()
-    }
-
-    function updateBalanceText() {
-        var value = "";
-        if (listViewTokens.currentIndex > -1) {
-            value = listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex];
-        }
-        if (value)
-            textBalance.text = value.replace(/[^\d.-]/g, '');
-        else
-            textBalance.text = '';
     }
 }

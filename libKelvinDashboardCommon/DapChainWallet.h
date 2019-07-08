@@ -13,6 +13,7 @@ class DapChainWallet : public QObject
     QString m_sAddress;
     QStringList  m_balance;
     QStringList  m_tokens;
+    int m_iCount;
 
 public:
     DapChainWallet(QObject *parent = nullptr) { Q_UNUSED(parent)}
@@ -25,6 +26,7 @@ public:
     Q_PROPERTY(QString address MEMBER m_sAddress READ getAddress WRITE setAddress NOTIFY addressChanged)
     Q_PROPERTY(QStringList balance MEMBER m_balance READ getBalance WRITE setBalance NOTIFY balanceChanged)
     Q_PROPERTY(QStringList tokens MEMBER m_tokens READ getTokens WRITE setTokens NOTIFY tokensChanged)
+    Q_PROPERTY(int count MEMBER m_iCount READ getCount)
 
     QString getName() const;
     void setName(const QString &asName);
@@ -39,6 +41,8 @@ public:
     
     QStringList getTokens() const;
     void setTokens(const QStringList& aTokens);
+
+    int getCount() const;
 
 signals:
     void iconPathChanged(const QString& asIconPath);

@@ -17,7 +17,8 @@ enum DapChainWalletRole {
         NameWalletRole = Qt::UserRole,
         AddressWalletRole,
         BalanceWalletRole,
-        TokensWalletRole
+        TokensWalletRole,
+        CountWalletRole
     };
 
 class DapChainWalletsModel : public QAbstractListModel
