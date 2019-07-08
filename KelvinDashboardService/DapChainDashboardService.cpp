@@ -47,6 +47,12 @@ QStringList DapChainDashboardService::addWallet(const QString &asWalletName)
     return m_pDapChainWalletHandler->createWallet(asWalletName);
 }
 
+void DapChainDashboardService::removeWallet(const QString &asWalletName)
+{
+    qInfo() << QString("removeWallet(%1)").arg(asWalletName);
+    return m_pDapChainWalletHandler->removeWallet(asWalletName);
+}
+
 QMap<QString, QVariant> DapChainDashboardService::getWallets()
 {
     qInfo() << QString("getWallets()");

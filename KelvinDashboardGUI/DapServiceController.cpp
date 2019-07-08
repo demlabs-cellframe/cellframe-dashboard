@@ -84,7 +84,7 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
     QStringList list;
     for(int x{0}; x < aNodeLogs.size(); ++x)
     {
-        qDebug() << aNodeLogs[x];
+//        qDebug() << aNodeLogs[x];
         if(counter == 4)
         {
             DapLogMessage message;
@@ -118,6 +118,13 @@ void DapServiceController::addWallet(const QString &asWalletName)
 {
     qInfo() << QString("addWallet(%1)").arg(asWalletName);
     m_pDapCommandController->addWallet(asWalletName);
+}
+
+void DapServiceController::removeWallet(int index, const QString &asWalletName)
+{
+    qInfo() << QString("removeWallet(%1)").arg(index);
+        qInfo() << QString("removeWallet(%1)").arg(asWalletName);
+        m_pDapCommandController->removeWallet(asWalletName.trimmed());
 }
 
 void DapServiceController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)

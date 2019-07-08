@@ -17,9 +17,10 @@ Page {
     property alias textBalance: textBalance
     property alias listViewTokens: listViewTokens
     property alias buttonSendToken: buttonSendToken
-
-    Rectangle
-    {
+    property alias buttonDeleteWallet: buttonDeleteWallet
+    property alias dialogRemoveWallet: dialogRemoveWallet
+    
+    Rectangle {
         id: rectanglePanel
         anchors.left: parent.left
         anchors.top: parent.top
@@ -32,27 +33,26 @@ Page {
             keyNavigationEnabled: true
             model: dapChainWalletsModel
 
-           delegate: Item {
-               id: delegateWallet
+            delegate: Item {
+                id: delegateWallet
                 width: parent.width
                 height: 100
 
-                   Column
-                    {
-                        anchors.centerIn: parent
-                        spacing: 5
+                Column {
+                    anchors.centerIn: parent
+                    spacing: 5
 
-                        Label {
-                            id: nameWallet
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: qsTr(name)
-                            font.pixelSize: 14
-                            color: "#BBBEBF"
-                            font.family: "Roboto"
-                            width: delegateWallet.width
-                            elide: Text.ElideRight
-                            leftPadding: 5
-                        }
+                    Label {
+                        id: nameWallet
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: qsTr(name)
+                        font.pixelSize: 14
+                        color: "#BBBEBF"
+                        font.family: "Roboto"
+                        width: delegateWallet.width
+                        elide: Text.ElideRight
+                        leftPadding: 5
+                    }
                 }
 
                 MouseArea {
@@ -61,12 +61,11 @@ Page {
                 }
             }
 
-           focus: true
+            focus: true
         }
     }
 
-    Rectangle
-    {
+    Rectangle {
         anchors.left: rectanglePanel.right
         anchors.right: parent.right
         anchors.top: parent.top
@@ -85,29 +84,33 @@ Page {
             anchors.left: parent.left
             readOnly: true
         }
-        
+
         ListView {
             id: listViewTokens
             orientation: ListView.Vertical
             anchors.top: addressWallet.bottom
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            width: parent.width*2/3
+            width: parent.width * 2 / 3
             flickableDirection: Flickable.VerticalFlick
-            delegate:  Item {
-                width: 200; height: 50
-                Text { id: nameField; text: modelData; color: listViewTokens.currentIndex === index ? 'green' : 'black'; }
+            delegate: Item {
+                width: 200
+                height: 50
+                Text {
+                    id: nameField
+                    text: modelData
+                    color: listViewTokens.currentIndex === index ? 'green' : 'black'
+                }
                 MouseArea {
                     anchors.fill: parent
                     onClicked: listViewTokens.currentIndex = index
                 }
             }
-            
+
             focus: true
         }
-        
-        Text 
-        {
+
+        Text {
             id: textBalance
             wrapMode: Text.NoWrap
             textFormat: Text.PlainText
@@ -116,7 +119,7 @@ Page {
             anchors.left: listViewTokens.right
             anchors.bottom: parent.bottom
             anchors.right: parent.right
-            
+
             font.pixelSize: 30
             font.bold: true
         }
@@ -124,75 +127,74 @@ Page {
 
     DapUiQmlScreenDialogAddWallet {
         id: dialogAddWallet
-            }
+    }
     DapUiQmlScreenDialogSendToken {
         id: dialogSendToken
-            }
-
+    }
+    DapUiQmlScreenDialogRemoveWallet {
+        id: dialogRemoveWallet
+    }
     RoundButton {
-            id: buttonDeleteWallet
-           highlighted: true
-           anchors.margins: 10
-           anchors.left: parent.left
-           anchors.bottom: buttonSaveWallet.top
-           height: 40
-           width: 40
-           contentItem: Text {
-               text: qsTr("-")
-               color: "#121B28"
-               horizontalAlignment: Text.AlignHCenter
-               verticalAlignment: Text.AlignVCenter
-               elide: Text.ElideRight
-       
-           }
-                   background: Rectangle {
-                       color: "white"
-                       border.color: "#121B28"
-                       radius: 20
-                   }
+        id: buttonDeleteWallet
+        highlighted: true
+        anchors.margins: 10
+        anchors.left: parent.left
+        anchors.bottom: buttonSaveWallet.top
+        height: 40
+        width: 40
+        contentItem: Text {
+            text: qsTr("-")
+            color: "#121B28"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+        }
+        background: Rectangle {
+            color: "white"
+            border.color: "#121B28"
+            radius: 20
+        }
     }
 
     RoundButton {
-            id: buttonSaveWallet
-            contentItem: Text {
-                text: qsTr("+")
-                color: "#121B28"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                elide: Text.ElideRight
-        
-            }
-            background: Rectangle {
-                id: inSave
-                color: "white"
-                border.color: "#121B28"
-                radius: 20
-            }
-            
-           highlighted: true
-           anchors.margins: 10
-           anchors.left: parent.left
-           anchors.bottom: parent.bottom
-           height: 40
-           width: 40
-    }
-    
-    RoundButton {
-            id: buttonSendToken
-            text: qsTr("->")
-           highlighted: true
-           anchors.margins: 10
-           anchors.right: parent.right
-           anchors.bottom: parent.bottom
-    }
-    
-    RoundButton {
-            id: buttonAddToken
+        id: buttonSaveWallet
+        contentItem: Text {
             text: qsTr("+")
-           highlighted: true
-           anchors.margins: 10
-           anchors.right: parent.right
-           anchors.bottom: buttonSendToken.top
+            color: "#121B28"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+        }
+        background: Rectangle {
+            id: inSave
+            color: "white"
+            border.color: "#121B28"
+            radius: 20
+        }
+
+        highlighted: true
+        anchors.margins: 10
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        height: 40
+        width: 40
+    }
+
+    RoundButton {
+        id: buttonSendToken
+        text: qsTr("->")
+        highlighted: true
+        anchors.margins: 10
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+    }
+
+    RoundButton {
+        id: buttonAddToken
+        text: qsTr("+")
+        highlighted: true
+        anchors.margins: 10
+        anchors.right: parent.right
+        anchors.bottom: buttonSendToken.top
     }
 }
-

@@ -9,6 +9,10 @@ import KelvinDashboard 1.0
 
 DapUiQmlWidgetChainWalletForm {
     id: dapQmlWidgetChainWallet
+    
+    property int indexWallet: -1
+    property string nameWallet: ""
+    
     listViewWallet.highlight:
         Component
         {
@@ -23,13 +27,10 @@ DapUiQmlWidgetChainWalletForm {
                 }
             }
         }
-
-    listViewWallet.onCurrentItemChanged:
-    {
-        listViewTokens.model = listViewWallet.model.get(listViewWallet.currentIndex).tokens
-        updateBalanceText();
-        addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
-    }
+    
+    
+    
+    
     
     listViewTokens.onCurrentItemChanged:
     {
@@ -40,18 +41,31 @@ DapUiQmlWidgetChainWalletForm {
     buttonSaveWallet.onClicked: {
         dialogAddWallet.show()
     }
+    
+    buttonDeleteWallet.onClicked: {
+        dialogRemoveWallet.show()
+    }
+    
     buttonSendToken.onClicked: {
         dialogSendToken.show()
     }
 
-    function updateBalanceText() {
-        var value = "";
-        if (listViewTokens.currentIndex > -1) {
-            value = listViewWallet.model.get(listViewWallet.currentIndex).balance[listViewTokens.currentIndex];
+    listViewWallet.onCurrentItemChanged:
+    {
+//        listViewTokens.model = listViewWallet.model.get(listViewWallet.currentIndex).tokens
+        
+        if(listViewWallet.currentIndex >= 0)
+        {
+            indexWallet = listViewWallet.currentIndex
+            nameWallet = listViewWallet.model.get(listViewWallet.currentIndex).name
+            console.log("++++++" + indexWallet)
         }
-        if (value)
-            textBalance.text = value.replace(/[^\d.-]/g, '');
         else
-            textBalance.text = '';
+        {
+            listViewWallet.currentIndex = 0
+        }
+        
+//        updateBalanceText();
+//        addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
     }
 }

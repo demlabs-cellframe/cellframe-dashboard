@@ -34,5 +34,6 @@
         <file>DapUiQmlWidgetChainNodeLogs.qml</file>
         <file>DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
         <file>DapUiQmlScreenDialogSendToken.qml</file>
+        <file>DapUiQmlScreenDialogRemoveWallet.qml</file>
     </qresource>
 </RCC>

@@ -71,6 +71,7 @@ public slots:
     void getNodeLogs(int aiTimeStamp, int aiRowCount);
 
     void addWallet(const QString& asWalletName);
+    void removeWallet(const QString& asWalletName);
     void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
 
     void getWallets();

@@ -26,6 +26,16 @@ QStringList DapChainWalletHandler::createWallet(const QString &asNameWallet)
     return result.isEmpty() ? QStringList() : list;
 }
 
+void DapChainWalletHandler::removeWallet(const QString &asNameWallet)
+{
+    QByteArray result;
+    QProcess process;
+    process.start(QString("rm %1%2.dwallet").arg("/opt/kelvin-node/var/lib/wallet/").arg(asNameWallet));
+    qDebug() << (QString("rm %1%2.dwallet").arg("/opt/kelvin-node/var/lib/wallet/").arg(asNameWallet));
+    process.waitForFinished(-1);
+    result = process.readAll();
+}
+
 QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 {
     QMap<QString, QVariant> map;

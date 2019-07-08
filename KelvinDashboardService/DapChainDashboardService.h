@@ -69,6 +69,8 @@ public slots:
     QStringList getNodeLogs(int aiTimeStamp, int aiRowCount);
 
     QStringList addWallet(const QString &asWalletName);
+    
+    void removeWallet(const QString &asWalletName);
 
     QMap<QString, QVariant> getWallets();
 

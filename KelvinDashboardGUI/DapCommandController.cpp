@@ -155,6 +155,12 @@ void DapCommandController::addWallet(const QString &asWalletName)
      connect(reply, SIGNAL(finished()), this, SLOT(processAddWallet()));
 }
 
+void DapCommandController::removeWallet(const QString &asWalletName)
+{
+    qInfo() << QString("removeWallet(%1)").arg(asWalletName);
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.removeWallet", asWalletName);
+}
+
 void DapCommandController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)
 {
     qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
