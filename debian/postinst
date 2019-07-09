@@ -10,6 +10,7 @@ case "$1" in
 	cp -f /opt/KelvinDashboard/share/kelvindashboard.ico	/usr/share/pixmaps/kelvindashboard.ico
     update-menus
     echo "For start Kelvin Dashboard Service - run 'systemctl start KelvinDashboardService'"
+    echo "For start Kelvin Dashboard - run 'KelvinDashboard'"
 ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;

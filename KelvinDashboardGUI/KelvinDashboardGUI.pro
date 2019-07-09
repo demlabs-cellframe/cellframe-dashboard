@@ -1,7 +1,8 @@
 QT += qml quick widgets
 
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++11 static
+QMAKE_LFLAGS = -static
 
 
 !defined(BRAND,var){
@@ -13,7 +14,7 @@ TARGET = $$BRAND
 
 VER_MAJ = 1
 VER_MIN = 0
-VER_PAT = 0
+VER_PAT = 1
 
 
 win32 {
