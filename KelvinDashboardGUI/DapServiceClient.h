@@ -10,6 +10,9 @@
 #if defined(Q_OS_LINUX)
 #include "DapServiceClientNativeLinux.h"
 typedef class DapServiceClientNativeLinux DapServiceClientNative;
+#elif defined(Q_OS_WIN)
+#include "DapServiceClientNativeWin.h"
+typedef class DapServiceClientNativeWin DapServiceClientNative;
 #endif
 
 typedef QLocalSocket DapUiSocket;
