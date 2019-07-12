@@ -26,7 +26,7 @@ QStringList DapChainLogHandler::request(int aiTimeStamp, int aiRowCount)
 {
     QByteArray result;
     QProcess process;
-    process.start(QString("%1 print_log ts_after %2 limit %3").arg("/opt/kelvin-node/bin/kelvin-node-cli").arg(aiTimeStamp).arg(aiRowCount));
+    process.start(QString("%1 print_log ts_after %2 limit %3").arg(CLI_PATH).arg(aiTimeStamp).arg(aiRowCount));
     process.waitForFinished(-1);
     result = process.readAll();
 
