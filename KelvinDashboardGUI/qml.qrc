@@ -35,5 +35,7 @@
         <file>DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
         <file>DapUiQmlScreenDialogSendToken.qml</file>
         <file>DapUiQmlScreenDialogRemoveWallet.qml</file>
+        <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
+        <file>DapUiQmlWidgetConsole.qml</file>
     </qresource>
 </RCC>

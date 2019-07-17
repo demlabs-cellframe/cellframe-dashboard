@@ -37,6 +37,7 @@ signals:
 
     void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QStringList& aBalance, const QStringList& aTokens);
     
+    void executeCommandChanged(const QString& result);
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -58,6 +59,7 @@ private slots:
 
     void processGetWalletInfo();
     
+    void processExecuteCommand();
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 
@@ -77,6 +79,8 @@ public slots:
     void getWallets();
 
     void getWalletInfo(const QString& asWalletName);
+
+    void executeCommand(const QString& command);
 };
 
 #endif // COMMANDCONTROLLER_H

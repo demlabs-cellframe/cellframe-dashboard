@@ -22,7 +22,9 @@ class DapServiceController : public QObject
     QString m_sBrand {DAP_BRAND};
     /// Application version.
     QString m_sVersion {DAP_VERSION};
-    
+    /// Result execute.
+    QString m_sResult;
+
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     /// RPC protocol controller.
@@ -45,7 +47,9 @@ public:
     Q_PROPERTY(QString Brand MEMBER m_sBrand READ getBrand NOTIFY brandChanged)
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
-    
+    /// Result execute command.
+    Q_PROPERTY(QString Result MEMBER m_sVersion READ getResult NOTIFY resultChanged)
+
     ///********************************************
     ///                 Interface
     /// *******************************************
@@ -56,6 +60,9 @@ public:
     /// Get app version.
     /// @return Application version.
     QString getVersion() const;
+    /// Get result command execute.
+    /// @return Result execute.
+    QString getResult();
     /// Get node logs.
     /// @param aiTimeStamp Timestamp start reading logging.
     /// @param aiRowCount Number of lines displayed.
@@ -69,6 +76,7 @@ public:
     Q_INVOKABLE void addWallet(const QString& asWalletName);
     Q_INVOKABLE void removeWallet(int index, const QString& asWalletName);
     Q_INVOKABLE void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
+    Q_INVOKABLE void executeCommand(const QString& command);
 
     void getWalletInfo(const QString& asWalletName);
 
@@ -77,11 +85,13 @@ signals:
     void brandChanged(const QString &brand);
     /// The signal is emitted when the Application version property changes.
     void versionChanged(const QString &version);
+    /// The signal is emitted when the result execute property changes.
+    void resultChanged();
     /// The signal is emitted when the main application window is activated.
     void activateWindow();
     /// The signal is emitted when checking the existence of an already running copy of the application.
     void isExistenceClient(bool isExistenceClient);
-    
+    void sendToQML(QString);
 private slots:
     /// Handling service response for receiving node logs.
     /// @param aNodeLogs List of node logs.
@@ -94,6 +104,8 @@ private slots:
     void processGetWallets(const QMap<QString, QVariant>& aWallets);
 
     void processGetWalletInfo(const QString& asWalletName, const QString& asWalletAddress, const QStringList &aBalance, const QStringList& aTokens);
+
+    void processExecuteCommandInfo(const QString& result);
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.

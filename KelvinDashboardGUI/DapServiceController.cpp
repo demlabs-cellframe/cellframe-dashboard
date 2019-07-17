@@ -47,6 +47,9 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(sigWalletInfoChanged(QString,QString, QStringList, QStringList)), SLOT(processGetWalletInfo(QString,QString, QStringList, QStringList)));
 
     connect(m_pDapCommandController, SIGNAL(onTokenSended(QString)), SLOT(processSendToken(QString)));
+
+    connect(m_pDapCommandController, SIGNAL(executeCommandChanged(QString)), SLOT(processExecuteCommandInfo(QString)));
+
 }
 
 QString DapServiceController::getBrand() const
@@ -59,6 +62,11 @@ QString DapServiceController::getBrand() const
 QString DapServiceController::getVersion() const
 {
     return m_sVersion;
+}
+
+QString DapServiceController::getResult()
+{
+    return m_sResult;
 }
 
 /// Get node logs.
@@ -122,10 +130,9 @@ void DapServiceController::addWallet(const QString &asWalletName)
 
 void DapServiceController::removeWallet(int index, const QString &asWalletName)
 {
-    qInfo() << QString("removeWallet(%1)").arg(index);
-        qInfo() << QString("removeWallet(%1)").arg(asWalletName);
-        m_pDapCommandController->removeWallet(asWalletName.trimmed());
-        DapChainWalletsModel::getInstance().remove(index);
+    qInfo() << QString("removeWallet(%1)").arg(asWalletName);
+    m_pDapCommandController->removeWallet(asWalletName.trimmed());
+    DapChainWalletsModel::getInstance().remove(index);
 }
 
 void DapServiceController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)
@@ -133,6 +140,13 @@ void DapServiceController::sendToken(const QString &asSendWallet, const QString 
     qInfo() << QString("sendToken(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
     m_pDapCommandController->sendToken(asSendWallet.trimmed(), asAddressReceiver.trimmed(), asToken.trimmed(), aAmount);
 }
+
+void DapServiceController::executeCommand(const QString& command)
+{
+    qInfo() << QString("executeCommand (%1)").arg(command);
+    m_pDapCommandController->executeCommand(command);
+}
+
 
 void DapServiceController::getWalletInfo(const QString &asWalletName)
 {
@@ -170,6 +184,13 @@ void DapServiceController::processGetWalletInfo(const QString &asWalletName, con
     for (QString s : aBalance) {
         qDebug() << s;
     }
+}
+
+void DapServiceController::processExecuteCommandInfo(const QString &result)
+{
+    qInfo() << QString("processExecuteCommandInfo(%1)").arg(result);
+    m_sResult = result;
+    emit resultChanged();
 }
 
 /// Get an instance of a class.
