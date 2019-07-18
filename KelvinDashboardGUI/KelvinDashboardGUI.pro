@@ -18,9 +18,11 @@ VER_PAT = 0
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
+    DEFINES += CLI_PATH=\\\"./kelvin-node-cli.exe\\\"
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
+    DEFINES += CLI_PATH=\\\"/opt/kelvin-node/bin/kelvin-node-cli\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -53,6 +55,7 @@ SOURCES += \
     DapCommandController.cpp \
     DapServiceClientNativeAbstract.cpp \
     DapServiceClientNativeLinux.cpp \
+    DapServiceClientNativeWin.cpp \
     DapChainWalletsModel.cpp
 
 RESOURCES += qml.qrc
@@ -84,6 +87,7 @@ HEADERS += \
     DapCommandController.h \
     DapServiceClientNativeAbstract.h \
     DapServiceClientNativeLinux.h \
+    DapServiceClientNativeWin.h \
     DapChainWalletsModel.h
 
 include (../libdap/libdap.pri)

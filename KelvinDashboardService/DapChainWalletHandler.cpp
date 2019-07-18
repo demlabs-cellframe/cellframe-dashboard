@@ -17,7 +17,7 @@ QStringList DapChainWalletHandler::createWallet(const QString &asNameWallet)
 {
     QByteArray result;
     QProcess process;
-    process.start(QString("%1 wallet new -w %2").arg("/opt/kelvin-node/bin/kelvin-node-cli").arg(asNameWallet));
+    process.start(QString("%1 wallet new -w %2").arg(CLI_PATH).arg(asNameWallet));
     process.waitForFinished(-1);
     result = process.readAll();
     QStringList list;
@@ -40,7 +40,7 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 {
     QMap<QString, QVariant> map;
     QProcess process;
-    process.start(QString("%1 wallet list").arg("/opt/kelvin-node/bin/kelvin-node-cli"));
+    process.start(QString("%1 wallet list").arg(CLI_PATH));
     process.waitForFinished(-1);
     QString str = QString::fromLatin1(process.readAll());
     qDebug() << "ZDES`" << str;
@@ -70,9 +70,40 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
 {
     QProcess process;
-    process.start(QString("%1 wallet info -w %2 -net private").arg("/opt/kelvin-node/bin/kelvin-node-cli").arg(asNameWallet));
+    process.start(QString("%1 wallet info -w %2 -net kelvin-testnet").arg(CLI_PATH).arg(asNameWallet));
     process.waitForFinished(-1);
+    char* response = process.readAll().data();
+    //qDebug() << response;
     QStringList list;
+#ifdef Q_OS_WIN32
+    char *context = nullptr;
+    char *data = nullptr;
+    data = strtok_r(response, ":", &context);
+    if (strcmp(data, "wallet") != 0) {
+        data = strtok_r(response, ":", &context);
+    }
+    data = strtok_r(context+1, "\r", &context);
+    list.append(QString(data));
+    data = strtok_r(context+1, ":", &context);
+    data = strtok_r(context+1, "\r", &context);
+    list.append(QString(data));
+    data = strtok_r(context+1, ":", &context);
+    list.append(QString(data));
+    data = strtok_r(context+4, "\r", &context);
+
+    char *subctx;
+    char *subdata;
+    if (strlen(data) > 2) {
+        subdata = strtok_r(data+1, " ", &subctx);
+    } else {
+        subdata = strtok_r(data, " ", &subctx);
+    }
+    list.append(QString(subdata));
+    subdata = strtok_r(subctx, " ", &subctx);
+    list.append(QString(subdata));
+    subdata = strtok_r(subctx, "\r", &subctx);
+    list.append(QString(subdata));
+#else
     QString str = QString::fromLatin1(process.readAll()).replace("\\", "\\\\");
 
     QRegExp rx("[(:\\)\\t]{1,1}([^\\\\\\n\\t]+)[\\\\(|\\n|\\r]{1,1}");
@@ -84,6 +115,7 @@ QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
         list.append(rx.cap(1));
         pos += rx.matchedLength();
     }
+#endif
     qDebug() << list;
     return list;
 }
@@ -93,8 +125,8 @@ QString DapChainWalletHandler::sendToken(const QString &asSendWallet, const QStr
     QString answer;
     qInfo() << QString("sendTokenTest(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
     QProcess processCreate;
-    processCreate.start(QString("%1 tx_create -net private -chain gdb -from_wallet %2 -to_addr %3 -token %4 -value %5")
-                  .arg("/opt/kelvin-node/bin/kelvin-node-cli")
+    processCreate.start(QString("%1 tx_create -net kelvin-testnet -chain gdb -from_wallet %2 -to_addr %3 -token %4 -value %5")
+                  .arg(CLI_PATH)
                   .arg(asSendWallet)
                   .arg(asAddressReceiver)
                   .arg(asToken)
@@ -105,7 +137,7 @@ QString DapChainWalletHandler::sendToken(const QString &asSendWallet, const QStr
     if(!(resultCreate.isEmpty() || resultCreate.isNull()))
     {
         QProcess processMempool;
-        processMempool.start(QString("%1 mempool_proc -net private -chain gdb").arg("/opt/kelvin-node/bin/kelvin-node-cli"));
+        processMempool.start(QString("%1 mempool_proc -net kelvin-testnet -chain gdb").arg(CLI_PATH));
         processMempool.waitForFinished(-1);
         answer = QString::fromLatin1(processMempool.readAll());
         qDebug() << answer;

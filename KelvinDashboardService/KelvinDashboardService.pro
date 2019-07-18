@@ -20,9 +20,11 @@ ICON = icon.ico
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
+    DEFINES += CLI_PATH=\\\"./kelvin-node-cli.exe\\\"
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
+    DEFINES += CLI_PATH=\\\"/opt/kelvin-node/bin/kelvin-node-cli\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
