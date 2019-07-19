@@ -124,6 +124,22 @@ void DapCommandController::processGetWalletInfo()
     emit sigWalletInfoChanged(name, address, balance, tokens);
 }
 
+void DapCommandController::processExecuteCommand()
+{
+    qInfo() << "processGetWalletInfo()";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    if (!reply || reply->response().result().toVariant().toStringList().isEmpty()) {
+
+        QString result = "Invalid response received";
+        qWarning() << result;
+        emit executeCommandChanged(result);
+        return;
+    }
+    emit sigCommandResult(reply->response().result());
+    QString result = reply->response().result().toVariant().toStringList().at(0);
+    emit executeCommandChanged(result);
+}
+
 /// Show or hide GUI client by clicking on the tray icon.
 /// @param aIsActivated Accepts true - when requesting to 
 /// display a client, falso - when requesting to hide a client.
@@ -179,4 +195,11 @@ void DapCommandController::getWalletInfo(const QString& asWalletName)
     qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getWalletInfo", asWalletName);
     connect(reply, SIGNAL(finished()), this, SLOT(processGetWalletInfo()));
+}
+
+void DapCommandController::executeCommand(const QString &command)
+{
+    qInfo() << QString("rpc executeCommand(%1)").arg(command);
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.executeCommand", command);
+    connect(reply, SIGNAL(finished()), this, SLOT(processExecuteCommand()));
 }
