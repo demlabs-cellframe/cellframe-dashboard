@@ -44,14 +44,16 @@ SOURCES += \
     DapChainNode.cpp \
     DapChainNodeCache.cpp \
     DapChainWalletHandler.cpp \
-    DapChainLogHandler.cpp
+    DapChainLogHandler.cpp \
+    DapChainCommandConsoleHandler.cpp
 
 HEADERS += \
     DapChainDashboardService.h \
     DapChainNode.h \
     DapChainNodeCache.h \
     DapChainWalletHandler.h \
-    DapChainLogHandler.h
+    DapChainLogHandler.h \
+    DapChainCommandConsoleHandler.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

@@ -25,6 +25,7 @@
 
 #include "DapChainLogHandler.h"
 #include "DapChainWalletHandler.h"
+#include "DapChainCommandConsoleHandler.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -42,6 +43,9 @@ class DapChainDashboardService : public DapRpcService
     DapChainLogHandler            * m_pDapChainLogHandler {nullptr};
 
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
+
+    //command kelvin-node-cli
+    DapChainCommandConsoleHandler   * m_pDapChainCommandConsoleHandler {nullptr};
 public:
     /// Standard сonstructor.
     explicit DapChainDashboardService();
@@ -77,7 +81,11 @@ public slots:
     QStringList getWalletInfo(const QString &asWalletName);
 
     QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
-    
+
+    /// Execute command for kelvin-node-cli.
+    /// @param command Command to exec.
+    /// @return Result command.
+    QString executeCommand(const QString &command);
 };
 
 #endif // DAPCHAINDASHBOARDSERVICE_H

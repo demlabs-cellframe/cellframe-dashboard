@@ -4,9 +4,9 @@ import QtQuick.Layouts 1.1
 
 Page {
     id: dapUiQmlWidgetConsole
-    property alias result: result
     property alias command: command
     property alias execute: execute
+    property alias result: result
 
 
     Rectangle {
@@ -23,11 +23,11 @@ Page {
         Button {
             id: execute
             x: 250
-            y: 366
+            y: 243
             text: qsTr("Execute")
-            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenterOffset: 4
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 74
+            anchors.bottomMargin: 197
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -35,23 +35,13 @@ Page {
             id: command
             x: 290
             y: 50
-            width: 606
-            height: 208
+            width: 594
+            height: 177
+            cursorVisible: true
+            clip: false
             anchors.horizontalCenterOffset: 4
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 12
-        }
-
-        Label {
-            id: result
-            y: 422
-            width: 606
-            height: 50
-            text: qsTr("")
-            anchors.left: parent.left
-            anchors.leftMargin: 21
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
         }
 
         Label {
@@ -68,8 +58,19 @@ Page {
         Label {
             id: resultText
             x: 21
-            y: 409
+            y: 294
             text: qsTr("Result:")
+        }
+
+        TextEdit {
+            id: result
+            x: 21
+            y: 315
+            width: 600
+            height: 157
+            text: qsTr("")
+            readOnly: true
+            font.pixelSize: 12
         }
     }
 }

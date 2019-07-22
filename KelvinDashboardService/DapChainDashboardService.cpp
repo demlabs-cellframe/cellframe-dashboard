@@ -9,6 +9,8 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "New client";
     });
+
+    m_pDapChainCommandConsoleHandler = new DapChainCommandConsoleHandler(this);
 }
 
 bool DapChainDashboardService::start()
@@ -70,6 +72,12 @@ QString DapChainDashboardService::sendToken(const QString &asWalletName, const Q
 {
     qInfo() << QString("sendToken(%1;%2;%3;%4)").arg(asWalletName).arg(asReceiverAddr).arg(asToken).arg(asAmount);
     return m_pDapChainWalletHandler->sendToken(asWalletName, asReceiverAddr, asToken, asAmount);
+}
+
+QString DapChainDashboardService::executeCommand(const QString &command)
+{
+     qInfo() << QString("executeCommand(%1)").arg(command);
+     return  m_pDapChainCommandConsoleHandler->executeCommand(command);
 }
 
 

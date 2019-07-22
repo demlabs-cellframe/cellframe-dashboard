@@ -13,6 +13,7 @@ DapUiQmlWidgetConsoleForm {
     execute.onClicked: {
         dapServiceController.executeCommand(command.text)
         execute.enabled = false;
+        result.clear()
 
     }
     Connections {
