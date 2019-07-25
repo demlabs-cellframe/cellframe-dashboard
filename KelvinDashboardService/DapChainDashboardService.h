@@ -44,7 +44,7 @@ class DapChainDashboardService : public DapRpcService
 
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
 
-    DapChainNodeHandler     * m_pDapChainNodeHandler {nullptr};
+    DapChainNodeNetworkHandler     * m_pDapChainNodeHandler {nullptr};
 
 public:
     /// Standard сonstructor.
@@ -80,6 +80,7 @@ public slots:
 
     QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
     
+    QVariant getNodeNetwork() const;
 };
 
 #endif // DAPCHAINDASHBOARDSERVICE_H
