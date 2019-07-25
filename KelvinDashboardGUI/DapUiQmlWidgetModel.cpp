@@ -10,6 +10,7 @@ DapUiQmlWidgetModel::DapUiQmlWidgetModel(QObject *parent) : QAbstractListModel(p
     m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Wallet", "DapUiQmlWidgetChainWallet.qml", "qrc:/Resources/Icons/add.png"));
     m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Logs", "DapUiQmlWidgetChainNodeLogsForm.ui.qml", "qrc:/Resources/Icons/add.png"));
     m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Console cli", "DapUiQmlWidgetConsole.qml", "qrc:/Resources/Icons/add.png"));
+    m_dapUiQmlWidgets.append(new DapUiQmlWidget( "Map", "DapUiQmlWidgetNodeNetworkExplorer.qml", "qrc:/Resources/Icons/add.png"));
 }
 
 DapUiQmlWidgetModel &DapUiQmlWidgetModel::getInstance()

@@ -13,6 +13,7 @@
 #include "DapServiceClient.h"
 #include "DapLogModel.h"
 #include "DapChainWalletsModel.h"
+#include "DapChainNodeNetworkModel.h"
 
 class DapServiceController : public QObject
 {
@@ -80,6 +81,8 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
+    void getNodeNetwork();
+
 signals:
     /// The signal is emitted when the Brand company property changes.
     void brandChanged(const QString &brand);
@@ -92,6 +95,9 @@ signals:
     /// The signal is emitted when checking the existence of an already running copy of the application.
     void isExistenceClient(bool isExistenceClient);
     void sendToQML(QString);
+
+    void sendNodeNetwork(const QVariant& aData);
+
 private slots:
     /// Handling service response for receiving node logs.
     /// @param aNodeLogs List of node logs.
@@ -106,6 +112,8 @@ private slots:
     void processGetWalletInfo(const QString& asWalletName, const QString& asWalletAddress, const QStringList &aBalance, const QStringList& aTokens);
 
     void processExecuteCommandInfo(const QString& result);
+
+    void processGetNodeNetwork(const QVariant& aData);
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.

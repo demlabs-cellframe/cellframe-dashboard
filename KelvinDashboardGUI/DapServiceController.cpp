@@ -50,6 +50,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, SIGNAL(executeCommandChanged(QString)), SLOT(processExecuteCommandInfo(QString)));
 
+    connect(m_pDapCommandController, SIGNAL(sendNodeNetwork(QVariant)), this, SLOT(processGetNodeNetwork(QVariant)));
+
 }
 
 QString DapServiceController::getBrand() const
@@ -154,6 +156,12 @@ void DapServiceController::getWalletInfo(const QString &asWalletName)
     m_pDapCommandController->getWalletInfo(asWalletName);
 }
 
+void DapServiceController::getNodeNetwork()
+{
+    qInfo() << QString("requestNodeNetwork");
+    m_pDapCommandController->getNodeNetwork();
+}
+
 void DapServiceController::processAddWallet(const QString& asWalletName, const QString& asWalletAddress)
 {
     qInfo() << QString("processAddWallet(%1, %2)").arg(asWalletName).arg(asWalletAddress);
@@ -191,6 +199,11 @@ void DapServiceController::processExecuteCommandInfo(const QString &result)
     qInfo() << QString("processExecuteCommandInfo(%1)").arg(result);
     m_sResult = result;
     emit resultChanged();
+}
+
+void DapServiceController::processGetNodeNetwork(const QVariant& aData)
+{
+    DapChainNodeNetworkModel::getInstance().setData(aData);
 }
 
 /// Get an instance of a class.
