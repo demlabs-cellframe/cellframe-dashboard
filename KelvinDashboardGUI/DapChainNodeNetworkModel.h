@@ -1,11 +1,9 @@
-#ifndef DAPNETWORKEXPLORERCONTROLLER_H
-#define DAPNETWORKEXPLORERCONTROLLER_H
+#ifndef DAPCHAINNODENETWORKMODEL_H
+#define DAPCHAINNODENETWORKMODEL_H
 
 #include <QObject>
 #include <QHostAddress>
 #include <QVariant>
-//#include "DapChainNode.h"
-#include "DapChainNodeNetworkExplorer.h"
 
 class DapChainNodeNetworkModel : public QObject
 {
@@ -28,4 +26,4 @@ signals:
     void dataChanged(QVariant data);
 };
 
-#endif // DAPNETWORKEXPLORERCONTROLLER_H
+#endif // DAPCHAINNODENETWORKMODEL_H
