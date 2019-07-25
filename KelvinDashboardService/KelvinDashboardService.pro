@@ -44,12 +44,14 @@ SOURCES += \
     DapChainNode.cpp \
     DapChainNodeCache.cpp \
     DapChainWalletHandler.cpp \
-    DapChainLogHandler.cpp
+    DapChainLogHandler.cpp \
+    DapChainNodeHandler.cpp
 
 HEADERS += \
     DapChainDashboardService.h \
     DapChainNode.h \
     DapChainNodeCache.h \
+    DapChainNodeNetworkHandler.h \
     DapChainWalletHandler.h \
     DapChainLogHandler.h
 
