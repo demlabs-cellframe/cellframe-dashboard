@@ -15,7 +15,7 @@ enum class DapNodeState {
     Selected
 };
 
-enum class DapNodeStatus {
+enum DapNodeStatus {
     Offline,
     Online
 };
@@ -57,19 +57,26 @@ struct DapNodeData {
 class DapChainNodeNetworkExplorer : public QQuickPaintedItem
 {
     Q_OBJECT
+    Q_ENUM(DapNodeStatus)
+    Q_PROPERTY(QColor colorSelect READ getColorSelect WRITE setColorSelect NOTIFY colorSelectChanged)
     Q_PROPERTY(QColor colorNormal READ getColorNormal WRITE setColorNormal NOTIFY colorNormalChanged)
-    Q_PROPERTY(QColor colorActivated READ getColorActivated WRITE setColorActivated NOTIFY colorActivatedChanged)
+    Q_PROPERTY(QColor colorFocused READ getColorFocused WRITE setColorFocused NOTIFY colorFocusedChanged)
+    Q_PROPERTY(QColor colorOnline READ getColorOnline WRITE setColorOnline NOTIFY colorOnlineChanged)
+    Q_PROPERTY(QColor colorOffline READ getColorOffline WRITE setColorOffline NOTIFY colorOfflineChanged)
     Q_PROPERTY(int widthLine READ getWidthLine WRITE setWidthLine NOTIFY widthLineChanged)
     Q_PROPERTY(int sizeNode READ getSizeNode WRITE setSizeNode NOTIFY sizeNodeChanged)
-
     Q_PROPERTY(DapChainNodeNetworkModel* model READ getModel WRITE setModel NOTIFY modelChanged)
 
 private:
+    QString m_currentSelectedNode;
     DapChainNodeNetworkModel* m_model;
     QMap<QString /*Address*/, DapNodeData /*Data*/> m_nodeMap;
 
+    QColor m_colorOnline;
+    QColor m_colorOffline;
+    QColor m_colorSelect;
     QColor m_colorNormal;
-    QColor m_colorActivated;
+    QColor m_colorFocused;
     int m_widthLine;
     int m_sizeNode;
 
@@ -81,19 +88,30 @@ protected:
 public:
     explicit DapChainNodeNetworkExplorer(QQuickItem *parent = nullptr);
     void paint(QPainter* painter);
+    DapNodeStatus getNodeStatus() const;
+    QColor getColorOnline() const;
+    QColor getColorOffline() const;
+    QColor getColorSelect() const;
     QColor getColorNormal() const;
-    QColor getColorActivated() const;
+    QColor getColorFocused() const;
     int getWidthLine() const;
     int getSizeNode() const;
 
     DapChainNodeNetworkModel* getModel() const;
 
-    const DapNodeData* findNodeData(const QPoint& aPos) const;
-//    Q_INVOKABLE QPoint selectedNodePos() const;
+    Q_INVOKABLE void setCurrentNodeStatus(const DapNodeStatus& aNodeStatus);
+    Q_INVOKABLE int getSelectedNodePosX() const;
+    Q_INVOKABLE int getSelectedNodePosY() const;
+    Q_INVOKABLE QString getSelectedNodeAddress() const;
+    Q_INVOKABLE QString getSelectedNodeAlias() const;
+    Q_INVOKABLE QString getSelectedNodeIpv4() const;
 
 public slots:
-    void setColorNormal(const QColor& AColorNormal);
-    void setColorActivated(const QColor& AColorActivated);
+    void setColorSelect(const QColor& aColorSelect);
+    void setColorNormal(const QColor& aColorNormal);
+    void setColorFocused(const QColor& aColorActivated);
+    void setColorOnline(const QColor& aColorOnline);
+    void setColorOffline(const QColor& aColorOffline);
     void setWidthLine(const int widthLine);
     void setSizeNode(const int sizeNode);
 
@@ -103,14 +121,16 @@ private slots:
     void proccessCreateGraph();
 
 signals:
-    void dataChanged(QVariant data);
+    void colorSelectChanged(QColor colorSelect);
     void colorNormalChanged(QColor colorNormal);
-    void colorActivatedChanged(QColor colorActivated);
+    void colorFocusedChanged(QColor colorActivated);
+    void colorOnlineChanged(QColor colorOnline);
+    void colorOfflineChanged(QColor colorOffline);
     void widthLineChanged(int widthLine);
     void sizeNodeChanged(int sizeNode);
     void modelChanged(DapChainNodeNetworkModel* model);
 
-    void selectNode(int posX, int posY, QString address, QString alias, QString ipv4);
+    void selectNode(QString address);
     void selectNodeChanged();
 };
 

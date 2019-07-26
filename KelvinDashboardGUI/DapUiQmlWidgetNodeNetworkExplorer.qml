@@ -24,13 +24,9 @@ Page {
                 transformOrigin: Item.TopLeft
                 model: dapNodeNetworkModel
                 onSelectNode: {
-                    dapNodeNetworkMenu.x = posX;
-                    dapNodeNetworkMenu.y = posY;
+                    dapNodeNetworkMenu.x = getSelectedNodePosX();
+                    dapNodeNetworkMenu.y = getSelectedNodePosY();
                     dapNodeNetworkMenu.visible = true;
-
-                    dapDescriptionAddress.text = address;
-                    dapDescriptionAlias.text = alias;
-                    dapDescriptionIpv4.text = ipv4;
                 }
                 onSelectNodeChanged: {
                     dapNodeNetworkDescription.visible = false;
@@ -43,6 +39,9 @@ Page {
                         text: qsTr("Show detalies")
                         onTriggered: {
                             dapNodeNetworkDescription.visible = true;
+                            dapDescriptionAddress.text = dapGraphWidget.getSelectedNodeAddress();
+                            dapDescriptionAlias.text = dapGraphWidget.getSelectedNodeAlias();
+                            dapDescriptionIpv4.text = dapGraphWidget.getSelectedNodeIpv4();
                         }
                     }
 
@@ -50,7 +49,7 @@ Page {
                         id: dapMenuItemStatus
                         text: qsTr("Set status")
                         onTriggered: {
-
+                            dapWidgetNodeStatus.visible = true;
                         }
                     }
                 }
@@ -73,16 +72,11 @@ Page {
                      anchors.horizontalCenter: parent.horizontalCenter
                      topPadding: 20
                      bottomPadding: 30
-//                     Layout.fillWidth: true
-//                     Layout.alignment: Qt.AlignTop
-//                     horizontalAlignment: Text.AlignHCenter
-//                     verticalAlignment: Text.AlignVCenter
                      font.pointSize: 24
                      text: qsTr("Description")
                  }
 
                  Column {
-//                     Layout.columnSpan: 0
                      leftPadding: 30
 
                      Text {
@@ -98,7 +92,6 @@ Page {
 
 
                  Column {
-//                     Layout.columnSpan: 0
                      leftPadding: 30
 
                      Text {
@@ -113,7 +106,6 @@ Page {
                  }
 
                  Column {
-//                     Layout.columnSpan: 0
                      leftPadding: 30
 
                      Text {
@@ -129,4 +121,57 @@ Page {
              }
         }
     }
+
+    Rectangle
+    {
+        id: dapWidgetNodeStatus
+        anchors.fill: parent
+        visible: false
+        color: "#B3B2B1"
+        opacity: 0.6
+    }
+
+    Rectangle {
+        anchors.centerIn: parent
+        visible: dapWidgetNodeStatus.visible
+        width: contentLayout.width
+        height: contentLayout.height
+        border.color: "#F3F2F1"
+        border.width: 1
+
+        ColumnLayout {
+            id: contentLayout
+
+            Text {
+                Layout.fillWidth: true
+                leftPadding: 30
+                rightPadding: 30
+                topPadding: 15
+                font.pointSize: 16
+                text: qsTr("Choose status")
+            }
+
+            RadioButton {
+                Layout.alignment: Qt.AlignCenter
+                text: qsTr("Offline")
+            }
+
+            RadioButton {
+                Layout.alignment: Qt.AlignCenter
+                text: qsTr("Online")
+                onClicked: {
+                }
+            }
+
+            Button {
+                Layout.fillWidth: true
+                text: qsTr("Ok")
+
+                onClicked: {
+                    dapWidgetNodeStatus.visible = false;
+                }
+            }
+        }
+    }
+
 }
