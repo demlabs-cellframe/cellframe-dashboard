@@ -39,6 +39,27 @@ void DapCommandController::processCommandResult()
     emit sigCommandResult(reply->response().result());
 }
 
+void DapCommandController::clearLogModel()
+{
+    emit onClearLogModel();
+}
+
+/// Get node logs.
+void DapCommandController::getNodeLogs()
+{
+    qInfo() << QString("getNodeLogs()");
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeLogs");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeLogs()));
+}
+
+void DapCommandController::processChangedLog()
+{
+//    QStringList tempLogModel;
+//    for(int x{0}; x < aLogModel.count(); ++x)
+//        tempLogModel.append(aLogModel.at(x).toString());
+    emit onLogModel();
+}
+
 /// Handling service response for receiving node logs.
 void DapCommandController::processGetNodeLogs()
 {
@@ -97,7 +118,7 @@ void DapCommandController::processGetWalletInfo()
 {
     qInfo() << "processGetWalletInfo()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    if (!reply) {
+    if (!reply || reply->response().result().toVariant().isNull()) {
         qWarning() << "Invalid response received";
         return;
     }

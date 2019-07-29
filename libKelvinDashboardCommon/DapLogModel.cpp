@@ -18,27 +18,39 @@ int DapLogModel::rowCount(const QModelIndex &) const
 
 QVariant DapLogModel::data(const QModelIndex &index, int role) const
 {
+
+    int y = rowCount();
     if (index.row() < rowCount())
             switch (role) {
+//            case TypeRole:
+//                switch (m_dapLogMessage.at(index.row())->getType()) {
+//                case Type::Info:
+//                    return "qrc:/Resources/Icons/dialog-information.png";
+//                case Type::Warning:
+//                    return "qrc:/Resources/Icons/dialog-warning.png";
+//                case Type::Error:
+//                    return "qrc:/Resources/Icons/dialog-error.png";
+//                case Type::Debug:
+//                    return "qrc:/Resources/Icons/dialog-question.png";
+//                default:
+//                    break;
+//                }
             case TypeRole:
-                switch (m_dapLogMessage.at(index.row())->getType()) {
-                case Type::Info:
-                    return "qrc:/Resources/Icons/dialog-information.png";
-                case Type::Warning:
-                    return "qrc:/Resources/Icons/dialog-warning.png";
-                case Type::Error:
-                    return "qrc:/Resources/Icons/dialog-error.png";
-                case Type::Debug:
-                    return "qrc:/Resources/Icons/dialog-question.png";
-                default:
-                    break;
-                }
-
+            {
+                QString s = m_dapLogMessage.at(index.row())->getType();
+                return m_dapLogMessage.at(index.row())->getType();
+            }
             case TimeStampRole: return m_dapLogMessage.at(index.row())->getTimeStamp();
             case FileRole: return m_dapLogMessage.at(index.row())->getFile();
-            case MessageRole: return m_dapLogMessage.at(index.row())->getMessage();
+            case MessageRole:
+            {
+                int x = index.row();
+                QString s1 = m_dapLogMessage.at(index.row())->getMessage();
+
+                return m_dapLogMessage.at(index.row())->getMessage();
+            }
             default:
-                return QVariant();
+                break;
         }
     return QVariant();
 }
@@ -66,17 +78,14 @@ void DapLogModel::append(const DapLogMessage &message)
     this->append(message.getType(), message.getTimeStamp(), message.getFile(), message.getMessage());
 }
 
-void DapLogModel::append(const Type &type, const QString &timestamp, const QString &file, const QString &message)
+void DapLogModel::append(const QString &type, const QString &timestamp, const QString &file, const QString &message)
 {
-    int row = 0;
-    while (row < m_dapLogMessage.count() && timestamp > m_dapLogMessage.at(row)->getTimeStamp())
-        ++row;
-    beginInsertRows(QModelIndex(), row, row);
-    m_dapLogMessage.insert(row, new DapLogMessage(type, timestamp, file, message));
+    beginInsertRows(QModelIndex(), m_dapLogMessage.count(), m_dapLogMessage.count());
+    m_dapLogMessage.insert(m_dapLogMessage.count(), new DapLogMessage(type, timestamp, file, message));
     endInsertRows();
 }
 
-void DapLogModel::set(int row, const Type &type, const QString &timestamp, const QString &file, const QString &message)
+void DapLogModel::set(int row, const QString &type, const QString &timestamp, const QString &file, const QString &message)
 {
     if (row < 0 || row >= m_dapLogMessage.count())
             return;
@@ -98,6 +107,17 @@ void DapLogModel::remove(int row)
         m_dapLogMessage.removeAt(row);
         endRemoveRows();
 }
+
+void DapLogModel::clear()
+{
+    for(auto it = m_dapLogMessage.begin(); it != m_dapLogMessage.end(); ++it)
+    {
+        delete *it;
+    }
+
+    m_dapLogMessage.clear();
+}
+
 
 /// Method that implements the singleton pattern for the qml layer.
 /// @param engine QML application.

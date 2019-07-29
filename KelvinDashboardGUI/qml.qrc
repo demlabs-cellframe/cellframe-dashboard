@@ -37,5 +37,6 @@
         <file>DapUiQmlScreenDialogRemoveWallet.qml</file>
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
+        <file>Resources/Icons/logs.png</file>
     </qresource>
 </RCC>

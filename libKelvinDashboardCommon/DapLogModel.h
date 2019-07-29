@@ -41,9 +41,10 @@ public:
 
     Q_INVOKABLE QVariantMap get(int row) const;
     Q_INVOKABLE void append(const DapLogMessage &message);
-    Q_INVOKABLE void append(const Type &type, const QString &timestamp, const QString  &file, const QString &message);
-    Q_INVOKABLE void set(int row, const Type &type, const QString &timestamp, const QString  &file, const QString &message);
+    Q_INVOKABLE void append(const QString &type, const QString &timestamp, const QString  &file, const QString &message);
+    Q_INVOKABLE void set(int row, const QString &type, const QString &timestamp, const QString  &file, const QString &message);
     Q_INVOKABLE void remove(int row);
+     Q_INVOKABLE void clear();
 
 public slots:
     /// Method that implements the singleton pattern for the qml layer.

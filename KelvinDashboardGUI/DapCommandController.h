@@ -38,6 +38,10 @@ signals:
     void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QStringList& aBalance, const QStringList& aTokens);
     
     void executeCommandChanged(const QString& result);
+
+    void onClearLogModel();
+
+    void onLogModel();
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -72,6 +76,8 @@ public slots:
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount);
 
+    void processChangedLog();
+
     void addWallet(const QString& asWalletName);
     void removeWallet(const QString& asWalletName);
     void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
@@ -81,6 +87,10 @@ public slots:
     void getWalletInfo(const QString& asWalletName);
 
     void executeCommand(const QString& command);
+
+    void clearLogModel();
+    /// Get node logs.
+    void getNodeLogs();
 };
 
 #endif // COMMANDCONTROLLER_H

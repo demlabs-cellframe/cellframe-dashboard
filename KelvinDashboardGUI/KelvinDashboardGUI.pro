@@ -23,6 +23,7 @@ win32 {
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/kelvin-node/bin/kelvin-node-cli\\\"
+    DEFINES += LOG_FILE=\\\"/opt/kelvin-node/bin/kelvin-node_logs.txt\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
