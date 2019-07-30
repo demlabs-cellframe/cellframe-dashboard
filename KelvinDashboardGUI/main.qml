@@ -10,8 +10,8 @@ import KelvinDashboard 1.0
 ApplicationWindow {
     id: window
     visible: true
-    width: 640
-    height: 480
+    width: 1280
+    height: 1024
 
     onClosing: {
         console.log("Close")

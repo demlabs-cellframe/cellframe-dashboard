@@ -50,6 +50,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, SIGNAL(executeCommandChanged(QString)), SLOT(processExecuteCommandInfo(QString)));
 
+    connect(m_pDapCommandController, SIGNAL(onLogModel()), SLOT(get()));
+
 }
 
 QString DapServiceController::getBrand() const
@@ -88,31 +90,25 @@ void DapServiceController::getWallets() const
 /// @param aNodeLogs List of node logs.
 void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
 {
+    if(aNodeLogs.count() <= 0)
+        return;
     int counter {0};
     QStringList list;
-    for(int x{0}; x < aNodeLogs.size(); ++x)
+    int xx = DapLogModel::getInstance().rowCount();
+    for(int x{0}; x <= aNodeLogs.size(); ++x)
     {
-//        qDebug() << aNodeLogs[x];
         if(counter == 4)
         {
             DapLogMessage message;
             message.setTimeStamp(list.at(0));
-            if(list.at(1) == "INF")
-                message.setType(Type::Info);
-            else if(list.at(1) == "WRN")
-                message.setType(Type::Warning);
-            else if(list.at(1) == "DBG")
-                message.setType(Type::Debug);
-            else if(list.at(1) == "ERR")
-                message.setType(Type::Error);
-            else if(list.at(1) == " * ")
-                message.setType(Type::Error);
+            message.setType(list.at(1));
             message.setFile(list.at(2));
             message.setMessage(list.at(3));
             DapLogModel::getInstance().append(message);
             list.clear();
             counter = 0;
-            --x;
+            if(x != aNodeLogs.size())
+                --x;
         }
         else
         {
@@ -120,6 +116,29 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
             ++counter;
         }
     }
+    emit logCompleted();
+}
+
+void DapServiceController::get()
+{
+    clearLogModel();
+    getNodeLogs();
+}
+
+/// Get node logs.
+/// @param aiTimeStamp Timestamp start reading logging.
+/// @param aiRowCount Number of lines displayed.
+void DapServiceController::getNodeLogs() const
+{
+    qInfo() << QString("getNodeLogs()");
+    m_pDapCommandController->getNodeLogs();
+}
+
+void DapServiceController::clearLogModel()
+{
+    DapLogModel::getInstance().clear();
+    int z = DapLogModel::getInstance().rowCount();
+    emit logCompleted();
 }
 
 void DapServiceController::addWallet(const QString &asWalletName)

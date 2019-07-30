@@ -5,6 +5,8 @@
 #include <QString>
 #include <QProcess>
 #include <algorithm>
+#include <QFile>
+#include <QFileSystemWatcher>
 #include <QDebug>
 
 #include "DapLogMessage.h"
@@ -13,14 +15,18 @@ class DapChainLogHandler : public QObject
 {
     Q_OBJECT
 
-protected:
-    virtual QStringList parse(const QByteArray& aLogMessages);
+    ///  Log file change watcher.
+    QFileSystemWatcher  m_fileSystemWatcher;
 
 public:
     explicit DapChainLogHandler(QObject *parent = nullptr);
 
+signals:
+    void onUpdateModel();
+    void onChangedLog();
+
 public slots:
-    QStringList request(int aiTimeStamp, int aiRowCount);
+    QStringList request();
 };
 
 #endif // DAPCHAINLOGHANDLER_H

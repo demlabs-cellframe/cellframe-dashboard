@@ -12,12 +12,13 @@ Page {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
-        width: 70
-        color: "#353841"
+        width: 150
+        color: "#36314D"
         ListView {
             id: listViewTabs
             anchors.fill: parent
             model: listModelTabs
+            spacing: 3
 
             ListModel {
                 id: listModelTabs
@@ -33,6 +34,11 @@ Page {
                     source: "qrc:/Resources/Icons/settings.png"
                 }
                 ListElement {
+                    name:  qsTr("Logs")
+                    page: "DapUiQmlWidgetChainNodeLogs.qml"
+                    source: "qrc:/Resources/Icons/logs.png"
+                }
+                ListElement {
                     name:  qsTr("About")
                     page: "DapQmlScreenAbout.qml"
                     source: "qrc:/Resources/Icons/about.png"
@@ -44,28 +50,30 @@ Page {
             delegate:
                 Component {
                     id: componentTab
-                    Item {
+                    Rectangle {
                         id: componentItem
                         width: listViewTabs.width
-                        height: 64
+                        height: 150
+                        color: listViewTabs.currentIndex === index ? "#48435F" : "#3E3856"
                         Column
                         {
+                            spacing: 20
                             anchors.centerIn: parent
                             Image
                             {
                                 id: imageMenu
                                 source: model.source
-                                height: 36
-                                width: 36
+                                height: 64
+                                width: 64
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
                             Text
                             {
                                 text: qsTr(name)
-                                color: "#BBBEBF"
+                                color: "#CFCBD9"
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                font.weight: Font.Light
                                 font.family: "Roboto"
+                                font.pointSize: 12
                             }
                         }
 
@@ -79,66 +87,37 @@ Page {
                            }
                         }
                     }
-
-//            highlight: Rectangle { color: "aliceblue"; radius: 1 }
-            highlight:
-                Component
-                {
-                    Rectangle {
-                        id: rectangleMenu
-                        color: "#121B28"
-                        Rectangle
-                        {
-                            height: rectangleMenu.height
-                            width: 4
-                            color: "green"
-                        }
-                    }
                 }
             focus: true
-        }
     }
         Rectangle
         {
             id: rectangleExit
             color: "transparent"
             width: listViewTabs.width
-            height: 64
+            height: 150
             anchors.left: parent.left
             anchors.bottom: parent.bottom
 
-            Rectangle
-            {
-                color: "transparent"
-                width: listViewTabs.width
-                height: 64
-                anchors.left: parent.left
-                anchors.bottom: parent.bottom
-
-                Rectangle
-                {
-                    id: rectangleBorder
-                    anchors.left: parent.left
-                    height: rectangleExit.height
-                    width: 4
-                    color: "transparent"
-                }
                 Column
                 {
+                    spacing: 20
                     anchors.centerIn: parent
                     Image
                     {
                         id: imageMenu
                         source: "qrc:/Resources/Icons/exit.png"
-                        height: 32
-                        width: 32
+                        height: 64
+                        width: 64
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     Text
                     {
                         text: qsTr("Exit")
-                        color: "#BBBEBF"
+                        color: "#CFCBD9"
                         anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Roboto"
+                        font.pointSize: 12
                     }
                 }
 
@@ -146,7 +125,7 @@ Page {
                        anchors.fill: parent
                        onHoveredChanged:
                        {
-                           rectangleBorder.color = "#EE5321"
+                           rectangleExit.color = "#48435F"
                        }
 
                        onClicked:
@@ -155,7 +134,6 @@ Page {
                            Qt.quit()
                        }
                    }
-            }
         }
         Rectangle {
             id: mainDashboard
@@ -168,8 +146,8 @@ Page {
             Loader {
                 id: stackViewScreenDashboard
                 anchors.fill: parent
-                anchors.margins: 1
                 source: "DapUiQmlScreenDialog.qml"
             }
         }
 }
+

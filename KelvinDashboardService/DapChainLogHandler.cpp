@@ -2,40 +2,40 @@
 
 DapChainLogHandler::DapChainLogHandler(QObject *parent) : QObject(parent)
 {
+    m_fileSystemWatcher.addPath(LOG_FILE);
 
+    connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, [=] (const QString& asFile) {
+        Q_UNUSED(asFile)
+        m_fileSystemWatcher.addPath(LOG_FILE);
+        emit onChangedLog();
+    });
 }
 
-QStringList DapChainLogHandler::parse(const QByteArray &aLogMessages)
+QStringList DapChainLogHandler::request()
 {
-    qDebug() << aLogMessages;
-    QRegExp rx("(\\t|\\[)([\\w\\s]{1,1}[\\w\\s\\W]+)(\\n|\\r|\\])");
-    rx.setMinimal(true);
+    QStringList m_listLogs;
+    QFile file(LOG_FILE);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            emit onUpdateModel();
+        }
+        else
+        {
+            QTextStream in(&file);
+//            QRegExp rx("(\\[|\\]|\\s)([\\w*]{1,1}[\\w\\s\\W]+)([\\n]|\\])" ); !!! DO NOT DELETE!!!
+            QRegExp rx("(\\[|\\]|\\s)([\\w*]{1,1}[\\w\\s\\W]+)(\\]|$)" );
+            rx.setMinimal(true);
 
-    int pos{0};
-    QStringList list;
-    while((pos = rx.indexIn(aLogMessages, pos)) != -1)
-    {
-        list.append(rx.cap(2));
-        pos += rx.matchedLength();
-    }
-    qDebug() << list;
-    return list;
-}
 
-QStringList DapChainLogHandler::request(int aiTimeStamp, int aiRowCount)
-{
-    QByteArray result;
-    QProcess process;
-    process.start(QString("%1 print_log ts_after %2 limit %3").arg(CLI_PATH).arg(aiTimeStamp).arg(aiRowCount));
-    process.waitForFinished(-1);
-    result = process.readAll();
-
-    if(result.isEmpty())
-        qDebug() << "FALSE";
-    else
-    {
-        qDebug() << "TRUE";
-    }
-
-    return parse(result);
+            while (!in.atEnd()) {
+                QString line = in.readLine();
+                    int pos{0};
+                    while((pos = rx.indexIn(line, pos)) != -1)
+                    {
+                        m_listLogs.append(rx.cap(2));
+                        pos += rx.matchedLength();
+                    }
+            }
+        }
+        return m_listLogs;
 }

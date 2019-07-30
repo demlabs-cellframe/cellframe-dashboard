@@ -1,6 +1,6 @@
 #include "DapLogMessage.h"
 
-DapLogMessage::DapLogMessage(const Type &type, const QString &timestamp, const QString &file, const QString &message, QObject *parent) : QObject(parent)
+DapLogMessage::DapLogMessage(const QString &type, const QString &timestamp, const QString &file, const QString &message, QObject *parent) : QObject(parent)
 {
     m_type = type;
     m_sTimeStamp = timestamp;
@@ -8,12 +8,12 @@ DapLogMessage::DapLogMessage(const Type &type, const QString &timestamp, const Q
     m_sMessage = message;
 }
 
-Type DapLogMessage::getType() const
+QString DapLogMessage::getType() const
 {
     return m_type;
 }
 
-void DapLogMessage::setType(const Type &type)
+void DapLogMessage::setType(const QString &type)
 {
     m_type = type;
 
