@@ -5,6 +5,11 @@ import QtQuick.Layouts 1.12
 import NodeNetworkExplorer 1.0
 
 Page {
+    Rectangle {
+        anchors.fill: parent;
+        color: "#3b3353";
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 2
@@ -23,9 +28,19 @@ Page {
                 scale: 0.6
                 transformOrigin: Item.TopLeft
                 model: dapNodeNetworkModel
+                colorOffline: "#eb4d4b"
+                colorOnline: "#6ab04c"
+                colorFocused: "#ff7979"
+                colorSelect: "#686de0"
                 onSelectNode: {
                     dapNodeNetworkMenu.x = getSelectedNodePosX();
                     dapNodeNetworkMenu.y = getSelectedNodePosY();
+
+                    if(dapNodeNetworkModel.isNodeOnline(getSelectedNodeAddress()))
+                        dapRadioButtonOnline.checked = true;
+                    else
+                        dapRadioButtonOffline.checked = true;
+
                     dapNodeNetworkMenu.visible = true;
                 }
                 onSelectNodeChanged: {
@@ -39,9 +54,9 @@ Page {
                         text: qsTr("Show detalies")
                         onTriggered: {
                             dapNodeNetworkDescription.visible = true;
-                            dapDescriptionAddress.text = dapGraphWidget.getSelectedNodeAddress();
-                            dapDescriptionAlias.text = dapGraphWidget.getSelectedNodeAlias();
-                            dapDescriptionIpv4.text = dapGraphWidget.getSelectedNodeIpv4();
+                            dapDescriptionModel.get(0).name = dapGraphWidget.getSelectedNodeAddress();
+                            dapDescriptionModel.get(1).name = dapGraphWidget.getSelectedNodeAlias();
+                            dapDescriptionModel.get(2).name = dapGraphWidget.getSelectedNodeIpv4();
                         }
                     }
 
@@ -62,63 +77,59 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             visible: false
-            border.color: "#F3F2F1"
-            border.width: 1
+            color: "#eaecef"
 
-             Column {
-                 anchors.fill: parent
+            ListModel {
+                id: dapDescriptionModel
+                ListElement { name: ""; category: "Address"; }
+                ListElement { name: ""; category: "Alias"; }
+                ListElement { name: ""; category: "Ipv4"; }
+            }
 
-                 Text {
-                     anchors.horizontalCenter: parent.horizontalCenter
-                     topPadding: 20
-                     bottomPadding: 30
-                     font.pointSize: 24
-                     text: qsTr("Description")
-                 }
+            ListView {
+                anchors.fill: parent
+                model: dapDescriptionModel
+                delegate: Text {text: name; font.pixelSize: 18 }
+                section.property: "category"
+                section.criteria: ViewSection.FullString
+                section.delegate: dapCategory
 
-                 Column {
-                     leftPadding: 30
+                header: Rectangle {
+                    width: parent.width
+                    height: rowContent.height
+                    RowLayout {
+                        id: rowContent
+                        Button {
+                            text: "X"
+                        }
 
-                     Text {
-                         text: qsTr("Address")
-                         font.pointSize: 13
-                     }
+                        Text {
+                            Layout.rowSpan: 1
+                            verticalAlignment: Qt.AlignVCenter
+                            horizontalAlignment: Qt.AlignHCenter
+                            text: qsTr("Description")
+                        }
+                    }
 
-                     Text {
-                         id: dapDescriptionAddress
-                         font.pointSize: 8
-                     }
-                 }
+                }
+            }
 
 
-                 Column {
-                     leftPadding: 30
+            Component {
+                id: dapCategory
+                Rectangle {
+                    width: dapNodeNetworkDescription.width
+                    height: childrenRect.height
+                    color: "#0000FF"
 
-                     Text {
-                         text: qsTr("Alias")
-                         font.pointSize: 13
-                     }
-
-                     Text {
-                         id: dapDescriptionAlias
-                         font.pointSize: 8
-                     }
-                 }
-
-                 Column {
-                     leftPadding: 30
-
-                     Text {
-                         text: qsTr("Ipv4")
-                         font.pointSize: 13
-                     }
-
-                     Text {
-                         id:dapDescriptionIpv4
-                         font.pointSize: 8
-                     }
-                 }
-             }
+                    Text {
+                        color: "#FFFFFF"
+                        text: section
+                        font.bold: true
+                        font.pixelSize: 20
+                    }
+                }
+            }
         }
     }
 
@@ -152,14 +163,20 @@ Page {
             }
 
             RadioButton {
+                id: dapRadioButtonOffline
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Offline")
+                onToggled: {
+                    dapNodeNetworkModel.setStatusNode(dapGraphWidget.getSelectedNodeAddress(), false);
+                }
             }
 
             RadioButton {
+                id: dapRadioButtonOnline
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Online")
-                onClicked: {
+                onToggled: {
+                    dapNodeNetworkModel.setStatusNode(dapGraphWidget.getSelectedNodeAddress(), true);
                 }
             }
 

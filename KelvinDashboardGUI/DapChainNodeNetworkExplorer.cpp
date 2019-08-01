@@ -1,18 +1,19 @@
-#include "DapChainNodeNetworkExplorer.h"
+﻿#include "DapChainNodeNetworkExplorer.h"
 
-//  TEST
-//#define VIRTUAL_COLUMN_NUMBER   5
-//-----------------------------------
-
-//#define DESCRIPTION_NODE            QString("Address: %1\nAlias: %2\nIPv4: %3")
 #define DEFAULT_NODE_COLOR_HOVER    QColor("#FF0000")
 #define DEFAULT_NODE_COLOR          QColor("#000000")
+#define DEFAULT_NODE_COLOR_OFFLINE  QColor("#FF0000")
+#define DEFAULT_NODE_COLOR_ONLINE   QColor("#00FF00")
+#define DEFAULT_NODE_COLOR_SELECTED QColor("#0000FF")
 #define DEFAULT_NODE_SIZE           50
 #define DEFAULT_WIDTH_LINE          3
 
 DapChainNodeNetworkExplorer::DapChainNodeNetworkExplorer(QQuickItem *parent) :
     QQuickPaintedItem(parent),
     m_model(nullptr),
+    m_colorOnline(DEFAULT_NODE_COLOR_ONLINE),
+    m_colorOffline(DEFAULT_NODE_COLOR_OFFLINE),
+    m_colorSelect(DEFAULT_NODE_COLOR_SELECTED),
     m_colorNormal(DEFAULT_NODE_COLOR),
     m_colorFocused(DEFAULT_NODE_COLOR_HOVER),
     m_widthLine(DEFAULT_WIDTH_LINE),
@@ -26,24 +27,26 @@ void DapChainNodeNetworkExplorer::mousePressEvent(QMouseEvent* event)
 {
     QQuickPaintedItem::mousePressEvent(event);
 
-    for(auto Node = m_nodeMap.begin(); Node != m_nodeMap.end(); Node++)
-    {
-        if (Node.value().State == DapNodeState::Selected)
-        {
-            Node.value().State = DapNodeState::Normal;
-            emit selectNodeChanged();
-        }
+    emit selectNodeChanged();
 
-        if(Node.value().State == DapNodeState::Focused)
-        {
-            DapNodeData* nodeData = &Node.value();
-            nodeData->State = DapNodeState::Selected;
-            m_currentSelectedNode = Node.key();
-            emit selectNode(Node.key());
-        }
+    if(m_currentSelectedNode.second != nullptr)
+    {
+        m_currentSelectedNode.second->State = Normal;
+        m_currentSelectedNode.second = nullptr;
     }
 
-    update();
+    for(auto node = m_nodeMap.begin(); node != m_nodeMap.end(); node++)
+    {
+        if(node.value().State == DapNodeState::Focused)
+        {
+            DapNodeGui* nodeData = &node.value();
+            nodeData->State = DapNodeState::Selected;
+            m_currentSelectedNode = QPair<QString, DapNodeGui*>(node.key(), nodeData);
+            emit selectNode();
+            update();
+            return;
+        }
+    }
 }
 
 void DapChainNodeNetworkExplorer::wheelEvent(QWheelEvent* event)
@@ -65,22 +68,18 @@ void DapChainNodeNetworkExplorer::hoverMoveEvent(QHoverEvent* event)
 {
     QQuickPaintedItem::hoverMoveEvent(event);
 
-    for(auto Node = m_nodeMap.begin(); Node != m_nodeMap.end(); Node++)
+    for(auto node = m_nodeMap.begin(); node != m_nodeMap.end(); node++)
     {
-        DapNodeData* nodeData = &Node.value();
-        if(nodeData->Rect.contains(event->pos()))
+        DapNodeGui* nodeDataGui = &node.value();
+        if(nodeDataGui->Rect.contains(event->pos()) && nodeDataGui->State != Selected)
         {
-            if(nodeData->State == DapNodeState::Selected) return;
-            nodeData->State = DapNodeState::Focused;
+            nodeDataGui->State = DapNodeState::Focused;
             break;
         }
-        else
+        else if(nodeDataGui->State == DapNodeState::Focused)
         {
-            if(nodeData->State == DapNodeState::Focused)
-            {
-                nodeData->State = DapNodeState::Normal;
-                break;
-            }
+            nodeDataGui->State = DapNodeState::Normal;
+            break;
         }
     }
 
@@ -90,51 +89,46 @@ void DapChainNodeNetworkExplorer::hoverMoveEvent(QHoverEvent* event)
 void DapChainNodeNetworkExplorer::paint(QPainter* painter)
 {
     if(m_model == nullptr) return;
-    QString address;
-    const DapNodeData* activatedNode = nullptr;
+    QString focusedNode = QString();
+    QPen penNormal(QBrush(m_colorNormal), m_widthLine);
+    QPen penOnline(QBrush(m_colorOnline), m_widthLine);
+    QPen penOffline(QBrush(m_colorOffline), m_widthLine);
+    QPen penFocused(QBrush(m_colorFocused), m_widthLine);
+    QPen penSelected(QBrush(m_colorSelect), m_widthLine);
 
-    QPen pen(QBrush(m_colorNormal), m_widthLine);
-    painter->setPen(pen);
     painter->setBrush(QBrush("#FFFFFF"));
-
     for(auto node = m_nodeMap.constBegin(); node != m_nodeMap.constEnd(); node++)
     {
-        const DapNodeData* nodeData = &node.value();
+        const DapNodeGui* nodeDataGui = &node.value();
+        const DapNodeData* nodeData = m_model->getNodeData(node.key());
         for(int i = 0; i < nodeData->Link.count(); i++)
-            painter->drawLine(nodeData->Rect.center(), nodeData->Link.at(i)->Rect.center());
-
-        if(nodeData->State == DapNodeState::Focused)
         {
-            address = node.key();
-            activatedNode = nodeData;
-            continue;
-        }
-        else if (nodeData->State == DapNodeState::Selected)
-        {
-            QPen penSelected(QBrush("#0000FF"), m_widthLine);
-            painter->setPen(penSelected);
-            painter->drawEllipse(nodeData->Rect);
-            painter->setPen(pen);
-            continue;
+            if(nodeData->Status) painter->setPen(penOnline);
+            else painter->setPen(penOffline);
+            painter->drawLine(nodeDataGui->Rect.center(), m_nodeMap[nodeData->Link.at(i)].Rect.center());
         }
 
-        painter->drawEllipse(nodeData->Rect);
+        if(nodeDataGui->State == Focused)
+        {
+            painter->setPen(penFocused);
+            focusedNode = node.key();
+        }
+        else if(nodeDataGui->State == Selected) painter->setPen(penSelected);
+        else painter->setPen(penNormal);
+
+        painter->drawEllipse(nodeDataGui->Rect);
     }
 
-    if(activatedNode != nullptr)
+    if(!focusedNode.isEmpty())
     {
-        QPen penActivated(QBrush(m_colorFocused), m_widthLine);
         QPen penWhite(QBrush("#FFFFFF"), m_widthLine);
-        QRect rect(activatedNode->Rect.center(), QSize(200, 15));
-
-        painter->setPen(penActivated);
-        painter->drawEllipse(activatedNode->Rect);
+        QRect rect(m_nodeMap[focusedNode].Rect.center(), QSize(200, 15));
+        const DapNodeData* nodeData = m_model->getNodeData(focusedNode);
 
         painter->setPen(penWhite);
         painter->drawRect(rect);
-
-        painter->setPen(pen);
-        painter->drawText(rect, activatedNode->Alias);
+        painter->setPen(penNormal);
+        painter->drawText(rect, nodeData->Alias);
     }
 }
 
@@ -163,40 +157,47 @@ DapChainNodeNetworkModel* DapChainNodeNetworkExplorer::getModel() const
     return m_model;
 }
 
-
 int DapChainNodeNetworkExplorer::getSelectedNodePosX() const
 {
-    if(m_nodeMap.contains(m_currentSelectedNode))
-       return m_nodeMap[m_currentSelectedNode].Rect.center().x();
-
+    if(m_currentSelectedNode.second != nullptr)
+        return m_currentSelectedNode.second->Rect.center().x();
     return -1;
 }
 
 int DapChainNodeNetworkExplorer::getSelectedNodePosY() const
 {
-    if(m_nodeMap.contains(m_currentSelectedNode))
-       return m_nodeMap[m_currentSelectedNode].Rect.center().y();
-
+    if(m_currentSelectedNode.second != nullptr)
+        return m_currentSelectedNode.second->Rect.center().y();
     return -1;
 }
 
 QString DapChainNodeNetworkExplorer::getSelectedNodeAddress() const
 {
-    return m_currentSelectedNode;
+    if(m_currentSelectedNode.second != nullptr)
+        return m_currentSelectedNode.first;
+    return QString();
 }
 
 QString DapChainNodeNetworkExplorer::getSelectedNodeAlias() const
 {
-    if(m_nodeMap.contains(m_currentSelectedNode))
-       return m_nodeMap[m_currentSelectedNode].Alias;
+    if(m_currentSelectedNode.second != nullptr)
+    {
+        const DapNodeData* nodeData = m_model->getNodeData(m_currentSelectedNode.first);
+        if(nodeData != nullptr)
+            return nodeData->Alias;
+    }
 
     return QString();
 }
 
 QString DapChainNodeNetworkExplorer::getSelectedNodeIpv4() const
 {
-    if(m_nodeMap.contains(m_currentSelectedNode))
-       return m_nodeMap[m_currentSelectedNode].AddressIpv4.toString();
+    if(m_currentSelectedNode.second != nullptr)
+    {
+        const DapNodeData* nodeData = m_model->getNodeData(m_currentSelectedNode.first);
+        if(nodeData != nullptr)
+            return nodeData->Ipv4;
+    }
 
     return QString();
 }
@@ -250,16 +251,21 @@ void DapChainNodeNetworkExplorer::setModel(DapChainNodeNetworkModel* aModel)
 {
     if (m_model == aModel) return;
     m_model = aModel;
-    connect(m_model, SIGNAL(dataChanged(QVariant)), this, SLOT(proccessCreateGraph()));
+    QObject::connect(m_model, SIGNAL(changeNodeNetwork()), this, SLOT(proccessCreateGraph()));
+    QObject::connect(m_model, SIGNAL(changeStatusNode(QString, bool)), this, SLOT(update()));
     proccessCreateGraph();
     emit modelChanged(m_model);
 }
 
-void DapChainNodeNetworkExplorer::setCurrentNodeStatus(const DapNodeStatus& aNodeStatus)
+QString DapChainNodeNetworkExplorer::getAddressByPos(const int aX, const int aY)
 {
-    qDebug() << "changed node status" << m_currentSelectedNode << (int)aNodeStatus;
-    if(m_nodeMap.contains(m_currentSelectedNode))
-        m_nodeMap[m_currentSelectedNode].Status = aNodeStatus;
+    for(auto node = m_nodeMap.constBegin(); node != m_nodeMap.constEnd(); node++)
+    {
+        if(node->Rect.contains(aX, aY))
+            return node.key();
+    }
+
+    return QString();
 }
 
 void DapChainNodeNetworkExplorer::setColorOnline(const QColor& aColorOnline)
@@ -292,33 +298,19 @@ void DapChainNodeNetworkExplorer::setColorSelect(const QColor& aColorSelect)
 void DapChainNodeNetworkExplorer::proccessCreateGraph()
 {
     if(m_model == nullptr) return;
-    QVariant m_data = m_model->getData();
 
-    QMap<QString, QVariant> dataMap = m_data.toMap();
+    const DapNodeMap* const nodeMap = m_model->getDataMap();
     int pointX = m_sizeNode;
-    int heightConten = dataMap.count() * m_sizeNode;
-
-    QList<QString> addressList = dataMap.keys();
-    foreach(auto address, addressList)
-        m_nodeMap[address] = DapNodeData();
-
-    for(auto node = m_nodeMap.begin(); node != m_nodeMap.end(); node++)
+    int heightConten = nodeMap->count() * m_sizeNode;
+    for (auto node = nodeMap->constBegin(); node != nodeMap->constEnd(); node++)
     {
-        DapNodeData* nodeData = &node.value();
-        QStringList nodeDataList = dataMap[node.key()].toStringList();
-        nodeData->Cell = nodeDataList.at(0).toUInt();
-        nodeData->AddressIpv4 = QHostAddress(nodeDataList.at(1));
-        nodeData->Alias = nodeDataList.at(2);
-
-        if(nodeDataList.at(3).toUInt() > 0)
-        {
-            for(int i = 4; i < nodeDataList.count(); i++)
-                nodeData->Link.append(&m_nodeMap[nodeDataList.at(i)]);
-        }
+        DapNodeGui nodeData;
 
         int posY = (qrand() % ((heightConten + 1) - m_sizeNode) + m_sizeNode);
-        nodeData->Rect = QRect(pointX, posY, m_sizeNode, m_sizeNode);
+        nodeData.Rect = QRect(pointX, posY, m_sizeNode, m_sizeNode);
         pointX += m_sizeNode * 2;
+
+        m_nodeMap[node.key()] = nodeData;
     }
 
     setSize(QSize(pointX + m_sizeNode * 2, heightConten + m_sizeNode * 2));

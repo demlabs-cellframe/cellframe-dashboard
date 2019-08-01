@@ -53,6 +53,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 	connect(m_pDapCommandController, SIGNAL(sendNodeNetwork(QVariant)), this, SLOT(processGetNodeNetwork(QVariant)));
     connect(m_pDapCommandController, SIGNAL(onLogModel()), SLOT(get()));
 
+    connect(&DapChainNodeNetworkModel::getInstance(), SIGNAL(requestNodeNetwork()), this, SLOT(getNodeNetwork()));
 }
 
 QString DapServiceController::getBrand() const

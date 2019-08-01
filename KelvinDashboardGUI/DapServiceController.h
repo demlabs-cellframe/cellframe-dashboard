@@ -81,8 +81,6 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
-    void getNodeNetwork();
-
 signals:
     /// The signal is emitted when the Brand company property changes.
     void brandChanged(const QString &brand);
@@ -116,6 +114,8 @@ private slots:
     void processGetNodeNetwork(const QVariant& aData);
 
 public slots:
+    void getNodeNetwork();
+
     void get();
     /// Get node logs.
     /// @param aiTimeStamp Timestamp start reading logging.
