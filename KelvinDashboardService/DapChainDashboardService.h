@@ -57,6 +57,9 @@ signals:
     void onNewClientConnected();
     
 public slots:
+    void clearLogModel();
+
+    void changedLogModel();
     /// Activate the main client window by double-clicking the application icon in the system tray.
     /// @param reason Type of action on the icon in the system tray.
 //    void activateClient(const QSystemTrayIcon::ActivationReason& reason);

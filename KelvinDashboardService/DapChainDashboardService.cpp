@@ -4,7 +4,8 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 {
     // Log reader
     m_pDapChainLogHandler = new DapChainLogHandler(this);
-
+    connect(m_pDapChainLogHandler, SIGNAL(onUpdateModel()), SLOT(clearLogModel()));
+    connect(m_pDapChainLogHandler, SIGNAL(onChangedLog()), SLOT(changedLogModel()));
     m_pDapChainWalletHandler = new DapChainWalletHandler(this);
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "New client";
@@ -38,7 +39,7 @@ bool DapChainDashboardService::start()
 QStringList DapChainDashboardService::getNodeLogs(int aiTimeStamp, int aiRowCount)
 {
     qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
-    return m_pDapChainLogHandler->request(aiTimeStamp, aiRowCount);
+    return m_pDapChainLogHandler->request();
 }
 
 QStringList DapChainDashboardService::addWallet(const QString &asWalletName)
@@ -78,6 +79,19 @@ QString DapChainDashboardService::sendToken(const QString &asWalletName, const Q
     return m_pDapChainWalletHandler->sendToken(asWalletName, asReceiverAddr, asToken, asAmount);
 }
 
+void DapChainDashboardService::clearLogModel()
+{
+    qDebug() << "clearLogModel()";
+    QJsonArray arguments;
+    m_pServer->notifyConnectedClients("RPCClient.clearLogModel", arguments);
+}
+
+void DapChainDashboardService::changedLogModel()
+{
+    qDebug() << "changedLogModel()";
+    QJsonArray arguments;
+    m_pServer->notifyConnectedClients("RPCClient.processChangedLog", arguments);
+}
 
 /// Activate the main client window by double-clicking the application icon in the system tray.
 /// @param reason Type of action on the icon in the system tray.

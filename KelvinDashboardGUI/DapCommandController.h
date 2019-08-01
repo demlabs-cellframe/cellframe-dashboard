@@ -40,6 +40,10 @@ signals:
     void sendNodeNetwork(const QVariant& aData);
 
     void executeCommandChanged(const QString& result);
+
+    void onClearLogModel();
+
+    void onLogModel();
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -76,6 +80,8 @@ public slots:
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount);
 
+    void processChangedLog();
+
     void addWallet(const QString& asWalletName);
     void removeWallet(const QString& asWalletName);
     void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
@@ -88,6 +94,9 @@ public slots:
 
     void executeCommand(const QString& command);
 
+    void clearLogModel();
+    /// Get node logs.
+    void getNodeLogs();
 };
 
 #endif // COMMANDCONTROLLER_H

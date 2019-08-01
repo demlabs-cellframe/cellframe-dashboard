@@ -95,7 +95,7 @@ signals:
     /// The signal is emitted when checking the existence of an already running copy of the application.
     void isExistenceClient(bool isExistenceClient);
     void sendToQML(QString);
-
+	void logCompleted();
     void sendNodeNetwork(const QVariant& aData);
 
 private slots:
@@ -116,6 +116,13 @@ private slots:
     void processGetNodeNetwork(const QVariant& aData);
 
 public slots:
+    void get();
+    /// Get node logs.
+    /// @param aiTimeStamp Timestamp start reading logging.
+    /// @param aiRowCount Number of lines displayed.
+    Q_INVOKABLE void getNodeLogs() const;
+
+    void clearLogModel();
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 
     /// display a client, falso - when requesting to hide a client.
