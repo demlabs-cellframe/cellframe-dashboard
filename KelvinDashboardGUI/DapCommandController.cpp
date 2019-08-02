@@ -118,7 +118,7 @@ void DapCommandController::processGetWalletInfo()
 {
     qInfo() << "processGetWalletInfo()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    if (!reply || reply->response().result().toVariant().isNull()) {
+    if (!reply || reply->response().result().toVariant().toStringList().count() <= 0) {
         qWarning() << "Invalid response received";
         return;
     }
