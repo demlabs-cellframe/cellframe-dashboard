@@ -1,6 +1,5 @@
-kelvindashboard (1.0) unstable; urgency=medium
+kelvin-dashboard (1.2-0) development; urgency=medium
 
-    * created
-        - created transactions
+  * Refactored the package
 
--- vladislav.cholak vlad.hoc10@gmail.com  01.07.2019
+ -- Dmitriy Gerasimov <dmitriy.gerasimov@demlabs.net>  Fri, 02 Aug 2019 16:07:38 +0700

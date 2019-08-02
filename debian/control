@@ -1,17 +1,17 @@
-Source: kelvindashboard
+Source: kelvin-dashboard
 Section: unknown
 Priority: optional
-Maintainer: support <support@ncodedcommunications.com>
+Maintainer: Demlabs Support <support@demlabs.net>
 Build-Depends: debhelper (>= 9)
 Standards-Version: 5.8-4
-Homepage: https://ncodedcommunications.com
+Homepage: https://demlabs.net
 
-Package: kelvindashboard
+Package: kelvin-dashboard
 Architecture: any
 Depends: psmisc, menu, ${shlibs:Depends}, ${misc:Depends}
 Replaces: KelvinDashboard
-Description: KelvinDashboard
- KelvinDashboard
+Description: Kelvin Dashboard
+ Kelvin Dashboard
 
 
 

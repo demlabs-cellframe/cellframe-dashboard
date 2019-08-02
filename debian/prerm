@@ -2,10 +2,10 @@
 
 case "$1" in
     purge|remove|abort-upgrade|failed-upgrade|upgrade)
-    [ -f /etc/init.d/kelvindashboardservice ] && service kelvindashboardservice stop
-    [ -d /opt/KelvinDashboard ] && rm -rf /opt/KelvinDashboard/
+    [ -f /etc/init.d/kelvin-dashboard ] && service kelvin-dashboard stop
+    [ -d /opt/kelvin-dashboard ] && rm -rf /opt/kelvin-dashboard/
     [ -f /usr/local/bin/KelvinDashboard ] && rm /usr/local/bin/KelvinDashboard
-    [ -f /etc/init.d/kelvindashboardservice ] && rm /etc/init.d/kelvindashboardservice
+    [ -f /etc/init.d/kelvin-dashboard ] && rm /etc/init.d/kelvin-dashboard
     systemctl daemon-reload
     [ -f /usr/share/applications/kelvindashboard.desktop ] && rm /usr/share/applications/kelvindashboard.desktop
     [ -f /usr/share/pixmaps/kelvindashboard.ico ] && rm /usr/share/pixmaps/kelvindashboard.ico

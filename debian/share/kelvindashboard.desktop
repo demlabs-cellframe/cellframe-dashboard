@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Kelvin Dashboard
-Exec=/opt/KelvinDashboard/bin/KelvinDashboard
-Icon=/opt/sap/ultrapad/share/kelvindashboard.ico
+Exec=/opt/kelvin-dashboard/bin/KelvinDashboard
+Icon=/opt/kelvin-dashboard/share/kelvindashboard.ico
 Terminal=false
 Type=Application
 Encoding=UTF-8

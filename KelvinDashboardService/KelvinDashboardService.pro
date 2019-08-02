@@ -66,7 +66,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service
-    service_target.path = /opt/$$BRAND/bin/
+    service_target.path = /opt/kelvin-dashboard/bin/
     INSTALLS += service_target
 }
 

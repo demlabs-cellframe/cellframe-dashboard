@@ -12,7 +12,7 @@ CONFIG += c++11
 TARGET = $$BRAND
 
 VER_MAJ = 1
-VER_MIN = 0
+VER_MIN = 2
 VER_PAT = 0
 
 
@@ -69,7 +69,7 @@ QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+else: unix:!android: target.path = /opt/kelvin-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
@@ -104,7 +104,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
-    gui_target.path = /opt/$$BRAND/bin/
+    gui_target.path = /opt/kelvin-dashboard/bin/
     INSTALLS += gui_target
 }
 
