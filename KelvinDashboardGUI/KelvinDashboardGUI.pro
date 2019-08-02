@@ -32,7 +32,7 @@ else {
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
-DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
+DEFINES += DAP_SERVICE_NAME=\\\"kelvin-dashboard\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 ICON = icon.ico
 # You can also make your code fail to compile if you use deprecated APIs.

@@ -3,9 +3,10 @@
 case "$1" in
     configure)
 
-    ln -sf /opt/kelvin-dashboard/share/init.d/KelvinDashboardService.service /etc/systemd/user/KelvinDashboardService.service
+    ln -sf /opt/kelvin-dashboard/share/init.d/kelvin-dashboard.service /etc/systemd/user/KelvinDashboardService.service
     systemctl --system enable /opt/kelvin-dashboard/share/init.d/KelvinDashboardService.service
-    ln -s /opt/kelvin-dashboard/bin/KelvinDashboard /usr/local/bin/
+    ln -sf /opt/kelvin-dashboard/bin/KelvinDashboard /usr/local/bin/KelvinDashboard
+    chmod +X /usr/local/bin/KelvinDashboard
     cp -f /opt/kelvin-dashboard/share/kelvindashboard.desktop /usr/share/applications/kelvindashboard.desktop
 	cp -f /opt/kelvin-dashboard/share/kelvindashboard.ico	/usr/share/pixmaps/kelvindashboard.ico
     update-menus
