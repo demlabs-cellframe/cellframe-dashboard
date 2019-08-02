@@ -1,16 +1,16 @@
 [submodule "libdap-qt-ui-qml"]
 	path = libdap-qt-ui-qml
-	url = https://github.com/kelvinblockchain/libdap-qt-ui-qml.git
+	url = https://gitlab.demlabs.net/cellframe/libdap-qt-ui-qml.git
 	branch = master
 [submodule "libdap-qt"]
 	path = libdap-qt
-	url = https://github.com/cellframe/libdap-qt
+	url = https://gitlab.demlabs.net/cellframe/libdap-qt.git
 	branch = master
 [submodule "libdap"]
 	path = libdap
-	url = https://github.com/cellframe/libdap
+	url = https://gitlab.demlabs.net/cellframe/libdap.git
 	branch = master
 [submodule "libdap-crypto"]
 	path = libdap-crypto
-	url = https://github.com/cellframe/libdap-crypto
+	url = https://gitlab.demlabs.net/cellframe/libdap-crypto.git
 	branch = master
