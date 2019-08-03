@@ -1,0 +1,10 @@
+stages:
+    - prepare
+    - build
+    - test
+
+kelvin-dashboard:
+    stage: build
+    tags:
+    - kelvin-dashboard
+    script: ~/production/integration/gitlab-CI/build_all_handler.sh kelvin-dashboard
