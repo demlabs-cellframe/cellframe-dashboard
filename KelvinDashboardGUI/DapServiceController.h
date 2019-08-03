@@ -115,6 +115,7 @@ private slots:
 
 public slots:
     void getNodeNetwork();
+    void setNodeStatus(const bool aIsOnline);
 
     void get();
     /// Get node logs.

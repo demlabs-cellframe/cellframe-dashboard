@@ -41,6 +41,7 @@ Page {
                     else
                         dapRadioButtonOffline.checked = true;
 
+                    dapMenuItemStatus.enabled = isCurrentNode;
                     dapNodeNetworkMenu.visible = true;
                 }
                 onSelectNodeChanged: {
@@ -167,7 +168,7 @@ Page {
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Offline")
                 onToggled: {
-                    dapNodeNetworkModel.setStatusNode(dapGraphWidget.getSelectedNodeAddress(), false);
+                    dapNodeNetworkModel.setStatusNode(false);
                 }
             }
 
@@ -176,7 +177,7 @@ Page {
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Online")
                 onToggled: {
-                    dapNodeNetworkModel.setStatusNode(dapGraphWidget.getSelectedNodeAddress(), true);
+                    dapNodeNetworkModel.setStatusNode(true);
                 }
             }
 

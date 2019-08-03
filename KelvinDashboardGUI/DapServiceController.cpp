@@ -181,6 +181,11 @@ void DapServiceController::getNodeNetwork()
     m_pDapCommandController->getNodeNetwork();
 }
 
+void DapServiceController::setNodeStatus(const bool aIsOnline)
+{
+    m_pDapCommandController->setNodeStatus(aIsOnline);
+}
+
 void DapServiceController::processAddWallet(const QString& asWalletName, const QString& asWalletAddress)
 {
     qInfo() << QString("processAddWallet(%1, %2)").arg(asWalletName).arg(asWalletAddress);
@@ -222,8 +227,9 @@ void DapServiceController::processExecuteCommandInfo(const QString &result)
 
 void DapServiceController::processGetNodeNetwork(const QVariant& aData)
 {
-    DapChainNodeNetworkModel::getInstance().setData(aData);
+    DapChainNodeNetworkModel::getInstance().receiveNewNetwork(aData);
 }
+
 
 /// Get an instance of a class.
 /// @return Instance of a class.

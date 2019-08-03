@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     dapServiceClient.init();
     controller.getNodeLogs(0, 100);
     controller.getWallets();
-    controller.getNodeNetwork();
+//    controller.getNodeNetwork();
     
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");

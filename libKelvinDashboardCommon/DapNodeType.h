@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QStringList>
+#include <QDataStream>
 
 struct DapNodeData {
     quint32 Cell;
@@ -10,10 +11,12 @@ struct DapNodeData {
     QString Alias;
     QStringList Link;
     bool Status;
+    bool isCurrentNode;
 
     DapNodeData()
     {
         Status = false;
+        isCurrentNode = false;
     }
 
     DapNodeData& operator = (const DapNodeData& AData) {
@@ -22,7 +25,31 @@ struct DapNodeData {
         Ipv4 = AData.Ipv4;
         Link = AData.Link;
         Status = AData.Status;
+        isCurrentNode = AData.isCurrentNode;
         return *this;
+    }
+
+    friend QDataStream& operator<< (QDataStream& out, const DapNodeData& aData)
+    {
+        out << aData.Cell
+            << aData.Ipv4
+            << aData.Alias
+            << aData.Link
+            << aData.Status
+            << aData.isCurrentNode;
+
+        return out;
+    }
+
+    friend QDataStream& operator>> (QDataStream& in, DapNodeData& aData)
+    {
+        in  >> aData.Cell
+            >> aData.Ipv4
+            >> aData.Alias
+            >> aData.Link
+            >> aData.Status
+            >> aData.isCurrentNode;
+        return in;
     }
 };
 

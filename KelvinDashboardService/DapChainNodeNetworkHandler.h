@@ -5,7 +5,9 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QDebug>
-//#include "DapNetworkType.h"
+#include <QDataStream>
+
+#include "DapNodeType.h"
 
 class DapChainNodeNetworkHandler : public QObject
 {
@@ -15,6 +17,7 @@ public:
     explicit DapChainNodeNetworkHandler(QObject *parent = nullptr);
 
 public slots:
+    void setNodeStatus(const bool aIsOnline);
     QVariant getNodeNetwork() const;
 };
 

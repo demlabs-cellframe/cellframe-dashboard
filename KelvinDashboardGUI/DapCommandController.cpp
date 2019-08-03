@@ -151,6 +151,12 @@ void DapCommandController::processGetNodeNetwork()
     emit sendNodeNetwork(reply->response().result().toVariant());
 }
 
+void DapCommandController::processGetNodeStatus()
+{
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    emit sendNodeStatus(reply->response().result().toVariant());
+}
+
 void DapCommandController::processExecuteCommand()
 {
     qInfo() << "processGetWalletInfo()";
@@ -226,9 +232,15 @@ void DapCommandController::getWalletInfo(const QString& asWalletName)
 
 void DapCommandController::getNodeNetwork()
 {
-    qInfo() << QString("getNodeNetwork(%1)");
+    qInfo() << QString("getNodeNetwork()");
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeNetwork");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeNetwork()));
+}
+
+void DapCommandController::setNodeStatus(const bool aIsOnline)
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.setNodeStatus", aIsOnline);
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeStatus()));
 }
 
 void DapCommandController::executeCommand(const QString &command)

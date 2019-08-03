@@ -24,12 +24,14 @@ public:
     const DapNodeMap* getDataMap() const;
     const DapNodeData* getNodeData(const QString& aAddress) const;
 
+    QString getCurrentAddress() const;
     Q_INVOKABLE static DapChainNodeNetworkModel &getInstance();
     Q_INVOKABLE bool isNodeOnline(const QString& aAddress) const;
 
 public slots:
-    void setData(const QVariant& aData);
-    Q_INVOKABLE void setStatusNode(const QString& aAddress, const bool aIsOnline);
+    void receiveNewNetwork(const QVariant& aData);
+    void receiveNodeStatus(const QVariant& aData);
+    Q_INVOKABLE void sendRequestNodeStatus(const bool aIsOnline);
     Q_INVOKABLE void startRequest();
     Q_INVOKABLE void startRequest(const int aTimeout);
     Q_INVOKABLE void stopRequest();
@@ -37,8 +39,10 @@ public slots:
 signals:
     void changeNodeNetwork();
     void requestNodeNetwork();
+    void requestNodeStatus(bool status);
     void changeStatusNode(QString node, bool isOnline);
     void appendNode(QMap<QString, QVariant>);
 };
+
 
 #endif // DAPCHAINNODENETWORKMODEL_H

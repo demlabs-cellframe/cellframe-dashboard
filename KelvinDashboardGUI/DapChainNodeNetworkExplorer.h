@@ -102,7 +102,7 @@ signals:
     void sizeNodeChanged(int sizeNode);
     void modelChanged(DapChainNodeNetworkModel* model);
 
-    void selectNode();                                                  //!<    Signal selected node
+    void selectNode(bool isCurrentNode);                                //!<    Signal selected node
     void selectNodeChanged();                                           //!<    Signal deselect node
 };
 

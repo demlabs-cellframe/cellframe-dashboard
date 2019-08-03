@@ -1,4 +1,5 @@
 #include "DapChainNodeNetworkModel.h"
+#include <QDataStream>
 #include <QDebug>
 
 #define DEFAULT_TIMER_MS 1000
@@ -30,6 +31,15 @@ const DapNodeData* DapChainNodeNetworkModel::getNodeData(const QString& aAddress
     return nodeData;
 }
 
+QString DapChainNodeNetworkModel::getCurrentAddress() const
+{
+    for (auto node = m_nodeMap.constBegin(); node != m_nodeMap.constBegin(); node++) {
+        if(node.value().isCurrentNode) return node.key();
+    }
+
+    return QString();
+}
+
 bool DapChainNodeNetworkModel::isNodeOnline(const QString& aAddress) const
 {
     if(m_nodeMap.contains(aAddress))
@@ -38,13 +48,11 @@ bool DapChainNodeNetworkModel::isNodeOnline(const QString& aAddress) const
     return false;
 }
 
-void DapChainNodeNetworkModel::setStatusNode(const QString& aAddress, const bool aIsOnline)
+void DapChainNodeNetworkModel::sendRequestNodeStatus(const bool aIsOnline)
 {
-    if(m_nodeMap.contains(aAddress))
-    {
-        m_nodeMap[aAddress].Status = aIsOnline;
-        emit changeStatusNode(aAddress, aIsOnline);
-    }
+    QString address = getCurrentAddress();
+    if(m_nodeMap[address].Status != aIsOnline)
+        emit requestNodeStatus(aIsOnline);
 }
 
 void DapChainNodeNetworkModel::startRequest()
@@ -64,15 +72,29 @@ void DapChainNodeNetworkModel::stopRequest()
     m_timerRequest->stop();
 }
 
-void DapChainNodeNetworkModel::setData(const QVariant& aData)
+void DapChainNodeNetworkModel::receiveNewNetwork(const QVariant& aData)
 {
     if (m_data == aData) return;
     m_data = aData;
+    m_nodeMap.clear();
+
     QMap<QString, QVariant> dataMap = m_data.toMap();
 
     QList<QString> addressList = dataMap.keys();
     foreach(auto address, addressList)
+    {
+        if(address == "current")
+        {
+            QStringList args = dataMap["current"].toStringList();
+            if(m_nodeMap.contains(args.at(0)))
+            {
+                m_nodeMap[args.at(0)].Status = (args.at(1) == "NET_STATE_OFFLINE" ? false : true);
+                m_nodeMap[args.at(0)].isCurrentNode = true;
+            }
+            else continue;
+        }
         m_nodeMap[address] = DapNodeData();
+    }
 
     for(auto node = m_nodeMap.begin(); node != m_nodeMap.end(); node++)
     {
@@ -90,4 +112,23 @@ void DapChainNodeNetworkModel::setData(const QVariant& aData)
     }
 
     emit changeNodeNetwork();
+}
+
+void DapChainNodeNetworkModel::receiveNodeStatus(const QVariant& aData)
+{
+    QByteArray data = aData.toByteArray();
+    QDataStream out(&data, QIODevice::ReadOnly);
+
+    QString address;
+    bool status;
+
+    out >> address >> status;
+
+    if(m_nodeMap.contains(address))
+    {
+        DapNodeData* nodeData = &m_nodeMap[address];
+        nodeData->Status = status;
+        nodeData->isCurrentNode = true;
+        emit changeStatusNode(address, status);
+    }
 }

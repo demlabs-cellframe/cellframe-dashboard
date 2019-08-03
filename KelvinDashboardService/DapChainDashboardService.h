@@ -84,6 +84,8 @@ public slots:
     QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
     
     QVariant getNodeNetwork() const;
+
+    void setNodeStatus(const bool aIsOnline);
 };
 
 #endif // DAPCHAINDASHBOARDSERVICE_H

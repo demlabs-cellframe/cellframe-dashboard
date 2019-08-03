@@ -42,7 +42,9 @@ void DapChainNodeNetworkExplorer::mousePressEvent(QMouseEvent* event)
             DapNodeGui* nodeData = &node.value();
             nodeData->State = DapNodeState::Selected;
             m_currentSelectedNode = QPair<QString, DapNodeGui*>(node.key(), nodeData);
-            emit selectNode();
+
+            const DapNodeData* currentData = m_model->getNodeData(node.key());
+            emit selectNode(currentData->isCurrentNode);
             update();
             return;
         }
@@ -101,10 +103,16 @@ void DapChainNodeNetworkExplorer::paint(QPainter* painter)
     {
         const DapNodeGui* nodeDataGui = &node.value();
         const DapNodeData* nodeData = m_model->getNodeData(node.key());
+        if(nodeData == nullptr) continue;
         for(int i = 0; i < nodeData->Link.count(); i++)
         {
-            if(nodeData->Status) painter->setPen(penOnline);
-            else painter->setPen(penOffline);
+            painter->setPen(penNormal);
+            if(nodeData->isCurrentNode)
+            {
+                if(nodeData->Status) painter->setPen(penOnline);
+                else painter->setPen(penOffline);
+            }
+
             painter->drawLine(nodeDataGui->Rect.center(), m_nodeMap[nodeData->Link.at(i)].Rect.center());
         }
 
