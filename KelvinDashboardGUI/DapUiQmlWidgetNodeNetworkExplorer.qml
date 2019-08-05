@@ -7,7 +7,7 @@ import NodeNetworkExplorer 1.0
 Page {
     Rectangle {
         anchors.fill: parent;
-        color: "#3b3353";
+//        color: "#3b3353";
     }
 
     RowLayout {
@@ -102,6 +102,9 @@ Page {
                         id: rowContent
                         Button {
                             text: "X"
+                            onClicked: {
+                                dapNodeNetworkDescription.visible = false;
+                            }
                         }
 
                         Text {
@@ -168,7 +171,7 @@ Page {
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Offline")
                 onToggled: {
-                    dapNodeNetworkModel.setStatusNode(false);
+                    dapNodeNetworkModel.sendRequestNodeStatus(false);
                 }
             }
 
@@ -177,7 +180,7 @@ Page {
                 Layout.alignment: Qt.AlignCenter
                 text: qsTr("Online")
                 onToggled: {
-                    dapNodeNetworkModel.setStatusNode(true);
+                    dapNodeNetworkModel.sendRequestNodeStatus(true);
                 }
             }
 

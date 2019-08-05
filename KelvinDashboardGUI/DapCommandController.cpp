@@ -239,8 +239,8 @@ void DapCommandController::getNodeNetwork()
 
 void DapCommandController::setNodeStatus(const bool aIsOnline)
 {
-    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.setNodeStatus", aIsOnline);
-    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeStatus()));
+    /*DapRpcServiceReply *reply =*/ m_DAPRpcSocket->invokeRemoteMethod("RPCServer.setNodeStatus", aIsOnline);
+//    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeStatus()));
 }
 
 void DapCommandController::executeCommand(const QString &command)

@@ -69,7 +69,6 @@ QStringList DapChainDashboardService::getWalletInfo(const QString &asWalletName)
 
 QVariant DapChainDashboardService::getNodeNetwork() const
 {
-    qInfo() << QString("getNodeNetwork");
     return m_pDapChainNodeHandler->getNodeNetwork();
 }
 

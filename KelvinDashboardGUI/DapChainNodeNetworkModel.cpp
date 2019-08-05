@@ -51,6 +51,7 @@ bool DapChainNodeNetworkModel::isNodeOnline(const QString& aAddress) const
 void DapChainNodeNetworkModel::sendRequestNodeStatus(const bool aIsOnline)
 {
     QString address = getCurrentAddress();
+    qDebug() << "New STatus" << address << aIsOnline;
     if(m_nodeMap[address].Status != aIsOnline)
         emit requestNodeStatus(aIsOnline);
 }
@@ -81,19 +82,25 @@ void DapChainNodeNetworkModel::receiveNewNetwork(const QVariant& aData)
     QMap<QString, QVariant> dataMap = m_data.toMap();
 
     QList<QString> addressList = dataMap.keys();
+    QString currentNode;
+    bool currentNodeStatus = false;
     foreach(auto address, addressList)
     {
         if(address == "current")
         {
             QStringList args = dataMap["current"].toStringList();
-            if(m_nodeMap.contains(args.at(0)))
-            {
-                m_nodeMap[args.at(0)].Status = (args.at(1) == "NET_STATE_OFFLINE" ? false : true);
-                m_nodeMap[args.at(0)].isCurrentNode = true;
-            }
-            else continue;
+            currentNode = args.at(0);
+            currentNodeStatus = (args.at(1) == "NET_STATE_OFFLINE" ? false : true);
+
+            continue;
         }
         m_nodeMap[address] = DapNodeData();
+    }
+
+    if(m_nodeMap.contains(currentNode))
+    {
+        m_nodeMap[currentNode].Status = currentNodeStatus;
+        m_nodeMap[currentNode].isCurrentNode = true;
     }
 
     for(auto node = m_nodeMap.begin(); node != m_nodeMap.end(); node++)

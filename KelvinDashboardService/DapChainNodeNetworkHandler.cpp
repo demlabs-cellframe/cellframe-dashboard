@@ -57,11 +57,11 @@ QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 
     if(!result_status.isEmpty())
     {
-        QRegExp reg_exp("Network \"([\\w\\W]+)\" has state (\\w+) \\(target state [\\w]+\\), "
+        QRegExp reg_exp("Network \"([\\w\\W]+)\" has state (\\w+).+, "
                         "active links \\d+ from \\d+, cur node address ((?:[0-9A-F]{4}::){3}[0-9A-F]{4})");
 
         reg_exp.indexIn(result_status, 0);
-        nodeMap["current"] = QStringList() << reg_exp.cap(2) << reg_exp.cap(1);
+        nodeMap["current"] = QStringList() << reg_exp.cap(3) << reg_exp.cap(2);
     }
 
     return nodeMap;
@@ -124,7 +124,8 @@ QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 
 void DapChainNodeNetworkHandler::setNodeStatus(const bool aIsOnline)
 {
+    qDebug() << "SeT new status" << aIsOnline;
     QProcess process;
-    process.start(QString(CLI_PATH) + QString(" net -net kelvin-testnet go %1").arg(aIsOnline ? "true" : "false"));
+    process.start(QString(CLI_PATH) + QString(" net -net kelvin-testnet go %1").arg(aIsOnline ? "online" : "offline"));
     process.waitForFinished(-1);
 }

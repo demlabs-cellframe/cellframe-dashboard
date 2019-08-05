@@ -53,8 +53,8 @@ void DapChainNodeNetworkExplorer::mousePressEvent(QMouseEvent* event)
 
 void DapChainNodeNetworkExplorer::wheelEvent(QWheelEvent* event)
 {
-    if(event->modifiers() == Qt::ControlModifier)
-    {
+//    if(event->modifiers() == Qt::ControlModifier)
+//    {
         if(event->delta() > 1)
         {
             if(scale() < 1.8) setScale(scale() + 0.1);
@@ -63,7 +63,7 @@ void DapChainNodeNetworkExplorer::wheelEvent(QWheelEvent* event)
         {
             if(scale() > 0.5) setScale(scale() - 0.1);
         }
-    }
+//    }
 }
 
 void DapChainNodeNetworkExplorer::hoverMoveEvent(QHoverEvent* event)
@@ -310,6 +310,8 @@ void DapChainNodeNetworkExplorer::proccessCreateGraph()
     const DapNodeMap* const nodeMap = m_model->getDataMap();
     int pointX = m_sizeNode;
     int heightConten = nodeMap->count() * m_sizeNode;
+
+    qsrand(150);
     for (auto node = nodeMap->constBegin(); node != nodeMap->constEnd(); node++)
     {
         DapNodeGui nodeData;
