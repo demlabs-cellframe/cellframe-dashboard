@@ -47,84 +47,84 @@ ApplicationWindow {
     }
     
     
-    header:
-    Column
-    {
-        ToolBar
-        {
-            width: parent.width
-            height: buttomMenu.implicitHeight
-            contentItem: Item {
-                anchors.fill: parent
-                Rectangle
-                {
-                    anchors.fill: parent
-                    color: "#353841"
-                }
+//    header:
+//    Column
+//    {
+//        ToolBar
+//        {
+//            width: parent.width
+//            height: buttomMenu.implicitHeight
+//            contentItem: Item {
+//                anchors.fill: parent
+//                Rectangle
+//                {
+//                    anchors.fill: parent
+//                    color: "#353841"
+//                }
 
-            }
+//            }
 
-            ToolButton {
-                id: buttomMenu
+//            ToolButton {
+//                id: buttomMenu
 
-                contentItem: Item {
-                    anchors.fill: parent
-                    Rectangle
-                    {
-                        anchors.fill: parent
-                        color: "#353841"
+//                contentItem: Item {
+//                    anchors.fill: parent
+//                    Rectangle
+//                    {
+//                        anchors.fill: parent
+//                        color: "#353841"
 
-                        Text {
-                            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-                            font.pixelSize: Qt.application.font.pixelSize * 2
-                            anchors.centerIn: parent
-                            color: "#A5A7AA"
-                        }
-                    }
+//                        Text {
+//                            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
+//                            font.pixelSize: Qt.application.font.pixelSize * 2
+//                            anchors.centerIn: parent
+//                            color: "#A5A7AA"
+//                        }
+//                    }
 
-                }
+//                }
 
-                onClicked: {
-                    if (stackView.depth > 1) {
-                        stackView.pop()
-                    } else {
-                        drawerMenu.open()
-                    }
-                }
-            }
+//                onClicked: {
+//                    if (stackView.depth > 1) {
+//                        stackView.pop()
+//                    } else {
+//                        drawerMenu.open()
+//                    }
+//                }
+//            }
 
-            Label {
-                id: labelTitleWidget
-                text: stackView.currentItem.title
-                anchors.centerIn: parent
-                color: "white"
-            }
+//            Label {
+//                id: labelTitleWidget
+//                text: stackView.currentItem.title
+//                anchors.centerIn: parent
+//                color: "white"
+//            }
 
-            Image {
-                id: imageNetwork
-                source: "qrc:/Resources/Icons/iconNetwork.png"
-                scale: 0.7
-                visible: false
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.left
-            }
+//            Image {
+//                id: imageNetwork
+//                source: "qrc:/Resources/Icons/iconNetwork.png"
+//                scale: 0.7
+//                visible: false
+//                anchors.verticalCenter: parent.verticalCenter
+//                anchors.right: parent.left
+//            }
 
-            Image {
-                id: imageErrorNetwork
-                source: "qrc:/Resources/Icons/iconErrorNetwork.png"
-                scale: 0.7
-                visible: true
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-            }
-        }
-        Rectangle
-        {
-            height: 1
-            width: parent.width
-            color: "green"
-        }
-    }
+//            Image {
+//                id: imageErrorNetwork
+//                source: "qrc:/Resources/Icons/iconErrorNetwork.png"
+//                scale: 0.7
+//                visible: true
+//                anchors.verticalCenter: parent.verticalCenter
+//                anchors.right: parent.right
+//            }
+//        }
+//        Rectangle
+//        {
+//            height: 1
+//            width: parent.width
+//            color: "green"
+//        }
+//    }
     
     Drawer {
         id: drawerMenu
