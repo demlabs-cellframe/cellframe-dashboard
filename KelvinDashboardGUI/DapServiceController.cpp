@@ -113,7 +113,7 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
             if(x != aNodeLogs.size())
                 --x;
         }
-        else
+        else if( x != aNodeLogs.size())
         {
             list.append(aNodeLogs[x]);
             ++counter;

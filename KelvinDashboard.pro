@@ -12,6 +12,6 @@ KelvinDashboardGUI.depends = KelvinDashboardService
 
 unix: !mac : !android {
     share_target.files = debian/share/*
-    share_target.path = /opt/KelvinDashboard/share/
+    share_target.path = /opt/kelvin-dashboard/share/
     INSTALLS += share_target
 }

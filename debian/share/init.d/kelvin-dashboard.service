@@ -1,0 +1,15 @@
+[Unit]
+Description=Kelvin Dashboard Service
+After=network.target
+
+[Service]
+Type=forking
+OOMScoreAdjust=-1000
+PIDFile=/opt/kelvin-dashboard/kelvindashboardservice.pid
+WorkingDirectory=/opt/kelvin-dashboard/
+ExecStart=/opt/kelvin-dashboard/bin/KelvinDashboardService -D
+ExecStop=/opt/kelvin-dashboard/bin/KelvinDashboardService --stop
+Restart=always
+
+[Install] 
+WantedBy=multi-user.target

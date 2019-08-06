@@ -12,7 +12,7 @@ CONFIG += c++11
 TARGET = $$BRAND
 
 VER_MAJ = 1
-VER_MIN = 0
+VER_MIN = 2
 VER_PAT = 0
 
 
@@ -23,7 +23,6 @@ win32 {
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/kelvin-node/bin/kelvin-node-cli\\\"
-    DEFINES += LOG_FILE=\\\"/opt/kelvin-node/bin/kelvin-node_logs.txt\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -32,7 +31,7 @@ else {
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
-DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
+DEFINES += DAP_SERVICE_NAME=\\\"KelvinDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 ICON = icon.ico
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -71,7 +70,7 @@ QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+else: unix:!android: target.path = /opt/kelvin-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
@@ -108,7 +107,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
-    gui_target.path = /opt/$$BRAND/bin/
+    gui_target.path = /opt/kelvin-dashboard/bin/
     INSTALLS += gui_target
 }
 

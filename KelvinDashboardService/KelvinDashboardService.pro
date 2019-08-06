@@ -26,7 +26,7 @@ win32 {
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/kelvin-node/bin/kelvin-node-cli\\\"
-    DEFINES += LOG_FILE=\\\"/opt/kelvin-node/bin/kelvin-node_logs.txt\\\"
+    DEFINES += LOG_FILE=\\\"/opt/kelvin-node/kelvin-node_logs.txt\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -69,7 +69,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../libKelvinDashboardCommon/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service
-    service_target.path = /opt/$$BRAND/bin/
+    service_target.path = /opt/kelvin-dashboard/bin/
     INSTALLS += service_target
 }
 
