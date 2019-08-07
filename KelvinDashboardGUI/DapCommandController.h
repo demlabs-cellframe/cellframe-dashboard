@@ -37,6 +37,10 @@ signals:
 
     void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QStringList& aBalance, const QStringList& aTokens);
     
+    void sendNodeNetwork(const QVariant& aData);
+
+    void sendNodeStatus(const QVariant& aData);
+
     void executeCommandChanged(const QString& result);
 
     void onClearLogModel();
@@ -63,6 +67,10 @@ private slots:
 
     void processGetWalletInfo();
     
+    void processGetNodeNetwork();
+
+    void processGetNodeStatus();
+
     void processExecuteCommand();
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -85,6 +93,10 @@ public slots:
     void getWallets();
 
     void getWalletInfo(const QString& asWalletName);
+
+    void getNodeNetwork();
+
+    void setNodeStatus(const bool aIsOnline);
 
     void executeCommand(const QString& command);
 

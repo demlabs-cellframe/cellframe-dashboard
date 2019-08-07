@@ -25,4 +25,5 @@ HEADERS +=\
     $$PWD/DapSettingsCipher.h \
     $$PWD/DapLogMessage.h \
     $$PWD/DapLogModel.h \
-    $$PWD/DapChainWallet.h
+    $$PWD/DapChainWallet.h \
+    $$PWD/DapNodeType.h
