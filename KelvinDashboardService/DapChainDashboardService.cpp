@@ -67,6 +67,16 @@ QStringList DapChainDashboardService::getWalletInfo(const QString &asWalletName)
     return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
 }
 
+QVariant DapChainDashboardService::getNodeNetwork() const
+{
+    return m_pDapChainNodeHandler->getNodeNetwork();
+}
+
+void DapChainDashboardService::setNodeStatus(const bool aIsOnline)
+{
+    m_pDapChainNodeHandler->setNodeStatus(aIsOnline);
+}
+
 QString DapChainDashboardService::sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount)
 {
     qInfo() << QString("sendToken(%1;%2;%3;%4)").arg(asWalletName).arg(asReceiverAddr).arg(asToken).arg(asAmount);

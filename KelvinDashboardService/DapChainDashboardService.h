@@ -25,6 +25,7 @@
 
 #include "DapChainLogHandler.h"
 #include "DapChainWalletHandler.h"
+#include "DapChainNodeNetworkHandler.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -42,13 +43,14 @@ class DapChainDashboardService : public DapRpcService
     DapChainLogHandler            * m_pDapChainLogHandler {nullptr};
 
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
+
+    DapChainNodeNetworkHandler     * m_pDapChainNodeHandler {nullptr};
+
 public:
     /// Standard сonstructor.
     explicit DapChainDashboardService();
     
     bool start();
-
-
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
@@ -81,6 +83,9 @@ public slots:
 
     QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
     
+    QVariant getNodeNetwork() const;
+
+    void setNodeStatus(const bool aIsOnline);
 };
 
 #endif // DAPCHAINDASHBOARDSERVICE_H
