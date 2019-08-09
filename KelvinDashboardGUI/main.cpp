@@ -22,6 +22,8 @@
 #include "DapChainNodeNetworkModel.h"
 #include "DapChainNodeNetworkExplorer.h"
 
+#include "DapScreenHistoryModel.h"
+
 #include <QRegExp>
 
 int main(int argc, char *argv[])
@@ -51,11 +53,12 @@ int main(int argc, char *argv[])
     controller.getNodeLogs(0, 100);
     controller.getWallets();
 //    controller.getNodeNetwork();
-    
+
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
     qmlRegisterType<DapChainNodeNetworkExplorer>("NodeNetworkExplorer", 1, 0, "DapUiQmlWidgetNodeNetwork");
+//    qmlRegisterType<DapScreenHistoryModel>("")
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     
     QQmlApplicationEngine engine;
@@ -64,6 +67,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
+    engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryModel::getInstance());
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
 //    DapSettings &settings = DapSettings::getInstance("Settings.json");

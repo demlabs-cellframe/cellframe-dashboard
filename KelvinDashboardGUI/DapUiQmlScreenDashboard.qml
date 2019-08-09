@@ -35,7 +35,8 @@ Page {
                 }
                 ListElement {
                     name:  qsTr("Logs")
-                    page: "DapUiQmlWidgetChainNodeLogs.qml"
+//                    page: "DapUiQmlWidgetChainNodeLogs.qml"
+                    page: "DapUiQmlScreenHistory.qml"
                     source: "qrc:/Resources/Icons/logs.png"
                 }
                 ListElement {
