@@ -1,0 +1,13 @@
+stages:
+    - prepare
+    - build
+    - test
+
+variables:
+    GIT_SUBMODULE_STRATEGY: normal
+
+kelvin-dashboard-schedule:
+    stage: build
+    tags:
+    - kelvin-dashboard
+    script: ~/production/integration/gitlab-CI/build_all_handler.sh kelvin-dashboard
