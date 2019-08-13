@@ -7,148 +7,172 @@ Page {
     id: dapUiQmlScreenDashboard
     title: qsTr("General")
 
-    Rectangle {
-        id: rectangleTabs
+    Rectangle
+    {
+        id: rectangleTabsBorder
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
+        color: "#B5B5B5"
         width: 150
-        color: "#36314D"
-        ListView {
-            id: listViewTabs
+        Rectangle {
+            id: rectangleTabs
             anchors.fill: parent
-            model: listModelTabs
-            spacing: 3
+            anchors.leftMargin: 1
+            anchors.rightMargin: 1
 
-            ListModel {
-                id: listModelTabs
+            color: "#E1E4E6"
+            ListView {
+                id: listViewTabs
+                anchors.fill: parent
+                model: listModelTabs
+                spacing: 3
 
-                ListElement {
-                    name:  qsTr("Home")
-                    page: "DapUiQmlScreenDialog.qml"
-                    source: "qrc:/Resources/Icons/home.png"
+                ListModel {
+                    id: listModelTabs
+
+                    ListElement {
+                        name:  qsTr("Home")
+                        page: "DapUiQmlScreenDialog.qml"
+                        source: "qrc:/Resources/Icons/home.png"
+                    }
+                    ListElement {
+                        name:  qsTr("Settings")
+                        page: "DapQmlScreenAbout.qml"
+                        source: "qrc:/Resources/Icons/settings.png"
+                    }
+                    ListElement {
+                        name:  qsTr("Logs")
+//                        page: "DapUiQmlWidgetChainNodeLogs.qml"
+                        page: "DapUiQmlScreenHistory.qml"
+                        source: "qrc:/Resources/Icons/logs.png"
+                    }
+                    ListElement {
+                        name:  qsTr("About")
+                        page: "DapQmlScreenAbout.qml"
+                        source: "qrc:/Resources/Icons/about.png"
+                    }
                 }
-                ListElement {
-                    name:  qsTr("Settings")
-                    page: "DapQmlScreenAbout.qml"
-                    source: "qrc:/Resources/Icons/settings.png"
-                }
-                ListElement {
-                    name:  qsTr("Logs")
-//                    page: "DapUiQmlWidgetChainNodeLogs.qml"
-                    page: "DapUiQmlScreenHistory.qml"
-                    source: "qrc:/Resources/Icons/logs.png"
-                }
-                ListElement {
-                    name:  qsTr("About")
-                    page: "DapQmlScreenAbout.qml"
-                    source: "qrc:/Resources/Icons/about.png"
-                }
-            }
 
 
 
-            delegate:
-                Component {
+                delegate:
+                    Column {
                     id: componentTab
+                    height: 148
                     Rectangle {
                         id: componentItem
+                        property bool isPushed: listViewTabs.currentIndex === index
+
                         width: listViewTabs.width
                         height: 150
-                        color: listViewTabs.currentIndex === index ? "#48435F" : "#3E3856"
-                        Column
+                        color: "transparent"
+                        Rectangle
                         {
-                            spacing: 20
-                            anchors.centerIn: parent
-                            Image
+                            id: spacerItem1
+                            height: 25
+                            anchors.top: parent.top
+                        }
+                        Image
+                        {
+                            id: imageItem
+                            anchors.top: spacerItem1.bottom
+                            source: model.source
+                            height: 60
+                            width: 60
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Rectangle
+                        {
+                            id: spacerItem2
+                            anchors.top: imageItem.bottom
+                            height: 16
+                        }
+                        Text
+                        {
+                            id: textItemMenu
+                            anchors.top: spacerItem2.bottom
+                            text: qsTr(name)
+                            color: "#505559"
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: "Roboto"
+                            font.weight: componentItem.isPushed ? Font.Normal : Font.Light
+                            font.pointSize: 16
+                        }
+                        Rectangle
+                        {
+                            id: spacerItem3
+                            anchors.top: textItemMenu.bottom
+                            height: 30
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered:
                             {
-                                id: imageMenu
-                                source: model.source
-                                height: 64
-                                width: 64
-                                anchors.horizontalCenter: parent.horizontalCenter
+                                textItemMenu.font.weight = Font.Normal
+                                if(!componentItem.isPushed) componentItem.color ="#B0B0B5"
                             }
-                            Text
+                            onExited:
                             {
-                                text: qsTr(name)
-                                color: "#CFCBD9"
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                font.family: "Roboto"
-                                font.pointSize: 12
+                                textItemMenu.font.weight = Font.Light
+                                if(!componentItem.isPushed) componentItem.color = "transparent"
+                            }
+
+                            onClicked:
+                            {
+                                listViewTabs.currentIndex = index
+                                stackViewScreenDashboard.setSource(Qt.resolvedUrl(page))
                             }
                         }
 
-                        MouseArea {
-                               anchors.fill: parent
-                               onClicked:
-                               {
-                                   listViewTabs.currentIndex = index
-                                   stackViewScreenDashboard.setSource(Qt.resolvedUrl(page))
-                               }
-                           }
+                        onIsPushedChanged: {
+                            componentItem.color = (isPushed ? "#D0D3D6" : "transparent");
                         }
                     }
+                    Rectangle
+                    {
+                        id: borderItem
+                        height: 1
+                        color: "#B5B5B5"
+                        width: parent.width
+                    }
                 }
+            }
             focus: true
+        }
     }
+
+    Rectangle
+    {
+        id: rectangleStatusBar
+        anchors.left: rectangleTabsBorder.right
+        anchors.top: parent.top
+        anchors.right: parent.right
+        color: "#B5B5B5"
+        height: 60
         Rectangle
         {
-            id: rectangleExit
-            color: "transparent"
-            width: listViewTabs.width
-            height: 150
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-
-                Column
-                {
-                    spacing: 20
-                    anchors.centerIn: parent
-                    Image
-                    {
-                        id: imageMenu
-                        source: "qrc:/Resources/Icons/exit.png"
-                        height: 64
-                        width: 64
-                        anchors.horizontalCenter: parent.horizontalCenter
-                    }
-                    Text
-                    {
-                        text: qsTr("Exit")
-                        color: "#CFCBD9"
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        font.family: "Roboto"
-                        font.pointSize: 12
-                    }
-                }
-
-                MouseArea {
-                       anchors.fill: parent
-                       onHoveredChanged:
-                       {
-                           rectangleExit.color = "#48435F"
-                       }
-
-                       onClicked:
-                       {
-
-                           Qt.quit()
-                       }
-                   }
+            anchors.fill: parent
+            anchors.bottomMargin: 1
+            color: "#F2F2F4"
         }
-        Rectangle {
-            id: mainDashboard
-            anchors.left: rectangleTabs.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            border.color: "whitesmoke"
+    }
 
-            Loader {
-                id: stackViewScreenDashboard
-                anchors.fill: parent
-                source: "DapUiQmlScreenDialog.qml"
-            }
+    Rectangle {
+        id: mainDashboard
+        anchors.left: rectangleTabsBorder.right
+        anchors.top: rectangleStatusBar.bottom
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        border.color: "whitesmoke"
+
+        Loader {
+            id: stackViewScreenDashboard
+            clip: true
+            anchors.fill: parent
+            source: "DapUiQmlScreenDialog.qml"
         }
+    }
 }
 

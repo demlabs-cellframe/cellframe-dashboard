@@ -67,12 +67,12 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
 
     switch (role)
     {
-        case DisplayDateRole: return m_elementList.at(index.row()).Date;
-        case DisplayNameTokenRole: return m_elementList.at(index.row()).TokenName;
-        case DisplayNumberWalletRole: return m_elementList.at(index.row()).WalletNumber;
-        case DisplayStatusRole: return m_elementList.at(index.row()).Status;
-        case DisplayCryptocurrency: return m_elementList.at(index.row()).Cryptocurrency;
-        case DisplayCurrency: return m_elementList.at(index.row()).Currency;
-        default: return QVariant();
+        case DisplayDateRole:           return m_elementList.at(index.row()).Date;
+        case DisplayNameTokenRole:      return m_elementList.at(index.row()).TokenName;
+        case DisplayNumberWalletRole:   return m_elementList.at(index.row()).WalletNumber;
+        case DisplayStatusRole:         return m_elementList.at(index.row()).Status;
+        case DisplayCryptocurrency:     return m_elementList.at(index.row()).Cryptocurrency;
+        case DisplayCurrency:           return m_elementList.at(index.row()).Currency;
+        default:                        return QVariant();
     }
 }

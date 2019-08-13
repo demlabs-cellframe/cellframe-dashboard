@@ -115,6 +115,13 @@ Page {
                             color: "#4F5357"
                             font.family: "Regular"
                             font.pointSize: 12
+
+                            onTextChanged: {
+                                if(text == "Error") color = "#00081B"
+                                else if(text == "Received") color = "#454E63"
+                                else if(text == "Sent") color = "#959CA6"
+                                else if(text == "Pending") color = "#E3E3E3";
+                            }
                         }
                     }
 
@@ -124,40 +131,37 @@ Page {
 
                         Column {
                             anchors.fill: parent
-                            spacing: 9
 
                             Rectangle {
                                 width: parent.width
-                                height: 6
+                                height: 10
                             }
-
 
                             Text {
                                 id: dapCurrency
                                 width: parent.width
-                                height: font.pointSize
                                 horizontalAlignment: Qt.AlignRight
-                                text: qsTr("KLV 123156315")
+                                text: cryptocurrency
                                 color: "#4F5357"
                                 font.family: "Regular"
                                 font.pointSize: 12
                             }
 
-
                             Text {
                                 width: parent.width
-                                height: font.pointSize
                                 horizontalAlignment: Qt.AlignRight
-                                text: qsTr("$ 122125455568868")
+                                text: currency
                                 color: "#C2CAD1"
                                 font.family: "Regular"
-                                font.pointSize: 11
+                                font.pointSize: 10
                             }
 
-                            Rectangle {
-                                width: parent.width
-                                height: 6
-                            }
+//                            Rectangle {
+//                                border.color: "#000000"
+//                                border.width: 1
+//                                width: parent.width
+//                                height: 4
+//                            }
                         }
                     }
                 }
@@ -165,7 +169,6 @@ Page {
             }
 
             Rectangle {
-//                anchors.left: dapToken.left
                 width: parent.width
                 height: 1
                 color: "#C2CAD1"
