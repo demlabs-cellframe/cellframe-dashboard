@@ -3,38 +3,7 @@
 DapScreenHistoryModel::DapScreenHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    for(int i = 0; i < 5; i++)
-    {
-        DapTransactionItem element;
-        element.TokenName = QString("token %1").arg(i);
-        element.Date = "today";
-        element.WalletNumber = "number wallet";
-        element.Status = "Sent";
-        element.Currency = QString("$ 1020201010%1").arg(i);
-        element.Cryptocurrency = QString("KLV 4443222111%1").arg(i);
-        m_elementList.append(element);
-    }
 
-    for(int i = 0; i < 5; i++)
-    {
-        DapTransactionItem element;
-        element.TokenName = QString("token %1").arg(i);
-        element.Date = "yesterday";
-        element.WalletNumber = "number wallet";
-        element.Status = "Error";
-        element.Currency = QString("$ 15647475623820%1").arg(i);
-        element.Cryptocurrency = QString("KLV 454535453%1").arg(i);
-        m_elementList.append(element);
-    }
-
-//    DapTransactionItem element;
-//    element.TokenName = QString("token new");
-//    element.Date = "today";
-//    element.WalletNumber = "number wallet 1221";
-//    element.Status = "sent";
-//    element.Currency = QString("$ 1555444");
-//    element.Cryptocurrency = QString("KLV 44433");
-//    m_elementList.append(element);
 }
 
 DapScreenHistoryModel& DapScreenHistoryModel::getInstance()
@@ -55,6 +24,36 @@ QHash<int, QByteArray> DapScreenHistoryModel::roleNames() const
     return names;
 }
 
+void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
+{
+    beginResetModel();
+    QList<QVariant> dataList = aData.toList();
+    m_elementList.clear();
+
+    for(int i = 0; i < dataList.count(); i++)
+    {
+        //  Description QStringList
+        //  ------------------------
+        //  0:  date
+        //  1:  status
+        //  2:  currency
+        //  3:  token
+        //  4:  wallet_to
+        //  5:  wallet_from
+
+        QStringList dataItem = dataList.at(i).toStringList();
+        DapTransactionItem item;
+        item.Date = QDateTime::fromString(dataItem.at(0), "ddd MMM dd h:mm:ss YYYY");
+        item.Status = static_cast<DapTransactionStatus>(dataItem.at(1).toInt());
+        item.Cryptocurrency = dataItem.at(2);
+        item.TokenName = dataItem.at(3);
+        item.WalletNumber = dataItem.at(5);
+        item.Currency = "$ 0 USD";          //  TODO:
+        m_elementList.append(item);
+    }
+    endResetModel();
+}
+
 int DapScreenHistoryModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid()) return 0;
@@ -67,7 +66,13 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
 
     switch (role)
     {
-        case DisplayDateRole:           return m_elementList.at(index.row()).Date;
+        case DisplayDateRole:
+        {
+            QDateTime currentTime = QDateTime::currentDateTime();
+            QDateTime itemDate = m_elementList.at(index.row()).Date;
+            if(currentTime == itemDate) return QString("Today");
+            return itemDate.toString(MASK_FOR_MODEL);
+        }
         case DisplayNameTokenRole:      return m_elementList.at(index.row()).TokenName;
         case DisplayNumberWalletRole:   return m_elementList.at(index.row()).WalletNumber;
         case DisplayStatusRole:         return m_elementList.at(index.row()).Status;

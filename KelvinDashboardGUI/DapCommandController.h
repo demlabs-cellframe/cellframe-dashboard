@@ -46,6 +46,9 @@ signals:
     void onClearLogModel();
 
     void onLogModel();
+
+    void sendHistory(const QVariant& aData);
+
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -72,6 +75,9 @@ private slots:
     void processGetNodeStatus();
 
     void processExecuteCommand();
+
+    void processGetHistory();
+
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 
@@ -103,6 +109,8 @@ public slots:
     void clearLogModel();
     /// Get node logs.
     void getNodeLogs();
+
+    void setListenerHistory();
 };
 
 #endif // COMMANDCONTROLLER_H

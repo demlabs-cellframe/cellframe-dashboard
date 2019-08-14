@@ -52,6 +52,12 @@ void DapCommandController::getNodeLogs()
     connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeLogs()));
 }
 
+void DapCommandController::setListenerHistory()
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getHistory");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetHistory()));
+}
+
 void DapCommandController::processChangedLog()
 {
 //    QStringList tempLogModel;
@@ -171,6 +177,13 @@ void DapCommandController::processExecuteCommand()
     emit sigCommandResult(reply->response().result());
     QString result = reply->response().result().toVariant().toStringList().at(0);
     emit executeCommandChanged(result);
+}
+
+void DapCommandController::processGetHistory()
+{
+    qInfo() << "processGetHistory()";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    emit sendHistory(reply->response().result().toVariant());
 }
 
 /// Show or hide GUI client by clicking on the tray icon.

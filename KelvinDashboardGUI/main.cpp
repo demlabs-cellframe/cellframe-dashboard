@@ -6,6 +6,7 @@
 #include <QIcon>
 #include <QSystemSemaphore>
 #include <QSharedMemory>
+#include <QScreen>
 
 #include "DapHalper.h"
 #include "DapScreenDialog.h"
@@ -21,8 +22,8 @@
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
 #include "DapChainNodeNetworkExplorer.h"
+#include "DapScreenHistoryFilterModel.h"
 
-#include "DapScreenHistoryModel.h"
 
 #include <QRegExp>
 
@@ -52,6 +53,9 @@ int main(int argc, char *argv[])
     dapServiceClient.init();
     controller.getNodeLogs(0, 100);
     controller.getWallets();
+
+    DapScreenHistoryFilterModel::getInstance()
+            .setSourceModel(&DapScreenHistoryModel::getInstance());
 //    controller.getNodeNetwork();
 
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
@@ -60,14 +64,17 @@ int main(int argc, char *argv[])
     qmlRegisterType<DapChainNodeNetworkExplorer>("NodeNetworkExplorer", 1, 0, "DapUiQmlWidgetNodeNetwork");
 //    qmlRegisterType<DapScreenHistoryModel>("")
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
+    qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
     
     QQmlApplicationEngine engine;
+    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryModel::getInstance());
+    engine.rootContext()->setContextProperty("pt", 1/72*dpi);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
 //    DapSettings &settings = DapSettings::getInstance("Settings.json");

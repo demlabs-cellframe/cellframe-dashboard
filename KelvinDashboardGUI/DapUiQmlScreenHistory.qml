@@ -1,6 +1,9 @@
 import QtQuick 2.9
+import QtQml 2.12
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
+
+import DapTransactionHistory 1.0
 
 Page {
     ListView {
@@ -117,10 +120,12 @@ Page {
                             font.pointSize: 12
 
                             onTextChanged: {
-                                if(text == "Error") color = "#00081B"
-                                else if(text == "Received") color = "#454E63"
-                                else if(text == "Sent") color = "#959CA6"
-                                else if(text == "Pending") color = "#E3E3E3";
+                                switch(text) {
+                                case DapTransactionModel.Error: color = "#00081B"; break;
+                                case DapTransactionModel.Received: color = "#454E63"; break;
+                                case DapTransactionModel.Sent: color = "#959CA6"; break;
+                                case DapTransactionModel.Pending: color = "#E3E3E3"; break;
+                                }
                             }
                         }
                     }

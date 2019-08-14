@@ -14,6 +14,7 @@
 #include "DapLogModel.h"
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
+#include "DapScreenHistoryModel.h"
 
 class DapServiceController : public QObject
 {
@@ -112,6 +113,8 @@ private slots:
     void processExecuteCommandInfo(const QString& result);
 
     void processGetNodeNetwork(const QVariant& aData);
+
+    void processGetHistory(const QVariant& aData);
 
 public slots:
     void getNodeNetwork();

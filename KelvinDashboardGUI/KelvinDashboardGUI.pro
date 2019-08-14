@@ -42,6 +42,7 @@ ICON = icon.ico
 SOURCES += \
     DapChainNodeNetworkExplorer.cpp \
     DapChainNodeNetworkModel.cpp \
+    DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
         main.cpp \
@@ -77,6 +78,7 @@ else: unix:!android: target.path = /opt/kelvin-dashboard/bin
 HEADERS += \
     DapChainNodeNetworkExplorer.h \
     DapChainNodeNetworkModel.h \
+    DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \

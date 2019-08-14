@@ -4,22 +4,33 @@
 #include <QDebug>
 #include <QImage>
 #include <QAbstractListModel>
+#include <QDateTime>
 
-struct DapTransactionItem {
-    QString Date;
-    QImage  TokenPic;
-    QString Status;
-    QString TokenName;
-    QString WalletNumber;
-    QString Cryptocurrency;
-    QString Currency;
-};
+#define MASK_FOR_MODEL QString("MMMM, dd")
 
 class DapScreenHistoryModel : public QAbstractListModel
 {
     Q_OBJECT
 
-private:
+public:
+    enum DapTransactionStatus {
+        Pending,
+        Sent,
+        Received,
+        Error
+    };
+    Q_ENUM(DapTransactionStatus)
+
+    struct DapTransactionItem {
+        QDateTime Date;
+        QImage  TokenPic;
+        DapTransactionStatus Status;
+        QString TokenName;
+        QString WalletNumber;
+        QString Cryptocurrency;
+        QString Currency;
+    };
+
     enum {
         DisplayDateRole = Qt::UserRole,
         DisplayNameTokenRole,
@@ -29,6 +40,7 @@ private:
         DisplayCurrency
     };
 
+private:
     QList<DapTransactionItem> m_elementList;
 
 public:
@@ -40,8 +52,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
 public slots:
-
-
+    void receiveNewData(const QVariant& aData);
 };
 
 #endif // DAPSCREENHISTORYMODEL_H
