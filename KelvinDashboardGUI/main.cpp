@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     app.setOrganizationName("DEMLABS");
     app.setOrganizationDomain("demlabs.com");
-    app.setApplicationName("Kelvin Client");
+    app.setApplicationName("Kelvin Dashboard");
     app.setWindowIcon(QIcon(":/Resources/Icons/icon.ico"));
     
     DapLogger dapLogger;
