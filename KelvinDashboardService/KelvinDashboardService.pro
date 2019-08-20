@@ -41,21 +41,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    DapChainNodeNetworkHandler.cpp \
-        main.cpp \
-    DapChainDashboardService.cpp \
-    DapChainNode.cpp \
-    DapChainNodeCache.cpp \
-    DapChainWalletHandler.cpp \
-    DapChainLogHandler.cpp
+    $$PWD/DapChainHistoryHandler.cpp \
+    $$PWD/DapChainNodeNetworkHandler.cpp \
+    $$PWD/main.cpp \
+    $$PWD/DapChainDashboardService.cpp \
+    $$PWD/DapChainNode.cpp \
+    $$PWD/DapChainNodeCache.cpp \
+    $$PWD/DapChainWalletHandler.cpp \
+    $$PWD/DapChainLogHandler.cpp
 
 HEADERS += \
-    DapChainDashboardService.h \
-    DapChainNode.h \
-    DapChainNodeCache.h \
-    DapChainNodeNetworkHandler.h \
-    DapChainWalletHandler.h \
-    DapChainLogHandler.h
+    $$PWD/DapChainDashboardService.h \
+    $$PWD/DapChainHistoryHandler.h \
+    $$PWD/DapChainNode.h \
+    $$PWD/DapChainNodeCache.h \
+    $$PWD/DapChainNodeNetworkHandler.h \
+    $$PWD/DapChainWalletHandler.h \
+    $$PWD/DapChainLogHandler.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
@@ -74,4 +76,4 @@ unix: !mac : !android {
 }
 
 RESOURCES += \
-    KelvinDashboardService.qrc
+    $$PWD/KelvinDashboardService.qrc

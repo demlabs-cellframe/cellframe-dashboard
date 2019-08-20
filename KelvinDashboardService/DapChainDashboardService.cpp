@@ -10,6 +10,12 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "New client";
     });
+
+    m_pDapChainNodeHandler = new DapChainNodeNetworkHandler(this);
+
+    m_pDapChainHistoryHandler = new DapChainHistoryHandler {this};
+    QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::requsetWallets, this, &DapChainDashboardService::doRequestWallets);
+    QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::changeHistory, this, &DapChainDashboardService::doSendNewHistory);
 }
 
 bool DapChainDashboardService::start()
@@ -63,8 +69,9 @@ QMap<QString, QVariant> DapChainDashboardService::getWallets()
 
 QStringList DapChainDashboardService::getWalletInfo(const QString &asWalletName)
 {
-    qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
-    return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
+//    qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
+//    return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
+    return QStringList();
 }
 
 QVariant DapChainDashboardService::getNodeNetwork() const
@@ -75,6 +82,24 @@ QVariant DapChainDashboardService::getNodeNetwork() const
 void DapChainDashboardService::setNodeStatus(const bool aIsOnline)
 {
     m_pDapChainNodeHandler->setNodeStatus(aIsOnline);
+}
+
+QVariant DapChainDashboardService::getHistory() const
+{
+    return m_pDapChainHistoryHandler->getHistory();
+}
+
+void DapChainDashboardService::doRequestWallets()
+{
+    m_pDapChainHistoryHandler->onRequestNewHistory(m_pDapChainWalletHandler->getWallets());
+}
+
+void DapChainDashboardService::doSendNewHistory(const QVariant& aData)
+{
+    if(!aData.isValid()) return;
+    QVariantList params = QVariantList() << aData;
+    DapRpcMessage request = DapRpcMessage::createRequest("RPCClient.setNewHistory", QJsonArray::fromVariantList(params));
+    m_pServer->notifyConnectedClients(request);
 }
 
 QString DapChainDashboardService::sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount)

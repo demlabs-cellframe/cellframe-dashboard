@@ -25,7 +25,7 @@ void DapScreenHistoryFilterModel::setFilterDate(const QDateTime& aDateLeft, cons
     m_dateRight = aDateRight;
 }
 
-void DapScreenHistoryFilterModel::setFilterStatus(const DapScreenHistoryModel::DapTransactionStatus aStatus)
+void DapScreenHistoryFilterModel::setFilterStatus(const DapTransactionStatus aStatus)
 {
     if(m_status == aStatus) return;
     m_status = aStatus;

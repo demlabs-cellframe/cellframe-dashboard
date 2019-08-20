@@ -110,7 +110,9 @@ public slots:
     /// Get node logs.
     void getNodeLogs();
 
-    void setListenerHistory();
+    void getHistory();
+
+    void setNewHistory(const QVariant& aData);
 };
 
 #endif // COMMANDCONTROLLER_H

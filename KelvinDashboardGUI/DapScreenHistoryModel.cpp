@@ -26,6 +26,7 @@ QHash<int, QByteArray> DapScreenHistoryModel::roleNames() const
 
 void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
 {
+    if(!aData.isValid()) return;
     beginResetModel();
     QList<QVariant> dataList = aData.toList();
     m_elementList.clear();
@@ -43,7 +44,7 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
 
         QStringList dataItem = dataList.at(i).toStringList();
         DapTransactionItem item;
-        item.Date = QDateTime::fromString(dataItem.at(0), "ddd MMM dd h:mm:ss YYYY");
+        item.Date = QDateTime::fromString(dataItem.at(0), Qt::RFC2822Date);
         item.Status = static_cast<DapTransactionStatus>(dataItem.at(1).toInt());
         item.Cryptocurrency = dataItem.at(2);
         item.TokenName = dataItem.at(3);
@@ -75,7 +76,7 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
         }
         case DisplayNameTokenRole:      return m_elementList.at(index.row()).TokenName;
         case DisplayNumberWalletRole:   return m_elementList.at(index.row()).WalletNumber;
-        case DisplayStatusRole:         return m_elementList.at(index.row()).Status;
+        case DisplayStatusRole:         return DapTransactionStatusConvertor::getLongStatus(m_elementList.at(index.row()).Status);
         case DisplayCryptocurrency:     return m_elementList.at(index.row()).Cryptocurrency;
         case DisplayCurrency:           return m_elementList.at(index.row()).Currency;
         default:                        return QVariant();

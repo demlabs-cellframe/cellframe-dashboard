@@ -26,6 +26,7 @@
 #include "DapChainLogHandler.h"
 #include "DapChainWalletHandler.h"
 #include "DapChainNodeNetworkHandler.h"
+#include "DapChainHistoryHandler.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -45,6 +46,8 @@ class DapChainDashboardService : public DapRpcService
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
 
     DapChainNodeNetworkHandler     * m_pDapChainNodeHandler {nullptr};
+
+    DapChainHistoryHandler* m_pDapChainHistoryHandler {nullptr};
 
 public:
     /// Standard сonstructor.
@@ -86,6 +89,12 @@ public slots:
     QVariant getNodeNetwork() const;
 
     void setNodeStatus(const bool aIsOnline);
+
+    QVariant getHistory() const;
+
+private slots:
+    void doRequestWallets();
+    void doSendNewHistory(const QVariant& aData);
 };
 
 #endif // DAPCHAINDASHBOARDSERVICE_H

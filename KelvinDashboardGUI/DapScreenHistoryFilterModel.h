@@ -26,7 +26,7 @@ public:
 public slots:
     void setFilterWallet(const QString& aWalletNumber);
     void setFilterDate(const QDateTime& aDateLeft, const QDateTime& aDateRight);
-    void setFilterStatus(const DapScreenHistoryModel::DapTransactionStatus aStatus);
+    void setFilterStatus(const DapTransactionStatus aStatus);
 };
 
 #endif // DAPSCREENHISTORYFILTERMODEL_H
