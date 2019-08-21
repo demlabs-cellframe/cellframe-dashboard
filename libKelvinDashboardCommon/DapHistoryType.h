@@ -35,6 +35,7 @@ public:
     static QString getLongStatus(const DapTransactionStatus aStatus);
     static DapTransactionStatus getStatusByShort(const QString& aShortStatus);
     static DapTransactionStatus getStatusByLong(const QString& aLongStatus);
+    static QColor getStatusColor(const DapTransactionStatus aStatus);
 };
 
 #endif // DAPHISTORYTYPE_H

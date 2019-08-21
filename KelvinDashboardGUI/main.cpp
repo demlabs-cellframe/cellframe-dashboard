@@ -68,14 +68,14 @@ int main(int argc, char *argv[])
     qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
     
     QQmlApplicationEngine engine;
-    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
+//    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
-    engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryModel::getInstance());
-    engine.rootContext()->setContextProperty("pt", 1/72*dpi);
+    engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
+    engine.rootContext()->setContextProperty("pt", 1.3 /* *dpi */);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
 //    DapSettings &settings = DapSettings::getInstance("Settings.json");

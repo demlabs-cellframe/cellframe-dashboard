@@ -21,6 +21,8 @@ QHash<int, QByteArray> DapScreenHistoryModel::roleNames() const
     names[DisplayStatusRole] = "txStatus";
     names[DisplayCryptocurrency] = "cryptocurrency";
     names[DisplayCurrency] = "currency";
+    names[DateRole] = "dateRole";
+    names[StatusColorRole] = "statusColor";
     return names;
 }
 
@@ -52,6 +54,7 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         item.Currency = "$ 0 USD";          //  TODO:
         m_elementList.append(item);
     }
+
     endResetModel();
 }
 
@@ -71,7 +74,7 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
         {
             QDateTime currentTime = QDateTime::currentDateTime();
             QDateTime itemDate = m_elementList.at(index.row()).Date;
-            if(currentTime == itemDate) return QString("Today");
+            if(currentTime.date() == itemDate.date()) return QString("Today");
             return itemDate.toString(MASK_FOR_MODEL);
         }
         case DisplayNameTokenRole:      return m_elementList.at(index.row()).TokenName;
@@ -79,6 +82,8 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
         case DisplayStatusRole:         return DapTransactionStatusConvertor::getLongStatus(m_elementList.at(index.row()).Status);
         case DisplayCryptocurrency:     return m_elementList.at(index.row()).Cryptocurrency;
         case DisplayCurrency:           return m_elementList.at(index.row()).Currency;
+        case DateRole:                  return m_elementList.at(index.row()).Date;
+        case StatusColorRole:           return DapTransactionStatusConvertor::getStatusColor(m_elementList.at(index.row()).Status);
         default:                        return QVariant();
     }
 }

@@ -17,31 +17,31 @@ QVariant DapChainHistoryHandler::getHistory() const
 
 void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& aWallets)
 {
-    if(m_wallets != aWallets.values())
-        m_wallets = aWallets.values();
-
-    if(m_wallets.isEmpty()) return;
+    QList<QVariant> wallets = aWallets.values();
+    if(wallets.isEmpty()) return;
 
     QList<QVariant> data;
-    for(int i = 0; i < m_wallets.count(); i++)
+    for(int i = 0; i < wallets.count(); i++)
     {
         QProcess process;
-        process.start(QString(CLI_PATH) + " tx_history -net private -chain gdb -addr " + m_wallets.at(i).toString());
+        process.start(QString(CLI_PATH) + " tx_history -net private -chain gdb -addr " + wallets.at(i).toString());
         process.waitForFinished(-1);
 
-        QByteArray result = process.readAll();
+        QString result = QString::fromStdString(process.readAll().toStdString());
 
         if(!result.isEmpty())
         {
-            QRegExp reg("(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4}).+"
+            //  TODO: error with "\r\n"
+            QRegExp rx("(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\r\\n"
                         "\\s(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)");
 
             int pos = 0;
-            while ((pos = reg.indexIn(result, pos)) != -1)
+            while ((pos = rx.indexIn(result, pos)) != -1)
             {
-                QStringList dataItem = QStringList() << reg.cap(1) << QString::number(DapTransactionStatusConvertor::getStatusByShort(reg.cap(2))) << reg.cap(3) << reg.cap(4) << reg.cap(5) << m_wallets.at(i).toString();
-                data.append(dataItem);
-                pos += reg.matchedLength();
+                QStringList dataItem = QStringList() << rx.cap(1) << QString::number(DapTransactionStatusConvertor::getStatusByShort(rx.cap(2))) << rx.cap(3) << rx.cap(4) << rx.cap(5) << wallets.at(i).toString();
+                qDebug() << "NEW MATCH" << pos << dataItem;
+                data << dataItem;
+                pos += rx.matchedLength();
             }
         }
     }

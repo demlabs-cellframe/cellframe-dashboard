@@ -34,9 +34,11 @@ public:
 
     enum {
         DisplayDateRole = Qt::UserRole,
+        DateRole,
         DisplayNameTokenRole,
         DisplayNumberWalletRole,
         DisplayStatusRole,
+        StatusColorRole,
         DisplayCryptocurrency,
         DisplayCurrency
     };

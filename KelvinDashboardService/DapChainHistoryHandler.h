@@ -15,7 +15,6 @@ class DapChainHistoryHandler : public QObject
     Q_OBJECT
 
 private:
-    QList<QVariant> m_wallets;
     QVariant m_history;
     QTimer* m_timoutRequestHistory;
 

@@ -2,8 +2,8 @@
 
 const QMap<DapTransactionStatus, QStringList> DapTransactionStatusConvertor::m_statusMap =
 {
-    {stSent, QStringList() << "send" << "Sent"},
-    {stReceived, QStringList() << "recv" << "Received"},
+    {stSent, QStringList() << "send" << "Sent" << "#959CA6"},
+    {stReceived, QStringList() << "recv" << "Received" << "#454E63"},
 };
 
 QString DapTransactionStatusConvertor::getShortStatus(const DapTransactionStatus aStatus)
@@ -38,4 +38,10 @@ DapTransactionStatus DapTransactionStatusConvertor::getStatusByLong(const QStrin
     }
 
     return stUnknow;
+}
+
+QColor DapTransactionStatusConvertor::getStatusColor(const DapTransactionStatus aStatus)
+{
+    if(!m_statusMap.contains(aStatus)) return QColor();
+    return QColor(m_statusMap[aStatus].at(2));
 }

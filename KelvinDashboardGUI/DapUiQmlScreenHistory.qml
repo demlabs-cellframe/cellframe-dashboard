@@ -20,15 +20,18 @@ Page {
         id: dapDate
         Rectangle {
             width:  dapListView.width
-            height: childrenRect.height
+            height: 30 * pt
             color: "#DFE1E6"
 
             Text {
+                anchors.fill: parent
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
                 color: "#5F5F63"
                 text: section
                 font.family: "Regular"
-                font.pointSize: 12
-                leftPadding: 30
+                font.pixelSize: 12 * pt
+                leftPadding: 30 * pt
             }
         }
     }
@@ -39,145 +42,219 @@ Page {
         Column {
             Rectangle {
                 id: dapDelegateContent
-                height: 60
-                width: dapListView.width
-                anchors.leftMargin: 30
-                anchors.rightMargin: 20
+                height: 65 * pt
+                width: 1124 * pt
 
                 RowLayout {
                     anchors.fill: parent
-                    spacing: 30
 
+                    //  Spacing
                     Rectangle {
-                        width: 30
+                        width: 30 * pt
+                        height: parent.height
                     }
 
-                    RowLayout {
-                        spacing: 14
+                    //  Image
+                    Rectangle {
+                        id: dapToken
+                        border.color: "#000000"
+                        border.width: 1
+                        width: 30 * pt
+                        height: 30 * pt
+                        Layout.alignment: Qt.AlignVCenter
 
-                        Rectangle {
-                            id: dapToken
-                            border.color: "#000000"
-                            border.width: 1
-                            width: 30
-                            height: 30
-                            anchors.topMargin: 15
-                            anchors.bottomMargin: 15
-
-                            Image {
-                                id: dapPicToken
-//                                anchors.left: parent.right
-                                fillMode: Image.PreserveAspectFit
-                            }
-                        }
-
-                        Rectangle {
-                            width: 246
-                            height: dapTokenName.contentHeight
-                            anchors.topMargin: 24
-                            anchors.bottomMargin: 24
-
-                            Text {
-                                id: dapTokenName
-                                anchors.fill: parent
-                                text: tokenName
-                                color: "#4F5357"
-                                font.family: "Regular"
-                                font.pointSize: 12
-                            }
+                        Image {
+                            id: dapPicToken
+                            anchors.fill: parent
+                            fillMode: Image.PreserveAspectFit
                         }
                     }
 
+                    //  Spacing
                     Rectangle {
-                        width: 330
+                        width: 14 * pt
+                        height: parent.height
+                    }
+
+                    // Token name
+                    Rectangle {
+                        width: 246 * pt
+                        Layout.maximumWidth: width
+                        height: dapTokenName.contentHeight
+                        Layout.alignment: Qt.AlignVCenter
+
+                        Text {
+                            id: dapTokenName
+                            anchors.fill: parent
+                            textFormat: Qt.RichText
+                            text: tokenName
+                            color: "#4F5357"
+                            font.family: "Regular"
+                            font.pixelSize: 16 * pt
+                        }
+                    }
+
+                    //  Spacing
+                    Rectangle {
+                        width: 30 * pt
+                        height: parent.height
+                    }
+
+                    // Wallet number
+                    Rectangle {
+                        width: 330 * pt
+                        Layout.maximumWidth: width
                         height: dapNumberWallet.contentHeight
-                        anchors.topMargin: 24
-                        anchors.bottomMargin: 24
+                        Layout.alignment: Qt.AlignVCenter
 
                         Text {
                             id: dapNumberWallet
                             anchors.fill: parent
+                            color: "#4F5357"
                             text: numberWallet
-                            color: "#4F5357"
                             font.family: "Regular"
-                            font.pointSize: 12
-                        }
-                    }
+                            font.pixelSize: 14 * pt
+                            clip: true
 
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
 
-                    Rectangle {
-                        width: 100
-                        height: dapStatus.contentHeight
-                        anchors.topMargin: 24
-                        anchors.bottomMargin: 24
+                                onMouseXChanged: {
+                                    tipTokenName.x = mouse.x;
+                                }
 
-                        Text {
-                            id: dapStatus
-                            anchors.fill: parent
-                            text: txStatus
-                            color: "#4F5357"
-                            font.family: "Regular"
-                            font.pointSize: 12
+                                onMouseYChanged: {
+                                    tipTokenName.y = mouse.y;
+                                }
 
-                            onTextChanged: {
-                                switch(text) {
-                                case DapTransactionModel.Error: color = "#00081B"; break;
-                                case DapTransactionModel.Received: color = "#454E63"; break;
-                                case DapTransactionModel.Sent: color = "#959CA6"; break;
-                                case DapTransactionModel.Pending: color = "#E3E3E3"; break;
+                                onEntered: {
+                                    tipTokenName.visible = true;
+                                }
+
+                                onExited: {
+                                    tipTokenName.visible = false;
                                 }
                             }
                         }
                     }
 
+
+                    //  Spacing
                     Rectangle {
-                        width: 264
+                        width: 30 * pt
                         height: parent.height
+                    }
+
+                    //  Status
+                    Rectangle {
+                        width: 100 * pt
+                        height: dapStatus.contentHeight
+                        Layout.alignment: Qt.AlignVCenter
+
+                        Text {
+                            id: dapStatus
+                            anchors.fill: parent
+                            text: txStatus
+                            color: statusColor
+                            font.family: "Regular"
+                            font.pixelSize: 14 * pt
+                        }
+                    }
+
+                    //  Spacing
+                    Rectangle {
+                        width: 30 * pt
+                    }
+
+                    //  Money
+                    Rectangle {
+                        width: 264 * pt
+                        height: parent.height
+                        Layout.alignment: Qt.AlignVCenter
 
                         Column {
                             anchors.fill: parent
+                            spacing: 0
 
+                            //  Spacing
                             Rectangle {
                                 width: parent.width
-                                height: 10
+                                height: 15 * pt
                             }
 
-                            Text {
+                            //  Token currency
+                            Label {
                                 id: dapCurrency
                                 width: parent.width
                                 horizontalAlignment: Qt.AlignRight
                                 text: cryptocurrency
                                 color: "#4F5357"
                                 font.family: "Regular"
-                                font.pointSize: 12
+                                font.pixelSize: 16 * pt
                             }
 
-                            Text {
+                            //  Spacing
+                            Rectangle {
+                                width: parent.width
+                                height: 5 * pt
+                            }
+
+                            //  Equivalent currency
+                            Label {
                                 width: parent.width
                                 horizontalAlignment: Qt.AlignRight
                                 text: currency
                                 color: "#C2CAD1"
                                 font.family: "Regular"
-                                font.pointSize: 10
+                                font.pixelSize: 12 * pt
                             }
-
-//                            Rectangle {
-//                                border.color: "#000000"
-//                                border.width: 1
-//                                width: parent.width
-//                                height: 4
-//                            }
                         }
                     }
-                }
 
+                    //  Spacing
+                    Rectangle {
+                        width: 20 * pt
+                        height: parent.height
+                    }
+                }
             }
 
+            //  Underline
             Rectangle {
                 width: parent.width
+//                width: 1056 * pt
+//                anchors.right: parent.right
+//                anchors.left: dapNumberWallet.left
                 height: 1
                 color: "#C2CAD1"
+            }
+
+            //  Number wallet tip
+            Rectangle {
+                id: tipTokenName
+                color: "#FFFFFF";
+                width: contentChildren.width
+                height: contentChildren.height
+                visible: false
+
+                Text {
+                    text: dapNumberWallet.text
+                    font.family: "Regular"
+                    font.pixelSize: 14 * pt
+                }
             }
         }
     }
 }
+
+
+
+//                            onTextChanged: {
+//                                switch(text) {
+//                                case DapTransactionModel.Error: color = "#00081B"; break;
+//                                case DapTransactionModel.Received: color = "#454E63"; break;
+//                                case DapTransactionModel.Sent: color = "#959CA6"; break;
+//                                case DapTransactionModel.Pending: color = "#E3E3E3"; break;
+//                                }
+//                            }
