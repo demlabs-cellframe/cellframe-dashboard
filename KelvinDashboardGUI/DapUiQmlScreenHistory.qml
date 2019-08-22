@@ -109,12 +109,14 @@ Page {
 
                         Text {
                             id: dapNumberWallet
+//                            width: parent.width / 2
                             anchors.fill: parent
                             color: "#4F5357"
                             text: numberWallet
                             font.family: "Regular"
                             font.pixelSize: 14 * pt
                             clip: true
+                            elide: Text.ElideRight
 
                             MouseArea {
                                 anchors.fill: parent
@@ -232,6 +234,7 @@ Page {
 
                 Text {
                     text: dapNumberWallet.text
+                    color: "#4F5357"
                     font.family: "Regular"
                     font.pixelSize: 14 * pt
                 }
