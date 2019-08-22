@@ -38,6 +38,7 @@ public:
         DisplayNameTokenRole,
         DisplayNumberWalletRole,
         DisplayStatusRole,
+        StatusRole,
         StatusColorRole,
         DisplayCryptocurrency,
         DisplayCurrency

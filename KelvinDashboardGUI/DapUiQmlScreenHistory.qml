@@ -78,6 +78,7 @@ Page {
 
                     // Token name
                     Rectangle {
+                        id: dapTokenNameContainer
                         width: 246 * pt
                         Layout.maximumWidth: width
                         height: dapTokenName.contentHeight
@@ -86,7 +87,6 @@ Page {
                         Text {
                             id: dapTokenName
                             anchors.fill: parent
-                            textFormat: Qt.RichText
                             text: tokenName
                             color: "#4F5357"
                             font.family: "Regular"
@@ -214,21 +214,13 @@ Page {
 
                     //  Spacing
                     Rectangle {
+                        id: dapEndItem
                         width: 20 * pt
                         height: parent.height
                     }
                 }
             }
 
-            //  Underline
-            Rectangle {
-                width: parent.width
-//                width: 1056 * pt
-//                anchors.right: parent.right
-//                anchors.left: dapNumberWallet.left
-                height: 1
-                color: "#C2CAD1"
-            }
 
             //  Number wallet tip
             Rectangle {
@@ -244,17 +236,14 @@ Page {
                     font.pixelSize: 14 * pt
                 }
             }
+
+            //  Underline
+            Rectangle {
+                x: dapTokenNameContainer.x
+                width: 1056 * pt
+                height: 1
+                color: "#C2CAD1"
+            }
         }
     }
 }
-
-
-
-//                            onTextChanged: {
-//                                switch(text) {
-//                                case DapTransactionModel.Error: color = "#00081B"; break;
-//                                case DapTransactionModel.Received: color = "#454E63"; break;
-//                                case DapTransactionModel.Sent: color = "#959CA6"; break;
-//                                case DapTransactionModel.Pending: color = "#E3E3E3"; break;
-//                                }
-//                            }

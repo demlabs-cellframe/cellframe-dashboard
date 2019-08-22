@@ -52,6 +52,15 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         item.TokenName = dataItem.at(3);
         item.WalletNumber = dataItem.at(5);
         item.Currency = "$ 0 USD";          //  TODO:
+
+        switch (item.Status) {
+            case DapTransactionStatus::stSent: item.Cryptocurrency.prepend("- "); break;
+            case DapTransactionStatus::stReceived: item.Cryptocurrency.prepend("+ "); break;
+            default: break;
+        }
+
+        item.Cryptocurrency += " " + item.TokenName;
+
         m_elementList.append(item);
     }
 
@@ -84,6 +93,7 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
         case DisplayCurrency:           return m_elementList.at(index.row()).Currency;
         case DateRole:                  return m_elementList.at(index.row()).Date;
         case StatusColorRole:           return DapTransactionStatusConvertor::getStatusColor(m_elementList.at(index.row()).Status);
+        case StatusRole:                return m_elementList.at(index.row()).Status;
         default:                        return QVariant();
     }
 }

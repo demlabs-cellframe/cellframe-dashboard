@@ -11,8 +11,8 @@ class DapScreenHistoryFilterModel : public QSortFilterProxyModel
 
 private:
     QString m_walletNumber;
-    QDateTime m_dateLeft;
-    QDateTime m_dateRight;
+    QDate m_dateLeft;
+    QDate m_dateRight;
     int m_status;
 
 protected:
@@ -25,7 +25,7 @@ public:
 
 public slots:
     void setFilterWallet(const QString& aWalletNumber);
-    void setFilterDate(const QDateTime& aDateLeft, const QDateTime& aDateRight);
+    void setFilterDate(const QDate& aDateLeft, const QDate& aDateRight);
     void setFilterStatus(const DapTransactionStatus aStatus);
 };
 

@@ -1,7 +1,8 @@
 #include "DapScreenHistoryFilterModel.h"
 
 DapScreenHistoryFilterModel::DapScreenHistoryFilterModel(QObject *parent) :
-    QSortFilterProxyModel(parent)
+    QSortFilterProxyModel(parent),
+    m_status(-1)
 {
     sort(0, Qt::DescendingOrder);
 }
@@ -19,7 +20,7 @@ void DapScreenHistoryFilterModel::setFilterWallet(const QString& aWalletNumber)
     setFilterKeyColumn(0);
 }
 
-void DapScreenHistoryFilterModel::setFilterDate(const QDateTime& aDateLeft, const QDateTime& aDateRight)
+void DapScreenHistoryFilterModel::setFilterDate(const QDate& aDateLeft, const QDate& aDateRight)
 {
     if(m_dateLeft == aDateLeft || m_dateRight == aDateRight) return;
     m_dateLeft = aDateLeft;
@@ -46,7 +47,14 @@ bool DapScreenHistoryFilterModel::filterAcceptsRow(int source_row, const QModelI
     QModelIndex index = sourceModel()->index(source_row, 0, source_parent);
     QDateTime time = index.data(DapScreenHistoryModel::DateRole).toDateTime();
 
-    return  (index.data(DapScreenHistoryModel::DisplayNumberWalletRole).toString() == m_walletNumber) ||
-            (index.data(DapScreenHistoryModel::DisplayStatusRole).toInt() == m_status) ||
-            (time >= m_dateLeft && time <= m_dateRight);
+    bool result = true;
+    bool filterByWalletNumber = !m_walletNumber.isEmpty();
+    bool filterByDate = m_dateLeft.isValid() && m_dateRight.isValid();
+    bool filterByStatus = m_status > -1;
+
+    if(filterByDate) result &= (time.date() >= m_dateLeft && time.date() <= m_dateRight);
+    if(filterByStatus) result &= (index.data(DapScreenHistoryModel::StatusRole).toInt() == m_status);
+    if(filterByWalletNumber) result &= (index.data(DapScreenHistoryModel::DisplayNumberWalletRole).toString() == m_walletNumber);
+
+    return result;
 }
