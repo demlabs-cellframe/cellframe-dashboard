@@ -13,31 +13,20 @@
         <file>Resources/Icons/icon.png</file>
         <file>DapUiQmlScreenAbout.ui.qml</file>
         <file>DapQmlScreenAbout.qml</file>
-        <file>Resources/Icons/iconErrorNetwork.png</file>
-        <file>Resources/Icons/iconNetwork.png</file>
         <file>DapUiQmlWidgetDelegate.qml</file>
         <file>DapUiQmlWidgetDelegateForm.ui.qml</file>
         <file>DapUiQmlScreenChangeWidget.qml</file>
-        <file>Resources/Icons/add.png</file>
         <file>Resources/Icons/icon.ico</file>
-        <file>Resources/Icons/about.png</file>
-        <file>Resources/Icons/home.png</file>
-        <file>Resources/Icons/settings.png</file>
-        <file>Resources/Icons/exit.png</file>
         <file>DapUiQmlScreenDialogAddWallet.qml</file>
         <file>DapUiQmlWidgetChainWallet.qml</file>
         <file>DapUiQmlWidgetChainWalletForm.ui.qml</file>
-        <file>Resources/Icons/dialog-error.png</file>
-        <file>Resources/Icons/dialog-information.png</file>
-        <file>Resources/Icons/dialog-question.png</file>
-        <file>Resources/Icons/dialog-warning.png</file>
         <file>DapUiQmlWidgetChainNodeLogs.qml</file>
         <file>DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
         <file>DapUiQmlScreenDialogSendToken.qml</file>
         <file>DapUiQmlScreenDialogRemoveWallet.qml</file>
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
-		<file>Resources/Icons/logs.png</file>
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
+        <file>Resources/Icons/defaul_icon.png</file>
     </qresource>
 </RCC>
