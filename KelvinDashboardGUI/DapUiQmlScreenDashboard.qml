@@ -34,22 +34,22 @@ Page {
                     ListElement {
                         name:  qsTr("Home")
                         page: "DapUiQmlScreenDialog.qml"
-                        source: "qrc:/Resources/Icons/home.png"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {
                         name:  qsTr("Settings")
                         page: "DapQmlScreenAbout.qml"
-                        source: "qrc:/Resources/Icons/settings.png"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {
                         name:  qsTr("Logs")
                         page: "DapUiQmlWidgetChainNodeLogs.qml"
-                        source: "qrc:/Resources/Icons/logs.png"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {
                         name:  qsTr("About")
                         page: "DapQmlScreenAbout.qml"
-                        source: "qrc:/Resources/Icons/about.png"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                 }
 
