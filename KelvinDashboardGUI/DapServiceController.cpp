@@ -55,6 +55,10 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(&DapChainNodeNetworkModel::getInstance(), SIGNAL(requestNodeNetwork()), this, SLOT(getNodeNetwork()));
     connect(&DapChainNodeNetworkModel::getInstance(), SIGNAL(requestNodeStatus(bool)), this, SLOT(setNodeStatus(bool)));
+
+    connect(m_pDapCommandController, SIGNAL(sendHistory(QVariant)), this, SLOT(processGetHistory(QVariant)));
+
+    connect(m_pDapCommandController, &DapCommandController::sendHistory, &DapScreenHistoryModel::getInstance(), &DapScreenHistoryModel::receiveNewData);
 }
 
 QString DapServiceController::getBrand() const
@@ -176,6 +180,11 @@ void DapServiceController::getWalletInfo(const QString &asWalletName)
     m_pDapCommandController->getWalletInfo(asWalletName);
 }
 
+void DapServiceController::getHistory()
+{
+    m_pDapCommandController->getHistory();
+}
+
 void DapServiceController::getNodeNetwork()
 {
     qInfo() << QString("requestNodeNetwork");
@@ -229,6 +238,11 @@ void DapServiceController::processExecuteCommandInfo(const QString &result)
 void DapServiceController::processGetNodeNetwork(const QVariant& aData)
 {
     DapChainNodeNetworkModel::getInstance().receiveNewNetwork(aData);
+}
+
+void DapServiceController::processGetHistory(const QVariant& aData)
+{
+    DapScreenHistoryModel::getInstance().receiveNewData(aData);
 }
 
 

@@ -14,6 +14,7 @@
 #include "DapLogModel.h"
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
+#include "DapScreenHistoryModel.h"
 
 class DapServiceController : public QObject
 {
@@ -81,6 +82,8 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
+    void getHistory();
+
 signals:
     /// The signal is emitted when the Brand company property changes.
     void brandChanged(const QString &brand);
@@ -112,6 +115,8 @@ private slots:
     void processExecuteCommandInfo(const QString& result);
 
     void processGetNodeNetwork(const QVariant& aData);
+
+    void processGetHistory(const QVariant& aData);
 
 public slots:
     void getNodeNetwork();

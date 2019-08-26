@@ -47,6 +47,11 @@ Page {
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {
+                        name:  qsTr("History")
+                        page: "DapUiQmlScreenHistory.qml"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
+                    }
+                    ListElement {
                         name:  qsTr("About")
                         page: "DapQmlScreenAbout.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
