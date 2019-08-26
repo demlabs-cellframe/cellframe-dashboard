@@ -1,6 +1,7 @@
 #ifndef DAPCHAINHISTORYHANDLER_H
 #define DAPCHAINHISTORYHANDLER_H
 
+#include <QtGlobal>
 #include <QObject>
 #include <QVariantList>
 #include <QTimer>
