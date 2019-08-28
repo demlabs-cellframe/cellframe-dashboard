@@ -37,6 +37,11 @@ Page {
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {
+                        name:  qsTr("Exchange")
+                        page: "DapUiQmlScreenExchange.qml"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
+                    }
+                    ListElement {
                         name:  qsTr("Settings")
                         page: "DapQmlScreenAbout.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
