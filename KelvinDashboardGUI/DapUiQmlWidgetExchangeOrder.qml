@@ -59,13 +59,19 @@ Item {
             Repeater {
                 model: [qsTr("Ammount"), qsTr("Price"), qsTr("Total"), qsTr("Fee (0.2%)"), qsTr("Total+Fee")]
                 RowLayout {
-                    spacing: 62 * pt
-                    Text {
-                        text: modelData
-                        color: "#ACACAF"
-                        font.family: fontExchange.name
-                        font.pixelSize: 12 * pt
+                    spacing: 0
+                    Rectangle {
+                        height: childrenRect.height
+                        width: 120 * pt
+
+                        Text {
+                            text: modelData
+                            color: "#ACACAF"
+                            font.family: fontExchange.name
+                            font.pixelSize: 12 * pt
+                        }
                     }
+
 
                     Rectangle {
                         width: 130 * pt
@@ -85,7 +91,7 @@ Item {
                             font.family: fontExchange.name
                             font.pixelSize: 12 * pt
                             verticalAlignment: Qt.AlignVCenter
-                            inputMethodHints: Qt.ImhDigitsOnly
+                            validator: RegExpValidator{ regExp: /\d+/ }
                             clip: true
                             readOnly: index === 3 || index === 4
                             text: readOnly ? "0" : ""
