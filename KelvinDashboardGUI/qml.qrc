@@ -28,6 +28,7 @@
         <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
-<file>Resources/Icons/defaul_icon.png</file>
+        <file>Resources/Icons/defaul_icon.png</file>
+        <file>DapUiQmlWidgetLastActions.qml</file>
     </qresource>
 </RCC>

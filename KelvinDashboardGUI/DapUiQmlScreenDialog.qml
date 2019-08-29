@@ -57,4 +57,6 @@ Page {
                        listViewDapWidgets.addWidget()
                    }
        }
+
+    DapUiQmlWidgetLastActions {}
 }

@@ -55,6 +55,8 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    Q_INVOKABLE QString toConvertCurrency(const QString& aMoney) const;
+
 public slots:
     void receiveNewData(const QVariant& aData);
 };

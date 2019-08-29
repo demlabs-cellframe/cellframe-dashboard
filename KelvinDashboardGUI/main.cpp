@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
 //    set.setGroupPropertyValue("widgets", "name", "Services client", "visible", f);
 //    qDebug() << set.getGroupPropertyValue("widgets", "name", "Services client", "visible").toBool();
 //    qDebug() << set.getKeyValue("user");
-    
+
     if (engine.rootObjects().isEmpty())
         return -1;
     
