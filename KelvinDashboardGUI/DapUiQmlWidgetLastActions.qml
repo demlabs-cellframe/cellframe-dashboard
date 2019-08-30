@@ -18,16 +18,20 @@ Rectangle {
     }
 
     MouseArea {
+        id: mainMouseArea
         anchors.fill: parent
         hoverEnabled: true
-        propagateComposedEvents: true
+
+        property bool hoveredButton: false
 
         onEntered: {
-            buttonListScroll.visible = true;
+            if(!hoveredButton)
+                buttonListScroll.visible = true;
         }
 
         onExited: {
-            buttonListScroll.visible = false;
+            if(!hoveredButton)
+                buttonListScroll.visible = false;
         }
     }
 
@@ -68,6 +72,16 @@ Rectangle {
         section.property: "date"
         section.criteria: ViewSection.FullString
         section.delegate: dapDate
+
+        property var contentPos: 0.0;
+        onContentYChanged: {
+            if(atYBeginning) buttonListScroll.state = "goUp";
+            else if(atYEnd) buttonListScroll.state = "goDown"
+            else if(contentPos < contentItem.y) buttonListScroll.state = "goUp";
+            else buttonListScroll.state = "goDown";
+
+            contentPos = contentItem.y;
+        }
 
         Component {
             id: dapDate
@@ -176,45 +190,69 @@ Rectangle {
                 source: "qrc:/Resources/Icons/ic_scroll-down.png"
             }
 
+            states: [
+                State {
+                    name: "goDown"
+                    PropertyChanges {
+                        target: buttonListScroll
+                        onStateChanged: {
+                            buttonListScroll.anchors.top = undefined;
+                            buttonListScroll.anchors.bottom = dapListView.bottom;
+                            buttonMouseArea.exited();
+                        }
+                    }
+                },
+
+                State {
+                    name: "goUp"
+                    PropertyChanges {
+                        target: buttonListScroll
+                        onStateChanged: {
+                            buttonListScroll.anchors.bottom = undefined;
+                            buttonListScroll.anchors.top = dapListView.top;
+                            buttonMouseArea.exited();
+                        }
+                    }
+                }
+            ]
+
+            state: "goDown"
+
             MouseArea {
+                id: buttonMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
 
-
                 onEntered: {
-                    if(buttonListScroll.listDown)
+                    mainMouseArea.hoveredButton = true;
+                    if(buttonListScroll.state === "goUp")
                         imageButton.source = "qrc:/Resources/Icons/ic_scroll-down_hover.png";
-                    else
+                    else if(buttonListScroll.state === "goDown")
                         imageButton.source = "qrc:/Resources/Icons/ic_scroll-up_hover.png";
+
                 }
 
                 onExited: {
-                    if(buttonListScroll.listDown)
+                    mainMouseArea.hoveredButton = false;
+                    if(buttonListScroll.state === "goUp")
                         imageButton.source = "qrc:/Resources/Icons/ic_scroll-down.png";
-                    else
+                    else if(buttonListScroll.state === "goDown")
                         imageButton.source = "qrc:/Resources/Icons/ic_scroll-up.png";
                 }
 
-                onPressed: {
-                    //  TODO: scroll list
-
-
-                    buttonListScroll.listDown = !buttonListScroll.listDown;
-                    if(buttonListScroll.listDown) {
-                        buttonListScroll.anchors.top = undefined;
-                        buttonListScroll.anchors.bottom = dapListView.bottom;
+                onClicked: {
+                    if(buttonListScroll.state === "goUp")
+                    {
+                        dapListView.positionViewAtEnd();
+                        buttonListScroll.state = "goDown";
                     }
-                    else {
-                        buttonListScroll.anchors.bottom = undefined;
-                        buttonListScroll.anchors.top = dapListView.top;
+                    else if(buttonListScroll.state === "goDown")
+                    {
+                        dapListView.positionViewAtBeginning();
+                        buttonListScroll.state = "goUp";
                     }
-
-                    exited();
                 }
             }
         }
-
     }
-
-
 }
