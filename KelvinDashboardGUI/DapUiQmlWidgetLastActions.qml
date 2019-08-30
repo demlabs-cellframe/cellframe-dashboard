@@ -17,6 +17,20 @@ Rectangle {
         bottom: parent.bottom
     }
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        propagateComposedEvents: true
+
+        onEntered: {
+            buttonListScroll.visible = true;
+        }
+
+        onExited: {
+            buttonListScroll.visible = false;
+        }
+    }
+
     Rectangle {
         id: dapHeader
         width: parent.width
@@ -141,5 +155,66 @@ Rectangle {
             }
         }
 
+        Item {
+            id: buttonListScroll
+
+            property bool listDown: true
+
+            width: 36 * pt
+            height: width
+            anchors.right: dapListView.right
+            anchors.bottom: dapListView.bottom
+            anchors.bottomMargin: 10 * pt
+            anchors.topMargin: 10 * pt
+            anchors.rightMargin: 10 * pt
+            visible: false
+
+            Image {
+                id: imageButton
+                anchors.fill: parent
+                fillMode: Image.PreserveAspectFit
+                source: "qrc:/Resources/Icons/ic_scroll-down.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
+
+                onEntered: {
+                    if(buttonListScroll.listDown)
+                        imageButton.source = "qrc:/Resources/Icons/ic_scroll-down_hover.png";
+                    else
+                        imageButton.source = "qrc:/Resources/Icons/ic_scroll-up_hover.png";
+                }
+
+                onExited: {
+                    if(buttonListScroll.listDown)
+                        imageButton.source = "qrc:/Resources/Icons/ic_scroll-down.png";
+                    else
+                        imageButton.source = "qrc:/Resources/Icons/ic_scroll-up.png";
+                }
+
+                onPressed: {
+                    //  TODO: scroll list
+
+
+                    buttonListScroll.listDown = !buttonListScroll.listDown;
+                    if(buttonListScroll.listDown) {
+                        buttonListScroll.anchors.top = undefined;
+                        buttonListScroll.anchors.bottom = dapListView.bottom;
+                    }
+                    else {
+                        buttonListScroll.anchors.bottom = undefined;
+                        buttonListScroll.anchors.top = dapListView.top;
+                    }
+
+                    exited();
+                }
+            }
+        }
+
     }
+
+
 }
