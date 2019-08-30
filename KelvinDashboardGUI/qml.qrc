@@ -29,7 +29,7 @@
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
-        <file>DapUiQmlScreenExchange.qml</file>
+        <file>DapUiQmlScreenExchange.ui.qml</file>
         <file>Resources/Fonts/roboto_black.ttf</file>
         <file>Resources/Fonts/roboto_black_italic.ttf</file>
         <file>Resources/Fonts/roboto_bold.ttf</file>
