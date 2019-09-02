@@ -38,7 +38,7 @@ Page {
                     }
                     ListElement {
                         name:  qsTr("Exchange")
-                        page: "DapUiQmlScreenExchange.ui.qml"
+                        page: "DapUiQmlScreenExchangeForm.ui.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {

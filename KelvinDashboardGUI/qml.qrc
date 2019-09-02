@@ -29,7 +29,7 @@
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
-        <file>DapUiQmlScreenExchange.ui.qml</file>
+        <file>DapUiQmlScreenExchangeForm.ui.qml</file>
         <file>Resources/Fonts/roboto_black.ttf</file>
         <file>Resources/Fonts/roboto_black_italic.ttf</file>
         <file>Resources/Fonts/roboto_bold.ttf</file>
@@ -42,6 +42,9 @@
         <file>Resources/Fonts/roboto_regular.ttf</file>
         <file>Resources/Fonts/roboto_thin.ttf</file>
         <file>Resources/Fonts/roboto_thin_italic.ttf</file>
-        <file>DapUiQmlWidgetExchangeOrder.qml</file>
+        <file>DapUiQmlWidgetExchangeOrder.ui.qml</file>
+        <file>DapUiQmlWidgetExchangeOrderTitle.ui.qml</file>
+        <file>DapUiQmlWidgetExchangeOrderContent.ui.qml</file>
+        <file>DapUiQmlWidgetExchangeOrderButton.ui.qml</file>
     </qresource>
 </RCC>
