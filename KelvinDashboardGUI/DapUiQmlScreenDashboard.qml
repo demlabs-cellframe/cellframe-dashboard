@@ -48,7 +48,7 @@ Page {
                     }
                     ListElement {
                         name:  qsTr("History")
-                        page: "DapUiQmlScreenHistory.ui.qml"
+                        page: "DapUiQmlScreenHistoryForm.ui.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {

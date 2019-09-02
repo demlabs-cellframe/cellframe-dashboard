@@ -27,7 +27,9 @@
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
-        <file>DapUiQmlScreenHistory.ui.qml</file>
+        <file>DapUiQmlScreenHistoryForm.ui.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
+        <file>DapUiQmlWidgetHistoryDelegate.ui.qml</file>
+        <file>DapUiQmlWidgetHistorySection.ui.qml</file>
     </qresource>
 </RCC>
