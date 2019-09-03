@@ -48,7 +48,7 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
             while ((pos = rx.indexIn(result, pos)) != -1)
             {
                 QStringList dataItem = QStringList() << rx.cap(1) << QString::number(DapTransactionStatusConvertor::getStatusByShort(rx.cap(2))) << rx.cap(3) << rx.cap(4) << rx.cap(5) << wallets.at(i).toString();
-                qDebug() << "NEW MATCH" << pos << dataItem;
+//                qDebug() << "NEW MATCH" << pos << dataItem;
                 data << dataItem;
                 pos += rx.matchedLength();
             }
