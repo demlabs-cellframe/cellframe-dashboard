@@ -31,16 +31,8 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
 
         if(!result.isEmpty())
         {
-            //  TODO: error with "\r\n"
-            QString reg_str;
-//#ifdef Q_OS_LINUX
-//            reg_str = "(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\n"
-//                      "\\s(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)";
-//#endif
-//#ifdef Q_OS_WIN
-            reg_str = "(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\s+"
-                      "(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)";
-//#endif
+            QString reg_str = "(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\s+"
+                              "(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)";
 
             QRegExp rx(reg_str);
 
@@ -48,7 +40,7 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
             while ((pos = rx.indexIn(result, pos)) != -1)
             {
                 QStringList dataItem = QStringList() << rx.cap(1) << QString::number(DapTransactionStatusConvertor::getStatusByShort(rx.cap(2))) << rx.cap(3) << rx.cap(4) << rx.cap(5) << wallets.at(i).toString();
-//                qDebug() << "NEW MATCH" << pos << dataItem;
+                qDebug() << "NEW MATCH" << pos << dataItem;
                 data << dataItem;
                 pos += rx.matchedLength();
             }

@@ -3,7 +3,9 @@
 DapScreenHistoryModel::DapScreenHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-
+    m_timeout = new QTimer(this);
+    QObject::connect(m_timeout, &QTimer::timeout, this, &DapScreenHistoryModel::sendRequestHistory);
+    m_timeout->start(1000);
 }
 
 DapScreenHistoryModel& DapScreenHistoryModel::getInstance()
@@ -29,6 +31,8 @@ QHash<int, QByteArray> DapScreenHistoryModel::roleNames() const
 void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
 {
     if(!aData.isValid()) return;
+    if(m_timeout->isActive()) m_timeout->stop();
+
     beginResetModel();
     QList<QVariant> dataList = aData.toList();
     m_elementList.clear();

@@ -35,8 +35,6 @@ class DapServiceController : public QObject
     explicit DapServiceController(QObject *apParent = nullptr);
     
 public:
-    
-    
     /// Get an instance of a class.
     /// @return Instance of a class.
     Q_INVOKABLE static DapServiceController &getInstance();
@@ -82,7 +80,7 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
-    void getHistory();
+
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -119,6 +117,7 @@ private slots:
     void processGetHistory(const QVariant& aData);
 
 public slots:
+    void getHistory();
     void getNodeNetwork();
     void setNodeStatus(const bool aIsOnline);
 

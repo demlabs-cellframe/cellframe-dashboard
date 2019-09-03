@@ -60,7 +60,6 @@ void DapCommandController::getHistory()
 
 void DapCommandController::setNewHistory(const QVariant& aData)
 {
-    qDebug() << "new story" << aData;
     emit sendHistory(aData);
 }
 

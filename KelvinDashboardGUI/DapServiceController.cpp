@@ -59,6 +59,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(sendHistory(QVariant)), this, SLOT(processGetHistory(QVariant)));
 
     connect(m_pDapCommandController, &DapCommandController::sendHistory, &DapScreenHistoryModel::getInstance(), &DapScreenHistoryModel::receiveNewData);
+
+    connect(&DapScreenHistoryModel::getInstance(), &DapScreenHistoryModel::sendRequestHistory, this, &DapServiceController::getHistory);
 }
 
 QString DapServiceController::getBrand() const

@@ -5,6 +5,7 @@
 #include <QImage>
 #include <QAbstractListModel>
 #include <QDateTime>
+#include <QTimer>
 #include "DapHistoryType.h"
 
 #define MASK_FOR_MODEL QString("MMMM, dd")
@@ -46,6 +47,7 @@ public:
 
 private:
     QList<DapTransactionItem> m_elementList;
+    QTimer* m_timeout;
 
 public:
     explicit DapScreenHistoryModel(QObject *parent = nullptr);
@@ -57,6 +59,9 @@ public:
 
 public slots:
     void receiveNewData(const QVariant& aData);
+
+signals:
+    void sendRequestHistory();
 };
 
 #endif // DAPSCREENHISTORYMODEL_H
