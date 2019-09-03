@@ -187,7 +187,6 @@ void DapServiceController::getHistory()
 
 void DapServiceController::getNodeNetwork()
 {
-    qInfo() << QString("requestNodeNetwork");
     m_pDapCommandController->getNodeNetwork();
 }
 

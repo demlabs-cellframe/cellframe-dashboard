@@ -252,7 +252,6 @@ void DapCommandController::getWalletInfo(const QString& asWalletName)
 
 void DapCommandController::getNodeNetwork()
 {
-    qInfo() << QString("getNodeNetwork()");
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeNetwork");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeNetwork()));
 }

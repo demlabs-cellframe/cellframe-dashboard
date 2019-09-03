@@ -70,7 +70,7 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
 {
     QProcess process;
-    process.start(QString("%1 wallet info -w %2 -net kelvin-testnet").arg(CLI_PATH).arg(asNameWallet));
+    process.start(QString("%1 wallet info -w %2 -net private").arg(CLI_PATH).arg(asNameWallet));
     process.waitForFinished(-1);
     char* response = process.readAll().data();
     //qDebug() << response;
