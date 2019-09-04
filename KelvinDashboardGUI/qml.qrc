@@ -29,10 +29,14 @@
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
-        <file>DapUiQmlWidgetLastActions.qml</file>
+        <file>DapUiQmlWidgetLastActions.ui.qml</file>
         <file>Resources/Icons/ic_scroll-down.png</file>
         <file>Resources/Icons/ic_scroll-down_hover.png</file>
         <file>Resources/Icons/ic_scroll-up.png</file>
         <file>Resources/Icons/ic_scroll-up_hover.png</file>
+        <file>DapUiQmlWidgetLastActionsButton.ui.qml</file>
+        <file>DapUiQmlWidgetLastActionsDelegate.ui.qml</file>
+        <file>DapUiQmlWidgetLastActionsSection.ui.qml</file>
+        <file>DapUiQmlWidgetLastActionsHeader.ui.qml</file>
     </qresource>
 </RCC>
