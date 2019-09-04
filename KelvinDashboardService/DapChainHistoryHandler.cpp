@@ -10,8 +10,6 @@ DapChainHistoryHandler::DapChainHistoryHandler(QObject *parent) :
 
 QVariant DapChainHistoryHandler::getHistory() const
 {
-//    qDebug() << "get story" << m_history;
-
     return m_history;
 }
 

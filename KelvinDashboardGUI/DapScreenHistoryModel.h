@@ -15,24 +15,7 @@ class DapScreenHistoryModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-//    enum DapTransactionStatus {
-//        Pending,
-//        Sent,
-//        Received,
-//        Error
-//    };
-//    Q_ENUM(DapTransactionStatus)
-
-//    struct DapTransactionItem {
-//        QDateTime Date;
-//        QImage  TokenPic;
-//        DapTransactionStatus Status;
-//        QString TokenName;
-//        QString WalletNumber;
-//        QString Cryptocurrency;
-//        QString Currency;
-//    };
-
+    //!<    Role enumeration
     enum {
         DisplayDateRole = Qt::UserRole,
         DateRole,
@@ -46,21 +29,27 @@ public:
     };
 
 private:
-    QList<DapTransactionItem> m_elementList;
+    QList<DapTransactionItem> m_elementList;    //  Tx history list
     QTimer* m_timeout;
 
 public:
     explicit DapScreenHistoryModel(QObject *parent = nullptr);
     static DapScreenHistoryModel &getInstance();
 
+    //!<    override model's methods
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
 public slots:
+    //!<    Receive new tx history
     void receiveNewData(const QVariant& aData);
 
 signals:
+    //!<    Signal for requset current state of tx history
+    //! By defalt this signal emits when the client has just started while
+    //! the tx model will not get at least one tx history.
+    //! The signal stop emitting after getting the request result
     void sendRequestHistory();
 };
 
