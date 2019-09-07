@@ -24,10 +24,9 @@
         <file>DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
         <file>DapUiQmlScreenDialogSendToken.qml</file>
         <file>DapUiQmlScreenDialogRemoveWallet.qml</file>
-        <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
-        <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
-<file>Resources/Icons/defaul_icon.png</file>
+        <file>Resources/Icons/defaul_icon.png</file>
+        <file>DapUiQmlScreenConsoleForm.qml</file>
     </qresource>
 </RCC>

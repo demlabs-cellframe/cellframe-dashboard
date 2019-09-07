@@ -16,6 +16,9 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     m_pDapChainHistoryHandler = new DapChainHistoryHandler {this};
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::requsetWallets, this, &DapChainDashboardService::doRequestWallets);
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::changeHistory, this, &DapChainDashboardService::doSendNewHistory);
+
+    m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
+
 }
 
 bool DapChainDashboardService::start()
@@ -87,6 +90,11 @@ void DapChainDashboardService::setNodeStatus(const bool aIsOnline)
 QVariant DapChainDashboardService::getHistory() const
 {
     return m_pDapChainHistoryHandler->getHistory();
+}
+
+QString DapChainDashboardService::getQueryResult(const QString& aQuery) const
+{
+    return m_pDapChainConsoleHandler->getResult(aQuery);
 }
 
 void DapChainDashboardService::doRequestWallets()

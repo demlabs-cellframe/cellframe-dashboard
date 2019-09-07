@@ -45,6 +45,7 @@ SOURCES += \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
+    DapUiQmlWidgetConsole.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
     DapUiQmlWidgetChainBlockExplorer.cpp \
@@ -86,6 +87,7 @@ HEADERS += \
     DapUiQmlScreenDashboard.h \
     DapUiQmlWidgetChainOperations.h \
     DapUiQmlWidgetChainTransactions.h \
+    DapUiQmlWidgetConsole.h \
     DapUiQmlWidgetModel.h \
     DapUiQmlWidget.h \
     DapScreenDialog.h \

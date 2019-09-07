@@ -23,7 +23,7 @@
 #include "DapChainNodeNetworkModel.h"
 #include "DapChainNodeNetworkExplorer.h"
 #include "DapScreenHistoryFilterModel.h"
-
+#include "DapUiQmlWidgetConsole.h"
 
 #include <QRegExp>
 
@@ -66,6 +66,7 @@ int main(int argc, char *argv[])
 //    qmlRegisterType<DapScreenHistoryModel>("")
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
+    qmlRegisterType<DapUiQmlWidgetConsole>("QmlWidgetConsole", 1, 0, "DapUiQmlWidgetConsole");
     
     QQmlApplicationEngine engine;
 //    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
