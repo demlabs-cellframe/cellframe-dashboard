@@ -75,7 +75,7 @@ public slots:
     /// @param aiRowCount Number of lines displayed.
     /// @return Logs node.
     QStringList getNodeLogs(int aiTimeStamp, int aiRowCount);
-
+    /// Add new wallet
     QStringList addWallet(const QString &asWalletName);
     
     void removeWallet(const QString &asWalletName);
@@ -85,11 +85,14 @@ public slots:
     QStringList getWalletInfo(const QString &asWalletName);
 
     QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
-    
+    /// Get node network
+    /// @return QMap node network
     QVariant getNodeNetwork() const;
-
+    /// Receive new status for node
+    /// @param true if online
     void setNodeStatus(const bool aIsOnline);
-
+    /// Get history
+    /// @return QList data history
     QVariant getHistory() const;
 
 private slots:

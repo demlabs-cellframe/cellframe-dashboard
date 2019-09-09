@@ -206,16 +206,6 @@ void DapCommandController::closeClient()
     emit onClientClose();
 }
 
-/// Get node logs.
-/// @param aiTimeStamp Timestamp start reading logging.
-/// @param aiRowCount Number of lines displayed.
-void DapCommandController::getNodeLogs(int aiTimeStamp, int aiRowCount)
-{
-    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
-    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeLogs", aiTimeStamp, aiRowCount);
-    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeLogs()));
-}
-
 void DapCommandController::addWallet(const QString &asWalletName)
 {
      qInfo() << QString("addWallet(%1)").arg(asWalletName);
@@ -226,7 +216,7 @@ void DapCommandController::addWallet(const QString &asWalletName)
 void DapCommandController::removeWallet(const QString &asWalletName)
 {
     qInfo() << QString("removeWallet(%1)").arg(asWalletName);
-    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.removeWallet", asWalletName);
+    m_DAPRpcSocket->invokeRemoteMethod("RPCServer.removeWallet", asWalletName);
 }
 
 void DapCommandController::sendToken(const QString &asSendWallet, const QString &asAddressReceiver, const QString &asToken, const QString &aAmount)

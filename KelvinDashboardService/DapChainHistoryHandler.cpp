@@ -29,10 +29,8 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
 
         if(!result.isEmpty())
         {
-            QString reg_str = "(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\s+"
-                              "(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)";
-
-            QRegExp rx(reg_str);
+            QRegExp rx("(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\s+"
+                       "(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)");
 
             int pos = 0;
             while ((pos = rx.indexIn(result, pos)) != -1)

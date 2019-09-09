@@ -9,12 +9,9 @@
 #include "DapChainNodeNetworkModel.h"
 #include "DapNodeType.h"
 
-/*!
- * \brief The DapChainNodeNetworkExplorer class
- * \details Class paiting DapKelvin map
- * \warning To use this class it requers to send DapChainNodeNetworkModel model to slot setModel()
- * \author Tagiltsev Evgenii
- */
+/// The DapChainNodeNetworkExplorer class
+/// details Class paiting DapKelvin map
+/// @warning To use this class it requers to send DapChainNodeNetworkModel model to slot setModel()
 class DapChainNodeNetworkExplorer : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -59,38 +56,61 @@ protected:
 
 public:
     explicit DapChainNodeNetworkExplorer(QQuickItem *parent = nullptr);
-    void paint(QPainter* painter);                                      //!<    Overload method for paiting
+    /// Overload method for paiting
+    void paint(QPainter* painter);
 
-    QColor getColorOnline() const;                                      //!<    Get color for online nodes
-    QColor getColorOffline() const;                                     //!<    Get color for offline nodes
-    QColor getColorSelect() const;                                      //!<    Get color for selected node
-    QColor getColorNormal() const;                                      //!<    Get color for normal state for node
-    QColor getColorFocused() const;                                     //!<    Get color for focused node
-    int getWidthLine() const;                                           //!<    Get line width for borders
-    int getSizeNode() const;                                            //!<    Get lenght of square's side
+    /// Get color for online nodes
+    QColor getColorOnline() const;
+    /// Get color for offline nodes
+    QColor getColorOffline() const;
+    /// Get color for selected node
+    QColor getColorSelect() const;
+    /// Get color for normal state for node
+    QColor getColorNormal() const;
+    /// Get color for focused node
+    QColor getColorFocused() const;
+    /// Get line width for borders
+    int getWidthLine() const;
+    /// Get lenght of square's side
+    int getSizeNode() const;
 
-    DapChainNodeNetworkModel* getModel() const;                         //!<    Get model
+    /// Get model
+    DapChainNodeNetworkModel* getModel() const;
 
-    Q_INVOKABLE int getSelectedNodePosX() const;                        //!<    Get X position for selected node
-    Q_INVOKABLE int getSelectedNodePosY() const;                        //!<    Get Y position for selected node
-    Q_INVOKABLE QString getSelectedNodeAddress() const;                 //!<    Get address for selected node
-    Q_INVOKABLE QString getSelectedNodeAlias() const;                   //!<    Get alias for selected node
-    Q_INVOKABLE QString getSelectedNodeIpv4() const;                    //!<    Get Ipv4 address for selected node
-    Q_INVOKABLE QString getAddressByPos(const int aX, const int aY);    //!<    Find node address by coordinate
+    /// Get X position for selected node
+    Q_INVOKABLE int getSelectedNodePosX() const;
+    /// Get Y position for selected node
+    Q_INVOKABLE int getSelectedNodePosY() const;
+    /// Get address for selected node
+    Q_INVOKABLE QString getSelectedNodeAddress() const;
+    /// Get alias for selected node
+    Q_INVOKABLE QString getSelectedNodeAlias() const;
+    /// Get Ipv4 address for selected node
+    Q_INVOKABLE QString getSelectedNodeIpv4() const;
+    /// Find node address by coordinate
+    Q_INVOKABLE QString getAddressByPos(const int aX, const int aY);
 
 public slots:
-    void setColorSelect(const QColor& aColorSelect);                    //!<    Set color for selected node
-    void setColorNormal(const QColor& aColorNormal);                    //!<    Set color for normal state for node
-    void setColorFocused(const QColor& aColorActivated);                //!<    Set color for focused node
-    void setColorOnline(const QColor& aColorOnline);                    //!<    Set color for online nodes
-    void setColorOffline(const QColor& aColorOffline);                  //!<    Set color for offline nodes
-    void setWidthLine(const int widthLine);                             //!<    Set line width for borders
-    void setSizeNode(const int sizeNode);                               //!<    Set lenght of square's side
+    /// Set color for selected node
+    void setColorSelect(const QColor& aColorSelect);
+    /// Set color for normal state for node
+    void setColorNormal(const QColor& aColorNormal);
+    /// Set color for focused node
+    void setColorFocused(const QColor& aColorActivated);
+    /// Set color for online nodes
+    void setColorOnline(const QColor& aColorOnline);
+    /// Set color for offline nodes
+    void setColorOffline(const QColor& aColorOffline);
+    /// Set line width for borders
+    void setWidthLine(const int widthLine);
+    /// Set lenght of square's side
+    void setSizeNode(const int sizeNode);
 
-    void setModel(DapChainNodeNetworkModel* aModel);                    //!<    Set model
+    /// Set model
+    void setModel(DapChainNodeNetworkModel* aModel);
 
 private slots:
-    void proccessCreateGraph();                                         //  Slot for repainting map if it was changed
+    void proccessCreateGraph();
 
 signals:
     void colorSelectChanged(QColor colorSelect);
@@ -102,8 +122,10 @@ signals:
     void sizeNodeChanged(int sizeNode);
     void modelChanged(DapChainNodeNetworkModel* model);
 
-    void selectNode(bool isCurrentNode);                                //!<    Signal selected node
-    void selectNodeChanged();                                           //!<    Signal deselect node
+    /// Signal selected node
+    void selectNode(bool isCurrentNode);
+    /// Signal deselect node
+    void selectNodeChanged();
 };
 
 #endif // DAPCHAINNODENETWORKEXPLORER_H

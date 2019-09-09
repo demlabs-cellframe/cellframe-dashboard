@@ -22,18 +22,26 @@ private:
 public:
     explicit DapChainHistoryHandler(QObject *parent = nullptr);
 
-    //!<    Get current state of history
+    /// Get current state of history
     QVariant getHistory() const;
 
 public slots:
-    //!<    Request new tx history
-    //! \param wallet list
+    /// Request new tx history
+    /// @param wallet list
     void onRequestNewHistory(const QMap<QString, QVariant>& aWallets);
 
 signals:
-    //!<    Signal for request wallets list
+    /// Signal for request wallets list
     void requsetWallets();
-    //!<    Signal about getting new transatcion history
+    /// Signal about getting new transatcion history
+    /// @param data of history QList<QVariant>.
+    /// QVariant is QStringList. QStringList consists
+    /// 0:  date
+    /// 1:  status
+    /// 2:  currency
+    /// 3:  token
+    /// 4:  wallet_to
+    /// 5:  wallet_from
     void changeHistory(QVariant);
 };
 

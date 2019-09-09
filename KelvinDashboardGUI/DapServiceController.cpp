@@ -80,15 +80,6 @@ QString DapServiceController::getResult()
     return m_sResult;
 }
 
-/// Get node logs.
-/// @param aiTimeStamp Timestamp start reading logging.
-/// @param aiRowCount Number of lines displayed.
-void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
-{
-    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
-    m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
-}
-
 void DapServiceController::getWallets() const
 {
     qInfo() << QString("getNodeLogs()");

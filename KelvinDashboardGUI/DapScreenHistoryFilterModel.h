@@ -24,8 +24,14 @@ public:
     static DapScreenHistoryFilterModel &getInstance();
 
 public slots:
+    /// Filter model with wallet
+    /// @param Wallet number
     void setFilterWallet(const QString& aWalletNumber);
+    /// Filter model with dates
+    /// @param Min date
+    /// @param Max date
     void setFilterDate(const QDate& aDateLeft, const QDate& aDateRight);
+    /// Filter with status of transacrion
     void setFilterStatus(const DapTransactionStatus aStatus);
 };
 

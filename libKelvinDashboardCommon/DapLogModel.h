@@ -19,6 +19,7 @@ enum DapLogRole {
         MessageRole
     };
 
+/// Class model for log screen
 class DapLogModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -44,7 +45,7 @@ public:
     Q_INVOKABLE void append(const QString &type, const QString &timestamp, const QString  &file, const QString &message);
     Q_INVOKABLE void set(int row, const QString &type, const QString &timestamp, const QString  &file, const QString &message);
     Q_INVOKABLE void remove(int row);
-     Q_INVOKABLE void clear();
+    Q_INVOKABLE void clear();
 
 public slots:
     /// Method that implements the singleton pattern for the qml layer.

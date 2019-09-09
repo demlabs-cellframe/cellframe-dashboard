@@ -21,6 +21,7 @@ enum DapChainWalletRole {
         CountWalletRole
     };
 
+/// Class model for wallets screen
 class DapChainWalletsModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -33,15 +34,21 @@ public:
     /// @return Instance of a class.
     Q_INVOKABLE static DapChainWalletsModel &getInstance();
 
+    /// Overraid model's methods
     int rowCount(const QModelIndex & = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QHash<int, QByteArray> roleNames() const;
 
+    /// Get data in a row
     Q_INVOKABLE QVariantMap get(int row) const;
+    /// Add new wallet
     Q_INVOKABLE void append(const DapChainWallet &arWallet);
     Q_INVOKABLE void append(const QString& asIconPath, const QString &asName, const QString  &asAddress, const QStringList &aBalance, const QStringList &aTokens);
+    /// Change data for wallet in a row
     Q_INVOKABLE void set(int row, const QString& asIconPath, const QString &asName, const QString  &asAddresss, const QStringList &aBalance, const QStringList &aTokens);
+    /// Remove row with wallet
     Q_INVOKABLE void remove(int row);
+    /// Clear screen
     Q_INVOKABLE void clear();
 
 public slots:
