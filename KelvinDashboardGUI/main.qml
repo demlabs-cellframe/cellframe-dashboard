@@ -17,10 +17,10 @@ ApplicationWindow {
         console.log("Close")
         window.hide()
     }
-    
+
     Connections {
         target: dapServiceController
-        
+
         onActivateWindow: {
             if(window.visibility === Window.Hidden) {
                 window.show()
@@ -30,7 +30,7 @@ ApplicationWindow {
                 window.hide()
             }
         }
-        
+
 //        onErrorConnect: {
 //            imageNetwork.visible = false
 //            if(imageErrorNetwork.visible)
@@ -38,15 +38,15 @@ ApplicationWindow {
 //            else
 //                imageErrorNetwork.visible = true
 //        }
-        
+
 //        onConnectedToService: {
 //            imageNetwork.visible = true
 //            imageErrorNetwork.visible = false
 //            console.log("Connected")
 //        }
     }
-    
-    
+
+
 //    header:
 //    Column
 //    {
@@ -125,7 +125,7 @@ ApplicationWindow {
 //            color: "green"
 //        }
 //    }
-    
+
     Drawer {
         id: drawerMenu
         width: window.width * 0.3
@@ -197,7 +197,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "DapUiQmlScreenDashboard.qml"
+        initialItem: "DapUiQmlScreenMainWindow.qml"
         anchors.fill: parent
     }
 }

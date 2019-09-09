@@ -63,7 +63,7 @@ Item {
                         color: currencyTextInput.readOnly ? "#ACACAF" : "#737880"
                         font.family: fontExchange.name
                         font.pixelSize: 12 * pt
-                        text: index === 0 ? currencyName : "USD"
+                        text: index === 0 ? currencyName : qsTr("USD")
                     }
                 }
             }

@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.12
 
 Item {
     property alias titleOrder: orderTitle.orderText
-    property string currencyName: "KLVN"
+    property string currencyName: qsTr("KLVN")
     property string balance: "0"
 
     width: childrenRect.width
@@ -18,13 +18,13 @@ Item {
 
     ColumnLayout {
 
-        DapUiQmlWidgetExchangeOrderTitle {
+        DapUiQmlWidgetExchangeOrderTitleForm {
             id: orderTitle
             orderFont: fontExchange.name
         }
 
         Text {
-            text: "Balance: " + balance + " " + currencyName
+            text: qsTr("Balance: ") + balance + " " + currencyName
             color: "#ACACAF"
             font.family: fontExchange.name
             font.pixelSize: 12 * pt
@@ -36,7 +36,7 @@ Item {
 
         }
 
-        DapUiQmlWidgetExchangeOrderContent {
+        DapUiQmlWidgetExchangeOrderContentForm {
             contentFont: fontExchange.name
         }
 
@@ -45,7 +45,7 @@ Item {
             width: parent.width
         }
 
-        DapUiQmlWidgetExchangeOrderButton {
+        DapUiQmlWidgetExchangeOrderButtonForm {
             buttonFont: fontExchange.name
             buttonText: titleOrder
         }

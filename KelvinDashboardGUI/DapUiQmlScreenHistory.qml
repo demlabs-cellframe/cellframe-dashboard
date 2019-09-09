@@ -5,19 +5,11 @@ import QtQuick.Layouts 1.12
 
 import DapTransactionHistory 1.0
 
-Page {
-    ListView {
-        id: dapListView
-        anchors.fill: parent
-        model: dapHistoryModel
-        delegate: dapDelegate
-        section.property: "date"
-        section.criteria: ViewSection.FullString
-        section.delegate: dapDate
-    }
+DapUiQmlScreenHistoryForm {
+    id: dapUiQmlScreenHistory
 
     Component {
-        id: dapDate
+        id: delDate
         Rectangle {
             width:  dapListView.width
             height: 30 * pt
@@ -36,8 +28,9 @@ Page {
         }
     }
 
+
     Component {
-        id: dapDelegate
+        id: delegateD
 
         Column {
             Rectangle {
@@ -249,4 +242,11 @@ Page {
             }
         }
     }
+
+
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

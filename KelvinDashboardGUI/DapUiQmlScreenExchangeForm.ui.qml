@@ -12,13 +12,20 @@ Page {
         anchors.bottomMargin: 42 * pt
         spacing: 68 * pt
 
-        DapUiQmlWidgetExchangeOrder {
+        DapUiQmlWidgetExchangeOrderForm {
             titleOrder: qsTr("Buy")
 
         }
 
-        DapUiQmlWidgetExchangeOrder {
+        DapUiQmlWidgetExchangeOrderForm {
             titleOrder: qsTr("Sell")
         }
     }
 }
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
