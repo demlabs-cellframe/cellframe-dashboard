@@ -178,7 +178,5 @@ Page {
             source: "DapUiQmlScreenDialog.qml"
         }
     }
-
-
 }
 
