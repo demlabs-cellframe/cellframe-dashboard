@@ -10,9 +10,9 @@ Page {
         id: dapListView
         anchors.fill: parent
         model: dapHistoryModel
-        delegate: delegateD
+        delegate: delegateConetnet
         section.property: "date"
         section.criteria: ViewSection.FullString
-        section.delegate: delDate
+        section.delegate: delegateDate
     }
 }

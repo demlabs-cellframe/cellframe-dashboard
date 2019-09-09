@@ -9,7 +9,7 @@ DapUiQmlScreenHistoryForm {
     id: dapUiQmlScreenHistory
 
     Component {
-        id: delDate
+        id: delegateDate
         Rectangle {
             width:  dapListView.width
             height: 30 * pt
@@ -30,7 +30,7 @@ DapUiQmlScreenHistoryForm {
 
 
     Component {
-        id: delegateD
+        id: delegateConetnet
 
         Column {
             Rectangle {
