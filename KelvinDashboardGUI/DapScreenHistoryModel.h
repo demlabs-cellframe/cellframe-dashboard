@@ -14,24 +14,6 @@ class DapScreenHistoryModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-//    enum DapTransactionStatus {
-//        Pending,
-//        Sent,
-//        Received,
-//        Error
-//    };
-//    Q_ENUM(DapTransactionStatus)
-
-//    struct DapTransactionItem {
-//        QDateTime Date;
-//        QImage  TokenPic;
-//        DapTransactionStatus Status;
-//        QString TokenName;
-//        QString WalletNumber;
-//        QString Cryptocurrency;
-//        QString Currency;
-//    };
-
     enum {
         DisplayDateRole = Qt::UserRole,
         DateRole,
