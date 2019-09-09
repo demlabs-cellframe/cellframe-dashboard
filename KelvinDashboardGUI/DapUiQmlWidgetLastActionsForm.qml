@@ -33,7 +33,7 @@ Rectangle {
         }
     }
 
-    DapUiQmlWidgetLastActionsHeaderForms {
+    DapUiQmlWidgetLastActionsHeaderForm {
         id: dapHeader
     }
 
@@ -46,10 +46,10 @@ Rectangle {
         clip: true
 
         model: dapHistoryModel
-        delegate: DapUiQmlWidgetLastActionsDelegateForms {}
+        delegate: DapUiQmlWidgetLastActionsDelegateForm {}
         section.property: "date"
         section.criteria: ViewSection.FullString
-        section.delegate: DapUiQmlWidgetLastActionsSectionForms {}
+        section.delegate: DapUiQmlWidgetLastActionsSectionForm {}
 
         property var contentPos: 0.0;
         onContentYChanged: {
@@ -61,7 +61,7 @@ Rectangle {
             contentPos = contentItem.y;
         }
 
-        DapUiQmlWidgetLastActionsButtonForms {
+        DapUiQmlWidgetLastActionsButtonForm {
             id: buttonListScroll
             viewData: dapListView
         }
