@@ -4,7 +4,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
 
 Component {
-//    id: dapDate
     Rectangle {
         width:  dapListView.width
         height: 30 * pt

@@ -4,8 +4,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
 
 Component {
-//    id: dapDelegate
-
     Rectangle {
         id: dapContentDelegate
         width: parent.width

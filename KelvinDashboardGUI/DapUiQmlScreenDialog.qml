@@ -58,5 +58,5 @@ Page {
                    }
        }
 
-    DapUiQmlWidgetLastActions {}
+    DapUiQmlWidgetLastActionsForms {}
 }
