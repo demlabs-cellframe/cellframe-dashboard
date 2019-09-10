@@ -31,18 +31,8 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
 
         if(!result.isEmpty())
         {
-            //  TODO: error with "\r\n"
-            QString reg_str;
-#ifdef Q_OS_LINUX
-            reg_str = "(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\n"
-                      "\\s(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)";
-#endif
-#ifdef Q_OS_WIN
-            reg_str = "(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\r\\n"
-                                    "\\s(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)";
-#endif
-
-            QRegExp rx(reg_str);
+            QRegExp rx("(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\s+"
+                       "\\s(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)");
 
             int pos = 0;
             while ((pos = rx.indexIn(result, pos)) != -1)

@@ -45,7 +45,6 @@
         <file>DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
-        <file>DapUiQmlWidgetLastActionsForm.qml</file>
         <file>Resources/Icons/ic_scroll-down.png</file>
         <file>Resources/Icons/ic_scroll-down_hover.png</file>
         <file>Resources/Icons/ic_scroll-up.png</file>
@@ -56,5 +55,7 @@
         <file>DapUiQmlWidgetLastActionsHeaderForm.qml</file>
         <file>DapUiQmlScreenMainWindow.qml</file>
         <file>DapUiQmlScreenMainWindowForm.ui.qml</file>
+        <file>DapUiQmlWidgetLastActions.qml</file>
+        <file>DapUiQmlWidgetLastActionsForm.ui.qml</file>
     </qresource>
 </RCC>
