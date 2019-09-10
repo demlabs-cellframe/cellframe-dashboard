@@ -11,7 +11,7 @@ DapUiQmlScreenHistoryForm {
     Component {
         id: delegateDate
         Rectangle {
-            width:  dapListView.width
+            width:  parent.width
             height: 30 * pt
             color: "#DFE1E6"
 
