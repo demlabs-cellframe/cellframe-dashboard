@@ -42,11 +42,11 @@ class DapChainDashboardService : public DapRpcService
     DapUiSocketServer       * m_pSocketService {nullptr};
     /// Log reader.
     DapChainLogHandler            * m_pDapChainLogHandler {nullptr};
-
+    /// Recipient wallet inforamtion
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
-
+    /// Recipient node network
     DapChainNodeNetworkHandler     * m_pDapChainNodeHandler {nullptr};
-
+    /// Recipient history of transactions
     DapChainHistoryHandler* m_pDapChainHistoryHandler {nullptr};
 
 public:
@@ -77,13 +77,21 @@ public slots:
     QStringList getNodeLogs(int aiTimeStamp, int aiRowCount);
     /// Add new wallet
     QStringList addWallet(const QString &asWalletName);
-    
+    /// Remove wallet
     void removeWallet(const QString &asWalletName);
-
+    /// Get wallet
+    /// @return data for wallets
     QMap<QString, QVariant> getWallets();
-
+    /// Get information of wallet such as balance, currencies
+    /// @param number of wallet
+    /// @return data for the wallet
     QStringList getWalletInfo(const QString &asWalletName);
-
+    /// Create new transactio
+    /// @param name of wallet
+    /// @param address of a receiver
+    /// @param name of token
+    /// @param sum for transaction
+    /// @return result of trasaction
     QString sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount);
     /// Get node network
     /// @return QMap node network

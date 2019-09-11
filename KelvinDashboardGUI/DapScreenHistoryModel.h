@@ -35,6 +35,8 @@ private:
 
 public:
     explicit DapScreenHistoryModel(QObject *parent = nullptr);
+    /// Get instance of this class
+    /// @param instance of this class
     static DapScreenHistoryModel &getInstance();
 
     /// Override model's methods
@@ -44,6 +46,7 @@ public:
 
 public slots:
     /// Receive new tx history
+    /// @param QList<QStringList> data
     void receiveNewData(const QVariant& aData);
 
 signals:

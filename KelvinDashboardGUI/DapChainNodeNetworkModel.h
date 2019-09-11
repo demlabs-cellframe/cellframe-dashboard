@@ -22,6 +22,8 @@ protected:
 
 public:
     explicit DapChainNodeNetworkModel(QObject *parent = nullptr);
+
+    Q_INVOKABLE static DapChainNodeNetworkModel &getInstance();
     /// Get data about whole network with nodes
     /// @return QMap where key is address and value is structure about one node
     const DapNodeMap* getDataMap() const;
@@ -30,14 +32,15 @@ public:
     const DapNodeData* getNodeData(const QString& aAddress) const;
 
     /// Get current address of node
+    /// @return address of current node
     QString getCurrentAddress() const;
-    Q_INVOKABLE static DapChainNodeNetworkModel &getInstance();
     /// Get status of node
-    /// @return if true - online, else - offline
+    /// @return It is true if node is online
     Q_INVOKABLE bool isNodeOnline(const QString& aAddress) const;
 
 public slots:
     /// Receive new network data and repaint the screen
+    /// @param QMap<QString, QStringList> data of node n
     void receiveNewNetwork(const QVariant& aData);
     /// Receive changes status for nodes
     void receiveNodeStatus(const QVariant& aData);
@@ -45,6 +48,7 @@ public slots:
     Q_INVOKABLE void sendRequestNodeStatus(const bool aIsOnline);
     /// Start timer for request new data of network
     Q_INVOKABLE void startRequest();
+    /// @param time in milliseconds for delay
     Q_INVOKABLE void startRequest(const int aTimeout);
     /// Stop timer for request data of network
     Q_INVOKABLE void stopRequest();

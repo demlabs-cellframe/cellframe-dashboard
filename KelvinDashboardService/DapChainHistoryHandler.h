@@ -23,6 +23,7 @@ public:
     explicit DapChainHistoryHandler(QObject *parent = nullptr);
 
     /// Get current state of history
+    /// @return data
     QVariant getHistory() const;
 
 public slots:
