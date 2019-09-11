@@ -14,24 +14,6 @@ class DapScreenHistoryModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-//    enum DapTransactionStatus {
-//        Pending,
-//        Sent,
-//        Received,
-//        Error
-//    };
-//    Q_ENUM(DapTransactionStatus)
-
-//    struct DapTransactionItem {
-//        QDateTime Date;
-//        QImage  TokenPic;
-//        DapTransactionStatus Status;
-//        QString TokenName;
-//        QString WalletNumber;
-//        QString Cryptocurrency;
-//        QString Currency;
-//    };
-
     enum {
         DisplayDateRole = Qt::UserRole,
         DateRole,
@@ -54,6 +36,8 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
+
+    Q_INVOKABLE QString toConvertCurrency(const QString& aMoney) const;
 
 public slots:
     void receiveNewData(const QVariant& aData);
