@@ -3,7 +3,9 @@
 DapScreenHistoryModel::DapScreenHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-
+    m_timeout = new QTimer(this);
+    QObject::connect(m_timeout, &QTimer::timeout, this, &DapScreenHistoryModel::sendRequestHistory);
+    m_timeout->start(1000);
 }
 
 DapScreenHistoryModel& DapScreenHistoryModel::getInstance()
@@ -44,7 +46,14 @@ QString DapScreenHistoryModel::toConvertCurrency(const QString& aMoney) const
 
 void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
 {
-    if(!aData.isValid()) return;
+    if(!aData.isValid())
+    {
+        qWarning() << "New history data is not valid";
+        return;
+    }
+
+    if(m_timeout->isActive()) m_timeout->stop();
+
     beginResetModel();
     QList<QVariant> dataList = aData.toList();
     m_elementList.clear();
@@ -67,7 +76,9 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         item.Cryptocurrency = dataItem.at(2);
         item.TokenName = dataItem.at(3);
         item.WalletNumber = dataItem.at(5);
-        item.Currency = "$ 0 USD";          //  TODO:
+        //  TODO: Later we should convert currency
+        item.Currency = "$ 0 USD";
+        qWarning() << aData;
 
         switch (item.Status) {
             case DapTransactionStatus::stSent: item.Cryptocurrency.prepend("- "); break;
@@ -80,6 +91,7 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
 
         m_elementList.append(item);
     }
+
 
     endResetModel();
 }

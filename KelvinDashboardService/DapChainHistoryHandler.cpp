@@ -10,8 +10,6 @@ DapChainHistoryHandler::DapChainHistoryHandler(QObject *parent) :
 
 QVariant DapChainHistoryHandler::getHistory() const
 {
-//    qDebug() << "get story" << m_history;
-
     return m_history;
 }
 
@@ -27,12 +25,12 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
         process.start(QString(CLI_PATH) + " tx_history -net private -chain gdb -addr " + wallets.at(i).toString());
         process.waitForFinished(-1);
 
-        QString result = QString::fromStdString(process.readAll().toStdString());
+        QByteArray result = process.readAll();
 
         if(!result.isEmpty())
         {
-            QRegExp rx("(\\w{3}\\s\\w{3}\\s\\d+\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\d{4})\\s+"
-                       "\\s(\\w+)\\s(\\d+)\\s(\\w+)\\s\\w+\\s+(\\w+)");
+            QRegExp rx("(\\w{3} \\w{3} \\d+ \\d{1,2}:\\d{2}:\\d{2} \\d{4})\\s+"
+                       "(\\w+) (\\d+) (\\w+) \\w+ (\\w+)");
 
             int pos = 0;
             while ((pos = rx.indexIn(result, pos)) != -1)

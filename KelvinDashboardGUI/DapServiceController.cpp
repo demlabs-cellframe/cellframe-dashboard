@@ -59,6 +59,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(sendHistory(QVariant)), this, SLOT(processGetHistory(QVariant)));
 
     connect(m_pDapCommandController, &DapCommandController::sendHistory, &DapScreenHistoryModel::getInstance(), &DapScreenHistoryModel::receiveNewData);
+
+    connect(&DapScreenHistoryModel::getInstance(), &DapScreenHistoryModel::sendRequestHistory, this, &DapServiceController::getHistory);
 }
 
 QString DapServiceController::getBrand() const
@@ -76,15 +78,6 @@ QString DapServiceController::getVersion() const
 QString DapServiceController::getResult()
 {
     return m_sResult;
-}
-
-/// Get node logs.
-/// @param aiTimeStamp Timestamp start reading logging.
-/// @param aiRowCount Number of lines displayed.
-void DapServiceController::getNodeLogs(int aiTimeStamp, int aiRowCount) const
-{
-    qInfo() << QString("getNodeLogs(%1, %2)").arg(aiTimeStamp).arg(aiRowCount);
-    m_pDapCommandController->getNodeLogs(aiTimeStamp, aiRowCount);
 }
 
 void DapServiceController::getWallets() const
@@ -187,7 +180,6 @@ void DapServiceController::getHistory()
 
 void DapServiceController::getNodeNetwork()
 {
-    qInfo() << QString("requestNodeNetwork");
     m_pDapCommandController->getNodeNetwork();
 }
 

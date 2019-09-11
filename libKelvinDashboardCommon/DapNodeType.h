@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QDataStream>
 
+/// Structure for node network data
 struct DapNodeData {
     quint32 Cell;
     QString Ipv4;
