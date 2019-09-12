@@ -78,7 +78,6 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         item.WalletNumber = dataItem.at(5);
         //  TODO: Later we should convert currency
         item.Currency = "$ 0 USD";
-        qWarning() << aData;
 
         switch (item.Status) {
             case DapTransactionStatus::stSent: item.Cryptocurrency.prepend("- "); break;
