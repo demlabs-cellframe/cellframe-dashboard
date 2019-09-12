@@ -49,6 +49,8 @@ signals:
 
     void sendHistory(const QVariant& aData);
 
+    void responseConsole(const QString& aResponse);
+
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -77,6 +79,8 @@ private slots:
     void processExecuteCommand();
 
     void processGetHistory();
+
+    void processResponseConsole();
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -113,6 +117,8 @@ public slots:
     void getHistory();
 
     void setNewHistory(const QVariant& aData);
+
+    void requestConsole(const QString& aQueue);
 };
 
 #endif // COMMANDCONTROLLER_H

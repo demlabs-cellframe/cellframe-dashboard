@@ -15,6 +15,7 @@
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
 #include "DapScreenHistoryModel.h"
+#include "DapUiQmlWidgetConsole.h"
 
 class DapServiceController : public QObject
 {

@@ -1,35 +1,39 @@
 #include "DapUiQmlWidgetConsole.h"
 
-DapUiQmlWidgetConsole::DapUiQmlWidgetConsole(QObject *parent) : QObject(parent)
+DapUiQmlWidgetConsoleModel::DapUiQmlWidgetConsoleModel(QObject *parent) : QObject(parent)
 {
 
 }
 
-DapUiQmlWidgetConsole& DapUiQmlWidgetConsole::getInstance()
+DapUiQmlWidgetConsoleModel& DapUiQmlWidgetConsoleModel::getInstance()
 {
-    static DapUiQmlWidgetConsole instance;
+    static DapUiQmlWidgetConsoleModel instance;
     return instance;
 }
 
-void DapUiQmlWidgetConsole::receiveResponse(const QString& aResponse)
+void DapUiQmlWidgetConsoleModel::receiveResponse(const QString& aResponse)
 {
     emit sendResponse(aResponse);
 }
 
-QString DapUiQmlWidgetConsole::getCommandUp() const
+QString DapUiQmlWidgetConsoleModel::getCommandUp()
 {
-    if(m_CommandIterator -1 != m_CommandList.begin()) return QString::fromStdString(m_CommandIterator->toStdString());
-    return QString::fromStdString(m_CommandIterator->toStdString());
+    if(m_CommandList.isEmpty()) return QString();
+    if(m_CommandIndex > m_CommandList.begin()) m_CommandIndex--;
+    return *m_CommandIndex;
 }
 
-QString DapUiQmlWidgetConsole::getCommandDown() const
+QString DapUiQmlWidgetConsoleModel::getCommandDown()
 {
-    return QString();
+    if(m_CommandList.isEmpty()) return QString();
+    if(m_CommandIndex < m_CommandList.end() -1) m_CommandIndex++;
+    else return QString();
+    return *m_CommandIndex;
 }
 
-void DapUiQmlWidgetConsole::receiveRequest(const QString& aCommand)
+void DapUiQmlWidgetConsoleModel::receiveRequest(const QString& aCommand)
 {
     m_CommandList.append(aCommand);
-    m_CommandIterator = m_CommandList.end();
-    emit sendResponse(aCommand);
+    m_CommandIndex = m_CommandList.end();
+    emit sendRequest(aCommand);
 }

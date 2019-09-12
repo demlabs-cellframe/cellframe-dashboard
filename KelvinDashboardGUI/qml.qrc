@@ -28,5 +28,7 @@
         <file>DapUiQmlScreenHistory.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
         <file>DapUiQmlScreenConsoleForm.qml</file>
+        <file>DapUiQmlWidgetConsoleForm.qml</file>
+        <file>DapUiQmlWidgetConsoleLastActionsForm.qml</file>
     </qresource>
 </RCC>
