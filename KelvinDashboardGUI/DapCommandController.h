@@ -32,21 +32,21 @@ signals:
     void sigWalletsReceived(const QMap<QString, QVariant>& aWallets);
     /// The signal is emitted when the main application window is activated.
     void onClientActivate(bool aIsActivated);
-    
+    ///
     void onClientClose();
-
+    /// Signal for changing information of wallet
     void sigWalletInfoChanged(const QString& asWalletName, const QString& asWalletAddress, const QStringList& aBalance, const QStringList& aTokens);
-    
+    /// Signal for data network
     void sendNodeNetwork(const QVariant& aData);
-
+    /// Signal for sending status of node
     void sendNodeStatus(const QVariant& aData);
-
+    ///
     void executeCommandChanged(const QString& result);
-
+    /// Signal for cleaning log
     void onClearLogModel();
-
+    ///
     void onLogModel();
-
+    /// Signal for sending new transaction history
     void sendHistory(const QVariant& aData);
 
 public:
@@ -85,10 +85,6 @@ public slots:
     void activateClient(bool aIsActivated);
     /// Shut down client.
     void closeClient();
-    /// Get node logs.
-    /// @param aiTimeStamp Timestamp start reading logging.
-    /// @param aiRowCount Number of lines displayed.
-    void getNodeLogs(int aiTimeStamp, int aiRowCount);
 
     void processChangedLog();
 
@@ -110,8 +106,9 @@ public slots:
     /// Get node logs.
     void getNodeLogs();
 
+    /// Get transaction history
     void getHistory();
-
+    /// Send to model new history
     void setNewHistory(const QVariant& aData);
 };
 

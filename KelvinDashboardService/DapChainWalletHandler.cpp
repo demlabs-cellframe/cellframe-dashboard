@@ -43,7 +43,6 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
     process.start(QString("%1 wallet list").arg(CLI_PATH));
     process.waitForFinished(-1);
     QString str = QString::fromLatin1(process.readAll());
-    qDebug() << "ZDES`" << str;
     QRegExp rx(":{1,1}([\\s\\w\\W]+)(\\n|\\r){1,1}" );
     rx.setMinimal(true);
     int pos = 0;
@@ -70,53 +69,23 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
 QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
 {
     QProcess process;
-    process.start(QString("%1 wallet info -w %2 -net kelvin-testnet").arg(CLI_PATH).arg(asNameWallet));
+    process.start(QString("%1 wallet info -w %2 -net private").arg(CLI_PATH).arg(asNameWallet));
     process.waitForFinished(-1);
-    char* response = process.readAll().data();
-    //qDebug() << response;
+    QByteArray result = process.readAll();
+    QRegExp rx("wallet: (\\w+)\\s+addr:\\s+(\\w+)\\s+(balance)|(\\d+.\\d+)\\s(\\(\\d+\\))\\s(\\w+)");
     QStringList list;
-#ifdef Q_OS_WIN32
-    char *context = nullptr;
-    char *data = nullptr;
-    data = strtok_r(response, ":", &context);
-    if (strcmp(data, "wallet") != 0) {
-        data = strtok_r(response, ":", &context);
-    }
-    data = strtok_r(context+1, "\r", &context);
-    list.append(QString(data));
-    data = strtok_r(context+1, ":", &context);
-    data = strtok_r(context+1, "\r", &context);
-    list.append(QString(data));
-    data = strtok_r(context+1, ":", &context);
-    list.append(QString(data));
-    data = strtok_r(context+4, "\r", &context);
 
-    char *subctx;
-    char *subdata;
-    if (strlen(data) > 2) {
-        subdata = strtok_r(data+1, " ", &subctx);
-    } else {
-        subdata = strtok_r(data, " ", &subctx);
-    }
-    list.append(QString(subdata));
-    subdata = strtok_r(subctx, " ", &subctx);
-    list.append(QString(subdata));
-    subdata = strtok_r(subctx, "\r", &subctx);
-    list.append(QString(subdata));
-#else
-    QString str = QString::fromLatin1(process.readAll()).replace("\\", "\\\\");
-
-    QRegExp rx("[(:\\)\\t]{1,1}([^\\\\\\n\\t]+)[\\\\(|\\n|\\r]{1,1}");
-    rx.setMinimal(true);
-
-    int pos{0};
-    while((pos = rx.indexIn(str, pos)) != -1)
+    int pos = 0;
+    while((pos = rx.indexIn(result, pos)) != -1)
     {
-        list.append(rx.cap(1));
+        if(rx.cap(1).isEmpty())
+            list << rx.cap(4) << rx.cap(5) << rx.cap(6);
+        else
+            list << rx.cap(1) << rx.cap(2) << rx.cap(3);
+
         pos += rx.matchedLength();
     }
-#endif
-    qDebug() << list;
+
     return list;
 }
 

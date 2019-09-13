@@ -57,5 +57,6 @@
         <file>DapUiQmlScreenMainWindowForm.ui.qml</file>
         <file>DapUiQmlWidgetLastActions.qml</file>
         <file>DapUiQmlWidgetLastActionsForm.ui.qml</file>
+        <file>DapUiQmlScreenHistoryForm.ui.qml</file>
     </qresource>
 </RCC>

@@ -61,7 +61,7 @@ Item {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignRight
                         color: currencyTextInput.readOnly ? "#ACACAF" : "#737880"
-                        font.family: fontExchange.name
+                        font.family: contentFont
                         font.pixelSize: 12 * pt
                         text: index === 0 ? currencyName : qsTr("USD")
                     }

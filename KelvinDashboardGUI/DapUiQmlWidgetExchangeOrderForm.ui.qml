@@ -11,22 +11,18 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    FontLoader {
-        id: fontExchange
-        source: "qrc:/Resources/Fonts/roboto_regular.ttf"
-    }
-
     ColumnLayout {
 
         DapUiQmlWidgetExchangeOrderTitleForm {
             id: orderTitle
-            orderFont: fontExchange.name
+            orderFont: "Roboto"
+
         }
 
         Text {
             text: qsTr("Balance: ") + balance + " " + currencyName
             color: "#ACACAF"
-            font.family: fontExchange.name
+            font.family: "Roboto"
             font.pixelSize: 12 * pt
         }
 
@@ -37,7 +33,7 @@ Item {
         }
 
         DapUiQmlWidgetExchangeOrderContentForm {
-            contentFont: fontExchange.name
+            contentFont: "Roboto"
         }
 
         Rectangle {
@@ -46,7 +42,7 @@ Item {
         }
 
         DapUiQmlWidgetExchangeOrderButtonForm {
-            buttonFont: fontExchange.name
+            buttonFont: "Roboto"
             buttonText: titleOrder
         }
     }

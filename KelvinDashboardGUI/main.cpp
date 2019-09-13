@@ -51,23 +51,21 @@ int main(int argc, char *argv[])
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);
     dapServiceClient.init();
-    controller.getNodeLogs(0, 100);
     controller.getWallets();
     controller.getHistory();
 
     DapScreenHistoryFilterModel::getInstance()
             .setSourceModel(&DapScreenHistoryModel::getInstance());
-//    controller.getNodeNetwork();
 
     qmlRegisterType<DapScreenDialog>("KelvinDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("KelvinDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
     qmlRegisterType<DapChainNodeNetworkExplorer>("NodeNetworkExplorer", 1, 0, "DapUiQmlWidgetNodeNetwork");
-//    qmlRegisterType<DapScreenHistoryModel>("")
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
     
     QQmlApplicationEngine engine;
+    /// TODO: this method for getting DPI screen can be useful in the future
 //    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
@@ -75,18 +73,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
-    engine.rootContext()->setContextProperty("pt", 1.3 /* *dpi */);
+    engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     
-//    DapSettings &settings = DapSettings::getInstance("Settings.json");
-//    DapSettingsCipher &set = DapSettingsCipher::getInstance(settings);
-//    qDebug() << "Settings file name: " << set.getFileName();
-//    set.setKeyValue("user", "Vasy");
-//    bool f = false;
-//    set.setGroupPropertyValue("widgets", "name", "Services client", "visible", f);
-//    qDebug() << set.getGroupPropertyValue("widgets", "name", "Services client", "visible").toBool();
-//    qDebug() << set.getKeyValue("user");
-
     if (engine.rootObjects().isEmpty())
         return -1;
     

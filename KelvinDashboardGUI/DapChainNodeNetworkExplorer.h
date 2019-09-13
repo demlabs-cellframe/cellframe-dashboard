@@ -9,12 +9,9 @@
 #include "DapChainNodeNetworkModel.h"
 #include "DapNodeType.h"
 
-/*!
- * \brief The DapChainNodeNetworkExplorer class
- * \details Class paiting DapKelvin map
- * \warning To use this class it requers to send DapChainNodeNetworkModel model to slot setModel()
- * \author Tagiltsev Evgenii
- */
+/// The DapChainNodeNetworkExplorer class
+/// details Class paiting DapKelvin map
+/// @warning To use this class it requers to send DapChainNodeNetworkModel model to slot setModel()
 class DapChainNodeNetworkExplorer : public QQuickPaintedItem
 {
     Q_OBJECT
@@ -44,13 +41,13 @@ private:
     QMap<QString /*Address*/, DapNodeGui /*NodeDataGui*/> m_nodeMap;                //  node map for gui
     QPair<QString /*Address*/, DapNodeGui* /*NodeDataGui*/> m_currentSelectedNode;  //  selected node
 
-    QColor m_colorOnline;       //  Property color for online status
-    QColor m_colorOffline;      //  Property color for offline status
-    QColor m_colorSelect;       //  Property color for selected state
-    QColor m_colorNormal;       //  Property color for normal state
-    QColor m_colorFocused;      //  Property color for focused state
-    int m_widthLine;            //  Property width line for borders
-    int m_sizeNode;             //  Property lenght of square's side
+    QColor m_colorOnline;
+    QColor m_colorOffline;
+    QColor m_colorSelect;
+    QColor m_colorNormal;
+    QColor m_colorFocused;
+    int m_widthLine;
+    int m_sizeNode;
 
 protected:
     void mousePressEvent(QMouseEvent* event);
@@ -59,38 +56,85 @@ protected:
 
 public:
     explicit DapChainNodeNetworkExplorer(QQuickItem *parent = nullptr);
-    void paint(QPainter* painter);                                      //!<    Overload method for paiting
+    /// Overload method for paiting
+    void paint(QPainter* painter);
 
-    QColor getColorOnline() const;                                      //!<    Get color for online nodes
-    QColor getColorOffline() const;                                     //!<    Get color for offline nodes
-    QColor getColorSelect() const;                                      //!<    Get color for selected node
-    QColor getColorNormal() const;                                      //!<    Get color for normal state for node
-    QColor getColorFocused() const;                                     //!<    Get color for focused node
-    int getWidthLine() const;                                           //!<    Get line width for borders
-    int getSizeNode() const;                                            //!<    Get lenght of square's side
+    /// Get color for online nodes
+    /// @return color of online nodes
+    QColor getColorOnline() const;
+    /// Get color for offline nodes
+    /// @return color of offline nodes
+    QColor getColorOffline() const;
+    /// Get color for selected node
+    /// @return color of seletected node
+    QColor getColorSelect() const;
+    /// Get color for normal state for node
+    /// @return color of normal state
+    QColor getColorNormal() const;
+    /// Get color for focused node
+    /// @return color of focused node
+    QColor getColorFocused() const;
+    /// Get line width for borders
+    /// @return width of line
+    int getWidthLine() const;
+    /// Get lenght of square's side
+    /// @return diameter of node element
+    int getSizeNode() const;
 
-    DapChainNodeNetworkModel* getModel() const;                         //!<    Get model
+    /// Get model
+    /// @return model for network explorer
+    DapChainNodeNetworkModel* getModel() const;
 
-    Q_INVOKABLE int getSelectedNodePosX() const;                        //!<    Get X position for selected node
-    Q_INVOKABLE int getSelectedNodePosY() const;                        //!<    Get Y position for selected node
-    Q_INVOKABLE QString getSelectedNodeAddress() const;                 //!<    Get address for selected node
-    Q_INVOKABLE QString getSelectedNodeAlias() const;                   //!<    Get alias for selected node
-    Q_INVOKABLE QString getSelectedNodeIpv4() const;                    //!<    Get Ipv4 address for selected node
-    Q_INVOKABLE QString getAddressByPos(const int aX, const int aY);    //!<    Find node address by coordinate
+    /// Get X position for selected node
+    /// @return X position of selected node
+    Q_INVOKABLE int getSelectedNodePosX() const;
+    /// Get Y position for selected node
+    /// @return Y position of selected node
+    Q_INVOKABLE int getSelectedNodePosY() const;
+    /// Get address for selected node
+    /// @return address of selected node
+    Q_INVOKABLE QString getSelectedNodeAddress() const;
+    /// Get alias for selected node
+    /// @return alias of selected node
+    Q_INVOKABLE QString getSelectedNodeAlias() const;
+    /// Get Ipv4 address for selected node
+    /// @return Ipv4 address of selected node
+    Q_INVOKABLE QString getSelectedNodeIpv4() const;
+    /// Find node address by coordinate
+    /// @param X position
+    /// @param Y position
+    /// @return address of node
+    Q_INVOKABLE QString getAddressByPos(const int aX, const int aY);
 
 public slots:
-    void setColorSelect(const QColor& aColorSelect);                    //!<    Set color for selected node
-    void setColorNormal(const QColor& aColorNormal);                    //!<    Set color for normal state for node
-    void setColorFocused(const QColor& aColorActivated);                //!<    Set color for focused node
-    void setColorOnline(const QColor& aColorOnline);                    //!<    Set color for online nodes
-    void setColorOffline(const QColor& aColorOffline);                  //!<    Set color for offline nodes
-    void setWidthLine(const int widthLine);                             //!<    Set line width for borders
-    void setSizeNode(const int sizeNode);                               //!<    Set lenght of square's side
+    /// Set color for selected node
+    /// @param color for selected node
+    void setColorSelect(const QColor& aColorSelect);
+    /// Set color for normal state for node
+    /// @param color for normal state of node
+    void setColorNormal(const QColor& aColorNormal);
+    /// Set color for focused node
+    /// @param color for focused node
+    void setColorFocused(const QColor& aColorActivated);
+    /// Set color for online nodes
+    /// @param color for online nodes
+    void setColorOnline(const QColor& aColorOnline);
+    /// Set color for offline nodes
+    /// @param color offline nodes
+    void setColorOffline(const QColor& aColorOffline);
+    /// Set line width for borders
+    /// @param width of line
+    void setWidthLine(const int widthLine);
+    /// Set lenght of square's side
+    /// @param diameter of node element
+    void setSizeNode(const int sizeNode);
 
-    void setModel(DapChainNodeNetworkModel* aModel);                    //!<    Set model
+    /// Set model
+    /// @param model for explorer
+    void setModel(DapChainNodeNetworkModel* aModel);
 
 private slots:
-    void proccessCreateGraph();                                         //  Slot for repainting map if it was changed
+    void proccessCreateGraph();
 
 signals:
     void colorSelectChanged(QColor colorSelect);
@@ -102,8 +146,12 @@ signals:
     void sizeNodeChanged(int sizeNode);
     void modelChanged(DapChainNodeNetworkModel* model);
 
-    void selectNode(bool isCurrentNode);                                //!<    Signal selected node
-    void selectNodeChanged();                                           //!<    Signal deselect node
+    /// Signal selected node
+    /// @param status current selected node. It is true
+    /// if current node was selected
+    void selectNode(bool isCurrentNode);
+    /// Signal skip selected node to normal state
+    void selectNodeChanged();
 };
 
 #endif // DAPCHAINNODENETWORKEXPLORER_H
