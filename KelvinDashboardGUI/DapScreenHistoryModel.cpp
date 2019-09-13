@@ -3,9 +3,7 @@
 DapScreenHistoryModel::DapScreenHistoryModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    m_timeout = new QTimer(this);
-    QObject::connect(m_timeout, &QTimer::timeout, this, &DapScreenHistoryModel::sendRequestHistory);
-    m_timeout->start(1000);
+
 }
 
 DapScreenHistoryModel& DapScreenHistoryModel::getInstance()
@@ -52,8 +50,6 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         return;
     }
 
-    if(m_timeout->isActive()) m_timeout->stop();
-
     beginResetModel();
     QList<QVariant> dataList = aData.toList();
     m_elementList.clear();
@@ -77,16 +73,23 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         item.TokenName = dataItem.at(3);
         item.WalletNumber = dataItem.at(5);
         //  TODO: Later we should convert currency
-        item.Currency = "$ 0 USD";
+        item.Currency = QString::number(dataItem.at(2).toDouble() * 0.98);
 
         switch (item.Status) {
-            case DapTransactionStatus::stSent: item.Cryptocurrency.prepend("- "); break;
-            case DapTransactionStatus::stReceived: item.Cryptocurrency.prepend("+ "); break;
+            case DapTransactionStatus::stSent:
+                item.Cryptocurrency.prepend("- ");
+                item.Currency.prepend("- $ ");
+            break;
+            case DapTransactionStatus::stReceived:
+                item.Cryptocurrency.prepend("+ ");
+                item.Currency.prepend("+ $ ");
+            break;
             default: break;
         }
 
         item.Cryptocurrency = toConvertCurrency(item.Cryptocurrency);
         item.Cryptocurrency += " " + item.TokenName;
+        item.Currency.append(" USD");
 
         m_elementList.append(item);
     }

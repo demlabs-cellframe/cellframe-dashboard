@@ -124,7 +124,7 @@ public slots:
     /// Change status of node
     /// @param it is true if a node is online
     void setNodeStatus(const bool aIsOnline);
-
+    ///
     void get();
 
     /// Get node logs.

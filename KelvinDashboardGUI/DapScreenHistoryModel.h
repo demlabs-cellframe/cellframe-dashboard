@@ -31,7 +31,6 @@ public:
 
 private:
     QList<DapTransactionItem> m_elementList;
-    QTimer* m_timeout;
 
 public:
     explicit DapScreenHistoryModel(QObject *parent = nullptr);

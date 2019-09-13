@@ -21,8 +21,7 @@ ICON = icon.ico
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./kelvin-node-cli.exe\\\"
-#    DEFINES += LOG_FILE=\\\"./opt/kelvin-node/var/log/kelvin-node_logs.txt\\\"
-    DEFINES += LOG_FILE=\\\"./kelvin-node_logs.txt\\\"
+    DEFINES += LOG_FILE=\\\"./opt/kelvin-node/var/log/kelvin-node_logs.txt\\\"
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
