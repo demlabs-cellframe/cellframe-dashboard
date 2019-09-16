@@ -1,13 +1,17 @@
 import QtQuick 2.13
+import QtQuick.Controls 2.5
 
-TextEdit {
+TextArea {
     property int positionLine: 2
 
     id: txtCommands
     anchors.fill: parent
 
     text: "> "
-    wrapMode: TextEdit.WordWrap
+    wrapMode: TextArea.Wrap
+    color: "#707070"
+    font.family: "Roboto"
+    font.pixelSize: 20 * pt
 
     Keys.onPressed: {
 
@@ -23,18 +27,18 @@ TextEdit {
     Keys.onUpPressed: {
         if(txtCommands.positionLine != txtCommands.text.length)
             txtCommands.remove(txtCommands.positionLine, txtCommands.text.length);
-        txtCommands.text += dapConsoleController.getCommandUp();
+        txtCommands.text += dapConsoleModel.getCommandUp();
     }
 
     Keys.onDownPressed: {
         if(txtCommands.positionLine != txtCommands.text.length)
             txtCommands.remove(txtCommands.positionLine, txtCommands.text.length);
-        txtCommands.text += dapConsoleController.getCommandDown();
+        txtCommands.text += dapConsoleModel.getCommandDown();
     }
 
     Keys.onReturnPressed: {
         txtCommands.readOnly = true;
-        dapConsoleController.receiveRequest(txtCommands.text.slice(positionLine, txtCommands.text.length));
+        dapConsoleModel.receiveRequest(txtCommands.text.slice(positionLine, txtCommands.text.length));
     }
 
     onCursorPositionChanged: {
@@ -44,7 +48,7 @@ TextEdit {
     }
 
     Connections {
-        target: dapConsoleController
+        target: dapConsoleModel
         onSendResponse: {
             txtCommands.readOnly = false;
             txtCommands.append(response);

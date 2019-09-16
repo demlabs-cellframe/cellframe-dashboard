@@ -2,12 +2,17 @@
 #define DAPUIQMLSCREENCONSOLEFORM_H
 
 #include <QDebug>
-#include <QObject>
+#include <QAbstractListModel>
 #include <QStringList>
 
-class DapUiQmlWidgetConsoleModel : public QObject
+class DapUiQmlWidgetConsoleModel : public QAbstractListModel
 {
     Q_OBJECT
+
+public:
+    enum ConsoleRole {
+       LastCommand = Qt::DisplayRole
+    };
 
 private:
     QStringList m_CommandList;
@@ -18,6 +23,9 @@ public:
 
 public slots:
     void receiveResponse(const QString& aResponse);
+    int rowCount(const QModelIndex& parent) const override;
+    QVariant data(const QModelIndex& index, int role) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE static DapUiQmlWidgetConsoleModel& getInstance();
     Q_INVOKABLE QString getCommandUp();
@@ -27,6 +35,8 @@ public slots:
 signals:
     void sendRequest(QString command);
     void sendResponse(QString response);
+
+
 };
 
 #endif // DAPUIQMLSCREENCONSOLEFORM_H

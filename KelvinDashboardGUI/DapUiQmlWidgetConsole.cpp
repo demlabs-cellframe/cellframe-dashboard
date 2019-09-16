@@ -1,6 +1,7 @@
 #include "DapUiQmlWidgetConsole.h"
 
-DapUiQmlWidgetConsoleModel::DapUiQmlWidgetConsoleModel(QObject *parent) : QObject(parent)
+DapUiQmlWidgetConsoleModel::DapUiQmlWidgetConsoleModel(QObject *parent) :
+    QAbstractListModel(parent)
 {
 
 }
@@ -14,6 +15,33 @@ DapUiQmlWidgetConsoleModel& DapUiQmlWidgetConsoleModel::getInstance()
 void DapUiQmlWidgetConsoleModel::receiveResponse(const QString& aResponse)
 {
     emit sendResponse(aResponse);
+}
+
+int DapUiQmlWidgetConsoleModel::rowCount(const QModelIndex& parent) const
+{
+    Q_UNUSED(parent)
+
+    return m_CommandList.count();
+}
+
+QVariant DapUiQmlWidgetConsoleModel::data(const QModelIndex& index, int role) const
+{
+    if (!index.isValid()) return QVariant();
+
+    if(role == LastCommand)
+    {
+        qDebug() << "data:" << m_CommandList.at(index.row());
+        return m_CommandList.at(index.row());
+    }
+
+    return QVariant();
+}
+
+QHash<int, QByteArray> DapUiQmlWidgetConsoleModel::roleNames() const
+{
+    QHash<int, QByteArray> roles;
+    roles[LastCommand] = "lastCommand";
+    return roles;
 }
 
 QString DapUiQmlWidgetConsoleModel::getCommandUp()
@@ -33,7 +61,9 @@ QString DapUiQmlWidgetConsoleModel::getCommandDown()
 
 void DapUiQmlWidgetConsoleModel::receiveRequest(const QString& aCommand)
 {
+    beginResetModel();
     m_CommandList.append(aCommand);
+    endResetModel();
     m_CommandIndex = m_CommandList.end();
     emit sendRequest(aCommand);
 }

@@ -66,7 +66,6 @@ int main(int argc, char *argv[])
 //    qmlRegisterType<DapScreenHistoryModel>("")
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("KelvinDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
-    qmlRegisterType<DapUiQmlWidgetConsoleModel>("QmlWidgetConsole", 1, 0, "DapUiQmlWidgetConsoleModel");
 
     QQmlApplicationEngine engine;
 //    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
@@ -75,7 +74,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
-    engine.rootContext()->setContextProperty("dapConsoleController", &DapUiQmlWidgetConsoleModel::getInstance());
+    engine.rootContext()->setContextProperty("dapConsoleModel", &DapUiQmlWidgetConsoleModel::getInstance());
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
     engine.rootContext()->setContextProperty("pt", 1.3 /* *dpi */);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
