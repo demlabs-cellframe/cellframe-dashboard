@@ -28,27 +28,43 @@ public:
     Q_PROPERTY(QStringList tokens MEMBER m_tokens READ getTokens WRITE setTokens NOTIFY tokensChanged)
     Q_PROPERTY(int count MEMBER m_iCount READ getCount)
 
+    /// Get name of wallet
     QString getName() const;
+    /// Set name for wallet
     void setName(const QString &asName);
+    /// Get address of wallet
     QString getAddress() const;
+    /// Set address for wallet
     void setAddress(const QString &asAddress);
 
+    /// Get icon path
     QString getIconPath() const;
+    /// Set icon path
     void setIconPath(const QString &asIconPath);
 
+    /// Get balance
     QStringList getBalance() const;
+    /// Set balance
     void setBalance(const QStringList& aBalance);
     
+    /// Get tokens name
     QStringList getTokens() const;
+    /// Set tokens name
     void setTokens(const QStringList& aTokens);
 
+    /// get number of tokens
     int getCount() const;
 
 signals:
+    /// Signal changes for icon path
     void iconPathChanged(const QString& asIconPath);
+    /// Signal changes for name of wallet
     void nameChanged(const QString& asName);
+    /// Signal changes for address of wallet
     void addressChanged(const QString& asAddress);
+    /// Signal changes for balance
     void balanceChanged(const QStringList& aBalance);
+    /// Signal changes for tokens
     void tokensChanged(const QStringList& aTokens);
 
 };

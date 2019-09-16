@@ -18,23 +18,8 @@ int DapLogModel::rowCount(const QModelIndex &) const
 
 QVariant DapLogModel::data(const QModelIndex &index, int role) const
 {
-
-    int y = rowCount();
     if (index.row() < rowCount())
-            switch (role) {
-//            case TypeRole:
-//                switch (m_dapLogMessage.at(index.row())->getType()) {
-//                case Type::Info:
-//                    return "qrc:/Resources/Icons/dialog-information.png";
-//                case Type::Warning:
-//                    return "qrc:/Resources/Icons/dialog-warning.png";
-//                case Type::Error:
-//                    return "qrc:/Resources/Icons/dialog-error.png";
-//                case Type::Debug:
-//                    return "qrc:/Resources/Icons/dialog-question.png";
-//                default:
-//                    break;
-//                }
+        switch (role) {
             case TypeRole:
             {
                 QString s = m_dapLogMessage.at(index.row())->getType();
@@ -44,13 +29,12 @@ QVariant DapLogModel::data(const QModelIndex &index, int role) const
             case FileRole: return m_dapLogMessage.at(index.row())->getFile();
             case MessageRole:
             {
-                int x = index.row();
                 QString s1 = m_dapLogMessage.at(index.row())->getMessage();
 
                 return m_dapLogMessage.at(index.row())->getMessage();
             }
             default:
-                break;
+            break;
         }
     return QVariant();
 }
@@ -58,11 +42,11 @@ QVariant DapLogModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> DapLogModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
-            { TypeRole, "type" },
-            { TimeStampRole, "timestamp" },
-            { FileRole, "file" },
-            { MessageRole, "message" }
-        };
+        { TypeRole, "type" },
+        { TimeStampRole, "timestamp" },
+        { FileRole, "file" },
+        { MessageRole, "message" }
+    };
 
     return roles;
 }

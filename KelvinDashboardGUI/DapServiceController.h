@@ -15,7 +15,7 @@
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
 #include "DapScreenHistoryModel.h"
-#include "DapUiQmlWidgetConsole.h"
+#include "DapConsoleModel.h"
 
 class DapServiceController : public QObject
 {
@@ -36,8 +36,6 @@ class DapServiceController : public QObject
     explicit DapServiceController(QObject *apParent = nullptr);
     
 public:
-    
-    
     /// Get an instance of a class.
     /// @return Instance of a class.
     Q_INVOKABLE static DapServiceController &getInstance();
@@ -83,7 +81,7 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
-    void getHistory();
+
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -120,13 +118,17 @@ private slots:
     void processGetHistory(const QVariant& aData);
 
 public slots:
+    /// Get history of transaction
+    void getHistory();
+    /// Get node network for explorer
     void getNodeNetwork();
+    /// Change status of node
+    /// @param it is true if a node is online
     void setNodeStatus(const bool aIsOnline);
-
+    ///
     void get();
+
     /// Get node logs.
-    /// @param aiTimeStamp Timestamp start reading logging.
-    /// @param aiRowCount Number of lines displayed.
     Q_INVOKABLE void getNodeLogs() const;
 
     void clearLogModel();

@@ -72,9 +72,8 @@ QMap<QString, QVariant> DapChainDashboardService::getWallets()
 
 QStringList DapChainDashboardService::getWalletInfo(const QString &asWalletName)
 {
-//    qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
-//    return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
-    return QStringList();
+    qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
+    return m_pDapChainWalletHandler->getWalletInfo(asWalletName);
 }
 
 QVariant DapChainDashboardService::getNodeNetwork() const

@@ -17,7 +17,11 @@ public:
     explicit DapChainNodeNetworkHandler(QObject *parent = nullptr);
 
 public slots:
+    /// Change status of a node
+    /// @param it is true if a node is online
     void setNodeStatus(const bool aIsOnline);
+    /// Get new node network
+    /// @return data of node network
     QVariant getNodeNetwork() const;
 };
 

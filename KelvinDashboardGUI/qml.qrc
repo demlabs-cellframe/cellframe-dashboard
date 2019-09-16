@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>DapUiQmlScreenDashboard.qml</file>
-        <file>DapUiQmlScreenMainWindow.ui.qml</file>
         <file>KelvinDashboardGUI.conf</file>
         <file>DapUiQmlWidgetChainBlockExplorer.ui.qml</file>
         <file>DapUiQmlWidgetChainExchanges.ui.qml</file>
@@ -25,10 +23,42 @@
         <file>DapUiQmlScreenDialogSendToken.qml</file>
         <file>DapUiQmlScreenDialogRemoveWallet.qml</file>
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
+        <file>Resources/Icons/defaul_icon.png</file>
+        <file>DapUiQmlScreenExchangeForm.ui.qml</file>
+        <file>Resources/Fonts/roboto_black.ttf</file>
+        <file>Resources/Fonts/roboto_black_italic.ttf</file>
+        <file>Resources/Fonts/roboto_bold.ttf</file>
+        <file>Resources/Fonts/roboto_bold_italic.ttf</file>
+        <file>Resources/Fonts/roboto_italic.ttf</file>
+        <file>Resources/Fonts/roboto_light.ttf</file>
+        <file>Resources/Fonts/roboto_light_italic.ttf</file>
+        <file>Resources/Fonts/roboto_medium.ttf</file>
+        <file>Resources/Fonts/roboto_medium_italic.ttf</file>
+        <file>Resources/Fonts/roboto_regular.ttf</file>
+        <file>Resources/Fonts/roboto_thin.ttf</file>
+        <file>Resources/Fonts/roboto_thin_italic.ttf</file>
+        <file>DapUiQmlWidgetExchangeOrderForm.ui.qml</file>
+        <file>DapUiQmlWidgetExchangeOrderTitleForm.ui.qml</file>
+        <file>DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
+        <file>DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
-        <file>DapUiQmlScreenConsoleForm.qml</file>
+        <file>Resources/Icons/ic_scroll-down.png</file>
+        <file>Resources/Icons/ic_scroll-down_hover.png</file>
+        <file>Resources/Icons/ic_scroll-up.png</file>
+        <file>Resources/Icons/ic_scroll-up_hover.png</file>
+        <file>DapUiQmlWidgetLastActionsButtonForm.qml</file>
+        <file>DapUiQmlWidgetLastActionsDelegateForm.qml</file>
+        <file>DapUiQmlWidgetLastActionsSectionForm.qml</file>
+        <file>DapUiQmlWidgetLastActionsHeaderForm.qml</file>
+        <file>DapUiQmlScreenMainWindow.qml</file>
+        <file>DapUiQmlScreenMainWindowForm.ui.qml</file>
+        <file>DapUiQmlWidgetLastActions.qml</file>
+        <file>DapUiQmlWidgetLastActionsForm.ui.qml</file>
+        <file>DapUiQmlScreenHistoryForm.ui.qml</file>
+        <file>DapUiQmlScreenConsoleForm.ui.qml</file>
         <file>DapUiQmlWidgetConsoleForm.qml</file>
         <file>DapUiQmlWidgetConsoleLastActionsForm.qml</file>
+        <file>DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
     </qresource>
 </RCC>

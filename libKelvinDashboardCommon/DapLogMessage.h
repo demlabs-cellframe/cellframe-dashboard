@@ -21,7 +21,7 @@ class DapLogMessage : public QObject
     QString m_sMessage;
 
 public:
-    explicit DapLogMessage(QObject *parent = nullptr) {}
+    explicit DapLogMessage(QObject *parent = nullptr) { Q_UNUSED(parent) }
     DapLogMessage(const QString &type, const QString &timestamp, const QString  &file, const QString &message, QObject *parent = nullptr);
 
 
