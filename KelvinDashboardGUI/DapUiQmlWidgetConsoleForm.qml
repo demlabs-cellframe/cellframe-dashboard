@@ -1,59 +1,87 @@
 import QtQuick 2.13
 import QtQuick.Controls 2.5
 
-TextArea {
-    property int positionLine: 2
+Rectangle {
+    Text {
+        id: promt
+        anchors.left: parent.left
+        anchors.top: consoleCmd.top
+        anchors.bottom: parent.bottom
+        verticalAlignment: Qt.AlignVCenter
+        text: ">"
+        color: "#707070"
+        font.family: "Roboto"
+        font.pixelSize: 20 * pt
+    }
 
-    id: txtCommands
-    anchors.fill: parent
+    TextArea {
+        id: consoleCmd
+        anchors.left: promt.right
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        height: contentChildren.height
+        wrapMode: TextArea.Wrap
+        color: "#707070"
+        font.family: "Roboto"
+        font.pixelSize: 20 * pt
+        focus: true
 
-    text: "> "
-    wrapMode: TextArea.Wrap
-    color: "#707070"
-    font.family: "Roboto"
-    font.pixelSize: 20 * pt
+        Keys.onUpPressed: {
+            consoleCmd.text = dapConsoleModel.getCommandUp();
+        }
 
-    Keys.onPressed: {
+        Keys.onDownPressed: {
+            consoleCmd.text = dapConsoleModel.getCommandDown();
+        }
 
-        switch(event.key)
-        {
-        case Qt.Key_Backspace:
-            event.accepted = (txtCommands.cursorPosition <= txtCommands.positionLine);
-            return;
-        default: break;
+        Keys.onReturnPressed: {
+            dapConsoleModel.receiveRequest(consoleCmd.text);
+            txtCommand.append("> " + consoleCmd.text);
+            consoleCmd.text = "";
         }
     }
 
-    Keys.onUpPressed: {
-        if(txtCommands.positionLine != txtCommands.text.length)
-            txtCommands.remove(txtCommands.positionLine, txtCommands.text.length);
-        txtCommands.text += dapConsoleModel.getCommandUp();
-    }
+    ScrollView {
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.bottom: consoleCmd.top
 
-    Keys.onDownPressed: {
-        if(txtCommands.positionLine != txtCommands.text.length)
-            txtCommands.remove(txtCommands.positionLine, txtCommands.text.length);
-        txtCommands.text += dapConsoleModel.getCommandDown();
-    }
+        /*TextArea.flickable: */TextArea {
+            id: txtCommand
+            text: dapConsoleModel.getCmdHistory();
+            wrapMode: TextArea.Wrap
+            color: "#707070"
+            font.family: "Roboto"
+            font.pixelSize: 20 * pt
+            focus: false
 
-    Keys.onReturnPressed: {
-        txtCommands.readOnly = true;
-        dapConsoleModel.receiveRequest(txtCommands.text.slice(positionLine, txtCommands.text.length));
-    }
+//            Keys.onPressed: {
+//                switch(event.key)
+//                {
+//                case Qt.Key_Left: break;
+//                case Qt.Key_Right: break;
+//                case Qt.Key_Shift: break;
+//                case Qt.Key_Control: break;
+//                case Qt.Key_Up: break;
+//                case Qt.Key_Down: break;
+//                default: event.accepted = true; break;
+//                }
+//            }
 
-    onCursorPositionChanged: {
-        if(txtCommands.cursorPosition <= txtCommands.positionLine) {
-            txtCommands.cursorPosition = txtCommands.positionLine;
         }
-    }
 
-    Connections {
-        target: dapConsoleModel
-        onSendResponse: {
-            txtCommands.readOnly = false;
-            txtCommands.append(response);
-            txtCommands.append("> ");
-            txtCommands.positionLine = txtCommands.cursorPosition;
+//        ScrollBar.vertical: ScrollBar{}
+
+        Connections {
+            target: dapConsoleModel
+            onSendResponse: {
+                txtCommand.append(response);
+            }
+
+            onCmdHistoryChanged: {
+                txtCommand.append(history);
+            }
         }
     }
 }

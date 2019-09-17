@@ -56,7 +56,7 @@
         <file>DapUiQmlWidgetLastActions.qml</file>
         <file>DapUiQmlWidgetLastActionsForm.ui.qml</file>
         <file>DapUiQmlScreenHistoryForm.ui.qml</file>
-        <file>DapUiQmlScreenConsoleForm.ui.qml</file>
+        <file>DapUiQmlScreenConsoleForm.qml</file>
         <file>DapUiQmlWidgetConsoleForm.qml</file>
         <file>DapUiQmlWidgetConsoleLastActionsForm.qml</file>
         <file>DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>

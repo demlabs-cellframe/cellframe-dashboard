@@ -14,6 +14,7 @@ DapConsoleModel& DapConsoleModel::getInstance()
 
 void DapConsoleModel::receiveResponse(const QString& aResponse)
 {
+    m_History.append(aResponse);
     emit sendResponse(aResponse);
 }
 
@@ -59,8 +60,37 @@ QString DapConsoleModel::getCommandDown()
 void DapConsoleModel::receiveRequest(const QString& aCommand)
 {
     beginResetModel();
-    m_CommandList.append(aCommand);
+    if(!m_CommandList.contains(aCommand))
+        m_CommandList.append(aCommand);
     endResetModel();
     m_CommandIndex = m_CommandList.end();
+
+    QString returnSymbol = "\n";
+
+#ifdef Q_OS_WIN
+    returnSymbol.prepend("\r");
+#endif
+
+    m_History.append(returnSymbol + "> " + aCommand + returnSymbol);
     emit sendRequest(aCommand);
+}
+
+QString DapConsoleModel::getCmdHistory()
+{
+    return m_History;
+}
+
+void DapConsoleModel::receiveCmdHistory(const QString& aHistory)
+{
+    m_History.append(aHistory);
+    QRegExp rx("^([\\w+\\s+])$");
+
+    int pos = 0;
+    while ((pos = rx.indexIn(m_History, pos)) != -1)
+    {
+        if(!m_CommandList.contains(rx.cap(1)))
+            m_CommandList.append(rx.cap(1));
+        pos += rx.matchedLength();
+    }
+    emit cmdHistoryChanged(m_History);
 }

@@ -96,6 +96,11 @@ QString DapChainDashboardService::getQueryResult(const QString& aQuery) const
     return m_pDapChainConsoleHandler->getResult(aQuery);
 }
 
+QString DapChainDashboardService::getCmdHistory() const
+{
+    return m_pDapChainConsoleHandler->getHistory();
+}
+
 void DapChainDashboardService::doRequestWallets()
 {
     m_pDapChainHistoryHandler->onRequestNewHistory(m_pDapChainWalletHandler->getWallets());

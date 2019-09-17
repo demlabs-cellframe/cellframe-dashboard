@@ -64,7 +64,7 @@ Page {
                     }
                     ListElement {
                         name:  qsTr("Console")
-                        page: "DapUiQmlScreenConsoleForm.ui.qml"
+                        page: "DapUiQmlScreenConsoleForm.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {

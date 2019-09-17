@@ -17,6 +17,7 @@ public:
     };
 
 private:
+    QString m_History;
     QStringList m_CommandList;
     QStringList::iterator m_CommandIndex;
 
@@ -46,6 +47,10 @@ public slots:
     /// @param command request
     Q_INVOKABLE void receiveRequest(const QString& aCommand);
 
+    Q_INVOKABLE QString getCmdHistory();
+
+    void receiveCmdHistory(const QString& aHistory);
+
 signals:
     /// Signal to send request to the service
     /// @param command
@@ -53,6 +58,8 @@ signals:
     /// Signal for getting response from service
     /// @param result of command
     void sendResponse(QString response);
+
+    void cmdHistoryChanged(QString history);
 };
 
 #endif // DAPUIQMLSCREENCONSOLEFORM_H

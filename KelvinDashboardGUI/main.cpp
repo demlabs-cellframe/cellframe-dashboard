@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
     dapServiceClient.init();
     controller.getWallets();
     controller.getHistory();
+    controller.getCmdHistory();
 
     DapScreenHistoryFilterModel::getInstance()
             .setSourceModel(&DapScreenHistoryModel::getInstance());

@@ -81,7 +81,7 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
-
+    void getCmdHistory();
 
 signals:
     /// The signal is emitted when the Brand company property changes.

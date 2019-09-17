@@ -108,6 +108,8 @@ public slots:
 
     QString getQueryResult(const QString& aQuery) const;
 
+    QString getCmdHistory() const;
+
 private slots:
     void doRequestWallets();
     void doSendNewHistory(const QVariant& aData);

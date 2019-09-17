@@ -62,6 +62,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(&DapConsoleModel::getInstance(), &DapConsoleModel::sendRequest, m_pDapCommandController, &DapCommandController::requestConsole);
     connect(m_pDapCommandController, &DapCommandController::responseConsole, &DapConsoleModel::getInstance(), &DapConsoleModel::receiveResponse);
+    connect(m_pDapCommandController, &DapCommandController::sigCmdHistory, &DapConsoleModel::getInstance(), &DapConsoleModel::receiveCmdHistory);
 }
 
 QString DapServiceController::getBrand() const
@@ -172,6 +173,11 @@ void DapServiceController::getWalletInfo(const QString &asWalletName)
 {
     qInfo() << QString("getWalletInfo(%1)").arg(asWalletName);
     m_pDapCommandController->getWalletInfo(asWalletName);
+}
+
+void DapServiceController::getCmdHistory()
+{
+    m_pDapCommandController->getCmdHistory();
 }
 
 void DapServiceController::getHistory()
