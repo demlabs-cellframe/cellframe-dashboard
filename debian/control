@@ -1,4 +1,4 @@
-Source: kelvin-dashboard
+Source: cellframe-dashboard
 Section: unknown
 Priority: optional
 Maintainer: Demlabs Support <support@demlabs.net>
@@ -6,12 +6,11 @@ Build-Depends: debhelper (>= 9)
 Standards-Version: 5.8-4
 Homepage: https://demlabs.net
 
-Package: kelvin-dashboard
+Package: cellframe-dashboard
 Architecture: any
 Depends: psmisc, menu, ${shlibs:Depends}, ${misc:Depends}
-Replaces: KelvinDashboard
-Description: Kelvin Dashboard
- Kelvin Dashboard
+Description: CellFrame Dashboard
+ CelLFrame Dashboard
 
 
 

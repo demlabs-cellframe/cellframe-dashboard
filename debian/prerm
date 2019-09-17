@@ -2,13 +2,13 @@
 
 case "$1" in
     purge|remove|abort-upgrade|failed-upgrade|upgrade)
-    [ -f /etc/init.d/kelvin-dashboard ] && service kelvin-dashboard stop
-    [ -d /opt/kelvin-dashboard ] && rm -rf /opt/kelvin-dashboard/
-    [ -f /usr/local/bin/KelvinDashboard ] && rm /usr/local/bin/KelvinDashboard
-    [ -f /etc/init.d/kelvin-dashboard ] && rm /etc/init.d/kelvin-dashboard
+    [ -f /etc/init.d/cellframe-dashboard ] && service cellframe-dashboard stop
+    [ -d /opt/cellframe-dashboard ] && rm -rf /opt/cellframe-dashboard/
+    [ -f /usr/local/bin/CellFrameDashboard ] && rm /usr/local/bin/CellFrameDashboard
+    [ -f /etc/init.d/cellframe-dashboard ] && rm /etc/init.d/cellframe-dashboard
     systemctl daemon-reload
-    [ -f /usr/share/applications/kelvindashboard.desktop ] && rm /usr/share/applications/kelvindashboard.desktop
-    [ -f /usr/share/pixmaps/kelvindashboard.ico ] && rm /usr/share/pixmaps/kelvindashboard.ico
+    [ -f /usr/share/applications/CellFrameDashboard.desktop ] && rm /usr/share/applications/CellFrameDashboard.desktop
+    [ -f /usr/share/pixmaps/CellFrameDdashboard.ico ] && rm /usr/share/pixmaps/CellFrameDashboard.ico
     ;;
     *)
         echo "postrm called with unknown argument \`$1'" >&2
