@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QAbstractListModel>
 #include <QStringList>
+#include <QRegularExpression>
 
 /// Model for DAP console
 class DapConsoleModel : public QAbstractListModel

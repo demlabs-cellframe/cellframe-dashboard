@@ -16,13 +16,9 @@ QString DapChainConsoleHandler::getHistory() const
     while (m_File->pos() > 0)
     {
         QByteArray symbol =  m_File->read(1);
-        if(symbol == ">")
-        {
-            ++countCmd;
-            if(countCmd == MAX_COUNT_CMD) break;
-        }
-
+        if(symbol == ">") ++countCmd;
         m_File->seek(m_File->pos() - 2);
+        if(countCmd == MAX_COUNT_CMD) break;
     }
 
     QByteArray lastCmd = m_File->read(m_File->size() - m_File->pos());

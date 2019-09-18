@@ -82,15 +82,20 @@ QString DapConsoleModel::getCmdHistory()
 
 void DapConsoleModel::receiveCmdHistory(const QString& aHistory)
 {
-    m_History.append(aHistory);
-    QRegExp rx("^([\\w+\\s+])$");
+    m_History = aHistory;
+    QRegularExpression  rx("^> (.+)$");
+    rx.setPatternOptions(QRegularExpression::MultilineOption);
 
-    int pos = 0;
-    while ((pos = rx.indexIn(m_History, pos)) != -1)
-    {
-        if(!m_CommandList.contains(rx.cap(1)))
-            m_CommandList.append(rx.cap(1));
-        pos += rx.matchedLength();
+    QRegularExpressionMatchIterator i = rx.globalMatch(m_History);
+
+    while (i.hasNext()) {
+         QRegularExpressionMatch match = i.next();
+         QString cmd = match.captured(1).remove(QChar('\r'), Qt::CaseInsensitive);
+         if(!m_CommandList.contains(cmd))
+             m_CommandList.append(cmd);
     }
+
+    if(!m_CommandList.isEmpty())
+        m_CommandIndex = m_CommandList.end();
     emit cmdHistoryChanged(m_History);
 }
