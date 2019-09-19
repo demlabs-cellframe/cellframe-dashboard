@@ -5,6 +5,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QFile>
+#include <QDir>
 
 class DapChainConsoleHandler : public QObject
 {

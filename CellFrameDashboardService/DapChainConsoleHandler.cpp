@@ -4,7 +4,8 @@
 
 DapChainConsoleHandler::DapChainConsoleHandler(QObject *parent) : QObject(parent)
 {
-    m_File = new QFile("cmd_log.txt", this);
+    QDir().mkpath(QFileInfo(CMD_LOG).path());
+    m_File = new QFile(CMD_LOG, this);
     m_File->open(QIODevice::Append | QIODevice::ReadWrite);
 }
 
