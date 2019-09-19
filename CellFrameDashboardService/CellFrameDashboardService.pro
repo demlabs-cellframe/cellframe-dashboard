@@ -20,7 +20,7 @@ ICON = icon.ico
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
+    DEFINES += CLI_PATH=\\\"./kelvin-node-cli.exe\\\"
     DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
 }
 else {
@@ -48,7 +48,8 @@ SOURCES += \
     $$PWD/DapChainNode.cpp \
     $$PWD/DapChainNodeCache.cpp \
     $$PWD/DapChainWalletHandler.cpp \
-    $$PWD/DapChainLogHandler.cpp
+    $$PWD/DapChainLogHandler.cpp \
+    DapChainNetworkHandler.cpp
 
 HEADERS += \
     $$PWD/DapChainDashboardService.h \
@@ -57,7 +58,8 @@ HEADERS += \
     $$PWD/DapChainNodeCache.h \
     $$PWD/DapChainNodeNetworkHandler.h \
     $$PWD/DapChainWalletHandler.h \
-    $$PWD/DapChainLogHandler.h
+    $$PWD/DapChainLogHandler.h \
+    DapChainNetworkHandler.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

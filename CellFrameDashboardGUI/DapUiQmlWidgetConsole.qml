@@ -15,13 +15,14 @@ DapUiQmlWidgetConsoleForm {
         execute.enabled = false;
 
     }
+
     Connections {
-           target: dapServiceController
-           onResultChanged: {
-                command.clear()
-                result.text = dapServiceController.Result
-                execute.enabled = true
-            }
+        target: dapServiceController
+        onResultChanged: {
+            command.clear()
+            result.text = dapServiceController.Result
+            execute.enabled = true
+        }
     }
 
 }

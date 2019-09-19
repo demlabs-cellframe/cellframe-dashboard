@@ -58,5 +58,9 @@
         <file>DapUiQmlWidgetLastActions.qml</file>
         <file>DapUiQmlWidgetLastActionsForm.ui.qml</file>
         <file>DapUiQmlScreenHistoryForm.ui.qml</file>
+        <file>DapUiQmlWidgetSettingsNetwork.qml</file>
+        <file>DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
+        <file>DapUiQmlScreenSettings.qml</file>
+        <file>DapUiQmlScreenSettingsForm.ui.qml</file>
     </qresource>
 </RCC>

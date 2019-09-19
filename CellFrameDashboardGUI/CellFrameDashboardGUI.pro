@@ -44,6 +44,7 @@ SOURCES += \
     DapChainNodeNetworkModel.cpp \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
+    DapSettingsNetworkModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
@@ -80,6 +81,7 @@ HEADERS += \
     DapChainNodeNetworkModel.h \
     DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \
+    DapSettingsNetworkModel.h \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \
     DapUiQmlWidgetChainNodeLogs.h \
@@ -115,4 +117,6 @@ unix: !mac : !android {
     INSTALLS += gui_target
 }
 
-DISTFILES +=
+#DISTFILES += \
+#    DapUiQmlScreenSettings.qml \
+#    DapUiQmlScreenSettingsForm.ui.qml

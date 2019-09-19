@@ -48,3 +48,9 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
         emit changeHistory(m_history);
     }
 }
+
+void DapChainHistoryHandler::setCurrentNetwork(const QString& aNetwork)
+{
+    if(aNetwork == m_CurrentNetwork) return;
+    m_CurrentNetwork = aNetwork;
+}
