@@ -5,6 +5,9 @@ import QtQuick.Layouts 1.13
 
 Rectangle {
 
+    property alias textAreaCmdHistory: txtCommand
+    property alias textAreaCmd: consoleCmd
+
     ColumnLayout {
         anchors.fill: parent
 
@@ -20,9 +23,6 @@ Rectangle {
                 text: dapConsoleModel.getCmdHistory();
                 selectByMouse: true
                 wrapMode: TextArea.WordWrap
-                color: "#707070"
-                font.family: "Roboto"
-                font.pixelSize: 20 * pt
 
                 Keys.onPressed: {
                     switch(event.key)
@@ -48,9 +48,9 @@ Rectangle {
                 id: promt
                 verticalAlignment: Qt.AlignVCenter
                 text: ">"
-                color: "#707070"
-                font.family: "Roboto"
-                font.pixelSize: 20 * pt
+                color: consoleCmd.color
+                font.family: consoleCmd.font.family
+                font.pixelSize: consoleCmd.font.pixelSize
             }
 
             TextArea {
@@ -59,9 +59,6 @@ Rectangle {
                 Layout.fillWidth: true
                 height: contentChildren.height
                 wrapMode: TextArea.Wrap
-                color: "#707070"
-                font.family: "Roboto"
-                font.pixelSize: 20 * pt
                 placeholderText: qsTr("Type here...")
                 selectByMouse: true
                 focus: true

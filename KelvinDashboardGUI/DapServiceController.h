@@ -68,19 +68,20 @@ public:
     /// @param aiTimeStamp Timestamp start reading logging.
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount) const;
-
+    /// Get wallets
     Q_INVOKABLE void getWallets() const;
     
     DapLogModel getLogModel() const;
     void setLogModel(const DapLogModel &dapLogModel);
-
+    /// Add new wallet
+    /// @param wallet
     Q_INVOKABLE void addWallet(const QString& asWalletName);
     Q_INVOKABLE void removeWallet(int index, const QString& asWalletName);
     Q_INVOKABLE void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
     Q_INVOKABLE void executeCommand(const QString& command);
 
     void getWalletInfo(const QString& asWalletName);
-
+    /// Get history of commands
     void getCmdHistory();
 
 signals:

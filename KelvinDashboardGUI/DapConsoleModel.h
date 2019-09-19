@@ -47,9 +47,11 @@ public slots:
     /// Receive command requst for service
     /// @param command request
     Q_INVOKABLE void receiveRequest(const QString& aCommand);
-
+    /// Get current history
+    /// @return history of commands
     Q_INVOKABLE QString getCmdHistory();
-
+    /// Receive new history of commands
+    /// @param last 50 commands
     void receiveCmdHistory(const QString& aHistory);
 
 signals:
@@ -59,7 +61,8 @@ signals:
     /// Signal for getting response from service
     /// @param result of command
     void sendResponse(QString response);
-
+    /// Signal for view about changing history
+    /// @param last 50 commands
     void cmdHistoryChanged(QString history);
 };
 

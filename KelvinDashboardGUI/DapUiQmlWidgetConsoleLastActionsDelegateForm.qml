@@ -28,5 +28,4 @@ Component {
             height: 18 * pt
         }
     }
-
 }

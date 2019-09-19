@@ -16,7 +16,12 @@ private:
 public:
     explicit DapChainConsoleHandler(QObject *parent = nullptr);
 
+    /// Get history of commands
+    /// @return history
     QString getHistory() const;
+    /// Get result of command
+    /// @param command
+    /// @return command result
     QString getResult(const QString& aQuery) const;
 };
 
