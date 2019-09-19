@@ -3,14 +3,14 @@
 case "$1" in
     configure)
 
-    ln -sf /opt/kelvin-dashboard/share/init.d/kelvin-dashboard.service /etc/systemd/user/KelvinDashboardService.service
-    systemctl --system enable /opt/kelvin-dashboard/share/init.d/KelvinDashboardService.service
-    ln -sf /opt/kelvin-dashboard/bin/KelvinDashboard /usr/local/bin/KelvinDashboard
-    chmod +X /usr/local/bin/KelvinDashboard
-    cp -f /opt/kelvin-dashboard/share/kelvindashboard.desktop /usr/share/applications/kelvindashboard.desktop
-	cp -f /opt/kelvin-dashboard/share/kelvindashboard.ico	/usr/share/pixmaps/kelvindashboard.ico
+    ln -sf /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service /etc/systemd/user/cellframe-dashboard.service
+    systemctl --system enable /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service
+    ln -sf /opt/cellframe-dashboard/bin/CellFrameDashboard /usr/local/bin/CellFrameDashboard
+    chmod +X /usr/local/bin/CellFrameDashboard
+    cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.desktop /usr/share/applications/CellFrameDashboard.desktop
+	cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.ico	/usr/share/pixmaps/CellFrameFashboard.ico
     update-menus
-    echo "For start Kelvin Dashboard Service - run 'systemctl start KelvinDashboardService'"
+    echo "For start CellFrame Dashboard Service - run 'systemctl start cellframe-dashboard'"
 ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;

@@ -1,2 +1,2 @@
-# kelvin-dashboard
-Kelvin Dashboard
+# cellframe-dashboard
+CellFrame Dashboard
