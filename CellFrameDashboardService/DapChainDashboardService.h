@@ -110,6 +110,8 @@ public slots:
 
     void setCurrentNetwork(const QString& aNetwork);
 
+    void changeCurrentNetwork(const QString& aNetwork);
+
 private slots:
     void doRequestWallets();
     void doSendNewHistory(const QVariant& aData);

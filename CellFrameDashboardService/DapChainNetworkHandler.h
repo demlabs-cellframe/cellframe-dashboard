@@ -4,17 +4,20 @@
 #include <QObject>
 #include <QString>
 
+#include <QFile>
+
 class DapChainNetworkHandler : public QObject
 {
     Q_OBJECT
 
 private:
+    QString m_CurrentNetwork;
     QStringList m_NetworkList;
 
 public:
     explicit DapChainNetworkHandler(QObject *parent = nullptr);
 
-    QStringList getNetworkList() const;
+    QStringList getNetworkList();
 
 public slots:
     void setCurrentNetwork(const QString& aNetwork);

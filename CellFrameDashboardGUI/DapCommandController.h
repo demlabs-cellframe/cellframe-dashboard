@@ -49,6 +49,8 @@ signals:
     /// Signal for sending new transaction history
     void sendHistory(const QVariant& aData);
 
+    void sendNetworkList(const QStringList& aList);
+
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -78,6 +80,8 @@ private slots:
 
     void processGetHistory();
 
+    void processGetNetworkList();
+
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 
@@ -98,6 +102,8 @@ public slots:
 
     void getNodeNetwork();
 
+    void getNetworkList();
+
     void setNodeStatus(const bool aIsOnline);
 
     void executeCommand(const QString& command);
@@ -110,6 +116,8 @@ public slots:
     void getHistory();
     /// Send to model new history
     void setNewHistory(const QVariant& aData);
+
+    void changeCurrentNetwork(const QString& aNetwork);
 };
 
 #endif // COMMANDCONTROLLER_H

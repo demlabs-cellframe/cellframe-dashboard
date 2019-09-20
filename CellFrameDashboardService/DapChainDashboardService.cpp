@@ -101,6 +101,12 @@ void DapChainDashboardService::setCurrentNetwork(const QString& aNetwork)
     m_pDapChainNetworkHandler->setCurrentNetwork(aNetwork);
 }
 
+void DapChainDashboardService::changeCurrentNetwork(const QString& aNetwork)
+{
+    m_pDapChainNetworkHandler->setCurrentNetwork(aNetwork);
+    m_pDapChainHistoryHandler->setCurrentNetwork(aNetwork);
+}
+
 void DapChainDashboardService::doRequestWallets()
 {
     m_pDapChainHistoryHandler->onRequestNewHistory(m_pDapChainWalletHandler->getWallets());

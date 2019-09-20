@@ -28,7 +28,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     QHash<int, QByteArray> roleNames() const;
 
-    QString getCurrentNetwork() const;
+    Q_INVOKABLE QString getCurrentNetwork() const;
 
 public slots:
     void setNetworkList(const QStringList& aNetworkList);

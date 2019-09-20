@@ -22,7 +22,7 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
     for(int i = 0; i < wallets.count(); i++)
     {
         QProcess process;
-        process.start(QString(CLI_PATH) + " tx_history -net private -chain gdb -addr " + wallets.at(i).toString());
+        process.start(QString(CLI_PATH) + " tx_history -net " + m_CurrentNetwork + " -chain gdb -addr " + wallets.at(i).toString());
         process.waitForFinished(-1);
 
         QByteArray result = process.readAll();

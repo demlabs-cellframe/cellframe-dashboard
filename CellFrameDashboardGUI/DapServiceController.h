@@ -15,6 +15,7 @@
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
 #include "DapScreenHistoryModel.h"
+#include "DapSettingsNetworkModel.h"
 
 class DapServiceController : public QObject
 {
@@ -80,7 +81,7 @@ public:
 
     void getWalletInfo(const QString& asWalletName);
 
-
+    void getNetworkList();
 
 signals:
     /// The signal is emitted when the Brand company property changes.
