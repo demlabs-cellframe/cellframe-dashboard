@@ -43,9 +43,9 @@ signals:
     ///
     void executeCommandChanged(const QString& result);
     /// Signal for cleaning log
+    /// Signal for changing logs
+    void onChangeLogModel();
     void onClearLogModel();
-    ///
-    void onLogModel();
     /// Signal for sending new transaction history
     void sendHistory(const QVariant& aData);
 

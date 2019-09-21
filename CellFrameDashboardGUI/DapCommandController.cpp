@@ -68,7 +68,7 @@ void DapCommandController::processChangedLog()
 //    QStringList tempLogModel;
 //    for(int x{0}; x < aLogModel.count(); ++x)
 //        tempLogModel.append(aLogModel.at(x).toString());
-    emit onLogModel();
+    emit onChangeLogModel();
 }
 
 /// Handling service response for receiving node logs.
