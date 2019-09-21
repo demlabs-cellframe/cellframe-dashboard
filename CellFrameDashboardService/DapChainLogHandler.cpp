@@ -1,5 +1,7 @@
 #include "DapChainLogHandler.h"
 
+#include <QRegularExpression>
+
 DapChainLogHandler::DapChainLogHandler(QObject *parent) : QObject(parent)
 {
     m_fileSystemWatcher.addPath(LOG_FILE);
@@ -13,31 +15,31 @@ DapChainLogHandler::DapChainLogHandler(QObject *parent) : QObject(parent)
 
 QStringList DapChainLogHandler::request()
 {
-    /// TODO: The application doesn't work because of it. It needs to be changed
-//    QStringList m_listLogs;
-//    QFile file(LOG_FILE);
-//        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-//        {
-//            emit onUpdateModel();
-//        }
-//        else
-//        {
-//            QTextStream in(&file);
-////            QRegExp rx("(\\[|\\]|\\s)([\\w*]{1,1}[\\w\\s\\W]+)([\\n]|\\])" ); !!! DO NOT DELETE!!!
-//            QRegExp rx("(\\[|\\]|\\s)([\\w*]{1,1}[\\w\\s\\W]+)(\\]|$)" );
-//            rx.setMinimal(true);
+    QFile file(LOG_FILE);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qWarning() << "Failed to open file " << file.fileName();
+        return QStringList();
+    }
+    else
+    {
+        QTextStream in(&file);
+        in.seek(m_currentCaretPosition);
+        const QRegularExpression re("(\\[\\d\\d\\/\\d\\d\\/\\d\\d\\-\\d\\d\\:\\d\\d\\:\\d\\d])\\s(\\[\\w+\\])\\s(\\[\\w+\\])(.+)");
 
+        QStringList listLogs;
+        while (!in.atEnd()) {
+            const QString line = in.readLine();
+            const auto match = re.match(line);
+            if(!match.hasMatch())
+                continue;
 
-//            while (!in.atEnd()) {
-//                QString line = in.readLine();
-//                    int pos{0};
-//                    while((pos = rx.indexIn(line, pos)) != -1)
-//                    {
-//                        m_listLogs.append(rx.cap(2));
-//                        pos += rx.matchedLength();
-//                    }
-//            }
-//        }
-//        return m_listLogs;
-    return QStringList();
+            const QString matchedLog = match.captured();
+            listLogs.append(matchedLog);
+            m_currentCaretPosition += matchedLog.length();
+        }
+
+        return listLogs;
+
+    }
 }

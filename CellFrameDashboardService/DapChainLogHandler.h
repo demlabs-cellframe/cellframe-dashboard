@@ -17,7 +17,8 @@ class DapChainLogHandler : public QObject
 
     ///  Log file change watcher.
     QFileSystemWatcher  m_fileSystemWatcher;
-
+    ///  Current caret position in log file
+    qint64 m_currentCaretPosition{0};
 public:
     explicit DapChainLogHandler(QObject *parent = nullptr);
 
