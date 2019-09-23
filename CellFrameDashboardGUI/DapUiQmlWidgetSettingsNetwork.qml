@@ -14,12 +14,13 @@ DapUiQmlWidgetSettingsNetworkForm {
         anchors.topMargin: 13 * pt
         model: dapSettingsNetworkModel
         textRole: "network"
-        currentIndex: find(dapSettingsNetworkModel.CurrentNetwork)
+        currentIndex: dapSettingsNetworkModel.getCurrentIndex()
 
         onCurrentTextChanged: {
             console.debug(currentText);
-            if(dapSettingsNetworkModel.CurrentNetwork != currentText)
-                dapSettingsNetworkModel.CurrentNetwork = currentText;
+            if(dapSettingsNetworkModel.getCurrentIndex() !== currentIndex) {
+                dapSettingsNetworkModel.setCurrentNetwork(currentText, currentIndex);
+            }
         }
     }
 }

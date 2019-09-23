@@ -94,7 +94,7 @@ QString DapChainWalletHandler::sendToken(const QString &asSendWallet, const QStr
     QString answer;
     qInfo() << QString("sendTokenTest(%1, %2, %3, %4)").arg(asSendWallet).arg(asAddressReceiver).arg(asToken).arg(aAmount);
     QProcess processCreate;
-    processCreate.start(QString("%1 tx_create -net cellframe-testnet -chain gdb -from_wallet %2 -to_addr %3 -token %4 -value %5")
+    processCreate.start(QString("%1 tx_create -net " + m_CurrentNetwork +" -chain gdb -from_wallet %2 -to_addr %3 -token %4 -value %5")
                   .arg(CLI_PATH)
                   .arg(asSendWallet)
                   .arg(asAddressReceiver)
@@ -106,10 +106,16 @@ QString DapChainWalletHandler::sendToken(const QString &asSendWallet, const QStr
     if(!(resultCreate.isEmpty() || resultCreate.isNull()))
     {
         QProcess processMempool;
-        processMempool.start(QString("%1 mempool_proc -net kelvin-testnet -chain gdb").arg(CLI_PATH));
+        processMempool.start(QString("%1 mempool_proc -net " + m_CurrentNetwork +" -chain gdb").arg(CLI_PATH));
         processMempool.waitForFinished(-1);
         answer = QString::fromLatin1(processMempool.readAll());
         qDebug() << answer;
     }
     return answer;
+}
+
+void DapChainWalletHandler::setCurrentNetwork(const QString& aNetwork)
+{
+    if(m_CurrentNetwork != aNetwork) return;
+    m_CurrentNetwork = aNetwork;
 }

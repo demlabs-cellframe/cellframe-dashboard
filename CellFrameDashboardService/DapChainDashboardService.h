@@ -108,8 +108,6 @@ public slots:
 
     QStringList getNetworkList() const;
 
-    void setCurrentNetwork(const QString& aNetwork);
-
     void changeCurrentNetwork(const QString& aNetwork);
 
 private slots:

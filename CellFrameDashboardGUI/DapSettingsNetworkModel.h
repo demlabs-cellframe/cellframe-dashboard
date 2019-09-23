@@ -9,7 +9,7 @@ class DapSettingsNetworkModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString CurrentNetwork READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
+//    Q_PROPERTY(QString CurrentNetwork READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
 
 public:
     enum DisplayRole {
@@ -19,6 +19,7 @@ public:
 private:
     QStringList m_NetworkList;
     QString m_CurrentNetwork;
+    int m_CurrentIndex;
 
 public:
     explicit DapSettingsNetworkModel(QObject *parent = nullptr);
@@ -29,10 +30,11 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE QString getCurrentNetwork() const;
+    Q_INVOKABLE int getCurrentIndex() const;
 
 public slots:
     void setNetworkList(const QStringList& aNetworkList);
-    void setCurrentNetwork(QString CurrentNetwork);
+    void setCurrentNetwork(QString CurrentNetwork, int CurrentIndex);
 
 signals:
     void currentNetworkChanged(QString currentNetwork);

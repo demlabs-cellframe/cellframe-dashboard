@@ -20,7 +20,7 @@ ICON = icon.ico
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"./kelvin-node-cli.exe\\\"
+    DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
     DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
 }
 else {

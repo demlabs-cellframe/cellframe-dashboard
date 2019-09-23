@@ -1,6 +1,7 @@
 #include "DapSettingsNetworkModel.h"
 
-DapSettingsNetworkModel::DapSettingsNetworkModel(QObject *parent) : QAbstractListModel(parent)
+DapSettingsNetworkModel::DapSettingsNetworkModel(QObject *parent) : QAbstractListModel(parent),
+    m_CurrentIndex(-1)
 {
     m_NetworkList  = QStringList() << "First" << "Second" << "Third" << "Forth";
 }
@@ -40,6 +41,11 @@ QString DapSettingsNetworkModel::getCurrentNetwork() const
     return m_CurrentNetwork;
 }
 
+int DapSettingsNetworkModel::getCurrentIndex() const
+{
+    return m_CurrentIndex;
+}
+
 void DapSettingsNetworkModel::setNetworkList(const QStringList& aNetworkList)
 {
     if(m_NetworkList == aNetworkList) return;
@@ -48,11 +54,12 @@ void DapSettingsNetworkModel::setNetworkList(const QStringList& aNetworkList)
     endResetModel();
 }
 
-void DapSettingsNetworkModel::setCurrentNetwork(QString CurrentNetwork)
+void DapSettingsNetworkModel::setCurrentNetwork(QString CurrentNetwork, int CurrentIndex)
 {
     if (m_CurrentNetwork == CurrentNetwork)
         return;
 
     m_CurrentNetwork = CurrentNetwork;
+    m_CurrentIndex = CurrentIndex;
     emit currentNetworkChanged(m_CurrentNetwork);
 }
