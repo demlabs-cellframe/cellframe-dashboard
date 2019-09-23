@@ -1,8 +1,10 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.13
 
 Component {
     ColumnLayout {
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: 18 * pt
@@ -22,6 +24,14 @@ Component {
             font.family: "Roboto Regular"
             font.pixelSize: 14 * pt
             clip: true
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    consoleData.append("> " + lastCommand);
+                    dapConsoleModel.receiveRequest(lastCommand);
+                }
+            }
         }
 
         Rectangle {

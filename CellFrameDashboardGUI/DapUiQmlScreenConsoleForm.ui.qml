@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.12
 Page {
 
     DapUiQmlWidgetConsoleForm {
+        id: dapConsoleForm
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
@@ -18,5 +19,6 @@ Page {
 
     DapUiQmlWidgetConsoleLastActionsForm {
         id: lastActionsPanel
+        consoleData: dapConsoleForm.textAreaCmdHistory
     }
 }
