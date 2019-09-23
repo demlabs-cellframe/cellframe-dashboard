@@ -17,7 +17,6 @@ DapUiQmlWidgetSettingsNetworkForm {
         currentIndex: dapSettingsNetworkModel.getCurrentIndex()
 
         onCurrentTextChanged: {
-            console.debug(currentText);
             if(dapSettingsNetworkModel.getCurrentIndex() !== currentIndex) {
                 dapSettingsNetworkModel.setCurrentNetwork(currentText, currentIndex);
             }

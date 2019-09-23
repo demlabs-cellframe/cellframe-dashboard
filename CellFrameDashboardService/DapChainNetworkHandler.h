@@ -17,6 +17,8 @@ private:
 public:
     explicit DapChainNetworkHandler(QObject *parent = nullptr);
 
+    /// Get network list
+    /// @return Network list
     QStringList getNetworkList();
 };
 

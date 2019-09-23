@@ -105,9 +105,11 @@ public slots:
     /// Get history
     /// @return QList data history
     QVariant getHistory() const;
-
+    /// Get network list
+    /// @return Network list
     QStringList getNetworkList() const;
-
+    /// Change current network
+    /// @param name of network whcih was selected
     void changeCurrentNetwork(const QString& aNetwork);
 
 private slots:

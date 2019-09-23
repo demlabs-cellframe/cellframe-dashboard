@@ -80,7 +80,7 @@ public:
     Q_INVOKABLE void executeCommand(const QString& command);
 
     void getWalletInfo(const QString& asWalletName);
-
+    /// Request about new netowrk list
     void getNetworkList();
 
 signals:

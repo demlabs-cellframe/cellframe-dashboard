@@ -3,7 +3,7 @@
 DapSettingsNetworkModel::DapSettingsNetworkModel(QObject *parent) : QAbstractListModel(parent),
     m_CurrentIndex(-1)
 {
-    m_NetworkList  = QStringList() << "First" << "Second" << "Third" << "Forth";
+
 }
 
 DapSettingsNetworkModel& DapSettingsNetworkModel::getInstance()

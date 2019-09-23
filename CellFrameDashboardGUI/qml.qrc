@@ -62,5 +62,6 @@
         <file>DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
         <file>DapUiQmlScreenSettings.qml</file>
         <file>DapUiQmlScreenSettingsForm.ui.qml</file>
+        <file>DapUiQmlScreenSettingsSection.qml</file>
     </qresource>
 </RCC>
