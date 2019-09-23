@@ -84,7 +84,7 @@ QString DapServiceController::getResult()
 
 void DapServiceController::getWallets() const
 {
-    qInfo() << QString("getNodeLogs()");
+    qInfo() << QString("getWallets()");
     m_pDapCommandController->getWallets();
 }
 
@@ -112,8 +112,6 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
 }
 
 /// Get node logs.
-/// @param aiTimeStamp Timestamp start reading logging.
-/// @param aiRowCount Number of lines displayed.
 void DapServiceController::getNodeLogs() const
 {
     qInfo() << QString("getNodeLogs()");
