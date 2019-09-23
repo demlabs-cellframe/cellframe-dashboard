@@ -39,11 +39,6 @@ void DapCommandController::processCommandResult()
     emit sigCommandResult(reply->response().result());
 }
 
-void DapCommandController::clearLogModel()
-{
-    emit onClearLogModel();
-}
-
 /// Get node logs.
 void DapCommandController::getNodeLogs()
 {

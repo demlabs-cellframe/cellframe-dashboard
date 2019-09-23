@@ -31,6 +31,8 @@ void DapServiceController::closeClient()
 void DapServiceController::init(DapServiceClient *apDapServiceClient)
 {
     m_pDapServiceClient = apDapServiceClient;
+
+    connect(m_pDapServiceClient, SIGNAL(sigDisconnected()), SLOT(clearLogModel()));
     
     // Creating rpc controller
     m_pDapCommandController = new DapCommandController(apDapServiceClient->getClientSocket(), this);
