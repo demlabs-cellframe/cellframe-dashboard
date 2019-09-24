@@ -7,6 +7,10 @@ import DapTransactionHistory 1.0
 
 DapUiQmlWidgetLastActionsForm {
 
+    property alias viewModel: dapListView.model
+    property alias viewDelegate: dapListView.delegate
+    property alias viewSection: dapListView.section
+
     MouseArea {
         id: mainMouseArea
         anchors.fill: parent
@@ -34,12 +38,6 @@ DapUiQmlWidgetLastActionsForm {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         clip: true
-
-        model: dapHistoryModel
-        delegate: DapUiQmlWidgetLastActionsDelegateForm {}
-        section.property: "date"
-        section.criteria: ViewSection.FullString
-        section.delegate: DapUiQmlWidgetLastActionsSectionForm {}
 
         property var contentPos: 0.0;
         onContentYChanged: {
