@@ -3,6 +3,8 @@
 #include "DapLogMessage.h"
 #include "DapChainWallet.h"
 
+#include <QRegularExpression>
+
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
@@ -29,6 +31,8 @@ void DapServiceController::closeClient()
 void DapServiceController::init(DapServiceClient *apDapServiceClient)
 {
     m_pDapServiceClient = apDapServiceClient;
+
+    connect(m_pDapServiceClient, SIGNAL(sigDisconnected()), SLOT(clearLogModel()));
     
     // Creating rpc controller
     m_pDapCommandController = new DapCommandController(apDapServiceClient->getClientSocket(), this);
@@ -51,7 +55,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(m_pDapCommandController, SIGNAL(executeCommandChanged(QString)), SLOT(processExecuteCommandInfo(QString)));
 
 	connect(m_pDapCommandController, SIGNAL(sendNodeNetwork(QVariant)), this, SLOT(processGetNodeNetwork(QVariant)));
-    connect(m_pDapCommandController, SIGNAL(onLogModel()), SLOT(get()));
+    connect(m_pDapCommandController, SIGNAL(onChangeLogModel()), SLOT(getNodeLogs()));
 
     connect(&DapChainNodeNetworkModel::getInstance(), SIGNAL(requestNodeNetwork()), this, SLOT(getNodeNetwork()));
     connect(&DapChainNodeNetworkModel::getInstance(), SIGNAL(requestNodeStatus(bool)), this, SLOT(setNodeStatus(bool)));
@@ -80,7 +84,7 @@ QString DapServiceController::getResult()
 
 void DapServiceController::getWallets() const
 {
-    qInfo() << QString("getNodeLogs()");
+    qInfo() << QString("getWallets()");
     m_pDapCommandController->getWallets();
 }
 
@@ -88,44 +92,26 @@ void DapServiceController::getWallets() const
 /// @param aNodeLogs List of node logs.
 void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
 {
-    if(aNodeLogs.count() <= 0)
+    if(aNodeLogs.isEmpty())
         return;
-    int counter {0};
-    QStringList list;
+
     int xx = DapLogModel::getInstance().rowCount();
-    for(int x{0}; x <= aNodeLogs.size(); ++x)
+    QRegularExpression re("(?<=])\\s");
+    for (auto const & log : aNodeLogs)
     {
-        if(counter == 4)
-        {
-            DapLogMessage message;
-            message.setTimeStamp(list.at(0));
-            message.setType(list.at(1));
-            message.setFile(list.at(2));
-            message.setMessage(list.at(3));
-            DapLogModel::getInstance().append(message);
-            list.clear();
-            counter = 0;
-            if(x != aNodeLogs.size())
-                --x;
-        }
-        else if( x != aNodeLogs.size())
-        {
-            list.append(aNodeLogs[x]);
-            ++counter;
-        }
+        const QStringList list = log.split(re);
+        DapLogMessage logMessage;
+        logMessage.setTimeStamp(list.at(0));
+        logMessage.setType(list.at(1));
+        logMessage.setFile(list.at(2));
+        logMessage.setMessage(list.at(3));
+        DapLogModel::getInstance().append(logMessage);
     }
+
     emit logCompleted();
 }
 
-void DapServiceController::get()
-{
-    clearLogModel();
-    getNodeLogs();
-}
-
 /// Get node logs.
-/// @param aiTimeStamp Timestamp start reading logging.
-/// @param aiRowCount Number of lines displayed.
 void DapServiceController::getNodeLogs() const
 {
     qInfo() << QString("getNodeLogs()");

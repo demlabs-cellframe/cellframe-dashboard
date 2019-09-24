@@ -42,10 +42,8 @@ signals:
     void sendNodeStatus(const QVariant& aData);
     ///
     void executeCommandChanged(const QString& result);
-    /// Signal for cleaning log
-    void onClearLogModel();
-    ///
-    void onLogModel();
+    /// Signal for changing logs
+    void onChangeLogModel();
     /// Signal for sending new transaction history
     void sendHistory(const QVariant& aData);
 
@@ -102,7 +100,6 @@ public slots:
 
     void executeCommand(const QString& command);
 
-    void clearLogModel();
     /// Get node logs.
     void getNodeLogs();
 
