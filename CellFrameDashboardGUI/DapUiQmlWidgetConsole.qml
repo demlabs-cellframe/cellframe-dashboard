@@ -71,6 +71,10 @@ Rectangle {
                     consoleCmd.text = dapConsoleModel.getCommandDown();
                 }
 
+                Keys.onEnterPressed: {
+                    Keys.onReturnPressed(event);
+                }
+
                 Keys.onReturnPressed: {
                     txtCommand.append("> " + consoleCmd.text);
                     if(consoleCmd.text === "") return;

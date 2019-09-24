@@ -7,7 +7,5 @@ DapUiQmlWidgetLastActions {
 
     id: lastActionsPanel
     viewModel: dapConsoleModel
-    viewDelegate: DapUiQmlWidgetConsoleLastActionsDelegateForm {
-
-    }
+    viewDelegate: DapUiQmlWidgetConsoleLastActionsDelegateForm { }
 }

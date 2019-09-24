@@ -2,23 +2,26 @@ import QtQuick 2.13
 import QtQml 2.12
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
+import QtQuick.Controls 1.4
 
 Page {
-
-    DapUiQmlWidgetConsoleForm {
-        id: dapConsoleForm
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: lastActionsPanel.left
-
-        anchors.topMargin: 30 * pt
+    SplitView {
+        anchors.fill: parent
+        orientation: Qt.Horizontal
         anchors.leftMargin: 30 * pt
-        anchors.rightMargin: 30 * pt
-    }
+        handleDelegate: Item { }
 
-    DapUiQmlWidgetConsoleLastActionsForm {
-        id: lastActionsPanel
-        consoleData: dapConsoleForm.textAreaCmdHistory
+
+        DapUiQmlWidgetConsoleForm {
+            id: dapConsoleForm
+            Layout.fillWidth: true
+            Layout.topMargin: 30 * pt
+            Layout.rightMargin: 30 * pt
+        }
+
+        DapUiQmlWidgetConsoleLastActionsForm {
+            id: lastActionsPanel
+            consoleData: dapConsoleForm.textAreaCmdHistory
+        }
     }
 }
