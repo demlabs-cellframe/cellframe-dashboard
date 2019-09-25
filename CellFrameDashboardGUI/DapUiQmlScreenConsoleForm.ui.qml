@@ -22,6 +22,7 @@ Page {
         DapUiQmlWidgetConsoleLastActionsForm {
             id: lastActionsPanel
             consoleData: dapConsoleForm.textAreaCmdHistory
+//            border.color: "transparent"
         }
     }
 }
