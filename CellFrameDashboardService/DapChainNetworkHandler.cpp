@@ -1,4 +1,5 @@
 #include "DapChainNetworkHandler.h"
+#include <QDebug>
 
 DapChainNetworkHandler::DapChainNetworkHandler(QObject *parent) : QObject(parent)
 {
@@ -13,8 +14,16 @@ QStringList DapChainNetworkHandler::getNetworkList()
     process.waitForFinished(-1);
     QByteArray result = process.readAll();
 
-    QString data = QString::fromStdString(result.toStdString());
-    network = data.split("\n").at(0).split(": ").at(1).split(", ");
+    if(!result.isEmpty())
+    {
+        QString data = QString::fromStdString(result.toStdString());
+        data = data.remove("\n");
+        QStringList list = data.split(": ");
+        if(list.count() > 1)
+        {
+            network = list.at(1).split(", ");
+        }
+    }
 
     return network;
 }
