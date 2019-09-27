@@ -39,11 +39,6 @@ void DapCommandController::processCommandResult()
     emit sigCommandResult(reply->response().result());
 }
 
-void DapCommandController::clearLogModel()
-{
-    emit onClearLogModel();
-}
-
 /// Get node logs.
 void DapCommandController::getNodeLogs()
 {
@@ -63,6 +58,18 @@ void DapCommandController::setNewHistory(const QVariant& aData)
     emit sendHistory(aData);
 }
 
+void DapCommandController::requestConsole(const QString& aQueue)
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getQueryResult", aQueue);
+    connect(reply, SIGNAL(finished()), this, SLOT(processResponseConsole()));
+}
+
+void DapCommandController::getCmdHistory()
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getCmdHistory");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetCmdHistory()));
+}
+
 void DapCommandController::changeCurrentNetwork(const QString& aNetwork)
 {
     m_DAPRpcSocket->invokeRemoteMethod("RPCServer.changeCurrentNetwork", aNetwork);
@@ -73,7 +80,7 @@ void DapCommandController::processChangedLog()
 //    QStringList tempLogModel;
 //    for(int x{0}; x < aLogModel.count(); ++x)
 //        tempLogModel.append(aLogModel.at(x).toString());
-    emit onLogModel();
+    emit onChangeLogModel();
 }
 
 /// Handling service response for receiving node logs.
@@ -194,6 +201,20 @@ void DapCommandController::processGetHistory()
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
     QVariant result = reply->response().result().toArray().toVariantList();
     emit sendHistory(result);
+}
+
+void DapCommandController::processResponseConsole()
+{
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    QString result = reply->response().result().toVariant().toString();
+    emit responseConsole(result);
+}
+
+void DapCommandController::processGetCmdHistory()
+{
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    QString result = reply->response().result().toVariant().toString();
+    emit sigCmdHistory(result);
 }
 
 void DapCommandController::processGetNetworkList()

@@ -24,7 +24,7 @@
 #include "DapChainNodeNetworkExplorer.h"
 #include "DapScreenHistoryFilterModel.h"
 #include "DapSettingsNetworkModel.h"
-
+#include "DapConsoleModel.h"
 
 #include <QRegExp>
 
@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
     dapServiceClient.init();
     controller.getWallets();
     controller.getHistory();
+    controller.getCmdHistory();
     controller.getNetworkList();
 
     DapScreenHistoryFilterModel::getInstance()
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<DapChainNodeNetworkExplorer>("NodeNetworkExplorer", 1, 0, "DapUiQmlWidgetNodeNetwork");
     qmlRegisterSingletonType<DapUiQmlWidgetModel>("CellFrameDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
-    
+
     QQmlApplicationEngine engine;
     /// TODO: this method for getting DPI screen can be useful in the future
 //    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
@@ -74,6 +75,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
+    engine.rootContext()->setContextProperty("dapConsoleModel", &DapConsoleModel::getInstance());
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
     engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("pt", 1.3);

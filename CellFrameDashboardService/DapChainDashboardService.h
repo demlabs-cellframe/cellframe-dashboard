@@ -28,6 +28,7 @@
 #include "DapChainNodeNetworkHandler.h"
 #include "DapChainHistoryHandler.h"
 #include "DapChainNetworkHandler.h"
+#include "DapChainConsoleHandler.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -49,6 +50,8 @@ class DapChainDashboardService : public DapRpcService
     DapChainNodeNetworkHandler     * m_pDapChainNodeHandler {nullptr};
     /// Recipient history of transactions
     DapChainHistoryHandler* m_pDapChainHistoryHandler {nullptr};
+    /// Recipient history of commands
+    DapChainConsoleHandler* m_pDapChainConsoleHandler {nullptr};
 
     DapChainNetworkHandler* m_pDapChainNetworkHandler {nullptr};
 
@@ -63,8 +66,6 @@ signals:
     void onNewClientConnected();
     
 public slots:
-    void clearLogModel();
-
     void changedLogModel();
     /// Activate the main client window by double-clicking the application icon in the system tray.
     /// @param reason Type of action on the icon in the system tray.
@@ -111,6 +112,13 @@ public slots:
     /// Change current network
     /// @param name of network whcih was selected
     void changeCurrentNetwork(const QString& aNetwork);
+    /// Get result for command
+    /// @param command
+    /// @return result
+    QString getQueryResult(const QString& aQuery) const;
+    /// Get history of commands
+    /// @return history of last 50 commands
+    QString getCmdHistory() const;
 
 private slots:
     void doRequestWallets();

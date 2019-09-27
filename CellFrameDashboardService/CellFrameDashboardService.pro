@@ -22,11 +22,13 @@ win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
     DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
+    DEFINES += CMD_LOG=\\\"./opt/cellframe-dashboard/data/cellframe-cmd_log.txt\\\"
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
     DEFINES += LOG_FILE=\\\"/opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
+    DEFINES += CMD_LOG=\\\"/opt/cellframe-dashboard/data/cellframe-cmd_log.txt\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -49,7 +51,8 @@ SOURCES += \
     $$PWD/DapChainNodeCache.cpp \
     $$PWD/DapChainWalletHandler.cpp \
     $$PWD/DapChainLogHandler.cpp \
-    DapChainNetworkHandler.cpp
+    $$PWD/DapChainNetworkHandler.cpp \
+    $$PWD/DapChainConsoleHandler.cpp
 
 HEADERS += \
     $$PWD/DapChainDashboardService.h \
@@ -59,7 +62,8 @@ HEADERS += \
     $$PWD/DapChainNodeNetworkHandler.h \
     $$PWD/DapChainWalletHandler.h \
     $$PWD/DapChainLogHandler.h \
-    DapChainNetworkHandler.h
+    $$PWD/DapChainNetworkHandler.h \
+    $$PWD/DapChainConsoleHandler.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

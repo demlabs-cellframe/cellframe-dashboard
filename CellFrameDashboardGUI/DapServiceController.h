@@ -16,6 +16,7 @@
 #include "DapChainNodeNetworkModel.h"
 #include "DapScreenHistoryModel.h"
 #include "DapSettingsNetworkModel.h"
+#include "DapConsoleModel.h"
 
 class DapServiceController : public QObject
 {
@@ -68,12 +69,13 @@ public:
     /// @param aiTimeStamp Timestamp start reading logging.
     /// @param aiRowCount Number of lines displayed.
     void getNodeLogs(int aiTimeStamp, int aiRowCount) const;
-
+    /// Get wallets
     Q_INVOKABLE void getWallets() const;
     
     DapLogModel getLogModel() const;
     void setLogModel(const DapLogModel &dapLogModel);
-
+    /// Add new wallet
+    /// @param wallet
     Q_INVOKABLE void addWallet(const QString& asWalletName);
     Q_INVOKABLE void removeWallet(int index, const QString& asWalletName);
     Q_INVOKABLE void sendToken(const QString &asSendWallet, const QString& asAddressReceiver, const QString& asToken, const QString& aAmount);
@@ -82,6 +84,8 @@ public:
     void getWalletInfo(const QString& asWalletName);
     /// Request about new netowrk list
     void getNetworkList();
+    /// Get history of commands
+    void getCmdHistory();
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -125,8 +129,6 @@ public slots:
     /// Change status of node
     /// @param it is true if a node is online
     void setNodeStatus(const bool aIsOnline);
-    ///
-    void get();
 
     /// Get node logs.
     Q_INVOKABLE void getNodeLogs() const;

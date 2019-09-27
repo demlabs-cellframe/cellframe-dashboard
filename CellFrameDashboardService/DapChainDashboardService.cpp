@@ -4,7 +4,6 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 {
     // Log reader
     m_pDapChainLogHandler = new DapChainLogHandler(this);
-    connect(m_pDapChainLogHandler, SIGNAL(onUpdateModel()), SLOT(clearLogModel()));
     connect(m_pDapChainLogHandler, SIGNAL(onChangedLog()), SLOT(changedLogModel()));
     m_pDapChainWalletHandler = new DapChainWalletHandler(this);
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
@@ -18,6 +17,9 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::changeHistory, this, &DapChainDashboardService::doSendNewHistory);
 
     m_pDapChainNetworkHandler = new DapChainNetworkHandler(this);
+
+    m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
+
 }
 
 bool DapChainDashboardService::start()
@@ -90,6 +92,16 @@ QVariant DapChainDashboardService::getHistory() const
     return m_pDapChainHistoryHandler->getHistory();
 }
 
+QString DapChainDashboardService::getQueryResult(const QString& aQuery) const
+{
+    return m_pDapChainConsoleHandler->getResult(aQuery);
+}
+
+QString DapChainDashboardService::getCmdHistory() const
+{
+    return m_pDapChainConsoleHandler->getHistory();
+}
+
 QStringList DapChainDashboardService::getNetworkList() const
 {
     return m_pDapChainNetworkHandler->getNetworkList();
@@ -119,13 +131,6 @@ QString DapChainDashboardService::sendToken(const QString &asWalletName, const Q
 {
     qInfo() << QString("sendToken(%1;%2;%3;%4)").arg(asWalletName).arg(asReceiverAddr).arg(asToken).arg(asAmount);
     return m_pDapChainWalletHandler->sendToken(asWalletName, asReceiverAddr, asToken, asAmount);
-}
-
-void DapChainDashboardService::clearLogModel()
-{
-    qDebug() << "clearLogModel()";
-    QJsonArray arguments;
-    m_pServer->notifyConnectedClients("RPCClient.clearLogModel", arguments);
 }
 
 void DapChainDashboardService::changedLogModel()

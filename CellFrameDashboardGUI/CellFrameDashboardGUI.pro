@@ -42,6 +42,7 @@ ICON = icon.ico
 SOURCES += \
     DapChainNodeNetworkExplorer.cpp \
     DapChainNodeNetworkModel.cpp \
+    DapConsoleModel.cpp \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
     DapSettingsNetworkModel.cpp \
@@ -79,6 +80,7 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     DapChainNodeNetworkExplorer.h \
     DapChainNodeNetworkModel.h \
+    DapConsoleModel.h \
     DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \
     DapSettingsNetworkModel.h \

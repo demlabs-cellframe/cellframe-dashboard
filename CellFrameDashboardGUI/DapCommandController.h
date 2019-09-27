@@ -42,12 +42,14 @@ signals:
     void sendNodeStatus(const QVariant& aData);
     ///
     void executeCommandChanged(const QString& result);
-    /// Signal for cleaning log
-    void onClearLogModel();
-    ///
-    void onLogModel();
+    /// Signal for changing logs
+    void onChangeLogModel();
     /// Signal for sending new transaction history
     void sendHistory(const QVariant& aData);
+    /// Response from service about command request
+    void responseConsole(const QString& aResponse);
+    /// Signal about changing history of commands
+    void sigCmdHistory(const QString& aHistory);
 
     void sendNetworkList(const QStringList& aList);
 
@@ -82,6 +84,10 @@ private slots:
 
     void processGetNetworkList();
 
+    void processResponseConsole();
+
+    void processGetCmdHistory();
+
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 
@@ -108,7 +114,6 @@ public slots:
 
     void executeCommand(const QString& command);
 
-    void clearLogModel();
     /// Get node logs.
     void getNodeLogs();
 
@@ -116,6 +121,10 @@ public slots:
     void getHistory();
     /// Send to model new history
     void setNewHistory(const QVariant& aData);
+    /// Commands request
+    void requestConsole(const QString& aQueue);
+    /// Get command history
+    void getCmdHistory();
 
     void changeCurrentNetwork(const QString& aNetwork);
 };
