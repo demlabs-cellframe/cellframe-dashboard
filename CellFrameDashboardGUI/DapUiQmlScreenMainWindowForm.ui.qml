@@ -97,6 +97,17 @@ Page {
                 anchors.leftMargin: 30 * pt
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 10 * pt
+                model: dapChainWalletsModel
+                textRole: "name"
+
+                indicator: Image {
+                    source: comboboxWallet.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/ic_arrow_drop_down.png"
+                    width: 24 * pt
+                    height: 24 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10 * pt
+                }
             }
 
             Label {
@@ -109,6 +120,9 @@ Page {
                 anchors.bottomMargin: 10 * pt
                 verticalAlignment: Qt.AlignVCenter
                 text: "Wallet balance:"
+                font.family: "Regular"
+                font.pixelSize: 12 * pt
+                color: "#A7A7A7"
             }
 
             Label {
@@ -120,21 +134,47 @@ Page {
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 10 * pt
                 verticalAlignment: Qt.AlignVCenter
+                font.family: "Regular"
+                font.pixelSize: 16 * pt
+                color: "#797979"
                 text: "$ 0"
             }
 
             Button {
-                icon.source: "qrc:/Resources/Icons/defaul_icon.png"
-                icon.width: 28 * pt
-                icon.height: 28 * pt
                 width: 130 * pt
-                text: qsTr("New wallet")
                 anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.topMargin: 10 * pt
                 anchors.rightMargin: 20 * pt
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 10 * pt
+
+                contentItem: Rectangle {
+                    anchors.fill: parent
+                    border.color: "#B5B5B5"
+                    border.width: 1 * pt
+                    color: "transparent"
+
+                    Text {
+                        anchors.fill: parent
+                        verticalAlignment: Qt.AlignVCenter
+                        horizontalAlignment: Qt.AlignRight
+                        anchors.rightMargin: 20 * pt
+                        font.family: "Regular"
+                        color: "#505559"
+                        text: qsTr("New wallet")
+                    }
+
+                    Image {
+                        id: iconNewWallet
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10 * pt
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
+                        width: 28 * pt
+                        height: 28 * pt
+                    }
+                }
             }
         }
     }

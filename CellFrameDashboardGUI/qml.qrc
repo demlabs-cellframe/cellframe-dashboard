@@ -61,5 +61,7 @@
         <file>DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
+        <file>Resources/Icons/ic_arrow_drop_down.png</file>
+        <file>Resources/Icons/ic_arrow_drop_up.png</file>
     </qresource>
 </RCC>
