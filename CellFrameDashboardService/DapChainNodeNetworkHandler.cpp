@@ -76,6 +76,6 @@ void DapChainNodeNetworkHandler::setCurrentNetwork(const QString& aNetwork)
 void DapChainNodeNetworkHandler::setNodeStatus(const bool aIsOnline)
 {
     QProcess process;
-    process.start(QString(CLI_PATH) + QString(" net -net %2 go %1").arg(aIsOnline ? "online" : "offline").arg(m_CurrentNetwork));
+    process.start(QString(CLI_PATH) + QString(" net -net %1 go %2").arg(m_CurrentNetwork).arg(aIsOnline ? "online" : "offline"));
     process.waitForFinished(-1);
 }
