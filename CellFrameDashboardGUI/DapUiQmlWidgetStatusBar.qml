@@ -28,8 +28,8 @@ Rectangle {
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-//            model: dapChainWalletsModel
-            model: testModel
+            model: dapChainWalletsModel
+//            model: testModel
             textRole: "name"
 
             indicator: Image {
@@ -42,7 +42,7 @@ Rectangle {
             }
 
             onCurrentIndexChanged: {
-                fieldWalletBalance.text = testModel.get(currentIndex).balance;
+                fieldWalletBalance.text = dapChainWalletsModel.get(currentIndex).tokens[0];
             }
         }
 
