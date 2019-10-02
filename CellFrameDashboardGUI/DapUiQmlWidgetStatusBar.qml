@@ -8,18 +8,6 @@ Rectangle {
         anchors.bottomMargin: 1
         color: "#F2F2F4"
 
-        ListModel {
-            id: testModel
-            ListElement {
-                name: "First wallet"
-                balance: "$ 3 000"
-            }
-            ListElement {
-                name: "Second wallet"
-                balance: "$ 1 500"
-            }
-        }
-
         ComboBox {
             id: comboboxWallet
             anchors.left: parent.left
@@ -29,7 +17,6 @@ Rectangle {
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
             model: dapChainWalletsModel
-//            model: testModel
             textRole: "name"
 
             indicator: Image {
