@@ -42,7 +42,6 @@
         <file>DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
         <file>DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
-        <file>Resources/Icons/defaul_icon.png</file>
         <file>Resources/Icons/ic_scroll-down.png</file>
         <file>Resources/Icons/ic_scroll-down_hover.png</file>
         <file>Resources/Icons/ic_scroll-up.png</file>
@@ -63,5 +62,6 @@
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
         <file>Resources/Icons/ic_arrow_drop_down.png</file>
         <file>Resources/Icons/ic_arrow_drop_up.png</file>
+        <file>DapUiQmlWidgetStatusBar.qml</file>
     </qresource>
 </RCC>
