@@ -61,5 +61,15 @@
         <file>DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
+        <file>Resources/Icons/icon_console.png</file>
+        <file>Resources/Icons/icon_console_hover.png</file>
+        <file>Resources/Icons/icon_dashboard.png</file>
+        <file>Resources/Icons/icon_dashboard_hover.png</file>
+        <file>Resources/Icons/icon_exchange.png</file>
+        <file>Resources/Icons/icon_exchange_hover.png</file>
+        <file>Resources/Icons/icon_history.png</file>
+        <file>Resources/Icons/icon_history_hover.png</file>
+        <file>Resources/Icons/icon_logs.png</file>
+        <file>Resources/Icons/icon_logs_hover.png</file>
     </qresource>
 </RCC>
