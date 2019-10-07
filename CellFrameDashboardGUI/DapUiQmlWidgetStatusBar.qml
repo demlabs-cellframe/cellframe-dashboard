@@ -1,5 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
 
 Rectangle {
 
@@ -8,7 +9,7 @@ Rectangle {
         anchors.bottomMargin: 1
         color: "#F2F2F4"
 
-        ComboBox {
+        DapUiQmlWidgetStatusBarComboBox {
             id: comboboxWallet
             anchors.left: parent.left
             anchors.top: parent.top
@@ -19,24 +20,57 @@ Rectangle {
             model: dapChainWalletsModel
             textRole: "name"
 
-            indicator: Image {
-                source: comboboxWallet.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/ic_arrow_drop_down.png"
-                width: 24 * pt
-                height: 24 * pt
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: 10 * pt
+
+            delegate: ItemDelegate {
+                width: parent.width
+                contentItem: DapUiQmlWidgetStatusBarContentItem {
+                    text: name
+                }
+
+                highlighted: parent.highlightedIndex === index
             }
 
             onCurrentIndexChanged: {
-                fieldWalletBalance.text = dapChainWalletsModel.get(currentIndex).tokens[0];
+                tokenList.clear();
+                for(var i = 0; i < dapChainWalletsModel.get(currentIndex).count; i++)
+                    tokenList.append({"tokenName": dapChainWalletsModel.get(currentIndex).tokens[++i]});
+                if(tokenList.count)
+                    comboboxToken.currentIndex = 0;
+            }
+        }
+
+        DapUiQmlWidgetStatusBarComboBox {
+            id: comboboxToken
+            anchors.top: parent.top
+            anchors.left: comboboxWallet.right
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: 30 * pt
+            anchors.topMargin: 10 * pt
+            anchors.bottomMargin: 10 * pt
+            model: ListModel {id: tokenList}
+            textRole: "tokenName"
+
+            delegate: ItemDelegate {
+                width: parent.width
+                contentItem: DapUiQmlWidgetStatusBarContentItem {
+                    text: tokenName
+                }
+
+                highlighted: parent.highlightedIndex === index
+            }
+
+            onCurrentIndexChanged: {
+                if(currentIndex === -1)
+                    fieldWalletBalance.text = 0;
+                else
+                    fieldWalletBalance.text = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 2];
             }
         }
 
         Label {
             id: titleWalletBalance
             anchors.top: parent.top
-            anchors.left: comboboxWallet.right
+            anchors.left: comboboxToken.right
             anchors.bottom: parent.bottom
             anchors.leftMargin: 40 * pt
             anchors.topMargin: 10 * pt
