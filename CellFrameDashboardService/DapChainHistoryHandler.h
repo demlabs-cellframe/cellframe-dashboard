@@ -31,6 +31,8 @@ public slots:
     /// Request new tx history
     /// @param wallet list
     void onRequestNewHistory(const QMap<QString, QVariant>& aWallets);
+    /// Set current network
+    /// @param name of network
     void setCurrentNetwork(const QString& aNetwork);
 
 signals:

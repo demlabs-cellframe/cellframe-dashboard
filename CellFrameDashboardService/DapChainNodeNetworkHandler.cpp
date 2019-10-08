@@ -9,7 +9,7 @@ DapChainNodeNetworkHandler::DapChainNodeNetworkHandler(QObject *parent) : QObjec
 QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 {
     QProcess process;
-    process.start(QString(CLI_PATH) + " node dump -net " + m_CurrentNetwork + " -full");
+    process.start(QString("%1 node dump -net %2 -full").arg(CLI_PATH).arg(m_CurrentNetwork));
     process.waitForFinished(-1);
 
     QByteArray result = process.readAll();
@@ -69,7 +69,8 @@ QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 
 void DapChainNodeNetworkHandler::setCurrentNetwork(const QString& aNetwork)
 {
-    if(m_CurrentNetwork == aNetwork) return;
+    if(m_CurrentNetwork == aNetwork)
+        return;
     m_CurrentNetwork = aNetwork;
 }
 
