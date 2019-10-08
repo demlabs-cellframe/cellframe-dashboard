@@ -13,6 +13,9 @@ class DapChainNodeNetworkHandler : public QObject
 {
     Q_OBJECT
 
+private:
+    QString m_CurrentNetwork;
+
 public:
     explicit DapChainNodeNetworkHandler(QObject *parent = nullptr);
 
@@ -23,6 +26,9 @@ public slots:
     /// Get new node network
     /// @return data of node network
     QVariant getNodeNetwork() const;
+    /// Set current network
+    /// @param name of network
+    void setCurrentNetwork(const QString& aNetwork);
 };
 
 #endif // DAPCHAINNODENETWORKHANDLER_H

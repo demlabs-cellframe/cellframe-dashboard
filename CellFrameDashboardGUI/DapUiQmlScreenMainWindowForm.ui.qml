@@ -49,7 +49,9 @@ Page {
                     }
                     ListElement {
                         name:  qsTr("Settings")
-                        page: "DapQmlScreenAbout.qml"
+//                        page: "DapQmlScreenAbout.qml"
+                        page: "DapUiQmlScreenSettings.qml"
+//                        page: "DapUiQmlWidgetSettingsNetwork.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
                     ListElement {

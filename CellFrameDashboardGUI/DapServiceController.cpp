@@ -67,6 +67,9 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(&DapConsoleModel::getInstance(), &DapConsoleModel::sendRequest, m_pDapCommandController, &DapCommandController::requestConsole);
     connect(m_pDapCommandController, &DapCommandController::responseConsole, &DapConsoleModel::getInstance(), &DapConsoleModel::receiveResponse);
     connect(m_pDapCommandController, &DapCommandController::sigCmdHistory, &DapConsoleModel::getInstance(), &DapConsoleModel::receiveCmdHistory);
+
+    connect(m_pDapCommandController, &DapCommandController::sendNetworkList, &DapSettingsNetworkModel::getInstance(), &DapSettingsNetworkModel::setNetworkList);
+    connect(&DapSettingsNetworkModel::getInstance(), &DapSettingsNetworkModel::currentNetworkChanged, m_pDapCommandController, &DapCommandController::changeCurrentNetwork);
 }
 
 QString DapServiceController::getBrand() const
@@ -228,6 +231,11 @@ void DapServiceController::processGetNodeNetwork(const QVariant& aData)
 void DapServiceController::processGetHistory(const QVariant& aData)
 {
     DapScreenHistoryModel::getInstance().receiveNewData(aData);
+}
+
+void DapServiceController::getNetworkList()
+{
+    m_pDapCommandController->getNetworkList();
 }
 
 

@@ -22,7 +22,7 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
     for(int i = 0; i < wallets.count(); i++)
     {
         QProcess process;
-        process.start(QString(CLI_PATH) + " tx_history -net private -chain gdb -addr " + wallets.at(i).toString());
+        process.start(QString("%1 tx_history -net %2 -chain gdb -addr %3").arg(CLI_PATH).arg(m_CurrentNetwork).arg(wallets.at(i).toString()));
         process.waitForFinished(-1);
 
         QByteArray result = process.readAll();
@@ -47,4 +47,11 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
         m_history = data;
         emit changeHistory(m_history);
     }
+}
+
+void DapChainHistoryHandler::setCurrentNetwork(const QString& aNetwork)
+{
+    if(aNetwork == m_CurrentNetwork)
+        return;
+    m_CurrentNetwork = aNetwork;
 }
