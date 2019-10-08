@@ -50,7 +50,6 @@ void DapScreenHistoryModel::receiveNewData(const QVariant& aData)
         return;
     }
 
-    qDebug() << aData;
     beginResetModel();
     QList<QVariant> dataList = aData.toList();
     m_elementList.clear();

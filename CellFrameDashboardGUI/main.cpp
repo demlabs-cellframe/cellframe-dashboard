@@ -23,6 +23,7 @@
 #include "DapChainNodeNetworkModel.h"
 #include "DapChainNodeNetworkExplorer.h"
 #include "DapScreenHistoryFilterModel.h"
+#include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
 
 #include <QRegExp>
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
     controller.getWallets();
     controller.getHistory();
     controller.getCmdHistory();
+    controller.getNetworkList();
 
     DapScreenHistoryFilterModel::getInstance()
             .setSourceModel(&DapScreenHistoryModel::getInstance());
@@ -75,9 +77,10 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("dapConsoleModel", &DapConsoleModel::getInstance());
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
+    engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    
+
     if (engine.rootObjects().isEmpty())
         return -1;
     

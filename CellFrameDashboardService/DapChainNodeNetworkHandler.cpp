@@ -9,7 +9,7 @@ DapChainNodeNetworkHandler::DapChainNodeNetworkHandler(QObject *parent) : QObjec
 QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 {
     QProcess process;
-    process.start(QString(CLI_PATH) + " node dump -net kelvin-testnet -full");
+    process.start(QString("%1 node dump -net %2 -full").arg(CLI_PATH).arg(m_CurrentNetwork));
     process.waitForFinished(-1);
 
     QByteArray result = process.readAll();
@@ -50,7 +50,7 @@ QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 
 
     QProcess process_status;
-    process_status.start(QString(CLI_PATH) + QString(" net -net kelvin-testnet get status"));
+    process_status.start(QString(CLI_PATH) + " net -net " + m_CurrentNetwork + " get status");
 
     process_status.waitForFinished(-1);
     QByteArray result_status = process_status.readAll();
@@ -67,9 +67,16 @@ QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
     return nodeMap;
 }
 
+void DapChainNodeNetworkHandler::setCurrentNetwork(const QString& aNetwork)
+{
+    if(m_CurrentNetwork == aNetwork)
+        return;
+    m_CurrentNetwork = aNetwork;
+}
+
 void DapChainNodeNetworkHandler::setNodeStatus(const bool aIsOnline)
 {
     QProcess process;
-    process.start(QString(CLI_PATH) + QString(" net -net kelvin-testnet go %1").arg(aIsOnline ? "online" : "offline"));
+    process.start(QString(CLI_PATH) + QString(" net -net %1 go %2").arg(m_CurrentNetwork).arg(aIsOnline ? "online" : "offline"));
     process.waitForFinished(-1);
 }

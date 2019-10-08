@@ -15,6 +15,7 @@
 #include "DapChainWalletsModel.h"
 #include "DapChainNodeNetworkModel.h"
 #include "DapScreenHistoryModel.h"
+#include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
 
 class DapServiceController : public QObject
@@ -81,6 +82,8 @@ public:
     Q_INVOKABLE void executeCommand(const QString& command);
 
     void getWalletInfo(const QString& asWalletName);
+    /// Request about new netowrk list
+    void getNetworkList();
     /// Get history of commands
     void getCmdHistory();
 
