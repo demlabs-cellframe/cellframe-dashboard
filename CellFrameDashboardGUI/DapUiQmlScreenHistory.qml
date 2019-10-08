@@ -240,6 +240,8 @@ DapUiQmlScreenHistoryForm {
             border.color: "#80000000"
             border.width: 1 * pt
         }
+
+        visible: false
     }
 }
 
