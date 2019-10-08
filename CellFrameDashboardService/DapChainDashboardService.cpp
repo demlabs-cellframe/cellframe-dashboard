@@ -100,6 +100,20 @@ QString DapChainDashboardService::getCmdHistory() const
     return m_pDapChainConsoleHandler->getHistory();
 }
 
+QByteArray DapChainDashboardService::getTest() const
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::WriteOnly);
+
+    DapNodeData nodeData;
+    nodeData.Cell = 1;
+    nodeData.Ipv4 = "mua";
+
+    out << nodeData;
+
+    return data;
+}
+
 void DapChainDashboardService::doRequestWallets()
 {
     m_pDapChainHistoryHandler->onRequestNewHistory(m_pDapChainWalletHandler->getWallets());

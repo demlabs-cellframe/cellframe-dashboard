@@ -47,16 +47,15 @@ public:
         Error
     };
 
-    static DapRpcMessage createRequest(const QString &asMethod,
-                                         const QJsonArray &aParams = QJsonArray());
+    static DapRpcMessage createRequest(const QString &asMethod, const QJsonArray &aParams = QJsonArray());
     static DapRpcMessage createRequest(const QString &asMethod, const QJsonValue &aParam);
     static DapRpcMessage createRequest(const QString &asMethod, const QJsonObject &aNamedParameters);
+    static DapRpcMessage createRequest(const QString &asMethod, const QByteArray& aStream);
 
-    static DapRpcMessage createNotification(const QString &asMethod,
-                                              const QJsonArray &aParams = QJsonArray());
+    static DapRpcMessage createNotification(const QString &asMethod, const QJsonArray &aParams = QJsonArray());
     static DapRpcMessage createNotification(const QString &asMethod, const QJsonValue &aParam);
-    static DapRpcMessage createNotification(const QString &asMethod,
-                                              const QJsonObject &aNamedParameters);
+    static DapRpcMessage createNotification(const QString &asMethod, const QJsonObject &aNamedParameters);
+    static DapRpcMessage createNotification(const QString &asMethod, const QByteArray& aStream);
 
     DapRpcMessage createResponse(const QJsonValue &aResult) const;
     DapRpcMessage createErrorResponse(DapErrorCode aCode,

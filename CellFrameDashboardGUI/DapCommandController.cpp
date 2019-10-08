@@ -51,6 +51,7 @@ void DapCommandController::getHistory()
 {
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getHistory");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetHistory()));
+
 }
 
 void DapCommandController::setNewHistory(const QVariant& aData)
@@ -68,6 +69,12 @@ void DapCommandController::getCmdHistory()
 {
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getCmdHistory");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetCmdHistory()));
+}
+
+void DapCommandController::getTest()
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getTest");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetTest()));
 }
 
 void DapCommandController::processChangedLog()
@@ -213,6 +220,14 @@ void DapCommandController::processGetCmdHistory()
     emit sigCmdHistory(result);
 }
 
+void DapCommandController::processGetTest()
+{
+    qDebug() << "!!!!!!!!processGetTest!!!!!!!!!!";
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    QByteArray result = reply->response().result().toVariant().toByteArray();
+    qDebug() << result;
+}
+
 /// Show or hide GUI client by clicking on the tray icon.
 /// @param aIsActivated Accepts true - when requesting to 
 /// display a client, falso - when requesting to hide a client.
@@ -251,6 +266,8 @@ void DapCommandController::getWallets()
 {
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getWallets");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetWallets()));
+    getTest();
+
 }
 
 void DapCommandController::getWalletInfo(const QString& asWalletName)

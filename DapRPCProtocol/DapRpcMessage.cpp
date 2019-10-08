@@ -204,6 +204,12 @@ DapRpcMessage DapRpcMessage::createRequest(const QString &asMethod,
     return request;
 }
 
+DapRpcMessage DapRpcMessage::createRequest(const QString& asMethod, const QByteArray& aStream)
+{
+    DapRpcMessage request = createRequest(asMethod, QJsonValue::fromVariant(aStream));
+    return request;
+}
+
 DapRpcMessage DapRpcMessage::createNotification(const QString &asMethod, const QJsonArray &aParams)
 {
     DapRpcMessage notification = DapRpcMessagePrivate::createBasicRequest(asMethod, aParams);
@@ -224,6 +230,12 @@ DapRpcMessage DapRpcMessage::createNotification(const QString &asMethod,
     DapRpcMessage notification =
         DapRpcMessagePrivate::createBasicRequest(asMethod, aNamedParameters);
     notification.d->m_type = DapRpcMessage::Notification;
+    return notification;
+}
+
+DapRpcMessage DapRpcMessage::createNotification(const QString& asMethod, const QByteArray& aStream)
+{
+    DapRpcMessage notification = createNotification(asMethod, QJsonValue::fromVariant(aStream));
     return notification;
 }
 
