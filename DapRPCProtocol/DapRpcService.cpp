@@ -93,13 +93,18 @@ int DapRpcService::convertVariantTypeToJSType(int aType)
     case QMetaType::ULongLong:
     case QMetaType::UShort:
     case QMetaType::UChar:
-        case QMetaType::QByteArray:
-    case QMetaType::Float: return QJsonValue::Double;    // all numeric types in js are doubles
+    case QMetaType::Float:
+        return QJsonValue::Double;    // all numeric types in js are doubles
     case QMetaType::QVariantList:
-    case QMetaType::QStringList: return QJsonValue::Array;
-    case QMetaType::QVariantMap: return QJsonValue::Object;
-    case QMetaType::QString: return QJsonValue::String;
-    case QMetaType::Bool: return QJsonValue::Bool;
+    case QMetaType::QStringList:
+        return QJsonValue::Array;
+    case QMetaType::QVariantMap:
+        return QJsonValue::Object;
+    case QMetaType::QByteArray:
+    case QMetaType::QString:
+        return QJsonValue::String;
+    case QMetaType::Bool:
+        return QJsonValue::Bool;
     default: break;
     }
 
@@ -223,8 +228,9 @@ QJsonValue DapRpcService::convertReturnValue(QVariant &aReturnValue)
     case QMetaType::QStringList:
     case QMetaType::QVariantList:
     case QMetaType::QVariantMap:
-    case QMetaType::QByteArray:
         return QJsonValue::fromVariant(aReturnValue);
+    case QMetaType::QByteArray:
+        return QJsonValue::fromVariant(aReturnValue.toByteArray().toHex());
     default:
         // if a conversion operator was registered it will be used
         if (aReturnValue.convert(QMetaType::QJsonValue))

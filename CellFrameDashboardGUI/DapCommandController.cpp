@@ -1,5 +1,8 @@
 #include "DapCommandController.h"
 
+#include <DapNodeType.h>
+#include <QDataStream>
+
 /// Overloaded constructor.
 /// @param apIODevice Data transfer device.
 /// @param apParent Parent.
@@ -36,7 +39,7 @@ void DapCommandController::processCommandResult()
         qWarning() << "Invalid response received";
         return;
     }
-    emit sigCommandResult(reply->response().result());
+    emit sigCommandResult(reply->response().toJsonValue());
 }
 
 /// Get node logs.
@@ -71,12 +74,6 @@ void DapCommandController::getCmdHistory()
     connect(reply, SIGNAL(finished()), this, SLOT(processGetCmdHistory()));
 }
 
-void DapCommandController::getTest()
-{
-    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getTest");
-    connect(reply, SIGNAL(finished()), this, SLOT(processGetTest()));
-}
-
 void DapCommandController::processChangedLog()
 {
 //    QStringList tempLogModel;
@@ -94,8 +91,8 @@ void DapCommandController::processGetNodeLogs()
         qWarning() << "Invalid response received";
         return;
     }
-    emit sigCommandResult(reply->response().result());
-    emit sigNodeLogsReceived(reply->response().result().toVariant().toStringList());
+    emit sigCommandResult(reply->response().toJsonValue());
+    emit sigNodeLogsReceived(reply->response().toJsonValue().toVariant().toStringList());
 }
 
 ///
@@ -107,9 +104,9 @@ void DapCommandController::processAddWallet()
         qWarning() << "Invalid response received";
         return;
     }
-    emit sigCommandResult(reply->response().result());
-    auto name = reply->response().result().toVariant().toStringList().at(0);
-    auto address = reply->response().result().toVariant().toStringList().at(1);
+    emit sigCommandResult(reply->response().toJsonValue());
+    auto name = reply->response().toJsonValue().toVariant().toStringList().at(0);
+    auto address = reply->response().toJsonValue().toVariant().toStringList().at(1);
     emit sigWalletAdded(name, address);
 }
 
@@ -122,8 +119,8 @@ void DapCommandController::processSendToken()
         return;
     }
     qInfo() << reply->response();
-    emit sigCommandResult(reply->response().result());
-    auto answer = reply->response().result().toVariant().toString();
+    emit sigCommandResult(reply->response().toJsonValue());
+    auto answer = reply->response().toJsonValue().toVariant().toString();
     emit onTokenSended(answer);
 }
 
@@ -135,22 +132,22 @@ void DapCommandController::processGetWallets()
         qWarning() << "Invalid response received";
         return;
     }
-    emit sigCommandResult(reply->response().result());
-    emit sigWalletsReceived(reply->response().result().toVariant().toMap());
+    emit sigCommandResult(reply->response().toJsonValue());
+    emit sigWalletsReceived(reply->response().toJsonValue().toVariant().toMap());
 }
 
 void DapCommandController::processGetWalletInfo()
 {
     qInfo() << "processGetWalletInfo()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    if (!reply || reply->response().result().toVariant().toStringList().count() <= 0) {
+    if (!reply || reply->response().toJsonValue().toVariant().toStringList().count() <= 0) {
         qWarning() << "Invalid response received";
         return;
     }
-    emit sigCommandResult(reply->response().result());
-    QString name = reply->response().result().toVariant().toStringList().at(0);
-    QString address = reply->response().result().toVariant().toStringList().at(1);
-    QStringList temp = reply->response().result().toVariant().toStringList();
+    emit sigCommandResult(reply->response().toJsonValue());
+    QString name = reply->response().toJsonValue().toVariant().toStringList().at(0);
+    QString address = reply->response().toJsonValue().toVariant().toStringList().at(1);
+    QStringList temp = reply->response().toJsonValue().toVariant().toStringList();
     QStringList tokens;
     QStringList balance;
     for(int x{2}; x < temp.count(); x++)
@@ -173,28 +170,28 @@ void DapCommandController::processGetWalletInfo()
 void DapCommandController::processGetNodeNetwork()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    emit sendNodeNetwork(reply->response().result().toVariant());
+    emit sendNodeNetwork(reply->response().toJsonValue().toVariant());
 }
 
 void DapCommandController::processGetNodeStatus()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    emit sendNodeStatus(reply->response().result().toVariant());
+    emit sendNodeStatus(reply->response().toJsonValue().toVariant());
 }
 
 void DapCommandController::processExecuteCommand()
 {
     qInfo() << "processGetWalletInfo()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    if (!reply || reply->response().result().toVariant().toStringList().isEmpty()) {
+    if (!reply || reply->response().toJsonValue().toVariant().toStringList().isEmpty()) {
 
         QString result = "Invalid response received";
         qWarning() << result;
         emit executeCommandChanged(result);
         return;
     }
-    emit sigCommandResult(reply->response().result());
-    QString result = reply->response().result().toVariant().toStringList().at(0);
+    emit sigCommandResult(reply->response().toJsonValue());
+    QString result = reply->response().toJsonValue().toVariant().toStringList().at(0);
     emit executeCommandChanged(result);
 }
 
@@ -202,30 +199,22 @@ void DapCommandController::processGetHistory()
 {
     qDebug() << "processGetHistory()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    QVariant result = reply->response().result().toArray().toVariantList();
+    QVariant result = reply->response().toJsonValue().toArray().toVariantList();
     emit sendHistory(result);
 }
 
 void DapCommandController::processResponseConsole()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    QString result = reply->response().result().toVariant().toString();
+    QString result = reply->response().toJsonValue().toVariant().toString();
     emit responseConsole(result);
 }
 
 void DapCommandController::processGetCmdHistory()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    QString result = reply->response().result().toVariant().toString();
+    QString result = reply->response().toJsonValue().toVariant().toString();
     emit sigCmdHistory(result);
-}
-
-void DapCommandController::processGetTest()
-{
-    qDebug() << "!!!!!!!!processGetTest!!!!!!!!!!";
-    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    QByteArray result = reply->response().result().toVariant().toByteArray();
-    qDebug() << result;
 }
 
 /// Show or hide GUI client by clicking on the tray icon.
@@ -266,8 +255,6 @@ void DapCommandController::getWallets()
 {
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getWallets");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetWallets()));
-    getTest();
-
 }
 
 void DapCommandController::getWalletInfo(const QString& asWalletName)

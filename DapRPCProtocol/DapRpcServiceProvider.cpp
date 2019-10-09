@@ -89,5 +89,5 @@ void DapRpcServiceProvider::processMessage(DapRpcSocket *apSocket, const DapRpcM
             apSocket->notify(error);
             break;
         }
-    };
+    }
 }

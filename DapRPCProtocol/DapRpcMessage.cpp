@@ -305,12 +305,18 @@ QJsonValue DapRpcMessage::params() const
     return d->m_pObject->value(QLatin1String("params"));
 }
 
-QJsonValue DapRpcMessage::result() const
+QJsonValue DapRpcMessage::toJsonValue() const
 {
     if (d->m_type != DapRpcMessage::Response || !d->m_pObject)
         return QJsonValue(QJsonValue::Undefined);
 
     return d->m_pObject->value(QLatin1String("result"));
+}
+
+QByteArray DapRpcMessage::toByteArray() const
+{
+    QJsonValue value = toJsonValue();
+    return QByteArray::fromHex(value.toVariant().toByteArray());
 }
 
 int DapRpcMessage::errorCode() const
@@ -374,7 +380,7 @@ QDebug operator<<(QDebug dbg, const DapRpcMessage &msg)
         dbg.nospace() << ", method=" << msg.method()
                       << ", params=" << msg.params();
     } else if (msg.type() == DapRpcMessage::Response) {
-        dbg.nospace() << ", result=" << msg.result();
+        dbg.nospace() << ", result=" << msg.toJsonValue();
     } else if (msg.type() == DapRpcMessage::Error) {
         dbg.nospace() << ", code=" << msg.errorCode()
                       << ", message=" << msg.errorMessage()

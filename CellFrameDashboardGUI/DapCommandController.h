@@ -84,8 +84,6 @@ private slots:
 
     void processGetCmdHistory();
 
-    void processGetTest();
-
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
     /// @param aIsActivated Accepts true - when requesting to 
@@ -121,8 +119,6 @@ public slots:
     void requestConsole(const QString& aQueue);
     /// Get command history
     void getCmdHistory();
-
-    void getTest();
 };
 
 #endif // COMMANDCONTROLLER_H

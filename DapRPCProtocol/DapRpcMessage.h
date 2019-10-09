@@ -71,7 +71,8 @@ public:
     QJsonValue params() const;
 
     // response
-    QJsonValue result() const;
+    QJsonValue toJsonValue() const;
+    QByteArray toByteArray() const;
 
     // error
     int errorCode() const;

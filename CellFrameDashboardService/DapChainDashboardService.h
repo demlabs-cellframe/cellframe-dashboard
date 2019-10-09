@@ -111,8 +111,6 @@ public slots:
     /// @return history of last 50 commands
     QString getCmdHistory() const;
 
-    QByteArray getTest() const;
-
 private slots:
     void doRequestWallets();
     void doSendNewHistory(const QVariant& aData);
