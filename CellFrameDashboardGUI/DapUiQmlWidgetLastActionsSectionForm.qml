@@ -4,8 +4,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
 
 Rectangle {
-//    width:  dapListView.width
-//    height: 30 * pt
     color: "#C2CAD1"
 
     Text {
