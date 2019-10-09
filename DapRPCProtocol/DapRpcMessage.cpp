@@ -204,6 +204,12 @@ DapRpcMessage DapRpcMessage::createRequest(const QString &asMethod,
     return request;
 }
 
+DapRpcMessage DapRpcMessage::createRequest(const QString& asMethod, const QByteArray& aStream)
+{
+    DapRpcMessage request = createRequest(asMethod, QJsonValue::fromVariant(aStream));
+    return request;
+}
+
 DapRpcMessage DapRpcMessage::createNotification(const QString &asMethod, const QJsonArray &aParams)
 {
     DapRpcMessage notification = DapRpcMessagePrivate::createBasicRequest(asMethod, aParams);
@@ -224,6 +230,12 @@ DapRpcMessage DapRpcMessage::createNotification(const QString &asMethod,
     DapRpcMessage notification =
         DapRpcMessagePrivate::createBasicRequest(asMethod, aNamedParameters);
     notification.d->m_type = DapRpcMessage::Notification;
+    return notification;
+}
+
+DapRpcMessage DapRpcMessage::createNotification(const QString& asMethod, const QByteArray& aStream)
+{
+    DapRpcMessage notification = createNotification(asMethod, QJsonValue::fromVariant(aStream));
     return notification;
 }
 
@@ -293,12 +305,18 @@ QJsonValue DapRpcMessage::params() const
     return d->m_pObject->value(QLatin1String("params"));
 }
 
-QJsonValue DapRpcMessage::result() const
+QJsonValue DapRpcMessage::toJsonValue() const
 {
     if (d->m_type != DapRpcMessage::Response || !d->m_pObject)
         return QJsonValue(QJsonValue::Undefined);
 
     return d->m_pObject->value(QLatin1String("result"));
+}
+
+QByteArray DapRpcMessage::toByteArray() const
+{
+    QJsonValue value = toJsonValue();
+    return QByteArray::fromHex(value.toVariant().toByteArray());
 }
 
 int DapRpcMessage::errorCode() const
@@ -362,7 +380,7 @@ QDebug operator<<(QDebug dbg, const DapRpcMessage &msg)
         dbg.nospace() << ", method=" << msg.method()
                       << ", params=" << msg.params();
     } else if (msg.type() == DapRpcMessage::Response) {
-        dbg.nospace() << ", result=" << msg.result();
+        dbg.nospace() << ", result=" << msg.toJsonValue();
     } else if (msg.type() == DapRpcMessage::Error) {
         dbg.nospace() << ", code=" << msg.errorCode()
                       << ", message=" << msg.errorMessage()
