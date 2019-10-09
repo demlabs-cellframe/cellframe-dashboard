@@ -12,9 +12,11 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 
     m_pDapChainNodeHandler = new DapChainNodeNetworkHandler(this);
 
-    m_pDapChainHistoryHandler = new DapChainHistoryHandler {this};
+    m_pDapChainHistoryHandler = new DapChainHistoryHandler(this);
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::requsetWallets, this, &DapChainDashboardService::doRequestWallets);
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::changeHistory, this, &DapChainDashboardService::doSendNewHistory);
+
+    m_pDapChainNetworkHandler = new DapChainNetworkHandler(this);
 
     m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
 
@@ -98,6 +100,18 @@ QString DapChainDashboardService::getQueryResult(const QString& aQuery) const
 QString DapChainDashboardService::getCmdHistory() const
 {
     return m_pDapChainConsoleHandler->getHistory();
+}
+
+QStringList DapChainDashboardService::getNetworkList() const
+{
+    return m_pDapChainNetworkHandler->getNetworkList();
+}
+
+void DapChainDashboardService::changeCurrentNetwork(const QString& aNetwork)
+{
+    m_pDapChainHistoryHandler->setCurrentNetwork(aNetwork);
+    m_pDapChainNodeHandler->setCurrentNetwork(aNetwork);
+    m_pDapChainWalletHandler->setCurrentNetwork(aNetwork);
 }
 
 void DapChainDashboardService::doRequestWallets()

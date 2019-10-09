@@ -51,6 +51,8 @@ signals:
     /// Signal about changing history of commands
     void sigCmdHistory(const QString& aHistory);
 
+    void sendNetworkList(const QStringList& aList);
+
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -80,6 +82,8 @@ private slots:
 
     void processGetHistory();
 
+    void processGetNetworkList();
+
     void processResponseConsole();
 
     void processGetCmdHistory();
@@ -104,6 +108,8 @@ public slots:
 
     void getNodeNetwork();
 
+    void getNetworkList();
+
     void setNodeStatus(const bool aIsOnline);
 
     void executeCommand(const QString& command);
@@ -119,6 +125,8 @@ public slots:
     void requestConsole(const QString& aQueue);
     /// Get command history
     void getCmdHistory();
+
+    void changeCurrentNetwork(const QString& aNetwork);
 };
 
 #endif // COMMANDCONTROLLER_H

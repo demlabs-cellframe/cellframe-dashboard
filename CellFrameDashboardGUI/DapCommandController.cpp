@@ -70,6 +70,11 @@ void DapCommandController::getCmdHistory()
     connect(reply, SIGNAL(finished()), this, SLOT(processGetCmdHistory()));
 }
 
+void DapCommandController::changeCurrentNetwork(const QString& aNetwork)
+{
+    m_DAPRpcSocket->invokeRemoteMethod("RPCServer.changeCurrentNetwork", aNetwork);
+}
+
 void DapCommandController::processChangedLog()
 {
 //    QStringList tempLogModel;
@@ -193,7 +198,6 @@ void DapCommandController::processExecuteCommand()
 
 void DapCommandController::processGetHistory()
 {
-    qDebug() << "processGetHistory()";
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
     QVariant result = reply->response().result().toArray().toVariantList();
     emit sendHistory(result);
@@ -211,6 +215,13 @@ void DapCommandController::processGetCmdHistory()
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
     QString result = reply->response().result().toVariant().toString();
     emit sigCmdHistory(result);
+}
+
+void DapCommandController::processGetNetworkList()
+{
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    QStringList result = reply->response().result().toVariant().toStringList();
+    emit sendNetworkList(result);
 }
 
 /// Show or hide GUI client by clicking on the tray icon.
@@ -264,6 +275,12 @@ void DapCommandController::getNodeNetwork()
 {
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNodeNetwork");
     connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeNetwork()));
+}
+
+void DapCommandController::getNetworkList()
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.getNetworkList");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetNetworkList()));
 }
 
 void DapCommandController::setNodeStatus(const bool aIsOnline)

@@ -65,5 +65,10 @@
         <file>DapUiQmlWidgetStatusBar.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBox.qml</file>
         <file>DapUiQmlWidgetStatusBarContentItem.qml</file>
+        <file>DapUiQmlWidgetSettingsNetwork.qml</file>
+        <file>DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
+        <file>DapUiQmlScreenSettings.qml</file>
+        <file>DapUiQmlScreenSettingsForm.ui.qml</file>
+        <file>DapUiQmlScreenSettingsSection.qml</file>
     </qresource>
 </RCC>

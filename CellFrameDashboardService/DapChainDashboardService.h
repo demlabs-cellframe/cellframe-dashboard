@@ -27,6 +27,7 @@
 #include "DapChainWalletHandler.h"
 #include "DapChainNodeNetworkHandler.h"
 #include "DapChainHistoryHandler.h"
+#include "DapChainNetworkHandler.h"
 #include "DapChainConsoleHandler.h"
 
 #include <QLocalServer>
@@ -51,6 +52,8 @@ class DapChainDashboardService : public DapRpcService
     DapChainHistoryHandler* m_pDapChainHistoryHandler {nullptr};
     /// Recipient history of commands
     DapChainConsoleHandler* m_pDapChainConsoleHandler {nullptr};
+
+    DapChainNetworkHandler* m_pDapChainNetworkHandler {nullptr};
 
 public:
     /// Standard сonstructor.
@@ -103,6 +106,12 @@ public slots:
     /// Get history
     /// @return QList data history
     QVariant getHistory() const;
+    /// Get network list
+    /// @return Network list
+    QStringList getNetworkList() const;
+    /// Change current network
+    /// @param name of network whcih was selected
+    void changeCurrentNetwork(const QString& aNetwork);
     /// Get result for command
     /// @param command
     /// @return result
