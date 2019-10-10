@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
+import QtGraphicalEffects 1.0
 
 DapUiQmlWidgetStatusBarComboBoxWalletForm {
     property DapUiQmlWidgetStatusBarComboBoxToken listToken: DapUiQmlWidgetStatusBarComboBoxToken{}
@@ -11,9 +12,16 @@ DapUiQmlWidgetStatusBarComboBoxWalletForm {
         width: parent.width
         contentItem: DapUiQmlWidgetStatusBarContentItem {
             text: name
+            color: hovered ? "#FFFFFF" : "#332F49"
+        }
+
+        background: Rectangle {
+            height: 32 * pt
+            color: hovered ? "#B0B2B5" : "#FFFFFF"
         }
 
         highlighted: parent.highlightedIndex === index
+
     }
 
     onCurrentIndexChanged: {

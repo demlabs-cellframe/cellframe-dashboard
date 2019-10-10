@@ -12,6 +12,12 @@ DapUiQmlWidgetStatusBarComboBoxTokenForm {
         width: parent.width
         contentItem: DapUiQmlWidgetStatusBarContentItem {
             text: tokenName
+            color: hovered ? "#FFFFFF" : "#332F49"
+        }
+
+        background: Rectangle {
+            height: 32 * pt
+            color: hovered ? "#B0B2B5" : "#FFFFFF"
         }
 
         highlighted: parent.highlightedIndex === index
