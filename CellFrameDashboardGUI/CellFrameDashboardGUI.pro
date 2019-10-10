@@ -12,7 +12,7 @@ CONFIG += c++11
 TARGET = $$BRAND
 
 VER_MAJ = 1
-VER_MIN = 2
+VER_MIN = 5
 VER_PAT = 0
 
 

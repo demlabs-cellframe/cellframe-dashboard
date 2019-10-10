@@ -224,7 +224,7 @@ void DapCommandController::processGetCmdHistory()
 void DapCommandController::processGetNetworkList()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-    QStringList result = reply->response().result().toVariant().toStringList();
+    QStringList result = reply->response().toJsonValue().toVariant().toStringList();
     emit sendNetworkList(result);
 }
 
