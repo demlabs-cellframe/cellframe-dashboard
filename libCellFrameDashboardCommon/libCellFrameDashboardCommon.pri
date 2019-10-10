@@ -13,6 +13,7 @@ QT += quick quickwidgets
 CONFIG += c++11
 
 SOURCES +=\
+    $$PWD/DapChainConvertor.cpp \
     $$PWD/DapHalper.cpp \
     $$PWD/DapHistoryType.cpp \
     $$PWD/DapSettings.cpp \
@@ -22,6 +23,7 @@ SOURCES +=\
     $$PWD/DapChainWallet.cpp
 
 HEADERS +=\
+    $$PWD/DapChainConvertor.h \
     $$PWD/DapHalper.h \
     $$PWD/DapHistoryType.h \
     $$PWD/DapSettings.h \

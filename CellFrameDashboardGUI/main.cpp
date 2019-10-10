@@ -25,6 +25,7 @@
 #include "DapScreenHistoryFilterModel.h"
 #include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
+#include "DapChainConvertor.h"
 
 #include <QRegExp>
 
@@ -78,6 +79,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapConsoleModel", &DapConsoleModel::getInstance());
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
     engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
+    engine.rootContext()->setContextProperty("dapChainConvertor", &DapChainConvertor::getInstance());
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

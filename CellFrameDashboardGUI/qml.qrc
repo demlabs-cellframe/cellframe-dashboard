@@ -42,7 +42,6 @@
         <file>DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
         <file>DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>DapUiQmlScreenHistory.qml</file>
-        <file>Resources/Icons/defaul_icon.png</file>
         <file>Resources/Icons/ic_scroll-down.png</file>
         <file>Resources/Icons/ic_scroll-down_hover.png</file>
         <file>Resources/Icons/ic_scroll-up.png</file>
@@ -61,10 +60,20 @@
         <file>DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
+        <file>Resources/Icons/ic_arrow_drop_down.png</file>
+        <file>Resources/Icons/ic_arrow_drop_up.png</file>
+        <file>DapUiQmlWidgetStatusBar.qml</file>
+        <file>DapUiQmlWidgetStatusBarComboBox.qml</file>
+        <file>DapUiQmlWidgetStatusBarContentItem.qml</file>
         <file>DapUiQmlWidgetSettingsNetwork.qml</file>
         <file>DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
         <file>DapUiQmlScreenSettings.qml</file>
         <file>DapUiQmlScreenSettingsForm.ui.qml</file>
         <file>DapUiQmlScreenSettingsSection.qml</file>
+        <file>DapUiQmlWidgetStatusBarButton.ui.qml</file>
+        <file>DapUiQmlWidgetStatusBarComboBoxWallet.qml</file>
+        <file>DapUiQmlWidgetStatusBarComboBoxWalletForm.ui.qml</file>
+        <file>DapUiQmlWidgetStatusBarComboBoxToken.qml</file>
+        <file>DapUiQmlWidgetStatusBarComboBoxTokenForm.ui.qml</file>
     </qresource>
 </RCC>
