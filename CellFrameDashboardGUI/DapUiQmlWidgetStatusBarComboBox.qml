@@ -45,7 +45,7 @@ ComboBox {
             model: customComboBox.popup.visible ? customComboBox.delegateModel : null
             currentIndex: customComboBox.highlightedIndex
 
-//            ScrollIndicator.vertical: ScrollIndicator { }
+            ScrollIndicator.vertical: ScrollIndicator { }
         }
 
         background: Rectangle {
