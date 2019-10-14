@@ -6,17 +6,23 @@
 #include <QRegExp>
 #include <QDebug>
 
+/// Class provides operations at wallets
 class DapChainWalletHandler : public QObject
 {
     Q_OBJECT
 
 private:
+    /// Current network's name
     QString m_CurrentNetwork;
 
 protected:
+    /// Parse address of wallet from console command
+    /// @param aWalletAddress Console command to create new wallet's address
+    /// @return Address of wallet
     virtual QString parse(const QByteArray& aWalletAddress);
 
 public:
+    /// Standard constructor
     explicit DapChainWalletHandler(QObject *parent = nullptr);
 
 signals:
