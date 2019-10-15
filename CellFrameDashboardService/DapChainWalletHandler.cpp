@@ -82,7 +82,7 @@ QStringList DapChainWalletHandler::getWalletInfo(const QString &asNameWallet)
     process.start(QString("%1 wallet info -w %2 -net private").arg(CLI_PATH).arg(asNameWallet));
     process.waitForFinished(-1);
     QByteArray result = process.readAll();
-    QRegExp rx("wallet: (\\w+)\\s+addr:\\s+(\\w+)\\s+(balance)|(\\d+.\\d+)\\s(\\(\\d+\\))\\s(\\w+)");
+    QRegExp rx("wallet: (.+)\\s+addr:\\s+(\\w+)\\s+(balance)|(\\d+.\\d+)\\s(\\(\\d+\\))\\s(\\w+)");
     QStringList list;
 
     int pos = 0;
