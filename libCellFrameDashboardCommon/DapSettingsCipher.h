@@ -16,9 +16,9 @@ protected:
     DapSettingsCipher(const DapSettings& settings);
      
 public:
-    virtual QByteArray encrypt(const QByteArray &byteArray) const override;
+    virtual QByteArray encrypt(const QByteArray &byteArray) const;
     
-    virtual QByteArray decrypt(const QByteArray &byteArray) const override;
+    virtual QByteArray decrypt(const QByteArray &byteArray) const;
     
     /// Removed as part of the implementation of the pattern sington.
     DapSettingsCipher(const DapSettingsCipher&) = delete;

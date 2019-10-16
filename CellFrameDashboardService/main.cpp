@@ -9,6 +9,7 @@
 #include "DapChainDashboardService.h"
 #include "DapLogger.h"
 #include "DapChainLogHandler.h"
+#include "DapSettings.h"
 
 void processArgs();
 
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
     processArgs();
     DapChainDashboardService service;
     service.start();
+
     // Initialization of the application in the system tray
 //    service.initTray();
 

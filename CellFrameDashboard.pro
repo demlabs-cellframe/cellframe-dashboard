@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
-SUBDIRS = CellFrameDashboardGUI CellFrameDashboardService
+SUBDIRS = CellFrameDashboardGUI CellFrameDashboardService \
+    CellFrameDashboardTests
 
 CellFrameDashboardGUI.subdir = CellFrameDashboardGUI
 CellFrameDashboardService.subdir = CellFrameDashboardService

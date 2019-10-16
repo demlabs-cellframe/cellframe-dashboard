@@ -19,6 +19,11 @@ private:
 public:
     explicit DapChainNodeNetworkHandler(QObject *parent = nullptr);
 
+public:
+    /// Get current network name
+    /// @return name of current network
+    const QString& getCurrentNetwork() const;
+
 public slots:
     /// Change status of a node
     /// @param it is true if a node is online
