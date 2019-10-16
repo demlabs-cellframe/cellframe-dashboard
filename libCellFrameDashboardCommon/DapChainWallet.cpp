@@ -1,13 +1,13 @@
 #include "DapChainWallet.h"
 
-DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, const QStringList &aBalance, const QStringList &aTokens, QObject *parent)
-    : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddresss), m_balance(aBalance), m_tokens(aTokens)
+DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddress, const QStringList &aBalance, const QStringList &aTokens, QObject *parent)
+    : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddress), m_balance(aBalance), m_tokens(aTokens)
 {
 
 }
 
-DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddresss, QObject *parent)
-    : DapChainWallet(asIconPath, asName, asAddresss, QStringList(), QStringList(), parent)
+DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddress, QObject *parent)
+    : DapChainWallet(asIconPath, asName, asAddress, QStringList(), QStringList(), parent)
 {
 
 }
