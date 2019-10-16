@@ -154,22 +154,8 @@ void DapCommandController::processGetWalletInfo()
     QString address = reply->response().toJsonValue().toVariant().toStringList().at(1);
     QStringList temp = reply->response().toJsonValue().toVariant().toStringList();
     QStringList tokens = temp.mid(3, temp.count());
-    QStringList balance;
-//    for(int x{2}; x < temp.count(); x++)
-//    {
-//        if(x%2)
-//        {
-//           tokens.append(temp[x]);
-//           qDebug() << "TOKKEN " << temp[x];
-//        }
-//        else
-//        {
-//            balance.append(temp[x]);
-//            qDebug() << "BALANCE " << temp[x];
-//        }
-//    }
     
-    emit sigWalletInfoChanged(name, address, balance, tokens);
+    emit sigWalletInfoChanged(name, address, QStringList(), tokens);
 }
 
 void DapCommandController::processGetNodeNetwork()

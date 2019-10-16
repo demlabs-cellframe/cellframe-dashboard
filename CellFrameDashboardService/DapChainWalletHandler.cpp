@@ -51,28 +51,6 @@ QMap<QString, QVariant> DapChainWalletHandler::getWallets()
         map[match.captured(1)] = match.captured(2);
     }
 
-
-//    QString str = QString::fromLatin1(process.readAll());
-//    QRegExp rx(":{1,1}([\\s\\w\\W]+)(\\n|\\r){1,1}" );
-//    rx.setMinimal(true);
-//    int pos = 0;
-//    int x {0};
-//    QString tempName;
-//    while ((pos = rx.indexIn(str, pos)) != -1)
-//    {
-//        if(x == 0)
-//        {
-//            tempName = rx.cap(1);
-//            ++x;
-//        }
-//        else
-//        {
-//            map.insert(tempName, rx.cap(1));
-//            x = 0;
-//        }
-//        pos += rx.matchedLength();
-//    }
-
     return map;
 }
 
