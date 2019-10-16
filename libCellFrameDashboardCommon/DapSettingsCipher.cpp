@@ -8,12 +8,14 @@ DapSettingsCipher::DapSettingsCipher(const DapSettings& settings)
 
 QByteArray DapSettingsCipher::encrypt(const QByteArray &byteArray) const
 {
-    return m_settings.encrypt(byteArray);
+// TODO: implement encryption to next iteration.
+//    return m_settings.encrypt(byteArray);
 }
 
 QByteArray DapSettingsCipher::decrypt(const QByteArray &byteArray) const
 {
-    return m_settings.decrypt(byteArray);
+// TODO: implement decryption to next iteration.
+//    return m_settings.decrypt(byteArray);
 }
 
 DapSettingsCipher &DapSettingsCipher::getInstance(const DapSettings& settings)

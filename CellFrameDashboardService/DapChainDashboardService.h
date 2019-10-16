@@ -64,6 +64,9 @@ public:
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();
+    // TODO get structure Settings which has method fill from jsonDocument
+    /// The signal is emitted in case of need to save setting
+    void onSaveSetting();
     
 public slots:
     void changedLogModel();

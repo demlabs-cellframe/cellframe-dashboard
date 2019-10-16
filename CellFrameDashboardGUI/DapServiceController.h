@@ -26,6 +26,8 @@ class DapServiceController : public QObject
     QString m_sBrand {DAP_BRAND};
     /// Application version.
     QString m_sVersion {DAP_VERSION};
+    /// Settings file.
+    QString m_sSettingFile {DAP_SETTINGS_FILE};
     /// Result execute.
     QString m_sResult;
 
@@ -62,6 +64,9 @@ public:
     /// Get app version.
     /// @return Application version.
     QString getVersion() const;
+    /// Get setting file name.
+    /// @return Setting file name
+    QString getSettingFile() const;
     /// Get result command execute.
     /// @return Result execute.
     QString getResult();
@@ -101,6 +106,8 @@ signals:
     void sendToQML(QString);
 	void logCompleted();
     void sendNodeNetwork(const QVariant& aData);
+    void userSettingsLoaded();
+    void userSettingsSaved();
 
 private slots:
     /// Handling service response for receiving node logs.
@@ -140,6 +147,10 @@ public slots:
     void activateClient(bool aIsActivated);
     /// Shut down client.
     void closeClient();
+    /// Load user settings from settings file
+    void loadUserSettings();
+    /// Save user settings to file
+    void saveUserSettings();
     /// Method that implements the singleton pattern for the qml layer.
     /// @param engine QML application.
     /// @param scriptEngine The QJSEngine class provides an environment for evaluating JavaScript code.

@@ -2,6 +2,7 @@
 #include "DapUiQmlWidgetModel.h"
 #include "DapLogMessage.h"
 #include "DapChainWallet.h"
+#include "DapSettings.h"
 
 #include <QRegularExpression>
 
@@ -33,6 +34,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     m_pDapServiceClient = apDapServiceClient;
 
     connect(m_pDapServiceClient, SIGNAL(sigDisconnected()), SLOT(clearLogModel()));
+    connect(m_pDapServiceClient, SIGNAL(sigConnected()), SLOT(loadUserSettings()));
     
     // Creating rpc controller
     m_pDapCommandController = new DapCommandController(apDapServiceClient->getClientSocket(), this);
@@ -82,6 +84,11 @@ QString DapServiceController::getBrand() const
 QString DapServiceController::getVersion() const
 {
     return m_sVersion;
+}
+
+QString DapServiceController::getSettingFile() const
+{
+    return m_sSettingFile;
 }
 
 QString DapServiceController::getResult()
@@ -238,6 +245,27 @@ void DapServiceController::getNetworkList()
     m_pDapCommandController->getNetworkList();
 }
 
+void DapServiceController::loadUserSettings()
+{
+    const QString networkName = DapSettings::getInstance(m_sSettingFile)
+            .getKeyValue("network").toString();
+    qInfo() << "get settings name: " << networkName;
+    int currentIndex = DapSettingsNetworkModel::getInstance().getCurrentIndex();
+    qInfo() << "current index is " << currentIndex;
+    DapSettingsNetworkModel::getInstance().setCurrentNetwork(networkName, ++currentIndex);
+    qInfo() << "change Current Network: " << DapSettingsNetworkModel::getInstance().getCurrentNetwork();
+    emit userSettingsLoaded();
+}
+
+void DapServiceController::saveUserSettings()
+{
+    DapSettings::getInstance().setFileName(m_sSettingFile);
+    QJsonObject networkObject;
+    networkObject["network"] = DapSettingsNetworkModel::getInstance().getCurrentNetwork();
+    qInfo() << "Save to file: " << networkObject;
+    DapSettings::getInstance().writeFile(QJsonDocument(networkObject));
+    emit userSettingsSaved();
+}
 
 /// Get an instance of a class.
 /// @return Instance of a class.

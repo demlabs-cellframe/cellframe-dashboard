@@ -6,6 +6,11 @@ DapChainNodeNetworkHandler::DapChainNodeNetworkHandler(QObject *parent) : QObjec
 
 }
 
+const QString &DapChainNodeNetworkHandler::getCurrentNetwork() const
+{
+    return m_CurrentNetwork;
+}
+
 QVariant DapChainNodeNetworkHandler::getNodeNetwork() const
 {
     QProcess process;

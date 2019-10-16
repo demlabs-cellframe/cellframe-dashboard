@@ -1,5 +1,7 @@
 #include "DapChainDashboardService.h"
 
+#include "DapSettings.h"
+
 DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 {
     // Log reader
@@ -19,6 +21,7 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     m_pDapChainNetworkHandler = new DapChainNetworkHandler(this);
 
     m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
+
 
 }
 
