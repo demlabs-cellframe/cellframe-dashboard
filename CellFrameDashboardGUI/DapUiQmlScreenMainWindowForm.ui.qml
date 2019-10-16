@@ -67,6 +67,11 @@ Page {
                         page: "DapUiQmlScreenConsoleForm.ui.qml"
                         source: "qrc:/Resources/Icons/defaul_icon.png"
                     }
+                    ListElement{
+                        name: qsTr("VPN")
+                        page: "DapUiQmlScreenVpn.qml"
+                        source: "qrc:/Resources/Icons/defaul_icon.png"
+                    }
                     ListElement {
                         name: qsTr("About")
                         page: "DapQmlScreenAbout.qml"
