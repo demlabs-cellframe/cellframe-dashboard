@@ -8,6 +8,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QList>
+#include <QRegularExpression>
 
 #include "DapHistoryType.h"
 
