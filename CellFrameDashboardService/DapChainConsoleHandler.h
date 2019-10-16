@@ -7,14 +7,17 @@
 #include <QFile>
 #include <QDir>
 
+/// Class of recipient history commands
 class DapChainConsoleHandler : public QObject
 {
     Q_OBJECT
 
 private:
+    /// System file
     QFile * m_File;
 
 public:
+    /// Standard constructor
     explicit DapChainConsoleHandler(QObject *parent = nullptr);
 
     /// Get history of commands

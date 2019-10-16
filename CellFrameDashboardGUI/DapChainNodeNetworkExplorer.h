@@ -10,7 +10,7 @@
 #include "DapNodeType.h"
 
 /// The DapChainNodeNetworkExplorer class
-/// details Class paiting DapCellFrame map
+/// details Class painting DapCellFrame map
 /// @warning To use this class it requers to send DapChainNodeNetworkModel model to slot setModel()
 class DapChainNodeNetworkExplorer : public QQuickPaintedItem
 {
@@ -25,36 +25,66 @@ class DapChainNodeNetworkExplorer : public QQuickPaintedItem
     Q_PROPERTY(DapChainNodeNetworkModel* model READ getModel WRITE setModel NOTIFY modelChanged)
 
 public:
+    /**
+     * @brief The DapNodeState enum
+     * The values are used to display state of nodes
+     */
     enum DapNodeState {
+        /// Normal
         Normal,
+        /// Focused
         Focused,
+        /// Selected
         Selected
     };
 
+    /**
+     * @brief The DapNodeGui struct
+     * Structure which has state of node and size of area node
+     */
     struct DapNodeGui {
+        /// State of node
         DapNodeState State;
+        /// Graphic area node
         QRect Rect;
     };
 
 private:
+    /// Model for Network Explorer
     DapChainNodeNetworkModel* m_model;
-    QMap<QString /*Address*/, DapNodeGui /*NodeDataGui*/> m_nodeMap;                //  node map for gui
-    QPair<QString /*Address*/, DapNodeGui* /*NodeDataGui*/> m_currentSelectedNode;  //  selected node
+    /// node map for gui
+    QMap<QString /*Address*/, DapNodeGui /*NodeDataGui*/> m_nodeMap;
+    ///  selected node
+    QPair<QString /*Address*/, DapNodeGui* /*NodeDataGui*/> m_currentSelectedNode;
 
+    /// Color online state
     QColor m_colorOnline;
+    /// Color offline state
     QColor m_colorOffline;
+    /// Color selected state
     QColor m_colorSelect;
+    /// Color normal state
     QColor m_colorNormal;
+    /// Color focused state
     QColor m_colorFocused;
+    /// Width of line
     int m_widthLine;
+    /// Size of node
     int m_sizeNode;
 
 protected:
+    /// Event occurs when moused pressed
+    /// @param event Mouse event
     void mousePressEvent(QMouseEvent* event);
+    /// Event occurs when wheel moves
+    /// @param event Wheel event
     void wheelEvent(QWheelEvent* event);
+    /// Event occurs when mouse hover under item
+    /// @param event Hover move
     void hoverMoveEvent(QHoverEvent* event);
 
 public:
+    /// Standard constructor
     explicit DapChainNodeNetworkExplorer(QQuickItem *parent = nullptr);
     /// Overload method for paiting
     void paint(QPainter* painter);
@@ -134,16 +164,33 @@ public slots:
     void setModel(DapChainNodeNetworkModel* aModel);
 
 private slots:
+    /// Create graph
     void proccessCreateGraph();
 
 signals:
+    /// Signals emitted when select color was changed
+    /// @param colorSelect Color for select state
     void colorSelectChanged(QColor colorSelect);
+    /// Signals emitted when normal state color was changed
+    /// @param colorNormal Color for normal state
     void colorNormalChanged(QColor colorNormal);
+    /// Signals emitted when focused state color was changed
+    /// @param colorActivated Color for focused state
     void colorFocusedChanged(QColor colorActivated);
+    /// Signals emitted when online state color was changed
+    /// @param colorOnline Color for online state
     void colorOnlineChanged(QColor colorOnline);
+    /// Signals emitted when offline state color was changed
+    /// @param colorOffline Color for offline state
     void colorOfflineChanged(QColor colorOffline);
+    /// Signals emitted when width line was changed
+    /// @param widthLine Width of line
     void widthLineChanged(int widthLine);
+    /// Signals emitted when size node was changed
+    /// @param sizeNode Size of node
     void sizeNodeChanged(int sizeNode);
+    /// Signals emitted when model was changed
+    /// @param model New model for Network Explorer
     void modelChanged(DapChainNodeNetworkModel* model);
 
     /// Signal selected node

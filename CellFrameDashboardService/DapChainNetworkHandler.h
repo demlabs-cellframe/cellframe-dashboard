@@ -7,14 +7,17 @@
 
 #include <QFile>
 
+/// Class provides to get network's name list
 class DapChainNetworkHandler : public QObject
 {
     Q_OBJECT
 
 private:
+    /// List of network's name
     QStringList m_NetworkList;
 
 public:
+    /// Standard constructor
     explicit DapChainNetworkHandler(QObject *parent = nullptr);
 
     /// Get network list
