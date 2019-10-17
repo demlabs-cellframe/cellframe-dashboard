@@ -1,20 +1,47 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
+import QtGraphicalEffects 1.0
 
 Item {
     width: 400
     height: 600
 
     Text {
-        id: titleVpn
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
         anchors.top: parent.top
-        anchors.topMargin: 50
-
-        text: "VPN"
-        font.family: "Roboto"
-        font.pixelSize: 42 * pt
+        anchors.leftMargin: 30 * pt
+        anchors.topMargin: 18 * pt
+        color: "#d61f5d"
+        font.family: "Roboto Regular"
+        font.pixelSize: 14 * pt
+        text: "283 days left"
     }
+
+    Row {
+        width: childrenRect.width
+        anchors.top: parent.top
+        anchors.topMargin: 40 * pt
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Image {
+            id: imageVpn
+            width: 48 * pt
+            height: 48 * pt
+            source: "qrc:/Resources/Icons/defaul_icon.png"
+        }
+
+        Text {
+            id: titleVpn
+            anchors.left: imageVpn.right
+            anchors.verticalCenter: imageVpn.verticalCenter
+            anchors.leftMargin: 10 * pt
+            text: "KELVPN"
+            font.family: "Roboto Regular"
+            font.pixelSize: 42 * pt
+        }
+    }
+
 
     Switch {
         id: control
@@ -59,25 +86,62 @@ Item {
     }
 
     ComboBox {
+        id: comboboxServer
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 40 * pt
+        width: 150 * pt
+        height: 48 * pt
         textRole: "name"
 
         model: ListModel {
-            ListElement {name: "first"}
-            ListElement {name: "second"}
+            id: modelTest
+            ListElement {name: "first"; icon: "qrc:/Resources/Icons/defaul_icon.png" }
+            ListElement {name: "second"; icon: "qrc:/Resources/Icons/defaul_icon.png" }
         }
 
-        delegate: ItemDelegate {
-            Text {
+        background: Rectangle {
+            anchors.fill: parent
+
+            Rectangle {
+                id: contentCorner
                 anchors.fill: parent
-                text: name
+                color: "#FFFFFF"
+                radius: width / 2
+            }
+
+            DropShadow {
+                anchors.fill: parent
+                source: contentCorner
+                verticalOffset: 4 * pt
+                samples: 13 * pt
+                color: "#40000000"
             }
         }
 
-//        background: Rectangle {
-//            radius: parent.height / 2
-//        }
+        contentItem: Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+
+            Image {
+                id: imageServer
+                anchors.left: parent.left
+                anchors.leftMargin: 22 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                source: modelTest.get(modelTest.index(comboboxServer.currentIndex, 0)).icon
+                width: 24 * pt
+                height: 24 * pt
+            }
+
+            Text {
+                anchors.left: imageServer.right
+                anchors.leftMargin: 10 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                text: comboboxServer.currentText
+                font.family: "Roboto Light"
+                font.pixelSize: 16 * pt
+            }
+        }
+
     }
 }
