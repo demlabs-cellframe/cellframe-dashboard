@@ -119,7 +119,12 @@ void DapChainDashboardService::changeCurrentNetwork(const QString& aNetwork)
 
 void DapChainDashboardService::doRequestWallets()
 {
-    m_pDapChainHistoryHandler->onRequestNewHistory(m_pDapChainWalletHandler->getWallets());
+    QMap<QString, QVariant> wallets = m_pDapChainWalletHandler->getWallets();
+    m_pDapChainHistoryHandler->onRequestNewHistory(wallets);
+    /// TODO: for future
+//    QVariantList params = QVariantList() << wallets;
+//    DapRpcMessage request = DapRpcMessage::createRequest("RPCClient.setNewWallets", QJsonArray::fromVariantList(params));
+//    m_pServer->notifyConnectedClients(request);
 }
 
 void DapChainDashboardService::doSendNewHistory(const QVariant& aData)

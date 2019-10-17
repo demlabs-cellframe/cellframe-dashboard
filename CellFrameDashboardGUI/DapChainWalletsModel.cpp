@@ -1,7 +1,7 @@
 #include "DapChainWalletsModel.h"
 
 
-DapChainWalletsModel::DapChainWalletsModel(QObject *parent)
+DapChainWalletsModel::DapChainWalletsModel(QObject *parent) : QAbstractListModel(parent)
 {
 
 }

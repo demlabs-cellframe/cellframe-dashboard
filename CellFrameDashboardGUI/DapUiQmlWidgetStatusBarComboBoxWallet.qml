@@ -26,8 +26,8 @@ DapUiQmlWidgetStatusBarComboBoxWalletForm {
 
     onCurrentIndexChanged: {
         listToken.model.clear();
-        for(var i = 0; i < dapChainWalletsModel.get(currentIndex).count; i++)
-            listToken.model.append({"tokenName": dapChainWalletsModel.get(currentIndex).tokens[++i]});
+        for(var i = 2; i < dapChainWalletsModel.get(currentIndex).count; i += 3)
+            listToken.model.append({"tokenName": dapChainWalletsModel.get(currentIndex).tokens[i]});
         if(listToken.model.count)
             listToken.currentIndex = 0;
     }
