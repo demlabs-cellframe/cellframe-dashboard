@@ -14,7 +14,7 @@ TARGET = $${BRAND}Service
 
 VER_MAJ = 1
 VER_MIN = 6
-VER_PAT = 1
+VER_PAT = 2
 
 ICON = icon.ico
 
