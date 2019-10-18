@@ -77,5 +77,9 @@
         <file>DapUiQmlWidgetStatusBarComboBoxTokenForm.ui.qml</file>
         <file>DapUiQmlScreenVpn.qml</file>
         <file>DapUiQmlScreenVpnForm.ui.qml</file>
+        <file>DapUiQmlWidgetSettingsVpn.qml</file>
+        <file>DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
+        <file>DapUiQmlWidgetSettingsVpnComboBox.qml</file>
+        <file>DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
     </qresource>
 </RCC>

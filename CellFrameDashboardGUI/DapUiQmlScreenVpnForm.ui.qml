@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.13
 
 Item {
     width: 400
@@ -23,9 +24,11 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: 40 * pt
         anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 10 * pt
 
         Image {
             id: imageVpn
+            Layout.alignment: Qt.AlignVCenter
             width: 48 * pt
             height: 48 * pt
             source: "qrc:/Resources/Icons/defaul_icon.png"
@@ -33,9 +36,8 @@ Item {
 
         Text {
             id: titleVpn
-            anchors.left: imageVpn.right
-            anchors.verticalCenter: imageVpn.verticalCenter
-            anchors.leftMargin: 10 * pt
+            Layout.alignment: Qt.AlignVCenter
+            verticalAlignment: Text.AlignVCenter
             text: "KELVPN"
             font.family: "Roboto Regular"
             font.pixelSize: 42 * pt

@@ -10,6 +10,11 @@ DapUiQmlScreenSettingsForm {
             name: qsTr("Network")
             element: "DapUiQmlWidgetSettingsNetwork.qml"
         }
+
+        ListElement {
+            name: qsTr("VPN")
+            element: "DapUiQmlWidgetSettingsVpn.qml"
+        }
     }
 
     ListView {
