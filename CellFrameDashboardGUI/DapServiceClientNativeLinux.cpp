@@ -21,7 +21,7 @@ DapServiceClientNativeLinux::~DapServiceClientNativeLinux()
 
 bool DapServiceClientNativeLinux::isServiceRunning()
 {
-    m_isServiceRunning = (::system(m_checkIsServiceRunningCommand) == 0);
+    m_isServiceRunning =true;//  (::system(m_checkIsServiceRunningCommand) == 0);
     return m_isServiceRunning;
 }
 

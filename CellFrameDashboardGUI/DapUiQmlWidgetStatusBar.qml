@@ -61,6 +61,11 @@ Rectangle {
             color: "#797979"
         }
 
+        DapUiQmlScreenDialogAddWallet
+        {
+            id: dialogAddWallet
+        }
+
         DapUiQmlWidgetStatusBarButton {
             width: 130 * pt
             anchors.right: parent.right
@@ -69,6 +74,9 @@ Rectangle {
             anchors.rightMargin: 20 * pt
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10 * pt
+
+            onClicked: addWallet()
+            onAddWallet: dialogAddWallet.show()
         }
     }
 }

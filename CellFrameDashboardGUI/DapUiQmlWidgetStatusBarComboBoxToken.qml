@@ -28,7 +28,7 @@ DapUiQmlWidgetStatusBarComboBoxTokenForm {
             fieldBalance.text = 0;
         else
         {
-            var money = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 2];
+            var money = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 3];
             fieldBalance.text = dapChainConvertor.toConvertCurrency(money);
         }
     }
