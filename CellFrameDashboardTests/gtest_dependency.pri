@@ -1,8 +1,5 @@
 isEmpty(GOOGLETEST_DIR):GOOGLETEST_DIR=$$(GOOGLETEST_DIR)
 
-message("_PRO_FILE_PWD_" = $$_PRO_FILE_PWD_/../../3dparty/googletest)
-
-
 isEmpty(GOOGLETEST_DIR) {
     warning("Using googletest src dir specified at Qt Creator wizard")
     message("set GOOGLETEST_DIR as environment variable or qmake variable to get rid of this message")

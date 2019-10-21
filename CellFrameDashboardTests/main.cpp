@@ -1,5 +1,3 @@
-#include "tst_settings.h"
-
 #include <gtest/gtest.h>
 
 int main(int argc, char *argv[])
