@@ -3,7 +3,7 @@ import QtQuick.Controls 2.12
 
 DapUiQmlWidgetSettingsNetworkForm {
     width: parent.width
-    height: childrenRect.height
+    height: childrenRect.height + 40 * pt
 
     ComboBox {
         width: 150
