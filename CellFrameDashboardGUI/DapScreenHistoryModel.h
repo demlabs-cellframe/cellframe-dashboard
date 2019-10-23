@@ -8,6 +8,7 @@
 #include <QDateTime>
 #include <QTimer>
 #include "DapHistoryType.h"
+#include "DapChainConvertor.h"
 
 #define MASK_FOR_MODEL QString("MMMM, dd")
 
@@ -42,8 +43,6 @@ public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
-
-    Q_INVOKABLE QString toConvertCurrency(const QString& aMoney) const;
 
 public slots:
     /// Receive new tx history

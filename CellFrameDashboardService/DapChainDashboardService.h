@@ -27,12 +27,26 @@
 #include "DapChainWalletHandler.h"
 #include "DapChainNodeNetworkHandler.h"
 #include "DapChainHistoryHandler.h"
+#include "DapChainNetworkHandler.h"
 #include "DapChainConsoleHandler.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
 typedef class QLocalServer DapUiSocketServer;
 
+/**
+ * @brief The DapChainDashboardService class
+ * Service class which provide handle operations with dashboard.
+ * Class is server which works clients. Protocol to communacate with client is RPC.
+ * Work with serves start from public methos start().
+ * Class consist of follow handlers:
+ * @see DapChainLogHandler
+ * @see DapChainWalletHandler
+ * @see DapChainNodeNetworkHandler
+ * @see DapChainHistoryHandler
+ * @see DapChainConsoleHandler
+ * @see DapChainNetworkHandler
+ */
 class DapChainDashboardService : public DapRpcService
 {
     Q_OBJECT
@@ -41,9 +55,9 @@ class DapChainDashboardService : public DapRpcService
     DapUiService            * m_pServer {nullptr};
     /// Socket of client connection with the service.
     DapUiSocketServer       * m_pSocketService {nullptr};
-    /// Log reader.
+    /// Recipient logs information
     DapChainLogHandler            * m_pDapChainLogHandler {nullptr};
-    /// Recipient wallet inforamtion
+    /// Recipient wallet information
     DapChainWalletHandler   * m_pDapChainWalletHandler {nullptr};
     /// Recipient node network
     DapChainNodeNetworkHandler     * m_pDapChainNodeHandler {nullptr};
@@ -51,18 +65,24 @@ class DapChainDashboardService : public DapRpcService
     DapChainHistoryHandler* m_pDapChainHistoryHandler {nullptr};
     /// Recipient history of commands
     DapChainConsoleHandler* m_pDapChainConsoleHandler {nullptr};
+    /// Recipient network's name
+    DapChainNetworkHandler* m_pDapChainNetworkHandler {nullptr};
 
 public:
     /// Standard сonstructor.
     explicit DapChainDashboardService();
-    
+    /// Start service: creating server and socket
     bool start();
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();
+    // TODO get structure Settings which has method fill from jsonDocument
+    /// The signal is emitted in case of need to save setting
+    void onSaveSetting();
     
 public slots:
+    /// Change log model
     void changedLogModel();
     /// Activate the main client window by double-clicking the application icon in the system tray.
     /// @param reason Type of action on the icon in the system tray.
@@ -103,6 +123,12 @@ public slots:
     /// Get history
     /// @return QList data history
     QVariant getHistory() const;
+    /// Get network list
+    /// @return Network list
+    QStringList getNetworkList() const;
+    /// Change current network
+    /// @param name of network whcih was selected
+    void changeCurrentNetwork(const QString& aNetwork);
     /// Get result for command
     /// @param command
     /// @return result
@@ -112,7 +138,10 @@ public slots:
     QString getCmdHistory() const;
 
 private slots:
+    /// Request new history request by handle wallet's name
     void doRequestWallets();
+    /// Send new history transaction to client
+    /// @param New history transaction
     void doSendNewHistory(const QVariant& aData);
 };
 

@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+// TODO: I think it's useless enum
 enum Type
 {
     Info,
@@ -15,14 +16,25 @@ class DapLogMessage : public QObject
 {
     Q_OBJECT
 
+    /// type of log message
     QString m_type;
+    /// timestamp
     QString m_sTimeStamp;
+    /// name of file where log message was occur
     QString m_sFile;
+    /// text of log message
     QString m_sMessage;
 
 public:
+    /// standard constructor
     explicit DapLogMessage(QObject *parent = nullptr) { Q_UNUSED(parent) }
-    DapLogMessage(const QString &type, const QString &timestamp, const QString  &file, const QString &message, QObject *parent = nullptr);
+    /// overloaded constructor
+    /// @param asType Еype of log message
+    /// @param asTimestamp Timestamp of log message
+    /// @param asFile Name if file where log message was occur
+    /// @param asMessage Text of log message
+    DapLogMessage(const QString &asType, const QString &asTimestamp,
+                  const QString &asFile, const QString &asMessage, QObject *parent = nullptr);
 
 
     Q_PROPERTY(QString type READ getType WRITE setType NOTIFY typeChanged)
@@ -30,23 +42,47 @@ public:
     Q_PROPERTY(QString file READ getFile WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString message READ getMessage WRITE setMessage NOTIFY messageChanged)
 
+    /// Get type
+    /// @return Type of log message
     QString getType() const;
-    void setType(const QString &type);
+    /// Set type to message
+    /// @param asType Type of log message
+    void setType(const QString &asType);
 
+    /// Get timestamp
+    /// @return Timestamp of log message
     QString getTimeStamp() const;
-    void setTimeStamp(const QString &sTimeStamp);
+    /// Set timestamp to log message
+    /// @param asTimeStamp Timestamp of log message
+    void setTimeStamp(const QString &asTimeStamp);
 
+    /// Get name of file
+    /// @return Name of file where log message was occur
     QString getFile() const;
-    void setFile(const QString &sFile);
+    /// Set name of file
+    /// @param asFile Name of file
+    void setFile(const QString &asFile);
 
+    /// Get text of log message
+    /// @return Text of log message
     QString getMessage() const;
-    void setMessage(const QString &sMessage);
+    /// Set text to log message
+    /// @param asMessage Text of log message
+    void setMessage(const QString &asMessage);
 
 signals:
-    void typeChanged(QString aType);
-    void timeStampChanged(const QString& aTimeStamp);
-    void fileChanged(const QString& aFile);
-    void messageChanged(const QString& aMessage);
+    /// The signal emitted in case when type of log message was changed
+    /// @param asType type of log message
+    void typeChanged(const QString& asType);
+    /// The signal emitted in case when timestamp of log message was changed
+    /// @param asTimeStamp Timestamp of log message
+    void timeStampChanged(const QString& asTimeStamp);
+    /// The signal emitted in case when file og log message was changed
+    /// @param asFile Name of log message was changed
+    void fileChanged(const QString& asFile);
+    /// The signal emitted in case when message was changed
+    /// @param asMessage Text of log message
+    void messageChanged(const QString& asMessage);
 
 };
 

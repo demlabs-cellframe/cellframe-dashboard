@@ -8,6 +8,7 @@
 #include <QProcess>
 #include <QDebug>
 #include <QList>
+#include <QRegularExpression>
 
 #include "DapHistoryType.h"
 
@@ -16,6 +17,7 @@ class DapChainHistoryHandler : public QObject
     Q_OBJECT
 
 private:
+    QString m_CurrentNetwork;
     QVariant m_history;
     QTimer* m_timoutRequestHistory;
 
@@ -30,6 +32,9 @@ public slots:
     /// Request new tx history
     /// @param wallet list
     void onRequestNewHistory(const QMap<QString, QVariant>& aWallets);
+    /// Set current network
+    /// @param name of network
+    void setCurrentNetwork(const QString& aNetwork);
 
 signals:
     /// Signal for request wallets list

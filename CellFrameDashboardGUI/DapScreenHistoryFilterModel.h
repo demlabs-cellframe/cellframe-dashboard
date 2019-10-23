@@ -5,14 +5,19 @@
 
 #include "DapScreenHistoryModel.h"
 
+/// Class screen of history transaction
 class DapScreenHistoryFilterModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
 private:
+    /// Number of wallet
     QString m_walletNumber;
+    /// Minimum date
     QDate m_dateLeft;
+    /// Maximum date
     QDate m_dateRight;
+    /// Filter status
     int m_status;
 
 protected:
@@ -34,7 +39,7 @@ public slots:
     /// @param Min date
     /// @param Max date
     void setFilterDate(const QDate& aDateLeft, const QDate& aDateRight);
-    /// Filter with status of transacrion
+    /// Filter with status of transaction
     /// @param status of transaction
     void setFilterStatus(const DapTransactionStatus aStatus);
 };

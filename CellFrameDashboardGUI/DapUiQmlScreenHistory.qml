@@ -115,15 +115,15 @@ DapUiQmlScreenHistoryForm {
                                 anchors.fill: parent
                                 hoverEnabled: true
 
-                                onMouseXChanged: {
-                                    tipTokenName.x = mouse.x;
-                                }
-
-                                onMouseYChanged: {
-                                    tipTokenName.y = mouse.y;
+                                onPositionChanged: {
+                                    if(!hovered) return;
+                                    var globalCoord = mapToItem(dapUiQmlScreenHistory, mouse.x, mouse.y);
+                                    tipTokenName.x = globalCoord.x - tipTokenName.width / 2;
+                                    tipTokenName.y = globalCoord.y - (tipTokenName.height + 5);
                                 }
 
                                 onEntered: {
+                                    tipTokenName.text = dapNumberWallet.text;
                                     tipTokenName.visible = true;
                                 }
 
@@ -216,23 +216,6 @@ DapUiQmlScreenHistoryForm {
                 }
             }
 
-
-            //  Number wallet tip
-            Rectangle {
-                id: tipTokenName
-                color: "#FFFFFF";
-                width: contentChildren.width
-                height: contentChildren.height
-                visible: false
-
-                Text {
-                    text: dapNumberWallet.text
-                    color: "#4F5357"
-                    font.family: "Regular"
-                    font.pixelSize: 14 * pt
-                }
-            }
-
             //  Underline
             Rectangle {
                 x: dapTokenNameContainer.x
@@ -244,6 +227,22 @@ DapUiQmlScreenHistoryForm {
     }
 
 
+    //  Number wallet tip
+    Label {
+        id: tipTokenName
+        padding: 3 * pt
+        color: "#4F5357"
+        font.family: "Regular"
+        font.pixelSize: 14 * pt
+        background: Rectangle {
+            anchors.fill: parent
+            color: "#FFFFFF";
+            border.color: "#80000000"
+            border.width: 1 * pt
+        }
+
+        visible: false
+    }
 }
 
 /*##^## Designer {

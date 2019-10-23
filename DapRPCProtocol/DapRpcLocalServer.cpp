@@ -21,7 +21,7 @@ DapRpcLocalServer::~DapRpcLocalServer()
 
 bool DapRpcLocalServer::listen(const QString &asAddress, quint16 aPort)
 {
-    Q_UNUSED(aPort);
+    Q_UNUSED(aPort)
 
     return QLocalServer::listen(asAddress);
 }

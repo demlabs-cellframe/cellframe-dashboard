@@ -9,12 +9,23 @@
 
 #include "DapNodeType.h"
 
+/// Class provides to operations with nodes of network
 class DapChainNodeNetworkHandler : public QObject
 {
     Q_OBJECT
 
+private:
+    /// Current network's name
+    QString m_CurrentNetwork;
+
 public:
+    /// Standard constructor
     explicit DapChainNodeNetworkHandler(QObject *parent = nullptr);
+
+public:
+    /// Get current network name
+    /// @return name of current network
+    const QString& getCurrentNetwork() const;
 
 public slots:
     /// Change status of a node
@@ -23,6 +34,9 @@ public slots:
     /// Get new node network
     /// @return data of node network
     QVariant getNodeNetwork() const;
+    /// Set current network
+    /// @param name of network
+    void setCurrentNetwork(const QString& aNetwork);
 };
 
 #endif // DAPCHAINNODENETWORKHANDLER_H

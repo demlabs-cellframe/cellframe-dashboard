@@ -1,5 +1,7 @@
 #include "DapChainDashboardService.h"
 
+#include "DapSettings.h"
+
 DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 {
     // Log reader
@@ -12,11 +14,14 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 
     m_pDapChainNodeHandler = new DapChainNodeNetworkHandler(this);
 
-    m_pDapChainHistoryHandler = new DapChainHistoryHandler {this};
+    m_pDapChainHistoryHandler = new DapChainHistoryHandler(this);
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::requsetWallets, this, &DapChainDashboardService::doRequestWallets);
     QObject::connect(m_pDapChainHistoryHandler, &DapChainHistoryHandler::changeHistory, this, &DapChainDashboardService::doSendNewHistory);
 
+    m_pDapChainNetworkHandler = new DapChainNetworkHandler(this);
+
     m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
+
 
 }
 
@@ -100,9 +105,26 @@ QString DapChainDashboardService::getCmdHistory() const
     return m_pDapChainConsoleHandler->getHistory();
 }
 
+QStringList DapChainDashboardService::getNetworkList() const
+{
+    return m_pDapChainNetworkHandler->getNetworkList();
+}
+
+void DapChainDashboardService::changeCurrentNetwork(const QString& aNetwork)
+{
+    m_pDapChainHistoryHandler->setCurrentNetwork(aNetwork);
+    m_pDapChainNodeHandler->setCurrentNetwork(aNetwork);
+    m_pDapChainWalletHandler->setCurrentNetwork(aNetwork);
+}
+
 void DapChainDashboardService::doRequestWallets()
 {
-    m_pDapChainHistoryHandler->onRequestNewHistory(m_pDapChainWalletHandler->getWallets());
+    QMap<QString, QVariant> wallets = m_pDapChainWalletHandler->getWallets();
+    m_pDapChainHistoryHandler->onRequestNewHistory(wallets);
+    /// TODO: for future
+//    QVariantList params = QVariantList() << wallets;
+//    DapRpcMessage request = DapRpcMessage::createRequest("RPCClient.setNewWallets", QJsonArray::fromVariantList(params));
+//    m_pServer->notifyConnectedClients(request);
 }
 
 void DapChainDashboardService::doSendNewHistory(const QVariant& aData)

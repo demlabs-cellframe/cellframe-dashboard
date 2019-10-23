@@ -9,10 +9,11 @@
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-QT += quick quickwidgets
+QT += qml quick quickwidgets
 CONFIG += c++11
 
 SOURCES +=\
+    $$PWD/DapChainConvertor.cpp \
     $$PWD/DapHalper.cpp \
     $$PWD/DapHistoryType.cpp \
     $$PWD/DapSettings.cpp \
@@ -22,6 +23,7 @@ SOURCES +=\
     $$PWD/DapChainWallet.cpp
 
 HEADERS +=\
+    $$PWD/DapChainConvertor.h \
     $$PWD/DapHalper.h \
     $$PWD/DapHistoryType.h \
     $$PWD/DapSettings.h \

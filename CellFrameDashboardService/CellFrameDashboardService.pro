@@ -13,8 +13,8 @@ DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 TARGET = $${BRAND}Service
 
 VER_MAJ = 1
-VER_MIN = 0
-VER_PAT = 0
+VER_MIN = 6
+VER_PAT = 2
 
 ICON = icon.ico
 
@@ -51,6 +51,7 @@ SOURCES += \
     $$PWD/DapChainNodeCache.cpp \
     $$PWD/DapChainWalletHandler.cpp \
     $$PWD/DapChainLogHandler.cpp \
+    $$PWD/DapChainNetworkHandler.cpp \
     $$PWD/DapChainConsoleHandler.cpp
 
 HEADERS += \
@@ -61,6 +62,7 @@ HEADERS += \
     $$PWD/DapChainNodeNetworkHandler.h \
     $$PWD/DapChainWalletHandler.h \
     $$PWD/DapChainLogHandler.h \
+    $$PWD/DapChainNetworkHandler.h \
     $$PWD/DapChainConsoleHandler.h
 
 include (../libdap/libdap.pri)

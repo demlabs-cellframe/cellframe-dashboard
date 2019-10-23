@@ -1,5 +1,9 @@
 #include "DapSettings.h"
 
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QIODevice>
+
 /// Standart constructor.
 DapSettings::DapSettings(QObject *parent) : QObject(parent)
 {
@@ -11,33 +15,52 @@ DapSettings::DapSettings(QObject *parent) : QObject(parent)
 /// Overloaded constructor.
 /// @param fileName Settings file name.
 /// @param parent Parent.
-DapSettings::DapSettings(const QString &fileName, QObject *parent)
+DapSettings::DapSettings(const QString &asFileName, QObject *parent)
 {
     Q_UNUSED(parent)
     
     init();
     
-    setFileName(fileName);
+    setFileName(asFileName);
 }
 
 /// Initialize the components.
 void DapSettings::init()
 {
-    connect(this, &DapSettings::fileNameChanged, this, [=] (const QString &fileName)
+    connect(this, &DapSettings::fileNameChanged, this, [=] (const QString &asFileName)
     {
-        m_file.setFileName(fileName);
+        m_file.setFileName(asFileName);
     });
+
+    connect(this, &DapSettings::fileNeedClosed, [=] () { m_file.close(); });
 }
 
 /// Read settings file.
-/// @return Virtual json file.
+/// @return Virtual json file. If failed read return default json document
 QJsonDocument DapSettings::readFile()
 {
-    qDebug() << "File name " << m_file.fileName();
-    m_file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString textFile = decrypt(m_file.readAll());
-    m_file.close();
-    return QJsonDocument::fromJson(textFile.toUtf8());
+    if(!m_file.exists()) {
+        qWarning() << "File  doesn't exist." << "Creating file with name " << m_fileName;
+        m_file.open(QIODevice::ReadOnly | QIODevice::Text);
+        emit fileNeedClosed();
+        return QJsonDocument();
+    }
+
+    if(!m_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Failed to read file " << m_file.errorString();
+        emit fileNeedClosed();
+        return QJsonDocument();
+    }
+
+    const QByteArray data = m_file.readAll();
+    if(data.isEmpty()) {
+        qWarning() << "Failed to read data. File " << m_fileName << " is empty";
+        return QJsonDocument();
+    }
+
+    emit fileNeedClosed();
+
+    return QJsonDocument::fromJson(data);
 }
 
 /// Write settings to file.
@@ -45,28 +68,21 @@ QJsonDocument DapSettings::readFile()
 /// @return Returns true if the recording was successful, false if the recording failed.
 bool DapSettings::writeFile(const QJsonDocument &json)
 {
-    if(!m_file.open(QIODevice::WriteOnly))
-    {
-        qDebug() << "Couldn't open write file." << m_file.errorString();
+    if(!m_file.open(QIODevice::WriteOnly)) {
+        qWarning() << "Couldn't open write file." << m_file.errorString();
         return false;
     }
-    else
-    {
-        m_file.open(QIODevice::WriteOnly);
-        m_file.write(encrypt(json.toJson()));
-        m_file.close();
-        return true;
+
+    const qint64 bytes = m_file.write(json.toJson());
+    if(bytes <= 0) {
+        qWarning() << "Failed to write file with error: " << m_file.errorString();
+        return false;
     }
-}
 
-QByteArray DapSettings::encrypt(const QByteArray &byteArray) const
-{
-    return byteArray;
-}
+    qDebug() << "write bytes " << bytes << " to file " << m_fileName;
+    emit fileNeedClosed();
 
-QByteArray DapSettings::decrypt(const QByteArray &byteArray) const
-{
-    return byteArray;
+    return true;
 }
 
 /// Get an instance of a class.
@@ -79,9 +95,9 @@ DapSettings &DapSettings::getInstance()
 
 /// Get an instance of a class.
 /// @return Instance of a class.
-DapSettings &DapSettings::getInstance(const QString &fileName)
+DapSettings &DapSettings::getInstance(const QString &asFileName)
 {
-    static DapSettings instance(fileName);
+    static DapSettings instance(asFileName);
     return instance;
 }
 
@@ -98,19 +114,24 @@ DapSettings &DapSettings::getInstance(const QString &fileName)
 /// @param valueKeyProperty Key property value.
 /// @param property Settable property.
 /// @param valuePropery The value of the property being set.
-void DapSettings::setGroupPropertyValue(const QString &group, const QString &keyProperty, 
-                                        const QVariant &valueKeyProperty, const QString &property, const QVariant &valuePropery)
+bool DapSettings::setGroupPropertyValue(const QString &asGroup, const QString &asKeyProperty,
+                                        const QVariant &aValueKeyProperty, const QString &asProperty,
+                                        const QVariant &aValueProperty)
 {
-    if(group.isEmpty() || group.isNull())
-        return;
+    if(asGroup.isEmpty() || asGroup.isNull())
+        return false;
     
-    auto list = getGroupValue(group);
-    
-    for(QMap<QString, QVariant> &map : list)
-        if(map.find(keyProperty) != map.end() && map.value(keyProperty) == valueKeyProperty)
-            map.insert(property, valuePropery);
-    
-    setGroupValue(group, list);
+    auto list = getGroupValue(asGroup);
+    if(list.empty()) {
+        QVariantMap map { {asProperty, aValueProperty} };
+        list.append(map);
+    } else {
+        for(auto &map : list)
+            if(map.find(asKeyProperty) != map.end() && map.value(asKeyProperty) == aValueKeyProperty)
+                map.insert(asProperty, aValueProperty);
+    }
+
+    return setGroupValue(asGroup, list);
 }
 
 /// Get property value from group by key property value.
@@ -128,118 +149,121 @@ void DapSettings::setGroupPropertyValue(const QString &group, const QString &key
 /// @param property Settable property.
 /// @param defaultValue The key value to be inserted in case the key is not found. 
 /// The default is non-valid value.
-QVariant DapSettings::getGroupPropertyValue(const QString &group, const QString &keyProperty, const QString &valueKeyProperty, const QString &property, const QVariant& defaultValue)
+QVariant DapSettings::getGroupPropertyValue(const QString &asGroup, const QString &aKeyProperty,
+                                            const QString &aValueKeyProperty, const QString &asProperty)
 {
-    for(QMap<QString, QVariant> &map : getGroupValue(group))
-        if(map.find(keyProperty) != map.end() && map.value(keyProperty) == valueKeyProperty)
-            return map.value(property);
-    return defaultValue;
+    for(const QMap<QString, QVariant> &map : getGroupValue(asGroup))
+        if(map.find(aKeyProperty) != map.end() && map.value(aKeyProperty) == aValueKeyProperty)
+            return map.value(asProperty);
+    return QVariant();
 }
 
 /// Get key value.
 /// @details If the key does not exist, the function returns an invalid value.
 /// @param key Key name.
-/// @param defaultValue The key value to be inserted in case the key is not found. 
-/// The default is non-valid value.
-QVariant DapSettings::getKeyValue(const QString &key, const QVariant& defaultValue)
+QVariant DapSettings::getKeyValue(const QString &asKey)
 {
-    QJsonObject root = readFile().object();
-    
-    QJsonValue jv = root.value(key);
-    
-    if(!jv.isArray())
-    {
-        return jv.toVariant();
-    }
-    
-    return defaultValue;
+    const QJsonValue value = readFile().object().value(asKey);
+    if(value.isNull() || value.isUndefined())
+        return QVariant();
+
+    return value.toVariant();
 }
 
 /// Set key value.
 /// @param key Key.
 /// @param value Key value.
-void DapSettings::setKeyValue(const QString &key, const QVariant &value)
+bool DapSettings::setKeyValue(const QString &asKey, const QVariant &aValue)
 {
-    if(key.isEmpty() || key.isNull())
-        return;
+    if(asKey.isEmpty() || asKey.isNull())
+        return false;
     
-    QJsonDocument jsonDocument = readFile();
-    QJsonObject jsonObject = jsonDocument.object();
-    jsonObject.insert(key, value.toJsonValue());
-    QJsonDocument jsonDocumentSave(jsonObject);
-    writeFile(jsonDocumentSave);
+    if(aValue.isNull() || !aValue.isValid())
+        return false;
+
+    QJsonObject jsonObject = readFile().object();
+    jsonObject.insert(asKey, aValue.toJsonValue());
+    return writeFile(QJsonDocument(jsonObject));
 }
 
 /// Get a collection of values by name group.
 /// @details If the group is not found, the function returns an empty list.
 /// @param group Group name.
 /// @return Group values collection.
-QList<QMap<QString, QVariant>> DapSettings::getGroupValue(const QString &group)
+QList<QVariantMap> DapSettings::getGroupValue(const QString &asGroup)
 {
-    QJsonObject root = readFile().object();
-    
-    QJsonValue jv = root.value(group);
-    
-    QList<QMap<QString, QVariant>> arrayValue;
-    
-    if(jv.isArray())
-    {
-        QJsonArray ja = jv.toArray();
-        for(QJsonValue jsonValue : ja)
-        {
-            QJsonObject jsonObject = jsonValue.toObject();
-            QMap<QString, QVariant> object;
-            for(QString key : jsonObject.keys())
-            {
-                object.insert(key, jsonObject.value(key).toVariant());
-            }
-            arrayValue.push_back(object);
-        }
+    if(asGroup.isEmpty() || asGroup.isNull()) {
+        qWarning() << "Failed get group value because group's name is undefined";
+        return QList<QVariantMap>();
     }
-        
-    return arrayValue;
+
+    const QJsonValue jsonGroupValue = readFile().object().value(asGroup);
+    if(jsonGroupValue.isNull() || jsonGroupValue.isUndefined()) {
+        qWarning() << "Failed get group value because group " << asGroup << " doesn't exist";
+        return QList<QVariantMap>();
+    }
+
+    if(!jsonGroupValue.isArray()) {
+        qWarning() << "Failed get group value because group " << asGroup << " isn't array of values";
+        return QList<QVariantMap>();
+    }
+
+    QList<QVariantMap> collection;
+    const QJsonArray jsonGroupArray = jsonGroupValue.toArray();
+    for(const QJsonValue &jsonValue : jsonGroupArray)
+    {
+        const QJsonObject jsonObject = jsonValue.toObject();
+        if(!jsonValue.isObject()) {
+            qDebug() << jsonObject << " isn't object. Read next field...";
+            continue;
+        }
+
+        QVariantMap map;
+        for(const QString &key : jsonObject.keys())
+            map.insert(key, jsonObject.value(key).toVariant());
+
+        collection.push_back(map);
+    }
+
+    return collection;
 }
 
 /// Set key values for group.
 /// @param group Group name.
 /// @param values Collection of group values.
-void DapSettings::setGroupValue(const QString &group, const QList<QMap<QString, QVariant> > &values)
+bool DapSettings::setGroupValue(const QString &asGroup, const QList<QVariantMap> &aValues)
 {
-    if(group.isEmpty() || group.isNull())
-        return;
-    
-    QJsonDocument jsonDocument = readFile();
-    QJsonObject jsonObject = jsonDocument.object();
+    if(asGroup.isEmpty() || asGroup.isNull())
+        return false;
     
     QJsonArray groupValues;
-    for(QMap<QString,QVariant> var : values) 
+    for(const auto & map : aValues)
     {
         QJsonObject itemObject;
-        for(auto key : var.keys()) 
-        {
-            itemObject.insert(key, var.value(key).toJsonValue());
-        }
+        for(const auto &key : map.keys())
+            itemObject.insert(key, map.value(key).toJsonValue());
+
         groupValues.append(itemObject);
     }
     
-    jsonObject.insert(group, groupValues);
-    QJsonDocument jsonDocumentSave(jsonObject);
-    writeFile(jsonDocumentSave);
+    return setKeyValue(asGroup, groupValues);
 }
 
 /// Get the name of the settings file.
 /// @return The name of the settings file.
-QString DapSettings::getFileName() const
+const QString &DapSettings::getFileName() const
 {
     return m_fileName;
 }
 
 /// Set the name of the settings file.
 /// @param fileName The name of the settings file.
-void DapSettings::setFileName(const QString &fileName)
+/// @return Reference of changed object DapSettings
+DapSettings &DapSettings::setFileName(const QString &asFileName)
 {
-    m_fileName = fileName;
-    emit fileNameChanged(m_fileName);
+    m_fileName = asFileName;
+    emit fileNameChanged(asFileName);
+    return *this;
 }
 
 /// Method that implements the singleton pattern for the qml layer.

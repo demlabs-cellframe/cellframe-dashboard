@@ -12,8 +12,8 @@ CONFIG += c++11
 TARGET = $$BRAND
 
 VER_MAJ = 1
-VER_MIN = 2
-VER_PAT = 0
+VER_MIN = 6
+VER_PAT = 2
 
 
 win32 {
@@ -33,6 +33,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
+DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 ICON = icon.ico
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -45,6 +46,7 @@ SOURCES += \
     DapConsoleModel.cpp \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
+    DapSettingsNetworkModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
@@ -82,6 +84,7 @@ HEADERS += \
     DapConsoleModel.h \
     DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \
+    DapSettingsNetworkModel.h \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \
     DapUiQmlWidgetChainNodeLogs.h \
@@ -117,4 +120,6 @@ unix: !mac : !android {
     INSTALLS += gui_target
 }
 
-DISTFILES +=
+#DISTFILES += \
+#    DapUiQmlScreenSettings.qml \
+#    DapUiQmlScreenSettingsForm.ui.qml

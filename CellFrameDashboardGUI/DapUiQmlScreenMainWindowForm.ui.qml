@@ -19,7 +19,7 @@ Page {
     property alias stackViewScreenDashboard: stackViewScreenDashboard
 
 
-    Rectangle
+    DapUiQmlWidgetStatusBar
     {
         id: rectangleStatusBar
         anchors.left: parent.left
@@ -84,44 +84,53 @@ Page {
 
                 ListElement {
                     name:  qsTr("Settings")
-                    page: "DapQmlScreenAbout.qml"
-                    normal: "qrc:/Resources/Icons/defaul_icon.png"
-                    hover: "qrc:/Resources/Icons/defaul_icon.png"
+                    page: "DapUiQmlScreenSettings.qml"
+                    normal: "qrc:/Resources/Icons/icon_settings.png"
+                    hover: "qrc:/Resources/Icons/icon_settings_hover.png"
                 }
 
                 /// TODO: It wasn't in the task. I will not delete it, maybe later
                 /// we will need it
-//                    ListElement {
-//                        name:  qsTr("About")
-//                        page: "DapQmlScreenAbout.qml"
-//                        source: "qrc:/Resources/Icons/defaul_icon.png"
-//                    }
+                //                    ListElement {
+                //                        name:  qsTr("About")
+                //                        page: "DapQmlScreenAbout.qml"
+                //                        source: "qrc:/Resources/Icons/defaul_icon.png"
+                //                    }
             }
             delegate: componentItemMainMenuTab
 
         }
         focus: true
-    }
+//        DapUiQmlWidgetStatusBar {
+//            id: rectangleStatusBar
+//            anchors.left: rectangleTabsBorder.right
+//            anchors.top: parent.top
+//            anchors.right: parent.right
+//            color: "#B5B5B5"
+//            height: 60 * pt
+        }
 
-    Rectangle {
-        id: mainDashboard
-        anchors.left: rectangleTabsBorder.right
-        anchors.top: rectangleStatusBar.bottom
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        border.color: "whitesmoke"
+        Rectangle {
+            id: mainDashboard
+            anchors.left: rectangleTabsBorder.right
+            anchors.top: rectangleStatusBar.bottom
+            anchors.bottom: parent.bottom
+            anchors.right: parent.right
+            border.color: "whitesmoke"
 
-        Loader {
-            id: stackViewScreenDashboard
-            clip: true
-            anchors.fill: parent
-            source: "DapUiQmlScreenDialog.qml"
+            Loader {
+                id: stackViewScreenDashboard
+                clip: true
+                anchors.fill: parent
+                source: "DapUiQmlScreenDialog.qml"
+            }
         }
     }
-}
+//}
 
 
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
  ##^##*/
+
