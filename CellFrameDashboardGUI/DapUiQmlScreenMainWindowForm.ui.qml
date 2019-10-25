@@ -89,6 +89,13 @@ Page {
                     hover: "qrc:/Resources/Icons/icon_settings_hover.png"
                 }
 
+                ListElement {
+                    name:  qsTr("VPN")
+                    page: "DapUiQmlScreenVpn.qml"
+                    normal: "qrc:/Resources/Icons/defaul_icon.png"
+                    hover: "qrc:/Resources/Icons/defaul_icon.png"
+                }
+
                 /// TODO: It wasn't in the task. I will not delete it, maybe later
                 /// we will need it
                 //                    ListElement {
