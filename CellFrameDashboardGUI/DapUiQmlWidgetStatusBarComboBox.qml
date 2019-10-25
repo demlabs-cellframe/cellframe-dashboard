@@ -27,7 +27,7 @@ ComboBox {
         anchors.rightMargin: 48 * pt
         anchors.topMargin: 10 * pt
         text: parent.displayText
-        font.family: "Regular"
+        font.family: fontRobotoRegular.name
         font.pixelSize: 14 * pt
         color: parent.popup.visible ? "#332F49" : "#FFFFFF"
         verticalAlignment: Text.AlignTop

@@ -2,63 +2,79 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.3
 
 Rectangle {
 
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1
-        color: "#F2F2F4"
+        color: "transparent"
 
-        DapUiQmlWidgetStatusBarComboBoxWallet {
-            id: comboboxWallet
+        Row {
+            anchors.top: parent.top
             anchors.left: parent.left
-            anchors.top: parent.top
             anchors.bottom: parent.bottom
+            anchors.right: buttonAddWallet.left
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            listToken: comboboxToken
-        }
+            spacing: 10 * pt
 
-        DapUiQmlWidgetStatusBarComboBoxToken {
-            id: comboboxToken
-            anchors.top: parent.top
-            anchors.left: comboboxWallet.right
-            anchors.bottom: parent.bottom
-            anchors.leftMargin: 30 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
-            fieldBalance: fieldWalletBalance
-        }
+            Label {
+                text: qsTr("Wallet")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                verticalAlignment: Qt.AlignVCenter
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 12 * pt
+                color: "#A7A7A7"
+            }
 
-        Label {
-            id: titleWalletBalance
-            anchors.top: parent.top
-            anchors.left: comboboxToken.right
-            anchors.bottom: parent.bottom
-            anchors.leftMargin: 40 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
-            verticalAlignment: Qt.AlignVCenter
-            text: "Wallet balance:"
-            font.family: "Regular"
-            font.pixelSize: 12 * pt
-            color: "#A7A7A7"
-        }
+            DapUiQmlWidgetStatusBarComboBoxWallet {
+                id: comboboxWallet
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                listToken: comboboxToken
+            }
 
-        Label {
-            id: fieldWalletBalance
-            anchors.top: parent.top
-            anchors.left: titleWalletBalance.right
-            anchors.bottom: parent.bottom
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
-            verticalAlignment: Qt.AlignVCenter
-            font.family: "Regular"
-            font.pixelSize: 16 * pt
-            color: "#797979"
+            Label {
+                text: qsTr("Token")
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                verticalAlignment: Qt.AlignVCenter
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 12 * pt
+                color: "#A7A7A7"
+            }
+
+            DapUiQmlWidgetStatusBarComboBoxToken {
+                id: comboboxToken
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                fieldBalance: fieldWalletBalance
+            }
+
+            Label {
+                id: titleWalletBalance
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                verticalAlignment: Qt.AlignVCenter
+                text: qsTr("Wallet balance:")
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 12 * pt
+                color: "#A7A7A7"
+            }
+
+            Label {
+                id: fieldWalletBalance
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                verticalAlignment: Qt.AlignVCenter
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 16 * pt
+                color: "#FFFFFF"
+            }
         }
 
         DapUiQmlScreenDialogAddWallet
@@ -67,6 +83,7 @@ Rectangle {
         }
 
         DapUiQmlWidgetStatusBarButton {
+            id: buttonAddWallet
             width: 130 * pt
             anchors.right: parent.right
             anchors.top: parent.top

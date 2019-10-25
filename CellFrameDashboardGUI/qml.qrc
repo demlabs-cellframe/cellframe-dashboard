@@ -60,6 +60,16 @@
         <file>DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
         <file>DapUiQmlWidgetConsole.qml</file>
         <file>DapUiQmlWidgetConsoleForm.ui.qml</file>
+        <file>Resources/Icons/icon_console.png</file>
+        <file>Resources/Icons/icon_console_hover.png</file>
+        <file>Resources/Icons/icon_dashboard.png</file>
+        <file>Resources/Icons/icon_dashboard_hover.png</file>
+        <file>Resources/Icons/icon_exchange.png</file>
+        <file>Resources/Icons/icon_exchange_hover.png</file>
+        <file>Resources/Icons/icon_history.png</file>
+        <file>Resources/Icons/icon_history_hover.png</file>
+        <file>Resources/Icons/icon_logs.png</file>
+        <file>Resources/Icons/icon_logs_hover.png</file>
         <file>Resources/Icons/ic_arrow_drop_down.png</file>
         <file>Resources/Icons/ic_arrow_drop_up.png</file>
         <file>DapUiQmlWidgetStatusBar.qml</file>
@@ -75,6 +85,14 @@
         <file>DapUiQmlWidgetStatusBarComboBoxWalletForm.ui.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBoxToken.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBoxTokenForm.ui.qml</file>
+        <file>Resources/Icons/icon_settings.png</file>
+        <file>Resources/Icons/icon_settings_hover.png</file>
+        <file>DapUiQmlScreenVpn.qml</file>
+        <file>DapUiQmlScreenVpnForm.ui.qml</file>
+        <file>DapUiQmlWidgetSettingsVpn.qml</file>
+        <file>DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
+        <file>DapUiQmlWidgetSettingsVpnComboBox.qml</file>
+        <file>DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBoxDelegate.qml</file>
     </qresource>
 </RCC>
