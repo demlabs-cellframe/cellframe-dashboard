@@ -24,12 +24,13 @@ ComboBox {
     contentItem: Text {
         anchors.fill: parent
         anchors.leftMargin: 12 * pt
-        anchors.rightMargin: 52 * pt
+        anchors.rightMargin: 48 * pt
+        anchors.topMargin: 10 * pt
         text: parent.displayText
-        font.family: "Regular"
+        font.family: fontRobotoRegular.name
         font.pixelSize: 14 * pt
-        color: "#A7A7A7"
-        verticalAlignment: Text.AlignVCenter
+        color: parent.popup.visible ? "#332F49" : "#FFFFFF"
+        verticalAlignment: Text.AlignTop
         elide: Text.ElideRight
     }
 
@@ -59,7 +60,7 @@ ComboBox {
             DropShadow {
                 anchors.fill: parent
                 source: contentCorner
-                verticalOffset: 4 * pt
+                verticalOffset: 9 * pt
                 samples: 13 * pt
                 color: "#40000000"
             }
@@ -69,7 +70,7 @@ ComboBox {
     DropShadow {
         anchors.fill: parent
         source: background
-        verticalOffset: 4 * pt
+        verticalOffset: 9 * pt
         samples: 13 * pt
         color: "#40000000"
     }

@@ -22,7 +22,7 @@ Page {
     DapUiQmlWidgetStatusBar
     {
         id: rectangleStatusBar
-        anchors.left: parent.left
+        anchors.left: rectangleTabsBorder.right
         anchors.top: parent.top
         anchors.right: parent.right
         color: "#070023"
@@ -32,7 +32,7 @@ Page {
     Rectangle
     {
         id: rectangleTabsBorder
-        anchors.top: rectangleStatusBar.bottom
+        anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         color: "#070023"
@@ -41,6 +41,7 @@ Page {
         ListView {
             id: listViewTabs
             anchors.fill: parent
+            anchors.topMargin: 60 * pt
             model: listModelTabs
             spacing: 3
 

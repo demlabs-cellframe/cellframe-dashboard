@@ -93,5 +93,6 @@
         <file>DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
         <file>DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
+        <file>DapUiQmlWidgetStatusBarComboBoxDelegate.qml</file>
     </qresource>
 </RCC>
