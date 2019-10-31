@@ -58,6 +58,10 @@ Page {
                    }
        }
 
+    Loader {
+        id: mySecondLoader
+    }
+
     DapUiQmlWidgetLastActions {
         viewModel: dapHistoryModel
         viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}

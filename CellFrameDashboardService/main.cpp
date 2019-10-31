@@ -11,6 +11,10 @@
 #include "DapChainLogHandler.h"
 #include "DapSettings.h"
 
+#ifdef Q_OS_ANDROID
+#include <QAndroidService>
+#endif
+
 void processArgs();
 
 int main(int argc, char *argv[])
@@ -29,7 +33,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
+#ifdef Q_OS_ANDROID
+#include <QAndroidService>
+
+    QAndroidService a(argc, argv);
+#elif
     QCoreApplication a(argc, argv);
+#endif
     a.setOrganizationName("DEMLABS");
     a.setOrganizationDomain("demlabs.net");
     a.setApplicationName("CellFrameDashboardService");

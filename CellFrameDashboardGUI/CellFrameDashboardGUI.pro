@@ -123,3 +123,24 @@ unix: !mac : !android {
 #DISTFILES += \
 #    DapUiQmlScreenSettings.qml \
 #    DapUiQmlScreenSettingsForm.ui.qml
+
+android {
+QT += androidextras
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml \
+    android/src/com/demlabs/dap/CellframeMainActivity.java \
+    android/src/com/demlabs/dap/CellframeService.java
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    ANDROID_PACKAGE_SOURCE_DIR = \
+        $$PWD/android
+}
+
+}

@@ -64,6 +64,7 @@ Rectangle {
         DapUiQmlScreenDialogAddWallet
         {
             id: dialogAddWallet
+
         }
 
         DapUiQmlWidgetStatusBarButton {
