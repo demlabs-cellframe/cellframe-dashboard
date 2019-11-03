@@ -9,7 +9,7 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     connect(m_pDapChainLogHandler, SIGNAL(onChangedLog()), SLOT(changedLogModel()));
     m_pDapChainWalletHandler = new DapChainWalletHandler(this);
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
-        qDebug() << "New client";
+        qDebug() << "Frontend connected";
     });
 
     m_pDapChainNodeHandler = new DapChainNodeNetworkHandler(this);
@@ -29,8 +29,8 @@ bool DapChainDashboardService::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     
-    m_pSocketService = new DapUiSocketServer();
     m_pServer = new DapUiService();
+    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption	);
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));

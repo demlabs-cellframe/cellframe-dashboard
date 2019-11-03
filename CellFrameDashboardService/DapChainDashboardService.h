@@ -32,7 +32,6 @@
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
-typedef class QLocalServer DapUiSocketServer;
 
 /**
  * @brief The DapChainDashboardService class
@@ -53,8 +52,6 @@ class DapChainDashboardService : public DapRpcService
     Q_CLASSINFO("serviceName", "RPCServer")
     /// Service core.
     DapUiService            * m_pServer {nullptr};
-    /// Socket of client connection with the service.
-    DapUiSocketServer       * m_pSocketService {nullptr};
     /// Recipient logs information
     DapChainLogHandler            * m_pDapChainLogHandler {nullptr};
     /// Recipient wallet information
