@@ -10,9 +10,6 @@ Component {
         height: 50 * pt
         color: "transparent"
 
-        border.color: "#C2CAD1"
-        border.width: 1 * pt
-
         Rectangle {
             id: dapData
             width: childrenRect.width
@@ -29,15 +26,15 @@ Component {
 
                 Text {
                     text: tokenName
-                    color: "#5F5F63"
-                    font.family: "Roboto Regular"
+                    color: "#3E3853"
+                    font.family: fontRobotoRegular.name
                     font.pixelSize: 14 * pt
                 }
 
                 Text {
                     text: txStatus
-                    color: "#A7A7A7"
-                    font.family: "Roboto"
+                    color: "#757184"
+                    font.family: fontRobotoRegular.name
                     font.pixelSize: 12 * pt
                 }
             }
@@ -52,17 +49,18 @@ Component {
 
             horizontalAlignment: Qt.AlignRight
             verticalAlignment: Qt.AlignVCenter
-            color: "#505559"
+            color: "#3E3853"
             text: cryptocurrency;
-            font.family: "Roboto"
-            font.pixelSize: 14 * pt
+            font.family: fontRobotoRegular.name
+            font.pixelSize: 12 * pt
         }
 
         Rectangle {
             width: parent.width
-            height: 1 * pt
-            color: "#C7C9CC"
+            height: 1
+            color: "#E3E2E6"
             anchors.bottom: parent.bottom
         }
     }
+
 }

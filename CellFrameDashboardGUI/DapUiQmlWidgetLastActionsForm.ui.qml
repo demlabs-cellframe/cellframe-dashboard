@@ -2,13 +2,17 @@ import QtQuick 2.4
 
 Rectangle {
     width: 400 * pt
-    border.color: "#B5B5B5"
-    border.width: 1 * pt
-    color: "#EDEFF2"
-
+    color: "#E3E2E6"
     anchors {
         top: parent.top
         right: parent.right
         bottom: parent.bottom
     }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "#F8F7FA"
+        anchors.leftMargin: 1
+    }
+
 }

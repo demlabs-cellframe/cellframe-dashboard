@@ -4,15 +4,21 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
 
 Rectangle {
-    color: "#EDEFF2"
+    color: "#757184"
 
-    Text {
+    Rectangle {
         anchors.fill: parent
-        anchors.leftMargin: 16 * pt
-        text: qsTr("Last actions")
-        verticalAlignment: Qt.AlignVCenter
-        font.family: "Roboto"
-        font.pixelSize: 12 * pt
-        color: "#5F5F63"
+        anchors.bottomMargin: 1
+        color: "#F8F7FA"
+
+        Text {
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            text: qsTr("Last actions")
+            verticalAlignment: Qt.AlignVCenter
+            font.family: fontRobotoRegular.name
+            font.pixelSize: 12 * pt
+            color: "#3E3853"
+        }
     }
 }
