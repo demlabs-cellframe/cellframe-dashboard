@@ -35,23 +35,6 @@ Rectangle {
                 id: comboboxWallet
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                listToken: comboboxToken
-            }
-
-            Label {
-                text: qsTr("Token")
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                verticalAlignment: Qt.AlignVCenter
-                font.family: fontRobotoRegular.name
-                font.pixelSize: 12 * pt
-                color: "#A7A7A7"
-            }
-
-            DapUiQmlWidgetStatusBarComboBoxToken {
-                id: comboboxToken
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
                 fieldBalance: fieldWalletBalance
             }
 

@@ -1,5 +1,110 @@
 #include "DapChainWallet.h"
 
+DapChainWalletTokenItem::DapChainWalletTokenItem(QObject* parent) : QObject(parent)
+{
+
+}
+
+DapChainWalletTokenItem::DapChainWalletTokenItem(const DapChainWalletTokenData& aData, QObject* parent) :
+    QObject(parent),
+    m_name(aData.Name),
+    m_network(aData.Network),
+    m_balance(aData.Balance),
+    m_emission(aData.Emission)
+{
+}
+
+QString DapChainWalletTokenItem::name() const
+{
+    return m_name;
+}
+
+QString DapChainWalletTokenItem::network() const
+{
+    return m_network;
+}
+
+float DapChainWalletTokenItem::balance() const
+{
+    return m_balance;
+}
+
+int DapChainWalletTokenItem::emission() const
+{
+    return m_emission;
+}
+
+void DapChainWalletTokenItem::setName(const QString& aName)
+{
+    if (m_name == aName) return;
+    m_name = aName;
+    emit nameChanged(aName);
+}
+
+void DapChainWalletTokenItem::setNetwork(const QString& aNetwork)
+{
+    if (m_network == aNetwork)
+        return;
+
+    m_network = aNetwork;
+    emit networkChanged(m_network);
+}
+
+void DapChainWalletTokenItem::setBalance(const float aBalance)
+{
+    qWarning("Floating point comparison needs context sanity check");
+    if (qFuzzyCompare(m_balance, aBalance))
+        return;
+
+    m_balance = aBalance;
+    emit balanceChanged(m_balance);
+}
+
+void DapChainWalletTokenItem::setEmission(const int aEmission)
+{
+    if (m_emission == aEmission)
+        return;
+
+    m_emission = aEmission;
+    emit emissionChanged(m_emission);
+}
+
+void DapChainWalletTokenItem::setData(const DapChainWalletTokenData& aData)
+{
+    setName(aData.Name);
+    setNetwork(aData.Network);
+    setBalance(aData.Balance);
+    setEmission(aData.Emission);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 DapChainWallet::DapChainWallet(const QString &asIconPath, const QString &asName, const QString &asAddress, const QStringList &aBalance, const QStringList &aTokens, QObject *parent)
     : QObject(parent), m_sIconPath(asIconPath), m_sName(asName), m_sAddress(asAddress), m_balance(aBalance), m_tokens(aTokens)
 {
@@ -76,3 +181,5 @@ int DapChainWallet::getCount() const
 {
     return m_tokens.count();
 }
+
+
