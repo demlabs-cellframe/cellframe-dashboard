@@ -39,6 +39,9 @@ int main(int argc, char *argv[])
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
         dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Service.log").arg(DAP_BRAND));
+    #elif defined Q_OS_WIN
+        dapLogger.setLogFile(QString("%1Service.log").arg(DAP_BRAND));
+        dapLogger.setLogLevel(L_INFO);
     #endif
 //#endif
     // Creating the main application object

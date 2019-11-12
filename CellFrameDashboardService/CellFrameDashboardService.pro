@@ -19,6 +19,7 @@ VER_PAT = 4
 ICON = icon.ico
 
 win32 {
+    CONFIG -= console
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
     DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"

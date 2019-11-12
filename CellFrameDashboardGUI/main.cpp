@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
         dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Gui.log").arg(DAP_BRAND));
+    #elif defined Q_OS_WIN
     #endif
 //#endif
 
