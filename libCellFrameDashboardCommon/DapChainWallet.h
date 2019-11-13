@@ -44,8 +44,8 @@ struct DapChainWalletData
 struct DapChainWalletTokenData {
     QString Name;
     QString Network;
-    float Balance;
-    int Emission;
+    double Balance;
+    quint64 Emission;
 
     friend QDataStream& operator << (QDataStream& aOut, const DapChainWalletTokenData& aData)
     {
@@ -85,14 +85,14 @@ class DapChainWalletTokenItem : public QObject
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QString network READ network WRITE setNetwork NOTIFY networkChanged)
-    Q_PROPERTY(float balance READ balance WRITE setBalance NOTIFY balanceChanged)
-    Q_PROPERTY(int emission READ emission WRITE setEmission NOTIFY emissionChanged)
+    Q_PROPERTY(double balance READ balance WRITE setBalance NOTIFY balanceChanged)
+    Q_PROPERTY(quint64 emission READ emission WRITE setEmission NOTIFY emissionChanged)
 
 private:
     QString m_name;
     QString m_network;
-    float m_balance;
-    int m_emission;
+    double m_balance;
+    quint64 m_emission;
 
 public:
     explicit DapChainWalletTokenItem(QObject *parent = nullptr);
@@ -100,25 +100,26 @@ public:
 
     QString name() const;
     QString network() const;
-    float balance() const;
-    int emission() const;
+    double balance() const;
+    quint64 emission() const;
 
 public slots:
     void setName(const QString& aName);
     void setNetwork(const QString& aNetwork);
-    void setBalance(const float aBalance);
-    void setEmission(const int aEmission);
+    void setBalance(const double aBalance);
+    void setEmission(const quint64 aEmission);
     void setData(const DapChainWalletTokenData& aData);
 
 signals:
     void nameChanged(QString name);
     void networkChanged(QString network);
-    void balanceChanged(float balance);
-    void emissionChanged(int emission);
+    void balanceChanged(double balance);
+    void emissionChanged(quint64 emission);
 };
 
-typedef QList<DapChainWalletTokenItem*> DapChainWalletTokenList;
-typedef QPair<DapChainWalletData, DapChainWalletTokenList> DapChainWalletPair;
+typedef QList<DapChainWalletTokenItem*> DapChainWalletTokenItemList;
+typedef QList<DapChainWalletTokenData> DapChainWalletTokenList;
+typedef QPair<DapChainWalletData, DapChainWalletTokenItemList> DapChainWalletPair;
 
 
 

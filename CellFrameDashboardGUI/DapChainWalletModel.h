@@ -2,13 +2,14 @@
 #define DAPCHAINWALLETMODEL_H
 
 #include <QAbstractListModel>
+#include <QDebug>
 #include "DapChainWallet.h"
 
 class DapChainWalletModel : public QAbstractListModel
 {
     Q_OBJECT
 
-    Q_PROPERTY(float walletBalance READ walletBalance NOTIFY walletBalanceChanged)
+    Q_PROPERTY(double walletBalance READ walletBalance NOTIFY walletBalanceChanged)
 
 public:
     enum {
@@ -21,7 +22,7 @@ public:
 
 private:
     QString m_currentWallet;
-    float m_walletBalance;
+    double m_walletBalance;
     QList<DapChainWalletPair> m_walletList;
 
 public:
@@ -35,17 +36,21 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
-    float walletBalance(const QString& aAddress) const;
+    double walletBalance(const QString& aAddress) const;
+
+    Q_INVOKABLE double walletBalance(const int aWalletIndex) const;
 
     QList<QObject*> tokeListByWallet(const QString& aWalletAddress, const QString& aNetwork = QString()) const;
 
-    float walletBalance() const;
+    double walletBalance() const;
 
 public slots:
 
-    void setCurrentWallet(const QString& aWallet);
+    Q_INVOKABLE void setCurrentWallet(const QString& aWalletAddress);
 
-    void setWalletData(const QList<DapChainWalletPair>& aData);
+    Q_INVOKABLE void setCurrentWallet(const int aWalletIndex);
+
+    void setWalletData(const QByteArray& aData);
 
     void appendWallet(const DapChainWalletData& aWallet);
 
@@ -56,7 +61,9 @@ public slots:
     void removeWallet(const int aWalletIndex);
 
 signals:
-    void walletBalanceChanged(float walletBalance);
+    void walletBalanceChanged(double walletBalance);
+    void sigAppendWallet(QString name);
+    void sigRemoveWallet(QString address);
 };
 
 #endif // DAPCHAINWALLETMODEL_H

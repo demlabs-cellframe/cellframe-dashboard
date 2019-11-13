@@ -24,12 +24,12 @@ QString DapChainWalletTokenItem::network() const
     return m_network;
 }
 
-float DapChainWalletTokenItem::balance() const
+double DapChainWalletTokenItem::balance() const
 {
     return m_balance;
 }
 
-int DapChainWalletTokenItem::emission() const
+quint64 DapChainWalletTokenItem::emission() const
 {
     return m_emission;
 }
@@ -50,7 +50,7 @@ void DapChainWalletTokenItem::setNetwork(const QString& aNetwork)
     emit networkChanged(m_network);
 }
 
-void DapChainWalletTokenItem::setBalance(const float aBalance)
+void DapChainWalletTokenItem::setBalance(const double aBalance)
 {
     qWarning("Floating point comparison needs context sanity check");
     if (qFuzzyCompare(m_balance, aBalance))
@@ -60,7 +60,7 @@ void DapChainWalletTokenItem::setBalance(const float aBalance)
     emit balanceChanged(m_balance);
 }
 
-void DapChainWalletTokenItem::setEmission(const int aEmission)
+void DapChainWalletTokenItem::setEmission(const quint64 aEmission)
 {
     if (m_emission == aEmission)
         return;

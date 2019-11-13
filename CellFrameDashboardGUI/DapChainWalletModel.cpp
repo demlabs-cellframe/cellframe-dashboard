@@ -3,6 +3,7 @@
 DapChainWalletModel::DapChainWalletModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+    m_currentWallet = "private";
 }
 
 DapChainWalletModel& DapChainWalletModel::instance()
@@ -44,14 +45,14 @@ QHash<int, QByteArray> DapChainWalletModel::roleNames() const
     return roles;
 }
 
-float DapChainWalletModel::walletBalance(const QString& aAddress) const
+double DapChainWalletModel::walletBalance(const QString& aAddress) const
 {
-    float balance = 0.0;
+    double balance = 0.0;
     for(int i = 0; i < m_walletList.count(); i++)
     {
         if(m_walletList[i].first.Address == aAddress)
         {
-            DapChainWalletTokenList tokenList = m_walletList[i].second;
+            DapChainWalletTokenItemList tokenList = m_walletList[i].second;
             for(int m = 0; m < tokenList.count(); m++)
             {
                 balance += tokenList[i]->balance();
@@ -64,6 +65,12 @@ float DapChainWalletModel::walletBalance(const QString& aAddress) const
     return balance;
 }
 
+double DapChainWalletModel::walletBalance(const int aWalletIndex) const
+{
+    QString address = m_walletList[aWalletIndex].first.Address;
+    return walletBalance(address);
+}
+
 QList<QObject*> DapChainWalletModel::tokeListByWallet(const QString& aWalletAddress, const QString& aNetwork) const
 {
     QList<QObject*> tokenList;
@@ -71,7 +78,7 @@ QList<QObject*> DapChainWalletModel::tokeListByWallet(const QString& aWalletAddr
     {
         if(m_walletList.at(i).first.Address == aWalletAddress)
         {
-            DapChainWalletTokenList mTokenList = m_walletList.at(i).second;
+            DapChainWalletTokenItemList mTokenList = m_walletList.at(i).second;
             for(int m = 0; m < mTokenList.count(); m++)
             {
                 if(aNetwork.isEmpty() || aNetwork == mTokenList[m]->network())
@@ -83,33 +90,51 @@ QList<QObject*> DapChainWalletModel::tokeListByWallet(const QString& aWalletAddr
     return tokenList;
 }
 
-float DapChainWalletModel::walletBalance() const
+double DapChainWalletModel::walletBalance() const
 {
     return m_walletBalance;
 }
 
-void DapChainWalletModel::setCurrentWallet(const QString& aWallet)
+void DapChainWalletModel::setCurrentWallet(const QString& aWalletAddress)
 {
-    if(aWallet == m_currentWallet) return;
+    if(aWalletAddress == m_currentWallet) return;
     beginResetModel();
-    m_currentWallet = aWallet;
-    m_walletBalance = walletBalance(aWallet);
+    m_currentWallet = aWalletAddress;
+    m_walletBalance = walletBalance(aWalletAddress);
     endResetModel();
 
     emit walletBalanceChanged(m_walletBalance);
 }
 
-void DapChainWalletModel::setWalletData(const QList<DapChainWalletPair>& aData)
+void DapChainWalletModel::setCurrentWallet(const int aWalletIndex)
 {
-    if(aData == m_walletList) return;
+    QString address = m_walletList[aWalletIndex].first.Address;
+    setCurrentWallet(address);
+}
+
+void DapChainWalletModel::setWalletData(const QByteArray& aData)
+{
     beginResetModel();
-    m_walletList = aData;
+    m_walletList.clear();
+    QList<QPair<DapChainWalletData, QList<DapChainWalletTokenData>>> walletData;
+    QDataStream in(aData);
+    in >> walletData;
+
+    for(int i = 0; i < walletData.count(); i++)
+    {
+        DapChainWalletPair walletPair(walletData[i].first, DapChainWalletTokenItemList());
+        QList<DapChainWalletTokenData> tokeData = walletData[i].second;
+
+        for(int m = 0; m < tokeData.count(); m++)
+            walletPair.second.append(new DapChainWalletTokenItem(tokeData[m], this));
+        m_walletList.append(walletPair);
+    }
     endResetModel();
 }
 
 void DapChainWalletModel::appendWallet(const DapChainWalletData& aWallet)
 {
-    m_walletList.append(DapChainWalletPair(aWallet, DapChainWalletTokenList()));
+    m_walletList.append(DapChainWalletPair(aWallet, DapChainWalletTokenItemList()));
     int lastIndex = m_walletList.count() - 1;
     beginInsertRows(QModelIndex(), lastIndex, lastIndex);
     endInsertRows();

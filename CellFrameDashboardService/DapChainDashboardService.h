@@ -134,12 +134,18 @@ public slots:
     /// @return history of last 50 commands
     QString getCmdHistory() const;
 
+    bool appendWallet(const QString& aWalletName) const;
+
+    QByteArray walletData() const;
+
 private slots:
     /// Request new history request by handle wallet's name
     void doRequestWallets();
     /// Send new history transaction to client
     /// @param New history transaction
     void doSendNewHistory(const QVariant& aData);
+
+    void doSendNewWalletData(const QByteArray& aData);
 };
 
 #endif // DAPCHAINDASHBOARDSERVICE_H
