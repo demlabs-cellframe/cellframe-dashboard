@@ -48,6 +48,42 @@ Page {
             }
         }
     }
+
+    Button {
+        id: newPaymentButton
+        x: 250
+        y: 61
+        width: 140
+        height: 36
+        background: Rectangle {
+            anchors.fill: parent
+            color: "#E3E5E8"
+            border.color: "#5F5F63"
+            border.width: 1 * pt
+        }
+
+        Image {
+            id: iconImage
+            width: 24
+            height: 24
+            anchors.left: parent.left
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+
+            source: "file"
+        }
+
+        Text {
+            id: newPaymentText
+            text: qsTr("New payment")
+            anchors.left: iconImage.right
+            anchors.leftMargin: 6
+            anchors.verticalCenterOffset: 0
+            anchors.verticalCenter: parent.verticalCenter
+            color: "#505559"
+            font.pointSize: 12 * pt
+        }
+    }
     
     RoundButton {
            text: qsTr("+")
@@ -92,6 +128,11 @@ Page {
         }
 
         Connections {
+            target: newPaymentButton
+            onClicked: rightPanelLoader.source = "DapUiQmlNewPaymentForm.ui.qml"
+        }
+
+        Connections {
             target: rightPanelLoader.item
             onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
             onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
@@ -113,6 +154,6 @@ Page {
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}
+    D{i:0;autoSize:true;height:480;width:640}D{i:11;anchors_x:43}
 }
 ##^##*/
