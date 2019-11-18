@@ -94,5 +94,14 @@
         <file>DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBoxDelegate.qml</file>
+        <file>DapUiQmlScreenDialogAddWalletForm.ui.qml</file>
+        <file>DapUiQmlWidgetSignatureTypeComboBox.qml</file>
+        <file>DapUiQmlRecoveryQrForm.ui.qml</file>
+        <file>DapUiQmlRecoveryNotesForm.ui.qml</file>
+        <file>DapUiQmlWalletCreatedForm.ui.qml</file>
+        <file>Resources/Icons/back_icon.png</file>
+        <file>Resources/Icons/back_icon_hover.png</file>
+        <file>Resources/Icons/close_icon.png</file>
+        <file>Resources/Icons/close_icon_hover.png</file>
     </qresource>
 </RCC>
