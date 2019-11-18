@@ -4,9 +4,14 @@ import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
 ComboBox {
+    property alias headerTextColor: headerText.color
+    property alias widthArrow: arrow.width
+    property alias heightArrow: arrow.height
+
     id: customComboBox
     width: 190 * pt
     indicator: Image {
+        id: arrow
         source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/ic_arrow_drop_down.png"
         width: 24 * pt
         height: 24 * pt
@@ -22,6 +27,7 @@ ComboBox {
     }
 
     contentItem: Text {
+        id: headerText
         anchors.fill: parent
         anchors.leftMargin: 12 * pt
         anchors.rightMargin: 48 * pt

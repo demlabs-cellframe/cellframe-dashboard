@@ -3,6 +3,8 @@ import QtQuick.Controls 2.2
 import CellFrameDashboard 1.0
 
 Page {
+    property alias rightPanelLoaderSource: rightPanelLoader.source
+
     id: dapUiQmlScreenDialog
     title: qsTr("Dashboard")
     anchors.fill: parent
@@ -58,14 +60,59 @@ Page {
                    }
        }
 
-    DapUiQmlWidgetLastActions {
-        viewModel: dapHistoryModel
-        viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
-        viewSection.property: "date"
-        viewSection.criteria: ViewSection.FullString
-        viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
-            width:  parent.width
-            height: 30 * pt
+//    DapUiQmlWidgetLastActions {
+//        id: lastActionsHistory
+//        viewModel: dapHistoryModel
+//        viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
+//        viewSection.property: "date"
+//        viewSection.criteria: ViewSection.FullString
+//        viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
+//            width:  parent.width
+//            height: 30 * pt
+//        }
+//    }
+
+    Rectangle {
+        id: rightPanel
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        anchors.right: parent.right
+        width: 400 * pt
+
+        Loader {
+            id: rightPanelLoader
+            clip: true
+            anchors.fill: parent
+            source: "DapUiQmlWidgetLastActions.qml"
+        }
+
+        Connections {
+            target: rectangleStatusBar
+            onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+        }
+
+        Connections {
+            target: rightPanelLoader.item
+            onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+            onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+            onPressedNextButtonChanged: {
+                if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
+                else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
+                else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
+                else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+            }
+            onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+            onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
         }
     }
 }
+
+
+
+
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
