@@ -103,5 +103,8 @@
         <file>Resources/Icons/back_icon_hover.png</file>
         <file>Resources/Icons/close_icon.png</file>
         <file>Resources/Icons/close_icon_hover.png</file>
+        <file>Resources/Icons/ic_close.png</file>
+        <file>Resources/Icons/ic_close_hover.png</file>
+        <file>DapUiQmlNewPaymentForm.ui.qml</file>
     </qresource>
 </RCC>
