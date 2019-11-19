@@ -44,6 +44,8 @@ public:
 
     Q_INVOKABLE QList<QObject*> tokeListByWallet(const QString& aWalletAddress, const QString& aNetwork = QString()) const;
 
+    QList<QObject*> tokeListByIndex(const int aIndex) const;
+
     double walletBalance() const;
 
     QList<QObject*> tokenList() const;

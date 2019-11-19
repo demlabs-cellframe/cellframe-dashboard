@@ -11,8 +11,6 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
         qDebug() << "Frontend connected";
     });
 
-    m_pDapChainWalletHandler = new DapChainWalletHandler(this);
-    QObject::connect(m_pDapChainWalletHandler, &DapChainWalletHandler::walletDataChanged, this, &DapChainDashboardService::doSendNewWalletData);
 
     m_pDapChainNodeHandler = new DapChainNodeNetworkHandler(this);
 
@@ -24,6 +22,9 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 
     m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
 
+    m_pDapChainWalletHandler = new DapChainWalletHandler(this);
+    QObject::connect(m_pDapChainWalletHandler, &DapChainWalletHandler::walletDataChanged, this, &DapChainDashboardService::doSendNewWalletData);
+    m_pDapChainWalletHandler->setNetworkList(m_pDapChainNetworkHandler->getNetworkList());
 
 }
 

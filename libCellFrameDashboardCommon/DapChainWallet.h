@@ -41,7 +41,10 @@ struct DapChainWalletData
     }
 
     bool operator == (const DapChainWalletData& aData) const {
-        return Address == aData.Address;
+        return  IconPath == aData.IconPath &&
+                Name == aData.Name &&
+                Address == aData.Address &&
+                Network == aData.Network;
     }
 };
 

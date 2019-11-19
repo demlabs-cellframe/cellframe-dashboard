@@ -8,8 +8,6 @@ DapChainWalletHandler::DapChainWalletHandler(QObject *parent) : QObject(parent)
     QObject::connect(m_timeout, &QTimer::timeout, this, &DapChainWalletHandler::onReadWallet);
     m_timeout->setInterval(5000);
     m_timeout->start();
-
-    m_networkList << "private";
 }
 
 bool DapChainWalletHandler::appendWallet(const QString& aWalletName)

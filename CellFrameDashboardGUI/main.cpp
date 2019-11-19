@@ -28,6 +28,7 @@
 #include "DapChainConvertor.h"
 
 #include "DapChainWalletModel.h"
+#include "DapWalletFilterModel.h"
 
 #include <QRegExp>
 
@@ -67,6 +68,9 @@ int main(int argc, char *argv[])
     DapScreenHistoryFilterModel::getInstance()
             .setSourceModel(&DapScreenHistoryModel::getInstance());
 
+    DapWalletFilterModel::instance()
+            .setSourceModel(&DapChainWalletModel::instance());
+
     qmlRegisterType<DapScreenDialog>("CellFrameDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("CellFrameDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
@@ -86,7 +90,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
     engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainConvertor", &DapChainConvertor::getInstance());
-    engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
+    engine.rootContext()->setContextProperty("dapWalletModel", &DapWalletFilterModel::instance());
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

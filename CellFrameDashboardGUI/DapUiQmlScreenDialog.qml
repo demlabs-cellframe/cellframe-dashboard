@@ -72,6 +72,8 @@ Page {
                     height: contentItem.height
                     leftMargin: 16 * pt
                     interactive: false
+
+                    model: walletTokenListDisplayRole
                     section.property: "modelData.wallet"
                     section.delegate: Component{
                         Rectangle {
@@ -108,13 +110,11 @@ Page {
                         }
                     }
 
-
-                    model: walletTokenListDisplayRole
                     delegate: Component
                     {
 
                         Rectangle {
-                            width: parent.width
+                            width: parent.width - 16 * pt
                             height: 62 * pt
                             color: "#E3E2E6"
 
@@ -122,38 +122,42 @@ Page {
                                 anchors.fill: parent
                                 anchors.topMargin: 1
 
-                                RowLayout {
+                                Row {
                                     anchors.fill: parent
-                                    alignment: Qt.AlignLeft
                                     spacing: 16 * pt
 
                                     Label {
+                                        anchors.left: parent.left
                                         verticalAlignment: Qt.AlignVCenter
-                                        background: Rectangle {
-                                            border.width: 1
-                                            border.color: "#000000"
-                                        }
-
+                                        height: parent.height
+                                        font.family: fontRobotoRegular.name
+                                        font.pixelSize: 18 * pt
+                                        color: "#070023"
                                         text: model.modelData.name
                                     }
 
                                     Label {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        width: 300
+                                        height: parent.height
                                         verticalAlignment: Qt.AlignVCenter
-                                        text: model.modelData.balance
-                                        background: Rectangle {
-                                            border.width: 1
-                                            border.color: "#000000"
-                                        }
+                                        font.family: fontRobotoRegular.name
+                                        font.pixelSize: 12 * pt
+                                        color: "#070023"
+                                        text: model.modelData.balance + " " + model.modelData.name
                                     }
 
                                     Label {
+                                        anchors.right: parent.right
+                                        height: parent.height
                                         verticalAlignment: Qt.AlignVCenter
-                                        text: model.modelData.balance
-                                        background: Rectangle {
-                                            border.width: 1
-                                            border.color: "#000000"
-                                        }
+                                        horizontalAlignment: Qt.AlignRight
+                                        font.family: fontRobotoRegular.name
+                                        font.pixelSize: 12 * pt
+                                        color: "#757184"
+                                        text: "$ " + model.modelData.balance + " USD"
                                     }
+
                                 }
 
                             }
