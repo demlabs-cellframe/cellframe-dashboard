@@ -1,14 +1,16 @@
 #include "DapChainWallet.h"
 
-DapChainWalletTokenItem::DapChainWalletTokenItem(QObject* parent) : QObject(parent)
+DapChainWalletTokenItem::DapChainWalletTokenItem(const QString& aWalletAddress, QObject* parent) :
+    QObject(parent),
+    m_wallet(aWalletAddress)
 {
 
 }
 
-DapChainWalletTokenItem::DapChainWalletTokenItem(const DapChainWalletTokenData& aData, QObject* parent) :
+DapChainWalletTokenItem::DapChainWalletTokenItem(const QString& aWalletAddress, const DapChainWalletTokenData& aData, QObject* parent) :
     QObject(parent),
+    m_wallet(aWalletAddress),
     m_name(aData.Name),
-    m_network(aData.Network),
     m_balance(aData.Balance),
     m_emission(aData.Emission)
 {
@@ -17,11 +19,6 @@ DapChainWalletTokenItem::DapChainWalletTokenItem(const DapChainWalletTokenData& 
 QString DapChainWalletTokenItem::name() const
 {
     return m_name;
-}
-
-QString DapChainWalletTokenItem::network() const
-{
-    return m_network;
 }
 
 double DapChainWalletTokenItem::balance() const
@@ -34,20 +31,16 @@ quint64 DapChainWalletTokenItem::emission() const
     return m_emission;
 }
 
+QString DapChainWalletTokenItem::wallet() const
+{
+    return m_wallet;
+}
+
 void DapChainWalletTokenItem::setName(const QString& aName)
 {
     if (m_name == aName) return;
     m_name = aName;
     emit nameChanged(aName);
-}
-
-void DapChainWalletTokenItem::setNetwork(const QString& aNetwork)
-{
-    if (m_network == aNetwork)
-        return;
-
-    m_network = aNetwork;
-    emit networkChanged(m_network);
 }
 
 void DapChainWalletTokenItem::setBalance(const double aBalance)
@@ -72,7 +65,6 @@ void DapChainWalletTokenItem::setEmission(const quint64 aEmission)
 void DapChainWalletTokenItem::setData(const DapChainWalletTokenData& aData)
 {
     setName(aData.Name);
-    setNetwork(aData.Network);
     setBalance(aData.Balance);
     setEmission(aData.Emission);
 }

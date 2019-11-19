@@ -37,19 +37,133 @@ Page {
             }
         }
 
+
         ListView {
             id: listViewToken
             Layout.fillWidth: true
             Layout.fillHeight: true
-
+            model: dapWalletModel
+            section.property: "networkDisplayRole"
+            section.criteria: ViewSection.FullString
             section.delegate: Rectangle {
-                width: listViewToken.width
-                height: 36 * pt
+                width: parent.width
+                height: 30 * pt
+                color: "#908D9D"
 
                 Text {
                     anchors.fill: parent
                     anchors.leftMargin: 16 * pt
+                    font.family: fontRobotoRegular.name
+                    font.pixelSize: 12 * pt
+                    color: "#FFFFFF"
+                    verticalAlignment: Qt.AlignVCenter
+                    text: section
                 }
+            }
+
+
+            clip: true
+
+            delegate: Component {
+
+                ListView
+                {
+                    width: listViewToken.width
+                    height: contentItem.height
+                    leftMargin: 16 * pt
+                    interactive: false
+                    section.property: "modelData.wallet"
+                    section.delegate: Component{
+                        Rectangle {
+                            width: parent.width
+                            height: 36 * pt
+
+                            Row {
+                                anchors.fill: parent
+                                spacing: 36 * pt
+
+                                Text {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    verticalAlignment: Qt.AlignVCenter
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 12 * pt
+                                    color: "#908D9D"
+
+                                    text: "Wallet address:"
+                                }
+
+                                Text {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 180 * pt
+                                    verticalAlignment: Qt.AlignVCenter
+                                    elide: Text.ElideRight
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 10 * pt
+                                    color: "#757184"
+                                    text: section
+                                }
+                            }
+                        }
+                    }
+
+
+                    model: walletTokenListDisplayRole
+                    delegate: Component
+                    {
+
+                        Rectangle {
+                            width: parent.width
+                            height: 62 * pt
+                            color: "#E3E2E6"
+
+                            Rectangle {
+                                anchors.fill: parent
+                                anchors.topMargin: 1
+
+                                RowLayout {
+                                    anchors.fill: parent
+                                    alignment: Qt.AlignLeft
+                                    spacing: 16 * pt
+
+                                    Label {
+                                        verticalAlignment: Qt.AlignVCenter
+                                        background: Rectangle {
+                                            border.width: 1
+                                            border.color: "#000000"
+                                        }
+
+                                        text: model.modelData.name
+                                    }
+
+                                    Label {
+                                        verticalAlignment: Qt.AlignVCenter
+                                        text: model.modelData.balance
+                                        background: Rectangle {
+                                            border.width: 1
+                                            border.color: "#000000"
+                                        }
+                                    }
+
+                                    Label {
+                                        verticalAlignment: Qt.AlignVCenter
+                                        text: model.modelData.balance
+                                        background: Rectangle {
+                                            border.width: 1
+                                            border.color: "#000000"
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+
+
+                }
+
             }
         }
     }

@@ -10,6 +10,7 @@ class DapChainWalletModel : public QAbstractListModel
     Q_OBJECT
 
     Q_PROPERTY(double walletBalance READ walletBalance NOTIFY walletBalanceChanged)
+    Q_PROPERTY(QList<QObject*> tokenList READ tokenList NOTIFY tokenListChanged)
 
 public:
     enum {
@@ -17,13 +18,14 @@ public:
         WalletAddressDisplayRole,
         WalletIconDisplayRole,
         WalletTokenListDisplayRole,
-        TokenListByNetworkDisplayRole
+        NetworkDisplayRole,
     };
 
 private:
     QString m_currentWallet;
     double m_walletBalance;
     QList<DapChainWalletPair> m_walletList;
+    QList<QObject*> m_tokenList;
 
 public:
     explicit DapChainWalletModel(QObject *parent = nullptr);
@@ -40,9 +42,11 @@ public:
 
     Q_INVOKABLE double walletBalance(const int aWalletIndex) const;
 
-    QList<QObject*> tokeListByWallet(const QString& aWalletAddress, const QString& aNetwork = QString()) const;
+    Q_INVOKABLE QList<QObject*> tokeListByWallet(const QString& aWalletAddress, const QString& aNetwork = QString()) const;
 
     double walletBalance() const;
+
+    QList<QObject*> tokenList() const;
 
 public slots:
 
@@ -64,6 +68,7 @@ signals:
     void walletBalanceChanged(double walletBalance);
     void sigAppendWallet(QString name);
     void sigRemoveWallet(QString address);
+    void tokenListChanged(QList<QObject*> tokenList);
 };
 
 #endif // DAPCHAINWALLETMODEL_H

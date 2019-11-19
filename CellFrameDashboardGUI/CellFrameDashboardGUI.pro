@@ -49,6 +49,7 @@ SOURCES += \
     DapScreenHistoryModel.cpp \
     DapSettingsNetworkModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
+    DapWalletFilterModel.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
     DapUiQmlWidgetChainBlockExplorer.cpp \
@@ -103,7 +104,8 @@ HEADERS += \
     DapServiceClientNativeAbstract.h \
     DapServiceClientNativeLinux.h \
     DapServiceClientNativeWin.h \
-    DapChainWalletsModel.h
+    DapChainWalletsModel.h \
+    DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

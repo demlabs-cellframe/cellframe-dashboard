@@ -80,40 +80,47 @@ void DapChainWalletHandler::onReadWallet()
     while (itr.hasNext())
     {
         QRegularExpressionMatch match = itr.next();
-        DapChainWalletData wallet;
-        wallet.Name = match.captured(1);
-        wallet.Address = match.captured(2);
-
-        QPair<DapChainWalletData, QList<DapChainWalletTokenData>> walletPair(wallet, QList<DapChainWalletTokenData>());
+        QString walletName = match.captured(1);
 
         for(int i = 0; i < m_networkList.count(); i++)
         {
+            DapChainWalletData wallet;
+            wallet.Name = walletName;
+            wallet.Network = m_networkList.at(i);
+            QPair<DapChainWalletData, QList<DapChainWalletTokenData>> walletPair(wallet, QList<DapChainWalletTokenData>());
+
             QProcess process_token;
-            process_token.start(QString("%1 wallet info -addr %2 -net %3")
+            process_token.start(QString("%1 wallet info -w %2 -net %3")
                                 .arg(CLI_PATH)
-                                .arg(wallet.Address)
+                                .arg(walletName)
                                 .arg(m_networkList.at(i)));
 
             process_token.waitForFinished(-1);
             QByteArray result_tokens = process_token.readAll();
-            QRegExp regex("wallet: (.+)\\s+addr:\\s+(\\w+)\\s+(balance)|(\\d+.\\d+)\\s\\((\\d+)\\)\\s(\\w+)");
+            QRegExp regex("wallet: (.+)\\s+addr:\\s+(.+)\\s+(balance)|(\\d+.\\d+)\\s\\((\\d+)\\)\\s(\\w+)");
 
             int pos = 0;
             while((pos = regex.indexIn(result_tokens, pos)) != -1)
             {
                 DapChainWalletTokenData token;
-                token.Balance = regex.cap(4).toFloat();
-                token.Emission = regex.cap(5).toUInt();
-                token.Name = regex.cap(6);
-                token.Network = m_networkList.at(i);
+                if(!regex.cap(2).isEmpty())
+                {
+                    walletPair.first.Address = regex.cap(2);
+                }
+                else
+                {
+                    token.Balance = regex.cap(4).toDouble();
+                    token.Emission = regex.cap(5).toUInt();
+                    token.Name = regex.cap(6);
+                    walletPair.second.append(token);
+                }
 
-                walletPair.second.append(token);
                 pos += regex.matchedLength();
             }
 
+            walletList.append(walletPair);
         }
 
-        walletList.append(walletPair);
     }
 
     if(m_walletList != walletList)
