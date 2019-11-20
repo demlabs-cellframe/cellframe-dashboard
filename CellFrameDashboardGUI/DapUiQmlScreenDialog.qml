@@ -2,10 +2,14 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import CellFrameDashboard 1.0
 import QtQml 2.12
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
+
 Page {
+    //  TODO: Don't delete it
+//    sproperty alias rightPanelLoaderSource: rightPanelLoader.ource
+
     id: dapUiQmlScreenDialog
     title: qsTr("Dashboard")
     anchors.fill: parent
@@ -22,7 +26,7 @@ Page {
             height: 36 * pt
 
             Text {
-                anchors.fill: parent
+                anchors.left: parent
                 font.pixelSize: 20 * pt
                 font.family: fontRobotoRegular.name
                 verticalAlignment: Qt.AlignVCenter
@@ -31,9 +35,22 @@ Page {
 
             Button {
                 anchors.top: parent.top
+                width: 132 * pt
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
                 text: "New payment"
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 12 * pt
+                highlighted: true
+
+                background: Rectangle {
+                    color: "#3E3853"
+                }
+
+                icon.width: 20 * pt
+                icon.height: 20 * pt
+                icon.source: "qrc:/Resources/Icons/new-payment_icon.png"
+                icon.color: "#FFFFFF"
             }
         }
 
@@ -82,7 +99,6 @@ Page {
 
                             Row {
                                 anchors.fill: parent
-                                spacing: 36 * pt
 
                                 Text {
                                     anchors.top: parent.top
@@ -95,7 +111,14 @@ Page {
                                     text: "Wallet address:"
                                 }
 
+                                Item {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 36 * pt
+                                }
+
                                 Text {
+                                    id: titleWalletAddress
                                     anchors.top: parent.top
                                     anchors.bottom: parent.bottom
                                     width: 180 * pt
@@ -105,6 +128,35 @@ Page {
                                     font.pixelSize: 10 * pt
                                     color: "#757184"
                                     text: section
+                                }
+
+                                Item {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 4 * pt
+                                }
+
+                                Rectangle {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 16 * pt
+
+                                    Image {
+                                        id: imageButton
+                                        anchors.centerIn: parent
+                                        width: 16 * pt
+                                        height: 16 * pt
+                                        source: "qrc:/Resources/Icons/ic_copy.png"
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+
+                                        onEntered: imageButton.source = "qrc:/Resources/Icons/ic_copy_hover.png"
+                                        onExited: imageButton.source = "qrc:/Resources/Icons/ic_copy.png"
+                                        onClicked: clipboard.setText(titleWalletAddress.text);
+                                    }
                                 }
                             }
                         }
@@ -166,48 +218,7 @@ Page {
         }
     }
 
-
-    
-//    DapUiQmlScreenChangeWidget {
-//            id: listViewDapWidgets
-//        }
-    
-//    DapScreenDialog {
-//                    id: widgetModel
-//                }
-    
-//    Rectangle {
-
-//        anchors.fill: parent
-        
-//        GridView {
-//            id: gridViewDashboard
-            
-//            signal pressAndHold(int index)
-            
-//            anchors.fill: parent
-//            cellWidth: width/3; cellHeight: height/2
-//            focus: true
-//            model: widgetModel.ProxyModel
-    
-//            highlight: Rectangle { width: gridViewDashboard.cellWidth; height: gridViewDashboard.cellHeight; radius: width/50; color: "aliceblue" }
-    
-//            delegate: DapUiQmlWidgetDelegateForm {
-//                width: gridViewDashboard.cellWidth
-//                height: gridViewDashboard.cellHeight
-    
-//                MouseArea {
-//                    anchors.fill: parent
-//                    onClicked:
-//                    {
-//                        parent.GridView.view.currentIndex = index;
-//                        stackView.push(Qt.resolvedUrl(URLpage), StackView.Immediate);
-//                    }
-//                }
-//            }
-//        }
-//    }
-    
+    //  TODO: Don't delete it
 //    RoundButton {
 //           text: qsTr("+")
 //           highlighted: true
@@ -220,6 +231,7 @@ Page {
 //       }
 
 //    DapUiQmlWidgetLastActions {
+//        id: lastActionsHistory
 //        viewModel: dapHistoryModel
 //        viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
 //        viewSection.property: "date"
@@ -229,4 +241,48 @@ Page {
 //            height: 30 * pt
 //        }
 //    }
+
+//    Rectangle {
+//        id: rightPanel
+//        anchors.bottom: parent.bottom
+//        anchors.top: parent.top
+//        anchors.right: parent.right
+//        width: 400 * pt
+
+//        Loader {
+//            id: rightPanelLoader
+//            clip: true
+//            anchors.fill: parent
+//            source: "DapUiQmlWidgetLastActions.qml"
+//        }
+
+//        Connections {
+//            target: rectangleStatusBar
+//            onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+//        }
+
+//        Connections {
+//            target: rightPanelLoader.item
+//            onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+//            onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+//            onPressedNextButtonChanged: {
+//                if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
+//                else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
+//                else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
+//                else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+//            }
+//            onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+//            onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+//        }
+//    }
 }
+
+
+
+
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

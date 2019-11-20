@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
-
+    property alias addWalletPressed: statusBarAddWalletButton.pressed
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1
@@ -62,13 +62,8 @@ Rectangle {
             }
         }
 
-        DapUiQmlScreenDialogAddWallet
-        {
-            id: dialogAddWallet
-        }
-
         DapUiQmlWidgetStatusBarButton {
-            id: buttonAddWallet
+            id: statusBarAddWalletButton
             width: 130 * pt
             anchors.right: parent.right
             anchors.top: parent.top
@@ -76,9 +71,12 @@ Rectangle {
             anchors.rightMargin: 20 * pt
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10 * pt
-
-            onClicked: addWallet()
-            onAddWallet: dialogAddWallet.show()
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

@@ -3,7 +3,6 @@ import QtQuick.Controls 2.5
 
 Button {
     id: button
-    signal addWallet
     contentItem: Rectangle {
         anchors.fill: parent
         border.color: "#B5B5B5"

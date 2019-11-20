@@ -196,9 +196,9 @@ Page {
         }
     }
 
-    DapUiQmlScreenDialogAddWallet {
-        id: dialogAddWallet
-    }
+//    DapUiQmlScreenDialogAddWallet {
+//        id: dialogAddWallet
+//    }
     DapUiQmlScreenDialogSendToken {
         id: dialogSendToken
     }

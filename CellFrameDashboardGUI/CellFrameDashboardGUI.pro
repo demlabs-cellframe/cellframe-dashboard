@@ -44,6 +44,7 @@ SOURCES += \
     DapChainNodeNetworkExplorer.cpp \
     DapChainNodeNetworkModel.cpp \
     DapChainWalletModel.cpp \
+    DapClipboard.cpp \
     DapConsoleModel.cpp \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
@@ -84,6 +85,7 @@ HEADERS += \
     DapChainNodeNetworkExplorer.h \
     DapChainNodeNetworkModel.h \
     DapChainWalletModel.h \
+    DapClipboard.h \
     DapConsoleModel.h \
     DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \

@@ -11,16 +11,18 @@ Page {
 
     /// ----------- Load fonts -----------
     /// using example: font.family: fontRobotoLight.name
-    readonly property FontLoader fontRobotoLight: FontLoader { source: "qrc:/Resources/Fonts/roboto_light.ttf" }
-    readonly property FontLoader fontRobotoRegular: FontLoader { source: "qrc:/Resources/Fonts/roboto_regular.ttf" }
-    /// -----------
+    readonly property FontLoader fontRobotoLight: FontLoader {
+        source: "qrc:/Resources/Fonts/roboto_light.ttf"
+    }
+    readonly property FontLoader fontRobotoRegular: FontLoader {
+        source: "qrc:/Resources/Fonts/roboto_regular.ttf"
+    }
 
+    /// -----------
     property alias listViewTabs: listViewTabs
     property alias stackViewScreenDashboard: stackViewScreenDashboard
 
-
-    DapUiQmlWidgetStatusBar
-    {
+    DapUiQmlWidgetStatusBar {
         id: rectangleStatusBar
         anchors.left: rectangleTabsBorder.right
         anchors.top: parent.top
@@ -29,8 +31,7 @@ Page {
         height: 60 * pt
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: rectangleTabsBorder
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -49,49 +50,49 @@ Page {
                 id: listModelTabs
 
                 ListElement {
-                    name:  qsTr("Dashboard")
+                    name: qsTr("Dashboard")
                     page: "DapUiQmlScreenDialog.qml"
                     normal: "qrc:/Resources/Icons/icon_dashboard.png"
                     hover: "qrc:/Resources/Icons/icon_dashboard_hover.png"
                 }
 
                 ListElement {
-                    name:  qsTr("Exchange")
+                    name: qsTr("Exchange")
                     page: "DapUiQmlScreenExchangeForm.ui.qml"
                     normal: "qrc:/Resources/Icons/icon_exchange.png"
                     hover: "qrc:/Resources/Icons/icon_exchange_hover.png"
                 }
 
                 ListElement {
-                    name:  qsTr("History")
+                    name: qsTr("History")
                     page: "DapUiQmlScreenHistory.qml"
                     normal: "qrc:/Resources/Icons/icon_history.png"
                     hover: "qrc:/Resources/Icons/icon_history_hover.png"
                 }
 
                 ListElement {
-                    name:  qsTr("Console")
+                    name: qsTr("Console")
                     page: "DapUiQmlScreenConsoleForm.ui.qml"
                     normal: "qrc:/Resources/Icons/icon_console.png"
                     hover: "qrc:/Resources/Icons/icon_console_hover.png"
                 }
 
                 ListElement {
-                    name:  qsTr("Logs")
+                    name: qsTr("Logs")
                     page: "DapUiQmlWidgetChainNodeLogs.qml"
                     normal: "qrc:/Resources/Icons/icon_logs.png"
                     hover: "qrc:/Resources/Icons/icon_logs_hover.png"
                 }
 
                 ListElement {
-                    name:  qsTr("Settings")
+                    name: qsTr("Settings")
                     page: "DapUiQmlScreenSettings.qml"
                     normal: "qrc:/Resources/Icons/icon_settings.png"
                     hover: "qrc:/Resources/Icons/icon_settings_hover.png"
                 }
 
                 ListElement {
-                    name:  qsTr("VPN")
+                    name: qsTr("VPN")
                     page: "DapUiQmlScreenVpn.qml"
                     normal: "qrc:/Resources/Icons/defaul_icon.png"
                     hover: "qrc:/Resources/Icons/defaul_icon.png"
@@ -106,10 +107,19 @@ Page {
                 //                    }
             }
             delegate: componentItemMainMenuTab
-
         }
         focus: true
+        //        DapUiQmlWidgetStatusBar {
+        //            id: rectangleStatusBar
+        //            anchors.left: rectangleTabsBorder.right
+        //            anchors.top: parent.top
+        //            anchors.right: parent.right
+        //            color: "#B5B5B5"
+        //            height: 60 * pt
     }
+
+
+    property alias rightPanelLoaderSource: rightPanelLoader.source
 
     Rectangle {
         id: mainDashboard
@@ -121,32 +131,66 @@ Page {
 
         Loader {
             id: stackViewScreenDashboard
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            anchors.top: parent.top
-            anchors.right: lastActionWidget.left
             clip: true
+//            anchors.fill: parent
+            anchors.left: parent.left
+            anchors.right: rightPanel.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
             source: "DapUiQmlScreenDialog.qml"
         }
 
-        DapUiQmlWidgetLastActions {
-            id: lastActionWidget
-            viewModel: dapHistoryModel
-            viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
-            viewSection.property: "date"
-            viewSection.criteria: ViewSection.FullString
-            viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
-                width:  parent.width
-                height: 30 * pt
+//            DapUiQmlWidgetLastActions {
+//                id: lastActionsHistory
+//                viewModel: dapHistoryModel
+//                viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
+//                viewSection.property: "date"
+//                viewSection.criteria: ViewSection.FullString
+//                viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
+//                    width:  parent.width
+//                    height: 30 * pt
+//                }
+//            }
+
+            Rectangle {
+                id: rightPanel
+                anchors.bottom: parent.bottom
+                anchors.top: parent.top
+                anchors.right: parent.right
+                width: 400 * pt
+
+                Loader {
+                    id: rightPanelLoader
+                    clip: true
+                    anchors.fill: parent
+                    source: "DapUiQmlWidgetLastActions.qml"
+                }
+
+                Connections {
+                    target: rectangleStatusBar
+                    onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+                }
+
+                Connections {
+                    target: rightPanelLoader.item
+                    onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+                    onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+                    onPressedNextButtonChanged: {
+                        if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
+                        else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
+                        else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
+                        else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+                    }
+                    onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+                    onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+                }
             }
-        }
     }
 }
-//}
 
-
-/*##^## Designer {
+/*##^##
+Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
- ##^##*/
+##^##*/
 
