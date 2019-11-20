@@ -129,7 +129,7 @@ Page {
 
         Connections {
             target: newPaymentButton
-            onClicked: rightPanelLoader.source = "DapUiQmlNewPaymentForm.ui.qml"
+            onClicked: rightPanelLoader.source = "DapUiQmlNewPayment.qml"
         }
 
         Connections {

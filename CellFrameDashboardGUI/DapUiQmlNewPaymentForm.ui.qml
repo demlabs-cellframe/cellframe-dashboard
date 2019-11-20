@@ -3,6 +3,9 @@ import QtQuick.Controls 2.2
 import CellFrameDashboard 1.0
 
 Rectangle {
+    property alias translatedText: translatedAmountToken.text
+    property alias amountText: inputAmount
+
     id: newPayment
     width: 640
     height: 800
