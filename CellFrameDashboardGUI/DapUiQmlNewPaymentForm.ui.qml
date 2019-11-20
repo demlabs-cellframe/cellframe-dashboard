@@ -89,7 +89,7 @@ Rectangle {
 
     Rectangle {
         id: chooseCurrencyTypeArea
-        height: 115
+        height: 150
         color: "#FFFFFF"
         anchors.leftMargin: 1
         anchors.left: parent.left
@@ -131,23 +131,128 @@ Rectangle {
                 anchors.left: comboBoxChooseCurrencyType.left
                 anchors.right: comboBoxChooseCurrencyType.right
                 orientation: Qt.Horizontal
-                horizontal: Qt.Horizontal
             }
 
             Text {
                 id: walletName
+                height: 25
                 color: "#B5B5B5"
                 text: qsTr("brz89EWFKlkmfwk392i32300503493")
+                font.family: "Roboto"
+                font.pointSize: 14
                 anchors.rightMargin: 0
                 anchors.leftMargin: 0
                 anchors.top: currencySeparator.bottom
-                anchors.topMargin: 36
-                anchors.left: currencySeparator.right
-                anchors.right: currencySeparator.left
-                font {
-                    pointSize: 16 * pt
-                }
+                anchors.topMargin: 15
+                anchors.left: currencySeparator.left
+                anchors.right: currencySeparator.right
             }
+        }
+    }
+
+    Rectangle {
+        id: titleAmmountTextArea
+        height: 30
+        color: "#DFE3E6"
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 1
+        anchors.top: chooseCurrencyTypeArea.bottom
+        anchors.topMargin: 0
+
+        Text {
+            id: titleAmmountText
+            color: "#505559"
+            text: qsTr("Ammount")
+            anchors.left: parent.left
+            anchors.leftMargin: 18
+            anchors.verticalCenter: parent.verticalCenter
+            font.pointSize: 12
+            font.family: "Roboto"
+            font.styleName: "Normal"
+            font.weight: Font.Normal
+            horizontalAlignment: Text.AlignLeft
+        }
+    }
+
+    Rectangle {
+        id: inputAmmountArea
+        height: 100
+        anchors.top: titleAmmountTextArea.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        TextInput {
+            id: inputAmount
+            text: qsTr("0")
+            font.weight: Font.Normal
+            font.pointSize: 18
+            font.family: "Roboto"
+            anchors.top: parent.top
+            anchors.topMargin: 22
+            anchors.left: parent.left
+            anchors.leftMargin: 34
+            anchors.right: parent.right
+            anchors.rightMargin: 36
+
+            ToolSeparator {
+                id: amountSeparator
+                anchors.top: inputAmount.bottom
+                anchors.topMargin: 20 * pt
+                anchors.left: inputAmount.left
+                anchors.right: inputAmount.right
+                orientation: Qt.Horizontal
+            }
+
+            Text {
+                id: translatedAmountToken
+                text: qsTr("0")
+                leftPadding: 0
+                anchors.rightMargin: 0
+                anchors.leftMargin: 0
+                color: "#B5B5B5"
+                anchors.top: amountSeparator.bottom
+                anchors.topMargin: 4
+                anchors.left: amountSeparator.left
+                anchors.right: amountSeparator.right
+                font.pointSize: 14
+            }
+        }
+    }
+
+    Button {
+        id: sendButton
+        height: 44
+        width: 130
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenterOffset: 0
+        anchors.top: inputAmmountArea.bottom
+        anchors.topMargin: 58
+
+        MouseArea {
+            id: mouseAreaSendButton
+            anchors.fill: parent
+            hoverEnabled: true
+        }
+
+        Text {
+            id: sendButtonText
+            text: qsTr("Send")
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            color: "#ffffff"
+            font.family: "Roboto"
+            font.styleName: "Normal"
+            font.weight: Font.Normal
+            font.pointSize: 18
+            horizontalAlignment: Text.AlignLeft
+        }
+
+        background: Rectangle {
+            implicitWidth: parent.width
+            implicitHeight: parent.height
+            color: mouseAreaSendButton.containsMouse ? "#D51F5D" : "#070023"
         }
     }
 }
