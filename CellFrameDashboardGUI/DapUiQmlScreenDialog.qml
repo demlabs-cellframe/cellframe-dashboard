@@ -42,7 +42,7 @@ Page {
             id: listViewToken
             Layout.fillWidth: true
             Layout.fillHeight: true
-            model: dapWalletModel
+            model: dapWalletFilterModel
             section.property: "networkDisplayRole"
             section.criteria: ViewSection.FullString
             section.delegate: Rectangle {
@@ -122,42 +122,36 @@ Page {
                                 anchors.fill: parent
                                 anchors.topMargin: 1
 
-                                Row {
-                                    anchors.fill: parent
-                                    spacing: 16 * pt
+                                Label {
+                                    anchors.left: parent.left
+                                    verticalAlignment: Qt.AlignVCenter
+                                    height: parent.height
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 18 * pt
+                                    color: "#070023"
+                                    text: model.modelData.name
+                                }
 
-                                    Label {
-                                        anchors.left: parent.left
-                                        verticalAlignment: Qt.AlignVCenter
-                                        height: parent.height
-                                        font.family: fontRobotoRegular.name
-                                        font.pixelSize: 18 * pt
-                                        color: "#070023"
-                                        text: model.modelData.name
-                                    }
+                                Label {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    width: 1
+                                    height: parent.height
+                                    verticalAlignment: Qt.AlignVCenter
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 12 * pt
+                                    color: "#070023"
+                                    text: model.modelData.balance + " " + model.modelData.name
+                                }
 
-                                    Label {
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        width: 300
-                                        height: parent.height
-                                        verticalAlignment: Qt.AlignVCenter
-                                        font.family: fontRobotoRegular.name
-                                        font.pixelSize: 12 * pt
-                                        color: "#070023"
-                                        text: model.modelData.balance + " " + model.modelData.name
-                                    }
-
-                                    Label {
-                                        anchors.right: parent.right
-                                        height: parent.height
-                                        verticalAlignment: Qt.AlignVCenter
-                                        horizontalAlignment: Qt.AlignRight
-                                        font.family: fontRobotoRegular.name
-                                        font.pixelSize: 12 * pt
-                                        color: "#757184"
-                                        text: "$ " + model.modelData.balance + " USD"
-                                    }
-
+                                Label {
+                                    anchors.right: parent.right
+                                    height: parent.height
+                                    verticalAlignment: Qt.AlignVCenter
+                                    horizontalAlignment: Qt.AlignRight
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 12 * pt
+                                    color: "#757184"
+                                    text: "$ " + model.modelData.balance + " USD"
                                 }
 
                             }

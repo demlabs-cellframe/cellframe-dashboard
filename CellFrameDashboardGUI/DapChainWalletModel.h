@@ -5,12 +5,12 @@
 #include <QDebug>
 #include "DapChainWallet.h"
 
+#define TITLE_ALL_WALLETS tr("all wallets")
+
 class DapChainWalletModel : public QAbstractListModel
 {
     Q_OBJECT
-
-    Q_PROPERTY(double walletBalance READ walletBalance NOTIFY walletBalanceChanged)
-    Q_PROPERTY(QList<QObject*> tokenList READ tokenList NOTIFY tokenListChanged)
+    Q_PROPERTY(QStringList wallets READ walletList NOTIFY walletListChanged)
 
 public:
     enum {
@@ -18,14 +18,14 @@ public:
         WalletAddressDisplayRole,
         WalletIconDisplayRole,
         WalletTokenListDisplayRole,
+        WalletListDisplayRole,
         NetworkDisplayRole,
     };
 
 private:
-    QString m_currentWallet;
-    double m_walletBalance;
+    QStringList m_wallets;
     QList<DapChainWalletPair> m_walletList;
-    QList<QObject*> m_tokenList;
+
 
 public:
     explicit DapChainWalletModel(QObject *parent = nullptr);
@@ -38,7 +38,9 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
 
-    double walletBalance(const QString& aAddress) const;
+    Q_INVOKABLE QStringList walletList() const;
+
+    Q_INVOKABLE double walletBalance(const QString& aName) const;
 
     Q_INVOKABLE double walletBalance(const int aWalletIndex) const;
 
@@ -46,15 +48,7 @@ public:
 
     QList<QObject*> tokeListByIndex(const int aIndex) const;
 
-    double walletBalance() const;
-
-    QList<QObject*> tokenList() const;
-
 public slots:
-
-    Q_INVOKABLE void setCurrentWallet(const QString& aWalletAddress);
-
-    Q_INVOKABLE void setCurrentWallet(const int aWalletIndex);
 
     void setWalletData(const QByteArray& aData);
 
@@ -67,10 +61,9 @@ public slots:
     void removeWallet(const int aWalletIndex);
 
 signals:
-    void walletBalanceChanged(double walletBalance);
     void sigAppendWallet(QString name);
     void sigRemoveWallet(QString address);
-    void tokenListChanged(QList<QObject*> tokenList);
+    void walletListChanged(QStringList walletList);
 };
 
 #endif // DAPCHAINWALLETMODEL_H

@@ -57,7 +57,8 @@ Rectangle {
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
-                text: dapChainConvertor.toConvertCurrency(dapWalletModel.walletBalance)
+                text: dapChainConvertor.toConvertCurrency(
+                          dapWalletModel.walletBalance(comboboxWallet.currentText))
             }
         }
 

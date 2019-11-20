@@ -90,7 +90,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
     engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainConvertor", &DapChainConvertor::getInstance());
-    engine.rootContext()->setContextProperty("dapWalletModel", &DapWalletFilterModel::instance());
+    engine.rootContext()->setContextProperty("dapWalletFilterModel", &DapWalletFilterModel::instance());
+    engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

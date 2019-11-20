@@ -7,19 +7,14 @@ import QtQml 2.13
 
 DapUiQmlWidgetStatusBarComboBoxWalletForm {
     property Label fieldBalance: Label {}
-//    model: dapChainWalletsModel
-    model: dapWalletModel
-    textRole: "walletNameDisplayRole"
+    model: dapWalletModel.wallets
 
     delegate: DapUiQmlWidgetStatusBarComboBoxDelegate {
-        delegateContentText: walletNameDisplayRole
+        delegateContentText: modelData
     }
 
-    onCurrentIndexChanged: {
-        dapWalletModel.setCurrentWallet(currentIndex);
-//        var money = 0.0
-//        for(var i = 0; i < dapChainWalletsModel.get(currentIndex).count; i += 3)
-//            money += parseFloat(dapChainWalletsModel.get(currentIndex).tokens[i]);
-//        fieldBalance.text = money;
+    onCurrentTextChanged: {
+        dapWalletFilterModel.setWalletFilter(currentText);
+
     }
 }

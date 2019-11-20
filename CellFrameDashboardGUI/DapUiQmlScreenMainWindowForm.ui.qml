@@ -109,42 +109,39 @@ Page {
 
         }
         focus: true
-//        DapUiQmlWidgetStatusBar {
-//            id: rectangleStatusBar
-//            anchors.left: rectangleTabsBorder.right
-//            anchors.top: parent.top
-//            anchors.right: parent.right
-//            color: "#B5B5B5"
-//            height: 60 * pt
+    }
+
+    Rectangle {
+        id: mainDashboard
+        anchors.left: rectangleTabsBorder.right
+        anchors.top: rectangleStatusBar.bottom
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        border.color: "whitesmoke"
+
+        Loader {
+            id: stackViewScreenDashboard
+            anchors.left: parent.left
+            anchors.bottom: parent.bottom
+            anchors.top: parent.top
+            anchors.right: lastActionWidget.left
+            clip: true
+            source: "DapUiQmlScreenDialog.qml"
         }
 
-        Rectangle {
-            id: mainDashboard
-            anchors.left: rectangleTabsBorder.right
-            anchors.top: rectangleStatusBar.bottom
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            border.color: "whitesmoke"
-
-            Loader {
-                id: stackViewScreenDashboard
-                clip: true
-                anchors.fill: parent
-                source: "DapUiQmlScreenDialog.qml"
+        DapUiQmlWidgetLastActions {
+            id: lastActionWidget
+            viewModel: dapHistoryModel
+            viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
+            viewSection.property: "date"
+            viewSection.criteria: ViewSection.FullString
+            viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
+                width:  parent.width
+                height: 30 * pt
             }
         }
-
-//        DapUiQmlWidgetLastActions {
-//            viewModel: dapHistoryModel
-//            viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
-//            viewSection.property: "date"
-//            viewSection.criteria: ViewSection.FullString
-//            viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
-//                width:  parent.width
-//                height: 30 * pt
-//            }
-//        }
     }
+}
 //}
 
 
