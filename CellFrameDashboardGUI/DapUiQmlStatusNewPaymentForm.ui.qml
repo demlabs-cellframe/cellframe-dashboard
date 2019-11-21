@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 
 Rectangle {
+    property alias pressedCloseNewPaymentStatusButton: mouseAreaCloseNewPayment.pressed
+
     id: newPaymentStatus
     width: 640
     height: 800
