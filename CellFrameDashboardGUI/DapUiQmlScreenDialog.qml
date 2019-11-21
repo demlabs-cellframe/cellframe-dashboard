@@ -134,6 +134,11 @@ Page {
 
         Connections {
             target: rightPanelLoader.item
+            onPressedSendButtonChanged: rightPanelLoader.source = "DapUiQmlStatusNewPaymentForm.ui.qml"
+        }
+
+        Connections {
+            target: rightPanelLoader.item
             onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
             onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
             onPressedNextButtonChanged: {

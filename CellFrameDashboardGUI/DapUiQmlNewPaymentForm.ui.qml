@@ -5,6 +5,7 @@ import CellFrameDashboard 1.0
 Rectangle {
     property alias translatedText: translatedAmountToken.text
     property alias amountText: inputAmount
+    property alias pressedSendButton: mouseAreaSendButton.pressed
 
     id: newPayment
     width: 640
