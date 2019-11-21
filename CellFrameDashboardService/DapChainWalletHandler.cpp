@@ -4,8 +4,144 @@
 
 DapChainWalletHandler::DapChainWalletHandler(QObject *parent) : QObject(parent)
 {
-
+    m_timeout = new QTimer(this);
+    QObject::connect(m_timeout, &QTimer::timeout, this, &DapChainWalletHandler::onReadWallet);
+    m_timeout->setInterval(5000);
+    m_timeout->start();
 }
+
+bool DapChainWalletHandler::appendWallet(const QString& aWalletName)
+{
+    QProcess process;
+    process.start(QString("%1 wallet new -w %2").arg(CLI_PATH).arg(aWalletName));
+    process.waitForFinished(-1);
+    QByteArray result = process.readAll();
+
+    QRegExp rx("new address\\s(\\w+)");
+    return rx.indexIn(result, 0);
+}
+
+bool DapChainWalletHandler::createTransaction(const QString& aFromAddress, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue) const
+{
+    QString fromWalletName;
+    for(int i = 0; i < m_walletList.count(); i++)
+    {
+        if(m_walletList[i].first.Address == aFromAddress)
+            fromWalletName = m_walletList[i].first.Name;
+    }
+
+    if(fromWalletName.isEmpty() || !m_networkList.contains(aNetwork)) return false;
+    QProcess processCreate;
+    processCreate.start(QString("%1 tx_create -net %2 -chain gdb -from_wallet %3 -to_addr %4 -token %5 -value %6")
+                  .arg(CLI_PATH)
+                  .arg(aNetwork)
+                  .arg(fromWalletName)
+                  .arg(aToAddress)
+                  .arg(aTokenName)
+                  .arg(QString::number(aValue)));
+    processCreate.waitForFinished(-1);
+    QByteArray result = processCreate.readAll();
+    QRegExp rx("transfer=(\\w+)");
+    rx.indexIn(result, 0);
+
+    if(rx.cap(1) == "Ok") {
+
+        QProcess processMempool;
+        processMempool.start(QString("%1 mempool_proc -net " + aNetwork +" -chain gdb").arg(CLI_PATH));
+        processMempool.waitForFinished(-1);
+        processMempool.readAll();
+        return true;
+    }
+
+    return false;
+}
+
+QByteArray DapChainWalletHandler::walletData() const
+{
+    QByteArray data;
+    QDataStream out(&data, QIODevice::WriteOnly);
+    out << m_walletList;
+
+    return data;
+}
+
+void DapChainWalletHandler::onReadWallet()
+{
+    QList<QPair<DapChainWalletData, QList<DapChainWalletTokenData>>> walletList;
+
+    QProcess process;
+    process.start(QString("%1 wallet list").arg(CLI_PATH));
+    process.waitForFinished(-1);
+    QByteArray result = process.readAll();
+    QRegularExpression rx("wallet:\\s(.+)\\s+addr:\\s(.+)", QRegularExpression::MultilineOption);
+    QRegularExpressionMatchIterator itr = rx.globalMatch(result);
+    while (itr.hasNext())
+    {
+        QRegularExpressionMatch match = itr.next();
+        QString walletName = match.captured(1);
+
+        for(int i = 0; i < m_networkList.count(); i++)
+        {
+            DapChainWalletData wallet;
+            wallet.Name = walletName;
+            wallet.Network = m_networkList.at(i);
+            QPair<DapChainWalletData, QList<DapChainWalletTokenData>> walletPair(wallet, QList<DapChainWalletTokenData>());
+
+            QProcess process_token;
+            process_token.start(QString("%1 wallet info -w %2 -net %3")
+                                .arg(CLI_PATH)
+                                .arg(walletName)
+                                .arg(m_networkList.at(i)));
+
+            process_token.waitForFinished(-1);
+            QByteArray result_tokens = process_token.readAll();
+            QRegExp regex("wallet: (.+)\\s+addr:\\s+(.+)\\s+(balance)|(\\d+.\\d+)\\s\\((\\d+)\\)\\s(\\w+)");
+
+            int pos = 0;
+            while((pos = regex.indexIn(result_tokens, pos)) != -1)
+            {
+                DapChainWalletTokenData token;
+                if(!regex.cap(2).isEmpty())
+                {
+                    walletPair.first.Address = regex.cap(2);
+                }
+                else
+                {
+                    token.Balance = regex.cap(4).toDouble();
+                    token.Emission = regex.cap(5).toUInt();
+                    token.Name = regex.cap(6);
+                    walletPair.second.append(token);
+                }
+
+                pos += regex.matchedLength();
+            }
+
+            walletList.append(walletPair);
+        }
+
+    }
+
+    if(m_walletList != walletList)
+    {
+        m_walletList = walletList;
+        emit walletDataChanged(walletData());
+    }
+}
+
+void DapChainWalletHandler::setNetworkList(const QStringList& aNetworkList)
+{
+    if(m_networkList == aNetworkList) return;
+    m_networkList = aNetworkList;
+}
+
+
+
+
+
+
+
+
+
 
 QString DapChainWalletHandler::parse(const QByteArray &aWalletAddress)
 {

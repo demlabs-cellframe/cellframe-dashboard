@@ -35,23 +35,6 @@ Rectangle {
                 id: comboboxWallet
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                listToken: comboboxToken
-            }
-
-            Label {
-                text: qsTr("Token")
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                verticalAlignment: Qt.AlignVCenter
-                font.family: fontRobotoRegular.name
-                font.pixelSize: 12 * pt
-                color: "#A7A7A7"
-            }
-
-            DapUiQmlWidgetStatusBarComboBoxToken {
-                id: comboboxToken
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
                 fieldBalance: fieldWalletBalance
             }
 
@@ -74,6 +57,8 @@ Rectangle {
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
+                text: dapChainConvertor.toConvertCurrency(
+                          dapWalletModel.walletBalance(comboboxWallet.currentText))
             }
         }
 

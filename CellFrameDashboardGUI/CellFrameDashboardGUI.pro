@@ -43,11 +43,14 @@ ICON = icon.ico
 SOURCES += \
     DapChainNodeNetworkExplorer.cpp \
     DapChainNodeNetworkModel.cpp \
+    DapChainWalletModel.cpp \
+    DapClipboard.cpp \
     DapConsoleModel.cpp \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
     DapSettingsNetworkModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
+    DapWalletFilterModel.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
     DapUiQmlWidgetChainBlockExplorer.cpp \
@@ -81,6 +84,8 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     DapChainNodeNetworkExplorer.h \
     DapChainNodeNetworkModel.h \
+    DapChainWalletModel.h \
+    DapClipboard.h \
     DapConsoleModel.h \
     DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \
@@ -101,7 +106,8 @@ HEADERS += \
     DapServiceClientNativeAbstract.h \
     DapServiceClientNativeLinux.h \
     DapServiceClientNativeWin.h \
-    DapChainWalletsModel.h
+    DapChainWalletsModel.h \
+    DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
