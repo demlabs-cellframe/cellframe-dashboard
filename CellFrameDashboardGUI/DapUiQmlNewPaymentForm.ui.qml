@@ -226,40 +226,103 @@ Rectangle {
         }
     }
 
-    Button {
-        id: sendButton
-        height: 44
-        width: 130
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.horizontalCenterOffset: 0
+    Rectangle {
+        id: titleToRecipientTextArea
+        height: 30
+        color: "#DFE3E6"
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.left: parent.left
+        anchors.leftMargin: 1
         anchors.top: inputAmmountArea.bottom
-        anchors.topMargin: 58
-
-        MouseArea {
-            id: mouseAreaSendButton
-            anchors.fill: parent
-            hoverEnabled: true
-        }
+        anchors.topMargin: 0
 
         Text {
-            id: sendButtonText
-            text: qsTr("Send")
-            anchors.horizontalCenter: parent.horizontalCenter
+            id: titleToRecipientText
+            color: "#505559"
+            text: qsTr("To")
+            anchors.left: parent.left
+            anchors.leftMargin: 18
             anchors.verticalCenter: parent.verticalCenter
-            color: "#ffffff"
+            font.pointSize: 12
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
-            font.pointSize: 18
             horizontalAlignment: Text.AlignLeft
         }
+    }
 
-        background: Rectangle {
-            implicitWidth: parent.width
-            implicitHeight: parent.height
-            color: mouseAreaSendButton.containsMouse ? "#737880" : "#A2A4A7"
-            border.width: 1 * pt
-            border.color: "#989898"
+    Rectangle {
+        id: recipientWalletArea
+        height: 100
+        anchors.top: titleToRecipientTextArea.bottom
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 1 * pt
+        anchors.right: parent.right
+
+        TextInput {
+            id: recipientWalletName
+            text: qsTr("Recipient wallet")
+            font.pointSize: 17
+            color: "#F1F2F2"
+            font.family: "Roboto"
+            font.styleName: "Normal"
+            font.weight: Font.Normal
+            horizontalAlignment: Text.AlignLeft
+            anchors.top: parent
+            anchors.topMargin: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 34
+            anchors.right: parent.right
+            anchors.rightMargin: 32
+        }
+
+        ToolSeparator {
+            id: recipientWalletSeparator
+            anchors.top: recipientWalletName.bottom
+            anchors.topMargin: 18 * pt
+            anchors.left: recipientWalletName.left
+            anchors.right: recipientWalletName.right
+            orientation: Qt.Horizontal
+        }
+
+        Button {
+            id: sendButton
+            height: 44
+            width: 130
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenterOffset: 0
+            anchors.top: recipientWalletSeparator.bottom
+            anchors.topMargin: 58
+
+            MouseArea {
+                id: mouseAreaSendButton
+                anchors.fill: parent
+                hoverEnabled: true
+            }
+
+            Text {
+                id: sendButtonText
+                text: qsTr("Send")
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                color: "#ffffff"
+                font.family: "Roboto"
+                font.styleName: "Normal"
+                font.weight: Font.Normal
+                font.pointSize: 18
+                horizontalAlignment: Text.AlignLeft
+            }
+
+            background: Rectangle {
+                implicitWidth: parent.width
+                implicitHeight: parent.height
+                color: mouseAreaSendButton.containsMouse ? "#737880" : "#A2A4A7"
+                border.width: 1 * pt
+                border.color: "#989898"
+            }
         }
     }
 }
