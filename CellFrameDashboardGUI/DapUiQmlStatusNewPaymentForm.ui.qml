@@ -91,7 +91,7 @@ Rectangle {
 
         Text {
             id: doneButtonText
-            text: qsTr("Send")
+            text: qsTr("Done")
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             color: "#ffffff"
