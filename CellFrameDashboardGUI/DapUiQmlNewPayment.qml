@@ -4,3 +4,9 @@ import CellFrameDashboard 1.0
 DapUiQmlNewPaymentForm {
     amountText.onTextChanged: translatedText = Number(amountText.text.valueOf()) * 20
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

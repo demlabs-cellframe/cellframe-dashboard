@@ -183,6 +183,7 @@ Rectangle {
     Rectangle {
         id: inputAmmountArea
         height: 100
+        anchors.leftMargin: 1
         anchors.top: titleAmmountTextArea.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -256,7 +257,9 @@ Rectangle {
         background: Rectangle {
             implicitWidth: parent.width
             implicitHeight: parent.height
-            color: mouseAreaSendButton.containsMouse ? "#D51F5D" : "#070023"
+            color: mouseAreaSendButton.containsMouse ? "#737880" : "#A2A4A7"
+            border.width: 1 * pt
+            border.color: "#989898"
         }
     }
 }
