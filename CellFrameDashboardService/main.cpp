@@ -11,6 +11,8 @@
 #include "DapChainLogHandler.h"
 #include "DapSettings.h"
 
+#include <sys/stat.h>
+
 void processArgs();
 
 int main(int argc, char *argv[])
@@ -42,6 +44,9 @@ int main(int argc, char *argv[])
     #elif defined Q_OS_WIN
         dapLogger.setLogFile(QString("%1Service.log").arg(DAP_BRAND));
         dapLogger.setLogLevel(L_INFO);
+    #elif defined Q_OS_MAC
+	mkdir("tmp/cellframe-dashboard_log",0777);
+	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Service.log").arg(DAP_BRAND));
     #endif
 //#endif
     // Creating the main application object
@@ -58,7 +63,7 @@ int main(int argc, char *argv[])
 
 void processArgs()
 {
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_MAC)
     QCommandLineParser clParser;
     clParser.parse(QCoreApplication::arguments());
     auto options = clParser.unknownOptionNames();

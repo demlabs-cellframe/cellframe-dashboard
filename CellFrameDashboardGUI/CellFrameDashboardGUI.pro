@@ -34,7 +34,13 @@ DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
-ICON = icon.ico
+macx {
+ICON = Resources/Icons/dashboard.icns
+}
+else {
+ICON = Resources/Icons/icon.ico
+}
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -66,6 +72,7 @@ SOURCES += \
     DapServiceClientNativeAbstract.cpp \
     DapServiceClientNativeLinux.cpp \
     DapServiceClientNativeWin.cpp \
+    DapServiceClientNativeMacOS.cpp \
     DapChainWalletsModel.cpp
 
 RESOURCES += qml.qrc

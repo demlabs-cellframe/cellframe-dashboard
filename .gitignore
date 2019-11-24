@@ -12,3 +12,4 @@ CTestTestfile.cmake
 *.o
 *.obj
 moc_*
+.DS_Store

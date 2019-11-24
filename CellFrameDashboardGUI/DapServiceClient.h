@@ -13,6 +13,9 @@ typedef class DapServiceClientNativeLinux DapServiceClientNative;
 #elif defined(Q_OS_WIN)
 #include "DapServiceClientNativeWin.h"
 typedef class DapServiceClientNativeWin DapServiceClientNative;
+#elif defined(Q_OS_MAC)
+#include "DapServiceClientNativeMacOS.h"
+typedef class DapServiceClientNativeMacOS DapServiceClientNative;
 #endif
 
 typedef QLocalSocket DapUiSocket;
