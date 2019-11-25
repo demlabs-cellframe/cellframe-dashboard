@@ -21,6 +21,7 @@ Page {
     /// -----------
     property alias listViewTabs: listViewTabs
     property alias stackViewScreenDashboard: stackViewScreenDashboard
+    property alias rightPanel : rightPanel
 
     DapUiQmlWidgetStatusBar {
         id: rectangleStatusBar
@@ -54,6 +55,8 @@ Page {
                     page: "DapUiQmlScreenDialog.qml"
                     normal: "qrc:/Resources/Icons/icon_dashboard.png"
                     hover: "qrc:/Resources/Icons/icon_dashboard_hover.png"
+                    panelHeader: "DapUiQmlWidgetLastActionsHeaderForm.qml"
+                    panelContent: "DapUiQmlWidgetHistoryLastActions.qml"
                 }
 
                 ListElement {
@@ -61,6 +64,8 @@ Page {
                     page: "DapUiQmlScreenExchangeForm.ui.qml"
                     normal: "qrc:/Resources/Icons/icon_exchange.png"
                     hover: "qrc:/Resources/Icons/icon_exchange_hover.png"
+                    panelHeader: ""
+                    panelContent: ""
                 }
 
                 ListElement {
@@ -68,6 +73,8 @@ Page {
                     page: "DapUiQmlScreenHistory.qml"
                     normal: "qrc:/Resources/Icons/icon_history.png"
                     hover: "qrc:/Resources/Icons/icon_history_hover.png"
+                    panelHeader: ""
+                    panelContent: ""
                 }
 
                 ListElement {
@@ -75,6 +82,8 @@ Page {
                     page: "DapUiQmlScreenConsoleForm.ui.qml"
                     normal: "qrc:/Resources/Icons/icon_console.png"
                     hover: "qrc:/Resources/Icons/icon_console_hover.png"
+                    panelHeader: "DapUiQmlWidgetLastActionsHeaderForm.qml"
+                    panelContent: "DapUiQmlWidgetConsoleLastActionsForm.qml"
                 }
 
                 ListElement {
@@ -82,6 +91,8 @@ Page {
                     page: "DapUiQmlWidgetChainNodeLogs.qml"
                     normal: "qrc:/Resources/Icons/icon_logs.png"
                     hover: "qrc:/Resources/Icons/icon_logs_hover.png"
+                    panelHeader: ""
+                    panelContent: ""
                 }
 
                 ListElement {
@@ -89,6 +100,8 @@ Page {
                     page: "DapUiQmlScreenSettings.qml"
                     normal: "qrc:/Resources/Icons/icon_settings.png"
                     hover: "qrc:/Resources/Icons/icon_settings_hover.png"
+                    panelHeader: ""
+                    panelContent: ""
                 }
 
                 ListElement {
@@ -96,6 +109,8 @@ Page {
                     page: "DapUiQmlScreenVpn.qml"
                     normal: "qrc:/Resources/Icons/defaul_icon.png"
                     hover: "qrc:/Resources/Icons/defaul_icon.png"
+                    panelHeader: ""
+                    panelContent: ""
                 }
 
                 /// TODO: It wasn't in the task. I will not delete it, maybe later
@@ -107,6 +122,9 @@ Page {
                 //                    }
             }
             delegate: componentItemMainMenuTab
+            clip: true
+            interactive: false
+            currentIndex: 0
         }
         focus: true
         //        DapUiQmlWidgetStatusBar {
@@ -118,73 +136,84 @@ Page {
         //            height: 60 * pt
     }
 
-
-    property alias rightPanelLoaderSource: rightPanelLoader.source
-
+    //    property alias rightPanelLoaderSource: rightPanelLoader.source
     Rectangle {
         id: mainDashboard
         anchors.left: rectangleTabsBorder.right
         anchors.top: rectangleStatusBar.bottom
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        border.color: "whitesmoke"
+//        border.color: "whitesmoke"
 
         Loader {
             id: stackViewScreenDashboard
             clip: true
-//            anchors.fill: parent
             anchors.left: parent.left
             anchors.right: rightPanel.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             source: "DapUiQmlScreenDialog.qml"
+
+//            onLoaded:
+//            {
+//                stackViewScreenDashboard.item.rightPanel = rightPanel;
+//            }
         }
 
-//            DapUiQmlWidgetLastActions {
-//                id: lastActionsHistory
-//                viewModel: dapHistoryModel
-//                viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
-//                viewSection.property: "date"
-//                viewSection.criteria: ViewSection.FullString
-//                viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
-//                    width:  parent.width
-//                    height: 30 * pt
-//                }
-//            }
+        DapUiQmlWidgetRightPanel {
+            id: rightPanel
+            anchors.bottom: parent.bottom
+            anchors.top: parent.top
+            anchors.right: parent.right
+            header.initialItem: "DapUiQmlWidgetLastActionsHeaderForm.qml"
+            content.initialItem: "DapUiQmlWidgetHistoryLastActions.qml"
+        }
 
-            Rectangle {
-                id: rightPanel
-                anchors.bottom: parent.bottom
-                anchors.top: parent.top
-                anchors.right: parent.right
-                width: 400 * pt
+        //            DapUiQmlWidgetLastActions {
+        //                id: lastActionsHistory
+        //                viewModel: dapHistoryModel
+        //                viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
+        //                viewSection.property: "date"
+        //                viewSection.criteria: ViewSection.FullString
+        //                viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
+        //                    width:  parent.width
+        //                    height: 30 * pt
+        //                }
+        //            }
 
-                Loader {
-                    id: rightPanelLoader
-                    clip: true
-                    anchors.fill: parent
-                    source: "DapUiQmlWidgetLastActions.qml"
-                }
+        //            Rectangle {
+        //                id: rightPanel
+        //                anchors.bottom: parent.bottom
+        //                anchors.top: parent.top
+        //                anchors.right: parent.right
+        //                width: 400 * pt
 
-                Connections {
-                    target: rectangleStatusBar
-                    onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
-                }
+        //                Loader {
+        //                    id: rightPanelLoader
+        //                    clip: true
+        //                    anchors.fill: parent
+        //                    source: "DapUiQmlWidgetLastActions.qml"
+        //                }
 
-                Connections {
-                    target: rightPanelLoader.item
-                    onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
-                    onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
-                    onPressedNextButtonChanged: {
-                        if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
-                        else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
-                        else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
-                        else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
-                    }
-                    onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
-                    onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
-                }
-            }
+        //                Connections {
+        //                    target: rectangleStatusBar
+        //                    onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+        //                }
+
+        //                Connections {
+        //                    target: rightPanelLoader.item
+        //                    onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+        //                    onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+        //                    onPressedNextButtonChanged: {
+        //                        if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
+        //                        else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
+        //                        else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
+        //                        else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+        //                    }
+        //                    onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+        //                    onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+        //                }
+        //            }
     }
 }
 

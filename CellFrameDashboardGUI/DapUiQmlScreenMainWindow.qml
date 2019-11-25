@@ -59,7 +59,15 @@ DapUiQmlScreenMainWindowForm {
                 onClicked: {
                     listViewTabs.currentIndex = index;
                     stackViewScreenDashboard.setSource(Qt.resolvedUrl(page));
+                    rightPanel.header.clear(StackView.Immediate);
+                    rightPanel.content.clear(StackView.Immediate);
+                    if(panelHeader !== "" && panelContent !== "")
+                    {
+                        rightPanel.header.push(Qt.resolvedUrl(panelHeader));
+                        rightPanel.content.push(Qt.resolvedUrl(panelContent));
+                    }
 
+                    stackViewScreenDashboard.item.rightPanel = rightPanel;
                 }
             }
 

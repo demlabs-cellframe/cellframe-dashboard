@@ -4,15 +4,15 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
 
 Rectangle {
-    color: "#C2CAD1"
+    color: "#757184"
 
     Text {
         anchors.fill: parent
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignLeft
-        color: "#797979"
+        color: "#FFFFFF"
         text: section
-        font.family: "Roboto"
+        font.family: fontRobotoRegular.name
         font.pixelSize: 12 * pt
         leftPadding: 16 * pt
     }

@@ -8,7 +8,7 @@ import QtQuick.Layouts 1.12
 
 Page {
     //  TODO: Don't delete it
-//    sproperty alias rightPanelLoaderSource: rightPanelLoader.ource
+//    sproperty alias rightPanelLoaderSource: rightPanelLoader.source
 
     id: dapUiQmlScreenDialog
     title: qsTr("Dashboard")
@@ -26,7 +26,7 @@ Page {
             height: 36 * pt
 
             Text {
-                anchors.left: parent
+                anchors.left: parent.left
                 font.pixelSize: 20 * pt
                 font.family: fontRobotoRegular.name
                 verticalAlignment: Qt.AlignVCenter

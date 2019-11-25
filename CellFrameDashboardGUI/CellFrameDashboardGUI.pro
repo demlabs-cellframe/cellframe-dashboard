@@ -125,7 +125,3 @@ unix: !mac : !android {
     gui_target.path = /opt/cellframe-dashboard/bin/
     INSTALLS += gui_target
 }
-
-#DISTFILES += \
-#    DapUiQmlScreenSettings.qml \
-#    DapUiQmlScreenSettingsForm.ui.qml

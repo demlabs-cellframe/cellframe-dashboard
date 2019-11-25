@@ -109,5 +109,10 @@
         <file>Resources/Icons/ic_edit.png</file>
         <file>Resources/Icons/ic_edit_hover.png</file>
         <file>Resources/Icons/new-payment_icon.png</file>
+        <file>DapUiQmlWidgetRightPanel.qml</file>
+        <file>DapUiQmlWidgetRightPanelForm.ui.qml</file>
+        <file>DapUiQmlWidgetHistoryLastActions.qml</file>
+        <file>DapUiQmlScreen.qml</file>
+        <file>DapUiQmlScreenForm.ui.qml</file>
     </qresource>
 </RCC>
