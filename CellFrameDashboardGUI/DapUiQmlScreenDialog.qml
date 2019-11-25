@@ -51,9 +51,9 @@ Page {
 
     Button {
         id: newPaymentButton
-        x: 250
-        y: 61
-        width: 140
+        x: 390
+        y: 40
+        width: 132
         height: 36
         background: Rectangle {
             anchors.fill: parent
@@ -67,7 +67,7 @@ Page {
             width: 24
             height: 24
             anchors.left: parent.left
-            anchors.leftMargin: 16
+            anchors.leftMargin: 6
             anchors.verticalCenter: parent.verticalCenter
 
             source: "file"
@@ -76,12 +76,13 @@ Page {
         Text {
             id: newPaymentText
             text: qsTr("New payment")
+            font.family: "Roboto"
+            font.pointSize: 8
             anchors.left: iconImage.right
             anchors.leftMargin: 6
             anchors.verticalCenterOffset: 0
             anchors.verticalCenter: parent.verticalCenter
             color: "#505559"
-            font.pointSize: 12 * pt
         }
     }
     

@@ -182,7 +182,7 @@ Rectangle {
 
     Rectangle {
         id: inputAmmountArea
-        height: 100
+        height: 140
         anchors.leftMargin: 1
         anchors.top: titleAmmountTextArea.bottom
         anchors.left: parent.left
@@ -204,7 +204,7 @@ Rectangle {
             ToolSeparator {
                 id: amountSeparator
                 anchors.top: inputAmount.bottom
-                anchors.topMargin: 20 * pt
+                anchors.topMargin: 12 * pt
                 anchors.left: inputAmount.left
                 anchors.right: inputAmount.right
                 orientation: Qt.Horizontal
@@ -218,7 +218,7 @@ Rectangle {
                 anchors.leftMargin: 0
                 color: "#B5B5B5"
                 anchors.top: amountSeparator.bottom
-                anchors.topMargin: 4
+                anchors.topMargin: 22
                 anchors.left: amountSeparator.left
                 anchors.right: amountSeparator.right
                 font.pointSize: 14
