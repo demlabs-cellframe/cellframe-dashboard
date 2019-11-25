@@ -263,7 +263,7 @@ Rectangle {
 
         TextInput {
             id: recipientWalletName
-            text: recipientWalletMouseArea.containsMouse ? "" : "Recipient wallet"
+            text: "Recipient wallet"
             font.pointSize: 17
             color: "#F1F2F2"
             font.family: "Roboto"
@@ -276,12 +276,9 @@ Rectangle {
             anchors.leftMargin: 34
             anchors.right: parent.right
             anchors.rightMargin: 32
-        }
 
-        MouseArea {
-            id: recipientWalletMouseArea
-            anchors.fill: recipientWalletName
-            hoverEnabled: true
+            onTextChanged: recipientWalletName.color = "#505559"
+            onActiveFocusChanged: recipientWalletName.text = ""
         }
 
         ToolSeparator {
