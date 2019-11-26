@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.12
 
 Rectangle {
-    anchors.fill: parent
+    height: 36 * pt
     color: "transparent"
 
     Text {

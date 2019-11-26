@@ -60,11 +60,14 @@ DapUiQmlScreenMainWindowForm {
                     listViewTabs.currentIndex = index;
                     rightPanel.header.clear(StackView.Immediate);
                     rightPanel.content.clear(StackView.Immediate);
-                    if(panelHeader !== "" && panelContent !== "")
+
+                    var headerData = panelHeader;
+                    var contentData = panelContent;
+                    if(panelHeader !== "" || panelContent !== "")
                     {
                         rightPanel.visible = true;
-                        rightPanel.header.push(Qt.resolvedUrl(panelHeader));
-                        rightPanel.content.push(Qt.resolvedUrl(panelContent));
+                        if(headerData !== "") rightPanel.header.push(Qt.resolvedUrl(headerData));
+                        if(contentData !== "") rightPanel.content.push(Qt.resolvedUrl(contentData));
                     }
                     else rightPanel.visible = false;
 

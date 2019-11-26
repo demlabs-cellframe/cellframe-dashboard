@@ -4,50 +4,35 @@ import QtQuick.Controls 2.13
 Rectangle {
     property alias header  : stackViewHeader
     property alias content : stackViewContent
-    property int headerHeight: 36 * pt
+    property alias background : rightPanelPage.background
+    property alias footer: stackViewHeader
 
     width: visible ? 400 * pt : 0
     color: "#E3E2E6"
 
-    Rectangle {
+    Page {
+        id: rightPanelPage
         anchors.fill: parent
         anchors.leftMargin: 1
-        color: "#F8F7FA"
+        background: Rectangle {
+            color: "#F8F7FA"
+        }
 
-        Column {
+        header: StackView {
+            id: stackViewHeader
+            width: parent.width
+            height: currentItem === null ? 0 : currentItem.height
+        }
+
+        StackView {
+            id: stackViewContent
             anchors.fill: parent
+        }
 
-            Item {
-                id: headerItem
-                width: parent.width
-                height: headerHeight;
-
-                StackView {
-                    id: stackViewHeader
-                    anchors.fill: parent
-                }
-
-//                Loader {
-//                    anchors.fill: parent
-//                    sourceComponent: header
-//                }
-            }
-
-
-            Item {
-                width: parent.width
-                height: parent.height - headerHeight
-
-                StackView {
-                    id: stackViewContent
-                    anchors.fill: parent
-                }
-
-//                Loader {
-//                    anchors.fill: parent
-//                    sourceComponent: content
-//                }
-            }
+        footer: StackView {
+            id: stackViewFooter
+            width: parent.width
+            height: currentItem === null ? 0 : currentItem.height
         }
     }
 }
