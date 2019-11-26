@@ -25,18 +25,9 @@
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
         <file>DapUiQmlScreenExchangeForm.ui.qml</file>
-        <file>Resources/Fonts/roboto_black.ttf</file>
-        <file>Resources/Fonts/roboto_black_italic.ttf</file>
-        <file>Resources/Fonts/roboto_bold.ttf</file>
-        <file>Resources/Fonts/roboto_bold_italic.ttf</file>
-        <file>Resources/Fonts/roboto_italic.ttf</file>
         <file>Resources/Fonts/roboto_light.ttf</file>
-        <file>Resources/Fonts/roboto_light_italic.ttf</file>
         <file>Resources/Fonts/roboto_medium.ttf</file>
-        <file>Resources/Fonts/roboto_medium_italic.ttf</file>
         <file>Resources/Fonts/roboto_regular.ttf</file>
-        <file>Resources/Fonts/roboto_thin.ttf</file>
-        <file>Resources/Fonts/roboto_thin_italic.ttf</file>
         <file>DapUiQmlWidgetExchangeOrderForm.ui.qml</file>
         <file>DapUiQmlWidgetExchangeOrderTitleForm.ui.qml</file>
         <file>DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>

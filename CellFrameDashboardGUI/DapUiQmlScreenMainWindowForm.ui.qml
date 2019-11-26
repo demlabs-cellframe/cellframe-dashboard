@@ -18,6 +18,9 @@ Page {
         source: "qrc:/Resources/Fonts/roboto_regular.ttf"
     }
 
+    readonly property FontLoader fontRobotoMedium: FontLoader {
+        source: "qrc:/Resources/Fonts/roboto_medium.ttf"
+    }
     /// -----------
     property alias listViewTabs: listViewTabs
     property alias stackViewScreenDashboard: stackViewScreenDashboard
@@ -127,23 +130,14 @@ Page {
             currentIndex: 0
         }
         focus: true
-        //        DapUiQmlWidgetStatusBar {
-        //            id: rectangleStatusBar
-        //            anchors.left: rectangleTabsBorder.right
-        //            anchors.top: parent.top
-        //            anchors.right: parent.right
-        //            color: "#B5B5B5"
-        //            height: 60 * pt
     }
 
-    //    property alias rightPanelLoaderSource: rightPanelLoader.source
     Rectangle {
         id: mainDashboard
         anchors.left: rectangleTabsBorder.right
         anchors.top: rectangleStatusBar.bottom
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-//        border.color: "whitesmoke"
 
         Loader {
             id: stackViewScreenDashboard
@@ -153,11 +147,6 @@ Page {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             source: "DapUiQmlScreenDialog.qml"
-
-//            onLoaded:
-//            {
-//                stackViewScreenDashboard.item.rightPanel = rightPanel;
-//            }
         }
 
         DapUiQmlWidgetRightPanel {
@@ -168,58 +157,6 @@ Page {
             header.initialItem: "DapUiQmlWidgetLastActionsHeaderForm.qml"
             content.initialItem: "DapUiQmlWidgetHistoryLastActions.qml"
         }
-
-        //            DapUiQmlWidgetLastActions {
-        //                id: lastActionsHistory
-        //                viewModel: dapHistoryModel
-        //                viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
-        //                viewSection.property: "date"
-        //                viewSection.criteria: ViewSection.FullString
-        //                viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
-        //                    width:  parent.width
-        //                    height: 30 * pt
-        //                }
-        //            }
-
-        //            Rectangle {
-        //                id: rightPanel
-        //                anchors.bottom: parent.bottom
-        //                anchors.top: parent.top
-        //                anchors.right: parent.right
-        //                width: 400 * pt
-
-        //                Loader {
-        //                    id: rightPanelLoader
-        //                    clip: true
-        //                    anchors.fill: parent
-        //                    source: "DapUiQmlWidgetLastActions.qml"
-        //                }
-
-        //                Connections {
-        //                    target: rectangleStatusBar
-        //                    onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
-        //                }
-
-        //                Connections {
-        //                    target: rightPanelLoader.item
-        //                    onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
-        //                    onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
-        //                    onPressedNextButtonChanged: {
-        //                        if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
-        //                        else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
-        //                        else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
-        //                        else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
-        //                    }
-        //                    onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
-        //                    onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
-        //                }
-        //            }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
 

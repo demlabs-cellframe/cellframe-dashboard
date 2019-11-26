@@ -96,9 +96,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        rightPanel.header.clear(StackView.Immediate)
-//        rightPanel.content.get(0).consoleData = dapConsoleForm.textAreaCmdHistory;
-//        rightPanel.content.currentItem.consoleData = dapConsoleForm.textAreaCmdHistory;
+        rightPanel.content.currentItem.consoleData = dapConsoleForm.textAreaCmdHistory;
     }
 }
 

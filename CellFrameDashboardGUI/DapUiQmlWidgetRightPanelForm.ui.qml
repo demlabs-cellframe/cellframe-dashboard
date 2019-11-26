@@ -6,7 +6,7 @@ Rectangle {
     property alias content : stackViewContent
     property int headerHeight: 36 * pt
 
-    width: 400 * pt
+    width: visible ? 400 * pt : 0
     color: "#E3E2E6"
 
     Rectangle {

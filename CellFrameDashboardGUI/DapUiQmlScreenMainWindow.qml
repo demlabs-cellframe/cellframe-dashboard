@@ -58,22 +58,24 @@ DapUiQmlScreenMainWindowForm {
 
                 onClicked: {
                     listViewTabs.currentIndex = index;
-                    stackViewScreenDashboard.setSource(Qt.resolvedUrl(page));
                     rightPanel.header.clear(StackView.Immediate);
                     rightPanel.content.clear(StackView.Immediate);
                     if(panelHeader !== "" && panelContent !== "")
                     {
+                        rightPanel.visible = true;
                         rightPanel.header.push(Qt.resolvedUrl(panelHeader));
                         rightPanel.content.push(Qt.resolvedUrl(panelContent));
                     }
+                    else rightPanel.visible = false;
 
-                    stackViewScreenDashboard.item.rightPanel = rightPanel;
+
+                    stackViewScreenDashboard.setSource(Qt.resolvedUrl(page), {"rightPanel": rightPanel});
                 }
             }
 
             onIsPushedChanged: {
                 componentItem.color = (isPushed ? "#D51F5D" : "transparent");
-                imageItem.source = model.hover;
+                imageItem.source = isPushed ? model.hover : model.normal;
                 textItemMenu.font.family = (isPushed ? fontRobotoRegular.name : fontRobotoLight.name);
             }
         }
