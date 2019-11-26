@@ -1,189 +1,266 @@
 import QtQuick 2.9
-import QtQuick.Controls 1.4
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Styles 1.4
+import CellFrameDashboard 1.0
+import QtQml 2.12
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.12
 
-Page {
-    id: dapUiQmlScreenDashboard
-    title: qsTr("General")
 
-    Rectangle
-    {
-        id: rectangleTabsBorder
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        color: "#B5B5B5"
-        width: 150
+DapUiQmlScreen {
+    //  TODO: Don't delete it
+//    sproperty alias rightPanelLoaderSource: rightPanelLoader.source
+
+    id: dapUiQmlScreenDialog
+    title: qsTr("Dashboard")
+    anchors.fill: parent
+
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.topMargin: 20 * pt
+        anchors.leftMargin: 24 * pt
+        anchors.rightMargin: 24 * pt
+        spacing: 20 * pt
+
         Rectangle {
-            id: rectangleTabs
-            anchors.fill: parent
-            anchors.leftMargin: 1
-            anchors.rightMargin: 1
+            Layout.fillWidth: true
+            height: 36 * pt
 
-            color: "#E1E4E6"
-            ListView {
-                id: listViewTabs
-                anchors.fill: parent
-                model: listModelTabs
-                spacing: 3
+            Text {
+                anchors.left: parent.left
+                font.pixelSize: 20 * pt
+                font.family: fontRobotoRegular.name
+                verticalAlignment: Qt.AlignVCenter
+                text: "My first wallet"
+            }
 
-                ListModel {
-                    id: listModelTabs
+            Button {
+                anchors.top: parent.top
+                width: 132 * pt
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                text: "New payment"
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 12 * pt
+                highlighted: true
 
-                    ListElement {
-                        name:  qsTr("Home")
-                        page: "DapUiQmlScreenDialog.qml"
-                        source: "qrc:/Resources/Icons/defaul_icon.png"
-                    }
-                    ListElement {
-                        name:  qsTr("Settings")
-                        page: "DapQmlScreenAbout.qml"
-                        source: "qrc:/Resources/Icons/defaul_icon.png"
-                    }
-                    ListElement {
-                        name:  qsTr("Logs")
-                        page: "DapUiQmlWidgetChainNodeLogs.qml"
-                        source: "qrc:/Resources/Icons/defaul_icon.png"
-                    }
-                    ListElement {
-                        name:  qsTr("History")
-                        page: "DapUiQmlScreenHistory.qml"
-                        source: "qrc:/Resources/Icons/defaul_icon.png"
-                    }
-
-                    ListElement {
-                        name:  qsTr("Console")
-                        page: "DapUiQmlScreenConsoleForm.qml"
-                        source: "qrc:/Resources/Icons/defaul_icon.png"
-                    }
-
-                    ListElement {
-                        name:  qsTr("About")
-                        page: "DapQmlScreenAbout.qml"
-                        source: "qrc:/Resources/Icons/defaul_icon.png"
-                    }
+                background: Rectangle {
+                    color: "#3E3853"
                 }
 
+                icon.width: 20 * pt
+                icon.height: 20 * pt
+                icon.source: "qrc:/Resources/Icons/new-payment_icon.png"
+                icon.color: "#FFFFFF"
+            }
+        }
 
 
-                delegate:
-                    Column {
-                    id: componentTab
-                    height: 148
-                    Rectangle {
-                        id: componentItem
-                        property bool isPushed: listViewTabs.currentIndex === index
+        ListView {
+            id: listViewToken
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            model: dapWalletFilterModel
+            section.property: "networkDisplayRole"
+            section.criteria: ViewSection.FullString
+            section.delegate: Rectangle {
+                width: parent.width
+                height: 30 * pt
+                color: "#908D9D"
 
-                        width: listViewTabs.width
-                        height: 150
-                        color: "transparent"
-                        Rectangle
-                        {
-                            id: spacerItem1
-                            height: 25
-                            anchors.top: parent.top
-                        }
-                        Image
-                        {
-                            id: imageItem
-                            anchors.top: spacerItem1.bottom
-                            source: model.source
-                            height: 60
-                            width: 60
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
-                        Rectangle
-                        {
-                            id: spacerItem2
-                            anchors.top: imageItem.bottom
-                            height: 16
-                        }
-                        Text
-                        {
-                            id: textItemMenu
-                            anchors.top: spacerItem2.bottom
-                            text: qsTr(name)
-                            color: "#505559"
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            font.family: "Roboto"
-                            font.weight: componentItem.isPushed ? Font.Normal : Font.Light
-                            font.pointSize: 16
-                        }
-                        Rectangle
-                        {
-                            id: spacerItem3
-                            anchors.top: textItemMenu.bottom
-                            height: 30
-                        }
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onEntered:
-                            {
-                                textItemMenu.font.weight = Font.Normal
-                                if(!componentItem.isPushed) componentItem.color ="#B0B0B5"
-                            }
-                            onExited:
-                            {
-                                textItemMenu.font.weight = Font.Light
-                                if(!componentItem.isPushed) componentItem.color = "transparent"
-                            }
-
-                            onClicked:
-                            {
-                                listViewTabs.currentIndex = index
-                                stackViewScreenDashboard.setSource(Qt.resolvedUrl(page))
-                            }
-                        }
-
-                        onIsPushedChanged: {
-                            componentItem.color = (isPushed ? "#D0D3D6" : "transparent");
-                        }
-                    }
-                    Rectangle
-                    {
-                        id: borderItem
-                        height: 1
-                        color: "#B5B5B5"
-                        width: parent.width
-                    }
+                Text {
+                    anchors.fill: parent
+                    anchors.leftMargin: 16 * pt
+                    font.family: fontRobotoRegular.name
+                    font.pixelSize: 12 * pt
+                    color: "#FFFFFF"
+                    verticalAlignment: Qt.AlignVCenter
+                    text: section
                 }
             }
-            focus: true
-        }
-    }
 
-    Rectangle
-    {
-        id: rectangleStatusBar
-        anchors.left: rectangleTabsBorder.right
-        anchors.top: parent.top
-        anchors.right: parent.right
-        color: "#B5B5B5"
-        height: 60
-        Rectangle
-        {
-            anchors.fill: parent
-            anchors.bottomMargin: 1
-            color: "#F2F2F4"
-        }
-    }
 
-    Rectangle {
-        id: mainDashboard
-        anchors.left: rectangleTabsBorder.right
-        anchors.top: rectangleStatusBar.bottom
-        anchors.bottom: parent.bottom
-        anchors.right: parent.right
-        border.color: "whitesmoke"
-
-        Loader {
-            id: stackViewScreenDashboard
             clip: true
-            anchors.fill: parent
-            source: "DapUiQmlScreenDialog.qml"
+
+            delegate: Component {
+
+                ListView
+                {
+                    width: listViewToken.width
+                    height: contentItem.height
+                    leftMargin: 16 * pt
+                    interactive: false
+
+                    model: walletTokenListDisplayRole
+                    section.property: "modelData.wallet"
+                    section.delegate: Component{
+                        Rectangle {
+                            width: parent.width
+                            height: 36 * pt
+
+                            Row {
+                                anchors.fill: parent
+
+                                Text {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    verticalAlignment: Qt.AlignVCenter
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 12 * pt
+                                    color: "#908D9D"
+
+                                    text: "Wallet address:"
+                                }
+
+                                Item {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 36 * pt
+                                }
+
+                                Text {
+                                    id: titleWalletAddress
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 180 * pt
+                                    verticalAlignment: Qt.AlignVCenter
+                                    elide: Text.ElideRight
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 10 * pt
+                                    color: "#757184"
+                                    text: section
+                                }
+
+                                Item {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 4 * pt
+                                }
+
+                                Rectangle {
+                                    anchors.top: parent.top
+                                    anchors.bottom: parent.bottom
+                                    width: 16 * pt
+
+                                    Image {
+                                        id: imageButton
+                                        anchors.centerIn: parent
+                                        width: 16 * pt
+                                        height: 16 * pt
+                                        source: "qrc:/Resources/Icons/ic_copy.png"
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+
+                                        onEntered: imageButton.source = "qrc:/Resources/Icons/ic_copy_hover.png"
+                                        onExited: imageButton.source = "qrc:/Resources/Icons/ic_copy.png"
+                                        onClicked: clipboard.setText(titleWalletAddress.text);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    delegate: Component
+                    {
+
+                        Rectangle {
+                            width: parent.width - 16 * pt
+                            height: 62 * pt
+                            color: "#E3E2E6"
+
+                            Rectangle {
+                                anchors.fill: parent
+                                anchors.topMargin: 1
+
+                                Label {
+                                    anchors.left: parent.left
+                                    verticalAlignment: Qt.AlignVCenter
+                                    height: parent.height
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 18 * pt
+                                    color: "#070023"
+                                    text: model.modelData.name
+                                }
+
+                                Label {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    width: 1
+                                    height: parent.height
+                                    verticalAlignment: Qt.AlignVCenter
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 12 * pt
+                                    color: "#070023"
+                                    text: model.modelData.balance + " " + model.modelData.name
+                                }
+
+                                Label {
+                                    anchors.right: parent.right
+                                    height: parent.height
+                                    verticalAlignment: Qt.AlignVCenter
+                                    horizontalAlignment: Qt.AlignRight
+                                    font.family: fontRobotoRegular.name
+                                    font.pixelSize: 12 * pt
+                                    color: "#757184"
+                                    text: "$ " + model.modelData.balance + " USD"
+                                }
+
+                            }
+                        }
+                    }
+
+
+
+                }
+
+            }
         }
     }
-}
 
+    //  TODO: Don't delete it too
+//    RoundButton {
+//           text: qsTr("+")
+//           highlighted: true
+//           anchors.margins: 10
+//           anchors.right: parent.right
+//           anchors.bottom: parent.bottom
+//           onClicked: {
+//                       listViewDapWidgets.addWidget()
+//                   }
+//       }
+
+//    Rectangle {
+//        id: rightPanel
+//        anchors.bottom: parent.bottom
+//        anchors.top: parent.top
+//        anchors.right: parent.right
+//        width: 400 * pt
+
+//        Loader {
+//            id: rightPanelLoader
+//            clip: true
+//            anchors.fill: parent
+//            source: "DapUiQmlWidgetLastActions.qml"
+//        }
+
+//        Connections {
+//            target: rectangleStatusBar
+//            onAddWalletPressedChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+//        }
+
+//        Connections {
+//            target: rightPanelLoader.item
+//            onPressedCloseAddWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+//            onPressedDoneCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+//            onPressedNextButtonChanged: {
+//                if(rightPanelLoader.item.isWordsRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml";
+//                else if(rightPanelLoader.item.isQRCodeRecoveryMethodChecked) rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml";
+//                else if(rightPanelLoader.item.isExportToFileRecoveryMethodChecked) console.debug("Export to file"); /*TODO: create dialog select file to export */
+//                else rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+//            }
+//            onPressedBackButtonChanged: rightPanelLoader.source = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+//            onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+//        }
+//    }
+}

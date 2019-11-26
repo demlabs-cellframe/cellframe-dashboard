@@ -55,7 +55,7 @@ Page {
 
                 ListElement {
                     name: qsTr("Dashboard")
-                    page: "DapUiQmlScreenDialog.qml"
+                    page: "DapUiQmlScreenDashboard.qml"
                     normal: "qrc:/Resources/Icons/icon_dashboard.png"
                     hover: "qrc:/Resources/Icons/icon_dashboard_hover.png"
                     panelHeader: "DapUiQmlWidgetLastActionsHeaderForm.qml"
@@ -146,7 +146,7 @@ Page {
             anchors.right: rightPanel.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            source: "DapUiQmlScreenDialog.qml"
+            source: "DapUiQmlScreenDashboard.qml"
         }
 
         DapUiQmlWidgetRightPanel {

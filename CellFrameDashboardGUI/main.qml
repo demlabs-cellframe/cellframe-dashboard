@@ -31,6 +31,8 @@ ApplicationWindow {
             }
         }
 
+
+
 //        onErrorConnect: {
 //            imageNetwork.visible = false
 //            if(imageErrorNetwork.visible)
@@ -46,158 +48,7 @@ ApplicationWindow {
 //        }
     }
 
-
-//    header:
-//    Column
-//    {
-//        ToolBar
-//        {
-//            width: parent.width
-//            height: buttomMenu.implicitHeight
-//            contentItem: Item {
-//                anchors.fill: parent
-//                Rectangle
-//                {
-//                    anchors.fill: parent
-//                    color: "#353841"
-//                }
-
-//            }
-
-//            ToolButton {
-//                id: buttomMenu
-
-//                contentItem: Item {
-//                    anchors.fill: parent
-//                    Rectangle
-//                    {
-//                        anchors.fill: parent
-//                        color: "#353841"
-
-//                        Text {
-//                            text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-//                            font.pixelSize: Qt.application.font.pixelSize * 2
-//                            anchors.centerIn: parent
-//                            color: "#A5A7AA"
-//                        }
-//                    }
-
-//                }
-
-//                onClicked: {
-//                    if (stackView.depth > 1) {
-//                        stackView.pop()
-//                    } else {
-//                        drawerMenu.open()
-//                    }
-//                }
-//            }
-
-//            Label {
-//                id: labelTitleWidget
-//                text: stackView.currentItem.title
-//                anchors.centerIn: parent
-//                color: "white"
-//            }
-
-//            Image {
-//                id: imageNetwork
-//                source: "qrc:/Resources/Icons/iconNetwork.png"
-//                scale: 0.7
-//                visible: false
-//                anchors.verticalCenter: parent.verticalCenter
-//                anchors.right: parent.left
-//            }
-
-//            Image {
-//                id: imageErrorNetwork
-//                source: "qrc:/Resources/Icons/iconErrorNetwork.png"
-//                scale: 0.7
-//                visible: true
-//                anchors.verticalCenter: parent.verticalCenter
-//                anchors.right: parent.right
-//            }
-//        }
-//        Rectangle
-//        {
-//            height: 1
-//            width: parent.width
-//            color: "green"
-//        }
-//    }
-
-    Drawer {
-        id: drawerMenu
-        width: window.width * 0.3
-        height: window.height
-        Rectangle
-        {
-            anchors.fill: parent
-            color: "#353841"
-
-            ListView {
-                id: listViewMenu
-                anchors.fill: parent
-                model: dapUiQmlWidgetModel
-
-                delegate:
-                    Component {
-                        id: listViewItemMenu
-                        Item {
-                            id: itemMenu
-
-                            width: listViewMenu.width
-                            height: textItemMenu.height + 10
-
-                            Row {
-                                anchors.margins: 5
-                                anchors.fill: parent
-
-                                Text
-                                {
-                                    id: textItemMenu
-                                    text: qsTr(name)
-                                    color: "#BBBEBF"
-                                    font.pointSize: 12
-                                    font.weight: Font.Light
-                                    font.family: "Roboto"
-                                }
-                            }
-
-                            MouseArea {
-                                   anchors.fill: parent
-                                   onClicked:
-                                   {
-                                       listViewMenu.currentIndex = index
-                                       stackView.push(Qt.resolvedUrl(URLpage), StackView.Immediate)
-                                       drawerMenu.close()
-                                   }
-                               }
-                            }
-                        }
-
-                highlight:
-                    Component
-                    {
-                        Rectangle {
-                            id: rectangleMenu
-                            color: "#121B28"
-                            Rectangle
-                            {
-                                height: rectangleMenu.height
-                                width: 4
-                                color: "green"
-                            }
-                        }
-                    }
-                focus: true
-            }
-        }
-    }
-
-    StackView {
-        id: stackView
-        initialItem: "DapUiQmlScreenMainWindow.qml"
+    DapUiQmlScreenMainWindow {
         anchors.fill: parent
     }
 }

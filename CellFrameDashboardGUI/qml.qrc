@@ -7,7 +7,7 @@
         <file>DapUiQmlWidgetChainServicesClient.ui.qml</file>
         <file>DapUiQmlWidgetChainServicesShareControl.ui.qml</file>
         <file>DapUiQmlWidgetChainSettings.ui.qml</file>
-        <file>DapUiQmlScreenDialog.qml</file>
+        <file>DapUiQmlScreenDashboard.qml</file>
         <file>Resources/Icons/icon.png</file>
         <file>DapUiQmlScreenAbout.ui.qml</file>
         <file>DapQmlScreenAbout.qml</file>
