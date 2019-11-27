@@ -261,11 +261,12 @@ Rectangle {
         anchors.leftMargin: 1 * pt
         anchors.right: parent.right
 
-        TextInput {
+        TextField {
             id: recipientWalletName
-            text: "Recipient wallet"
+            placeholderText: "Recipient wallet"
+            placeholderTextColor: "#F1F2F2"
             font.pointSize: 17
-            color: "#F1F2F2"
+            color: "#505559"
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
@@ -277,8 +278,10 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: 32
 
-            onTextChanged: recipientWalletName.color = "#505559"
-            onActiveFocusChanged: recipientWalletName.text = ""
+            background: Rectangle {
+                anchors.fill: parent
+                color: "#FFFFFF"
+            }
         }
 
         ToolSeparator {
