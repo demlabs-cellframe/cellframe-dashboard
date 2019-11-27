@@ -281,6 +281,8 @@ Rectangle {
             anchors.leftMargin: 34
             anchors.right: parent.right
             anchors.rightMargin: 32
+            selectByMouse: true
+            mouseSelectionMode: TextInput.SelectCharacters
 
             background: Rectangle {
                 anchors.fill: parent
