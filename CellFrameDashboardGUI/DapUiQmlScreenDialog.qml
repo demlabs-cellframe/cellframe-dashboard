@@ -86,7 +86,7 @@ Page {
             id: newPaymentText
             text: qsTr("New payment")
             font.family: "Roboto"
-            font.pointSize: 8
+            font.pointSize: 16
             anchors.left: iconImage.right
             anchors.leftMargin: 6
             anchors.verticalCenterOffset: 0
@@ -94,18 +94,6 @@ Page {
             color: "#505559"
         }
     }
-
-//    DapUiQmlWidgetLastActions {
-//        id: lastActionsHistory
-//        viewModel: dapHistoryModel
-//        viewDelegate: DapUiQmlWidgetLastActionsDelegateForm {}
-//        viewSection.property: "date"
-//        viewSection.criteria: ViewSection.FullString
-//        viewSection.delegate: DapUiQmlWidgetLastActionsSectionForm {
-//            width:  parent.width
-//            height: 30 * pt
-//        }
-//    }
 
     Rectangle {
         id: rightPanel

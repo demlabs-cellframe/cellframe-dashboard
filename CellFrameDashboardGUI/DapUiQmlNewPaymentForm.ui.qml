@@ -35,6 +35,7 @@ Rectangle {
         Text {
             id: newPaymentText
             text: qsTr("New payment")
+            font.family: "Roboto"
             font.pointSize: 16
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 13
@@ -86,7 +87,6 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             font.pointSize: 12
             font.family: "Roboto"
-            font.styleName: "Normal"
             font.weight: Font.Normal
             horizontalAlignment: Text.AlignLeft
         }
@@ -128,30 +128,30 @@ Rectangle {
                     signatureName: "New Gold"
                 }
             }
+        }
 
-            ToolSeparator {
-                id: currencySeparator
-                anchors.top: comboBoxChooseCurrencyType.bottom
-                anchors.topMargin: 20 * pt
-                anchors.left: comboBoxChooseCurrencyType.left
-                anchors.right: comboBoxChooseCurrencyType.right
-                orientation: Qt.Horizontal
-            }
+        ToolSeparator {
+            id: currencySeparator
+            anchors.top: comboBoxChooseCurrencyType.bottom
+            anchors.topMargin: 20 * pt
+            anchors.left: comboBoxChooseCurrencyType.left
+            anchors.right: comboBoxChooseCurrencyType.right
+            orientation: Qt.Horizontal
+        }
 
-            Text {
-                id: walletName
-                height: 25
-                color: "#B5B5B5"
-                text: qsTr("brz89EWFKlkmfwk392i32300503493")
-                font.family: "Roboto"
-                font.pointSize: 14
-                anchors.rightMargin: 0
-                anchors.leftMargin: 0
-                anchors.top: currencySeparator.bottom
-                anchors.topMargin: 15
-                anchors.left: currencySeparator.left
-                anchors.right: currencySeparator.right
-            }
+        Text {
+            id: walletName
+            height: 25
+            color: "#B5B5B5"
+            text: qsTr("brz89EWFKlkmfwk392i32300503493")
+            font.family: "Roboto"
+            font.pointSize: 14
+            anchors.rightMargin: 0
+            anchors.leftMargin: 0
+            anchors.top: currencySeparator.bottom
+            anchors.topMargin: 15
+            anchors.left: currencySeparator.left
+            anchors.right: currencySeparator.right
         }
     }
 
@@ -366,10 +366,3 @@ Rectangle {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:16;anchors_x:131;anchors_y:36}
-}
-##^##*/
-
