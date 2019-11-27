@@ -191,6 +191,10 @@ Rectangle {
         TextInput {
             id: inputAmount
             text: qsTr("0")
+            validator: RegExpValidator {
+                regExp: /[0-9]+/
+            }
+
             font.weight: Font.Normal
             font.pointSize: 18
             font.family: "Roboto"
