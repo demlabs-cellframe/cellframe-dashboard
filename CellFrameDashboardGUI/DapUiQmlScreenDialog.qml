@@ -55,9 +55,19 @@ Page {
         y: 40
         width: 132
         height: 36
+
+        MouseArea {
+            id: newPaymentMouseArea
+            anchors.fill: newPaymentButton
+            hoverEnabled: true
+
+            onPressed: newPaymentBackground.color = "#FFFFFF"
+        }
+
         background: Rectangle {
+            id: newPaymentBackground
             anchors.fill: parent
-            color: "#E3E5E8"
+            color: newPaymentMouseArea.containsMouse ? "#FFFFFF" : "#E3E5E8"
             border.color: "#5F5F63"
             border.width: 1 * pt
         }
@@ -69,8 +79,7 @@ Page {
             anchors.left: parent.left
             anchors.leftMargin: 6
             anchors.verticalCenter: parent.verticalCenter
-
-            source: "file"
+            source: "Resources/Icons/defaul_icon.png"
         }
 
         Text {
@@ -85,17 +94,6 @@ Page {
             color: "#505559"
         }
     }
-    
-    RoundButton {
-           text: qsTr("+")
-           highlighted: true
-           anchors.margins: 10
-           anchors.right: parent.right
-           anchors.bottom: parent.bottom
-           onClicked: {
-                       listViewDapWidgets.addWidget()
-                   }
-       }
 
 //    DapUiQmlWidgetLastActions {
 //        id: lastActionsHistory
@@ -129,7 +127,7 @@ Page {
         }
 
         Connections {
-            target: newPaymentButton
+            target: newPaymentMouseArea
             onClicked: rightPanelLoader.source = "DapUiQmlNewPayment.qml"
         }
 
@@ -162,6 +160,6 @@ Page {
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:11;anchors_x:43}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
