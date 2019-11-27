@@ -1,9 +1,10 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.0
 import CellFrameDashboard 1.0
 
 Rectangle {
-    property alias translatedText: translatedAmountToken.text
+    property alias translatedText: convertedAmountToken.text
     property alias amountText: inputAmount
     property alias pressedSendButton: mouseAreaSendButton.pressed
 
@@ -190,43 +191,70 @@ Rectangle {
 
         TextInput {
             id: inputAmount
-            text: qsTr("0")
-            validator: RegExpValidator {
-                regExp: /[0-9]+/
-            }
-
-            font.weight: Font.Normal
-            font.pointSize: 18
-            font.family: "Roboto"
             anchors.top: parent.top
             anchors.topMargin: 22
             anchors.left: parent.left
             anchors.leftMargin: 34
             anchors.right: parent.right
             anchors.rightMargin: 36
-
-            ToolSeparator {
-                id: amountSeparator
-                anchors.top: inputAmount.bottom
-                anchors.topMargin: 12 * pt
-                anchors.left: inputAmount.left
-                anchors.right: inputAmount.right
-                orientation: Qt.Horizontal
+            text: qsTr("0")
+            validator: RegExpValidator {
+                regExp: /[0-9]+/
             }
 
-            Text {
-                id: translatedAmountToken
-                text: qsTr("0")
-                leftPadding: 0
-                anchors.rightMargin: 0
-                anchors.leftMargin: 0
-                color: "#B5B5B5"
-                anchors.top: amountSeparator.bottom
-                anchors.topMargin: 22
-                anchors.left: amountSeparator.left
-                anchors.right: amountSeparator.right
-                font.pointSize: 14
-            }
+            maximumLength: 20
+
+            font.weight: Font.Normal
+            font.pointSize: 18
+            font.family: "Roboto"
+        }
+
+        Text {
+            id: currencyTypeSuffix
+            anchors.top: inputAmount.top
+            anchors.bottom: inputAmount.bottom
+            anchors.right: inputAmount.right
+            text: qsTr("KLVN")
+            anchors.bottomMargin: 0
+            anchors.topMargin: 0
+            font.pointSize: 16 * pt
+            font.family: "Roboto"
+        }
+
+        ToolSeparator {
+            id: amountSeparator
+            anchors.top: inputAmount.bottom
+            anchors.topMargin: 12 * pt
+            anchors.left: inputAmount.left
+            anchors.right: inputAmount.right
+            orientation: Qt.Horizontal
+        }
+
+        Text {
+            id: convertedAmountToken
+            text: qsTr("0")
+            leftPadding: 0
+            anchors.rightMargin: 0
+            anchors.leftMargin: 0
+            color: "#B5B5B5"
+            anchors.top: amountSeparator.bottom
+            anchors.topMargin: 22
+            anchors.left: amountSeparator.left
+            anchors.right: amountSeparator.right
+            font.pointSize: 14
+        }
+
+        Text {
+            id: suffixUSD
+            anchors.top: convertedAmountToken.top
+            anchors.bottom: convertedAmountToken.bottom
+            anchors.right: convertedAmountToken.right
+            text: qsTr("USD")
+            color: "#B5B5B5"
+            anchors.bottomMargin: 0
+            anchors.topMargin: 0
+            font.pointSize: 14 * pt
+            font.family: "Roboto"
         }
     }
 
