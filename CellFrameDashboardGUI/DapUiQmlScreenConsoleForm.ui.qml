@@ -18,13 +18,5 @@ DapUiQmlScreen {
             Layout.topMargin: 30 * pt
             Layout.rightMargin: 30 * pt
         }
-
-//        DapUiQmlWidgetConsoleLastActionsForm {
-//            id: lastActionsPanel
-//            consoleData: dapConsoleForm.textAreaCmdHistory
-////            border.color: "transparent"
-//        }
     }
-
-
 }
