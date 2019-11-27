@@ -30,22 +30,6 @@ ApplicationWindow {
                 window.hide()
             }
         }
-
-
-
-//        onErrorConnect: {
-//            imageNetwork.visible = false
-//            if(imageErrorNetwork.visible)
-//                imageErrorNetwork.visible = false
-//            else
-//                imageErrorNetwork.visible = true
-//        }
-
-//        onConnectedToService: {
-//            imageNetwork.visible = true
-//            imageErrorNetwork.visible = false
-//            console.log("Connected")
-//        }
     }
 
     DapUiQmlScreenMainWindow {
