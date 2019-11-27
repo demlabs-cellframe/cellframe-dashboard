@@ -2,9 +2,7 @@ import QtQuick 2.13
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.13
 
-
 Rectangle {
-
     property alias textAreaCmdHistory: txtCommand
     property alias textAreaCmd: consoleCmd
 
@@ -95,6 +93,10 @@ Rectangle {
         onCmdHistoryChanged: {
             txtCommand.append(history);
         }
+    }
+
+    Component.onCompleted: {
+        rightPanel.content.currentItem.consoleData = dapConsoleForm.textAreaCmdHistory;
     }
 }
 

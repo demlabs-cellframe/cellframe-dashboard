@@ -1,0 +1,38 @@
+import QtQuick 2.4
+import QtQuick.Controls 2.13
+
+Rectangle {
+    property alias header  : stackViewHeader
+    property alias content : stackViewContent
+    property alias background : rightPanelPage.background
+    property alias footer: stackViewHeader
+
+    width: visible ? 400 * pt : 0
+    color: "#E3E2E6"
+
+    Page {
+        id: rightPanelPage
+        anchors.fill: parent
+        anchors.leftMargin: 1
+        background: Rectangle {
+            color: "#F8F7FA"
+        }
+
+        header: StackView {
+            id: stackViewHeader
+            width: parent.width
+            height: currentItem === null ? 0 : currentItem.height
+        }
+
+        StackView {
+            id: stackViewContent
+            anchors.fill: parent
+        }
+
+        footer: StackView {
+            id: stackViewFooter
+            width: parent.width
+            height: currentItem === null ? 0 : currentItem.height
+        }
+    }
+}

@@ -27,30 +27,31 @@ DapUiQmlWidgetLastActionsForm {
         }
     }
 
-    DapUiQmlWidgetLastActionsHeaderForm {
-        id: dapHeader
-        height: 36 * pt
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.right: parent.right
-        anchors.leftMargin: 1 * pt
-    }
+//    DapUiQmlWidgetLastActionsHeaderForm {
+//        id: dapHeader
+//        height: 36 * pt
+//        anchors.left: parent.left
+//        anchors.top: parent.top
+//        anchors.right: parent.right
+//        anchors.leftMargin: 1 * pt
+//    }
 
-    Rectangle {
-        id: splitHeader
-        anchors.top: dapHeader.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: 1 * pt
-        color: "#C2CAD1"
-    }
+//    Rectangle {
+//        id: splitHeader
+//        anchors.top: dapHeader.bottom
+//        anchors.left: parent.left
+//        anchors.right: parent.right
+//        height: 1 * pt
+//        color: "#C2CAD1"
+//    }
 
     ListView {
         id: dapListView
-        anchors.top: splitHeader.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
+        anchors.fill: parent
+//        anchors.top: splitHeader.bottom
+//        anchors.left: parent.left
+//        anchors.right: parent.right
+//        anchors.bottom: parent.bottom
         clip: true
 
         property var contentPos: 0.0;

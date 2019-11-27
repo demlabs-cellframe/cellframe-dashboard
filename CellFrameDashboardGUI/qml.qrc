@@ -7,7 +7,7 @@
         <file>DapUiQmlWidgetChainServicesClient.ui.qml</file>
         <file>DapUiQmlWidgetChainServicesShareControl.ui.qml</file>
         <file>DapUiQmlWidgetChainSettings.ui.qml</file>
-        <file>DapUiQmlScreenDialog.qml</file>
+        <file>DapUiQmlScreenDashboard.qml</file>
         <file>Resources/Icons/icon.png</file>
         <file>DapUiQmlScreenAbout.ui.qml</file>
         <file>DapQmlScreenAbout.qml</file>
@@ -25,18 +25,9 @@
         <file>DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>Resources/Icons/defaul_icon.png</file>
         <file>DapUiQmlScreenExchangeForm.ui.qml</file>
-        <file>Resources/Fonts/roboto_black.ttf</file>
-        <file>Resources/Fonts/roboto_black_italic.ttf</file>
-        <file>Resources/Fonts/roboto_bold.ttf</file>
-        <file>Resources/Fonts/roboto_bold_italic.ttf</file>
-        <file>Resources/Fonts/roboto_italic.ttf</file>
         <file>Resources/Fonts/roboto_light.ttf</file>
-        <file>Resources/Fonts/roboto_light_italic.ttf</file>
         <file>Resources/Fonts/roboto_medium.ttf</file>
-        <file>Resources/Fonts/roboto_medium_italic.ttf</file>
         <file>Resources/Fonts/roboto_regular.ttf</file>
-        <file>Resources/Fonts/roboto_thin.ttf</file>
-        <file>Resources/Fonts/roboto_thin_italic.ttf</file>
         <file>DapUiQmlWidgetExchangeOrderForm.ui.qml</file>
         <file>DapUiQmlWidgetExchangeOrderTitleForm.ui.qml</file>
         <file>DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
@@ -109,5 +100,10 @@
         <file>Resources/Icons/ic_edit.png</file>
         <file>Resources/Icons/ic_edit_hover.png</file>
         <file>Resources/Icons/new-payment_icon.png</file>
+        <file>DapUiQmlWidgetRightPanel.qml</file>
+        <file>DapUiQmlWidgetRightPanelForm.ui.qml</file>
+        <file>DapUiQmlWidgetHistoryLastActions.qml</file>
+        <file>DapUiQmlScreen.qml</file>
+        <file>DapUiQmlScreenForm.ui.qml</file>
     </qresource>
 </RCC>
