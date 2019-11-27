@@ -93,7 +93,6 @@ HEADERS += \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \
     DapUiQmlWidgetChainNodeLogs.h \
-#    DapUiQmlScreenDashboard.h \
     DapUiQmlWidgetChainOperations.h \
     DapUiQmlWidgetChainTransactions.h \
     DapUiQmlWidgetModel.h \
