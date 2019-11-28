@@ -1,79 +1,73 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.1
 
-Rectangle {
-    property alias pressedCloseAddWallet: mouseAreaCloseAddWallet.pressed
-    property alias pressedNextButton: mouseAreaNextButton.pressed
+DapUiQmlScreen {
+//    property alias pressedCloseAddWallet: mouseAreaCloseAddWallet.pressed
+//    property alias pressedNextButton: mouseAreaNextButton.pressed
+    property alias nextButton: nextButton
     property bool isWordsRecoveryMethodChecked: selectionWords.checked
     property bool isQRCodeRecoveryMethodChecked: selectionQRcode.checked
     property bool isExportToFileRecoveryMethodChecked: selectionExportToFile.checked
 
+
     id: addWalletMenu
-    width: 640
-    height: 800
-    border.color: "#B5B5B5"
-    border.width: 1 * pt
     color: "#EDEFF2"
-    visible: true
 
-    anchors {
-        top: parent.top
-        right: parent.right
-        bottom: parent.bottom
-    }
+//    anchors {
+//        top: parent.top
+//        right: parent.right
+//        bottom: parent.bottom
+//    }
 
-    Rectangle {
-        id: newNameArea
-        height: 36
-        color: "#edeff2"
-        anchors.right: parent.right
-        anchors.rightMargin: 1
-        anchors.left: parent.left
-        anchors.leftMargin: 1
-        anchors.top: parent.top
-        anchors.topMargin: 0
+//    Rectangle {
+//        id: newNameArea
+//        height: 36
+//        color: "#edeff2"
+//        anchors.right: parent.right
+//        anchors.rightMargin: 1
+//        anchors.left: parent.left
+//        anchors.leftMargin: 1
+//        anchors.top: parent.top
+//        anchors.topMargin: 0
 
-        Text {
-            id: newNameAreaText
-            text: qsTr("New wallet")
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: buttonCloseAddWallet.right
-            anchors.leftMargin: 12
-            font.pointSize: 14
-        }
+//        Text {
+//            id: newNameAreaText
+//            text: qsTr("New wallet")
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.left: buttonCloseAddWallet.right
+//            anchors.leftMargin: 12
+//            font.pointSize: 14
+//        }
 
-        Button {
-            id: buttonCloseAddWallet
-            width: 20
-            height: 20
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: 8
-            anchors.left: newNameArea.left
-            anchors.horizontalCenter: newNameArea.Center
-            background: Image {
-                source: mouseAreaCloseAddWallet.containsMouse ? "qrc:/Resources/Icons/close_icon_hover.png" : "qrc:/Resources/Icons/close_icon.png"
-                fillMode: Image.PreserveAspectFit
-            }
+//        Button {
+//            id: buttonCloseAddWallet
+//            width: 20
+//            height: 20
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.leftMargin: 8
+//            anchors.left: newNameArea.left
+//            anchors.horizontalCenter: newNameArea.Center
+//            background: Image {
+//                source: mouseAreaCloseAddWallet.containsMouse ? "qrc:/Resources/Icons/close_icon_hover.png" : "qrc:/Resources/Icons/close_icon.png"
+//                fillMode: Image.PreserveAspectFit
+//            }
 
-            MouseArea {
-                id: mouseAreaCloseAddWallet
-                anchors.fill: parent
-                hoverEnabled: true
-            }
-        }
-    }
+//            MouseArea {
+//                id: mouseAreaCloseAddWallet
+//                anchors.fill: parent
+//                hoverEnabled: true
+//            }
+//        }
+//    }
 
     Rectangle {
         id: nameWalletTextArea
         height: 30
         color: "#757184"
         anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 1
-        anchors.top: newNameArea.bottom
-        anchors.topMargin: 0
+        anchors.top: parent.top
 
         Text {
             id: nameWalletText
@@ -254,30 +248,30 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: chooseRecoveryMethod.bottom
         anchors.topMargin: 32
+        hoverEnabled: true
 
-        MouseArea {
-            id: mouseAreaNextButton
-            anchors.fill: parent
-            hoverEnabled: true
-        }
-
-        Text {
+        contentItem: Text {
             id: nextButtonText
             text: qsTr("Next")
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
             color: "#ffffff"
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
             font.pointSize: 18
-            horizontalAlignment: Text.AlignLeft
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
         }
+
 
         background: Rectangle {
             implicitWidth: parent.width
             implicitHeight: parent.height
-            color: mouseAreaNextButton.containsMouse ? "#D51F5D" : "#070023"
+            color: parent.hovered ? "#D51F5D" : "#070023"
         }
+
+//        onClicked: {
+
+//        }
     }
 }

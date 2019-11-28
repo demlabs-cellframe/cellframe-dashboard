@@ -54,6 +54,8 @@ int main(int argc, char *argv[])
 	mkdir("/tmp/cellframe-dashboard_log",0777);
 	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
     #elif defined Q_OS_WIN
+    dapLogger.setLogFile(QString("%Dashboard.log").arg(DAP_BRAND));
+    dapLogger.setLogLevel(L_DEBUG);
     #endif
 //#endif
 

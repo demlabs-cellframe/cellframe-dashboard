@@ -2,60 +2,62 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.1
 
-Rectangle {
-    property alias pressedCloseAddWallet: mouseAreaCloseAddWallet.pressed
-    property alias pressedDoneCreateWallet: doneCreateWalletButton.pressed
+DapUiQmlScreen {
+//    property alias pressedCloseAddWallet: mouseAreaCloseAddWallet.pressed
+//    property alias pressedDoneCreateWallet: doneCreateWalletButton.pressed
+
+    property alias buttonDone: doneCreateWalletButton
 
     id: walletCreatedMenu
-    width: 400
-    height: 640
-    border.color: "#B5B5B5"
-    border.width: 1 * pt
+//    width: 400
+//    height: 640
+//    border.color: "#B5B5B5"
+//    border.width: 1 * pt
     color: "#edeff2"
 
-    anchors {
-        top: parent.top
-        right: parent.right
-        bottom: parent.bottom
-    }
+//    anchors {
+//        top: parent.top
+//        right: parent.right
+//        bottom: parent.bottom
+//    }
 
-    Rectangle {
-        id: newWalletArea
-        height: 36
-        color: "#edeff2"
-        anchors.right: parent.right
-        anchors.rightMargin: 1
-        anchors.left: parent.left
-        anchors.leftMargin: 1
-        anchors.top: parent.top
-        anchors.topMargin: 0
+//    Rectangle {
+//        id: newWalletArea
+//        height: 36
+//        color: "#edeff2"
+//        anchors.right: parent.right
+//        anchors.rightMargin: 1
+//        anchors.left: parent.left
+//        anchors.leftMargin: 1
+//        anchors.top: parent.top
+//        anchors.topMargin: 0
 
-        Button {
-            id: closeButton
-            width: 20
-            height: 20
-            anchors.leftMargin: 16
-            anchors.verticalCenterOffset: 0
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.horizontalCenter: newNameArea.Center
+//        Button {
+//            id: closeButton
+//            width: 20
+//            height: 20
+//            anchors.leftMargin: 16
+//            anchors.verticalCenterOffset: 0
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.left: parent.left
+//            anchors.horizontalCenter: newNameArea.Center
 
-            MouseArea {
-                id: mouseAreaCloseAddWallet
-                width: parent.width
-                height: parent.height
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                hoverEnabled: true
-            }
+//            MouseArea {
+//                id: mouseAreaCloseAddWallet
+//                width: parent.width
+//                height: parent.height
+//                anchors.left: parent.left
+//                anchors.leftMargin: 0
+//                hoverEnabled: true
+//            }
 
-            background: Image {
-                id: imageButton
-                source: mouseAreaCloseAddWallet.containsMouse ? "Resources/Icons/close_icon_hover.png" : "Resources/Icons/close_icon.png"
-                fillMode: Image.PreserveAspectFit
-            }
-        }
-    }
+//            background: Image {
+//                id: imageButton
+//                source: mouseAreaCloseAddWallet.containsMouse ? "Resources/Icons/close_icon_hover.png" : "Resources/Icons/close_icon.png"
+//                fillMode: Image.PreserveAspectFit
+//            }
+//        }
+//    }
 
     Button {
         id: doneCreateWalletButton
@@ -83,6 +85,8 @@ Rectangle {
             implicitHeight: parent.height
             color: "#3E3853"
         }
+
+
     }
 
     Rectangle {

@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.13
 
 Rectangle {
+    id: rightPanel
     property alias header  : stackViewHeader
     property alias content : stackViewContent
     property alias background : rightPanelPage.background
@@ -22,17 +23,20 @@ Rectangle {
             id: stackViewHeader
             width: parent.width
             height: currentItem === null ? 0 : currentItem.height
+            clip: true
         }
 
         StackView {
             id: stackViewContent
             anchors.fill: parent
+            clip: true
         }
 
         footer: StackView {
             id: stackViewFooter
             width: parent.width
             height: currentItem === null ? 0 : currentItem.height
+            clip: true
         }
-    }
+    }    
 }
