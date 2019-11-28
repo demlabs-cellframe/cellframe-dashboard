@@ -27,7 +27,6 @@ DapUiQmlWidgetStatusBarComboBoxTokenForm {
     font {
         pointSize: 16
         family: "Roboto"
-        styleName: "Normal"
         weight: Font.Normal
     }
 

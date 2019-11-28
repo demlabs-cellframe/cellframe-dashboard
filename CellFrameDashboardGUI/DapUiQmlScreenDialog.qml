@@ -53,7 +53,7 @@ Page {
         id: newPaymentButton
         x: 390
         y: 40
-        width: 132
+        width: 140
         height: 36
         hoverEnabled: true
 
@@ -67,26 +67,43 @@ Page {
 
         onPressed: newPaymentBackground.color = "#FFFFFF"
 
-        Image {
-            id: iconImage
-            width: 24
-            height: 24
-            anchors.left: parent.left
-            anchors.leftMargin: 6
-            anchors.verticalCenter: parent.verticalCenter
-            source: "Resources/Icons/defaul_icon.png"
-        }
+//        Image {
+//            id: iconImage
+//            width: 24
+//            height: 24
+//            anchors.left: parent.left
+//            anchors.leftMargin: 6
+//            anchors.verticalCenter: parent.verticalCenter
+//            source: "Resources/Icons/defaul_icon.png"
+//        }
 
-        Text {
-            id: newPaymentText
-            text: qsTr("New payment")
-            font.family: "Roboto"
-            font.pointSize: 16
-            anchors.left: iconImage.right
-            anchors.leftMargin: 6
-            anchors.verticalCenterOffset: 0
-            anchors.verticalCenter: parent.verticalCenter
-            color: "#505559"
+        contentItem: Rectangle {
+            anchors.fill: parent
+            color: newPaymentBackground.color
+            border.color: newPaymentBackground.border.color
+            border.width: newPaymentBackground.border.width
+
+            Image {
+                id: iconImage
+                width: 24
+                height: 24
+                anchors.left: parent.left
+                anchors.leftMargin: 6 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                source: "Resources/Icons/defaul_icon.png"
+            }
+
+            Text {
+                id: newPaymentText
+                text: qsTr("New payment")
+                font.family: "Roboto"
+                font.pointSize: 12
+                anchors.left: iconImage.right
+                anchors.leftMargin: 6
+                anchors.verticalCenterOffset: 0
+                anchors.verticalCenter: parent.verticalCenter
+                color: "#505559"
+            }
         }
     }
 
@@ -118,7 +135,10 @@ Page {
             target: rightPanelLoader.item
             onPressedSendButtonChanged: rightPanelLoader.source = "DapUiQmlStatusNewPaymentForm.ui.qml"
             onPressedCloseButtonChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
-            onPressedDoneNewPaymentButtonChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+            onPressedDoneNewPaymentButtonChanged: {
+                newPaymentBackground.color = "#E3E5E8"
+                rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+            }
         }
 
         Connections {
