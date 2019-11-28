@@ -71,6 +71,7 @@
         <file>Resources/Icons/icon_logs.png</file>
         <file>Resources/Icons/icon_logs_hover.png</file>
         <file>Resources/Icons/ic_arrow_drop_down.png</file>
+        <file>Resources/Icons/icon_arrow_down.png</file>
         <file>Resources/Icons/ic_arrow_drop_up.png</file>
         <file>DapUiQmlWidgetStatusBar.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBox.qml</file>

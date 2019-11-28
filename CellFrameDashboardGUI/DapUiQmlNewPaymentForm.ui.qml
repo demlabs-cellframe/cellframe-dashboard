@@ -109,6 +109,8 @@ Rectangle {
                 rightMargin: 36
             }
 
+            sourceArrow: popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/icon_arrow_down.png"
+
             model: ListModel {
                 id: currencyType
                 ListElement {
