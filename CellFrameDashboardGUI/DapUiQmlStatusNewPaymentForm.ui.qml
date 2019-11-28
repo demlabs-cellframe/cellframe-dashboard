@@ -31,42 +31,39 @@ Rectangle {
     Text {
         id: mempoolText
         text: qsTr("Placed to mempool")
-        color: "#070023"
+        color: "#505559"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: 236
         horizontalAlignment: Text.AlignLeft
-        font.pointSize: 26
+        font.pointSize: 28
         font.family: "Roboto"
-        font.styleName: "Normal"
         font.weight: Font.Normal
     }
 
     Text {
         id: statusText
         text: qsTr("Status")
-        color: "#b5b5b5"
+        color: "#989898"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: mempoolText.bottom
         anchors.topMargin: 56
         horizontalAlignment: Text.AlignLeft
-        font.pointSize: 20
+        font.pointSize: 22
         font.family: "Roboto"
-        font.styleName: "Normal"
         font.weight: Font.Normal
     }
 
     Text {
         id: pendingText
         text: qsTr("Pending")
-        color: "#070023"
+        color: "#505559"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: statusText.bottom
         anchors.topMargin: 16
         horizontalAlignment: Text.AlignLeft
-        font.pointSize: 26
+        font.pointSize: 28
         font.family: "Roboto"
-        font.styleName: "Normal"
         font.weight: Font.Normal
     }
 
