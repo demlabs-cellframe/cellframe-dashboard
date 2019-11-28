@@ -4,9 +4,10 @@ import QtQuick.Layouts 1.0
 import CellFrameDashboard 1.0
 
 Rectangle {
-    property alias translatedText: convertedAmountToken.text
+    property alias convertedAmmount: convertedAmountToken.text
     property alias amountText: inputAmount
-    property alias pressedSendButton: mouseAreaSendButton.pressed
+    property alias pressedSendButton: sendButton.pressed
+    property alias pressedCloseButton: buttonCloseNewPayment.pressed
 
     id: newPayment
     width: 640
@@ -50,19 +51,14 @@ Rectangle {
             id: buttonCloseNewPayment
             width: 20
             height: 20
+            hoverEnabled: true
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 12
             anchors.left: newPaymentTextArea.left
             anchors.horizontalCenter: newPaymentTextArea.Center
             background: Image {
-                source: mouseAreaCloseNewPayment.containsMouse ? "qrc:/Resources/Icons/ic_close_hover.png" : "qrc:/Resources/Icons/ic_close.png"
+                source: buttonCloseNewPayment.hovered ? "qrc:/Resources/Icons/ic_close_hover.png" : "qrc:/Resources/Icons/ic_close.png"
                 fillMode: Image.PreserveAspectFit
-            }
-
-            MouseArea {
-                id: mouseAreaCloseNewPayment
-                anchors.fill: parent
-                hoverEnabled: true
             }
         }
     }
@@ -331,17 +327,12 @@ Rectangle {
             id: sendButton
             height: 44
             width: 130
+            hoverEnabled: true
 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 0
             anchors.top: recipientWalletSeparator.bottom
             anchors.topMargin: 58
-
-            MouseArea {
-                id: mouseAreaSendButton
-                anchors.fill: parent
-                hoverEnabled: true
-            }
 
             Text {
                 id: sendButtonText
@@ -359,7 +350,7 @@ Rectangle {
             background: Rectangle {
                 implicitWidth: parent.width
                 implicitHeight: parent.height
-                color: mouseAreaSendButton.containsMouse ? "#737880" : "#A2A4A7"
+                color: sendButton.hovered ? "#737880" : "#A2A4A7"
                 border.width: 1 * pt
                 border.color: "#989898"
             }

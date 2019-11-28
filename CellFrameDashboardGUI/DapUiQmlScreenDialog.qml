@@ -55,22 +55,17 @@ Page {
         y: 40
         width: 132
         height: 36
-
-        MouseArea {
-            id: newPaymentMouseArea
-            anchors.fill: newPaymentButton
-            hoverEnabled: true
-
-            onPressed: newPaymentBackground.color = "#FFFFFF"
-        }
+        hoverEnabled: true
 
         background: Rectangle {
             id: newPaymentBackground
             anchors.fill: parent
-            color: newPaymentMouseArea.containsMouse ? "#FFFFFF" : "#E3E5E8"
+            color: newPaymentButton.hovered ? "#FFFFFF" : "#E3E5E8"
             border.color: "#5F5F63"
             border.width: 1 * pt
         }
+
+        onPressed: newPaymentBackground.color = "#FFFFFF"
 
         Image {
             id: iconImage
@@ -115,14 +110,14 @@ Page {
         }
 
         Connections {
-            target: newPaymentMouseArea
+            target: newPaymentButton
             onClicked: rightPanelLoader.source = "DapUiQmlNewPayment.qml"
         }
 
         Connections {
             target: rightPanelLoader.item
             onPressedSendButtonChanged: rightPanelLoader.source = "DapUiQmlStatusNewPaymentForm.ui.qml"
-            onPressedCloseNewPaymentStatusButtonChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+            onPressedCloseButtonChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
             onPressedDoneNewPaymentButtonChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
         }
 

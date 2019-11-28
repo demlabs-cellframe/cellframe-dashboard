@@ -2,8 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 
 Rectangle {
-    property alias pressedCloseNewPaymentStatusButton: mouseAreaCloseNewPayment.pressed
-    property alias pressedDoneNewPaymentButton: mouseAreaDoneButton.pressed
+    property alias pressedCloseButton: buttonCloseNewPaymentStatus.pressed
+    property alias pressedDoneNewPaymentButton: doneButton.pressed
 
     id: newPaymentStatus
     width: 640
@@ -20,16 +20,11 @@ Rectangle {
         anchors.topMargin: 13
         anchors.left: parent.left
         anchors.leftMargin: 12
+        hoverEnabled: true
 
         background: Image {
-            source: mouseAreaCloseNewPayment.containsMouse ? "qrc:/Resources/Icons/ic_close_hover.png" : "qrc:/Resources/Icons/ic_close.png"
+            source: buttonCloseNewPaymentStatus.hovered ? "qrc:/Resources/Icons/ic_close_hover.png" : "qrc:/Resources/Icons/ic_close.png"
             fillMode: Image.PreserveAspectFit
-        }
-
-        MouseArea {
-            id: mouseAreaCloseNewPayment
-            anchors.fill: parent
-            hoverEnabled: true
         }
     }
 
@@ -82,12 +77,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: pendingText.bottom
         anchors.topMargin: 110
-
-        MouseArea {
-            id: mouseAreaDoneButton
-            anchors.fill: parent
-            hoverEnabled: true
-        }
+        hoverEnabled: true
 
         Text {
             id: doneButtonText
@@ -105,7 +95,7 @@ Rectangle {
         background: Rectangle {
             implicitWidth: parent.width
             implicitHeight: parent.height
-            color: mouseAreaDoneButton.containsMouse ? "#737880" : "#A2A4A7"
+            color: doneButton.hovered ? "#737880" : "#A2A4A7"
             border.width: 1 * pt
             border.color: "#989898"
         }
