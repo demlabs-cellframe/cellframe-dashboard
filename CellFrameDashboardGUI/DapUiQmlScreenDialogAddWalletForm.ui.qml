@@ -3,63 +3,13 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.1
 
 DapUiQmlScreen {
-//    property alias pressedCloseAddWallet: mouseAreaCloseAddWallet.pressed
-//    property alias pressedNextButton: mouseAreaNextButton.pressed
     property alias nextButton: nextButton
     property bool isWordsRecoveryMethodChecked: selectionWords.checked
     property bool isQRCodeRecoveryMethodChecked: selectionQRcode.checked
     property bool isExportToFileRecoveryMethodChecked: selectionExportToFile.checked
 
-
     id: addWalletMenu
     color: "#EDEFF2"
-
-//    anchors {
-//        top: parent.top
-//        right: parent.right
-//        bottom: parent.bottom
-//    }
-
-//    Rectangle {
-//        id: newNameArea
-//        height: 36
-//        color: "#edeff2"
-//        anchors.right: parent.right
-//        anchors.rightMargin: 1
-//        anchors.left: parent.left
-//        anchors.leftMargin: 1
-//        anchors.top: parent.top
-//        anchors.topMargin: 0
-
-//        Text {
-//            id: newNameAreaText
-//            text: qsTr("New wallet")
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.left: buttonCloseAddWallet.right
-//            anchors.leftMargin: 12
-//            font.pointSize: 14
-//        }
-
-//        Button {
-//            id: buttonCloseAddWallet
-//            width: 20
-//            height: 20
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.leftMargin: 8
-//            anchors.left: newNameArea.left
-//            anchors.horizontalCenter: newNameArea.Center
-//            background: Image {
-//                source: mouseAreaCloseAddWallet.containsMouse ? "qrc:/Resources/Icons/close_icon_hover.png" : "qrc:/Resources/Icons/close_icon.png"
-//                fillMode: Image.PreserveAspectFit
-//            }
-
-//            MouseArea {
-//                id: mouseAreaCloseAddWallet
-//                anchors.fill: parent
-//                hoverEnabled: true
-//            }
-//        }
-//    }
 
     Rectangle {
         id: nameWalletTextArea
@@ -269,9 +219,5 @@ DapUiQmlScreen {
             implicitHeight: parent.height
             color: parent.hovered ? "#D51F5D" : "#070023"
         }
-
-//        onClicked: {
-
-//        }
     }
 }

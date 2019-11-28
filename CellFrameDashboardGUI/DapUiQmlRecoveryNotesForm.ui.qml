@@ -3,66 +3,8 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.1
 
 DapUiQmlScreen {
-//    property alias pressedBackButton: mouseAreaBackButton.pressed
-//    property alias pressedNextButtonForCreateWallet: nextButton.pressed
-
     id: recoveryNoteMenu
-//    width: 400
-//    height: 640
-//    border.color: "#B5B5B5"
-//    border.width: 1 * pt
     color: "#edeff2"
-
-//    anchors {
-//        top: parent.top
-//        right: parent.right
-//        bottom: parent.bottom
-//    }
-
-//    Rectangle {
-//        id: newWalletArea
-//        height: 36
-//        color: "#edeff2"
-//        border.width: 0
-//        anchors.right: parent.right
-//        anchors.rightMargin: 1
-//        anchors.left: parent.left
-//        anchors.leftMargin: 1
-//        anchors.top: parent.top
-//        anchors.topMargin: 0
-
-//        Text {
-//            id: newWalletText
-//            text: qsTr("New wallet")
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.left: backButton.right
-//            anchors.leftMargin: 12
-//            font.pointSize: 12
-//        }
-
-//        Button {
-//            id: backButton
-//            width: 20
-//            height: 20
-//            anchors.leftMargin: 16
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.left: parent.left
-//            anchors.horizontalCenter: newNameArea.Center
-
-//            MouseArea {
-//                id: mouseAreaBackButton
-//                anchors.leftMargin: 0
-//                anchors.fill: parent
-//                hoverEnabled: true
-//            }
-
-//            background: Image {
-//                id: imageButton
-//                source: mouseAreaBackButton.containsMouse ? "qrc:/Resources/Icons/back_icon_hover.png" : "qrc:/Resources/Icons/back_icon.png"
-//                fillMode: Image.PreserveAspectFit
-//            }
-//        }
-//    }
 
     Rectangle {
         id: wordTextArea
@@ -305,10 +247,4 @@ DapUiQmlScreen {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:24;anchors_width:400}
-}
-##^##*/
 
