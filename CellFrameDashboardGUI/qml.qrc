@@ -104,7 +104,6 @@
         <file>DapUiQmlWidgetRightPanelForm.ui.qml</file>
         <file>DapUiQmlWidgetHistoryLastActions.qml</file>
         <file>DapUiQmlScreen.qml</file>
-        <file>DapUiQmlScreenForm.ui.qml</file>
         <file>DapUiQmlScreenDialogAddWalletHeader.qml</file>
         <file>DapUiQmlWalletCreatedHeader.qml</file>
         <file>DapUiQmlWalletCreated.qml</file>

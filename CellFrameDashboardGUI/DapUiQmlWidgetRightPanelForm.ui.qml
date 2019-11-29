@@ -6,7 +6,7 @@ Rectangle {
     property alias header  : stackViewHeader
     property alias content : stackViewContent
     property alias background : rightPanelPage.background
-    property alias footer: stackViewHeader
+    property alias footer: stackViewFooter
 
     width: visible ? 400 * pt : 0
     color: "#E3E2E6"
