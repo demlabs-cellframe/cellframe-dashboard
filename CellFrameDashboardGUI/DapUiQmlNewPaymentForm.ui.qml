@@ -8,6 +8,7 @@ Rectangle {
     property alias amountText: inputAmount
     property alias pressedSendButton: sendButton.pressed
     property alias pressedCloseButton: buttonCloseNewPayment.pressed
+    property alias currencyTypeList: currencyType
 
     id: newPayment
     width: 640
