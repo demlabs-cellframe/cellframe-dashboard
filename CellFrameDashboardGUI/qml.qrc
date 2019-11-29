@@ -95,6 +95,7 @@
         <file>DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBoxDelegate.qml</file>
+        <file>DapUiQmlWidgetDashboardTokenSectionDelegate.qml</file>
         <file>DapUiQmlScreenDialogAddWalletForm.ui.qml</file>
         <file>DapUiQmlWidgetSignatureTypeComboBox.qml</file>
         <file>DapUiQmlRecoveryQrForm.ui.qml</file>
@@ -109,5 +110,10 @@
         <file>DapUiQmlNewPaymentForm.ui.qml</file>
         <file>DapUiQmlNewPayment.qml</file>
         <file>DapUiQmlStatusNewPaymentForm.ui.qml</file>
+        <file>Resources/Icons/ic_copy.png</file>
+        <file>Resources/Icons/ic_copy_hover.png</file>
+        <file>Resources/Icons/ic_edit.png</file>
+        <file>Resources/Icons/ic_edit_hover.png</file>
+        <file>Resources/Icons/new-payment_icon.png</file>
     </qresource>
 </RCC>

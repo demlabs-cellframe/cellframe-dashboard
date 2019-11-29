@@ -79,6 +79,18 @@ void DapCommandController::changeCurrentNetwork(const QString& aNetwork)
     m_DAPRpcSocket->invokeRemoteMethod("RPCServer.changeCurrentNetwork", aNetwork);
 }
 
+#include "DapChainWallet.h"
+void DapCommandController::setNewWalletData(const QVariant& aData)
+{
+    emit sigWalletData(QByteArray::fromHex(aData.toByteArray()));
+}
+
+void DapCommandController::requestWalletData()
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.walletData");
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetWalletData()));
+}
+
 void DapCommandController::processChangedLog()
 {
 //    QStringList tempLogModel;
@@ -205,6 +217,13 @@ void DapCommandController::processGetCmdHistory()
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
     QString result = reply->response().toJsonValue().toVariant().toString();
     emit sigCmdHistory(result);
+}
+
+void DapCommandController::processGetWalletData()
+{
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    QByteArray result = reply->response().toJsonValue().toVariant().toByteArray();
+    emit sigWalletData(QByteArray::fromHex(result));
 }
 
 void DapCommandController::processGetNetworkList()

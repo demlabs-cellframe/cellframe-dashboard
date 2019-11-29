@@ -3,6 +3,131 @@
 
 #include <QObject>
 #include <QString>
+#include <QList>
+#include <QDataStream>
+
+struct DapChainWalletData
+{
+    QString IconPath;
+    QString Name;
+    QString Address;
+    QString Network;
+
+    friend QDataStream& operator << (QDataStream& aOut, const DapChainWalletData& aData)
+    {
+        aOut << aData.IconPath
+             << aData.Name
+             << aData.Address
+             << aData.Network;
+        return aOut;
+    }
+
+    friend QDataStream& operator >> (QDataStream& aOut, DapChainWalletData& aData)
+    {
+        aOut >> aData.IconPath
+             >> aData.Name
+             >> aData.Address
+             >> aData.Network;
+        return aOut;
+    }
+
+    DapChainWalletData& operator = (const DapChainWalletData& aData)
+    {
+        IconPath = aData.IconPath;
+        Name = aData.Name;
+        Address = aData.Address;
+        Network = aData.Network;
+        return *this;
+    }
+
+    bool operator == (const DapChainWalletData& aData) const {
+        return  IconPath == aData.IconPath &&
+                Name == aData.Name &&
+                Address == aData.Address &&
+                Network == aData.Network;
+    }
+};
+
+struct DapChainWalletTokenData {
+    QString Name;
+    double Balance;
+    quint64 Emission;
+
+    friend QDataStream& operator << (QDataStream& aOut, const DapChainWalletTokenData& aData)
+    {
+        aOut << aData.Name
+             << aData.Balance
+             << aData.Emission;
+        return aOut;
+    }
+
+    friend QDataStream& operator >> (QDataStream& aOut, DapChainWalletTokenData& aData)
+    {
+        aOut >> aData.Name
+             >> aData.Balance
+             >> aData.Emission;
+        return aOut;
+    }
+
+    DapChainWalletTokenData& operator = (const DapChainWalletTokenData& aData)
+    {
+        Name = aData.Name;
+        Balance = aData.Balance;
+        Emission = aData.Emission;
+        return *this;
+    }
+
+    bool operator == (const DapChainWalletTokenData& aData) const {
+        return Name == aData.Name;
+    }
+};
+
+class DapChainWalletTokenItem : public QObject
+{
+    Q_OBJECT
+
+    Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(double balance READ balance WRITE setBalance NOTIFY balanceChanged)
+    Q_PROPERTY(quint64 emission READ emission WRITE setEmission NOTIFY emissionChanged)
+    Q_PROPERTY(QString wallet READ wallet)
+
+private:
+    QString m_wallet;
+    QString m_name;
+    double m_balance;
+    quint64 m_emission;
+
+public:
+    explicit DapChainWalletTokenItem(const QString& aWalletAddress, QObject *parent = nullptr);
+    explicit DapChainWalletTokenItem(const QString& aWalletAddress, const DapChainWalletTokenData& aData, QObject *parent = nullptr);
+
+    QString name() const;
+    double balance() const;
+    quint64 emission() const;
+    QString wallet() const;
+
+public slots:
+    void setName(const QString& aName);
+    void setBalance(const double aBalance);
+    void setEmission(const quint64 aEmission);
+    void setData(const DapChainWalletTokenData& aData);
+
+signals:
+    void nameChanged(QString name);
+    void balanceChanged(double balance);
+    void emissionChanged(quint64 emission);
+};
+
+typedef QList<DapChainWalletTokenItem*> DapChainWalletTokenItemList;
+typedef QList<DapChainWalletTokenData> DapChainWalletTokenList;
+typedef QPair<DapChainWalletData, DapChainWalletTokenItemList> DapChainWalletPair;
+
+
+
+
+
+
+
 
 class DapChainWallet : public QObject
 {

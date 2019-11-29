@@ -18,6 +18,8 @@
 #include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
 
+#include "DapChainWalletModel.h"
+
 class DapServiceController : public QObject
 {
     Q_OBJECT
@@ -171,6 +173,9 @@ public slots:
     /// @param engine QML application.
     /// @param scriptEngine The QJSEngine class provides an environment for evaluating JavaScript code.
     static QObject *singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
+
+public slots:
+    void requestWalletData();
 };
 
 #endif // DAPSERVICECONTROLLER_H
