@@ -10,9 +10,6 @@ Component {
         height: 50 * pt
         color: "transparent"
 
-        border.color: "#C2CAD1"
-        border.width: 1 * pt
-
         Rectangle {
             id: dapData
             width: childrenRect.width

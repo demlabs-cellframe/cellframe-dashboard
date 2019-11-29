@@ -5,7 +5,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
-    property alias addWalletPressed: statusBarAddWalletButton.pressed
+//    property alias addWalletPressed: statusBarAddWalletButton.pressed
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1
@@ -71,6 +71,11 @@ Rectangle {
             anchors.rightMargin: 20 * pt
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10 * pt
+
+            onClicked: {
+                rightPanel.header.push("DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
+                rightPanel.content.push("DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
+            }
         }
     }
 }

@@ -21,7 +21,6 @@ public:
 
 public slots:
     Q_INVOKABLE void setWalletFilter(const QString& aName);
-
 };
 
 #endif // DAPWALLETFILTERMODEL_H
