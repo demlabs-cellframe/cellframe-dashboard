@@ -107,5 +107,8 @@
         <file>DapUiQmlScreenDialogAddWalletHeader.qml</file>
         <file>DapUiQmlWalletCreatedHeader.qml</file>
         <file>DapUiQmlWalletCreated.qml</file>
+        <file>Resources/Icons/ic_arrow_drop_down_dark_blue.png</file>
+        <file>Resources/Icons/ic_arrow_drop_up_dark_blue.png</file>
+        <file>DapUiQmlWidgetExchangeComboBox.qml</file>
     </qresource>
 </RCC>

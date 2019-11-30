@@ -5,15 +5,24 @@ ItemDelegate {
     property string delegateContentText: ""
 
     width: parent.width
-    height: 42 * pt
+    height:{
+        if(index == currentIndex) return 0
+            else
+                return 42*pt
+    }
     contentItem: DapUiQmlWidgetStatusBarContentItem {
         anchors.fill: parent
         anchors.topMargin: 8 * pt
-        anchors.leftMargin: 12 * pt
+        anchors.leftMargin: 16 * pt
         anchors.rightMargin: 16 * pt
         verticalAlignment: Qt.AlignTop
-        text: delegateContentText
-        color: hovered ? "#FFFFFF" : "#332F49"
+        Text{
+            font.pixelSize: parent.font.pixelSize
+            text: delegateContentText
+            color: hovered ? "#FFFFFF" : "#332F49"
+        }
+
+
     }
 
     background: Rectangle {

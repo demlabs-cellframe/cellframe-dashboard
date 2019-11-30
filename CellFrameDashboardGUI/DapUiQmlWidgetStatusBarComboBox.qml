@@ -9,7 +9,11 @@ ComboBox {
     property alias heightArrow: arrow.height
 
     id: customComboBox
-    width: 190 * pt
+    width: /*parent.width//*/190 * pt
+    height: parent.height
+
+    delegate:DapUiQmlWidgetStatusBarComboBoxDelegate{delegateContentText: modelData;}
+
     indicator: Image {
         id: arrow
         source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/ic_arrow_drop_down.png"
@@ -24,6 +28,8 @@ ComboBox {
         anchors.fill: parent
         color: parent.popup.visible ? "#FFFFFF" : "transparent"
         radius: 2 * pt
+        height: parent.height
+
     }
 
     contentItem: Text {
@@ -43,24 +49,24 @@ ComboBox {
     popup: Popup {
         y: parent.height - 1
         width: parent.width + 1
-        implicitHeight: contentItem.implicitHeight
+
+      //  implicitHeight: contentItem.implicitHeight    bug
         padding: 1
 
         contentItem: ListView {
             clip: true
             implicitHeight: contentHeight
             model: customComboBox.popup.visible ? customComboBox.delegateModel : null
-            currentIndex: customComboBox.highlightedIndex
-
+            //currentIndex: customComboBox.highlightedIndex
             ScrollIndicator.vertical: ScrollIndicator { }
         }
 
         background: Rectangle {
             width: customComboBox.background.width
-
             Rectangle {
                 id: contentCorner
                 anchors.fill: parent
+
             }
 
             DropShadow {
