@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapWalletFilterModel", &DapWalletFilterModel::instance());
     engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
     engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
-    engine.rootContext()->setContextProperty("pt", 1.3);
+    engine.rootContext()->setContextProperty("pt", 1/*.3*/);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
 

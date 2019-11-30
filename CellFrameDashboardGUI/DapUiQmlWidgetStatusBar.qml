@@ -33,6 +33,7 @@ Rectangle {
 
             DapUiQmlWidgetStatusBarComboBoxWallet {
                 id: comboboxWallet
+                width: 190*pt
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 fieldBalance: fieldWalletBalance

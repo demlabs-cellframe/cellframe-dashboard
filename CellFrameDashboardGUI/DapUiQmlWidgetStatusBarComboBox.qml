@@ -9,7 +9,7 @@ ComboBox {
     property alias heightArrow: arrow.height
 
     id: customComboBox
-    width: /*parent.width//*/190 * pt
+    width: parent.width//190 * pt
     height: parent.height
 
     delegate:DapUiQmlWidgetStatusBarComboBoxDelegate{delegateContentText: modelData;}

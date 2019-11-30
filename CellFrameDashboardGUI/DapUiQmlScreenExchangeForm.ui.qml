@@ -4,16 +4,21 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 Page {
+    ///Tab Exchange
+    ///Top panel with combo boxes and values Last Price 24h volume
     Rectangle{
         id:topPanelExchange
-        x:8
-        y:12
-        width:parent.width - x -(24*pt)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.leftMargin: 8*pt
+        anchors.topMargin: 12*pt
+        anchors.rightMargin: 24*pt
         height:42 * pt
         Rectangle{
             id:leftComboBox
-            x:0
-            y:0
+            anchors.top: topPanelExchange.top
+            anchors.left: topPanelExchange.left
             width:144 * pt
             height:parent.height
             DapUiQmlWidgetExchangeComboBox{
@@ -27,11 +32,11 @@ Page {
                 }
             }
         }
-
         Rectangle{
             id:rightComboBox
-            x:leftComboBox.x+leftComboBox.width+(72*pt)
-            y:0
+            anchors.left: leftComboBox.right
+            anchors.leftMargin: 72*pt
+            anchors.top: topPanelExchange.top
             width:132 * pt
             height:parent.height
             DapUiQmlWidgetExchangeComboBox{
@@ -45,12 +50,9 @@ Page {
                     ListElement{text:"12 hour"}
                     ListElement{text:"24 hour"}
                 }
-
                     font.pixelSize: 14*pt
-
             }
         }
-
         Rectangle{
             id: lastPrice
             height: parent.height
@@ -115,9 +117,8 @@ Page {
                     text: qsTr("9 800 TKN1")
                 }
 }
-
-
     }
+   ///Left down panel
     Row {
         anchors.left: parent.left
         anchors.bottom: parent.bottom
