@@ -53,6 +53,7 @@ Page {
                     font.pixelSize: 14*pt
             }
         }
+        ///Value Last price
         Rectangle{
             id: lastPrice
             height: parent.height
@@ -89,7 +90,7 @@ Page {
                 text: qsTr("+3.59%")
             }
         }
-
+        ///Value 24h volume
         Rectangle{
             id: volume24
 
