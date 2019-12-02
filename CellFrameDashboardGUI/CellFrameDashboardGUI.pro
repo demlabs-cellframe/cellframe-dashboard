@@ -52,12 +52,13 @@ ICON = Resources/Icons/icon.ico
 #RCC_DIR = rcc
 #UI_DIR = uic
 
-SRC_PATH = $$PWD/Src/
+SRC_PATH = $$PWD/src/
 INCLUDE_PATH = $${SRC_PATH}/include/
+QML_PATH = $$PWD/screen/
 
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/
-               $${INCLUDE_PATH}/
+INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
+               $$_PRO_FILE_PWD_/../DapRPCProtocol/ \
+               $${INCLUDE_PATH}/ \
                $${SRC_PATH}/
 
 SOURCES += \
@@ -69,15 +70,8 @@ SOURCES += \
     $${SRC_PATH}/DapScreenHistoryFilterModel.cpp \
     $${SRC_PATH}/DapScreenHistoryModel.cpp \
     $${SRC_PATH}/DapSettingsNetworkModel.cpp \
-    $${SRC_PATH}/DapUiQmlWidgetChainTransactions.cpp \
     $${SRC_PATH}/DapWalletFilterModel.cpp \
     $${SRC_PATH}/main.cpp \
-    $${SRC_PATH}/DapUiQmlWidgetChainBallance.cpp \
-    $${SRC_PATH}/DapUiQmlWidgetChainBlockExplorer.cpp \
-    $${SRC_PATH}/DapUiQmlWidgetChainNodeLogs.cpp \
-    $${SRC_PATH}/DapUiQmlWidgetChainOperations.cpp \
-    $${SRC_PATH}/DapUiQmlWidgetModel.cpp \
-    $${SRC_PATH}/DapUiQmlWidget.cpp \
     $${SRC_PATH}/DapScreenDialog.cpp \
     $${SRC_PATH}/DapScreenDialogChangeWidget.cpp \
     $${SRC_PATH}/DapServiceClient.cpp \
@@ -92,10 +86,12 @@ SOURCES += \
 RESOURCES += $$PWD/qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+#QML_IMPORT_PATH += $$PWD/screen \
+#                   $$PWD/screen/Dashboard
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
+#QML_DESIGNER_IMPORT_PATH += $$PWD/screen/ \
+#                            $$PWD/screen/Dashboard
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -111,13 +107,6 @@ HEADERS += \
     $${INCLUDE_PATH}/DapScreenHistoryFilterModel.h \
     $${INCLUDE_PATH}/DapScreenHistoryModel.h \
     $${INCLUDE_PATH}/DapSettingsNetworkModel.h \
-    $${INCLUDE_PATH}/DapUiQmlWidgetChainBallance.h \
-    $${INCLUDE_PATH}/DapUiQmlWidgetChainBlockExplorer.h \
-    $${INCLUDE_PATH}/DapUiQmlWidgetChainNodeLogs.h \
-    $${INCLUDE_PATH}/DapUiQmlWidgetChainOperations.h \
-    $${INCLUDE_PATH}/DapUiQmlWidgetChainTransactions.h \
-    $${INCLUDE_PATH}/DapUiQmlWidgetModel.h \
-    $${INCLUDE_PATH}/DapUiQmlWidget.h \
     $${INCLUDE_PATH}/DapScreenDialog.h \
     $${INCLUDE_PATH}/DapScreenDialogChangeWidget.h \
     $${INCLUDE_PATH}/DapServiceClient.h \
@@ -128,6 +117,20 @@ HEADERS += \
     $${INCLUDE_PATH}/DapServiceClientNativeWin.h \
     $${INCLUDE_PATH}/DapChainWalletsModel.h \
     $${INCLUDE_PATH}/DapWalletFilterModel.h
+
+DISTFILES += \
+    $${QML_PATH}/DapUiQmlScreen.qml \
+    $${QML_PATH}/DapUiQmlScreenMainWindow.qml \
+    $${QML_PATH}/DapUiQmlScreenMainWindowForm.ui.qml \
+    $${QML_PATH}/main.qml \
+    $${QML_PATH}/Dashboard/DapUiQmlScreenDashboard.qml \
+    $${QML_PATH}/Console/DapUiQmlWidgetConsole.qml \
+    $${QML_PATH}/Console/DapUiQmlScreenConsoleForm.ui.qml \
+    $${QML_PATH}/Console/DapUiQmlWidgetConsoleLastActionsDelegateForm.qml \
+    $${QML_PATH}/Console/DapUiQmlWidgetConsoleLastActionsForm.qml \
+    $${QML_PATH}/LastAction/DapUiQmlWidgetRightPanel.qml \
+    $${QML_PATH}/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml
+
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
