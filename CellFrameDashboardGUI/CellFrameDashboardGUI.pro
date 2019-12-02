@@ -46,36 +46,50 @@ ICON = Resources/Icons/icon.ico
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-SOURCES += \
-    DapChainNodeNetworkExplorer.cpp \
-    DapChainNodeNetworkModel.cpp \
-    DapChainWalletModel.cpp \
-    DapClipboard.cpp \
-    DapConsoleModel.cpp \
-    DapScreenHistoryFilterModel.cpp \
-    DapScreenHistoryModel.cpp \
-    DapSettingsNetworkModel.cpp \
-    DapUiQmlWidgetChainTransactions.cpp \
-    DapWalletFilterModel.cpp \
-        main.cpp \
-    DapUiQmlWidgetChainBallance.cpp \
-    DapUiQmlWidgetChainBlockExplorer.cpp \
-    DapUiQmlWidgetChainNodeLogs.cpp \
-    DapUiQmlWidgetChainOperations.cpp \
-    DapUiQmlWidgetModel.cpp \
-    DapUiQmlWidget.cpp \
-    DapScreenDialog.cpp \
-    DapScreenDialogChangeWidget.cpp \
-    DapServiceClient.cpp \
-    DapServiceController.cpp \
-    DapCommandController.cpp \
-    DapServiceClientNativeAbstract.cpp \
-    DapServiceClientNativeLinux.cpp \
-    DapServiceClientNativeWin.cpp \
-    DapServiceClientNativeMacOS.cpp \
-    DapChainWalletsModel.cpp
+#DESTDIR = bin
+#MOC_DIR = moc
+#OBJECTS_DIR = obj
+#RCC_DIR = rcc
+#UI_DIR = uic
 
-RESOURCES += qml.qrc
+SRC_PATH = $$PWD/Src/
+INCLUDE_PATH = $${SRC_PATH}/include/
+
+INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/
+               $$_PRO_FILE_PWD_/../DapRPCProtocol/
+               $${INCLUDE_PATH}/
+               $${SRC_PATH}/
+
+SOURCES += \
+    $${SRC_PATH}/DapChainNodeNetworkExplorer.cpp \
+    $${SRC_PATH}/DapChainNodeNetworkModel.cpp \
+    $${SRC_PATH}/DapChainWalletModel.cpp \
+    $${SRC_PATH}/DapClipboard.cpp \
+    $${SRC_PATH}/DapConsoleModel.cpp \
+    $${SRC_PATH}/DapScreenHistoryFilterModel.cpp \
+    $${SRC_PATH}/DapScreenHistoryModel.cpp \
+    $${SRC_PATH}/DapSettingsNetworkModel.cpp \
+    $${SRC_PATH}/DapUiQmlWidgetChainTransactions.cpp \
+    $${SRC_PATH}/DapWalletFilterModel.cpp \
+    $${SRC_PATH}/main.cpp \
+    $${SRC_PATH}/DapUiQmlWidgetChainBallance.cpp \
+    $${SRC_PATH}/DapUiQmlWidgetChainBlockExplorer.cpp \
+    $${SRC_PATH}/DapUiQmlWidgetChainNodeLogs.cpp \
+    $${SRC_PATH}/DapUiQmlWidgetChainOperations.cpp \
+    $${SRC_PATH}/DapUiQmlWidgetModel.cpp \
+    $${SRC_PATH}/DapUiQmlWidget.cpp \
+    $${SRC_PATH}/DapScreenDialog.cpp \
+    $${SRC_PATH}/DapScreenDialogChangeWidget.cpp \
+    $${SRC_PATH}/DapServiceClient.cpp \
+    $${SRC_PATH}/DapServiceController.cpp \
+    $${SRC_PATH}/DapCommandController.cpp \
+    $${SRC_PATH}/DapServiceClientNativeAbstract.cpp \
+    $${SRC_PATH}/DapServiceClientNativeLinux.cpp \
+    $${SRC_PATH}/DapServiceClientNativeWin.cpp \
+    $${SRC_PATH}/DapServiceClientNativeMacOS.cpp \
+    $${SRC_PATH}/DapChainWalletsModel.cpp
+
+RESOURCES += $$PWD/qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -89,32 +103,31 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    DapChainNodeNetworkExplorer.h \
-    DapChainNodeNetworkModel.h \
-    DapChainWalletModel.h \
-    DapClipboard.h \
-    DapConsoleModel.h \
-    DapScreenHistoryFilterModel.h \
-    DapScreenHistoryModel.h \
-    DapSettingsNetworkModel.h \
-    DapUiQmlWidgetChainBallance.h \
-    DapUiQmlWidgetChainBlockExplorer.h \
-    DapUiQmlWidgetChainNodeLogs.h \
-#    DapUiQmlScreenDashboard.h \
-    DapUiQmlWidgetChainOperations.h \
-    DapUiQmlWidgetChainTransactions.h \
-    DapUiQmlWidgetModel.h \
-    DapUiQmlWidget.h \
-    DapScreenDialog.h \
-    DapScreenDialogChangeWidget.h \
-    DapServiceClient.h \
-    DapServiceController.h \
-    DapCommandController.h \
-    DapServiceClientNativeAbstract.h \
-    DapServiceClientNativeLinux.h \
-    DapServiceClientNativeWin.h \
-    DapChainWalletsModel.h \
-    DapWalletFilterModel.h
+    $${INCLUDE_PATH}/DapChainNodeNetworkExplorer.h \
+    $${INCLUDE_PATH}/DapChainNodeNetworkModel.h \
+    $${INCLUDE_PATH}/DapChainWalletModel.h \
+    $${INCLUDE_PATH}/DapClipboard.h \
+    $${INCLUDE_PATH}/DapConsoleModel.h \
+    $${INCLUDE_PATH}/DapScreenHistoryFilterModel.h \
+    $${INCLUDE_PATH}/DapScreenHistoryModel.h \
+    $${INCLUDE_PATH}/DapSettingsNetworkModel.h \
+    $${INCLUDE_PATH}/DapUiQmlWidgetChainBallance.h \
+    $${INCLUDE_PATH}/DapUiQmlWidgetChainBlockExplorer.h \
+    $${INCLUDE_PATH}/DapUiQmlWidgetChainNodeLogs.h \
+    $${INCLUDE_PATH}/DapUiQmlWidgetChainOperations.h \
+    $${INCLUDE_PATH}/DapUiQmlWidgetChainTransactions.h \
+    $${INCLUDE_PATH}/DapUiQmlWidgetModel.h \
+    $${INCLUDE_PATH}/DapUiQmlWidget.h \
+    $${INCLUDE_PATH}/DapScreenDialog.h \
+    $${INCLUDE_PATH}/DapScreenDialogChangeWidget.h \
+    $${INCLUDE_PATH}/DapServiceClient.h \
+    $${INCLUDE_PATH}/DapServiceController.h \
+    $${INCLUDE_PATH}/DapCommandController.h \
+    $${INCLUDE_PATH}/DapServiceClientNativeAbstract.h \
+    $${INCLUDE_PATH}/DapServiceClientNativeLinux.h \
+    $${INCLUDE_PATH}/DapServiceClientNativeWin.h \
+    $${INCLUDE_PATH}/DapChainWalletsModel.h \
+    $${INCLUDE_PATH}/DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
@@ -124,8 +137,6 @@ include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
 
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/
 
 
 unix: !mac : !android {
