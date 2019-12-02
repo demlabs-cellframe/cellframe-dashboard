@@ -12,7 +12,7 @@ ComboBox {
     property string hilightColor: "#332F49";
     property int fontSizeDelegateComboBox: 14*pt//textDelegateComboBox.font.pixelSize
     id: customComboBox
-    width: parent.width//190 * pt
+    width: parent.width
     height: parent.height
 
     delegate:DapUiQmlWidgetStatusBarComboBoxDelegate{delegateContentText: modelData;}
@@ -43,7 +43,7 @@ ComboBox {
         anchors.topMargin: 10 * pt
         text: parent.displayText
         font.family: fontRobotoRegular.name
-        font.pixelSize: parent.font.pixelSize//14 * pt
+        font.pixelSize: parent.font.pixelSize
         color: parent.popup.visible ? hilightColor : "#FFFFFF"
         verticalAlignment: Text.AlignTop
         elide: Text.ElideRight

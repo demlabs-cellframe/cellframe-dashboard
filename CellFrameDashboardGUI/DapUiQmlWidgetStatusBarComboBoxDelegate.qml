@@ -17,7 +17,7 @@ ItemDelegate {
         anchors.leftMargin: 16 * pt
         verticalAlignment: Qt.AlignTop
         Text{
-            font.pixelSize: fontSizeDelegateComboBox//14 *pt
+            font.pixelSize: fontSizeDelegateComboBox
             text: delegateContentText
             color: hovered ? "#FFFFFF" : "#332F49"
         }
