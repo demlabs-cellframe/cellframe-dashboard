@@ -22,8 +22,8 @@ Page {
             anchors.left: topPanelExchange.left
             width:144 * pt
             height:parent.height
-            DapUiQmlWidgetExchangeComboBox{
 
+            DapComboBox{
                 model: ListModel{
                     id:сonversionList
                     ListElement{text:"TKN1/NGD"}
@@ -32,6 +32,9 @@ Page {
                     ListElement{text:"KLVN/USD"}
                 }
             }
+//            DapUiQmlWidgetExchangeComboBox{
+
+//            }
         }
         ///Time ComboBox
         Rectangle{
@@ -41,7 +44,7 @@ Page {
             anchors.top: topPanelExchange.top
             width:132 * pt
             height:parent.height
-            DapUiQmlWidgetExchangeComboBox{
+            DapComboBox{
                 model: ListModel{
                     ListElement{text:"1 minute"}
                     ListElement{text:"5 minute"}
@@ -52,7 +55,7 @@ Page {
                     ListElement{text:"12 hour"}
                     ListElement{text:"24 hour"}
                 }
-                    font.pixelSize: 14*pt
+                fontSizeComboBox: 14*pt
             }
         }
         ///Value Last price

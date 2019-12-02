@@ -31,13 +31,50 @@ Rectangle {
                 color: "#A7A7A7"
             }
 
-            DapUiQmlWidgetStatusBarComboBoxWallet {
+            DapComboBox {
                 id: comboboxWallet
                 width: 190*pt
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                fieldBalance: fieldWalletBalance
+
+                property Label fieldBalance: Label {}
+                model: dapWalletModel.wallets
+              //  fieldBalance: fieldWalletBalance
+
+                indicator: Image {
+                    id: arrow
+                    source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/ic_arrow_drop_down.png"
+                    width: 24 * pt
+                    height: 24 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 16 * pt
+                }
+                contentItem: Text {
+                    id: headerText
+                    anchors.fill: parent
+                    anchors.leftMargin: 12 * pt
+                    anchors.rightMargin: 48 * pt
+                    anchors.topMargin: 10 * pt
+                    text: parent.displayText
+                    font.family: fontRobotoRegular.name
+                    font.pixelSize: 14 * pt
+                    color: parent.popup.visible ? "#332F49" : "#FFFFFF"
+                    verticalAlignment: Text.AlignTop
+                    elide: Text.ElideRight
+                }
+                hilightColor: "#332F49"
+                fontSizeComboBox: 14*px
+                hilightColorText: "#FFFFFF"
             }
+
+//            DapUiQmlWidgetStatusBarComboBoxWallet {
+//                id: comboboxWallet
+//                width: 190*pt
+//                anchors.top: parent.top
+//                anchors.bottom: parent.bottom
+//                //fieldBalance: fieldWalletBalance
+//            }
 
             Label {
                 id: titleWalletBalance
