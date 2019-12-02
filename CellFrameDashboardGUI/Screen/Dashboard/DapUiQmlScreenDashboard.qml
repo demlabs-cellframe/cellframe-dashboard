@@ -8,7 +8,6 @@ import QtQuick.Layouts 1.12
 
 DapUiQmlScreen {
     id: dapUiQmlScreenDialog
-    title: qsTr("Dashboard")
     anchors.fill: parent
 
     ColumnLayout {
