@@ -1,6 +1,9 @@
 import QtQuick 2.0
 
+///This file will be deleted in feature 2708
 DapUiQmlWidgetStatusBarComboBox {
+
+    fontSizeDelegateComboBox: 16*pt
 
     indicator: Image {
         id: imageIndicator
@@ -14,15 +17,15 @@ DapUiQmlWidgetStatusBarComboBox {
 
     contentItem: Text {
         id: headerText
+
         anchors.fill: parent
         anchors.leftMargin: 16 * pt
-        anchors.rightMargin: 10 * pt
         anchors.topMargin: 12 * pt
         text: parent.displayText
         font.family: fontRobotoRegular.name
         font.pixelSize: 16 * pt
-        color: "#070023"//parent.popup.visible ? "#332F49" : "#FFFFFF"
-        verticalAlignment: Text.AlignTop
-        //elide: Text.ElideRight
+        color: hilightColor
+        verticalAlignment: Text.AlignTop       
     }
+    hilightColor: "#070023"
 }

@@ -4,8 +4,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 Page {
-    ///Tab Exchange
-    ///Top panel with combo boxes and values Last Price 24h volume
+    ///Top panel in tab Exchange
     Rectangle{
         id:topPanelExchange
         anchors.left: parent.left
@@ -15,6 +14,8 @@ Page {
         anchors.topMargin: 12*pt
         anchors.rightMargin: 24*pt
         height:42 * pt
+
+        ///Token ComboBox
         Rectangle{
             id:leftComboBox
             anchors.top: topPanelExchange.top
@@ -32,10 +33,11 @@ Page {
                 }
             }
         }
+        ///Time ComboBox
         Rectangle{
             id:rightComboBox
             anchors.left: leftComboBox.right
-            anchors.leftMargin: 72*pt
+            anchors.leftMargin: 40*pt
             anchors.top: topPanelExchange.top
             width:132 * pt
             height:parent.height

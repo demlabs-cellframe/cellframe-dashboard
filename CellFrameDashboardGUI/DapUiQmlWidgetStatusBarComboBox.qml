@@ -1,13 +1,16 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
+///This file will be moved to libdap and removed from here.
+///this comboBox used int top panel exchange and statusBar will be deleted in the future
 ComboBox {
     property alias headerTextColor: headerText.color
     property alias widthArrow: arrow.width
     property alias heightArrow: arrow.height
-
+    property string hilightColor: "#332F49";
+    property int fontSizeDelegateComboBox: 14*pt//textDelegateComboBox.font.pixelSize
     id: customComboBox
     width: parent.width//190 * pt
     height: parent.height
@@ -40,8 +43,8 @@ ComboBox {
         anchors.topMargin: 10 * pt
         text: parent.displayText
         font.family: fontRobotoRegular.name
-        font.pixelSize: 14 * pt
-        color: parent.popup.visible ? "#332F49" : "#FFFFFF"
+        font.pixelSize: parent.font.pixelSize//14 * pt
+        color: parent.popup.visible ? hilightColor : "#FFFFFF"
         verticalAlignment: Text.AlignTop
         elide: Text.ElideRight
     }
@@ -49,15 +52,11 @@ ComboBox {
     popup: Popup {
         y: parent.height - 1
         width: parent.width + 1
-
-      //  implicitHeight: contentItem.implicitHeight    bug
         padding: 1
-
         contentItem: ListView {
             clip: true
             implicitHeight: contentHeight
             model: customComboBox.popup.visible ? customComboBox.delegateModel : null
-            //currentIndex: customComboBox.highlightedIndex
             ScrollIndicator.vertical: ScrollIndicator { }
         }
 
@@ -66,7 +65,6 @@ ComboBox {
             Rectangle {
                 id: contentCorner
                 anchors.fill: parent
-
             }
 
             DropShadow {
@@ -86,5 +84,4 @@ ComboBox {
         samples: 13 * pt
         color: "#40000000"
     }
-
 }
