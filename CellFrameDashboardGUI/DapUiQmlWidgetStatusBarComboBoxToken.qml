@@ -2,13 +2,13 @@ import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 
-DapUiQmlWidgetStatusBarComboBoxTokenForm {
+DapComboBox{
     property Label fieldBalance: Label {}
 
     model: ListModel {id: tokenList}
     textRole: "tokenName"
 
-    delegate: DapUiQmlWidgetStatusBarComboBoxDelegate {
+    delegate: DapComboBoxDelegate {
         delegateContentText: tokenName
     }
 

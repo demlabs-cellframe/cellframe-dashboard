@@ -90,7 +90,7 @@ Page {
                 anchors.bottom: lastPrice.bottom
                 anchors.leftMargin: 6 * pt
                 color: "#6F9F00"
-                font.pixelSize: 12 * pt
+                font.pixelSize: 10 * pt
                 font.family: fontRobotoRegular.name
                 text: qsTr("+3.59%")
             }

@@ -71,7 +71,6 @@
         <file>DapUiQmlScreenSettingsSection.qml</file>
         <file>DapUiQmlWidgetStatusBarButton.ui.qml</file>
         <file>DapUiQmlWidgetStatusBarComboBoxToken.qml</file>
-        <file>DapUiQmlWidgetStatusBarComboBoxTokenForm.ui.qml</file>
         <file>Resources/Icons/icon_settings.png</file>
         <file>Resources/Icons/icon_settings_hover.png</file>
         <file>DapUiQmlScreenVpn.qml</file>
@@ -82,7 +81,6 @@
         <file>DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>DapUiQmlWidgetDashboardTokenSectionDelegate.qml</file>
         <file>DapUiQmlScreenDialogAddWalletForm.ui.qml</file>
-        <file>DapUiQmlWidgetSignatureTypeComboBox.qml</file>
         <file>DapUiQmlRecoveryQrForm.ui.qml</file>
         <file>DapUiQmlRecoveryNotesForm.ui.qml</file>
         <file>DapUiQmlWalletCreatedForm.ui.qml</file>

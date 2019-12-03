@@ -92,18 +92,124 @@ DapUiQmlScreen {
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeTextArea.bottom
 
-        DapUiQmlWidgetSignatureTypeComboBox {
-            id: comboBoxChooseSignatureType
-            height: 20 * pt
+
+        ///ComboBox right panel
+        DapComboBox{
+
+            property Label fieldBalance: Label {}
+
+//            model: ListModel {id: tokenList}
+//            textRole: "tokenName"
+
+//            delegate: DapComboBoxDelegate {
+//                delegateContentText: tokenName
+//            }
+
+//            onCurrentIndexChanged: {
+//                if(currentIndex === -1)
+//                    fieldBalance.text = 0;
+//                else
+//                {
+//                    var money = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 3];
+//                    fieldBalance.text = dapChainConvertor.toConvertCurrency(money);
+//                }
+//            }
+
+            model: ListModel {
+                id: signatureType
+                ListElement {
+                    signatureName: "Dilithium"
+                }
+                ListElement {
+                    signatureName: "Bliss"
+                }
+                ListElement {
+                    signatureName: "Picnic"
+                }
+                ListElement {
+                    signatureName: "Tesla"
+                }
+            }
+
             anchors {
-                verticalCenter: chooseSignatureTypeArea.verticalCenter
+                //verticalCenter: chooseSignatureTypeArea.verticalCenter
                 left: parent.left
                 right: parent.right
-                leftMargin: 8
-                rightMargin: 32
-                verticalCenterOffset: 0
+                leftMargin: 16 * pt
+                rightMargin: 16 * pt
+                topMargin: 12 * pt
+                bottomMargin: 12 * pt
+                //verticalCenterOffset: 0
             }
+
+            normalColorText: "#070023"
+            fontSizeComboBox: 16 * pt
+            hilightColor: "#330F54"
+            hilightColorText: "#FFFFFF"
+
+            indicator: Image {
+                source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up_dark_blue.png"
+                                                    : "qrc:/Resources/Icons/ic_arrow_drop_down_dark_blue.png"
+                width: 20 * pt
+                height: 20 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                anchors.rightMargin: 20 * pt
+            }
+
+            contentItem: Text {
+                //id: headerText
+                anchors.fill: parent
+                anchors.leftMargin: 20 * pt
+                anchors.topMargin: 12 * pt
+                text: parent.displayText//signatureName
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 14*pt
+                color: /*parent.popup.visible ? hiligtColorText :*/ normalColorText
+                verticalAlignment: Text.AlignTop
+                elide: Text.ElideRight
+            }
+
+//            background: Rectangle {
+//                height: 32 * pt
+//                color: hovered ? "#330F54" : "#FFFFFF"
+//            }
+//            font {
+//                pixelSize: fontSizeCombobox
+//                family: "Roboto"
+//                styleName: "Normal"
+//                weight: Font.Normal
+//            }
+
+     //       currentIndex: 0
+     //       displayText: currentText
+
+//            delegate: DapComboBoxDelegate {
+//                //width: parent.width
+//}
+//                contentItem: Text{
+//                     text: signatureName
+//                     color: hovered ? "#FFFFFF" : "#070023"
+//                }
+
+
+
+          //      highlighted: parent.highlightedIndex === index
+
         }
+
+//        DapUiQmlWidgetSignatureTypeComboBox {
+//            id: comboBoxChooseSignatureType
+//            height: 20 * pt
+//            anchors {
+//                verticalCenter: chooseSignatureTypeArea.verticalCenter
+//                left: parent.left
+//                right: parent.right
+//                leftMargin: 8
+//                rightMargin: 32
+//                verticalCenterOffset: 0
+//            }
+//        }
     }
 
     Rectangle {
