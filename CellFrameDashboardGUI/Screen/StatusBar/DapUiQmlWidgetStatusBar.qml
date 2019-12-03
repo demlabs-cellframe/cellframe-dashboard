@@ -15,7 +15,7 @@ Rectangle {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            anchors.right: buttonAddWallet.left
+            anchors.right: statusBarAddWalletButton.left
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt

@@ -11,7 +11,7 @@
 #include "DapHalper.h"
 #include "DapScreenDialog.h"
 #include "DapScreenDialogChangeWidget.h"
-#include "DapUiQmlWidgetModel.h"
+//#include "DapUiQmlWidgetModel.h"
 #include "DapSettings.h"
 #include "DapSettingsCipher.h"
 #include "DapServiceClient.h"
@@ -81,14 +81,14 @@ int main(int argc, char *argv[])
     qmlRegisterType<DapScreenDialogChangeWidget>("CellFrameDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
     qmlRegisterType<DapChainNodeNetworkExplorer>("NodeNetworkExplorer", 1, 0, "DapUiQmlWidgetNodeNetwork");
-    qmlRegisterSingletonType<DapUiQmlWidgetModel>("CellFrameDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
+//    qmlRegisterSingletonType<DapUiQmlWidgetModel>("CellFrameDashboard", 1, 0, "DapUiQmlWidgetModel", DapUiQmlWidgetModel::singletonProvider);
     qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
 
     QQmlApplicationEngine engine;
     /// TODO: this method for getting DPI screen can be useful in the future
 //    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
-    engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
+//    engine.rootContext()->setContextProperty("dapUiQmlWidgetModel", &DapUiQmlWidgetModel::getInstance());
     engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
     engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
@@ -100,10 +100,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
     engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
     engine.rootContext()->setContextProperty("pt", 1.3);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl("qrc:/screen/main.qml"));
 
-
-
+    qDebug() << engine.rootObjects().isEmpty();
     if (engine.rootObjects().isEmpty())
         return -1;
     

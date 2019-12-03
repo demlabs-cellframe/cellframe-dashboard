@@ -1,11 +1,7 @@
 #include "DapServiceController.h"
-#include "DapUiQmlWidgetModel.h"
 #include "DapLogMessage.h"
 #include "DapChainWallet.h"
 #include "DapSettings.h"
-
-
-
 #include <QRegularExpression>
 
 DapServiceController::DapServiceController(QObject *apParent)

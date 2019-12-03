@@ -3,9 +3,9 @@
 DapScreenDialogChangeWidget::DapScreenDialogChangeWidget(QObject *parent) : QObject(parent)
 {
     m_proxyModel = new QSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(&DapUiQmlWidgetModel::getInstance());
+//    m_proxyModel->setSourceModel(&DapUiQmlWidgetModel::getInstance());
     m_proxyModel->setFilterRegExp(QRegExp("false"));
-    m_proxyModel->setFilterRole(VisibleRole);
+//    m_proxyModel->setFilterRole(VisibleRole);
 }
 
 QSortFilterProxyModel *DapScreenDialogChangeWidget::proxyModel() const

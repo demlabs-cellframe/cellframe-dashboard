@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QSortFilterProxyModel>
 
-#include "DapUiQmlWidgetModel.h"
-
 /// Class of screen dialog. Can filtered different models
 class DapScreenDialog : public QObject
 {

@@ -13,7 +13,7 @@ DapUiQmlScreenSettingsForm {
 
         ListElement {
             name: qsTr("VPN")
-            element: "DapUiQmlWidgetSettingsVpn.qml"
+            element: "qrc:/screen/VPN/DapUiQmlWidgetSettingsVpn.qml"
         }
     }
 

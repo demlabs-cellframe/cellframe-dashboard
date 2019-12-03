@@ -45,7 +45,7 @@ DapUiQmlScreen {
 
                 icon.width: 20 * pt
                 icon.height: 20 * pt
-                icon.source: "qrc:/Resources/Icons/new-payment_icon.png"
+                icon.source: "qrc:/res/icons/new-payment_icon.png"
                 icon.color: "#FFFFFF"
             }
         }
@@ -142,15 +142,15 @@ DapUiQmlScreen {
                                         anchors.centerIn: parent
                                         width: 16 * pt
                                         height: 16 * pt
-                                        source: "qrc:/Resources/Icons/ic_copy.png"
+                                        source: "qrc:/res/icons/ic_copy.png"
                                     }
 
                                     MouseArea {
                                         anchors.fill: parent
                                         hoverEnabled: true
 
-                                        onEntered: imageButton.source = "qrc:/Resources/Icons/ic_copy_hover.png"
-                                        onExited: imageButton.source = "qrc:/Resources/Icons/ic_copy.png"
+                                        onEntered: imageButton.source = "qrc:/res/icons/ic_copy_hover.png"
+                                        onExited: imageButton.source = "qrc:/res/icons/ic_copy.png"
                                         onClicked: clipboard.setText(titleWalletAddress.text);
                                     }
                                 }

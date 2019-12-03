@@ -24,7 +24,7 @@ Button {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 10 * pt
-            source: "qrc:/Resources/Icons/defaul_icon.png"
+            source: "qrc:/res/icons/defaul_icon.png"
             width: 28 * pt
             height: 28 * pt
         }

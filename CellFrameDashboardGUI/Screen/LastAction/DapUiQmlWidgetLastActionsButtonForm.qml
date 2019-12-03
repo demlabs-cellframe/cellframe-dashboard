@@ -22,7 +22,7 @@ Item {
         id: imageButton
         anchors.fill: parent
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/Resources/Icons/ic_scroll-down.png"
+        source: "qrc:/res/icons/ic_scroll-down.png"
     }
 
     states: [
@@ -61,18 +61,18 @@ Item {
         onEntered: {
             isHovered = true;
             if(buttonScroll.state === "goUp")
-                imageButton.source = "qrc:/Resources/Icons/ic_scroll-down_hover.png";
+                imageButton.source = "qrc:/res/icons/ic_scroll-down_hover.png";
             else if(buttonScroll.state === "goDown")
-                imageButton.source = "qrc:/Resources/Icons/ic_scroll-up_hover.png";
+                imageButton.source = "qrc:/res/icons/ic_scroll-up_hover.png";
 
         }
 
         onExited: {
             isHovered = false;
             if(buttonScroll.state === "goUp")
-                imageButton.source = "qrc:/Resources/Icons/ic_scroll-down.png";
+                imageButton.source = "qrc:/res/icons/ic_scroll-down.png";
             else if(buttonScroll.state === "goDown")
-                imageButton.source = "qrc:/Resources/Icons/ic_scroll-up.png";
+                imageButton.source = "qrc:/res/icons/ic_scroll-up.png";
         }
 
         onClicked: {

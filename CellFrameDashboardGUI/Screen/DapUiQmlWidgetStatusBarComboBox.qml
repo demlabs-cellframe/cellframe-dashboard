@@ -12,7 +12,7 @@ ComboBox {
     width: 190 * pt
     indicator: Image {
         id: arrow
-        source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/ic_arrow_drop_down.png"
+        source: parent.popup.visible ? "qrc:/res/icons/ic_arrow_drop_up.png" : "qrc:/res/icons/ic_arrow_drop_down.png"
         width: 24 * pt
         height: 24 * pt
         anchors.verticalCenter: parent.verticalCenter

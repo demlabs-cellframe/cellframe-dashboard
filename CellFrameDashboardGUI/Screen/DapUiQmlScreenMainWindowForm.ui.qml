@@ -2,8 +2,10 @@ import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
+import "./StatusBar"
+import "./LastAction"
 
-import CellFrameDashboard 1.0
+//import CellFrameDashboard 1.0
 
 Page {
     id: dapUiQmlScreenMainWindow
@@ -12,14 +14,14 @@ Page {
     /// ----------- Load fonts -----------
     /// using example: font.family: fontRobotoLight.name
     readonly property FontLoader fontRobotoLight: FontLoader {
-        source: "qrc:/Resources/Fonts/roboto_light.ttf"
+        source: "qrc:/res/fonts/roboto_light.ttf"
     }
     readonly property FontLoader fontRobotoRegular: FontLoader {
-        source: "qrc:/Resources/Fonts/roboto_regular.ttf"
+        source: "qrc:/res/fonts/roboto_regular.ttf"
     }
 
     readonly property FontLoader fontRobotoMedium: FontLoader {
-        source: "qrc:/Resources/Fonts/roboto_medium.ttf"
+        source: "qrc:/res/fonts/roboto_medium.ttf"
     }
     /// -----------
     property alias listViewTabs: listViewTabs
@@ -55,63 +57,63 @@ Page {
 
                 ListElement {
                     name: qsTr("Dashboard")
-                    page: "DapUiQmlScreenDashboard.qml"
-                    normal: "qrc:/Resources/Icons/icon_dashboard.png"
-                    hover: "qrc:/Resources/Icons/icon_dashboard_hover.png"
-                    panelHeader: "DapUiQmlWidgetLastActionsHeaderForm.qml"
-                    panelContent: "DapUiQmlWidgetHistoryLastActions.qml"
+                    page: "qrc:/screen/Dashboard/DapUiQmlScreenDashboard.qml"
+                    normal: "qrc:/res/icons/icon_dashboard.png"
+                    hover: "qrc:/res/icons/icon_dashboard_hover.png"
+                    panelHeader: "qrc:/screen/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml"
+                    panelContent: "qrc:/screen/LastAction/DapUiQmlWidgetHistoryLastActions.qml"
                 }
 
                 ListElement {
                     name: qsTr("Exchange")
-                    page: "DapUiQmlScreenExchangeForm.ui.qml"
-                    normal: "qrc:/Resources/Icons/icon_exchange.png"
-                    hover: "qrc:/Resources/Icons/icon_exchange_hover.png"
+                    page: "qrc:/screen/Exchange/DapUiQmlScreenExchangeForm.ui.qml"
+                    normal: "qrc:/res/icons/icon_exchange.png"
+                    hover: "qrc:/res/icons/icon_exchange_hover.png"
                     panelHeader: ""
                     panelContent: ""
                 }
 
                 ListElement {
                     name: qsTr("History")
-                    page: "DapUiQmlScreenHistory.qml"
-                    normal: "qrc:/Resources/Icons/icon_history.png"
-                    hover: "qrc:/Resources/Icons/icon_history_hover.png"
+                    page: "qrc:/screen/History/DapUiQmlScreenHistory.qml"
+                    normal: "qrc:/res/icons/icon_history.png"
+                    hover: "qrc:/res/icons/icon_history_hover.png"
                     panelHeader: ""
                     panelContent: ""
                 }
 
                 ListElement {
                     name: qsTr("Console")
-                    page: "DapUiQmlScreenConsoleForm.ui.qml"
-                    normal: "qrc:/Resources/Icons/icon_console.png"
-                    hover: "qrc:/Resources/Icons/icon_console_hover.png"
-                    panelHeader: "DapUiQmlWidgetLastActionsHeaderForm.qml"
-                    panelContent: "DapUiQmlWidgetConsoleLastActionsForm.qml"
+                    page: "qrc:/screen/Console/DapUiQmlScreenConsoleForm.ui.qml"
+                    normal: "qrc:/res/icons/icon_console.png"
+                    hover: "qrc:/res/icons/icon_console_hover.png"
+                    panelHeader: "qrc:/screen/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml"
+                    panelContent: "qrc:/screen/Console/DapUiQmlWidgetConsoleLastActionsForm.qml"
                 }
 
                 ListElement {
                     name: qsTr("Logs")
                     page: "DapUiQmlWidgetChainNodeLogs.qml"
-                    normal: "qrc:/Resources/Icons/icon_logs.png"
-                    hover: "qrc:/Resources/Icons/icon_logs_hover.png"
+                    normal: "qrc:/res/icons/icon_logs.png"
+                    hover: "qrc:/res/icons/icon_logs_hover.png"
                     panelHeader: ""
                     panelContent: ""
                 }
 
                 ListElement {
                     name: qsTr("Settings")
-                    page: "DapUiQmlScreenSettings.qml"
-                    normal: "qrc:/Resources/Icons/icon_settings.png"
-                    hover: "qrc:/Resources/Icons/icon_settings_hover.png"
+                    page: "qrc:/screen/Settings/DapUiQmlScreenSettings.qml"
+                    normal: "qrc:/res/icons/icon_settings.png"
+                    hover: "qrc:/res/icons/icon_settings_hover.png"
                     panelHeader: ""
                     panelContent: ""
                 }
 
                 ListElement {
                     name: qsTr("VPN")
-                    page: "DapUiQmlScreenVpn.qml"
-                    normal: "qrc:/Resources/Icons/defaul_icon.png"
-                    hover: "qrc:/Resources/Icons/defaul_icon.png"
+                    page: "qrc:/screen/VPN/DapUiQmlScreenVpn.qml"
+                    normal: "qrc:/res/icons/defaul_icon.png"
+                    hover: "qrc:/res/icons/defaul_icon.png"
                     panelHeader: ""
                     panelContent: ""
                 }
@@ -146,7 +148,7 @@ Page {
             anchors.right: rightPanel.left
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            source: "DapUiQmlScreenDashboard.qml"
+            source: "qrc:/screen/Dashboard/DapUiQmlScreenDashboard.qml"
         }
 
         DapUiQmlWidgetRightPanel {
@@ -154,8 +156,8 @@ Page {
             anchors.bottom: parent.bottom
             anchors.top: parent.top
             anchors.right: parent.right
-            header.initialItem: "DapUiQmlWidgetLastActionsHeaderForm.qml"
-            content.initialItem: "DapUiQmlWidgetHistoryLastActions.qml"
+            header.initialItem: "qrc:/screen/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml"
+            content.initialItem: "qrc:/screen/LastAction/DapUiQmlWidgetHistoryLastActions.qml"
         }
     }
 }

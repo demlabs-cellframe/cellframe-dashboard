@@ -5,7 +5,7 @@ import QtQuick.Window 2.0
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Controls.Styles 1.4
 import Qt.labs.platform 1.0
-import CellFrameDashboard 1.0
+//import CellFrameDashboard 1.0
 
 ApplicationWindow {
     id: window

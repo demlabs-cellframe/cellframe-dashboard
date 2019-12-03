@@ -119,65 +119,65 @@ HEADERS += \
     $${INCLUDE_PATH}/DapChainWalletsModel.h \
     $${INCLUDE_PATH}/DapWalletFilterModel.h
 
-DISTFILES += \
-    $${QML_PATH}/DapUiQmlScreen.qml \
-    $${QML_PATH}/DapUiQmlScreenMainWindow.qml \
-    $${QML_PATH}/DapUiQmlScreenMainWindowForm.ui.qml \
-    $${QML_PATH}/main.qml \
-    $${QML_PATH}/DapUiQmlWidgetStatusBarComboBoxDelegate.qml \
-    $${QML_PATH}/DapUiQmlWidgetStatusBarComboBox.qml \
-    $${QML_PATH}/DapUiQmlWidgetStatusBarContentItem.qml \
-    $${QML_PATH}/Dashboard/DapUiQmlScreenDashboard.qml \
-    $${QML_PATH}/Console/DapUiQmlWidgetConsoleForm.ui.qml \
-    $${QML_PATH}/Console/DapUiQmlWidgetConsole.qml \
-    $${QML_PATH}/Console/DapUiQmlScreenConsoleForm.ui.qml \
-    $${QML_PATH}/Console/DapUiQmlWidgetConsoleLastActionsDelegateForm.qml \
-    $${QML_PATH}/Console/DapUiQmlWidgetConsoleLastActionsForm.qml \
-    $${QML_PATH}/Exchange/DapUiQmlScreenExchangeForm.ui.qml \
-    $${QML_PATH}/Exchange/DapUiQmlWidgetChainExchanges.ui.qml \
-    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderButtonForm.ui.qml \
-    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderContentForm.ui.qml \
-    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderForm.ui.qml \
-    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderTitleForm.ui.qml \
-    $${QML_PATH}/Explorer/DapUiQmlWidgetNodeNetworkExplorer.qml \
-    $${QML_PATH}/History/DapUiQmlScreenHistory.qml \
-    $${QML_PATH}/History/DapUiQmlScreenHistoryForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlRecoveryNotesForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlRecoveryQrForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlScreenDialogAddWallet.qml \
-    $${QML_PATH}/LastAction/DapUiQmlScreenDialogAddWalletForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWalletCreated.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWalletCreatedForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWalletCreatedHeader.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetHistoryLastActions.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActions.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsButtonForm.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsDelegateForm.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsSectionForm.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetRightPanel.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml \
-    $${QML_PATH}/LastAction/DapUiQmlWidgetSignatureTypeComboBox.qml \
-    $${QML_PATH}/Log/DapUiQmlWidgetChainNodeLogs.qml \
-    $${QML_PATH}/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml \
-    $${QML_PATH}/Settings/DapUiQmlScreenSettings.qml \
-    $${QML_PATH}/Settings/DapUiQmlScreenSettingsForm.ui.qml \
-    $${QML_PATH}/Settings/DapUiQmlScreenSettingsSection.qml \
-    $${QML_PATH}/Settings/DapUiQmlWidgetSettingsNetwork.qml \
-    $${QML_PATH}/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml \
-    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBar.qml \
-    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBarButton.ui.qml \
-    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBarComboBoxWallet.qml \
-    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBarComboBoxWalletForm.ui.qml \
-    $${QML_PATH}/VPN/DapUiQmlScreenVpn.qml \
-    $${QML_PATH}/VPN/DapUiQmlScreenVpnForm.ui.qml \
-    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpn.qml \
-    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml \
-    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml \
-    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpnForm.ui.qml
+#DISTFILES += \
+#    $${QML_PATH}/DapUiQmlScreen.qml \
+#    $${QML_PATH}/DapUiQmlScreenMainWindow.qml \
+#    $${QML_PATH}/DapUiQmlScreenMainWindowForm.ui.qml \
+#    $${QML_PATH}/main.qml \
+#    $${QML_PATH}/DapUiQmlWidgetStatusBarComboBoxDelegate.qml \
+#    $${QML_PATH}/DapUiQmlWidgetStatusBarComboBox.qml \
+#    $${QML_PATH}/DapUiQmlWidgetStatusBarContentItem.qml \
+#    $${QML_PATH}/Dashboard/DapUiQmlScreenDashboard.qml \
+#    $${QML_PATH}/Console/DapUiQmlWidgetConsoleForm.ui.qml \
+#    $${QML_PATH}/Console/DapUiQmlWidgetConsole.qml \
+#    $${QML_PATH}/Console/DapUiQmlScreenConsoleForm.ui.qml \
+#    $${QML_PATH}/Console/DapUiQmlWidgetConsoleLastActionsDelegateForm.qml \
+#    $${QML_PATH}/Console/DapUiQmlWidgetConsoleLastActionsForm.qml \
+#    $${QML_PATH}/Exchange/DapUiQmlScreenExchangeForm.ui.qml \
+#    $${QML_PATH}/Exchange/DapUiQmlWidgetChainExchanges.ui.qml \
+#    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderButtonForm.ui.qml \
+#    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderContentForm.ui.qml \
+#    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderForm.ui.qml \
+#    $${QML_PATH}/Exchange/DapUiQmlWidgetExchangeOrderTitleForm.ui.qml \
+#    $${QML_PATH}/Explorer/DapUiQmlWidgetNodeNetworkExplorer.qml \
+#    $${QML_PATH}/History/DapUiQmlScreenHistory.qml \
+#    $${QML_PATH}/History/DapUiQmlScreenHistoryForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlRecoveryNotesForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlRecoveryQrForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlScreenDialogAddWallet.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlScreenDialogAddWalletForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWalletCreated.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWalletCreatedForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWalletCreatedHeader.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetHistoryLastActions.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActions.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsButtonForm.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsDelegateForm.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetLastActionsSectionForm.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetRightPanel.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml \
+#    $${QML_PATH}/LastAction/DapUiQmlWidgetSignatureTypeComboBox.qml \
+#    $${QML_PATH}/Log/DapUiQmlWidgetChainNodeLogs.qml \
+#    $${QML_PATH}/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml \
+#    $${QML_PATH}/Settings/DapUiQmlScreenSettings.qml \
+#    $${QML_PATH}/Settings/DapUiQmlScreenSettingsForm.ui.qml \
+#    $${QML_PATH}/Settings/DapUiQmlScreenSettingsSection.qml \
+#    $${QML_PATH}/Settings/DapUiQmlWidgetSettingsNetwork.qml \
+#    $${QML_PATH}/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml \
+#    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBar.qml \
+#    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBarButton.ui.qml \
+#    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBarComboBoxWallet.qml \
+#    $${QML_PATH}/StatusBar/DapUiQmlWidgetStatusBarComboBoxWalletForm.ui.qml \
+#    $${QML_PATH}/VPN/DapUiQmlScreenVpn.qml \
+#    $${QML_PATH}/VPN/DapUiQmlScreenVpnForm.ui.qml \
+#    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpn.qml \
+#    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml \
+#    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml \
+#    $${QML_PATH}/VPN/DapUiQmlWidgetSettingsVpnForm.ui.qml
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
@@ -187,7 +187,10 @@ include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
 
+#copy_to_build.path = $$DESTDIR/screens
+#copy_to_build.files = $${QML_PATH}/*
 
+#INSTALLS += copy_to_build
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
