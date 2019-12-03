@@ -5,8 +5,6 @@ import QtQuick.Controls.Styles 1.4
 import "./StatusBar"
 import "./LastAction"
 
-//import CellFrameDashboard 1.0
-
 Page {
     id: dapUiQmlScreenMainWindow
     title: qsTr("General")
@@ -93,7 +91,7 @@ Page {
 
                 ListElement {
                     name: qsTr("Logs")
-                    page: "DapUiQmlWidgetChainNodeLogs.qml"
+                    page: "qrc:/screen/Log/DapUiQmlWidgetChainNodeLogs.qml"
                     normal: "qrc:/res/icons/icon_logs.png"
                     hover: "qrc:/res/icons/icon_logs_hover.png"
                     panelHeader: ""

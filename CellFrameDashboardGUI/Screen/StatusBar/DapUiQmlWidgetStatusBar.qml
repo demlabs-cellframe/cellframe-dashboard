@@ -73,8 +73,8 @@ Rectangle {
             anchors.bottomMargin: 10 * pt
 
             onClicked: {
-                rightPanel.header.push("DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
-                rightPanel.content.push("DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
+                rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
+                rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
             }
         }
     }

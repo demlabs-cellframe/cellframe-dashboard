@@ -1,6 +1,5 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import CellFrameDashboard 1.0
 
 DapUiQmlScreenDialogAddWalletForm {
     id: dialogAddWallet
@@ -13,16 +12,16 @@ DapUiQmlScreenDialogAddWalletForm {
 
                 rightPanel.content.push("DapUiQmlRecoveryNotesForm.ui.qml", {"rightPanel": rightPanel});
                 rightPanel.header.push("DapUiQmlScreenDialogAddWalletHeader.qml", {
-                                           "backButtonNormal": "qrc:/Resources/Icons/back_icon.png",
-                                           "backButtonHovered": "qrc:/Resources/Icons/back_icon_hover.png",
+                                           "backButtonNormal": "qrc:/res/icons/back_icon.png",
+                                           "backButtonHovered": "qrc:/res/icons/back_icon_hover.png",
                                            "rightPanel": rightPanel
                                        });
             }
             else if(isQRCodeRecoveryMethodChecked) {
                 rightPanel.content.push("DapUiQmlRecoveryQrForm.ui.qml", {"rightPanel": rightPanel});
                 rightPanel.header.push("DapUiQmlScreenDialogAddWalletHeader.qml", {
-                                           "backButtonNormal": "qrc:/Resources/Icons/back_icon.png",
-                                           "backButtonHovered": "qrc:/Resources/Icons/back_icon_hover.png",
+                                           "backButtonNormal": "qrc:/res/icons/back_icon.png",
+                                           "backButtonHovered": "qrc:/res/icons/back_icon_hover.png",
                                            "rightPanel": rightPanel
                                        });
             }

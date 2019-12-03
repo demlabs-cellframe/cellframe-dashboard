@@ -31,7 +31,7 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             width: 48 * pt
             height: 48 * pt
-            source: "qrc:/Resources/Icons/defaul_icon.png"
+            source: "qrc:/res/icons/defaul_icon.png"
         }
 
         Text {
@@ -98,8 +98,8 @@ Item {
 
         model: ListModel {
             id: modelTest
-            ListElement {name: "first"; icon: "qrc:/Resources/Icons/defaul_icon.png" }
-            ListElement {name: "second"; icon: "qrc:/Resources/Icons/defaul_icon.png" }
+            ListElement {name: "first"; icon: "qrc:/res/icons/defaul_icon.png" }
+            ListElement {name: "second"; icon: "qrc:/res/icons/defaul_icon.png" }
         }
 
         background: Rectangle {

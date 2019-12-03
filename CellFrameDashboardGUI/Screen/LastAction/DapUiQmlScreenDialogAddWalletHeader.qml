@@ -7,8 +7,8 @@ DapUiQmlScreen {
     height: 36 * pt
     color: "#edeff2"
 
-    property string backButtonNormal : "qrc:/Resources/Icons/close_icon.png"
-    property string backButtonHovered : "qrc:/Resources/Icons/close_icon_hover.png"
+    property string backButtonNormal : "qrc:/res/icons/close_icon.png"
+    property string backButtonHovered : "qrc:/res/icons/close_icon_hover.png"
     property string title : qsTr("New wallet")
     property alias mouseArea : mouseArea
 
