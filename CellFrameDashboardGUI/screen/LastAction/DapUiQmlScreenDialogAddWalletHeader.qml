@@ -47,7 +47,12 @@ DapUiQmlScreen {
 
         Text {
             text: title
+            horizontalAlignment: Qt.AlignLeft
             font.pointSize: 14
+            font.family: "Roboto"
+            font.weight: Font.Normal
+            font.styleName: "Normal"
+            color: "#3E3853"
         }
     }
 }
