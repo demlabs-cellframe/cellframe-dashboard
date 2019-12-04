@@ -82,6 +82,7 @@
         <file>screen/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml</file>
         <file>screen/LastAction/DapUiQmlWidgetSignatureTypeComboBox.qml</file>
         <file>screen/LastAction/DapUiQmlWidgetSignatureTypeComboBox.qml</file>
+        <file>screen/LastAction/DapRadioButton.qml</file>
         <file>screen/Log/DapUiQmlWidgetChainNodeLogs.qml</file>
         <file>screen/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
         <file>screen/Settings/DapUiQmlScreenSettings.qml</file>
@@ -98,6 +99,5 @@
         <file>screen/VPN/DapUiQmlWidgetSettingsVpn.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
-        <file>screen/VPN/DapRadioButton.qml</file>
     </qresource>
 </RCC>
