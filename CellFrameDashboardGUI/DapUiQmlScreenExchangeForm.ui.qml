@@ -10,7 +10,7 @@ Page {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        anchors.leftMargin: 8*pt
+        anchors.leftMargin: 24*pt
         anchors.topMargin: 12*pt
         anchors.rightMargin: 24*pt
         height:42 * pt
@@ -20,7 +20,7 @@ Page {
             id:leftComboBox
             anchors.top: topPanelExchange.top
             anchors.left: topPanelExchange.left
-            width:144 * pt
+            width:112 * pt
             height:parent.height
 
             DapComboBox{
@@ -31,18 +31,22 @@ Page {
                     ListElement{text:"NGD/KLVN"}
                     ListElement{text:"KLVN/USD"}
                 }
+                fontSizeComboBox: 16*pt
+                widthPopupComboBoxActive: 144 *pt
+                widthPopupComboBoxNormal: 112 *pt
+                spacingEdgeActive: 16*pt
+                spacingEdgeNormal: 0
+                x:popup.visible ? spacingEdgeActive * (-1) : spacingEdgeNormal
             }
-//            DapUiQmlWidgetExchangeComboBox{
 
-//            }
         }
         ///Time ComboBox
         Rectangle{
             id:rightComboBox
             anchors.left: leftComboBox.right
-            anchors.leftMargin: 40*pt
+            anchors.leftMargin: 72*pt
             anchors.top: topPanelExchange.top
-            width:132 * pt
+            width:100 * pt
             height:parent.height
             DapComboBox{
                 model: ListModel{
@@ -56,6 +60,11 @@ Page {
                     ListElement{text:"24 hour"}
                 }
                 fontSizeComboBox: 14*pt
+                widthPopupComboBoxActive: 132 *pt
+                widthPopupComboBoxNormal: 100 *pt
+                spacingEdgeActive: 16*pt
+                spacingEdgeNormal: 0
+                x:popup.visible ? spacingEdgeActive * (-1) : spacingEdgeNormal
             }
         }
         ///Value Last price

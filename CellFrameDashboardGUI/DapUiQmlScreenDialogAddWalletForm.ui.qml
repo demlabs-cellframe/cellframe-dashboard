@@ -85,131 +85,90 @@ DapUiQmlScreen {
 
     Rectangle {
         id: chooseSignatureTypeArea
-        height: 68
+        height: 68 * pt
         color: "#EDEFF2"
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeTextArea.bottom
 
-
         ///ComboBox right panel
-        DapComboBox{
+        Rectangle{
+            id:areaDapComboBoxRightPanel
+            anchors.fill: parent
+            anchors.leftMargin:  16*pt
+            anchors.rightMargin: 16*pt
+            anchors.topMargin:12*pt
+            anchors.bottomMargin: 12*pt
+            color: parent.color
+            DapComboBox{
+                property Label fieldBalance: Label {}
 
-            property Label fieldBalance: Label {}
+                ///Этот код был в DapUiQmlWidgetStatusBarComboBoxToken.qml на первый
+                ///            взгляд не сильно ясно что он делает и разбираться тоже не стал к тикету не относился
 
-//            model: ListModel {id: tokenList}
-//            textRole: "tokenName"
+                //            model: ListModel {id: tokenList}
+                //            textRole: "tokenName"
 
-//            delegate: DapComboBoxDelegate {
-//                delegateContentText: tokenName
-//            }
+                //            delegate: DapComboBoxDelegate {
+                //                delegateContentText: tokenName
+                //            }
 
-//            onCurrentIndexChanged: {
-//                if(currentIndex === -1)
-//                    fieldBalance.text = 0;
-//                else
-//                {
-//                    var money = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 3];
-//                    fieldBalance.text = dapChainConvertor.toConvertCurrency(money);
-//                }
-//            }
+                //            onCurrentIndexChanged: {
+                //                if(currentIndex === -1)
+                //                    fieldBalance.text = 0;
+                //                else
+                //                {
+                //                    var money = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 3];
+                //                    fieldBalance.text = dapChainConvertor.toConvertCurrency(money);
+                //                }
+                //            }
 
-            model: ListModel {
-                id: signatureType
-                ListElement {
-                    signatureName: "Dilithium"
+                model: ListModel {
+                    id: signatureType
+                    ListElement {
+                        signatureName: "Dilithium"
+                    }
+                    ListElement {
+                        signatureName: "Bliss"
+                    }
+                    ListElement {
+                        signatureName: "Picnic"
+                    }
+                    ListElement {
+                        signatureName: "Tesla"
+                    }
                 }
-                ListElement {
-                    signatureName: "Bliss"
+                normalColorText: "#070023"
+                hilightColorText: "#FFFFFF"
+                fontSizeComboBox: 16 * pt
+                hilightColor: "#330F54"
+                spacingEdgeActive: 20*pt
+
+                indicator: Image {
+                    source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up_dark_blue.png"
+                                                 : "qrc:/Resources/Icons/ic_arrow_drop_down_dark_blue.png"
+                    width: 20 * pt
+                    height: 20 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    anchors.rightMargin: 20 * pt
                 }
-                ListElement {
-                    signatureName: "Picnic"
-                }
-                ListElement {
-                    signatureName: "Tesla"
+
+                contentItem: Text {
+                    anchors.fill: parent
+                    anchors.leftMargin: 20 * pt
+                    anchors.topMargin: 12 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: parent.displayText
+                    font.family: fontRobotoRegular.name
+                    font.pixelSize: 16*pt
+                    color: normalColorText
+                    verticalAlignment: Text.AlignTop
+                    elide: Text.ElideRight
                 }
             }
-
-            anchors {
-                //verticalCenter: chooseSignatureTypeArea.verticalCenter
-                left: parent.left
-                right: parent.right
-                leftMargin: 16 * pt
-                rightMargin: 16 * pt
-                topMargin: 12 * pt
-                bottomMargin: 12 * pt
-                //verticalCenterOffset: 0
-            }
-
-            normalColorText: "#070023"
-            fontSizeComboBox: 16 * pt
-            hilightColor: "#330F54"
-            hilightColorText: "#FFFFFF"
-
-            indicator: Image {
-                source: parent.popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up_dark_blue.png"
-                                                    : "qrc:/Resources/Icons/ic_arrow_drop_down_dark_blue.png"
-                width: 20 * pt
-                height: 20 * pt
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.right
-                anchors.rightMargin: 20 * pt
-            }
-
-            contentItem: Text {
-                //id: headerText
-                anchors.fill: parent
-                anchors.leftMargin: 20 * pt
-                anchors.topMargin: 12 * pt
-                text: parent.displayText//signatureName
-                font.family: fontRobotoRegular.name
-                font.pixelSize: 14*pt
-                color: /*parent.popup.visible ? hiligtColorText :*/ normalColorText
-                verticalAlignment: Text.AlignTop
-                elide: Text.ElideRight
-            }
-
-//            background: Rectangle {
-//                height: 32 * pt
-//                color: hovered ? "#330F54" : "#FFFFFF"
-//            }
-//            font {
-//                pixelSize: fontSizeCombobox
-//                family: "Roboto"
-//                styleName: "Normal"
-//                weight: Font.Normal
-//            }
-
-     //       currentIndex: 0
-     //       displayText: currentText
-
-//            delegate: DapComboBoxDelegate {
-//                //width: parent.width
-//}
-//                contentItem: Text{
-//                     text: signatureName
-//                     color: hovered ? "#FFFFFF" : "#070023"
-//                }
-
-
-
-          //      highlighted: parent.highlightedIndex === index
-
         }
-
-//        DapUiQmlWidgetSignatureTypeComboBox {
-//            id: comboBoxChooseSignatureType
-//            height: 20 * pt
-//            anchors {
-//                verticalCenter: chooseSignatureTypeArea.verticalCenter
-//                left: parent.left
-//                right: parent.right
-//                leftMargin: 8
-//                rightMargin: 32
-//                verticalCenterOffset: 0
-//            }
-//        }
     }
 
     Rectangle {
@@ -327,3 +286,9 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

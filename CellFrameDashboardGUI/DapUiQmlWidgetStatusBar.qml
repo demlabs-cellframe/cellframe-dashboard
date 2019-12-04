@@ -39,6 +39,7 @@ Rectangle {
 
                 property Label fieldBalance: Label {}
                 model: dapWalletModel.wallets
+                ///Эта строка была ранее возможно на что то влияла но сейчас файлы объеденились возможно не нужна.
               //  fieldBalance: fieldWalletBalance
 
                 indicator: Image {
@@ -67,14 +68,6 @@ Rectangle {
                 fontSizeComboBox: 14*px
                 hilightColorText: "#FFFFFF"
             }
-
-//            DapUiQmlWidgetStatusBarComboBoxWallet {
-//                id: comboboxWallet
-//                width: 190*pt
-//                anchors.top: parent.top
-//                anchors.bottom: parent.bottom
-//                //fieldBalance: fieldWalletBalance
-//            }
 
             Label {
                 id: titleWalletBalance
