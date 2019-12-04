@@ -26,6 +26,7 @@ Component {
                     color: "#3E3853"
                     font.family: fontRobotoRegular.name
                     font.pixelSize: 14 * pt
+                    elide: Text.ElideRight
                 }
 
                 Text {
