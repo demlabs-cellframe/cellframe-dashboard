@@ -4,6 +4,9 @@ import QtQuick.Layouts 1.1
 import "../"
 
 DapUiQmlScreen {
+    property alias pressedNextButton: nextButton.pressed
+    property bool isWordsCopied: copyNotesButton.checked
+
     id: recoveryNoteMenu
     color: "#edeff2"
 

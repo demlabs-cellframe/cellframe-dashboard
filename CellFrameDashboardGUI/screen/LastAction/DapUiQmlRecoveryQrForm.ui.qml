@@ -3,6 +3,9 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.1
 
 Rectangle {
+    property alias pressedNextButton: nextButton.pressed
+    property bool isQRCodeCopied: saveQrCodeButton.checked
+
     id: recoveryQrMenu
     color: "#edeff2"
 

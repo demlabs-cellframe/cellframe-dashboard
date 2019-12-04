@@ -32,4 +32,20 @@ DapUiQmlScreenDialogAddWalletForm {
             }
         }
     }
+
+    Connections {
+        target: rightPanel.content.currentItem
+        onPressedNextButtonChanged: {
+            if(rightPanel.content.currentItem.isWordsCopied || rightPanel.content.currentItem.isQRCodeCopied) {
+                rightPanel.header.push("DapUiQmlWalletCreatedHeader.qml", {"rightPanel": rightPanel });
+                rightPanel.content.push("DapUiQmlWalletCreated.qml", {"rightPanel": rightPanel} )
+            }
+        }
+    }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
