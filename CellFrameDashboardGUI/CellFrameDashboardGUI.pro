@@ -57,36 +57,30 @@ CONFIG(debug, debug|release) {
     DESTDIR = bin/release
 }
 
-SRC_PATH = $$PWD/src/
-INCLUDE_PATH = $${SRC_PATH}/include/
-QML_PATH = $$PWD/screen/
-
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/ \
-               $${INCLUDE_PATH}/ \
-               $${SRC_PATH}/
+               $$_PRO_FILE_PWD_/../DapRPCProtocol/
 
 SOURCES += \
-    $${SRC_PATH}/DapChainNodeNetworkExplorer.cpp \
-    $${SRC_PATH}/DapChainNodeNetworkModel.cpp \
-    $${SRC_PATH}/DapChainWalletModel.cpp \
-    $${SRC_PATH}/DapClipboard.cpp \
-    $${SRC_PATH}/DapConsoleModel.cpp \
-    $${SRC_PATH}/DapScreenHistoryFilterModel.cpp \
-    $${SRC_PATH}/DapScreenHistoryModel.cpp \
-    $${SRC_PATH}/DapSettingsNetworkModel.cpp \
-    $${SRC_PATH}/DapWalletFilterModel.cpp \
-    $${SRC_PATH}/main.cpp \
-    $${SRC_PATH}/DapScreenDialog.cpp \
-    $${SRC_PATH}/DapScreenDialogChangeWidget.cpp \
-    $${SRC_PATH}/DapServiceClient.cpp \
-    $${SRC_PATH}/DapServiceController.cpp \
-    $${SRC_PATH}/DapCommandController.cpp \
-    $${SRC_PATH}/DapServiceClientNativeAbstract.cpp \
-    $${SRC_PATH}/DapServiceClientNativeLinux.cpp \
-    $${SRC_PATH}/DapServiceClientNativeWin.cpp \
-    $${SRC_PATH}/DapServiceClientNativeMacOS.cpp \
-    $${SRC_PATH}/DapChainWalletsModel.cpp
+    $$PWD/DapChainNodeNetworkExplorer.cpp \
+    $$PWD/DapChainNodeNetworkModel.cpp \
+    $$PWD/DapChainWalletModel.cpp \
+    $$PWD/DapClipboard.cpp \
+    $$PWD/DapConsoleModel.cpp \
+    $$PWD/DapScreenHistoryFilterModel.cpp \
+    $$PWD/DapScreenHistoryModel.cpp \
+    $$PWD/DapSettingsNetworkModel.cpp \
+    $$PWD/DapWalletFilterModel.cpp \
+    $$PWD/main.cpp \
+    $$PWD/DapScreenDialog.cpp \
+    $$PWD/DapScreenDialogChangeWidget.cpp \
+    $$PWD/DapServiceClient.cpp \
+    $$PWD/DapServiceController.cpp \
+    $$PWD/DapCommandController.cpp \
+    $$PWD/DapServiceClientNativeAbstract.cpp \
+    $$PWD/DapServiceClientNativeLinux.cpp \
+    $$PWD/DapServiceClientNativeWin.cpp \
+    $$PWD/DapServiceClientNativeMacOS.cpp \
+    $$PWD/DapChainWalletsModel.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -96,24 +90,24 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    $${INCLUDE_PATH}/DapChainNodeNetworkExplorer.h \
-    $${INCLUDE_PATH}/DapChainNodeNetworkModel.h \
-    $${INCLUDE_PATH}/DapChainWalletModel.h \
-    $${INCLUDE_PATH}/DapClipboard.h \
-    $${INCLUDE_PATH}/DapConsoleModel.h \
-    $${INCLUDE_PATH}/DapScreenHistoryFilterModel.h \
-    $${INCLUDE_PATH}/DapScreenHistoryModel.h \
-    $${INCLUDE_PATH}/DapSettingsNetworkModel.h \
-    $${INCLUDE_PATH}/DapScreenDialog.h \
-    $${INCLUDE_PATH}/DapScreenDialogChangeWidget.h \
-    $${INCLUDE_PATH}/DapServiceClient.h \
-    $${INCLUDE_PATH}/DapServiceController.h \
-    $${INCLUDE_PATH}/DapCommandController.h \
-    $${INCLUDE_PATH}/DapServiceClientNativeAbstract.h \
-    $${INCLUDE_PATH}/DapServiceClientNativeLinux.h \
-    $${INCLUDE_PATH}/DapServiceClientNativeWin.h \
-    $${INCLUDE_PATH}/DapChainWalletsModel.h \
-    $${INCLUDE_PATH}/DapWalletFilterModel.h
+    $$PWD/DapChainNodeNetworkExplorer.h \
+    $$PWD/DapChainNodeNetworkModel.h \
+    $$PWD/DapChainWalletModel.h \
+    $$PWD/DapClipboard.h \
+    $$PWD/DapConsoleModel.h \
+    $$PWD/DapScreenHistoryFilterModel.h \
+    $$PWD/DapScreenHistoryModel.h \
+    $$PWD/DapSettingsNetworkModel.h \
+    $$PWD/DapScreenDialog.h \
+    $$PWD/DapScreenDialogChangeWidget.h \
+    $$PWD/DapServiceClient.h \
+    $$PWD/DapServiceController.h \
+    $$PWD/DapCommandController.h \
+    $$PWD/DapServiceClientNativeAbstract.h \
+    $$PWD/DapServiceClientNativeLinux.h \
+    $$PWD/DapServiceClientNativeWin.h \
+    $$PWD/DapChainWalletsModel.h \
+    $$PWD/DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
