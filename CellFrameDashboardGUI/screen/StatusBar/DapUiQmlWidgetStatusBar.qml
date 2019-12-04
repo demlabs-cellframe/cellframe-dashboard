@@ -5,7 +5,6 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
-//    property alias addWalletPressed: statusBarAddWalletButton.pressed
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1
@@ -62,7 +61,7 @@ Rectangle {
             }
         }
 
-        DapUiQmlWidgetStatusBarButton {
+        DapUiQmlWidgetStatusBarButtonForm {
             id: statusBarAddWalletButton
             width: 130 * pt
             anchors.right: parent.right
@@ -79,9 +78,3 @@ Rectangle {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

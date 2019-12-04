@@ -8,6 +8,10 @@ Item {
     width: 400
     height: 600
 
+    property ListModel modelTest: modelTest
+    property ComboBox comboboxServer: comboboxServer
+    property alias imageServer: imageServer
+
     Text {
         anchors.left: parent.left
         anchors.top: parent.top
@@ -43,7 +47,6 @@ Item {
             font.pixelSize: 42 * pt
         }
     }
-
 
     Switch {
         id: control
@@ -87,6 +90,18 @@ Item {
         }
     }
 
+    ListModel {
+                id: modelTest
+                ListElement {
+                    name: "first"
+                    icon: "qrc:/res/icons/defaul_icon.png"
+                }
+                ListElement {
+                    name: "second"
+                    icon: "qrc:/res/icons/defaul_icon.png"
+                }
+            }
+
     ComboBox {
         id: comboboxServer
         anchors.horizontalCenter: parent.horizontalCenter
@@ -96,11 +111,7 @@ Item {
         height: 48 * pt
         textRole: "name"
 
-        model: ListModel {
-            id: modelTest
-            ListElement {name: "first"; icon: "qrc:/res/icons/defaul_icon.png" }
-            ListElement {name: "second"; icon: "qrc:/res/icons/defaul_icon.png" }
-        }
+        model: modelTest
 
         background: Rectangle {
             anchors.fill: parent
@@ -130,7 +141,6 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 22 * pt
                 anchors.verticalCenter: parent.verticalCenter
-                source: modelTest.get(modelTest.index(comboboxServer.currentIndex, 0)).icon
                 width: 24 * pt
                 height: 24 * pt
             }
@@ -144,6 +154,5 @@ Item {
                 font.pixelSize: 16 * pt
             }
         }
-
     }
 }

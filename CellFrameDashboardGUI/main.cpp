@@ -12,7 +12,6 @@
 #include "DapScreenDialog.h"
 #include "DapScreenDialogChangeWidget.h"
 #include "DapSettings.h"
-#include "DapSettingsCipher.h"
 #include "DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
@@ -99,7 +98,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl("qrc:/screen/main.qml"));
 
-    qDebug() << engine.rootObjects().isEmpty();
     if (engine.rootObjects().isEmpty())
         return -1;
     

@@ -7,7 +7,6 @@ import NodeNetworkExplorer 1.0
 Page {
     Rectangle {
         anchors.fill: parent;
-//        color: "#3b3353";
     }
 
     RowLayout {

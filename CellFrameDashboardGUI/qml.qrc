@@ -86,7 +86,7 @@
         <file>screen/Settings/DapUiQmlWidgetSettingsNetwork.qml</file>
         <file>screen/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
         <file>screen/StatusBar/DapUiQmlWidgetStatusBar.qml</file>
-        <file>screen/StatusBar/DapUiQmlWidgetStatusBarButton.ui.qml</file>
+        <file>screen/StatusBar/DapUiQmlWidgetStatusBarButtonForm.ui.qml</file>
         <file>screen/StatusBar/DapUiQmlWidgetStatusBarComboBoxWallet.qml</file>
         <file>screen/StatusBar/DapUiQmlWidgetStatusBarComboBoxWalletForm.ui.qml</file>
         <file>screen/VPN/DapUiQmlScreenVpn.qml</file>

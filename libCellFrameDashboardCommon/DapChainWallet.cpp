@@ -8,11 +8,7 @@ DapChainWalletTokenItem::DapChainWalletTokenItem(const QString& aWalletAddress, 
 }
 
 DapChainWalletTokenItem::DapChainWalletTokenItem(const QString& aWalletAddress, const DapChainWalletTokenData& aData, QObject* parent) :
-    QObject(parent)/*
-    m_wallet(aWalletAddress),
-    m_name(aData.Name),
-    m_balance(aData.Balance),
-    m_emission(aData.Emission)*/
+    QObject(parent)
 {
     m_wallet = aWalletAddress;
     m_name = aData.Name;

@@ -101,7 +101,6 @@ DapUiQmlScreenHistoryForm {
 
                         Text {
                             id: dapNumberWallet
-//                            width: parent.width / 2
                             anchors.fill: parent
                             color: "#4F5357"
                             text: numberWallet
@@ -243,8 +242,3 @@ DapUiQmlScreenHistoryForm {
         visible: false
     }
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/
