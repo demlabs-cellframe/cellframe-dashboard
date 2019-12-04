@@ -136,61 +136,33 @@ DapUiQmlScreen {
     ColumnLayout {
         id: chooseRecoveryMethod
         height: 272
-        anchors.leftMargin: 1
         spacing: 32
         anchors.top: recoveryMethodTextArea.bottom
+        anchors.topMargin: 32
         anchors.left: parent.left
+        anchors.leftMargin: 16
         anchors.right: parent.right
+        Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
-        RadioButton {
+        DapRadioButton {
             id: selectionWords
-            text: qsTr("24 words")
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 32
+            textButton: qsTr("24 words")
             checked: true
-            spacing: 16
-            autoExclusive: true
-            display: AbstractButton.TextBesideIcon
-            font.pointSize: 14
-            font.wordSpacing: 0
-            font.family: "Roboto"
-            Layout.leftMargin: 16
         }
 
-        RadioButton {
+        DapRadioButton {
             id: selectionQRcode
-            y: 120
-            text: qsTr("QR code")
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 0
-            Layout.leftMargin: 16
-            spacing: 16
-            font.pointSize: 14
-            font.family: "Roboto"
+            textButton: qsTr("QR code")
         }
 
-        RadioButton {
+        DapRadioButton {
             id: selectionExportToFile
-            text: qsTr("Export to file")
-            spacing: 16
-            font.pointSize: 14
-            font.family: "Roboto"
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 0
-            Layout.leftMargin: 16
+            textButton: qsTr("Export to file")
         }
 
-        RadioButton {
+        DapRadioButton {
             id: selectionNothing
-            y: 235
-            text: qsTr("Nothing")
-            spacing: 16
-            checked: false
-            font.family: "Roboto"
-            font.pointSize: 14
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 0
-            Layout.leftMargin: 16
+            textButton: qsTr("Nothing")
         }
     }
 
