@@ -5,17 +5,12 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
-//    property alias addWalletPressed: statusBarAddWalletButton.pressed
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1
         color: "transparent"
 
         Row {
-//            anchors.top: parent.top
-//            anchors.left: parent.left
-//            anchors.bottom: parent.bottom
-//            anchors.right: buttonAddWallet.left
             anchors.fill: parent
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
