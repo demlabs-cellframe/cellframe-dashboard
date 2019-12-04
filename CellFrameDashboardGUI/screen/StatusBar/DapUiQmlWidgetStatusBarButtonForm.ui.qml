@@ -8,6 +8,8 @@ Button {
 
     property int defaultHeight: 50 * pt
     property int defaultWidth: 100 * pt
+    property string normalButton: "qrc:/res/icons/new-wallet_icon_dark.png"
+    property string hoverButton: "qrc:/res/icons/new-wallet_icon_dark_hover.png"
 
     id: button
     width: defaultHeight
@@ -23,7 +25,7 @@ Button {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignRight
-            anchors.rightMargin: 20 * pt
+            anchors.rightMargin: 20
             font.family: "Roboto"
             font.weight: Font.Normal
             color: "#FFFFFF"
@@ -35,7 +37,7 @@ Button {
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 10 * pt
-            source: "qrc:/res/icons/defaul_icon.png"
+            source: button.hovered ? hoverButton : normalButton
             width: 28 * pt
             height: 28 * pt
         }
