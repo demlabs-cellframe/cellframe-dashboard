@@ -39,6 +39,7 @@
         <file>res/icons/new-payment_icon.png</file>
         <file>res/icons/new-wallet_icon_dark.png</file>
         <file>res/icons/new-wallet_icon_dark_hover.png</file>
+        <file>res/icons/icon_arrow_down.png</file>
         <file>screen/DapUiQmlScreen.qml</file>
         <file>screen/DapUiQmlScreenMainWindow.qml</file>
         <file>screen/DapUiQmlScreenMainWindowForm.ui.qml</file>

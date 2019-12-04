@@ -95,15 +95,17 @@ DapUiQmlScreen {
 
         DapUiQmlWidgetSignatureTypeComboBox {
             id: comboBoxChooseSignatureType
-            height: 20 * pt
+            height: 20
             anchors {
                 verticalCenter: chooseSignatureTypeArea.verticalCenter
-                left: parent.left
-                right: parent.right
+                fill: parent
+                topMargin: 24
+                bottomMargin: 24
                 leftMargin: 8
                 rightMargin: 32
-                verticalCenterOffset: 0
             }
+
+            sourceArrow: popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/icon_arrow_down.png"
         }
     }
 
@@ -214,7 +216,6 @@ DapUiQmlScreen {
             verticalAlignment: Text.AlignVCenter
         }
 
-
         background: Rectangle {
             implicitWidth: parent.width
             implicitHeight: parent.height
@@ -222,3 +223,10 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+

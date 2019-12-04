@@ -7,6 +7,7 @@ ComboBox {
     property alias headerTextColor: headerText.color
     property alias widthArrow: arrow.width
     property alias heightArrow: arrow.height
+    property alias sourceArrow: arrow.source
 
     id: customComboBox
     width: 190 * pt

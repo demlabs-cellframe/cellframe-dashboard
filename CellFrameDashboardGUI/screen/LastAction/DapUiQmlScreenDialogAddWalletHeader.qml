@@ -20,8 +20,8 @@ DapUiQmlScreen {
         spacing: 12
 
         Rectangle {
-            width: 20
-            height: 20
+            width: 16
+            height: 16
             color: "transparent"
 
             Image {
