@@ -27,7 +27,7 @@ DapUiQmlScreen {
             anchors.topMargin: 8
             anchors.left: parent.left
             anchors.leftMargin: 16
-            font.pointSize: 10
+            font.pointSize: 12
             horizontalAlignment: Text.AlignLeft
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -53,7 +53,7 @@ DapUiQmlScreen {
             color: "#FF0300"
 
             font {
-                pointSize: 10
+                pointSize: 16
                 family: "Roboto"
                 styleName: "Normal"
                 weight: Font.Normal
@@ -63,7 +63,7 @@ DapUiQmlScreen {
 
     Rectangle {
         id: recoveryWords
-        height: 210
+        height: 270
         anchors.top: saveNotesDescription.bottom
         anchors.topMargin: 24
         anchors.right: parent.right
@@ -113,23 +113,23 @@ DapUiQmlScreen {
         }
 
         RowLayout {
+            height: 270
             spacing: 60
-            height: parent.height
             anchors.right: parent.right
             anchors.rightMargin: 1
             anchors.left: parent.left
             anchors.leftMargin: 1
 
             ListView {
-                height: parent.height
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 width: 50
+                height: 300
                 model: listRecoveryWords
                 delegate: Text {
                     text: word
                     color: "#070023"
                     font {
-                        pointSize: 12
+                        pointSize: 16
                         family: "Roboto"
                         styleName: "Normal"
                         weight: Font.Normal
@@ -138,15 +138,15 @@ DapUiQmlScreen {
             }
 
             ListView {
-                height: parent.height
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                 width: 50
+                height: 300
                 model: listRecoveryWords
                 delegate: Text {
                     text: word
                     color: "#070023"
                     font {
-                        pointSize: 12
+                        pointSize: 16
                         family: "Roboto"
                         styleName: "Normal"
                         weight: Font.Normal
@@ -192,8 +192,8 @@ DapUiQmlScreen {
         Button {
             id: nextButton
             height: 44
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             width: 130
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
             Text {
                 id: nextButtonText
@@ -204,7 +204,7 @@ DapUiQmlScreen {
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                font.pointSize: 16
+                font.pointSize: 18
                 horizontalAlignment: Text.AlignLeft
             }
 
@@ -231,7 +231,7 @@ DapUiQmlScreen {
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                font.pointSize: 16
+                font.pointSize: 18
                 horizontalAlignment: Text.AlignLeft
             }
 
