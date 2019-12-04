@@ -19,6 +19,7 @@ VER_PAT = 4
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
+    DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -34,7 +35,13 @@ DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
-ICON = icon.ico
+macx {
+ICON = Resources/Icons/dashboard.icns
+}
+else {
+ICON = Resources/Icons/icon.ico
+}
+
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
@@ -43,11 +50,14 @@ ICON = icon.ico
 SOURCES += \
     DapChainNodeNetworkExplorer.cpp \
     DapChainNodeNetworkModel.cpp \
+    DapChainWalletModel.cpp \
+    DapClipboard.cpp \
     DapConsoleModel.cpp \
     DapScreenHistoryFilterModel.cpp \
     DapScreenHistoryModel.cpp \
     DapSettingsNetworkModel.cpp \
     DapUiQmlWidgetChainTransactions.cpp \
+    DapWalletFilterModel.cpp \
         main.cpp \
     DapUiQmlWidgetChainBallance.cpp \
     DapUiQmlWidgetChainBlockExplorer.cpp \
@@ -63,6 +73,7 @@ SOURCES += \
     DapServiceClientNativeAbstract.cpp \
     DapServiceClientNativeLinux.cpp \
     DapServiceClientNativeWin.cpp \
+    DapServiceClientNativeMacOS.cpp \
     DapChainWalletsModel.cpp
 
 RESOURCES += qml.qrc
@@ -81,6 +92,8 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     DapChainNodeNetworkExplorer.h \
     DapChainNodeNetworkModel.h \
+    DapChainWalletModel.h \
+    DapClipboard.h \
     DapConsoleModel.h \
     DapScreenHistoryFilterModel.h \
     DapScreenHistoryModel.h \
@@ -88,7 +101,6 @@ HEADERS += \
     DapUiQmlWidgetChainBallance.h \
     DapUiQmlWidgetChainBlockExplorer.h \
     DapUiQmlWidgetChainNodeLogs.h \
-    DapUiQmlScreenDashboard.h \
     DapUiQmlWidgetChainOperations.h \
     DapUiQmlWidgetChainTransactions.h \
     DapUiQmlWidgetModel.h \
@@ -101,11 +113,13 @@ HEADERS += \
     DapServiceClientNativeAbstract.h \
     DapServiceClientNativeLinux.h \
     DapServiceClientNativeWin.h \
-    DapChainWalletsModel.h
+    DapChainWalletsModel.h \
+    DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
+include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
@@ -119,7 +133,3 @@ unix: !mac : !android {
     gui_target.path = /opt/cellframe-dashboard/bin/
     INSTALLS += gui_target
 }
-
-#DISTFILES += \
-#    DapUiQmlScreenSettings.qml \
-#    DapUiQmlScreenSettingsForm.ui.qml

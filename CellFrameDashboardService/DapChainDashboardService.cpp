@@ -7,10 +7,10 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     // Log reader
     m_pDapChainLogHandler = new DapChainLogHandler(this);
     connect(m_pDapChainLogHandler, SIGNAL(onChangedLog()), SLOT(changedLogModel()));
-    m_pDapChainWalletHandler = new DapChainWalletHandler(this);
     connect(this, &DapChainDashboardService::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
     });
+
 
     m_pDapChainNodeHandler = new DapChainNodeNetworkHandler(this);
 
@@ -22,6 +22,9 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
 
     m_pDapChainConsoleHandler = new DapChainConsoleHandler(this);
 
+    m_pDapChainWalletHandler = new DapChainWalletHandler(this);
+    QObject::connect(m_pDapChainWalletHandler, &DapChainWalletHandler::walletDataChanged, this, &DapChainDashboardService::doSendNewWalletData);
+    m_pDapChainWalletHandler->setNetworkList(m_pDapChainNetworkHandler->getNetworkList());
 
 }
 
@@ -135,6 +138,14 @@ void DapChainDashboardService::doSendNewHistory(const QVariant& aData)
     m_pServer->notifyConnectedClients(request);
 }
 
+void DapChainDashboardService::doSendNewWalletData(const QByteArray& aData)
+{
+    if(aData.isEmpty()) return;
+    QVariantList params = QVariantList() << aData.toHex();
+    DapRpcMessage request = DapRpcMessage::createRequest("RPCClient.setNewWalletData", QJsonArray::fromVariantList(params));
+    m_pServer->notifyConnectedClients(request);
+}
+
 QString DapChainDashboardService::sendToken(const QString &asWalletName, const QString &asReceiverAddr, const QString &asToken, const QString &asAmount)
 {
     qInfo() << QString("sendToken(%1;%2;%3;%4)").arg(asWalletName).arg(asReceiverAddr).arg(asToken).arg(asAmount);
@@ -201,3 +212,13 @@ void DapChainDashboardService::closeClient()
 //    connect(trayIconCellFrameDashboard, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
 //            this, SLOT(activateClient(QSystemTrayIcon::ActivationReason)));
 //}
+
+bool DapChainDashboardService::appendWallet(const QString& aWalletName) const
+{
+    return m_pDapChainWalletHandler->appendWallet(aWalletName);
+}
+
+QByteArray DapChainDashboardService::walletData() const
+{
+    return m_pDapChainWalletHandler->walletData();
+}

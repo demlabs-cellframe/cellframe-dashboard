@@ -4,6 +4,8 @@
 #include "DapChainWallet.h"
 #include "DapSettings.h"
 
+
+
 #include <QRegularExpression>
 
 DapServiceController::DapServiceController(QObject *apParent)
@@ -72,6 +74,9 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, &DapCommandController::sendNetworkList, &DapSettingsNetworkModel::getInstance(), &DapSettingsNetworkModel::setNetworkList);
     connect(&DapSettingsNetworkModel::getInstance(), &DapSettingsNetworkModel::currentNetworkChanged, m_pDapCommandController, &DapCommandController::changeCurrentNetwork);
+
+    connect(m_pDapCommandController, &DapCommandController::sigWalletData, &DapChainWalletModel::instance(), &DapChainWalletModel::setWalletData);
+
 }
 
 QString DapServiceController::getBrand() const
@@ -284,4 +289,9 @@ QObject *DapServiceController::singletonProvider(QQmlEngine *engine, QJSEngine *
     Q_UNUSED(scriptEngine)
     
     return &getInstance();
+}
+
+void DapServiceController::requestWalletData()
+{
+    m_pDapCommandController->requestWalletData();
 }

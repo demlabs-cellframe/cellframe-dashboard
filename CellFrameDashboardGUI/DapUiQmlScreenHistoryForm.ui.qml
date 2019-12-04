@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.12
 
 import DapTransactionHistory 1.0
 
-Page {
+DapUiQmlScreen {
     ListView {
         id: dapListView
         anchors.fill: parent

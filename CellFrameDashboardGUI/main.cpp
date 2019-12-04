@@ -26,8 +26,14 @@
 #include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
 #include "DapChainConvertor.h"
+#include "DapClipboard.h"
+
+#include "DapChainWalletModel.h"
+#include "DapWalletFilterModel.h"
 
 #include <QRegExp>
+
+#include <sys/stat.h>
 
 int main(int argc, char *argv[])
 {
@@ -44,6 +50,12 @@ int main(int argc, char *argv[])
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
         dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Gui.log").arg(DAP_BRAND));
+    #elif defined Q_OS_MACOS
+	mkdir("/tmp/cellframe-dashboard_log",0777);
+	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
+    #elif defined Q_OS_WIN
+    dapLogger.setLogFile(QString("%Dashboard.log").arg(DAP_BRAND));
+    dapLogger.setLogLevel(L_DEBUG);
     #endif
 //#endif
 
@@ -54,12 +66,16 @@ int main(int argc, char *argv[])
     controller.init(&dapServiceClient);
     dapServiceClient.init();
     controller.getWallets();
+    controller.requestWalletData();
     controller.getHistory();
     controller.getCmdHistory();
     controller.getNetworkList();
 
     DapScreenHistoryFilterModel::getInstance()
             .setSourceModel(&DapScreenHistoryModel::getInstance());
+
+    DapWalletFilterModel::instance()
+            .setSourceModel(&DapChainWalletModel::instance());
 
     qmlRegisterType<DapScreenDialog>("CellFrameDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("CellFrameDashboard", 1, 0, "DapScreenDialogChangeWidget");
@@ -80,8 +96,13 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
     engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
     engine.rootContext()->setContextProperty("dapChainConvertor", &DapChainConvertor::getInstance());
+    engine.rootContext()->setContextProperty("dapWalletFilterModel", &DapWalletFilterModel::instance());
+    engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
+    engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+
 
     if (engine.rootObjects().isEmpty())
         return -1;

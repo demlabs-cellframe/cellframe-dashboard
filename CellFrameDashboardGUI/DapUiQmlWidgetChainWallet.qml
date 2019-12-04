@@ -50,9 +50,9 @@ DapUiQmlWidgetChainWalletForm {
         addressWallet.text = listViewWallet.model.get(listViewWallet.currentIndex).address
     }
 
-    buttonSaveWallet.onClicked: {
-        dialogAddWallet.show()
-    }
+//    buttonSaveWallet.onClicked: {
+//        dialogAddWallet.show()
+//    }
     
     buttonDeleteWallet.onClicked: {
         dialogRemoveWallet.show()

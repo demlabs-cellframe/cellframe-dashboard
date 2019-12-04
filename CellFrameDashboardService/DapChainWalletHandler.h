@@ -5,11 +5,45 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QDebug>
+#include <QTimer>
+#include "DapChainWallet.h"
 
 /// Class provides operations at wallets
 class DapChainWalletHandler : public QObject
 {
     Q_OBJECT
+
+private:
+    QStringList m_networkList;
+    QList<QPair<DapChainWalletData, QList<DapChainWalletTokenData>>> m_walletList;
+    QTimer* m_timeout;
+
+public:
+    /// Standard constructor
+    explicit DapChainWalletHandler(QObject *parent = nullptr);
+
+    bool appendWallet(const QString& aWalletName);
+
+    bool createTransaction(const QString& aFromAddress, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue) const;
+
+    QByteArray walletData() const;
+
+private slots:
+
+    void onReadWallet();
+
+public slots:
+
+    void setNetworkList(const QStringList& aNetworkList);
+
+signals:
+
+    void walletDataChanged(QByteArray data);
+
+
+
+
+
 
 private:
     /// Current network's name
@@ -20,10 +54,6 @@ protected:
     /// @param aWalletAddress Console command to create new wallet's address
     /// @return Address of wallet
     virtual QString parse(const QByteArray& aWalletAddress);
-
-public:
-    /// Standard constructor
-    explicit DapChainWalletHandler(QObject *parent = nullptr);
 
 signals:
 

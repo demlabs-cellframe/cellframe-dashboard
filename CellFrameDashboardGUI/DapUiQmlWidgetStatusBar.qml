@@ -5,17 +5,18 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
-
+//    property alias addWalletPressed: statusBarAddWalletButton.pressed
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1
         color: "transparent"
 
         Row {
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            anchors.right: buttonAddWallet.left
+//            anchors.top: parent.top
+//            anchors.left: parent.left
+//            anchors.bottom: parent.bottom
+//            anchors.right: buttonAddWallet.left
+            anchors.fill: parent
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
@@ -33,23 +34,6 @@ Rectangle {
 
             DapUiQmlWidgetStatusBarComboBoxWallet {
                 id: comboboxWallet
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                listToken: comboboxToken
-            }
-
-            Label {
-                text: qsTr("Token")
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                verticalAlignment: Qt.AlignVCenter
-                font.family: fontRobotoRegular.name
-                font.pixelSize: 12 * pt
-                color: "#A7A7A7"
-            }
-
-            DapUiQmlWidgetStatusBarComboBoxToken {
-                id: comboboxToken
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 fieldBalance: fieldWalletBalance
@@ -74,16 +58,13 @@ Rectangle {
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
+                text: dapChainConvertor.toConvertCurrency(
+                          dapWalletModel.walletBalance(comboboxWallet.currentText))
             }
         }
 
-        DapUiQmlScreenDialogAddWallet
-        {
-            id: dialogAddWallet
-        }
-
         DapUiQmlWidgetStatusBarButton {
-            id: buttonAddWallet
+            id: statusBarAddWalletButton
             width: 130 * pt
             anchors.right: parent.right
             anchors.top: parent.top
@@ -92,8 +73,16 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10 * pt
 
-            onClicked: addWallet()
-            onAddWallet: dialogAddWallet.show()
+            onClicked: {
+                rightPanel.header.push("DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
+                rightPanel.content.push("DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
+            }
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

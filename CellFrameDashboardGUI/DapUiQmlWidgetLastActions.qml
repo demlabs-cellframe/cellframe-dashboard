@@ -27,37 +27,27 @@ DapUiQmlWidgetLastActionsForm {
         }
     }
 
-    ColumnLayout {
+    ListView {
+        id: dapListView
         anchors.fill: parent
-        spacing: 0
-        DapUiQmlWidgetLastActionsHeaderForm {
-            id: dapHeader
-            Layout.fillWidth: true
-            height: 36 * pt
+        clip: true
+
+        property var contentPos: 0.0;
+        onContentYChanged: {
+            if(atYBeginning) buttonListScroll.state = "goUp";
+            else if(atYEnd) buttonListScroll.state = "goDown"
+            else if(contentPos < contentItem.y) buttonListScroll.state = "goUp";
+            else buttonListScroll.state = "goDown";
+
+            contentPos = contentItem.y;
         }
 
-        ListView {
-            id: dapListView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            clip: true
-
-            property var contentPos: 0.0;
-            onContentYChanged: {
-                if(atYBeginning) buttonListScroll.state = "goUp";
-                else if(atYEnd) buttonListScroll.state = "goDown"
-                else if(contentPos < contentItem.y) buttonListScroll.state = "goUp";
-                else buttonListScroll.state = "goDown";
-
-                contentPos = contentItem.y;
-            }
-
-            DapUiQmlWidgetLastActionsButtonForm {
-                id: buttonListScroll
-                viewData: dapListView
-            }
+        DapUiQmlWidgetLastActionsButtonForm {
+            id: buttonListScroll
+            viewData: dapListView
         }
     }
-
-
 }
+
+
+

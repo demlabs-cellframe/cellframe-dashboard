@@ -10,21 +10,18 @@ Component {
         height: 50 * pt
         color: "transparent"
 
-        Rectangle {
-            id: dapData
-            width: childrenRect.width
-            height: childrenRect.height
-            Layout.alignment: Qt.AlignVCenter
-            anchors.left: dapContentDelegate.left
+        RowLayout {
+            anchors.fill: parent
+            anchors.rightMargin: 20 * pt
             anchors.leftMargin: 16 * pt
-            anchors.top: parent.top
-            anchors.topMargin: 13
 
-            Column {
-                anchors.fill: parent
+            ColumnLayout {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
                 spacing: 2
 
                 Text {
+                    Layout.fillWidth: true
                     text: tokenName
                     color: "#3E3853"
                     font.family: fontRobotoRegular.name
@@ -32,28 +29,27 @@ Component {
                 }
 
                 Text {
+                    Layout.fillWidth: true
                     text: txStatus
                     color: "#757184"
                     font.family: fontRobotoRegular.name
                     font.pixelSize: 12 * pt
                 }
             }
+
+            Text {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+                horizontalAlignment: Qt.AlignRight
+                verticalAlignment: Qt.AlignVCenter
+                color: "#3E3853"
+                text: cryptocurrency;
+                font.family: fontRobotoRegular.name
+                font.pixelSize: 12 * pt
+            }
         }
 
-        Text {
-            anchors.left: dapData.right
-            anchors.top: parent.top
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.rightMargin: 20 * pt
 
-            horizontalAlignment: Qt.AlignRight
-            verticalAlignment: Qt.AlignVCenter
-            color: "#3E3853"
-            text: cryptocurrency;
-            font.family: fontRobotoRegular.name
-            font.pixelSize: 12 * pt
-        }
 
         Rectangle {
             width: parent.width
@@ -62,5 +58,4 @@ Component {
             anchors.bottom: parent.bottom
         }
     }
-
 }

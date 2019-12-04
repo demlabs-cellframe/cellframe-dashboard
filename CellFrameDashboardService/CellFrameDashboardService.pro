@@ -19,10 +19,12 @@ VER_PAT = 4
 ICON = icon.ico
 
 win32 {
+    CONFIG -= console
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
     DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
     DEFINES += CMD_LOG=\\\"./opt/cellframe-dashboard/data/cellframe-cmd_log.txt\\\"
+    DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -68,6 +70,7 @@ HEADERS += \
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
+
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
 

@@ -72,6 +72,9 @@ signals:
     /// @param List of networks
     void sendNetworkList(const QStringList& aList);
 
+// ---------------------------------------------
+    void sigWalletData(QByteArray data);
+
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -108,6 +111,9 @@ private slots:
     void processResponseConsole();
     /// Handling service response for changing history of commands
     void processGetCmdHistory();
+
+ // ---------------------------------------------
+    void processGetWalletData();
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -162,6 +168,12 @@ public slots:
     /// Change current network
     /// @param name of network which was selected
     void changeCurrentNetwork(const QString& aNetwork);
+
+
+// ---------------------------------------------
+    void setNewWalletData(const QVariant& aData);
+
+    void requestWalletData();
 };
 
 #endif // COMMANDCONTROLLER_H
