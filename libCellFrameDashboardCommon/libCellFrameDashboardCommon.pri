@@ -17,7 +17,6 @@ SOURCES +=\
     $$PWD/DapHalper.cpp \
     $$PWD/DapHistoryType.cpp \
     $$PWD/DapSettings.cpp \
-    $$PWD/DapSettingsCipher.cpp \
     $$PWD/DapLogMessage.cpp \
     $$PWD/DapLogModel.cpp \
     $$PWD/DapChainWallet.cpp
@@ -27,7 +26,6 @@ HEADERS +=\
     $$PWD/DapHalper.h \
     $$PWD/DapHistoryType.h \
     $$PWD/DapSettings.h \
-    $$PWD/DapSettingsCipher.h \
     $$PWD/DapLogMessage.h \
     $$PWD/DapLogModel.h \
     $$PWD/DapChainWallet.h \
