@@ -1,8 +1,6 @@
-import QtQuick 2.9
-import QtQuick.Controls 1.4
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.2
-import QtQml.Models 2.2 
+import QtQuick 2.0
+import QtQuick.Controls 2.1
+
 import CellFrameDashboard 1.0
 
 Dialog {

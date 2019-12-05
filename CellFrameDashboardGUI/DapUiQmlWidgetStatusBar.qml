@@ -1,9 +1,8 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.3
+import QtQuick 2.0
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.0
 
 Rectangle {
-//    property alias addWalletPressed: statusBarAddWalletButton.pressed
     Rectangle {
         anchors.fill: parent
         anchors.bottomMargin: 1

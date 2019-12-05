@@ -1,5 +1,3 @@
-import QtQuick 2.9
-
 DapUiQmlWidgetConsole {
     textAreaCmdHistory.color: "#707070"
     textAreaCmdHistory.font.family: "Roboto"
