@@ -5,6 +5,8 @@ DapUiQmlScreenDialogAddWalletForm {
     id: dialogAddWallet
     focus: true
 
+    sourceCustomArrow: popup.visible ? "qrc:/res/icons/ic_arrow_drop_up.png" : "qrc:/res/icons/icon_arrow_down.png"
+
     Connections {
         target: nextButton
         onClicked: {
@@ -32,4 +34,20 @@ DapUiQmlScreenDialogAddWalletForm {
             }
         }
     }
+
+    Connections {
+        target: rightPanel.content.currentItem
+        onPressedNextButtonChanged: {
+            if(rightPanel.content.currentItem.isWordsCopied || rightPanel.content.currentItem.isQRCodeCopied) {
+                rightPanel.header.push("DapUiQmlWalletCreatedHeader.qml", {"rightPanel": rightPanel });
+                rightPanel.content.push("DapUiQmlWalletCreated.qml", {"rightPanel": rightPanel} )
+            }
+        }
+    }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

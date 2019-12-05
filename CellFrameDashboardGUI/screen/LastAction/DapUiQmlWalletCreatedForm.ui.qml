@@ -35,8 +35,6 @@ DapUiQmlScreen {
             implicitHeight: parent.height
             color: "#3E3853"
         }
-
-
     }
 
     Rectangle {
@@ -58,7 +56,7 @@ DapUiQmlScreen {
             color: "#070023"
 
             font {
-                pointSize: 16
+                pointSize: 18
                 family: "Roboto"
                 styleName: "Normal"
                 weight: Font.Normal
@@ -66,3 +64,9 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
