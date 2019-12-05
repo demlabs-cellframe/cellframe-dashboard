@@ -8,10 +8,7 @@ Rectangle {
         color: "transparent"
 
         Row {
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            anchors.right: statusBarAddWalletButton.left
+            anchors.fill: parent
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
@@ -60,7 +57,11 @@ Rectangle {
 
         DapUiQmlWidgetStatusBarButtonForm {
             id: statusBarAddWalletButton
-            width: 130 * pt
+            width: 120 * pt
+            height: 36 * pt
+            name: qsTr("New wallet")
+            fontHeight: 14 * pt
+            backgroundColor: "#070023"
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 10 * pt

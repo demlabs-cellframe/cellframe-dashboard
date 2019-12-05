@@ -3,6 +3,9 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 
 Rectangle {
+    property alias pressedNextButton: nextButton.pressed
+    property bool isQRCodeCopied: saveQrCodeButton.checked
+
     id: recoveryQrMenu
     color: "#edeff2"
 
@@ -24,7 +27,7 @@ Rectangle {
             anchors.topMargin: 8
             anchors.left: parent.left
             anchors.leftMargin: 16
-            font.pointSize: 10
+            font.pointSize: 12
             horizontalAlignment: Text.AlignLeft
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -46,7 +49,7 @@ Rectangle {
         Text {
             anchors.fill: parent
             text: qsTr("Keep these QR-code in a safe place. They will be\nrequired to restore your wallet in case of loss of\naccess to it")
-            font.pointSize: 10
+            font.pointSize: 14
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             color: "#FF0300"
@@ -62,12 +65,13 @@ Rectangle {
     Rectangle {
         id: qrCodeImageArea
         height: 200
+        width: 200
         anchors.top: saveQrCodeDescription.bottom
         anchors.topMargin: 24
-        anchors.left: parent.left
-        anchors.right: parent.right
+        anchors.horizontalCenter: parent.horizontalCenter
         color: "#EDEFF2"
-        anchors.leftMargin: 1
+        border.width: 1
+        border.color: "#C7C6CE"
 
         Image {
             id: qrCodeImage
@@ -140,8 +144,8 @@ Rectangle {
         Button {
             id: saveQrCodeButton
             height: 44
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             width: 130
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
             checkable: true
 
             Text {

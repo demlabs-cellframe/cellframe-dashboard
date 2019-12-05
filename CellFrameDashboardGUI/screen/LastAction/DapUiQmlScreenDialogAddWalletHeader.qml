@@ -4,7 +4,9 @@ import "../"
 
 DapUiQmlScreen {
     height: 36 * pt
-    color: "#edeff2"
+    color: "#F8F7FA"
+    border.width: 1 * pt
+    border.color: "#E3E2E6"
 
     property string backButtonNormal : "qrc:/res/icons/close_icon.png"
     property string backButtonHovered : "qrc:/res/icons/close_icon_hover.png"
@@ -19,8 +21,8 @@ DapUiQmlScreen {
         spacing: 12
 
         Rectangle {
-            width: 20
-            height: 20
+            width: 16
+            height: 16
             color: "transparent"
 
             Image {
@@ -46,7 +48,12 @@ DapUiQmlScreen {
 
         Text {
             text: title
-            font.pointSize: 14
+            horizontalAlignment: Qt.AlignLeft
+            font.pointSize: 14 * pt
+            font.family: "Roboto"
+            font.weight: Font.Normal
+            font.styleName: "Normal"
+            color: "#3E3853"
         }
     }
 }

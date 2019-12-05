@@ -6,6 +6,7 @@ ComboBox {
     property alias headerTextColor: headerText.color
     property alias widthArrow: arrow.width
     property alias heightArrow: arrow.height
+    property alias sourceArrow: arrow.source
 
     id: customComboBox
     width: 190 * pt
@@ -30,7 +31,7 @@ ComboBox {
         anchors.fill: parent
         anchors.leftMargin: 12 * pt
         anchors.rightMargin: 48 * pt
-        anchors.topMargin: 10 * pt
+        anchors.topMargin: 0 * pt
         text: parent.displayText
         font.family: fontRobotoRegular.name
         font.pixelSize: 14 * pt

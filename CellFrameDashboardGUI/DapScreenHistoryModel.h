@@ -10,7 +10,8 @@
 #include "DapHistoryType.h"
 #include "DapChainConvertor.h"
 
-#define MASK_FOR_MODEL QString("MMMM, dd")
+#define MASK_FOR_MODEL QString("MMMM, d")
+#define MASK_FOR_MODEL_WITH_YEAR QString("MMMM, d, yyyy")
 
 class DapScreenHistoryModel : public QAbstractListModel
 {

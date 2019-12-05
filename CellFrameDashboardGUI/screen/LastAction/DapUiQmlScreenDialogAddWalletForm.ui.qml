@@ -5,12 +5,15 @@ import "../"
 
 DapUiQmlScreen {
     property alias nextButton: nextButton
+    property alias sourceCustomArrow: comboBoxChooseSignatureType.sourceArrow
     property bool isWordsRecoveryMethodChecked: selectionWords.checked
     property bool isQRCodeRecoveryMethodChecked: selectionQRcode.checked
     property bool isExportToFileRecoveryMethodChecked: selectionExportToFile.checked
 
     id: addWalletMenu
-    color: "#EDEFF2"
+    color: "#F8F7FA"
+    border.width: 1 * pt
+    border.color: "#E3E2E6"
 
     Rectangle {
         id: nameWalletTextArea
@@ -25,9 +28,9 @@ DapUiQmlScreen {
             color: "#ffffff"
             text: qsTr("Name of wallet")
             anchors.left: parent.left
-            anchors.leftMargin: 16
+            anchors.leftMargin: 16 * pt
             anchors.verticalCenter: parent.verticalCenter
-            font.pointSize: 12
+            font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -38,7 +41,7 @@ DapUiQmlScreen {
     Rectangle {
         id: inputNameWalletArea
         height: 68
-        color: "#EDEFF2"
+        color: "#F8F7FA"
         anchors.left: parent.left
         anchors.leftMargin: 1
         anchors.right: parent.right
@@ -50,7 +53,7 @@ DapUiQmlScreen {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 20
-            font.pointSize: 16
+            font.pixelSize: 16 * pt
             color: "#070023"
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -73,7 +76,7 @@ DapUiQmlScreen {
             id: chooseSignatureTypeText
             color: "#ffffff"
             text: qsTr("Choose signature type")
-            font.pointSize: 12
+            font.pixelSize: 12 * pt
             anchors.leftMargin: 16
             horizontalAlignment: Text.AlignLeft
             font.styleName: "Normal"
@@ -87,7 +90,7 @@ DapUiQmlScreen {
     Rectangle {
         id: chooseSignatureTypeArea
         height: 68
-        color: "#EDEFF2"
+        color: "#F8F7FA"
         anchors.leftMargin: 1
         anchors.left: parent.left
         anchors.right: parent.right
@@ -95,14 +98,15 @@ DapUiQmlScreen {
 
         DapUiQmlWidgetSignatureTypeComboBox {
             id: comboBoxChooseSignatureType
-            height: 20 * pt
+            width: 368
+            height: 20
             anchors {
                 verticalCenter: chooseSignatureTypeArea.verticalCenter
-                left: parent.left
-                right: parent.right
+                fill: parent
+                topMargin: 24
+                bottomMargin: 24
                 leftMargin: 8
                 rightMargin: 32
-                verticalCenterOffset: 0
             }
         }
     }
@@ -124,7 +128,7 @@ DapUiQmlScreen {
             font.styleName: "Normal"
             font.weight: Font.Normal
             anchors.left: parent.left
-            font.pointSize: 12
+            font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
@@ -134,61 +138,33 @@ DapUiQmlScreen {
     ColumnLayout {
         id: chooseRecoveryMethod
         height: 272
-        anchors.leftMargin: 1
         spacing: 32
         anchors.top: recoveryMethodTextArea.bottom
+        anchors.topMargin: 32
         anchors.left: parent.left
+        anchors.leftMargin: 16
         anchors.right: parent.right
+        Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
-        RadioButton {
+        DapRadioButton {
             id: selectionWords
-            text: qsTr("24 words")
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 32
+            textButton: qsTr("24 words")
             checked: true
-            spacing: 16
-            autoExclusive: true
-            display: AbstractButton.TextBesideIcon
-            font.pointSize: 14
-            font.wordSpacing: 0
-            font.family: "Roboto"
-            Layout.leftMargin: 16
         }
 
-        RadioButton {
+        DapRadioButton {
             id: selectionQRcode
-            y: 120
-            text: qsTr("QR code")
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 0
-            Layout.leftMargin: 16
-            spacing: 16
-            font.pointSize: 14
-            font.family: "Roboto"
+            textButton: qsTr("QR code")
         }
 
-        RadioButton {
+        DapRadioButton {
             id: selectionExportToFile
-            text: qsTr("Export to file")
-            spacing: 16
-            font.pointSize: 14
-            font.family: "Roboto"
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 0
-            Layout.leftMargin: 16
+            textButton: qsTr("Export to file")
         }
 
-        RadioButton {
+        DapRadioButton {
             id: selectionNothing
-            y: 235
-            text: qsTr("Nothing")
-            spacing: 16
-            checked: false
-            font.family: "Roboto"
-            font.pointSize: 14
-            Layout.alignment: Qt.AlignLeft | Qt.AlignTop
-            Layout.topMargin: 0
-            Layout.leftMargin: 16
+            textButton: qsTr("Nothing")
         }
     }
 
@@ -209,11 +185,10 @@ DapUiQmlScreen {
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
-            font.pointSize: 18
+            font.pixelSize: 18 * pt
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
-
 
         background: Rectangle {
             implicitWidth: parent.width
@@ -222,3 +197,10 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+
