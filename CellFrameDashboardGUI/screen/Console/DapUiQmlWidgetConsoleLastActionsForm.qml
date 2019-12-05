@@ -1,6 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.1
-import QtQuick.Layouts 1.13
+import QtQuick.Controls 2.0
 import "../LastAction"
 
 DapUiQmlWidgetLastActions {
