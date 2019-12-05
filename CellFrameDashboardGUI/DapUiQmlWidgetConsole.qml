@@ -1,6 +1,6 @@
-import QtQuick 2.13
+import QtQuick 2.9
 import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.13
+import QtQuick.Layouts 1.0
 
 Rectangle {
     property alias textAreaCmdHistory: txtCommand

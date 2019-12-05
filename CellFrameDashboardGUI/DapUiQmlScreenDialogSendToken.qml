@@ -3,7 +3,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Controls.Private 1.0
-//import QtQuick.Controls 2.5
 import CellFrameDashboard 1.0
 
 Dialog {
