@@ -11,10 +11,7 @@ Rectangle {
         color: "transparent"
 
         Row {
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.bottom: parent.bottom
-            anchors.right: statusBarAddWalletButton.left
+            anchors.fill: parent
             anchors.leftMargin: 30 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
