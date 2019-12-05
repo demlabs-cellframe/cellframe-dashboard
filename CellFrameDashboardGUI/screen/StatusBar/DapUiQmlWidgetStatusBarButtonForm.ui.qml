@@ -18,7 +18,7 @@ Button {
     contentItem: Rectangle {
         id: background
         anchors.fill: parent
-        color: "transparent"
+        color: "#070023"
 
         Text {
             id: templateText

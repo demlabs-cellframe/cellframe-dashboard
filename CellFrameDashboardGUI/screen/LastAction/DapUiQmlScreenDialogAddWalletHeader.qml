@@ -5,7 +5,9 @@ import "../"
 
 DapUiQmlScreen {
     height: 36 * pt
-    color: "#edeff2"
+    color: "#F8F7FA"
+    border.width: 1 * pt
+    border.color: "#E3E2E6"
 
     property string backButtonNormal : "qrc:/res/icons/close_icon.png"
     property string backButtonHovered : "qrc:/res/icons/close_icon_hover.png"
@@ -48,7 +50,7 @@ DapUiQmlScreen {
         Text {
             text: title
             horizontalAlignment: Qt.AlignLeft
-            font.pointSize: 14
+            font.pointSize: 14 * pt
             font.family: "Roboto"
             font.weight: Font.Normal
             font.styleName: "Normal"

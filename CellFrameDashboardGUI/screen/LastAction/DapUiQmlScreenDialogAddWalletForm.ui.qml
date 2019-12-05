@@ -5,12 +5,15 @@ import "../"
 
 DapUiQmlScreen {
     property alias nextButton: nextButton
+    property alias sourceCustomArrow: comboBoxChooseSignatureType.sourceArrow
     property bool isWordsRecoveryMethodChecked: selectionWords.checked
     property bool isQRCodeRecoveryMethodChecked: selectionQRcode.checked
     property bool isExportToFileRecoveryMethodChecked: selectionExportToFile.checked
 
     id: addWalletMenu
-    color: "#EDEFF2"
+    color: "#F8F7FA"
+    border.width: 1 * pt
+    border.color: "#E3E2E6"
 
     Rectangle {
         id: nameWalletTextArea
@@ -25,9 +28,9 @@ DapUiQmlScreen {
             color: "#ffffff"
             text: qsTr("Name of wallet")
             anchors.left: parent.left
-            anchors.leftMargin: 16
+            anchors.leftMargin: 16 * pt
             anchors.verticalCenter: parent.verticalCenter
-            font.pointSize: 12
+            font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -38,7 +41,7 @@ DapUiQmlScreen {
     Rectangle {
         id: inputNameWalletArea
         height: 68
-        color: "#EDEFF2"
+        color: "#F8F7FA"
         anchors.left: parent.left
         anchors.leftMargin: 1
         anchors.right: parent.right
@@ -50,7 +53,7 @@ DapUiQmlScreen {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.leftMargin: 20
-            font.pointSize: 16
+            font.pixelSize: 16 * pt
             color: "#070023"
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -73,7 +76,7 @@ DapUiQmlScreen {
             id: chooseSignatureTypeText
             color: "#ffffff"
             text: qsTr("Choose signature type")
-            font.pointSize: 12
+            font.pixelSize: 12 * pt
             anchors.leftMargin: 16
             horizontalAlignment: Text.AlignLeft
             font.styleName: "Normal"
@@ -87,7 +90,7 @@ DapUiQmlScreen {
     Rectangle {
         id: chooseSignatureTypeArea
         height: 68
-        color: "#EDEFF2"
+        color: "#F8F7FA"
         anchors.leftMargin: 1
         anchors.left: parent.left
         anchors.right: parent.right
@@ -95,6 +98,7 @@ DapUiQmlScreen {
 
         DapUiQmlWidgetSignatureTypeComboBox {
             id: comboBoxChooseSignatureType
+            width: 368
             height: 20
             anchors {
                 verticalCenter: chooseSignatureTypeArea.verticalCenter
@@ -104,8 +108,6 @@ DapUiQmlScreen {
                 leftMargin: 8
                 rightMargin: 32
             }
-
-            sourceArrow: popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/icon_arrow_down.png"
         }
     }
 
@@ -126,7 +128,7 @@ DapUiQmlScreen {
             font.styleName: "Normal"
             font.weight: Font.Normal
             anchors.left: parent.left
-            font.pointSize: 12
+            font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
@@ -183,7 +185,7 @@ DapUiQmlScreen {
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
-            font.pointSize: 18
+            font.pixelSize: 18 * pt
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }

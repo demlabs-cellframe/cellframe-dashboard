@@ -14,7 +14,7 @@ RadioButton {
         verticalAlignment: Text.AlignVCenter
         anchors.verticalCenter: parent.verticalCenter
         color: "#3E3853"
-        font.pointSize: 14
+        font.pointSize: 14 * pt
         font.wordSpacing: 0
         font.family: "Roboto"
         horizontalAlignment: Text.AlignLeft
