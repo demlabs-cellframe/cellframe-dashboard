@@ -24,6 +24,7 @@ win32 {
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
     DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
     DEFINES += CMD_LOG=\\\"./opt/cellframe-dashboard/data/cellframe-cmd_log.txt\\\"
+    DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -69,7 +70,6 @@ HEADERS += \
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
-include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)

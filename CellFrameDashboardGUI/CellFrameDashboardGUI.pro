@@ -15,10 +15,10 @@ VER_MAJ = 1
 VER_MIN = 6
 VER_PAT = 4
 
-
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
+    DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -35,10 +35,10 @@ DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-ICON = Resources/Icons/dashboard.icns
+ICON = res/icons/dashboard.icns
 }
 else {
-ICON = Resources/Icons/icon.ico
+ICON = res/icons/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -46,42 +46,43 @@ ICON = Resources/Icons/icon.ico
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+MOC_DIR = moc
+OBJECTS_DIR = obj
+RCC_DIR = rcc
+UI_DIR = uic
+
+CONFIG(debug, debug|release) {
+    DESTDIR = bin/debug
+} else {
+    DESTDIR = bin/release
+}
+
+INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
+               $$_PRO_FILE_PWD_/../DapRPCProtocol/
+
 SOURCES += \
-    DapChainNodeNetworkExplorer.cpp \
-    DapChainNodeNetworkModel.cpp \
-    DapChainWalletModel.cpp \
-    DapClipboard.cpp \
-    DapConsoleModel.cpp \
-    DapScreenHistoryFilterModel.cpp \
-    DapScreenHistoryModel.cpp \
-    DapSettingsNetworkModel.cpp \
-    DapUiQmlWidgetChainTransactions.cpp \
-    DapWalletFilterModel.cpp \
-        main.cpp \
-    DapUiQmlWidgetChainBallance.cpp \
-    DapUiQmlWidgetChainBlockExplorer.cpp \
-    DapUiQmlWidgetChainNodeLogs.cpp \
-    DapUiQmlWidgetChainOperations.cpp \
-    DapUiQmlWidgetModel.cpp \
-    DapUiQmlWidget.cpp \
-    DapScreenDialog.cpp \
-    DapScreenDialogChangeWidget.cpp \
-    DapServiceClient.cpp \
-    DapServiceController.cpp \
-    DapCommandController.cpp \
-    DapServiceClientNativeAbstract.cpp \
-    DapServiceClientNativeLinux.cpp \
-    DapServiceClientNativeWin.cpp \
-    DapServiceClientNativeMacOS.cpp \
-    DapChainWalletsModel.cpp
+    $$PWD/DapChainNodeNetworkExplorer.cpp \
+    $$PWD/DapChainNodeNetworkModel.cpp \
+    $$PWD/DapChainWalletModel.cpp \
+    $$PWD/DapClipboard.cpp \
+    $$PWD/DapConsoleModel.cpp \
+    $$PWD/DapScreenHistoryFilterModel.cpp \
+    $$PWD/DapScreenHistoryModel.cpp \
+    $$PWD/DapSettingsNetworkModel.cpp \
+    $$PWD/DapWalletFilterModel.cpp \
+    $$PWD/main.cpp \
+    $$PWD/DapScreenDialog.cpp \
+    $$PWD/DapScreenDialogChangeWidget.cpp \
+    $$PWD/DapServiceClient.cpp \
+    $$PWD/DapServiceController.cpp \
+    $$PWD/DapCommandController.cpp \
+    $$PWD/DapServiceClientNativeAbstract.cpp \
+    $$PWD/DapServiceClientNativeLinux.cpp \
+    $$PWD/DapServiceClientNativeWin.cpp \
+    $$PWD/DapServiceClientNativeMacOS.cpp \
+    $$PWD/DapChainWalletsModel.cpp
 
-RESOURCES += qml.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
+RESOURCES += $$PWD/qml.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -89,31 +90,24 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    DapChainNodeNetworkExplorer.h \
-    DapChainNodeNetworkModel.h \
-    DapChainWalletModel.h \
-    DapClipboard.h \
-    DapConsoleModel.h \
-    DapScreenHistoryFilterModel.h \
-    DapScreenHistoryModel.h \
-    DapSettingsNetworkModel.h \
-    DapUiQmlWidgetChainBallance.h \
-    DapUiQmlWidgetChainBlockExplorer.h \
-    DapUiQmlWidgetChainNodeLogs.h \
-    DapUiQmlWidgetChainOperations.h \
-    DapUiQmlWidgetChainTransactions.h \
-    DapUiQmlWidgetModel.h \
-    DapUiQmlWidget.h \
-    DapScreenDialog.h \
-    DapScreenDialogChangeWidget.h \
-    DapServiceClient.h \
-    DapServiceController.h \
-    DapCommandController.h \
-    DapServiceClientNativeAbstract.h \
-    DapServiceClientNativeLinux.h \
-    DapServiceClientNativeWin.h \
-    DapChainWalletsModel.h \
-    DapWalletFilterModel.h
+    $$PWD/DapChainNodeNetworkExplorer.h \
+    $$PWD/DapChainNodeNetworkModel.h \
+    $$PWD/DapChainWalletModel.h \
+    $$PWD/DapClipboard.h \
+    $$PWD/DapConsoleModel.h \
+    $$PWD/DapScreenHistoryFilterModel.h \
+    $$PWD/DapScreenHistoryModel.h \
+    $$PWD/DapSettingsNetworkModel.h \
+    $$PWD/DapScreenDialog.h \
+    $$PWD/DapScreenDialogChangeWidget.h \
+    $$PWD/DapServiceClient.h \
+    $$PWD/DapServiceController.h \
+    $$PWD/DapCommandController.h \
+    $$PWD/DapServiceClientNativeAbstract.h \
+    $$PWD/DapServiceClientNativeLinux.h \
+    $$PWD/DapServiceClientNativeWin.h \
+    $$PWD/DapChainWalletsModel.h \
+    $$PWD/DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
@@ -122,10 +116,6 @@ include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
-
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/
-
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
