@@ -25,7 +25,7 @@ Button {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignRight
-            anchors.rightMargin: 20
+            anchors.rightMargin: 20 * pt
             font.family: "Roboto"
             font.weight: Font.Normal
             color: "#FFFFFF"

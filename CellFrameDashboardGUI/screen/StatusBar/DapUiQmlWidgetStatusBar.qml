@@ -67,7 +67,7 @@ Rectangle {
             height: 36 * pt
             name: qsTr("New wallet")
             fontHeight: 14 * pt
-            backgroundColor: "#070023"
+            backgroundColor: hovered ? "#D51F5D" : "#070023"
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 10 * pt
