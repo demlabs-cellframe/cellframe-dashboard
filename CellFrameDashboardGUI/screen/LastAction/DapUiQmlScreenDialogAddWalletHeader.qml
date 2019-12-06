@@ -13,17 +13,18 @@ DapUiQmlScreen {
     property string backButtonHovered : "qrc:/res/icons/close_icon_hover.png"
     property string title : qsTr("New wallet")
     property alias mouseArea : mouseArea
+    property alias pressedCloseAddWallet: mouseArea.pressed
 
     RowLayout
     {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: 8
-        spacing: 12
+        anchors.leftMargin: 8 * pt
+        spacing: 12 * pt
 
         Rectangle {
-            width: 16
-            height: 16
+            width: 16 * pt
+            height: 16 * pt
             color: "transparent"
 
             Image {

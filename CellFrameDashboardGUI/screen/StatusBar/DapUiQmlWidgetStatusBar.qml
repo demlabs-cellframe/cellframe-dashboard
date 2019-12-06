@@ -78,7 +78,14 @@ Rectangle {
             onClicked: {
                 rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
                 rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
+                statusBarAddWalletButton.backgroundColor = "#D51F5D"
+            }
+
+            Connections {
+                target: rightPanel.header.currentItem
+                onPressedCloseAddWalletChanged: statusBarAddWalletButton.backgroundColor = "#070023"
             }
         }
+
     }
 }

@@ -17,7 +17,7 @@ DapUiQmlScreen {
 
     Rectangle {
         id: nameWalletTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
         anchors.right: parent.right
         anchors.left: parent.left
