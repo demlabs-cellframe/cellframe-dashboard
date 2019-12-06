@@ -7,6 +7,7 @@ RadioButton {
 
     id: button
     text: qsTr("template")
+
     contentItem: Text {
         id: nameButton
         anchors.left: parent.left
@@ -20,7 +21,7 @@ RadioButton {
         horizontalAlignment: Text.AlignLeft
     }
 
-    spacing: 16
+    spacing: 16 * pt
     checked: false
     display: AbstractButton.TextBesideIcon
     autoExclusive: true

@@ -26,7 +26,7 @@ DapUiQmlWidgetStatusBarComboBox {
     heightArrow: 20 * pt
 
     font {
-        pointSize: 16
+        pointSize: 16 * pt
         family: "Roboto"
         styleName: "Normal"
         weight: Font.Normal

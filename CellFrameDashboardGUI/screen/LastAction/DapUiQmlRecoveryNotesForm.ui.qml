@@ -12,7 +12,7 @@ DapUiQmlScreen {
 
     Rectangle {
         id: wordTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
         anchors.rightMargin: 1
         anchors.leftMargin: 1
@@ -252,3 +252,8 @@ DapUiQmlScreen {
     }
 }
 
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

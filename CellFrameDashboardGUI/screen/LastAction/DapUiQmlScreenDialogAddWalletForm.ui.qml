@@ -40,10 +40,10 @@ DapUiQmlScreen {
 
     Rectangle {
         id: inputNameWalletArea
-        height: 68
+        height: 68 * pt
         color: "#F8F7FA"
         anchors.left: parent.left
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.right: parent.right
         anchors.top: nameWalletTextArea.bottom
 
@@ -52,7 +52,7 @@ DapUiQmlScreen {
             text: qsTr("Pocket of happiness")
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: 20
+            anchors.leftMargin: 20 * pt
             font.pixelSize: 16 * pt
             color: "#070023"
             font.family: "Roboto"
@@ -64,12 +64,12 @@ DapUiQmlScreen {
 
     Rectangle {
         id: chooseSignatureTypeTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
         anchors.right: parent.right
         anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.top: inputNameWalletArea.bottom
 
         Text {
@@ -77,7 +77,7 @@ DapUiQmlScreen {
             color: "#ffffff"
             text: qsTr("Choose signature type")
             font.pixelSize: 12 * pt
-            anchors.leftMargin: 16
+            anchors.leftMargin: 16 * pt
             horizontalAlignment: Text.AlignLeft
             font.styleName: "Normal"
             font.family: "Roboto"
@@ -89,33 +89,33 @@ DapUiQmlScreen {
 
     Rectangle {
         id: chooseSignatureTypeArea
-        height: 68
+        height: 68 * pt
         color: "#F8F7FA"
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeTextArea.bottom
 
         DapUiQmlWidgetSignatureTypeComboBox {
             id: comboBoxChooseSignatureType
-            width: 368
-            height: 20
+            width: 368 * pt
+            height: 20 * pt
             anchors {
                 verticalCenter: chooseSignatureTypeArea.verticalCenter
                 fill: parent
-                topMargin: 24
-                bottomMargin: 24
-                leftMargin: 8
-                rightMargin: 32
+                topMargin: 24 * pt
+                bottomMargin: 24 * pt
+                leftMargin: 8 * pt
+                rightMargin: 32 * pt
             }
         }
     }
 
     Rectangle {
         id: recoveryMethodTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeArea.bottom
@@ -130,19 +130,19 @@ DapUiQmlScreen {
             anchors.left: parent.left
             font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
-            anchors.leftMargin: 16
+            anchors.leftMargin: 16 * pt
             anchors.verticalCenter: parent.verticalCenter
         }
     }
 
     ColumnLayout {
         id: chooseRecoveryMethod
-        height: 272
-        spacing: 32
+        height: 272 * pt
+        spacing: 32 * pt
         anchors.top: recoveryMethodTextArea.bottom
-        anchors.topMargin: 32
+        anchors.topMargin: 32 * pt
         anchors.left: parent.left
-        anchors.leftMargin: 16
+        anchors.leftMargin: 16 * pt
         anchors.right: parent.right
         Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
@@ -170,11 +170,11 @@ DapUiQmlScreen {
 
     Button {
         id: nextButton
-        height: 44
-        width: 130
+        height: 44 * pt
+        width: 130 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: chooseRecoveryMethod.bottom
-        anchors.topMargin: 32
+        anchors.topMargin: 32 * pt
         hoverEnabled: true
 
         contentItem: Text {
