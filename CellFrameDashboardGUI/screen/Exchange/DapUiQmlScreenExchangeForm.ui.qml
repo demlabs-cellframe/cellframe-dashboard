@@ -34,9 +34,9 @@ Page {
                 fontSizeComboBox: 16*pt
                 widthPopupComboBoxActive: 144 *pt
                 widthPopupComboBoxNormal: 112 *pt
-                spacingEdgeActive: 16*pt
-                spacingEdgeNormal: 0
-                x:popup.visible ? spacingEdgeActive * (-1) : spacingEdgeNormal
+                sidePaddingActive: 16*pt
+                sidePaddingNormal: 0
+                x:popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
             }
 
         }
@@ -63,9 +63,9 @@ Page {
                 fontSizeComboBox: 14*pt
                 widthPopupComboBoxActive: 132 *pt
                 widthPopupComboBoxNormal: 100 *pt
-                spacingEdgeActive: 16*pt
-                spacingEdgeNormal: 0
-                x:popup.visible ? spacingEdgeActive * (-1) : spacingEdgeNormal
+                sidePaddingActive: 16*pt
+                sidePaddingNormal: 0
+                x:popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
             }
         }
 

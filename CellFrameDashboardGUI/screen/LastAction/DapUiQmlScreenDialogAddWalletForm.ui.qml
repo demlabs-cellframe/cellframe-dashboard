@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.1
+
 import "../../"
 import "../"
 
@@ -103,6 +104,7 @@ DapUiQmlScreen {
             anchors.topMargin:12*pt
             anchors.bottomMargin: 12*pt
             color: parent.color
+
             DapComboBox{
                 property Label fieldBalance: Label {}
 
@@ -145,7 +147,8 @@ DapUiQmlScreen {
                 hilightColorText: "#FFFFFF"
                 fontSizeComboBox: 16 * pt
                 hilightColor: "#330F54"
-                spacingEdgeActive: 20*pt
+                sidePaddingActive: 20*pt
+                //spacingEdgeActive: 20*pt
 
                 indicator: Image {
                     source: parent.popup.visible ? "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
