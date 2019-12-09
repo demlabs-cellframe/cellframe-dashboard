@@ -14,8 +14,8 @@ DapUiQmlScreen {
         id: wordTextArea
         height: 30 * pt
         color: "#757184"
-        anchors.rightMargin: 1
-        anchors.leftMargin: 1
+        anchors.rightMargin: 1 * pt
+        anchors.leftMargin: 1 * pt
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.top: parent.top
@@ -25,12 +25,12 @@ DapUiQmlScreen {
             color: "#ffffff"
             text: qsTr("24 words")
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: 8 * pt
             anchors.top: parent.top
-            anchors.topMargin: 8
+            anchors.topMargin: 8 * pt
             anchors.left: parent.left
-            anchors.leftMargin: 16
-            font.pointSize: 12
+            anchors.leftMargin: 16 * pt
+            font.pointSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -41,22 +41,22 @@ DapUiQmlScreen {
     Rectangle {
         id: saveNotesDescription
         color: "#edeff2"
-        height: 42
+        height: 42 * pt
         anchors.top: wordTextArea.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.left: wordTextArea.left
         anchors.right: wordTextArea.right
 
         Text {
             anchors.fill: parent
             text: qsTr("Keep these words in a safe place. They will be\nrequired to restore your wallet in case of loss of\naccess to it")
-            anchors.leftMargin: 1
+            anchors.leftMargin: 1 * pt
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             color: "#FF0300"
 
             font {
-                pointSize: 16
+                pointSize: 14 * pt
                 family: "Roboto"
                 styleName: "Normal"
                 weight: Font.Normal
@@ -66,9 +66,9 @@ DapUiQmlScreen {
 
     Rectangle {
         id: recoveryWords
-        height: 270
+        height: 270 * pt
         anchors.top: saveNotesDescription.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: 1 * pt
@@ -116,23 +116,23 @@ DapUiQmlScreen {
         }
 
         RowLayout {
-            height: 270
-            spacing: 60
+            height: 270 * pt
+            spacing: 60 * pt
             anchors.right: parent.right
-            anchors.rightMargin: 1
+            anchors.rightMargin: 1 * pt
             anchors.left: parent.left
-            anchors.leftMargin: 1
+            anchors.leftMargin: 1 * pt
 
             ListView {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                width: 50
-                height: 300
+                width: 50 * pt
+                height: 300 * pt
                 model: listRecoveryWords
                 delegate: Text {
                     text: word
                     color: "#070023"
                     font {
-                        pointSize: 16
+                        pointSize: 16 * pt
                         family: "Roboto"
                         styleName: "Normal"
                         weight: Font.Normal
@@ -142,14 +142,14 @@ DapUiQmlScreen {
 
             ListView {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                width: 50
-                height: 300
+                width: 50 * pt
+                height: 300 * pt
                 model: listRecoveryWords
                 delegate: Text {
                     text: word
                     color: "#070023"
                     font {
-                        pointSize: 16
+                        pointSize: 16 * pt
                         family: "Roboto"
                         styleName: "Normal"
                         weight: Font.Normal
@@ -161,20 +161,20 @@ DapUiQmlScreen {
 
     Rectangle {
         id: notifyNotesSavedArea
-        height: 70
+        height: 70 * pt
         anchors.top: recoveryWords.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         color: "#EDEFF2"
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
 
         Text {
             id: notifyText
             anchors.centerIn: parent
             text: qsTr("")
             color: "#6F9F00"
-            font.pointSize: 14
+            font.pointSize: 14 * pt
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }
@@ -182,20 +182,20 @@ DapUiQmlScreen {
 
     RowLayout {
         id: actionButtons
-        height: 44
-        anchors.leftMargin: 1
-        spacing: 30
+        height: 44 * pt
+        anchors.leftMargin: 1 * pt
+        spacing: 30 * pt
         anchors.top: notifyNotesSavedArea.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.left: parent.left
         anchors.right: parent.right
-        Layout.leftMargin: 26
+        Layout.leftMargin: 26 * pt
         Layout.columnSpan: 2
 
         Button {
             id: nextButton
-            height: 44
-            width: 130
+            height: 44 * pt
+            width: 130 * pt
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
             Text {
@@ -207,7 +207,7 @@ DapUiQmlScreen {
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                font.pointSize: 18
+                font.pointSize: 18 * pt
                 horizontalAlignment: Text.AlignLeft
             }
 
@@ -220,9 +220,9 @@ DapUiQmlScreen {
 
         Button {
             id: copyNotesButton
-            height: 44
+            height: 44 * pt
+            width: 130 * pt
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            width: 130
             checkable: true
 
             Text {
@@ -234,7 +234,7 @@ DapUiQmlScreen {
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                font.pointSize: 18
+                font.pointSize: 18 * pt
                 horizontalAlignment: Text.AlignLeft
             }
 
@@ -257,3 +257,4 @@ Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
+
