@@ -108,26 +108,6 @@ DapUiQmlScreen {
             DapComboBox{
                 property Label fieldBalance: Label {}
 
-                ///Этот код был в DapUiQmlWidgetStatusBarComboBoxToken.qml на первый
-                ///            взгляд не сильно ясно что он делает и разбираться тоже не стал к тикету не относился
-
-                //            model: ListModel {id: tokenList}
-                //            textRole: "tokenName"
-
-                //            delegate: DapComboBoxDelegate {
-                //                delegateContentText: tokenName
-                //            }
-
-                //            onCurrentIndexChanged: {
-                //                if(currentIndex === -1)
-                //                    fieldBalance.text = 0;
-                //                else
-                //                {
-                //                    var money = dapChainWalletsModel.get(comboboxWallet.currentIndex).tokens[currentIndex * 3];
-                //                    fieldBalance.text = dapChainConvertor.toConvertCurrency(money);
-                //                }
-                //            }
-
                 model: ListModel {
                     id: signatureType
                     ListElement {
@@ -291,9 +271,3 @@ DapUiQmlScreen {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
