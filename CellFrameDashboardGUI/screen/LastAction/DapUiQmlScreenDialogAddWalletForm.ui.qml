@@ -148,7 +148,6 @@ DapUiQmlScreen {
                 fontSizeComboBox: 16 * pt
                 hilightColor: "#330F54"
                 sidePaddingActive: 20*pt
-                //spacingEdgeActive: 20*pt
 
                 indicator: Image {
                     source: parent.popup.visible ? "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
