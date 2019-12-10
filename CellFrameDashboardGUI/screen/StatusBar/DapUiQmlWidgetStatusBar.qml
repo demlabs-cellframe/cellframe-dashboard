@@ -39,31 +39,13 @@ Rectangle {
                 property Label fieldBalance: Label {}
                 model: dapWalletModel.wallets
 
-                indicator: Image {
-                    id: arrow
-                    source: parent.popup.visible ? "qrc:/res/icons/ic_arrow_drop_up.png" : "qrc:/res/icons/ic_arrow_drop_down.png"
-                    width: 24 * pt
-                    height: 24 * pt
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 16 * pt
-                }
-                contentItem: Text {
-                    id: headerText
-                    anchors.fill: parent
-                    anchors.leftMargin: 12 * pt
-                    anchors.rightMargin: 48 * pt
-                    anchors.topMargin: 10 * pt
-                    text: parent.displayText
-                    font.family: fontRobotoRegular.name
-                    font.pixelSize: 14 * pt
-                    color: parent.popup.visible ? "#332F49" : "#FFFFFF"
-                    verticalAlignment: Text.AlignTop
-                    elide: Text.ElideRight
-                }
+                indicatorImageNormal:"qrc:/res/icons/ic_arrow_drop_down.png"
+                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+                sidePaddingNormal:12 * pt
+                normalColorText:"#FFFFFF"
+                hilightColorTopText:"#332F49"
                 hilightColor: "#332F49"
                 fontSizeComboBox: 14*px
-                hilightColorText: "#FFFFFF"
             }
 
             Label {

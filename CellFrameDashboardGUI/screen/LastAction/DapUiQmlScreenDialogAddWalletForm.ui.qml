@@ -110,47 +110,17 @@ DapUiQmlScreen {
 
                 model: ListModel {
                     id: signatureType
-                    ListElement {
-                        signatureName: "Dilithium"
-                    }
-                    ListElement {
-                        signatureName: "Bliss"
-                    }
-                    ListElement {
-                        signatureName: "Picnic"
-                    }
-                    ListElement {
-                        signatureName: "Tesla"
-                    }
+                    ListElement {signatureName: "Dilithium"}
+                    ListElement {signatureName: "Bliss"}
+                    ListElement {signatureName: "Picnic"}
+                    ListElement {signatureName: "Tesla"}
                 }
                 normalColorText: "#070023"
                 hilightColorText: "#FFFFFF"
                 fontSizeComboBox: 16 * pt
                 hilightColor: "#330F54"
-                sidePaddingActive: 20*pt
-
-                indicator: Image {
-                    source: parent.popup.visible ? "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                                                 : "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
-                    width: 20 * pt
-                    height: 20 * pt
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    anchors.rightMargin: 20 * pt
-                }
-
-                contentItem: Text {
-                    anchors.fill: parent
-                    anchors.leftMargin: 20 * pt
-                    anchors.topMargin: 12 * pt
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: parent.displayText
-                    font.family: fontRobotoRegular.name
-                    font.pixelSize: 16*pt
-                    color: normalColorText
-                    verticalAlignment: Text.AlignTop
-                    elide: Text.ElideRight
-                }
+                sidePaddingNormal: 20*pt
+                indicatorWidth:20 * pt
             }
 
         }
@@ -271,3 +241,9 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
