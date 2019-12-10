@@ -89,45 +89,45 @@ DapUiQmlScreen {
     }
 
     Rectangle {
-        id: chooseSignatureTypeArea
+           id: chooseSignatureTypeArea
 
-        height: 68 * pt
-        color: "#EDEFF2"
-        anchors.leftMargin: 1 * pt
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: chooseSignatureTypeTextArea.bottom
+           height: 68 * pt
+           color: "#EDEFF2"
+           anchors.leftMargin: 1 * pt
+           anchors.left: parent.left
+           anchors.right: parent.right
+           anchors.top: chooseSignatureTypeTextArea.bottom
 
-        ///ComboBox right panel
-        Rectangle{
-            id:areaDapComboBoxRightPanel
-            anchors.fill: parent
-            anchors.leftMargin:  16*pt
-            anchors.rightMargin: 16*pt
-            anchors.topMargin:12*pt
-            anchors.bottomMargin: 12*pt
-            color: parent.color
+           ///ComboBox right panel
+           Rectangle{
+               id:areaDapComboBoxRightPanel
+               anchors.fill: parent
+               anchors.leftMargin:  16*pt
+               anchors.rightMargin: 16*pt
+               anchors.topMargin:12*pt
+               anchors.bottomMargin: 12*pt
+               color: parent.color
 
-            DapComboBox{
-                property Label fieldBalance: Label {}
+               DapComboBox{
+                   property Label fieldBalance: Label {}
 
-                model: ListModel {
-                    id: signatureType
-                    ListElement {signatureName: "Dilithium"}
-                    ListElement {signatureName: "Bliss"}
-                    ListElement {signatureName: "Picnic"}
-                    ListElement {signatureName: "Tesla"}
-                }
-                normalColorText: "#070023"
-                hilightColorText: "#FFFFFF"
-                fontSizeComboBox: 16 * pt
-                hilightColor: "#330F54"
-                sidePaddingNormal: 20*pt
-                indicatorWidth:20 * pt
-            }
+                   model: ListModel {
+                       id: signatureType
+                       ListElement {signatureName: "Dilithium"}
+                       ListElement {signatureName: "Bliss"}
+                       ListElement {signatureName: "Picnic"}
+                       ListElement {signatureName: "Tesla"}
+                   }
+                   normalColorText: "#070023"
+                   hilightColorText: "#FFFFFF"
+                   fontSizeComboBox: 16 * pt
+                   hilightColor: "#330F54"
+                   sidePaddingNormal: 20 * pt
+                   indicatorWidth: 20 * pt
+               }
 
-        }
-    }
+           }
+       }
 
     Rectangle {
         id: recoveryMethodTextArea
@@ -215,9 +215,3 @@ DapUiQmlScreen {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
