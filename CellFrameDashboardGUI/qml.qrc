@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>CellFrameDashboardGUI.conf</file>
+        <file>res/icons/ic_arrow_drop_down_dark_blue.png</file>
+        <file>res/icons/ic_arrow_drop_up_dark_blue.png</file>
         <file>res/cellframe-logo.svg</file>
         <file>res/Settings.json</file>
         <file>res/fonts/roboto_light.ttf</file>
@@ -43,9 +45,6 @@
         <file>screen/DapUiQmlScreen.qml</file>
         <file>screen/DapUiQmlScreenMainWindow.qml</file>
         <file>screen/DapUiQmlScreenMainWindowForm.ui.qml</file>
-        <file>screen/DapUiQmlWidgetStatusBarComboBox.qml</file>
-        <file>screen/DapUiQmlWidgetStatusBarComboBoxDelegate.qml</file>
-        <file>screen/DapUiQmlWidgetStatusBarContentItem.qml</file>
         <file>screen/main.qml</file>
         <file>screen/Console/DapUiQmlScreenConsoleForm.ui.qml</file>
         <file>screen/Console/DapUiQmlWidgetConsole.qml</file>
@@ -54,7 +53,6 @@
         <file>screen/Console/DapUiQmlWidgetConsoleLastActionsForm.qml</file>
         <file>screen/Dashboard/DapUiQmlScreenDashboard.qml</file>
         <file>screen/Exchange/DapUiQmlScreenExchangeForm.ui.qml</file>
-        <file>screen/Exchange/DapUiQmlWidgetChainExchanges.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderForm.ui.qml</file>
@@ -80,8 +78,6 @@
         <file>screen/LastAction/DapUiQmlWidgetRightPanel.qml</file>
         <file>screen/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml</file>
         <file>screen/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml</file>
-        <file>screen/LastAction/DapUiQmlWidgetSignatureTypeComboBox.qml</file>
-        <file>screen/LastAction/DapUiQmlWidgetSignatureTypeComboBox.qml</file>
         <file>screen/LastAction/DapRadioButton.qml</file>
         <file>screen/Log/DapUiQmlWidgetChainNodeLogs.qml</file>
         <file>screen/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
@@ -92,8 +88,6 @@
         <file>screen/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
         <file>screen/StatusBar/DapUiQmlWidgetStatusBar.qml</file>
         <file>screen/StatusBar/DapUiQmlWidgetStatusBarButtonForm.ui.qml</file>
-        <file>screen/StatusBar/DapUiQmlWidgetStatusBarComboBoxWallet.qml</file>
-        <file>screen/StatusBar/DapUiQmlWidgetStatusBarComboBoxWalletForm.ui.qml</file>
         <file>screen/VPN/DapUiQmlScreenVpn.qml</file>
         <file>screen/VPN/DapUiQmlScreenVpnForm.ui.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpn.qml</file>

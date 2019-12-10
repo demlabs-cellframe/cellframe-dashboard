@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import "../../"
 import "../"
 
 DapUiQmlScreen {
@@ -89,25 +90,42 @@ DapUiQmlScreen {
 
     Rectangle {
         id: chooseSignatureTypeArea
-        height: 68
-        color: "#F8F7FA"
-        anchors.leftMargin: 1
+
+        height: 68 * pt
+        color: "#EDEFF2"
+        anchors.leftMargin: 1 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeTextArea.bottom
 
-        DapUiQmlWidgetSignatureTypeComboBox {
-            id: comboBoxChooseSignatureType
-            width: 368
-            height: 20
-            anchors {
-                verticalCenter: chooseSignatureTypeArea.verticalCenter
-                fill: parent
-                topMargin: 24
-                bottomMargin: 24
-                leftMargin: 8
-                rightMargin: 32
+        ///ComboBox right panel
+        Rectangle{
+            id:areaDapComboBoxRightPanel
+            anchors.fill: parent
+            anchors.leftMargin:  16*pt
+            anchors.rightMargin: 16*pt
+            anchors.topMargin:12*pt
+            anchors.bottomMargin: 12*pt
+            color: parent.color
+
+            DapComboBox{
+                property Label fieldBalance: Label {}
+
+                model: ListModel {
+                    id: signatureType
+                    ListElement {signatureName: "Dilithium"}
+                    ListElement {signatureName: "Bliss"}
+                    ListElement {signatureName: "Picnic"}
+                    ListElement {signatureName: "Tesla"}
+                }
+                normalColorText: "#070023"
+                hilightColorText: "#FFFFFF"
+                fontSizeComboBox: 16 * pt
+                hilightColor: "#330F54"
+                sidePaddingNormal: 20*pt
+                indicatorWidth:20 * pt
             }
+
         }
     }
 
@@ -203,4 +221,3 @@ Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
-
