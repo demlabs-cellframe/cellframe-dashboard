@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain("demlabs.net");
     app.setApplicationName("CellFrame Dashboard");
     app.setWindowIcon(QIcon(":/res/icons/icon.ico"));
-
+    
     DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
