@@ -1,9 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.5
-import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.3
-import "../../"
+import QtQuick.Controls 2.0
 
 Rectangle {
     Rectangle {
@@ -28,22 +24,11 @@ Rectangle {
                 color: "#A7A7A7"
             }
 
-            DapComboBox {
+            DapUiQmlWidgetStatusBarComboBoxWallet {
                 id: comboboxWallet
-                width: 190*pt
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                property Label fieldBalance: Label {}
-                model: dapWalletModel.wallets
-
-                indicatorImageNormal:"qrc:/res/icons/ic_arrow_drop_down.png"
-                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
-                sidePaddingNormal:12 * pt
-                normalColorText:"#FFFFFF"
-                hilightColorTopText:"#332F49"
-                hilightColor: "#332F49"
-                fontSizeComboBox: 14*px
+                fieldBalance: fieldWalletBalance
             }
 
             Label {
