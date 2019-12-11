@@ -40,10 +40,10 @@ DapUiQmlScreen {
                     color: "#3E3853"
                 }
 
-                icon.width: 20 * pt
-                icon.height: 20 * pt
-                icon.source: "qrc:/res/icons/new-payment_icon.png"
-                icon.color: "#FFFFFF"
+//                icon.width: 20 * pt
+//                icon.height: 20 * pt
+//                icon.source: "qrc:/res/icons/new-payment_icon.png"
+//                icon.color: "#FFFFFF"
             }
         }
 
