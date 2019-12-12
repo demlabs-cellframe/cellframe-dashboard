@@ -181,7 +181,6 @@ DapUiQmlScreen {
         Text {
             id: convertedAmountToken
             text: qsTr("0")
-            //            leftPadding: 0
             anchors.rightMargin: 0
             anchors.leftMargin: 0
             color: "#B5B5B5"

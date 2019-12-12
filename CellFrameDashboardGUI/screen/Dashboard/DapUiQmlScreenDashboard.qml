@@ -30,33 +30,52 @@ DapUiQmlScreen {
             Button {
                 id: newPaymentButton
                 anchors.top: parent.top
-                width: 132 * pt
+                width: 140 * pt
+                height: 36 * pt
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                contentItem: Text {
-                    text: "New payment"
-                    color: "#505559"
-                    font.family: fontRobotoRegular.name
-                    font.pixelSize: 12 * pt
-                }
-
                 highlighted: true
                 hoverEnabled: true
 
-                background: Rectangle {
+                contentItem: Rectangle {
                     id: backgroundButton
-                    color: "#E3E5E8"
-                }
+                    anchors.fill: parent
+                    color: newPaymentButton.hovered ? "#FFFFFF" : "#E3E5E8"
+                    border.color: "#5F5F63"
+                    border.width: 1 * pt
 
-                icon.width: 20 * pt
-                icon.height: 20 * pt
-                icon.source: "qrc:/res/icons/new-payment_icon.png"
-                icon.color: "#FFFFFF"
+                    Text {
+                        text: "New payment"
+                        color: "#505559"
+                        font.family: fontRobotoRegular.name
+                        font.pixelSize: 12 * pt
+                        anchors.fill: parent
+                        verticalAlignment: Qt.AlignVCenter
+                        horizontalAlignment: Qt.AlignRight
+                        anchors.rightMargin: 12 * pt
+                    }
+
+                    Image {
+                        id: iconNewWallet
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 10 * pt
+                        source: "qrc:/res/icons/new-payment_icon.png"
+                        width: 24 * pt
+                        height: 24 * pt
+                    }
+                }
 
                 onClicked: {
                     rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlNewPaymentHeader.qml", {"rightPanel": rightPanel});
                     rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlNewPayment.qml", {"rightPanel": rightPanel});
                     backgroundButton.color = "#FFFFFF"
+                }
+
+                Connections {
+                    target: rightPanel.content.currentItem
+                    onPressedSendButtonChanged: backgroundButton.color = "#FFFFFF"
+                    onPressedCloseChanged: backgroundButton.color = "#FFFFFF"
                 }
             }
         }

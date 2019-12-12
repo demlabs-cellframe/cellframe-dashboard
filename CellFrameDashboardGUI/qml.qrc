@@ -97,5 +97,7 @@
         <file>screen/VPN/DapUiQmlWidgetSettingsVpn.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
+        <file>screen/LastAction/DapUiQmlNewPaymentCompleted.qml</file>
+        <file>screen/LastAction/DapUiQmlNewPaymentCompletedHeader.qml</file>
     </qresource>
 </RCC>

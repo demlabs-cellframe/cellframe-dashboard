@@ -1,32 +1,17 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.0
+import "../../"
+import "../"
 
-Rectangle {
-    property alias pressedCloseButton: buttonCloseNewPaymentStatus.pressed
+DapUiQmlScreen {
     property alias pressedDoneNewPaymentButton: doneButton.pressed
 
     id: newPaymentStatus
-    width: 640
-    height: 800
+    width: 640 * pt
+    height: 800 * pt
     border.color: "#B5B5B5"
     border.width: 1 * pt
     color: "#FFFFFF"
-
-    Button {
-        id: buttonCloseNewPaymentStatus
-        width: 20
-        height: 20
-        anchors.top: parent.top
-        anchors.topMargin: 13
-        anchors.left: parent.left
-        anchors.leftMargin: 12
-        hoverEnabled: true
-
-        background: Image {
-            source: buttonCloseNewPaymentStatus.hovered ? "qrc:/Resources/Icons/ic_close_hover.png" : "qrc:/Resources/Icons/ic_close.png"
-            fillMode: Image.PreserveAspectFit
-        }
-    }
 
     Text {
         id: mempoolText
@@ -34,9 +19,9 @@ Rectangle {
         color: "#505559"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        anchors.topMargin: 236
+        anchors.topMargin: 236 * pt
         horizontalAlignment: Text.AlignLeft
-        font.pointSize: 28
+        font.pointSize: 28 * pt
         font.family: "Roboto"
         font.weight: Font.Normal
     }
@@ -47,9 +32,9 @@ Rectangle {
         color: "#989898"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: mempoolText.bottom
-        anchors.topMargin: 56
+        anchors.topMargin: 56 * pt
         horizontalAlignment: Text.AlignLeft
-        font.pointSize: 22
+        font.pointSize: 22 * pt
         font.family: "Roboto"
         font.weight: Font.Normal
     }
@@ -60,20 +45,20 @@ Rectangle {
         color: "#505559"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: statusText.bottom
-        anchors.topMargin: 16
+        anchors.topMargin: 16 * pt
         horizontalAlignment: Text.AlignLeft
-        font.pointSize: 28
+        font.pointSize: 28 * pt
         font.family: "Roboto"
         font.weight: Font.Normal
     }
 
     Button {
         id: doneButton
-        height: 44
-        width: 130
+        height: 44 * pt
+        width: 130 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: pendingText.bottom
-        anchors.topMargin: 110
+        anchors.topMargin: 110 * pt
         hoverEnabled: true
 
         Text {
@@ -85,7 +70,7 @@ Rectangle {
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
-            font.pointSize: 18
+            font.pointSize: 18 * pt
             horizontalAlignment: Text.AlignLeft
         }
 

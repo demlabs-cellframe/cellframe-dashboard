@@ -4,6 +4,7 @@ import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 import "../../"
+//import "../../../libdap-qt-ui-qml"
 
 Rectangle {
     Rectangle {
@@ -96,3 +97,9 @@ Rectangle {
 
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
