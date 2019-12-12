@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import "../"
+import "../LastAction"
 
 DapUiQmlScreen {
     id: dapUiQmlScreenDialog
@@ -27,23 +28,36 @@ DapUiQmlScreen {
             }
 
             Button {
+                id: newPaymentButton
                 anchors.top: parent.top
                 width: 132 * pt
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                text: "New payment"
-                font.family: fontRobotoRegular.name
-                font.pixelSize: 12 * pt
+                contentItem: Text {
+                    text: "New payment"
+                    color: "#505559"
+                    font.family: fontRobotoRegular.name
+                    font.pixelSize: 12 * pt
+                }
+
                 highlighted: true
+                hoverEnabled: true
 
                 background: Rectangle {
-                    color: "#3E3853"
+                    id: backgroundButton
+                    color: "#E3E5E8"
                 }
 
                 icon.width: 20 * pt
                 icon.height: 20 * pt
                 icon.source: "qrc:/res/icons/new-payment_icon.png"
                 icon.color: "#FFFFFF"
+
+                onClicked: {
+                    rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlNewPaymentHeader.qml", {"rightPanel": rightPanel});
+                    rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlNewPayment.qml", {"rightPanel": rightPanel});
+                    backgroundButton.color = "#FFFFFF"
+                }
             }
         }
 
@@ -207,3 +221,9 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

@@ -1,79 +1,27 @@
-import QtQuick 2.12
+import QtQuick 2.0
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.0
 import CellFrameDashboard 1.0
+import "../../"
+import "../"
 
-Rectangle {
+DapUiQmlScreen {
     property alias convertedAmmount: convertedAmountToken.text
     property alias amountText: inputAmount
     property alias pressedSendButton: sendButton.pressed
-    property alias pressedCloseButton: buttonCloseNewPayment.pressed
     property alias currencyTypeList: currencyType
 
-    id: newPayment
-    width: 640 * pt
-    height: 800 * pt
     border.color: "#B5B5B5"
     border.width: 1 * pt
     color: "#FFFFFF"
-
-    anchors {
-        top: parent.top
-        right: parent.right
-        bottom: parent.bottom
-    }
-
-    Rectangle {
-        id: newPaymentTextArea
-        height: 56 * pt
-        color: "#FFFFFF"
-        anchors.right: parent.right
-        anchors.rightMargin: 1 * pt
-        anchors.left: parent.left
-        anchors.leftMargin: 1 * pt
-        anchors.top: parent.top
-        anchors.topMargin: 0
-
-        Text {
-            id: newPaymentText
-            text: qsTr("New payment")
-            font.family: "Roboto"
-            font.pointSize: 16 * pt
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 13 * pt
-            anchors.top: parent.top
-            anchors.topMargin: 13 * pt
-            anchors.left: buttonCloseNewPayment.right
-            anchors.leftMargin: 12 * pt
-            color: "#505559"
-        }
-
-        Button {
-            id: buttonCloseNewPayment
-            width: 20 * pt
-            height: 20 * pt
-            hoverEnabled: true
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: 12 * pt
-            anchors.left: newPaymentTextArea.left
-            anchors.horizontalCenter: newPaymentTextArea.Center
-            background: Image {
-                source: buttonCloseNewPayment.hovered ? "qrc:/Resources/Icons/ic_close_hover.png" : "qrc:/Resources/Icons/ic_close.png"
-                fillMode: Image.PreserveAspectFit
-            }
-        }
-    }
 
     Rectangle {
         id: titleFromTextArea
         height: 30 * pt
         color: "#DFE3E6"
         anchors.right: parent.right
-        anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 1 * pt
-        anchors.top: newPaymentTextArea.bottom
-        anchors.topMargin: 0
+        anchors.top: parent.top
 
         Text {
             id: titleFromText
@@ -82,10 +30,11 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 18 * pt
             anchors.verticalCenter: parent.verticalCenter
-            font.pointSize: 12 * pt
-            font.family: "Roboto"
-            font.weight: Font.Normal
+            font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
+            font.family: "Roboto"
+            font.styleName: "Normal"
+            font.weight: Font.Normal
         }
     }
 
@@ -98,7 +47,7 @@ Rectangle {
         anchors.right: parent.right
         anchors.top: titleFromTextArea.bottom
 
-        DapUiQmlWidgetSignatureTypeComboBox {
+        DapComboBox {
             id: comboBoxChooseCurrencyType
             height: 20 * pt
             anchors.top: parent.top
@@ -110,7 +59,8 @@ Rectangle {
                 rightMargin: 36 * pt
             }
 
-            sourceArrow: popup.visible ? "qrc:/Resources/Icons/ic_arrow_drop_up.png" : "qrc:/Resources/Icons/icon_arrow_down.png"
+            indicatorImageNormal: "qrc:/res/icons/icon_arrow_down.png"
+            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
 
             model: ListModel {
                 id: currencyType
@@ -128,7 +78,6 @@ Rectangle {
                 }
             }
         }
-
         ToolSeparator {
             id: currencySeparator
             anchors.top: comboBoxChooseCurrencyType.bottom
@@ -232,7 +181,7 @@ Rectangle {
         Text {
             id: convertedAmountToken
             text: qsTr("0")
-            leftPadding: 0
+            //            leftPadding: 0
             anchors.rightMargin: 0
             anchors.leftMargin: 0
             color: "#B5B5B5"
@@ -360,3 +309,10 @@ Rectangle {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+
