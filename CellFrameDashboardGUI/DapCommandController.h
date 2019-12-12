@@ -180,7 +180,9 @@ public slots:
 
     void requestWalletData();
 
-    void sendTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue);
+    void sendMempool(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue);
+
+    void takeFromMempool(const QString& aNetwork);
 };
 
 #endif // COMMANDCONTROLLER_H

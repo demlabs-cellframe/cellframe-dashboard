@@ -20,6 +20,8 @@ public:
     /// @param sum for transaction
     /// @return result of trying to do transaction
     bool createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue) const;
+
+    void takeFromMempool(const QString& aNetwork);
 };
 
 #endif // DAPCHAINTRANSACTION_H

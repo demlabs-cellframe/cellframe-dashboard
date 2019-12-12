@@ -79,10 +79,15 @@ void DapCommandController::changeCurrentNetwork(const QString& aNetwork)
     m_DAPRpcSocket->invokeRemoteMethod("RPCServer.changeCurrentNetwork", aNetwork);
 }
 
-void DapCommandController::sendTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue)
+void DapCommandController::sendMempool(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue)
 {
     DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.createTransaction", aFromWallet, aToAddress, aToken, aNetwork, aValue);
     connect(reply, SIGNAL(finished()), this, SLOT(processGetResultTransaction()));
+}
+
+void DapCommandController::takeFromMempool(const QString& aNetwork)
+{
+    m_DAPRpcSocket->invokeRemoteMethod("RPCServer.takeFromMempool", aNetwork);
 }
 
 void DapCommandController::setNewWalletData(const QVariant& aData)

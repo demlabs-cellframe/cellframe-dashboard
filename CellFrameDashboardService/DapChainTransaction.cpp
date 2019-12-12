@@ -21,14 +21,18 @@ bool DapChainTransaction::createTransaction(const QString& aFromWallet, const QS
     QRegExp rx("transfer=(\\w+)");
     rx.indexIn(result, 0);
 
-    if(rx.cap(1) == "Ok") {
-
-        QProcess processMempool;
-        processMempool.start(QString("%1 mempool_proc -net " + aNetwork +" -chain gdb").arg(CLI_PATH));
-        processMempool.waitForFinished(-1);
-        processMempool.readAll();
+    if(rx.cap(1) == "Ok")
+    {
         return true;
     }
 
     return false;
+}
+
+void DapChainTransaction::takeFromMempool(const QString& aNetwork)
+{
+    QProcess processMempool;
+    processMempool.start(QString("%1 mempool_proc -net " + aNetwork +" -chain gdb").arg(CLI_PATH));
+    processMempool.waitForFinished(-1);
+    processMempool.readAll();
 }

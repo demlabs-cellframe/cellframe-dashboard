@@ -229,3 +229,8 @@ bool DapChainDashboardService::createTransaction(const QString& aFromWallet, con
 {
     return m_pDapChainTransaction->createTransaction(aFromWallet, aToAddress, aTokenName, aNetwork, aValue);
 }
+
+void DapChainDashboardService::takeFromMempool(const QString& aNetwork)
+{
+    m_pDapChainTransaction->takeFromMempool(aNetwork);
+}

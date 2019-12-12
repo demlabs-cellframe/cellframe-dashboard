@@ -143,6 +143,8 @@ public slots:
 
     bool createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue);
 
+    void takeFromMempool(const QString& aNetwork);
+
 private slots:
     /// Request new history request by handle wallet's name
     void doRequestWallets();

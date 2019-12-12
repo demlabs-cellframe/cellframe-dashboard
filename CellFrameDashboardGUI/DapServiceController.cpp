@@ -73,7 +73,8 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, &DapCommandController::sigWalletData, &DapChainWalletModel::instance(), &DapChainWalletModel::setWalletData);
 
-    connect(&DapTransaction::instance(), &DapTransaction::sendTransaction, m_pDapCommandController, &DapCommandController::sendTransaction);
+    connect(&DapTransaction::instance(), &DapTransaction::sendMempool, m_pDapCommandController, &DapCommandController::sendMempool);
+    connect(&DapTransaction::instance(), &DapTransaction::sendToken, m_pDapCommandController, &DapCommandController::takeFromMempool);
     connect(m_pDapCommandController, &DapCommandController::sendResponseTransaction, &DapTransaction::instance(), &DapTransaction::receiveResult);
 
 }
