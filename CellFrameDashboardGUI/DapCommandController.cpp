@@ -93,9 +93,6 @@ void DapCommandController::requestWalletData()
 
 void DapCommandController::processChangedLog()
 {
-//    QStringList tempLogModel;
-//    for(int x{0}; x < aLogModel.count(); ++x)
-//        tempLogModel.append(aLogModel.at(x).toString());
     emit onChangeLogModel();
 }
 
@@ -294,8 +291,7 @@ void DapCommandController::getNetworkList()
 
 void DapCommandController::setNodeStatus(const bool aIsOnline)
 {
-    /*DapRpcServiceReply *reply =*/ m_DAPRpcSocket->invokeRemoteMethod("RPCServer.setNodeStatus", aIsOnline);
-//    connect(reply, SIGNAL(finished()), this, SLOT(processGetNodeStatus()));
+    m_DAPRpcSocket->invokeRemoteMethod("RPCServer.setNodeStatus", aIsOnline);
 }
 
 void DapCommandController::executeCommand(const QString &command)

@@ -1,11 +1,7 @@
 #include "DapServiceController.h"
-#include "DapUiQmlWidgetModel.h"
 #include "DapLogMessage.h"
 #include "DapChainWallet.h"
 #include "DapSettings.h"
-
-
-
 #include <QRegularExpression>
 
 DapServiceController::DapServiceController(QObject *apParent)
@@ -114,7 +110,6 @@ void DapServiceController::processGetNodeLogs(const QStringList &aNodeLogs)
     if(aNodeLogs.isEmpty())
         return;
 
-    int xx = DapLogModel::getInstance().rowCount();
     QRegularExpression re("(?<=])\\s");
     for (auto const & log : aNodeLogs)
     {
@@ -140,7 +135,6 @@ void DapServiceController::getNodeLogs() const
 void DapServiceController::clearLogModel()
 {
     DapLogModel::getInstance().clear();
-    int z = DapLogModel::getInstance().rowCount();
     emit logCompleted();
 }
 
@@ -222,10 +216,6 @@ void DapServiceController::processGetWalletInfo(const QString &asWalletName, con
     qInfo() << QString("processGetWalletInfo(%1, %2)").arg(asWalletName).arg(asWalletAddress);
     DapChainWallet wallet("", asWalletName, asWalletAddress, aBalance, aTokens);
     DapChainWalletsModel::getInstance().append(wallet);
-    
-    for (QString s : aBalance) {
-        qDebug() << s;
-    }
 }
 
 void DapServiceController::processExecuteCommandInfo(const QString &result)

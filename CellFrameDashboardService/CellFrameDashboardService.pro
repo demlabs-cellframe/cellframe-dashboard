@@ -70,7 +70,6 @@ HEADERS += \
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
-include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 
 include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
 include (../DapRPCProtocol/DapRPCProtocol.pri)
