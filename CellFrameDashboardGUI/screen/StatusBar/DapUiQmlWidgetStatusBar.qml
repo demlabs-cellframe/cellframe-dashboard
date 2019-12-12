@@ -30,13 +30,6 @@ Rectangle {
                 color: "#A7A7A7"
             }
 
-            DapUiQmlWidgetStatusBarComboBoxWallet {
-                id: comboboxWallet
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                fieldBalance: fieldWalletBalance
-            }
-
             Label {
                 id: titleWalletBalance
                 anchors.top: parent.top

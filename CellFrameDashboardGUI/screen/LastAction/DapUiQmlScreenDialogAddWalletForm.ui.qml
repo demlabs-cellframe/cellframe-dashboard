@@ -5,7 +5,6 @@ import "../"
 
 DapUiQmlScreen {
     property alias nextButton: nextButton
-    property alias sourceCustomArrow: comboBoxChooseSignatureType.sourceArrow
     property bool isWordsRecoveryMethodChecked: selectionWords.checked
     property bool isQRCodeRecoveryMethodChecked: selectionQRcode.checked
     property bool isExportToFileRecoveryMethodChecked: selectionExportToFile.checked
@@ -95,20 +94,6 @@ DapUiQmlScreen {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeTextArea.bottom
-
-        DapUiQmlWidgetSignatureTypeComboBox {
-            id: comboBoxChooseSignatureType
-            width: 368 * pt
-            height: 20 * pt
-            anchors {
-                verticalCenter: chooseSignatureTypeArea.verticalCenter
-                fill: parent
-                topMargin: 24 * pt
-                bottomMargin: 24 * pt
-                leftMargin: 8 * pt
-                rightMargin: 32 * pt
-            }
-        }
     }
 
     Rectangle {
