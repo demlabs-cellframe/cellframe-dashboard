@@ -176,6 +176,7 @@ public slots:
     static QObject *singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
 public slots:
+    /// Request wallet data
     void requestWalletData();
 };
 

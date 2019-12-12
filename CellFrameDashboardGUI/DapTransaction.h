@@ -12,8 +12,18 @@ public:
     static DapTransaction& instance();
 
 public slots:
+    /// Request for creation new transaction
+    /// @param name of wallet
+    /// @param address of a receiver
+    /// @param name of token
+    /// @param name of network
+    /// @param sum for transaction
     void createRequestTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue);
+    /// Taking everything from mempool
+    /// @param network
     void sendToken(const QString& aNetwork);
+    /// Recevie result of putting to mempool
+    /// @param successful or not
     void receiveResult(const bool aSuccessful);
 
 signals:

@@ -21,6 +21,8 @@ public:
     /// @return result of trying to do transaction
     bool createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue) const;
 
+    /// Taking everything from mempool
+    /// @param network
     void takeFromMempool(const QString& aNetwork);
 };
 

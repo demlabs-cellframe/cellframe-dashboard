@@ -23,5 +23,6 @@ void DapTransaction::sendToken(const QString& aNetwork)
 
 void DapTransaction::receiveResult(const bool aSuccessful)
 {
+    if(aSuccessful) emit sendToken("private");
     emit sendResult(aSuccessful);
 }
