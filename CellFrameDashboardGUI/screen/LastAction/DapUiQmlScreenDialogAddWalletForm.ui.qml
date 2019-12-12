@@ -6,7 +6,6 @@ import "../"
 
 DapUiQmlScreen {
     property alias nextButton: nextButton
-    property alias sourceCustomArrow: comboBoxChooseSignatureType.sourceArrow
     property bool isWordsRecoveryMethodChecked: selectionWords.checked
     property bool isQRCodeRecoveryMethodChecked: selectionQRcode.checked
     property bool isExportToFileRecoveryMethodChecked: selectionExportToFile.checked
@@ -18,7 +17,7 @@ DapUiQmlScreen {
 
     Rectangle {
         id: nameWalletTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
         anchors.right: parent.right
         anchors.left: parent.left
@@ -41,10 +40,10 @@ DapUiQmlScreen {
 
     Rectangle {
         id: inputNameWalletArea
-        height: 68
+        height: 68 * pt
         color: "#F8F7FA"
         anchors.left: parent.left
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.right: parent.right
         anchors.top: nameWalletTextArea.bottom
 
@@ -53,7 +52,7 @@ DapUiQmlScreen {
             text: qsTr("Pocket of happiness")
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            anchors.leftMargin: 20
+            anchors.leftMargin: 20 * pt
             font.pixelSize: 16 * pt
             color: "#070023"
             font.family: "Roboto"
@@ -65,12 +64,12 @@ DapUiQmlScreen {
 
     Rectangle {
         id: chooseSignatureTypeTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
         anchors.right: parent.right
         anchors.rightMargin: 0
         anchors.left: parent.left
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.top: inputNameWalletArea.bottom
 
         Text {
@@ -78,7 +77,7 @@ DapUiQmlScreen {
             color: "#ffffff"
             text: qsTr("Choose signature type")
             font.pixelSize: 12 * pt
-            anchors.leftMargin: 16
+            anchors.leftMargin: 16 * pt
             horizontalAlignment: Text.AlignLeft
             font.styleName: "Normal"
             font.family: "Roboto"
@@ -89,51 +88,58 @@ DapUiQmlScreen {
     }
 
     Rectangle {
-           id: chooseSignatureTypeArea
+        id: chooseSignatureTypeArea
 
-           height: 68 * pt
-           color: "#EDEFF2"
-           anchors.leftMargin: 1 * pt
-           anchors.left: parent.left
-           anchors.right: parent.right
-           anchors.top: chooseSignatureTypeTextArea.bottom
+        height: 68 * pt
+        color: "#EDEFF2"
+        anchors.leftMargin: 1 * pt
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: chooseSignatureTypeTextArea.bottom
 
-           ///ComboBox right panel
-           Rectangle{
-               id:areaDapComboBoxRightPanel
-               anchors.fill: parent
-               anchors.leftMargin:  16*pt
-               anchors.rightMargin: 16*pt
-               anchors.topMargin:12*pt
-               anchors.bottomMargin: 12*pt
-               color: parent.color
+        ///ComboBox right panel
+        Rectangle {
+            id: areaDapComboBoxRightPanel
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.rightMargin: 16 * pt
+            anchors.topMargin: 12 * pt
+            anchors.bottomMargin: 12 * pt
+            color: parent.color
 
-               DapComboBox{
-                   property Label fieldBalance: Label {}
+            DapComboBox {
+                property Label fieldBalance: Label {}
 
-                   model: ListModel {
-                       id: signatureType
-                       ListElement {signatureName: "Dilithium"}
-                       ListElement {signatureName: "Bliss"}
-                       ListElement {signatureName: "Picnic"}
-                       ListElement {signatureName: "Tesla"}
-                   }
-                   normalColorText: "#070023"
-                   hilightColorText: "#FFFFFF"
-                   fontSizeComboBox: 16 * pt
-                   hilightColor: "#330F54"
-                   sidePaddingNormal: 20 * pt
-                   indicatorWidth: 20 * pt
-               }
-
-           }
-       }
+                model: ListModel {
+                    id: signatureType
+                    ListElement {
+                        signatureName: "Dilithium"
+                    }
+                    ListElement {
+                        signatureName: "Bliss"
+                    }
+                    ListElement {
+                        signatureName: "Picnic"
+                    }
+                    ListElement {
+                        signatureName: "Tesla"
+                    }
+                }
+                normalColorText: "#070023"
+                hilightColorText: "#FFFFFF"
+                fontSizeComboBox: 16 * pt
+                hilightColor: "#330F54"
+                sidePaddingNormal: 20 * pt
+                indicatorWidth: 20 * pt
+            }
+        }
+    }
 
     Rectangle {
         id: recoveryMethodTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeArea.bottom
@@ -148,19 +154,19 @@ DapUiQmlScreen {
             anchors.left: parent.left
             font.pixelSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
-            anchors.leftMargin: 16
+            anchors.leftMargin: 16 * pt
             anchors.verticalCenter: parent.verticalCenter
         }
     }
 
     ColumnLayout {
         id: chooseRecoveryMethod
-        height: 272
-        spacing: 32
+        height: 272 * pt
+        spacing: 32 * pt
         anchors.top: recoveryMethodTextArea.bottom
-        anchors.topMargin: 32
+        anchors.topMargin: 32 * pt
         anchors.left: parent.left
-        anchors.leftMargin: 16
+        anchors.leftMargin: 16 * pt
         anchors.right: parent.right
         Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
@@ -188,11 +194,11 @@ DapUiQmlScreen {
 
     Button {
         id: nextButton
-        height: 44
-        width: 130
+        height: 44 * pt
+        width: 130 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: chooseRecoveryMethod.bottom
-        anchors.topMargin: 32
+        anchors.topMargin: 32 * pt
         hoverEnabled: true
 
         contentItem: Text {
@@ -215,3 +221,9 @@ DapUiQmlScreen {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
