@@ -24,7 +24,7 @@ Page {
     /// -----------
     property alias listViewTabs: listViewTabs
     property alias stackViewScreenDashboard: stackViewScreenDashboard
-    property alias rightPanel : rightPanel
+    property alias rightPanel: rightPanel
 
     DapUiQmlWidgetStatusBar {
         id: rectangleStatusBar
@@ -132,6 +132,8 @@ Page {
         focus: true
     }
 
+    property alias rightPanelLoaderSource: rightPanelLoader.source
+
     Rectangle {
         id: mainDashboard
         anchors.left: rectangleTabsBorder.right
@@ -148,15 +150,65 @@ Page {
             anchors.bottom: parent.bottom
             source: "DapUiQmlScreenDashboard.qml"
         }
+    }
 
-        DapUiQmlWidgetRightPanel {
-            id: rightPanel
-            anchors.bottom: parent.bottom
-            anchors.top: parent.top
-            anchors.right: parent.right
-            header.initialItem: "DapUiQmlWidgetLastActionsHeaderForm.qml"
-            content.initialItem: "DapUiQmlWidgetHistoryLastActions.qml"
+    DapUiQmlWidgetRightPanel {
+        id: rightPanel
+        anchors.bottom: parent.bottom
+        anchors.top: parent.top
+        anchors.right: parent.right
+        header.initialItem: "DapUiQmlWidgetLastActionsHeaderForm.qml"
+        content.initialItem: "DapUiQmlWidgetHistoryLastActions.qml"
+        width: 400 * pt
+
+        Loader {
+            id: rightPanelLoader
+            clip: true
+            anchors.fill: parent
+            source: "DapUiQmlWidgetLastActions.qml"
+        }
+
+        Connections {
+            target: rectangleStatusBar
+            onAddWalletPressedChanged: rightPanelLoader.source
+                                       = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+        }
+
+        Connections {
+            target: rightPanelLoader.item
+            onPressedCloseAddWalletChanged: rightPanelLoader.source
+                                            = "DapUiQmlWidgetLastActions.qml"
+            onPressedDoneCreateWalletChanged: rightPanelLoader.source
+                                              = "DapUiQmlWidgetLastActions.qml"
+            onPressedNextButtonChanged: {
+                if (rightPanelLoader.item.isWordsRecoveryMethodChecked)
+                    rightPanelLoader.source = "DapUiQmlRecoveryNotesForm.ui.qml"
+                else if (rightPanelLoader.item.isQRCodeRecoveryMethodChecked)
+                    rightPanelLoader.source = "DapUiQmlRecoveryQrForm.ui.qml"
+                else if (rightPanelLoader.item.isExportToFileRecoveryMethodChecked)
+                    console.debug(
+                                "Export to file") /*TODO: create dialog select file to export */
+                else
+                    rightPanelLoader.source = "DapUiQmlWalletCreatedForm.ui.qml"
+            }
+            onPressedBackButtonChanged: rightPanelLoader.source
+                                        = "DapUiQmlScreenDialogAddWalletForm.ui.qml"
+            onPressedNextButtonForCreateWalletChanged: rightPanelLoader.source
+                                                       = "DapUiQmlWalletCreatedForm.ui.qml"
+        }
+
+        Connections {
+            target: stackViewScreenDashboard.item
+            onPressedNewPaymentButtonChanged: rightPanelLoader.source = "DapUiQmlNewPayment.qml"
+        }
+
+        Connections {
+            target: rightPanelLoader.item
+            onPressedSendButtonChanged: rightPanelLoader.source
+                                        = "DapUiQmlStatusNewPaymentForm.ui.qml"
+            onPressedCloseButtonChanged: rightPanelLoader.source = "DapUiQmlWidgetLastActions.qml"
+            onPressedDoneNewPaymentButtonChanged: rightPanelLoader.source
+                                                  = "DapUiQmlWidgetLastActions.qml"
         }
     }
 }
-

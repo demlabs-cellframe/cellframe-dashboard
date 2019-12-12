@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.13
+import QtQuick.Controls 2.9
 
 Rectangle {
     id: rightPanel
