@@ -4,8 +4,6 @@ DapUiQmlScreenDialogAddWalletForm {
     id: dialogAddWallet
     focus: true
 
-    sourceCustomArrow: popup.visible ? "qrc:/res/icons/ic_arrow_drop_up.png" : "qrc:/res/icons/icon_arrow_down.png"
-
     Connections {
         target: nextButton
         onClicked: {

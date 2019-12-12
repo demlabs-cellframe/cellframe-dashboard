@@ -27,7 +27,6 @@ Rectangle {
                 font.pixelSize: 12 * pt
                 color: "#A7A7A7"
             }
-
             DapComboBox {
                 id: comboboxWallet
                 width: 190*pt
@@ -45,7 +44,6 @@ Rectangle {
                 hilightColor: "#332F49"
                 fontSizeComboBox: 14*px
             }
-
             Label {
                 id: titleWalletBalance
                 anchors.top: parent.top
@@ -76,7 +74,7 @@ Rectangle {
             height: 36 * pt
             name: qsTr("New wallet")
             fontHeight: 14 * pt
-            backgroundColor: "#070023"
+            backgroundColor: hovered ? "#D51F5D" : "#070023"
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 10 * pt
@@ -87,7 +85,14 @@ Rectangle {
             onClicked: {
                 rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
                 rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
+                statusBarAddWalletButton.backgroundColor = "#D51F5D"
+            }
+
+            Connections {
+                target: rightPanel.header.currentItem
+                onPressedCloseAddWalletChanged: statusBarAddWalletButton.backgroundColor = "#070023"
             }
         }
+
     }
 }
