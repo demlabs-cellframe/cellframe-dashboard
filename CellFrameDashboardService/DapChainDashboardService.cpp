@@ -26,6 +26,8 @@ DapChainDashboardService::DapChainDashboardService() : DapRpcService(nullptr)
     QObject::connect(m_pDapChainWalletHandler, &DapChainWalletHandler::walletDataChanged, this, &DapChainDashboardService::doSendNewWalletData);
     m_pDapChainWalletHandler->setNetworkList(m_pDapChainNetworkHandler->getNetworkList());
 
+    m_pDapChainTransaction = new DapChainTransaction(this);
+
 }
 
 bool DapChainDashboardService::start()
@@ -221,4 +223,9 @@ bool DapChainDashboardService::appendWallet(const QString& aWalletName) const
 QByteArray DapChainDashboardService::walletData() const
 {
     return m_pDapChainWalletHandler->walletData();
+}
+
+bool DapChainDashboardService::createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue)
+{
+    return m_pDapChainTransaction->createTransaction(aFromWallet, aToAddress, aTokenName, aNetwork, aValue);
 }

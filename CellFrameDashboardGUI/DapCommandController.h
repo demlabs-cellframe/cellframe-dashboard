@@ -9,6 +9,7 @@
 #include "DapRpcSocket.h"
 #include "DapRpcServiceProvider.h"
 #include "DapRpcService.h"
+#include "DapChainWallet.h"
 
 /// Class command controller for service
 class DapCommandController : public DapRpcService, public DapRpcServiceProvider
@@ -75,6 +76,8 @@ signals:
 // ---------------------------------------------
     void sigWalletData(QByteArray data);
 
+    void sendResponseTransaction(bool result);
+
 public:
     /// Overloaded constructor.
     /// @param apIODevice Data transfer device.
@@ -114,6 +117,8 @@ private slots:
 
  // ---------------------------------------------
     void processGetWalletData();
+
+    void processGetResultTransaction();
 
 public slots:
     /// Show or hide GUI client by clicking on the tray icon.
@@ -174,6 +179,8 @@ public slots:
     void setNewWalletData(const QVariant& aData);
 
     void requestWalletData();
+
+    void sendTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue);
 };
 
 #endif // COMMANDCONTROLLER_H

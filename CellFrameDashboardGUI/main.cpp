@@ -25,6 +25,7 @@
 #include "DapConsoleModel.h"
 #include "DapChainConvertor.h"
 #include "DapClipboard.h"
+#include "DapTransaction.h"
 
 #include "DapChainWalletModel.h"
 #include "DapWalletFilterModel.h"
@@ -95,6 +96,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapWalletFilterModel", &DapWalletFilterModel::instance());
     engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
     engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
+    engine.rootContext()->setContextProperty("dapTransaction", &DapTransaction::instance());
     engine.rootContext()->setContextProperty("pt", 1.3);
     engine.load(QUrl("qrc:/screen/main.qml"));
 

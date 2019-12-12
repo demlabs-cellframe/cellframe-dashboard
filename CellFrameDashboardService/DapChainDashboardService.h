@@ -29,6 +29,7 @@
 #include "DapChainHistoryHandler.h"
 #include "DapChainNetworkHandler.h"
 #include "DapChainConsoleHandler.h"
+#include "DapChainTransaction.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -64,6 +65,8 @@ class DapChainDashboardService : public DapRpcService
     DapChainConsoleHandler* m_pDapChainConsoleHandler {nullptr};
     /// Recipient network's name
     DapChainNetworkHandler* m_pDapChainNetworkHandler {nullptr};
+
+    DapChainTransaction* m_pDapChainTransaction {nullptr};
 
 public:
     /// Standard сonstructor.
@@ -137,6 +140,8 @@ public slots:
     bool appendWallet(const QString& aWalletName) const;
 
     QByteArray walletData() const;
+
+    bool createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue);
 
 private slots:
     /// Request new history request by handle wallet's name

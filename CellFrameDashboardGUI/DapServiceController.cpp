@@ -73,6 +73,9 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, &DapCommandController::sigWalletData, &DapChainWalletModel::instance(), &DapChainWalletModel::setWalletData);
 
+    connect(&DapTransaction::instance(), &DapTransaction::sendTransaction, m_pDapCommandController, &DapCommandController::sendTransaction);
+    connect(m_pDapCommandController, &DapCommandController::sendResponseTransaction, &DapTransaction::instance(), &DapTransaction::receiveResult);
+
 }
 
 QString DapServiceController::getBrand() const
