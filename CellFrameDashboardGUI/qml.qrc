@@ -79,6 +79,9 @@
         <file>screen/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml</file>
         <file>screen/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml</file>
         <file>screen/LastAction/DapRadioButton.qml</file>
+        <file>screen/LastAction/DapUiQmlNewPaymentForm.ui.qml</file>
+        <file>screen/LastAction/DapUiQmlStatusNewPaymentForm.ui.qml</file>
+        <file>screen/LastAction/DapUiQmlNewPayment.qml</file>
         <file>screen/Log/DapUiQmlWidgetChainNodeLogs.qml</file>
         <file>screen/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
         <file>screen/Settings/DapUiQmlScreenSettings.qml</file>
