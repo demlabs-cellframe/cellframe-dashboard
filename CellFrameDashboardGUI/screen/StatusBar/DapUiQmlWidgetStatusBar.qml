@@ -6,65 +6,98 @@ import QtQuick.Layouts 1.3
 import "../../"
 
 Rectangle {
-    Rectangle {
-        anchors.fill: parent
-        anchors.bottomMargin: 1
-        color: "transparent"
-
+    height:60 * pt
+    anchors{
+        top: parent.top
+        left: parent.left
+        right: parent.right
+    }
+    color: "transparent"
         Row {
             anchors.fill: parent
-            anchors.leftMargin: 30 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
-            spacing: 10 * pt
-
             Label {
+                id:labelWaletStatusBar
                 text: qsTr("Wallet")
+                anchors.left: parent.left
+                anchors.leftMargin: 48 * pt
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignLeft
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 12 * pt
-                color: "#A7A7A7"
+                color: "#ACAAB5"
             }
-            DapComboBox {
-                id: comboboxWallet
-                width: 190*pt
+
+
+            Rectangle{
+                id:combBoxStatusBar
+                anchors.left:labelWaletStatusBar.right
+                anchors.leftMargin:30 * pt
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-
-                property Label fieldBalance: Label {}
-                model: dapWalletModel.wallets
-
-                indicatorImageNormal:"qrc:/res/icons/ic_arrow_drop_down.png"
-                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
-                sidePaddingNormal:12 * pt
-                normalColorText:"#FFFFFF"
-                hilightColorTopText:"#332F49"
-                hilightColor: "#332F49"
-                fontSizeComboBox: 14*pt
+                width:148 * pt
+                color: "transparent"
+                DapComboBox {
+                    id: comboboxWallet
+                    //    property Label fieldBalance: Label {}
+                    //    model: dapWalletModel.wallets
+                    //This is a temporary model for checking the result.
+                    model:ListModel{
+                        id:сonversionList
+                        ListElement{text:"all wallets"}
+                        ListElement{text:"Money for children"}
+                        ListElement{text:"Money for education"}
+                        ListElement{text:"Money for medicine"}
+                    }
+                    indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
+                    indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+                    sidePaddingNormal:0 * pt
+                    sidePaddingActive:16 * pt
+                    topIndentActive:10 * pt
+                    normalColorText:"#070023"
+                    hilightColorText:"#FFFFFF"
+                    normalColorTopText:"#FFFFFF"
+                    hilightColorTopText:"#070023"
+                    hilightColor: "#330F54"
+                    normalTopColor: "#070023"
+                    fontSizeComboBox: 14*px
+                    widthPopupComboBoxNormal:148 * pt
+                    widthPopupComboBoxActive:180 * pt
+                    heightComboBoxNormal:24 * pt
+                    heightComboBoxActive:44 * pt
+                    bottomIntervalListElement:8 * pt
+                    topEffect:false
+                    x:popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+                }
             }
             Label {
                 id: titleWalletBalance
+                anchors.left: combBoxStatusBar.right
+                anchors.leftMargin: 70 * pt
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Wallet balance:")
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 12 * pt
-                color: "#A7A7A7"
+                color: "#ACAAB5"
             }
 
             Label {
                 id: fieldWalletBalance
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
+                anchors.left: titleWalletBalance.right
+                anchors.leftMargin: 18 * pt
                 verticalAlignment: Qt.AlignVCenter
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
-                text: dapChainConvertor.toConvertCurrency(
-                          dapWalletModel.walletBalance(comboboxWallet.currentText))
+                //This is a temporary model for checking the result.
+                text:"$ 3 050 745.3453289 USD"
+                //  text: dapChainConvertor.toConvertCurrency(
+                //            dapWalletModel.walletBalance(comboboxWallet.currentText))
             }
         }
 
@@ -92,7 +125,9 @@ Rectangle {
                 target: rightPanel.header.currentItem
                 onPressedCloseAddWalletChanged: statusBarAddWalletButton.backgroundColor = "#070023"
             }
+
         }
 
     }
-}
+
+

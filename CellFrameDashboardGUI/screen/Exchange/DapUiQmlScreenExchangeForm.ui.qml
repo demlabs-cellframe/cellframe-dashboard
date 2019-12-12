@@ -36,6 +36,13 @@ Page {
                 sidePaddingActive: 16*pt
                 sidePaddingNormal: 0
                 x:popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+                topIndentActive:12 * pt
+                bottomIndentActive:14 * pt
+                heightComboBoxNormal:24 * pt
+                heightComboBoxActive:44 * pt
+                bottomIntervalListElement:6 * pt
+
+
             }
 
         }
@@ -65,6 +72,11 @@ Page {
                 sidePaddingActive: 16*pt
                 sidePaddingNormal: 0
                 x:popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+                topIndentActive:12 * pt
+                bottomIndentActive:14 * pt
+                heightComboBoxNormal:24 * pt
+                heightComboBoxActive:44 * pt
+                bottomIntervalListElement:6 * pt
             }
         }
 
