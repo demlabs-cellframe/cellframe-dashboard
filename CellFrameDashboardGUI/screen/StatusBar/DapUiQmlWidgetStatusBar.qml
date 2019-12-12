@@ -26,7 +26,7 @@ Rectangle {
                 horizontalAlignment: Qt.AlignLeft
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 12 * pt
-                color: "#FFFFFF"
+                color: "#ACAAB5"
             }
 
             Rectangle{
@@ -66,6 +66,8 @@ Rectangle {
                     widthPopupComboBoxActive:180 * pt
                     heightComboBoxNormal:24 * pt
                     heightComboBoxActive:44 * pt
+                    bottomIntervalListElement:8 * pt
+                    topEffect:false
                     x:popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
                 }
             }
@@ -80,8 +82,7 @@ Rectangle {
                 text: qsTr("Wallet balance:")
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 12 * pt
-                color: "#FFFFFF"
-                //   color: "#A7A7A7"
+                color: "#ACAAB5"
             }
 
             Label {
@@ -92,7 +93,7 @@ Rectangle {
                 anchors.leftMargin: 18 * pt
                 verticalAlignment: Qt.AlignVCenter
                 font.family: fontRobotoRegular.name
-                font.pixelSize: 14 * pt
+                font.pixelSize: 16 * pt
                 color: "#FFFFFF"
                 //This is a temporary model for checking the result.
                 text:"$ 3 050 745.3453289 USD"
