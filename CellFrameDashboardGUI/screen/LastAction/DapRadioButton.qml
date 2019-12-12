@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 RadioButton {
     property alias textButton: nameButton.text
@@ -23,7 +23,7 @@ RadioButton {
 
     spacing: 16 * pt
     checked: false
-    display: AbstractButton.TextBesideIcon
+//    display: AbstractButton.TextBesideIcon
     autoExclusive: true
 }
 
