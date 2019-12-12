@@ -6,15 +6,15 @@ DapUiQmlScreen {
     property alias buttonDone: doneCreateWalletButton
 
     id: walletCreatedMenu
-    color: "#edeff2"
+    color: "#F8F7FA"
 
     Button {
         id: doneCreateWalletButton
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 189 + 24
-        height: 44
-        width: 130
+        anchors.bottomMargin: 213 * pt
+        height: 44 * pt
+        width: 130 * pt
 
         Text {
             id: doneCreateWalletButtonText
@@ -25,7 +25,7 @@ DapUiQmlScreen {
             font.family: "Roboto"
             font.styleName: "Normal"
             font.weight: Font.Normal
-            font.pointSize: 16
+            font.pointSize: 18 * pt
             horizontalAlignment: Text.AlignLeft
         }
 
@@ -39,9 +39,9 @@ DapUiQmlScreen {
     Rectangle {
         id: createWalletDescription
         color: "#edeff2"
-        height: 50
+        height: 50 * pt
         anchors.bottom: doneCreateWalletButton.top
-        anchors.bottomMargin: 24 + 118 + 24
+        anchors.bottomMargin: 166 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: 1 * pt
@@ -55,7 +55,7 @@ DapUiQmlScreen {
             color: "#070023"
 
             font {
-                pointSize: 18
+                pointSize: 16 * pt
                 family: "Roboto"
                 styleName: "Normal"
                 weight: Font.Normal
@@ -69,3 +69,4 @@ Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
+

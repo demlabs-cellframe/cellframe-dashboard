@@ -11,7 +11,7 @@ Rectangle {
 
     Rectangle {
         id: qrCodeTextArea
-        height: 30
+        height: 30 * pt
         color: "#757184"
         anchors.right: parent.right
         anchors.left: parent.left
@@ -22,12 +22,12 @@ Rectangle {
             color: "#ffffff"
             text: qsTr("QR Code")
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 8
+            anchors.bottomMargin: 8 * pt
             anchors.top: parent.top
-            anchors.topMargin: 8
+            anchors.topMargin: 8 * pt
             anchors.left: parent.left
-            anchors.leftMargin: 16
-            font.pointSize: 12
+            anchors.leftMargin: 16 * pt
+            font.pointSize: 12 * pt
             horizontalAlignment: Text.AlignLeft
             font.family: "Roboto"
             font.styleName: "Normal"
@@ -38,9 +38,9 @@ Rectangle {
     Rectangle {
         id: saveQrCodeDescription
         color: "#edeff2"
-        height: 42
+        height: 42 * pt
         anchors.top: qrCodeTextArea.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.left: qrCodeTextArea.left
         anchors.right: qrCodeTextArea.right
         anchors.leftMargin: 1 * pt
@@ -49,7 +49,7 @@ Rectangle {
         Text {
             anchors.fill: parent
             text: qsTr("Keep these QR-code in a safe place. They will be\nrequired to restore your wallet in case of loss of\naccess to it")
-            font.pointSize: 14
+            font.pointSize: 14 * pt
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             color: "#FF0300"
@@ -64,13 +64,13 @@ Rectangle {
 
     Rectangle {
         id: qrCodeImageArea
-        height: 200
-        width: 200
+        height: 200 * pt
+        width: 200 * pt
         anchors.top: saveQrCodeDescription.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         color: "#EDEFF2"
-        border.width: 1
+        border.width: 1 * pt
         border.color: "#C7C6CE"
 
         Image {
@@ -84,20 +84,20 @@ Rectangle {
 
     Rectangle {
         id: notifyQrCodeSavedArea
-        height: 100
+        height: 100 * pt
+        color: "#EDEFF2"
         anchors.top: qrCodeImageArea.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.left: parent.left
         anchors.right: parent.right
-        color: "#EDEFF2"
-        anchors.leftMargin: 1
+        anchors.leftMargin: 1 * pt
 
         Text {
             id: notifyText
             anchors.centerIn: parent
             text: qsTr("")
             color: "#6F9F00"
-            font.pointSize: 14
+            font.pointSize: 14 * pt
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
         }
@@ -105,32 +105,32 @@ Rectangle {
 
     RowLayout {
         id: actionButtons
-        height: 44
-        anchors.leftMargin: 1
-        spacing: 60
+        height: 44 * pt
+        anchors.leftMargin: 1 * pt
+        spacing: 60 * pt
         anchors.top: notifyQrCodeSavedArea.bottom
-        anchors.topMargin: 24
+        anchors.topMargin: 24 * pt
         anchors.left: parent.left
         anchors.right: parent.right
-        Layout.leftMargin: 26
+        Layout.leftMargin: 26 * pt
         Layout.columnSpan: 2
 
         Button {
             id: nextButton
-            height: 44
+            height: 44 * pt
+            width: 130 * pt
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            width: 130
 
             Text {
                 id: nextButtonText
-                text: qsTr("Next")
+                text: qsTr("Create")
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: "#ffffff"
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                font.pointSize: 16
+                font.pointSize: 18 * pt
                 horizontalAlignment: Text.AlignLeft
             }
 
@@ -143,10 +143,9 @@ Rectangle {
 
         Button {
             id: saveQrCodeButton
-            height: 44
-            width: 130
+            height: 44 * pt
+            width: 130 * pt
             Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-            checkable: true
 
             Text {
                 id: saveQrCodeButtonText
@@ -157,7 +156,7 @@ Rectangle {
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                font.pointSize: 16
+                font.pointSize: 18 * pt
                 horizontalAlignment: Text.AlignLeft
             }
 
@@ -174,3 +173,10 @@ Rectangle {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+
