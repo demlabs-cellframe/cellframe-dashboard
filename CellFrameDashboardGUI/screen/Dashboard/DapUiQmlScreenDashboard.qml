@@ -74,8 +74,12 @@ DapUiQmlScreen {
 
                 Connections {
                     target: rightPanel.content.currentItem
-                    onPressedSendButtonChanged: backgroundButton.color = "#FFFFFF"
-                    onPressedCloseChanged: backgroundButton.color = "#FFFFFF"
+                    onPressedSendButtonChanged: backgroundButton.color = "#E3E5E8"
+                }
+
+                Connections {
+                    target: rightPanel.header.currentItem
+                    onPressedCloseChanged: backgroundButton.color = "#E3E5E8"
                 }
             }
         }

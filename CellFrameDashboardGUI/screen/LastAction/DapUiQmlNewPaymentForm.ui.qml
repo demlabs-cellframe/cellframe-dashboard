@@ -78,13 +78,21 @@ DapUiQmlScreen {
                 }
             }
         }
+
         ToolSeparator {
             id: currencySeparator
+            width: 328 * pt
             anchors.top: comboBoxChooseCurrencyType.bottom
             anchors.topMargin: 20 * pt
             anchors.left: comboBoxChooseCurrencyType.left
             anchors.right: comboBoxChooseCurrencyType.right
             orientation: Qt.Horizontal
+
+            contentItem: Rectangle {
+                implicitWidth: parent.vertical ? 1 : 24
+                implicitHeight: parent.vertical ? 24 : 1
+                color: "#E4E5E6"
+            }
         }
 
         Text {
@@ -176,6 +184,12 @@ DapUiQmlScreen {
             anchors.left: inputAmount.left
             anchors.right: inputAmount.right
             orientation: Qt.Horizontal
+
+            contentItem: Rectangle {
+                implicitWidth: parent.vertical ? 1 : 24
+                implicitHeight: parent.vertical ? 24 : 1
+                color: "#E4E5E6"
+            }
         }
 
         Text {
@@ -207,7 +221,7 @@ DapUiQmlScreen {
 
     Rectangle {
         id: titleToRecipientTextArea
-        height: 30
+        height: 30 * pt
         color: "#DFE3E6"
         anchors.right: parent.right
         anchors.rightMargin: 0
