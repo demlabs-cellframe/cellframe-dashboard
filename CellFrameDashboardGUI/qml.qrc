@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>CellFrameDashboardGUI.conf</file>
+        <file>res/icons/ic_arrow_drop_down_dark_blue.png</file>
+        <file>res/icons/ic_arrow_drop_up_dark_blue.png</file>
         <file>res/cellframe-logo.svg</file>
         <file>res/Settings.json</file>
         <file>res/fonts/roboto_light.ttf</file>
@@ -51,7 +53,6 @@
         <file>screen/Console/DapUiQmlWidgetConsoleLastActionsForm.qml</file>
         <file>screen/Dashboard/DapUiQmlScreenDashboard.qml</file>
         <file>screen/Exchange/DapUiQmlScreenExchangeForm.ui.qml</file>
-        <file>screen/Exchange/DapUiQmlWidgetChainExchanges.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderForm.ui.qml</file>

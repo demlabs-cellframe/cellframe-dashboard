@@ -1,6 +1,7 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.5
-import QtQuick.Layouts 1.1
+import QtQuick 2.0
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.0
+import "../../"
 import "../"
 
 DapUiQmlScreen {
@@ -88,12 +89,50 @@ DapUiQmlScreen {
 
     Rectangle {
         id: chooseSignatureTypeArea
+
         height: 68 * pt
-        color: "#F8F7FA"
+        color: "#EDEFF2"
         anchors.leftMargin: 1 * pt
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: chooseSignatureTypeTextArea.bottom
+
+        ///ComboBox right panel
+        Rectangle {
+            id: areaDapComboBoxRightPanel
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.rightMargin: 16 * pt
+            anchors.topMargin: 12 * pt
+            anchors.bottomMargin: 12 * pt
+            color: parent.color
+
+            DapComboBox {
+                property Label fieldBalance: Label {}
+
+                model: ListModel {
+                    id: signatureType
+                    ListElement {
+                        signatureName: "Dilithium"
+                    }
+                    ListElement {
+                        signatureName: "Bliss"
+                    }
+                    ListElement {
+                        signatureName: "Picnic"
+                    }
+                    ListElement {
+                        signatureName: "Tesla"
+                    }
+                }
+                normalColorText: "#070023"
+                hilightColorText: "#FFFFFF"
+                fontSizeComboBox: 16 * pt
+                hilightColor: "#330F54"
+                sidePaddingNormal: 20 * pt
+                indicatorWidth: 20 * pt
+            }
+        }
     }
 
     Rectangle {
@@ -188,4 +227,3 @@ Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
-
