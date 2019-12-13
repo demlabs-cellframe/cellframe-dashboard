@@ -8,8 +8,8 @@ DapUiQmlNewPaymentForm {
         onPressedSendButtonChanged: {
             rightPanel.header.pop()
             rightPanel.content.pop()
-            rightPanel.header.push("DapUiQmlNewPaymentCompletedHeader.qml", {"rightPanel": rightPanel });
-            rightPanel.content.push("DapUiQmlNewPaymentCompleted.qml", {"rightPanel": rightPanel} )
+            rightPanel.header.push("DapUiQmlStatusNewPaymentHeader.qml", {"rightPanel": rightPanel });
+            rightPanel.content.push("DapUiQmlStatusNewPayment.qml", {"rightPanel": rightPanel} )
         }
     }
 }
