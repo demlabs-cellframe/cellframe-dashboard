@@ -286,6 +286,12 @@ DapUiQmlScreen {
             anchors.left: recipientWalletName.left
             anchors.right: recipientWalletName.right
             orientation: Qt.Horizontal
+
+            contentItem: Rectangle {
+                implicitWidth: parent.vertical ? 1 : 24
+                implicitHeight: parent.vertical ? 24 : 1
+                color: "#E4E5E6"
+            }
         }
 
         Button {
