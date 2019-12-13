@@ -43,7 +43,7 @@ Rectangle {
                 normalColorText:"#FFFFFF"
                 hilightColorTopText:"#332F49"
                 hilightColor: "#332F49"
-                fontSizeComboBox: 14*px
+                fontSizeComboBox: 14*pt
             }
             Label {
                 id: titleWalletBalance
