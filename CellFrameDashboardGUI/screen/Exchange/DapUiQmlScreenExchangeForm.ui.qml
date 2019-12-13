@@ -12,7 +12,7 @@ Page {
         anchors.leftMargin: 24*pt
         anchors.topMargin: 12*pt
         anchors.rightMargin: 24*pt
-        height:42 * pt
+        height:30 * pt
 
         ///Token ComboBox
         Rectangle{
