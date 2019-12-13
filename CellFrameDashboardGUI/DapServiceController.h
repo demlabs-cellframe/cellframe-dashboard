@@ -17,7 +17,6 @@
 #include "DapScreenHistoryModel.h"
 #include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
-#include "DapTransaction.h"
 
 #include "DapChainWalletModel.h"
 

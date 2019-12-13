@@ -25,7 +25,6 @@
 #include "DapConsoleModel.h"
 #include "DapChainConvertor.h"
 #include "DapClipboard.h"
-#include "DapTransaction.h"
 
 #include "DapChainWalletModel.h"
 #include "DapWalletFilterModel.h"
