@@ -125,7 +125,6 @@ Page {
             delegate: componentItemMainMenuTab
             clip: true
             interactive: false
-            currentIndex: 0
         }
         focus: true
     }

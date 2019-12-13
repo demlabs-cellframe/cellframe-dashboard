@@ -175,9 +175,15 @@ public slots:
     /// @param scriptEngine The QJSEngine class provides an environment for evaluating JavaScript code.
     static QObject *singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 
+    void createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue);
+    void sendToken(const QString& aNetwork);
+
 public slots:
     /// Request wallet data
     void requestWalletData();
+
+signals:
+    void resultMempool(bool result);
 };
 
 #endif // DAPSERVICECONTROLLER_H
