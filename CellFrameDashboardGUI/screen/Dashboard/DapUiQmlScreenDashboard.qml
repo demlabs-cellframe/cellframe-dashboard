@@ -40,7 +40,7 @@ DapUiQmlScreen {
                 contentItem: Rectangle {
                     id: backgroundButton
                     anchors.fill: parent
-                    color: newPaymentButton.hovered ? "#FFFFFF" : "#E3E5E8"
+                    color: "#E3E5E8"
                     border.color: "#5F5F63"
                     border.width: 1 * pt
 
@@ -64,12 +64,20 @@ DapUiQmlScreen {
                         width: 24 * pt
                         height: 24 * pt
                     }
-                }
 
-                onClicked: {
-                    rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlNewPaymentHeader.qml", {"rightPanel": rightPanel});
-                    rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlNewPayment.qml", {"rightPanel": rightPanel});
-                    backgroundButton.color = "#FFFFFF"
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onEntered: backgroundButton.color = "#FFFFFF"
+                        onExited: backgroundButton.color = "#E3E5E8"
+
+                        onClicked: {
+                            rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlNewPaymentHeader.qml", {"rightPanel": rightPanel});
+                            rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlNewPayment.qml", {"rightPanel": rightPanel});
+                            backgroundButton.color = "#FFFFFF"
+                        }
+                    }
                 }
 
                 Connections {
