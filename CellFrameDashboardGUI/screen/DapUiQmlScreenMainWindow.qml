@@ -4,6 +4,24 @@ import QtQuick.Controls 1.4
 DapUiQmlScreenMainWindowForm {
     id: dapQmlScreenMainWindow
 
+    listViewTabs.onCurrentIndexChanged: {
+        rightPanel.header.clear(StackView.Immediate);
+        rightPanel.content.clear(StackView.Immediate);
+
+        var headerData = listViewTabs.model.get(listViewTabs.currentIndex).panelHeader;
+        var contentData = listViewTabs.model.get(listViewTabs.currentIndex).panelContent;
+        if(headerData !== "" || contentData !== "")
+        {
+            rightPanel.visible = true;
+            if(headerData !== "") rightPanel.header.push(Qt.resolvedUrl(headerData));
+            if(contentData !== "") rightPanel.content.push(Qt.resolvedUrl(contentData));
+        }
+        else rightPanel.visible = false;
+
+
+        stackViewScreenDashboard.setSource(Qt.resolvedUrl(listViewTabs.model.get(listViewTabs.currentIndex).page), {"rightPanel": rightPanel});
+    }
+
     Component {
         id: componentItemMainMenuTab
 
@@ -84,3 +102,9 @@ DapUiQmlScreenMainWindowForm {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
