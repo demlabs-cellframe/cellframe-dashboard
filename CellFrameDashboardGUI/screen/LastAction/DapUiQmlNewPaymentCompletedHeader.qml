@@ -5,8 +5,6 @@ import "../"
 DapUiQmlScreen {
     height: 36 * pt
     color: "#FFFFFF"
-    border.width: 1 * pt
-    border.color: "#E3E2E6"
 
     property string buttonNormal : "qrc:/res/icons/close_icon.png"
     property string buttonHovered : "qrc:/res/icons/close_icon_hover.png"

@@ -7,10 +7,6 @@ DapUiQmlScreen {
     property alias pressedDoneNewPaymentButton: doneButton.pressed
 
     id: newPaymentStatus
-    width: 640 * pt
-    height: 800 * pt
-    border.color: "#B5B5B5"
-    border.width: 1 * pt
     color: "#FFFFFF"
 
     Text {
