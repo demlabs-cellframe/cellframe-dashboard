@@ -6,7 +6,7 @@ import "../"
 
 DapUiQmlScreen {
     height: 36 * pt
-    color: "#F8F7FA"
+    color: "#FFFFFF"
     border.width: 1 * pt
     border.color: "#E3E2E6"
 
