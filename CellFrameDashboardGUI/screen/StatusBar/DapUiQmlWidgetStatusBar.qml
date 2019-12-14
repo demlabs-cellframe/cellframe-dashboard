@@ -40,8 +40,16 @@ Rectangle {
                 color: "transparent"
                 DapComboBox {
                     id: comboboxWallet
-                        property Label fieldBalance: Label {}
-                        model: dapWalletModel.wallets
+//                        property Label fieldBalance: Label {}
+//                        model: dapWalletModel.wallets
+                        ///Demo model
+                        model: ListModel{
+                            id:сonversionList
+                            ListElement{text:"all wallets"}
+                            ListElement{text:"Money for children"}
+                            ListElement{text:"Money for education"}
+                            ListElement{text:"Money for medicine"}
+                        }
 
                     indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
@@ -87,14 +95,17 @@ Rectangle {
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
-                  text: dapChainConvertor.toConvertCurrency(
-                            dapWalletModel.walletBalance(comboboxWallet.currentText))
+                ///DemoDate
+                text: "$ 3 050 745.3453289 USD"
+//                  text: dapChainConvertor.toConvertCurrency(
+//                            dapWalletModel.walletBalance(comboboxWallet.currentText))
             }
         }
 
         DapUiQmlWidgetStatusBarButtonForm {
             id: statusBarAddWalletButton
-            width: 120 * pt
+            visible: rightPanel.visible ? true : false
+            width: rightPanel.visible ? 120 * pt : 0
             height: 36 * pt
             name: qsTr("New wallet")
             fontHeight: 14 * pt
