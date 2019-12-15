@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import "../../"
+import "qrc:/"
 
 Page {
     ///Top panel in tab Exchange
