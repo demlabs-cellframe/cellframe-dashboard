@@ -55,7 +55,7 @@ SOURCES += \
     $$PWD/DapChainLogHandler.cpp \
     $$PWD/DapChainNetworkHandler.cpp \
     $$PWD/DapChainConsoleHandler.cpp \
-    DapChainTransaction.cpp
+    $$PWD/DapChainTransaction.cpp
 
 HEADERS += \
     $$PWD/DapChainDashboardService.h \
@@ -67,7 +67,7 @@ HEADERS += \
     $$PWD/DapChainLogHandler.h \
     $$PWD/DapChainNetworkHandler.h \
     $$PWD/DapChainConsoleHandler.h \
-    DapChainTransaction.h
+    $$PWD/DapChainTransaction.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
