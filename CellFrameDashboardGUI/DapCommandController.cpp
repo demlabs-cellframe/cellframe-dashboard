@@ -79,7 +79,17 @@ void DapCommandController::changeCurrentNetwork(const QString& aNetwork)
     m_DAPRpcSocket->invokeRemoteMethod("RPCServer.changeCurrentNetwork", aNetwork);
 }
 
-#include "DapChainWallet.h"
+void DapCommandController::sendMempool(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue)
+{
+    DapRpcServiceReply *reply = m_DAPRpcSocket->invokeRemoteMethod("RPCServer.createTransaction", aFromWallet, aToAddress, aToken, aNetwork, aValue);
+    connect(reply, SIGNAL(finished()), this, SLOT(processGetResultTransaction()));
+}
+
+void DapCommandController::takeFromMempool(const QString& aNetwork)
+{
+    m_DAPRpcSocket->invokeRemoteMethod("RPCServer.takeFromMempool", aNetwork);
+}
+
 void DapCommandController::setNewWalletData(const QVariant& aData)
 {
     emit sigWalletData(QByteArray::fromHex(aData.toByteArray()));
@@ -221,6 +231,12 @@ void DapCommandController::processGetWalletData()
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
     QByteArray result = reply->response().toJsonValue().toVariant().toByteArray();
     emit sigWalletData(QByteArray::fromHex(result));
+}
+
+void DapCommandController::processGetResultTransaction()
+{
+    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+    emit sendResponseTransaction(reply->response().toJsonValue().toBool());
 }
 
 void DapCommandController::processGetNetworkList()

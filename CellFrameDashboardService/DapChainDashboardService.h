@@ -29,6 +29,7 @@
 #include "DapChainHistoryHandler.h"
 #include "DapChainNetworkHandler.h"
 #include "DapChainConsoleHandler.h"
+#include "DapChainTransaction.h"
 
 #include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
@@ -64,6 +65,8 @@ class DapChainDashboardService : public DapRpcService
     DapChainConsoleHandler* m_pDapChainConsoleHandler {nullptr};
     /// Recipient network's name
     DapChainNetworkHandler* m_pDapChainNetworkHandler {nullptr};
+
+    DapChainTransaction* m_pDapChainTransaction {nullptr};
 
 public:
     /// Standard сonstructor.
@@ -134,9 +137,24 @@ public slots:
     /// @return history of last 50 commands
     QString getCmdHistory() const;
 
+    /// Add new wallet
+    /// @param wallet name
+    /// @return sucessful or not
     bool appendWallet(const QString& aWalletName) const;
-
+    /// Wallets data
+    /// @return data
     QByteArray walletData() const;
+    /// Putting new transaction in mempool
+    /// @param name of wallet
+    /// @param address of a receiver
+    /// @param name of token
+    /// @param name of network
+    /// @param sum for transaction
+    /// @return sucessful or not
+    bool createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue);
+    /// Taking everything from mempool
+    /// @param network
+    void takeFromMempool(const QString& aNetwork);
 
 private slots:
     /// Request new history request by handle wallet's name
@@ -144,7 +162,8 @@ private slots:
     /// Send new history transaction to client
     /// @param New history transaction
     void doSendNewHistory(const QVariant& aData);
-
+    /// Taking everything from mempool
+    /// @param network
     void doSendNewWalletData(const QByteArray& aData);
 };
 

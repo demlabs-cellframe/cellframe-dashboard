@@ -24,8 +24,6 @@ public:
 
     bool appendWallet(const QString& aWalletName);
 
-    bool createTransaction(const QString& aFromAddress, const QString& aToAddress, const QString& aTokenName, const QString& aNetwork, const quint64 aValue) const;
-
     QByteArray walletData() const;
 
 private slots:
