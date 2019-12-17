@@ -53,7 +53,6 @@
         <file>screen/Console/DapUiQmlWidgetConsoleLastActionsForm.qml</file>
         <file>screen/Dashboard/DapUiQmlScreenDashboard.qml</file>
         <file>screen/Exchange/DapUiQmlScreenExchangeForm.ui.qml</file>
-        <file>screen/Exchange/DapUiQmlWidgetExchangeOrderButtonForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderContentForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderForm.ui.qml</file>
         <file>screen/Exchange/DapUiQmlWidgetExchangeOrderTitleForm.ui.qml</file>
@@ -87,7 +86,6 @@
         <file>screen/Settings/DapUiQmlWidgetSettingsNetwork.qml</file>
         <file>screen/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
         <file>screen/StatusBar/DapUiQmlWidgetStatusBar.qml</file>
-        <file>screen/StatusBar/DapUiQmlWidgetStatusBarButtonForm.ui.qml</file>
         <file>screen/VPN/DapUiQmlScreenVpn.qml</file>
         <file>screen/VPN/DapUiQmlScreenVpnForm.ui.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpn.qml</file>

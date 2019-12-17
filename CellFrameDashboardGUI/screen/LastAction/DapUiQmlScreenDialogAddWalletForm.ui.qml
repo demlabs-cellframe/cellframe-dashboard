@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
-import "../../"
+import "qrc:/"
 import "../"
 
 DapUiQmlScreen {
@@ -192,38 +192,21 @@ DapUiQmlScreen {
         }
     }
 
-    Button {
+    DapButton{
         id: nextButton
         height: 44 * pt
         width: 130 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: chooseRecoveryMethod.bottom
         anchors.topMargin: 32 * pt
-        hoverEnabled: true
-
-        contentItem: Text {
-            id: nextButtonText
-            text: qsTr("Next")
-            anchors.fill: parent
-            color: "#ffffff"
-            font.family: "Roboto"
-            font.styleName: "Normal"
-            font.weight: Font.Normal
-            font.pixelSize: 18 * pt
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-        }
-
-        background: Rectangle {
-            implicitWidth: parent.width
-            implicitHeight: parent.height
-            color: parent.hovered ? "#D51F5D" : "#070023"
-        }
+        textButton: qsTr("Next")
+        existenceImage: false
+        colorBackgroundHover: "#D51F5D"
+        colorBackgroundNormal: "#070023"
+        colorButtonTextNormal: "#FFFFFF"
+        horizontalAligmentText: Text.AlignHCenter
+        indentTextRight: 0
+        fontSizeButton: 18 * pt
     }
 }
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
