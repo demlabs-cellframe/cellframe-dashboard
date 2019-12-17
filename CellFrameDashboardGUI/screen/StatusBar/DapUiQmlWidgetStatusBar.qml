@@ -1,9 +1,9 @@
-import QtQuick 2.0
+﻿import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import "../../"
+import "qrc:/"
 
 Rectangle {
     height:60 * pt
@@ -102,14 +102,10 @@ Rectangle {
             }
         }
 
-        DapUiQmlWidgetStatusBarButtonForm {
+
+        DapButton{
             id: statusBarAddWalletButton
             visible: rightPanel.visible ? true : false
-            width: rightPanel.visible ? 120 * pt : 0
-            height: 36 * pt
-            name: qsTr("New wallet")
-            fontHeight: 14 * pt
-            backgroundColor: hovered ? "#D51F5D" : "#070023"
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.topMargin: 10 * pt
@@ -120,12 +116,12 @@ Rectangle {
             onClicked: {
                 rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml", {"rightPanel": rightPanel});
                 rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlScreenDialogAddWallet.qml", {"rightPanel": rightPanel});
-                statusBarAddWalletButton.backgroundColor = "#D51F5D"
+                statusBarAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
 
             Connections {
                 target: rightPanel.header.currentItem
-                onPressedCloseAddWalletChanged: statusBarAddWalletButton.backgroundColor = "#070023"
+                onPressedCloseAddWalletChanged: statusBarAddWalletButton.colorBackgroundNormal = "#070023"
             }
 
         }

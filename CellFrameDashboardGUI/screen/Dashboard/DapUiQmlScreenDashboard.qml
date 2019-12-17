@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.0
 import "../"
+import "qrc:/"
 
 DapUiQmlScreen {
     id: dapUiQmlScreenDialog
@@ -26,24 +27,19 @@ DapUiQmlScreen {
                 text: "My first wallet"
             }
 
-            Button {
+            DapButton{
                 anchors.top: parent.top
-                width: 132 * pt
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                text: "New payment"
-                font.family: fontRobotoRegular.name
-                font.pixelSize: 12 * pt
-                highlighted: true
-
-                background: Rectangle {
-                    color: "#3E3853"
-                }
-
-                icon.width: 20 * pt
-                icon.height: 20 * pt
-                icon.source: "qrc:/res/icons/new-payment_icon.png"
-                icon.color: "#FFFFFF"
+                widthButton: 132 * pt
+                heightButton: 36 * pt
+                textButton: "New payment"
+                fontSizeButton: 12 * pt
+                colorBackgroundButton: "#3E3853"
+                normalImageButton: "qrc:/res/icons/new-payment_icon.png"
+                hoverImageButton: "qrc:/res/icons/new-payment_icon.png"
+                widthImageButton: 20*pt
+                heightImageButton: 20*pt
             }
         }
 
