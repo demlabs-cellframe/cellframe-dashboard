@@ -26,7 +26,7 @@ ApplicationWindow {
         }
     }
     
-    DapMainApplicationWindowForm
+    DapMainApplicationWindow
     {
         anchors.fill: parent
     }
