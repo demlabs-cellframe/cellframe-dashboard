@@ -165,7 +165,7 @@ Page {
             }
         }
     }
-
+    DapChartCandleStick{}
     ///Left down panel
     Row {
         anchors.left: parent.left

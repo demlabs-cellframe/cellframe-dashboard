@@ -91,5 +91,6 @@
         <file>screen/VPN/DapUiQmlWidgetSettingsVpn.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
+        <file>screen/Exchange/DapChartCandleStick.qml</file>
     </qresource>
 </RCC>
