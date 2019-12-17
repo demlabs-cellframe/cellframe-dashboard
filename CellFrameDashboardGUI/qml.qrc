@@ -93,5 +93,29 @@
         <file>screen/VPN/DapUiQmlWidgetSettingsVpn.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
+        <file>screen/Exchange/DapExchangeScreen.qml</file>
+        <file>screen/Exchange/DapExchangeScreenForm.ui.qml</file>
+        <file>screen/Exchange/DapEchangeTab.qml</file>
+        <file>screen/Exchange/DapEchangeTabForm.ui.qml</file>
+        <file>screen/Exchange/DapEchangeRightPanel.qml</file>
+        <file>screen/Exchange/DapEchangeRightPanelForm.ui.qml</file>
+        <file>screen/Exchange/DapExchangeTopPanel.qml</file>
+        <file>screen/Exchange/DapExchangeTopPanelForm.ui.qml</file>
+        <file>screen/Dashboard/DapDashboardRightPanel.qml</file>
+        <file>screen/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
+        <file>screen/Dashboard/DapDashboardTopPanel.qml</file>
+        <file>screen/Dashboard/DapDashboardTopPanelForm.ui.qml</file>
+        <file>screen/Dashboard/DapDashboardTab.qml</file>
+        <file>screen/Dashboard/DapDashboardTabForm.ui.qml</file>
+        <file>screen/Dashboard/DapDashboardScreen.qml</file>
+        <file>screen/Dashboard/DapDashboardScreenForm.ui.qml</file>
+        <file>screen/History/DapHistoryRightPanel.qml</file>
+        <file>screen/History/DapHistoryRightPanelForm.ui.qml</file>
+        <file>screen/History/DapHistoryTopPanel.qml</file>
+        <file>screen/History/DapHistoryTopPanelForm.ui.qml</file>
+        <file>screen/History/DapHistoryTab.qml</file>
+        <file>screen/History/DapHistoryTabForm.ui.qml</file>
+        <file>screen/History/DapHistoryScreen.qml</file>
+        <file>screen/History/DapHistoryScreenForm.ui.qml</file>
     </qresource>
 </RCC>
