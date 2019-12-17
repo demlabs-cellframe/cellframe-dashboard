@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import "../"
 import "../LastAction"
+import "qrc:/"
 
 DapUiQmlScreen {
     id: dapUiQmlScreenDialog
@@ -27,68 +28,36 @@ DapUiQmlScreen {
                 text: "My first wallet"
             }
 
-            Button {
+            DapButton {
                 id: newPaymentButton
                 anchors.top: parent.top
-                width: 140 * pt
-                height: 36 * pt
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                highlighted: true
-                hoverEnabled: true
+                widthButton: 132 * pt
+                heightButton: 36 * pt
+                textButton: "New payment"
+                fontSizeButton: 12 * pt
+                colorBackgroundButton: "#3E3853"
+                normalImageButton: "qrc:/res/icons/new-payment_icon.png"
+                hoverImageButton: "qrc:/res/icons/new-payment_icon.png"
+                widthImageButton: 24 * pt
+                heightImageButton: 24 * pt
 
-                contentItem: Rectangle {
-                    id: backgroundButton
-                    anchors.fill: parent
-                    color: "#E3E5E8"
-                    border.color: "#5F5F63"
-                    border.width: 1 * pt
-
-                    Text {
-                        text: "New payment"
-                        color: "#505559"
-                        font.family: fontRobotoRegular.name
-                        font.pixelSize: 12 * pt
-                        anchors.fill: parent
-                        verticalAlignment: Qt.AlignVCenter
-                        horizontalAlignment: Qt.AlignRight
-                        anchors.rightMargin: 12 * pt
-                    }
-
-                    Image {
-                        id: iconNewWallet
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: 10 * pt
-                        source: "qrc:/res/icons/new-payment_icon.png"
-                        width: 24 * pt
-                        height: 24 * pt
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        onEntered: backgroundButton.color = "#FFFFFF"
-                        onExited: backgroundButton.color = "#E3E5E8"
-
-                        onClicked: {
-                            rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlNewPaymentHeader.qml", {"rightPanel": rightPanel});
-                            rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlNewPayment.qml", {"rightPanel": rightPanel});
-                            backgroundButton.color = "#FFFFFF"
-                        }
-                    }
+                onClicked: {
+                    rightPanel.header.push("qrc:/screen/LastAction/DapUiQmlNewPaymentHeader.qml", {"rightPanel": rightPanel});
+                    rightPanel.content.push("qrc:/screen/LastAction/DapUiQmlNewPayment.qml", {"rightPanel": rightPanel});
+                    colorBackgroundButton = "#FFFFFF"
                 }
+            }
 
-                Connections {
-                    target: rightPanel.content.currentItem
-                    onPressedSendButtonChanged: backgroundButton.color = "#E3E5E8"
-                }
+            Connections {
+                target: rightPanel.content.currentItem
+                onPressedSendButtonChanged: newPaymentButton.colorBackgroundButton = "#E3E5E8"
+            }
 
-                Connections {
-                    target: rightPanel.header.currentItem
-                    onPressedCloseChanged: backgroundButton.color = "#E3E5E8"
-                }
+            Connections {
+                target: rightPanel.header.currentItem
+                onPressedCloseChanged: newPaymentButton.colorBackgroundButton = "#E3E5E8"
             }
         }
 
@@ -252,6 +221,8 @@ DapUiQmlScreen {
         }
     }
 }
+
+
 
 /*##^##
 Designer {

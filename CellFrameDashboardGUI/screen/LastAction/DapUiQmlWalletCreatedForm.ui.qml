@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import "../"
+import "qrc:/"
 
 DapUiQmlScreen {
     property alias buttonDone: doneCreateWalletButton
@@ -8,32 +9,23 @@ DapUiQmlScreen {
     id: walletCreatedMenu
     color: "#F8F7FA"
 
-    Button {
+
+    DapButton{
         id: doneCreateWalletButton
+
+        heightButton: 44 * pt
+        widthButton: 130 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 213 * pt
-        height: 44 * pt
-        width: 130 * pt
-
-        Text {
-            id: doneCreateWalletButtonText
-            text: qsTr("Done")
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            color: doneCreateWalletButton.checked ? "#3E3853" : "#FFFFFF"
-            font.family: "Roboto"
-            font.styleName: "Normal"
-            font.weight: Font.Normal
-            font.pointSize: 18 * pt
-            horizontalAlignment: Text.AlignLeft
-        }
-
-        background: Rectangle {
-            implicitWidth: parent.width
-            implicitHeight: parent.height
-            color: "#3E3853"
-        }
+        checkable: true
+        textButton: qsTr("Done")
+        existenceImage: false
+        horizontalAligmentText: Text.AlignHCenter
+        indentTextRight: 0
+        fontSizeButton: 18 * pt
+        colorTextButton: doneCreateWalletButton.checked ? "#3E3853" : "#FFFFFF"
+        colorBackgroundButton: "#3E3853"
     }
 
     Rectangle {
@@ -63,10 +55,3 @@ DapUiQmlScreen {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
-
