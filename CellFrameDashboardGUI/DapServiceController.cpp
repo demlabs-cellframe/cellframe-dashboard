@@ -73,6 +73,7 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
 
     connect(m_pDapCommandController, &DapCommandController::sigWalletData, &DapChainWalletModel::instance(), &DapChainWalletModel::setWalletData);
 
+    connect(m_pDapCommandController, &DapCommandController::sendResponseTransaction, this, &DapServiceController::resultMempool);
 }
 
 QString DapServiceController::getBrand() const
@@ -279,6 +280,16 @@ QObject *DapServiceController::singletonProvider(QQmlEngine *engine, QJSEngine *
     Q_UNUSED(scriptEngine)
     
     return &getInstance();
+}
+
+void DapServiceController::createTransaction(const QString& aFromWallet, const QString& aToAddress, const QString& aToken, const QString& aNetwork, const quint64 aValue)
+{
+    m_pDapCommandController->sendMempool(aFromWallet, aToAddress, aToken, aNetwork, aValue);
+}
+
+void DapServiceController::sendToken(const QString& aNetwork)
+{
+    m_pDapCommandController->takeFromMempool(aNetwork);
 }
 
 void DapServiceController::requestWalletData()
