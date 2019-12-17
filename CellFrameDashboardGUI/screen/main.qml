@@ -25,8 +25,10 @@ ApplicationWindow {
             }
         }
     }
-
-    DapUiQmlScreenMainWindow {
+    
+    DapMainApplicationWindowForm
+    {
         anchors.fill: parent
     }
+
 }

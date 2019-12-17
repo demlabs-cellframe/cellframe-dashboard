@@ -60,6 +60,8 @@ CONFIG(debug, debug|release) {
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
                $$_PRO_FILE_PWD_/../DapRPCProtocol/
 
+OTHER_FILES += libdap-qt-ui-qml
+
 SOURCES += \
     $$PWD/DapChainNodeNetworkExplorer.cpp \
     $$PWD/DapChainNodeNetworkModel.cpp \

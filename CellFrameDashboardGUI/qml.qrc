@@ -95,10 +95,6 @@
         <file>screen/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>screen/Exchange/DapExchangeScreen.qml</file>
         <file>screen/Exchange/DapExchangeScreenForm.ui.qml</file>
-        <file>screen/Exchange/DapEchangeTab.qml</file>
-        <file>screen/Exchange/DapEchangeTabForm.ui.qml</file>
-        <file>screen/Exchange/DapEchangeRightPanel.qml</file>
-        <file>screen/Exchange/DapEchangeRightPanelForm.ui.qml</file>
         <file>screen/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/Exchange/DapExchangeTopPanelForm.ui.qml</file>
         <file>screen/Dashboard/DapDashboardRightPanel.qml</file>
@@ -117,5 +113,12 @@
         <file>screen/History/DapHistoryTabForm.ui.qml</file>
         <file>screen/History/DapHistoryScreen.qml</file>
         <file>screen/History/DapHistoryScreenForm.ui.qml</file>
+        <file>res/icons/cellframe-logo-dashboard.png</file>
+        <file>screen/DapMainApplicationWindow.qml</file>
+        <file>screen/DapMainApplicationWindowForm.ui.qml</file>
+        <file>screen/Exchange/DapExchangeRightPanel.qml</file>
+        <file>screen/Exchange/DapExchangeRightPanelForm.ui.qml</file>
+        <file>screen/Exchange/DapExchangeTab.qml</file>
+        <file>screen/Exchange/DapExchangeTabForm.ui.qml</file>
     </qresource>
 </RCC>
