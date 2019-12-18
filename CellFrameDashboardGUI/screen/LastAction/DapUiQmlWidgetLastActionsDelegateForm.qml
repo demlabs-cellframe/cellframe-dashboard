@@ -45,7 +45,7 @@ Component {
                 color: "#3E3853"
                 text: cryptocurrency;
                 font.family: fontRobotoRegular.name
-                font.pixelSize: 12 * pt
+                font.pixelSize: 14 * pt
             }
         }
 

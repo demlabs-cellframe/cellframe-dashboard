@@ -3,7 +3,7 @@ import QtQuick.Controls 2.0
 
 Rectangle {
     height: 36 * pt
-    color: "transparent"
+    color: "#F8F7FA"
 
     Text {
         anchors.fill: parent
@@ -12,7 +12,7 @@ Rectangle {
         verticalAlignment: Qt.AlignVCenter
         font.family: fontRobotoRegular.name
         font.pixelSize: 12 * pt
-        color: "#5F5F63"
+        color: "#3E3853"
     }
 
     Rectangle {
