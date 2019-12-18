@@ -5,8 +5,12 @@ DapTabForm {
     id: dapDashboardTab
 
     anchors.fill: parent
-    
+
     topPanelForm: DapDashboardTopPanel { }
+
+    rightPanelForm: DapDashboardRightPanel { }
+
+    screenForm: DapDashboardScreen { }
 }
 
 

@@ -1,12 +1,17 @@
 import QtQuick 2.4
 import "qrc:/"
 
-DapTab {
-    
-    topPanelForm: DapExchangeTopPanelForm { }
-    
-}
+DapTabForm {
+    id: dapExchangeTab
 
+    anchors.fill: parent
+
+    topPanelForm: DapExchangeTopPanelForm { }
+
+    screenForm: DapExchangeScreenForm { }
+
+    rightPanelForm: DapExchangeRightPanelForm { }
+}
 
 
 /*##^## Designer {

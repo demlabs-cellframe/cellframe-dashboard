@@ -1,13 +1,9 @@
 import QtQuick 2.4
-import "qrc:/"
+import "../"
 
-DapTopPanel 
+DapAbstractTopPanelForm
 {
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    height: 60 * pt
-    frame.color: "#070023"
+
 }
 
 
@@ -15,3 +11,8 @@ DapTopPanel
 
 
 
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

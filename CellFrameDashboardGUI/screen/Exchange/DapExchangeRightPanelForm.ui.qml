@@ -1,6 +1,12 @@
 import QtQuick 2.4
+import "../"
 
-Item {
-    width: 400
-    height: 400
+DapAbstractRightPanelForm
+{
+    rightPanel.color: "yellow"
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
