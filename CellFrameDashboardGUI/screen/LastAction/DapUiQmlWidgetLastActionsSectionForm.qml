@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 
 Rectangle {
+    height: 30 * pt
     color: "#757184"
 
     Text {

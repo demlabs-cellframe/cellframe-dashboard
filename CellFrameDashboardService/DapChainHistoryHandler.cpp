@@ -33,6 +33,7 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
             QRegularExpressionMatchIterator matchItr = regular.globalMatch(result);
             while (matchItr.hasNext())
             {
+                if(data.count() >= 100) break;
                 QRegularExpressionMatch match = matchItr.next();
                 QStringList dataItem = QStringList()
                                        << match.captured(1)
@@ -42,9 +43,10 @@ void DapChainHistoryHandler::onRequestNewHistory(const QMap<QString, QVariant>& 
                                        << match.captured(7)
                                        << wallets.at(i).toString();
                 data << dataItem;
-
             }
         }
+
+        if(data.count() >= 100) break;
     }
 
 
