@@ -8,9 +8,9 @@ DapTabForm {
 
     topPanelForm: DapHistoryTopPanelForm { }
 
-//    screenForm: DapHistoryScreenForm { }
+    screenForm: DapHistoryScreenForm { }
 
-//    rightPanelForm: DapHistoryRightPanelForm { }
+    rightPanelForm: DapHistoryRightPanelForm { }
 }
 
 /*##^## Designer {
