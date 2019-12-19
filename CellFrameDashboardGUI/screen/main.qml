@@ -7,6 +7,7 @@ ApplicationWindow {
     width: 1280
     height: 800
 
+    property string device: "desktop"
     onClosing: {
         console.log("Close")
         window.hide()

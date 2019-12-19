@@ -3,5 +3,5 @@ import "qrc:/"
 
 DapScreenForm {
     frame.height: parent.height
-    frame.color: "magenta"
+    frame.color: "blue"
 }

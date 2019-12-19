@@ -45,10 +45,11 @@ DapMainWindowForm {
         }
     }
 
-    screens.source: "qrc:/screen/Dashboard/DapDashboardTab.qml"
+    screens.source: "qrc:/screen/"+device+"/Dashboard/DapDashboardTab.qml"
 }
 
-/*##^## Designer {
+/*##^##
+Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
- ##^##*/
+##^##*/
