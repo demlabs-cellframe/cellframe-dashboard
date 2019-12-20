@@ -12,8 +12,11 @@ Item{
     id:dapChart
     property int minValuePrice: 10000
     property int maxValuePrice: 10800
-    property int leftTime: 1546500000
-    property int rightTime:1547100000
+    property int leftTime: 1546540000
+    property int rightTime: 1546560000
+    property int maxXLine: 6
+    property int maxYLine: 10
+    property int heightNoLine: 40*pt
 
     property string fontColorArea: "#757184"
     property int fontSizeArea: 10 * pt
@@ -38,14 +41,20 @@ Item{
     property int fieldYMin: 30
     property int fieldYMax: dapChart.height
 
-    anchors.fill: parent
-    anchors.topMargin: 50
-    anchors.bottomMargin: 400
-
     //    Component.onCompleted: {
     //        loadImage(imageCursorPath)
     //    }
+    QtObject {
+        id: thisProperty
+        property int year: 31556926;
+        property int month: 2629743;
+        property int week: 604800;
+        property int day: 86400;
+        property int hour: 3600;
+        property int minute: 60;
 
+
+    }
     Canvas {
         id: chartCanvas
         anchors.fill: parent
@@ -55,13 +64,11 @@ Item{
             var ctx = getContext("2d");
             ctx.beginPath();
             var xTime = timeToXChart(leftTime);
-            //verticalLineChart(10,xTime,ctx);
-
-            valuePriceYLineChart(ctx);
-          //  horizontalLineChart(50,"1000",ctx);
-            candleVisual(ctx,300,300,100,250,150);
             horizontalLineCurrentLevelChart(ctx,100,"txt");
-            timeToXLineChart(ctx);
+            timeToXLineChart(ctx,thisProperty.hour);
+            valuePriceYLineChart(ctx);
+            candleVisual(ctx,300,300,100,250,150);
+
             ctx.stroke();
         }
 
@@ -77,8 +84,7 @@ Item{
         var date = a.getDate();
         var hour = a.getHours();
         var min = a.getMinutes();
-        //var sec = a.getSeconds();
-        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+        var time = hour + '.' + min;//date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
         return time;
     }
     //Обновление текущего времени
@@ -86,57 +92,54 @@ Item{
     {
 
     }
+
     //Расчет сетки по Х
-    function timeToXLineChart(ctx)
+    function timeToXLineChart(ctx,stepTime)
     {
         var timeIntervalAll = rightTime - leftTime;
-        //задаем дни часы и месяцы
-        //    1 минута = 60 секунд
-        //    1 час = 3600 секунд
-        //    1 день = 86400 секунд
-        //    1 неделя = 604800 секунд
-        //    1 месяц (30.44 дней) = 2629743 секунд
-        //    1 год (365.24 дней) = 31556926 секунд
+        var realFactor = (stepTime*maxXLine)/(fieldXMax-fieldXMin);
 
-
-        var realFactor = timeIntervalAll/(fieldXMax-fieldXMin);
-
-        if(timeIntervalAll<604800 & timeIntervalAll > 86400)
+        for(var count = maxXLine; count > 0; count--)
         {
-            var maxCount =Math.round(timeIntervalAll/86400) ;
-            var intervalTime = timeIntervalAll/maxCount;
-            for(var count = 0;count<maxCount;count++)
-            {
-                var stepFromLeftTime = leftTime+(intervalTime*(count+1));
-                var thisTime = Math.round(stepFromLeftTime - Math.round(stepFromLeftTime % 86400)) ;
-               // if(leftTime+intervalTime)
-                verticalLineChart(ctx,fieldXMin + (thisTime/*intervalTime*//realFactor*count),count)
-            }
+            var timeMoment = leftTime+(stepTime*count);
+            var moveTime = 6*thisProperty.minute;
+            var timeXAxis = (stepTime*count - moveTime - timeMoment % stepTime)/realFactor;
+            verticalLineChart(ctx,fieldXMin + timeXAxis,timeToXChart(timeMoment - moveTime));
         }
     }
 
     //Расчет сетки по Y
     function valuePriceYLineChart(ctx)
     {
-        var realInterval = (fieldYMax - fieldYMin)/8;
-
+        var realField = fieldYMax - fieldYMin;
         var valuePriceIntervalAll = maxValuePrice - minValuePrice;
-        var priceInterval = valuePriceIntervalAll/8;
+        var realFactor = valuePriceIntervalAll/realField;
+
+        var realInterval = (fieldYMax - fieldYMin)/maxYLine;
+
+        var priceInterval = valuePriceIntervalAll/maxYLine;
+        var stepPrise = 10;
+
+        for(var scanStep = 1; scanStep < 100000;scanStep*=10)
+        {
+            if(valuePriceIntervalAll/scanStep <= maxYLine) {stepPrise = scanStep; break;}
+            if(valuePriceIntervalAll/(scanStep*5) <= maxYLine) {stepPrise = scanStep*5;break;}
+        }
+
         //Множитель для преобразования
-        var realFactor = valuePriceIntervalAll/realInterval;
-        for(var count = 0; count<8;count++)
+//        var realFactor = valuePriceIntervalAll/realInterval;
+        for(var count = 0; count<maxYLine;count++)
         {
             if(count === 0)
             {
-                horizontalLineChart(ctx,fieldYMax,fieldYMax);
+                horizontalLineChart(ctx,fieldYMax,"");
             }
-            if(count>0 & count<7)
+            else
+            if(fieldYMax-((stepPrise*count/realFactor))>heightNoLine)
             {
-                horizontalLineChart(ctx,fieldYMax-(realInterval*count),fieldYMax);
+                horizontalLineChart(ctx,fieldYMax-((stepPrise*count/realFactor)),minValuePrice+stepPrise*count);
             }
-
         }
-
     }
 
     function verticalLineChart(ctx,x,text)
@@ -150,7 +153,7 @@ Item{
         //ctx.closePath();
         ctx.font = "normal "+fontSizeArea+ "px Roboto";
         ctx.fillStyle = fontColorArea;
-        ctx.fillText(text,x-13,chartCanvas.height);
+        ctx.fillText(text,x-13,chartCanvas.height-2);
         ctx.stroke();
         ctx.restore();
     }

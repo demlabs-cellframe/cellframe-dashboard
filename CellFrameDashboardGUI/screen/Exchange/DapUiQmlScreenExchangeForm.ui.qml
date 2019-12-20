@@ -165,9 +165,19 @@ Page {
             }
         }
     }
-    DapChartCandleStick{}
+    DapChartCandleStick{
+    anchors.top: topPanelExchange.bottom
+    anchors.bottom: exchangeBottomPanel.top
+    anchors.left: parent.left
+    anchors.right:parent.right
+    anchors.leftMargin: 24 * pt
+    anchors.rightMargin: 24 * pt
+    anchors.topMargin: 16 * pt
+
+    }
     ///Left down panel
     Row {
+        id:exchangeBottomPanel
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.leftMargin: 28 * pt
