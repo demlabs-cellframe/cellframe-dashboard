@@ -3,5 +3,5 @@ import "../../"
 
 DapAbstractScreenForm {
     frame.height: parent.height
-    frame.color: "magenta"
+    frame.color: "khaki"
 }

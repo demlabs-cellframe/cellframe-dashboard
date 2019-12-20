@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import "screen"
 
 ApplicationWindow {
     id: window
@@ -7,7 +8,7 @@ ApplicationWindow {
     width: 1280
     height: 800
 
-    property string device: "desktop"
+//    property string device: "desktop"
     onClosing: {
         console.log("Close")
         window.hide()
@@ -27,8 +28,15 @@ ApplicationWindow {
         }
     }
     
+    property alias device: dapDevice.device
+    Device {
+      id: dapDevice
+      
+    } 
+    
     DapMainApplicationWindow
     {
+       
         anchors.fill: parent
     }
 

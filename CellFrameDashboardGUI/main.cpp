@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
     engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
     engine.rootContext()->setContextProperty("pt", 1.0);
-    engine.load(QUrl("qrc:/screen/main.qml"));
+    engine.load(QUrl("qrc:/main.qml"));
 
     if (engine.rootObjects().isEmpty())
         return -1;

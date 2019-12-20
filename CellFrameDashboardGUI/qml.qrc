@@ -42,7 +42,7 @@
         <file>res/icons/new-wallet_icon_dark.png</file>
         <file>res/icons/new-wallet_icon_dark_hover.png</file>
         <file>res/icons/icon_arrow_down.png</file>
-        <file>screen/main.qml</file>
+        <file>main.qml</file>
         <file>res/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
         <file>screen/DapMainApplicationWindowForm.ui.qml</file>
@@ -178,5 +178,6 @@
         <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
         <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
+        <file>Device.qml</file>
     </qresource>
 </RCC>
