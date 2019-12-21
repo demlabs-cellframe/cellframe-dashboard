@@ -173,6 +173,7 @@ Page {
     anchors.leftMargin: 24 * pt
     anchors.rightMargin: 24 * pt
     anchors.topMargin: 16 * pt
+    anchors.bottomMargin: 24 * pt
 
     }
     ///Left down panel
