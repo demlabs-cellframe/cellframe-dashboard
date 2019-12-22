@@ -175,6 +175,49 @@ Page {
     anchors.topMargin: 16 * pt
     anchors.bottomMargin: 24 * pt
 
+    ListModel{
+        id:candleModel
+        ListElement{time:1546543400;minimum:10000;maximum:10350;open:10050;close:10100;}
+        ListElement{time:1546543700;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546544000;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546544300;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546544600;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546544900;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546545200;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546545500;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546545800;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546546100;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546546400;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546546700;minimum:10300;maximum:10550;open:10450;close:10400;}
+        ListElement{time:1546547000;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546547300;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546547600;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546547900;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546548200;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546548500;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546548800;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546549100;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546549400;minimum:10300;maximum:10650;open:10450;close:10400;}
+        ListElement{time:1546549700;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546550000;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546550300;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546550600;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546550900;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546551200;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546551500;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546551800;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546552100;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546552400;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546552700;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546553000;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546553300;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546553600;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546553900;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546554200;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546554500;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546554800;minimum:10200;maximum:10450;open:10350;close:10400;}
+    }
+
     }
     ///Left down panel
     Row {
