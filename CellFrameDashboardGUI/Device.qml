@@ -4,12 +4,12 @@ import QtQuick.Window 2.0
 Item {
     id: dapDevice
     
-    property string device: "mobile"
+    property string device: dp()
     property int dpi: Screen.pixelDensity * 25.4
     
     function dp(){
         if(dpi < 120) {
-            device = " desktop"
+            device = "desktop"
         } else {
             device = "mobile"
         }

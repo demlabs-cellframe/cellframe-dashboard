@@ -2,9 +2,9 @@ import QtQuick 2.4
 
 DapMainApplicationWindowForm 
 {
-    readonly property string dashboardScreen: "qrc:/screen/" + device.trim(" ") + "/Dashboard/DapDashboardTab.qml"
-    readonly property string exchangeScreen: "qrc:/screen/" + device.trim(" ") + "/Exchange/DapExchangeTab.qml"
-    readonly property string historyScreen: "qrc:/screen/" + device.trim(" ") + "/History/DapHistoryTab.qml"
+    readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
+    readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     // Menu bar tab model
     ListModel 
     {

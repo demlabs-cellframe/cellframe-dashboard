@@ -3,7 +3,7 @@ import "../../"
 
 DapAbstractScreenForm {
     frame.height: parent.height
-    frame.color: "blue"
+    frame.color: "green"
 }
 
 /*##^##

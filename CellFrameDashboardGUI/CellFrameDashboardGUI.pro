@@ -38,7 +38,7 @@ macx {
 ICON = res/icons/dashboard.icns
 }
 else {
-ICON = res/icons/icon.ico
+ICON =
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.
