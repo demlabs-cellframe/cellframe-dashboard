@@ -177,7 +177,7 @@ Page {
 
     ListModel{
         id:candleModel
-        ListElement{time:1546543400;minimum:10000;maximum:10350;open:10050;close:10100;}
+        ListElement{time:1546543400;minimum:10000;maximum:10550;open:10050;close:10100;}
         ListElement{time:1546543700;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546544000;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546544300;minimum:10200;maximum:10450;open:10350;close:10400;}
@@ -189,7 +189,7 @@ Page {
         ListElement{time:1546546100;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546546400;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546546700;minimum:10300;maximum:10550;open:10450;close:10400;}
-        ListElement{time:1546547000;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546547000;minimum:10200;maximum:10650;open:10350;close:10400;}
         ListElement{time:1546547300;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546547600;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546547900;minimum:10200;maximum:10450;open:10350;close:10400;}

@@ -49,7 +49,8 @@ import QtQuick 2.0
         property int fieldYMin: 0
         property int fieldYMax: 100
 
-
+        //Количество свечей за пределами экрана с права и слева
+        property int cashCandle: 5
 
         QtObject {
             id: thisProperty
@@ -69,26 +70,106 @@ import QtQuick 2.0
 
             property var canvasCTX: ctx
 
+            property int positionMouseX:0
+
+            property int modelCountMin: 0
+            property int modelCountMax: candleModel.count
+            property int modelCountDisplay: candleModel.count
+
         }
 
         id: chartCanvas
 
         Component.onCompleted: {
             loadImage(imageCursorPath);
-
+            //moveTimer.stop();
         }
         onPaint: {
+            canvasPaint();
+        }
+        MouseArea{
+            id:areaCanvas
+            anchors.fill: parent
+
+            Timer{
+                id:moveTimer
+               // running: true
+                repeat: true
+                interval: 10
+                onTriggered: {
+                    rightTime = rightTime + (thisProperty.positionMouseX-areaCanvas.mouseX)*thisProperty.xRealFactor;
+                    canvasPaint();
+                    thisProperty.positionMouseX = areaCanvas.mouseX
+                }
+            }
+            onPressed: {
+                if(mouse.button === Qt.LeftButton) {
+
+                        thisProperty.positionMouseX = mouseX;
+                        moveTimer.start();
+                }
+            }
+            onReleased: {
+                moveTimer.stop();
+                autoSetDisplayCandle();
+            }
+        }
+
+        function canvasPaint()
+        {
+            autoSetWidthPrice()
             init();
             var ctx = getContext("2d");
+            ctx.clearRect(0,0,parent.width,parent.height)
             thisProperty.canvasCTX = ctx;
-          //  ctx.beginPath();
-            var xTime = timeToXChart(leftTime);
-
             timeToXLineChart(ctx);
             valuePriceYLineChart(ctx);
             fillCandle(ctx);
-            ctx.stroke();
+        //    ct.stroke();
 
+            chartCanvas.requestPaint();
+        }
+
+        function autoSetDisplayCandle()
+        {
+            var valueActualTime = stepTime*maxXLine;
+            var minTime = rightTime - valueActualTime;
+            var isFirst = false;
+            var isEnded = false;
+            var firstCandle = 0;
+            var endedCandle = thisProperty.modelCountMax;
+            for (var count = thisProperty.modelCountMin;count<thisProperty.modelCountMax;count++)
+            {
+                if(!isFirst | minTime > candleModel.get(count).time)
+                    {
+                        isFirst = true;
+                        if(count>10)thisProperty.modelCountMin = count-cashCandle;
+                        else thisProperty.modelCountMin = 0;
+                    }
+                if(!isEnded | rightTime>candleModel.get(count).time)
+                    {
+                        isEnded = true;
+                        if(count < candleModel.count-10)thisProperty.modelCountMax = count+cashCandle;
+                        else thisProperty.modelCountMax = candleModel.count;
+                    }
+            }
+        }
+
+///Авто подбор нижнего и верхнего предела
+        function autoSetWidthPrice()
+        {
+            autoSetDisplayCandle();
+            var minPrice = candleModel.get(thisProperty.modelCountMin).minimum;
+            var maxPrice = candleModel.get(thisProperty.modelCountMin).maximum;
+
+            for(var count = thisProperty.modelCountMin; count < thisProperty.modelCountMax; count++)
+            {
+
+                if(minPrice > candleModel.get(count).minimum) minPrice = candleModel.get(count).minimum;
+                if(maxPrice < candleModel.get(count).maximum) maxPrice = candleModel.get(count).maximum;
+            }
+            maxValuePrice = maxPrice;
+            minValuePrice = minPrice;
         }
 
         ///Initiation property
@@ -99,47 +180,35 @@ import QtQuick 2.0
             thisProperty.intervalPrice = maxValuePrice - minValuePrice;
             thisProperty.yRealFactor = thisProperty.intervalPrice / thisProperty.yRealField;
             thisProperty.xRealFactor = (stepTime*maxXLine)/(fieldXMax-fieldXMin);
-    //        var realInterval = (fieldYMax - fieldYMin) / maxYLine;
-
-    //        var priceInterval = thisProperty.intervalPrice / maxYLine;
         }
 
         //Преобразование времени в координаты
         function timeToXChart(TimeX)
         {
             var a = new Date(TimeX * 1000);
-            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            var year = a.getFullYear();
-            var month = months[a.getMonth()];
-            var date = a.getDate();
             var hour = a.getHours();
+            if(hour<10)hour = '0'+hour;
             var min = a.getMinutes();
-            var time = hour + ':' + min;//date + ' ' + month + ' ' + year + ' ' + hour + ':' + min;
+            if(min<10)min='0'+min;
+            var time = hour + ':' + min;
             return time;
         }
 
         //Расчет сетки по Х
         function timeToXLineChart(ctx)
         {
-            //var timeIntervalAll = rightTime - leftTime;
-            //var realFactor = (stepTime*maxXLine)/(fieldXMax-fieldXMin);
-
-            for(var count = 1; count <= maxXLine; count++)
+            for(var count = 0; count < maxXLine; count++)
             {
-                var timeMoment = rightTime-(stepTime*count);
-                //var moveTime = 6*thisProperty.minute;
-                var timeXAxis = (stepTime*count /*- moveTime*/ - timeMoment % stepTime)/thisProperty.xRealFactor;
-                verticalLineChart(ctx,fieldXMax - timeXAxis,timeToXChart(timeMoment/* - moveTime*/));
+                var timeRound = rightTime%stepTime
+                var timeLine = rightTime - (stepTime*count)-timeRound;
+                var timeXAxis = ((stepTime*count)+timeRound)/thisProperty.xRealFactor;
+                verticalLineChart(ctx,fieldXMax - timeXAxis,timeToXChart(timeLine));
             }
         }
 
         //Расчет сетки по Y
         function valuePriceYLineChart(ctx)
         {
-           // var realField = fieldYMax - fieldYMin;
-          //  var valuePriceIntervalAll = maxValuePrice - minValuePrice;
-            //var realFactor = valuePriceIntervalAll/realField;
-
             var realInterval = (fieldYMax - fieldYMin)/maxYLine;
 
             var priceInterval = thisProperty.intervalPrice / maxYLine;
@@ -168,7 +237,7 @@ import QtQuick 2.0
         function fillCandle(ctx)
         {
 
-            for(var count = 0; count< candleModel.count ; count++)
+            for(var count = thisProperty.modelCountMin; count< thisProperty.modelCountMax ; count++)
             {
 
               candleVisual(ctx,candleModel.get(count).time,candleModel.get(count).minimum,
@@ -211,6 +280,8 @@ import QtQuick 2.0
         {
             var timeXAxis = fieldXMax-(rightTime-pointTime)/thisProperty.xRealFactor;
 
+            if(fieldXMax>timeXAxis)
+            {
             ctx.beginPath()
     //      ctx.save();
             ctx.lineWidth = candleWidthLine;
@@ -233,6 +304,7 @@ import QtQuick 2.0
             ctx.lineTo(timeXAxis-(candleWidth/2), getYValue(open));
             ctx.stroke();
             ctx.fill();
+            }
             //ctx.restore();
         }
         function getYValue(value)
