@@ -19,33 +19,9 @@ DapMainWindowForm {
     menuTabWidget.heightItemMenu: 60 * pt
     // Initialization of the menu bar
     menuTabWidget.viewMenuTab.model: modelMenuTab
-    // Menu bar tab model
-    ListModel {
-        id: modelMenuTab
-
-        ListElement {
-            name: qsTr("Dashboard")
-            page: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-            normalIcon: "qrc:/res/icons/icon_dashboard.png"
-            hoverIcon: "qrc:/res/icons/icon_dashboard_hover.png"
-        }
-
-        ListElement {
-            name: qsTr("Exchange")
-            page: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
-            normalIcon: "qrc:/res/icons/icon_exchange.png"
-            hoverIcon: "qrc:/res/icons/icon_exchange_hover.png"
-        }
-
-        ListElement {
-            name: qsTr("History")
-            page: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
-            normalIcon: "qrc:/res/icons/icon_history.png"
-            hoverIcon: "qrc:/res/icons/icon_history_hover.png"
-        }
-    }
-
-    screens.source: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    
+    
+    
 }
 
 /*##^##

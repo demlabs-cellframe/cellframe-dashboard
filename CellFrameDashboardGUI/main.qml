@@ -28,15 +28,16 @@ ApplicationWindow {
         }
     }
     
-    property alias device: dapDevice.device
-    Device {
-      id: dapDevice
-      
-    } 
+   
+    
     
     DapMainApplicationWindow
     {
-       
+         property alias device: dapDevice.device
+        Device {
+          id: dapDevice
+          
+        } 
         anchors.fill: parent
     }
 
