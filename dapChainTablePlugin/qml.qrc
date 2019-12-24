@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>../ChainPlugin/qml/TableWidget.qml</file>
+        <file>../ChainPlugin/qml/SettingWidget.qml</file>
+    </qresource>
+</RCC>

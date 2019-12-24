@@ -1,0 +1,17 @@
+{
+  "plugin_name": "default_plagin",
+  "widget_list": {
+    "TableWidget": "qml/TableWidget.qml",
+    "SettingWidget": "qml/SettingWidget.qml"
+  },
+  "event_list": {
+    "general_Network_Event": {
+      "chain_update": "chain_update.js",
+      "network_status": "network_status.js"
+    },
+    "network_Private_Event": {
+      "chain_update": "default_update.js"
+    }
+  },
+  "about_plugin": "This plagin for...."
+}
