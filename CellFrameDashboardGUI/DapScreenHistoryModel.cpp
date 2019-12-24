@@ -96,12 +96,14 @@ QVariant DapScreenHistoryModel::data(const QModelIndex &index, int role) const
     {
         case DisplayDateRole:
         {
+            QLocale locale(QLocale::English, QLocale::UnitedStates);
+
             QDateTime currentTime = QDateTime::currentDateTime();
             QDateTime itemDate = m_elementList.at(index.row()).Date;
             if(currentTime.date() == itemDate.date()) return QString("Today");
             else if(currentTime.daysTo(itemDate) == -1) return QString("Yesterday");
-            else if(currentTime.date().year() < itemDate.date().year()) return itemDate.toString(MASK_FOR_MODEL_WITH_YEAR);
-            return itemDate.toString(MASK_FOR_MODEL);
+            else if(currentTime.date().year() < itemDate.date().year()) return locale.toString(itemDate, MASK_FOR_MODEL_WITH_YEAR);
+            return locale.toString(itemDate, MASK_FOR_MODEL);
         }
         case DisplayNameTokenRole:      return m_elementList.at(index.row()).TokenName;
         case DisplayNumberWalletRole:   return m_elementList.at(index.row()).WalletNumber;

@@ -1,5 +1,5 @@
 import QtQuick 2.0
 
 Rectangle {
-    color: "transparent"
+    color: "#F8F7FA"
 }
