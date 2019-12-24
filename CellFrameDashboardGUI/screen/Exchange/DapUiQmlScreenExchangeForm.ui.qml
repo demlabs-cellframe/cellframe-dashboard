@@ -165,6 +165,7 @@ Page {
             }
         }
     }
+    //Candle chart.
     DapChartCandleStick{
     anchors.top: topPanelExchange.bottom
     anchors.bottom: exchangeBottomPanel.top
@@ -174,6 +175,7 @@ Page {
     anchors.rightMargin: 24 * pt
     anchors.topMargin: 16 * pt
     anchors.bottomMargin: 24 * pt
+    currentValue: 11240
 
     ListModel{
         id:candleModel
@@ -202,7 +204,7 @@ Page {
         ListElement{time:1546550000;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546550300;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546550600;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546550900;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546550900;minimum:10500;maximum:10650;open:10550;close:10580;}
         ListElement{time:1546551200;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546551500;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546551800;minimum:10200;maximum:10450;open:10350;close:10400;}
@@ -211,7 +213,7 @@ Page {
         ListElement{time:1546552700;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546553000;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546553300;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546553600;minimum:10200;maximum:10450;open:10350;close:10400;}
+        ListElement{time:1546553600;minimum:10650;maximum:10950;open:10800;close:10750;}
         ListElement{time:1546553900;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546554200;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546554500;minimum:10200;maximum:10450;open:10350;close:10400;}
