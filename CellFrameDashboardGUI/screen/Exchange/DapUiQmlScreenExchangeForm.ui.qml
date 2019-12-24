@@ -175,7 +175,7 @@ Page {
     anchors.rightMargin: 24 * pt
     anchors.topMargin: 16 * pt
     anchors.bottomMargin: 24 * pt
-    currentValue: 11240
+    currentValue: 10390
 
     ListModel{
         id:candleModel
