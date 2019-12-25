@@ -35,11 +35,11 @@ DapMainApplicationWindowForm
         }
     }
 
-    screens.source: dashboardScreen
+    dabScreens.source: dashboardScreen
     
-    menuTabWidget.onPuthScreenChanged:
+    dapMenuTabWidget.onPathScreenChanged:
     {
-        screens.setSource(Qt.resolvedUrl(menuTabWidget.puthScreen))
+        screens.setSource(Qt.resolvedUrl(menuTabWidget.pathScreen))
     }
 }
 
