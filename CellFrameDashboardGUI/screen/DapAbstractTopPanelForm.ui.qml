@@ -3,6 +3,7 @@ import "qrc:/"
 
 DapTopPanel
 {
-    height: 60 * pt
+    dapFrame.height: 60 * pt
     dapFrame.color: "#070023"
+    anchors.fill: parent
 }

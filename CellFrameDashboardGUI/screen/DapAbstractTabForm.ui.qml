@@ -3,6 +3,6 @@ import "qrc:/"
 
 DapTab
 {
-    dapSeparator.width: 30 * pt
+    dapSeparator.width: 1 * pt
     dapSeparator.color: "red"
 }

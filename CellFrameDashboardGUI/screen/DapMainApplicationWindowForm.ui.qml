@@ -1,7 +1,8 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.0
 import "qrc:/"
 
-DapMainWindowForm
+DapMainWindow
 {
     anchors.fill: parent
 
@@ -24,8 +25,6 @@ DapMainWindowForm
             source: "qrc:/res/fonts/roboto_medium.ttf"
         }
 
-    // Menu bar width
-    dapMenuWidth: 180 * pt
     ///@detalis Logo icon.
     property alias dapIconLogotype: iconLogotype
     ///@detalis Logo frame.
@@ -35,28 +34,25 @@ DapMainWindowForm
 
     property alias dapScreenLoader: stackViewTabs
 
-//    dapLogotypeHeight: 60 * pt
-
     dapLogotype:
-        Column
-    {
-        anchors.fill:parent
         // Logotype
         Rectangle
         {
             id: frameLogotype
-            anchors.fill:parent
+            anchors.fill: parent
             color: "#070023"
-            Image {
+            height: 60 * pt
+            Image 
+            {
                 id: iconLogotype
                 anchors.verticalCenter: parent.verticalCenter
                 width: 111 * pt
                 height: 24 * pt
+                anchors.left: parent.left
                 anchors.leftMargin: 24 * pt
                 source: "qrc:/res/icons/cellframe-logo-dashboard.png"
             }
         }
-    }
 
     dapMenuWidget:
         // Menu bar
@@ -64,6 +60,7 @@ DapMainWindowForm
         {
             id: menuTabWidget
             anchors.fill: parent
+            dapFrameMenuTab.width: 180 * pt
             heightItemMenu: 60 * pt
             normalColorItemMenu: "transparent"
             selectColorItemMenu: "#D51F5D"

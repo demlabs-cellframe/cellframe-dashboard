@@ -1,10 +1,10 @@
 import QtQuick 2.4
 import "qrc:/"
+import "../../"
 
-DapTabForm {
-    id: dapHistoryTab
-
-    anchors.fill: parent
+DapAbstractTab 
+{
+    id: historyTab
 
     dapTopPanel: DapHistoryTopPanel { }
 

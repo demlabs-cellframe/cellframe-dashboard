@@ -4,7 +4,7 @@ import "../../"
 
 DapAbstractTab
 {
-    id: dapDashboardTab
+    id: dashboardTab
 
     dapTopPanel: DapDashboardTopPanel { }
 

@@ -1,6 +1,7 @@
 import QtQuick 2.4
-import "qrc:/"
 import QtQuick.Controls 2.0
+import "qrc:/"
+
 
 DapRightPanel
 {
@@ -8,6 +9,7 @@ DapRightPanel
 
     ///@detalis Stack of right panels owned by current.
     property alias dapChildRightPanels: childRightPanels
+    
     dapHeader.height: 30 * pt
     dapFrame.width: 350 * pt
     dapFrame.height: parent.height
@@ -28,8 +30,6 @@ DapRightPanel
             id: childRightPanels
             anchors.fill: parent
         }
-
-
 }
 
 
