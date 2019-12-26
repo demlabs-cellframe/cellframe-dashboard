@@ -4,9 +4,8 @@ import "../../"
 
 DapAbstractScreen {
     id: dapdashboard
-    frame.height: parent.height
-    frame.color: "green"
-
+    dapFrame.color: "green"
+    dapFrame.height: parent.height
     textTest.text: "Here text"
 
     Item{

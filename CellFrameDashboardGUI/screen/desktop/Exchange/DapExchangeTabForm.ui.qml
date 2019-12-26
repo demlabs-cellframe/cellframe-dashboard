@@ -6,11 +6,11 @@ DapTabForm {
 
     anchors.fill: parent
 
-    topPanelForm: DapExchangeTopPanelForm { }
+    dapTopPanel: DapExchangeTopPanel { }
 
-    screenForm: DapExchangeScreenForm { }
+    dapScreen: DapExchangeScreen { }
 
-    rightPanelForm: DapExchangeRightPanelForm { }
+    dapRightPanel: DapExchangeRightPanel { }
 }
 
 

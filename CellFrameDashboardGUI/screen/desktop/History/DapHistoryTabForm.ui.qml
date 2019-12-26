@@ -6,11 +6,11 @@ DapTabForm {
 
     anchors.fill: parent
 
-    topPanelForm: DapHistoryTopPanelForm { }
+    dapTopPanel: DapHistoryTopPanel { }
 
-    screenForm: DapHistoryScreenForm { }
+    dapScreen: DapHistoryScreen { }
 
-    rightPanelForm: DapHistoryRightPanelForm { }
+    dapRightPanel: DapHistoryRightPanel { }
 }
 
 /*##^## Designer {

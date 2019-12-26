@@ -5,6 +5,7 @@ DapMainApplicationWindowForm
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
+
     // Menu bar tab model
     ListModel 
     {
@@ -35,11 +36,11 @@ DapMainApplicationWindowForm
         }
     }
 
-    dabScreens.source: dashboardScreen
+    dapScreenLoader.source: dashboardScreen
     
     dapMenuTabWidget.onPathScreenChanged:
     {
-        screens.setSource(Qt.resolvedUrl(menuTabWidget.pathScreen))
+        dapScreenLoader.setSource(Qt.resolvedUrl(dapMenuTabWidget.pathScreen))
     }
 }
 

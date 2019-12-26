@@ -1,12 +1,13 @@
 import QtQuick 2.4
 import "../../"
 
-DapAbstractScreenForm {
-    frame.height: parent.height
-    frame.color: "magenta"
+DapAbstractScreenForm
+{
+    dapFrame.color: "magenta"
 
-    contenetItemScreen: Rectangle
-    {
-        color: "green"
-    }
+    dapContenetItemScreen:
+        Rectangle
+        {
+            color: "green"
+        }
 }

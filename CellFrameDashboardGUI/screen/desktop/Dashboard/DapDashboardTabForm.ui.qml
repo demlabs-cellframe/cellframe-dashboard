@@ -2,16 +2,15 @@ import QtQuick 2.4
 import "qrc:/"
 import "../../"
 
-DapTabForm {
+DapAbstractTab
+{
     id: dapDashboardTab
 
-    anchors.fill: parent
+    dapTopPanel: DapDashboardTopPanel { }
 
-    topPanelForm: DapDashboardTopPanel { }
+    dapScreen: DapDashboardScreen { }
 
-    rightPanelForm: DapDashboardRightPanel { }
-
-    screenForm: DapDashboardScreen { }
+    dapRightPanel: DapDashboardRightPanel { }
 }
 
 

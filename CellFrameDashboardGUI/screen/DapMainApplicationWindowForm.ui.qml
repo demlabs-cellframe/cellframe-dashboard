@@ -1,27 +1,85 @@
 import QtQuick 2.4
 import "qrc:/"
 
-DapMainWindowForm {
+DapMainWindowForm
+{
     anchors.fill: parent
-    // Logo icon
-    dapIconLogotype.source: "qrc:/res/icons/cellframe-logo-dashboard.png"
+
+    ///@detalis Roboto light font downloader.
+    readonly property FontLoader dapFontRobotoLight:
+        FontLoader
+        {
+            source: "qrc:/res/fonts/roboto_light.ttf"
+        }
+    ///@detalis Roboto regular font downloader.
+    readonly property FontLoader dapFontRobotoRegular:
+        FontLoader
+        {
+            source: "qrc:/res/fonts/roboto_regular.ttf"
+        }
+    ///@detalis Roboto medium font downloader.
+    readonly property FontLoader dapFontRobotoMedium:
+        FontLoader
+        {
+            source: "qrc:/res/fonts/roboto_medium.ttf"
+        }
+
     // Menu bar width
     dapMenuWidth: 180 * pt
-    // Color of menu item in normal condition
-    dapMenuTabWidget.normalColorItemMenu: "transparent"
-    // The color of the menu item in the selected state
-    dapMenuTabWidget.selectColorItemMenu: "#D51F5D"
-    // Menu item icon width
-    dapMenuTabWidget.widthIconItemMenu: 18 * pt
-    // Menu item icon height
-    dapMenuTabWidget.heightIconItemMenu: 18 * pt
-    // Menu item height
-    dapMenuTabWidget.heightItemMenu: 60 * pt
-    // Initialization of the menu bar
-    dapMenuTabWidget.dapMenuTab.model: modelMenuTab
-    
-    
-    
+    ///@detalis Logo icon.
+    property alias dapIconLogotype: iconLogotype
+    ///@detalis Logo frame.
+    property alias dapFrameLogotype: frameLogotype
+    ///@detalis Menu bar.
+    property alias dapMenuTabWidget: menuTabWidget
+
+    property alias dapScreenLoader: stackViewTabs
+
+//    dapLogotypeHeight: 60 * pt
+
+    dapLogotype:
+        Column
+    {
+        anchors.fill:parent
+        // Logotype
+        Rectangle
+        {
+            id: frameLogotype
+            anchors.fill:parent
+            color: "#070023"
+            Image {
+                id: iconLogotype
+                anchors.verticalCenter: parent.verticalCenter
+                width: 111 * pt
+                height: 24 * pt
+                anchors.leftMargin: 24 * pt
+                source: "qrc:/res/icons/cellframe-logo-dashboard.png"
+            }
+        }
+    }
+
+    dapMenuWidget:
+        // Menu bar
+        DapMenuTabWidget
+        {
+            id: menuTabWidget
+            anchors.fill: parent
+            heightItemMenu: 60 * pt
+            normalColorItemMenu: "transparent"
+            selectColorItemMenu: "#D51F5D"
+            widthIconItemMenu: 18 * pt
+            heightIconItemMenu: 18 * pt
+            dapMenuTab.model: modelMenuTab
+        }
+
+    dabScreensWidget:
+        // Sceen loader
+        Loader
+        {
+            id: stackViewTabs
+            anchors.fill: parent
+            clip: true
+        }
 }
 
 /*##^##

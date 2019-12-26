@@ -1,5 +1,6 @@
 import QtQuick 2.4
 
-DapAbstractScreenForm {
+DapAbstractScreenForm
+{
     buttonTest.onClicked: textTest.text = "DEVICE"
 }

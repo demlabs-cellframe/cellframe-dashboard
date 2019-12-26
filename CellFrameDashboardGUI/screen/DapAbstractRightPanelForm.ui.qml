@@ -2,25 +2,34 @@ import QtQuick 2.4
 import "qrc:/"
 import QtQuick.Controls 2.0
 
-DapRightPanelForm
+DapRightPanel
 {
-    header.height: 30 * pt
-    headerData: Rectangle
-    {
-        anchors.fill: parent
-        color: "green"
-    }
-    
-    contentItemPanel: Label
-    {
-        text: "HELLO!!!"
-        font.pointSize: 30
-        anchors.fill: parent
-    }
+    id: rightPanel
 
-    rightPanel.height: parent.height
-    rightPanel.width: 350 * pt
+    ///@detalis Stack of right panels owned by current.
+    property alias dapChildRightPanels: childRightPanels
+    dapHeader.height: 30 * pt
+    dapFrame.width: 350 * pt
+    dapFrame.height: parent.height
     color: "blue"
+
+
+    dapHeaderData:
+        Rectangle
+        {
+            anchors.fill: parent
+            color: "yellow"
+        }
+    
+    dapContentItemData:
+        // Install right panel content
+        StackView
+        {
+            id: childRightPanels
+            anchors.fill: parent
+        }
+
+
 }
 
 

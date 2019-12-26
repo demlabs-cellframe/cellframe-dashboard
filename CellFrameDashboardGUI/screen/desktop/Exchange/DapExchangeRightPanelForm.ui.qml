@@ -3,7 +3,7 @@ import "../../"
 
 DapAbstractRightPanelForm
 {
-    rightPanel.color: "yellow"
+    dapFrame.color: "yellow"
 }
 
 /*##^##
