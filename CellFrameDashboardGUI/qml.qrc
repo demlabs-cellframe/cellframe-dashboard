@@ -178,5 +178,7 @@
         <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
         <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
         <file>Device.qml</file>
+        <file>screen/DapAbstractMenuTabWidget.qml</file>
+        <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
     </qresource>
 </RCC>

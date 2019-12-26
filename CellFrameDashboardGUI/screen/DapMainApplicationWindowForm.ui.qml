@@ -56,7 +56,7 @@ DapMainWindow
 
     dapMenuWidget:
         // Menu bar
-        DapMenuTabWidget
+        DapAbstractMenuTabWidget
         {
             id: menuTabWidget
             anchors.fill: parent
@@ -66,7 +66,7 @@ DapMainWindow
             selectColorItemMenu: "#D51F5D"
             widthIconItemMenu: 18 * pt
             heightIconItemMenu: 18 * pt
-            dapMenuTab.model: modelMenuTab
+            dapMenuWidget.model: modelMenuTab
         }
 
     dabScreensWidget:
