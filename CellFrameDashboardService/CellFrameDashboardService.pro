@@ -45,29 +45,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    $$PWD/DapChainHistoryHandler.cpp \
-    $$PWD/DapChainNodeNetworkHandler.cpp \
-    $$PWD/main.cpp \
     $$PWD/DapChainDashboardService.cpp \
-    $$PWD/DapChainNode.cpp \
-    $$PWD/DapChainNodeCache.cpp \
-    $$PWD/DapChainWalletHandler.cpp \
-    $$PWD/DapChainLogHandler.cpp \
-    $$PWD/DapChainNetworkHandler.cpp \
-    $$PWD/DapChainConsoleHandler.cpp \
-    $$PWD/DapChainTransaction.cpp
+    $$PWD/main.cpp \
+
 
 HEADERS += \
     $$PWD/DapChainDashboardService.h \
-    $$PWD/DapChainHistoryHandler.h \
-    $$PWD/DapChainNode.h \
-    $$PWD/DapChainNodeCache.h \
-    $$PWD/DapChainNodeNetworkHandler.h \
-    $$PWD/DapChainWalletHandler.h \
-    $$PWD/DapChainLogHandler.h \
-    $$PWD/DapChainNetworkHandler.h \
-    $$PWD/DapChainConsoleHandler.h \
-    $$PWD/DapChainTransaction.h
+
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
@@ -78,7 +62,7 @@ include (../DapRPCProtocol/DapRPCProtocol.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/
                $$_PRO_FILE_PWD_/../DapRPCProtocol/
-                $$_PRO_FILE_PWD_/../cellframe-node/
+               $$_PRO_FILE_PWD_/../cellframe-node/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service
