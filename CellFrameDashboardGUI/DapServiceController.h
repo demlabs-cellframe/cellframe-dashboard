@@ -18,6 +18,8 @@
 #include "DapSettingsNetworkModel.h"
 #include "DapConsoleModel.h"
 
+#include "DapWallet.h"
+
 #include "DapChainWalletModel.h"
 
 class DapServiceController : public QObject

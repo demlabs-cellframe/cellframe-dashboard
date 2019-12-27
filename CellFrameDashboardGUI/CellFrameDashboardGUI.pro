@@ -80,7 +80,8 @@ SOURCES += \
     $$PWD/DapServiceClientNativeLinux.cpp \
     $$PWD/DapServiceClientNativeWin.cpp \
     $$PWD/DapServiceClientNativeMacOS.cpp \
-    $$PWD/DapChainWalletsModel.cpp
+    $$PWD/DapChainWalletsModel.cpp \
+    DapWallet.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -107,7 +108,8 @@ HEADERS += \
     $$PWD/DapServiceClientNativeLinux.h \
     $$PWD/DapServiceClientNativeWin.h \
     $$PWD/DapChainWalletsModel.h \
-    $$PWD/DapWalletFilterModel.h
+    $$PWD/DapWalletFilterModel.h \
+    DapWallet.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

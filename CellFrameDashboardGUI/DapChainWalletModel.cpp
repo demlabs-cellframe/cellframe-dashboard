@@ -60,7 +60,7 @@ double DapChainWalletModel::walletBalance(const QString& aName) const
 
     for(int i = 0; i < m_walletList.count(); i++)
     {
-        if(m_walletList[i].first.Name == aName || aName == TITLE_ALL_WALLETS)
+        if(m_walletList[i].first.Name == aName/* || aName == TITLE_ALL_WALLETS*/)
         {
             DapChainWalletTokenItemList tokenList = m_walletList[i].second;
             for(int m = 0; m < tokenList.count(); m++)
@@ -118,7 +118,7 @@ void DapChainWalletModel::setWalletData(const QByteArray& aData)
     beginResetModel();
     m_walletList.clear();
     m_wallets.clear();
-    m_wallets << TITLE_ALL_WALLETS;
+//    m_wallets << TITLE_ALL_WALLETS;
     QList<QPair<DapChainWalletData, QList<DapChainWalletTokenData>>> walletData;
     QDataStream in(aData);
     in >> walletData;

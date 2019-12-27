@@ -40,16 +40,15 @@ Rectangle {
                 color: "transparent"
                 DapComboBox {
                     id: comboboxWallet
-//                        property Label fieldBalance: Label {}
-//                        model: dapWalletModel.wallets
-                        ///Demo model
-                        model: ListModel{
-                            id:сonversionList
-                            ListElement{text:"all wallets"}
-                            ListElement{text:"Money for children"}
-                            ListElement{text:"Money for education"}
-                            ListElement{text:"Money for medicine"}
-                        }
+                    model:dapWallet.wallets
+                    ///Demo model
+//                    model: ListModel{
+//                            id:сonversionList
+//                            ListElement{text:"all wallets"}
+//                            ListElement{text:"Money for children"}
+//                            ListElement{text:"Money for education"}
+//                            ListElement{text:"Money for medicine"}
+//                        }
 
                     indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
@@ -62,7 +61,7 @@ Rectangle {
                     hilightColorTopText:"#070023"
                     hilightColor: "#330F54"
                     normalTopColor: "#070023"
-                    fontSizeComboBox: 14*px
+                    fontSizeComboBox: 14*pt
                     widthPopupComboBoxNormal:148 * pt
                     widthPopupComboBoxActive:180 * pt
                     heightComboBoxNormal:24 * pt
@@ -96,7 +95,7 @@ Rectangle {
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
                 ///DemoDate
-                text: "$ 3 050 745.3453289 USD"
+                text:"$ "+dapWallet.walletBalance+" USD";
 //                  text: dapChainConvertor.toConvertCurrency(
 //                            dapWalletModel.walletBalance(comboboxWallet.currentText))
             }

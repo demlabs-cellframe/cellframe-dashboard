@@ -14,7 +14,7 @@
 #include "DapSettings.h"
 #include "DapServiceClient.h"
 #include "DapServiceController.h"
-#include "DapLogger.h"
+//#include "DapLogger.h"
 #include "DapLogMessage.h"
 #include "DapLogModel.h"
 #include "DapChainWalletsModel.h"
@@ -28,6 +28,7 @@
 
 #include "DapChainWalletModel.h"
 #include "DapWalletFilterModel.h"
+#include "DapWallet.h"
 
 #include <QRegExp>
 
@@ -43,11 +44,11 @@ int main(int argc, char *argv[])
     app.setApplicationName("CellFrame Dashboard");
     app.setWindowIcon(QIcon(":/res/icons/icon.ico"));
 
-    DapLogger dapLogger;
+//    DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Gui.log").arg(DAP_BRAND));
+//        dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Gui.log").arg(DAP_BRAND));
     #elif defined Q_OS_MACOS
 	mkdir("/tmp/cellframe-dashboard_log",0777);
 	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
@@ -75,6 +76,7 @@ int main(int argc, char *argv[])
     DapWalletFilterModel::instance()
             .setSourceModel(&DapChainWalletModel::instance());
 
+
     qmlRegisterType<DapScreenDialog>("CellFrameDashboard", 1, 0, "DapScreenDialog");
     qmlRegisterType<DapScreenDialogChangeWidget>("CellFrameDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
@@ -94,6 +96,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("dapChainConvertor", &DapChainConvertor::getInstance());
     engine.rootContext()->setContextProperty("dapWalletFilterModel", &DapWalletFilterModel::instance());
     engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
+    engine.rootContext()->setContextProperty("dapWallet",&DapWallet::instance());
     engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
     engine.rootContext()->setContextProperty("pt", 1.0);
 

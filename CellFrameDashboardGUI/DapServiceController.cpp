@@ -1,6 +1,6 @@
 #include "DapServiceController.h"
 #include "DapLogMessage.h"
-#include "DapChainWallet.h"
+//#include "DapChainWallet.h"
 #include "DapSettings.h"
 #include <QRegularExpression>
 
@@ -72,8 +72,11 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     connect(&DapSettingsNetworkModel::getInstance(), &DapSettingsNetworkModel::currentNetworkChanged, m_pDapCommandController, &DapCommandController::changeCurrentNetwork);
 
     connect(m_pDapCommandController, &DapCommandController::sigWalletData, &DapChainWalletModel::instance(), &DapChainWalletModel::setWalletData);
+    // Old model retrieving wallet data
+    //connect(m_pDapCommandController, &DapCommandController::sendResponseTransaction, this, &DapServiceController::resultMempool);
+    //Retrieving Wallet Data
+    connect(m_pDapCommandController, &DapCommandController::sigWalletData, &DapWallet::instance(), &DapWallet::setWalletData);
 
-    connect(m_pDapCommandController, &DapCommandController::sendResponseTransaction, this, &DapServiceController::resultMempool);
 }
 
 QString DapServiceController::getBrand() const

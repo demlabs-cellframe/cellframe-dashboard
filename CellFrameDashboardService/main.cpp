@@ -7,7 +7,7 @@
 
 #include "DapHalper.h"
 #include "DapChainDashboardService.h"
-#include "DapLogger.h"
+//#include "DapLogger.h"
 #include "DapChainLogHandler.h"
 #include "DapSettings.h"
 
@@ -36,17 +36,17 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain("demlabs.net");
     a.setApplicationName("CellFrameDashboardService");
 
-    DapLogger dapLogger;
+  //  DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Service.log").arg(DAP_BRAND));
+//        dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Service.log").arg(DAP_BRAND));
     #elif defined Q_OS_WIN
         dapLogger.setLogFile(QString("%1Service.log").arg(DAP_BRAND));
         dapLogger.setLogLevel(L_INFO);
     #elif defined Q_OS_MAC
 	mkdir("tmp/cellframe-dashboard_log",0777);
-	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Service.log").arg(DAP_BRAND));
+        dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Service.log").arg(DAP_BRAND));
     #endif
 //#endif
     // Creating the main application object
