@@ -9,27 +9,10 @@
 #include <QScreen>
 
 #include "DapHalper.h"
-#include "DapScreenDialog.h"
-#include "DapScreenDialogChangeWidget.h"
-#include "DapSettings.h"
 #include "DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapLogMessage.h"
-#include "DapLogModel.h"
-#include "DapChainWalletsModel.h"
-#include "DapChainNodeNetworkModel.h"
-#include "DapChainNodeNetworkExplorer.h"
-#include "DapScreenHistoryFilterModel.h"
-#include "DapSettingsNetworkModel.h"
-#include "DapConsoleModel.h"
-#include "DapChainConvertor.h"
-#include "DapClipboard.h"
-
-#include "DapChainWalletModel.h"
-#include "DapWalletFilterModel.h"
-
-#include <QRegExp>
 
 #include <sys/stat.h>
 
@@ -63,38 +46,10 @@ int main(int argc, char *argv[])
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);
     dapServiceClient.init();
-    controller.getWallets();
-    controller.requestWalletData();
-    controller.getHistory();
-    controller.getCmdHistory();
-    controller.getNetworkList();
-
-    DapScreenHistoryFilterModel::getInstance()
-            .setSourceModel(&DapScreenHistoryModel::getInstance());
-
-    DapWalletFilterModel::instance()
-            .setSourceModel(&DapChainWalletModel::instance());
-
-    qmlRegisterType<DapScreenDialog>("CellFrameDashboard", 1, 0, "DapScreenDialog");
-    qmlRegisterType<DapScreenDialogChangeWidget>("CellFrameDashboard", 1, 0, "DapScreenDialogChangeWidget");
     qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
-    qmlRegisterType<DapChainNodeNetworkExplorer>("NodeNetworkExplorer", 1, 0, "DapUiQmlWidgetNodeNetwork");
-    qmlRegisterType<DapScreenHistoryModel>("DapTransactionHistory", 1, 0, "DapTransactionModel");
 
     QQmlApplicationEngine engine;
-    /// TODO: this method for getting DPI screen can be useful in the future
-//    qreal dpi = QGuiApplication::primaryScreen()->physicalDotsPerInch();
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
-    engine.rootContext()->setContextProperty("dapLogModel", &DapLogModel::getInstance());
-    engine.rootContext()->setContextProperty("dapChainWalletsModel", &DapChainWalletsModel::getInstance());
-    engine.rootContext()->setContextProperty("dapNodeNetworkModel", &DapChainNodeNetworkModel::getInstance());
-    engine.rootContext()->setContextProperty("dapConsoleModel", &DapConsoleModel::getInstance());
-    engine.rootContext()->setContextProperty("dapHistoryModel", &DapScreenHistoryFilterModel::getInstance());
-    engine.rootContext()->setContextProperty("dapSettingsNetworkModel", &DapSettingsNetworkModel::getInstance());
-    engine.rootContext()->setContextProperty("dapChainConvertor", &DapChainConvertor::getInstance());
-    engine.rootContext()->setContextProperty("dapWalletFilterModel", &DapWalletFilterModel::instance());
-    engine.rootContext()->setContextProperty("dapWalletModel", &DapChainWalletModel::instance());
-    engine.rootContext()->setContextProperty("clipboard", &DapClipboard::instance());
     engine.rootContext()->setContextProperty("pt", 1.0);
     engine.load(QUrl("qrc:/main.qml"));
 

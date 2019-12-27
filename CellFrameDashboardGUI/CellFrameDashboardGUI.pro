@@ -63,18 +63,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
 OTHER_FILES += libdap-qt-ui-qml
 
 SOURCES += \
-    $$PWD/DapChainNodeNetworkExplorer.cpp \
-    $$PWD/DapChainNodeNetworkModel.cpp \
-    $$PWD/DapChainWalletModel.cpp \
-    $$PWD/DapClipboard.cpp \
-    $$PWD/DapConsoleModel.cpp \
-    $$PWD/DapScreenHistoryFilterModel.cpp \
-    $$PWD/DapScreenHistoryModel.cpp \
-    $$PWD/DapSettingsNetworkModel.cpp \
-    $$PWD/DapWalletFilterModel.cpp \
     $$PWD/main.cpp \
-    $$PWD/DapScreenDialog.cpp \
-    $$PWD/DapScreenDialogChangeWidget.cpp \
     $$PWD/DapServiceClient.cpp \
     $$PWD/DapServiceController.cpp \
     $$PWD/DapCommandController.cpp \
@@ -82,7 +71,6 @@ SOURCES += \
     $$PWD/DapServiceClientNativeLinux.cpp \
     $$PWD/DapServiceClientNativeWin.cpp \
     $$PWD/DapServiceClientNativeMacOS.cpp \
-    $$PWD/DapChainWalletsModel.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -92,24 +80,12 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    $$PWD/DapChainNodeNetworkExplorer.h \
-    $$PWD/DapChainNodeNetworkModel.h \
-    $$PWD/DapChainWalletModel.h \
-    $$PWD/DapClipboard.h \
-    $$PWD/DapConsoleModel.h \
-    $$PWD/DapScreenHistoryFilterModel.h \
-    $$PWD/DapScreenHistoryModel.h \
-    $$PWD/DapSettingsNetworkModel.h \
-    $$PWD/DapScreenDialog.h \
-    $$PWD/DapScreenDialogChangeWidget.h \
     $$PWD/DapServiceClient.h \
     $$PWD/DapServiceController.h \
     $$PWD/DapCommandController.h \
     $$PWD/DapServiceClientNativeAbstract.h \
     $$PWD/DapServiceClientNativeLinux.h \
     $$PWD/DapServiceClientNativeWin.h \
-    $$PWD/DapChainWalletsModel.h \
-    $$PWD/DapWalletFilterModel.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

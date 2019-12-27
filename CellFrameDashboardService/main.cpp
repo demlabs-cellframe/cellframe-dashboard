@@ -2,14 +2,13 @@
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QCommandLineParser>
+#include <QProcess>
 
 #include <unistd.h>
 
 #include "DapHalper.h"
 #include "DapChainDashboardService.h"
 #include "DapLogger.h"
-#include "DapChainLogHandler.h"
-#include "DapSettings.h"
 
 #include <sys/stat.h>
 
