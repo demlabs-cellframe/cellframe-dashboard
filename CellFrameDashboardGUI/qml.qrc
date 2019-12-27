@@ -1,30 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>CellFrameDashboardGUI.conf</file>
-        <file>res/icons/ic_arrow_drop_down_dark_blue.png</file>
-        <file>res/icons/ic_arrow_drop_up_dark_blue.png</file>
-        <file>res/cellframe-logo.svg</file>
-        <file>res/Settings.json</file>
         <file>res/fonts/roboto_light.ttf</file>
         <file>res/fonts/roboto_medium.ttf</file>
         <file>res/fonts/roboto_regular.ttf</file>
-        <file>res/icons/back_icon.png</file>
-        <file>res/icons/back_icon_hover.png</file>
-        <file>res/icons/close_icon.png</file>
-        <file>res/icons/close_icon_hover.png</file>
-        <file>res/icons/dashboard.icns</file>
-        <file>res/icons/defaul_icon.png</file>
-        <file>res/icons/ic_arrow_drop_down.png</file>
-        <file>res/icons/ic_arrow_drop_up.png</file>
-        <file>res/icons/ic_copy.png</file>
-        <file>res/icons/ic_copy_hover.png</file>
-        <file>res/icons/ic_edit.png</file>
-        <file>res/icons/ic_edit_hover.png</file>
-        <file>res/icons/ic_scroll-down.png</file>
-        <file>res/icons/ic_scroll-down_hover.png</file>
-        <file>res/icons/ic_scroll-up.png</file>
-        <file>res/icons/ic_scroll-up_hover.png</file>
-        <file>res/icons/icon.png</file>
         <file>res/icons/icon_console.png</file>
         <file>res/icons/icon_console_hover.png</file>
         <file>res/icons/icon_dashboard.png</file>
@@ -37,10 +16,6 @@
         <file>res/icons/icon_logs_hover.png</file>
         <file>res/icons/icon_settings.png</file>
         <file>res/icons/icon_settings_hover.png</file>
-        <file>res/icons/new-payment_icon.png</file>
-        <file>res/icons/new-wallet_icon_dark.png</file>
-        <file>res/icons/new-wallet_icon_dark_hover.png</file>
-        <file>res/icons/icon_arrow_down.png</file>
         <file>main.qml</file>
         <file>res/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
@@ -53,11 +28,6 @@
         <file>screen/DapAbstractScreenForm.ui.qml</file>
         <file>screen/DapAbstractRightPanel.qml</file>
         <file>screen/DapAbstractRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Console/DapUiQmlScreenConsoleForm.ui.qml</file>
-        <file>screen/desktop/Console/DapUiQmlWidgetConsole.qml</file>
-        <file>screen/desktop/Console/DapUiQmlWidgetConsoleForm.ui.qml</file>
-        <file>screen/desktop/Console/DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
-        <file>screen/desktop/Console/DapUiQmlWidgetConsoleLastActionsForm.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardRightPanel.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
@@ -74,7 +44,6 @@
         <file>screen/desktop/Exchange/DapExchangeTabForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
-        <file>screen/desktop/Explorer/DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
         <file>screen/desktop/History/DapHistoryRightPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryScreen.qml</file>
@@ -83,43 +52,6 @@
         <file>screen/desktop/History/DapHistoryTabForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryTopPanel.qml</file>
         <file>screen/desktop/History/DapHistoryTopPanelForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapRadioButton.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlRecoveryNotesForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlRecoveryQrForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlScreenDialogAddWallet.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlScreenDialogAddWalletForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWalletCreated.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWalletCreatedForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWalletCreatedHeader.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetHistoryLastActions.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetLastActions.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetLastActionsButtonForm.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetLastActionsDelegateForm.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetLastActionsForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetLastActionsSectionForm.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetRightPanel.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml</file>
-        <file>screen/desktop/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml</file>
-        <file>screen/desktop/Log/DapUiQmlWidgetChainNodeLogs.qml</file>
-        <file>screen/desktop/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
-        <file>screen/desktop/Settings/DapUiQmlScreenSettings.qml</file>
-        <file>screen/desktop/Settings/DapUiQmlScreenSettingsForm.ui.qml</file>
-        <file>screen/desktop/Settings/DapUiQmlScreenSettingsSection.qml</file>
-        <file>screen/desktop/Settings/DapUiQmlWidgetSettingsNetwork.qml</file>
-        <file>screen/desktop/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
-        <file>screen/desktop/VPN/DapUiQmlScreenVpn.qml</file>
-        <file>screen/desktop/VPN/DapUiQmlScreenVpnForm.ui.qml</file>
-        <file>screen/desktop/VPN/DapUiQmlWidgetSettingsVpn.qml</file>
-        <file>screen/desktop/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
-        <file>screen/desktop/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
-        <file>screen/desktop/VPN/DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
-        <file>screen/mobile/Console/DapUiQmlScreenConsoleForm.ui.qml</file>
-        <file>screen/mobile/Console/DapUiQmlWidgetConsole.qml</file>
-        <file>screen/mobile/Console/DapUiQmlWidgetConsoleForm.ui.qml</file>
-        <file>screen/mobile/Console/DapUiQmlWidgetConsoleLastActionsDelegateForm.qml</file>
-        <file>screen/mobile/Console/DapUiQmlWidgetConsoleLastActionsForm.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanel.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardScreen.qml</file>
@@ -136,7 +68,6 @@
         <file>screen/mobile/Exchange/DapExchangeTabForm.ui.qml</file>
         <file>screen/mobile/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/mobile/Exchange/DapExchangeTopPanelForm.ui.qml</file>
-        <file>screen/mobile/Explorer/DapUiQmlWidgetNodeNetworkExplorer.qml</file>
         <file>screen/mobile/History/DapHistoryRightPanel.qml</file>
         <file>screen/mobile/History/DapHistoryRightPanelForm.ui.qml</file>
         <file>screen/mobile/History/DapHistoryScreen.qml</file>
@@ -145,39 +76,6 @@
         <file>screen/mobile/History/DapHistoryTabForm.ui.qml</file>
         <file>screen/mobile/History/DapHistoryTopPanel.qml</file>
         <file>screen/mobile/History/DapHistoryTopPanelForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapRadioButton.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlRecoveryNotesForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlRecoveryQrForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlScreenDialogAddWallet.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlScreenDialogAddWalletForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlScreenDialogAddWalletHeader.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWalletCreated.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWalletCreatedForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWalletCreatedHeader.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetHistoryLastActions.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetLastActions.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetLastActionsButtonForm.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetLastActionsDelegateForm.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetLastActionsForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetLastActionsHeaderForm.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetLastActionsSectionForm.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetRightPanel.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetRightPanelForm.ui.qml</file>
-        <file>screen/mobile/LastAction/DapUiQmlWidgetScreenDialogAddWallet.ui.qml</file>
-        <file>screen/mobile/Log/DapUiQmlWidgetChainNodeLogs.qml</file>
-        <file>screen/mobile/Log/DapUiQmlWidgetChainNodeLogsForm.ui.qml</file>
-        <file>screen/mobile/Settings/DapUiQmlScreenSettings.qml</file>
-        <file>screen/mobile/Settings/DapUiQmlScreenSettingsForm.ui.qml</file>
-        <file>screen/mobile/Settings/DapUiQmlScreenSettingsSection.qml</file>
-        <file>screen/mobile/Settings/DapUiQmlWidgetSettingsNetwork.qml</file>
-        <file>screen/mobile/Settings/DapUiQmlWidgetSettingsNetworkForm.ui.qml</file>
-        <file>screen/mobile/VPN/DapUiQmlScreenVpn.qml</file>
-        <file>screen/mobile/VPN/DapUiQmlScreenVpnForm.ui.qml</file>
-        <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpn.qml</file>
-        <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnComboBox.qml</file>
-        <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnComboBoxForm.ui.qml</file>
-        <file>screen/mobile/VPN/DapUiQmlWidgetSettingsVpnForm.ui.qml</file>
-        <file>Device.qml</file>
         <file>screen/DapAbstractMenuTabWidget.qml</file>
         <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
     </qresource>
