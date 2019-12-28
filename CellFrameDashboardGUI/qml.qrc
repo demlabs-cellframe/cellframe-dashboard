@@ -78,5 +78,9 @@
         <file>screen/mobile/History/DapHistoryTopPanelForm.ui.qml</file>
         <file>screen/DapAbstractMenuTabWidget.qml</file>
         <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
+        <file>res/icons/new-wallet_icon_dark_hover.png</file>
+        <file>res/icons/new-wallet_icon_dark.png</file>
+        <file>res/icons/ic_arrow_drop_down.png</file>
+        <file>res/icons/ic_arrow_drop_up.png</file>
     </qresource>
 </RCC>
