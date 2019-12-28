@@ -6,6 +6,11 @@
 #include <QList>
 #include <QDataStream>
 
+///This structure contains general information about the wallet.
+/// @param IconPath Contains address icons.
+/// @param Name Wallet name.
+/// @param Address
+/// @param Network
 struct DapChainWalletData
 {
     QString IconPath;
@@ -48,6 +53,10 @@ struct DapChainWalletData
     }
 };
 
+///This structure stores information about how much is received or how much is spent.
+/// @param Name Wallet name.
+/// @param Balance
+/// @param Emission
 struct DapChainWalletTokenData {
     QString Name;
     double Balance;
@@ -81,7 +90,11 @@ struct DapChainWalletTokenData {
         return Name == aData.Name;
     }
 };
-
+///This class (structure) contains data about the current state of the wallet.
+/// @param name     Wallet name
+/// @param balance
+/// @param emission
+/// @param wallet
 class DapChainWalletTokenItem : public QObject
 {
     Q_OBJECT

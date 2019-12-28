@@ -41,14 +41,10 @@ Rectangle {
                 DapComboBox {
                     id: comboboxWallet
                     model:dapWallet.wallets
-                    ///Demo model
-//                    model: ListModel{
-//                            id:сonversionList
-//                            ListElement{text:"all wallets"}
-//                            ListElement{text:"Money for children"}
-//                            ListElement{text:"Money for education"}
-//                            ListElement{text:"Money for medicine"}
-//                        }
+                    onActivated: {
+                        fieldWalletBalance.text =
+                        "$ " + dapChainConvertor.toConvertCurrency(dapWallet.walletBalance(comboboxWallet.currentText)) + " USD";
+                    }
 
                     indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
@@ -94,10 +90,9 @@ Rectangle {
                 font.family: fontRobotoRegular.name
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
-                ///DemoDate
-                text:"$ "+dapWallet.walletBalance+" USD";
-//                  text: dapChainConvertor.toConvertCurrency(
-//                            dapWalletModel.walletBalance(comboboxWallet.currentText))
+
+                text:"$ " + dapChainConvertor.toConvertCurrency(dapWallet.walletBalance(comboboxWallet.currentText)) + " USD";
+
             }
         }
 
