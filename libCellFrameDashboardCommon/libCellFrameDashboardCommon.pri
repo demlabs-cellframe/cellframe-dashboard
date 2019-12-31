@@ -18,8 +18,9 @@ SOURCES +=\
     $$PWD/DapHistoryType.cpp \
     $$PWD/DapSettings.cpp \
     $$PWD/DapLogMessage.cpp \
-    $$PWD/DapLogModel.cpp \
-    $$PWD/DapChainWallet.cpp
+    $$PWD/DapChainWallet.cpp \
+    $$PWD/Handlers/DapAbstractCommand.cpp \
+    $$PWD/Handlers/DapAddWalletCommand.cpp
 
 HEADERS +=\
     $$PWD/DapChainConvertor.h \
@@ -27,6 +28,7 @@ HEADERS +=\
     $$PWD/DapHistoryType.h \
     $$PWD/DapSettings.h \
     $$PWD/DapLogMessage.h \
-    $$PWD/DapLogModel.h \
     $$PWD/DapChainWallet.h \
-    $$PWD/DapNodeType.h
+    $$PWD/DapNodeType.h \
+    $$PWD/Handlers/DapAbstractCommand.h \
+    $$PWD/Handlers/DapAddWalletCommand.h

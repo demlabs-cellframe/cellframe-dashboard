@@ -1,8 +1,16 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.0
 import "../../"
 
 DapAbstractTopPanel
 {
+    property alias testButton: button
+    Button
+    {
+        id: button
+        anchors.fill: parent
+        text: "Press"
+    }
 
 }
 
