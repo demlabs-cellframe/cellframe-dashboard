@@ -66,7 +66,6 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceClient.cpp \
     $$PWD/DapServiceController.cpp \
-    $$PWD/DapCommandController.cpp \
     $$PWD/DapServiceClientNativeAbstract.cpp \
     $$PWD/DapServiceClientNativeLinux.cpp \
     $$PWD/DapServiceClientNativeWin.cpp \
@@ -82,7 +81,6 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     $$PWD/DapServiceClient.h \
     $$PWD/DapServiceController.h \
-    $$PWD/DapCommandController.h \
     $$PWD/DapServiceClientNativeAbstract.h \
     $$PWD/DapServiceClientNativeLinux.h \
     $$PWD/DapServiceClientNativeWin.h \

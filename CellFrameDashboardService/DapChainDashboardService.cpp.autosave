@@ -12,7 +12,7 @@ bool DapChainDashboardService::start()
     qInfo() << "DapChainDashboardService::start()";
     
     m_pServer = new DapUiService();
-    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption	);
+    m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
@@ -25,4 +25,9 @@ bool DapChainDashboardService::start()
         return false;
     }
     return true;
+}
+
+void DapChainDashboardService::example(int x)
+{
+    qInfo() << "Example " << x;
 }

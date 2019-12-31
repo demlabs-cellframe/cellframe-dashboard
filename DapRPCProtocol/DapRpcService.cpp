@@ -60,8 +60,13 @@ void DapRpcService::setCurrentRequest(const DapRpcServiceRequest &aCurrentReques
     m_currentRequest = aCurrentRequest;
 }
 
-DapRpcService::DapRpcService(QObject *apParent)
-    : QObject(apParent)
+QString DapRpcService::getName() const
+{
+    return m_sName;
+}
+
+DapRpcService::DapRpcService(const QString &asName, QObject *apParent)
+    : QObject(apParent), m_sName(asName)
 {
 }
 

@@ -2,11 +2,14 @@
 #define DAPSERVICECONTROLLER_H
 
 #include <QObject>
+
+#include <QGenericArgument>
 #include <QQmlEngine>
 #include <QJSEngine>
 
-#include "DapCommandController.h"
 #include "DapServiceClient.h"
+#include "Handlers/DapAbstractCommand.h"
+#include "Handlers/DapAddWalletCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -16,11 +19,12 @@ class DapServiceController : public QObject
     QString m_sBrand {DAP_BRAND};
     /// Application version.
     QString m_sVersion {DAP_VERSION};
-
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
-    /// RPC protocol controller.
-    DapCommandController *m_pDapCommandController {nullptr};
+    /// Command manager.
+    QMap<QString, DapAbstractCommand*>      m_transceivers;
+    /// RPC socket.
+    DapRpcSocket    * m_DAPRpcSocket {nullptr};
     /// Standard constructor
     explicit DapServiceController(QObject *apParent = nullptr);
     
@@ -28,12 +32,20 @@ public:
     /// Get an instance of a class.
     /// @return Instance of a class.
     Q_INVOKABLE static DapServiceController &getInstance();
+    /// Send request to service.
+    /// @param arg1...arg10 Parametrs.
+    Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &arg1 = QVariant(),
+                         const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
+                         const QVariant &arg4 = QVariant(), const QVariant &arg5 = QVariant(),
+                         const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
+                         const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
+                         const QVariant &arg10 = QVariant());
     
     ///********************************************
     ///                 Property
     /// *******************************************
     
-    /// Brand сompany.
+    /// Brand company.
     Q_PROPERTY(QString Brand MEMBER m_sBrand READ getBrand NOTIFY brandChanged)
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
@@ -41,6 +53,9 @@ public:
     ///********************************************
     ///                 Interface
     /// *******************************************
+    
+    /// Client controller initialization.
+    /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
     /// Get company brand.
     /// @return Brand сompany.
@@ -56,7 +71,14 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
-
+    
+private slots:
+    /// Register command.
+    void registerCommand();
+    /// Find the emitted signal.
+    /// @param aValue Transmitted parameter.
+    void findEmittedSignal(const QVariant& aValue);
+    
 public slots:
     /// Method that implements the singleton pattern for the qml layer.
     /// @param engine QML application.
