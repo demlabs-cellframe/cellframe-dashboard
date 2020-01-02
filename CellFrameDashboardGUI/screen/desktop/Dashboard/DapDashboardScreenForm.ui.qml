@@ -2,7 +2,8 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import "../../"
 
-DapAbstractScreen {
+DapAbstractScreen
+{
     id: dapdashboard
     dapFrame.color: "green"
     textTest.text: "Here text"
