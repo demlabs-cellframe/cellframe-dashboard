@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.0
 import "qrc:/"
 import "../../"
 
@@ -6,11 +7,19 @@ DapAbstractTab
 {
     id: dashboardTab
 
+    property alias dapDashboardRightPanel: rightPanelLoader
+
     dapTopPanel: DapDashboardTopPanel { }
 
     dapScreen: DapDashboardScreen { }
 
-    dapRightPanel: DapDashboardRightPanel { }
+    dapRightPanel:
+        Loader
+        {
+            id: rightPanelLoader
+            anchors.fill: parent
+            width: 400
+        }
 }
 
 

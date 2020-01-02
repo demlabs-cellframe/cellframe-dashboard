@@ -28,8 +28,6 @@
         <file>screen/DapAbstractScreenForm.ui.qml</file>
         <file>screen/DapAbstractRightPanel.qml</file>
         <file>screen/DapAbstractRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreenForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTab.qml</file>
@@ -82,5 +80,17 @@
         <file>res/icons/new-wallet_icon_dark.png</file>
         <file>res/icons/ic_arrow_drop_down.png</file>
         <file>res/icons/ic_arrow_drop_up.png</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanelForm.ui.qml</file>
+        <file>res/icons/back_icon_hover.png</file>
+        <file>res/icons/back_icon.png</file>
+        <file>res/icons/close_icon_hover.png</file>
+        <file>res/icons/close_icon.png</file>
     </qresource>
 </RCC>

@@ -6,30 +6,11 @@ import "qrc:/widgets"
 DapRightPanel
 {
     id: rightPanel
-
-    ///@detalis Stack of right panels owned by current.
-    property alias dapChildRightPanels: childRightPanels
     
     dapHeader.height: 30 * pt
-    dapFrame.width: 350 * pt
+    dapFrame.width: 400 * pt
     dapFrame.height: parent.height
-    color: "blue"
-
-
-    dapHeaderData:
-        Rectangle
-        {
-            anchors.fill: parent
-            color: "yellow"
-        }
-    
-    dapContentItemData:
-        // Install right panel content
-        StackView
-        {
-            id: childRightPanels
-            anchors.fill: parent
-        }
+    color: "#F8F7FA"
 }
 
 

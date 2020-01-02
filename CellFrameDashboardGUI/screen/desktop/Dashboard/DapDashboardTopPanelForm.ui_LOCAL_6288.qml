@@ -17,7 +17,7 @@ DapAbstractTopPanel
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
         font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
-        font.pointSize: 12
+        font.pixelSize: 12 * pt
         color: "#ACAAB5"
     }
 
@@ -55,7 +55,7 @@ DapAbstractTopPanel
             hilightColorTopText:"#070023"
             hilightColor: "#330F54"
             normalTopColor: "#070023"
-            fontSizeComboBox: 14 * pt
+            fontSizeComboBox: 14*px
             widthPopupComboBoxNormal:148 * pt
             widthPopupComboBoxActive:180 * pt
             heightComboBoxNormal:24 * pt
@@ -75,7 +75,7 @@ DapAbstractTopPanel
         anchors.leftMargin: 70 * pt
         anchors.verticalCenter: parent.verticalCenter
         font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
-        font.pointSize: 12 * pt
+        font.pixelSize: 12 * pt
         color: "#ACAAB5"
     }
 
@@ -88,7 +88,7 @@ DapAbstractTopPanel
         anchors.leftMargin: 18 * pt
         anchors.verticalCenter: parent.verticalCenter
         font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
-        font.pointSize: 16 * pt
+        font.pixelSize: 16 * pt
         color: "#FFFFFF"
     }
 
