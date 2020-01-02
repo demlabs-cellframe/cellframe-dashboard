@@ -12,7 +12,8 @@ DapRpcServiceProvider::~DapRpcServiceProvider()
 QByteArray DapRpcServiceProvider::getServiceName(DapRpcService *apService)
 {
     const QMetaObject *mo = apService->metaObject();
-    for (int i = 0; i < mo->classInfoCount(); i++) {
+    for (int i = 0; i < mo->classInfoCount(); i++)
+    {
         const QMetaClassInfo mci = mo->classInfo(i);
         if (mci.name() == QLatin1String("serviceName"))
             return mci.value();
@@ -23,7 +24,7 @@ QByteArray DapRpcServiceProvider::getServiceName(DapRpcService *apService)
 
 bool DapRpcServiceProvider::addService(DapRpcService *apService)
 {
-    QByteArray serviceName = getServiceName(apService);
+    QByteArray serviceName = apService->getName().toUtf8();
     if (serviceName.isEmpty()) {
         qJsonRpcDebug() << "service added without serviceName classinfo, aborting";
         return false;
@@ -60,8 +61,11 @@ void DapRpcServiceProvider::processMessage(DapRpcSocket *apSocket, const DapRpcM
         case DapRpcMessage::Request:
         case DapRpcMessage::Notification: {
             QByteArray serviceName = aMessage.method().section(".", 0, -2).toLatin1();
-            if (serviceName.isEmpty() || !m_services.contains(serviceName)) {
-                if (aMessage.type() == DapRpcMessage::Request) {
+            bool b = m_services.contains(serviceName);
+            if (serviceName.isEmpty() || !m_services.contains(serviceName))
+            {
+                if (aMessage.type() == DapRpcMessage::Request)
+                {
                     DapRpcMessage error =
                         aMessage.createErrorResponse(DapErrorCode::MethodNotFound,
                             QString("service '%1' not found").arg(serviceName.constData()));

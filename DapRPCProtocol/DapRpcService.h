@@ -43,13 +43,14 @@ class DapRpcService : public QObject
     QHash<QByteArray, QList<int> > m_invokableMethodHash;
     DapRpcServiceRequest m_currentRequest;
     bool m_delayedResponse {false};
+    QString m_sName;
 
 protected:
     DapRpcServiceRequest currentRequest() const;
     void beginDelayedResponse();
 
 public:
-    explicit DapRpcService(QObject *apParent = nullptr);
+    explicit DapRpcService(const QString &asName, QObject *apParent = nullptr);
     ~DapRpcService();
 
     void cacheInvokableInfo();
@@ -58,6 +59,8 @@ public:
     static QJsonValue convertReturnValue(QVariant &aReturnValue);
 
     void setCurrentRequest(const DapRpcServiceRequest &aCurrentRequest);
+
+    QString getName() const;
 
 signals:
     void result(const DapRpcMessage &aDapRpcMessage);

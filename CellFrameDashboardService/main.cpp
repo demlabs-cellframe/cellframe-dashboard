@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 #include "DapHalper.h"
-#include "DapChainDashboardService.h"
+#include "DapServiceController.h"
 #include "DapLogger.h"
 
 #include <sys/stat.h>
@@ -50,11 +50,8 @@ int main(int argc, char *argv[])
 //#endif
     // Creating the main application object
     processArgs();
-    DapChainDashboardService service;
-    service.start();
-
-    // Initialization of the application in the system tray
-//    service.initTray();
+    DapServiceController serviceController;
+    serviceController.start();
 
     
     return a.exec();
