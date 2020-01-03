@@ -6,31 +6,32 @@ import "qrc:/widgets"
 DapRightPanel
 {
     id: rightPanel
-
-    ///@detalis Stack of right panels owned by current.
-    property alias dapChildRightPanels: childRightPanels
+    
+    property DapButton dapButtonClose: 
+        DapButton
+        {
+            id: buttonClose
+            height: 16 * pt
+            width: 16 * pt
+            heightImageButton: 16 * pt
+            widthImageButton: 16 * pt
+            colorBackgroundNormal: "#F8F7FA"
+            colorBackgroundHover: "#F8F7FA"
+            normalImageButton: "qrc:/res/icons/close_icon.png"
+            hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+        }
     
     dapHeader.height: 30 * pt
-    dapFrame.width: 350 * pt
+    dapFrame.width: 400 * pt
     dapFrame.height: parent.height
-    color: "blue"
-
-
-    dapHeaderData:
-        Rectangle
-        {
-            anchors.fill: parent
-            color: "yellow"
-        }
-    
-    dapContentItemData:
-        // Install right panel content
-        StackView
-        {
-            id: childRightPanels
-            anchors.fill: parent
-        }
+    color: "#F8F7FA"
 }
+
+
+
+
+
+
 
 
 

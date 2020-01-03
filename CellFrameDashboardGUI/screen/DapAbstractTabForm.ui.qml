@@ -4,5 +4,5 @@ import "qrc:/widgets"
 DapTab
 {
     dapSeparator.width: 1 * pt
-    dapSeparator.color: "red"
+    dapSeparator.color: "#E3E2E6"
 }
