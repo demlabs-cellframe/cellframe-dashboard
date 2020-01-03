@@ -7,11 +7,31 @@ DapRightPanel
 {
     id: rightPanel
     
+    property DapButton dapButtonClose: 
+        DapButton
+        {
+            id: buttonClose
+            height: 16 * pt
+            width: 16 * pt
+            heightImageButton: 16 * pt
+            widthImageButton: 16 * pt
+            colorBackgroundNormal: "#F8F7FA"
+            colorBackgroundHover: "#F8F7FA"
+            normalImageButton: "qrc:/res/icons/close_icon.png"
+            hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+        }
+    
     dapHeader.height: 30 * pt
     dapFrame.width: 400 * pt
     dapFrame.height: parent.height
     color: "#F8F7FA"
 }
+
+
+
+
+
+
 
 
 

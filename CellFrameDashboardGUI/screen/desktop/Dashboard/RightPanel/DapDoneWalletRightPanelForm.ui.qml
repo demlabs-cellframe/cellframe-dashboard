@@ -4,6 +4,13 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+    dapButtonClose.height: 16 * pt
+    dapButtonClose.width: 16 * pt
+    dapButtonClose.heightImageButton: 16 * pt
+    dapButtonClose.widthImageButton: 16 * pt
+    dapButtonClose.normalImageButton: "qrc:/res/icons/close_icon.png"
+    dapButtonClose.hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+    
     dapHeaderData:
         Row
         {
@@ -12,17 +19,11 @@ DapAbstractRightPanel
             anchors.rightMargin: 16 * pt
             anchors.topMargin: 12 * pt
             anchors.bottomMargin: 12 * pt
-            DapButton
+            
+            Item 
             {
-                id: buttonClose
-                height: 16 * pt
-                width: 16 * pt
-                heightImageButton: height
-                widthImageButton: width
-                colorBackgroundNormal: "#F8F7FA"
-                colorBackgroundHover: "#F8F7FA"
-                normalImageButton: "qrc:/res/icons/close_icon.png"
-                hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+                id: itemButtonClose
+                data: dapButtonClose
             }
         }
 
@@ -99,3 +100,22 @@ DapAbstractRightPanel
 
         }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
