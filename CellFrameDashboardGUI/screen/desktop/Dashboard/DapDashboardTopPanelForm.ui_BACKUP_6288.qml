@@ -1,16 +1,30 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
+<<<<<<< HEAD
 import "qrc:/widgets"
+=======
+>>>>>>> develop
 import "../../"
 
-DapAbstractTopPanel 
+
+DapAbstractTopPanel
 {
+<<<<<<< HEAD
     anchors.fill: parent
+=======
+    property alias testButton: button
+    Button
+    {
+        id: button
+        anchors.fill: parent
+        text: "Press"
+    }
+>>>>>>> develop
 
     // Static text "Wallet"
-    Label 
+    Label
     {
-        id: textHeaderWallet
+        id:textHeaderWallet
         text: qsTr("Wallet")
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
@@ -21,7 +35,7 @@ DapAbstractTopPanel
     }
 
     // Wallet selection combo box
-    Rectangle 
+    Rectangle
     {
         id: frameComboBox
 
@@ -31,69 +45,42 @@ DapAbstractTopPanel
         width: 148 * pt
         color: "transparent"
 
-        DapComboBox 
+        DapComboBox
         {
             id: comboboxWallet
 
-            model: ListModel 
-            {
-                id: сonversionList
-                ListElement 
-                {
-                    text: "all wallets"
-                }
-                ListElement 
-                {
-                    text: "Money for children"
-                }
-                ListElement 
-                {
-                    text: "Money for education"
-                }
-                ListElement 
-                {
-                    text: "Money for medicine"
-                }
+            model: ListModel{
+                id:сonversionList
+                ListElement{text:"all wallets"}
+                ListElement{text:"Money for children"}
+                ListElement{text:"Money for education"}
+                ListElement{text:"Money for medicine"}
             }
+
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
-            sidePaddingNormal: 0 * pt
-            sidePaddingActive: 16 * pt
-            topIndentActive: 10 * pt
-            normalColorText: "#070023"
-            hilightColorText: "#FFFFFF"
-            normalColorTopText: "#FFFFFF"
-            hilightColorTopText: "#070023"
+            sidePaddingNormal:0 * pt
+            sidePaddingActive:16 * pt
+            topIndentActive:10 * pt
+            normalColorText:"#070023"
+            hilightColorText:"#FFFFFF"
+            normalColorTopText:"#FFFFFF"
+            hilightColorTopText:"#070023"
             hilightColor: "#330F54"
             normalTopColor: "#070023"
-            widthPopupComboBoxNormal: 148 * pt
-            widthPopupComboBoxActive: 180 * pt
-            heightComboBoxNormal: 24 * pt
-            heightComboBoxActive: 44 * pt
-            bottomIntervalListElement: 8 * pt
-            topEffect: false
+            fontSizeComboBox: 14*px
+            widthPopupComboBoxNormal:148 * pt
+            widthPopupComboBoxActive:180 * pt
+            heightComboBoxNormal:24 * pt
+            heightComboBoxActive:44 * pt
+            bottomIntervalListElement:8 * pt
+            topEffect:false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
-            normalColor: "#FFFFFF"
-            hilightTopColor: normalColor
-            topIndentNormal: 12 * pt
-            bottomIndentNormal: 14 * pt
-            bottomIndentActive: bottomIndentNormal
-            paddingTopItemDelegate: 8 * pt
-            paddingBottomItemDelegate: paddingTopItemDelegate
-            heightListElement: 32 * pt
-            intervalListElement: 10 * pt
-            indicatorWidth: 24 * pt
-            indicatorHeight: indicatorWidth
-            colorTopNormalDropShadow: "#00000000"
-            colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
-
         }
     }
 
     // Static wallet balance text "Wallet balance"
-    Label 
+    Label
     {
         id: headerWalletBalance
         text: qsTr("Wallet balance")
@@ -106,7 +93,7 @@ DapAbstractTopPanel
     }
 
     // Dynamic wallet balance text
-    Label 
+    Label
     {
         id: textWalletBalance
         text: "$ 3 050 745.3453289 USD"
@@ -133,19 +120,14 @@ DapAbstractTopPanel
         widthImageButton: 28 * pt
         heightImageButton: 28 * pt
         indentImageLeftButton: 10 * pt
-        colorBackgroundNormal: "#070023"
+        colorBackgroundNormal:"#070023"
         colorBackgroundHover: "#D51F5D"
         colorButtonTextNormal: "#FFFFFF"
         colorButtonTextHover: "#FFFFFF"
         indentTextRight: 20 * pt
-        fontButton.pixelSize: 14 * pt
-        existenceImage: true
+        fontSizeButton: 14 * pt
+        existenceImage:true
         borderColorButton: "#000000"
         borderWidthButton: 0
-        fontButton.family: "Roboto"
-        fontButton.weight: Font.Normal
-        horizontalAligmentText:Qt.AlignRight
-        colorTextButton: "#FFFFFF"
-
     }
 }
