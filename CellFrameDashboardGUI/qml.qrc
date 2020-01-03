@@ -92,5 +92,6 @@
         <file>res/icons/back_icon.png</file>
         <file>res/icons/close_icon_hover.png</file>
         <file>res/icons/close_icon.png</file>
+        <file>res/icons/ic_arrow_drop_down_dark.png</file>
     </qresource>
 </RCC>
