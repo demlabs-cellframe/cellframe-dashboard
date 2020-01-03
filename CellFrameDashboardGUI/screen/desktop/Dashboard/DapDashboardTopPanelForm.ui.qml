@@ -3,15 +3,12 @@ import QtQuick.Controls 2.0
 import "qrc:/widgets"
 import "../../"
 
-
-DapAbstractTopPanel
-{
+DapAbstractTopPanel {
     anchors.fill: parent
 
     // Static text "Wallet"
-    Label
-    {
-        id:textHeaderWallet
+    Label {
+        id: textHeaderWallet
         text: qsTr("Wallet")
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
@@ -22,8 +19,7 @@ DapAbstractTopPanel
     }
 
     // Wallet selection combo box
-    Rectangle
-    {
+    Rectangle {
         id: frameComboBox
 
         anchors.left: textHeaderWallet.right
@@ -32,43 +28,48 @@ DapAbstractTopPanel
         width: 148 * pt
         color: "transparent"
 
-        DapComboBox
-        {
+        DapComboBox {
             id: comboboxWallet
 
-            model: ListModel{
-                id:сonversionList
-                ListElement{text:"all wallets"}
-                ListElement{text:"Money for children"}
-                ListElement{text:"Money for education"}
-                ListElement{text:"Money for medicine"}
+            model: ListModel {
+                id: сonversionList
+                ListElement {
+                    text: "all wallets"
+                }
+                ListElement {
+                    text: "Money for children"
+                }
+                ListElement {
+                    text: "Money for education"
+                }
+                ListElement {
+                    text: "Money for medicine"
+                }
             }
 
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
-            sidePaddingNormal:0 * pt
-            sidePaddingActive:16 * pt
-            topIndentActive:10 * pt
-            normalColorText:"#070023"
-            hilightColorText:"#FFFFFF"
-            normalColorTopText:"#FFFFFF"
-            hilightColorTopText:"#070023"
+            sidePaddingNormal: 0 * pt
+            sidePaddingActive: 16 * pt
+            topIndentActive: 10 * pt
+            normalColorText: "#070023"
+            hilightColorText: "#FFFFFF"
+            normalColorTopText: "#FFFFFF"
+            hilightColorTopText: "#070023"
             hilightColor: "#330F54"
             normalTopColor: "#070023"
-            fontSizeComboBox: 14 * pt
-            widthPopupComboBoxNormal:148 * pt
-            widthPopupComboBoxActive:180 * pt
-            heightComboBoxNormal:24 * pt
-            heightComboBoxActive:44 * pt
-            bottomIntervalListElement:8 * pt
-            topEffect:false
+            widthPopupComboBoxNormal: 148 * pt
+            widthPopupComboBoxActive: 180 * pt
+            heightComboBoxNormal: 24 * pt
+            heightComboBoxActive: 44 * pt
+            bottomIntervalListElement: 8 * pt
+            topEffect: false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
         }
     }
 
     // Static wallet balance text "Wallet balance"
-    Label
-    {
+    Label {
         id: headerWalletBalance
         text: qsTr("Wallet balance")
         anchors.left: frameComboBox.right
@@ -80,8 +81,7 @@ DapAbstractTopPanel
     }
 
     // Dynamic wallet balance text
-    Label
-    {
+    Label {
         id: textWalletBalance
         text: "$ 3 050 745.3453289 USD"
         anchors.left: headerWalletBalance.right
@@ -93,8 +93,7 @@ DapAbstractTopPanel
     }
 
     // Wallet create button
-    DapButton
-    {
+    DapButton {
         id: addWalletButton
         textButton: "New wallet"
         anchors.right: parent.right
@@ -107,13 +106,13 @@ DapAbstractTopPanel
         widthImageButton: 28 * pt
         heightImageButton: 28 * pt
         indentImageLeftButton: 10 * pt
-        colorBackgroundNormal:"#070023"
+        colorBackgroundNormal: "#070023"
         colorBackgroundHover: "#D51F5D"
         colorButtonTextNormal: "#FFFFFF"
         colorButtonTextHover: "#FFFFFF"
         indentTextRight: 20 * pt
-        fontSizeButton: 14 * pt
-        existenceImage:true
+        fontButton.pixelSize: 14 * pt
+        existenceImage: true
         borderColorButton: "#000000"
         borderWidthButton: 0
     }
