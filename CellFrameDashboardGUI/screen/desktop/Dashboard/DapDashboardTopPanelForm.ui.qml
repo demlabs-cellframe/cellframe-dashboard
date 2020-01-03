@@ -3,23 +3,26 @@ import QtQuick.Controls 2.0
 import "qrc:/widgets"
 import "../../"
 
-DapAbstractTopPanel {
+DapAbstractTopPanel 
+{
     anchors.fill: parent
 
     // Static text "Wallet"
-    Label {
+    Label 
+    {
         id: textHeaderWallet
         text: qsTr("Wallet")
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
         font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
-        font.pointSize: 12
+        font.pixelSize: 12 * pt
         color: "#ACAAB5"
     }
 
     // Wallet selection combo box
-    Rectangle {
+    Rectangle 
+    {
         id: frameComboBox
 
         anchors.left: textHeaderWallet.right
@@ -28,25 +31,30 @@ DapAbstractTopPanel {
         width: 148 * pt
         color: "transparent"
 
-        DapComboBox {
+        DapComboBox 
+        {
             id: comboboxWallet
 
-            model: ListModel {
+            model: ListModel 
+            {
                 id: сonversionList
-                ListElement {
+                ListElement 
+                {
                     text: "all wallets"
                 }
-                ListElement {
+                ListElement 
+                {
                     text: "Money for children"
                 }
-                ListElement {
+                ListElement 
+                {
                     text: "Money for education"
                 }
-                ListElement {
+                ListElement 
+                {
                     text: "Money for medicine"
                 }
             }
-
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -65,35 +73,54 @@ DapAbstractTopPanel {
             bottomIntervalListElement: 8 * pt
             topEffect: false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+            normalColor: "#FFFFFF"
+            hilightTopColor: normalColor
+            topIndentNormal: 12 * pt
+            bottomIndentNormal: 14 * pt
+            bottomIndentActive: bottomIndentNormal
+            paddingTopItemDelegate: 8 * pt
+            paddingBottomItemDelegate: paddingTopItemDelegate
+            heightListElement: 32 * pt
+            intervalListElement: 10 * pt
+            indicatorWidth: 24 * pt
+            indicatorHeight: indicatorWidth
+            colorTopNormalDropShadow: "#00000000"
+            colorDropShadow: "#40ABABAB"
+            fontComboBox.pixelSize: 14 * pt
+            fontComboBox.family: "Roboto"
+
         }
     }
 
     // Static wallet balance text "Wallet balance"
-    Label {
+    Label 
+    {
         id: headerWalletBalance
         text: qsTr("Wallet balance")
         anchors.left: frameComboBox.right
         anchors.leftMargin: 70 * pt
         anchors.verticalCenter: parent.verticalCenter
         font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
-        font.pointSize: 12 * pt
+        font.pixelSize: 12 * pt
         color: "#ACAAB5"
     }
 
     // Dynamic wallet balance text
-    Label {
+    Label 
+    {
         id: textWalletBalance
         text: "$ 3 050 745.3453289 USD"
         anchors.left: headerWalletBalance.right
         anchors.leftMargin: 18 * pt
         anchors.verticalCenter: parent.verticalCenter
         font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
-        font.pointSize: 16 * pt
+        font.pixelSize: 16 * pt
         color: "#FFFFFF"
     }
 
     // Wallet create button
-    DapButton {
+    DapButton
+    {
         id: addWalletButton
         textButton: "New wallet"
         anchors.right: parent.right
@@ -115,5 +142,10 @@ DapAbstractTopPanel {
         existenceImage: true
         borderColorButton: "#000000"
         borderWidthButton: 0
+        fontButton.family: "Roboto"
+        fontButton.weight: Font.Normal
+        horizontalAligmentText:Qt.AlignRight
+        colorTextButton: "#FFFFFF"
+
     }
 }
