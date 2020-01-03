@@ -43,7 +43,6 @@ DapAbstractTopPanel
                 ListElement{text:"Money for education"}
                 ListElement{text:"Money for medicine"}
             }
-
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal:0 * pt
@@ -55,7 +54,6 @@ DapAbstractTopPanel
             hilightColorTopText:"#070023"
             hilightColor: "#330F54"
             normalTopColor: "#070023"
-            fontSizeComboBox: 14*px
             widthPopupComboBoxNormal:148 * pt
             widthPopupComboBoxActive:180 * pt
             heightComboBoxNormal:24 * pt
@@ -63,6 +61,22 @@ DapAbstractTopPanel
             bottomIntervalListElement:8 * pt
             topEffect:false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+            normalColor: "#FFFFFF"
+            hilightTopColor: normalColor
+            topIndentNormal: 12 * pt
+            bottomIndentNormal: 14 * pt
+            bottomIndentActive: bottomIndentNormal
+            paddingTopItemDelegate: 8 * pt
+            paddingBottomItemDelegate: paddingTopItemDelegate
+            heightListElement: 32 * pt
+            intervalListElement: 10 * pt
+            indicatorWidth: 24 * pt
+            indicatorHeight: indicatorWidth
+            colorTopNormalDropShadow: "#00000000"
+            colorDropShadow: "#40ABABAB"
+            fontComboBox.pixelSize: 14*pt
+            fontComboBox.family: "Roboto"
+
         }
     }
 
@@ -112,9 +126,14 @@ DapAbstractTopPanel
         colorButtonTextNormal: "#FFFFFF"
         colorButtonTextHover: "#FFFFFF"
         indentTextRight: 20 * pt
-        fontSizeButton: 14 * pt
         existenceImage:true
         borderColorButton: "#000000"
         borderWidthButton: 0
+        fontButton.family: "Roboto"
+        fontButton.pixelSize: 14 * pt
+        fontButton.weight: Font.Normal
+        horizontalAligmentText:Qt.AlignRight
+        colorTextButton: "#FFFFFF"
+
     }
 }
