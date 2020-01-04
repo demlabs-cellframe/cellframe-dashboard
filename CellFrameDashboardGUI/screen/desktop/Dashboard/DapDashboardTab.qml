@@ -11,5 +11,5 @@ DapDashboardTabForm
     ///@detalis Path to the right pane of transaction history.
     readonly property string doneWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
 
-    dapDashboardRightPanel.source: Qt.resolvedUrl(inputNameWallet)
+    dapDashboardRightPanel.source: Qt.resolvedUrl(recoveryWallet)
 }

@@ -4,13 +4,6 @@ import "../../../"
 
 DapAbstractRightPanel
 {
-    dapButtonClose.height: 16 * pt
-    dapButtonClose.width: 16 * pt
-    dapButtonClose.heightImageButton: 16 * pt
-    dapButtonClose.widthImageButton: 16 * pt
-    dapButtonClose.normalImageButton: "qrc:/res/icons/close_icon.png"
-    dapButtonClose.hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
-    
     dapHeaderData:
         Row
         {
@@ -83,7 +76,7 @@ DapAbstractRightPanel
                 existenceImage: false
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontSizeButton: 18 * pt
+                fontButton.pixelSize: 18 * pt
                 colorTextButton: buttonDone.checked ? "#3E3853" : "#FFFFFF"
                 colorBackgroundButton: "#3E3853"
             }
