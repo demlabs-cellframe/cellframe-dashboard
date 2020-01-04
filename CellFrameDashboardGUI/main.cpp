@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
-    engine.rootContext()->setContextProperty("pt", 1.0);
+    engine.rootContext()->setContextProperty("pt", 1.333);
     engine.load(QUrl("qrc:/main.qml"));
 
     if (engine.rootObjects().isEmpty())

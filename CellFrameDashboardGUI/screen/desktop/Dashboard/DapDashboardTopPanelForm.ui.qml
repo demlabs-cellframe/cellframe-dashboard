@@ -5,6 +5,8 @@ import "../../"
 
 DapAbstractTopPanel 
 {
+    property alias dapAddWalletButton: addWalletButton
+    
     anchors.fill: parent
 
     // Static text "Wallet"

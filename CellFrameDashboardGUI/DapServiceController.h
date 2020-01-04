@@ -6,6 +6,8 @@
 #include <QGenericArgument>
 #include <QQmlEngine>
 #include <QJSEngine>
+#include <QPair>
+#include <algorithm>
 
 #include "DapServiceClient.h"
 #include "Handlers/DapAbstractCommand.h"
@@ -22,7 +24,7 @@ class DapServiceController : public QObject
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     /// Command manager.
-    QMap<QString, DapAbstractCommand*>      m_transceivers;
+    QMap<QString, QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
     /// Standard constructor
@@ -71,6 +73,8 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
+    
+    void addWalletResponded();
     
 private slots:
     /// Register command.
