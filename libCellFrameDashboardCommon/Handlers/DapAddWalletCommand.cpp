@@ -50,6 +50,15 @@ QVariant DapAddWalletCommand::respondToClient(const QVariant &arg1, const QVaria
     Q_UNUSED(arg8)
     Q_UNUSED(arg9)
     Q_UNUSED(arg10)
-    
-    return 5;
+
+    QByteArray result;
+    QProcess process;
+    process.start(QString("%1 wallet new -w %2").arg(CLI_PATH).arg(arg1.toString()));
+    process.waitForFinished(-1);
+    result = process.readAll();
+    QStringList res = QString::fromLatin1(result).split(" ");
+    QStringList list;
+    list.append(arg1.toString());
+    list.append(res.at(res.size()-1).trimmed());
+    return result.isEmpty() ? QStringList() : list;
 }
