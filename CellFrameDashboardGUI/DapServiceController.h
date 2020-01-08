@@ -74,7 +74,7 @@ signals:
     /// @param version Version
     void versionChanged(const QString &version);
     
-    void addWalletResponded();
+    void addWalletResponded(bool);
     
 private slots:
     /// Register command.
@@ -82,12 +82,6 @@ private slots:
     /// Find the emitted signal.
     /// @param aValue Transmitted parameter.
     void findEmittedSignal(const QVariant& aValue);
-    
-public slots:
-    /// Method that implements the singleton pattern for the qml layer.
-    /// @param engine QML application.
-    /// @param scriptEngine The QJSEngine class provides an environment for evaluating JavaScript code.
-    static QObject *singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 };
 
 #endif // DAPSERVICECONTROLLER_H

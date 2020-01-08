@@ -37,26 +37,7 @@ DapAbstractTopPanel
         {
             id: comboboxWallet
 
-            model: ListModel 
-            {
-                id: сonversionList
-                ListElement 
-                {
-                    text: "all wallets"
-                }
-                ListElement 
-                {
-                    text: "Money for children"
-                }
-                ListElement 
-                {
-                    text: "Money for education"
-                }
-                ListElement 
-                {
-                    text: "Money for medicine"
-                }
-            }
+            model: modelWallets
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt

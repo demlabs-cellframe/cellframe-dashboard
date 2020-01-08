@@ -84,15 +84,4 @@ void DapServiceController::findEmittedSignal(const QVariant &aValue)
     }
 }
 
-/// Method that implements the singleton pattern for the qml layer.
-/// @param engine QML application.
-/// @param scriptEngine The QJSEngine class provides an environment for evaluating JavaScript code.
-QObject *DapServiceController::singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine)
-    Q_UNUSED(scriptEngine)
-    
-    return &getInstance();
-}
-
 
