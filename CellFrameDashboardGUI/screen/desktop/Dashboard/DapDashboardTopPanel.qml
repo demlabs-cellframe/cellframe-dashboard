@@ -6,14 +6,22 @@ DapDashboardTopPanelForm
     {
         id: modelWallets
     }
-    
-    function updateModel(name)
+
+    Connections
     {
-        modelWallets.append({ "name" : name })
+        target: dapServiceController
+        onAddWalletResponded: updateModel(wallet)
     }
     
+    function updateModel(wallet)
+    {
+        console.log(wallet)
+        if(wallet[1] === "created")
+            modelWallets.append({ "name" : wallet[0] })
+    }
+
     dapAddWalletButton.onClicked: 
     {
-        dapServiceController.requestToService("ADD", 5);
+        dapServiceController.requestToService("ADD", "MYNEWWALLET");
     }
 }

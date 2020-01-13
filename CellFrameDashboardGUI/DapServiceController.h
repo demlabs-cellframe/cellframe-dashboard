@@ -74,7 +74,7 @@ signals:
     /// @param version Version
     void versionChanged(const QString &version);
     
-    void addWalletResponded(bool);
+    void addWalletResponded(const QVariant& wallet);
     
 private slots:
     /// Register command.
