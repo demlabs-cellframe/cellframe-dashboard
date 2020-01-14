@@ -93,5 +93,13 @@
         <file>res/icons/close_icon_hover.png</file>
         <file>res/icons/close_icon.png</file>
         <file>res/icons/ic_arrow_drop_down_dark.png</file>
+        <file>screen/desktop/Settings/DapSettingsTab.qml</file>
+        <file>screen/desktop/Settings/DapSettingsTabForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
+        <file>screen/desktop/Settings/DapSettingsTopPanelForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
+        <file>screen/desktop/Settings/DapSettingsScreenForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
+        <file>screen/desktop/Settings/DapSettingsRightPanelForm.ui.qml</file>
     </qresource>
 </RCC>
