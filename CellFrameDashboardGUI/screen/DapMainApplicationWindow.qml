@@ -8,6 +8,9 @@ DapMainApplicationWindowForm
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
+    ///@detalis Path to the settings tab.
+    readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
+
 
     // Menu bar tab model
     ListModel 
@@ -35,6 +38,13 @@ DapMainApplicationWindowForm
                 page: historyScreen,
                 normalIcon: "qrc:/res/icons/icon_history.png",
                 hoverIcon: "qrc:/res/icons/icon_history_hover.png"
+            })
+
+            append ({
+                name: qsTr("Settings"),
+                page: settingsScreen,
+                normalIcon: "qrc:/res/icons/icon_settings.png",
+                hoverIcon: "qrc:/res/icons/icon_settings_hover.png"
             })
         }
     }
