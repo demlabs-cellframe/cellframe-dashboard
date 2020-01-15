@@ -80,7 +80,6 @@ DapAbstractRightPanel
                 anchors.bottomMargin: 24 * pt
                 checkable: true
                 textButton: qsTr("Done")
-                existenceImage: false
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontSizeButton: 18 * pt

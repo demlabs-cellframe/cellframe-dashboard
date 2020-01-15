@@ -59,7 +59,6 @@ DapAbstractTopPanel
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
-            topIndentActive: 10 * pt
             normalColorText: "#070023"
             hilightColorText: "#FFFFFF"
             normalColorTopText: "#FFFFFF"
@@ -75,15 +74,12 @@ DapAbstractTopPanel
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
             normalColor: "#FFFFFF"
             hilightTopColor: normalColor
-            topIndentNormal: 12 * pt
-            bottomIndentNormal: 14 * pt
-            bottomIndentActive: bottomIndentNormal
             paddingTopItemDelegate: 8 * pt
-            paddingBottomItemDelegate: paddingTopItemDelegate
             heightListElement: 32 * pt
             intervalListElement: 10 * pt
             indicatorWidth: 24 * pt
             indicatorHeight: indicatorWidth
+            indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
             fontComboBox.pixelSize: 14 * pt
@@ -139,7 +135,6 @@ DapAbstractTopPanel
         colorButtonTextHover: "#FFFFFF"
         indentTextRight: 20 * pt
         fontButton.pixelSize: 14 * pt
-        existenceImage: true
         borderColorButton: "#000000"
         borderWidthButton: 0
         fontButton.family: "Roboto"

@@ -171,7 +171,6 @@ DapAbstractRightPanel
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                     sidePaddingNormal: 0 * pt
                     sidePaddingActive: 0 * pt
-                    topIndentActive: 10 * pt
                     normalColorText: "#070023"
                     hilightColorText: "#transparent"
                     normalColorTopText: "#070023"
@@ -187,15 +186,12 @@ DapAbstractRightPanel
                     x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
                     normalColor: "#FFFFFF"
                     hilightTopColor: normalColor
-                    topIndentNormal: 12 * pt
-                    bottomIndentNormal: 14 * pt
-                    bottomIndentActive: bottomIndentNormal
                     paddingTopItemDelegate: 8 * pt
-                    paddingBottomItemDelegate: paddingTopItemDelegate
                     heightListElement: 32 * pt
                     intervalListElement: 10 * pt
                     indicatorWidth: 20 * pt
                     indicatorHeight: indicatorWidth
+                    indicatorLeftInterval: 8 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
                     fontComboBox.pixelSize: 16 * pt
@@ -307,7 +303,6 @@ DapAbstractRightPanel
                 anchors.top: frameChooseRecoveryMethod.bottom
                 anchors.topMargin: 64 * pt
                 textButton: qsTr("Next")
-                existenceImage: false
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
