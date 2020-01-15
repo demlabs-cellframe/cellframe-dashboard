@@ -141,11 +141,12 @@ DapLogsScreenForm
                 Rectangle
                 {
                     id:frameTextLog
-                    anchors.left: frameTypeLog.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
+                    anchors.left: frameTypeLog.right
                     anchors.leftMargin: secondMarginList
-                    width: 488 * pt
+                    anchors.right: frameFileLog.left
+                    anchors.rightMargin: thirdMarginList
                     color: parent.color
                     Text
                     {
@@ -162,10 +163,10 @@ DapLogsScreenForm
                 Rectangle
                 {
                     id: frameFileLog
-                    anchors.left: frameTextLog.right
+                    anchors.right: frameTimeLog.left
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    anchors.leftMargin: thirdMarginList
+                    anchors.rightMargin: thirdMarginList
                     width: 326 * pt
                     color: parent.color
                     Text
@@ -183,10 +184,9 @@ DapLogsScreenForm
                 Rectangle
                 {
                     id: frameTimeLog
-                    anchors.left: frameFileLog.right
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    anchors.leftMargin: thirdMarginList
+                    anchors.right: parent.right
                     width: 62 * pt
                     color: parent.color
                     Text
