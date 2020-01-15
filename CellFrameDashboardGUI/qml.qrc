@@ -80,6 +80,15 @@
         <file>res/icons/new-wallet_icon_dark.png</file>
         <file>res/icons/ic_arrow_drop_down.png</file>
         <file>res/icons/ic_arrow_drop_up.png</file>
+        <file>screen/desktop/Logs/DapLogsTab.qml</file>
+        <file>screen/desktop/Logs/DapLogsTabForm.ui.qml</file>
+        <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
+        <file>screen/desktop/Logs/DapLogsTopPanelForm.ui.qml</file>
+        <file>screen/desktop/Logs/DapLogsScreen.qml</file>
+        <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
+        <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
+        <file>screen/desktop/Logs/DapLogsRightPanelForm.ui.qml</file>
+        <file>res/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml</file>
