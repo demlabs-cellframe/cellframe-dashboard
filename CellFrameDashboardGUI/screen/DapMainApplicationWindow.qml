@@ -10,6 +10,10 @@ DapMainApplicationWindowForm
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     ///@detalis Path to the settings tab.
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
+    ///@detalis Path to the logs tab.
+    readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
+
+
 
 
     // Menu bar tab model
@@ -46,6 +50,13 @@ DapMainApplicationWindowForm
                 normalIcon: "qrc:/res/icons/icon_settings.png",
                 hoverIcon: "qrc:/res/icons/icon_settings_hover.png"
             })
+
+            append ({
+                name: qsTr("Logs"),
+                page: logsScreen,
+                normalIcon: "qrc:/res/icons/icon_logs.png",
+                hoverIcon: "qrc:/res/icons/icon_logs_hover.png"
+             })
         }
     }
 
