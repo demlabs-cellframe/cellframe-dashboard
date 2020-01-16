@@ -16,16 +16,16 @@ DapAbstractRightPanel
             anchors.topMargin: 12 * pt
             anchors.bottomMargin: 12 * pt
             spacing: 12 * pt
-            
-            Item 
+
+            Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
                 height: dapButtonClose.height
                 width: dapButtonClose.width
             }
-            
-            Text 
+
+            Text
             {
                 id: textHeader
                 text: qsTr("New wallet")
@@ -33,8 +33,8 @@ DapAbstractRightPanel
                 color: "#3E3853"
             }
         }
-    
-    dapContentItemData: 
+
+    dapContentItemData:
         Rectangle
         {
             anchors.fill: parent
@@ -50,7 +50,7 @@ DapAbstractRightPanel
                 anchors.bottomMargin: 8 * pt
                 color: "#757184"
                 height: 30 * pt
-                Text 
+                Text
                 {
                     id: textNameWallet
                     color: "#ffffff"
@@ -66,7 +66,7 @@ DapAbstractRightPanel
                 }
             }
 
-            Rectangle 
+            Rectangle
             {
                 id: frameInputNameWallet
                 height: 68 * pt
@@ -103,8 +103,8 @@ DapAbstractRightPanel
                         }
                 }
             }
-            
-            Rectangle 
+
+            Rectangle
             {
                 id: frameChooseSignatureType
                 anchors.top: frameInputNameWallet.bottom
@@ -112,7 +112,7 @@ DapAbstractRightPanel
                 anchors.left: parent.left
                 color: "#757184"
                 height: 30 * pt
-                Text 
+                Text
                 {
                     id: textChooseSignatureType
                     color: "#ffffff"
@@ -324,8 +324,3 @@ DapAbstractRightPanel
             }
         }
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

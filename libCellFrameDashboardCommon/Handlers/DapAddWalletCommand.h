@@ -9,6 +9,9 @@
 #ifndef DAPADDWALLETCOMMAND_H
 #define DAPADDWALLETCOMMAND_H
 
+#include <QProcess>
+#include <QString>
+
 #include "DapAbstractCommand.h"
 
 class DapAddWalletCommand : public DapAbstractCommand

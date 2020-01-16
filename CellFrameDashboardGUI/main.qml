@@ -28,7 +28,6 @@ ApplicationWindow
     {
         id: screenShotMainWindow
         anchors.fill: parent
-        sourceSize: Qt.size(parent.width, parent.height)
         smooth: true
         visible: false
     }

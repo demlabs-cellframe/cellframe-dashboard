@@ -74,7 +74,7 @@ DapSettingsScreenForm
         Rectangle
         {
             id: itemVPN
-            height: vpnHeader.height + textH.height
+            height: vpnHeader.height
             width: dapListViewSettings.width
             color: "blue"
             // Header

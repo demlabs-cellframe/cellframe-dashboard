@@ -6,6 +6,8 @@
 #include <QGenericArgument>
 #include <QQmlEngine>
 #include <QJSEngine>
+#include <QPair>
+#include <algorithm>
 
 #include "DapServiceClient.h"
 #include "Handlers/DapAbstractCommand.h"
@@ -22,7 +24,7 @@ class DapServiceController : public QObject
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     /// Command manager.
-    QMap<QString, DapAbstractCommand*>      m_transceivers;
+    QMap<QString, QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
     /// Standard constructor
@@ -72,18 +74,14 @@ signals:
     /// @param version Version
     void versionChanged(const QString &version);
     
+    void addWalletResponded(const QVariant& wallet);
+    
 private slots:
     /// Register command.
     void registerCommand();
     /// Find the emitted signal.
     /// @param aValue Transmitted parameter.
     void findEmittedSignal(const QVariant& aValue);
-    
-public slots:
-    /// Method that implements the singleton pattern for the qml layer.
-    /// @param engine QML application.
-    /// @param scriptEngine The QJSEngine class provides an environment for evaluating JavaScript code.
-    static QObject *singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine);
 };
 
 #endif // DAPSERVICECONTROLLER_H
