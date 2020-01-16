@@ -12,6 +12,8 @@ DapMainApplicationWindowForm
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
     readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
+    ///@detalis Path to the console tab.
+    readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
 
 
 
@@ -42,6 +44,13 @@ DapMainApplicationWindowForm
                 page: historyScreen,
                 normalIcon: "qrc:/res/icons/icon_history.png",
                 hoverIcon: "qrc:/res/icons/icon_history_hover.png"
+            })
+
+            append ({
+                name: qsTr("Console"),
+                page: consoleScreen,
+                normalIcon: "qrc:/res/icons/icon_console.png",
+                hoverIcon: "qrc:/res/icons/icon_console_hover.png"
             })
 
             append ({

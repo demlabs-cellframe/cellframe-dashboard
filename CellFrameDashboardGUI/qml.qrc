@@ -110,5 +110,13 @@
         <file>screen/desktop/Settings/DapSettingsScreenForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
         <file>screen/desktop/Settings/DapSettingsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleTab.qml</file>
+        <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
+        <file>screen/desktop/Console/DapConsoleRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreen.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
+        <file>screen/desktop/Console/DapConsoleTopPanelForm.ui.qml</file>
     </qresource>
 </RCC>
