@@ -4,6 +4,12 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+    dapButtonClose.height: 16 * pt
+    dapButtonClose.width: 16 * pt
+    dapButtonClose.heightImageButton: 16 * pt
+    dapButtonClose.widthImageButton: 16 * pt
+    dapButtonClose.normalImageButton: "qrc:/res/icons/close_icon.png"
+    dapButtonClose.hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
     dapHeaderData:
         Row
         {
@@ -12,8 +18,8 @@ DapAbstractRightPanel
             anchors.rightMargin: 16 * pt
             anchors.topMargin: 12 * pt
             anchors.bottomMargin: 12 * pt
-            
-            Item 
+
+            Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
@@ -73,7 +79,6 @@ DapAbstractRightPanel
                 anchors.bottomMargin: 24 * pt
                 checkable: true
                 textButton: qsTr("Done")
-                existenceImage: false
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton.pixelSize: 18 * pt

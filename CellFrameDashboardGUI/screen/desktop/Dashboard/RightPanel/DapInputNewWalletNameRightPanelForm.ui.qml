@@ -16,16 +16,16 @@ DapAbstractRightPanel
             anchors.topMargin: 12 * pt
             anchors.bottomMargin: 12 * pt
             spacing: 12 * pt
-            
-            Item 
+
+            Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
                 height: dapButtonClose.height
                 width: dapButtonClose.width
             }
-            
-            Text 
+
+            Text
             {
                 id: textHeader
                 text: qsTr("New wallet")
@@ -33,8 +33,8 @@ DapAbstractRightPanel
                 color: "#3E3853"
             }
         }
-    
-    dapContentItemData: 
+
+    dapContentItemData:
         Rectangle
         {
             anchors.fill: parent
@@ -50,7 +50,7 @@ DapAbstractRightPanel
                 anchors.bottomMargin: 8 * pt
                 color: "#757184"
                 height: 30 * pt
-                Text 
+                Text
                 {
                     id: textNameWallet
                     color: "#ffffff"
@@ -66,7 +66,7 @@ DapAbstractRightPanel
                 }
             }
 
-            Rectangle 
+            Rectangle
             {
                 id: frameInputNameWallet
                 height: 68 * pt
@@ -103,8 +103,8 @@ DapAbstractRightPanel
                         }
                 }
             }
-            
-            Rectangle 
+
+            Rectangle
             {
                 id: frameChooseSignatureType
                 anchors.top: frameInputNameWallet.bottom
@@ -112,7 +112,7 @@ DapAbstractRightPanel
                 anchors.left: parent.left
                 color: "#757184"
                 height: 30 * pt
-                Text 
+                Text
                 {
                     id: textChooseSignatureType
                     color: "#ffffff"
@@ -171,7 +171,6 @@ DapAbstractRightPanel
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                     sidePaddingNormal: 0 * pt
                     sidePaddingActive: 0 * pt
-                    topIndentActive: 10 * pt
                     normalColorText: "#070023"
                     hilightColorText: "#transparent"
                     normalColorTopText: "#070023"
@@ -187,15 +186,12 @@ DapAbstractRightPanel
                     x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
                     normalColor: "#FFFFFF"
                     hilightTopColor: normalColor
-                    topIndentNormal: 12 * pt
-                    bottomIndentNormal: 14 * pt
-                    bottomIndentActive: bottomIndentNormal
                     paddingTopItemDelegate: 8 * pt
-                    paddingBottomItemDelegate: paddingTopItemDelegate
                     heightListElement: 32 * pt
                     intervalListElement: 10 * pt
                     indicatorWidth: 20 * pt
                     indicatorHeight: indicatorWidth
+                    indicatorLeftInterval: 8 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
                     fontComboBox.pixelSize: 16 * pt
@@ -307,7 +303,6 @@ DapAbstractRightPanel
                 anchors.top: frameChooseRecoveryMethod.bottom
                 anchors.topMargin: 64 * pt
                 textButton: qsTr("Next")
-                existenceImage: false
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
@@ -329,8 +324,3 @@ DapAbstractRightPanel
             }
         }
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

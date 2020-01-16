@@ -80,6 +80,15 @@
         <file>res/icons/new-wallet_icon_dark.png</file>
         <file>res/icons/ic_arrow_drop_down.png</file>
         <file>res/icons/ic_arrow_drop_up.png</file>
+        <file>screen/desktop/Logs/DapLogsTab.qml</file>
+        <file>screen/desktop/Logs/DapLogsTabForm.ui.qml</file>
+        <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
+        <file>screen/desktop/Logs/DapLogsTopPanelForm.ui.qml</file>
+        <file>screen/desktop/Logs/DapLogsScreen.qml</file>
+        <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
+        <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
+        <file>screen/desktop/Logs/DapLogsRightPanelForm.ui.qml</file>
+        <file>res/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml</file>
@@ -93,5 +102,21 @@
         <file>res/icons/close_icon_hover.png</file>
         <file>res/icons/close_icon.png</file>
         <file>res/icons/ic_arrow_drop_down_dark.png</file>
+        <file>screen/desktop/Settings/DapSettingsTab.qml</file>
+        <file>screen/desktop/Settings/DapSettingsTabForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
+        <file>screen/desktop/Settings/DapSettingsTopPanelForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
+        <file>screen/desktop/Settings/DapSettingsScreenForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
+        <file>screen/desktop/Settings/DapSettingsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleTab.qml</file>
+        <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
+        <file>screen/desktop/Console/DapConsoleRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreen.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
+        <file>screen/desktop/Console/DapConsoleTopPanelForm.ui.qml</file>
     </qresource>
 </RCC>
