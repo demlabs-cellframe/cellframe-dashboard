@@ -3,7 +3,5 @@ import "../../"
 
 DapAbstractRightPanel
 {
-    width: 0
-    height: 0
     visible: false
 }

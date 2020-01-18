@@ -6,7 +6,7 @@ import "qrc:/widgets"
 DapRightPanel
 {
     id: rightPanel
-    
+
     property DapButton dapButtonClose: 
         DapButton
         {
@@ -21,7 +21,6 @@ DapRightPanel
             hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
         }
     dapHeader.height: 36 * pt
-    dapFrame.width: 400 * pt
     dapFrame.height: parent.height
     color: "#F8F7FA"
 }
