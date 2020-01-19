@@ -208,6 +208,17 @@ DapLogsScreenForm
                 color: "#E3E2E6"
                 width: parent.width
                 height: 1 * pt
+                visible:
+                {
+                    if(dapLogsListViewIndex === index | dapLogsListViewIndex - 1 === index)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
             }
 
             MouseArea
