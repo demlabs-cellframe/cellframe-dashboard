@@ -28,7 +28,7 @@ QVariant DapAddWalletCommand::respondToService(const QVariant &arg1, const QVari
     Q_UNUSED(arg8)
     Q_UNUSED(arg9)
     Q_UNUSED(arg10)
-    
+
     return QVariant();
 }
 

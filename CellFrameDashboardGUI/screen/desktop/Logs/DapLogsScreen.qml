@@ -2,6 +2,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.1
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import QtQml 2.0
 
 DapLogsScreenForm
 {
@@ -35,9 +36,25 @@ DapLogsScreenForm
         property var todayYear
         property var stringTime
     }
+    //Slot for updating data in the model. The signal comes from C++.
+    Connections
+    {
+        target: dapServiceController
+        onHistoryLogResponded:fillModel(historyString);
+
+    }
+    //Timer for updating data in the model
+    Timer
+    {
+        id:loadContentLogTimer
+        interval: 60000
+        repeat: true
+        onTriggered: dapServiceController.requestToService("GET_LOG",200);
+    }
 
     //Creates a list model for the example
-    Component.onCompleted: {
+    Component.onCompleted:
+    {
         dapLogsListViewIndex = -1;
         privateDate.today = new Date();
         privateDate.todayDay = privateDate.today.getDate();
@@ -45,14 +62,10 @@ DapLogsScreenForm
         privateDate.todayYear = privateDate.today.getFullYear();
         var timeString = new Date();
         var day = new Date(86400);
-        var count = 1000
-        for (var i = 0; i < count; i++)
-        {
-            var momentTime = timeString/1000 - (day/6) * i;
-            var momentDay = getDay(momentTime);
-            dapLogsModel.append({"type":"DBG"+i, "info":"Add problems"+i, "file":"dup_chein"+i, "time":getTime(momentTime),
-                                    "date":getDay(momentTime)});
-        }
+
+        dapServiceController.requestToService("GET_LOG",200);
+        loadContentLogTimer.start();
+
     }
 
     ListModel
@@ -126,6 +139,7 @@ DapLogsScreenForm
                     anchors.bottom: parent.bottom
                     width: 43 * pt
                     color: parent.color
+                    clip: true
                     Text
                     {
                         id: typeLog
@@ -148,6 +162,7 @@ DapLogsScreenForm
                     anchors.right: frameFileLog.left
                     anchors.rightMargin: thirdMarginList
                     color: parent.color
+                    clip: true
                     Text
                     {
                         id: textLog
@@ -169,6 +184,7 @@ DapLogsScreenForm
                     anchors.rightMargin: thirdMarginList
                     width: 326 * pt
                     color: parent.color
+                    clip: true
                     Text
                     {
                         id: fileLog
@@ -189,6 +205,7 @@ DapLogsScreenForm
                     anchors.right: parent.right
                     width: 62 * pt
                     color: parent.color
+                    clip: true
                     Text
                     {
                         id: timeLog
@@ -232,19 +249,41 @@ DapLogsScreenForm
         }
     }
 
+    //Splits a string from the log.
+    function parceStringFromLog(string)
+    {
+        var split = string.split(/ \[|\] \[|\]|\[/);
+        return split;
+    }
+
+    //Fills in the model.
+    function fillModel(stringList)
+    {
+        dapLogsModel.clear();
+        var count = Object.keys(stringList).length
+        for (var ind = count-1; ind >= 0; ind--)
+        {
+            var arrLogString = parceStringFromLog(stringList[ind]);
+            var stringTime = parceTime(arrLogString[1]);
+
+            dapLogsModel.append({"type":arrLogString[2], "info":arrLogString[4], "file":arrLogString[3], "time":getTime(stringTime),
+                                    "date":getDay(stringTime)});
+        }
+    }
+
     //This function converts the string representation of time to the Date format
     function parceTime(thisTime)
     {
         var aDate = thisTime.split('-');
         var aDay = aDate[0].split('/');
         var aTime = aDate[1].split(':');
-        privateDate.stringTime = new Date(20+aDay[2], aDay[0] - 1, aDay[1], aTime[0], aTime[1], aTime[2]);
+        return new Date(20+aDay[2], aDay[0] - 1, aDay[1], aTime[0], aTime[1], aTime[2]);
     }
 
     //Returns the time in the correct form for the delegate
     function getTime(thisTime)
     {
-        var tmpTime = new Date(thisTime * 1000)
+        var tmpTime = new Date(thisTime)
         var thisHour = tmpTime.getHours();
         var thisMinute = tmpTime.getMinutes();
         var thisSecond = tmpTime.getSeconds();
@@ -258,7 +297,7 @@ DapLogsScreenForm
     {
         var monthArray = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
                           "October", "November", "December"];
-        var tmpDate = new Date(thisTime*1000);
+        var tmpDate = new Date(thisTime);
         var thisMonth = tmpDate.getMonth();
         var thisDay = tmpDate.getDate();
         var thisYear = tmpDate.getFullYear();
