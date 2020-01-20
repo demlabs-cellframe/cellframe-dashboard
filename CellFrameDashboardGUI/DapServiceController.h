@@ -12,6 +12,7 @@
 #include "DapServiceClient.h"
 #include "Handlers/DapAbstractCommand.h"
 #include "Handlers/DapAddWalletCommand.h"
+#include "Handlers/DapUpdateLogsCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -75,6 +76,9 @@ signals:
     void versionChanged(const QString &version);
     
     void addWalletResponded(const QVariant& wallet);
+    ///A signal that is used to transmit data to the log model.
+    /// @param historyString QStringList
+    void historyLogResponded(const QVariant& historyString);
     
 private slots:
     /// Register command.

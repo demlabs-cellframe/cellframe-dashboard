@@ -23,6 +23,7 @@ typedef class DapRpcLocalServer DapUiService;
 
 #include "Handlers/DapAbstractCommand.h"
 #include "Handlers/DapAddWalletCommand.h"
+#include "Handlers/DapUpdateLogsCommand.h"
 
 /**
  * @brief The DapServiceController class

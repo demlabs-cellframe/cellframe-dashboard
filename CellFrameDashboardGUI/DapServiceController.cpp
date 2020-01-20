@@ -47,17 +47,17 @@ void DapServiceController::requestToService(const QString &asServicename, const 
                                             const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
 {
     DapAbstractCommand * transceiver = m_transceivers.find(asServicename).value().first;
-    
+
     Q_ASSERT(transceiver);
-    
-    transceiver->requestToService(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
+    transceiver->requestToService(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 }
 
 /// Register command.
 void DapServiceController::registerCommand()
 {
      m_transceivers.insert("ADD", qMakePair(new DapAddWalletCommand("ADD", m_DAPRpcSocket, this), QString("addWalletResponded")));
+     m_transceivers.insert("GET_LOG", qMakePair(new DapUpdateLogsCommand("GET_LOG", m_DAPRpcSocket, this),QString("historyLogResponded")));
 }
 
 /// Find the emitted signal.

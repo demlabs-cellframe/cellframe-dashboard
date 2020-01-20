@@ -36,4 +36,5 @@ bool DapServiceController::start()
 void DapServiceController::registerCommand()
 {
      m_pServer->addService(new DapAddWalletCommand("ADD", nullptr, this));
+     m_pServer->addService(new DapUpdateLogsCommand("GET_LOG", nullptr, this));
 }
