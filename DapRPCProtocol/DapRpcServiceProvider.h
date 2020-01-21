@@ -35,11 +35,13 @@ public:
     /// Add new service
     /// @param apService New service
     /// @return True if service add successfullym false if not
-    virtual bool addService(DapRpcService *apService);
+    virtual DapRpcService *addService(DapRpcService *apService);
     /// Remove existing service
     /// @param apService Service to remove
     /// @return If service alreade removing or not existing return false, else return true
     virtual bool removeService(DapRpcService *apService);
+
+    virtual DapRpcService *findService(const QString& asServiceName);
     /// Get service name
     /// @param apService Service
     /// @return Serilization name of service

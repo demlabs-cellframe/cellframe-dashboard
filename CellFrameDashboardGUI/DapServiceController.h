@@ -2,16 +2,16 @@
 #define DAPSERVICECONTROLLER_H
 
 #include <QObject>
-
 #include <QGenericArgument>
 #include <QQmlEngine>
 #include <QJSEngine>
-#include <QPair>
+#include <QVector>
 #include <algorithm>
 
 #include "DapServiceClient.h"
 #include "Handlers/DapAbstractCommand.h"
-#include "Handlers/DapAddWalletCommand.h"
+#include "Handlers/DapQuitApplicationCommand.h"
+#include "Handlers/DapActivateClientCommand.h"
 #include "Handlers/DapUpdateLogsCommand.h"
 
 class DapServiceController : public QObject
@@ -25,7 +25,7 @@ class DapServiceController : public QObject
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     /// Command manager.
-    QMap<QString, QPair<DapAbstractCommand*, QString>>      m_transceivers;
+    QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
     /// Standard constructor
@@ -38,6 +38,12 @@ public:
     /// Send request to service.
     /// @param arg1...arg10 Parametrs.
     Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &arg1 = QVariant(),
+                         const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
+                         const QVariant &arg4 = QVariant(), const QVariant &arg5 = QVariant(),
+                         const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
+                         const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
+                         const QVariant &arg10 = QVariant());
+    Q_INVOKABLE void notifyService(const QString& asServiceName, const QVariant &arg1 = QVariant(),
                          const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
                          const QVariant &arg4 = QVariant(), const QVariant &arg5 = QVariant(),
                          const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
@@ -74,11 +80,13 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
+
+    void clientActivated();
     
     void addWalletResponded(const QVariant& wallet);
     ///A signal that is used to transmit data to the log model.
     /// @param historyString QStringList
-    void historyLogResponded(const QVariant& historyString);
+    void logUpdated(const QVariant& logs);
     
 private slots:
     /// Register command.
@@ -86,6 +94,8 @@ private slots:
     /// Find the emitted signal.
     /// @param aValue Transmitted parameter.
     void findEmittedSignal(const QVariant& aValue);
+
+    void registerEmmitedSignal();
 };
 
 #endif // DAPSERVICECONTROLLER_H

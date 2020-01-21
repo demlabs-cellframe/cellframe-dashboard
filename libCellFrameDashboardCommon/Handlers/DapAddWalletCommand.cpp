@@ -4,8 +4,8 @@
 /// @param asServiceName Service name.
 /// @param apSocket Client connection socket with service.
 /// @param parent Parent.
-DapAddWalletCommand::DapAddWalletCommand(const QString &asServicename, DapRpcSocket *apSocket, QObject *parent)
-    : DapAbstractCommand(asServicename, apSocket, parent)
+DapAddWalletCommand::DapAddWalletCommand(const QString &asServicename, QObject *parent)
+    : DapAbstractCommand(asServicename, parent)
 {
 
 }

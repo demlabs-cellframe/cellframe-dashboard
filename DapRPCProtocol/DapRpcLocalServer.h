@@ -43,12 +43,14 @@ public:
     /// Add new service
     /// @param apService New service
     /// @return If service add successfully return true. Otherwise return false
-    bool addService(DapRpcService *apService);
+    DapRpcService * addService(DapRpcService *apService);
     /// Remove service
     /// @param apService Service for removing
     /// @return If service add successfully return true. Otherwise return false
     bool removeService(DapRpcService *apService);
 
+
+    DapRpcService* findService(const QString& asServiceName);
 signals:
     /// The signal is emitted when client was connected
     void onClientConnected();
@@ -66,7 +68,7 @@ private slots:
 public slots:
     /// Notify connected clients. Send all message
     /// @param message Message to client
-    void notifyConnectedClients(const DapRpcMessage &message);
+    DapRpcServiceReply * notifyConnectedClients(const DapRpcMessage &message);
     /// Notify connected clients. Send all message
     /// @param method Method which clients were notified
     /// @param params Parameters of message in JSON format

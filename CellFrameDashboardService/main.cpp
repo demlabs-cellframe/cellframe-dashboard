@@ -1,4 +1,4 @@
-#include <QCoreApplication>
+#include <QApplication>
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QCommandLineParser>
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
     a.setOrganizationName("DEMLABS");
     a.setOrganizationDomain("demlabs.net");
     a.setApplicationName("CellFrameDashboardService");

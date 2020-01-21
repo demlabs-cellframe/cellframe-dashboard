@@ -22,7 +22,6 @@ protected:
 public:
     /// Standard constructor
     DapRpcAbstractServer();
-
     /// Virtual destructor
     virtual ~DapRpcAbstractServer();
     /// Connected clients count
@@ -43,11 +42,13 @@ public:
 // public slots:
     /// Notify connected clients. Send all message
     /// @param message Message to client
-    virtual void notifyConnectedClients(const DapRpcMessage &message);
+    virtual DapRpcServiceReply *notifyConnectedClients(const DapRpcMessage &message);
     /// Notify connected clients. Send all message
     /// @param method Method which clients were notified
     /// @param params Parameters of message in JSON format
     virtual void notifyConnectedClients(const QString &method, const QJsonArray &params);
+
+
 };
 
 #endif // DapRPCABSTRACTSERVER_H

@@ -22,24 +22,24 @@ QByteArray DapRpcServiceProvider::getServiceName(DapRpcService *apService)
     return QByteArray(mo->className()).toLower();
 }
 
-bool DapRpcServiceProvider::addService(DapRpcService *apService)
+DapRpcService * DapRpcServiceProvider::addService(DapRpcService *apService)
 {
     QByteArray serviceName = apService->getName().toUtf8();
     if (serviceName.isEmpty()) {
         qJsonRpcDebug() << "service added without serviceName classinfo, aborting";
-        return false;
+        return nullptr;
     }
 
     if (m_services.contains(serviceName)) {
         qJsonRpcDebug() << "service with name " << serviceName << " already exist";
-        return false;
+        return nullptr;
     }
 
     apService->cacheInvokableInfo();
     m_services.insert(serviceName, apService);
     if (!apService->parent())
         m_cleanupHandler.add(apService);
-    return true;
+    return apService;
 }
 
 bool DapRpcServiceProvider::removeService(DapRpcService *apService)
@@ -53,6 +53,16 @@ bool DapRpcServiceProvider::removeService(DapRpcService *apService)
     m_cleanupHandler.remove(m_services.value(serviceName));
     m_services.remove(serviceName);
     return true;
+}
+
+DapRpcService* DapRpcServiceProvider::findService(const QString &asServiceName)
+{
+    if (!m_services.contains(QByteArray::fromStdString(asServiceName.toStdString())))
+    {
+        qJsonRpcDebug() << "can not find service with name " << asServiceName;
+        return nullptr;
+    }
+    return m_services.value(QByteArray::fromStdString(asServiceName.toStdString()));
 }
 
 void DapRpcServiceProvider::processMessage(DapRpcSocket *apSocket, const DapRpcMessage &aMessage)

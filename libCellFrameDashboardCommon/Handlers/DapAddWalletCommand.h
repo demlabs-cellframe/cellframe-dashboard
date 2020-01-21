@@ -21,7 +21,7 @@ public:
     /// @param asServiceName Service name.
     /// @param apSocket Client connection socket with service.
     /// @param parent Parent.
-    explicit DapAddWalletCommand(const QString &asServicename, DapRpcSocket *apSocket = nullptr, QObject *parent = nullptr);
+    explicit DapAddWalletCommand(const QString &asServicename, QObject *parent = nullptr);
 
 public slots:
     /// Send a response to the service.

@@ -15,10 +15,12 @@ int DapRpcAbstractServer::connectedClientCount() const
     return m_clients.size();
 }
 
-void DapRpcAbstractServer::notifyConnectedClients(const DapRpcMessage &message)
+DapRpcServiceReply* DapRpcAbstractServer::notifyConnectedClients(const DapRpcMessage &message)
 {
+    DapRpcServiceReply * reply {nullptr};
     for (int i = 0; i < m_clients.size(); ++i)
-        m_clients[i]->sendMessage(message);
+        reply = m_clients[i]->sendMessage(message);
+    return reply;
 }
 
 void DapRpcAbstractServer::notifyConnectedClients(const QString &method, const QJsonArray &params)

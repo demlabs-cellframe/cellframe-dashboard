@@ -14,6 +14,8 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include <QAction>
+#include <QMenu>
 
 #include "DapRpcLocalServer.h"
 
@@ -22,8 +24,12 @@ typedef class DapRpcLocalServer DapUiService;
 
 
 #include "Handlers/DapAbstractCommand.h"
-#include "Handlers/DapAddWalletCommand.h"
+#include "Handlers/DapQuitApplicationCommand.h"
+#include "Handlers/DapActivateClientCommand.h"
 #include "Handlers/DapUpdateLogsCommand.h"
+#include "DapSystemTrayIcon.h"
+#include "DapToolTipWidget.h"
+
 
 /**
  * @brief The DapServiceController class
@@ -36,12 +42,19 @@ class DapServiceController : public QObject
     Q_OBJECT
 
     /// Service core.
-    DapUiService    * m_pServer {nullptr};
+    DapUiService        * m_pServer {nullptr};
+
+    DapSystemTrayIcon   * m_pSystemTrayIcon {nullptr};
+
+    DapToolTipWidget    * m_pToolTipWidget {nullptr};
+
+    QMenu               * menuSystemTrayIcon {nullptr};
   
 public:
     /// Standard constructor.
     /// @param parent Parent.
     explicit DapServiceController(QObject * parent = nullptr);
+    ~DapServiceController();
     /// Start service: creating server and socket.
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
@@ -53,6 +66,8 @@ signals:
 private slots:
     /// Register command.
     void registerCommand();
+
+    void initSystemTrayIcon();
 };
 
 #endif // DAPSERVICECONTROLLER_H
