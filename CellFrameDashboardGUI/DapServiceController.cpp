@@ -1,5 +1,7 @@
 #include "DapServiceController.h"
 
+/// Standard constructor.
+/// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
@@ -40,6 +42,8 @@ DapServiceController &DapServiceController::getInstance()
 }
 
 /// Send request to service.
+/// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
+/// @param asServiceName Service name.
 /// @param arg1...arg10 Parametrs.
 void DapServiceController::requestToService(const QString &asServiceName, const QVariant &arg1,
                                             const QVariant &arg2, const QVariant &arg3, const QVariant &arg4,
@@ -52,6 +56,10 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
     transceiver->requestToService(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 }
 
+/// Notify service.
+/// @details In this case, only a notification is sent to the service, the answer should not be expected.
+/// @param asServiceName Service name.
+/// @param arg1...arg10 Parametrs.
 void DapServiceController::notifyService(const QString &asServiceName, const QVariant &arg1,
                                          const QVariant &arg2, const QVariant &arg3, const QVariant &arg4,
                                          const QVariant &arg5, const QVariant &arg6, const QVariant &arg7,
@@ -67,11 +75,14 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
 /// Register command.
 void DapServiceController::registerCommand()
 {
-     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_DAPRpcSocket))), QString()));
-     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapActivateClientCommand("DapActivateClientCommand", m_DAPRpcSocket))), QString("clientActivated")));
-     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
+    // Application shutdown team
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_DAPRpcSocket))), QString()));
+    // GUI client activation command in case it is minimized/expanded
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapActivateClientCommand("DapActivateClientCommand", m_DAPRpcSocket))), QString("clientActivated")));
+    // Log update command on the Logs tab
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
 
-     registerEmmitedSignal();
+    registerEmmitedSignal();
 }
 
 /// Find the emitted signal.
@@ -96,6 +107,7 @@ void DapServiceController::findEmittedSignal(const QVariant &aValue)
     }
 }
 
+/// Register a signal handler for notification results.
 void DapServiceController::registerEmmitedSignal()
 {
     foreach (auto command, m_transceivers)
