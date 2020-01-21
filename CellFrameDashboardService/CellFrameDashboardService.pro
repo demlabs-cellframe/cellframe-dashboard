@@ -1,5 +1,4 @@
-QT += core network
-QT -= gui
+QT += core network gui
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -15,8 +14,6 @@ TARGET = $${BRAND}Service
 VER_MAJ = 1
 VER_MIN = 6
 VER_PAT = 4
-
-ICON = icon.ico
 
 win32 {
     CONFIG -= console
@@ -46,11 +43,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
+    $$PWD/DapToolTipWidget.cpp \
     $$PWD/main.cpp \
 
 
 HEADERS += \
     $$PWD/DapServiceController.h \
+    $$PWD/DapToolTipWidget.h
+
+
 
 
 include (../libdap/libdap.pri)

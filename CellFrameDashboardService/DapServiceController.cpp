@@ -9,19 +9,26 @@ DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
     });
 }
 
+DapServiceController::~DapServiceController()
+{
+    delete m_pToolTipWidget;
+    delete menuSystemTrayIcon;
+}
+
 /// Start service: creating server and socket.
 /// @return Returns true if the service starts successfully, otherwise false.
 bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     
-    m_pServer = new DapUiService();
+    m_pServer = new DapUiService(this);
     m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
         // Register command to cellframenode
         registerCommand();
+        initSystemTrayIcon();
     }
     else
     {
@@ -35,6 +42,39 @@ bool DapServiceController::start()
 /// Register command.
 void DapServiceController::registerCommand()
 {
-     m_pServer->addService(new DapAddWalletCommand("ADD", nullptr, this));
-     m_pServer->addService(new DapUpdateLogsCommand("GET_LOG", nullptr, this));
+    m_pServer->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_pServer));
+    m_pServer->addService(new DapActivateClientCommand("DapActivateClientCommand", m_pServer));
+    m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
+}
+
+void DapServiceController::initSystemTrayIcon()
+{
+    m_pToolTipWidget = new DapToolTipWidget();
+    m_pSystemTrayIcon = new DapSystemTrayIcon(this);
+    m_pSystemTrayIcon->setToolTipWidget(m_pToolTipWidget);
+    m_pSystemTrayIcon->setIcon(QIcon(":/res/icons/icon.ico"));
+    menuSystemTrayIcon = new QMenu();
+    QAction * quitAction = new QAction("Quit", this);
+    menuSystemTrayIcon->addAction(quitAction);
+    m_pSystemTrayIcon->setContextMenu(menuSystemTrayIcon);
+    m_pSystemTrayIcon->show();
+
+    // If the "Exit" menu item is selected, then we shut down the service,
+    // and also send a command to shut down the client.
+    connect(quitAction, &QAction::triggered, this, [=]
+    {
+        DapQuitApplicationCommand * command = dynamic_cast<DapQuitApplicationCommand*>(m_pServer->findService("DapQuitApplicationCommand"));
+        Q_ASSERT(command);
+        command->notifyToClient();
+    });
+
+    // With a double click on the icon in the system tray,
+    // we send a command to the client to activate the main window
+    connect(m_pSystemTrayIcon, &DapSystemTrayIcon::activated, this, [=] (const QSystemTrayIcon::ActivationReason& reason)
+    {
+        Q_UNUSED(reason);
+        DapActivateClientCommand * command = dynamic_cast<DapActivateClientCommand*>(m_pServer->findService("DapActivateClientCommand"));
+        Q_ASSERT(command);
+        command->notifyToClient();
+    });
 }

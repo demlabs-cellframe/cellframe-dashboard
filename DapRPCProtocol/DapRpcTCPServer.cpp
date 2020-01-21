@@ -6,7 +6,7 @@ DapRpcTCPServer::DapRpcTCPServer(QObject *apParent)
 
 }
 
-void DapRpcTCPServer::notifyConnectedClients(const DapRpcMessage &message)
+DapRpcServiceReply *DapRpcTCPServer::notifyConnectedClients(const DapRpcMessage &message)
 {
     DapRpcAbstractServer::notifyConnectedClients(message);
 }
@@ -36,16 +36,16 @@ bool DapRpcTCPServer::listen(const QString &asAddress, quint16 aPort)
                 QTcpServer::listen(QHostAddress(asAddress), aPort));
 }
 
-bool DapRpcTCPServer::addService(DapRpcService *apService)
+DapRpcService *DapRpcTCPServer::addService(DapRpcService *apService)
 {
     if (!DapRpcServiceProvider::addService(apService))
-        return false;
+        return nullptr;
 
     connect(apService, SIGNAL(notifyConnectedClients(DapRpcMessage)),
                this, SLOT(notifyConnectedClients(DapRpcMessage)));
     connect(apService, SIGNAL(notifyConnectedClients(QString,QJsonArray)),
                this, SLOT(notifyConnectedClients(QString,QJsonArray)));
-    return true;
+    return apService;
 }
 
 bool DapRpcTCPServer::removeService(DapRpcService *apService)

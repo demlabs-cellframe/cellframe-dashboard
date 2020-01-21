@@ -40,16 +40,8 @@ DapLogsScreenForm
     Connections
     {
         target: dapServiceController
-        onHistoryLogResponded:fillModel(historyString);
+        onLogUpdated:fillModel(logs);
 
-    }
-    //Timer for updating data in the model
-    Timer
-    {
-        id:loadContentLogTimer
-        interval: 60000
-        repeat: true
-        onTriggered: dapServiceController.requestToService("GET_LOG",200);
     }
 
     //Creates a list model for the example
@@ -63,9 +55,7 @@ DapLogsScreenForm
         var timeString = new Date();
         var day = new Date(86400);
 
-        dapServiceController.requestToService("GET_LOG",200);
-        loadContentLogTimer.start();
-
+        dapServiceController.requestToService("DapUpdateLogsCommand",200);
     }
 
     ListModel

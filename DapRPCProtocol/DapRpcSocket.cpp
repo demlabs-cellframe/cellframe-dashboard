@@ -199,7 +199,12 @@ DapRpcServiceReply *DapRpcSocket::invokeRemoteMethod(const QString &asMethod, co
 
     DapRpcMessage request =
         DapRpcMessage::createRequest(asMethod, QJsonArray::fromVariantList(params));
-    return sendMessage(request);
+    return invokeRemoteMethod(request);
+}
+
+DapRpcServiceReply *DapRpcSocket::invokeRemoteMethod(const DapRpcMessage &message)
+{
+    return sendMessage(message);
 }
 
 void DapRpcSocket::processIncomingData()
@@ -233,7 +238,6 @@ void DapRpcSocket::processIncomingData()
             qJsonRpcDebug() << "received: " << document.toJson(QJsonDocument::Compact);
             DapRpcMessage message = DapRpcMessage::fromObject(document.object());
             Q_EMIT messageReceived(message);
-
             if (message.type() == DapRpcMessage::Response ||
                 message.type() == DapRpcMessage::Error) {
                 if (m_replies.contains(message.id())) {
@@ -258,5 +262,5 @@ void DapRpcSocket::setIODevice(QIODevice *pDevice)
 
 void DapRpcSocket::processRequestMessage(const DapRpcMessage &asMessage)
 {
-    Q_UNUSED(asMessage)
+   processMessage(this, asMessage);
 }

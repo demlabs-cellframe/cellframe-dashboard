@@ -118,5 +118,6 @@
         <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanelForm.ui.qml</file>
+        <file>res/icons/icon.ico</file>
     </qresource>
 </RCC>

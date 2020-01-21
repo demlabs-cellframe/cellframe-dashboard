@@ -22,7 +22,7 @@
  *  - Sending/receiving messages
  *  - Control sending request by timeout
  */
-class DapRpcSocket : public QObject
+class DapRpcSocket : public QObject, public DapRpcServiceProvider
 {
     Q_OBJECT
     Q_DISABLE_COPY(DapRpcSocket)
@@ -151,6 +151,7 @@ public slots:
                                              const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
                                              const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
                                              const QVariant &arg10 = QVariant());
+    DapRpcServiceReply *invokeRemoteMethod(const DapRpcMessage &message);
 };
 
 #endif // DapRPCSOCKET_H

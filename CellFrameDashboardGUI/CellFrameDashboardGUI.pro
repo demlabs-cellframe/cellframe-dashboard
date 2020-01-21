@@ -35,10 +35,10 @@ DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-ICON = res/icons/dashboard.icns
+    ICON = res/icons/dashboard.icns
 }
 else {
-ICON =
+    ICON = qrc:/res/icons/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.

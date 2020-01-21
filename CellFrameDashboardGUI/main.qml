@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
+import QtQuick.Window 2.0
 import "screen"
 
 ApplicationWindow
@@ -41,4 +42,27 @@ ApplicationWindow
         visible: false
     }
 
+    onClosing:
+    {
+        window.hide()
+    }
+
+    Connections
+    {
+        target: dapServiceController
+
+        onClientActivated:
+        {
+            if(window.visibility === Window.Hidden)
+            {
+                window.show()
+                window.raise()
+                window.requestActivate()
+            }
+            else
+            {
+                window.hide()
+            }
+        }
+    }
 }
