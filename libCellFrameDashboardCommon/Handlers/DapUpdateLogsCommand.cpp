@@ -25,6 +25,9 @@ DapUpdateLogsCommand::DapUpdateLogsCommand(const QString &asServiceName, QObject
     }
 }
 
+/// Send a notification to the client. At the same time, you should not expect a response from the client.
+/// @details Performed on the service side.
+/// @param arg1...arg10 Parameters.
 void DapUpdateLogsCommand::notifyToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                         const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                         const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
@@ -40,6 +43,9 @@ void DapUpdateLogsCommand::notifyToClient(const QVariant &arg1, const QVariant &
     DapAbstractCommand::notifyToClient(m_bufLog, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 }
 
+/// Process the notification from the service on the client side.
+/// @details Performed on the client side.
+/// @param arg1...arg10 Parameters.
 void DapUpdateLogsCommand::notifedFromService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                             const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                             const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
@@ -59,7 +65,8 @@ void DapUpdateLogsCommand::notifedFromService(const QVariant &arg1, const QVaria
     emit clientNotifed(arg1);
 }
 
-/// The log file is being read.
+/// Send a response to the client.
+/// @details Performed on the service side.
 /// @param arg1...arg10 Parameters.
 /// @return Reply to client.
 QVariant DapUpdateLogsCommand::respondToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
@@ -116,6 +123,7 @@ void DapUpdateLogsCommand::dapGetLog()
 }
 
 /// Reply from service.
+/// @details Performed on the service side.
 /// @return Service reply.
 void DapUpdateLogsCommand::replyFromService()
 {

@@ -43,17 +43,18 @@ class DapServiceController : public QObject
 
     /// Service core.
     DapUiService        * m_pServer {nullptr};
-
+    /// System tray widget in tray.
     DapSystemTrayIcon   * m_pSystemTrayIcon {nullptr};
-
+    /// ToolTip pop-up widget.
     DapToolTipWidget    * m_pToolTipWidget {nullptr};
-
+    /// The context menu of the widget in the system tray.
     QMenu               * menuSystemTrayIcon {nullptr};
   
 public:
     /// Standard constructor.
     /// @param parent Parent.
     explicit DapServiceController(QObject * parent = nullptr);
+    /// Destructor.
     ~DapServiceController();
     /// Start service: creating server and socket.
     /// @return Returns true if the service starts successfully, otherwise false.
@@ -66,7 +67,7 @@ signals:
 private slots:
     /// Register command.
     void registerCommand();
-
+    /// Initialize system tray.
     void initSystemTrayIcon();
 };
 

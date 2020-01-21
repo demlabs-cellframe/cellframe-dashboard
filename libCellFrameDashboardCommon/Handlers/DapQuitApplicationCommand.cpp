@@ -3,12 +3,16 @@
 /// Overloaded constructor.
 /// @param asServiceName Service name.
 /// @param parent Parent.
+/// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
 DapQuitApplicationCommand::DapQuitApplicationCommand(const QString &asServicename, QObject *parent)
     : DapAbstractCommand(asServicename, parent)
 {
 
 }
 
+/// Send a notification to the client. At the same time, you should not expect a response from the client.
+/// @details Performed on the service side.
+/// @param arg1...arg10 Parameters.
 void DapQuitApplicationCommand::notifyToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                         const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                         const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
@@ -23,6 +27,9 @@ void DapQuitApplicationCommand::notifyToClient(const QVariant &arg1, const QVari
     connect(server, SIGNAL(onClientDisconnected()), qApp, SLOT(quit()));
 }
 
+/// Process the notification from the service on the client side.
+/// @details Performed on the client side.
+/// @param arg1...arg10 Parameters.
 void DapQuitApplicationCommand::notifedFromService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                             const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                             const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,

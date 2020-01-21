@@ -32,7 +32,8 @@ protected slots:
     void dapGetLog();
 
 public slots:
-    /// Send noify to client.
+    /// Send a notification to the client. At the same time, you should not expect a response from the client.
+    /// @details Performed on the service side.
     /// @param arg1...arg10 Parameters.
     Q_INVOKABLE virtual void notifyToClient(const QVariant &arg1 = QVariant(),
                                      const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
@@ -40,7 +41,8 @@ public slots:
                                      const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
                                      const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
                                      const QVariant &arg10 = QVariant());
-    /// Send noify to client.
+    /// Process the notification from the service on the client side.
+    /// @details Performed on the client side.
     /// @param arg1...arg10 Parameters.
     Q_INVOKABLE virtual void notifedFromService(const QVariant &arg1 = QVariant(),
                                      const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
@@ -49,6 +51,7 @@ public slots:
                                      const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
                                      const QVariant &arg10 = QVariant());
     /// Send a response to the client.
+    /// @details Performed on the service side.
     /// @param arg1...arg10 Parameters.
     /// @return Reply to client.
     virtual QVariant respondToClient(const QVariant &arg1 = QVariant(),
@@ -58,6 +61,7 @@ public slots:
                                      const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
                                      const QVariant &arg10 = QVariant());
     /// Reply from service.
+    /// @details Performed on the service side.
     /// @return Service reply.
     virtual void replyFromService();
 };

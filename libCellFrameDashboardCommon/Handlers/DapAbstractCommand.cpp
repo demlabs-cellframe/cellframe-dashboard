@@ -2,14 +2,17 @@
 
 /// Overloaded constructor.
 /// @param asServiceName Service name.
-/// @param apSocket Client connection socket with service.
 /// @param parent Parent.
+/// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
 DapAbstractCommand::DapAbstractCommand(const QString &asServiceName, QObject *parent)
     : DapCommand(asServiceName, parent), m_parent(parent)
 {
 
 }
 
+/// Send a notification to the client. At the same time, you should not expect a response from the client.
+/// @details Performed on the service side.
+/// @param arg1...arg10 Parameters.
 void DapAbstractCommand::notifyToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                         const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                         const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
@@ -35,6 +38,9 @@ void DapAbstractCommand::notifyToClient(const QVariant &arg1, const QVariant &ar
     server->notifyConnectedClients(request);
 }
 
+/// Process the notification from the service on the client side.
+/// @details Performed on the client side.
+/// @param arg1...arg10 Parameters.
 void DapAbstractCommand::notifedFromService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                             const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                             const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
@@ -55,6 +61,7 @@ void DapAbstractCommand::notifedFromService(const QVariant &arg1, const QVariant
 }
 
 /// Send request to client.
+/// @details Performed on the service side.
 /// @param arg1...arg10 Parameters.
 void DapAbstractCommand::requestToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                          const QVariant &arg4, const QVariant &arg5, const QVariant &arg6, 
@@ -83,6 +90,7 @@ void DapAbstractCommand::requestToClient(const QVariant &arg1, const QVariant &a
 }
 
 /// Send a response to the service.
+/// @details Performed on the client side.
 /// @param arg1...arg10 Parameters.
 /// @return Reply to service.
 QVariant DapAbstractCommand::respondToService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
@@ -105,6 +113,7 @@ QVariant DapAbstractCommand::respondToService(const QVariant &arg1, const QVaria
 }
 
 /// Reply from client.
+/// @details Performed on the service side.
 /// @return Client reply.
 QVariant DapAbstractCommand::replyFromClient()
 {
@@ -113,6 +122,9 @@ QVariant DapAbstractCommand::replyFromClient()
     return QVariant();
 }
 
+/// Send a notification to the service. At the same time, you should not expect a response from the service.
+/// @details Performed on the client side.
+/// @param arg1...arg10 Parameters.
 void DapAbstractCommand::notifyToService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                          const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
                                          const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
@@ -138,6 +150,9 @@ void DapAbstractCommand::notifyToService(const QVariant &arg1, const QVariant &a
     socket->notify(notify);
 }
 
+/// Process the notification from the client on the service side.
+/// @details Performed on the service side.
+/// @param arg1...arg10 Parameters.
 void DapAbstractCommand::notifedFromClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6, const QVariant &arg7, const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
 {
     Q_UNUSED(arg1);
@@ -155,6 +170,7 @@ void DapAbstractCommand::notifedFromClient(const QVariant &arg1, const QVariant 
 }
 
 /// Send request to service.
+/// @details Performed on the client side.
 /// @param arg1...arg10 Parameters.
 void DapAbstractCommand::requestToService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
                                               const QVariant &arg4, const QVariant &arg5,
@@ -180,6 +196,7 @@ void DapAbstractCommand::requestToService(const QVariant &arg1, const QVariant &
 }
 
 /// Send a response to the client.
+/// @details Performed on the service side.
 /// @param arg1...arg10 Parameters.
 /// @return Reply to client.
 QVariant DapAbstractCommand::respondToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
@@ -202,6 +219,7 @@ QVariant DapAbstractCommand::respondToClient(const QVariant &arg1, const QVarian
 }
 
 /// Reply from service.
+/// @details Performed on the service side.
 /// @return Service reply.
 void DapAbstractCommand::replyFromService()
 {

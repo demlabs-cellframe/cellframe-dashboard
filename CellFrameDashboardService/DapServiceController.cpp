@@ -9,6 +9,7 @@ DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
     });
 }
 
+/// Destructor.
 DapServiceController::~DapServiceController()
 {
     delete m_pToolTipWidget;
@@ -26,8 +27,9 @@ bool DapServiceController::start()
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
-        // Register command to cellframenode
+        // Register command
         registerCommand();
+        // Initialize system tray
         initSystemTrayIcon();
     }
     else
@@ -42,11 +44,15 @@ bool DapServiceController::start()
 /// Register command.
 void DapServiceController::registerCommand()
 {
+    // Application shutdown team
     m_pServer->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_pServer));
+    // GUI client activation command in case it is minimized/expanded
     m_pServer->addService(new DapActivateClientCommand("DapActivateClientCommand", m_pServer));
+    // Log update command on the Logs tab
     m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
 }
 
+/// Initialize system tray.
 void DapServiceController::initSystemTrayIcon()
 {
     m_pToolTipWidget = new DapToolTipWidget();
@@ -59,7 +65,7 @@ void DapServiceController::initSystemTrayIcon()
     m_pSystemTrayIcon->setContextMenu(menuSystemTrayIcon);
     m_pSystemTrayIcon->show();
 
-    // If the "Exit" menu item is selected, then we shut down the service,
+    // If the "Quit" menu item is selected, then we shut down the service,
     // and also send a command to shut down the client.
     connect(quitAction, &QAction::triggered, this, [=]
     {
