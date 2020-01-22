@@ -20,6 +20,7 @@ DapRightPanel
             normalImageButton: "qrc:/res/icons/close_icon.png"
             hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
         }
+    
     dapHeader.height: 36 * pt
     dapFrame.height: parent.height
     color: "#F8F7FA"
