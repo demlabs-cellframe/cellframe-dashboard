@@ -4,18 +4,14 @@ DapDashboardTabForm
 {
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
-    ///@detalis Path to the right panel of transaction history.
+    ///@detalis Path to the right panel of input name wallet.
     readonly property string inputNameWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml"
-    ///@detalis Path to the right panel of transaction history.
+    ///@detalis Path to the right panel of recovery.
     readonly property string recoveryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml"
-    ///@detalis Path to the right panel of transaction history.
+    ///@detalis Path to the right panel of done.
     readonly property string doneWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
+    ///@detalis Path to the right panel of last actions.
+    readonly property string lastActionsWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
 
-    dapDashboardRightPanel.source: Qt.resolvedUrl(inputNameWallet)
-
-    dapDashboardTopPanel.dapAddWalletButton.onClicked:
-    {
-        if(dapDashboardRightPanel.source != Qt.resolvedUrl(inputNameWallet))
-            dapDashboardRightPanel.setSource(Qt.resolvedUrl(inputNameWallet))
-    }
+    dapDashboardRightPanel.source: Qt.resolvedUrl(lastActionsWallet)
 }
