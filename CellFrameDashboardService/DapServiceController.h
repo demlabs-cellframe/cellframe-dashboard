@@ -27,6 +27,8 @@ typedef class DapRpcLocalServer DapUiService;
 #include "Handlers/DapQuitApplicationCommand.h"
 #include "Handlers/DapActivateClientCommand.h"
 #include "Handlers/DapUpdateLogsCommand.h"
+#include "Handlers/DapAddWalletCommand.h"
+#include "Handlers/DapGetListWalletsCommand.h"
 #include "DapSystemTrayIcon.h"
 #include "DapToolTipWidget.h"
 

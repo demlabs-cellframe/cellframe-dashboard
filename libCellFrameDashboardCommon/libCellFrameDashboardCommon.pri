@@ -18,10 +18,12 @@ SOURCES +=\
     $$PWD/DapHistoryType.cpp \
     $$PWD/DapSettings.cpp \
     $$PWD/DapLogMessage.cpp \
-    $$PWD/DapChainWallet.cpp \
     $$PWD/DapSystemTrayIcon.cpp \
+    $$PWD/DapWallet.cpp \
+    $$PWD/DapWalletToken.cpp \
     $$PWD/Handlers/DapAbstractCommand.cpp \
     $$PWD/Handlers/DapActivateClientCommand.cpp \
+    $$PWD/Handlers/DapGetListWalletsCommand.cpp \
     $$PWD/Handlers/DapQuitApplicationCommand.cpp \
     $$PWD/Handlers/DapAddWalletCommand.cpp \
     $$PWD/Handlers/DapUpdateLogsCommand.cpp
@@ -32,11 +34,13 @@ HEADERS +=\
     $$PWD/DapHistoryType.h \
     $$PWD/DapSettings.h \
     $$PWD/DapLogMessage.h \
-    $$PWD/DapChainWallet.h \
     $$PWD/DapNodeType.h \
     $$PWD/DapSystemTrayIcon.h \
+    $$PWD/DapWallet.h \
+    $$PWD/DapWalletToken.h \
     $$PWD/Handlers/DapAbstractCommand.h \
     $$PWD/Handlers/DapActivateClientCommand.h \
+    $$PWD/Handlers/DapGetListWalletsCommand.h \
     $$PWD/Handlers/DapQuitApplicationCommand.h \
     $$PWD/Handlers/DapAddWalletCommand.h \
     $$PWD/Handlers/DapUpdateLogsCommand.h

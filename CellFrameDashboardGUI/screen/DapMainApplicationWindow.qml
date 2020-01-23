@@ -23,7 +23,8 @@ DapMainApplicationWindowForm
     {
         id: modelMenuTab
         
-        Component.onCompleted: {
+        Component.onCompleted:
+        {
 
             append({
                 name: qsTr("Dashboard"),

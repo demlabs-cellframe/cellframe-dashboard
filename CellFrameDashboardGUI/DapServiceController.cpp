@@ -81,6 +81,10 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapActivateClientCommand("DapActivateClientCommand", m_DAPRpcSocket))), QString("clientActivated")));
     // Log update command on the Logs tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
+    // The team to create a new wallet on the Dashboard tab
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddWalletCommand("DapAddWalletCommand", m_DAPRpcSocket))), QString("walletCreated")));
+    // The command to get a list of available wallets
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_DAPRpcSocket))), QString("walletsListReceived")));
 
     registerEmmitedSignal();
 }
