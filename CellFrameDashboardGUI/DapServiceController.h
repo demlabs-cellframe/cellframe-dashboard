@@ -13,6 +13,7 @@
 #include "Handlers/DapQuitApplicationCommand.h"
 #include "Handlers/DapActivateClientCommand.h"
 #include "Handlers/DapUpdateLogsCommand.h"
+#include "Handlers/DapExportLogCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -81,9 +82,13 @@ signals:
     void versionChanged(const QString &version);
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();
-    /// A signal that is used to transmit data to the log model.
-    /// @param historyString QStringList
+    ///This signal sends data about saving a file from the Logs tab
+    /// @param saveLogRezult
+    void saveLogRezult(const QVariant& message);
+    ///A signal that is used to transmit data to the log model.
+    /// @param logUpdated QStringList
     void logUpdated(const QVariant& logs);
+
     
 private slots:
     /// Register command.

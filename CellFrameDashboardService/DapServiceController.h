@@ -27,8 +27,10 @@ typedef class DapRpcLocalServer DapUiService;
 #include "Handlers/DapQuitApplicationCommand.h"
 #include "Handlers/DapActivateClientCommand.h"
 #include "Handlers/DapUpdateLogsCommand.h"
+#include "Handlers/DapExportLogCommand.h"
 #include "DapSystemTrayIcon.h"
 #include "DapToolTipWidget.h"
+
 
 
 /**

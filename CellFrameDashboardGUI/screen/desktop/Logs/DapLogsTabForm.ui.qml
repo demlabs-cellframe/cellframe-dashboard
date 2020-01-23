@@ -11,4 +11,5 @@ DapAbstractTab
     dapScreen: DapLogsScreen { }
 
     dapRightPanel: DapLogsRightPanel { }
+
 }
