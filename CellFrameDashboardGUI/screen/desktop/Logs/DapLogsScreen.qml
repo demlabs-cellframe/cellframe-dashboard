@@ -1,11 +1,14 @@
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.1
-import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import QtQml 2.0
+import QtQuick 2.4
+import QtQuick.Controls 2.0
+import "../../"
 
 DapLogsScreenForm
 {
+    id:dapLogsScreenForm
+
     ///@detalis firstMarginList First indent in the delegate to the first word.
     property int firstMarginList: 16 * pt
     ///@detalis secondMarginList Second indent between the first and second word.
@@ -23,6 +26,13 @@ DapLogsScreenForm
     ///@detalis Font color.
     property string fontColor: "#070023"
 
+    //Slot for updating data in the model. The signal comes from C++.
+    Connections
+    {
+        target: dapServiceController
+        onLogUpdated:fillModel(logs);
+    }
+
     ///In this block, the properties are only auxiliary for internal use.
     QtObject
     {
@@ -35,13 +45,6 @@ DapLogsScreenForm
         property var todayMonth
         property var todayYear
         property var stringTime
-    }
-    //Slot for updating data in the model. The signal comes from C++.
-    Connections
-    {
-        target: dapServiceController
-        onLogUpdated:fillModel(logs);
-
     }
 
     //Creates a list model for the example
@@ -58,10 +61,6 @@ DapLogsScreenForm
         dapServiceController.requestToService("DapUpdateLogsCommand",200);
     }
 
-    ListModel
-    {
-        id:dapLogsModel
-    }
     //The Component Header
     Component
     {
@@ -239,6 +238,7 @@ DapLogsScreenForm
         }
     }
 
+
     //Splits a string from the log.
     function parceStringFromLog(string)
     {
@@ -257,7 +257,7 @@ DapLogsScreenForm
             var stringTime = parceTime(arrLogString[1]);
 
             dapLogsModel.append({"type":arrLogString[2], "info":arrLogString[4], "file":arrLogString[3], "time":getTime(stringTime),
-                                    "date":getDay(stringTime)});
+                                    "date":getDay(stringTime), "momentTime":stringTime});
         }
     }
 

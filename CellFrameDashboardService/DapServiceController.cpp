@@ -50,6 +50,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapActivateClientCommand("DapActivateClientCommand", m_pServer));
     // Log update command on the Logs tab
     m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
+    // Saving the file with the logs
+    m_pServer->addService(new DapExportLogCommand("DapExportLogCommand", m_pServer));
 }
 
 /// Initialize system tray.
@@ -83,4 +85,5 @@ void DapServiceController::initSystemTrayIcon()
         Q_ASSERT(command);
         command->notifyToClient();
     });
+
 }
