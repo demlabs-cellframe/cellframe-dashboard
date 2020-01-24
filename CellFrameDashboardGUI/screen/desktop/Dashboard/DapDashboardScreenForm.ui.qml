@@ -8,11 +8,12 @@ DapAbstractScreen
 {
     id: dapdashboard
     dapFrame.color: "#FFFFFF"
-    textTest.text: "Here text"
+    textTest.text: "Here text" // Delete it?
     anchors.fill: parent
     anchors.leftMargin: 24 * pt
     anchors.rightMargin: 24 * pt
 
+    // Paths to currency emblems
     property string bitCoinImagePath: "qrc:/res/icons/tkn1_icon_light.png"
     property string ethereumImagePath: "qrc:/res/icons/tkn2_icon.png"
     property string newGoldImagePath: "qrc:/res/icons/ng_icon.png"
@@ -257,7 +258,7 @@ DapAbstractScreen
                         anchors.leftMargin: 16 * pt
                         anchors.right: parent.right
                         anchors.rightMargin: 16 * pt
-                        height: 80 * pt
+                        height: 56 * pt
 
                         Rectangle
                         {
@@ -300,7 +301,7 @@ DapAbstractScreen
                                 color: "#070023"
                                 text: type
                             }
-
+                            // Delimiters - see design
                             Item
                             {
                                 height: parent.height
@@ -323,7 +324,7 @@ DapAbstractScreen
                             Text
                             {
                                 id: currencySum
-                                anchors.verticalCenter: parent.verticalCenter
+                                Layout.alignment: Qt.AlignHCenter
                                 font.pixelSize: 18 * pt
                                 font.family: "Roboto"
                                 font.styleName: "Normal"
@@ -335,13 +336,12 @@ DapAbstractScreen
                             Text
                             {
                                 id: currencyCode
-                                anchors.verticalCenter: parent.verticalCenter
                                 font.pixelSize: 18 * pt
                                 font.family: "Roboto"
                                 font.styleName: "Normal"
                                 font.weight: Font.Normal
                                 color: "#070023"
-                                text: "BTC"
+                                text: (type === "bitCoin") ? "BTC" : (type === "ether") ? "ETH" : (type === "newGold") ? "NGD" : "KLVN"
                             }
 
                             Item
