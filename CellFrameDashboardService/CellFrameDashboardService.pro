@@ -19,14 +19,14 @@ win32 {
     CONFIG -= console
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
-    DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
+    DEFINES += LOG_FILE=\\\"./opt/cellframe-node/var/log/cellframe-node.log\\\"
     DEFINES += CMD_LOG=\\\"./opt/cellframe-dashboard/data/cellframe-cmd_log.txt\\\"
     DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
-    DEFINES += LOG_FILE=\\\"/opt/cellframe-node/var/log/cellframe-node_logs.txt\\\"
+    DEFINES += LOG_FILE=\\\"/opt/cellframe-node/var/log/cellframe-node.log\\\"
     DEFINES += CMD_LOG=\\\"/opt/cellframe-dashboard/data/cellframe-cmd_log.txt\\\"
 }
 

@@ -54,6 +54,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapAddWalletCommand("DapAddWalletCommand", m_pServer));
     // The command to get a list of available wallets
     m_pServer->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_pServer));
+    // Saving the file with the logs
+    m_pServer->addService(new DapExportLogCommand("DapExportLogCommand", m_pServer));
 }
 
 /// Initialize system tray.
@@ -87,4 +89,5 @@ void DapServiceController::initSystemTrayIcon()
         Q_ASSERT(command);
         command->notifyToClient();
     });
+
 }
