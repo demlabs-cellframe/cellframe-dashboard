@@ -130,5 +130,14 @@
         <file>res/icons/ic_arrow_drop_down_dark_blue.png</file>
         <file>res/icons/ic_arrow_drop_up_dark_blue.png</file>
         <file>res/icons/sell_icon.png</file>
+        <file>res/icons/ic_copy.png</file>
+        <file>res/icons/ic_copy_hover.png</file>
+        <file>res/icons/ic_edit.png</file>
+        <file>res/icons/ic_edit_hover.png</file>
+        <file>res/icons/ic_klvn.png</file>
+        <file>res/icons/new-payment_icon.png</file>
+        <file>res/icons/ng_icon.png</file>
+        <file>res/icons/tkn1_icon_light.png</file>
+        <file>res/icons/tkn2_icon.png</file>
     </qresource>
 </RCC>
