@@ -3,7 +3,7 @@ import "../../"
 
 DapAbstractRightPanel
 {
-    dapFrame.color: "yellow"
+    visible: false
 }
 
 /*##^##
