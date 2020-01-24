@@ -7,6 +7,11 @@ DapDashboardTopPanelForm
         id: modelWallets
     }
 
+    ListModel
+    {
+        id: modelTokens
+    }
+
     Connections
     {
         target: dapServiceController
