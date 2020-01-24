@@ -4,6 +4,9 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QRegularExpression>
+#include <QByteArray>
+#include <QDataStream>
+#include <QBuffer>
 
 #include "DapWallet.h"
 #include "DapAbstractCommand.h"
@@ -26,7 +29,7 @@ public slots:
                              const QVariant &arg3 = QVariant(), const QVariant &arg4 = QVariant(),
                              const QVariant &arg5 = QVariant(), const QVariant &arg6 = QVariant(),
                              const QVariant &arg7 = QVariant(), const QVariant &arg8 = QVariant(),
-                             const QVariant &arg9 = QVariant(), const QVariant &arg10 = QVariant());
+                             const QVariant &arg9 = QVariant(), const QVariant &arg10 = QVariant()) override;
 };
 
 #endif // DAPGETLISTWALLETSCOMMAND_H

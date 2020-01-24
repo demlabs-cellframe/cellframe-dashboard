@@ -7,6 +7,7 @@
 #include <QJSEngine>
 #include <QVector>
 #include <algorithm>
+#include <QDataStream>
 
 #include "DapServiceClient.h"
 #include "Handlers/DapAbstractCommand.h"
@@ -15,6 +16,7 @@
 #include "Handlers/DapUpdateLogsCommand.h"
 #include "Handlers/DapAddWalletCommand.h"
 #include "Handlers/DapGetListWalletsCommand.h"
+#include "DapWallet.h"
 
 class DapServiceController : public QObject
 {
