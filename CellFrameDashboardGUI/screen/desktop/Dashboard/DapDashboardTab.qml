@@ -12,6 +12,8 @@ DapDashboardTabForm
     readonly property string doneWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
     ///@detalis Path to the right panel of last actions.
     readonly property string lastActionsWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
+    ///@detalis Path to the right panel of new payment.
+    readonly property string newPayment: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
 
-    dapDashboardRightPanel.source: Qt.resolvedUrl(lastActionsWallet)
+    dapDashboardRightPanel.source: Qt.resolvedUrl(newPayment)
 }
