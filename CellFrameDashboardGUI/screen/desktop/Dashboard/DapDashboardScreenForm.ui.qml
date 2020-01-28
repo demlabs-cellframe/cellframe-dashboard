@@ -71,8 +71,8 @@ DapAbstractScreen
                 widthButton: 132 * pt
                 heightButton: 36 * pt
                 textButton: "New payment"
-                colorBackgroundButton: "#3E3853"
-                colorBackgroundHover: "red"
+                colorBackgroundHover: "#D51F5D"
+                colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
                 normalImageButton: "qrc:/res/icons/new-payment_icon.png"
