@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
 
@@ -9,6 +9,7 @@ DapAbstractTab
 
     property alias dapDashboardRightPanel: rightPanelLoader
     property alias dapDashboardTopPanel: dashboardTopPanel
+    property alias dapDashboardScreen: dashboardScreen
 
     dapTopPanel: 
         DapDashboardTopPanel 
@@ -16,14 +17,23 @@ DapAbstractTab
             id: dashboardTopPanel
         }
 
-    dapScreen: DapDashboardScreen { }
+    dapScreen:
+        DapDashboardScreen
+        {
+            id: dashboardScreen
+        }
 
     dapRightPanel:
-        Loader
+        StackView
         {
             id: rightPanelLoader
             anchors.fill: parent
             width: 400
+            delegate:
+                StackViewDelegate
+                {
+                    pushTransition: StackViewTransition { }
+                }
         }
 }
 

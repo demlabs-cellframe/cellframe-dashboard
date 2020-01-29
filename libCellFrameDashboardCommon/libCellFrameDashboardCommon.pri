@@ -22,7 +22,9 @@ SOURCES +=\
     $$PWD/DapSystemTrayIcon.cpp \
     $$PWD/Handlers/DapAbstractCommand.cpp \
     $$PWD/Handlers/DapActivateClientCommand.cpp \
+    $$PWD/Handlers/DapCreateTransactionCommand.cpp \
     $$PWD/Handlers/DapExportLogCommand.cpp \
+    $$PWD/Handlers/DapMempoolProcessCommand.cpp \
     $$PWD/Handlers/DapQuitApplicationCommand.cpp \
     $$PWD/Handlers/DapAddWalletCommand.cpp \
     $$PWD/Handlers/DapUpdateLogsCommand.cpp
@@ -38,7 +40,9 @@ HEADERS +=\
     $$PWD/DapSystemTrayIcon.h \
     $$PWD/Handlers/DapAbstractCommand.h \
     $$PWD/Handlers/DapActivateClientCommand.h \
+    $$PWD/Handlers/DapCreateTransactionCommand.h \
     $$PWD/Handlers/DapExportLogCommand.h \
+    $$PWD/Handlers/DapMempoolProcessCommand.h \
     $$PWD/Handlers/DapQuitApplicationCommand.h \
     $$PWD/Handlers/DapAddWalletCommand.h \
     $$PWD/Handlers/DapUpdateLogsCommand.h

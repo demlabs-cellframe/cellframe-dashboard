@@ -11,12 +11,6 @@ DapDashboardTopPanelForm
     {
         id: modelTokens
     }
-
-    Connections
-    {
-        target: dapServiceController
-        onAddWalletResponded: updateModel(wallet)
-    }
     
     function updateModel(wallet)
     {

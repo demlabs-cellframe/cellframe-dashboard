@@ -28,6 +28,8 @@ typedef class DapRpcLocalServer DapUiService;
 #include "Handlers/DapActivateClientCommand.h"
 #include "Handlers/DapUpdateLogsCommand.h"
 #include "Handlers/DapExportLogCommand.h"
+#include "Handlers/DapCreateTransactionCommand.h"
+#include "Handlers/DapMempoolProcessCommand.h"
 #include "DapSystemTrayIcon.h"
 #include "DapToolTipWidget.h"
 

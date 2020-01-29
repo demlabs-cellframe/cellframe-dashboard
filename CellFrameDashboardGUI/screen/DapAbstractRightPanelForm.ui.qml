@@ -22,6 +22,5 @@ DapRightPanel
         }
     
     dapHeader.height: 36 * pt
-    dapFrame.height: parent.height
     color: "#F8F7FA"
 }
