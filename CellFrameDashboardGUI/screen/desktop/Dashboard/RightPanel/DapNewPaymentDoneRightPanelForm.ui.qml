@@ -6,6 +6,9 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+    /// @param dapButtonSend Send button.
+    property alias dapButtonSend: buttonSend
+
     dapHeaderData:
         Row
         {

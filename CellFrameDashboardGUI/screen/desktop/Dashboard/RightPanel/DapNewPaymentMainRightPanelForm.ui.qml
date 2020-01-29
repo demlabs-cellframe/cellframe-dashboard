@@ -6,6 +6,15 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+    /// @param dapButtonSend Send funds button.
+    property alias dapButtonSend: buttonSend
+    /// @param dapTextInputAmountPayment Input field for transfer amount.
+    property alias dapTextInputAmountPayment: textInputAmountPayment
+    /// @param dapCmboBoxToken Token combobox.
+    property alias dapCmboBoxToken: comboBoxToken
+    /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
+    property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
+
     dapHeaderData:
         Row
         {

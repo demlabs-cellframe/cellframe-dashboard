@@ -6,7 +6,7 @@ import "../../"
 
 DapAbstractScreen
 {
-    id: dapdashboard
+    id: dapDashboardScreen
     dapFrame.color: "#FFFFFF"
     textTest.text: "Here text" // Delete it?
     anchors.fill: parent
@@ -18,6 +18,8 @@ DapAbstractScreen
     property string ethereumImagePath: "qrc:/res/icons/tkn2_icon.png"
     property string newGoldImagePath: "qrc:/res/icons/ng_icon.png"
     property string kelvinImagePath: "qrc:/res/icons/ic_klvn.png"
+    ///@param dapButtonNewPayment Button to create a new payment.
+    property alias dapButtonNewPayment: buttonNewPayment
 
     Rectangle
     {
@@ -68,6 +70,7 @@ DapAbstractScreen
 
             DapButton
             {
+                id: buttonNewPayment
                 widthButton: 132 * pt
                 heightButton: 36 * pt
                 textButton: "New payment"
