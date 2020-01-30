@@ -38,7 +38,7 @@ DapAbstractTopPanel
         {
             id: comboboxWallet
             model: modelWallets
-            textRole: "name"
+            comboBoxTextRole: "name"
             mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
@@ -101,7 +101,7 @@ DapAbstractTopPanel
         {
             id: comboboxWalletNetwork
             model: mT
-            textRole: "name"
+            comboBoxTextRole: "name"
             mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
