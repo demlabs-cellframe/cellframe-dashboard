@@ -11,7 +11,7 @@ DapAbstractRightPanel
     /// @param dapTextInputAmountPayment Input field for transfer amount.
     property alias dapTextInputAmountPayment: textInputAmountPayment
     /// @param dapCmboBoxToken Token combobox.
-    property alias dapCmboBoxToken: comboBoxToken
+    property alias dapCmboBoxToken: comboBoxToken.model
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -75,29 +75,6 @@ DapAbstractRightPanel
                 }
             }
 
-
-
-                ListModel
-                {
-                    id: tokenModel
-                    ListElement
-                    {
-                        signatureName: "Kelvin"
-                    }
-                    ListElement
-                    {
-                        signatureName: "Token 1"
-                    }
-                    ListElement
-                    {
-                        signatureName: "Token 2"
-                    }
-                    ListElement
-                    {
-                        signatureName: "NewGold"
-                    }
-                }
-
                 Rectangle
                 {
                     id: frameSenderWalletAddress
@@ -119,11 +96,11 @@ DapAbstractRightPanel
                         anchors.topMargin: 20 * pt
                         anchors.leftMargin: 16 * pt
                         anchors.rightMargin: 16 * pt
-                        height: comboBoxToken.height
+                        height: 100
                         DapComboBox
                         {
                             id: comboBoxToken
-                            model: tokenModel
+                            textRole: "name"
                             anchors.top: parent.top
                             anchors.left: parent.left
                             anchors.right: parent.right

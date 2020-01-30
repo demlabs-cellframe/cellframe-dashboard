@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "qrc:/"
 import "../../"
 
 DapDashboardTabForm
@@ -23,6 +24,8 @@ DapDashboardTabForm
         dapDashboardScreen.dapListViewWallets.model = modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
     }
 
+
+
     ListModel
     {
         id: modelWallets
@@ -40,12 +43,18 @@ DapDashboardTabForm
         }
     }
 
+
+
     // When you click on the button for creating a new payment, open the form to fill in the payment data
     dapDashboardScreen.dapButtonNewPayment.onClicked:
     {
         if(dapDashboardRightPanel.currentItem !== currentRightPanel)
         {
-            currentRightPanel = dapDashboardRightPanel.push(Qt.resolvedUrl(newPaymentMain));
+            currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
+            properties: {dapCmboBoxToken: modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks}});
+            dapDashboardTopPanel.dapComboboxNetwork = mT
+//            console.log(dapDashboardTopPanel.dapComboboxWallet.currentIndex)
+//            console.log(modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks)
         }
     }
 }
