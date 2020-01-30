@@ -4,7 +4,6 @@ import "qrc:/widgets"
 
 DapScreen
 {
-    dapFrame.height: parent.height
     property Button buttonTest: Button {}
     property Text textTest: Text {}
 }

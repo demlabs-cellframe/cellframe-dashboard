@@ -33,6 +33,8 @@ typedef class DapRpcLocalServer DapUiService;
 #include "Handlers/DapGetWalletAddressesCommand.h"
 #include "Handlers/DapExportLogCommand.h"
 #include "Handlers/DapGetWalletTokenInfoCommand.h"
+#include "Handlers/DapCreateTransactionCommand.h"
+#include "Handlers/DapMempoolProcessCommand.h"
 #include "DapSystemTrayIcon.h"
 #include "DapToolTipWidget.h"
 

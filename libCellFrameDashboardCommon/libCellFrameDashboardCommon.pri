@@ -28,6 +28,8 @@ SOURCES +=\
     $$PWD/Handlers/DapExportLogCommand.cpp \
     $$PWD/Handlers/DapGetWalletAddressesCommand.cpp \
     $$PWD/Handlers/DapGetWalletTokenInfoCommand.cpp \
+    $$PWD/Handlers/DapCreateTransactionCommand.cpp \
+    $$PWD/Handlers/DapMempoolProcessCommand.cpp \
     $$PWD/Handlers/DapQuitApplicationCommand.cpp \
     $$PWD/Handlers/DapAddWalletCommand.cpp \
     $$PWD/Handlers/DapUpdateLogsCommand.cpp \
@@ -50,6 +52,8 @@ HEADERS +=\
     $$PWD/Handlers/DapExportLogCommand.h \
     $$PWD/Handlers/DapGetWalletAddressesCommand.h \
     $$PWD/Handlers/DapGetWalletTokenInfoCommand.h \
+    $$PWD/Handlers/DapCreateTransactionCommand.h \
+    $$PWD/Handlers/DapMempoolProcessCommand.h \
     $$PWD/Handlers/DapQuitApplicationCommand.h \
     $$PWD/Handlers/DapAddWalletCommand.h \
     $$PWD/Handlers/DapUpdateLogsCommand.h \

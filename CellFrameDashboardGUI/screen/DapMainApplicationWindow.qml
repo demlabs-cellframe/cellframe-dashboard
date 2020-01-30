@@ -25,7 +25,6 @@ DapMainApplicationWindowForm
         
         Component.onCompleted:
         {
-
             append({
                 name: qsTr("Dashboard"),
                 page: dashboardScreen,

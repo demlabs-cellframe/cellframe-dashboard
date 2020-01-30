@@ -6,7 +6,7 @@ import "../../"
 
 DapAbstractScreen
 {
-    id: dapdashboard
+    id: dapDashboardScreen
     dapFrame.color: "#FFFFFF"
     anchors.fill: parent
     anchors.leftMargin: 24 * pt
@@ -17,6 +17,8 @@ DapAbstractScreen
     property string ethereumImagePath: "qrc:/res/icons/tkn2_icon.png"
     property string newGoldImagePath: "qrc:/res/icons/ng_icon.png"
     property string kelvinImagePath: "qrc:/res/icons/ic_klvn.png"
+    ///@param dapButtonNewPayment Button to create a new payment.
+    property alias dapButtonNewPayment: buttonNewPayment
 
     property alias dapListViewWallets: listViewWallets
 
@@ -69,11 +71,12 @@ DapAbstractScreen
 
             DapButton
             {
+                id: buttonNewPayment
                 widthButton: 132 * pt
                 heightButton: 36 * pt
                 textButton: "New payment"
-                colorBackgroundButton: "#3E3853"
-                colorBackgroundHover: "red"
+                colorBackgroundHover: "#D51F5D"
+                colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
                 normalImageButton: "qrc:/res/icons/new-payment_icon.png"

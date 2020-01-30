@@ -62,6 +62,10 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_pServer));
 
     m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
+    // Creating a token transfer transaction between wallets
+    m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));
+    // Transaction confirmation
+    m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
 }
 
 /// Initialize system tray.

@@ -22,6 +22,8 @@
 #include "Handlers/DapGetWalletAddressesCommand.h"
 #include "Handlers/DapGetWalletTokenInfoCommand.h"
 #include "Models/DapWalletModel.h"
+#include "Handlers/DapCreateTransactionCommand.h"
+#include "Handlers/DapMempoolProcessCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -96,6 +98,12 @@ signals:
     ///A signal that is used to transmit data to the log model.
     /// @param logUpdated QStringList
     void logUpdated(const QVariant& logs);
+    /// A signal is emitted if a transaction is successfully created.
+    /// @param aResult Transaction result.
+    void transactionCreated(const QVariant& aResult);
+    /// Signal emitted in case of successful processing of the mempool.
+    /// @param aResult Mempool processing result.
+    void mempoolProcessed(const QVariant& aResult);
 
     void walletCreated(const QVariant& wallet);
 

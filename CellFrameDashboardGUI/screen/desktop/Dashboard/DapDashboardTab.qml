@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../../"
 
 DapDashboardTabForm
 {
@@ -12,8 +13,10 @@ DapDashboardTabForm
     readonly property string doneWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
     ///@detalis Path to the right panel of last actions.
     readonly property string lastActionsWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
-
-    dapDashboardRightPanel.source: Qt.resolvedUrl(lastActionsWallet)
+    ///@detalis Path to the right panel of new payment.
+    readonly property string newPaymentMain: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
+    ///@detalis Path to the right panel of new payment done.
+    readonly property string newPaymentDone: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
 
     dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
     {
@@ -23,5 +26,26 @@ DapDashboardTabForm
     ListModel
     {
         id: modelWallets
+    }
+    // Setting the right pane by default
+    dapDashboardRightPanel.initialItem: Qt.resolvedUrl(lastActionsWallet);
+
+    // Signal-slot connection realizing panel switching depending on predefined rules
+    Connections
+    {
+        target: currentRightPanel
+        onNextActivated:
+        {
+            currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
+        }
+    }
+
+    // When you click on the button for creating a new payment, open the form to fill in the payment data
+    dapDashboardScreen.dapButtonNewPayment.onClicked:
+    {
+        if(dapDashboardRightPanel.currentItem !== currentRightPanel)
+        {
+            currentRightPanel = dapDashboardRightPanel.push(Qt.resolvedUrl(newPaymentMain));
+        }
     }
 }

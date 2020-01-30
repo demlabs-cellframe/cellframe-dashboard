@@ -139,5 +139,9 @@
         <file>res/icons/tkn2_icon.png</file>
         <file>res/icons/tkn1_icon_light.png</file>
         <file>res/icons/ng_icon.png</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanelForm.ui.qml</file>
     </qresource>
 </RCC>

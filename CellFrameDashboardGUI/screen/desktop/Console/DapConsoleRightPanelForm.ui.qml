@@ -13,6 +13,7 @@ DapAbstractRightPanel
             {
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
+                anchors.rightMargin: 16 * pt
                 text: qsTr("Last actions")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
@@ -54,10 +55,23 @@ DapAbstractRightPanel
                         id: textCommand
                         text: query
                         color: "#070023"
+                        width: parent.width
+                        wrapMode: Text.Wrap
                         font.pixelSize: 14 * pt
                         font.family: "Roboto"
                         font.weight: Font.Normal
+                        //For the automatic sending selected command from history
+                        MouseArea
+                        {
+                            id: historyQueryMouseArea
+                            anchors.fill: textCommand
+                            onDoubleClicked: historyQuery = textCommand.text
+                        }
                     }
+                //It allows to see last element of list by default
+                currentIndex: count - 1
+                highlightFollowsCurrentItem: true
+                highlightRangeMode: ListView.ApplyRange
             }
         }
 }
