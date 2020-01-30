@@ -18,6 +18,8 @@ DapAbstractScreen
     property string newGoldImagePath: "qrc:/res/icons/ng_icon.png"
     property string kelvinImagePath: "qrc:/res/icons/ic_klvn.png"
 
+    property alias dapListViewWallets: listViewWallets
+
     Rectangle
     {
         id: titleBlock
