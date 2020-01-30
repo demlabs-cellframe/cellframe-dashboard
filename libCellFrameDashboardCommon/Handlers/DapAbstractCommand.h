@@ -24,8 +24,6 @@ class DapAbstractCommand : public DapCommand
 protected:
     /// Parent.
     QObject * m_parent {nullptr};
-
-public:
     /// Overloaded constructor.
     /// @param asServiceName Service name.
     /// @param parent Parent.
@@ -131,7 +129,7 @@ public slots:
     /// Reply from service.
     /// @details Performed on the service side.
     /// @return Service reply.
-    virtual void replyFromService();
+    virtual QVariant replyFromService();
 };
 
 #endif // DAPABSTRACTCOMMAND_H

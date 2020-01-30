@@ -14,4 +14,14 @@ DapDashboardTabForm
     readonly property string lastActionsWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
 
     dapDashboardRightPanel.source: Qt.resolvedUrl(lastActionsWallet)
+
+    dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
+    {
+        dapDashboardScreen.dapListViewWallets.model = modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
+    }
+
+    ListModel
+    {
+        id: modelWallets
+    }
 }

@@ -9,6 +9,7 @@ DapAbstractTab
 
     property alias dapDashboardRightPanel: rightPanelLoader
     property alias dapDashboardTopPanel: dashboardTopPanel
+    property alias dapDashboardScreen: dashboardScreen
 
     dapTopPanel: 
         DapDashboardTopPanel 
@@ -16,7 +17,11 @@ DapAbstractTab
             id: dashboardTopPanel
         }
 
-    dapScreen: DapDashboardScreen { }
+    dapScreen:
+        DapDashboardScreen
+        {
+            id: dashboardScreen
+        }
 
     dapRightPanel:
         Loader

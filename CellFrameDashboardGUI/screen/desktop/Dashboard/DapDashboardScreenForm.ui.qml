@@ -86,73 +86,42 @@ DapAbstractScreen
 
     ListView
     {
+        id: listViewWallets
         anchors.top: titleBlock.bottom
         anchors.topMargin: 20 * pt
         anchors.bottom: parent.bottom
         width: parent.width
         spacing: 5 * pt
         clip: true
-        model:
-            ListModel
-            {
-                ListElement
-                {
-                    name: "Kelvin Testnet"
-                    address: "KLJHuhlkjshfausdh7865lksfahHKLUIHKJFHKLUESAHFILKUHEWKUAFHjkhfdkslusfkhgs"
-                    money: [
-                        ListElement
-                        {
-                            type: "bitCoin"
-                            sum: 3487256
-                            eq: "$ 3498750"
-                        },
-                        ListElement
-                        {
-                            type: "ether"
-                            sum: 67896
-                            eq: "$ 78687"
-                        },
-                        ListElement
-                        {
-                            type: "newGold"
-                            sum: 675573
-                            eq: "$ 987978"
-                        }
-                    ]
-                }
 
-                ListElement
-                {
-                    name: "Marketnet"
-                    address: "lkajdsfeislsaIJEUfesIJEFHJISEFIsdfLIJFEISHFUSKEIEWEQLIJSlijfsfjlijeIEJJE"
-                    money: [
-                        ListElement
-                        {
-                            type: "bitCoin"
-                            sum: 3487256
-                            eq: "$ 3498750"
-                        },
-                        ListElement
-                        {
-                            type: "ether"
-                            sum: 67896
-                            eq: "$ 78687"
-                        },
-                        ListElement
-                        {
-                            type: "newGold"
-                            sum: 675573
-                            eq: "$ 987978"
-                        },
-                        ListElement
-                        {
-                            type: "ether"
-                            sum: 6743896
-                            eq: "$ 7843687"
-                        }
-                    ]
-                }
-            }
+//            ListModel
+//            {
+//                ListElement
+//                {
+//                    name: "Kelvin Testnet"
+//                    address: "KLJHuhlkjshfausdh7865lksfahHKLUIHKJFHKLUESAHFILKUHEWKUAFHjkhfdkslusfkhgs"
+//                    money: [
+//                        ListElement
+//                        {
+//                            type: "bitCoin"
+//                            sum: 3487256
+//                            eq: "$ 3498750"
+//                        },
+//                        ListElement
+//                        {
+//                            type: "ether"
+//                            sum: 67896
+//                            eq: "$ 78687"
+//                        },
+//                        ListElement
+//                        {
+//                            type: "newGold"
+//                            sum: 675573
+//                            eq: "$ 987978"
+//                        }
+//                    ]
+//                }
+//            }
 
         delegate:
             Column
@@ -249,7 +218,7 @@ DapAbstractScreen
                 Repeater
                 {
                     width: parent.width
-                    model: money
+                    model: tokens
 
                     Rectangle
                     {
@@ -298,7 +267,7 @@ DapAbstractScreen
                                 font.styleName: "Normal"
                                 font.weight: Font.Normal
                                 color: "#070023"
-                                text: type
+                                text: name
                             }
                             // Delimiters - see design
                             Item
@@ -329,7 +298,7 @@ DapAbstractScreen
                                 font.styleName: "Normal"
                                 font.weight: Font.Normal
                                 color: "#070023"
-                                text: sum
+                                text: balance
                             }
 
                             Text
@@ -357,7 +326,7 @@ DapAbstractScreen
                                 font.styleName: "Normal"
                                 font.weight: Font.Normal
                                 color: "#070023"
-                                text: eq
+                                text: emission
                             }
                         }
                     }

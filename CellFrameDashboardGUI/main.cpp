@@ -13,6 +13,8 @@
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapLogMessage.h"
+#include "DapWallet.h"
+#include "Factory.h"
 
 #include <sys/stat.h>
 
@@ -40,7 +42,7 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
-     qRegisterMetaType<DapWallet>();
+
 
     /// Local client.
     DapServiceClient dapServiceClient;
@@ -51,8 +53,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
     qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
     qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
-
+    qRegisterMetaType<DapWallet>();
+    qRegisterMetaType<DapWalletToken>();
     QQmlApplicationEngine engine;
+    Factory factory;
+        engine.rootContext()->setContextProperty("factory", &factory);
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("pt", 1);
     engine.load(QUrl("qrc:/main.qml"));

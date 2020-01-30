@@ -3,7 +3,7 @@
 DapWalletToken::DapWalletToken(const QString &asName, QObject *parent)
     : QObject(parent), m_sName(asName)
 {
-
+    
 }
 
 DapWalletToken::DapWalletToken(const DapWalletToken &aToken)
@@ -77,6 +77,18 @@ void DapWalletToken::setNetwork(const QString &sNetwork)
     m_sNetwork = sNetwork;
 
     emit networkChanged(m_sNetwork);
+}
+
+QString DapWalletToken::getIcon() const
+{
+    return m_sIcon;
+}
+
+void DapWalletToken::setIcon(const QString &sIcon)
+{
+    m_sIcon = sIcon;
+
+    emit iconChanged(m_sIcon);
 }
 
 QDataStream& operator << (QDataStream& aOut, const DapWalletToken& aToken)

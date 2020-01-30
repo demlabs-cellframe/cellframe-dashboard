@@ -30,11 +30,12 @@ QVariant DapGetListWalletsCommand::respondToClient(const QVariant &arg1, const Q
     Q_UNUSED(arg9)
     Q_UNUSED(arg10)
 
-    DapWallet wallet("MyWallet5");
+    DapWallet wallet;
+    wallet.setName("MyWallet5");
     wallet.addNetwork("Kelvin-testnet");
     wallet.addNetwork("Private");
-    wallet.setAddress("ar4th4t4j6tyj7utjk45u654kuj4kl6ui4l54k5lu5u4il5i34l35", "Kelvin-testnet");
-    wallet.setAddress("ar4th4t4j6tyj7utjk45u654kuj4kl6ui4l54k5lu5u4il5i34l35", "Private");
+    wallet.addAddress("ar4th4t4j6tyj7utjk45u654kuj4kl6ui4l54k5lu5u4il5i34l35", "Kelvin-testnet");
+    wallet.addAddress("ar4th4t4j6tyj7utjk45u654kuj4kl6ui4l54k5lu5u4il5i34l35", "Private");
     DapWalletToken token1("KLV", &wallet);
     token1.setBalance(5.5);
     token1.setNetwork("Kelvin-testnet");
@@ -43,8 +44,8 @@ QVariant DapGetListWalletsCommand::respondToClient(const QVariant &arg1, const Q
     token2.setBalance(100);
     token2.setNetwork("Private");
     token2.setEmission(121212121);
-    wallet.addToken(token1);
-    wallet.addToken(token2);
+    wallet.addToken(&token1);
+    wallet.addToken(&token2);
 
     QByteArray datas;
     QDataStream out(&datas, QIODevice::WriteOnly);

@@ -6,7 +6,7 @@ import "../../"
 DapAbstractTopPanel 
 {
     property alias dapAddWalletButton: addWalletButton
-    
+    property alias dapComboboxWallet: comboboxWallet
     anchors.fill: parent
 
     // Static text "Wallet"
@@ -37,6 +37,7 @@ DapAbstractTopPanel
         {
             id: comboboxWallet
             model: modelWallets
+            textRole: "name"
             mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"

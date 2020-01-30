@@ -17,7 +17,11 @@
 #include "Handlers/DapUpdateLogsCommand.h"
 #include "Handlers/DapAddWalletCommand.h"
 #include "Handlers/DapGetListWalletsCommand.h"
+#include "Handlers/DapGetListNetworksCommand.h"
 #include "Handlers/DapExportLogCommand.h"
+#include "Handlers/DapGetWalletAddressesCommand.h"
+#include "Handlers/DapGetWalletTokenInfoCommand.h"
+#include "Models/DapWalletModel.h"
 
 class DapServiceController : public QObject
 {
@@ -95,7 +99,13 @@ signals:
 
     void walletCreated(const QVariant& wallet);
 
-    void walletsListReceived(const QVariant& wallet);
+    void walletsListReceived(const QVariant& walletList);
+
+    void networksListReceived(const QVariant& networkList);
+
+    void walletAddressesReceived(const QVariant& walletAddresses);
+
+    void walletTokensReceived(const QVariant& walletTokens);
     
 private slots:
     /// Register command.
