@@ -18,9 +18,38 @@ DapAbstractTopPanel
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+        font.family: dapFontRobotoRegular.name
         font.pixelSize: 12 * pt
         color: "#ACAAB5"
+    }
+
+    ListModel
+    {
+        id: sss
+        ListElement
+        {
+            name: "Абракадабра"
+            val: 1
+            temp: "rtrtrtrtr"
+        }
+        ListElement
+        {
+            name: "Эллипсоид"
+            val: 2
+            temp: "qwqwqwqwq"
+        }
+        ListElement
+        {
+            name: "Бесперспективняк"
+            val: 3
+            temp: "assasasa"
+        }
+        ListElement
+        {
+            name: "Ивняк-няк-няк"
+            val: 4
+            temp: "sdsdsdsds"
+        }
     }
 
     // Wallet selection combo box
@@ -37,8 +66,12 @@ DapAbstractTopPanel
         DapComboBox 
         {
             id: comboboxWallet
-            model: modelWallets
-            comboBoxTextRole: "name"
+            //model: modelWallets
+            model: sss
+            comboBoxTextRole: ["name"]
+            comboBoxRoleWidth: [50]
+            roleInterval: 20 * pt
+            //endRowPadding: 44 * pt
             mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
@@ -95,13 +128,27 @@ DapAbstractTopPanel
                 name: "Kl"
                 val: 2
             }
+            ListElement
+            {
+                name: "Prfshdfhdfha aertertartaret"
+                val: 3
+            }
+            ListElement
+            {
+                name: "Klrestsert reataer rtrser"
+                val: 4
+            }
         }
+
 
         DapComboBox
         {
             id: comboboxWalletNetwork
             model: mT
-            comboBoxTextRole: "name"
+            comboBoxTextRole: ["name", "val"]
+            comboBoxRoleWidth: [70, 10]
+            roleInterval: 20 * pt
+            //endRowPadding: 44 * pt
             mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
@@ -143,7 +190,7 @@ DapAbstractTopPanel
         anchors.left: frameComboBoxNetwork.right
         anchors.leftMargin: 70 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+        font.family: dapFontRobotoRegular.name
         font.pixelSize: 12 * pt
         color: "#ACAAB5"
     }
@@ -156,7 +203,7 @@ DapAbstractTopPanel
         anchors.left: headerWalletBalance.right
         anchors.leftMargin: 18 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+        font.family: dapFontRobotoRegular.name
         font.pixelSize: 16 * pt
         color: "#FFFFFF"
     }
