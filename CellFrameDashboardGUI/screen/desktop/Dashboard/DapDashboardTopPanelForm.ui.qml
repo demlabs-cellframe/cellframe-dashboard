@@ -28,25 +28,25 @@ DapAbstractTopPanel
         id: sss
         ListElement
         {
-            name: "Абракадабра"
+            name: "AuraKadaura"
             val: 1
             temp: "rtrtrtrtr"
         }
         ListElement
         {
-            name: "Эллипсоид"
+            name: "Ellipsoide"
             val: 2
             temp: "qwqwqwqwq"
         }
         ListElement
         {
-            name: "Бесперспективняк"
+            name: "NotFound"
             val: 3
             temp: "assasasa"
         }
         ListElement
         {
-            name: "Ивняк-няк-няк"
+            name: "Nya-nya-nya!"
             val: 4
             temp: "sdsdsdsds"
         }
@@ -68,11 +68,10 @@ DapAbstractTopPanel
             id: comboboxWallet
             //model: modelWallets
             model: sss
-            comboBoxTextRole: ["name"]
-            comboBoxRoleWidth: [50]
+            comboBoxTextRole: ["name", "temp"]
             roleInterval: 20 * pt
-            //endRowPadding: 44 * pt
-            mainLineText: "all wallets"
+            mainLineText: ["all wallets"]
+            mainLineRole: "name"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -146,10 +145,10 @@ DapAbstractTopPanel
             id: comboboxWalletNetwork
             model: mT
             comboBoxTextRole: ["name", "val"]
-            comboBoxRoleWidth: [70, 10]
+            comboBoxTextRoleWidth: [80, 15]
             roleInterval: 20 * pt
-            //endRowPadding: 44 * pt
-            mainLineText: "all wallets"
+            mainLineText: ["all tokens"]
+            mainLineRole: "name"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
