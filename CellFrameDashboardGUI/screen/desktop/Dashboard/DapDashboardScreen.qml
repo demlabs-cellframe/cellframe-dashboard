@@ -34,41 +34,34 @@ DapDashboardScreenForm
                 }
             }
 
-            Row
+            Rectangle
             {
                 id: networkAddressBlock
                 height: 40 * pt
                 width: parent.width
 
-                Item
-                {
-                    width: 16 * pt
-                    height: parent.height
-                }
-
                 Text
                 {
                     id: networkAddressLabel
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 16 * pt
                     font.pixelSize: 12 * pt
                     font.family: "Roboto"
                     font.styleName: "Normal"
                     font.weight: Font.Normal
                     color: "#908D9D"
                     text: qsTr("Network address")
-                }
-
-                Item
-                {
-                    width: 36 * pt
-                    height: parent.height
+                    width: 92 * pt
                 }
 
                 DapText
                 {
                    id: textMetworkAddress
                    anchors.verticalCenter: parent.verticalCenter
-                   width: 400 * pt
+                   anchors.left: networkAddressLabel.right
+                   anchors.leftMargin: 36 * pt
+                   width: 172 * pt
                    font.pixelSize: 10 * pt
                    font.family: "Roboto"
                    font.styleName: "Normal"
@@ -84,8 +77,10 @@ DapDashboardScreenForm
                 {
                     id: networkAddressCopyButton
                     anchors.verticalCenter: parent.verticalCenter
-                    width: 20 * pt
-                    height: 20 * pt
+                    anchors.left: textMetworkAddress.right
+                    anchors.leftMargin: 4 * pt
+                    width: 16 * pt
+                    height: 16 * pt
                     hoverEnabled: true
 
                     onClicked: textMetworkAddress.copy()
@@ -96,8 +91,8 @@ DapDashboardScreenForm
                         id: networkAddressCopyButtonImage
                         anchors.fill: parent
                         source: parent.containsMouse ? "qrc:/res/icons/ic_copy_hover.png" : "qrc:/res/icons/ic_copy.png"
-                        sourceSize.width: width
-                        sourceSize.height: height
+                        sourceSize.width: parent.width
+                        sourceSize.height: parent.height
 
                     }
                 }
@@ -114,107 +109,109 @@ DapDashboardScreenForm
                     anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
                     anchors.rightMargin: 16 * pt
-                    height: 56 * pt
+                    height: 67 * pt
 
                     Rectangle
                     {
+                        id: lineBalance
                         anchors.top: parent.top
                         width: parent.width
                         height: 1 * pt
                         color: "#908D9D"
                     }
 
-                    RowLayout
+                    Rectangle
                     {
-                        anchors.fill: parent
+                        anchors.top: lineBalance.bottom
+                        anchors.topMargin: 24 * pt
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 12 * pt
+                        color: "transparent"
 
                         Image
                         {
                             id: currencyIcon
-                            height: 40 * pt
-                            width: 40 * pt
-                            Layout.alignment: Qt.AlignLeft
-//                            source: (type === "bitCoin") ? bitCoinImagePath : (type === "ether") ? ethereumImagePath : newGoldImagePath // Don't know how to deal with it yet
+                            anchors.left: parent.left
+                            height: 30 * pt
+                            width: 30 * pt
+                            source: "qrc:/res/icons/ic_cellframe.png"
                             sourceSize.width: width
                             sourceSize.height: height
-                        }
-
-                        Item
-                        {
-                            height: parent.height
-                            width: 10 * pt
-                            Layout.alignment: Qt.AlignLeft
+                            anchors.verticalCenter: parent.verticalCenter
                         }
 
                         Text
                         {
                             id: currencyName
-                            Layout.alignment: Qt.AlignLeft
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: currencyIcon.right
+                            anchors.leftMargin: 10 * pt
                             font.pixelSize: 18 * pt
                             font.family: "Roboto"
                             font.styleName: "Normal"
                             font.weight: Font.Normal
                             color: "#070023"
                             text: name
-                        }
-                        // Delimiters - see design
-                        Item
-                        {
-                            height: parent.height
-                            width: 16 * pt
+                            width: 172 * pt
+                            horizontalAlignment: Text.AlignLeft
+
                         }
 
-
-                        Item
+                        Rectangle
                         {
-                            Layout.fillWidth: true
-                        }
+                            id: frameBalance
+                            anchors.verticalCenter: parent.verticalCenter
+                            color: "transparent"
+                            width: 188 * pt
+                            anchors.left: currencyName.right
+                            anchors.leftMargin: 16 * pt
+                            Text
+                            {
+                                id: currencySum
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.left: parent.left
+                                font.pixelSize: 12 * pt
+                                font.family: "Roboto"
+                                font.styleName: "Normal"
+                                font.weight: Font.Normal
+                                color: "#070023"
+                                text: balance + " "
+                                horizontalAlignment: Text.AlignLeft
 
+                            }
 
-                        Item
-                        {
-                            height: parent.height
-                            width: 16 * pt
-                        }
-
-                        Text
-                        {
-                            id: currencySum
-                            Layout.alignment: Qt.AlignLeft
-                            font.pixelSize: 12 * pt
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
-                            color: "#070023"
-                            text: balance
-                        }
-
-                        Text
-                        {
-                            id: currencyCode
-                            font.pixelSize: 12 * pt
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
-                            color: "#070023"
-                            text: name
-                        }
-
-                        Item
-                        {
-                            Layout.fillWidth: true
+                            Text
+                            {
+                                id: currencyCode
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.left: currencySum.right
+                                anchors.right: parent.right
+                                font.pixelSize: 12 * pt
+                                font.family: "Roboto"
+                                font.styleName: "Normal"
+                                font.weight: Font.Normal
+                                color: "#070023"
+                                text: name
+                                horizontalAlignment: Text.AlignLeft
+                            }
                         }
 
                         Text
                         {
                             id: currencyDollarEqv
-                            Layout.alignment: Qt.AlignRight
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: frameBalance.right
+                            anchors.leftMargin: 16 * pt
+                            anchors.right: parent.right
+                            anchors.rightMargin: 16 * pt
                             font.pixelSize: 12 * pt
                             font.family: "Roboto"
                             font.styleName: "Normal"
                             font.weight: Font.Normal
                             color: "#070023"
                             text: "$" + emission + " USD"
+                            width: 188 * pt
+                            horizontalAlignment: Text.AlignLeft
                         }
                     }
                 }

@@ -38,11 +38,13 @@ DapAbstractScreen
 
             Text
             {
+                id: titleText
                 font.pixelSize: 20 * pt
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                text: "My first wallet"
+                text: "My first crypto wallet"
+                width: 185 * pt
             }
 
             MouseArea
@@ -51,6 +53,8 @@ DapAbstractScreen
                 width: 20 * pt
                 height: 20 * pt
                 hoverEnabled: true
+                anchors.left: titleText.right
+                anchors.leftMargin: 12 * pt
 
                 Image
                 {

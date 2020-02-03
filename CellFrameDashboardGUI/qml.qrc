@@ -143,5 +143,6 @@
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanelForm.ui.qml</file>
+        <file>res/icons/ic_cellframe.png</file>
     </qresource>
 </RCC>
