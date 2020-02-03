@@ -13,9 +13,9 @@ class DapWallet : public QObject
     Q_OBJECT
 
     QString         m_sName;
-    double          m_dBalance;
+    double          m_dBalance {0.0};
     QString         m_sIcon;
-    QString         m_sAddress = "KLJHuhlkjshfausdh7865lksfahHKLUIHKJFHKLUESAHFILKUHEWKUAFHjkhfdkslusfkhgs";
+    QString         m_sAddress = "private";
     QStringList     m_aNetworks;
     QMap<QString, QString>   m_aAddresses;
     mutable QList<DapWalletToken*>   m_aTokens;
@@ -36,7 +36,7 @@ public:
 
     friend QDataStream& operator << (QDataStream& aOut, const DapWallet& aToken);
     friend QDataStream& operator >> (QDataStream& aOut, DapWallet& aToken);
-    friend bool operator == (const DapWallet& aTokenFirst, const DapWallet& aTokenSecond);
+    friend bool operator == (const DapWallet &aWalletFirst, const DapWallet &aWalletSecond);
 
     static DapWallet fromVariant(const QVariant& aWallet);
 
@@ -51,7 +51,6 @@ signals:
     void tokenAdded(const DapWalletToken& asNetwork);
 
 public slots:
-
     QString getName() const;
     void setName(const QString &asName);
     double getBalance() const;

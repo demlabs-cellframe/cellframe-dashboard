@@ -33,6 +33,30 @@ QString DapServiceController::getVersion() const
     return m_sVersion;
 }
 
+QString DapServiceController::getCurrentNetwork() const
+{
+    return m_sCurrentNetwork;
+}
+
+void DapServiceController::setCurrentNetwork(const QString &sCurrentNetwork)
+{
+    m_sCurrentNetwork = sCurrentNetwork;
+
+    emit currentNetworkChanged(m_sCurrentNetwork);
+}
+
+int DapServiceController::getIndexCurrentNetwork() const
+{
+    return m_iIndexCurrentNetwork;
+}
+
+void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
+{
+    m_iIndexCurrentNetwork = iIndexCurrentNetwork;
+
+    emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -98,6 +122,27 @@ void DapServiceController::registerCommand()
     // Transaction confirmation
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand",m_DAPRpcSocket))), QString("mempoolProcessed")));
 
+    connect(this, &DapServiceController::walletsListReceived, [=] (const QVariant& walletList)
+    {
+        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
+        QList<DapWallet> tempWallets;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWallets;
+
+        QList<QObject*> wallets;
+        auto begin = tempWallets.begin();
+        auto end = tempWallets.end();
+        DapWallet * wallet = nullptr;
+        for(;begin != end; ++begin)
+        {
+            wallet = new DapWallet(*begin);
+            wallets.append(wallet);
+        }
+
+        emit walletsReceived(wallets);
+    });
+
     registerEmmitedSignal();
 }
 
@@ -106,7 +151,7 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-    
+    disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {

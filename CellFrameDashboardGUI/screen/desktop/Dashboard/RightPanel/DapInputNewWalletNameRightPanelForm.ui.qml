@@ -7,6 +7,39 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+    property alias dapTextInputNameWallet: textInputNameWallet
+    property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
+    property alias dapButtonNext: buttonNext
+    property alias dapSignatureTypeWalletModel: signatureTypeWallet
+
+    dapNextRightPanel: doneWallet
+    dapPreviousRightPanel: lastActionsWallet
+
+    ListModel
+    {
+        id: signatureTypeWallet
+        ListElement
+        {
+            name: "Dilithium"
+            sign: "sig_dil"
+        }
+        ListElement
+        {
+            name: "Bliss"
+            sign: "sig_bliss"
+        }
+        ListElement
+        {
+            name: "Picnic"
+            sign: " sig_picnic"
+        }
+        ListElement
+        {
+            name: "Tesla"
+            sign: " sig_tesla"
+        }
+    }
+
     dapHeaderData:
         Row
         {
@@ -140,29 +173,9 @@ DapAbstractRightPanel
                 anchors.rightMargin: 16 * pt
                 DapComboBox
                 {
-                    property Label fieldBalance: Label {}
-
-                    model:
-                        ListModel
-                        {
-                            id: signatureType
-                            ListElement
-                            {
-                                signatureName: "Dilithium"
-                            }
-                            ListElement
-                            {
-                                signatureName: "Bliss"
-                            }
-                            ListElement
-                            {
-                                signatureName: "Picnic"
-                            }
-                            ListElement
-                            {
-                                signatureName: "Tesla"
-                            }
-                        }
+                    id: comboBoxSignatureTypeWallet
+                    model: signatureTypeWallet
+                    comboBoxTextRole: "name"
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.leftMargin: 20 * pt

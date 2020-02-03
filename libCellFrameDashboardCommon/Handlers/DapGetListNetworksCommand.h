@@ -7,12 +7,16 @@
 
 class DapGetListNetworksCommand : public DapAbstractCommand
 {
+    /// The path to cli nodes.
+    QString m_sCliPath;
+
 public:
     /// Overloaded constructor.
     /// @param asServiceName Service name.
     /// @param parent Parent.
     /// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
-    DapGetListNetworksCommand(const QString &asServicename, QObject *parent = nullptr);
+    /// @param asCliPath The path to cli nodes.
+    DapGetListNetworksCommand(const QString &asServicename, QObject *parent = nullptr, const QString &asCliPath = QString());
 
 public slots:
     /// Send a response to the client.

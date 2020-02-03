@@ -4,8 +4,9 @@
 /// @param asServiceName Service name.
 /// @param parent Parent.
 /// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
-DapGetListNetworksCommand::DapGetListNetworksCommand(const QString &asServicename, QObject *parent)
-    : DapAbstractCommand(asServicename, parent)
+/// @param asCliPath The path to cli nodes.
+DapGetListNetworksCommand::DapGetListNetworksCommand(const QString &asServicename, QObject *parent, const QString &asCliPath)
+    : DapAbstractCommand(asServicename, parent), m_sCliPath(asCliPath)
 {
 
 }
@@ -29,13 +30,12 @@ QVariant DapGetListNetworksCommand::respondToClient(const QVariant &arg1, const 
 
     QStringList networkList;
     QProcess process;
-    process.start(QString("%1 net list").arg(CLI_PATH));
+    process.start(QString("%1 net list").arg(m_sCliPath));
     process.waitForFinished(-1);
     QString result = QString::fromLatin1(process.readAll());
-    result.remove(' ');
-    if(!(result.isEmpty() || result.isNull()))
+    if(!(result.isEmpty() || result.isNull() || result.contains('\'')))
     {
-        QStringList str = result.remove("\n").remove("\r").split(":").at(1).split(",");
+        QStringList str = result.remove(" ").remove("\n").remove("\r").split(":").at(1).split(",");
         return str;
     }
     return QString();

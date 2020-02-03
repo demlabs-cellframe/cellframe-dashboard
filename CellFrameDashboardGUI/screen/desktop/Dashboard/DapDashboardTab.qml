@@ -19,19 +19,15 @@ DapDashboardTabForm
     ///@detalis Path to the right panel of new payment done.
     readonly property string newPaymentDone: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
 
-    dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
-    {
-        dapDashboardScreen.dapListViewWallets.model = modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
-    }
-
-
-
-    ListModel
-    {
-        id: modelWallets
-    }
     // Setting the right pane by default
     dapDashboardRightPanel.initialItem: Qt.resolvedUrl(lastActionsWallet);
+
+    property int dapIndexCurrentWallet: -1
+
+    dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
+    {
+        dapDashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
+    }
 
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
@@ -41,20 +37,58 @@ DapDashboardTabForm
         {
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
         }
+        onPreviousActivated:
+        {
+            currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+        }
     }
 
+    Connections
+    {
+        target: dapMainWindow
+        onModelWalletsUpdated:
+        {
+            console.log(dapIndexCurrentWallet)
+            dapDashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet
+        }
+    }
 
+    Connections
+    {
+        target: dapServiceController
+        onMempoolProcessed:
+        {
+            update()
+        }
+        onWalletCreated:
+        {
+            if(wallet[0])
+            {
+                update()
+            }
+        }
+    }
+
+    dapDashboardTopPanel.dapAddWalletButton.onClicked:
+    {
+        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+    }
 
     // When you click on the button for creating a new payment, open the form to fill in the payment data
     dapDashboardScreen.dapButtonNewPayment.onClicked:
     {
-        if(dapDashboardRightPanel.currentItem !== currentRightPanel)
-        {
-            currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
-            properties: {dapCmboBoxToken: modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks}});
-            dapDashboardTopPanel.dapComboboxNetwork = mT
-//            console.log(dapDashboardTopPanel.dapComboboxWallet.currentIndex)
-//            console.log(modelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks)
-        }
+        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
+        properties: {dapCmboBoxTokenModel: dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks,
+                                                            dapCurrentWallet:  dapDashboardTopPanel.dapComboboxWallet.currentText,
+                                                            dapCmboBoxTokenModel: dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens,
+                                                            dapTextSenderWalletAddress: dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork)}});
+    }
+
+    function update()
+    {
+        dapIndexCurrentWallet = dapDashboardTopPanel.dapComboboxWallet.currentIndex
+        dapWallets.length = 0
+        dapModelWallets.clear()
+        dapServiceController.requestToService("DapGetListWalletsCommand");
     }
 }

@@ -69,8 +69,7 @@ SOURCES += \
     $$PWD/DapServiceClientNativeAbstract.cpp \
     $$PWD/DapServiceClientNativeLinux.cpp \
     $$PWD/DapServiceClientNativeWin.cpp \
-    $$PWD/DapServiceClientNativeMacOS.cpp \
-    $$PWD/Factory.cpp
+    $$PWD/DapServiceClientNativeMacOS.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -84,8 +83,7 @@ HEADERS += \
     $$PWD/DapServiceController.h \
     $$PWD/DapServiceClientNativeAbstract.h \
     $$PWD/DapServiceClientNativeLinux.h \
-    $$PWD/DapServiceClientNativeWin.h \
-    $$PWD/Factory.h
+    $$PWD/DapServiceClientNativeWin.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)

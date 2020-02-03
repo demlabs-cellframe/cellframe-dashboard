@@ -14,7 +14,6 @@
 #include "DapLogger.h"
 #include "DapLogMessage.h"
 #include "DapWallet.h"
-#include "Factory.h"
 
 #include <sys/stat.h>
 
@@ -56,8 +55,6 @@ int main(int argc, char *argv[])
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
     QQmlApplicationEngine engine;
-    Factory factory;
-        engine.rootContext()->setContextProperty("factory", &factory);
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("pt", 1);
     engine.load(QUrl("qrc:/main.qml"));

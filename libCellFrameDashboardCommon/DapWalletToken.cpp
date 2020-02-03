@@ -15,7 +15,6 @@ DapWalletToken::DapWalletToken(const DapWalletToken &aToken)
 
 DapWalletToken &DapWalletToken::operator=(const DapWalletToken &aToken)
 {
-    QObject(parent());
     m_sName = aToken.m_sName;
     m_dBalance = aToken.m_dBalance;
     m_iEmission = aToken.m_iEmission;
@@ -93,27 +92,23 @@ void DapWalletToken::setIcon(const QString &sIcon)
 
 QDataStream& operator << (QDataStream& aOut, const DapWalletToken& aToken)
 {
-    QString balance;
-    balance.setNum(aToken.m_dBalance);
     QString emission;
     emission.setNum(aToken.m_iEmission);
     aOut << aToken.m_sName
-         << balance
-         << emission
+         << aToken.m_dBalance
+         << aToken.m_iEmission
          << aToken.m_sNetwork;
     return aOut;
 }
 
 QDataStream& operator >> (QDataStream& aOut, DapWalletToken& aToken)
 {
-    QString balance;
-    QString emission;
-    aOut >> aToken.m_sName
-         >> balance
-         >> emission
+    aOut >> aToken.m_sName;
+    aOut.setFloatingPointPrecision(QDataStream::DoublePrecision);
+    aOut >> aToken.m_dBalance;
+    aOut.setFloatingPointPrecision(QDataStream::SinglePrecision);
+    aOut >> aToken.m_iEmission
          >> aToken.m_sNetwork;
-    aToken.m_dBalance = balance.toDouble();
-    aToken.m_iEmission = emission.toULongLong();
     return aOut;
 }
 

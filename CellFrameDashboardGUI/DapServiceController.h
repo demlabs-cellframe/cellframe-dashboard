@@ -33,6 +33,10 @@ class DapServiceController : public QObject
     QString m_sBrand {DAP_BRAND};
     /// Application version.
     QString m_sVersion {DAP_VERSION};
+
+    QString m_sCurrentNetwork;
+
+    int m_iIndexCurrentNetwork;
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     /// Command manager.
@@ -72,6 +76,10 @@ public:
     Q_PROPERTY(QString Brand MEMBER m_sBrand READ getBrand NOTIFY brandChanged)
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
+
+    Q_PROPERTY(QString CurrentNetwork MEMBER m_sVersion READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
+
+    Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
     
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
@@ -83,6 +91,14 @@ public:
     /// @return Application version.
     QString getVersion() const;
 
+    QString getCurrentNetwork() const;
+
+    Q_INVOKABLE void setCurrentNetwork(const QString &sCurrentNetwork);
+
+    int getIndexCurrentNetwork() const;
+
+    Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
+
 signals:
     /// The signal is emitted when the Brand company property changes.
     /// @param asBrand Brand
@@ -90,6 +106,8 @@ signals:
     /// The signal is emitted when the Application version property changes.
     /// @param version Version
     void versionChanged(const QString &version);
+
+    void currentNetworkChanged(const QString &asCurrentNetwork);
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();
     ///This signal sends data about saving a file from the Logs tab
@@ -109,11 +127,15 @@ signals:
 
     void walletsListReceived(const QVariant& walletList);
 
+    void walletsReceived(const QList<QObject*>& walletList);
+
     void networksListReceived(const QVariant& networkList);
 
     void walletAddressesReceived(const QVariant& walletAddresses);
 
     void walletTokensReceived(const QVariant& walletTokens);
+
+    void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
     
 private slots:
     /// Register command.

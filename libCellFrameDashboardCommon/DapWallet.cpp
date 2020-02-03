@@ -7,18 +7,18 @@ DapWallet::DapWallet(QObject * parent)
 }
 
 DapWallet::DapWallet(const DapWallet &aWallet)
-    : m_sName(aWallet.m_sName), m_aNetworks(aWallet.m_aNetworks),
-       m_aAddresses(aWallet.m_aAddresses), m_aTokens(aWallet.m_aTokens)
+    : m_sName(aWallet.m_sName), m_dBalance(aWallet.m_dBalance), m_sIcon(aWallet.m_sIcon), m_sAddress(aWallet.m_sAddress),
+      m_aNetworks(aWallet.m_aNetworks), m_aAddresses(aWallet.m_aAddresses), m_aTokens(aWallet.m_aTokens)
 {
 
 }
 
 DapWallet &DapWallet::operator=(const DapWallet &aWallet)
 {
-    QObject(parent());
     m_sName = aWallet.m_sName;
     m_dBalance = aWallet.m_dBalance;
     m_sIcon = aWallet.m_sIcon;
+    m_sAddress = aWallet.m_sAddress;
     m_aNetworks = aWallet.m_aNetworks;
     m_aAddresses = aWallet.m_aAddresses;
     m_aTokens = aWallet.m_aTokens;
@@ -93,7 +93,8 @@ void DapWallet::addAddress(const QString& aiAddress, const QString &asNetwork)
 
 QString DapWallet::findAddress(const QString &asNetwork) const
 {
-    return m_aAddresses.find(asNetwork).value();
+    QString s=m_aAddresses.find(asNetwork).value();
+    return m_aAddresses.find(asNetwork) != m_aAddresses.end() ? m_aAddresses.find(asNetwork).value() : QString();
 }
 
 QMap<QString, QString> DapWallet::getAddresses() const
@@ -156,39 +157,44 @@ DapWallet DapWallet::fromVariant(const QVariant &aWallet)
 QDataStream& operator << (QDataStream& aOut, const DapWallet& aWallet)
 {
     QList<DapWalletToken> tokens;
-    auto begin = aWallet.m_aTokens.begin();
-    auto end = aWallet.m_aTokens.end();
-    for(;begin != end; ++begin)
-        tokens.append(**begin);
+    for(int x{0}; x < aWallet.m_aTokens.size(); ++x)
+    {
+        tokens.append(*aWallet.m_aTokens.at(x));
+    }
 
-    QString balance;
-    balance.setNum(aWallet.m_dBalance);
-    aOut << aWallet.m_sIcon
-         << aWallet.m_sAddress
-         << aWallet.m_aNetworks
-         << aWallet.m_aAddresses
-         << tokens;
+     aOut   << aWallet.m_sName
+            << aWallet.m_dBalance
+            << aWallet.m_sIcon
+            << aWallet.m_sAddress
+            << aWallet.m_aNetworks
+            << aWallet.m_aAddresses
+            << tokens;
+
     return aOut;
 }
 
 QDataStream& operator >> (QDataStream& aIn, DapWallet& aWallet)
 {
-    QString balance;
     QList<DapWalletToken> tokens;
-    aIn >> aWallet.m_sIcon
-         >> aWallet.m_sAddress
-         >> aWallet.m_aNetworks
-         >> aWallet.m_aAddresses
-         >> tokens;
-    aWallet.m_dBalance = balance.toDouble();
+
+        aIn >> aWallet.m_sName;
+        aIn.setFloatingPointPrecision(QDataStream::DoublePrecision);
+        aIn >> aWallet.m_dBalance
+            >> aWallet.m_sIcon
+            >> aWallet.m_sAddress
+            >> aWallet.m_aNetworks
+            >> aWallet.m_aAddresses
+            >> tokens;
+
+
     auto begin = tokens.begin();
     auto end = tokens.end();
     for(;begin != end; ++begin)
-        aWallet.addToken(&(*begin));
+        aWallet.addToken(new DapWalletToken(*begin));
     return aIn;
 }
 
-bool operator ==(const DapWallet &aTokenFirst, const DapWallet &aTokenSecond)
+bool operator ==(const DapWallet &aWalletFirst, const DapWallet &aWalletSecond)
 {
-    return aTokenFirst.m_sName == aTokenSecond.m_sName;
+    return aWalletFirst.m_sName == aWalletSecond.m_sName;
 }
