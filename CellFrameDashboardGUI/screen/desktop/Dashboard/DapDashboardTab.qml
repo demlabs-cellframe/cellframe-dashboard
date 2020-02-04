@@ -27,6 +27,8 @@ DapDashboardTabForm
     dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
     {
         dapDashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
+        dapDashboardScreen.dapNameWalletTitle.text = dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].Name
+        dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
     }
 
     // Signal-slot connection realizing panel switching depending on predefined rules
@@ -36,10 +38,18 @@ DapDashboardTabForm
         onNextActivated:
         {
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
+            if(parametrsRightPanel === lastActionsWallet)
+            {
+                dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+            }
         }
         onPreviousActivated:
         {
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+            if(parametrsRightPanel === lastActionsWallet)
+            {
+                dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+            }
         }
     }
 
@@ -48,7 +58,6 @@ DapDashboardTabForm
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            console.log(dapIndexCurrentWallet)
             dapDashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet
         }
     }

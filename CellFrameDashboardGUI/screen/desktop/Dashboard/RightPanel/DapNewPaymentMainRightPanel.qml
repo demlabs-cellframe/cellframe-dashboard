@@ -13,8 +13,7 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonSend.onClicked:
     {
-        var chain = dapServiceController.CurrentNetwork === "private" ? "gdb": "plasma"
-        dapServiceController.requestToService("DapCreateTransactionCommand", dapServiceController.CurrentNetwork, chain, dapCurrentWallet, dapTextInputRecipientWalletAddress.text, dapCmboBoxToken.currentText, dapTextInputAmountPayment.text)
+        dapServiceController.requestToService("DapCreateTransactionCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapCurrentWallet, dapTextInputRecipientWalletAddress.text, dapCmboBoxToken.currentText, dapTextInputAmountPayment.text)
 
         nextActivated("transaction created")
     }

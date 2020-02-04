@@ -4,8 +4,10 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QRegularExpression>
+#include <QDate>
 
 #include "DapWallet.h"
+#include "DapWalletHistoryEvent.h"
 #include "DapAbstractCommand.h"
 
 class DapGetWalletHistoryCommand : public DapAbstractCommand
@@ -24,7 +26,10 @@ public:
 public slots:
     /// Send a response to the client.
     /// @details Performed on the service side.
-    /// @param arg1...arg10 Parameters.
+    /// @param arg1 Network.
+    /// @param arg2 Chain.
+    /// @param arg3 Wallet address.
+    /// @param arg4...arg10 Parameters.
     /// @return Reply to client.
     QVariant respondToClient(const QVariant &arg1 = QVariant(), const QVariant &arg2 = QVariant(),
                              const QVariant &arg3 = QVariant(), const QVariant &arg4 = QVariant(),

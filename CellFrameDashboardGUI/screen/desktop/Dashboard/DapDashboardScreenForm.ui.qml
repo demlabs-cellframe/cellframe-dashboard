@@ -22,6 +22,8 @@ DapAbstractScreen
 
     property alias dapListViewWallet: listViewWallet
 
+    property alias dapNameWalletTitle: titleText
+
     Rectangle
     {
         id: titleBlock
