@@ -8,7 +8,6 @@ DapAbstractScreen
 {
     id: dapDashboardScreen
     dapFrame.color: "#FFFFFF"
-    textTest.text: "Here text" // Delete it?
     anchors.fill: parent
     anchors.leftMargin: 24 * pt
     anchors.rightMargin: 24 * pt
@@ -20,6 +19,8 @@ DapAbstractScreen
     property string kelvinImagePath: "qrc:/res/icons/ic_klvn.png"
     ///@param dapButtonNewPayment Button to create a new payment.
     property alias dapButtonNewPayment: buttonNewPayment
+
+    property alias dapListViewWallet: listViewWallet
 
     Rectangle
     {
@@ -37,11 +38,13 @@ DapAbstractScreen
 
             Text
             {
+                id: titleText
                 font.pixelSize: 20 * pt
                 font.family: "Roboto"
                 font.styleName: "Normal"
                 font.weight: Font.Normal
-                text: "My first wallet"
+                text: "My first crypto wallet"
+                width: 185 * pt
             }
 
             MouseArea
@@ -50,6 +53,8 @@ DapAbstractScreen
                 width: 20 * pt
                 height: 20 * pt
                 hoverEnabled: true
+                anchors.left: titleText.right
+                anchors.leftMargin: 12 * pt
 
                 Image
                 {
@@ -90,282 +95,14 @@ DapAbstractScreen
 
     ListView
     {
+        id: listViewWallet
         anchors.top: titleBlock.bottom
         anchors.topMargin: 20 * pt
         anchors.bottom: parent.bottom
         width: parent.width
         spacing: 5 * pt
         clip: true
-        model:
-            ListModel
-            {
-                ListElement
-                {
-                    name: "Kelvin Testnet"
-                    address: "KLJHuhlkjshfausdh7865lksfahHKLUIHKJFHKLUESAHFILKUHEWKUAFHjkhfdkslusfkhgs"
-                    money: [
-                        ListElement
-                        {
-                            type: "bitCoin"
-                            sum: 3487256
-                            eq: "$ 3498750"
-                        },
-                        ListElement
-                        {
-                            type: "ether"
-                            sum: 67896
-                            eq: "$ 78687"
-                        },
-                        ListElement
-                        {
-                            type: "newGold"
-                            sum: 675573
-                            eq: "$ 987978"
-                        }
-                    ]
-                }
 
-                ListElement
-                {
-                    name: "Marketnet"
-                    address: "lkajdsfeislsaIJEUfesIJEFHJISEFIsdfLIJFEISHFUSKEIEWEQLIJSlijfsfjlijeIEJJE"
-                    money: [
-                        ListElement
-                        {
-                            type: "bitCoin"
-                            sum: 3487256
-                            eq: "$ 3498750"
-                        },
-                        ListElement
-                        {
-                            type: "ether"
-                            sum: 67896
-                            eq: "$ 78687"
-                        },
-                        ListElement
-                        {
-                            type: "newGold"
-                            sum: 675573
-                            eq: "$ 987978"
-                        },
-                        ListElement
-                        {
-                            type: "ether"
-                            sum: 6743896
-                            eq: "$ 7843687"
-                        }
-                    ]
-                }
-            }
-
-        delegate:
-            Column
-            {
-                width: parent.width
-
-                Rectangle
-                {
-                    id: stockNameBlock
-                    height: 30 * pt
-                    width: parent.width
-                    color: "#908D9D"
-
-                    Text
-                    {
-                        id: stockNameText
-                        anchors.left: parent.left
-                        anchors.leftMargin: 16 * pt
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pixelSize: 12 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
-                        color: "#FFFFFF"
-                        verticalAlignment: Qt.AlignVCenter
-                        text: name
-                    }
-                }
-
-                Row
-                {
-                    id: networkAddressBlock
-                    height: 40 * pt
-                    width: parent.width
-
-                    Item
-                    {
-                        width: 16 * pt
-                        height: parent.height
-                    }
-
-                    Text
-                    {
-                        id: networkAddressLabel
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.pixelSize: 12 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
-                        color: "#908D9D"
-                        text: qsTr("Network address")
-                    }
-
-                    Item
-                    {
-                        width: 36 * pt
-                        height: parent.height
-                    }
-
-                    Text
-                    {
-                        id: networkAddressValue
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 200 * pt
-                        font.pixelSize: 12 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
-                        color: "#908D9D"
-                        text: address
-                        elide: Text.ElideRight
-                    }
-
-                    MouseArea
-                    {
-                        id: networkAddressCopyButton
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 20 * pt
-                        height: 20 * pt
-                        hoverEnabled: true
-
-                        Image
-                        {
-                            id: networkAddressCopyButtonImage
-                            anchors.fill: parent
-                            source: parent.containsMouse ? "qrc:/res/icons/ic_copy_hover.png" : "qrc:/res/icons/ic_copy.png"
-                            sourceSize.width: width
-                            sourceSize.height: height
-
-                        }
-                    }
-                }
-
-                Repeater
-                {
-                    width: parent.width
-                    model: money
-
-                    Rectangle
-                    {
-                        anchors.left: parent.left
-                        anchors.leftMargin: 16 * pt
-                        anchors.right: parent.right
-                        anchors.rightMargin: 16 * pt
-                        height: 56 * pt
-
-                        Rectangle
-                        {
-                            anchors.top: parent.top
-                            width: parent.width
-                            height: 1 * pt
-                            color: "#908D9D"
-                        }
-
-                        RowLayout
-                        {
-                            anchors.fill: parent
-
-                            Image
-                            {
-                                id: currencyIcon
-                                height: 40 * pt
-                                width: 40 * pt
-                                Layout.alignment: Qt.AlignLeft
-                                source: (type === "bitCoin") ? bitCoinImagePath : (type === "ether") ? ethereumImagePath : newGoldImagePath // Don't know how to deal with it yet
-                                sourceSize.width: width
-                                sourceSize.height: height
-                            }
-
-                            Item
-                            {
-                                height: parent.height
-                                width: 10 * pt
-                                Layout.alignment: Qt.AlignLeft
-                            }
-
-                            Text
-                            {
-                                id: currencyName
-                                Layout.alignment: Qt.AlignLeft
-                                font.pixelSize: 18 * pt
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
-                                color: "#070023"
-                                text: type
-                            }
-                            // Delimiters - see design
-                            Item
-                            {
-                                height: parent.height
-                                width: 16 * pt
-                            }
-
-
-                            Item
-                            {
-                                Layout.fillWidth: true
-                            }
-
-
-                            Item
-                            {
-                                height: parent.height
-                                width: 16 * pt
-                            }
-
-                            Text
-                            {
-                                id: currencySum
-                                Layout.alignment: Qt.AlignHCenter
-                                font.pixelSize: 18 * pt
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
-                                color: "#070023"
-                                text: sum
-                            }
-
-                            Text
-                            {
-                                id: currencyCode
-                                font.pixelSize: 18 * pt
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
-                                color: "#070023"
-                                text: (type === "bitCoin") ? "BTC" : (type === "ether") ? "ETH" : (type === "newGold") ? "NGD" : "KLVN"
-                            }
-
-                            Item
-                            {
-                                Layout.fillWidth: true
-                            }
-
-                            Text
-                            {
-                                id: currencyDollarEqv
-                                Layout.alignment: Qt.AlignRight
-                                font.pixelSize: 18 * pt
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
-                                color: "#070023"
-                                text: eq
-                            }
-                        }
-                    }
-                }
-            }
+        delegate: delegateTokenView
     }
 }

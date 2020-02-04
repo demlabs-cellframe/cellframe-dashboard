@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 
 DapSettingsScreenForm
 {
+
     ///@detalis Settings item model.
     VisualItemModel
     {
@@ -47,6 +48,7 @@ DapSettingsScreenForm
                 height: 60 * pt
                 ComboBox
                 {
+                    id: comboBoxNetwork
                     width: 150
                     anchors.left: parent.left
                     anchors.top: parent.top
@@ -54,18 +56,12 @@ DapSettingsScreenForm
                     anchors.leftMargin: 18 * pt
                     anchors.topMargin: 10 * pt
                     anchors.bottomMargin: 10 * pt
-                    model:
-                        ListModel
-                        {
-                            ListElement
-                            {
-                                text: "one"
-                            }
-                            ListElement
-                            {
-                                text: "two"
-                            }
-                        }
+                    model: dapNetworkModel
+                    onCurrentTextChanged:
+                    {
+                        dapServiceController.CurrentNetwork = currentText
+                        dapServiceController.IndexCurrentNetwork = currentIndex
+                    }
                 }
             }
         }

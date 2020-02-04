@@ -18,16 +18,23 @@ SOURCES +=\
     $$PWD/DapHistoryType.cpp \
     $$PWD/DapSettings.cpp \
     $$PWD/DapLogMessage.cpp \
-    $$PWD/DapChainWallet.cpp \
     $$PWD/DapSystemTrayIcon.cpp \
+    $$PWD/DapWallet.cpp \
+    $$PWD/DapWalletToken.cpp \
     $$PWD/Handlers/DapAbstractCommand.cpp \
     $$PWD/Handlers/DapActivateClientCommand.cpp \
-    $$PWD/Handlers/DapCreateTransactionCommand.cpp \
+    $$PWD/Handlers/DapGetListNetworksCommand.cpp \
+    $$PWD/Handlers/DapGetListWalletsCommand.cpp \
     $$PWD/Handlers/DapExportLogCommand.cpp \
+    $$PWD/Handlers/DapGetWalletAddressesCommand.cpp \
+    $$PWD/Handlers/DapGetWalletHistoryCommand.cpp \
+    $$PWD/Handlers/DapGetWalletTokenInfoCommand.cpp \
+    $$PWD/Handlers/DapCreateTransactionCommand.cpp \
     $$PWD/Handlers/DapMempoolProcessCommand.cpp \
     $$PWD/Handlers/DapQuitApplicationCommand.cpp \
     $$PWD/Handlers/DapAddWalletCommand.cpp \
-    $$PWD/Handlers/DapUpdateLogsCommand.cpp
+    $$PWD/Handlers/DapUpdateLogsCommand.cpp \
+    $$PWD/Models/DapWalletModel.cpp
 
 HEADERS +=\
     $$PWD/DapChainConvertor.h \
@@ -35,14 +42,21 @@ HEADERS +=\
     $$PWD/DapHistoryType.h \
     $$PWD/DapSettings.h \
     $$PWD/DapLogMessage.h \
-    $$PWD/DapChainWallet.h \
     $$PWD/DapNodeType.h \
     $$PWD/DapSystemTrayIcon.h \
+    $$PWD/DapWallet.h \
+    $$PWD/DapWalletToken.h \
     $$PWD/Handlers/DapAbstractCommand.h \
     $$PWD/Handlers/DapActivateClientCommand.h \
-    $$PWD/Handlers/DapCreateTransactionCommand.h \
+    $$PWD/Handlers/DapGetListNetworksCommand.h \
+    $$PWD/Handlers/DapGetListWalletsCommand.h \
     $$PWD/Handlers/DapExportLogCommand.h \
+    $$PWD/Handlers/DapGetWalletAddressesCommand.h \
+    $$PWD/Handlers/DapGetWalletHistoryCommand.h \
+    $$PWD/Handlers/DapGetWalletTokenInfoCommand.h \
+    $$PWD/Handlers/DapCreateTransactionCommand.h \
     $$PWD/Handlers/DapMempoolProcessCommand.h \
     $$PWD/Handlers/DapQuitApplicationCommand.h \
     $$PWD/Handlers/DapAddWalletCommand.h \
-    $$PWD/Handlers/DapUpdateLogsCommand.h
+    $$PWD/Handlers/DapUpdateLogsCommand.h \
+    $$PWD/Models/DapWalletModel.h

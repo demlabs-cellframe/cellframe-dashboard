@@ -125,8 +125,11 @@ void DapUpdateLogsCommand::dapGetLog()
 /// Reply from service.
 /// @details Performed on the service side.
 /// @return Service reply.
-void DapUpdateLogsCommand::replyFromService()
+QVariant DapUpdateLogsCommand::replyFromService()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+
     emit serviceResponded(reply->response().toJsonValue());
+
+    return reply->response().toJsonValue();
 }

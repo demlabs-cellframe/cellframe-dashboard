@@ -4,10 +4,18 @@ DapNewPaymentMainRightPanelForm
 {
     // The form displayed after clicking on the "Send" button
     dapNextRightPanel: newPaymentDone
+    dapPreviousRightPanel: lastActionsWallet
+
+    dapButtonClose.onClicked:
+    {
+        previousActivated(lastActionsWallet)
+    }
 
     dapButtonSend.onClicked:
     {
-        nextActivated()
-        dapServiceController.requestToService("DapCreateTransactionCommand", "private", "gdb", "MyWallet", dapTextInputRecipientWalletAddress.text, dapCmboBoxToken.currentText, dapTextInputAmountPayment.text)
+        var chain = dapServiceController.CurrentNetwork === "private" ? "gdb": "plasma"
+        dapServiceController.requestToService("DapCreateTransactionCommand", dapServiceController.CurrentNetwork, chain, dapCurrentWallet, dapTextInputRecipientWalletAddress.text, dapCmboBoxToken.currentText, dapTextInputAmountPayment.text)
+
+        nextActivated("transaction created")
     }
 }

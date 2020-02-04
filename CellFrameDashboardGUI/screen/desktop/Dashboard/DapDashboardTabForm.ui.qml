@@ -7,7 +7,7 @@ DapAbstractTab
 {
     id: dashboardTab
 
-    property alias dapDashboardRightPanel: rightPanelLoader
+    property alias dapDashboardRightPanel: stackViewRightPanel
     property alias dapDashboardTopPanel: dashboardTopPanel
     property alias dapDashboardScreen: dashboardScreen
 
@@ -26,7 +26,7 @@ DapAbstractTab
     dapRightPanel:
         StackView
         {
-            id: rightPanelLoader
+            id: stackViewRightPanel
             anchors.fill: parent
             width: 400
             delegate:

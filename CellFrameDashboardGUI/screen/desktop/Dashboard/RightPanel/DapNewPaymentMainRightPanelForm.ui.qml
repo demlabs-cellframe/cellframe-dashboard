@@ -10,8 +10,15 @@ DapAbstractRightPanel
     property alias dapButtonSend: buttonSend
     /// @param dapTextInputAmountPayment Input field for transfer amount.
     property alias dapTextInputAmountPayment: textInputAmountPayment
-    /// @param dapCmboBoxToken Token combobox.
-    property alias dapCmboBoxToken: comboBoxToken
+    /// @param dapCmboBoxTokenModel Token combobox model.
+    property alias dapCmboBoxTokenModel: comboboxToken.model
+
+    property alias dapCmboBoxToken: comboboxToken
+
+
+    property string dapCurrentWallet
+
+    property alias dapTextSenderWalletAddress: textSenderWalletAddress.text
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -75,29 +82,6 @@ DapAbstractRightPanel
                 }
             }
 
-
-
-                ListModel
-                {
-                    id: tokenModel
-                    ListElement
-                    {
-                        signatureName: "Kelvin"
-                    }
-                    ListElement
-                    {
-                        signatureName: "Token 1"
-                    }
-                    ListElement
-                    {
-                        signatureName: "Token 2"
-                    }
-                    ListElement
-                    {
-                        signatureName: "NewGold"
-                    }
-                }
-
                 Rectangle
                 {
                     id: frameSenderWalletAddress
@@ -119,24 +103,23 @@ DapAbstractRightPanel
                         anchors.topMargin: 20 * pt
                         anchors.leftMargin: 16 * pt
                         anchors.rightMargin: 16 * pt
-                        height: comboBoxToken.height
+                        height: 40 * pt
                         DapComboBox
                         {
-                            id: comboBoxToken
-                            model: tokenModel
-                            anchors.top: parent.top
+                            id: comboboxToken
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
+                            comboBoxTextRole: "name"
+                            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
                             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt
-                            sidePaddingActive: 0 * pt
+                            sidePaddingActive: 16 * pt
                             normalColorText: "#070023"
-                            hilightColorText: "#transparent"
-                            normalColorTopText: "#070023"
+                            hilightColorText: "#FFFFFF"
+                            normalColorTopText: "#FFFFFF"
                             hilightColorTopText: "#070023"
                             hilightColor: "#330F54"
-                            normalTopColor: "transparent"
+                            normalTopColor: "#070023"
                             widthPopupComboBoxNormal: 148 * pt
                             widthPopupComboBoxActive: 180 * pt
                             heightComboBoxNormal: 24 * pt
@@ -149,12 +132,12 @@ DapAbstractRightPanel
                             paddingTopItemDelegate: 8 * pt
                             heightListElement: 32 * pt
                             intervalListElement: 10 * pt
-                            indicatorWidth: 20 * pt
+                            indicatorWidth: 24 * pt
                             indicatorHeight: indicatorWidth
                             indicatorLeftInterval: 8 * pt
                             colorTopNormalDropShadow: "#00000000"
                             colorDropShadow: "#40ABABAB"
-                            fontComboBox.pixelSize: 16 * pt
+                            fontComboBox.pixelSize: 14 * pt
                             fontComboBox.family: "Roboto"
                         }
                     }
@@ -186,7 +169,6 @@ DapAbstractRightPanel
                         font.styleName: "Normal"
                         font.weight: Font.Normal
                         color: "#757184"
-                        text: "dsgfsghdfsht5y5wv546v76b67v66354c6565v576764657676767f5f46"
                         elide: Text.ElideRight
                     }
             }

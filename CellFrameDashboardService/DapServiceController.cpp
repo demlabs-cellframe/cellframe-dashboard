@@ -50,8 +50,18 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapActivateClientCommand("DapActivateClientCommand", m_pServer));
     // Log update command on the Logs tab
     m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
+    // The team to create a new wallet on the Dashboard tab
+    m_pServer->addService(new DapAddWalletCommand("DapAddWalletCommand", m_pServer));
+    // The command to get a list of available wallets
+    m_pServer->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_pServer, CLI_PATH));
+    // The command to get a list of available networks
+    m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
     // Saving the file with the logs
     m_pServer->addService(new DapExportLogCommand("DapExportLogCommand", m_pServer));
+
+    m_pServer->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_pServer));
+
+    m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
     // Creating a token transfer transaction between wallets
     m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));
     // Transaction confirmation
