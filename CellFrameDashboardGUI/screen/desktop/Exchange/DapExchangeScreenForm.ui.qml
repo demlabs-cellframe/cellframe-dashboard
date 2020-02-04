@@ -49,6 +49,7 @@ DapAbstractScreen
                             text: "KLVN/USD"
                         }
                     }
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 144 * pt
                 widthPopupComboBoxNormal: 112 * pt
                 sidePaddingActive: 16 * pt
@@ -127,7 +128,7 @@ DapAbstractScreen
                             text: "24 hour"
                         }
                     }
-
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt
                 sidePaddingActive: 16 * pt

@@ -62,13 +62,13 @@ DapDashboardScreenForm
                    anchors.left: networkAddressLabel.right
                    anchors.leftMargin: 36 * pt
                    width: 172 * pt
-                   font.pixelSize: 10 * pt
-                   font.family: "Roboto"
-                   font.styleName: "Normal"
-                   font.weight: Font.Normal
-                   color: "#908D9D"
+                   fontDapText.pixelSize: 10 * pt
+                   fontDapText.family: "Roboto"
+                   fontDapText.styleName: "Normal"
+                   fontDapText.weight: Font.Normal
+                   textColor: "#908D9D"
                    text: address
-                   elide: Text.ElideRight
+                   textElide: Text.ElideRight
                 }
 
 
@@ -83,7 +83,7 @@ DapDashboardScreenForm
                     height: 16 * pt
                     hoverEnabled: true
 
-                    onClicked: textMetworkAddress.copy()
+                    onClicked: textMetworkAddress.copyFullText()
 
 
                     Image

@@ -109,7 +109,7 @@ DapAbstractRightPanel
                             id: comboboxToken
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            comboBoxTextRole: "name"
+                            comboBoxTextRole: ["name"]
                             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
                             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt

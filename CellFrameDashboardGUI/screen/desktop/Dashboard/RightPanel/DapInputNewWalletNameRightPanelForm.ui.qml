@@ -175,7 +175,7 @@ DapAbstractRightPanel
                 {
                     id: comboBoxSignatureTypeWallet
                     model: signatureTypeWallet
-                    comboBoxTextRole: "name"
+                    comboBoxTextRole: ["name"]
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.leftMargin: 20 * pt
