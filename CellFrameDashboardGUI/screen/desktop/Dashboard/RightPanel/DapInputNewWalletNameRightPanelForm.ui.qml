@@ -20,7 +20,7 @@ DapAbstractRightPanel
         id: signatureTypeWallet
         ListElement
         {
-            name: "Dilithium"
+            name: "Dilithium in my head"
             sign: "sig_dil"
         }
         ListElement
@@ -175,23 +175,26 @@ DapAbstractRightPanel
                 {
                     id: comboBoxSignatureTypeWallet
                     model: signatureTypeWallet
-                    comboBoxTextRole: ["name"]
+                    comboBoxTextRole: ["name", "sign"]
+                    roleInterval: 20 * pt
+                    endRowPadding: 44 * pt
+                    mainLineRole: "name"
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.leftMargin: 20 * pt
-                    anchors.rightMargin: 20 * pt
+                    anchors.leftMargin: 0 * pt
+                    anchors.rightMargin: 0 * pt
                     indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
-                    sidePaddingNormal: 0 * pt
-                    sidePaddingActive: 0 * pt
+                    sidePaddingNormal: 20 * pt
+                    sidePaddingActive: 20 * pt
                     normalColorText: "#070023"
-                    hilightColorText: "#transparent"
+                    hilightColorText: "#FFFFFF"
                     normalColorTopText: "#070023"
                     hilightColorTopText: "#070023"
                     hilightColor: "#330F54"
                     normalTopColor: "transparent"
-                    widthPopupComboBoxNormal: 148 * pt
-                    widthPopupComboBoxActive: 180 * pt
+                    widthPopupComboBoxNormal: 328 * pt
+                    widthPopupComboBoxActive: 368 * pt
                     heightComboBoxNormal: 24 * pt
                     heightComboBoxActive: 44 * pt
                     bottomIntervalListElement: 8 * pt
@@ -204,7 +207,7 @@ DapAbstractRightPanel
                     intervalListElement: 10 * pt
                     indicatorWidth: 20 * pt
                     indicatorHeight: indicatorWidth
-                    indicatorLeftInterval: 8 * pt
+                    indicatorLeftInterval: 20 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
                     fontComboBox.pixelSize: 16 * pt
