@@ -25,6 +25,9 @@
 #include "Handlers/DapCreateTransactionCommand.h"
 #include "Handlers/DapMempoolProcessCommand.h"
 #include "Handlers/DapGetWalletHistoryCommand.h"
+#include "Handlers/DapRunCmdCommand.h"
+#include "Handlers/DapGetHistoryExecutedCmdCommand.h"
+#include "Handlers/DapSaveHistoryExecutedCmdCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -145,6 +148,12 @@ signals:
     void historyReceived(const QVariant& walletHistory);
 
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
+    /// The signal is emitted when the command is executed by the cli node command handler.
+    /// @param asAnswer The response of the cli node command handler.
+    void cmdRunned(const QVariant& asAnswer);
+    /// The signal is emitted when receiving a history of commands executed by the cli handler.
+    /// @param aHistory History of commands executed by cli handler.
+    void historyExecutedCmdReceived(const QVariant& aHistory);
     
 private slots:
     /// Register command.

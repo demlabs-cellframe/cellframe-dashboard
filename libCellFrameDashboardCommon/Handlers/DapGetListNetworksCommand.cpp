@@ -6,7 +6,7 @@
 /// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
 /// @param asCliPath The path to cli nodes.
 DapGetListNetworksCommand::DapGetListNetworksCommand(const QString &asServicename, QObject *parent, const QString &asCliPath)
-    : DapAbstractCommand(asServicename, parent), m_sCliPath(asCliPath)
+    : DapAbstractCommand(asServicename, parent, asCliPath)
 {
 
 }

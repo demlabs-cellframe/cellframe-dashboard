@@ -24,6 +24,7 @@ SOURCES +=\
     $$PWD/DapWalletHistoryEvent.cpp \
     $$PWD/Handlers/DapAbstractCommand.cpp \
     $$PWD/Handlers/DapActivateClientCommand.cpp \
+    $$PWD/Handlers/DapGetHistoryExecutedCmdCommand.cpp \
     $$PWD/Handlers/DapGetListNetworksCommand.cpp \
     $$PWD/Handlers/DapGetListWalletsCommand.cpp \
     $$PWD/Handlers/DapExportLogCommand.cpp \
@@ -34,6 +35,8 @@ SOURCES +=\
     $$PWD/Handlers/DapMempoolProcessCommand.cpp \
     $$PWD/Handlers/DapQuitApplicationCommand.cpp \
     $$PWD/Handlers/DapAddWalletCommand.cpp \
+    $$PWD/Handlers/DapRunCmdCommand.cpp \
+    $$PWD/Handlers/DapSaveHistoryExecutedCmdCommand.cpp \
     $$PWD/Handlers/DapUpdateLogsCommand.cpp \
     $$PWD/Models/DapWalletModel.cpp
 
@@ -50,6 +53,7 @@ HEADERS +=\
     $$PWD/DapWalletHistoryEvent.h\
     $$PWD/Handlers/DapAbstractCommand.h \
     $$PWD/Handlers/DapActivateClientCommand.h \
+    $$PWD/Handlers/DapGetHistoryExecutedCmdCommand.h \
     $$PWD/Handlers/DapGetListNetworksCommand.h \
     $$PWD/Handlers/DapGetListWalletsCommand.h \
     $$PWD/Handlers/DapExportLogCommand.h \
@@ -60,5 +64,7 @@ HEADERS +=\
     $$PWD/Handlers/DapMempoolProcessCommand.h \
     $$PWD/Handlers/DapQuitApplicationCommand.h \
     $$PWD/Handlers/DapAddWalletCommand.h \
+    $$PWD/Handlers/DapRunCmdCommand.h \
+    $$PWD/Handlers/DapSaveHistoryExecutedCmdCommand.h \
     $$PWD/Handlers/DapUpdateLogsCommand.h \
     $$PWD/Models/DapWalletModel.h
