@@ -4,12 +4,15 @@ import QtQuick.Layouts 1.0
 
 DapConsoleScreenForm
 {
+    property alias dapModelConsoleCommand: modelConsoleCommand
     ///@detalis sendCommand Text of command from the inputCommand
     property string sendCommand
     ///@detalis historyCommand Text of command from the command history
     property string historyCommand
     ///@detalis receivedAnswer Answer for the sended command
     property string receivedAnswer
+
+    signal runCommand(string command)
 
 
     Component.onCompleted:
@@ -41,23 +44,6 @@ DapConsoleScreenForm
     ListModel
     {
         id: modelConsoleCommand
-        ListElement
-        {
-            query: "Command"
-            response: "This answer"
-        }
-        ListElement
-        {
-            query: "Command"
-            response: "This answer may be very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very, very long"
-        }
-        ListElement
-        {
-            query: "One little query"
-            response: "One little response"
-        }
-
-
     }
 
     Component
@@ -89,9 +75,10 @@ DapConsoleScreenForm
         if(sendedCommand != "")
         {
             sendCommand = sendedCommand;
-            modelConsoleCommand.append({query: sendedCommand, response: receivedAnswer});
             consoleHistoryIndex = modelConsoleCommand.count;
+            runCommand(sendCommand)
             sendedCommand = "";
+            currentCommand = sendedCommand;
         }
     }
 
@@ -99,7 +86,7 @@ DapConsoleScreenForm
     onHistoryCommandChanged:
     {
         sendCommand = historyCommand;
-        modelConsoleCommand.append({query: sendCommand, response: receivedAnswer});
+        runCommand(sendCommand)
         consoleHistoryIndex = modelConsoleCommand.count;
     }
 

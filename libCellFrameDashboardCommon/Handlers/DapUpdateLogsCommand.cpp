@@ -20,7 +20,7 @@ DapUpdateLogsCommand::DapUpdateLogsCommand(const QString &asServiceName, QObject
 
         connect(m_watcherDapLogFile, &QFileSystemWatcher::fileChanged, this, [&]
         {
-            notifyToClient();
+//            notifyToClient();
         });
     }
 }

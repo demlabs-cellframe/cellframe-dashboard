@@ -24,11 +24,14 @@ class DapAbstractCommand : public DapCommand
 protected:
     /// Parent.
     QObject * m_parent {nullptr};
+    /// The path to cli nodes.
+    QString m_sCliPath;
     /// Overloaded constructor.
     /// @param asServiceName Service name.
     /// @param parent Parent.
     /// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
-    explicit DapAbstractCommand(const QString &asServiceName, QObject *parent = nullptr);
+    /// @param asCliPath The path to cli nodes.
+    explicit DapAbstractCommand(const QString &asServiceName, QObject *parent = nullptr, const QString &asCliPath = QString());
     
 signals:
     /// The signal is emitted in case of successful notification of the client by the service.
