@@ -24,6 +24,7 @@
 #include "Models/DapWalletModel.h"
 #include "Handlers/DapCreateTransactionCommand.h"
 #include "Handlers/DapMempoolProcessCommand.h"
+#include "Handlers/DapGetWalletHistoryCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -80,6 +81,8 @@ public:
     Q_PROPERTY(QString CurrentNetwork MEMBER m_sVersion READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
+
+    Q_PROPERTY(QString CurrentChain READ getCurrentChain)
     
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
@@ -98,6 +101,8 @@ public:
     int getIndexCurrentNetwork() const;
 
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
+
+    Q_INVOKABLE QString getCurrentChain() const;
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -136,6 +141,10 @@ signals:
     void walletTokensReceived(const QVariant& walletTokens);
 
     void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
+
+    void historyReceived(const QVariant& walletHistory);
+
+    void walletHistoryReceived(const QList<QObject*>& walletHistory);
     
 private slots:
     /// Register command.

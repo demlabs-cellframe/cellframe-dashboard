@@ -66,6 +66,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));
     // Transaction confirmation
     m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand", m_pServer, CLI_PATH));
 }
 
 /// Initialize system tray.

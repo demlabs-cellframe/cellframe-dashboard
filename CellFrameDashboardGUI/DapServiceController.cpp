@@ -57,6 +57,11 @@ void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
     emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
 }
 
+QString DapServiceController::getCurrentChain() const
+{
+    return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -122,6 +127,8 @@ void DapServiceController::registerCommand()
     // Transaction confirmation
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand",m_DAPRpcSocket))), QString("mempoolProcessed")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand",m_DAPRpcSocket))), QString("historyReceived")));
+
     connect(this, &DapServiceController::walletsListReceived, [=] (const QVariant& walletList)
     {
         QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
@@ -141,6 +148,27 @@ void DapServiceController::registerCommand()
         }
 
         emit walletsReceived(wallets);
+    });
+
+    connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
+    {
+        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
+        QList<DapWalletHistoryEvent> tempWalletHistory;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWalletHistory;
+
+        QList<QObject*> walletHistory;
+        auto begin = tempWalletHistory.begin();
+        auto end = tempWalletHistory.end();
+        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
+        for(;begin != end; ++begin)
+        {
+            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
+            walletHistory.append(wallethistoryEvent);
+        }
+
+        emit walletHistoryReceived(walletHistory);
     });
 
     registerEmmitedSignal();

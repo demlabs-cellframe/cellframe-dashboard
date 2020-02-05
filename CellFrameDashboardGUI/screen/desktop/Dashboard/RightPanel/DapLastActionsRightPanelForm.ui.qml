@@ -42,7 +42,7 @@ DapAbstractRightPanel
             id: lastActionsView
             anchors.fill: parent
             clip: true
-            model: modelActions
+            model: modelLastActions
             delegate:
                 Rectangle
                 {
@@ -66,7 +66,7 @@ DapAbstractRightPanel
                             Text
                             {
                                 Layout.fillWidth: true
-                                text: model.name
+                                text: name
                                 color: "#3E3853"
                                 font.family: "Roboto"
                                 font.styleName: "Normal"
@@ -78,7 +78,7 @@ DapAbstractRightPanel
                             Text
                             {
                                 Layout.fillWidth: true
-                                text: model.status
+                                text: status
                                 color: "#757184"
                                 font.family: "Roboto"
                                 font.styleName: "Normal"
@@ -89,13 +89,13 @@ DapAbstractRightPanel
 
                         Text
                         {
-                            property string sign: (model.status === "Sent") ? "- " : "+ "
+                            property string sign: (status === "Sent") ? "- " : "+ "
                             Layout.fillHeight: true
                             Layout.fillWidth: true
                             horizontalAlignment: Qt.AlignRight
                             verticalAlignment: Qt.AlignVCenter
                             color: "#3E3853"
-                            text: sign + model.amount + " " + model.currency
+                            text: sign + amount + " " + name
                             font.family: "Roboto"
                             font.styleName: "Normal"
                             font.weight: Font.Normal

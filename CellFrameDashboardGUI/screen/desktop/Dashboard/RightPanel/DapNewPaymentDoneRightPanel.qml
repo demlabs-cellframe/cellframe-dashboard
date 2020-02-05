@@ -4,8 +4,7 @@ DapNewPaymentDoneRightPanelForm
 {
     dapButtonSend.onClicked:
     {
-        var chain = dapServiceController.CurrentNetwork === "private" ? "gdb": "plasma"
-        dapServiceController.requestToService("DapMempoolProcessCommand", dapServiceController.CurrentNetwork, chain)
+        dapServiceController.requestToService("DapMempoolProcessCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain)
 
         nextActivated("transaction done")
     }

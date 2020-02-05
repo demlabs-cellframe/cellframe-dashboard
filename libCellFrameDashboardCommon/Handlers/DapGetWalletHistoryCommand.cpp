@@ -13,7 +13,10 @@ DapGetWalletHistoryCommand::DapGetWalletHistoryCommand(const QString &asServicen
 
 /// Send a response to the client.
 /// @details Performed on the service side.
-/// @param arg1...arg10 Parameters.
+/// @param arg1 Network.
+/// @param arg2 Chain.
+/// @param arg3 Wallet address.
+/// @param arg4...arg10 Parameters.
 /// @return Reply to client.
 QVariant DapGetWalletHistoryCommand::respondToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6, const QVariant &arg7, const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
 {
@@ -28,28 +31,32 @@ QVariant DapGetWalletHistoryCommand::respondToClient(const QVariant &arg1, const
     Q_UNUSED(arg9)
     Q_UNUSED(arg10)
 
-    QList<QVariant> data;
+    QList<DapWalletHistoryEvent> events;
     QProcess process;
-    process.start(QString("%1 tx_history -net %2 -chain gdb -addr %3").arg(m_sCliPath).arg(arg1.toString()).arg(arg2.toString()));
+    process.start(QString("%1 tx_history -net %2 -chain %3 -addr %4").arg(m_sCliPath).arg(arg1.toString()).arg(arg2.toString()).arg(arg3.toString()));
     process.waitForFinished(-1);
     QByteArray result = process.readAll();
     if(!result.isEmpty())
     {
         QRegularExpression regular("((\\w{3}\\s+){2}\\d{1,2}\\s+(\\d{1,2}:*){3}\\s+\\d{4})\\s+(\\w+)\\s+(\\d+)\\s(\\w+)\\s+\\w+\\s+([\\w\\d]+)", QRegularExpression::MultilineOption);
         QRegularExpressionMatchIterator matchItr = regular.globalMatch(result);
+
         while (matchItr.hasNext())
         {
-            if(data.count() >= 100) break;
+            DapWalletHistoryEvent event;
             QRegularExpressionMatch match = matchItr.next();
-            QStringList dataItem = QStringList()
-                                   << match.captured(1)
-                                   << match.captured(4)
-                                   << match.captured(5)
-                                   << match.captured(6)
-                                   << match.captured(7);
-            data << dataItem;
+            QLocale setLocale  = QLocale(QLocale::English, QLocale::UnitedStates);
+            event.setDate(setLocale.toDateTime(match.captured(1), "ddd MMM  d hh:mm:ss yyyy").toString("yyyy-MM-dd"));
+            event.setStatus(match.captured(4) == "send" ? "Sent" : "Received");
+            event.setAmount(match.captured(5).toDouble());
+            event.setName(match.captured(6));
+            events.append(event);
         }
     }
 
-    return data;
+    QByteArray datas;
+    QDataStream out(&datas, QIODevice::WriteOnly);
+    out << events;
+
+    return QJsonValue::fromVariant(datas.toHex());;
 }

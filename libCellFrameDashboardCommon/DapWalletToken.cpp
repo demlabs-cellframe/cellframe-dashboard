@@ -92,8 +92,6 @@ void DapWalletToken::setIcon(const QString &sIcon)
 
 QDataStream& operator << (QDataStream& aOut, const DapWalletToken& aToken)
 {
-    QString emission;
-    emission.setNum(aToken.m_iEmission);
     aOut << aToken.m_sName
          << aToken.m_dBalance
          << aToken.m_iEmission

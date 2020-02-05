@@ -21,6 +21,7 @@ SOURCES +=\
     $$PWD/DapSystemTrayIcon.cpp \
     $$PWD/DapWallet.cpp \
     $$PWD/DapWalletToken.cpp \
+    $$PWD/DapWalletHistoryEvent.cpp \
     $$PWD/Handlers/DapAbstractCommand.cpp \
     $$PWD/Handlers/DapActivateClientCommand.cpp \
     $$PWD/Handlers/DapGetListNetworksCommand.cpp \
@@ -46,6 +47,7 @@ HEADERS +=\
     $$PWD/DapSystemTrayIcon.h \
     $$PWD/DapWallet.h \
     $$PWD/DapWalletToken.h \
+    $$PWD/DapWalletHistoryEvent.h\
     $$PWD/Handlers/DapAbstractCommand.h \
     $$PWD/Handlers/DapActivateClientCommand.h \
     $$PWD/Handlers/DapGetListNetworksCommand.h \
