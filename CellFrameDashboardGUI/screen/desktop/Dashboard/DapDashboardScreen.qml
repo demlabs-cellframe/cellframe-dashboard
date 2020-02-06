@@ -68,7 +68,6 @@ DapDashboardScreenForm
                    font.weight: Font.Normal
                    color: "#908D9D"
                    text: address
-                   elide: Text.ElideRight
                 }
 
 

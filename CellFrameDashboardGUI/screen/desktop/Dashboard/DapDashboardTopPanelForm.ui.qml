@@ -8,8 +8,6 @@ DapAbstractTopPanel
     property alias dapAddWalletButton: addWalletButton
     property alias dapComboboxWallet: comboboxWallet
 
-    anchors.fill: parent
-
     // Static text "Wallet"
     Label 
     {
@@ -38,8 +36,8 @@ DapAbstractTopPanel
         {
             id: comboboxWallet
             model: dapModelWallets
-            comboBoxTextRole: "name"
-            mainLineText: "all wallets"
+            comboBoxTextRole: ["name"]
+            mainLineText: ["all wallets"]
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
