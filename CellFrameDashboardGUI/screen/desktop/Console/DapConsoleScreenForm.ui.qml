@@ -16,8 +16,6 @@ DapAbstractScreen
     property alias currentCommand: consoleCmd.text
     ///@detalis consoleHistoryIndex Index for using KeyUp and KeyDown to the navigation in console history.
     property int consoleHistoryIndex
-    ///@detalis consoleInput Reference to console input area
-    property alias consoleInput: consoleCmd
 
     Rectangle
     {
@@ -28,22 +26,20 @@ DapAbstractScreen
         anchors.rightMargin: 20 * pt
         anchors.bottomMargin: 20 * pt
 
+
         ListView
         {
             id: listViewConsoleCommand
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
-                        contentHeight :
-                        consoleRectangle.height - inputCommand.height
+            height: (contentHeight < consoleRectangle.height - inputCommand.height) ? contentHeight : consoleRectangle.height - inputCommand.height
             clip: true
             model: modelConsoleCommand
             delegate: delegateConsoleCommand
             currentIndex: count - 1
             highlightFollowsCurrentItem: true
             highlightRangeMode: ListView.ApplyRange
-
             DapScrollViewHandling
             {
                 id: scrollHandler
@@ -79,20 +75,13 @@ DapAbstractScreen
                 selectByMouse: true
                 focus: true
                 font: themeConsole.inputCommandFont
-                Keys.onReturnPressed: text.length > 0 ?
-                                          sendedCommand = text :
-                                          sendedCommand = ""
-                Keys.onEnterPressed: text.length > 0 ?
-                                         sendedCommand = text :
-                                         sendedCommand = ""
-                Keys.onUpPressed: (consoleHistoryIndex > 0) ?
-                                      consoleHistoryIndex -= 1 :
-                                      null
-                Keys.onDownPressed: (consoleHistoryIndex < modelConsoleCommand.count) ?
-                                        consoleHistoryIndex += 1 :
-                                        null
-            }
+                Keys.onReturnPressed: text.length > 0 ? sendedCommand = text : sendedCommand = ""
+                Keys.onEnterPressed: text.length > 0 ? sendedCommand = text : sendedCommand = ""
+                Keys.onUpPressed: consoleHistoryIndex -= 1
+                Keys.onDownPressed: consoleHistoryIndex += 1
+             }
         }
+
     }
 
     DapScrollView
