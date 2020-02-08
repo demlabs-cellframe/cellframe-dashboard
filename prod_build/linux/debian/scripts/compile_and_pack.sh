@@ -31,8 +31,8 @@ codename=$(lsb_release -a | grep Codename | cut -f2)
 dpkg-buildpackage -J -us --changes-option=--build=any -uc && mkdir -p build && rm ../*dbgsym*.deb && \
 for filepkg in $(ls .. | grep .deb | grep -v $codename); do
 	filename=$(echo $filepkg | sed 's/.deb//')
-	mv $filepkg $filename\_$codename.deb
-done && cd .. || error=$?
+	mv ../$filepkg build/$filename\_$codename.deb
+done || error=$?
 cleanup
 error_explainer $error
 exit $error #2DO: Learn how to sign up the package.
