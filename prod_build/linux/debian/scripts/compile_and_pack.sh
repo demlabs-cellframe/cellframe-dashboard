@@ -27,7 +27,12 @@ fi
 error=0
 #2DO: add trap command to clean the sources on exit.
 trap cleanup SIGINT
-dpkg-buildpackage -J -us --changes-option=--build=any -uc && mkdir -p build && mv ../*.deb build/ || error=$? 
+codename=$(lsb_release -a | grep Codename | cut -f2)
+dpkg-buildpackage -J -us --changes-option=--build=any -uc && mkdir -p build && rm ../*dbgsym*.deb && \
+for filepkg in $(ls .. | grep .deb | grep -v $codename); do
+	filename=$(echo $filepkg | sed 's/.deb//')
+	mv $filepkg $filename\_$codename.deb
+done && cd .. || error=$?
 cleanup
 error_explainer $error
 exit $error #2DO: Learn how to sign up the package.
