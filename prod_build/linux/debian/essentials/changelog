@@ -1,0 +1,23 @@
+cellframe-dashboard (1.6-4) support-2649; urgency=medium
+
+  *     Merge branch 'features-2959' into 'develop'
+  *
+  *     Features 2959
+  *
+  *     See merge request cellframe/cellframe-dashboard!102
+
+ -- xapuyc <xapuyc@workspace>  Sat, 01 Feb 2020 12:16:14 +0500
+
+cellframe-dashboard (1.2-3) development; urgency=high
+
+  [ Naeper ]
+  * New functions summary build
+  * 
+
+ -- xapuyc <xapuyc@workspace>  Sat, 01 Feb 2020 12:07:33 +0500
+
+cellframe-dashboard (1.2-0) development; urgency=medium
+
+  * Refactored the package
+
+ -- Dmitriy Gerasimov <dmitriy.gerasimov@demlabs.net>  Fri, 02 Aug 2019 16:07:38 +0700

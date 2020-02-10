@@ -1,0 +1,24 @@
+#!/bin/bash -
+
+case "$1" in
+    configure)
+
+    ln -sf /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service /etc/systemd/user/cellframe-dashboard.service
+    systemctl --system enable /opt/cellframe-dashboard/share/init.d/cellframe-dashboard.service
+    ln -sf /opt/cellframe-dashboard/bin/CellFrameDashboard /usr/local/bin/CellFrameDashboard
+    chmod +X /usr/local/bin/CellFrameDashboard
+    cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.desktop /usr/share/applications/CellFrameDashboard.desktop
+	cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.ico	/usr/share/pixmaps/CellFrameFashboard.ico
+    update-menus
+    echo "For start CellFrame Dashboard Service - run 'systemctl start cellframe-dashboard'"
+;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 2
+    ;;
+esac
+exit 0
+
+
