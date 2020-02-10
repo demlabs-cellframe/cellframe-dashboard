@@ -1,0 +1,19 @@
+#!/bin/bash
+
+case "$1" in
+    purge|remove|abort-upgrade|failed-upgrade|upgrade)
+    [ -f /etc/init.d/cellframe-dashboard ] && service cellframe-dashboard stop
+    [ -d /opt/cellframe-dashboard ] && rm -rf /opt/cellframe-dashboard/
+    [ -f /usr/local/bin/CellFrameDashboard ] && rm /usr/local/bin/CellFrameDashboard
+    [ -f /etc/init.d/cellframe-dashboard ] && rm /etc/init.d/cellframe-dashboard
+    systemctl daemon-reload
+    [ -f /usr/share/applications/CellFrameDashboard.desktop ] && rm /usr/share/applications/CellFrameDashboard.desktop
+    [ -f /usr/share/pixmaps/CellFrameDdashboard.ico ] && rm /usr/share/pixmaps/CellFrameDashboard.ico
+    ;;
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+exit 0
