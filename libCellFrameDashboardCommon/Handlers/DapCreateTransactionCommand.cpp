@@ -6,7 +6,7 @@
 /// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
 /// @param asCliPath The path to cli nodes.
 DapCreateTransactionCommand::DapCreateTransactionCommand(const QString &asServicename, QObject *parent, const QString &asCliPath)
-    : DapAbstractCommand(asServicename, parent), m_sCliPath(asCliPath)
+    : DapAbstractCommand(asServicename, parent, asCliPath)
 {
 
 }
@@ -28,7 +28,7 @@ QVariant DapCreateTransactionCommand::respondToClient(const QVariant &arg1, cons
     Q_UNUSED(arg10)
 
     QProcess processCreate;
-    processCreate.start(QString("%1 tx_create -net %2 -chain %3 -from_wallet %3 -to_addr %4 -token %5 -value %6")
+    processCreate.start(QString("%1 tx_create -net %2 -chain %3 -from_wallet %4 -to_addr %5 -token %6 -value %7")
                   .arg(m_sCliPath)
                   .arg(arg1.toString())
                   .arg(arg2.toString())

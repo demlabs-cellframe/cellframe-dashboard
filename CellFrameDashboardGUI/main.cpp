@@ -13,6 +13,7 @@
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapLogMessage.h"
+#include "DapWallet.h"
 
 #include <sys/stat.h>
 
@@ -40,14 +41,19 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
+
+
     /// Local client.
     DapServiceClient dapServiceClient;
     // Creating a service controller
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);
     dapServiceClient.init();
-    qmlRegisterType<DapLogMessage>("LogMessage", 1, 0, "DapLogMessage");
-
+    qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
+    qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
+    qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
+    qRegisterMetaType<DapWallet>();
+    qRegisterMetaType<DapWalletToken>();
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("pt", 1);

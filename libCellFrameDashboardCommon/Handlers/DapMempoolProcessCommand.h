@@ -7,9 +7,6 @@
 
 class DapMempoolProcessCommand : public DapAbstractCommand
 {
-    /// The path to cli nodes.
-    QString m_sCliPath;
-
 public:
     /// Overloaded constructor.
     /// @param asServiceName Service name.

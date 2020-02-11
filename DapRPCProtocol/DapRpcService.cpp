@@ -235,7 +235,10 @@ QJsonValue DapRpcService::convertReturnValue(QVariant &aReturnValue)
     case QMetaType::QVariantMap:
         return QJsonValue::fromVariant(aReturnValue);
     case QMetaType::QByteArray:
-        return QJsonValue::fromVariant(aReturnValue.toByteArray().toHex());
+    {
+        QJsonValue var = QJsonValue::fromVariant(aReturnValue);
+        return var;
+    }
     default:
         // if a conversion operator was registered it will be used
         if (aReturnValue.convert(QMetaType::QJsonValue))

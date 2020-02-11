@@ -2,37 +2,16 @@
 
 /// Overloaded constructor.
 /// @param asServiceName Service name.
-/// @param apSocket Client connection socket with service.
 /// @param parent Parent.
+/// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
 DapAddWalletCommand::DapAddWalletCommand(const QString &asServicename, QObject *parent)
     : DapAbstractCommand(asServicename, parent)
 {
 
 }
 
-/// Send a response to the service.
-/// @param arg1...arg10 Parameters.
-/// @return Reply to service.
-QVariant DapAddWalletCommand::respondToService(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
-                                               const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
-                                               const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
-                                               const QVariant &arg10)
-{
-    Q_UNUSED(arg1)
-    Q_UNUSED(arg2)
-    Q_UNUSED(arg3)
-    Q_UNUSED(arg4)
-    Q_UNUSED(arg5)
-    Q_UNUSED(arg6)
-    Q_UNUSED(arg7)
-    Q_UNUSED(arg8)
-    Q_UNUSED(arg9)
-    Q_UNUSED(arg10)
-
-    return QVariant();
-}
-
 /// Send a response to the client.
+/// @details Performed on the service side.
 /// @param arg1...arg10 Parameters.
 /// @return Reply to client.
 QVariant DapAddWalletCommand::respondToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
@@ -40,10 +19,6 @@ QVariant DapAddWalletCommand::respondToClient(const QVariant &arg1, const QVaria
                                               const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
                                               const QVariant &arg10)
 {
-    Q_UNUSED(arg1)
-    Q_UNUSED(arg2)
-    Q_UNUSED(arg3)
-    Q_UNUSED(arg4)
     Q_UNUSED(arg5)
     Q_UNUSED(arg6)
     Q_UNUSED(arg7)
@@ -51,14 +26,21 @@ QVariant DapAddWalletCommand::respondToClient(const QVariant &arg1, const QVaria
     Q_UNUSED(arg9)
     Q_UNUSED(arg10)
 
-    QByteArray result;
     QProcess process;
-    process.start(QString("%1 wallet new -w %2").arg(CLI_PATH).arg(arg1.toString()));
+    QJsonArray result;
+    process.start(QString("%1 wallet new -w %2 -sign %3 -net %4 -restore %5").arg(CLI_PATH).arg(arg1.toString()).arg(arg2.toString()).arg(arg3.toString()).arg(arg4.toString()));
     process.waitForFinished(-1);
-    result = process.readAll();
-    QStringList res = QString::fromLatin1(result).split(" ");
-    QStringList list;
-    list.append(arg1.toString());
-    list.append(res.at(res.size()-1).trimmed());
-    return result.isEmpty() ? QStringList() : list;
+    QString res = QString::fromLatin1(process.readAll());
+    if(res.contains("already exists"))
+    {
+        result.append(QJsonValue(false));
+        result.append(QJsonValue("Wallet already exists"));
+    }
+    else
+    {
+        result.append(QJsonValue(true));
+        result.append(QJsonValue(arg1.toString()));
+        result.append(QJsonValue("Wallet successfully created"));
+    }
+    return result.toVariantList();
 }

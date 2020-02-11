@@ -9,313 +9,11 @@ DapLastActionsRightPanelForm
     property date today: new Date()
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
+    property alias dapModelLastActions: modelLastActions
+
     ListModel
     {
-        id: modelActions
-        ListElement
-        {
-            name: "Token 2"
-            status: "Received"
-            amount: 892.145
-            currency: "TKN2"
-            date: "2020-01-15"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2020-01-14"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2020-01-13"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2020-01-13"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-12-30"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-12-30"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-12-28"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-12-15"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-11-12"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-11-12"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-10-05"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-10-04"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-10-04"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-10-02"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-10-01"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-08-20"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-08-20"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-08-16"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-07-25"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Received"
-            amount: 892.145
-            currency: "TKN2"
-            date: "2020-01-15"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2020-01-14"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2020-01-13"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2020-01-13"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-12-30"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-12-30"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-12-28"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-12-15"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-11-12"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-11-12"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-10-05"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-10-04"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-10-04"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-10-02"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-10-01"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-08-20"
-        }
-        ListElement
-        {
-            name: "Kelvin"
-            status: "Received"
-            amount: 753.987
-            currency: "KLVN"
-            date: "2019-08-20"
-        }
-        ListElement
-        {
-            name: "NewGold"
-            status: "Sent"
-            amount: 300.986
-            currency: "NGD"
-            date: "2019-08-16"
-        }
-        ListElement
-        {
-            name: "Token 2"
-            status: "Sent"
-            amount: 500.986
-            currency: "TKN2"
-            date: "2019-07-25"
-        }
+        id: modelLastActions
     }
 
     Component
@@ -341,6 +39,22 @@ DapLastActionsRightPanelForm
                 font.styleName: "Normal"
                 font.weight: Font.Normal
                 font.pixelSize: 12 * pt
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onWalletHistoryReceived:
+        {
+            modelLastActions.clear()
+            for (var i = 0; i < walletHistory.length; ++i)
+            {
+                modelLastActions.append({ "name" : walletHistory[i].Name,
+                                          "amount" : walletHistory[i].Amount,
+                                          "status" : walletHistory[i].Status,
+                                          "date" : walletHistory[i].Date})
             }
         }
     }

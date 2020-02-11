@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "qrc:/"
 import "../../"
 
 DapDashboardTabForm
@@ -21,6 +22,15 @@ DapDashboardTabForm
     // Setting the right pane by default
     dapDashboardRightPanel.initialItem: Qt.resolvedUrl(lastActionsWallet);
 
+    property int dapIndexCurrentWallet: -1
+
+    dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
+    {
+        dapDashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
+        dapDashboardScreen.dapNameWalletTitle.text = dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].Name
+        dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+    }
+
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
     {
@@ -28,15 +38,66 @@ DapDashboardTabForm
         onNextActivated:
         {
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
+            if(parametrsRightPanel === lastActionsWallet)
+            {
+                dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+            }
         }
+        onPreviousActivated:
+        {
+            currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+            if(parametrsRightPanel === lastActionsWallet)
+            {
+                dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapMainWindow
+        onModelWalletsUpdated:
+        {
+            dapDashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onMempoolProcessed:
+        {
+            update()
+        }
+        onWalletCreated:
+        {
+            if(wallet[0])
+            {
+                update()
+            }
+        }
+    }
+
+    dapDashboardTopPanel.dapAddWalletButton.onClicked:
+    {
+        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
     }
 
     // When you click on the button for creating a new payment, open the form to fill in the payment data
     dapDashboardScreen.dapButtonNewPayment.onClicked:
     {
-        if(dapDashboardRightPanel.currentItem !== currentRightPanel)
-        {
-            currentRightPanel = dapDashboardRightPanel.push(Qt.resolvedUrl(newPaymentMain));
-        }
+        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
+        properties: {dapCmboBoxTokenModel: dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks,
+                                                            dapCurrentWallet:  dapDashboardTopPanel.dapComboboxWallet.currentText,
+                                                            dapCmboBoxTokenModel: dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens,
+                                                            dapTextSenderWalletAddress: dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork)}});
+    }
+
+    function update()
+    {
+        dapIndexCurrentWallet = dapDashboardTopPanel.dapComboboxWallet.currentIndex
+        dapWallets.length = 0
+        dapModelWallets.clear()
+        dapServiceController.requestToService("DapGetListWalletsCommand");
     }
 }

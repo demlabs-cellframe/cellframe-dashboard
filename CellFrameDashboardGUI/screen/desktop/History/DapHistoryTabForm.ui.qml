@@ -10,7 +10,11 @@ DapAbstractTab
 
     dapScreen: DapHistoryScreen { }
 
-    dapRightPanel: DapHistoryRightPanel { }
+    dapRightPanel:
+        DapHistoryRightPanel
+        {
+            visible: false
+        }
 }
 
 /*##^## Designer {

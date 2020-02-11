@@ -4,8 +4,9 @@
 /// @param asServiceName Service name.
 /// @param parent Parent.
 /// @details The parent must be either DapRPCSocket or DapRPCLocalServer.
-DapAbstractCommand::DapAbstractCommand(const QString &asServiceName, QObject *parent)
-    : DapCommand(asServiceName, parent), m_parent(parent)
+/// @param asCliPath The path to cli nodes.
+DapAbstractCommand::DapAbstractCommand(const QString &asServiceName, QObject *parent, const QString &asCliPath)
+    : DapCommand(asServiceName, parent), m_parent(parent), m_sCliPath(asCliPath)
 {
 
 }
@@ -146,7 +147,7 @@ void DapAbstractCommand::notifyToService(const QVariant &arg1, const QVariant &a
 
     Q_ASSERT(socket);
 
-    DapRpcMessage notify = DapRpcMessage::createNotification(QString("%1.%2").arg(this->getName()).arg("respondToClient"), QJsonArray::fromVariantList(params));
+    DapRpcMessage notify = DapRpcMessage::createNotification(QString("%1.%2").arg(this->getName()).arg("notifedFromClient"), QJsonArray::fromVariantList(params));
     socket->notify(notify);
 }
 
@@ -221,8 +222,11 @@ QVariant DapAbstractCommand::respondToClient(const QVariant &arg1, const QVarian
 /// Reply from service.
 /// @details Performed on the service side.
 /// @return Service reply.
-void DapAbstractCommand::replyFromService()
+QVariant DapAbstractCommand::replyFromService()
 {
     DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
+
     emit serviceResponded(reply->response().toJsonValue().toVariant());
+
+    return reply->response().toJsonValue().toVariant();
 }
