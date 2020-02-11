@@ -4,6 +4,11 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+    dapNextRightPanel: lastActionsWallet
+    dapPreviousRightPanel: lastActionsWallet
+
+    property alias dapButtonDone: buttonDone
+
     dapButtonClose.height: 16 * pt
     dapButtonClose.width: 16 * pt
     dapButtonClose.heightImageButton: 16 * pt

@@ -9,6 +9,9 @@ DapAbstractRightPanel
     /// @param dapButtonSend Send button.
     property alias dapButtonSend: buttonSend
 
+    dapNextRightPanel: lastActionsWallet
+    dapPreviousRightPanel: lastActionsWallet
+
     dapHeaderData:
         Row
         {

@@ -50,12 +50,30 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapActivateClientCommand("DapActivateClientCommand", m_pServer));
     // Log update command on the Logs tab
     m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
+    // The team to create a new wallet on the Dashboard tab
+    m_pServer->addService(new DapAddWalletCommand("DapAddWalletCommand", m_pServer));
+    // The command to get a list of available wallets
+    m_pServer->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_pServer, CLI_PATH));
+    // The command to get a list of available networks
+    m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
     // Saving the file with the logs
     m_pServer->addService(new DapExportLogCommand("DapExportLogCommand", m_pServer));
+
+    m_pServer->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_pServer));
+
+    m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
     // Creating a token transfer transaction between wallets
     m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));
     // Transaction confirmation
     m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand", m_pServer, CLI_PATH));
+    // Run cli command
+    m_pServer->addService(new DapRunCmdCommand("DapRunCmdCommand", m_pServer, CLI_PATH));
+    // Get history of commands executed by cli handler
+    m_pServer->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
+    // Save cmd command in file
+    m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
 }
 
 /// Initialize system tray.

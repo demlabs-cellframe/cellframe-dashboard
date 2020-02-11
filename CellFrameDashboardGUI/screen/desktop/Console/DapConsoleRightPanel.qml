@@ -2,6 +2,7 @@ import QtQuick 2.4
 
 DapConsoleRightPanelForm
 {
+    property alias dapModelHistoryConsole: modelHistoryConsole
     ///@detalis commandQuery Command for history.
     property string commandQuery
     ///@detalis historyQuery Text of command from the command history.
@@ -9,27 +10,14 @@ DapConsoleRightPanelForm
     ///@detalis historySize Num of history command at right panel.
     property int historySize: 10
 
-    dapRightPanelWidth: visible ? 300 * pt : 0 * pt
-
     ListModel
     {
         id: modelHistoryConsole
-        ListElement
-        {
-            query: "help1"
-        }
-        ListElement
-        {
-            query: "wallet list1"
-        }
-        ListElement
-        {
-            query: "help2"
-        }
-        ListElement
-        {
-            query: "wallet list2"
-        }
+    }
+
+    Component.onCompleted:
+    {
+        dapServiceController.requestToService("DapGetHistoryExecutedCmdCommand", historySize);
     }
 
     //Returns true if item 'someElement' is already exist at list 'someModel'.
@@ -53,13 +41,17 @@ DapConsoleRightPanelForm
         if(!findElement(modelHistoryConsole, {query: commandQuery}))
         {
             if(commandQuery !== "")
+            {
                 modelHistoryConsole.insert(0, {query: commandQuery});
+            }
         }
         else
             modelHistoryConsole.insert(0, {query: commandQuery});
 
         //History is limited by historySize and realized as FIFO
         if(historySize < modelHistoryConsole.count)
+        {
             modelHistoryConsole.remove(modelHistoryConsole.count-1);
+        }
     }
 }

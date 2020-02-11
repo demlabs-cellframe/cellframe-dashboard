@@ -63,7 +63,7 @@ public slots:
     /// Reply from service.
     /// @details Performed on the service side.
     /// @return Service reply.
-    virtual void replyFromService();
+    virtual QVariant replyFromService();
 };
 
 #endif // DAPUPDATELOGSCOMMAND_H

@@ -33,6 +33,35 @@ QString DapServiceController::getVersion() const
     return m_sVersion;
 }
 
+QString DapServiceController::getCurrentNetwork() const
+{
+    return m_sCurrentNetwork;
+}
+
+void DapServiceController::setCurrentNetwork(const QString &sCurrentNetwork)
+{
+    m_sCurrentNetwork = sCurrentNetwork;
+
+    emit currentNetworkChanged(m_sCurrentNetwork);
+}
+
+int DapServiceController::getIndexCurrentNetwork() const
+{
+    return m_iIndexCurrentNetwork;
+}
+
+void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
+{
+    m_iIndexCurrentNetwork = iIndexCurrentNetwork;
+
+    emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
+}
+
+QString DapServiceController::getCurrentChain() const
+{
+    return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -81,12 +110,73 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapActivateClientCommand("DapActivateClientCommand", m_DAPRpcSocket))), QString("clientActivated")));
     // Log update command on the Logs tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
+    // The team to create a new wallet on the Dashboard tab
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddWalletCommand("DapAddWalletCommand", m_DAPRpcSocket))), QString("walletCreated")));
+    // The command to get a list of available wallets
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_DAPRpcSocket))), QString("walletsListReceived")));
     // Command to save data from the Logs tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapExportLogCommand("DapExportLogCommand",m_DAPRpcSocket))), QString("exportLogs")));
+    // The command to get a list of available networks
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_DAPRpcSocket))), QString("networksListReceived")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_DAPRpcSocket))), QString("walletTokensReceived")));
     // Creating a token transfer transaction between wallets
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand",m_DAPRpcSocket))), QString("transactionCreated")));
     // Transaction confirmation
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand",m_DAPRpcSocket))), QString("mempoolProcessed")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand",m_DAPRpcSocket))), QString("historyReceived")));
+    // Run cli command
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRunCmdCommand("DapRunCmdCommand",m_DAPRpcSocket))), QString("cmdRunned")));
+    // Get history of commands executed by cli handler
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString("historyExecutedCmdReceived")));
+    // Save cmd command in file
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
+
+
+    connect(this, &DapServiceController::walletsListReceived, [=] (const QVariant& walletList)
+    {
+        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
+        QList<DapWallet> tempWallets;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWallets;
+
+        QList<QObject*> wallets;
+        auto begin = tempWallets.begin();
+        auto end = tempWallets.end();
+        DapWallet * wallet = nullptr;
+        for(;begin != end; ++begin)
+        {
+            wallet = new DapWallet(*begin);
+            wallets.append(wallet);
+        }
+
+        emit walletsReceived(wallets);
+    });
+
+    connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
+    {
+        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
+        QList<DapWalletHistoryEvent> tempWalletHistory;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWalletHistory;
+
+        QList<QObject*> walletHistory;
+        auto begin = tempWalletHistory.begin();
+        auto end = tempWalletHistory.end();
+        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
+        for(;begin != end; ++begin)
+        {
+            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
+            walletHistory.append(wallethistoryEvent);
+        }
+
+        emit walletHistoryReceived(walletHistory);
+    });
 
     registerEmmitedSignal();
 }
@@ -96,7 +186,7 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-    
+    disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {

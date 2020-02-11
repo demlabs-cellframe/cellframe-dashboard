@@ -1,26 +1,17 @@
 import QtQuick 2.4
+import Demlabs 1.0
 
 DapDashboardTopPanelForm 
 {
-    ListModel 
+    Connections
     {
-        id: modelWallets
-    }
-
-    ListModel
-    {
-        id: modelTokens
-    }
-    
-    function updateModel(wallet)
-    {
-        console.log(wallet)
-        if(wallet[1] === "created")
-            modelWallets.append({ "name" : wallet[0] })
-    }
-
-    dapAddWalletButton.onClicked: 
-    {
-        dapServiceController.requestToService("ADD", "MYNEWWALLET");
+        target: dapServiceController
+        onWalletCreated:
+        {
+            if(wallet[0] === true)
+                updateModel(wallet)
+            else
+                console.log(wallet[1])
+        }
     }
 }
