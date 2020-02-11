@@ -75,11 +75,9 @@ install_dependencies() {
 export_variables "prod_build/general/conf/*"
 export_variables "prod_build/linux/debian/conf/*"
 
-echo "Trap N 1"
 VERSION_STRING=$(echo $VERSION_FORMAT | sed "s/\"//g" ) #Removing quotes
 VERSION_ENTRIES=$(echo $VERSION_ENTRIES | sed "s/\"//g" )
 VERSION_STRING=$(extract_version_number)
-echo "TRAP N 2"
 last_version_string=$(cat prod_build/linux/debian/essentials/changelog | head -n 1 | cut -d '(' -f2 | cut -d ')' -f1)
 
 
@@ -122,8 +120,9 @@ CHROOT_PREFIX=$1
 for distr in $HOST_DISTR_VERSIONS; do #we need to install required dependencies under schroot.
 	for arch in $HOST_ARCH_VERSIONS; do
 		echo "$CHROOT_PREFIX-$distr-$arch"
-		schroot -c $CHROOT_PREFIX-$distr-$arch -- prod_build/linux/debian/scripts/chroot/pre-build.sh "$PKG_DEPS"
+		schroot -c $CHROOT_PREFIX-$distr-$arch -- prod_build/linux/debian/scripts/chroot/pre-build.sh "$PKG_DEPS" || errcode=$?
+		[[ $errcode != 0 ]] && echo "There are problems with $CHROOT_PREFIX-$distr-$arch. You had installed it, right?"
 	done
 done
-
+exit 0
 ## Maybe we do have the version required? Then we don't need to build it again. CHECK IT THERE!
