@@ -80,8 +80,9 @@ VERSION_ENTRIES=$(echo $VERSION_ENTRIES | sed "s/\"//g" )
 VERSION_STRING=$(extract_version_number)
 last_version_string=$(cat prod_build/linux/debian/essentials/changelog | head -n 1 | cut -d '(' -f2 | cut -d ')' -f1)
 
-
-if [ $( gitlab-runner -v 2> /dev/null ; echo $? ) == 0 ]; then 
+NOTONBUILDSERVER=0
+gitlab-runner -v 2&>>/dev/null || NOTBUILDSERVER=$?
+if [ $NOTBUILDSERVER == 0 ]; then 
 	echo "[WRN] on build platform. Version won't be changed"
 
 elif [ "$last_version_string" == "$VERSION_STRING" ]; then
