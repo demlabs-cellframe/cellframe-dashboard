@@ -10,4 +10,4 @@ cellframe-dashboard-schedule:
     stage: build
     tags:
     - cellframe-dashboard
-    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard && ~/production/integration/reprepro/publish.sh debian.pub.demlabs.net stretch main
+    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard
