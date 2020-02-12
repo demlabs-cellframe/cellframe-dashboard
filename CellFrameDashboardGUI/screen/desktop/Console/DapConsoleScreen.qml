@@ -19,6 +19,8 @@ DapConsoleScreenForm
     {
         //The start point for using history
         consoleHistoryIndex = modelConsoleCommand.count
+        //Set focus to console input
+        consoleInput.forceActiveFocus()
     }
 
     QtObject
@@ -75,19 +77,23 @@ DapConsoleScreenForm
         if(sendedCommand != "")
         {
             sendCommand = sendedCommand;
-            consoleHistoryIndex = modelConsoleCommand.count;
-            runCommand(sendCommand)
+            consoleHistoryIndex = modelConsoleCommand.count + 1;
+            runCommand(sendCommand);
             sendedCommand = "";
             currentCommand = sendedCommand;
         }
+
     }
 
     //Send command fron right history panel
     onHistoryCommandChanged:
     {
-        sendCommand = historyCommand;
-        runCommand(sendCommand)
-        consoleHistoryIndex = modelConsoleCommand.count;
+        if(historyCommand != "")
+        {
+            sendCommand = historyCommand;
+            runCommand(sendCommand);
+            consoleHistoryIndex = modelConsoleCommand.count + 1;
+        }
     }
 
     //Using KeyUp and KeyDown to serf on console history
@@ -97,7 +103,6 @@ DapConsoleScreenForm
         {
             if(consoleHistoryIndex >= modelConsoleCommand.count)
             {
-                consoleHistoryIndex = modelConsoleCommand.count;
                 currentCommand = "";
                 return;
             }
@@ -107,4 +112,5 @@ DapConsoleScreenForm
         currentCommand = modelConsoleCommand.get(consoleHistoryIndex).query;
         return;
     }
+
 }

@@ -65,7 +65,7 @@ DapAbstractRightPanel
                         {
                             id: historyQueryMouseArea
                             anchors.fill: textCommand
-                            onDoubleClicked: historyQuery = textCommand.text
+                            onDoubleClicked: historyQueryIndex = index
                         }
                     }
                 //It allows to see last element of list by default
