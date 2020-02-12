@@ -85,7 +85,7 @@ DapAbstractRightPanel
                 Rectangle
                 {
                     id: frameSenderWalletAddress
-                    color: "#F8F7FA"
+                    color: "transparent"
                     anchors.top: frameSenderWallet.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -96,7 +96,7 @@ DapAbstractRightPanel
                     Rectangle
                     {
                         id: frameSenderWalletToken
-                        color: "#F8F7FA"
+                        color: "transparent"
                         anchors.top: frameSenderWalletAddress.top
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -202,7 +202,7 @@ DapAbstractRightPanel
             {
                 id: frameInputAmountPayment
                 height: 112 * pt
-                color: "#F8F7FA"
+                color: "transparent"
                 anchors.top: frameAmountPayment.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right

@@ -15,6 +15,7 @@ DapAbstractRightPanel
     dapButtonClose.widthImageButton: 16 * pt
     dapButtonClose.normalImageButton: "qrc:/res/icons/close_icon.png"
     dapButtonClose.hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+
     dapHeaderData:
         Row
         {
@@ -59,7 +60,7 @@ DapAbstractRightPanel
                 anchors.bottom: rectangleCenter.top
                 anchors.bottomMargin: 24 * pt
                 color: "#070023"
-                font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+                font.family: dapFontRobotoRegular.name
                 font.pointSize: 16 * pt
             }
 

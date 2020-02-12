@@ -27,8 +27,9 @@ DapDashboardTabForm
     dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
     {
         dapDashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
-        dapDashboardScreen.dapNameWalletTitle.text = dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].Name
+        dapDashboardScreen.dapNameWalletTitle.text = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).name
         dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+        state = "WALLETSHOW"
     }
 
     // Signal-slot connection realizing panel switching depending on predefined rules
@@ -58,7 +59,7 @@ DapDashboardTabForm
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            dapDashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet
+            dapDashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
         }
     }
 
@@ -78,9 +79,14 @@ DapDashboardTabForm
         }
     }
 
+    dapDashboardScreen.dapAddWalletButton.onClicked:
+    {
+        createWallet()
+    }
+
     dapDashboardTopPanel.dapAddWalletButton.onClicked:
     {
-        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+        createWallet()
     }
 
     // When you click on the button for creating a new payment, open the form to fill in the payment data
@@ -99,5 +105,12 @@ DapDashboardTabForm
         dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetListWalletsCommand");
+    }
+
+    function createWallet()
+    {
+        if(state !== "WALLETSHOW")
+            state = "WALLETCREATE"
+        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
     }
 }
