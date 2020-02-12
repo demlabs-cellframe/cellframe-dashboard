@@ -67,7 +67,7 @@ DapDashboardScreenForm
                    font.styleName: "Normal"
                    font.weight: Font.Normal
                    color: "#908D9D"
-                   text: address
+                   fullText: address
                 }
 
 

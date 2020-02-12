@@ -85,11 +85,11 @@ DapAbstractScreen
                 Keys.onEnterPressed: text.length > 0 ?
                                          sendedCommand = text :
                                          sendedCommand = ""
-                Keys.onUpPressed: (consoleHistoryIndex > 0) ?
-                                      consoleHistoryIndex -= 1 :
+                Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                                      consoleHistoryIndex += 1 :
                                       null
-                Keys.onDownPressed: (consoleHistoryIndex < modelConsoleCommand.count) ?
-                                        consoleHistoryIndex += 1 :
+                Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+                                        consoleHistoryIndex -= 1 :
                                         null
             }
         }
