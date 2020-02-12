@@ -77,8 +77,8 @@ DapAbstractScreen
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
-                normalImageButton: "qrc:/res/icons/new-payment_icon.png"
-                hoverImageButton: "qrc:/res/icons/new-payment_icon.png"
+                normalImageButton: "qrc:/res/icons/new-wallet_icon_dark.png"
+                hoverImageButton: "qrc:/res/icons/new-wallet_icon_dark_hover.png"
                 widthImageButton: 20 * pt
                 heightImageButton: 20 * pt
                 indentImageLeftButton: 20 * pt

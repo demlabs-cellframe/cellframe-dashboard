@@ -59,11 +59,6 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: stackViewRightPanel;
-                width: 0
-            }
-            PropertyChanges
-            {
                 target: dapRightPanel;
                 visible: false
             }
