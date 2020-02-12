@@ -18,7 +18,7 @@ DapConsoleScreenForm
     Component.onCompleted:
     {
         //The start point for using history
-        consoleHistoryIndex = modelConsoleCommand.count
+        consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
     }
@@ -77,7 +77,7 @@ DapConsoleScreenForm
         if(sendedCommand != "")
         {
             sendCommand = sendedCommand;
-            consoleHistoryIndex = modelConsoleCommand.count + 1;
+            consoleHistoryIndex = -1;
             runCommand(sendCommand);
             sendedCommand = "";
             currentCommand = sendedCommand;
@@ -92,24 +92,22 @@ DapConsoleScreenForm
         {
             sendCommand = historyCommand;
             runCommand(sendCommand);
-            consoleHistoryIndex = modelConsoleCommand.count + 1;
+            consoleHistoryIndex = -1;
         }
     }
 
     //Using KeyUp and KeyDown to serf on console history
     onConsoleHistoryIndexChanged:
     {
-        if(consoleHistoryIndex >= 0)
+        if(consoleHistoryIndex < 0)
         {
-            if(consoleHistoryIndex >= modelConsoleCommand.count)
-            {
-                currentCommand = "";
-                return;
-            }
+            currentCommand = "";
+            consoleHistoryIndex = -1;
+            return;
         }
-        else
-            consoleHistoryIndex = 0;
-        currentCommand = modelConsoleCommand.get(consoleHistoryIndex).query;
+        else if(consoleHistoryIndex >= dapConsoleRigthPanel.dapModelHistoryConsole.count)
+            consoleHistoryIndex = dapConsoleRigthPanel.dapModelHistoryConsole.count;
+        currentCommand = dapConsoleRigthPanel.dapModelHistoryConsole.get(consoleHistoryIndex).query;
         return;
     }
 
