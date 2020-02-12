@@ -93,6 +93,9 @@ void DapWallet::addAddress(const QString& aiAddress, const QString &asNetwork)
 
 QString DapWallet::findAddress(const QString &asNetwork) const
 {
+    if(asNetwork.isNull() || asNetwork.isNull())
+        return QString();
+
     QString s=m_aAddresses.find(asNetwork).value();
     return m_aAddresses.find(asNetwork) != m_aAddresses.end() ? m_aAddresses.find(asNetwork).value() : QString();
 }

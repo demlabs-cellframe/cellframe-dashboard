@@ -15,6 +15,8 @@ DapAbstractRightPanel
     dapNextRightPanel: doneWallet
     dapPreviousRightPanel: lastActionsWallet
 
+    width: 400 * pt
+
     ListModel
     {
         id: signatureTypeWallet
@@ -103,7 +105,7 @@ DapAbstractRightPanel
             {
                 id: frameInputNameWallet
                 height: 68 * pt
-                color: "#F8F7FA"
+                color: "transparent"
                 anchors.top: frameNameWallet.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -165,7 +167,7 @@ DapAbstractRightPanel
             {
                 id: frameSignatureType
                 height: 68 * pt
-                color: "#F8F7FA"
+                color: "transparent"
                 anchors.top: frameChooseSignatureType.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
