@@ -9,6 +9,7 @@ class DapWalletHistoryEvent : public QObject
 {
     Q_OBJECT
 
+    QString m_sWallet;
     /// Token name.
     QString m_sName;
     /// Token balance.
@@ -24,6 +25,7 @@ public:
     DapWalletHistoryEvent& operator=(const DapWalletHistoryEvent& aHistoryEvent);
     bool operator==(const DapWalletHistoryEvent& aHistoryEvent) const;
 
+    Q_PROPERTY(QString Wallet MEMBER m_sWallet READ getWallet WRITE setWallet NOTIFY walletChanged)
     Q_PROPERTY(QString Name MEMBER m_sName READ getName WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(double Amount MEMBER m_dAmount READ getAmount WRITE setAmount NOTIFY amountChanged)
     Q_PROPERTY(QString Status MEMBER m_sName READ getStatus WRITE setStatus NOTIFY statusChanged)
@@ -33,12 +35,15 @@ public:
     friend QDataStream& operator >> (QDataStream& aOut, DapWalletHistoryEvent& aHistoryEvent);
 
 signals:
+    void walletChanged(const QString& asWallet);
     void nameChanged(const QString& asName);
     void amountChanged(const double& adAmount);
     void statusChanged(const QString& asStatus);
     void dateChanged(const QString& asDate);
 
 public slots:
+    QString getWallet() const;
+    void setWallet(const QString &sWallet);
     QString getName() const;
     void setName(const QString &sName);
     double getAmount() const;
