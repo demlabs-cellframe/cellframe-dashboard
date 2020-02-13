@@ -7,6 +7,10 @@ import "../../"
 
 DapAbstractTopPanelForm
 {
+    property alias dapComboboxPeriod: comboboxPeriod
+    property alias dapComboboxWallet: comboboxWallet
+    property alias dapComboboxStatus: comboboxStatus
+
     // Frame icon search
     Rectangle
     {

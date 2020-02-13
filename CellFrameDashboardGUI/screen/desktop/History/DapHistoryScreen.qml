@@ -6,39 +6,6 @@ import "qrc:/widgets"
 DapHistoryScreenForm
 {
     id: historyScreen
-    ListModel
-    {
-        id: modelHistory
-    }
-
-    Component.onCompleted:
-    {
-        for(var i=0; i < dapModelWallets.count; ++i)
-        {
-            modelHistory.clear()
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                                                  dapServiceController.CurrentNetwork,
-                                                  dapServiceController.CurrentChain,
-                                                  dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
-                                                  dapWallets[i].Name)
-        }
-    }
-
-    Connections
-    {
-        target: dapServiceController
-        onWalletHistoryReceived:
-        {
-            for (var q = 0; q < walletHistory.length; ++q)
-            {
-                modelHistory.append({ "wallet" : walletHistory[q].Wallet,
-                                      "name" : walletHistory[q].Name,
-                                      "status" : walletHistory[q].Status,
-                                      "amount" : walletHistory[q].Amount,
-                                      "date" : walletHistory[q].Date})
-            }
-        }
-    }
 
     Component
     {
