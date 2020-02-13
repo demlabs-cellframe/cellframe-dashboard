@@ -6,9 +6,20 @@ DapAbstractTab
 {
     id: historyTab
 
-    dapTopPanel: DapHistoryTopPanel { }
+    property alias dapHistoryTopPanel: historyTopPanel
+    property alias dapHistoryScreen: historyScreen
 
-    dapScreen: DapHistoryScreen { }
+    dapTopPanel:
+        DapHistoryTopPanel
+        {
+            id: historyTopPanel
+        }
+
+    dapScreen:
+        DapHistoryScreen
+        {
+            id: historyScreen
+        }
 
     dapRightPanel:
         DapHistoryRightPanel
