@@ -82,7 +82,7 @@ DapDashboardScreenForm
                     height: 16 * pt
                     hoverEnabled: true
 
-                    onClicked: textMetworkAddress.copy()
+                    onClicked: textMetworkAddress.copyFullText()
 
 
                     Image

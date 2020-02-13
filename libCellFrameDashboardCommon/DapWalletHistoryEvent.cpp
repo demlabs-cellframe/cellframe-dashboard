@@ -2,11 +2,11 @@
 
 DapWalletHistoryEvent::DapWalletHistoryEvent(QObject *parent) : QObject(parent)
 {
-
+    
 }
 
 DapWalletHistoryEvent::DapWalletHistoryEvent(const DapWalletHistoryEvent &aHistoryEvent)
-    : m_sName(aHistoryEvent.m_sName), m_sStatus(aHistoryEvent.m_sStatus),
+    : QObject(aHistoryEvent.parent()),m_sWallet(aHistoryEvent.m_sWallet), m_sName(aHistoryEvent.m_sName), m_sStatus(aHistoryEvent.m_sStatus),
       m_dAmount(aHistoryEvent.m_dAmount), m_sDate(aHistoryEvent.m_sDate)
 {
 
@@ -14,6 +14,7 @@ DapWalletHistoryEvent::DapWalletHistoryEvent(const DapWalletHistoryEvent &aHisto
 
 DapWalletHistoryEvent &DapWalletHistoryEvent::operator=(const DapWalletHistoryEvent &aHistoryEvent)
 {
+    m_sWallet = aHistoryEvent.m_sWallet;
     m_sName = aHistoryEvent.m_sName;
     m_sStatus = aHistoryEvent.m_sStatus;
     m_dAmount = aHistoryEvent.m_dAmount;
@@ -23,10 +24,23 @@ DapWalletHistoryEvent &DapWalletHistoryEvent::operator=(const DapWalletHistoryEv
 
 bool DapWalletHistoryEvent::operator==(const DapWalletHistoryEvent &aHistoryEvent) const
 {
-    return (m_sName == aHistoryEvent.m_sName)
+    return (m_sWallet == aHistoryEvent.m_sWallet)
+            && (m_sName == aHistoryEvent.m_sName)
             && (m_sStatus == aHistoryEvent.m_sStatus)
             && (m_dAmount == aHistoryEvent.m_dAmount)
             && (m_sDate == aHistoryEvent.m_sDate);
+}
+
+QString DapWalletHistoryEvent::getWallet() const
+{
+    return m_sWallet;
+}
+
+void DapWalletHistoryEvent::setWallet(const QString &sWallet)
+{
+    m_sWallet = sWallet;
+
+    emit walletChanged(m_sWallet);
 }
 
 QString DapWalletHistoryEvent::getName() const
@@ -79,7 +93,8 @@ void DapWalletHistoryEvent::setDate(const QString &sDate)
 
 QDataStream& operator << (QDataStream& aOut, const DapWalletHistoryEvent& aHistoryEvent)
 {
-    aOut << aHistoryEvent.m_sName
+    aOut << aHistoryEvent.m_sWallet
+         << aHistoryEvent.m_sName
          << aHistoryEvent.m_dAmount
          << aHistoryEvent.m_sStatus
          << aHistoryEvent.m_sDate;
@@ -88,7 +103,8 @@ QDataStream& operator << (QDataStream& aOut, const DapWalletHistoryEvent& aHisto
 
 QDataStream& operator >> (QDataStream& aOut, DapWalletHistoryEvent& aHistoryEvent)
 {
-    aOut >> aHistoryEvent.m_sName;
+    aOut >> aHistoryEvent.m_sWallet
+         >> aHistoryEvent.m_sName;
     aOut.setFloatingPointPrecision(QDataStream::DoublePrecision);
     aOut >> aHistoryEvent.m_dAmount;
     aOut >> aHistoryEvent.m_sStatus

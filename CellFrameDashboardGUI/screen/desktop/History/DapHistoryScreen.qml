@@ -8,55 +8,35 @@ DapHistoryScreenForm
     id: historyScreen
     ListModel
     {
-        id: testModel
-        ListElement
+        id: modelHistory
+    }
+
+    Component.onCompleted:
+    {
+        for(var i=0; i < dapModelWallets.count; ++i)
         {
-            date: "6, february"
-            token: "KELT"
-            status: "Sent"
-            amount: "165489878556"
+            modelHistory.clear()
+            dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                                                  dapServiceController.CurrentNetwork,
+                                                  dapServiceController.CurrentChain,
+                                                  dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
+                                                  dapWallets[i].Name)
         }
-        ListElement
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onWalletHistoryReceived:
         {
-            date: "6, february"
-            token: "DAG"
-            status: "Received"
-            amount: "333559878556"
-        }
-        ListElement
-        {
-            date: "5, february"
-            token: "KELT"
-            status: "Error"
-            amount: "165489878556"
-        }
-        ListElement
-        {
-            date: "5, february"
-            token: "DAG"
-            status: "Panding"
-            amount: "333559878556"
-        }
-        ListElement
-        {
-            date: "7, february"
-            token: "DAG"
-            status: "Received"
-            amount: "333559878556"
-        }
-        ListElement
-        {
-            date: "3, february"
-            token: "KELT"
-            status: "Error"
-            amount: "165489878556"
-        }
-        ListElement
-        {
-            date: "5, february"
-            token: "DAG"
-            status: "Panding"
-            amount: "333559878556"
+            for (var q = 0; q < walletHistory.length; ++q)
+            {
+                modelHistory.append({ "wallet" : walletHistory[q].Wallet,
+                                      "name" : walletHistory[q].Name,
+                                      "status" : walletHistory[q].Status,
+                                      "amount" : walletHistory[q].Amount,
+                                      "date" : walletHistory[q].Date})
+            }
         }
     }
 
@@ -130,7 +110,7 @@ DapHistoryScreenForm
                     {
                         id: textTokenName
                         anchors.fill: parent
-                        text: token
+                        text: name
                         color: "#070023"
                         font.family: "Roboto"
                         font.styleName: "Normal"
@@ -195,7 +175,7 @@ DapHistoryScreenForm
                             id: lblAmount
                             width: parent.width
                             property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
-                            text: sign + amount + " " + token
+                            text: sign + amount + " " + name
                             color: "#070023"
                             font.family: "Roboto"
                             font.styleName: "Normal"

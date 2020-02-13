@@ -18,7 +18,7 @@ DapAbstractRightPanel
 
     property string dapCurrentWallet
 
-    property alias dapTextSenderWalletAddress: textSenderWalletAddress.text
+    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -154,7 +154,7 @@ DapAbstractRightPanel
                         anchors.leftMargin: 20 * pt
                         anchors.rightMargin: 20 * pt
                     }
-                    Text
+                    DapText
                     {
                         id: textSenderWalletAddress
                         width: 328 * pt
@@ -169,7 +169,6 @@ DapAbstractRightPanel
                         font.styleName: "Normal"
                         font.weight: Font.Normal
                         color: "#757184"
-                        elide: Text.ElideRight
                     }
             }
 
