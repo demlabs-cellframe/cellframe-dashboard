@@ -11,10 +11,11 @@ DapAbstractScreen
         anchors.topMargin: 24 * pt
         anchors.leftMargin: 24 * pt
         anchors.rightMargin: 24 * pt
-        model: testModel
+        model: modelHistory
         delegate: delegateToken
         section.property: "date"
         section.criteria: ViewSection.FullString
         section.delegate: delegateDate
+        clip: true
     }
 }

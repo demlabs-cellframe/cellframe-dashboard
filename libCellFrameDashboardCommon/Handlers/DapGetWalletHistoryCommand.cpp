@@ -50,6 +50,7 @@ QVariant DapGetWalletHistoryCommand::respondToClient(const QVariant &arg1, const
             event.setStatus(match.captured(4) == "send" ? "Sent" : "Received");
             event.setAmount(match.captured(5).toDouble());
             event.setName(match.captured(6));
+            event.setWallet(arg4.toString());
             events.append(event);
         }
     }
