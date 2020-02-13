@@ -98,9 +98,20 @@ DapAbstractTopPanelForm
         anchors.leftMargin: 26 * pt
         width: 108 * pt
         color: "transparent"
+
+        ListModel
+        {
+            id: periodModel
+            ListElement { name: "today" }
+            ListElement { name: "yesterday" }
+            ListElement { name: "last week" }
+            ListElement { name: "last month" }
+        }
+
         DapComboBox
         {
             id: comboboxPeriod
+            model: periodModel
             comboBoxTextRole: ["name"]
             mainLineText: ["all time"]
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
@@ -221,11 +232,21 @@ DapAbstractTopPanelForm
         width: 120 * pt
         color: "transparent"
 
+        ListModel
+        {
+            id: statusModel
+            ListElement { name: "Pending" }
+            ListElement { name: "Sent" }
+            ListElement { name: "Received" }
+            ListElement { name: "Error" }
+        }
+
         DapComboBox
         {
             id: comboboxStatus
+            model: statusModel
             comboBoxTextRole: ["name"]
-            mainLineText: ["all status"]
+            mainLineText: ["all statuses"]
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
