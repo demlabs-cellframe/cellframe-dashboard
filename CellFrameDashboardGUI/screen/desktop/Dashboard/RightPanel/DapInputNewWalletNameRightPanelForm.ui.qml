@@ -177,23 +177,20 @@ DapAbstractRightPanel
                 {
                     id: comboBoxSignatureTypeWallet
                     model: signatureTypeWallet
-                    comboBoxTextRole: "name"
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.leftMargin: 20 * pt
-                    anchors.rightMargin: 20 * pt
+                    comboBoxTextRole: ["name"]
+                    anchors.centerIn: parent
                     indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                     sidePaddingNormal: 0 * pt
-                    sidePaddingActive: 0 * pt
+                    sidePaddingActive: 20 * pt
                     normalColorText: "#070023"
-                    hilightColorText: "#transparent"
+                    hilightColorText: "#FFFFFF"
                     normalColorTopText: "#070023"
                     hilightColorTopText: "#070023"
                     hilightColor: "#330F54"
                     normalTopColor: "transparent"
-                    widthPopupComboBoxNormal: 148 * pt
-                    widthPopupComboBoxActive: 180 * pt
+                    widthPopupComboBoxNormal: 328 * pt
+                    widthPopupComboBoxActive: 368 * pt
                     heightComboBoxNormal: 24 * pt
                     heightComboBoxActive: 44 * pt
                     bottomIntervalListElement: 8 * pt
@@ -209,8 +206,10 @@ DapAbstractRightPanel
                     indicatorLeftInterval: 8 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
-                    fontComboBox.pixelSize: 16 * pt
-                    fontComboBox.family: "Roboto"
+                    //it's font example, it needed in mainWindow fontLoader font
+                    fontComboBox: [textChooseSignatureType.font]
+                    colorMainTextComboBox: [["#070023", "#070023"]]
+                    colorTextComboBox: [["#070023", "#FFFFFF"]]
                 }
             }
 
