@@ -130,7 +130,7 @@ DapAbstractScreen
                             text: "24 hour"
                         }
                     }
-
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt
                 sidePaddingActive: 16 * pt

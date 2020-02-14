@@ -22,7 +22,7 @@ DapAbstractRightPanel
         id: signatureTypeWallet
         ListElement
         {
-            name: "Dilithium"
+            name: "Dilithium in my head"
             sign: "sig_dil"
         }
         ListElement
@@ -203,7 +203,7 @@ DapAbstractRightPanel
                     intervalListElement: 10 * pt
                     indicatorWidth: 20 * pt
                     indicatorHeight: indicatorWidth
-                    indicatorLeftInterval: 8 * pt
+                    indicatorLeftInterval: 20 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
                     //it's font example, it needed in mainWindow fontLoader font

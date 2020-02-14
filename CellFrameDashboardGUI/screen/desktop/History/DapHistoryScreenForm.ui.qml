@@ -23,7 +23,7 @@ DapAbstractScreen
         {
             id: historyListScrollHandler
             viewData: dapListViewHistory
-            scrollMouseAtArrow: logListScroll.mouseAtArrow
+            scrollMouseAtArrow: historyListScroll.mouseAtArrow
             z: -1
         }
     }

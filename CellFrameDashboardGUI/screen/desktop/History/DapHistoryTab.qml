@@ -12,9 +12,9 @@ DapHistoryTabForm
         console.log(dapHistoryTopPanel.dapComboboxPeriod.currentText)
     }
 
-    dapHistoryTopPanel.dapComboboxWallet.onCurrentTextChanged:
+    dapHistoryTopPanel.dapComboboxWallet.onCurrentIndexChanged:
     {
-        console.log(dapHistoryTopPanel.dapComboboxWallet.currentText)
+        console.log(dapHistoryTopPanel.dapComboboxWallet.mainLineText)
     }
 
     dapHistoryTopPanel.dapComboboxStatus.onCurrentTextChanged:
