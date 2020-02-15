@@ -107,21 +107,21 @@ DapAbstractRightPanel
                         DapComboBox
                         {
                             id: comboboxToken
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            comboBoxTextRole: ["name"]
+                            anchors.centerIn: parent
+                            //what the second role for this?
+                            comboBoxTextRole: ["name", "name"]
                             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
                             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt
-                            sidePaddingActive: 16 * pt
+                            sidePaddingActive: 20 * pt
                             normalColorText: "#070023"
                             hilightColorText: "#FFFFFF"
                             normalColorTopText: "#FFFFFF"
                             hilightColorTopText: "#070023"
                             hilightColor: "#330F54"
                             normalTopColor: "#070023"
-                            widthPopupComboBoxNormal: 148 * pt
-                            widthPopupComboBoxActive: 180 * pt
+                            widthPopupComboBoxNormal: 328 * pt
+                            widthPopupComboBoxActive: 368 * pt
                             heightComboBoxNormal: 24 * pt
                             heightComboBoxActive: 44 * pt
                             bottomIntervalListElement: 8 * pt
@@ -134,11 +134,16 @@ DapAbstractRightPanel
                             intervalListElement: 10 * pt
                             indicatorWidth: 24 * pt
                             indicatorHeight: indicatorWidth
-                            indicatorLeftInterval: 8 * pt
+                            indicatorLeftInterval: 20 * pt
                             colorTopNormalDropShadow: "#00000000"
                             colorDropShadow: "#40ABABAB"
-                            fontComboBox.pixelSize: 14 * pt
-                            fontComboBox.family: "Roboto"
+                            roleInterval: 20
+                            endRowPadding: 44
+                            //it's font example, it needed in mainWindow fontLoader font
+                            fontComboBox: [textFrameSenderWallet.font]
+                            colorMainTextComboBox: [["#FFFFFF", "#070023"], ["#FFFFFF", "#908D9D"]]
+                            colorTextComboBox: [["#070023", "#FFFFFF"], ["#908D9D", "#FFFFFF"]]
+                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                         }
                     }
                     Rectangle

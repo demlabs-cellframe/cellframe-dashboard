@@ -21,6 +21,15 @@ DapAbstractTopPanel
         color: "#ACAAB5"
     }
 
+    ListModel
+    {
+        id: tempModel
+        ListElement{name: "qwertyasd"; balance: 10; icon: 1; address: "rerere"; networks: "oneNet"}
+        ListElement{name: "zaqwsxcde we"; balance: 100; icon: 1; address: "dadadada"; networks: "twoNet"}
+        ListElement{name: "rewsdfcx"; balance: 20; icon: 1; address: "zazaza"; networks: "ThreeNet"}
+        ListElement{name: "r eerv qwqw"; balance: 200; icon: 1; address: "bebebe"; networks: "FourNet"}
+    }
+
     // Wallet selection combo box
     Rectangle 
     {
@@ -37,7 +46,7 @@ DapAbstractTopPanel
             id: comboboxWallet
             model: dapModelWallets
             comboBoxTextRole: ["name"]
-            mainLineText: ["all wallets"]
+            mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -65,8 +74,10 @@ DapAbstractTopPanel
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            //it's font example, it needed in mainWindow fontLoader font
+            fontComboBox: [textHeaderWallet.font]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 

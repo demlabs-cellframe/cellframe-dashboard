@@ -49,6 +49,7 @@ DapAbstractScreen
                             text: "KLVN/USD"
                         }
                     }
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 144 * pt
                 widthPopupComboBoxNormal: 112 * pt
                 sidePaddingActive: 16 * pt
@@ -59,8 +60,10 @@ DapAbstractScreen
                 bottomIntervalListElement: 6 * pt
                 indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
                 indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                fontComboBox.pixelSize: 16 * pt
-                fontComboBox.family: "Roboto"
+                //it's font example, it needed in mainWindow fontLoader font
+                fontComboBox: [value_lastPrice.font]
+                colorMainTextComboBox: [["#070023", "#070023"]]
+                colorTextComboBox: [["#070023", "#FFFFFF"]]
                 normalColor: "#FFFFFF"
                 hilightColor: "#330F54"
                 normalTopColor: "#FFFFFF"
@@ -127,7 +130,7 @@ DapAbstractScreen
                             text: "24 hour"
                         }
                     }
-
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt
                 sidePaddingActive: 16 * pt
@@ -138,8 +141,10 @@ DapAbstractScreen
                 bottomIntervalListElement: 6 * pt
                 indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
                 indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                fontComboBox.pixelSize: 14 * pt
-                fontComboBox.family: "Roboto"
+                //it's font example, it needed in mainWindow fontLoader font
+                fontComboBox: [value_lastPrice.font]
+                colorMainTextComboBox: [["#070023", "#070023"]]
+                colorTextComboBox: [["#070023", "#FFFFFF"]]
                 normalColor: "#FFFFFF"
                 hilightColor: "#330F54"
                 normalTopColor: "#FFFFFF"
