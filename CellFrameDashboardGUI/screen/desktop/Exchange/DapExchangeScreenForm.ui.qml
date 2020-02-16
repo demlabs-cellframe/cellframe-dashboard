@@ -31,7 +31,7 @@ DapAbstractScreen
                 model:
                     ListModel
                     {
-                        id: сonversionList
+                        id: conversionList
                         ListElement
                         {
                             text: "TKN1/NGD"

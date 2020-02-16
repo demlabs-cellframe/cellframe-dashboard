@@ -110,6 +110,7 @@ DapAbstractRightPanel
                             anchors.centerIn: parent
                             //what the second role for this?
                             comboBoxTextRole: ["name", "name"]
+                            mainLineText: "all tokens"
                             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
                             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt
