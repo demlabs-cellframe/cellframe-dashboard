@@ -11,9 +11,9 @@ CONFIG += c++11
 
 TARGET = $$BRAND
 
-VER_MAJ = 1
-VER_MIN = 6
-VER_PAT = 4
+VER_MAJ = 2
+VER_MIN = 0
+VER_PAT = 0
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
