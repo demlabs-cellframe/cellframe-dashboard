@@ -111,7 +111,7 @@ DapMainApplicationWindowForm
         {
             console.log(walletList.length)
             console.log(dapWallets.length)
-             console.log(dapModelWallets.count)
+            console.log(dapModelWallets.count)
                 for (var q = 0; q < walletList.length; ++q)
                 {
                     dapWallets.push(walletList[q])
