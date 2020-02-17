@@ -16,7 +16,10 @@ DapGetWalletHistoryCommand::DapGetWalletHistoryCommand(const QString &asServicen
 /// @param arg1 Network.
 /// @param arg2 Chain.
 /// @param arg3 Wallet address.
-/// @param arg4...arg10 Parameters.
+/// @param arg5 Beginning of period.
+/// @param arg6 End of period.
+/// @param arg7 Wallet name.
+/// @param arg8 Status.
 /// @return Reply to client.
 QVariant DapGetWalletHistoryCommand::respondToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3, const QVariant &arg4, const QVariant &arg5, const QVariant &arg6, const QVariant &arg7, const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
 {
@@ -47,11 +50,31 @@ QVariant DapGetWalletHistoryCommand::respondToClient(const QVariant &arg1, const
             QRegularExpressionMatch match = matchItr.next();
             QLocale setLocale  = QLocale(QLocale::English, QLocale::UnitedStates);
             event.setDate(setLocale.toDateTime(match.captured(1), "ddd MMM  d hh:mm:ss yyyy").toString("yyyy-MM-dd"));
-            event.setStatus(match.captured(4) == "send" ? "Sent" : "Received");
+            event.setStatus(match.captured(4) == "send" ? "Sent" : (match.captured(4) == "recv") ? "Received" : (match.captured(4) == "error") ? "Error" : "Pending");
             event.setAmount(match.captured(5).toDouble());
             event.setName(match.captured(6));
             event.setWallet(arg4.toString());
-            events.append(event);
+
+            bool isFilter {false};
+            if((arg5.toString().isEmpty() && arg6.toString().isEmpty()) || (event.getDate() > arg5.toString() && event.getDate() < arg6.toString()))
+                isFilter = true;
+            else
+                isFilter = false;
+            if(arg7.toString().isEmpty() || event.getWallet() == arg7.toString())
+                isFilter = true;
+            else
+                isFilter = false;
+            if(arg8.toString().isEmpty() || event.getStatus() == arg8.toString())
+                isFilter = true;
+            else
+                isFilter = false;
+            if(arg9.toString().isEmpty() || event.getName() == arg9.toString())
+                isFilter = true;
+            else
+                isFilter = false;
+
+            if(isFilter)
+                events.append(event);
         }
     }
 

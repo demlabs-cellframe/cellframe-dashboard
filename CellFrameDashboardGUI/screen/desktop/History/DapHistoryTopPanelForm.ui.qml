@@ -7,6 +7,8 @@ import "../../"
 
 DapAbstractTopPanelForm
 {
+    property alias dapButtonSearch: buttonSearch
+    property alias dapTextFieldSearch: textFieldSearch
     property alias dapComboboxPeriod: comboboxPeriod
     property alias dapComboboxWallet: comboboxWallet
     property alias dapComboboxStatus: comboboxStatus
@@ -18,14 +20,17 @@ DapAbstractTopPanelForm
         anchors.left: parent.left
         anchors.leftMargin: 16 * pt
         anchors.verticalCenter: parent.verticalCenter
-        height: 15 * pt
-        width: 15 * pt
+        height: buttonSearch.widthImageButton
+        width: buttonSearch.heightImageButton
         color: "transparent"
-        Image
+        DapButton
         {
-            id: iconSearch
+            id: buttonSearch
             anchors.fill: parent
-            source: "qrc:/res/icons/ic_search.png"
+            normalImageButton: "qrc:/res/icons/ic_search.png"
+            hoverImageButton: "qrc:/res/icons/ic_search.png"
+            widthImageButton: 15 * pt
+            heightImageButton: 15 * pt
         }
     }
 
