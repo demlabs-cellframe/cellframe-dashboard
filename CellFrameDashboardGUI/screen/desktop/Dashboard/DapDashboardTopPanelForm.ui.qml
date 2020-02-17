@@ -21,7 +21,6 @@ DapAbstractTopPanel
         color: "#ACAAB5"
     }
 
-
     // Wallet selection combo box
     Rectangle 
     {

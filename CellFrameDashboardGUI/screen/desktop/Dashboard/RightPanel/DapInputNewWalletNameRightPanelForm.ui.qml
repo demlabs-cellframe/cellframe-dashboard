@@ -178,7 +178,7 @@ DapAbstractRightPanel
                     id: comboBoxSignatureTypeWallet
                     model: signatureTypeWallet
                     comboBoxTextRole: ["name"]
-                    mainLineText: "all wallets"
+                    mainLineText: "all signature"
                     anchors.centerIn: parent
                     indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
                     indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
