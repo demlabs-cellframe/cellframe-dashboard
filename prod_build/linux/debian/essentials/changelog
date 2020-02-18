@@ -1,3 +1,10 @@
+cellframe-dashboard (2.0-1) testing; urgency=medium
+
+  * Application update
+  * 
+
+ -- Andrey Daragan <daragan.andrey@demlabs.net>  Mon, 18 Feb 2020 20:59:14 +0300
+
 cellframe-dashboard (2.0-0) testing; urgency=medium
 
   * Application update

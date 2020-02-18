@@ -1,6 +1,5 @@
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
-import QtQml 2.0
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 import "../../"
@@ -57,8 +56,6 @@ DapLogsScreenForm
         privateDate.todayYear = privateDate.today.getFullYear();
         var timeString = new Date();
         var day = new Date(86400);
-
-        dapServiceController.requestToService("DapUpdateLogsCommand",200);
     }
 
     //The Component Header
@@ -251,6 +248,7 @@ DapLogsScreenForm
     {
         dapLogsModel.clear();
         var count = Object.keys(stringList).length
+        console.log(count)
         for (var ind = count-1; ind >= 0; ind--)
         {
             var arrLogString = parceStringFromLog(stringList[ind]);
