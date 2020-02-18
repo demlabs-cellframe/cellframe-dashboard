@@ -57,8 +57,6 @@ DapLogsScreenForm
         privateDate.todayYear = privateDate.today.getFullYear();
         var timeString = new Date();
         var day = new Date(86400);
-
-        dapServiceController.requestToService("DapUpdateLogsCommand",200);
     }
 
     //The Component Header
@@ -251,6 +249,7 @@ DapLogsScreenForm
     {
         dapLogsModel.clear();
         var count = Object.keys(stringList).length
+        console.log(count)
         for (var ind = count-1; ind >= 0; ind--)
         {
             var arrLogString = parceStringFromLog(stringList[ind]);
