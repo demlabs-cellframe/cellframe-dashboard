@@ -4,43 +4,109 @@
 /// @param asServiceName Service name.
 /// @param parent Parent.
 DapUpdateLogsCommand::DapUpdateLogsCommand(const QString &asServiceName, QObject *parent, const QString &asLogFile)
-    : DapAbstractCommand(asServiceName, parent), m_cslogFile(asLogFile)
+    : DapAbstractCommand(asServiceName, parent), m_csLogFile(asLogFile)
 {
+    qInfo() << "Initialization of DapUpdateLogsCommand...";
     DapRpcLocalServer * server = dynamic_cast<DapRpcLocalServer *>(m_parent);
 
+    // Watcher is created only on the service side
     if(server)
     {
-        m_watcherDapLogFile = new QFileSystemWatcher(parent);
+        // Initialize the watcher for the log file of the node
+        m_watcherLogFile = new QFileSystemWatcher(this);
+        QFileInfo fileInfo(m_csLogFile);
+        m_watcherLogFile->addPath(m_csLogFile);
+        m_watcherLogFile->addPath(fileInfo.absolutePath());
 
-
-        if (! m_watcherDapLogFile->addPath(m_cslogFile))
+        if (!(m_watcherLogFile->addPath(m_csLogFile) || fileInfo.exists()))
         {
-            qCritical() << ("File not found");
+            qWarning() << "Node log file not found";
         }
 
-        connect(m_watcherDapLogFile, &QFileSystemWatcher::fileChanged, this, [&]
+        connect(m_watcherLogFile, &QFileSystemWatcher::fileChanged, this, [&]
         {
-//            notifyToClient();
+            if(m_isNoifyClient)
+            {
+                readLogFile();
+                notifyToClient(m_bufLog);
+            }
+            if(!m_watcherLogFile->files().contains(m_csLogFile))
+            {
+                m_watcherLogFile->addPath(m_csLogFile);
+            }
+        });
+        // Signal-slot connection restoring control over the log file of the node
+        // if it is deleted during the operation of the service
+        connect(m_watcherLogFile, &QFileSystemWatcher::directoryChanged, this, [=]
+        {
+            qDebug() << "Log file directory changed";
+            if(!m_watcherLogFile->files().contains(m_csLogFile))
+            {
+                m_watcherLogFile->addPath(m_csLogFile);
+            }
         });
     }
 }
 
-/// Send a notification to the client. At the same time, you should not expect a response from the client.
+/// Process the notification from the client on the service side.
 /// @details Performed on the service side.
 /// @param arg1...arg10 Parameters.
-void DapUpdateLogsCommand::notifyToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
-                                        const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
-                                        const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
-                                        const QVariant &arg10)
+void DapUpdateLogsCommand::notifedFromClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
+                                               const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
+                                               const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
+                                               const QVariant &arg10)
 {
-    if(m_bufferSize != arg1.toInt()||m_bufLog.isEmpty())
+    Q_UNUSED(arg2)
+    Q_UNUSED(arg3)
+    Q_UNUSED(arg4)
+    Q_UNUSED(arg5)
+    Q_UNUSED(arg6)
+    Q_UNUSED(arg7)
+    Q_UNUSED(arg8)
+    Q_UNUSED(arg9)
+    Q_UNUSED(arg10)
+
+
+
+    if(arg1.toString() == "start")
     {
-        m_bufferSize = arg1.toInt();
-        m_seekFile = 0;
-        dapGetLog();
+        m_isNoifyClient = true;
+        m_bufferSize = arg2.toInt();
+        readLogFile();
+        notifyToClient(m_bufLog);
+    }
+    else if(arg1.toString() == "stop")
+    {
+        m_isNoifyClient = false;
+    }
+}
+
+///The slot reads logs to the buffer.
+void DapUpdateLogsCommand::readLogFile()
+{
+    QFile dapLogFile(m_csLogFile);
+    if (!dapLogFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qWarning() << "The node log file does not open";
+        return;
+    }
+    QTextStream readFile(&dapLogFile);
+    m_bufLog.clear();
+    while(!readFile.atEnd())
+    {
+        m_bufLog.append(readFile.readLine());
+
+        if(m_bufLog.size() > m_bufferSize)
+        {
+             m_bufLog.removeFirst();
+        }
     }
 
-    DapAbstractCommand::notifyToClient(m_bufLog, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+    if(readFile.status()!= QTextStream::Ok)
+    {
+        qWarning() << "Error reading log file";
+    }
+    dapLogFile.close();
 }
 
 /// Process the notification from the service on the client side.
@@ -63,73 +129,4 @@ void DapUpdateLogsCommand::notifedFromService(const QVariant &arg1, const QVaria
     Q_UNUSED(arg10);
 
     emit clientNotifed(arg1);
-}
-
-/// Send a response to the client.
-/// @details Performed on the service side.
-/// @param arg1...arg10 Parameters.
-/// @return Reply to client.
-QVariant DapUpdateLogsCommand::respondToClient(const QVariant &arg1, const QVariant &arg2, const QVariant &arg3,
-                                               const QVariant &arg4, const QVariant &arg5, const QVariant &arg6,
-                                               const QVariant &arg7, const QVariant &arg8, const QVariant &arg9,
-                                               const QVariant &arg10)
-{
-    Q_UNUSED(arg2)
-    Q_UNUSED(arg3)
-    Q_UNUSED(arg4)
-    Q_UNUSED(arg5)
-    Q_UNUSED(arg6)
-    Q_UNUSED(arg7)
-    Q_UNUSED(arg8)
-    Q_UNUSED(arg9)
-    Q_UNUSED(arg10)
-
-    if(m_bufferSize != arg1.toInt()||m_bufLog.isEmpty())
-    {
-        m_bufferSize = arg1.toInt();
-        m_seekFile = 0;
-        dapGetLog();
-    }
-    return m_bufLog;
-}
-
-///The slot reads logs to the buffer.
-void DapUpdateLogsCommand::dapGetLog()
-{
-    QFile dapLogFile(m_cslogFile);
-    if (!dapLogFile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        qCritical("The node log file does not open.");
-        return;
-    }
-
-    QTextStream readFile(&dapLogFile);
-    QString line;
-
-    readFile.seek(m_seekFile);
-
-    while(!readFile.atEnd())
-    {
-        m_bufLog.append(readFile.readLine());
-
-        if(m_bufLog.size() > m_bufferSize)
-        {
-             m_bufLog.removeFirst();
-        }
-    }
-    m_seekFile = readFile.pos();
-
-    dapLogFile.close();
-}
-
-/// Reply from service.
-/// @details Performed on the service side.
-/// @return Service reply.
-QVariant DapUpdateLogsCommand::replyFromService()
-{
-    DapRpcServiceReply *reply = static_cast<DapRpcServiceReply *>(sender());
-
-    emit serviceResponded(reply->response().toJsonValue());
-
-    return reply->response().toJsonValue();
 }
