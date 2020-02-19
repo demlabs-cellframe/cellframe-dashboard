@@ -35,6 +35,8 @@ DapAbstractTopPanelForm
         {
             id: comboboxWallet
             //model: modelWallets
+            comboBoxTextRole: ["text"]
+            mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -62,8 +64,10 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            //it's font example, it needed in mainWindow fontLoader font
+            fontComboBox: [textHeaderWallet.font]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
 
         }
     }

@@ -65,9 +65,9 @@ DapHistoryTabForm
         }
     }
 
-    dapHistoryTopPanel.dapComboboxWallet.onCurrentTextChanged:
+    dapHistoryTopPanel.dapComboboxWallet.onCurrentIndexChanged:
     {
-        console.log(dapHistoryTopPanel.dapComboboxWallet.currentText)
+        console.log(dapHistoryTopPanel.dapComboboxWallet.mainLineText)
         modelHistory.clear()
         for(var i=0; i < dapModelWallets.count; ++i)
         {

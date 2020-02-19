@@ -122,7 +122,7 @@ DapAbstractTopPanelForm
             id: comboboxPeriod
             model: periodModel
             comboBoxTextRole: ["name"]
-            mainLineText: ["all time"]
+            mainLineText: "all time"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -150,8 +150,10 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            //it's font example, it needed in mainWindow fontLoader font
+            fontComboBox: [textPeriod.font]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 
@@ -184,7 +186,7 @@ DapAbstractTopPanelForm
             id: comboboxWallet
             model: dapModelWallets
             comboBoxTextRole: ["name"]
-            mainLineText: ["all wallets"]
+            mainLineText: "all wallets"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -212,8 +214,10 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            //it's font example, it needed in mainWindow fontLoader font
+            fontComboBox: [textPeriod.font]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 
@@ -255,7 +259,7 @@ DapAbstractTopPanelForm
             id: comboboxStatus
             model: statusModel
             comboBoxTextRole: ["name"]
-            mainLineText: ["all statuses"]
+            mainLineText: "all statuses"
             indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -283,8 +287,10 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            //it's font example, it needed in mainWindow fontLoader font
+            fontComboBox: [textPeriod.font]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 }

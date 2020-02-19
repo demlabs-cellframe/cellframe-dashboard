@@ -11,9 +11,9 @@ DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 
 TARGET = $${BRAND}Service
 
-VER_MAJ = 1
-VER_MIN = 6
-VER_PAT = 4
+VER_MAJ = 2
+VER_MIN = 0
+VER_PAT = 2
 
 win32 {
     CONFIG -= console
