@@ -68,15 +68,6 @@ DapLogsTopPanelForm
 
     }
 
-    ///Creating a screenshot of a window
-    function grub()
-    {
-        var x = mainWindow.grabToImage(function(result){screenShotMainWindow.source = result.url;},
-                                       Qt.size(mainWindow.width, mainWindow.height));
-        fastBlurMainWindow.source = screenShotMainWindow
-        fastBlurMainWindow.visible = true
-    }
-
     ///Default window settings
     function setPropertyDefaultWindow()
     {

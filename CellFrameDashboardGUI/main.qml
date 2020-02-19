@@ -3,6 +3,8 @@ import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import "screen"
+import "qrc:/widgets"
+
 
 ApplicationWindow
 {
@@ -10,6 +12,7 @@ ApplicationWindow
     visible: true
     width: 1280
     height: 800
+
     //Main window
     DapMainApplicationWindow
     {
@@ -65,4 +68,34 @@ ApplicationWindow
             }
         }
     }
+
+    DapMessageBox
+    {
+        id: messageBox
+        anchors.centerIn: parent
+        width: 400 * pt
+        height: 216 * pt
+        dapTitleText.text: "Saving status"
+        dapContentText.text: "The log \"*** KLV ***\" was saved successfully fdgfdg fdghgf fdhdjhgfj"
+        visible: false;
+    }
+
+    ///Creating a screenshot of a window
+    function grub()
+    {
+        var x = mainWindow.grabToImage(function(result){screenShotMainWindow.source = result.url;},
+                                       Qt.size(mainWindow.width, mainWindow.height));
+        fastBlurMainWindow.source = screenShotMainWindow
+        fastBlurMainWindow.visible = true
+    }
+
+//    Connections
+//    {
+//        target: dapServiceController
+//        onNetworksListReceived:
+//        {
+//            grub();
+//            messageBox.visible = true
+//        }
+//    }
 }
