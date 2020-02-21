@@ -65,7 +65,6 @@ DapAbstractTopPanel
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            //it's font example, it needed in mainWindow fontLoader font
             fontComboBox: [textHeaderWallet.font]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
