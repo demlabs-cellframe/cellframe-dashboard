@@ -12,6 +12,10 @@
 
 #include <sys/stat.h>
 
+#ifdef Q_OS_WIN
+#include "registry.h"
+#endif
+
 void processArgs();
 
 int main(int argc, char *argv[])
@@ -41,7 +45,7 @@ int main(int argc, char *argv[])
     #ifdef Q_OS_LINUX
         dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Service.log").arg(DAP_BRAND));
     #elif defined Q_OS_WIN
-        dapLogger.setLogFile(QString("%1Service.log").arg(DAP_BRAND));
+        dapLogger.setLogFile(QString("%1/%2/log/%2Service.log").arg(regGetUsrPath()).arg(DAP_BRAND));
         dapLogger.setLogLevel(L_INFO);
     #elif defined Q_OS_MAC
 	mkdir("tmp/cellframe-dashboard_log",0777);
