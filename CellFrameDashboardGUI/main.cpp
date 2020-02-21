@@ -17,6 +17,10 @@
 
 #include <sys/stat.h>
 
+#ifdef Q_OS_WIN
+#include "registry.h"
+#endif
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
 	mkdir("/tmp/cellframe-dashboard_log",0777);
 	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
     #elif defined Q_OS_WIN
-    dapLogger.setLogFile(QString("%Dashboard.log").arg(DAP_BRAND));
+    dapLogger.setLogFile(QString("%1/%2/log/%2.log").arg(regGetUsrPath()).arg(DAP_BRAND));
     dapLogger.setLogLevel(L_DEBUG);
     #endif
 //#endif
