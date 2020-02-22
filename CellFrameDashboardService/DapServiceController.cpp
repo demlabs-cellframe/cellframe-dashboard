@@ -1,4 +1,9 @@
 #include "DapServiceController.h"
+#ifdef Q_OS_WIN
+#include "registry.h"
+#define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
+#define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
+#endif
 
 /// Standard constructor.
 /// @param parent Parent.
