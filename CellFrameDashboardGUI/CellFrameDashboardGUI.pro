@@ -17,7 +17,7 @@ VER_PAT = 1
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
+    DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
     DEFINES += HAVE_STRNDUP
 }
 else {
