@@ -67,7 +67,7 @@ DapAbstractScreen
                 verticalAlignment: Qt.AlignVCenter
                 text: ">"
                 color: "#070023"
-                font: themeConsole.inputCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             TextArea
@@ -78,7 +78,7 @@ DapAbstractScreen
                 placeholderText: qsTr("Type here...")
                 selectByMouse: true
                 focus: true
-                font: themeConsole.inputCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
                 Keys.onReturnPressed: text.length > 0 ?
                                           sendedCommand = text :
                                           sendedCommand = ""

@@ -31,9 +31,7 @@ DapAbstractTopPanel
         indentTextRight: 10 * pt
         borderColorButton: "#000000"
         borderWidthButton: 0
-        fontButton.family: "Roboto"
-        fontButton.pixelSize: 14 * pt
-        fontButton.weight: Font.Normal
+        fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
         horizontalAligmentText:Qt.AlignRight
         colorTextButton: "#FFFFFF"
     }

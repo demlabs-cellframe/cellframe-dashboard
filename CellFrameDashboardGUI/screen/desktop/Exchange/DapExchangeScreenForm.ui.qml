@@ -60,8 +60,7 @@ DapAbstractScreen
                 bottomIntervalListElement: 6 * pt
                 indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
                 indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                //it's font example, it needed in mainWindow fontLoader font
-                fontComboBox: [value_lastPrice.font]
+                fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
                 colorMainTextComboBox: [["#070023", "#070023"]]
                 colorTextComboBox: [["#070023", "#FFFFFF"]]
                 normalColor: "#FFFFFF"
@@ -141,8 +140,7 @@ DapAbstractScreen
                 bottomIntervalListElement: 6 * pt
                 indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
                 indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                //it's font example, it needed in mainWindow fontLoader font
-                fontComboBox: [value_lastPrice.font]
+                fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
                 colorMainTextComboBox: [["#070023", "#070023"]]
                 colorTextComboBox: [["#070023", "#FFFFFF"]]
                 normalColor: "#FFFFFF"
@@ -180,8 +178,8 @@ DapAbstractScreen
                 anchors.bottom: value_lastPrice.top
                 anchors.bottomMargin: 6 * pt
                 color: "#757184"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 10 * pt
-                font.family: "Roboto"
                 text: qsTr("Last price")
             }
             Text
@@ -190,8 +188,7 @@ DapAbstractScreen
                 anchors.left: lastPrice.left
                 anchors.bottom: lastPrice.bottom
                 color: "#070023"
-                font.pixelSize: 12 * pt
-                font.family: "Roboto"
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 text: qsTr("$ 10 807.35 NGD")
             }
             Text
@@ -200,8 +197,8 @@ DapAbstractScreen
                 anchors.bottom: lastPrice.bottom
                 anchors.leftMargin: 6 * pt
                 color: "#6F9F00"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 10 * pt
-                font.family: "Roboto"
                 text: qsTr("+3.59%")
             }
         }
@@ -220,8 +217,8 @@ DapAbstractScreen
                 anchors.bottom: value_valume24.top
                 anchors.bottomMargin: 6 * pt
                 color: "#757184"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 10 * pt
-                font.family: "Roboto"
                 text: qsTr("24h volume")
             }
             Text
@@ -230,8 +227,7 @@ DapAbstractScreen
                 anchors.right: volume24.right
                 anchors.bottom: volume24.bottom
                 color: "#070023"
-                font.pixelSize: 12 * pt
-                font.family: "Roboto"
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 text: qsTr("9 800 TKN1")
             }
         }

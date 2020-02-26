@@ -52,10 +52,7 @@ DapAbstractTopPanelForm
                 anchors.leftMargin: 10 * pt
                 anchors.right: parent.right
                 placeholderText: qsTr("Search")
-                font.pixelSize: 12 * pt
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 style:
                     TextFieldStyle
                     {
@@ -87,8 +84,7 @@ DapAbstractTopPanelForm
         anchors.left: frameTextFieldSearch.right
         anchors.leftMargin: 75 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -145,8 +141,7 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            //it's font example, it needed in mainWindow fontLoader font
-            fontComboBox: [textPeriod.font]
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
@@ -160,8 +155,7 @@ DapAbstractTopPanelForm
         anchors.left: frameComboBoxPeriod.right
         anchors.leftMargin: 75 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -209,8 +203,7 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            //it's font example, it needed in mainWindow fontLoader font
-            fontComboBox: [textPeriod.font]
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
@@ -224,8 +217,7 @@ DapAbstractTopPanelForm
         anchors.left: frameComboBoxWallet.right
         anchors.leftMargin: 75 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -282,8 +274,7 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            //it's font example, it needed in mainWindow fontLoader font
-            fontComboBox: [textPeriod.font]
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }

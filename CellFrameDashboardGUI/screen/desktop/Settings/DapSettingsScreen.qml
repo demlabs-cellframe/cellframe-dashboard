@@ -31,8 +31,7 @@ DapSettingsScreenForm
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text:"Network"
-                    font.family: "Roboto"
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     color: "#5F5F63"
                 }
             }
@@ -88,8 +87,7 @@ DapSettingsScreenForm
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text: "VPN"
-                    font.family: "Roboto"
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     color: "#5F5F63"
                 }
             }

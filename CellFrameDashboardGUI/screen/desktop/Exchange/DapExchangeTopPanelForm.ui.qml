@@ -15,8 +15,7 @@ DapAbstractTopPanelForm
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -64,8 +63,7 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            //it's font example, it needed in mainWindow fontLoader font
-            fontComboBox: [textHeaderWallet.font]
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
 
@@ -80,8 +78,7 @@ DapAbstractTopPanelForm
         anchors.left: frameComboBox.right
         anchors.leftMargin: 70 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -93,8 +90,7 @@ DapAbstractTopPanelForm
         anchors.left: headerWalletBalance.right
         anchors.leftMargin: 18 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
-        font.pixelSize: 16 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
         color: "#FFFFFF"
     }
 }

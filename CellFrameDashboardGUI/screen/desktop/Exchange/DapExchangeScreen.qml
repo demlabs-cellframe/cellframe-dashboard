@@ -468,8 +468,6 @@ DapExchangeScreenForm
             property string currencyName: qsTr("KLVN")
             ///@detalis balance Balance.
             property string balance: "0"
-            ///@detalis fontStyleOrder Font style.
-            property string fontStyleOrder: "Roboto"
             width: 312 * pt
             height: 292 * pt
 
@@ -502,9 +500,7 @@ DapExchangeScreenForm
                         Text
                         {
                             color: "#4F5357"
-                            font.pixelSize: 14 * pt
-                            font.family: fontStyleOrder
-                            font.bold: true
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoBold14
                             text: titleOrder
                         }
                     }
@@ -514,8 +510,7 @@ DapExchangeScreenForm
                 {
                     text: qsTr("Balance: ") + balance + " " + currencyName
                     color: "#ACACAF"
-                    font.family: "Roboto"
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 }
 
                 Rectangle
@@ -551,8 +546,7 @@ DapExchangeScreenForm
                                     {
                                         text: modelData
                                         color: "#ACACAF"
-                                        font.family: fontStyleOrder
-                                        font.pixelSize: 12 * pt
+                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                     }
                                 }
 
@@ -574,8 +568,7 @@ DapExchangeScreenForm
                                         anchors.leftMargin: 6 * pt
                                         anchors.rightMargin: 6 * pt
                                         color: readOnly ? "#ACACAF" : "#737880"
-                                        font.family: fontStyleOrder
-                                        font.pixelSize: 12 * pt
+                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                         verticalAlignment: Qt.AlignVCenter
                                         validator: RegExpValidator{ regExp: /\d+/ }
                                         clip: true
@@ -593,8 +586,7 @@ DapExchangeScreenForm
                                         verticalAlignment: Text.AlignVCenter
                                         horizontalAlignment: Text.AlignRight
                                         color: currencyTextInput.readOnly ? "#ACACAF" : "#737880"
-                                        font.family: fontStyleOrder
-                                        font.pixelSize: 12 * pt
+                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                         text: index === 0 ? currencyName : qsTr("USD")
                                     }
                                 }
@@ -617,14 +609,13 @@ DapExchangeScreenForm
                     textButton: titleOrder
                     widthButton: 130 * pt
                     heightButton: 30 * pt
-                    fontButton.pixelSize: 13 * pt
                     colorBackgroundNormal: "#3E3853"
                     colorBackgroundHover: "#3E3853"
                     horizontalAligmentText:Qt.AlignHCenter
                     borderColorButton: "#000000"
                     borderWidthButton: 0
-                    fontButton.family: "Roboto"
-                    fontButton.weight: Font.Normal
+                    fontButton.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
+                    fontButton.pixelSize: 13 * pt
                     colorTextButton: "#FFFFFF"
 
                 }

@@ -16,8 +16,7 @@ DapAbstractTopPanel
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -65,7 +64,7 @@ DapAbstractTopPanel
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [textHeaderWallet.font]
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
@@ -79,8 +78,7 @@ DapAbstractTopPanel
         anchors.left: frameComboBoxWallet.right
         anchors.leftMargin: 70 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -92,8 +90,7 @@ DapAbstractTopPanel
         anchors.left: headerWalletBalance.right
         anchors.leftMargin: 18 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 16 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
         color: "#FFFFFF"
     }
 
@@ -117,11 +114,9 @@ DapAbstractTopPanel
         colorButtonTextNormal: "#FFFFFF"
         colorButtonTextHover: "#FFFFFF"
         indentTextRight: 20 * pt
-        fontButton.pixelSize: 14 * pt
+        fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
         borderColorButton: "#000000"
         borderWidthButton: 0
-        fontButton.family: "Roboto"
-        fontButton.weight: Font.Normal
         horizontalAligmentText:Qt.AlignRight
         colorTextButton: "#FFFFFF"
 
