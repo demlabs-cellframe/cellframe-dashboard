@@ -23,10 +23,7 @@ DapHistoryScreenForm
                 anchors.leftMargin: 16 * pt
                 color: "#FFFFFF"
                 text: section
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
-                font.pixelSize: 12 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
             }
         }
     }
@@ -79,10 +76,7 @@ DapHistoryScreenForm
                         anchors.fill: parent
                         text: name
                         color: "#070023"
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
-                        font.pixelSize: 16 * pt
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         Layout.alignment: Qt.AlignLeft
                     }
                 }
@@ -114,10 +108,7 @@ DapHistoryScreenForm
                         anchors.fill: parent
                         text: status
                         color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
-                        font.pixelSize: 14 * pt
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                     }
                 }
 
@@ -144,10 +135,7 @@ DapHistoryScreenForm
                             property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                             text: sign + amount + " " + name
                             color: "#070023"
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
-                            font.pixelSize: 16 * pt
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                             Layout.alignment: Qt.AlignRight
                         }
 
@@ -159,10 +147,7 @@ DapHistoryScreenForm
                             property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                             text: sign + "$ " + 0.5 * amount + " USD"
                             color: "#C2CAD1"
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
-                            font.pixelSize: 12 * pt
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                             Layout.alignment: Qt.AlignRight
                         }
                     }
@@ -186,8 +171,7 @@ DapHistoryScreenForm
         id: lblAddressWallet
         padding: 3 * pt
         color: "#4F5357"
-        font.family: "Regular"
-        font.pixelSize: 14 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
         background:
             Rectangle
             {

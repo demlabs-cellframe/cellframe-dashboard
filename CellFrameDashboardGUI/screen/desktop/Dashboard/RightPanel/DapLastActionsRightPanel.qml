@@ -35,10 +35,7 @@ DapLastActionsRightPanelForm
                 horizontalAlignment: Qt.AlignLeft
                 color: "#FFFFFF"
                 text: getDateString(payDate)
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
-                font.pixelSize: 12 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
             }
         }
     }

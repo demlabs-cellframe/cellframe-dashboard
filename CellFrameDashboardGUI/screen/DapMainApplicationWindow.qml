@@ -15,6 +15,8 @@ DapMainApplicationWindowForm
     readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     ///@detalis Path to the console tab.
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
+    ///@details dapMainFonts Project font loader
+    readonly property QtObject dapMainFonts: DapFontRoboto {}
 
     property var dapWallets: []
 

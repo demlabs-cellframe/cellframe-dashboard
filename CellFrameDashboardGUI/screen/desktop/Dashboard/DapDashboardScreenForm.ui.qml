@@ -54,10 +54,8 @@ DapAbstractScreen
             Text
             {
                 id: titleTextWalletCreate
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 30 * pt
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
                 color: "#757184"
                 text: qsTr("Create our first wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -110,10 +108,8 @@ DapAbstractScreen
             Text
             {
                 id: titleText
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 20 * pt
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
                 text: "My first crypto wallet"
                 width: 185 * pt
             }

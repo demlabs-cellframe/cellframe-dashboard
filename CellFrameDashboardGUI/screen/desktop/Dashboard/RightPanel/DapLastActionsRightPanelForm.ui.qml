@@ -18,10 +18,7 @@ DapAbstractRightPanel
                 text: qsTr("Last actions")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
-                font.pixelSize: 12 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 color: "#3E3853"
             }
 
@@ -68,10 +65,7 @@ DapAbstractRightPanel
                                 Layout.fillWidth: true
                                 text: name
                                 color: "#3E3853"
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
-                                font.pixelSize: 14 * pt
+                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                                 elide: Text.ElideRight
                             }
 
@@ -80,10 +74,7 @@ DapAbstractRightPanel
                                 Layout.fillWidth: true
                                 text: status
                                 color: "#757184"
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
-                                font.pixelSize: 12 * pt
+                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                             }
                         }
 
@@ -96,10 +87,7 @@ DapAbstractRightPanel
                             verticalAlignment: Qt.AlignVCenter
                             color: "#3E3853"
                             text: sign + amount + " " + name
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
-                            font.pixelSize: 14 * pt
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         }
                     }
 

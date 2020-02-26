@@ -60,8 +60,7 @@ DapAbstractRightPanel
                 anchors.bottom: rectangleCenter.top
                 anchors.bottomMargin: 24 * pt
                 color: "#070023"
-                font.family: dapFontRobotoRegular.name
-                font.pointSize: 16 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
             }
 
             Rectangle

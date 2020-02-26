@@ -16,12 +16,6 @@ DapLogsScreenForm
     property int thirdMarginList: 40 * pt
     ///@detalis fifthMarginList Fifth indent between the second and third word and the following.
     property int fifthMarginList: 20 * pt
-    ///@detalis fontSizeList Font size delegate.
-    property int fontSizeList: 16 * pt
-    ///@detalis fontSizeHeader Font size header.
-    property int fontSizeHeader: 12 * pt
-    ///@detalis fontFamily Font family.
-    property string fontFamily: "Roboto"
     ///@detalis Font color.
     property string fontColor: "#070023"
 
@@ -75,8 +69,7 @@ DapLogsScreenForm
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: firstMarginList
                 color: "#FFFFFF"
-                font.pixelSize: fontSizeHeader
-                font.family: fontFamily
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 text: section
             }
         }
@@ -130,8 +123,7 @@ DapLogsScreenForm
                     {
                         id: typeLog
                         anchors.fill: parent
-                        font.pixelSize: fontSizeList
-                        font.family: fontFamily
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         color: fontColor
                         text: type
                     }
@@ -153,8 +145,7 @@ DapLogsScreenForm
                     {
                         id: textLog
                         anchors.fill: parent
-                        font.pixelSize: fontSizeList
-                        font.family: fontFamily
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         color: fontColor
                         text: info
                     }
@@ -175,8 +166,7 @@ DapLogsScreenForm
                     {
                         id: fileLog
                         anchors.fill: parent
-                        font.pixelSize: 14 * pt
-                        font.family: fontFamily
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         color: fontColor
                         text: file
                     }
@@ -196,8 +186,7 @@ DapLogsScreenForm
                     {
                         id: timeLog
                         anchors.fill: parent
-                        font.pixelSize: fontSizeList
-                        font.family: fontFamily
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         color: fontColor
                         text: time
                     }

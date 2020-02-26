@@ -65,7 +65,7 @@ DapAbstractRightPanel
                 anchors.top: rectangleTop.bottom
                 anchors.topMargin:  24 * pt
                 color: "#070023"
-                font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pointSize: 28 * pt
             }
 
@@ -87,7 +87,7 @@ DapAbstractRightPanel
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: rectangleCenter.bottom
                 color: "#757184"
-                font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pointSize: 22 * pt
             }
 
@@ -100,7 +100,7 @@ DapAbstractRightPanel
                 anchors.top: textStatus.bottom
                 anchors.topMargin: 8 * pt
                 color: "#070023"
-                font.family: DapMainApplicationWindow.dapFontRobotoRegular.name
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pointSize: 28 * pt
             }
 

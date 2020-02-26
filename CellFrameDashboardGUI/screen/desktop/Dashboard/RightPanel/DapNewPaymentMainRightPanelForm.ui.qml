@@ -44,7 +44,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font.pixelSize: 14 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                 color: "#3E3853"
             }
         }
@@ -71,11 +71,8 @@ DapAbstractRightPanel
                     id: textFrameSenderWallet
                     color: "#ffffff"
                     text: qsTr("From")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
@@ -139,8 +136,7 @@ DapAbstractRightPanel
                             colorDropShadow: "#40ABABAB"
                             roleInterval: 20
                             endRowPadding: 44
-                            //it's font example, it needed in mainWindow fontLoader font
-                            fontComboBox: [textFrameSenderWallet.font]
+                            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
                             colorMainTextComboBox: [["#070023", "#070023"], ["#070023", "#908D9D"]]
                             colorTextComboBox: [["#070023", "#FFFFFF"], ["#908D9D", "#FFFFFF"]]
                             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -169,10 +165,7 @@ DapAbstractRightPanel
                         anchors.leftMargin: 20 * pt
                         anchors.right: parent.right
                         anchors.rightMargin: 20 * pt
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         color: "#757184"
                     }
             }
@@ -191,13 +184,10 @@ DapAbstractRightPanel
                     id: textFrameamountPayment
                     color: "#ffffff"
                     text: qsTr("Amount")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -228,10 +218,7 @@ DapAbstractRightPanel
                         id: textInputAmountPayment
                         anchors.verticalCenter: parent.verticalCenter
                         placeholderText: qsTr("0")
-                        font.pixelSize: 16 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         horizontalAlignment: Text.AlignLeft
                         anchors.left: parent.left
                         anchors.right: textTokenReduction.left
@@ -255,10 +242,7 @@ DapAbstractRightPanel
                         id: textTokenReduction
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        font.pixelSize: 16 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         horizontalAlignment: Text.AlignRight
                         color: "#070023"
                         text: "KLVN"
@@ -292,10 +276,7 @@ DapAbstractRightPanel
                     {
                         id: textAmountConvertValue
                         anchors.verticalCenter: parent.verticalCenter
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         horizontalAlignment: Text.AlignLeft
                         anchors.left: parent.left
                         color: "#757184"
@@ -306,10 +287,7 @@ DapAbstractRightPanel
                         id: textAmountConvertCurrency
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         horizontalAlignment: Text.AlignRight
                         color: "#757184"
                         text: qsTr("USD")
@@ -331,13 +309,10 @@ DapAbstractRightPanel
                     id: textRecipientWallet
                     color: "#ffffff"
                     text: qsTr("To")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -358,10 +333,8 @@ DapAbstractRightPanel
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Recipient wallet")
+                    font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                     font.pixelSize: 17 * pt
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 12 * pt

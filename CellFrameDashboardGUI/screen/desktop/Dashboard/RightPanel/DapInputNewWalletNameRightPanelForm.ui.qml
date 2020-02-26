@@ -64,7 +64,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New wallet")
-                font.pixelSize: 14 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                 color: "#3E3853"
             }
         }
@@ -90,11 +90,8 @@ DapAbstractRightPanel
                     id: textNameWallet
                     color: "#ffffff"
                     text: qsTr("Name of wallet")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
@@ -116,10 +113,7 @@ DapAbstractRightPanel
                     id: textInputNameWallet
                     placeholderText: qsTr("Pocket of happiness")
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: 16 * pt
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
                     anchors.leftMargin: 20 * pt
@@ -152,13 +146,10 @@ DapAbstractRightPanel
                     id: textChooseSignatureType
                     color: "#ffffff"
                     text: qsTr("Choose signature type")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -207,8 +198,7 @@ DapAbstractRightPanel
                     indicatorLeftInterval: 20 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
-                    //it's font example, it needed in mainWindow fontLoader font
-                    fontComboBox: [textChooseSignatureType.font]
+                    fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
                     colorMainTextComboBox: [["#070023", "#070023"]]
                     colorTextComboBox: [["#070023", "#FFFFFF"]]
                 }
@@ -227,13 +217,10 @@ DapAbstractRightPanel
                     id: textRecoveryMethod
                     color: "#ffffff"
                     text: qsTr("Recovery method")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

@@ -23,26 +23,6 @@ DapConsoleScreenForm
         consoleInput.forceActiveFocus()
     }
 
-    QtObject
-    {
-        id: themeConsole
-        property font inputCommandFont:
-            Qt.font({
-                        pixelSize: 18 * pt,
-                        family: "Roboto",
-                        styleName: "Normal",
-                        weight: Font.Normal
-                    })
-
-        property font consoleCommandFont:
-            Qt.font({
-                        pixelSize: 18 * pt,
-                        family: "Roboto",
-                        styleName: "Normal",
-                        weight: Font.Normal
-                    })
-    }
-
     ListModel
     {
         id: modelConsoleCommand
@@ -58,7 +38,7 @@ DapConsoleScreenForm
             {
                 id: textQuery
                 text: "> " + query
-                font: themeConsole.consoleCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
             Text
             {
@@ -66,7 +46,7 @@ DapConsoleScreenForm
                 text: response
                 width: parent.width
                 wrapMode: Text.Wrap
-                font: themeConsole.consoleCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
         }
     }
