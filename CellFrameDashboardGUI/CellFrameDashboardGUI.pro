@@ -64,12 +64,7 @@ OTHER_FILES += libdap-qt-ui-qml
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/DapServiceClient.cpp \
-    $$PWD/DapServiceController.cpp \
-    $$PWD/DapServiceClientNativeAbstract.cpp \
-    $$PWD/DapServiceClientNativeLinux.cpp \
-    $$PWD/DapServiceClientNativeWin.cpp \
-    $$PWD/DapServiceClientNativeMacOS.cpp
+    $$PWD/DapServiceController.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -79,19 +74,13 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    $$PWD/DapServiceClient.h \
-    $$PWD/DapServiceController.h \
-    $$PWD/DapServiceClientNativeAbstract.h \
-    $$PWD/DapServiceClientNativeLinux.h \
-    $$PWD/DapServiceClientNativeWin.h
+    $$PWD/DapServiceController.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
 include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
-
-include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
-include (../DapRPCProtocol/DapRPCProtocol.pri)
+include (../libdap-qt-ui-chain-wallet/ libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}

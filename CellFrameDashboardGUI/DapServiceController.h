@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <QDataStream>
 
-#include "DapServiceClient.h"
+#include "ServiceClient/DapServiceClient.h"
 #include "DapWallet.h"
 #include "Handlers/DapAbstractCommand.h"
 #include "Handlers/DapQuitApplicationCommand.h"

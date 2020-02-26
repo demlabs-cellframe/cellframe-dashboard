@@ -1,4 +1,4 @@
-QT += core network gui
+QT += core network gui widgets
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -44,24 +44,16 @@ SOURCES += \
     $$PWD/DapToolTipWidget.cpp \
     $$PWD/main.cpp \
 
-
 HEADERS += \
     $$PWD/DapServiceController.h \
     $$PWD/DapToolTipWidget.h
 
-
-
-
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
+include (../libdap-qt-ui-chain-wallet/ libdap-qt-ui-chain-wallet.pri)
 
-include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
-include (../DapRPCProtocol/DapRPCProtocol.pri)
-
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/
-               $$_PRO_FILE_PWD_/../cellframe-node/
+INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service

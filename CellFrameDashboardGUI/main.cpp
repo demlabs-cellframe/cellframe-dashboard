@@ -9,7 +9,7 @@
 #include <QScreen>
 
 #include "DapHalper.h"
-#include "DapServiceClient.h"
+#include "ServiceClient/DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapLogMessage.h"
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
 
     /// Local client.
-    DapServiceClient dapServiceClient;
+    DapServiceClient dapServiceClient(DAP_SERVICE_NAME);
     // Creating a service controller
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);
