@@ -13,10 +13,10 @@ DapAbstractScreen
     anchors.rightMargin: 24 * pt
 
     // Paths to currency emblems
-    property string bitCoinImagePath: "qrc:/res/icons/tkn1_icon_light.png"
-    property string ethereumImagePath: "qrc:/res/icons/tkn2_icon.png"
-    property string newGoldImagePath: "qrc:/res/icons/ng_icon.png"
-    property string kelvinImagePath: "qrc:/res/icons/ic_klvn.png"
+    property string bitCoinImagePath: "qrc:/resources/icons/tkn1_icon_light.png"
+    property string ethereumImagePath: "qrc:/resources/icons/tkn2_icon.png"
+    property string newGoldImagePath: "qrc:/resources/icons/ng_icon.png"
+    property string kelvinImagePath: "qrc:/resources/icons/ic_klvn.png"
     ///@param dapButtonNewPayment Button to create a new payment.
     property alias dapButtonNewPayment: buttonNewPayment
     property alias dapListViewWallet: listViewWallet
@@ -41,7 +41,7 @@ DapAbstractScreen
             Image
             {
                 id: iconCreateWallet
-                source: "qrc:/res/icons/wallet.png"
+                source: "qrc:/resources/icons/wallet.png"
                 width: 218 * pt
                 height: 180 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -75,8 +75,8 @@ DapAbstractScreen
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
-                normalImageButton: "qrc:/res/icons/new-wallet_icon_dark.png"
-                hoverImageButton: "qrc:/res/icons/new-wallet_icon_dark_hover.png"
+                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
+                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
                 widthImageButton: 20 * pt
                 heightImageButton: 20 * pt
                 indentImageLeftButton: 20 * pt
@@ -127,7 +127,7 @@ DapAbstractScreen
                 {
                     id: walletNameEditButtonImage
                     anchors.fill: parent
-                    source: parent.containsMouse ? "qrc:/res/icons/ic_edit_hover.png" : "qrc:/res/icons/ic_edit.png"
+                    source: parent.containsMouse ? "qrc:/resources/icons/ic_edit_hover.png" : "qrc:/resources/icons/ic_edit.png"
                     sourceSize.width: width
                     sourceSize.height: height
 
@@ -150,8 +150,8 @@ DapAbstractScreen
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
-                normalImageButton: "qrc:/res/icons/new-payment_icon.png"
-                hoverImageButton: "qrc:/res/icons/new-payment_icon.png"
+                normalImageButton: "qrc:/resources/icons/new-payment_icon.png"
+                hoverImageButton: "qrc:/resources/icons/new-payment_icon.png"
                 widthImageButton: 20 * pt
                 heightImageButton: 20 * pt
                 indentImageLeftButton: 20 * pt

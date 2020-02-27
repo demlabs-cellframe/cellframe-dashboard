@@ -25,7 +25,7 @@ DapAbstractTopPanelForm
         {
             id: iconSearch
             anchors.fill: parent
-            source: "qrc:/res/icons/ic_search.png"
+            source: "qrc:/resources/icons/ic_search.png"
         }
     }
 
@@ -114,8 +114,8 @@ DapAbstractTopPanelForm
             model: periodModel
             comboBoxTextRole: ["name"]
             mainLineText: "all time"
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -176,8 +176,8 @@ DapAbstractTopPanelForm
             model: dapModelWallets
             comboBoxTextRole: ["name"]
             mainLineText: "all wallets"
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -247,8 +247,8 @@ DapAbstractTopPanelForm
             model: statusModel
             comboBoxTextRole: ["name"]
             mainLineText: "all statuses"
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"

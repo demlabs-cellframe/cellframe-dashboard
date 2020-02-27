@@ -35,10 +35,10 @@ DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = res/icons/dashboard.icns
+    ICON = resources/icons/dashboard.icns
 }
 else {
-    ICON = qrc:/res/icons/icon.ico
+    ICON = qrc:/resources/icons/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -57,10 +57,10 @@ CONFIG(debug, debug|release) {
     DESTDIR = bin/release
 }
 
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/
+INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
-OTHER_FILES += libdap-qt-ui-qml
+OTHER_FILES += libdap-qt-ui-qml \
+               libdap-qt-ui-chain-wallet
 
 SOURCES += \
     $$PWD/main.cpp \
@@ -80,7 +80,7 @@ include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
 include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
-include (../libdap-qt-ui-chain-wallet/ libdap-qt-ui-chain-wallet.pri)
+include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}

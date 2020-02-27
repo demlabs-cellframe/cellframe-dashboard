@@ -46,8 +46,8 @@ DapAbstractScreen
                 heightComboBoxNormal: 24 * pt
                 heightComboBoxActive: 44 * pt
                 bottomIntervalListElement: 6 * pt
-                indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
-                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
+                indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
+                indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
                 fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
                 colorMainTextComboBox: [["#070023", "#070023"]]
                 colorTextComboBox: [["#070023", "#FFFFFF"]]
@@ -92,8 +92,8 @@ DapAbstractScreen
                 heightComboBoxNormal: 24 * pt
                 heightComboBoxActive: 44 * pt
                 bottomIntervalListElement: 6 * pt
-                indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
-                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
+                indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
+                indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
                 fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
                 colorMainTextComboBox: [["#070023", "#070023"]]
                 colorTextComboBox: [["#070023", "#FFFFFF"]]
@@ -272,7 +272,7 @@ DapAbstractScreen
                     anchors.left: parent.left
                     width: 22 * pt
                     height: 22 * pt
-                    source: "qrc:/res/icons/trade-history_icon.png"
+                    source: "qrc:/resources/icons/trade-history_icon.png"
                     anchors.verticalCenter: parent.verticalCenter
 
                 }
@@ -307,7 +307,7 @@ DapAbstractScreen
                             id: tradeHistoryButtonIcon
                             width: 22 * pt
                             height: 22 * pt
-                            source: "qrc:/res/icons/ic_chevron_down.png"
+                            source: "qrc:/resources/icons/ic_chevron_down.png"
                         }
                     }
                 }

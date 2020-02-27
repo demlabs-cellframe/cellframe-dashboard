@@ -98,10 +98,10 @@ DapAbstractScreen
     DapScrollView
     {
         id: consoleScroll
-        scrollDownButtonImageSource: "qrc:/res/icons/ic_scroll-down.png"
-        scrollDownButtonHoveredImageSource: "qrc:/res/icons/ic_scroll-down_hover.png"
-        scrollUpButtonImageSource: "qrc:/res/icons/ic_scroll-up.png"
-        scrollUpButtonHoveredImageSource: "qrc:/res/icons/ic_scroll-up_hover.png"
+        scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
+        scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
+        scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
+        scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
         viewData: listViewConsoleCommand
         //Assign DapScrollView with DapScrollViewHandling which must have no parent-child relationship
         onClicked: scrollHandler.scrollDirectionUp = !scrollHandler.scrollDirectionUp

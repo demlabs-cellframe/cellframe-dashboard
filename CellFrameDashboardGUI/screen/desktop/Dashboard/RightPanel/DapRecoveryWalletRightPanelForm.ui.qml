@@ -5,8 +5,8 @@ import "../../../"
 
 DapAbstractRightPanel
 {
-    dapButtonClose.normalImageButton: "qrc:/res/icons/back_icon.png"
-    dapButtonClose.hoverImageButton: "qrc:/res/icons/back_icon_hover.png"
+    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
+    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
     
     dapHeaderData:
         Rectangle

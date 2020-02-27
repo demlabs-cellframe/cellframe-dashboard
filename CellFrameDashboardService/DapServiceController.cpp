@@ -87,7 +87,7 @@ void DapServiceController::initSystemTrayIcon()
     m_pToolTipWidget = new DapToolTipWidget();
     m_pSystemTrayIcon = new DapSystemTrayIcon(this);
     m_pSystemTrayIcon->setToolTipWidget(m_pToolTipWidget);
-    m_pSystemTrayIcon->setIcon(QIcon(":/res/icons/icon.ico"));
+    m_pSystemTrayIcon->setIcon(QIcon(":/resources/icons/icon.ico"));
     menuSystemTrayIcon = new QMenu();
     QAction * quitAction = new QAction("Quit", this);
     menuSystemTrayIcon->addAction(quitAction);

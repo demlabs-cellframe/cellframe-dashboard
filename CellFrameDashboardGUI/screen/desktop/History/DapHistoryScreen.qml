@@ -56,7 +56,7 @@ DapHistoryScreenForm
                     {
                         id: iconToken
                         anchors.fill: parent
-                        source: "qrc:/res/icons/ic_cellframe.png"
+                        source: "qrc:/resources/icons/ic_cellframe.png"
                     }
                 }
 

@@ -93,8 +93,8 @@ DapExchangeScreenForm
     ListModel
     {
         id: orderModel
-        ListElement{titleOrder:"Buy"; path:"qrc:/res/icons/buy_icon.png"}
-        ListElement{titleOrder:"Sell"; path:"qrc:/res/icons/sell_icon.png"}
+        ListElement{titleOrder:"Buy"; path:"qrc:/resources/icons/buy_icon.png"}
+        ListElement{titleOrder:"Sell"; path:"qrc:/resources/icons/sell_icon.png"}
     }
 
 /************************************************************************************************
@@ -163,7 +163,7 @@ DapExchangeScreenForm
             ///@detalis candleWidth Width body candle.
             property int candleWidth: 5 * pt
             ///@detalis imageCursorPath Path icon flug current.
-            property string imageCursorPath: "qrc:/res/icons/ic_flag.png"
+            property string imageCursorPath: "qrc:/resources/icons/ic_flag.png"
             ///@detalis imageCursorWidth Width icon.
             property int imageCursorWidth: 44 * pt
             ///@detalis imageCursorHeight Height icon.
@@ -800,12 +800,12 @@ DapExchangeScreenForm
             if(dapListHistoryVisible)
             {
                 dapListHistoryVisible = false
-                dapIconHistoryButton = "qrc:/res/icons/ic_chevron_down.png"
+                dapIconHistoryButton = "qrc:/resources/icons/ic_chevron_down.png"
             }
             else
             {
                 dapListHistoryVisible = true
-                dapIconHistoryButton = "qrc:/res/icons/ic_chevron_up.png"
+                dapIconHistoryButton = "qrc:/resources/icons/ic_chevron_up.png"
             }
         }
     }

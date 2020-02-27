@@ -82,7 +82,7 @@ DapDashboardScreenForm
                     {
                         id: networkAddressCopyButtonImage
                         anchors.fill: parent
-                        source: parent.containsMouse ? "qrc:/res/icons/ic_copy_hover.png" : "qrc:/res/icons/ic_copy.png"
+                        source: parent.containsMouse ? "qrc:/resources/icons/ic_copy_hover.png" : "qrc:/resources/icons/ic_copy.png"
                         sourceSize.width: parent.width
                         sourceSize.height: parent.height
 
@@ -126,7 +126,7 @@ DapDashboardScreenForm
                             anchors.left: parent.left
                             height: 30 * pt
                             width: 30 * pt
-                            source: "qrc:/res/icons/ic_cellframe.png"
+                            source: "qrc:/resources/icons/ic_cellframe.png"
                             sourceSize.width: width
                             sourceSize.height: height
                             anchors.verticalCenter: parent.verticalCenter
