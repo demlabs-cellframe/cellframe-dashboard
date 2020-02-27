@@ -5,6 +5,13 @@ import "../../"
 
 DapAbstractScreen
 {
+    //@detalis listHistoryVisible To change the visibility of a story list.
+    property alias dapListHistoryVisible: listHistory.visible
+    //@detalis dapHistoryButton Extends the scope of the button for signal processing.
+    property Button dapHistoryButton: buttonHistry
+    //@detalis dapIconHistoryButton Link to the resource of the picture in the history button.
+    property alias dapIconHistoryButton: tradeHistoryButtonIcon.source
+
     ///Top panel in tab Exchange
     Rectangle
     {
@@ -28,27 +35,8 @@ DapAbstractScreen
 
             DapComboBox
             {
-                model:
-                    ListModel
-                    {
-                        id: conversionList
-                        ListElement
-                        {
-                            text: "TKN1/NGD"
-                        }
-                        ListElement
-                        {
-                            text: "TKN2/NGD"
-                        }
-                        ListElement
-                        {
-                            text: "NGD/KLVN"
-                        }
-                        ListElement
-                        {
-                            text: "KLVN/USD"
-                        }
-                    }
+                model: conversionList
+
                 comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 144 * pt
                 widthPopupComboBoxNormal: 112 * pt
@@ -94,41 +82,7 @@ DapAbstractScreen
             height: parent.height
             DapComboBox
             {
-                model:
-                    ListModel
-                    {
-                        ListElement
-                        {
-                            text: "1 minute"
-                        }
-                        ListElement
-                        {
-                            text: "5 minute"
-                        }
-                        ListElement
-                        {
-                            text: "15 minute"
-                        }
-                        ListElement
-                        {
-                            text: "30 minute"
-                        }
-                        ListElement {
-                            text: "1 hour"
-                        }
-                        ListElement
-                        {
-                            text: "4 hour"
-                        }
-                        ListElement
-                        {
-                            text: "12 hour"
-                        }
-                        ListElement
-                        {
-                            text: "24 hour"
-                        }
-                    }
+                model:timeModel
                 comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt
@@ -257,14 +211,8 @@ DapAbstractScreen
         width: parent.width
         color: "#E3E2E6"
     }
-    ///Model with a list of orders
-    ListModel
-    {
-        id: orderModel
-        ListElement{titleOrder:"Buy"; path:"qrc:/res/icons/buy_icon.png"}
-        ListElement{titleOrder:"Sell"; path:"qrc:/res/icons/sell_icon.png"}
-    }
-    ///Left down panel
+
+    ///Orders panel
     Rectangle
     {
         id:exchangeBottomPanel
@@ -274,6 +222,7 @@ DapAbstractScreen
         anchors.bottom: parent.bottom
         anchors.leftMargin: 24 * pt
         anchors.rightMargin: 24 * pt
+
         ///List of orders
         ListView
         {
@@ -296,7 +245,8 @@ DapAbstractScreen
             width: 1 * pt
             color: "#E3E2E6"
         }
-        ///frame for the history widget
+
+        ///Frame for the history widget
         Rectangle
         {
             width:430 * pt
@@ -304,6 +254,122 @@ DapAbstractScreen
             anchors.bottom: parent.bottom
             anchors.left: verticalLine.right
             anchors.right: parent.right
+            anchors.leftMargin: 20 * pt
+
+            //Top bar transaction history.
+            Rectangle
+            {
+                id: topHistoryFrame
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.topMargin: 16 * pt
+                height: 22 * pt
+
+                Image
+                {
+                    id: tradeHistoryIcon
+                    anchors.left: parent.left
+                    width: 22 * pt
+                    height: 22 * pt
+                    source: "qrc:/res/icons/trade-history_icon.png"
+                    anchors.verticalCenter: parent.verticalCenter
+
+                }
+
+                Text
+                {
+                    id: tradeHistoryText
+                    text: qsTr("Trade History")
+                    anchors.left:  tradeHistoryIcon.right
+                    anchors.leftMargin: 8 * pt
+                    width: 336 * pt
+                    color: "#070023"
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+
+                Button
+                {
+                    id: buttonHistry
+                    anchors.right: parent.right
+                    width: 22 * pt
+                    height: 22 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Rectangle
+                    {
+                        anchors.fill: parent
+                        color: "#FFFFFF"
+                        Image
+                        {
+                            id: tradeHistoryButtonIcon
+                            width: 22 * pt
+                            height: 22 * pt
+                            source: "qrc:/res/icons/ic_chevron_down.png"
+                        }
+                    }
+                }
+
+            }
+            //Transaction History List.
+            ListView
+            {
+                id: listHistory
+                anchors.top: topHistoryFrame.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 16 * pt
+                visible: false
+                model: modelExchangeHistory
+                delegate: delegateExchangeHistory
+                clip: true
+                header:
+                    Rectangle
+                    {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        height: 19 * pt
+
+                        Text
+                        {
+                            id: timeExchangeHeader
+                            text: qsTr("Time")
+                            color: "#757184"
+                            font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            width: 149 * pt
+                        }
+
+                        Text
+                        {
+                            id: priceExchangeHeader
+                            text: qsTr("Price,NGD")
+                            color: "#757184"
+                            font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                            anchors.top: parent.top
+                            anchors.left: timeExchangeHeader.right
+                            anchors.leftMargin: 20 * pt
+                            width: 104 * pt
+                        }
+
+                        Text
+                        {
+                            id: tokenExchangeHeader
+                            text: qsTr("TKN1")
+                            color: "#757184"
+                            font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                            anchors.top: parent.top
+                            anchors.left: priceExchangeHeader.right
+                            anchors.leftMargin: 20 * pt
+                            width: 117 * pt
+                        }
+                    }
+            }
+
         }
     }
 }
