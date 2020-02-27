@@ -199,5 +199,21 @@ Item
                                                                         family: dapFonts.dapProjectFonts[4].name,
                                                                         italic: true
                                                                     })
+
+        ///@details dapFontRobotoRegular11 Font of Roboto font family (regular, 11pt)
+        property font dapFontRobotoRegular11:               Qt.font({
+                                                                        family: dapFonts.dapProjectFonts[3].name,
+                                                                        bold: false,
+                                                                        italic: false,
+                                                                        pixelSize: 11
+                                                                    })
+
+        ///@details dapFontRobotoRegular10 Font of Roboto font family (regular, 10pt)
+        property font dapFontRobotoRegular10:               Qt.font({
+                                                                        family: dapFonts.dapProjectFonts[3].name,
+                                                                        bold: false,
+                                                                        italic: false,
+                                                                        pixelSize: 10
+                                                                    })
     }
 }

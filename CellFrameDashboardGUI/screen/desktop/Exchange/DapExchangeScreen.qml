@@ -2,10 +2,16 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import "qrc:/widgets"
+import "../../"
 
 
 DapExchangeScreenForm
 {
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                       CandleStick model
+************************************************************************************************/
     ListModel{
         id:candleModel
         ListElement{time:1546543400;minimum:10000;maximum:10550;open:10050;close:10100;}
@@ -48,15 +54,80 @@ DapExchangeScreenForm
         ListElement{time:1546554500;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546554800;minimum:10200;maximum:10450;open:10350;close:10400;}
     }
- //=====================================DapChartCandleStick=========================================================
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                      Converson model
+************************************************************************************************/
+
+    ListModel
+    {
+        id: conversionList
+        ListElement{text: "TKN1/NGD"}
+        ListElement{text: "TKN2/NGD"}
+        ListElement{text: "NGD/KLVN"}
+        ListElement{text: "KLVN/USD"}
+    }
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                           Time model
+************************************************************************************************/
+    ListModel
+    {
+        id: timeModel
+        ListElement{text: "1 minute"}
+        ListElement{text: "5 minute"}
+        ListElement{text: "15 minute"}
+        ListElement{text: "30 minute"}
+        ListElement{text: "1 hour"}
+        ListElement{text: "4 hour"}
+        ListElement{text: "12 hour"}
+        ListElement{text: "24 hour"}
+    }
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                        Orders model
+************************************************************************************************/
+    ListModel
+    {
+        id: orderModel
+        ListElement{titleOrder:"Buy"; path:"qrc:/res/icons/buy_icon.png"}
+        ListElement{titleOrder:"Sell"; path:"qrc:/res/icons/sell_icon.png"}
+    }
+
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                        History model
+************************************************************************************************/
+
+    ListModel
+    {
+        id: modelExchangeHistory
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.05013112}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:10550;token:1.00502423}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:100.502222}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:10550;token:1.00503453}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:10.23423;token:1005.0}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.050345}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.05021312}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:150.12;token:1.005034543}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:100.5012321}
+
+    }
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                    DapChartCandleStick
+************************************************************************************************/
     Component
     {
         id:candleChart
 
-
         Canvas
         {
-
             id: chartCanvas
 
             //@detalis rightTime Indicates the completion time of the graph on the display.
@@ -453,13 +524,16 @@ DapExchangeScreenForm
 
         }
     }
-///===============================DapChartCandleStick================================================================
 
-///===============================DapUiQmlWidgetChainExchanges=======================================================
-
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                        OrderPanel
+************************************************************************************************/
     Component
     {
         id: delegateOrderPanel
+
         ///Order panel
         Item
         {
@@ -625,9 +699,116 @@ DapExchangeScreenForm
 
     }
 
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                      ExchangeHistory
+************************************************************************************************/
 
 
-///===============================DapUiQmlWidgetChainExchanges=======================================================
+    //Transaction list delegate.
+    Component
+    {
+        id: delegateExchangeHistory
+        ItemDelegate
+        {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 27 * pt
+
+            Text
+            {
+                id: timeExchangeHistory
+                text: time
+                color: "#4F5357"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 87 * pt
+            }
+
+            Text
+            {
+                id: statusExchangeHistory
+                text: status
+                color:
+                {
+                    if(status === "Buy")
+                        return "#4B8BEB"
+                    else
+                        return "#6F9F00"
+                }
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                anchors.left: timeExchangeHistory.right
+                anchors.leftMargin: 20 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 42 * pt
+            }
+
+            Text
+            {
+                id: priceExchangeHistory
+                text: price
+                color: "#4F5357"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                anchors.left: statusExchangeHistory.right
+                anchors.leftMargin: 20 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 104 * pt
+            }
+
+            Text
+            {
+                id: tokenExchangeHistory
+                text: token
+                color: "#4F5357"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                anchors.left: priceExchangeHistory.right
+                anchors.leftMargin: 20 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 117 * pt
+            }
+
+            Rectangle
+            {
+                id:lineBottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 1 * pt
+                visible:
+                {
+                    if(index < modelExchangeHistory.count - 1)
+                        return true;
+                    else
+                        return false;
+                }
+                color: "#E3E2E6"
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapHistoryButton
+        onClicked:
+        {
+            if(dapListHistoryVisible)
+            {
+                dapListHistoryVisible = false
+                dapIconHistoryButton = "qrc:/res/icons/ic_chevron_down.png"
+            }
+            else
+            {
+                dapListHistoryVisible = true
+                dapIconHistoryButton = "qrc:/res/icons/ic_chevron_up.png"
+            }
+        }
+    }
 }
 /*##^##
 Designer {

@@ -144,6 +144,9 @@
         <file>res/icons/ic_cellframe.png</file>
         <file>res/icons/ic_search.png</file>
         <file>res/icons/wallet.png</file>
+        <file>res/icons/trade-history_icon.png</file>
+        <file>res/icons/ic_chevron_down.png</file>
+        <file>res/icons/ic_chevron_up.png</file>
         <file>res/fonts/roboto_black.ttf</file>
         <file>res/fonts/roboto_thin.ttf</file>
         <file>screen/DapFontRoboto.qml</file>
