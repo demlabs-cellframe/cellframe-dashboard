@@ -13,8 +13,8 @@ DapAbstractRightPanel
     dapButtonClose.width: 16 * pt
     dapButtonClose.heightImageButton: 16 * pt
     dapButtonClose.widthImageButton: 16 * pt
-    dapButtonClose.normalImageButton: "qrc:/res/icons/close_icon.png"
-    dapButtonClose.hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+    dapButtonClose.normalImageButton: "qrc:/resources/icons/close_icon.png"
+    dapButtonClose.hoverImageButton: "qrc:/resources/icons/close_icon_hover.png"
 
     dapHeaderData:
         Row

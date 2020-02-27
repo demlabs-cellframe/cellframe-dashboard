@@ -109,10 +109,10 @@ DapAbstractRightPanel
                 id: scrollButtons
                 viewData: lastActionsView
 
-                scrollDownButtonImageSource: "qrc:/res/icons/ic_scroll-down.png"
-                scrollDownButtonHoveredImageSource: "qrc:/res/icons/ic_scroll-down_hover.png"
-                scrollUpButtonImageSource: "qrc:/res/icons/ic_scroll-up.png"
-                scrollUpButtonHoveredImageSource: "qrc:/res/icons/ic_scroll-up_hover.png"
+                scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
+                scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
+                scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
+                scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
             }
         }
 }

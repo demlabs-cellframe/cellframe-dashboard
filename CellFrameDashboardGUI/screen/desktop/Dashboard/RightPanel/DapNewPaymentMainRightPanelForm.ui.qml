@@ -107,8 +107,8 @@ DapAbstractRightPanel
                             anchors.centerIn: parent
                             comboBoxTextRole: ["name", "name"]
                             mainLineText: "all tokens"
-                            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
-                            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+                            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
+                            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt
                             sidePaddingActive: 20 * pt
                             normalColorText: "#070023"

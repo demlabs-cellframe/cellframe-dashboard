@@ -9,7 +9,7 @@
 #include <QScreen>
 
 #include "DapHalper.h"
-#include "ServiceClient/DapServiceClient.h"
+#include "serviceClient/DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapLogMessage.h"
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("DEMLABS");
     app.setOrganizationDomain("demlabs.net");
     app.setApplicationName("CellFrame Dashboard");
-    app.setWindowIcon(QIcon(":/res/icons/icon.ico"));
+    app.setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
     DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project

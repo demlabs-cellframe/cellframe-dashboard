@@ -51,9 +51,10 @@ HEADERS += \
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
-include (../libdap-qt-ui-chain-wallet/ libdap-qt-ui-chain-wallet.pri)
+include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
+               $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service

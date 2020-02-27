@@ -37,8 +37,8 @@ DapAbstractTopPanel
             model: dapModelWallets
             comboBoxTextRole: ["name"]
             mainLineText: "all wallets"
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -102,8 +102,8 @@ DapAbstractTopPanel
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        normalImageButton: "qrc:/res/icons/new-wallet_icon_dark.png"
-        hoverImageButton: "qrc:/res/icons/new-wallet_icon_dark_hover.png"
+        normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
+        hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
         heightButton: 24 * pt
         widthButton: 120 * pt
         widthImageButton: 28 * pt

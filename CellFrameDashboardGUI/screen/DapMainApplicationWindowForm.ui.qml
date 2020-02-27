@@ -31,7 +31,7 @@ DapMainWindow
                 height: 24 * pt
                 anchors.left: parent.left
                 anchors.leftMargin: 24 * pt
-                source: "qrc:/res/icons/cellframe-logo-dashboard.png"
+                source: "qrc:/resources/icons/cellframe-logo-dashboard.png"
             }
         }
 

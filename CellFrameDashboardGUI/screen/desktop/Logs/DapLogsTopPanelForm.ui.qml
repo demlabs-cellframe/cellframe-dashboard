@@ -17,8 +17,8 @@ DapAbstractTopPanel
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        normalImageButton: "qrc:/res/icons/icon_export.png"
-        hoverImageButton: "qrc:/res/icons/icon_export.png"
+        normalImageButton: "qrc:/resources/icons/icon_export.png"
+        hoverImageButton: "qrc:/resources/icons/icon_export.png"
         height: 36 * pt
         width: 120 * pt
         widthImageButton: 28 * pt
