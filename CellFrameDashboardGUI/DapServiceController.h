@@ -16,7 +16,7 @@
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
-#include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
@@ -133,7 +133,7 @@ signals:
 
     void walletCreated(const QVariant& wallet);
 
-    void walletsListReceived(const QVariant& walletList);
+    void walletsInfoReceived(const QVariant& walletList);
 
     void walletsReceived(const QList<QObject*>& walletList);
 
