@@ -95,7 +95,7 @@ DapMainApplicationWindowForm
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetListNetworksCommand");
-        dapServiceController.requestToService("DapGetListWalletsCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
     Connections
