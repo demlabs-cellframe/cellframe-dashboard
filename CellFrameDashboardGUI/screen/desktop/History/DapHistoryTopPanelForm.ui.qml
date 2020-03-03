@@ -114,6 +114,8 @@ DapAbstractTopPanelForm
             model: periodModel
             comboBoxTextRole: ["name"]
             mainLineText: "all time"
+            currentIndex: -1
+            isDefaultNeedToAppend: true
             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -176,6 +178,8 @@ DapAbstractTopPanelForm
             model: dapModelWallets
             comboBoxTextRole: ["name"]
             mainLineText: "all wallets"
+            currentIndex: -1
+            isDefaultNeedToAppend: true
             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -247,6 +251,8 @@ DapAbstractTopPanelForm
             model: statusModel
             comboBoxTextRole: ["name"]
             mainLineText: "all statuses"
+            currentIndex: -1
+            isDefaultNeedToAppend: true
             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
