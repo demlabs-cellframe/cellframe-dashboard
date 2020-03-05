@@ -1,4 +1,4 @@
-import QtQuick 2.4
+﻿import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import "qrc:/widgets"
@@ -85,7 +85,7 @@ DapExchangeScreenForm
         ListElement{text: "12 hour"}
         ListElement{text: "24 hour"}
     }
-/************************************************************************************************
+    /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
 -------------------------------------------------------------------------------------------------
                                         Orders model
@@ -93,11 +93,11 @@ DapExchangeScreenForm
     ListModel
     {
         id: orderModel
-        ListElement{titleOrder:"Buy"; path:"qrc:/resources/icons/buy_icon.png"}
-        ListElement{titleOrder:"Sell"; path:"qrc:/resources/icons/sell_icon.png"}
+        ListElement{titleOrder:"Buy"; path:"qrc:/resources/icons/buy_icon.png";currencyName: qsTr("KLVN");tokenName: qsTr("TKN1");balance: 0}
+        ListElement{titleOrder:"Sell"; path:"qrc:/resources/icons/sell_icon.png";currencyName: qsTr("KLVN");tokenName: qsTr("TKN1");balance: 0}
     }
 
-/************************************************************************************************
+    /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
 -------------------------------------------------------------------------------------------------
                                         History model
@@ -535,20 +535,17 @@ DapExchangeScreenForm
         id: delegateOrderPanel
 
         ///Order panel
-        Item
+        Rectangle
         {
+            property int fromStringReadOnly: btnMarket.checked ? 0 : 1
 
-            ///@detalis currencyName
-            property string currencyName: qsTr("KLVN")
-            ///@detalis balance Balance.
-            property string balance: "0"
             width: 312 * pt
-            height: 292 * pt
-
+            height: childrenRect.height
             ColumnLayout
             {
                 anchors.top: parent.top
                 anchors.topMargin: 16 * pt
+                spacing: 0 * pt
 
                 ///The header of the panel
                 Item
@@ -556,82 +553,168 @@ DapExchangeScreenForm
                     width: childrenRect.width
                     height: childrenRect.height
 
+                    //Title line
                     RowLayout
                     {
                         spacing: 8 * pt
                         Rectangle
                         {
-                            width: 32
-                            height: 32
+                            width: 20 * pt
+                            height: 20 * pt
 
+                            //Title order image
                             Image
                             {
                                 source: path
                                 anchors.fill: parent
                             }
                         }
-
+                        //Title order text
                         Text
                         {
-                            color: "#4F5357"
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoBold14
+                            color: "#070023"
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                             text: titleOrder
                         }
                     }
                 }
 
+                Rectangle
+                {
+                    width: parent.width
+                    height: 10 * pt
+                }
+
+                //Balance in the order panel
                 Text
                 {
                     text: qsTr("Balance: ") + balance + " " + currencyName
-                    color: "#ACACAF"
+                    color: "#59556C"
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 }
 
                 Rectangle
                 {
                     width: parent.width
-                    height: 6 * pt
-
+                    height: 20 * pt
                 }
 
-
-                Item
+                Rectangle
                 {
                     width: childrenRect.width
                     height: childrenRect.height
+
+                    //List of order lines
+                    ListModel
+                    {
+                        id: modelInputFrame
+                        ListElement{titleToken:"Ammount";token:""}
+                        ListElement{titleToken:"Price";token:"10 800.47"}
+                        ListElement{titleToken:"Total";token:"0"}
+                    }
 
                     ///Input fields via repeater
                     ColumnLayout
                     {
                         spacing: 16 * pt
+                        Item
+                        {
+                            id: frameButton
+                            width: childrenRect.width
+                            height: childrenRect.height
 
+                            //Frame Buttons-checkers(Market/Limit)
+                            RowLayout
+                            {
+                                spacing: 16 * pt
+
+                                DapButton
+                                {
+                                    id: btnMarket
+                                    anchors.left: parent.left
+                                    textButton: "Market"
+                                    implicitWidth: 58 * pt
+                                    implicitHeight: 24 * pt
+                                    checkable: true
+                                    checked: true
+                                    colorBackgroundNormal: checked ? "#F8F7FA" : "#FFFFFF"
+                                    colorBackgroundHover: checked ? "#F8F7FA" : "#FFFFFF"
+                                    horizontalAligmentText:Qt.AlignHCenter
+                                    borderColorButton: checked ? "#070023" : "#908D9D"
+                                    borderWidthButton: 1 * pt
+                                    fontButton:dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                                    colorTextButton: checked ? "#070023" : "#908D9D"
+
+                                    onClicked:
+                                    {
+                                        btnMarket.checked = true;
+                                        btnLimit.checked = false;
+                                    }
+
+                                }
+
+                                DapButton
+                                {
+                                    id: btnLimit
+                                    anchors.right: parent.right
+                                    textButton: "Limit"
+                                    implicitWidth: 50 * pt
+                                    implicitHeight: 24 * pt
+                                    checked: false
+                                    checkable: true
+                                    colorBackgroundNormal: checked ? "#F8F7FA" : "#FFFFFF"
+                                    colorBackgroundHover: checked ? "#F8F7FA" : "#FFFFFF"
+                                    horizontalAligmentText:Qt.AlignHCenter
+                                    borderColorButton: checked ? "#070023" : "#908D9D"
+                                    borderWidthButton: 1 * pt
+                                    fontButton:dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                                    colorTextButton: checked ? "#070023" : "#908D9D"
+
+                                    onClicked:
+                                    {
+                                        btnMarket.checked = false;
+                                        btnLimit.checked = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        //Order Fields
                         Repeater
                         {
-                            model: [qsTr("Ammount"), qsTr("Price"), qsTr("Total"), qsTr("Fee (0.2%)"), qsTr("Total+Fee")]
+                            model: modelInputFrame
                             RowLayout
                             {
                                 spacing: 0
                                 Rectangle
                                 {
                                     height: childrenRect.height
-                                    width: 120 * pt
+                                    width: 118 * pt
 
+                                    //String name. Text from model
                                     Text
                                     {
-                                        text: modelData
-                                        color: "#ACACAF"
+                                        text: titleToken
+                                        color: "#59556C"
                                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                     }
                                 }
 
-
+                                //String field
                                 Rectangle
                                 {
                                     width: 130 * pt
                                     height: 22 * pt
                                     border.width: 1 * pt
-                                    border.color: "#B0B1B5"
+                                    border.color:
+                                    {
+                                        if(!currencyTextInput.readOnly)
+                                            return "#908D9D"
+                                        else
+                                            return "#C7C6CE"
+                                    }
 
+                                    //Input field
                                     TextInput
                                     {
                                         id: currencyTextInput
@@ -641,15 +724,17 @@ DapExchangeScreenForm
                                         anchors.right: textCurrency.left
                                         anchors.leftMargin: 6 * pt
                                         anchors.rightMargin: 6 * pt
-                                        color: readOnly ? "#ACACAF" : "#737880"
+                                        color: readOnly ? "#ACAAB5" : "#59556C"
                                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                         verticalAlignment: Qt.AlignVCenter
                                         validator: RegExpValidator{ regExp: /\d+/ }
                                         clip: true
-                                        readOnly: index === 3 || index === 4
-                                        text: readOnly ? "0" : ""
+                                        readOnly:index > fromStringReadOnly ? true : false
+                                        text: token//readOnly ? "0" : ""
+
                                     }
 
+                                    //Mark to input field
                                     Text
                                     {
                                         id: textCurrency
@@ -659,44 +744,42 @@ DapExchangeScreenForm
                                         anchors.rightMargin: 6 * pt
                                         verticalAlignment: Text.AlignVCenter
                                         horizontalAlignment: Text.AlignRight
-                                        color: currencyTextInput.readOnly ? "#ACACAF" : "#737880"
+                                        color: "#59556C"
                                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                                        text: index === 0 ? currencyName : qsTr("USD")
+                                        text: index === 0 ? currencyName : tokenName
                                     }
                                 }
                             }
                         }
+
+                        //Order Approval Button (Shell/Buy)
+                        DapButton
+                        {
+                            anchors.right: parent.right
+                            anchors.topMargin: 12 * pt
+                            textButton: titleOrder
+                            implicitWidth: 130 * pt
+                            implicitHeight: 30 * pt
+                            colorBackgroundNormal: "#3E3853"
+                            colorBackgroundHover: "#3E3853"
+                            horizontalAligmentText:Qt.AlignHCenter
+                            borderColorButton: "#000000"
+                            borderWidthButton: 0
+                            fontButton.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
+                            fontButton.pixelSize: 13 * pt
+                            colorTextButton: "#FFFFFF"
+
+                            onClicked:
+                            {
+                                frameButton.visible = false;
+                                modelInputFrame.append({"titleToken":"Fee (0.2%)","token":"10 800.47"});
+                                modelInputFrame.append({"titleToken":"Total+Fee","token":"10 800.47"});
+                            }
+                        }
                     }
-
                 }
-
-
-                Rectangle
-                {
-                    height: 12 * pt
-                    width: parent.width
-                }
-                ///Order button
-                DapButton
-                {
-                    anchors.right: parent.right
-                    textButton: titleOrder
-                    widthButton: 130 * pt
-                    heightButton: 30 * pt
-                    colorBackgroundNormal: "#3E3853"
-                    colorBackgroundHover: "#3E3853"
-                    horizontalAligmentText:Qt.AlignHCenter
-                    borderColorButton: "#000000"
-                    borderWidthButton: 0
-                    fontButton.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                    fontButton.pixelSize: 13 * pt
-                    colorTextButton: "#FFFFFF"
-
-                }
-
             }
         }
-
     }
 
 /************************************************************************************************
