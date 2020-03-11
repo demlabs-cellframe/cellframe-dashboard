@@ -33,10 +33,10 @@ DapAbstractScreen
             width: 112 * pt
             height: parent.height
 
-            DapComboBox
+
+            /*DapComboBox
             {
                 model: conversionList
-
                 comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 144 * pt
                 widthPopupComboBoxNormal: 112 * pt
@@ -68,7 +68,45 @@ DapAbstractScreen
                 colorTopNormalDropShadow: "#00000000"
                 colorDropShadow: "#40ABABAB"
                 topEffect: true
+            }*/
+
+
+            DapOneRoleComboBox
+            {
+                model: conversionList
+                widthPopupComboBoxActive: 144 * pt
+                widthPopupComboBoxNormal: 112 * pt
+                sidePaddingActive: 16 * pt
+                sidePaddingNormal: 0
+                x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+                heightComboBoxNormal: 24 * pt
+                heightComboBoxActive: 44 * pt
+                bottomIntervalListElement: 6 * pt
+                indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
+                indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
+                normalColor: "#FFFFFF"
+                hilightColor: "#330F54"
+                normalTopColor: "#FFFFFF"
+                hilightTopColor: normalTopColor
+                paddingTopItemDelegate: 8 * pt
+                heightListElement: 32 * pt
+                intervalListElement: 10 * pt
+                indicatorWidth: 24 * pt
+                indicatorHeight: indicatorWidth
+                indicatorLeftInterval: 8 * pt
+                colorTopNormalDropShadow: "#00000000"
+                colorDropShadow: "#40ABABAB"
+                topEffect: true
+                normalColorText: "#070023"
+                hilightColorText: "#FFFFFF"
+                normalColorTopText: "#070023"
+                hilightColorTopText: "#070023"
+                textFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                //currentIndex: 0
+                oneTextRole: "text"
+                defaultMainLineText: "POINTS OF BIG DATA"
             }
+
         }
 
         ///Time ComboBox
