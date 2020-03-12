@@ -11,6 +11,7 @@ DapAbstractScreen
     property alias dapLogsListViewIndex: dapLogsList.currentIndex
     ///@detalis dapLogsListView Log list widget.
     property alias dapLogsListView: dapLogsList
+    property bool isModelLoaded: false
 
     ListView
     {
@@ -51,6 +52,25 @@ DapAbstractScreen
         scrollButtonRightMargin: 10 * pt
         scrollButtonTopMargin: dapLogsList.anchors.topMargin + 20 * pt
         scrollButtonBottomMargin: 10 * pt
+
+    }
+
+    DapBusyIndicator
+    {
+        x: parent.width / 2
+        y: parent.height / 2
+        busyPointNum: 8
+        busyPointRounding: 50
+        busyPointWidth: 12
+        busyPointHeight: 12
+        busyPointMinScale: 1.0
+        busyPointMaxScale: 1.0
+        busyIndicatorWidth: 40
+        busyIndicatorHeight: 40
+        busyIndicatorDelay: 125
+        busyIndicatorDarkColor: "#d51f5d"
+        busyIndicatorLightColor: "#FFFFFF"
+        running: !isModelLoaded
     }
 }
 
