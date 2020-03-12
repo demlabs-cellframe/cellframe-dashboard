@@ -144,5 +144,6 @@
         <file>resources/icons/trade-history_icon.png</file>
         <file>resources/icons/ic_chevron_down.png</file>
         <file>resources/icons/ic_chevron_up.png</file>
+        <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
     </qresource>
 </RCC>
