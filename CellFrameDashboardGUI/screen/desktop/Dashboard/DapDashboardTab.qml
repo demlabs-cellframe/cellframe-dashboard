@@ -119,7 +119,7 @@ DapDashboardTabForm
         dapIndexCurrentWallet = dapDashboardTopPanel.dapComboboxWallet.currentIndex
         dapWallets.length = 0
         dapModelWallets.clear()
-        dapServiceController.requestToService("DapGetListWalletsCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
     function createWallet()

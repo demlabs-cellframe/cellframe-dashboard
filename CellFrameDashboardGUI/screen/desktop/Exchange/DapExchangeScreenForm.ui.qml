@@ -263,13 +263,14 @@ DapAbstractScreen
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.top: parent.top
-                anchors.topMargin: 16 * pt
-                height: 22 * pt
+                height: 50 * pt
 
                 Image
                 {
                     id: tradeHistoryIcon
                     anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.topMargin: 16 * pt
                     width: 22 * pt
                     height: 22 * pt
                     source: "qrc:/resources/icons/trade-history_icon.png"
@@ -281,8 +282,11 @@ DapAbstractScreen
                 {
                     id: tradeHistoryText
                     text: qsTr("Trade History")
+                    verticalAlignment: Text.AlignVCenter
                     anchors.left:  tradeHistoryIcon.right
                     anchors.leftMargin: 8 * pt
+                    anchors.top: parent.top
+                    anchors.topMargin: 16 * pt
                     width: 336 * pt
                     color: "#070023"
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
@@ -294,6 +298,8 @@ DapAbstractScreen
                 {
                     id: buttonHistry
                     anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.topMargin: 16 * pt
                     width: 22 * pt
                     height: 22 * pt
                     anchors.verticalCenter: parent.verticalCenter
@@ -321,11 +327,15 @@ DapAbstractScreen
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 16 * pt
                 visible: false
                 model: modelExchangeHistory
                 delegate: delegateExchangeHistory
                 clip: true
+                //Made to turn off the backlight on a click.
+                MouseArea
+                {
+                    anchors.fill: parent
+                }
                 header:
                     Rectangle
                     {
