@@ -70,8 +70,8 @@ DapAbstractScreen
                 topEffect: true
             }*/
 
-
-            DapOneRoleComboBox
+            //For test
+            DapTwoRoleComboBox
             {
                 model: conversionList
                 widthPopupComboBoxActive: 144 * pt
@@ -101,13 +101,25 @@ DapAbstractScreen
                 hilightColorText: "#FFFFFF"
                 normalColorTopText: "#070023"
                 hilightColorTopText: "#070023"
+
                 textFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                //currentIndex: 0
-                oneTextRole: "text"
-                defaultMainLineText: "POINTS OF BIG DATA"
+                secondTextFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                firstTextRole: "text"
+                secondTextRole: "value"
+                roleInterval: 5
+                //isBothAtMainLine: true
+                /*isDefaultNeedToAppend: true
+                defaultMainLineText: "deff"*/
+/*
+                normalColorSecondText: "gray"
+                hilightColorSecondText: "yellow"
+                normalColorTopSecondText: "blue"
+                hilightColorTopSecondText: "red"*/
+
             }
 
         }
+
 
         ///Time ComboBox
         Rectangle
@@ -118,9 +130,9 @@ DapAbstractScreen
             anchors.top: topPanelExchange.top
             width: 100 * pt
             height: parent.height
-            DapComboBox
+            /*DapComboBox
             {
-                model:timeModel
+                model: timeModel
                 comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt
@@ -152,6 +164,42 @@ DapAbstractScreen
                 colorTopNormalDropShadow: "#00000000"
                 colorDropShadow: "#40ABABAB"
                 topEffect: true
+            }*/
+
+            //For test
+            DapOneRoleComboBox
+            {
+                model: timeModel
+                widthPopupComboBoxActive: 132 * pt
+                widthPopupComboBoxNormal: 100 * pt
+                sidePaddingActive: 16 * pt
+                sidePaddingNormal: 0
+                x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
+                heightComboBoxNormal: 24 * pt
+                heightComboBoxActive: 44 * pt
+                bottomIntervalListElement: 6 * pt
+                indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
+                indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
+                normalColor: "#FFFFFF"
+                hilightColor: "#330F54"
+                normalTopColor: "#FFFFFF"
+                hilightTopColor: normalTopColor
+                normalColorText: "#070023"
+                hilightColorText: "#FFFFFF"
+                normalColorTopText: "#070023"
+                hilightColorTopText: "#070023"
+                paddingTopItemDelegate: 8 * pt
+                heightListElement: 32 * pt
+                intervalListElement: 10 * pt
+                indicatorWidth: 24 * pt
+                indicatorHeight: indicatorWidth
+                indicatorLeftInterval: 8 * pt
+                colorTopNormalDropShadow: "#00000000"
+                colorDropShadow: "#40ABABAB"
+                topEffect: true
+                textFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                /*isDefaultNeedToAppend: true
+                defaultMainLineText: "timee"*/
             }
         }
 

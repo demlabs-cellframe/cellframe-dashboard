@@ -60,13 +60,22 @@ DapExchangeScreenForm
                                       Converson model
 ************************************************************************************************/
 
-    ListModel
+   /* ListModel
     {
         id: conversionList
         ListElement{text: "TKN1/NGD"}
         ListElement{text: "TKN2/NGD"}
         ListElement{text: "NGD/KLVN"}
         ListElement{text: "KLVN/USD"}
+    }*/
+    //For test
+    ListModel
+    {
+        id: conversionList
+        ListElement{text: "TKN1/NGD"; value: "modeldini"}
+        ListElement{text: "TKN2/NGD"; value: "Timerizsky"}
+        ListElement{text: "NGD/KLVN"; value: "Orders"}
+        ListElement{text: "KLVN/USD"; value: "Converson"}
     }
 /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
