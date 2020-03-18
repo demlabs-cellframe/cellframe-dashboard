@@ -155,17 +155,23 @@ DapAbstractRightPanel
                         anchors.leftMargin: 20 * pt
                         anchors.rightMargin: 20 * pt
                     }
-
-                    DapText
+                    Rectangle
                     {
-                        id: textSenderWalletAddress
                         anchors.top: splitLineSenderWalletToken.top
                         anchors.topMargin: 20 * pt
                         anchors.left: parent.left
-                        anchors.leftMargin: 50 * pt
-                        width: parent.width - 40 - parent.anchors.leftMargin - parent.anchors.rightMargin
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                        color: "#757184"
+                        anchors.leftMargin: 20 * pt
+                        anchors.right: parent.right
+                        anchors.rightMargin: 20 * pt
+                        color: "green"
+                        height: 40
+                        DapText
+                        {
+                            id: textSenderWalletAddress
+                            width: 240 * pt
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                            color: "#757184"
+                        }
                     }
             }
 
