@@ -334,8 +334,7 @@ DapAbstractRightPanel
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Recipient wallet")
-                    font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                    font.pixelSize: 17 * pt
+                    font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 12 * pt
@@ -347,7 +346,7 @@ DapAbstractRightPanel
                         TextFieldStyle
                         {
                             textColor: "#070023"
-                            placeholderTextColor: "#070023"
+                            placeholderTextColor: "#C7C6CE"
                             background:
                                 Rectangle
                                 {
