@@ -163,8 +163,8 @@ DapAbstractRightPanel
                         anchors.left: parent.left
                         anchors.leftMargin: 20 * pt
                         width: 240 * pt
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                        color: "#757184"
+                        fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                        textColor: "#757184"
                     }
             }
 
