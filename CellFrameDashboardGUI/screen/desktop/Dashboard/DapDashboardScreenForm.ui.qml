@@ -68,19 +68,15 @@ DapAbstractScreen
             DapButton
             {
                 id: addWalletButton
-                widthButton: 124 * pt
-                heightButton: 40 * pt
+                implicitWidth: 124 * pt
+                implicitHeight: 40 * pt
                 textButton: "New wallet"
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
-                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
-                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
-                widthImageButton: 20 * pt
-                heightImageButton: 20 * pt
-                indentImageLeftButton: 20 * pt
-                indentTextRight: 20 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                dapHorizontalAlignment: Qt.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Rectangle
@@ -117,8 +113,8 @@ DapAbstractScreen
             MouseArea
             {
                 id: walletNameEditButton
-                width: 20 * pt
-                height: 20 * pt
+                width: 16 * pt
+                height: 16 * pt
                 hoverEnabled: true
                 anchors.left: titleText.right
                 anchors.leftMargin: 12 * pt
@@ -143,8 +139,8 @@ DapAbstractScreen
             DapButton
             {
                 id: buttonNewPayment
-                widthButton: 132 * pt
-                heightButton: 36 * pt
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
                 textButton: "New payment"
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#070023"
@@ -154,8 +150,9 @@ DapAbstractScreen
                 hoverImageButton: "qrc:/resources/icons/new-payment_icon.png"
                 widthImageButton: 20 * pt
                 heightImageButton: 20 * pt
-                indentImageLeftButton: 20 * pt
-                indentTextRight: 20 * pt
+                indentImageLeftButton: 15 * pt
+                indentTextRight: 15 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
             }
         }
     }

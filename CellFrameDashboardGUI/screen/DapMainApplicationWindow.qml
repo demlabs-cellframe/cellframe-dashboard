@@ -47,13 +47,13 @@ DapMainApplicationWindowForm
                 normalIcon: "qrc:/resources/icons/icon_dashboard.png",
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
-    
-            append ({
-                name: qsTr("Exchange"),
-                page: exchangeScreen,
-                normalIcon: "qrc:/resources/icons/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
-            })
+//TODO: The tab is disabled until the functional part is implemented
+//            append ({
+//                name: qsTr("Exchange"),
+//                page: exchangeScreen,
+//                normalIcon: "qrc:/resources/icons/icon_exchange.png",
+//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+//            })
     
             append ({
                 name: qsTr("History"),

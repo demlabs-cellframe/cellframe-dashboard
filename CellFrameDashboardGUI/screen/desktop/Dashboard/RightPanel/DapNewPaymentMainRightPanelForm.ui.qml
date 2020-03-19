@@ -44,7 +44,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                 color: "#3E3853"
             }
         }
@@ -334,7 +334,7 @@ DapAbstractRightPanel
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Recipient wallet")
-                    font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 12 * pt
@@ -375,18 +375,18 @@ DapAbstractRightPanel
             DapButton
             {
                 id: buttonSend
-                height: 44 * pt
-                width: 130 * pt
+                implicitHeight: 44 * pt
+                implicitWidth: 130 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameRecipientWalletAddress.bottom
                 anchors.topMargin: 60 * pt
                 textButton: qsTr("Send")
                 colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
+                colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             Rectangle
