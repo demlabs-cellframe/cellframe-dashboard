@@ -94,11 +94,15 @@ DapDashboardTabForm
     dapDashboardScreen.dapAddWalletButton.onClicked:
     {
         createWallet()
+        dapDashboardScreen.dapWalletCreateFrame.visible = false;
+        dapDashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
     }
 
     dapDashboardTopPanel.dapAddWalletButton.onClicked:
     {
         createWallet()
+        dapDashboardScreen.dapWalletCreateFrame.visible = false;
+        dapDashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
     }
 
     // When you click on the button for creating a new payment, open the form to fill in the payment data
@@ -112,7 +116,10 @@ DapDashboardTabForm
                                                             dapCurrentWallet:  dapDashboardTopPanel.dapComboboxWallet.mainLineText,
                                                             dapCmboBoxTokenModel: dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens,
                                                             dapTextSenderWalletAddress: dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork)}});
+        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
     }
+
+
 
     function update()
     {

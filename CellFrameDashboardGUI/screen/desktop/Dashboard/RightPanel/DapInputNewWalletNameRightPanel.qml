@@ -20,6 +20,7 @@ DapInputNewWalletNameRightPanelForm
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
+        dapDashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
     Connections
