@@ -34,7 +34,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font.pixelSize: 14 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                 color: "#3E3853"
             }
         }
@@ -65,8 +65,7 @@ DapAbstractRightPanel
                 anchors.top: rectangleTop.bottom
                 anchors.topMargin:  24 * pt
                 color: "#070023"
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                font.pointSize: 28 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular28
             }
 
             Rectangle
@@ -87,8 +86,7 @@ DapAbstractRightPanel
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: rectangleCenter.bottom
                 color: "#757184"
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                font.pointSize: 22 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular22
             }
 
             Text
@@ -100,8 +98,7 @@ DapAbstractRightPanel
                 anchors.top: textStatus.bottom
                 anchors.topMargin: 8 * pt
                 color: "#070023"
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                font.pointSize: 28 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular28
             }
 
             Rectangle
@@ -126,11 +123,11 @@ DapAbstractRightPanel
                 anchors.topMargin: 24 * pt
                 textButton: qsTr("Send")
                 colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
+                colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             Rectangle

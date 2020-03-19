@@ -111,18 +111,18 @@ DapAbstractRightPanel
                 TextField
                 {
                     id: textInputNameWallet
-                    placeholderText: qsTr("Pocket of happiness")
+                    placeholderText: qsTr("Wallet name")
                     anchors.verticalCenter: parent.verticalCenter
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
-                    anchors.leftMargin: 20 * pt
+                    anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
                     style:
                         TextFieldStyle
                         {
                             textColor: "#070023"
-                            placeholderTextColor: "#070023"
+                            placeholderTextColor: "#C7C6CE"
                             background:
                                 Rectangle
                                 {
@@ -253,7 +253,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -265,7 +265,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -277,7 +277,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -289,7 +289,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -299,18 +299,18 @@ DapAbstractRightPanel
             DapButton
             {
                 id: buttonNext
-                height: 44 * pt
-                width: 130 * pt
+                implicitHeight: 44 * pt
+                implicitWidth: 130 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameChooseRecoveryMethod.bottom
                 anchors.topMargin: 64 * pt
                 textButton: qsTr("Next")
                 colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
+                colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             Rectangle

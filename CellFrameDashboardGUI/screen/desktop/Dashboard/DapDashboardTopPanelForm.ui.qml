@@ -69,30 +69,30 @@ DapAbstractTopPanel
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
+//TODO: Disabled until the currency converter is implemented.
+//    // Static wallet balance text "Wallet balance"
+//    Label
+//    {
+//        id: headerWalletBalance
+//        text: qsTr("Wallet balance")
+//        anchors.left: frameComboBoxWallet.right
+//        anchors.leftMargin: 70 * pt
+//        anchors.verticalCenter: parent.verticalCenter
+//        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+//        color: "#ACAAB5"
+//    }
 
-    // Static wallet balance text "Wallet balance"
-    Label 
-    {
-        id: headerWalletBalance
-        text: qsTr("Wallet balance")
-        anchors.left: frameComboBoxWallet.right
-        anchors.leftMargin: 70 * pt
-        anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-        color: "#ACAAB5"
-    }
-
-    // Dynamic wallet balance text
-    Label 
-    {
-        id: textWalletBalance
-        text: "$ 3 050 745.3453289 USD"
-        anchors.left: headerWalletBalance.right
-        anchors.leftMargin: 18 * pt
-        anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-        color: "#FFFFFF"
-    }
+//    // Dynamic wallet balance text
+//    Label
+//    {
+//        id: textWalletBalance
+//        text: "$ 0.00 USD"
+//        anchors.left: headerWalletBalance.right
+//        anchors.leftMargin: 18 * pt
+//        anchors.verticalCenter: parent.verticalCenter
+//        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+//        color: "#FFFFFF"
+//    }
 
     // Wallet create button
     DapButton
@@ -104,8 +104,8 @@ DapAbstractTopPanel
         anchors.verticalCenter: parent.verticalCenter
         normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
         hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
-        heightButton: 24 * pt
-        widthButton: 120 * pt
+        implicitHeight: 36 * pt
+        implicitWidth: 120 * pt
         widthImageButton: 28 * pt
         heightImageButton: 28 * pt
         indentImageLeftButton: 10 * pt
@@ -113,7 +113,7 @@ DapAbstractTopPanel
         colorBackgroundHover: "#D51F5D"
         colorButtonTextNormal: "#FFFFFF"
         colorButtonTextHover: "#FFFFFF"
-        indentTextRight: 20 * pt
+        indentTextRight: 10 * pt
         fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
         borderColorButton: "#000000"
         borderWidthButton: 0

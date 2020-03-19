@@ -44,7 +44,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                 color: "#3E3853"
             }
         }
@@ -158,13 +158,11 @@ DapAbstractRightPanel
                     DapText
                     {
                         id: textSenderWalletAddress
-                        width: 328 * pt
                         anchors.top: splitLineSenderWalletToken.top
                         anchors.topMargin: 20 * pt
                         anchors.left: parent.left
                         anchors.leftMargin: 20 * pt
-                        anchors.right: parent.right
-                        anchors.rightMargin: 20 * pt
+                        width: 240 * pt
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         color: "#757184"
                     }
@@ -213,6 +211,7 @@ DapAbstractRightPanel
                     anchors.topMargin: 20 * pt
                     height: textTokenReduction.height
                     color: "transparent"
+
                     TextField
                     {
                         id: textInputAmountPayment
@@ -221,6 +220,7 @@ DapAbstractRightPanel
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         horizontalAlignment: Text.AlignLeft
                         anchors.left: parent.left
+                        anchors.leftMargin: -6 * pt
                         anchors.right: textTokenReduction.left
                         anchors.rightMargin: 20 * pt
 
@@ -279,6 +279,7 @@ DapAbstractRightPanel
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         horizontalAlignment: Text.AlignLeft
                         anchors.left: parent.left
+                        anchors.leftMargin: textInputAmountPayment.anchors.leftMargin + 6 * pt
                         color: "#757184"
                         text: qsTr("0")
                     }
@@ -333,20 +334,19 @@ DapAbstractRightPanel
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Recipient wallet")
-                    font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                    font.pixelSize: 17 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 12 * pt
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.leftMargin: 20 * pt
+                    anchors.leftMargin: 20 * pt - 8 * pt
                     anchors.rightMargin: 20 * pt
                     style:
                         TextFieldStyle
                         {
                             textColor: "#070023"
-                            placeholderTextColor: "#070023"
+                            placeholderTextColor: "#C7C6CE"
                             background:
                                 Rectangle
                                 {
@@ -375,18 +375,18 @@ DapAbstractRightPanel
             DapButton
             {
                 id: buttonSend
-                height: 44 * pt
-                width: 130 * pt
+                implicitHeight: 44 * pt
+                implicitWidth: 130 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameRecipientWalletAddress.bottom
                 anchors.topMargin: 60 * pt
                 textButton: qsTr("Send")
                 colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
+                colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             Rectangle
