@@ -1,3 +1,10 @@
+cellframe-dashboard (2.0-3) support-2649; urgency=medium
+
+  *     Merge branch 'master' into support-2649
+  *     Version sync with master
+
+ -- xapuyc <xapuyc@workspace>  Thu, 26 Mar 2020 18:51:31 +0500
+
 cellframe-dashboard (2.0-1) testing; urgency=medium
 
   * Application update
