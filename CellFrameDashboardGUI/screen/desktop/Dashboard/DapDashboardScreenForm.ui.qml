@@ -13,16 +13,79 @@ DapAbstractScreen
     anchors.rightMargin: 24 * pt
 
     // Paths to currency emblems
-    property string bitCoinImagePath: "qrc:/res/icons/tkn1_icon_light.png"
-    property string ethereumImagePath: "qrc:/res/icons/tkn2_icon.png"
-    property string newGoldImagePath: "qrc:/res/icons/ng_icon.png"
-    property string kelvinImagePath: "qrc:/res/icons/ic_klvn.png"
+    property string bitCoinImagePath: "qrc:/resources/icons/tkn1_icon_light.png"
+    property string ethereumImagePath: "qrc:/resources/icons/tkn2_icon.png"
+    property string newGoldImagePath: "qrc:/resources/icons/ng_icon.png"
+    property string kelvinImagePath: "qrc:/resources/icons/ic_klvn.png"
     ///@param dapButtonNewPayment Button to create a new payment.
     property alias dapButtonNewPayment: buttonNewPayment
-
     property alias dapListViewWallet: listViewWallet
-
     property alias dapNameWalletTitle: titleText
+    property alias dapWalletCreateFrame: walletCreateFrame
+    property alias dapTitleBlock: titleBlock
+    property alias dapAddWalletButton: addWalletButton
+
+    Rectangle
+    {
+        id: walletCreateFrame
+        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        Column
+        {
+            anchors.horizontalCenter: parent.horizontalCenter
+            Rectangle
+            {
+                height: 200 * pt
+                width: parent.width
+            }
+            Image
+            {
+                id: iconCreateWallet
+                source: "qrc:/resources/icons/wallet.png"
+                width: 218 * pt
+                height: 180 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Rectangle
+            {
+                height: 24 * pt
+                width: parent.width
+            }
+            Text
+            {
+                id: titleTextWalletCreate
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
+                font.pixelSize: 30 * pt
+                color: "#757184"
+                text: qsTr("Create our first wallet")
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Rectangle
+            {
+                height: 56 * pt
+                width: parent.width
+            }
+            DapButton
+            {
+                id: addWalletButton
+                implicitWidth: 124 * pt
+                implicitHeight: 40 * pt
+                textButton: "New wallet"
+                colorBackgroundHover: "#D51F5D"
+                colorBackgroundNormal: "#070023"
+                colorButtonTextNormal: "#FFFFFF"
+                colorButtonTextHover: "#FFFFFF"
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                dapHorizontalAlignment: Qt.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Rectangle
+            {
+                height: Layout.fillHeight
+                width: parent.width
+            }
+        }
+    }
 
     Rectangle
     {
@@ -41,10 +104,8 @@ DapAbstractScreen
             Text
             {
                 id: titleText
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 20 * pt
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
                 text: "My first crypto wallet"
                 width: 185 * pt
             }
@@ -52,8 +113,8 @@ DapAbstractScreen
             MouseArea
             {
                 id: walletNameEditButton
-                width: 20 * pt
-                height: 20 * pt
+                width: 16 * pt
+                height: 16 * pt
                 hoverEnabled: true
                 anchors.left: titleText.right
                 anchors.leftMargin: 12 * pt
@@ -62,7 +123,7 @@ DapAbstractScreen
                 {
                     id: walletNameEditButtonImage
                     anchors.fill: parent
-                    source: parent.containsMouse ? "qrc:/res/icons/ic_edit_hover.png" : "qrc:/res/icons/ic_edit.png"
+                    source: parent.containsMouse ? "qrc:/resources/icons/ic_edit_hover.png" : "qrc:/resources/icons/ic_edit.png"
                     sourceSize.width: width
                     sourceSize.height: height
 
@@ -78,19 +139,20 @@ DapAbstractScreen
             DapButton
             {
                 id: buttonNewPayment
-                widthButton: 132 * pt
-                heightButton: 36 * pt
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
                 textButton: "New payment"
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#070023"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
-                normalImageButton: "qrc:/res/icons/new-payment_icon.png"
-                hoverImageButton: "qrc:/res/icons/new-payment_icon.png"
+                normalImageButton: "qrc:/resources/icons/new-payment_icon.png"
+                hoverImageButton: "qrc:/resources/icons/new-payment_icon.png"
                 widthImageButton: 20 * pt
                 heightImageButton: 20 * pt
-                indentImageLeftButton: 20 * pt
-                indentTextRight: 20 * pt
+                indentImageLeftButton: 15 * pt
+                indentTextRight: 15 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
             }
         }
     }

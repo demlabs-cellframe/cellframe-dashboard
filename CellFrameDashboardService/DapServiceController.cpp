@@ -1,4 +1,9 @@
 #include "DapServiceController.h"
+#ifdef Q_OS_WIN
+#include "registry.h"
+#define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
+#define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
+#endif
 
 /// Standard constructor.
 /// @param parent Parent.
@@ -52,8 +57,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
     // The team to create a new wallet on the Dashboard tab
     m_pServer->addService(new DapAddWalletCommand("DapAddWalletCommand", m_pServer));
-    // The command to get a list of available wallets
-    m_pServer->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_pServer, CLI_PATH));
+    // Team to get information on all available wallets
+    m_pServer->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_pServer, CLI_PATH));
     // The command to get a list of available networks
     m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
     // Saving the file with the logs
@@ -82,7 +87,7 @@ void DapServiceController::initSystemTrayIcon()
     m_pToolTipWidget = new DapToolTipWidget();
     m_pSystemTrayIcon = new DapSystemTrayIcon(this);
     m_pSystemTrayIcon->setToolTipWidget(m_pToolTipWidget);
-    m_pSystemTrayIcon->setIcon(QIcon(":/res/icons/icon.ico"));
+    m_pSystemTrayIcon->setIcon(QIcon(":/resources/icons/icon.ico"));
     menuSystemTrayIcon = new QMenu();
     QAction * quitAction = new QAction("Quit", this);
     menuSystemTrayIcon->addAction(quitAction);

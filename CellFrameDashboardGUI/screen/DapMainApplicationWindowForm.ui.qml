@@ -6,25 +6,6 @@ DapMainWindow
 {
     anchors.fill: parent
 
-    ///@detalis Roboto light font downloader.
-    readonly property FontLoader dapFontRobotoLight:
-        FontLoader
-        {
-            source: "qrc:/res/fonts/roboto_light.ttf"
-        }
-    ///@detalis Roboto regular font downloader.
-    readonly property FontLoader dapFontRobotoRegular:
-        FontLoader
-        {
-            source: "qrc:/res/fonts/roboto_regular.ttf"
-        }
-    ///@detalis Roboto medium font downloader.
-    readonly property FontLoader dapFontRobotoMedium:
-        FontLoader
-        {
-            source: "qrc:/res/fonts/roboto_medium.ttf"
-        }
-
     ///@detalis Logo icon.
     property alias dapIconLogotype: iconLogotype
     ///@detalis Logo frame.
@@ -50,7 +31,7 @@ DapMainWindow
                 height: 24 * pt
                 anchors.left: parent.left
                 anchors.leftMargin: 24 * pt
-                source: "qrc:/res/icons/cellframe-logo-dashboard.png"
+                source: "qrc:/resources/icons/cellframe-logo-dashboard.png"
             }
         }
 

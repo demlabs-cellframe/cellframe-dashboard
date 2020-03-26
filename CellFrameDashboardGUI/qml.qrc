@@ -1,23 +1,20 @@
 <RCC>
     <qresource prefix="/">
         <file>CellFrameDashboardGUI.conf</file>
-        <file>res/fonts/roboto_light.ttf</file>
-        <file>res/fonts/roboto_medium.ttf</file>
-        <file>res/fonts/roboto_regular.ttf</file>
-        <file>res/icons/icon_console.png</file>
-        <file>res/icons/icon_console_hover.png</file>
-        <file>res/icons/icon_dashboard.png</file>
-        <file>res/icons/icon_dashboard_hover.png</file>
-        <file>res/icons/icon_exchange.png</file>
-        <file>res/icons/icon_exchange_hover.png</file>
-        <file>res/icons/icon_history.png</file>
-        <file>res/icons/icon_history_hover.png</file>
-        <file>res/icons/icon_logs.png</file>
-        <file>res/icons/icon_logs_hover.png</file>
-        <file>res/icons/icon_settings.png</file>
-        <file>res/icons/icon_settings_hover.png</file>
+        <file>resources/icons/icon_console.png</file>
+        <file>resources/icons/icon_console_hover.png</file>
+        <file>resources/icons/icon_dashboard.png</file>
+        <file>resources/icons/icon_dashboard_hover.png</file>
+        <file>resources/icons/icon_exchange.png</file>
+        <file>resources/icons/icon_exchange_hover.png</file>
+        <file>resources/icons/icon_history.png</file>
+        <file>resources/icons/icon_history_hover.png</file>
+        <file>resources/icons/icon_logs.png</file>
+        <file>resources/icons/icon_logs_hover.png</file>
+        <file>resources/icons/icon_settings.png</file>
+        <file>resources/icons/icon_settings_hover.png</file>
         <file>main.qml</file>
-        <file>res/icons/cellframe-logo-dashboard.png</file>
+        <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
         <file>screen/DapMainApplicationWindowForm.ui.qml</file>
         <file>screen/DapAbstractTopPanel.qml</file>
@@ -76,10 +73,10 @@
         <file>screen/mobile/History/DapHistoryTopPanelForm.ui.qml</file>
         <file>screen/DapAbstractMenuTabWidget.qml</file>
         <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
-        <file>res/icons/new-wallet_icon_dark_hover.png</file>
-        <file>res/icons/new-wallet_icon_dark.png</file>
-        <file>res/icons/ic_arrow_drop_down.png</file>
-        <file>res/icons/ic_arrow_drop_up.png</file>
+        <file>resources/icons/new-wallet_icon_dark_hover.png</file>
+        <file>resources/icons/new-wallet_icon_dark.png</file>
+        <file>resources/icons/ic_arrow_drop_down.png</file>
+        <file>resources/icons/ic_arrow_drop_up.png</file>
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
         <file>screen/desktop/Logs/DapLogsTabForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
@@ -88,9 +85,7 @@
         <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanelForm.ui.qml</file>
-        <file>res/icons/icon_export.png</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapTransactionHistoryRightPanelForm.ui.qml</file>
+        <file>resources/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
@@ -99,15 +94,15 @@
         <file>screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
-        <file>res/icons/back_icon_hover.png</file>
-        <file>res/icons/back_icon.png</file>
-        <file>res/icons/close_icon_hover.png</file>
-        <file>res/icons/close_icon.png</file>
-        <file>res/icons/ic_arrow_drop_down_dark.png</file>
-        <file>res/icons/ic_scroll-down.png</file>
-        <file>res/icons/ic_scroll-down_hover.png</file>
-        <file>res/icons/ic_scroll-up.png</file>
-        <file>res/icons/ic_scroll-up_hover.png</file>
+        <file>resources/icons/back_icon_hover.png</file>
+        <file>resources/icons/back_icon.png</file>
+        <file>resources/icons/close_icon_hover.png</file>
+        <file>resources/icons/close_icon.png</file>
+        <file>resources/icons/ic_arrow_drop_down_dark.png</file>
+        <file>resources/icons/ic_scroll-down.png</file>
+        <file>resources/icons/ic_scroll-down_hover.png</file>
+        <file>resources/icons/ic_scroll-up.png</file>
+        <file>resources/icons/ic_scroll-up_hover.png</file>
         <file>screen/desktop/Settings/DapSettingsTab.qml</file>
         <file>screen/desktop/Settings/DapSettingsTabForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
@@ -124,26 +119,31 @@
         <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanelForm.ui.qml</file>
-        <file>res/icons/icon.ico</file>
-        <file>res/icons/ic_flag.png</file>
-        <file>res/icons/buy_icon.png</file>
-        <file>res/icons/ic_arrow_drop_down_dark_blue.png</file>
-        <file>res/icons/ic_arrow_drop_up_dark_blue.png</file>
-        <file>res/icons/sell_icon.png</file>
-        <file>res/icons/ic_copy.png</file>
-        <file>res/icons/ic_copy_hover.png</file>
-        <file>res/icons/ic_edit.png</file>
-        <file>res/icons/ic_edit_hover.png</file>
-        <file>res/icons/ic_klvn.png</file>
-        <file>res/icons/new-payment_icon.png</file>
-        <file>res/icons/tkn2_icon.png</file>
-        <file>res/icons/tkn1_icon_light.png</file>
-        <file>res/icons/ng_icon.png</file>
+        <file>resources/icons/icon.ico</file>
+        <file>resources/icons/ic_flag.png</file>
+        <file>resources/icons/buy_icon.png</file>
+        <file>resources/icons/ic_arrow_drop_down_dark_blue.png</file>
+        <file>resources/icons/ic_arrow_drop_up_dark_blue.png</file>
+        <file>resources/icons/sell_icon.png</file>
+        <file>resources/icons/ic_copy.png</file>
+        <file>resources/icons/ic_copy_hover.png</file>
+        <file>resources/icons/ic_edit.png</file>
+        <file>resources/icons/ic_edit_hover.png</file>
+        <file>resources/icons/ic_klvn.png</file>
+        <file>resources/icons/new-payment_icon.png</file>
+        <file>resources/icons/tkn2_icon.png</file>
+        <file>resources/icons/tkn1_icon_light.png</file>
+        <file>resources/icons/ng_icon.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanelForm.ui.qml</file>
-        <file>res/icons/ic_cellframe.png</file>
-        <file>res/icons/ic_search.png</file>
+        <file>resources/icons/ic_cellframe.png</file>
+        <file>resources/icons/ic_search.png</file>
+        <file>resources/icons/wallet.png</file>
+        <file>resources/icons/trade-history_icon.png</file>
+        <file>resources/icons/ic_chevron_down.png</file>
+        <file>resources/icons/ic_chevron_up.png</file>
+        <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
     </qresource>
 </RCC>

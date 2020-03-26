@@ -5,8 +5,8 @@ import "../../../"
 
 DapAbstractRightPanel
 {
-    dapButtonClose.normalImageButton: "qrc:/res/icons/back_icon.png"
-    dapButtonClose.hoverImageButton: "qrc:/res/icons/back_icon_hover.png"
+    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
+    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
     
     dapHeaderData:
         Rectangle
@@ -38,7 +38,7 @@ DapAbstractRightPanel
                 {
                     id: textHeader
                     text: qsTr("New wallet")
-                    font.pixelSize: 14 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                     color: "#3E3853"
                     anchors.left: itemButtonBack.right
                     anchors.leftMargin: 12 * pt
@@ -77,11 +77,8 @@ DapAbstractRightPanel
                     id: textMethod
                     color: "#ffffff"
                     text: qsTr("24 words")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
@@ -102,13 +99,7 @@ DapAbstractRightPanel
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: "#FF0300"
-                font 
-                {
-                    family: "Roboto"
-                    styleName: "Normal"
-                    weight: Font.Normal
-                    pixelSize: 14 * pt
-                }
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
             }
             
             Rectangle 
@@ -195,13 +186,7 @@ DapAbstractRightPanel
                                 text: word
                                 color: "#070023"
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                font 
-                                {
-                                    pixelSize: 16 * pt
-                                    family: "Roboto"
-                                    styleName: "Normal"
-                                    weight: Font.Normal
-                                }
+                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                             }
                     }
         
@@ -218,13 +203,7 @@ DapAbstractRightPanel
                                 text: word
                                 color: "#070023"
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                font 
-                                {
-                                    pixelSize: 16 * pt
-                                    family: "Roboto"
-                                    styleName: "Normal"
-                                    weight: Font.Normal
-                                }
+                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                             }
                     }
                 }
@@ -240,7 +219,7 @@ DapAbstractRightPanel
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
                 color: "#6F9F00"
-                font.pixelSize: 14 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
             }

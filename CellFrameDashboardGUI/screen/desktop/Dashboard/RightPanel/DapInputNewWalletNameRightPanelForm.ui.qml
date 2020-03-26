@@ -15,12 +15,14 @@ DapAbstractRightPanel
     dapNextRightPanel: doneWallet
     dapPreviousRightPanel: lastActionsWallet
 
+    width: 400 * pt
+
     ListModel
     {
         id: signatureTypeWallet
         ListElement
         {
-            name: "Dilithium"
+            name: "Dilithium in my head"
             sign: "sig_dil"
         }
         ListElement
@@ -62,7 +64,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New wallet")
-                font.pixelSize: 14 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                 color: "#3E3853"
             }
         }
@@ -88,11 +90,8 @@ DapAbstractRightPanel
                     id: textNameWallet
                     color: "#ffffff"
                     text: qsTr("Name of wallet")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
@@ -103,7 +102,7 @@ DapAbstractRightPanel
             {
                 id: frameInputNameWallet
                 height: 68 * pt
-                color: "#F8F7FA"
+                color: "transparent"
                 anchors.top: frameNameWallet.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -112,21 +111,18 @@ DapAbstractRightPanel
                 TextField
                 {
                     id: textInputNameWallet
-                    placeholderText: qsTr("Pocket of happiness")
+                    placeholderText: qsTr("Wallet name")
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: 16 * pt
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
-                    anchors.leftMargin: 20 * pt
+                    anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
                     style:
                         TextFieldStyle
                         {
                             textColor: "#070023"
-                            placeholderTextColor: "#070023"
+                            placeholderTextColor: "#C7C6CE"
                             background:
                                 Rectangle
                                 {
@@ -150,13 +146,10 @@ DapAbstractRightPanel
                     id: textChooseSignatureType
                     color: "#ffffff"
                     text: qsTr("Choose signature type")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -165,7 +158,7 @@ DapAbstractRightPanel
             {
                 id: frameSignatureType
                 height: 68 * pt
-                color: "#F8F7FA"
+                color: "transparent"
                 anchors.top: frameChooseSignatureType.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -175,23 +168,21 @@ DapAbstractRightPanel
                 {
                     id: comboBoxSignatureTypeWallet
                     model: signatureTypeWallet
-                    comboBoxTextRole: "name"
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.leftMargin: 20 * pt
-                    anchors.rightMargin: 20 * pt
-                    indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark.png"
-                    indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+                    comboBoxTextRole: ["name"]
+                    mainLineText: "all signature"
+                    anchors.centerIn: parent
+                    indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
+                    indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
                     sidePaddingNormal: 0 * pt
-                    sidePaddingActive: 0 * pt
+                    sidePaddingActive: 20 * pt
                     normalColorText: "#070023"
-                    hilightColorText: "#transparent"
+                    hilightColorText: "#FFFFFF"
                     normalColorTopText: "#070023"
                     hilightColorTopText: "#070023"
                     hilightColor: "#330F54"
                     normalTopColor: "transparent"
-                    widthPopupComboBoxNormal: 148 * pt
-                    widthPopupComboBoxActive: 180 * pt
+                    widthPopupComboBoxNormal: 328 * pt
+                    widthPopupComboBoxActive: 368 * pt
                     heightComboBoxNormal: 24 * pt
                     heightComboBoxActive: 44 * pt
                     bottomIntervalListElement: 8 * pt
@@ -204,11 +195,12 @@ DapAbstractRightPanel
                     intervalListElement: 10 * pt
                     indicatorWidth: 20 * pt
                     indicatorHeight: indicatorWidth
-                    indicatorLeftInterval: 8 * pt
+                    indicatorLeftInterval: 20 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
-                    fontComboBox.pixelSize: 16 * pt
-                    fontComboBox.family: "Roboto"
+                    fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+                    colorMainTextComboBox: [["#070023", "#070023"]]
+                    colorTextComboBox: [["#070023", "#FFFFFF"]]
                 }
             }
 
@@ -225,13 +217,10 @@ DapAbstractRightPanel
                     id: textRecoveryMethod
                     color: "#ffffff"
                     text: qsTr("Recovery method")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -264,7 +253,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -276,7 +265,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -288,7 +277,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -300,7 +289,7 @@ DapAbstractRightPanel
                         indicatorSize: 20 * pt
                         indicatorInnerSize: 10 * pt
                         spaceIndicatorText: 16 * pt
-                        fontRadioButton.pixelSize: 14 * pt
+                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         indicatorBackgroundColor: "transparent"
                         indicatorBorder.width: 2 * pt
                     }
@@ -310,18 +299,18 @@ DapAbstractRightPanel
             DapButton
             {
                 id: buttonNext
-                height: 44 * pt
-                width: 130 * pt
+                implicitHeight: 44 * pt
+                implicitWidth: 130 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameChooseRecoveryMethod.bottom
                 anchors.topMargin: 64 * pt
                 textButton: qsTr("Next")
                 colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
+                colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             Rectangle

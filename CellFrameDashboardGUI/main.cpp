@@ -9,11 +9,15 @@
 #include <QScreen>
 
 #include "DapHalper.h"
-#include "DapServiceClient.h"
+#include "serviceClient/DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapLogMessage.h"
 #include "DapWallet.h"
+
+#ifdef Q_OS_WIN
+#include "registry.h"
+#endif
 
 #include <sys/stat.h>
 
@@ -25,7 +29,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("DEMLABS");
     app.setOrganizationDomain("demlabs.net");
     app.setApplicationName("CellFrame Dashboard");
-    app.setWindowIcon(QIcon(":/res/icons/icon.ico"));
+    app.setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
     DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
@@ -36,7 +40,7 @@ int main(int argc, char *argv[])
 	mkdir("/tmp/cellframe-dashboard_log",0777);
 	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
     #elif defined Q_OS_WIN
-    dapLogger.setLogFile(QString("%Dashboard.log").arg(DAP_BRAND));
+    dapLogger.setLogFile(QString("%1/%2/log/%2GUI.log").arg(regGetUsrPath()).arg(DAP_BRAND));
     dapLogger.setLogLevel(L_DEBUG);
     #endif
 //#endif
@@ -44,7 +48,7 @@ int main(int argc, char *argv[])
 
 
     /// Local client.
-    DapServiceClient dapServiceClient;
+    DapServiceClient dapServiceClient(DAP_SERVICE_NAME);
     // Creating a service controller
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);

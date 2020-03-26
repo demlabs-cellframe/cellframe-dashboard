@@ -15,8 +15,7 @@ DapAbstractTopPanelForm
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -35,8 +34,10 @@ DapAbstractTopPanelForm
         {
             id: comboboxWallet
             //model: modelWallets
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            comboBoxTextRole: ["text"]
+            mainLineText: "all wallets"
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -62,8 +63,9 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
 
         }
     }
@@ -76,8 +78,7 @@ DapAbstractTopPanelForm
         anchors.left: frameComboBox.right
         anchors.leftMargin: 70 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -89,8 +90,7 @@ DapAbstractTopPanelForm
         anchors.left: headerWalletBalance.right
         anchors.leftMargin: 18 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
-        font.pixelSize: 16 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
         color: "#FFFFFF"
     }
 }

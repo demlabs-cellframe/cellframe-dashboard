@@ -11,13 +11,13 @@ CONFIG += c++11
 
 TARGET = $$BRAND
 
-VER_MAJ = 1
-VER_MIN = 6
-VER_PAT = 4
+VER_MAJ = 2
+VER_MIN = 0
+VER_PAT = 3
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"./cellframe-node-cli.exe\\\"
+    DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
     DEFINES += HAVE_STRNDUP
 }
 else {
@@ -35,10 +35,10 @@ DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = res/icons/dashboard.icns
+    ICON = resources/icons/dashboard.icns
 }
 else {
-    ICON = qrc:/res/icons/icon.ico
+    ICON = qrc:/resources/icons/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -57,19 +57,14 @@ CONFIG(debug, debug|release) {
     DESTDIR = bin/release
 }
 
-INCLUDEPATH += $$_PRO_FILE_PWD_/../libCellFrameDashboardCommon/ \
-               $$_PRO_FILE_PWD_/../DapRPCProtocol/
+INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
-OTHER_FILES += libdap-qt-ui-qml
+OTHER_FILES += libdap-qt-ui-qml \
+               libdap-qt-ui-chain-wallet
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/DapServiceClient.cpp \
-    $$PWD/DapServiceController.cpp \
-    $$PWD/DapServiceClientNativeAbstract.cpp \
-    $$PWD/DapServiceClientNativeLinux.cpp \
-    $$PWD/DapServiceClientNativeWin.cpp \
-    $$PWD/DapServiceClientNativeMacOS.cpp
+    $$PWD/DapServiceController.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -79,19 +74,13 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    $$PWD/DapServiceClient.h \
-    $$PWD/DapServiceController.h \
-    $$PWD/DapServiceClientNativeAbstract.h \
-    $$PWD/DapServiceClientNativeLinux.h \
-    $$PWD/DapServiceClientNativeWin.h
+    $$PWD/DapServiceController.h
 
 include (../libdap/libdap.pri)
 include (../libdap-crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
 include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
-
-include (../libCellFrameDashboardCommon/libCellFrameDashboardCommon.pri)
-include (../DapRPCProtocol/DapRPCProtocol.pri)
+include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}

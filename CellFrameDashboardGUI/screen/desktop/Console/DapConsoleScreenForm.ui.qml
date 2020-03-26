@@ -16,6 +16,8 @@ DapAbstractScreen
     property alias currentCommand: consoleCmd.text
     ///@detalis consoleHistoryIndex Index for using KeyUp and KeyDown to the navigation in console history.
     property int consoleHistoryIndex
+    ///@detalis consoleInput Reference to console input area
+    property alias consoleInput: consoleCmd
 
     Rectangle
     {
@@ -26,20 +28,22 @@ DapAbstractScreen
         anchors.rightMargin: 20 * pt
         anchors.bottomMargin: 20 * pt
 
-
         ListView
         {
             id: listViewConsoleCommand
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            height: (contentHeight < consoleRectangle.height - inputCommand.height) ? contentHeight : consoleRectangle.height - inputCommand.height
+            height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
+                        contentHeight :
+                        (consoleRectangle.height - inputCommand.height)
             clip: true
             model: modelConsoleCommand
             delegate: delegateConsoleCommand
             currentIndex: count - 1
             highlightFollowsCurrentItem: true
             highlightRangeMode: ListView.ApplyRange
+
             DapScrollViewHandling
             {
                 id: scrollHandler
@@ -63,7 +67,7 @@ DapAbstractScreen
                 verticalAlignment: Qt.AlignVCenter
                 text: ">"
                 color: "#070023"
-                font: themeConsole.inputCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             TextArea
@@ -74,23 +78,30 @@ DapAbstractScreen
                 placeholderText: qsTr("Type here...")
                 selectByMouse: true
                 focus: true
-                font: themeConsole.inputCommandFont
-                Keys.onReturnPressed: text.length > 0 ? sendedCommand = text : sendedCommand = ""
-                Keys.onEnterPressed: text.length > 0 ? sendedCommand = text : sendedCommand = ""
-                Keys.onUpPressed: consoleHistoryIndex -= 1
-                Keys.onDownPressed: consoleHistoryIndex += 1
-             }
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                Keys.onReturnPressed: text.length > 0 ?
+                                          sendedCommand = text :
+                                          sendedCommand = ""
+                Keys.onEnterPressed: text.length > 0 ?
+                                         sendedCommand = text :
+                                         sendedCommand = ""
+                Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                                      consoleHistoryIndex += 1 :
+                                      null
+                Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+                                        consoleHistoryIndex -= 1 :
+                                        null
+            }
         }
-
     }
 
     DapScrollView
     {
         id: consoleScroll
-        scrollDownButtonImageSource: "qrc:/res/icons/ic_scroll-down.png"
-        scrollDownButtonHoveredImageSource: "qrc:/res/icons/ic_scroll-down_hover.png"
-        scrollUpButtonImageSource: "qrc:/res/icons/ic_scroll-up.png"
-        scrollUpButtonHoveredImageSource: "qrc:/res/icons/ic_scroll-up_hover.png"
+        scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
+        scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
+        scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
+        scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
         viewData: listViewConsoleCommand
         //Assign DapScrollView with DapScrollViewHandling which must have no parent-child relationship
         onClicked: scrollHandler.scrollDirectionUp = !scrollHandler.scrollDirectionUp

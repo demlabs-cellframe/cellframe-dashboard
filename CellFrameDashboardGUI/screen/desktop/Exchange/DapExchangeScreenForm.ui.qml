@@ -5,6 +5,13 @@ import "../../"
 
 DapAbstractScreen
 {
+    //@detalis listHistoryVisible To change the visibility of a story list.
+    property alias dapListHistoryVisible: listHistory.visible
+    //@detalis dapHistoryButton Extends the scope of the button for signal processing.
+    property Button dapHistoryButton: buttonHistry
+    //@detalis dapIconHistoryButton Link to the resource of the picture in the history button.
+    property alias dapIconHistoryButton: tradeHistoryButtonIcon.source
+
     ///Top panel in tab Exchange
     Rectangle
     {
@@ -28,27 +35,9 @@ DapAbstractScreen
 
             DapComboBox
             {
-                model:
-                    ListModel
-                    {
-                        id: сonversionList
-                        ListElement
-                        {
-                            text: "TKN1/NGD"
-                        }
-                        ListElement
-                        {
-                            text: "TKN2/NGD"
-                        }
-                        ListElement
-                        {
-                            text: "NGD/KLVN"
-                        }
-                        ListElement
-                        {
-                            text: "KLVN/USD"
-                        }
-                    }
+                model: conversionList
+
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 144 * pt
                 widthPopupComboBoxNormal: 112 * pt
                 sidePaddingActive: 16 * pt
@@ -57,10 +46,11 @@ DapAbstractScreen
                 heightComboBoxNormal: 24 * pt
                 heightComboBoxActive: 44 * pt
                 bottomIntervalListElement: 6 * pt
-                indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
-                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                fontComboBox.pixelSize: 16 * pt
-                fontComboBox.family: "Roboto"
+                indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
+                indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
+                fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+                colorMainTextComboBox: [["#070023", "#070023"]]
+                colorTextComboBox: [["#070023", "#FFFFFF"]]
                 normalColor: "#FFFFFF"
                 hilightColor: "#330F54"
                 normalTopColor: "#FFFFFF"
@@ -92,42 +82,8 @@ DapAbstractScreen
             height: parent.height
             DapComboBox
             {
-                model:
-                    ListModel
-                    {
-                        ListElement
-                        {
-                            text: "1 minute"
-                        }
-                        ListElement
-                        {
-                            text: "5 minute"
-                        }
-                        ListElement
-                        {
-                            text: "15 minute"
-                        }
-                        ListElement
-                        {
-                            text: "30 minute"
-                        }
-                        ListElement {
-                            text: "1 hour"
-                        }
-                        ListElement
-                        {
-                            text: "4 hour"
-                        }
-                        ListElement
-                        {
-                            text: "12 hour"
-                        }
-                        ListElement
-                        {
-                            text: "24 hour"
-                        }
-                    }
-
+                model:timeModel
+                comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt
                 sidePaddingActive: 16 * pt
@@ -136,10 +92,11 @@ DapAbstractScreen
                 heightComboBoxNormal: 24 * pt
                 heightComboBoxActive: 44 * pt
                 bottomIntervalListElement: 6 * pt
-                indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down_dark_blue.png"
-                indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up_dark_blue.png"
-                fontComboBox.pixelSize: 14 * pt
-                fontComboBox.family: "Roboto"
+                indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
+                indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
+                fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+                colorMainTextComboBox: [["#070023", "#070023"]]
+                colorTextComboBox: [["#070023", "#FFFFFF"]]
                 normalColor: "#FFFFFF"
                 hilightColor: "#330F54"
                 normalTopColor: "#FFFFFF"
@@ -175,8 +132,8 @@ DapAbstractScreen
                 anchors.bottom: value_lastPrice.top
                 anchors.bottomMargin: 6 * pt
                 color: "#757184"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 10 * pt
-                font.family: "Roboto"
                 text: qsTr("Last price")
             }
             Text
@@ -185,8 +142,7 @@ DapAbstractScreen
                 anchors.left: lastPrice.left
                 anchors.bottom: lastPrice.bottom
                 color: "#070023"
-                font.pixelSize: 12 * pt
-                font.family: "Roboto"
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 text: qsTr("$ 10 807.35 NGD")
             }
             Text
@@ -195,8 +151,8 @@ DapAbstractScreen
                 anchors.bottom: lastPrice.bottom
                 anchors.leftMargin: 6 * pt
                 color: "#6F9F00"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 10 * pt
-                font.family: "Roboto"
                 text: qsTr("+3.59%")
             }
         }
@@ -215,8 +171,8 @@ DapAbstractScreen
                 anchors.bottom: value_valume24.top
                 anchors.bottomMargin: 6 * pt
                 color: "#757184"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 10 * pt
-                font.family: "Roboto"
                 text: qsTr("24h volume")
             }
             Text
@@ -225,8 +181,7 @@ DapAbstractScreen
                 anchors.right: volume24.right
                 anchors.bottom: volume24.bottom
                 color: "#070023"
-                font.pixelSize: 12 * pt
-                font.family: "Roboto"
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 text: qsTr("9 800 TKN1")
             }
         }
@@ -256,14 +211,8 @@ DapAbstractScreen
         width: parent.width
         color: "#E3E2E6"
     }
-    ///Model with a list of orders
-    ListModel
-    {
-        id: orderModel
-        ListElement{titleOrder:"Buy"; path:"qrc:/res/icons/buy_icon.png"}
-        ListElement{titleOrder:"Sell"; path:"qrc:/res/icons/sell_icon.png"}
-    }
-    ///Left down panel
+
+    ///Orders panel
     Rectangle
     {
         id:exchangeBottomPanel
@@ -273,6 +222,7 @@ DapAbstractScreen
         anchors.bottom: parent.bottom
         anchors.leftMargin: 24 * pt
         anchors.rightMargin: 24 * pt
+
         ///List of orders
         ListView
         {
@@ -295,7 +245,8 @@ DapAbstractScreen
             width: 1 * pt
             color: "#E3E2E6"
         }
-        ///frame for the history widget
+
+        ///Frame for the history widget
         Rectangle
         {
             width:430 * pt
@@ -303,6 +254,132 @@ DapAbstractScreen
             anchors.bottom: parent.bottom
             anchors.left: verticalLine.right
             anchors.right: parent.right
+            anchors.leftMargin: 20 * pt
+
+            //Top bar transaction history.
+            Rectangle
+            {
+                id: topHistoryFrame
+                anchors.right: parent.right
+                anchors.left: parent.left
+                anchors.top: parent.top
+                height: 50 * pt
+
+                Image
+                {
+                    id: tradeHistoryIcon
+                    anchors.left: parent.left
+                    anchors.top: parent.top
+                    anchors.topMargin: 16 * pt
+                    width: 22 * pt
+                    height: 22 * pt
+                    source: "qrc:/resources/icons/trade-history_icon.png"
+                    anchors.verticalCenter: parent.verticalCenter
+
+                }
+
+                Text
+                {
+                    id: tradeHistoryText
+                    text: qsTr("Trade History")
+                    verticalAlignment: Text.AlignVCenter
+                    anchors.left:  tradeHistoryIcon.right
+                    anchors.leftMargin: 8 * pt
+                    anchors.top: parent.top
+                    anchors.topMargin: 16 * pt
+                    width: 336 * pt
+                    color: "#070023"
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+
+                Button
+                {
+                    id: buttonHistry
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.topMargin: 16 * pt
+                    width: 22 * pt
+                    height: 22 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+
+                    Rectangle
+                    {
+                        anchors.fill: parent
+                        color: "#FFFFFF"
+                        Image
+                        {
+                            id: tradeHistoryButtonIcon
+                            width: 22 * pt
+                            height: 22 * pt
+                            source: "qrc:/resources/icons/ic_chevron_down.png"
+                        }
+                    }
+                }
+
+            }
+            //Transaction History List.
+            ListView
+            {
+                id: listHistory
+                anchors.top: topHistoryFrame.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                visible: false
+                model: modelExchangeHistory
+                delegate: delegateExchangeHistory
+                clip: true
+                //Made to turn off the backlight on a click.
+                MouseArea
+                {
+                    anchors.fill: parent
+                }
+                header:
+                    Rectangle
+                    {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        height: 19 * pt
+
+                        Text
+                        {
+                            id: timeExchangeHeader
+                            text: qsTr("Time")
+                            color: "#757184"
+                            font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            width: 149 * pt
+                        }
+
+                        Text
+                        {
+                            id: priceExchangeHeader
+                            text: qsTr("Price,NGD")
+                            color: "#757184"
+                            font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                            anchors.top: parent.top
+                            anchors.left: timeExchangeHeader.right
+                            anchors.leftMargin: 20 * pt
+                            width: 104 * pt
+                        }
+
+                        Text
+                        {
+                            id: tokenExchangeHeader
+                            text: qsTr("TKN1")
+                            color: "#757184"
+                            font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                            anchors.top: parent.top
+                            anchors.left: priceExchangeHeader.right
+                            anchors.leftMargin: 20 * pt
+                            width: 117 * pt
+                        }
+                    }
+            }
+
         }
     }
 }

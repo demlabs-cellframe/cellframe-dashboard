@@ -18,7 +18,7 @@ DapAbstractRightPanel
 
     property string dapCurrentWallet
 
-    property alias dapTextSenderWalletAddress: textSenderWalletAddress.text
+    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -44,7 +44,7 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font.pixelSize: 14 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                 color: "#3E3853"
             }
         }
@@ -71,11 +71,8 @@ DapAbstractRightPanel
                     id: textFrameSenderWallet
                     color: "#ffffff"
                     text: qsTr("From")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
@@ -85,7 +82,7 @@ DapAbstractRightPanel
                 Rectangle
                 {
                     id: frameSenderWalletAddress
-                    color: "#F8F7FA"
+                    color: "transparent"
                     anchors.top: frameSenderWallet.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -96,7 +93,7 @@ DapAbstractRightPanel
                     Rectangle
                     {
                         id: frameSenderWalletToken
-                        color: "#F8F7FA"
+                        color: "transparent"
                         anchors.top: frameSenderWalletAddress.top
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -107,21 +104,21 @@ DapAbstractRightPanel
                         DapComboBox
                         {
                             id: comboboxToken
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            comboBoxTextRole: ["name"]
-                            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-                            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+                            anchors.centerIn: parent
+                            comboBoxTextRole: ["name", "name"]
+                            mainLineText: "all tokens"
+                            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
+                            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt
-                            sidePaddingActive: 16 * pt
+                            sidePaddingActive: 20 * pt
                             normalColorText: "#070023"
                             hilightColorText: "#FFFFFF"
-                            normalColorTopText: "#FFFFFF"
+                            normalColorTopText: "#070023"
                             hilightColorTopText: "#070023"
                             hilightColor: "#330F54"
-                            normalTopColor: "#070023"
-                            widthPopupComboBoxNormal: 148 * pt
-                            widthPopupComboBoxActive: 180 * pt
+                            normalTopColor: parent.color
+                            widthPopupComboBoxNormal: 328 * pt
+                            widthPopupComboBoxActive: 368 * pt
                             heightComboBoxNormal: 24 * pt
                             heightComboBoxActive: 44 * pt
                             bottomIntervalListElement: 8 * pt
@@ -134,11 +131,15 @@ DapAbstractRightPanel
                             intervalListElement: 10 * pt
                             indicatorWidth: 24 * pt
                             indicatorHeight: indicatorWidth
-                            indicatorLeftInterval: 8 * pt
+                            indicatorLeftInterval: 20 * pt
                             colorTopNormalDropShadow: "#00000000"
                             colorDropShadow: "#40ABABAB"
-                            fontComboBox.pixelSize: 14 * pt
-                            fontComboBox.family: "Roboto"
+                            roleInterval: 20
+                            endRowPadding: 44
+                            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+                            colorMainTextComboBox: [["#070023", "#070023"], ["#070023", "#908D9D"]]
+                            colorTextComboBox: [["#070023", "#FFFFFF"], ["#908D9D", "#FFFFFF"]]
+                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                         }
                     }
                     Rectangle
@@ -154,22 +155,16 @@ DapAbstractRightPanel
                         anchors.leftMargin: 20 * pt
                         anchors.rightMargin: 20 * pt
                     }
-                    Text
+                    DapText
                     {
                         id: textSenderWalletAddress
-                        width: 328 * pt
                         anchors.top: splitLineSenderWalletToken.top
                         anchors.topMargin: 20 * pt
                         anchors.left: parent.left
                         anchors.leftMargin: 20 * pt
-                        anchors.right: parent.right
-                        anchors.rightMargin: 20 * pt
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
-                        color: "#757184"
-                        elide: Text.ElideRight
+                        width: 240 * pt
+                        fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                        textColor: "#757184"
                     }
             }
 
@@ -187,13 +182,10 @@ DapAbstractRightPanel
                     id: textFrameamountPayment
                     color: "#ffffff"
                     text: qsTr("Amount")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -202,7 +194,7 @@ DapAbstractRightPanel
             {
                 id: frameInputAmountPayment
                 height: 112 * pt
-                color: "#F8F7FA"
+                color: "transparent"
                 anchors.top: frameAmountPayment.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -219,17 +211,16 @@ DapAbstractRightPanel
                     anchors.topMargin: 20 * pt
                     height: textTokenReduction.height
                     color: "transparent"
+
                     TextField
                     {
                         id: textInputAmountPayment
                         anchors.verticalCenter: parent.verticalCenter
                         placeholderText: qsTr("0")
-                        font.pixelSize: 16 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         horizontalAlignment: Text.AlignLeft
                         anchors.left: parent.left
+                        anchors.leftMargin: -6 * pt
                         anchors.right: textTokenReduction.left
                         anchors.rightMargin: 20 * pt
 
@@ -251,10 +242,7 @@ DapAbstractRightPanel
                         id: textTokenReduction
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        font.pixelSize: 16 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         horizontalAlignment: Text.AlignRight
                         color: "#070023"
                         text: "KLVN"
@@ -288,12 +276,10 @@ DapAbstractRightPanel
                     {
                         id: textAmountConvertValue
                         anchors.verticalCenter: parent.verticalCenter
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         horizontalAlignment: Text.AlignLeft
                         anchors.left: parent.left
+                        anchors.leftMargin: textInputAmountPayment.anchors.leftMargin + 6 * pt
                         color: "#757184"
                         text: qsTr("0")
                     }
@@ -302,10 +288,7 @@ DapAbstractRightPanel
                         id: textAmountConvertCurrency
                         anchors.verticalCenter: parent.verticalCenter
                         anchors.right: parent.right
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.styleName: "Normal"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         horizontalAlignment: Text.AlignRight
                         color: "#757184"
                         text: qsTr("USD")
@@ -327,13 +310,10 @@ DapAbstractRightPanel
                     id: textRecipientWallet
                     color: "#ffffff"
                     text: qsTr("To")
-                    font.pixelSize: 12 * pt
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     anchors.leftMargin: 16 * pt
                     anchors.left: parent.left
                     horizontalAlignment: Text.AlignLeft
-                    font.styleName: "Normal"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
@@ -354,22 +334,19 @@ DapAbstractRightPanel
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Recipient wallet")
-                    font.pixelSize: 17 * pt
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 12 * pt
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.leftMargin: 20 * pt
+                    anchors.leftMargin: 20 * pt - 8 * pt
                     anchors.rightMargin: 20 * pt
                     style:
                         TextFieldStyle
                         {
                             textColor: "#070023"
-                            placeholderTextColor: "#070023"
+                            placeholderTextColor: "#C7C6CE"
                             background:
                                 Rectangle
                                 {
@@ -398,18 +375,18 @@ DapAbstractRightPanel
             DapButton
             {
                 id: buttonSend
-                height: 44 * pt
-                width: 130 * pt
+                implicitHeight: 44 * pt
+                implicitWidth: 130 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameRecipientWalletAddress.bottom
                 anchors.topMargin: 60 * pt
                 textButton: qsTr("Send")
                 colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
+                colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
+                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
             Rectangle

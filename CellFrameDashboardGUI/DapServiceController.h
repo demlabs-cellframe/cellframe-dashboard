@@ -9,25 +9,25 @@
 #include <algorithm>
 #include <QDataStream>
 
-#include "DapServiceClient.h"
+#include "serviceClient/DapServiceClient.h"
 #include "DapWallet.h"
-#include "Handlers/DapAbstractCommand.h"
-#include "Handlers/DapQuitApplicationCommand.h"
-#include "Handlers/DapActivateClientCommand.h"
-#include "Handlers/DapUpdateLogsCommand.h"
-#include "Handlers/DapAddWalletCommand.h"
-#include "Handlers/DapGetListWalletsCommand.h"
-#include "Handlers/DapGetListNetworksCommand.h"
-#include "Handlers/DapExportLogCommand.h"
-#include "Handlers/DapGetWalletAddressesCommand.h"
-#include "Handlers/DapGetWalletTokenInfoCommand.h"
-#include "Models/DapWalletModel.h"
-#include "Handlers/DapCreateTransactionCommand.h"
-#include "Handlers/DapMempoolProcessCommand.h"
-#include "Handlers/DapGetWalletHistoryCommand.h"
-#include "Handlers/DapRunCmdCommand.h"
-#include "Handlers/DapGetHistoryExecutedCmdCommand.h"
-#include "Handlers/DapSaveHistoryExecutedCmdCommand.h"
+#include "handlers/DapAbstractCommand.h"
+#include "handlers/DapQuitApplicationCommand.h"
+#include "handlers/DapActivateClientCommand.h"
+#include "handlers/DapUpdateLogsCommand.h"
+#include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapGetWalletsInfoCommand.h"
+#include "handlers/DapGetListNetworksCommand.h"
+#include "handlers/DapExportLogCommand.h"
+#include "handlers/DapGetWalletAddressesCommand.h"
+#include "handlers/DapGetWalletTokenInfoCommand.h"
+#include "models/DapWalletModel.h"
+#include "handlers/DapCreateTransactionCommand.h"
+#include "handlers/DapMempoolProcessCommand.h"
+#include "handlers/DapGetWalletHistoryCommand.h"
+#include "handlers/DapRunCmdCommand.h"
+#include "handlers/DapGetHistoryExecutedCmdCommand.h"
+#include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -133,7 +133,7 @@ signals:
 
     void walletCreated(const QVariant& wallet);
 
-    void walletsListReceived(const QVariant& walletList);
+    void walletsInfoReceived(const QVariant& walletList);
 
     void walletsReceived(const QList<QObject*>& walletList);
 

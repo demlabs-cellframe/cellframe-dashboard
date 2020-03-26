@@ -47,7 +47,7 @@ DapAbstractMenuTabWidgetForm
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: iconItem.right
                 anchors.leftMargin: 18 * pt
-                font.family: dapFontRobotoLight.name
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
                 text: name
@@ -64,7 +64,7 @@ DapAbstractMenuTabWidgetForm
                     if(!frameItemMenu.isPushed)
                     {
                         iconItem.source = hoverIcon;
-                        textItem.font.family = dapFontRobotoRegular.name;
+                        textItem.font.family = dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom;
                     }
                 }
 
@@ -73,7 +73,7 @@ DapAbstractMenuTabWidgetForm
                     if(!frameItemMenu.isPushed)
                     {
                         iconItem.source = normalIcon
-                        textItem.font.family = dapFontRobotoLight.name;
+                        textItem.font.family = dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom;
                     }
                 }
 
@@ -88,7 +88,7 @@ DapAbstractMenuTabWidgetForm
             {
                 frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
                 iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
-                textItem.font.family = (isPushed ? dapFontRobotoRegular.name : dapFontRobotoLight.name);
+                textItem.font.family = (isPushed ? dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom : dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom);
             }
         }
     }

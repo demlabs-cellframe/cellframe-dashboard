@@ -7,6 +7,10 @@ import "../../"
 
 DapAbstractTopPanelForm
 {
+    property alias dapComboboxPeriod: comboboxPeriod
+    property alias dapComboboxWallet: comboboxWallet
+    property alias dapComboboxStatus: comboboxStatus
+
     // Frame icon search
     Rectangle
     {
@@ -21,7 +25,7 @@ DapAbstractTopPanelForm
         {
             id: iconSearch
             anchors.fill: parent
-            source: "qrc:/res/icons/ic_search.png"
+            source: "qrc:/resources/icons/ic_search.png"
         }
     }
 
@@ -48,10 +52,7 @@ DapAbstractTopPanelForm
                 anchors.leftMargin: 10 * pt
                 anchors.right: parent.right
                 placeholderText: qsTr("Search")
-                font.pixelSize: 12 * pt
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 style:
                     TextFieldStyle
                     {
@@ -83,8 +84,7 @@ DapAbstractTopPanelForm
         anchors.left: frameTextFieldSearch.right
         anchors.leftMargin: 75 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -98,13 +98,26 @@ DapAbstractTopPanelForm
         anchors.leftMargin: 26 * pt
         width: 108 * pt
         color: "transparent"
+
+        ListModel
+        {
+            id: periodModel
+            ListElement { name: "today" }
+            ListElement { name: "yesterday" }
+            ListElement { name: "last week" }
+            ListElement { name: "last month" }
+        }
+
         DapComboBox
         {
             id: comboboxPeriod
+            model: periodModel
             comboBoxTextRole: ["name"]
-            mainLineText: ["all time"]
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            mainLineText: "all time"
+            currentIndex: -1
+            isDefaultNeedToAppend: true
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -130,8 +143,9 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 
@@ -143,8 +157,7 @@ DapAbstractTopPanelForm
         anchors.left: frameComboBoxPeriod.right
         anchors.leftMargin: 75 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -164,9 +177,11 @@ DapAbstractTopPanelForm
             id: comboboxWallet
             model: dapModelWallets
             comboBoxTextRole: ["name"]
-            mainLineText: ["all wallets"]
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            mainLineText: "all wallets"
+            currentIndex: -1
+            isDefaultNeedToAppend: true
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -192,8 +207,9 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 
@@ -205,8 +221,7 @@ DapAbstractTopPanelForm
         anchors.left: frameComboBoxWallet.right
         anchors.leftMargin: 75 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font.family: dapFontRobotoRegular.name
-        font.pixelSize: 12 * pt
+        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
     }
 
@@ -221,13 +236,25 @@ DapAbstractTopPanelForm
         width: 120 * pt
         color: "transparent"
 
+        ListModel
+        {
+            id: statusModel
+            ListElement { name: "Pending" }
+            ListElement { name: "Sent" }
+            ListElement { name: "Received" }
+            ListElement { name: "Error" }
+        }
+
         DapComboBox
         {
             id: comboboxStatus
+            model: statusModel
             comboBoxTextRole: ["name"]
-            mainLineText: ["all status"]
-            indicatorImageNormal: "qrc:/res/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/res/icons/ic_arrow_drop_up.png"
+            mainLineText: "all statuses"
+            currentIndex: -1
+            isDefaultNeedToAppend: true
+            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
+            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
             normalColorText: "#070023"
@@ -253,8 +280,9 @@ DapAbstractTopPanelForm
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox.pixelSize: 14 * pt
-            fontComboBox.family: "Roboto"
+            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
+            colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
     }
 }

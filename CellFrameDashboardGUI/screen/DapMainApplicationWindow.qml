@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "qrc:/resources/QML"
 
 DapMainApplicationWindowForm 
 {
@@ -15,6 +16,9 @@ DapMainApplicationWindowForm
     readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     ///@detalis Path to the console tab.
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
+
+    ///@details dapMainFonts Project font loader
+    readonly property QtObject dapMainFonts: DapFontRoboto {}
 
     property var dapWallets: []
 
@@ -40,43 +44,43 @@ DapMainApplicationWindowForm
             append({
                 name: qsTr("Dashboard"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/res/icons/icon_dashboard.png",
-                hoverIcon: "qrc:/res/icons/icon_dashboard_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
+                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
-    
-            append ({
-                name: qsTr("Exchange"),
-                page: exchangeScreen,
-                normalIcon: "qrc:/res/icons/icon_exchange.png",
-                hoverIcon: "qrc:/res/icons/icon_exchange_hover.png"
-            })
+//TODO: The tab is disabled until the functional part is implemented
+//            append ({
+//                name: qsTr("Exchange"),
+//                page: exchangeScreen,
+//                normalIcon: "qrc:/resources/icons/icon_exchange.png",
+//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+//            })
     
             append ({
                 name: qsTr("History"),
                 page: historyScreen,
-                normalIcon: "qrc:/res/icons/icon_history.png",
-                hoverIcon: "qrc:/res/icons/icon_history_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_history.png",
+                hoverIcon: "qrc:/resources/icons/icon_history_hover.png"
             })
 
             append ({
                 name: qsTr("Console"),
                 page: consoleScreen,
-                normalIcon: "qrc:/res/icons/icon_console.png",
-                hoverIcon: "qrc:/res/icons/icon_console_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_console.png",
+                hoverIcon: "qrc:/resources/icons/icon_console_hover.png"
             })
 
             append ({
                 name: qsTr("Settings"),
                 page: settingsScreen,
-                normalIcon: "qrc:/res/icons/icon_settings.png",
-                hoverIcon: "qrc:/res/icons/icon_settings_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
             })
 
             append ({
                 name: qsTr("Logs"),
                 page: logsScreen,
-                normalIcon: "qrc:/res/icons/icon_logs.png",
-                hoverIcon: "qrc:/res/icons/icon_logs_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_logs.png",
+                hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
              })
         }
     }
@@ -91,7 +95,7 @@ DapMainApplicationWindowForm
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetListNetworksCommand");
-        dapServiceController.requestToService("DapGetListWalletsCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
     Connections
@@ -111,7 +115,7 @@ DapMainApplicationWindowForm
         {
             console.log(walletList.length)
             console.log(dapWallets.length)
-             console.log(dapModelWallets.count)
+            console.log(dapModelWallets.count)
                 for (var q = 0; q < walletList.length; ++q)
                 {
                     dapWallets.push(walletList[q])

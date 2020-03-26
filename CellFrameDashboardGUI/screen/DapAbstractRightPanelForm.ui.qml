@@ -17,8 +17,8 @@ DapRightPanel
             widthImageButton: 16 * pt
             colorBackgroundNormal: "#F8F7FA"
             colorBackgroundHover: "#F8F7FA"
-            normalImageButton: "qrc:/res/icons/close_icon.png"
-            hoverImageButton: "qrc:/res/icons/close_icon_hover.png"
+            normalImageButton: "qrc:/resources/icons/close_icon.png"
+            hoverImageButton: "qrc:/resources/icons/close_icon_hover.png"
         }
     
     dapHeader.height: 36 * pt

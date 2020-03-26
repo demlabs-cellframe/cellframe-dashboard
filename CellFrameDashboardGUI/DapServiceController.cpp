@@ -81,6 +81,7 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
     Q_ASSERT(transceiver);
+    disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
     transceiver->requestToService(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
 }
@@ -113,7 +114,7 @@ void DapServiceController::registerCommand()
     // The team to create a new wallet on the Dashboard tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddWalletCommand("DapAddWalletCommand", m_DAPRpcSocket))), QString("walletCreated")));
     // The command to get a list of available wallets
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_DAPRpcSocket))), QString("walletsListReceived")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_DAPRpcSocket))), QString("walletsInfoReceived")));
     // Command to save data from the Logs tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapExportLogCommand("DapExportLogCommand",m_DAPRpcSocket))), QString("exportLogs")));
     // The command to get a list of available networks
@@ -136,7 +137,7 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
 
 
-    connect(this, &DapServiceController::walletsListReceived, [=] (const QVariant& walletList)
+    connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
         QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
         QList<DapWallet> tempWallets;
@@ -186,7 +187,6 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-    disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {

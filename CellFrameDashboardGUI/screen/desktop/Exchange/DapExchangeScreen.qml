@@ -1,11 +1,17 @@
-import QtQuick 2.4
+﻿import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
 import "qrc:/widgets"
+import "../../"
 
 
 DapExchangeScreenForm
 {
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                       CandleStick model
+************************************************************************************************/
     ListModel{
         id:candleModel
         ListElement{time:1546543400;minimum:10000;maximum:10550;open:10050;close:10100;}
@@ -48,15 +54,80 @@ DapExchangeScreenForm
         ListElement{time:1546554500;minimum:10200;maximum:10450;open:10350;close:10400;}
         ListElement{time:1546554800;minimum:10200;maximum:10450;open:10350;close:10400;}
     }
- //=====================================DapChartCandleStick=========================================================
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                      Converson model
+************************************************************************************************/
+
+    ListModel
+    {
+        id: conversionList
+        ListElement{text: "TKN1/NGD"}
+        ListElement{text: "TKN2/NGD"}
+        ListElement{text: "NGD/KLVN"}
+        ListElement{text: "KLVN/USD"}
+    }
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                           Time model
+************************************************************************************************/
+    ListModel
+    {
+        id: timeModel
+        ListElement{text: "1 minute"}
+        ListElement{text: "5 minute"}
+        ListElement{text: "15 minute"}
+        ListElement{text: "30 minute"}
+        ListElement{text: "1 hour"}
+        ListElement{text: "4 hour"}
+        ListElement{text: "12 hour"}
+        ListElement{text: "24 hour"}
+    }
+    /************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                        Orders model
+************************************************************************************************/
+    ListModel
+    {
+        id: orderModel
+        ListElement{titleOrder:"Buy"; path:"qrc:/resources/icons/buy_icon.png";currencyName: qsTr("KLVN");tokenName: qsTr("TKN1");balance: 0}
+        ListElement{titleOrder:"Sell"; path:"qrc:/resources/icons/sell_icon.png";currencyName: qsTr("KLVN");tokenName: qsTr("TKN1");balance: 0}
+    }
+
+    /************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                        History model
+************************************************************************************************/
+
+    ListModel
+    {
+        id: modelExchangeHistory
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.05013112}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:10550;token:1.00502423}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:100.502222}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:10550;token:1.00503453}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:10.23423;token:1005.0}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.050345}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.05021312}
+        ListElement{time:"Jule,11,11:55";status:"Buy";price:150.12;token:1.005034543}
+        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:100.5012321}
+
+    }
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                    DapChartCandleStick
+************************************************************************************************/
     Component
     {
         id:candleChart
 
-
         Canvas
         {
-
             id: chartCanvas
 
             //@detalis rightTime Indicates the completion time of the graph on the display.
@@ -92,7 +163,7 @@ DapExchangeScreenForm
             ///@detalis candleWidth Width body candle.
             property int candleWidth: 5 * pt
             ///@detalis imageCursorPath Path icon flug current.
-            property string imageCursorPath: "qrc:/res/icons/ic_flag.png"
+            property string imageCursorPath: "qrc:/resources/icons/ic_flag.png"
             ///@detalis imageCursorWidth Width icon.
             property int imageCursorWidth: 44 * pt
             ///@detalis imageCursorHeight Height icon.
@@ -453,30 +524,28 @@ DapExchangeScreenForm
 
         }
     }
-///===============================DapChartCandleStick================================================================
 
-///===============================DapUiQmlWidgetChainExchanges=======================================================
-
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                        OrderPanel
+************************************************************************************************/
     Component
     {
         id: delegateOrderPanel
+
         ///Order panel
-        Item
+        Rectangle
         {
+            property int fromStringReadOnly: btnMarket.checked ? 0 : 1
 
-            ///@detalis currencyName
-            property string currencyName: qsTr("KLVN")
-            ///@detalis balance Balance.
-            property string balance: "0"
-            ///@detalis fontStyleOrder Font style.
-            property string fontStyleOrder: "Roboto"
             width: 312 * pt
-            height: 292 * pt
-
+            height: childrenRect.height
             ColumnLayout
             {
                 anchors.top: parent.top
                 anchors.topMargin: 16 * pt
+                spacing: 0 * pt
 
                 ///The header of the panel
                 Item
@@ -484,86 +553,168 @@ DapExchangeScreenForm
                     width: childrenRect.width
                     height: childrenRect.height
 
+                    //Title line
                     RowLayout
                     {
                         spacing: 8 * pt
                         Rectangle
                         {
-                            width: 32
-                            height: 32
+                            width: 20 * pt
+                            height: 20 * pt
 
+                            //Title order image
                             Image
                             {
                                 source: path
                                 anchors.fill: parent
                             }
                         }
-
+                        //Title order text
                         Text
                         {
-                            color: "#4F5357"
-                            font.pixelSize: 14 * pt
-                            font.family: fontStyleOrder
-                            font.bold: true
+                            color: "#070023"
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                             text: titleOrder
                         }
                     }
                 }
 
+                Rectangle
+                {
+                    width: parent.width
+                    height: 10 * pt
+                }
+
+                //Balance in the order panel
                 Text
                 {
                     text: qsTr("Balance: ") + balance + " " + currencyName
-                    color: "#ACACAF"
-                    font.family: "Roboto"
-                    font.pixelSize: 12 * pt
+                    color: "#59556C"
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 }
 
                 Rectangle
                 {
                     width: parent.width
-                    height: 6 * pt
-
+                    height: 20 * pt
                 }
 
-
-                Item
+                Rectangle
                 {
                     width: childrenRect.width
                     height: childrenRect.height
+
+                    //List of order lines
+                    ListModel
+                    {
+                        id: modelInputFrame
+                        ListElement{titleToken:"Ammount";token:""}
+                        ListElement{titleToken:"Price";token:"10 800.47"}
+                        ListElement{titleToken:"Total";token:"0"}
+                    }
 
                     ///Input fields via repeater
                     ColumnLayout
                     {
                         spacing: 16 * pt
+                        Item
+                        {
+                            id: frameButton
+                            width: childrenRect.width
+                            height: childrenRect.height
 
+                            //Frame Buttons-checkers(Market/Limit)
+                            RowLayout
+                            {
+                                spacing: 16 * pt
+
+                                DapButton
+                                {
+                                    id: btnMarket
+                                    anchors.left: parent.left
+                                    textButton: "Market"
+                                    implicitWidth: 58 * pt
+                                    implicitHeight: 24 * pt
+                                    checkable: true
+                                    checked: true
+                                    colorBackgroundNormal: checked ? "#F8F7FA" : "#FFFFFF"
+                                    colorBackgroundHover: checked ? "#F8F7FA" : "#FFFFFF"
+                                    horizontalAligmentText:Qt.AlignHCenter
+                                    borderColorButton: checked ? "#070023" : "#908D9D"
+                                    borderWidthButton: 1 * pt
+                                    fontButton:dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                                    colorTextButton: checked ? "#070023" : "#908D9D"
+
+                                    onClicked:
+                                    {
+                                        btnMarket.checked = true;
+                                        btnLimit.checked = false;
+                                    }
+
+                                }
+
+                                DapButton
+                                {
+                                    id: btnLimit
+                                    anchors.right: parent.right
+                                    textButton: "Limit"
+                                    implicitWidth: 50 * pt
+                                    implicitHeight: 24 * pt
+                                    checked: false
+                                    checkable: true
+                                    colorBackgroundNormal: checked ? "#F8F7FA" : "#FFFFFF"
+                                    colorBackgroundHover: checked ? "#F8F7FA" : "#FFFFFF"
+                                    horizontalAligmentText:Qt.AlignHCenter
+                                    borderColorButton: checked ? "#070023" : "#908D9D"
+                                    borderWidthButton: 1 * pt
+                                    fontButton:dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                                    colorTextButton: checked ? "#070023" : "#908D9D"
+
+                                    onClicked:
+                                    {
+                                        btnMarket.checked = false;
+                                        btnLimit.checked = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        //Order Fields
                         Repeater
                         {
-                            model: [qsTr("Ammount"), qsTr("Price"), qsTr("Total"), qsTr("Fee (0.2%)"), qsTr("Total+Fee")]
+                            model: modelInputFrame
                             RowLayout
                             {
                                 spacing: 0
                                 Rectangle
                                 {
                                     height: childrenRect.height
-                                    width: 120 * pt
+                                    width: 118 * pt
 
+                                    //String name. Text from model
                                     Text
                                     {
-                                        text: modelData
-                                        color: "#ACACAF"
-                                        font.family: fontStyleOrder
-                                        font.pixelSize: 12 * pt
+                                        text: titleToken
+                                        color: "#59556C"
+                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                     }
                                 }
 
-
+                                //String field
                                 Rectangle
                                 {
                                     width: 130 * pt
                                     height: 22 * pt
                                     border.width: 1 * pt
-                                    border.color: "#B0B1B5"
+                                    border.color:
+                                    {
+                                        if(!currencyTextInput.readOnly)
+                                            return "#908D9D"
+                                        else
+                                            return "#C7C6CE"
+                                    }
 
+                                    //Input field
                                     TextInput
                                     {
                                         id: currencyTextInput
@@ -573,16 +724,17 @@ DapExchangeScreenForm
                                         anchors.right: textCurrency.left
                                         anchors.leftMargin: 6 * pt
                                         anchors.rightMargin: 6 * pt
-                                        color: readOnly ? "#ACACAF" : "#737880"
-                                        font.family: fontStyleOrder
-                                        font.pixelSize: 12 * pt
+                                        color: readOnly ? "#ACAAB5" : "#59556C"
+                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                         verticalAlignment: Qt.AlignVCenter
                                         validator: RegExpValidator{ regExp: /\d+/ }
                                         clip: true
-                                        readOnly: index === 3 || index === 4
-                                        text: readOnly ? "0" : ""
+                                        readOnly:index > fromStringReadOnly ? true : false
+                                        text: token//readOnly ? "0" : ""
+
                                     }
 
+                                    //Mark to input field
                                     Text
                                     {
                                         id: textCurrency
@@ -592,51 +744,154 @@ DapExchangeScreenForm
                                         anchors.rightMargin: 6 * pt
                                         verticalAlignment: Text.AlignVCenter
                                         horizontalAlignment: Text.AlignRight
-                                        color: currencyTextInput.readOnly ? "#ACACAF" : "#737880"
-                                        font.family: fontStyleOrder
-                                        font.pixelSize: 12 * pt
-                                        text: index === 0 ? currencyName : qsTr("USD")
+                                        color: "#59556C"
+                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                        text: index === 0 ? currencyName : tokenName
                                     }
                                 }
                             }
                         }
+
+                        //Order Approval Button (Shell/Buy)
+                        DapButton
+                        {
+                            anchors.right: parent.right
+                            anchors.topMargin: 12 * pt
+                            textButton: titleOrder
+                            implicitWidth: 130 * pt
+                            implicitHeight: 30 * pt
+                            colorBackgroundNormal: "#3E3853"
+                            colorBackgroundHover: "#3E3853"
+                            horizontalAligmentText:Qt.AlignHCenter
+                            borderColorButton: "#000000"
+                            borderWidthButton: 0
+                            fontButton.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
+                            fontButton.pixelSize: 13 * pt
+                            colorTextButton: "#FFFFFF"
+
+                            onClicked:
+                            {
+                                frameButton.visible = false;
+                                modelInputFrame.append({"titleToken":"Fee (0.2%)","token":"10 800.47"});
+                                modelInputFrame.append({"titleToken":"Total+Fee","token":"10 800.47"});
+                            }
+                        }
                     }
-
                 }
-
-
-                Rectangle
-                {
-                    height: 12 * pt
-                    width: parent.width
-                }
-                ///Order button
-                DapButton
-                {
-                    anchors.right: parent.right
-                    textButton: titleOrder
-                    widthButton: 130 * pt
-                    heightButton: 30 * pt
-                    fontButton.pixelSize: 13 * pt
-                    colorBackgroundNormal: "#3E3853"
-                    colorBackgroundHover: "#3E3853"
-                    horizontalAligmentText:Qt.AlignHCenter
-                    borderColorButton: "#000000"
-                    borderWidthButton: 0
-                    fontButton.family: "Roboto"
-                    fontButton.weight: Font.Normal
-                    colorTextButton: "#FFFFFF"
-
-                }
-
             }
         }
-
     }
 
+/************************************************************************************************
+                                DapUiQmlWidgetChainExchanges
+-------------------------------------------------------------------------------------------------
+                                      ExchangeHistory
+************************************************************************************************/
 
 
-///===============================DapUiQmlWidgetChainExchanges=======================================================
+    //Transaction list delegate.
+    Component
+    {
+        id: delegateExchangeHistory
+        ItemDelegate
+        {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 27 * pt
+
+            Text
+            {
+                id: timeExchangeHistory
+                text: time
+                color: "#4F5357"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 87 * pt
+            }
+
+            Text
+            {
+                id: statusExchangeHistory
+                text: status
+                color:
+                {
+                    if(status === "Buy")
+                        return "#4B8BEB"
+                    else
+                        return "#6F9F00"
+                }
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                anchors.left: timeExchangeHistory.right
+                anchors.leftMargin: 20 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 42 * pt
+            }
+
+            Text
+            {
+                id: priceExchangeHistory
+                text: price
+                color: "#4F5357"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                anchors.left: statusExchangeHistory.right
+                anchors.leftMargin: 20 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 104 * pt
+            }
+
+            Text
+            {
+                id: tokenExchangeHistory
+                text: token
+                color: "#4F5357"
+                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                anchors.left: priceExchangeHistory.right
+                anchors.leftMargin: 20 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 8 * pt
+                width: 117 * pt
+            }
+
+            Rectangle
+            {
+                id:lineBottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: 1 * pt
+                visible:
+                {
+                    if(index < modelExchangeHistory.count - 1)
+                        return true;
+                    else
+                        return false;
+                }
+                color: "#E3E2E6"
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapHistoryButton
+        onClicked:
+        {
+            if(dapListHistoryVisible)
+            {
+                dapListHistoryVisible = false
+                dapIconHistoryButton = "qrc:/resources/icons/ic_chevron_down.png"
+            }
+            else
+            {
+                dapListHistoryVisible = true
+                dapIconHistoryButton = "qrc:/resources/icons/ic_chevron_up.png"
+            }
+        }
+    }
 }
 /*##^##
 Designer {

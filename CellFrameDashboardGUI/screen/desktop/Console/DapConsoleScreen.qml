@@ -18,27 +18,9 @@ DapConsoleScreenForm
     Component.onCompleted:
     {
         //The start point for using history
-        consoleHistoryIndex = modelConsoleCommand.count
-    }
-
-    QtObject
-    {
-        id: themeConsole
-        property font inputCommandFont:
-            Qt.font({
-                        pixelSize: 18 * pt,
-                        family: "Roboto",
-                        styleName: "Normal",
-                        weight: Font.Normal
-                    })
-
-        property font consoleCommandFont:
-            Qt.font({
-                        pixelSize: 18 * pt,
-                        family: "Roboto",
-                        styleName: "Normal",
-                        weight: Font.Normal
-                    })
+        consoleHistoryIndex = -1
+        //Set focus to console input
+        consoleInput.forceActiveFocus()
     }
 
     ListModel
@@ -56,7 +38,7 @@ DapConsoleScreenForm
             {
                 id: textQuery
                 text: "> " + query
-                font: themeConsole.consoleCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
             Text
             {
@@ -64,7 +46,7 @@ DapConsoleScreenForm
                 text: response
                 width: parent.width
                 wrapMode: Text.Wrap
-                font: themeConsole.consoleCommandFont
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
         }
     }
@@ -75,36 +57,38 @@ DapConsoleScreenForm
         if(sendedCommand != "")
         {
             sendCommand = sendedCommand;
-            consoleHistoryIndex = modelConsoleCommand.count;
-            runCommand(sendCommand)
+            consoleHistoryIndex = -1;
+            runCommand(sendCommand);
             sendedCommand = "";
             currentCommand = sendedCommand;
         }
+
     }
 
     //Send command fron right history panel
     onHistoryCommandChanged:
     {
-        sendCommand = historyCommand;
-        runCommand(sendCommand)
-        consoleHistoryIndex = modelConsoleCommand.count;
+        if(historyCommand != "")
+        {
+            sendCommand = historyCommand;
+            runCommand(sendCommand);
+            consoleHistoryIndex = -1;
+        }
     }
 
     //Using KeyUp and KeyDown to serf on console history
     onConsoleHistoryIndexChanged:
     {
-        if(consoleHistoryIndex >= 0)
+        if(consoleHistoryIndex < 0)
         {
-            if(consoleHistoryIndex >= modelConsoleCommand.count)
-            {
-                consoleHistoryIndex = modelConsoleCommand.count;
-                currentCommand = "";
-                return;
-            }
+            currentCommand = "";
+            consoleHistoryIndex = -1;
+            return;
         }
-        else
-            consoleHistoryIndex = 0;
-        currentCommand = modelConsoleCommand.get(consoleHistoryIndex).query;
+        else if(consoleHistoryIndex >= dapConsoleRigthPanel.dapModelHistoryConsole.count)
+            consoleHistoryIndex = dapConsoleRigthPanel.dapModelHistoryConsole.count;
+        currentCommand = dapConsoleRigthPanel.dapModelHistoryConsole.get(consoleHistoryIndex).query;
         return;
     }
+
 }

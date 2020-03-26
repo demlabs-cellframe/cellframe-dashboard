@@ -17,10 +17,7 @@ DapAbstractRightPanel
                 text: qsTr("Last actions")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font.family: "Roboto"
-                font.styleName: "Normal"
-                font.weight: Font.Normal
-                font.pixelSize: 12 * pt
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 color: "#3E3853"
             }
 
@@ -57,15 +54,13 @@ DapAbstractRightPanel
                         color: "#070023"
                         width: parent.width
                         wrapMode: Text.Wrap
-                        font.pixelSize: 14 * pt
-                        font.family: "Roboto"
-                        font.weight: Font.Normal
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         //For the automatic sending selected command from history
                         MouseArea
                         {
                             id: historyQueryMouseArea
                             anchors.fill: textCommand
-                            onDoubleClicked: historyQuery = textCommand.text
+                            onDoubleClicked: historyQueryIndex = index
                         }
                     }
                 //It allows to see last element of list by default

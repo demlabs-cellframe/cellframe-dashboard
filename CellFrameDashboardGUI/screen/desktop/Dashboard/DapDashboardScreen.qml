@@ -24,10 +24,7 @@ DapDashboardScreenForm
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
                     anchors.verticalCenter: parent.verticalCenter
-                    font.pixelSize: 12 * pt
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     color: "#FFFFFF"
                     verticalAlignment: Qt.AlignVCenter
                     text: name
@@ -46,10 +43,7 @@ DapDashboardScreenForm
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
-                    font.pixelSize: 12 * pt
-                    font.family: "Roboto"
-                    font.styleName: "Normal"
-                    font.weight: Font.Normal
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     color: "#908D9D"
                     text: qsTr("Network address")
                     width: 92 * pt
@@ -62,12 +56,11 @@ DapDashboardScreenForm
                    anchors.left: networkAddressLabel.right
                    anchors.leftMargin: 36 * pt
                    width: 172 * pt
+                   font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                    font.pixelSize: 10 * pt
-                   font.family: "Roboto"
-                   font.styleName: "Normal"
-                   font.weight: Font.Normal
                    color: "#908D9D"
-                   text: address
+                   fullText: address
+                   textElide: Text.ElideRight
                 }
 
 
@@ -82,14 +75,14 @@ DapDashboardScreenForm
                     height: 16 * pt
                     hoverEnabled: true
 
-                    onClicked: textMetworkAddress.copy()
+                    onClicked: textMetworkAddress.copyFullText()
 
 
                     Image
                     {
                         id: networkAddressCopyButtonImage
                         anchors.fill: parent
-                        source: parent.containsMouse ? "qrc:/res/icons/ic_copy_hover.png" : "qrc:/res/icons/ic_copy.png"
+                        source: parent.containsMouse ? "qrc:/resources/icons/ic_copy_hover.png" : "qrc:/resources/icons/ic_copy.png"
                         sourceSize.width: parent.width
                         sourceSize.height: parent.height
 
@@ -133,7 +126,7 @@ DapDashboardScreenForm
                             anchors.left: parent.left
                             height: 30 * pt
                             width: 30 * pt
-                            source: "qrc:/res/icons/ic_cellframe.png"
+                            source: "qrc:/resources/icons/ic_cellframe.png"
                             sourceSize.width: width
                             sourceSize.height: height
                             anchors.verticalCenter: parent.verticalCenter
@@ -145,10 +138,7 @@ DapDashboardScreenForm
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: currencyIcon.right
                             anchors.leftMargin: 10 * pt
-                            font.pixelSize: 18 * pt
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
                             color: "#070023"
                             text: name
                             width: 172 * pt
@@ -169,10 +159,7 @@ DapDashboardScreenForm
                                 id: currencySum
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
-                                font.pixelSize: 12 * pt
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
+                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                 color: "#070023"
                                 text: balance + " "
                                 horizontalAlignment: Text.AlignLeft
@@ -185,10 +172,7 @@ DapDashboardScreenForm
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: currencySum.right
                                 anchors.right: parent.right
-                                font.pixelSize: 12 * pt
-                                font.family: "Roboto"
-                                font.styleName: "Normal"
-                                font.weight: Font.Normal
+                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                                 color: "#070023"
                                 text: name
                                 horizontalAlignment: Text.AlignLeft
@@ -203,10 +187,7 @@ DapDashboardScreenForm
                             anchors.leftMargin: 16 * pt
                             anchors.right: parent.right
                             anchors.rightMargin: 16 * pt
-                            font.pixelSize: 12 * pt
-                            font.family: "Roboto"
-                            font.styleName: "Normal"
-                            font.weight: Font.Normal
+                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                             color: "#070023"
                             text: "$" + emission + " USD"
                             width: 188 * pt
