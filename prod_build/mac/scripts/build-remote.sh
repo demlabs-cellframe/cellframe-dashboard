@@ -1,6 +1,6 @@
 #!/bin/bash
 
-KEY="~/.ssh/macbuild_rsa"
+KEY="~/.ssh/prod_build"
 HOST="CloudXMAC@185.17.26.239"
 srcpath=$(pwd)
 

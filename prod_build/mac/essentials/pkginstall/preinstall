@@ -32,7 +32,7 @@ while read -r GuiPID; do
 done <<< "$GuiPIDs"
 
 
-sudo launchctl unload -w /Library/LaunchDaemons/com.ncoded.UltraPadService.plist
+sudo launchctl unload -w /Library/LaunchDaemons/com.cellframe.CellFrameDashboardService.plist
 sudo rm -fr /Applications/UltraPad.app
 
 
