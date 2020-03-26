@@ -1,0 +1,5 @@
+APP_PATH=CellframeDashboard/CellframeDashboard.app
+BUILD_PATH=build/CellframeDashboard/ROOT
+APP_NAME=CellFrameDashboard
+APP_SERVICE_NAME=CellFrameDashboardService
+PKGSCRIPT_PATH=prod_build/mac/essentials/pkginstall

@@ -1,0 +1,55 @@
+#!/bin/bash
+
+RET=0
+echo "Installation logs" > /tmp/UltraPad_Install_Logs.txt
+
+if pgrep -x "UltraPad" > /dev/null
+then
+    	echo "Gui is Running" >> /tmp/UltraPad_Install_Logs.txt
+    	./cmdAlert.app/Contents/MacOS/cmdAlert
+	RET=$?
+else
+    	echo "Gui Stopped" >> /tmp/UltraPad_Install_Logs.txt
+fi
+
+echo "RET from asking user = $RET" >> /tmp/UltraPad_Install_Logs.txt
+if [ "$RET" -eq "0" ]; then
+	echo "Continue install" >> /tmp/UltraPad_Install_Logs.txt
+elif [ "$RET" -eq "1" ]; then
+	echo "Stop install" >> /tmp/UltraPad_Install_Logs.txt
+	exit 1
+fi
+
+
+#### Kill all opened UltraPad gui clients
+GuiPIDs=$(pgrep -x "UltraPad")
+while read -r GuiPID; do
+    	echo "... $GuiPID ..." >> /tmp/UltraPad_Install_Logs.txt
+	if [ "$GuiPID" != "" ]; then
+		echo "UltraPad is set! Kill It!!!" >> /tmp/UltraPad_Install_Logs.txt
+		sudo kill $GuiPID
+	fi
+done <<< "$GuiPIDs"
+
+
+sudo launchctl unload -w /Library/LaunchDaemons/com.ncoded.UltraPadService.plist
+sudo rm -fr /Applications/UltraPad.app
+
+
+#delete UltraPads from com.apple.dock.plist
+echo "path to dock /Users/$USER/Library/Preferences/com.apple.dock.plist" >> /tmp/UltraPad_Install_Logs.txt
+dockApps=$(defaults read /Users/$USER/Library/Preferences/com.apple.dock.plist persistent-apps | nl | grep file-label | awk '/UltraPad/  {print NR}')
+cnt=1
+while read -r app; do
+	app=$[$app-$cnt]
+	cnt=$[$cnt+1]
+	if [ "$app" -ne "-1" ]; then
+		echo "app in dock exists" >> /tmp/UltraPad_Install_Logs.txt
+		sudo -u $USER /usr/libexec/PlistBuddy -c "Delete persistent-apps:$app" /Users/$USER/Library/Preferences/com.apple.dock.plist
+	else
+		echo "app in dock don't exists" >> /tmp/UltraPad_Install_Logs.txt
+	fi
+done <<< "$dockApps"
+osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
+osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
+exit 0

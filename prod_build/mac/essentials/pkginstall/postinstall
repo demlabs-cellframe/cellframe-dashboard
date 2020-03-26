@@ -1,0 +1,30 @@
+#!/bin/bash
+
+sudo xattr -rd com.apple.quarantine /Applications/UltraPad.app
+sudo killall -HUP mDNSResponder
+
+sudo launchctl stop com.ncoded.UltraPadService
+#sudo kextunload /Library/Extensions/tun.kext
+sudo launchctl unload -w /Library/LaunchDaemons/com.ncoded.UltraPadService.plist
+sudo cp -f /Applications/UltraPad.app/Contents/Resources/com.ncoded.UltraPadService.plist /Library/LaunchDaemons/
+sudo cp -fr /Applications/UltraPad.app/Contents/Resources/tun.kext /Library/Extensions/
+sudo cp -f /Applications/UltraPad.app/Contents/Resources/net.sf.tuntaposx.tun.plist /Library/LaunchDaemons/
+sudo chown root /Library/LaunchDaemons/com.ncoded.UltraPadService.plist
+sudo chmod 600 /Library/LaunchDaemons/com.ncoded.UltraPadService.plist
+sudo chown root /Library/LaunchDaemons/net.sf.tuntaposx.tun.plist
+sudo chmod 600 /Library/LaunchDaemons/net.sf.tuntaposx.tun.plist
+sudo launchctl unload /Library/LaunchDaemons/net.sf.tuntaposx.tun.plist
+sudo launchctl load -w /Library/LaunchDaemons/net.sf.tuntaposx.tun.plist
+sudo launchctl load -w /Library/LaunchDaemons/com.ncoded.UltraPadService.plist
+
+if [ ! -e /Library/LaunchDaemons/cleanup ]; then
+	sudo cp -r /Applications/UltraPad.app/Contents/Resources/cleanup /Library/LaunchDaemons
+	sudo chown -R root:wheel /Library/LaunchDaemons/cleanup
+	sudo ln -sf /Library/LaunchDaemons/cleanup/com.ncoded.cleanup.plist /Library/LaunchDaemons/com.ncoded.cleanup.plist
+	sudo chmod 
+fi
+sudo rm -f /tmp/tun.code
+sudo kextload /Library/Extensions/tun.kext
+sudo echo $? >> /tmp/tun.code.txt
+
+sudo launchctl start com.ncoded.UltraPadService
