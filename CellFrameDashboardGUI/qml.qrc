@@ -145,5 +145,9 @@
         <file>resources/icons/ic_chevron_down.png</file>
         <file>resources/icons/ic_chevron_up.png</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
+        <file>resources/icons/next_month_icon.png</file>
+        <file>resources/icons/next_year_icon.png</file>
+        <file>resources/icons/previous_month_icon.png</file>
+        <file>resources/icons/previous_year_icon.png</file>
     </qresource>
 </RCC>

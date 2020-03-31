@@ -82,7 +82,7 @@ DapAbstractTopPanelForm
         id: textPeriod
         text: qsTr("Period")
         anchors.left: frameTextFieldSearch.right
-        anchors.leftMargin: 75 * pt
+        anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
@@ -95,8 +95,8 @@ DapAbstractTopPanelForm
 
         anchors.left: textPeriod.right
         anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: 26 * pt
-        width: 108 * pt
+        anchors.leftMargin: 30 * pt
+        width: 204 * pt
         color: "transparent"
 
         ListModel
@@ -106,16 +106,13 @@ DapAbstractTopPanelForm
             ListElement { name: "yesterday" }
             ListElement { name: "last week" }
             ListElement { name: "last month" }
+            ListElement { name: "custom range"}
         }
 
-        DapComboBox
+        DapComboBoxCustomRange
         {
             id: comboboxPeriod
             model: periodModel
-            comboBoxTextRole: ["name"]
-            mainLineText: "all time"
-            currentIndex: -1
-            isDefaultNeedToAppend: true
             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -126,10 +123,10 @@ DapAbstractTopPanelForm
             hilightColorTopText: "#070023"
             hilightColor: "#330F54"
             normalTopColor: "#070023"
-            widthPopupComboBoxNormal: 108 * pt
-            widthPopupComboBoxActive: 140 * pt
+            widthPopupComboBoxNormal: 204 * pt
+            widthPopupComboBoxActive: 236 * pt
             heightComboBoxNormal: 24 * pt
-            heightComboBoxActive: 44 * pt
+            heightComboBoxActive: 46 * pt
             bottomIntervalListElement: 8 * pt
             topEffect: false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
@@ -140,12 +137,48 @@ DapAbstractTopPanelForm
             intervalListElement: 10 * pt
             indicatorWidth: 24 * pt
             indicatorHeight: indicatorWidth
-            indicatorLeftInterval: 8 * pt
+            indicatorLeftInterval: 16 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
-            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
-            colorTextComboBox: [["#070023", "#FFFFFF"]]
+            textFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14 ///
+            defaultMainLineText: "all time"
+            isDefaultNeedToAppend: true
+            dapRangeElementWidth: 74 * pt
+            dapRangeSpacing: 6 * pt
+            dapRangeDefaultText: "dd.mm.yyyy"
+            dapInactiveRangeTextFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+            unselectedRangeColorTopText: "#ACAAB5"
+            dapActiveRangeTextFont: dapMainFonts.dapMainFontTheme.dapFontRobotoMedium14
+            selectedRangeColorTopText: "#FFFFFF"
+
+            dapCalendars:
+                DapCalendar
+                {
+                    dapLeftPadding: 16 * pt
+                    dapRightPadding: 16 * pt
+                    dapTopPadding: 0 * pt
+                    dapBottomPadding: 16 * pt
+                    dapTitleTopPadding: 20 * pt
+                    dapTitleBottomPadding: 14 * pt
+                    dapButtonInterval: 8 * pt
+                    dapTitleWidth: 108 * pt
+                    dapDayWidth: 24 * pt
+                    dapDayHeight: 24 * pt
+                    dapDayLeftInterval: 8 * pt
+                    dapDayTopInterval: 2 * pt
+                    dapCalendarFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                    dapCalendarBackgroundColor: "#FFFFFF"
+                    dapNormalTextColor: "#070023"
+                    dapSelectedTextColor: "#FFFFFF"
+                    dapInvalidTextColor: "#908D9D"
+                    dapNormalBackgroundColor: "#FFFFFF"
+                    dapSelectedBackgroundColor: "#3E3853"
+                    dapDayOfWeeksFormat: Locale.NarrowFormat
+                    dapPreviousYearButtonImage: "qrc:/resources/icons/previous_year_icon.png"
+                    dapPreviousMonthButtonImage: "qrc:/resources/icons/previous_month_icon.png"
+                    dapNextMonthButtonImage: "qrc:/resources/icons/next_month_icon.png"
+                    dapNextYearButtonImage: "qrc:/resources/icons/next_year_icon.png"
+                }
         }
     }
 
@@ -155,7 +188,7 @@ DapAbstractTopPanelForm
         id: textHeaderWallet
         text: qsTr("Wallet")
         anchors.left: frameComboBoxPeriod.right
-        anchors.leftMargin: 75 * pt
+        anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
@@ -219,7 +252,7 @@ DapAbstractTopPanelForm
         id: textHeaderStatus
         text: qsTr("Status")
         anchors.left: frameComboBoxWallet.right
-        anchors.leftMargin: 75 * pt
+        anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
         color: "#ACAAB5"
@@ -232,7 +265,7 @@ DapAbstractTopPanelForm
 
         anchors.left: textHeaderStatus.right
         anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: 26 * pt
+        anchors.leftMargin: 30 * pt
         width: 120 * pt
         color: "transparent"
 
