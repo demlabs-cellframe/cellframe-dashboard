@@ -1,3 +1,13 @@
+cellframe-dashboard (2.0-3) develop; urgency=medium
+
+  *     Merge branch 'features-3098' into 'develop'
+  *
+  *     Features 3098
+  *
+  *     See merge request cellframe/cellframe-dashboard!159
+
+ -- xapuyc <xapuyc@workspace>  Tue, 14 Apr 2020 19:28:34 +0500
+
 cellframe-dashboard (2.0-1) testing; urgency=medium
 
   * Application update
