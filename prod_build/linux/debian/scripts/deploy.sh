@@ -10,7 +10,7 @@ CELLFRAME_FILESERVER_CREDS="admin@pub.cellframe.net"
 CELLFRAME_FILESERVER_PATH="~/web/pub.cellframe.net/public_html/linux"
 pwd
 
-cd packages
+cd build
 PKGFILES=$(ls . | grep .deb)
 #cd ..
 echo $VERSION_INFO
