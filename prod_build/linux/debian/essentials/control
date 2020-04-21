@@ -3,7 +3,7 @@ Section: unknown
 Priority: optional
 Maintainer: Demlabs Support <support@demlabs.net>
 Build-Depends: debhelper (>= 9)
-Standards-Version: 2.0-1
+Standards-Version: 2.0-3
 Homepage: https://demlabs.net
 
 Package: cellframe-dashboard

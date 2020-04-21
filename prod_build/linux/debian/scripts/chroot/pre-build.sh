@@ -38,3 +38,8 @@ install_dependencies() {
 }
 PKG_DEPS=$1
 install_dependencies
+
+#for variable in $(cat ./prod_build/general/conf/brands | sed 's/\"//g'); do
+#	echo $variable
+#	export "$variable"
+#done

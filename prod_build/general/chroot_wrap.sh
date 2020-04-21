@@ -14,6 +14,9 @@ cd $SRC_PATH
 echo "workdir is $(pwd)"
 . prod_build/general/pre-build.sh
 export_variables "./prod_build/general/conf/*"
+VERSION_STRING=$(echo "$VERSION_FORMAT" | sed "s/\"//g" ) #Removing quotes
+VERSION_ENTRIES=$(echo "$VERSION_ENTRIES" | sed "s/\"//g" )
+export VERSION_STRING=$(extract_version_number)
 
 IFS=' '
 echo "$PLATFORM_CANDIDATES"
@@ -25,6 +28,7 @@ echo "Platforms are $PLATFORMS"
 
 for platform in $PLATFORMS; do
 	echo "Working with $platform now"
+	export platform
 	export_variables "./prod_build/$platform/conf/*"
 	IFS=' '
 	PKG_TYPE=$(echo $PKG_FORMAT | cut -d ' ' -f1)
@@ -35,7 +39,7 @@ for platform in $PLATFORMS; do
 	for distr in $HOST_DISTR_VERSIONS; do
 		for arch in $HOST_ARCH_VERSIONS; do
 			if [ -e $CHROOTS_PATH/$CHROOT_PREFIX-$distr-$arch ]; then
-				schroot -c $CHROOT_PREFIX-$distr-$arch -- launcher.sh prod_build/$platform/scripts/$JOB.sh $PKG_TYPE || errcode=$?
+				schroot -c $CHROOT_PREFIX-$distr-$arch -- launcher.sh prod_build/$platform/scripts/$JOB.sh $PKG_TYPE $platform || errcode=$?
 #				echo "schroot stub $PKG_TYPE"
 			else
 				echo "chroot $CHROOT_PREFIX-$distr-$arch not found. You should install it first"
@@ -43,7 +47,7 @@ for platform in $PLATFORMS; do
 		done
 	done
 	echo "workdir before postinstall is $(pwd)"
-	[ -e prod_build/$platform/scripts/post-build.sh ] && prod_build/$platform/scripts/post-build.sh #For post-build actions not in chroot (global publish)
+	[ -e prod_build/$platform/scripts/post-build.sh ] && prod_build/$platform/scripts/post-build.sh  #For post-build actions not in chroot (global publish)
 	PKG_FORMAT=$(echo $PKG_FORMAT | cut -d ' ' -f2-)
 	unexport_variables "./prod_build/$platform/conf/*"
 done

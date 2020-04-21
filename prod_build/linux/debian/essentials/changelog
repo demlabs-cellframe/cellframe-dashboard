@@ -1,3 +1,13 @@
+cellframe-dashboard (2.0-3) stable; urgency=medium
+
+  * Merge branch 'develop' into 'master'
+  *
+  *  Develop
+  *
+  *  See merge request cellframe/cellframe-dashboard!158
+
+ -- xapuyc <xapuyc@workspace>  Tue, 21 Apr 2020 21:16:45 +0500
+
 cellframe-dashboard (2.0-1) testing; urgency=medium
 
   * Application update

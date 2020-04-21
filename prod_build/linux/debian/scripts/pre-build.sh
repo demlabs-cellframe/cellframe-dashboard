@@ -73,18 +73,18 @@ install_dependencies() {
 #. prod_build/general/install_dependencies
 . prod_build/general/pre-build.sh #VERSIONS and git
 export_variables "prod_build/general/conf/*"
-export_variables "prod_build/linux/debian/conf/*"
+export_variables "prod_build/$platform/conf/*"
+echo "Obtained version is $VERSION_STRING"
 
-VERSION_STRING=$(echo $VERSION_FORMAT | sed "s/\"//g" ) #Removing quotes
-VERSION_ENTRIES=$(echo $VERSION_ENTRIES | sed "s/\"//g" )
-VERSION_STRING=$(extract_version_number)
-last_version_string=$(cat prod_build/linux/debian/essentials/changelog | head -n 1 | cut -d '(' -f2 | cut -d ')' -f1)
+IFS=" "
+#NOTONBUILDSERVER=0
+#gitlab-runner -v 2&>>/dev/null || NOTONBUILDSERVER=$?
+last_version_string=$(cat debian/changelog | head -n 1 | cut -d '(' -f2 | cut -d ')' -f1)
 
+#if [[ $ONBUILDSERVER == 0 ]]; then 
+#	echo "[WRN] on build platform. Version won't be changed"
 
-if [ $( gitlab-runner -v 2> /dev/null ; echo $? ) == 0 ]; then 
-	echo "[WRN] on build platform. Version won't be changed"
-
-elif [ "$last_version_string" == "$VERSION_STRING" ]; then
+if [ "$last_version_string" == "$VERSION_STRING" ]; then
 	echo "[INF] Version $last_version_string is equal to $VERSION_STRING. Nothing to change"
 elif [ ! -e debian/changelog ]; then
 	echo "[INF] debian/changelog does not exist. No need to change anything"
@@ -92,26 +92,23 @@ else
 	echo "[INF] $VERSION_STRING is greater than $last_version_string"
 	echo "[INF] editing the changelog"
 	text=$(extract_gitlog_text)
-	echo "text entry"
-	echo "$text"
-	echo  "End of text entry"
 	IFS=$'\n'
 	echo "VERSION_STRING = $VERSION_STRING"
-
 	for textline in $text; do
 		dch -v $VERSION_STRING $textline
 	done
-	branch=$(git branch | grep "*" | cut -c 3- )
-	case branch in
+	echo "CI Commit is $CI_COMMIT_REF_NAME"
+	[[ $ONBUILDSERVER == 0 ]] && branch=$CI_COMMIT_REF_NAME || branch=$(git branch | grep "*" | cut -c 3- )
+	case $branch in
 		"master" ) branch="stable";;
 		"develop" ) branch="testing";;
 	esac
 	dch -r --distribution "$branch" --force-distribution ignored
-	controlfile_version=$(cat prod_build/linux/debian/essentials/control | grep "Standards" | cut -d ' ' -f2) #Add to control info.
-	sed -i "s/$controlfile_version/$VERSION_STRING/" prod_build/linux/debian/essentials/control
-	export UPDVER=1
+	controlfile_version=$(cat debian/control | grep "Standards" | cut -d ' ' -f2) #Add to control info.
+	sed -i "s/$controlfile_version/$VERSION_STRING/" debian/control
 fi
 
+IFS=" "
 #Chrooted_environment tuning BEFORE building
 
 echo "workdir is $(pwd)"
@@ -121,7 +118,7 @@ for distr in $HOST_DISTR_VERSIONS; do #we need to install required dependencies 
 	for arch in $HOST_ARCH_VERSIONS; do
 		echo "$CHROOT_PREFIX-$distr-$arch"
 		schroot -c $CHROOT_PREFIX-$distr-$arch -- prod_build/linux/debian/scripts/chroot/pre-build.sh "$PKG_DEPS" || errcode=$?
-		[[ $errcode != 0 ]] && echo "There are problems with $CHROOT_PREFIX-$distr-$arch. You had installed it, right?"
+		[[ $errcode != 0 ]] && echo "There are problems with $CHROOT_PREFIX-$distr-$arch. You have installed it, right?"
 	done
 done
 exit 0

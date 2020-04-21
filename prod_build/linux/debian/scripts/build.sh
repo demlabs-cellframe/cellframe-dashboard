@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKDIR="resources/sap.support/sapnet-client"
+WORKDIR="resources/cellframe/cellframe-dashboard"
 SCRIPTDIR="prod_build/linux/debian/scripts"
 
 #cd $WORKDIR
