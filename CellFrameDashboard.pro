@@ -1,8 +1,6 @@
 TEMPLATE = subdirs
 SUBDIRS = CellFrameDashboardGUI CellFrameDashboardService
 
-CONFIG -= qml_debug
-
 CellFrameDashboardGUI.subdir = CellFrameDashboardGUI
 CellFrameDashboardService.subdir = CellFrameDashboardService
 CellFrameDashboardGUI.depends = CellFrameDashboardService
