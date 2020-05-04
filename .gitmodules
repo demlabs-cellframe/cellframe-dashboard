@@ -6,14 +6,9 @@
 	path = libdap-qt
 	url = https://gitlab.demlabs.net/cellframe/libdap-qt.git
 	branch = master
-[submodule "libdap"]
-	path = libdap
-	url = https://gitlab.demlabs.net/cellframe/libdap.git
-	branch = master
-[submodule "libdap-crypto"]
-	path = libdap-crypto
-	url = https://gitlab.demlabs.net/cellframe/libdap-crypto.git
-	branch = master
 [submodule "libdap-qt-ui-chain-wallet"]
 	path = libdap-qt-ui-chain-wallet
 	url = https://gitlab.demlabs.net/cellframe/libdap-qt-ui-chain-wallet.git
+[submodule "cellframe-sdk"]
+	path = cellframe-sdk
+	url = https://gitlab.demlabs.net/cellframe/cellframe-sdk.git

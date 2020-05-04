@@ -76,8 +76,8 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     $$PWD/DapServiceController.h
 
-include (../libdap/libdap.pri)
-include (../libdap-crypto/libdap-crypto.pri)
+include (../cellframe-sdk/dap-sdk/core/libdap.pri)
+include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../libdap-qt/libdap-qt.pri)
 include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
 include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
