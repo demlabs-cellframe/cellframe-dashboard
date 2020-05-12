@@ -140,7 +140,8 @@ DapHistoryScreenForm
                         }
 
                         //  Equivalent currency
-                        Text
+                        ///Delete all USD
+                        /*Text
                         {
                             id: lblEquivalent
                             width: parent.width
@@ -149,7 +150,7 @@ DapHistoryScreenForm
                             color: "#C2CAD1"
                             font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                             Layout.alignment: Qt.AlignRight
-                        }
+                        }*/
                     }
                 }
             }

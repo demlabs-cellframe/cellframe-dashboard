@@ -178,8 +178,8 @@ DapDashboardScreenForm
                                 horizontalAlignment: Text.AlignLeft
                             }
                         }
-
-                        Text
+///////////////////////////////////Delete all USD
+                        /*Text
                         {
                             id: currencyDollarEqv
                             anchors.verticalCenter: parent.verticalCenter
@@ -192,7 +192,7 @@ DapDashboardScreenForm
                             text: "$" + emission + " USD"
                             width: 188 * pt
                             horizontalAlignment: Text.AlignLeft
-                        }
+                        }*/
                     }
                 }
             }

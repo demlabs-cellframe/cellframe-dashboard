@@ -83,7 +83,8 @@ DapAbstractTopPanelForm
     }
 
     // Dynamic wallet balance text
-    Label
+    ///Now it's not dynamic and must be no USD
+    /*Label
     {
         id: textWalletBalance
         text: "$ 3 050 745.3453289 USD"
@@ -92,7 +93,7 @@ DapAbstractTopPanelForm
         anchors.verticalCenter: parent.verticalCenter
         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
         color: "#FFFFFF"
-    }
+    }*/
 }
 
 

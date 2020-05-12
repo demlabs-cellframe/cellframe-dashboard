@@ -283,7 +283,8 @@ DapAbstractRightPanel
                         color: "#757184"
                         text: qsTr("0")
                     }
-                    Text
+                    //////////////Delete all USD
+                    /*Text
                     {
                         id: textAmountConvertCurrency
                         anchors.verticalCenter: parent.verticalCenter
@@ -292,7 +293,7 @@ DapAbstractRightPanel
                         horizontalAlignment: Text.AlignRight
                         color: "#757184"
                         text: qsTr("USD")
-                    }
+                    }*/
                 }
             }
 

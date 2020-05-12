@@ -66,7 +66,7 @@ DapExchangeScreenForm
         ListElement{text: "TKN1/NGD"}
         ListElement{text: "TKN2/NGD"}
         ListElement{text: "NGD/KLVN"}
-        ListElement{text: "KLVN/USD"}
+        //ListElement{text: "KLVN/USD"}
     }
 /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
