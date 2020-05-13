@@ -6,7 +6,7 @@
 
 #include <unistd.h>
 
-#include "DapHalper.h"
+#include "DapHelper.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 
     QSharedMemory memmoryApp(QString("memmory for %1").arg("CellFrameDashboardService"));
     // Check for the existence of a running instance of the program
-    bool isRunning = DapHalper::getInstance().checkExistenceRunningInstanceApp(systemSemaphore, memmoryApp, memmoryAppBagFix);
+    bool isRunning = DapHelper::getInstance().checkExistenceRunningInstanceApp(systemSemaphore, memmoryApp, memmoryAppBagFix);
   
     if(isRunning)
     {

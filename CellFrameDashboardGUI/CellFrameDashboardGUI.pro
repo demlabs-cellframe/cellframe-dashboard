@@ -76,11 +76,12 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     $$PWD/DapServiceController.h
 
-include (../libdap/libdap.pri)
-include (../libdap-crypto/libdap-crypto.pri)
-include (../libdap-qt/libdap-qt.pri)
-include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
-include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
+include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
+include (../dap-ui-sdk/core/libdap-qt.pri)
+include (../cellframe-sdk/dap-sdk/core/libdap.pri)
+include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
