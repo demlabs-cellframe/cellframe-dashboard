@@ -48,10 +48,12 @@ HEADERS += \
     $$PWD/DapServiceController.h \
     $$PWD/DapToolTipWidget.h
 
-include (../libdap/libdap.pri)
-include (../libdap-crypto/libdap-crypto.pri)
-include (../libdap-qt/libdap-qt.pri)
-include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
+include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
+include (../dap-ui-sdk/core/libdap-qt.pri)
+include (../cellframe-sdk/dap-sdk/core/libdap.pri)
+include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
                $$_PRO_FILE_PWD_/../dapRPCProtocol/

@@ -8,7 +8,7 @@
 #include <QSharedMemory>
 #include <QScreen>
 
-#include "DapHalper.h"
+#include "DapHelper.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"

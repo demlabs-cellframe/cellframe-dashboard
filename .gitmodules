@@ -1,19 +1,12 @@
-[submodule "libdap-qt-ui-qml"]
-	path = libdap-qt-ui-qml
-	url = https://gitlab.demlabs.net/cellframe/libdap-qt-ui-qml.git
+[submodule "cellframe-sdk"]
+	path = cellframe-sdk
+	url = https://gitlab.demlabs.net/cellframe/cellframe-sdk.git
 	branch = master
-[submodule "libdap-qt"]
-	path = libdap-qt
-	url = https://gitlab.demlabs.net/cellframe/libdap-qt.git
+[submodule "cellframe-ui-sdk"]
+	path = cellframe-ui-sdk
+	url = https://gitlab.demlabs.net/cellframe/cellframe-ui-sdk.git
 	branch = master
-[submodule "libdap"]
-	path = libdap
-	url = https://gitlab.demlabs.net/cellframe/libdap.git
+[submodule "dap-ui-sdk"]
+	path = dap-ui-sdk
+	url = https://gitlab.demlabs.net/dap/dap-ui-sdk
 	branch = master
-[submodule "libdap-crypto"]
-	path = libdap-crypto
-	url = https://gitlab.demlabs.net/cellframe/libdap-crypto.git
-	branch = master
-[submodule "libdap-qt-ui-chain-wallet"]
-	path = libdap-qt-ui-chain-wallet
-	url = https://gitlab.demlabs.net/cellframe/libdap-qt-ui-chain-wallet.git
