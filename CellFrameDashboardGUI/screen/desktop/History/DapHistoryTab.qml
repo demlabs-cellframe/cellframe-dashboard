@@ -26,7 +26,7 @@ DapHistoryTabForm
 
     Component.onCompleted:
     {
-        for(var i=0; i < dapModelWallets.count; ++i)
+        for(var i=0; i < dapWallets.count; ++i)
         {
             modelHistory.clear()
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
