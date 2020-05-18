@@ -25,4 +25,10 @@ DapNewPaymentMainRightPanelForm
 
         nextActivated("transaction created")
     }
+
+    dapCmboBoxToken.onCurrentIndexChanged:
+    {
+        dapSendedToken = dapCmboBoxToken.mainLineText;
+    }
+
 }
