@@ -26,9 +26,5 @@ DapNewPaymentMainRightPanelForm
         nextActivated("transaction created")
     }
 
-    dapCmboBoxToken.onCurrentIndexChanged:
-    {
-        dapSendedToken = dapCmboBoxToken.model.get(dapCmboBoxToken.currentIndex)["name"];
-    }
 
 }
