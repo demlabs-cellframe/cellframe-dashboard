@@ -15,8 +15,7 @@ DapAbstractRightPanel
 
     property alias dapCmboBoxToken: comboboxToken
     //@param dapSendedToken Name of token to send
-    property string dapSendedToken: ""
-
+    property string dapSendedToken: comboboxToken.mainLineText
 
     property string dapCurrentWallet
 
@@ -273,7 +272,7 @@ DapAbstractRightPanel
                     anchors.rightMargin: 20 * pt
                     anchors.top: splitLineAmount.top
                     anchors.topMargin: 16 * pt
-                    height: textAmountConvertValue.height
+                    //height: textAmountConvertValue.height
                     color: "transparent"
                     ////////////Delete all USD
                     /*Text
@@ -337,7 +336,7 @@ DapAbstractRightPanel
                 {
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
-                    placeholderText: qsTr("Recipient wallet")
+                    placeholderText: qsTr("Receiver Address")
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top

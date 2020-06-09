@@ -28,7 +28,7 @@ DapNewPaymentMainRightPanelForm
 
     dapCmboBoxToken.onCurrentIndexChanged:
     {
-        dapSendedToken = dapCmboBoxToken.mainLineText;
+        dapSendedToken = dapCmboBoxToken.model.get(dapCmboBoxToken.currentIndex)["name"];
     }
 
 }
