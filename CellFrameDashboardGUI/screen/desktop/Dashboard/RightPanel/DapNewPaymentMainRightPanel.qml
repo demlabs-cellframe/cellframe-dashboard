@@ -25,4 +25,6 @@ DapNewPaymentMainRightPanelForm
 
         nextActivated("transaction created")
     }
+
+
 }

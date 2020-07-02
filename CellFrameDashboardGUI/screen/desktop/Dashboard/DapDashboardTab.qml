@@ -26,14 +26,17 @@ DapDashboardTabForm
 
     dapDashboardTopPanel.dapComboboxWallet.onCurrentIndexChanged:
     {
-        dapDashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
-        dapDashboardScreen.dapNameWalletTitle.text = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).name
-        console.log("DapGetWalletHistoryCommand")
-        console.log("   network: " + dapServiceController.CurrentNetwork)
-        console.log("   chain: " + dapServiceController.CurrentChain)
-        console.log("   wallet address: " + dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
-        dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
-        state = "WALLETSHOW"
+        if(dapDashboardTopPanel.dapComboboxWallet.currentIndex != -1)
+        {
+            dapDashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).networks
+            dapDashboardScreen.dapNameWalletTitle.text = dapModelWallets.get(dapDashboardTopPanel.dapComboboxWallet.currentIndex).name
+            console.log("DapGetWalletHistoryCommand")
+            console.log("   network: " + dapServiceController.CurrentNetwork)
+            console.log("   chain: " + dapServiceController.CurrentChain)
+            console.log("   wallet address: " + dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
+            dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dapDashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+            state = "WALLETSHOW"
+        }
     }
 
     // Signal-slot connection realizing panel switching depending on predefined rules
