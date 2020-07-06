@@ -17,8 +17,11 @@ DapMainApplicationWindowForm
     ///@detalis Path to the console tab.
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
 
-    ///@details dapMainFonts Project font loader
+    ///@details dapMainFonts Project font loader  --- temporary!
     readonly property QtObject dapMainFonts: DapFontRoboto {}
+    ///@details dapMainFonts Project font loader   --- temporary!
+    readonly property QtObject dapMainFonts0: DapFontQuicksand {}
+    //Need to set one type of font dapMainFonts: DapFontQuicksand {} after all interfaces will be ready
 
     property var dapWallets: []
 
