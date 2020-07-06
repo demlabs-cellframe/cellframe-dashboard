@@ -14,7 +14,8 @@ DapAbstractRightPanel
     property alias dapCmboBoxTokenModel: comboboxToken.model
 
     property alias dapCmboBoxToken: comboboxToken
-
+    //@param dapSendedToken Name of token to send
+    property string dapSendedToken: comboboxToken.mainLineText
 
     property string dapCurrentWallet
 
@@ -245,7 +246,8 @@ DapAbstractRightPanel
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                         horizontalAlignment: Text.AlignRight
                         color: "#070023"
-                        text: "KLVN"
+                        text: dapSendedToken
+
                     }
                 }
                 Rectangle
@@ -270,9 +272,10 @@ DapAbstractRightPanel
                     anchors.rightMargin: 20 * pt
                     anchors.top: splitLineAmount.top
                     anchors.topMargin: 16 * pt
-                    height: textAmountConvertValue.height
+                    //height: textAmountConvertValue.height
                     color: "transparent"
-                    Text
+                    ////////////Delete all USD
+                    /*Text
                     {
                         id: textAmountConvertValue
                         anchors.verticalCenter: parent.verticalCenter
@@ -292,7 +295,7 @@ DapAbstractRightPanel
                         horizontalAlignment: Text.AlignRight
                         color: "#757184"
                         text: qsTr("USD")
-                    }
+                    }*/
                 }
             }
 
@@ -333,7 +336,7 @@ DapAbstractRightPanel
                 {
                     id: textInputRecipientWalletAddress
                     anchors.verticalCenter: parent.verticalCenter
-                    placeholderText: qsTr("Recipient wallet")
+                    placeholderText: qsTr("Receiver Address")
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.top: frameRecipientWalletAddress.top
