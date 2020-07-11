@@ -39,6 +39,8 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
+#include "handlers/DapCertificateManagerCommands.h"
+
 #include "DapSystemTrayIcon.h"
 #include "DapToolTipWidget.h"
 

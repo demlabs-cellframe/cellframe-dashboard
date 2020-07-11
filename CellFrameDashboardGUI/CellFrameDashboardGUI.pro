@@ -1,8 +1,9 @@
-QT += qml quick widgets
+QT += qml quick widgets svg
 
 TEMPLATE = app
 CONFIG += c++11
 
+LIBS += -ldl
 
 !defined(BRAND,var){
 #  Default brand
@@ -18,11 +19,14 @@ VER_PAT = 3
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
+    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
+    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
+    DEFINES += CONFIG_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
 }
 
 # The following define makes your compiler emit warnings if you use

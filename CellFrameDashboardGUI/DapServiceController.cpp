@@ -79,7 +79,10 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
                                             const QVariant &arg5, const QVariant &arg6, const QVariant &arg7,
                                             const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
 {
+
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
+//    qDebug() << "DapServiceController::requestToService, asServiceName:" << asServiceName << arg1 << arg2 << arg3 << arg4 << arg5
+//             << "transceiver:" << transceiver;
     Q_ASSERT(transceiver);
     disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
@@ -95,6 +98,7 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
                                          const QVariant &arg5, const QVariant &arg6, const QVariant &arg7,
                                          const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
 {
+    qDebug() << "DapServiceController::notifyService" << asServiceName << arg1 << arg2 << arg3 << arg4 << arg5;
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
 
     Q_ASSERT(transceiver);
@@ -105,6 +109,11 @@ void DapServiceController::notifyService(const QString &asServiceName, const QVa
 /// Register command.
 void DapServiceController::registerCommand()
 {
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(
+                                    new DapCertificateManagerCommands(DapCertificateCommands::serviceName(), m_DAPRpcSocket)))
+                                    , QString("certificateManagerOperationResult")));
+
     // Application shutdown team
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_DAPRpcSocket))), QString()));
     // GUI client activation command in case it is minimized/expanded
@@ -187,6 +196,7 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
+    //qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {

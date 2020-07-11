@@ -53,11 +53,31 @@ int main(int argc, char *argv[])
     DapServiceController &controller = DapServiceController::getInstance();
     controller.init(&dapServiceClient);
     dapServiceClient.init();
+
+
+    //register only enums
+    qmlRegisterUncreatableType<DapCertificateType>("DapCertificateManager.Commands", 1, 0, "DapCertificateType"
+                         , "Error create DapCertificateType");
+
+    //register enums and constant property as singletone
+    qmlRegisterSingletonType<DapCertificateCommands>("DapCertificateManager.Commands", 1, 0, "DapCertificateCommands"
+            , [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+                    Q_UNUSED(engine)
+                    Q_UNUSED(scriptEngine)
+
+                    //qInfo() << "DapCertificateCommands initialize in Qml";
+                    QQmlEngine::setObjectOwnership(DapCertificateCommands::instance()
+                                                   , QQmlEngine::ObjectOwnership::CppOwnership);
+                    return DapCertificateCommands::instance();
+            });
+
+
     qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
     qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
     qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
+
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     engine.rootContext()->setContextProperty("pt", 1);

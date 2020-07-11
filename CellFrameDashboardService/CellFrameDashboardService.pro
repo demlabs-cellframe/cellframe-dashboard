@@ -3,6 +3,12 @@ QT += core network gui widgets
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
+
+LIBS += -ldl
+#LIBS+=-lz #-lz -lrt -lm -lpthread   -lrt -lm -lpthread
+#+LIBS+=-lrt
+
+
 !defined(BRAND,var){
 #  Default brand
     BRAND = CellFrameDashboard
@@ -19,11 +25,13 @@ win32 {
     CONFIG -= console
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
+    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
+    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
     DEFINES += LOG_FILE=\\\"/opt/cellframe-node/var/log/cellframe-node.log\\\"
     DEFINES += CMD_HISTORY=\\\"/opt/cellframe-dashboard/data/cmd_history.txt\\\"
 }

@@ -14,6 +14,7 @@
 #include "handlers/DapAbstractCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
+#include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
@@ -28,6 +29,8 @@
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
+
+
 
 class DapServiceController : public QObject
 {
@@ -81,7 +84,7 @@ public:
     /// Application version.
     Q_PROPERTY(QString Version MEMBER m_sVersion READ getVersion NOTIFY versionChanged)
 
-    Q_PROPERTY(QString CurrentNetwork MEMBER m_sVersion READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
+    Q_PROPERTY(QString CurrentNetwork MEMBER m_sCurrentNetwork READ getCurrentNetwork WRITE setCurrentNetwork NOTIFY currentNetworkChanged)
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
 
@@ -154,6 +157,9 @@ signals:
     /// The signal is emitted when receiving a history of commands executed by the cli handler.
     /// @param aHistory History of commands executed by cli handler.
     void historyExecutedCmdReceived(const QVariant& aHistory);
+
+     //соблюдаем оригинальную типизацию в сигналах, хотя тут лучше MapVariantList или что-то подобное
+    void certificateManagerOperationResult(const QVariant& result);
     
 private slots:
     /// Register command.
