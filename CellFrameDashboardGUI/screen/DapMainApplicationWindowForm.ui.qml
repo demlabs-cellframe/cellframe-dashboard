@@ -15,15 +15,39 @@ DapMainWindow
 
     property alias dapScreenLoader: stackViewTabs
 
+    dapMainRowSpacing: 3 * pt
+    dapMainColumnSpacing: 4 * pt
+
+    dapLeftRectangleBackground:
+        Rectangle
+        {
+            id: menuUnroundedBackground
+            anchors.left: parent.left
+            width: dapLeftMenuBackground.radius
+            height: dapLeftMenuBackground.height
+            color: "#211A3A"
+        }
+    dapLeftMenuBackground:
+        Rectangle
+        {
+            id: menuRoundedBackground
+            anchors.left: parent.left
+            width: 180 * pt
+            height: dapScreensWidget.height
+            color: "#211A3A"
+            radius: 8 * pt
+        }
+
+
     dapLogotype:
         // Logotype
         Rectangle
         {
             id: frameLogotype
             anchors.fill: parent
-            color: "#070023"
+            color: "transparent"
             height: 60 * pt
-            Image 
+            Image
             {
                 id: iconLogotype
                 anchors.verticalCenter: parent.verticalCenter
@@ -50,13 +74,24 @@ DapMainWindow
             dapMenuWidget.model: modelMenuTab
         }
 
-    dabScreensWidget:
+    dapScreensWidget:
         // Sceen loader
         Loader
         {
             id: stackViewTabs
             anchors.fill: parent
             clip: true
+        }
+
+    dapStatusBarWidget:
+        Rectangle
+        {
+            id: statusBar
+            //anchors.fill: parent
+            color: "#211A3A"
+            height: 40 * pt
+            width: parent.width
+
         }
 }
 

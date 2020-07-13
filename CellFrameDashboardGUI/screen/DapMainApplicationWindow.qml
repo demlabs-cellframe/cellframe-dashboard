@@ -64,6 +64,29 @@ DapMainApplicationWindowForm
                 normalIcon: "qrc:/resources/icons/icon_history.png",
                 hoverIcon: "qrc:/resources/icons/icon_history_hover.png"
             })
+//TODO: The tab is disabled until the functional part is implemented
+//           append ({
+//              name: qsTr("Certificates"),
+//              page: certificatesScreen,
+//              normalIcon: "qrc:/resources/icons/icon_exchange.png", <--- SET NEW ICON!
+//              hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"  <--- SET NEW ICON!
+//          })
+
+//TODO: The tab is disabled until the functional part is implemented
+//           append ({
+//              name: qsTr("Tokens"),
+//              page: tokensScreen,
+//              normalIcon: "qrc:/resources/icons/icon_exchange.png", <--- SET NEW ICON!
+//              hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"  <--- SET NEW ICON!
+//          })
+
+//TODO: The tab is disabled until the functional part is implemented
+//           append ({
+//              name: qsTr("VPN client"),
+//              page: vpnClientScreen,
+//              normalIcon: "qrc:/resources/icons/icon_exchange.png", <--- SET NEW ICON!
+//              hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"  <--- SET NEW ICON!
+//          })
 
             append ({
                 name: qsTr("Console"),
@@ -73,18 +96,18 @@ DapMainApplicationWindowForm
             })
 
             append ({
-                name: qsTr("Settings"),
-                page: settingsScreen,
-                normalIcon: "qrc:/resources/icons/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
-            })
-
-            append ({
                 name: qsTr("Logs"),
                 page: logsScreen,
                 normalIcon: "qrc:/resources/icons/icon_logs.png",
                 hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
              })
+
+            append ({
+                name: qsTr("Settings"),
+                page: settingsScreen,
+                normalIcon: "qrc:/resources/icons/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
+            })
         }
     }
 

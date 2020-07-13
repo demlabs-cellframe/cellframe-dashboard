@@ -10,7 +10,6 @@ DapMenuTabWidget
             id: menuTab
             anchors.fill: parent
             delegate: itemMenuTabDelegate
-            spacing: 3 * pt
             clip: true
             interactive: false
         }
