@@ -15,6 +15,8 @@ DapMainWindow
 
     property alias dapScreenLoader: stackViewTabs
 
+    property alias dapStatusIndicator1: statusIndicator1
+
     dapMainRowSpacing: 3 * pt
     dapMainColumnSpacing: 4 * pt
 
@@ -22,7 +24,8 @@ DapMainWindow
         Rectangle
         {
             id: menuUnroundedBackground
-            anchors.left: parent.left
+            anchors.fill: parent
+            //anchors.left: parent.left
             width: dapLeftMenuBackground.radius
             height: dapLeftMenuBackground.height
             color: "#211A3A"
@@ -31,7 +34,8 @@ DapMainWindow
         Rectangle
         {
             id: menuRoundedBackground
-            anchors.left: parent.left
+            anchors.fill: parent
+            //anchors.left: parent.left
             width: 180 * pt
             height: dapScreensWidget.height
             color: "#211A3A"
@@ -87,10 +91,96 @@ DapMainWindow
         Rectangle
         {
             id: statusBar
-            //anchors.fill: parent
             color: "#211A3A"
             height: 40 * pt
             width: parent.width
+
+            DapStatus
+            {
+                id: statusIndicator1
+                width: 295 * pt
+                height: statusBar.height
+                anchors.left: parent.left
+                anchors.leftMargin: 55 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                dapStatusText: "Network name 1"
+                dapStatusTextFont: dapMainFonts0.dapMainFontTheme.dapFontQuicksandMedium12
+                dapStatusTextColor: "#FFFFFF"
+                dapStatusSpacing: 8 * pt
+                dapStatusIndicatorWidth:  8 * pt
+                dapStatusIndicatorHeight: 8 * pt
+                dapStatusIndicatorRadius: 8 * pt
+                dapStatusIndicatorColor: "#9DD51F"
+                dapStatusBackgroundColor: "transparent"
+            }
+            DapStatus
+            {
+                id: statusIndicator2
+                width: 295 * pt
+                height: statusBar.height
+                anchors.left: statusIndicator1.right
+                anchors.verticalCenter: parent.verticalCenter
+                dapStatusText: "Network name 2"
+                dapStatusTextFont: dapMainFonts0.dapMainFontTheme.dapFontQuicksandMedium12
+                dapStatusTextColor: "#FFFFFF"
+                dapStatusSpacing: 8 * pt
+                dapStatusIndicatorWidth:  8 * pt
+                dapStatusIndicatorHeight: 8 * pt
+                dapStatusIndicatorRadius: 8 * pt
+                dapStatusIndicatorColor: "#9DD51F"
+                dapStatusBackgroundColor: "transparent"
+            }
+            DapStatus
+            {
+                id: statusIndicator3
+                width: 295 * pt
+                height: statusBar.height
+                anchors.left: statusIndicator2.right
+                anchors.verticalCenter: parent.verticalCenter
+                dapStatusText: "Network name 3"
+                dapStatusTextFont: dapMainFonts0.dapMainFontTheme.dapFontQuicksandMedium12
+                dapStatusTextColor: "#FFFFFF"
+                dapStatusSpacing: 8 * pt
+                dapStatusIndicatorWidth:  8 * pt
+                dapStatusIndicatorHeight: 8 * pt
+                dapStatusIndicatorRadius: 8 * pt
+                dapStatusIndicatorColor: "#9DD51F"
+                dapStatusBackgroundColor: "transparent"
+            }
+
+            DapStatus
+            {
+                id: statusIndicator4
+                width: 295 * pt
+                height: statusBar.height
+                anchors.left: statusIndicator3.right
+                anchors.verticalCenter: parent.verticalCenter
+                dapStatusText: "Network name 4"
+                dapStatusTextFont: dapMainFonts0.dapMainFontTheme.dapFontQuicksandMedium12
+                dapStatusTextColor: "#FFFFFF"
+                dapStatusSpacing: 8 * pt
+                dapStatusIndicatorWidth:  8 * pt
+                dapStatusIndicatorHeight: 8 * pt
+                dapStatusIndicatorRadius: 8 * pt
+                dapStatusIndicatorColor: "#9DD51F"
+                dapStatusBackgroundColor: "transparent"
+            }
+            DapButton
+            {
+                id: nextButtonStatusBar
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                width: statusBar.height
+                height: statusBar.height
+                textButton: ">>"
+                colorBackgroundNormal: statusBar.color
+                colorBackgroundHover: statusBar.color
+                colorButtonTextNormal: "#FFFFFF"
+                colorButtonTextHover: "#FFFFFF"
+                horizontalAligmentText: Qt.AlignCenter
+            }
+
+
 
         }
 }
