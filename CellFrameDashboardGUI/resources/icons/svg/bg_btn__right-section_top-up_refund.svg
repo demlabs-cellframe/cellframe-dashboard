@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="135" height="39" viewBox="0 0 135 39">
+  <defs>
+    <filter id="bg_btn__right-section_top-up_refund" x="0" y="0" width="135" height="39" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feFlood flood-color="#010143" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#bg_btn__right-section_top-up_refund)">
+    <rect id="bg_btn__right-section_top-up_refund-2" data-name="bg_btn__right-section_top-up_refund" width="132" height="36" rx="4" transform="translate(1.5 0.5)" fill="#271c4e"/>
+  </g>
+</svg>
