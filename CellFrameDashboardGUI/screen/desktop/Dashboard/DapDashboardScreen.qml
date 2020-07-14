@@ -52,12 +52,12 @@ DapDashboardScreenForm
                 DapText
                 {
                    id: textMetworkAddress
-                   anchors.verticalCenter: parent.verticalCenter
                    anchors.left: networkAddressLabel.right
                    anchors.leftMargin: 36 * pt
-                   width: 172 * pt
-                   font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                   font.pixelSize: 10 * pt
+                   anchors.right:  networkAddressCopyButton.left
+                   anchors.rightMargin: 4 * pt
+                   anchors.verticalCenter: parent.verticalCenter
+                   fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
                    color: "#908D9D"
                    fullText: address
                    textElide: Text.ElideRight
@@ -69,8 +69,8 @@ DapDashboardScreenForm
                 {
                     id: networkAddressCopyButton
                     anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: textMetworkAddress.right
-                    anchors.leftMargin: 4 * pt
+                    anchors.right: parent.right
+                    anchors.rightMargin: networkAddressLabel.anchors.leftMargin
                     width: 16 * pt
                     height: 16 * pt
                     hoverEnabled: true

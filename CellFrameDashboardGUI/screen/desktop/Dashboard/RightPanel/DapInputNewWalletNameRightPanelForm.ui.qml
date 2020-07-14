@@ -22,7 +22,7 @@ DapAbstractRightPanel
         id: signatureTypeWallet
         ListElement
         {
-            name: "Dilithium in my head"
+            name: "Dilithium"
             sign: "sig_dil"
         }
         ListElement
