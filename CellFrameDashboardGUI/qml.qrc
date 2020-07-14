@@ -149,38 +149,54 @@
         <file>resources/icons/next_year_icon.png</file>
         <file>resources/icons/previous_month_icon.png</file>
         <file>resources/icons/previous_year_icon.png</file>
-        <file>resources/icons/VPN-assets/arrow-right_icon.svg</file>
-        <file>resources/icons/VPN-assets/back_icon.svg</file>
-        <file>resources/icons/VPN-assets/bg-btn-connect_disconnect.svg</file>
-        <file>resources/icons/VPN-assets/bg-btn-connect_disconnect_active.svg</file>
-        <file>resources/icons/VPN-assets/bg-btn-connect_disconnect_hover.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn__right-section_top-up_refund.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn__right-section_top-up_refund_hover.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn__right-section_top-up_refund_no-active.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn_Add-token-for-auto-top-up.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn_Add-token-for-auto-top-up_hover.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn_Add-token-for-auto-top-up_no-active.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn_top-up_refund.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn_top-up_refund_active.svg</file>
-        <file>resources/icons/VPN-assets/bg_btn_top-up_refund_hover.svg</file>
-        <file>resources/icons/VPN-assets/close_icon.svg</file>
-        <file>resources/icons/VPN-assets/close_icon_hover.svg</file>
-        <file>resources/icons/VPN-assets/ic_info_order.svg</file>
-        <file>resources/icons/VPN-assets/ic_receipt.svg</file>
-        <file>resources/icons/VPN-assets/ic_receipt_hover.svg</file>
-        <file>resources/icons/VPN-assets/ic_vpn-client.svg</file>
-        <file>resources/icons/VPN-assets/ic_vpn-client_hover.svg</file>
-        <file>resources/icons/VPN-assets/icon_arrow_down.svg</file>
-        <file>resources/icons/VPN-assets/icon_vpn-service.svg</file>
-        <file>resources/icons/VPN-assets/icon_vpn-service_hover.svg</file>
-        <file>resources/icons/VPN-assets/illustration_prepay-vpn.svg</file>
-        <file>resources/icons/VPN-assets/illustration_vpn-service.svg</file>
-        <file>resources/icons/VPN-assets/No active state.svg</file>
-        <file>resources/icons/VPN-assets/no_icon.svg</file>
-        <file>resources/icons/VPN-assets/Rectangle 2122.svg</file>
-        <file>resources/icons/VPN-assets/switch-1.svg</file>
-        <file>resources/icons/VPN-assets/switch-2.svg</file>
-        <file>resources/icons/VPN-assets/switch.svg</file>
-        <file>resources/icons/VPN-assets/yes_icon.svg</file>
+        <file>resources/icons/svg/arrow-right_icon.svg</file>
+        <file>resources/icons/svg/back_icon.svg</file>
+        <file>resources/icons/svg/bg-btn-connect_disconnect.svg</file>
+        <file>resources/icons/svg/bg-btn-connect_disconnect_active.svg</file>
+        <file>resources/icons/svg/bg-btn-connect_disconnect_hover.svg</file>
+        <file>resources/icons/svg/bg_btn__right-section_top-up_refund.svg</file>
+        <file>resources/icons/svg/bg_btn__right-section_top-up_refund_hover.svg</file>
+        <file>resources/icons/svg/bg_btn__right-section_top-up_refund_no-active.svg</file>
+        <file>resources/icons/svg/bg_btn_Add-token-for-auto-top-up.svg</file>
+        <file>resources/icons/svg/bg_btn_Add-token-for-auto-top-up_hover.svg</file>
+        <file>resources/icons/svg/bg_btn_Add-token-for-auto-top-up_no-active.svg</file>
+        <file>resources/icons/svg/bg_btn_top-up_refund.svg</file>
+        <file>resources/icons/svg/bg_btn_top-up_refund_active.svg</file>
+        <file>resources/icons/svg/bg_btn_top-up_refund_hover.svg</file>
+        <file>resources/icons/svg/close_icon.svg</file>
+        <file>resources/icons/svg/close_icon_hover.svg</file>
+        <file>resources/icons/svg/ic_info_order.svg</file>
+        <file>resources/icons/svg/ic_receipt.svg</file>
+        <file>resources/icons/svg/ic_receipt_hover.svg</file>
+        <file>resources/icons/svg/ic_vpn-client.svg</file>
+        <file>resources/icons/svg/ic_vpn-client_hover.svg</file>
+        <file>resources/icons/svg/icon_arrow_down.svg</file>
+        <file>resources/icons/svg/icon_vpn-service.svg</file>
+        <file>resources/icons/svg/icon_vpn-service_hover.svg</file>
+        <file>resources/icons/svg/illustration_prepay-vpn.svg</file>
+        <file>resources/icons/svg/illustration_vpn-service.svg</file>
+        <file>resources/icons/svg/no_icon.svg</file>
+        <file>resources/icons/svg/switch-1.svg</file>
+        <file>resources/icons/svg/switch-2.svg</file>
+        <file>resources/icons/svg/switch.svg</file>
+        <file>resources/icons/svg/yes_icon.svg</file>
+        <file>resources/icons/svg/Rectangle_2122.svg</file>
+        <file>resources/icons/svg/No_active_state.svg</file>
+        <file>screen/desktop/VPN/VPN_client/RightPanel/DapPrepayRightPanel.qml</file>
+        <file>screen/desktop/VPN/VPN_client/RightPanel/DapPrepayRightPanelForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_client/DapVPNClientScreen.qml</file>
+        <file>screen/desktop/VPN/VPN_client/DapVPNClientScreenForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_client/DapVPNClientTab.qml</file>
+        <file>screen/desktop/VPN/VPN_client/DapVPNClientTabForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_client/DapVPNClientTopPanel.qml</file>
+        <file>screen/desktop/VPN/VPN_client/DapVPNClientTopPanelForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_service/RightPanel/DapCreateVPNRightPanel.qml</file>
+        <file>screen/desktop/VPN/VPN_service/RightPanel/DapCreateVPNRightPanelForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_service/DapVPNServiceScreen.qml</file>
+        <file>screen/desktop/VPN/VPN_service/DapVPNServiceScreenForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_service/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPN/VPN_service/DapVPNServiceTabForm.ui.qml</file>
+        <file>screen/desktop/VPN/VPN_service/DapVPNServiceTopPanel.qml</file>
+        <file>screen/desktop/VPN/VPN_service/DapVPNServiceTopPanelForm.ui.qml</file>
     </qresource>
 </RCC>
