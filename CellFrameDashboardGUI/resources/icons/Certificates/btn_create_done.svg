@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="135" height="39" viewBox="0 0 135 39">
+  <defs>
+    <filter id="bg_send_btn" x="0" y="0" width="135" height="39" filterUnits="userSpaceOnUse">
+      <feOffset dy="1" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feFlood flood-color="#010143" flood-opacity="0.2"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="btn_create_done" transform="translate(1.5 0.5)">
+    <g transform="matrix(1, 0, 0, 1, -1.5, -0.5)" filter="url(#bg_send_btn)">
+      <rect id="bg_send_btn-2" data-name="bg_send_btn" width="132" height="36" rx="4" transform="translate(1.5 0.5)" fill="#271c4e"/>
+    </g>
+  </g>
+</svg>

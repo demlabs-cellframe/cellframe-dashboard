@@ -149,5 +149,39 @@
         <file>resources/icons/next_year_icon.png</file>
         <file>resources/icons/previous_month_icon.png</file>
         <file>resources/icons/previous_year_icon.png</file>
+        <file>screen/desktop/Certificates/DapCertificatesMainPage.qml</file>
+        <file>screen/desktop/Certificates/HeaderItem.qml</file>
+        <file>resources/icons/Certificates/btn_actions.svg</file>
+        <file>resources/icons/Certificates/btn_actions_hover.svg</file>
+        <file>resources/icons/Certificates/btn_actions_no-active.svg</file>
+        <file>resources/icons/Certificates/btn_create_done.svg</file>
+        <file>resources/icons/Certificates/btn_create_done_hover.svg</file>
+        <file>resources/icons/Certificates/btn_create_done_no-active.svg</file>
+        <file>resources/icons/Certificates/cellframe-logo-dashboard.svg</file>
+        <file>resources/icons/Certificates/close_icon.svg</file>
+        <file>resources/icons/Certificates/close_icon_hover.svg</file>
+        <file>resources/icons/Certificates/ic_arrow_up.svg</file>
+        <file>resources/icons/Certificates/ic_info.svg</file>
+        <file>resources/icons/Certificates/icon_arrow_down.svg</file>
+        <file>resources/icons/Certificates/icon_certificates.svg</file>
+        <file>resources/icons/Certificates/icon_certificates_hover.svg</file>
+        <file>resources/icons/Certificates/ic_search.svg</file>
+        <file>resources/icons/Certificates/radio_off_dark.svg</file>
+        <file>resources/icons/Certificates/radio_on_dark.svg</file>
+        <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
+        <file>screen/desktop/Certificates/CertificatesModels.qml</file>
+        <file>screen/desktop/Certificates/CertificatesListView.qml</file>
+        <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
+        <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
+        <file>screen/desktop/Certificates/CreateCertificateItem.qml</file>
+        <file>screen/desktop/Certificates/CertificateInfoItem.qml</file>
+        <file>screen/desktop/Certificates/CreateFinishedItem.qml</file>
+        <file>screen/desktop/Certificates/parts/ToolButton.qml</file>
+        <file>screen/desktop/Certificates/parts/CloseButton.qml</file>
+        <file>screen/desktop/Certificates/parts/InputField.qml</file>
+        <file>screen/desktop/Certificates/models/FindDelegateModel.qml</file>
+        <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
+        <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
+        <file>screen/desktop/Certificates/parts/Utils.qml</file>
     </qresource>
 </RCC>

@@ -14,7 +14,9 @@ DapInputNewWalletNameRightPanelForm
         console.log(dapTextInputNameWallet.text)
         console.log(dapSignatureTypeWallet)
         console.log(dapServiceController.CurrentNetwork)
-        dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text, dapSignatureTypeWallet, dapServiceController.CurrentNetwork, "0xad12dec5ab4f");
+        dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text    //original
+                                              , dapSignatureTypeWallet, dapServiceController.CurrentNetwork
+                                              , "0xad12dec5ab4f");
     }
 
     dapButtonClose.onClicked:

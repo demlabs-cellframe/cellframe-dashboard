@@ -49,6 +49,9 @@ bool DapServiceController::start()
 /// Register command.
 void DapServiceController::registerCommand()
 {
+    //all certificates commands for module certificate in
+    m_pServer->addService(new DapCertificateManagerCommands("DapCertificateManagerCommands", m_pServer, CLI_PATH, TOOLS_PATH));
+
     // Application shutdown team
     m_pServer->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_pServer));
     // GUI client activation command in case it is minimized/expanded

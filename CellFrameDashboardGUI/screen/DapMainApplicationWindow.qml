@@ -1,5 +1,7 @@
 import QtQuick 2.4
 import "qrc:/resources/QML"
+import "qrc:/screen/desktop/Certificates"
+
 
 DapMainApplicationWindowForm 
 {
@@ -17,12 +19,28 @@ DapMainApplicationWindowForm
     ///@detalis Path to the console tab.
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
 
+    ///@detalis Path to the console tab.
+    readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
+
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
+    //readonly property DapFontQuicksand quicksandFonts:
+    DapFontQuicksand {
+        id: quicksandFonts
+    }
+
+
 
     property var dapWallets: []
 
     signal modelWalletsUpdated()
+
+
+    //open in module visible root context, only for work
+    Component{
+        DapCertificatesMainPage { }
+    }
+
 
     ListModel
     {
@@ -61,6 +79,15 @@ DapMainApplicationWindowForm
                 normalIcon: "qrc:/resources/icons/icon_history.png",
                 hoverIcon: "qrc:/resources/icons/icon_history_hover.png"
             })
+
+
+            append ({
+                name: qsTr("Certificates"),
+                page: certificatesScreen,
+                normalIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg",
+                hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates_hover.svg"
+            })
+
 
             append ({
                 name: qsTr("Console"),
@@ -103,10 +130,13 @@ DapMainApplicationWindowForm
         target: dapServiceController
         onNetworksListReceived:
         {
+            if (!networkList)
+                console.error("networkList is empty")
+
             for(var n=0; n < Object.keys(networkList).length; ++n)
             {
                 dapServiceController.CurrentNetwork = networkList[0];
-                dapServiceController.IndexCurrentNetwork = 0;
+                dapServiceController.IndexCurrentNetwork = 0;                //тут разве не должно быть n? или этой строки вообще недолжно быть тут. А если список сетей пуст?
                 dapNetworkModel.append({name: networkList[n]})
             }
         }
