@@ -15,6 +15,8 @@
 #include "DapLogMessage.h"
 #include "DapWallet.h"
 
+#include "models/VpnOrdersModel.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
@@ -71,6 +73,16 @@ int main(int argc, char *argv[])
                     return DapCertificateCommands::instance();
             });
 
+    qmlRegisterSingletonType<VpnOrdersModel>("VpnOrdersModel", 1, 0, "VpnOrdersModel"
+            , [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+                    Q_UNUSED(engine)
+                    Q_UNUSED(scriptEngine)
+
+                    QQmlEngine::setObjectOwnership(VpnOrdersModel::getInstance()
+                                       , QQmlEngine::ObjectOwnership::CppOwnership);
+
+                    return VpnOrdersModel::getInstance();
+            });
 
     qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
     qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");

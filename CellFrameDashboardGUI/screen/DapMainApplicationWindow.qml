@@ -22,6 +22,8 @@ DapMainApplicationWindowForm
     ///@detalis Path to the console tab.
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
 
+    readonly property string ordersScreen: "qrc:/screen/" + device + "/Orders/OrdersTab.qml"
+
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
     //readonly property DapFontQuicksand quicksandFonts:
@@ -108,7 +110,14 @@ DapMainApplicationWindowForm
                 page: logsScreen,
                 normalIcon: "qrc:/resources/icons/icon_logs.png",
                 hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
-             })
+            })
+
+            append ({
+                name: qsTr("Orders"),
+                page: ordersScreen,
+                normalIcon: "qrc:/resources/icons/icon_logs.png",
+                hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
+            })
         }
     }
 
