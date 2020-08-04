@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.5
 import QtQuick.Controls 2.12
 import "qrc:/widgets"
 import QtGraphicalEffects 1.0
@@ -7,134 +7,36 @@ ListView
 {
     id: root
     delegate: delegateComponent
-    headerPositioning: ListView.OverlayHeader
     spacing: 13 * pt
     clip: true
 
-    header: Item {
-        width: parent.width
-        height: 35 * pt
-        z: 10
-
-        Rectangle {
-            id: vpnOrdersTitle
-            width: parent.width
-            height: 35 * pt
-
-            Text {
-                id: vpnOrdersTitleText
-                x: 15 * pt
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
-                font: quicksandFonts.bold14
-                color: "#3E3853"
-                text: qsTr("VPN orders")
-            }
-            Label {
-                id: sortByText
-                text: qsTr("Sort by ")
-                anchors.left: vpnOrdersTitleText.right
-                anchors.leftMargin: 123
-                anchors.verticalCenter: parent.verticalCenter
-                font: quicksandFonts.regular14
-                color: "#3E3853"
-            }
-            Rectangle {
-                id: sortTypeComboBoxFrame
-                anchors.left: sortByText.right
-                anchors.verticalCenter: parent.verticalCenter
-                width: 80 * pt
-                color: "transparent"
-
-                ListModel
-                {
-                    id: sortTypeModel
-                    ListElement { name: "region" }
-                    ListElement { name: "token" }
-                }
-
-                DapComboBox
-                {
-                    id: sortTypeComboBox
-                    model: sortTypeModel
-                    comboBoxTextRole: ["name"]
-                    currentIndex: 0
-
-                    widthPopupComboBoxNormal: 70
-                    widthPopupComboBoxActive: 105 // Заменить
-                    heightComboBoxNormal: 18
-                    heightComboBoxActive: 47
-
-                    indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark_blue.png"
-                    indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up_dark_blue.png"
-                    sidePaddingNormal: 0 * pt
-                    sidePaddingActive: 20 * pt
-                    bottomIntervalListElement: 0 * pt
-                    paddingTopItemDelegate: 0 * pt
-                    heightListElement: 35 * pt
-                    indicatorWidth: 20 * pt
-                    indicatorHeight: indicatorWidth
-
-                    normalColorText: "#3E3853"
-                    hilightColorText: "#FFFFFF"
-                    normalColorTopText: "#3E3853"
-                    hilightColorTopText: "#3E3853"
-                    hilightColor: "#D51F5D"
-                    normalTopColor: "transparent"
-                    normalColor: "#FFFFFF"
-                    hilightTopColor: normalColor
-                    x: popup.visible ? sidePaddingActive * (-1) : 0
-                    y: popup.visible ? 10 * (-1) : 0
-
-                    colorTopNormalDropShadow: "#00000000"
-                    colorDropShadow: "#40ABABAB"
-                    fontComboBox: [quicksandFonts.regular14]
-                    colorMainTextComboBox: [["#3E3853", "#070023"]]
-                    colorTextComboBox: [["#070023", "#FFFFFF"]]
-
-                    onCurrentTextChanged:
-                    {
-                        if (currentText == "region")
-                        {
-                            root.model.sortByRegion()
-                        }
-                        else if (currentText == "token")
-                        {
-                            root.model.sortByToken()
-                        }
-                    }
-
-                }
-            }
-        }
-    }
-
-    Rectangle {
+    ScrollBar.vertical: ScrollBar
+    {
         id: scrollBar
-        width: 5
         anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: root.headerItem.height
-        anchors.bottom: parent.bottom
-        color: "#E2E1E6"
-        clip: true
-        Rectangle
-        {
-            id: scrollIndicator
-            width: 4
+        width: 6
+        background: Rectangle {
+            anchors.fill: parent
+            color: "#E2E1E6"
+        }
+
+        // A reduced scrollBar indicator was written in the layout,
+        // but unfortunately qml at this point breaks down and does not change the size of the element,
+        // unless you use a large number of elements
+        contentItem: Rectangle {
+            width: 5
             height: 15
             radius: 2
             color: "#B0AEB9"
-
-            y: (root.contentY + root.headerItem.height) * 0.81
-
+            implicitHeight: height
+            implicitWidth: width
         }
     }
 
     Component {
         id: delegateComponent
         Item {
-            width: root.width - scrollIndicator.width
+            width: root.width - scrollBar.width
             height: (componentHeader.height + (headerMessageTitle.visible ? headerMessageTitle.height : 0) + unitsSection.height * 4) * pt
 
             Rectangle{
@@ -153,11 +55,15 @@ ListView
                     text: name
                 }
 
-                Rectangle
-                {
+                Rectangle {
                     id: headerSwitch
 
                     property bool status: false
+
+                    onStatusChanged:
+                    {
+                        switchHandle.x = !headerSwitch.status ? 3 : headerSwitch.width - switchHandle.width - 3
+                    }
 
                     width: 43 * pt
                     height: 20 * pt
@@ -168,6 +74,13 @@ ListView
                     border.width: 1 * pt
                     radius: 10 * pt
 
+                    Component.onCompleted:
+                    {
+                        behaviorOnX.enabled = false
+                        headerSwitch.status = switchedOn
+                        behaviorOnX.enabled = true
+                    }
+
                     Rectangle
                     {
                         id: switchHandle
@@ -177,7 +90,11 @@ ListView
                         anchors.verticalCenter: parent.verticalCenter
                         color: headerSwitch.status ? "#FFFFFF" : "#757184"
                         x: 3
-                        Behavior on x {NumberAnimation{duration: 150}}
+                        Behavior on x {
+                            id: behaviorOnX
+                            enabled: false
+                            NumberAnimation{duration: 150}
+                        }
                     }
 
                     MouseArea
@@ -187,8 +104,9 @@ ListView
                         onClicked:
                         {
                             headerSwitch.status = !headerSwitch.status
-                            switchHandle.x = !headerSwitch.status ? 3 : headerSwitch.width - switchHandle.width - 3
+                            switchedOn = headerSwitch.status
                         }
+
                     }
 
                 }
@@ -268,7 +186,20 @@ ListView
                     verticalAlignment: Text.AlignVCenter
                     font: quicksandFonts.regular12
                     color: "#211A3A"
-                    text: unitsType
+                    text:
+                    {
+                        switch (unitsType)
+                        {
+                        case 0: return "seconds"
+                        case 1: return "minutes"
+                        case 2: return "hours"
+                        case 3: return "days"
+                        case 4: return "kilobyte"
+                        case 5: return "megabyte"
+                        case 6: return "gigabyte"
+                        }
+
+                    }
                 }
             }
             Rectangle{
