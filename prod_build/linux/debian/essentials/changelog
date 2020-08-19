@@ -1,3 +1,9 @@
+cellframe-dashboard (2.0-4) develop; urgency=medium
+
+  *     Added static build support
+
+ -- xapuyc <xapuyc@workspace>  Wed, 19 Aug 2020 15:24:23 +0500
+
 cellframe-dashboard (2.0-3) develop; urgency=medium
 
   *     Merge branch 'features-3098' into 'develop'

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [ "$1" == "--static" ]; then
-	export $QT_SELECT="qtstatic" #For static builds we'll have a special qt instance, which should be installed manually for now, unfortunately.
-fi
+set -x
+[ -v QT_LINUX_PATH ] && export QT_SELECT=$(qtchooser -l | grep static)
+
 
 error_explainer() {
 
@@ -30,9 +30,9 @@ trap cleanup SIGINT
 codename=$(lsb_release -a | grep Codename | cut -f2)
 dpkg-buildpackage -J -us --changes-option=--build=any -uc && mkdir -p build && rm ../*dbgsym*.deb && \
 for filepkg in $(ls .. | grep .deb | grep -v $codename); do
-	filename=$(echo $filepkg | sed 's/.deb//')
-	mv ../$filepkg build/$filename\_$codename.deb
+	mv $filepkg build/$filepkg
 done || error=$?
 cleanup
 error_explainer $error
+set +x
 exit $error #2DO: Learn how to sign up the package.

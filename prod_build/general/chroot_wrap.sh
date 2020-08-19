@@ -1,7 +1,6 @@
 #!/bin/bash
 
 
-
 PLATFORM_CANDIDATES=$2
 CHROOT_PREFIX="builder"
 CHROOTS_PATH=$1
@@ -26,12 +25,13 @@ for platform in $PLATFORM_CANDIDATES; do
 done
 [[ $PLATFORMS != "" ]] && PLATFORMS=$(echo $PLATFORMS | sed 's/ $//')
 echo "Platforms are $PLATFORMS there"
+[ -e "*.probak"] && rm "*.probak"
 
 for platform in $PLATFORMS; do
 	echo "Working with $platform now"
 	PLATFORM_UPPERCASED=$( echo "$platform" | tr '[:lower:]' '[:upper:]')
 	ENV=${PLATFORM_UPPERCASED}_ENV
-	varpack = $( export | grep $PLATFORM_UPPERCASED | awk '{print $3}')
+	varpack=$(export | grep $PLATFORM_UPPERCASED | awk '{print $3}')
 	[[ $platform == "linux" ]] && platform="linux/debian"
 	export_variables "./prod_build/$platform/conf/*"
 	IFS=' '
@@ -43,7 +43,9 @@ for platform in $PLATFORMS; do
 	for distr in $HOST_DISTR_VERSIONS; do
 		for arch in $HOST_ARCH_VERSIONS; do
 			if [ -e $CHROOTS_PATH/$CHROOT_PREFIX-$distr-$arch ]; then
-				schroot -c $CHROOT_PREFIX-$distr-$arch -- launcher.sh prod_build/$platform/scripts/$JOB.sh $PKG_TYPE || errcode=$?
+set -x
+				schroot -c $CHROOT_PREFIX-$distr-$arch -- launcher.sh prod_build/$platform/scripts/$JOB.sh $PKG_TYPE $platform $varpack || errcode=$?
+set +x
 #				echo "schroot stub $PKG_TYPE"
 			else
 				echo "chroot $CHROOT_PREFIX-$distr-$arch not found. You should install it first"

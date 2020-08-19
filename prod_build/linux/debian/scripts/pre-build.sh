@@ -81,10 +81,10 @@ VERSION_STRING=$(extract_version_number)
 last_version_string=$(cat prod_build/linux/debian/essentials/changelog | head -n 1 | cut -d '(' -f2 | cut -d ')' -f1)
 
 
-if [ $ONBUILDSERVER = 0 ]; then 
-	echo "[WRN] on build platform. Version won't be changed"
+#if [ $ONBUILDSERVER = 0 ]; then 
+#	echo "[WRN] on build platform. Version won't be changed"
 
-elif [ "$last_version_string" == "$VERSION_STRING" ]; then
+if [[ "$last_version_string" == "$VERSION_STRING" ]]; then
 	echo "[INF] Version $last_version_string is equal to $VERSION_STRING. Nothing to change"
 elif [ ! -e debian/changelog ]; then
 	echo "[INF] debian/changelog does not exist. No need to change anything"
@@ -117,6 +117,7 @@ fi
 echo "workdir is $(pwd)"
 IFS=" "
 CHROOT_PREFIX=$1
+[[ $(echo "$MOD" | grep "static") != "" ]] && PKG_DEPS=$PKG_STATIC_DEPS
 for distr in $HOST_DISTR_VERSIONS; do #we need to install required dependencies under schroot.
 	for arch in $HOST_ARCH_VERSIONS; do
 		echo "$CHROOT_PREFIX-$distr-$arch"
