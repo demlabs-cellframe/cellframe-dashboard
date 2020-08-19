@@ -7,24 +7,32 @@ CHROOT_PREFIX="builder"
 CHROOTS_PATH=$1
 PLATFORMS=""
 PKG_FORMAT=$3
-SRC_PATH=$4
-JOB=$5
+JOB=$4
 
+export wd=$(pwd)
 cd $SRC_PATH
-echo "workdir is $(pwd)"
+echo "workdir is $wd"
 . prod_build/general/pre-build.sh
 export_variables "./prod_build/general/conf/*"
+. prod_build/general/mod-handler.sh
+mod_handler $MOD
 
 IFS=' '
 echo "$PLATFORM_CANDIDATES"
 echo $IMPLEMENTED
+
 for platform in $PLATFORM_CANDIDATES; do
 	[[ $(echo $IMPLEMENTED | grep $platform) != "" ]] && PLATFORMS="$PLATFORMS$platform " || echo "Platform $platform is not implemented in this project yet. Sorry"
 done
-echo "Platforms are $PLATFORMS"
+[[ $PLATFORMS != "" ]] && PLATFORMS=$(echo $PLATFORMS | sed 's/ $//')
+echo "Platforms are $PLATFORMS there"
 
 for platform in $PLATFORMS; do
 	echo "Working with $platform now"
+	PLATFORM_UPPERCASED=$( echo "$platform" | tr '[:lower:]' '[:upper:]')
+	ENV=${PLATFORM_UPPERCASED}_ENV
+	varpack = $( export | grep $PLATFORM_UPPERCASED | awk '{print $3}')
+	[[ $platform == "linux" ]] && platform="linux/debian"
 	export_variables "./prod_build/$platform/conf/*"
 	IFS=' '
 	PKG_TYPE=$(echo $PKG_FORMAT | cut -d ' ' -f1)
