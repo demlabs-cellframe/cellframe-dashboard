@@ -10,3 +10,6 @@
 	path = dap-ui-sdk
 	url = https://gitlab.demlabs.net/dap/dap-ui-sdk
 	branch = master
+[submodule "prod_build"]
+	path = prod_build
+	url = https://gitlab.demlabs.net/murat.khabriev/prod_build_cellframe-dashboard
