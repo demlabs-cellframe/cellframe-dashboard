@@ -1,2 +1,0 @@
-PKG_DEPS="qt5-qmake qt5-default cdbs debhelper qtdeclarative5-dev"
-PKG_STATIC_DEPS="cdbs debhelper libxi-dev libfontconfig1-dev libfreetype6-dev libinput-dev libudev-dev libegl1-mesa-dev libgles2-mesa-dev libglib2.0-dev libxrandr-dev"
