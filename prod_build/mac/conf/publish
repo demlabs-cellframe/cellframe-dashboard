@@ -1,8 +1,0 @@
-DIVE_REPO_CREDS="admin@debian.pub.demlabs.net"
-DIVE_REPO_KEY="~/.ssh/demlabs_publish"
-DIVE_REPO_PATH="~/web/debian.pub.demlabs.net/public_html"
-DIVE_FILESERVER_CREDS="admin@pub.divevpn.com"
-KLVN_REPO_CREDS=$DIVE_REPO_CREDS
-KLVN_REPO_KEY=$DIVE_REPO_KEY
-KLVN_REPO_PATH=$DIVE_REPO_PATH
-KLVN_FILESERVER_CREDS="admin@pub.klvn.io"

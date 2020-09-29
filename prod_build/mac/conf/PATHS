@@ -1,5 +1,0 @@
-APP_PATH=DapChainVpnGui/BRAND.app
-BUILD_PATH=build/BRAND/ROOT
-APP_NAME=BRAND
-APP_SERVICE_NAME=BRANDService
-PKGSCRIPT_PATH=prod_build/mac/essentials/BRAND-pkginstall

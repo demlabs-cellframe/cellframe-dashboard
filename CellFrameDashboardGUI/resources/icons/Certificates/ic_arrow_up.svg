@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="ic_arrow_up" transform="translate(24.105 24) rotate(180)">
+    <path id="path" d="M0,0,5,5l5-5Z" transform="translate(7.285 10)" fill="#070023"/>
+    <rect id="rectangle" width="24" height="24" transform="translate(0.105)" fill="none"/>
+  </g>
+</svg>

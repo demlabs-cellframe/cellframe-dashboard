@@ -1,1 +1,0 @@
-PKG_DEPS="qt5-qmake cdbs debhelper qt5-default lsb-release qtdeclarative5-dev"

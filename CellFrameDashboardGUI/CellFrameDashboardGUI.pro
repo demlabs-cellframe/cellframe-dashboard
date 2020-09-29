@@ -1,8 +1,9 @@
-QT += qml quick widgets
+QT += qml quick widgets svg
 
 TEMPLATE = app
 CONFIG += c++11
 
+LIBS += -ldl
 
 !defined(BRAND,var){
 #  Default brand
@@ -13,16 +14,19 @@ TARGET = $$BRAND
 
 VER_MAJ = 2
 VER_MIN = 0
-VER_PAT = 3
+VER_PAT = 4
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
+    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
+    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
+    DEFINES += CONFIG_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -76,11 +80,12 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 HEADERS += \
     $$PWD/DapServiceController.h
 
+include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
+include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
-include (../libdap-qt/libdap-qt.pri)
-include (../libdap-qt-ui-qml/libdap-qt-ui-qml.pri)
-include (../libdap-qt-ui-chain-wallet/libdap-qt-ui-chain-wallet.pri)
+include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}

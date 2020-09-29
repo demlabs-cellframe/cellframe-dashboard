@@ -37,6 +37,7 @@ DapAbstractTopPanel
             model: dapModelWallets
             comboBoxTextRole: ["name"]
             mainLineText: "all wallets"
+            isDefaultNeedToAppend: false
             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt
@@ -67,6 +68,8 @@ DapAbstractTopPanel
             fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
+
+
         }
     }
 //TODO: Disabled until the currency converter is implemented.

@@ -7,12 +7,14 @@ DapHistoryTabForm
         id: modelHistory
     }
 
-    dapHistoryTopPanel.dapComboboxPeriod.onCurrentTextChanged:
+    //Use only this signal "onDapResultTextChanged" instead "onCurrentIndexChanged" and "onCurrentTextChanged"
+    dapHistoryTopPanel.dapComboboxPeriod.onDapResultTextChanged:
     {
-        console.log(dapHistoryTopPanel.dapComboboxPeriod.currentText)
+            console.log(dapHistoryTopPanel.dapComboboxPeriod.dapResultText)
     }
 
-    dapHistoryTopPanel.dapComboboxWallet.onCurrentIndexChanged:
+    //Use only this signal "onMainLineTextChanged" instead "onCurrentIndexChanged" and "onCurrentTextChanged"
+    dapHistoryTopPanel.dapComboboxWallet.onMainLineTextChanged:
     {
         console.log(dapHistoryTopPanel.dapComboboxWallet.mainLineText)
     }
@@ -24,7 +26,7 @@ DapHistoryTabForm
 
     Component.onCompleted:
     {
-        for(var i=0; i < dapModelWallets.count; ++i)
+        for(var i=0; i < dapWallets.count; ++i)
         {
             modelHistory.clear()
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
