@@ -3,8 +3,9 @@ import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Certificates"
 
 
-DapMainApplicationWindowForm 
-{
+
+
+Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
@@ -28,6 +29,102 @@ DapMainApplicationWindowForm
     DapFontQuicksand {
         id: quicksandFonts
     }
+
+
+
+
+        ///@detalis Logo icon.
+//        property alias dapIconLogotype: iconLogotype
+//        ///@detalis Logo frame.
+//        property alias dapFrameLogotype: frameLogotype
+//        ///@detalis Menu bar.
+//        property alias dapMenuTabWidget: menuTabWidget
+
+//        property alias dapScreenLoader: stackViewTabs
+
+
+
+
+
+        // The horizontal location of the virtual menu column and tab view loader
+        Row
+        {
+            id: rowMainWindow
+
+            anchors.fill: parent
+
+            // Virtual logo column frame and menu bar
+            Column
+            {
+                id: columnMenuTab
+                height: rowMainWindow.height
+                // Logotype widget
+                Item
+                {
+                    id: logotype
+                    data: dapLogotype
+                    width: columnMenuTab.width
+                    height: 60 * pt
+                    Rectangle
+                    {
+                        id: frameLogotype
+                        anchors.fill: parent
+                        color: "#070023"
+                        height: 60 * pt
+                        Image
+                        {
+                            id: iconLogotype
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: 111 * pt
+                            height: 24 * pt
+                            anchors.left: parent.left
+                            anchors.leftMargin: 24 * pt
+                            source: "qrc:/resources/icons/cellframe-logo-dashboard.png"
+                        }
+                    }
+                }
+                // Menu bar widget
+                Item
+                {
+                    id: menuWidget
+                    data: DapAbstractMenuTabWidget
+                    {
+                        onPathScreenChanged:
+                        {
+                            stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
+                        }
+                        id: menuTabWidget
+                        anchors.fill: parent
+                        dapFrameMenuTab.width: 180 * pt
+                        heightItemMenu: 60 * pt
+                        normalColorItemMenu: "transparent"
+                        selectColorItemMenu: "#D51F5D"
+                        widthIconItemMenu: 18 * pt
+                        heightIconItemMenu: 18 * pt
+                        dapMenuWidget.model: modelMenuTab
+                    }
+
+                    width: menuTabWidget.width
+                    height: columnMenuTab.height - logotype.height
+                }
+            }
+
+            // Screen downloader widget
+            Item
+            {
+                id: screens
+                data: dabScreensWidget
+                height: rowMainWindow.height
+                width: rowMainWindow.width - columnMenuTab.width
+                Loader
+                {
+                    id: stackViewTabs
+                    anchors.fill: parent
+                    clip: true
+                    source: dashboardScreen
+                }
+            }
+        }
 
 
 
@@ -110,14 +207,7 @@ DapMainApplicationWindowForm
                 hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
              })
         }
-    }
-
-    dapScreenLoader.source: dashboardScreen
-    
-    dapMenuTabWidget.onPathScreenChanged:
-    {
-        dapScreenLoader.setSource(Qt.resolvedUrl(dapMenuTabWidget.pathScreen))
-    }
+    }  
 
     Component.onCompleted:
     {

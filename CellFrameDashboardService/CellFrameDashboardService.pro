@@ -74,3 +74,6 @@ unix: !mac : !android {
 
 RESOURCES += \
     $$PWD/CellFrameDashboardService.qrc
+
+DISTFILES += \
+    classdiagram.qmodel
