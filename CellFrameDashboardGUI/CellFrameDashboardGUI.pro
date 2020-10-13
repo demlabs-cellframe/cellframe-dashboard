@@ -68,7 +68,8 @@ OTHER_FILES += libdap-qt-ui-qml \
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/DapServiceController.cpp
+    $$PWD/DapServiceController.cpp \
+    DapApplication.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -78,7 +79,8 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    $$PWD/DapServiceController.h
+    $$PWD/DapServiceController.h \
+    DapApplication.h
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)

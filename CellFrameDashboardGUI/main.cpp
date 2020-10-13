@@ -14,6 +14,7 @@
 #include "DapLogger.h"
 #include "DapLogMessage.h"
 #include "DapWallet.h"
+#include "DapApplication.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -25,11 +26,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QApplication app(argc, argv);
-    app.setOrganizationName("DEMLABS");
-    app.setOrganizationDomain("demlabs.net");
-    app.setApplicationName("CellFrame Dashboard");
-    app.setWindowIcon(QIcon(":/resources/icons/icon.ico"));
+    DapApplication app(argc, argv);
 
     DapLogger dapLogger;
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
@@ -55,36 +52,10 @@ int main(int argc, char *argv[])
     dapServiceClient.init();
 
 
-    //register only enums
-    qmlRegisterUncreatableType<DapCertificateType>("DapCertificateManager.Commands", 1, 0, "DapCertificateType"
-                         , "Error create DapCertificateType");
+    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
-    //register enums and constant property as singletone
-    qmlRegisterSingletonType<DapCertificateCommands>("DapCertificateManager.Commands", 1, 0, "DapCertificateCommands"
-            , [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
-                    Q_UNUSED(engine)
-                    Q_UNUSED(scriptEngine)
-
-                    //qInfo() << "DapCertificateCommands initialize in Qml";
-                    QQmlEngine::setObjectOwnership(DapCertificateCommands::instance()
-                                                   , QQmlEngine::ObjectOwnership::CppOwnership);
-                    return DapCertificateCommands::instance();
-            });
+    Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
 
 
-    qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
-    qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
-    qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
-    qRegisterMetaType<DapWallet>();
-    qRegisterMetaType<DapWalletToken>();
-
-    QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
-    engine.rootContext()->setContextProperty("pt", 1);
-    engine.load(QUrl("qrc:/main.qml"));
-
-    if (engine.rootObjects().isEmpty())
-        return -1;
-    
     return app.exec();
 }
