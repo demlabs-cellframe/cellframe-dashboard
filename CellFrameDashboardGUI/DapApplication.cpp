@@ -15,6 +15,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setContextProperties();
 
     qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
+
+    connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
 }
 
 DapNetworksList *DapApplication::networks()

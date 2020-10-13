@@ -16,8 +16,6 @@
         <file>main.qml</file>
         <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
-        <file>screen/DapAbstractTopPanel.qml</file>
-        <file>screen/DapAbstractTopPanelForm.ui.qml</file>
         <file>screen/DapAbstractTab.qml</file>
         <file>screen/DapAbstractTabForm.ui.qml</file>
         <file>screen/DapAbstractScreen.qml</file>
@@ -25,11 +23,8 @@
         <file>screen/DapAbstractRightPanel.qml</file>
         <file>screen/DapAbstractRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardScreenForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTab.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardTabForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTopPanel.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardTopPanelForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
         <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
@@ -45,7 +40,6 @@
         <file>screen/desktop/History/DapHistoryTab.qml</file>
         <file>screen/desktop/History/DapHistoryTabForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryTopPanel.qml</file>
-        <file>screen/desktop/History/DapHistoryTopPanelForm.ui.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanel.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardScreen.qml</file>
@@ -79,7 +73,6 @@
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
         <file>screen/desktop/Logs/DapLogsTabForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
-        <file>screen/desktop/Logs/DapLogsTopPanelForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsScreen.qml</file>
         <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
@@ -105,7 +98,6 @@
         <file>screen/desktop/Settings/DapSettingsTab.qml</file>
         <file>screen/desktop/Settings/DapSettingsTabForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
-        <file>screen/desktop/Settings/DapSettingsTopPanelForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
         <file>screen/desktop/Settings/DapSettingsScreenForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
@@ -117,7 +109,6 @@
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
         <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
-        <file>screen/desktop/Console/DapConsoleTopPanelForm.ui.qml</file>
         <file>resources/icons/icon.ico</file>
         <file>resources/icons/ic_flag.png</file>
         <file>resources/icons/buy_icon.png</file>
