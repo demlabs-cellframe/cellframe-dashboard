@@ -39,6 +39,16 @@ Popup {
     contentItem: Item {
         id: contentItem
 
+        property font font1: Qt.font({
+                                         family: quicksandFonts.medium12,
+                                         pixelSize: 12 * quicksandFonts.dapFactor,
+                                         bold: true
+                                     })
+        property font font2: Qt.font({
+                                         family: quicksandFonts.medium12,
+                                         pixelSize: 12 * quicksandFonts.dapFactor
+                                     })
+
         implicitWidth: columnItem.width
         implicitHeight: columnItem.height
 
@@ -61,12 +71,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font1
                         color: "#070023"
                         text: qsTr("State: ")
                     }
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font2
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.state
@@ -79,12 +89,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font1
                         color: "#070023"
                         text: qsTr("Target state: ")
                     }
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font2
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.targetState
@@ -97,12 +107,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font1
                         color: "#070023"
                         text: qsTr("Active links: ")
                     }
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font2
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.activeLinksCount + qsTr(" from ") + control.linksCount
@@ -116,12 +126,12 @@ Popup {
                 RowLayout {
                     Text {
                         id: textAddress
-                        font: quicksandFonts.medium12
+                        font: contentItem.font1
                         color: "#070023"
                         text: qsTr("Address: ")
                     }
                     Text {
-                        font: quicksandFonts.medium12
+                        font: contentItem.font2
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.nodeAddress
