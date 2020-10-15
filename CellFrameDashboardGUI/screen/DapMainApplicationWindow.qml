@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Certificates"
-
+import "qrc:/screen/desktop/NetworksPanel"
 
 
 
@@ -51,7 +51,13 @@ Item {
         {
             id: rowMainWindow
 
-            anchors.fill: parent
+            anchors {
+                left: parent.left;
+                top: parent.top;
+                right: parent.right;
+                bottom: networksPanel.top
+                bottomMargin: 4 * pt
+            }
 
             // Virtual logo column frame and menu bar
             Column
@@ -124,6 +130,13 @@ Item {
                     source: dashboardScreen
                 }
             }
+        }
+
+        DapNetworksPanel
+        {
+            id: networksPanel
+            y: parent.height - height
+            width: parent.width
         }
 
 
