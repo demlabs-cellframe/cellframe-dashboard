@@ -150,10 +150,7 @@ Popup {
                             anchors.fill: parent
                             hoverEnabled: true
 
-                            onClicked: {
-                                // TODO: copy control.nodeAddress to clipboard
-                                console.log("Clicked copy nodeAddres. nodeAddres: " + control.nodeAddress);
-                            }
+                            onClicked: app.setClipboardText(control.nodeAddress)
                         }
                     }
 

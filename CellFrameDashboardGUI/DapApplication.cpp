@@ -2,6 +2,7 @@
 #include <QQmlContext>
 #include <DapLogMessage.h>
 #include <QIcon>
+#include <QClipboard>
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -27,6 +28,11 @@ DapNetworksList *DapApplication::networks()
 QQmlApplicationEngine *DapApplication::qmlEngine()
 {
     return &m_engine;
+}
+
+void DapApplication::setClipboardText(const QString &text)
+{
+    clipboard()->setText(text);
 }
 
 void DapApplication::registerQmlTypes()
@@ -57,6 +63,7 @@ void DapApplication::registerQmlTypes()
 
 void DapApplication::setContextProperties()
 {
+    m_engine.rootContext()->setContextProperty("app", this);
     m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     m_engine.rootContext()->setContextProperty("pt", 1);
 
