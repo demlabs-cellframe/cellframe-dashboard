@@ -58,7 +58,7 @@ ListView {
     Component.onCompleted: {
         var array = [];
         for (var i = 0; i < 5; ++i) {
-            var obj = component.createObject();
+            var obj = component.createObject(control);
             obj.i = i;
             array.push(obj);
         }
