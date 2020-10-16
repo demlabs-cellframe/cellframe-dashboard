@@ -27,30 +27,54 @@ ListView {
     interactive: false
 
     // TODO код только для теста, удалить потом
-    model: ListModel { }
-    Component.onCompleted: {
-        for (var i = 0; i < 5; ++i) {
-            model.append({
-                             name: "Network #" + i,
-                             state: i % 2 === 0 ? "Online" : "Offline",
-                             targetState: "targetState",
-                             activeLinksCount: i,
-                             linksCount: i * 2,
-                             nodeAddress: "nodeAddress_" + (i + 1)
-                         });
+    Component {
+        id: component
+
+        Item {
+            property var i
+            property var name: "Network #" + i
+            property var state: i % 2 === 0 ? "Online" : "Offline"
+            property var targetState: "targetState"
+            property var activeLinksCount: i
+            property var linksCount: i * 2
+            property var nodeAddress: "nodeAddress_" + (i + 1)
+
+            Timer {
+                running: true
+                repeat: true
+                interval: 1000
+                onTriggered: {
+                    parent.state = parent.state === "Online" ? "Offline" : "Online";
+                    ++parent.activeLinksCount;
+                    ++parent.linksCount;
+                    if (parent.linksCount > 10) {
+                        parent.linksCount = 2;
+                        parent.activeLinksCount = 1;
+                    }
+                }
+            }
         }
+    }
+    Component.onCompleted: {
+        var array = [];
+        for (var i = 0; i < 5; ++i) {
+            var obj = component.createObject();
+            obj.i = i;
+            array.push(obj);
+        }
+        model = array;
     }
 
     delegate: Rectangle {
         id: delegateItem
 
         // properties duplicated for DapNetworkPopup
-        property string name: model.name
-        property string state: model.state
-        property string targetState: model.targetState
-        property int activeLinksCount: model.activeLinksCount
-        property int linksCount: model.linksCount
-        property string nodeAddress: model.nodeAddress
+        property string name: modelData.name
+        property string state: modelData.state
+        property string targetState: modelData.targetState
+        property int activeLinksCount: modelData.activeLinksCount
+        property int linksCount: modelData.linksCount
+        property string nodeAddress: modelData.nodeAddress
 
         width: d.delegateWidth
         height: control.height
@@ -80,6 +104,9 @@ ListView {
         }
     }
 
+    onCountChanged: timerUpdateDelegateWidth.start()
+    onWidthChanged: timerUpdateDelegateWidth.start()
+
     DapNetworkPopup {
         id: networkPopup
     }
@@ -87,14 +114,8 @@ ListView {
     Item {
         id: d
 
-        property int delegateWidth: {
-            var w = Math.max(control.width / control.count, 295 * pt);
-            var visibleItems = Math.max(Math.floor(control.width / w), 1);
-            d.visibleItems = visibleItems;
-            return Math.floor((control.width - w * visibleItems) / visibleItems + w);
-        }
-
-        property int visibleItems: 0
+        property int delegateWidth: 100
+        property int visibleItems: 1
         property int leftIndex: 0
 
         function positionViewAtIndexAnimation(index, mode)
@@ -109,13 +130,29 @@ ListView {
             scrollAnimation.running = true;
         }
 
-        onDelegateWidthChanged: {
-            if (d.leftIndex > control.count - d.visibleItems)
-                d.leftIndex = control.count - d.visibleItems;
-            if (d.leftIndex < 0)
-                d.leftIndex = 0;
-            if (d.leftIndex < control.count)
-                control.positionViewAtIndex(d.leftIndex, ListView.Beginning);
+        Timer {
+            id: timerUpdateDelegateWidth
+
+            repeat: false
+            interval: 0
+
+            onTriggered: {
+                var w = Math.max(control.width / control.count, 295 * pt);
+                var visibleItems = Math.max(Math.floor(control.width / w), 1);
+                var delegateWidth = Math.floor((control.width - w * visibleItems) / visibleItems + w);
+                d.visibleItems = visibleItems;
+
+                if (d.delegateWidth !== delegateWidth) {
+                    d.delegateWidth = delegateWidth;
+
+                    if (d.leftIndex > control.count - d.visibleItems)
+                        d.leftIndex = control.count - d.visibleItems;
+                    if (d.leftIndex < 0)
+                        d.leftIndex = 0;
+                    if (d.leftIndex < control.count)
+                        control.positionViewAtIndex(d.leftIndex, ListView.Beginning);
+                }
+            }
         }
     }
 
