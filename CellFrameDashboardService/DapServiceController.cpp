@@ -64,6 +64,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_pServer, CLI_PATH));
     // The command to get a list of available networks
     m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
+    // The command to get a network status
+    m_pServer->addService(new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand", m_pServer, CLI_PATH));
     // Saving the file with the logs
     m_pServer->addService(new DapExportLogCommand("DapExportLogCommand", m_pServer));
 
