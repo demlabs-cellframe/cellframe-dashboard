@@ -62,6 +62,11 @@ QString DapServiceController::getCurrentChain() const
     return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
 }
 
+void DapServiceController::requestNetworkState(QString a_networkName)
+{
+    this->requestToService("DapGetListNetworksCommand", a_networkName);
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -128,6 +133,8 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapExportLogCommand("DapExportLogCommand",m_DAPRpcSocket))), QString("exportLogs")));
     // The command to get a list of available networks
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_DAPRpcSocket))), QString("networksListReceived")));
+    // The command to get a network status
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand", m_DAPRpcSocket))), QString("networkStatusReceived")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 

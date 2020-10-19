@@ -49,7 +49,7 @@
                          </base-DElement>
                          <object>{019ea6f1-7816-4e9b-b963-c45e7d0421a7}</object>
                          <name>DapServiceController</name>
-                         <pos>x:170;y:950</pos>
+                         <pos>x:140;y:775</pos>
                          <rect>x:-100;y:-95;w:200;h:190</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -71,7 +71,7 @@
                          </base-DElement>
                          <object>{0a455597-9e69-4986-a1f3-dc4f72b740d6}</object>
                          <name>QLocalServer</name>
-                         <pos>x:550;y:605</pos>
+                         <pos>x:615;y:600</pos>
                          <rect>x:-45;y:-30;w:90;h:60</rect>
                          <visual-role>0</visual-role>
                         </DObject>
@@ -91,7 +91,7 @@
                          </base-DElement>
                          <object>{0d4d81a1-006b-409e-a150-c501feda7943}</object>
                          <name>DapRpcLocalServer</name>
-                         <pos>x:550;y:735</pos>
+                         <pos>x:675;y:730</pos>
                          <rect>x:-165;y:-70;w:330;h:140</rect>
                          <auto-sized>false</auto-sized>
                          <visual-role>0</visual-role>
@@ -191,45 +191,6 @@
                         <DObject>
                          <base-DElement>
                           <DElement>
-                           <uid>{53131af3-21d9-47a1-b157-02a0597d8453}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{2a332a13-8245-479c-8637-5e8042d39a59}</object>
-                         <name>DapRpcLocalServer</name>
-                         <pos>x:815;y:740</pos>
-                         <rect>x:-70;y:-55;w:140;h:110</rect>
-                         <auto-sized>false</auto-sized>
-                         <visual-role>0</visual-role>
-                        </DObject>
-                       </base-DObject>
-                      </DClass>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DInheritance">
-                      <DInheritance>
-                       <base-DRelation>
-                        <DRelation>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{0f4e5126-ecd9-467e-9c2e-9d03ae8ff928}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{f34af4f5-9223-4925-a20f-ba742b2c9800}</object>
-                         <a>{53131af3-21d9-47a1-b157-02a0597d8453}</a>
-                         <b>{afea5a54-0c7d-48f8-972c-3862b43b113d}</b>
-                        </DRelation>
-                       </base-DRelation>
-                      </DInheritance>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DClass">
-                      <DClass>
-                       <base-DObject>
-                        <DObject>
-                         <base-DElement>
-                          <DElement>
                            <uid>{097a6e9c-2f13-4d25-9f1e-45c1ca10fb8d}</uid>
                           </DElement>
                          </base-DElement>
@@ -257,44 +218,6 @@
                          <object>{4dce5c40-b560-4fce-9694-2f19b86ce9e2}</object>
                          <a>{097a6e9c-2f13-4d25-9f1e-45c1ca10fb8d}</a>
                          <b>{afea5a54-0c7d-48f8-972c-3862b43b113d}</b>
-                        </DRelation>
-                       </base-DRelation>
-                      </DInheritance>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DClass">
-                      <DClass>
-                       <base-DObject>
-                        <DObject>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{f6f59767-0f22-4a2b-b0d4-a779a0b4efb3}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{e3a5217a-fa7d-4182-86d5-34a8b4d9e9a9}</object>
-                         <name>QTcpServer</name>
-                         <pos>x:765;y:620</pos>
-                         <rect>x:-40;y:-30;w:80;h:60</rect>
-                         <visual-role>0</visual-role>
-                        </DObject>
-                       </base-DObject>
-                      </DClass>
-                     </instance>
-                    </item>
-                    <item>
-                     <instance type="DInheritance">
-                      <DInheritance>
-                       <base-DRelation>
-                        <DRelation>
-                         <base-DElement>
-                          <DElement>
-                           <uid>{c3b1b40c-ea23-4698-95ea-095dc53ef70c}</uid>
-                          </DElement>
-                         </base-DElement>
-                         <object>{bc955718-7e73-45a7-aeae-b6a79b8da7fd}</object>
-                         <a>{53131af3-21d9-47a1-b157-02a0597d8453}</a>
-                         <b>{f6f59767-0f22-4a2b-b0d4-a779a0b4efb3}</b>
                         </DRelation>
                        </base-DRelation>
                       </DInheritance>
@@ -1001,7 +924,7 @@
                     </item>
                    </qlist>
                   </elements>
-                  <last-modified>1601979819465</last-modified>
+                  <last-modified>1602753243032</last-modified>
                   <toolbarid>Classes</toolbarid>
                  </MDiagram>
                 </base-MDiagram>
@@ -1118,56 +1041,56 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{8e6c66f2-cbda-4e24-956e-9e254c9cc6ff}</uid>
+                    <uid>{287c33f6-a64f-4ac0-b351-39d5ac1a7e9c}</uid>
                     <type>1</type>
                     <declaration>-server: DapRpcLocalServer</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6f3943ff-e3f4-4838-9c09-c5b302bdce50}</uid>
+                    <uid>{23af173d-82cd-4e64-b02f-434cc8b2f981}</uid>
                     <type>1</type>
                     <declaration>-systemTrayIcon:DapSystemTrayIcon</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{20f782e3-cc6a-4a0a-a236-870235976b80}</uid>
+                    <uid>{7874a9ce-9012-4b66-b970-d0f5ac0b4871}</uid>
                     <type>1</type>
                     <declaration>-toolTipWidget: DapToolTipWidget</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{74e2832a-6459-4d27-a2d6-fde184d185c0}</uid>
+                    <uid>{7b905be6-8d28-4aee-a9db-f63f2b2ae62d}</uid>
                     <type>1</type>
                     <declaration>-menuSystemTrayIcon: QMenu</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3f40f585-c02e-4ad7-a630-ed8d9873c2e6}</uid>
+                    <uid>{4dca9855-5435-4e71-b8a4-de88f607137a}</uid>
                     <type>2</type>
                     <declaration>+start()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{702886fd-a303-4154-af03-509800836b0d}</uid>
+                    <uid>{a2fb12ab-7f79-418d-809d-afbff8d28b5d}</uid>
                     <type>2</type>
                     <declaration>+onNewClientConnected()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0c61ab20-8b41-4b77-a619-fd02ad0d052b}</uid>
+                    <uid>{6bbb15a0-5bf1-4149-a227-65b5d7d1572b}</uid>
                     <type>2</type>
                     <declaration>-registerCommand()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0910895c-d15b-4382-806d-81c2d033b984}</uid>
+                    <uid>{a9ea48a6-3eb4-4513-ad4a-9f303abdb29e}</uid>
                     <type>2</type>
                     <declaration>-initSystemTrayIcon()</declaration>
                    </MClassMember>
@@ -1488,35 +1411,35 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{61ada8e6-e283-40cd-ad12-f4997a75853f}</uid>
+                    <uid>{02e6c90e-817a-491c-acd9-49827f536dcd}</uid>
                     <type>1</type>
                     <declaration>-socketLookup: QHash&lt;QLocalSocket, DapRpcSocket&gt;</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{68c3a5ef-8854-4aaa-91f4-948366c6fd6e}</uid>
+                    <uid>{27ec4e5a-14a8-4d67-9edf-c5769dd6ba04}</uid>
                     <type>2</type>
                     <declaration>#incomingConnection(aSocketDescriptor: quintptr)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{cd23aafe-d94f-4c5d-adb4-bb77731ad666}</uid>
+                    <uid>{6d8f9709-eae3-4d86-b718-cd934c96577b}</uid>
                     <type>2</type>
                     <declaration>+findService(serviceName: QString)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{e5b9e05d-4008-406d-aca4-fdb482b8df01}</uid>
+                    <uid>{21f7778b-353d-47ea-be57-8f7663acb862}</uid>
                     <type>2</type>
                     <declaration>-clientDisconnected()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{18861c2f-3e54-44c0-bdab-f12b61fdc0ac}</uid>
+                    <uid>{e4d488f0-3f53-428c-8de5-9279ef99bda7}</uid>
                     <type>2</type>
                     <declaration>-messageProcessing(message: DapRpcMessage)</declaration>
                    </MClassMember>
@@ -1629,49 +1552,49 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{f6f5a52f-413c-4d2d-86ad-1b53576b7c4f}</uid>
+                    <uid>{a73ea0a2-3170-44e8-9b4e-368145ef6914}</uid>
                     <type>1</type>
                     <declaration>clients: QList&lt;DapRpcSocket&gt;</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{ecbd5fd2-fd9b-4cbc-8105-1901cda6b3ac}</uid>
+                    <uid>{beb50ee5-c2fb-4b72-9606-08e147a7b8a6}</uid>
                     <type>2</type>
                     <declaration>+connectedClientCount()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{63f82497-cc44-4a86-aa12-49f23498fc47}</uid>
+                    <uid>{b1dd35c2-60e4-43fa-89f3-0299bbcb3e0a}</uid>
                     <type>2</type>
                     <declaration>+listen(address: QString,  port:  quint16)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6e284442-9356-4a37-b12f-8602bb33911b}</uid>
+                    <uid>{c48b634d-9142-4272-8dd9-1dda8a5b3360}</uid>
                     <type>2</type>
                     <declaration>+onClientConnected()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{4441eaa6-8fff-47f3-863b-73a4b78818ee}</uid>
+                    <uid>{3ee4d5ec-55ef-4e66-bcc0-29b5eed6d681}</uid>
                     <type>2</type>
                     <declaration>+onClientDisconnected()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{219509fb-34aa-427a-bed1-1e8719e60640}</uid>
+                    <uid>{baf7b94f-ab64-48b6-8bca-67e635a4cc9a}</uid>
                     <type>2</type>
                     <declaration>+notifyConnectedClients(message: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{917bd67e-17db-4619-9ac9-8bbc7786372a}</uid>
+                    <uid>{19b2c623-7da5-460d-9f72-966135418f32}</uid>
                     <type>2</type>
                     <declaration>+notifyConnectedClients(method: QString, params QJsonArray)</declaration>
                    </MClassMember>
@@ -2988,217 +2911,217 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{a72c16e2-6944-453e-81b8-18013219aa89}</uid>
+                    <uid>{b64688dd-2788-4e1b-85e5-2271e18f1410}</uid>
                     <type>1</type>
                     <declaration>+ currentChain: QString</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{f0feab9b-99a9-459f-ab24-b60ece337b40}</uid>
+                    <uid>{c5d44120-74c8-491c-b348-acafa2615264}</uid>
                     <type>1</type>
                     <declaration>+ brand: QString</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6dfa8f61-9f94-4d50-8528-2ad00b471dff}</uid>
+                    <uid>{bc5ba716-f893-4ae2-881c-cdc52cf99847}</uid>
                     <type>1</type>
                     <declaration>+ version: QString</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{13806991-f97a-4cb4-ac76-513c593ecf32}</uid>
+                    <uid>{0f2f70a5-5729-4407-b060-1196248dd44b}</uid>
                     <type>1</type>
                     <declaration>+ currentNetwork: QString</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6548fc9e-2654-4ae3-adbe-ff636ac2ac51}</uid>
+                    <uid>{4da62959-8c4c-4ef6-990c-5c9d367396b4}</uid>
                     <type>1</type>
                     <declaration>+ indexCurrentNetwork: int</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{64e6fe3f-7ee0-43c9-8ec1-222edef00f94}</uid>
+                    <uid>{63d64114-31e9-4aa1-a672-0d0af39959e3}</uid>
                     <type>1</type>
                     <declaration>- dapServiceClient: DapServiceClient</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{9e77aef3-e845-4160-88d2-8434efb8e6fa}</uid>
+                    <uid>{fc447bd3-18b0-47aa-9c42-638b504b01b4}</uid>
                     <type>1</type>
                     <declaration>- transceivers: QVector&lt;QPair&lt;DapAbstractCommand*, QString&gt;&gt;</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{96786ed3-4115-4d44-af15-b04fbd0c0091}</uid>
+                    <uid>{8a4b377e-bcc0-47af-87d2-92381825a3fa}</uid>
                     <type>1</type>
                     <declaration>- DAPRpcSocket: DapRpcSocket</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d2dbcc71-fac8-45b7-89b4-9d1e1faf28d2}</uid>
+                    <uid>{bb85588a-1f91-434d-b9d6-ef20548bb09b}</uid>
                     <type>2</type>
                     <declaration>+ getInstance()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{ab556b28-0bfd-44ba-bec6-1f7b26c204f8}</uid>
+                    <uid>{a68aadcc-16a8-40a7-b6b3-0f861df9f189}</uid>
                     <type>2</type>
                     <declaration>+ requestToService(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{8ed54fe3-04af-47d1-a66b-4d66fddbb032}</uid>
+                    <uid>{33b4ee59-8da5-4c66-9f79-f6a13bba9953}</uid>
                     <type>2</type>
                     <declaration>+ notifyService(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3404e514-b3e2-4842-b82f-b711313eb11f}</uid>
+                    <uid>{f5ba783e-4a51-4de1-9764-d25f89deedf1}</uid>
                     <type>2</type>
                     <declaration>+ init(dapServiceClient: DapServiceClient)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{5175e140-ec51-47a4-9897-3de1413ff424}</uid>
+                    <uid>{2bcff84b-aa35-4aa6-87c0-b1f40b11b10f}</uid>
                     <type>2</type>
                     <declaration>+clientActivated()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{c8b04117-3356-40f8-8bb8-812163262bc1}</uid>
+                    <uid>{b188793a-ea4e-4f19-9b8f-b659742b17cd}</uid>
                     <type>2</type>
                     <declaration>+ saveLogRezult(message: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d5c4f8f2-052d-4361-a404-fafec4f17fd9}</uid>
+                    <uid>{bb6d3c32-9c73-4284-a26a-a0e7c4bf564c}</uid>
                     <type>2</type>
                     <declaration>+ logUpdated(logs: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{bd0079a0-bf6f-4feb-9df3-4ae8b8940233}</uid>
+                    <uid>{de20b30e-1e3e-4396-8e7f-78c0e27d496c}</uid>
                     <type>2</type>
                     <declaration>+ transactionCreated(result: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{e8f6bd74-fe32-4178-9faf-513706862786}</uid>
+                    <uid>{19fa3ac9-6778-4caa-b49d-4db7c84bf13d}</uid>
                     <type>2</type>
                     <declaration>+ mempoolProcessed(result: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0a735095-315a-4d33-8d8a-691e2c4b906d}</uid>
+                    <uid>{61aa09e0-da06-47c9-b7ac-745c51bd4fc6}</uid>
                     <type>2</type>
                     <declaration>+ walletCreated(wallet: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{caea520a-cae6-4634-9223-88ee4b7834d3}</uid>
+                    <uid>{0659a88a-a478-409e-aae7-a018ba75ff8a}</uid>
                     <type>2</type>
                     <declaration>+ walletsInfoReceived(walletList: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{38ad6ca1-9bb7-475d-a363-cc68a9c15778}</uid>
+                    <uid>{8160f3c6-309d-48a9-ab8a-04d070852fd6}</uid>
                     <type>2</type>
                     <declaration>+ walletsReceived(walletList QList&lt;QObject*&gt;)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{b835e410-09ff-418a-a169-ab0b5ef3312d}</uid>
+                    <uid>{bdd19474-77c7-40bf-9a17-e6a6fcab3be8}</uid>
                     <type>2</type>
                     <declaration>+ networksListReceived(networkList: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{7bf45b89-3f5b-44f9-a036-b440c70ecd57}</uid>
+                    <uid>{6a757aed-0549-4c36-be7a-d58e9f71f7dc}</uid>
                     <type>2</type>
                     <declaration>+ walletAddressesReceived(walletAddresses: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{37b79e38-2d3f-41e6-b7b1-f57fe1e7dfc4}</uid>
+                    <uid>{d767bc6d-ba7d-46fd-a531-13b6ed3014c0}</uid>
                     <type>2</type>
                     <declaration>+ walletTokensReceived(walletTokens: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d3676140-8d71-4d02-8c27-4cddbfbad9d9}</uid>
+                    <uid>{84799fb8-6b87-4230-a7f7-d5b4a852dcb9}</uid>
                     <type>2</type>
                     <declaration>+ void historyReceived(walletHistory: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{1fdab1c9-a3fc-43a8-ba13-203d80072265}</uid>
+                    <uid>{4c9b0949-379f-47e0-a349-d55b21636e5a}</uid>
                     <type>2</type>
                     <declaration>+ walletHistoryReceived(walletHistory: QList&lt;QObject*&gt;)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0f0ace66-cc1f-4258-a3fc-317a69360100}</uid>
+                    <uid>{b608face-9ca7-46ed-8511-10756741525a}</uid>
                     <type>2</type>
                     <declaration>+ cmdRunned(asAnswer: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d91ea8fd-eca7-434f-b339-57adbb4a0050}</uid>
+                    <uid>{58c140cd-7878-4271-a2a1-0f70669842b4}</uid>
                     <type>2</type>
                     <declaration>+ historyExecutedCmdReceived(history: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{bd5f84bc-dd49-4115-823b-3d209944b40f}</uid>
+                    <uid>{4a477ca3-0468-4a3a-b0e0-958d0f2bc009}</uid>
                     <type>2</type>
                     <declaration>+ certificateManagerOperationResult(const QVariant&amp; result)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{1b530aaa-aaf9-4672-a0e1-f76eb9208d5b}</uid>
+                    <uid>{efa49448-c682-4b15-87ad-310beada1eae}</uid>
                     <type>2</type>
                     <declaration>- registerCommand()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{8054291f-850a-4c47-a941-2bfa6140f8a5}</uid>
+                    <uid>{933a8437-8561-4484-b054-a23141428723}</uid>
                     <type>2</type>
                     <declaration>- findEmittedSignal(value: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{2d9c141b-dc6c-4d16-aaf6-9017dab58a95}</uid>
+                    <uid>{cc7bf973-24a6-419c-b94c-d7b6a8804a06}</uid>
                     <type>2</type>
                     <declaration>- registerEmmitedSignal()</declaration>
                    </MClassMember>
