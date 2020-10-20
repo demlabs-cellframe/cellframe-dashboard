@@ -38,11 +38,10 @@ Item {
 
             color: {
                 switch (control.state) {
-                case "Online":
+                case "NET_STATE_ONLINE":
                     return "#9DD51F";
-                case "Offline":
+                case "NET_STATE_OFFLINE":
                     return "#FFC527";
-                    //TODO: добавить состояния из DapNetwork::stateToString
                 default:
                     if (control.state.length > 0)
                         console.warn("Unknown network state: " + control.state);

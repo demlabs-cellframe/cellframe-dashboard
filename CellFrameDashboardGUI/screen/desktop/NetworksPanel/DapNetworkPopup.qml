@@ -75,6 +75,20 @@ Popup {
     contentItem: Item {
         id: contentItem
 
+        function networkStateToString(state)
+        {
+            switch (state) {
+            case "NET_STATE_ONLINE":
+                return qsTr("ONLINE");
+            case "NET_STATE_OFFLINE":
+                return qsTr("OFFLINE");
+            default:
+                if (control.state.length > 0)
+                    console.warn("Unknown network state: " + control.state);
+                return "";
+            }
+        }
+
         implicitWidth: columnItem.width
         implicitHeight: columnItem.height
 
@@ -104,7 +118,7 @@ Popup {
                         font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
-                        text: control.state
+                        text: contentItem.networkStateToString(control.state)
                         Layout.fillWidth: true
                         Layout.maximumWidth: Math.ceil(implicitWidth)
                     }
@@ -122,7 +136,7 @@ Popup {
                         font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
-                        text: control.targetState
+                        text: contentItem.networkStateToString(control.targetState)
                         Layout.fillWidth: true
                         Layout.maximumWidth: Math.ceil(implicitWidth)
                     }
