@@ -94,11 +94,15 @@ Popup {
                     height: 24 * pt
                     enabled: control.state == "NET_STATE_ONLINE" && control.targetState == "NET_STATE_ONLINE"
                     text: qsTr("Sync network")
+
+                    onClicked: console.log("SYNC NETWORK CLICKED", control.name)
                 }
                 DapNetworkPopupButton {
                     width: contentItem.width / 2
                     height: 24 * pt
                     text: control.state == "NET_STATE_OFFLINE" ? qsTr("On network") : qsTr("Off network")
+
+                    onClicked: console.log("ON/OFF NETWORK CLICKED", control.name)
                 }
             }
 

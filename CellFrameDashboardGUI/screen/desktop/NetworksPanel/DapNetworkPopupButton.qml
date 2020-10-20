@@ -39,8 +39,6 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
 
-        onClicked: {
-
-        }
+        onClicked: control.clicked()
     }
 }
