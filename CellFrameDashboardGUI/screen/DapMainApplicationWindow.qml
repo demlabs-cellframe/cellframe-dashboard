@@ -139,6 +139,11 @@ Item {
             width: parent.width
         }
 
+        DapNetworkPopup
+        {
+            id: networkPanelPopup
+        }
+
 
 
     property var dapWallets: []

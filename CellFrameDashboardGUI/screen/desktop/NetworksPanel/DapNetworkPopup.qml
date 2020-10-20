@@ -1,30 +1,66 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.9
-import QtQuick.Layouts 1.9
-import QtGraphicalEffects 1.9
+import QtQuick 2.7
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 
 Popup {
     id: control
 
-    property QtObject networkDelegateItem
+    property point networkDelegateItemCoords
+    property int networkDelegateItemWidth
+    property int networkDelegateItemHeight
 
-    property point networkDelegateItemCoords: networkDelegateItem ? parent.mapFromItem(networkDelegateItem.parent, networkDelegateItem.x, networkDelegateItem.y) : Qt.point(0, 0)
-    property int networkDelegateItemWidth: networkDelegateItem ? networkDelegateItem.width : 0
-    property int networkDelegateItemHeight: networkDelegateItem ? networkDelegateItem.height : 0
+    property string name
+    property string state
+    property string targetState
+    property int activeLinksCount
+    property int linksCount
+    property string nodeAddress
 
-    property string name: networkDelegateItem ? networkDelegateItem.name : ""
-    property string state: networkDelegateItem ? networkDelegateItem.state : ""
-    property string targetState: networkDelegateItem ? networkDelegateItem.targetState : ""
-    property int activeLinksCount: networkDelegateItem ? networkDelegateItem.activeLinksCount : 0
-    property int linksCount: networkDelegateItem ? networkDelegateItem.linksCount : 0
-    property string nodeAddress: networkDelegateItem ? networkDelegateItem.nodeAddress : ""
+    property bool mouseWasClicked
+
+    function show(networkDelegateItem)
+    {
+        if (mouseWasClicked)
+            return;
+
+        networkDelegateItemCoords = Qt.binding(function() { return parent.mapFromItem(networkDelegateItem.parent, networkDelegateItem.x, networkDelegateItem.y) });
+        networkDelegateItemWidth = Qt.binding(function() { return networkDelegateItem.width });
+        networkDelegateItemHeight = Qt.binding(function() { return networkDelegateItem.height });
+
+        name = Qt.binding(function() { return networkDelegateItem.name });
+        state = Qt.binding(function() { return networkDelegateItem.state });
+        targetState = Qt.binding(function() { return networkDelegateItem.targetState });
+        activeLinksCount = Qt.binding(function() { return networkDelegateItem.activeLinksCount });
+        linksCount = Qt.binding(function() { return networkDelegateItem.linksCount });
+        nodeAddress = Qt.binding(function() { return networkDelegateItem.nodeAddress });
+
+        mouseWasClicked = false;
+
+        open();
+    }
+
+    function release()
+    {
+        networkDelegateItemCoords = Qt.point(0, 0);
+        networkDelegateItemWidth = 0;
+        networkDelegateItemHeight = 0;
+
+        name = "";
+        state = "";
+        targetState = "";
+        activeLinksCount = 0;
+        linksCount = 0;
+        nodeAddress = 0;
+
+        mouseWasClicked = false;
+    }
 
     x: networkDelegateItemCoords.x
     y: networkDelegateItemCoords.y + networkDelegateItemHeight - height
     width: networkDelegateItemWidth
     height: contentHeight
 
-    parent: Overlay.overlay
     margins: 0
     padding: 0
 
@@ -39,22 +75,11 @@ Popup {
     contentItem: Item {
         id: contentItem
 
-        property font font1: Qt.font({
-                                         family: quicksandFonts.medium12,
-                                         pixelSize: 12 * quicksandFonts.dapFactor,
-                                         bold: true
-                                     })
-        property font font2: Qt.font({
-                                         family: quicksandFonts.medium12,
-                                         pixelSize: 12 * quicksandFonts.dapFactor
-                                     })
-
         implicitWidth: columnItem.width
         implicitHeight: columnItem.height
 
         MouseArea {
             id: contentItemMouseArea
-
             width: parent.width
             height: parent.height
             hoverEnabled: true
@@ -71,12 +96,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: contentItem.font1
+                        font: quicksandFonts.medium12
                         color: "#070023"
                         text: qsTr("State: ")
                     }
                     Text {
-                        font: contentItem.font2
+                        font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.state
@@ -89,12 +114,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: contentItem.font1
+                        font: quicksandFonts.medium12
                         color: "#070023"
                         text: qsTr("Target state: ")
                     }
                     Text {
-                        font: contentItem.font2
+                        font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.targetState
@@ -107,12 +132,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: contentItem.font1
+                        font: quicksandFonts.medium12
                         color: "#070023"
                         text: qsTr("Active links: ")
                     }
                     Text {
-                        font: contentItem.font2
+                        font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.activeLinksCount + qsTr(" from ") + control.linksCount
@@ -126,12 +151,12 @@ Popup {
                 RowLayout {
                     Text {
                         id: textAddress
-                        font: contentItem.font1
+                        font: quicksandFonts.medium12
                         color: "#070023"
                         text: qsTr("Address: ")
                     }
                     Text {
-                        font: contentItem.font2
+                        font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.nodeAddress
@@ -146,10 +171,8 @@ Popup {
 
                         MouseArea {
                             id: btnCopyAddressMouseArea
-
                             anchors.fill: parent
                             hoverEnabled: true
-
                             onClicked: app.setClipboardText(control.nodeAddress)
                         }
                     }
@@ -167,6 +190,13 @@ Popup {
                 textColor: "#070023"
                 name: control.name
                 state: control.state
+
+                MouseArea {
+                    id: networkNameMouseArea
+                    width: parent.width
+                    height: parent.height
+                    onClicked: control.mouseWasClicked = true
+                }
             }
         }
     }
@@ -190,10 +220,12 @@ Popup {
         }
     }
 
+    onClosed: release()
+
     Timer {
-        running: !contentItemMouseArea.containsMouse && !btnCopyAddressMouseArea.containsMouse && control.visible
+        running: !contentItemMouseArea.containsMouse && !btnCopyAddressMouseArea.containsMouse && control.visible && !control.mouseWasClicked
         interval: 100
         repeat: false
-        onTriggered: control.close()
+        onTriggered: control.close();
     }
 }

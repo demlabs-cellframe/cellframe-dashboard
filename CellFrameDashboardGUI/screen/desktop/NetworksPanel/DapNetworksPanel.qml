@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.7
 
 Rectangle {
     id: control
@@ -18,7 +18,7 @@ Rectangle {
         onClicked: networksListView.scrollToLeft()
     }
 
-    DapNetworksListView {
+    DapNetworksList {
         id: networksListView
 
         anchors.left: btnPrevious.right

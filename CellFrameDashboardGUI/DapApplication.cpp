@@ -74,5 +74,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     m_engine.rootContext()->setContextProperty("pt", 1);
 
-    m_engine.rootContext()->setContextProperty("networksModel", QVariant::fromValue(this->networks()->model()));
+    m_engine.rootContext()->setContextProperty("networks", this->networks());
 }
