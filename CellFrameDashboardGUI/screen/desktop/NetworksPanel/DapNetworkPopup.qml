@@ -17,13 +17,8 @@ Popup {
     property int linksCount
     property string nodeAddress
 
-    property bool mouseWasClicked
-
     function show(networkDelegateItem)
     {
-        if (mouseWasClicked)
-            return;
-
         networkDelegateItemCoords = Qt.binding(function() { return parent.mapFromItem(networkDelegateItem.parent, networkDelegateItem.x, networkDelegateItem.y) });
         networkDelegateItemWidth = Qt.binding(function() { return networkDelegateItem.width });
         networkDelegateItemHeight = Qt.binding(function() { return networkDelegateItem.height });
@@ -34,8 +29,6 @@ Popup {
         activeLinksCount = Qt.binding(function() { return networkDelegateItem.activeLinksCount });
         linksCount = Qt.binding(function() { return networkDelegateItem.linksCount });
         nodeAddress = Qt.binding(function() { return networkDelegateItem.nodeAddress });
-
-        mouseWasClicked = false;
 
         open();
     }
@@ -52,8 +45,6 @@ Popup {
         activeLinksCount = 0;
         linksCount = 0;
         nodeAddress = 0;
-
-        mouseWasClicked = false;
     }
 
     x: networkDelegateItemCoords.x
@@ -83,8 +74,8 @@ Popup {
             case "NET_STATE_OFFLINE":
                 return qsTr("OFFLINE");
             default:
-                if (control.state.length > 0)
-                    console.warn("Unknown network state: " + control.state);
+                if (state.length > 0)
+                    console.warn("Unknown network state: " + state);
                 return "";
             }
         }
@@ -92,18 +83,24 @@ Popup {
         implicitWidth: columnItem.width
         implicitHeight: columnItem.height
 
-        MouseArea {
-            id: contentItemMouseArea
-            width: parent.width
-            height: parent.height
-            hoverEnabled: true
-        }
-
         Column {
             id: columnItem
 
-            topPadding: 20 * pt
             spacing: Math.floor(control.networkDelegateItemHeight / 2)
+
+            Row {
+                DapNetworkPopupButton {
+                    width: contentItem.width / 2
+                    height: 24 * pt
+                    enabled: control.state == "NET_STATE_ONLINE" && control.targetState == "NET_STATE_ONLINE"
+                    text: qsTr("Sync network")
+                }
+                DapNetworkPopupButton {
+                    width: contentItem.width / 2
+                    height: 24 * pt
+                    text: control.state == "NET_STATE_OFFLINE" ? qsTr("On network") : qsTr("Off network")
+                }
+            }
 
             ColumnLayout {
                 width: contentItem.width
@@ -204,13 +201,6 @@ Popup {
                 textColor: "#070023"
                 name: control.name
                 state: control.state
-
-                MouseArea {
-                    id: networkNameMouseArea
-                    width: parent.width
-                    height: parent.height
-                    onClicked: control.mouseWasClicked = true
-                }
             }
         }
     }
@@ -235,11 +225,4 @@ Popup {
     }
 
     onClosed: release()
-
-    Timer {
-        running: !contentItemMouseArea.containsMouse && !btnCopyAddressMouseArea.containsMouse && control.visible && !control.mouseWasClicked
-        interval: 100
-        repeat: false
-        onTriggered: control.close();
-    }
 }

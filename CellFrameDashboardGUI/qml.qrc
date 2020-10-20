@@ -182,5 +182,6 @@
         <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworkPopup.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworkName.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopupButton.qml</file>
     </qresource>
 </RCC>

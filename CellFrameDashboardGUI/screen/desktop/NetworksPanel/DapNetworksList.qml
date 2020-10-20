@@ -46,6 +46,11 @@ Item {
         {
             model = networks;
 
+            // for set position of elements if there are less than 4
+            // [*][*][*][*] if 4+
+            // [ ][*][*][*] if 3
+            // [ ][*][*][ ] 2
+            // [ ][ ][ ][*] 1
             var visibleItems = networks.length;
             if (visibleItems >= 4) {
                 visibleItems = 4;
@@ -94,9 +99,8 @@ Item {
 
                 width: parent.width
                 height: parent.height
-                hoverEnabled: true
 
-                onEntered: {
+                onClicked: {
                     if (index >= listView.leftIndex && index < listView.leftIndex + listView.visibleItems) {
                         networkPanelPopup.show(delegateItem);
                     }
