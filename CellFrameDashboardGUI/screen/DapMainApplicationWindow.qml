@@ -9,6 +9,8 @@ Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    ///@detalis Path to the wallet tab.
+    readonly property string walletScreen: "qrc:/screen/" + device + "/Dashboard/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
@@ -71,6 +73,9 @@ Item {
                         anchors.fill: parent
                         color: "#070023"
                         height: 60 * pt
+                        radius: 8 * pt
+                        anchors.leftMargin: -8*pt
+                        anchors.bottomMargin: -10*pt
                         Image
                         {
                             id: iconLogotype
@@ -89,6 +94,9 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
+                        radius: 8 * pt
+                        anchors.leftMargin: -8*pt
+
                         onPathScreenChanged:
                         {
                             stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
@@ -157,18 +165,18 @@ Item {
         Component.onCompleted:
         {
             append({
-                name: qsTr("Dashboard"),
+                name: qsTr("Wallet"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
-                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
+                normalIcon: "qrc:/resources/icons/wallet.png",
+                hoverIcon: "qrc:/resources/icons/wallet.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
-//            append ({
-//                name: qsTr("Exchange"),
-//                page: exchangeScreen,
-//                normalIcon: "qrc:/resources/icons/icon_exchange.png",
-//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
-//            })
+            append ({
+                name: qsTr("Exchange"),
+                page: dashboardScreen, //TODO: here should be: exchangeScreen,
+                normalIcon: "qrc:/resources/icons/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+            })
     
             append ({
                 name: qsTr("History"),
@@ -187,6 +195,20 @@ Item {
 
 
             append ({
+                name: qsTr("VPN client"),
+                page: settingsScreen,
+                normalIcon: "qrc:/resources/icons/ic_vpn-client.svg",
+                hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
+            })
+
+            append ({
+                name: qsTr("VPN service"),
+                page: settingsScreen,
+                normalIcon: "qrc:/resources/icons/icon_vpn-service.svg",
+                hoverIcon: "qrc:/resources/icons/icon_vpn-service_hover.svg"
+            })
+
+            append ({
                 name: qsTr("Console"),
                 page: consoleScreen,
                 normalIcon: "qrc:/resources/icons/icon_console.png",
@@ -194,17 +216,10 @@ Item {
             })
 
             append ({
-                name: qsTr("Settings"),
-                page: settingsScreen,
-                normalIcon: "qrc:/resources/icons/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
-            })
-
-            append ({
                 name: qsTr("Logs"),
                 page: logsScreen,
-                normalIcon: "qrc:/resources/icons/icon_logs.png",
-                hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_logs.svg",
+                hoverIcon: "qrc:/resources/icons/icon_logs_hover.svg"
              })
         }
     }  

@@ -173,5 +173,11 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
+        <file>resources/icons/ic_vpn-client_hover.svg</file>
+        <file>resources/icons/ic_vpn-client.svg</file>
+        <file>resources/icons/icon_vpn-service_hover.svg</file>
+        <file>resources/icons/icon_vpn-service.svg</file>
+        <file>resources/icons/icon_logs_hover.svg</file>
+        <file>resources/icons/icon_logs.svg</file>
     </qresource>
 </RCC>
