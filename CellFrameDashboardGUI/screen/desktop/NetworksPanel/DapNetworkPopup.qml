@@ -11,8 +11,8 @@ Popup {
     property int networkDelegateItemHeight
 
     property string name
-    property string state
-    property string targetState
+    property string networkState
+    property string networkTargetState
     property int activeLinksCount
     property int linksCount
     property string nodeAddress
@@ -24,8 +24,8 @@ Popup {
         networkDelegateItemHeight = Qt.binding(function() { return networkDelegateItem.height });
 
         name = Qt.binding(function() { return networkDelegateItem.name });
-        state = Qt.binding(function() { return networkDelegateItem.state });
-        targetState = Qt.binding(function() { return networkDelegateItem.targetState });
+        networkState = Qt.binding(function() { return networkDelegateItem.networkState });
+        networkTargetState = Qt.binding(function() { return networkDelegateItem.networkTargetState });
         activeLinksCount = Qt.binding(function() { return networkDelegateItem.activeLinksCount });
         linksCount = Qt.binding(function() { return networkDelegateItem.linksCount });
         nodeAddress = Qt.binding(function() { return networkDelegateItem.nodeAddress });
@@ -40,8 +40,8 @@ Popup {
         networkDelegateItemHeight = 0;
 
         name = "";
-        state = "";
-        targetState = "";
+        networkState = "";
+        networkTargetState = "";
         activeLinksCount = 0;
         linksCount = 0;
         nodeAddress = 0;
@@ -66,16 +66,16 @@ Popup {
     contentItem: Item {
         id: contentItem
 
-        function networkStateToString(state)
+        function networkStateToString(networkState)
         {
-            switch (state) {
+            switch (networkState) {
             case "NET_STATE_ONLINE":
                 return qsTr("ONLINE");
             case "NET_STATE_OFFLINE":
                 return qsTr("OFFLINE");
             default:
                 if (state.length > 0)
-                    console.warn("Unknown network state: " + state);
+                    console.warn("Unknown network state: " + networkState);
                 return "";
             }
         }
@@ -92,17 +92,28 @@ Popup {
                 DapNetworkPopupButton {
                     width: contentItem.width / 2
                     height: 24 * pt
-                    enabled: control.state == "NET_STATE_ONLINE" && control.targetState == "NET_STATE_ONLINE"
                     text: qsTr("Sync network")
+                    iconNormal: "qrc:/resources/icons/Icon_sync_net.svg"
+                    iconHover: "qrc:/resources/icons/Icon_sync_net_hover.svg"
 
                     onClicked: console.log("SYNC NETWORK CLICKED", control.name)
                 }
                 DapNetworkPopupButton {
                     width: contentItem.width / 2
                     height: 24 * pt
-                    text: control.state == "NET_STATE_OFFLINE" ? qsTr("On network") : qsTr("Off network")
+                    text: control.networkState == "NET_STATE_ONLINE" ? qsTr("Off network") : qsTr("On network")
+                    iconNormal: "qrc:/resources/icons/icon_on_off_net.svg"
+                    iconHover: "qrc:/resources/icons/icon_on_off_net_hover.svg"
 
-                    onClicked: console.log("ON/OFF NETWORK CLICKED", control.name)
+                    onClicked: {
+                        if (control.networkState == "NET_STATE_ONLINE") {
+                            dapServiceController.changeNetworkStateToOffline(control.name);
+                        } else if (control.networkState == "NET_STATE_OFFLINE") {
+                            dapServiceController.changeNetworkStateToOnline(control.name);
+                        } else {
+                            console.warn("Unknown network state: " + control.networkState);
+                        }
+                    }
                 }
             }
 
@@ -119,7 +130,7 @@ Popup {
                         font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
-                        text: contentItem.networkStateToString(control.state)
+                        text: contentItem.networkStateToString(control.networkState)
                         Layout.fillWidth: true
                         Layout.maximumWidth: Math.ceil(implicitWidth)
                     }
@@ -137,7 +148,7 @@ Popup {
                         font: quicksandFonts.regular12
                         color: "#070023"
                         elide: Text.ElideRight
-                        text: contentItem.networkStateToString(control.targetState)
+                        text: contentItem.networkStateToString(control.networkTargetState)
                         Layout.fillWidth: true
                         Layout.maximumWidth: Math.ceil(implicitWidth)
                     }
@@ -179,7 +190,7 @@ Popup {
                         Layout.maximumWidth: Math.ceil(implicitWidth)
                     }
                     Image {
-                        source: btnCopyAddressMouseArea.containsMouse ? "qrc:/resources/icons/ic_copy_hover.png" : "qrc:/resources/icons/ic_copy.png"
+                        source: btnCopyAddressMouseArea.containsMouse ? "qrc:/resources/icons/ic_copy_hover.svg" : "qrc:/resources/icons/ic_copy.svg"
 
                         Layout.maximumWidth: Math.floor(textAddress.height * 1.1)
                         Layout.maximumHeight: Layout.maximumWidth
@@ -204,7 +215,7 @@ Popup {
                 height: control.networkDelegateItemHeight
                 textColor: "#070023"
                 name: control.name
-                state: control.state
+                networkState: control.networkState
             }
         }
     }
@@ -220,7 +231,7 @@ Popup {
 
         DropShadow {
             anchors.fill: r1
-            opacity: control.opacity === 1.0 ? 1.0 : control.opacity / 4
+            opacity: control.opacity === 1.0 ? 1.0 : control.opacity / 5
             source: r1
             radius: 5
             samples: 11

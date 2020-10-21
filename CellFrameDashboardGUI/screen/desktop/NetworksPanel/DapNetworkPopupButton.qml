@@ -4,22 +4,24 @@ Rectangle {
     id: control
 
     property alias text: _text.text
+    property string iconNormal
+    property string iconHover
 
-    property bool highlight: enabled && (mouseArea.containsMouse || mouseArea.pressed)
+    property bool highlight: mouseArea.containsMouse
     property int spacing: 6 * pt
 
     signal clicked
 
     color: highlight ? "#D51F5D" : "#FFFFFF"
 
-    Rectangle {
+    Image {
         id: icon
         anchors.verticalCenter: control.verticalCenter
         anchors.right: _text.left
         anchors.rightMargin: control.spacing
-        width: 10
-        height: 10
-        color: control.enabled ? control.highlight ? "#FFFFFF" :  "#453F5A" : "gray"
+        width: 24 * pt
+        height: 24 * pt
+        source: control.highlight ? control.iconHover : control.iconNormal
     }
 
     Text {
@@ -29,7 +31,7 @@ Rectangle {
         x: Math.floor(icon.width + control.spacing + (control.width - (width + icon.width + control.spacing)) * 0.5)
         width: Math.min(implicitWidth, control.width - icon.width - control.spacing)
         font: quicksandFonts.medium12
-        color: control.enabled ? control.highlight ? "#FFFFFF" :  "#453F5A" : "gray"
+        color: control.highlight ? "#FFFFFF" :  "#453F5A"
         elide: Text.ElideRight
     }
 

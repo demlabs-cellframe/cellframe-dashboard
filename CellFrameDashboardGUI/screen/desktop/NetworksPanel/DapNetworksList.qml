@@ -76,8 +76,8 @@ Item {
 
             // properties duplicated for DapNetworkPopup
             property string name: modelData.name
-            property string state: modelData.state
-            property string targetState: modelData.targetState
+            property string networkState: modelData.state
+            property string networkTargetState: modelData.targetState
             property int activeLinksCount: modelData.activeLinksCount
             property int linksCount: modelData.linksCount
             property string nodeAddress: modelData.nodeAddress
@@ -91,7 +91,7 @@ Item {
                 height: parent.height
                 textColor: "#FFFFFF"
                 name: delegateItem.name
-                state: delegateItem.state
+                networkState: delegateItem.networkState
             }
 
             MouseArea {

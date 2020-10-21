@@ -13,8 +13,9 @@ Rectangle {
 
         visible: networksListView.hasLeft
         height: parent.height
-        normalIcon: "qrc:/resources/icons/networks_previous_icon.png"
-        hoverIcon: "qrc:/resources/icons/networks_previous_icon_hover.png"
+        mirror: true
+        normalIcon: "qrc:/resources/icons/next-page.svg"
+        hoverIcon: "qrc:/resources/icons/next-page_hover.svg"
         onClicked: networksListView.scrollToLeft()
     }
 
@@ -32,8 +33,8 @@ Rectangle {
         visible: networksListView.hasRight
         anchors.right: parent.right
         height: parent.height
-        normalIcon: "qrc:/resources/icons/networks_next_icon.png"
-        hoverIcon: "qrc:/resources/icons/networks_next_icon_hover.png"
+        normalIcon: "qrc:/resources/icons/next-page.svg"
+        hoverIcon: "qrc:/resources/icons/next-page_hover.svg"
         onClicked: networksListView.scrollToRight()
     }
 }

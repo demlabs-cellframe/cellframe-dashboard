@@ -5,6 +5,7 @@ Item {
 
     property string normalIcon
     property string hoverIcon
+    property alias mirror: img.mirror
 
     signal clicked
 
@@ -12,6 +13,8 @@ Item {
     implicitHeight: 40 * pt
 
     Image {
+        id: img
+
         anchors.fill: parent
         source: mouseArea.containsMouse ? control.hoverIcon : control.normalIcon
     }

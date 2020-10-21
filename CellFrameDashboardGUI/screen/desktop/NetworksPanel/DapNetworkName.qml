@@ -4,7 +4,7 @@ Item {
     id: control
 
     property string name
-    property string state
+    property string networkState
     property color textColor
 
     Row {
@@ -37,14 +37,14 @@ Item {
             radius: width * 0.5
 
             color: {
-                switch (control.state) {
+                switch (control.networkState) {
                 case "NET_STATE_ONLINE":
                     return "#9DD51F";
                 case "NET_STATE_OFFLINE":
                     return "#FFC527";
                 default:
                     if (control.state.length > 0)
-                        console.warn("Unknown network state: " + control.state);
+                        console.warn("Unknown network state: " + control.networkState);
                     return "#000000";
                 }
             }
