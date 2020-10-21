@@ -1,5 +1,7 @@
 #include "DapServiceController.h"
 
+#include "DapNetwork.h"
+
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
@@ -62,9 +64,19 @@ QString DapServiceController::getCurrentChain() const
     return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
 }
 
-void DapServiceController::requestNetworkState(QString a_networkName)
+void DapServiceController::requestNetworkStatus(QString a_networkName)
 {
-    this->requestToService("DapGetListNetworksCommand", a_networkName);
+    this->requestToService("DapGetNetworkStatusCommand", a_networkName);
+}
+
+void DapServiceController::changeNetworkStateToOffline(QString a_networkName)
+{
+    this->requestToService("DapGetNetworkStatusCommand", a_networkName, "offline");
+}
+
+void DapServiceController::changeNetworkStateToOnline(QString a_networkName)
+{
+    this->requestToService("DapNetworkGoToCommand", a_networkName, "online");
 }
 
 /// Get an instance of a class.
@@ -135,6 +147,8 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_DAPRpcSocket))), QString("networksListReceived")));
     // The command to get a network status
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand", m_DAPRpcSocket))), QString("networkStatusReceived")));
+    // The command to change network state
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_DAPRpcSocket))), QString("newTargetNetworkStateReceived")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 
