@@ -18,12 +18,16 @@ DapApplication::DapApplication(int &argc, char **argv)
     qRegisterMetaType<DapNetwork::State>("DapNetwork::State");
 
     connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
-    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateJson){
-        networks()->setNetworkProperties(a_stateJson.toMap());
+    connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
+        networks()->setNetworkProperties(a_stateMap.toMap());
     });
 
     connect(this->networks(), &DapNetworksList::networkAdded, [](DapNetwork* network){
-        DapServiceController::getInstance().requestNetworkState(network->name());
+        DapServiceController::getInstance().requestNetworkStatus(network->name());
+    });
+
+    connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
+        qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 }
 
