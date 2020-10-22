@@ -9,6 +9,8 @@ Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    ///@detalis Path to the wallet tab.
+    readonly property string walletScreen: "qrc:/screen/" + device + "/Dashboard/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
@@ -93,6 +95,9 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
+                        radius: 8 * pt
+                        anchors.leftMargin: -8*pt
+
                         onPathScreenChanged:
                         {
                             stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
