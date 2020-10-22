@@ -19,8 +19,7 @@ Rectangle {
         anchors.verticalCenter: control.verticalCenter
         anchors.right: _text.left
         anchors.rightMargin: control.spacing
-        width: 24 * pt
-        height: 24 * pt
+        sourceSize: Qt.size(24 * pt, 24 * pt)
         source: control.highlight ? control.iconHover : control.iconNormal
     }
 

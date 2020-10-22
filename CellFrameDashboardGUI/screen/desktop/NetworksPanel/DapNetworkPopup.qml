@@ -191,9 +191,9 @@ Popup {
                     }
                     Image {
                         source: btnCopyAddressMouseArea.containsMouse ? "qrc:/resources/icons/ic_copy_hover.svg" : "qrc:/resources/icons/ic_copy.svg"
+                        sourceSize: Qt.size(12 * pt, 12 * pt)
 
-                        Layout.maximumWidth: Math.floor(textAddress.height * 1.1)
-                        Layout.maximumHeight: Layout.maximumWidth
+                        Layout.alignment: Qt.AlignVCenter
 
                         MouseArea {
                             id: btnCopyAddressMouseArea
