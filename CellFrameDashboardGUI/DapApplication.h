@@ -8,11 +8,15 @@
 
 class DapApplication : public QApplication
 {
+    Q_OBJECT
+
 public:
     DapApplication(int &argc, char **argv);
 
     DapNetworksList *networks();
     QQmlApplicationEngine *qmlEngine();
+
+    Q_INVOKABLE void setClipboardText(const QString &text);
 
 private:
     void setContextProperties();
