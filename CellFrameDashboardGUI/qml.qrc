@@ -173,5 +173,19 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopup.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkName.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopupButton.qml</file>
+        <file>resources/icons/ic_copy.svg</file>
+        <file>resources/icons/ic_copy_hover.svg</file>
+        <file>resources/icons/icon_on_off_net.svg</file>
+        <file>resources/icons/icon_on_off_net_hover.svg</file>
+        <file>resources/icons/Icon_sync_net.svg</file>
+        <file>resources/icons/Icon_sync_net_hover.svg</file>
+        <file>resources/icons/next-page.svg</file>
+        <file>resources/icons/next-page_hover.svg</file>
     </qresource>
 </RCC>
