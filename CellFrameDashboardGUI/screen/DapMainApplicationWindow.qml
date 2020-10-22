@@ -9,8 +9,6 @@ Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-    ///@detalis Path to the wallet tab.
-    readonly property string walletScreen: "qrc:/screen/" + device + "/Dashboard/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
@@ -27,7 +25,7 @@ Item {
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-    //readonly property DapFontQuicksand quicksandFonts:
+    readonly property DapFontQuicksand quicksandFonts:
     DapFontQuicksand {
         id: quicksandFonts
     }
@@ -60,6 +58,7 @@ Item {
             {
                 id: columnMenuTab
                 height: rowMainWindow.height
+                width: 180 * pt
                 // Logotype widget
                 Item
                 {
@@ -84,7 +83,7 @@ Item {
                             height: 24 * pt
                             anchors.left: parent.left
                             anchors.leftMargin: 24 * pt
-                            source: "qrc:/resources/icons/cellframe-logo-dashboard.png"
+                            source: "qrc:/resources/icons/Certificates/cellframe-logo-dashboard.svg"
                         }
                     }
                 }
@@ -94,9 +93,6 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
-                        radius: 8 * pt
-                        anchors.leftMargin: -8*pt
-
                         onPathScreenChanged:
                         {
                             stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
@@ -110,6 +106,8 @@ Item {
                         widthIconItemMenu: 18 * pt
                         heightIconItemMenu: 18 * pt
                         dapMenuWidget.model: modelMenuTab
+                        normalFont: "Quicksand"
+                        selectedFont: "Quicksand"
                     }
 
                     width: menuTabWidget.width
@@ -167,13 +165,13 @@ Item {
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/resources/icons/wallet.png",
-                hoverIcon: "qrc:/resources/icons/wallet.png"
+                normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.png",
+                hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
-                page: dashboardScreen, //TODO: here should be: exchangeScreen,
+                page: historyScreen, //TODO: here should be: exchangeScreen,
                 normalIcon: "qrc:/resources/icons/icon_exchange.png",
                 hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
             })
@@ -181,8 +179,8 @@ Item {
             append ({
                 name: qsTr("History"),
                 page: historyScreen,
-                normalIcon: "qrc:/resources/icons/icon_history.png",
-                hoverIcon: "qrc:/resources/icons/icon_history_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_history.svg",
+                hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
             })
 
 
@@ -191,6 +189,13 @@ Item {
                 page: certificatesScreen,
                 normalIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg",
                 hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates_hover.svg"
+            })
+
+            append ({
+                name: qsTr("Tokens"),
+                page: historyScreen, //TODO: add screen for "Tokens" tab
+                normalIcon: "qrc:/resources/icons/ic_tokens.svg",
+                hoverIcon: "qrc:/resources/icons/ic_tokens_hover.svg"
             })
 
 
