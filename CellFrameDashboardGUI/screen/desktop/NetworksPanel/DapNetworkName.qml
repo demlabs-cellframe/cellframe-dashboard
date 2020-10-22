@@ -10,8 +10,7 @@ Item {
     Row {
         id: row1
 
-        x: Math.floor((parent.width - width) / 2)
-        y: Math.floor((parent.height - height) / 2)
+        anchors.centerIn: parent
         spacing: 8 * pt
         leftPadding: spacing
         rightPadding: spacing
@@ -31,8 +30,8 @@ Item {
         Rectangle {
             id: indicator
 
-            y: Math.floor((parent.height - height) / 2)
-            width: Math.floor(textName.height * 0.5)
+            anchors.verticalCenter: parent.verticalCenter
+            width: 8 * pt
             height: width
             radius: width * 0.5
 

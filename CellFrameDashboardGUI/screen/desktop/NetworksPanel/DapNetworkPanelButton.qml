@@ -16,6 +16,7 @@ Item {
         id: img
 
         anchors.fill: parent
+        sourceSize: Qt.size(control.width, control.height)
         source: mouseArea.containsMouse ? control.hoverIcon : control.normalIcon
     }
 
