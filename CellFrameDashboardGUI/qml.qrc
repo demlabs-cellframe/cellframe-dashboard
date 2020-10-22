@@ -17,7 +17,6 @@
         <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
         <file>screen/DapAbstractTab.qml</file>
-        <file>screen/DapAbstractTabForm.ui.qml</file>
         <file>screen/DapAbstractScreen.qml</file>
         <file>screen/DapAbstractScreenForm.ui.qml</file>
         <file>screen/DapAbstractRightPanel.qml</file>
@@ -173,5 +172,8 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
+        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
+        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
+        <file>screen/desktop/DapTokensListView.qml</file>
     </qresource>
 </RCC>
