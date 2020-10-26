@@ -14,10 +14,10 @@ variables:
 #
 #
 
-dapchain-client-test:
+cellframe-dashboard-test:
     stage: build
     tags:
-     - dapchain-client
+     - cellframe-dashboard
     except:
      - merge_request
      - develop
@@ -26,20 +26,20 @@ dapchain-client-test:
      - /^release.*$/
     script: ~/production/integration/gitlab-CI/build_test_handler.sh cellframe-dashboard
 
-#dapchain-client-merge-request-windows:
+#cellframe-dashboard-merge-request-windows:
 #    stage: build
 #    tags:
-#     - dapchain-client
+#     - cellframe-dashboard
 #    only: [merge_requests]
 #    except:
 #      variables:
 #        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "master"
 #    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
 
-dapchain-client-merge-request-linux:
+cellframe-dashboard-merge-request-linux:
     stage: build
     tags:
-     - dapchain-client
+     - cellframe-dashboard
     only: [merge_requests]
     except:
       variables:
@@ -47,48 +47,48 @@ dapchain-client-merge-request-linux:
         - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "/^release.*$/"
     script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard linux
 
-#dapchain-client-merge-request-mac:
+#cellframe-dashboard-merge-request-mac:
 #    stage: build
 #    tags:
-#     - dapchain-client
+#     - cellframe-dashboard
 #    only: [merge_requests]
 #    except:
 #      variables:
 #        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "master"
 #    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
 
-#dapchain-client-merge-request-android:
+#cellframe-dashboard-merge-request-android:
 #    stage: build
 #    tags:
-#     - dapchain-client
+#     - cellframe-dashboard
 #    only: [merge_requests]
 #    except:
 #      variables:
 #        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "master"
 #    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
 
-dapchain-client-schedule:
+cellframe-dashboard-schedule:
     stage: build
     tags: 
-     - dapchain-client
+     - cellframe-dashboard
     only:
      - schedules
     script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard
 
-dapchain-client_linux:
+cellframe-dashboard_linux:
     stage: build
     tags:
-     - dapchain-client
+     - cellframe-dashboard
     only:
      - master
      - /^release.*$/
      - /^pubtest.*$/
     script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard linux
 
-#dapchain-client_mac:
+#cellframe-dashboard_mac:
 #    stage: build
 #    tags:
-#     - dapchain-client
+#     - cellframe-dashboard
 #    only:
 #     - master
 #     - /^release.*$/
@@ -96,20 +96,20 @@ dapchain-client_linux:
 #     - develop
 #    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
 
-#dapchain-client_android:
+#cellframe-dashboard_android:
 #    stage: build
 #    tags:
-#     - dapchain-client
+#     - cellframe-dashboard
 #    only:
 #     - master
 #     - /^release.*$/
 #     - /^pubtest.*$/
 #    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
 
-#dapchain-client_windows:
+#cellframe-dashboard_windows:
 #    stage: build
 #    tags:
-#     - dapchain-client
+#     - cellframe-dashboard
 #    only:
 #     - /^pubtest.*$/
 #     - /^release.*$/
