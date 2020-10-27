@@ -9,6 +9,8 @@ Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    ///@detalis Path to the dashboard tab.
+    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
@@ -177,6 +179,12 @@ Item {
             append({
                 name: qsTr("Dashboard"),
                 page: dashboardScreen,
+                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
+                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
+            })
+            append({
+                name: qsTr("Wallet"),
+                page: walletScreen,
                 normalIcon: "qrc:/resources/icons/icon_dashboard.png",
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
