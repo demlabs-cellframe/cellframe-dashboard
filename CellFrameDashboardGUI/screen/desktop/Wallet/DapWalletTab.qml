@@ -8,20 +8,45 @@ import "../"
 
 Item
 {
-//    // Install the top panel widget
     id: tab
-//    Column
-//    {
+    Column
+    {
         anchors.fill: parent
+
         DapWalletTopPanel
         {
             id: topPanel
         }
 
-        DapTokensListView
-        {
-            anchors.top: topPanel.bottom
-            anchors.margins: 24*pt
-        }
+        Item {
+            height: parent.height - topPanel.height
+            width: parent.width
 
+            DapTokensListView
+            {
+                anchors.margins: 24*pt
+                anchors.right: rightPanel.left
+            }
+            DapRightPanel_New
+            {
+                id: rightPanel
+                stackView.initialItem: firstPage
+                Component.onCompleted: stackView.push(secondPage)
+            }
+            Component
+            {
+                id:firstPage
+                Rectangle{
+                    color: "#ff0000"
+                }
+            }
+            Component
+            {
+                id:secondPage
+                Rectangle{
+                    color: "#00ff62"
+                }
+            }
+        }
+    }
 }

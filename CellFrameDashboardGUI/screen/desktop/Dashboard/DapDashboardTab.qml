@@ -249,6 +249,6 @@ DapAbstractTab
     {
         if(state !== "WALLETSHOW")
             state = "WALLETCREATE"
-        currentRightPanel = dapDashboardRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
     }
 }
