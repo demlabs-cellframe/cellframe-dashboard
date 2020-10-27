@@ -3,6 +3,7 @@
 #include <DapLogMessage.h>
 #include <QIcon>
 #include <QClipboard>
+#include "quickcontrols/qrcodequickitem.h"
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -68,6 +69,7 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
     qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
     qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
+    qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
 }
