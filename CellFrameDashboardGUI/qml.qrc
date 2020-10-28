@@ -190,5 +190,13 @@
         <file>resources/icons/next-page.svg</file>
         <file>resources/icons/next-page_hover.svg</file>
         <file>screen/desktop/DapRightPanel_New.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTopPanel.qml</file>
+        <file>resources/icons/icon_vpn-service.svg</file>
+        <file>resources/icons/icon_vpn-service_hover.svg</file>
+        <file>screen/desktop/VPNService/DapNoOrdersPanel.qml</file>
+        <file>screen/desktop/VPNService/DapTextButton.qml</file>
+        <file>screen/desktop/VPNService/DapCreateVPNOrderPanel.qml</file>
+        <file>resources/illustrations/illustration_vpn-service.svg</file>
     </qresource>
 </RCC>
