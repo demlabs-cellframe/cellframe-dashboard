@@ -97,4 +97,9 @@ unix: !mac : !android {
     gui_target.files = $${BRAND}
     gui_target.path = /opt/cellframe-dashboard/bin/
     INSTALLS += gui_target
+    BUILD_FLAG = static
+}
+
+defined(BUILD_FLAG,var){
+    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
 }
