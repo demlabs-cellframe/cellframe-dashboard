@@ -4,13 +4,15 @@ import QtQuick.Controls 2.2
 Button {
     id: control
 
-    property color textColor
-    property color textColorHover
-    property color backgroundColor
-    property color backgroundColorHover
-    property real backgroudRadius: 0
+    property color textColor: "#FFFFFF"
+    property color textColorHover: "#FFFFFF"
+    property color backgroundColor: "#271C4E"
+    property color backgroundColorHover: "#D51F5D"
+    property real backgroudRadius: 4 * pt
     property int borderWidth: 0
     property color borderColor
+
+    font: quicksandFonts.medium14
 
     contentItem: Text {
         font: control.font

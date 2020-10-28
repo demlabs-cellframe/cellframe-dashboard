@@ -25,14 +25,6 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             width: 163 * pt
             height: 36 * pt
-
-            textColor: "#FFFFFF"
-            textColorHover: "#FFFFFF"
-            backgroundColor: "#271C4E"
-            backgroundColorHover: "#D51F5D"
-
-            backgroudRadius: 4 * pt
-            font: quicksandFonts.medium14
             text: qsTr("New VPN order")
 
             onClicked: control.newVPNOrder()

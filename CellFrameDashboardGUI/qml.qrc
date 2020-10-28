@@ -198,5 +198,8 @@
         <file>screen/desktop/VPNService/DapTextButton.qml</file>
         <file>screen/desktop/VPNService/DapCreateVPNOrderPanel.qml</file>
         <file>resources/illustrations/illustration_vpn-service.svg</file>
+        <file>screen/desktop/VPNService/DapRightPanelElement.qml</file>
+        <file>screen/desktop/VPNService/DapSpinBox.qml</file>
+        <file>screen/desktop/VPNService/DapDoubleSpinBox.qml</file>
     </qresource>
 </RCC>
