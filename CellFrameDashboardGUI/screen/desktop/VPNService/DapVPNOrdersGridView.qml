@@ -15,12 +15,19 @@ GridView {
 
     clip: true
     currentIndex: -1
+    focus: true
 
     delegate: Item {
         id: cell
 
         width: control.cellWidth
         height: control.cellHeight
+
+        GridView.onRemove: {
+            if (GridView.isCurrentItem) {
+                control.currentIndex = -1;
+            }
+        }
 
         Rectangle {
             id: contentFrame
@@ -34,13 +41,14 @@ GridView {
             border.width: pt
             border.color: "#E2E1E6"
             radius: 8 * pt
+            focus: true
 
             Rectangle {
                 id: headerFrame
 
                 width: parent.width
                 height: 30 * pt
-                color: control.currentIndex == index ? "#D51F5D" : "#3E3853"
+                color: cell.GridView.isCurrentItem ? "#D51F5D" : "#3E3853"
                 radius: 8 * pt
 
                 Rectangle {
