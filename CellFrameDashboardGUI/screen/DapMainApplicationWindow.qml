@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Certificates"
-
+import "qrc:/screen/desktop/NetworksPanel"
 
 
 
@@ -9,8 +9,8 @@ Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-    ///@detalis Path to the wallet tab.
-    readonly property string walletScreen: "qrc:/screen/" + device + "/Dashboard/DapWalletTab.qml"
+    ///@detalis Path to the dashboard tab.
+    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
@@ -53,7 +53,13 @@ Item {
         {
             id: rowMainWindow
 
-            anchors.fill: parent
+            anchors {
+                left: parent.left;
+                top: parent.top;
+                right: parent.right;
+                bottom: networksPanel.top
+                bottomMargin: 4 * pt
+            }
 
             // Virtual logo column frame and menu bar
             Column
@@ -137,6 +143,18 @@ Item {
             }
         }
 
+        DapNetworksPanel
+        {
+            id: networksPanel
+            y: parent.height - height
+            width: parent.width
+        }
+
+        DapNetworkPopup
+        {
+            id: networkPanelPopup
+        }
+
 
 
     property var dapWallets: []
@@ -172,6 +190,12 @@ Item {
                 page: dashboardScreen,
                 normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.png",
                 hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
+            })
+            append({
+                name: qsTr("Wallet"),
+                page: walletScreen,
+                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
+                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
             append ({

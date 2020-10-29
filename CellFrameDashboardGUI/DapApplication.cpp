@@ -2,6 +2,8 @@
 #include <QQmlContext>
 #include <DapLogMessage.h>
 #include <QIcon>
+#include <QClipboard>
+#include "quickcontrols/qrcodequickitem.h"
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -40,6 +42,11 @@ QQmlApplicationEngine *DapApplication::qmlEngine()
     return &m_engine;
 }
 
+void DapApplication::setClipboardText(const QString &text)
+{
+    clipboard()->setText(text);
+}
+
 void DapApplication::registerQmlTypes()
 {
     //register only enums
@@ -62,14 +69,16 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<DapLogMessage>("Demlabs", 1, 0, "DapLogMessage");
     qmlRegisterType<DapWallet>("Demlabs", 1, 0, "DapWallet");
     qmlRegisterType<DapWalletToken>("Demlabs", 1, 0, "DapWalletToken");
+    qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
 }
 
 void DapApplication::setContextProperties()
 {
+    m_engine.rootContext()->setContextProperty("app", this);
     m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     m_engine.rootContext()->setContextProperty("pt", 1);
 
-    m_engine.rootContext()->setContextProperty("networksModel", QVariant::fromValue(this->networks()->model()));
+    m_engine.rootContext()->setContextProperty("networks", this->networks());
 }

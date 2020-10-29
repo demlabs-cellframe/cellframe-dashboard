@@ -69,7 +69,9 @@ OTHER_FILES += libdap-qt-ui-qml \
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
-    DapApplication.cpp
+    DapApplication.cpp \
+    quickcontrols/qrcodequickitem.cpp \
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
 RESOURCES += $$PWD/qml.qrc
 
@@ -80,7 +82,9 @@ else: unix:!android: target.path = /opt/cellframe-dashboard/bin
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    DapApplication.h
+    DapApplication.h \
+    quickcontrols/qrcodequickitem.h \
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
@@ -93,4 +97,9 @@ unix: !mac : !android {
     gui_target.files = $${BRAND}
     gui_target.path = /opt/cellframe-dashboard/bin/
     INSTALLS += gui_target
+    BUILD_FLAG = static
+}
+
+defined(BUILD_FLAG,var){
+    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
 }

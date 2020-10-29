@@ -15,7 +15,6 @@
         <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
         <file>screen/DapAbstractTab.qml</file>
-        <file>screen/DapAbstractTabForm.ui.qml</file>
         <file>screen/DapAbstractScreen.qml</file>
         <file>screen/DapAbstractScreenForm.ui.qml</file>
         <file>screen/DapAbstractRightPanel.qml</file>
@@ -182,5 +181,23 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
+        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
+        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
+        <file>screen/desktop/DapTokensListView.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopup.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkName.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopupButton.qml</file>
+        <file>resources/icons/ic_copy.svg</file>
+        <file>resources/icons/ic_copy_hover.svg</file>
+        <file>resources/icons/icon_on_off_net.svg</file>
+        <file>resources/icons/icon_on_off_net_hover.svg</file>
+        <file>resources/icons/Icon_sync_net.svg</file>
+        <file>resources/icons/Icon_sync_net_hover.svg</file>
+        <file>resources/icons/next-page.svg</file>
+        <file>resources/icons/next-page_hover.svg</file>
+        <file>screen/desktop/DapRightPanel_New.qml</file>
     </qresource>
 </RCC>
