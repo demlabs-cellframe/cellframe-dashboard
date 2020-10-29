@@ -5,6 +5,8 @@ import "qrc:/widgets"
 Item {
     id: control
 
+    signal orderCreated
+
     Column {
 
         DapRightPanelElement {
@@ -146,6 +148,7 @@ Item {
                         model: ListModel {
                             ListElement { unit: qsTr("hours") }
                             ListElement { unit: qsTr("days") }
+                            ListElement { unit: qsTr("seconds") }
                         }
                     }
                 }
@@ -238,6 +241,17 @@ Item {
             onClicked: {
                 console.log("CRATE ORDER CLICKED. name: " + textName.text + "; region: " + comboBoxRegion.currentText + "; Units: "
                             + comboBoxUnit.currentText + " " + spinBoxUnit.value + "; Price: " + comboBoxPrice.currentText + " " + spinBoxPrice.value);
+
+                vpnTest.ordersModel.append({
+                                               name: textName.text,
+                                               dateCreated: (new Date()).toLocaleDateString(Qt.locale(), Locale.LongFormat),
+                                               units: spinBoxUnit.value,
+                                               unitsType: comboBoxUnit.currentText,
+                                               value: spinBoxPrice.value,
+                                               token: comboBoxPrice.currentText
+                                           });
+
+                control.orderCreated();
             }
         }
 

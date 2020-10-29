@@ -201,5 +201,8 @@
         <file>screen/desktop/VPNService/DapRightPanelElement.qml</file>
         <file>screen/desktop/VPNService/DapSpinBox.qml</file>
         <file>screen/desktop/VPNService/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/VPNService/DapVPNOrdersGridView.qml</file>
+        <file>resources/icons/ic_info_order.svg</file>
+        <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
     </qresource>
 </RCC>

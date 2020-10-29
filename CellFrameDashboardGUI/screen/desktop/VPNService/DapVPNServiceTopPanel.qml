@@ -8,6 +8,14 @@ DapTopPanel {
 
     signal newVPNOrder
 
+    // TODO только для теста
+    DapTextButton {
+        anchors.verticalCenter: parent.verticalCenter
+        visible: vpnTest.ordersModel.count > 0
+        text: "delete first order"
+        onClicked: vpnTest.ordersModel.remove(0, 1)
+    }
+
     DapTextButton {
         visible: control.btnNewVPNOrderVisible
 
