@@ -72,6 +72,11 @@ unix: !mac : !android {
     service_target.files = $${BRAND}Service
     service_target.path = /opt/cellframe-dashboard/bin/
     INSTALLS += service_target
+    BUILD_FLAG = static
+}
+
+defined(BUILD_FLAG,var){
+    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
 }
 
 RESOURCES += \

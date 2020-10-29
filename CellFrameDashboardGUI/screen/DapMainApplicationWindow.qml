@@ -29,7 +29,7 @@ Item {
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-    //readonly property DapFontQuicksand quicksandFonts:
+    readonly property DapFontQuicksand quicksandFonts:
     DapFontQuicksand {
         id: quicksandFonts
     }
@@ -68,6 +68,7 @@ Item {
             {
                 id: columnMenuTab
                 height: rowMainWindow.height
+                width: 180 * pt
                 // Logotype widget
                 Item
                 {
@@ -81,6 +82,9 @@ Item {
                         anchors.fill: parent
                         color: "#070023"
                         height: 60 * pt
+                        radius: 8 * pt
+                        anchors.leftMargin: -8*pt
+                        anchors.bottomMargin: -10*pt
                         Image
                         {
                             id: iconLogotype
@@ -89,7 +93,7 @@ Item {
                             height: 24 * pt
                             anchors.left: parent.left
                             anchors.leftMargin: 24 * pt
-                            source: "qrc:/resources/icons/cellframe-logo-dashboard.png"
+                            source: "qrc:/resources/icons/Certificates/cellframe-logo-dashboard.svg"
                         }
                     }
                 }
@@ -99,6 +103,9 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
+                        radius: 8 * pt
+                        anchors.leftMargin: -8*pt
+
                         onPathScreenChanged:
                         {
                             stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
@@ -112,6 +119,8 @@ Item {
                         widthIconItemMenu: 18 * pt
                         heightIconItemMenu: 18 * pt
                         dapMenuWidget.model: modelMenuTab
+                        normalFont: "Quicksand"
+                        selectedFont: "Quicksand"
                     }
 
                     width: menuTabWidget.width
@@ -179,10 +188,10 @@ Item {
         Component.onCompleted:
         {
             append({
-                name: qsTr("Dashboard"),
+                name: qsTr("Wallet"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
-                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
+                normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.png",
+                hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
             })
             append({
                 name: qsTr("Wallet"),
@@ -191,18 +200,18 @@ Item {
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
-//            append ({
-//                name: qsTr("Exchange"),
-//                page: exchangeScreen,
-//                normalIcon: "qrc:/resources/icons/icon_exchange.png",
-//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
-//            })
+            append ({
+                name: qsTr("Exchange"),
+                page: historyScreen, //TODO: here should be: exchangeScreen,
+                normalIcon: "qrc:/resources/icons/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+            })
     
             append ({
                 name: qsTr("History"),
                 page: historyScreen,
-                normalIcon: "qrc:/resources/icons/icon_history.png",
-                hoverIcon: "qrc:/resources/icons/icon_history_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_history.svg",
+                hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
             })
 
 
@@ -213,6 +222,20 @@ Item {
                 hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates_hover.svg"
             })
 
+            append ({
+                name: qsTr("Tokens"),
+                page: historyScreen, //TODO: add screen for "Tokens" tab
+                normalIcon: "qrc:/resources/icons/ic_tokens.svg",
+                hoverIcon: "qrc:/resources/icons/ic_tokens_hover.svg"
+            })
+
+
+            append ({
+                name: qsTr("VPN client"),
+                page: settingsScreen,
+                normalIcon: "qrc:/resources/icons/ic_vpn-client.svg",
+                hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
+            })
 
             append ({
                 name: qsTr("VPN service"),
@@ -239,8 +262,8 @@ Item {
             append ({
                 name: qsTr("Logs"),
                 page: logsScreen,
-                normalIcon: "qrc:/resources/icons/icon_logs.png",
-                hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
+                normalIcon: "qrc:/resources/icons/icon_logs.svg",
+                hoverIcon: "qrc:/resources/icons/icon_logs_hover.svg"
              })
         }
     }  
