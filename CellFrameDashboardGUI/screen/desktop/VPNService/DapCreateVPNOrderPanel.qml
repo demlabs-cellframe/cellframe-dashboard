@@ -181,7 +181,7 @@ Item {
                     DapComboBox {
                         id: comboBoxPrice
 
-                        comboBoxTextRole: ["name"]
+                        comboBoxTextRole: ["token"]
                         anchors.centerIn: parent
                         indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
                         indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
@@ -217,9 +217,9 @@ Item {
                         model: ListModel {
                             id: unitsModel
 
-                            ListElement { name: "KLVN"; decimals: 7 }
-                            ListElement { name: "BTC"; decimals: 2 }
-                            ListElement { name: "ETH"; decimals: 4 }
+                            ListElement { token: "KLVN"; decimals: 7 }
+                            ListElement { token: "BTC"; decimals: 2 }
+                            ListElement { token: "ETH"; decimals: 4 }
                         }
                     }
                 }
@@ -240,7 +240,7 @@ Item {
             // TODO
             onClicked: {
                 console.log("CRATE ORDER CLICKED. name: " + textName.text + "; region: " + comboBoxRegion.currentText + "; Units: "
-                            + comboBoxUnit.currentText + " " + spinBoxUnit.value + "; Price: " + comboBoxPrice.currentText + " " + spinBoxPrice.value);
+                            + comboBoxUnit.currentText + " " + spinBoxUnit.value + "; Price: " + unitsModel.get(comboBoxPrice.currentIndex).token + " " + spinBoxPrice.value);
 
                 vpnTest.ordersModel.append({
                                                name: textName.text,
@@ -248,7 +248,7 @@ Item {
                                                units: spinBoxUnit.value,
                                                unitsType: comboBoxUnit.currentText,
                                                value: spinBoxPrice.value,
-                                               token: comboBoxPrice.currentText
+                                               token: unitsModel.get(comboBoxPrice.currentIndex).token
                                            });
 
                 control.orderCreated();
