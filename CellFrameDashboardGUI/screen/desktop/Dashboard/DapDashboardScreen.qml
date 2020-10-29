@@ -35,49 +35,61 @@ DapAbstractScreen
             anchors.horizontalCenter: parent.horizontalCenter
             Rectangle
             {
-                height: 200 * pt
+                height: 82.79 * pt
                 width: parent.width
             }
             Image
             {
                 id: iconCreateWallet
-                source: "qrc:/resources/icons/wallet.png"
-                width: 218 * pt
-                height: 180 * pt
+                source: "qrc:/resources/icons/illustration_new-wallet.svg"
+                width: 500 * pt
+                height: 300 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Rectangle
             {
-                height: 24 * pt
+                height: 45 * pt
                 width: parent.width
             }
             Text
             {
                 id: titleTextWalletCreate
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-                font.pixelSize: 30 * pt
-                color: "#757184"
-                text: qsTr("Create our first wallet")
+                font.family: "Quiksand"
+                font.pixelSize: 26 * pt
+                color: "#070023"
+                text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Rectangle
             {
-                height: 56 * pt
+                height: 21 * pt
                 width: parent.width
             }
             DapButton
             {
                 id: addWalletButton
-                implicitWidth: 124 * pt
-                implicitHeight: 40 * pt
+
+                implicitWidth: 180 * pt
+                implicitHeight: 36 * pt
+                radius: 4 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
+                heightImageButton: 21 * pt
+                widthImageButton: 22 * pt
                 textButton: "New wallet"
-                colorBackgroundHover: "#D51F5D"
+                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
+                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
+                indentImageLeftButton: 41 * pt
                 colorBackgroundNormal: "#070023"
+                colorBackgroundHover: "#D51F5D"
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
+                indentTextRight: 37 * pt
                 fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                dapHorizontalAlignment: Qt.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                borderColorButton: "#000000"
+                borderWidthButton: 0
+                horizontalAligmentText:Qt.AlignRight
+                colorTextButton: "#FFFFFF"
+
             }
             Rectangle
             {

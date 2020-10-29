@@ -7,8 +7,6 @@
         <file>resources/icons/icon_dashboard_hover.png</file>
         <file>resources/icons/icon_exchange.png</file>
         <file>resources/icons/icon_exchange_hover.png</file>
-        <file>resources/icons/icon_history.png</file>
-        <file>resources/icons/icon_history_hover.png</file>
         <file>resources/icons/icon_logs.png</file>
         <file>resources/icons/icon_logs_hover.png</file>
         <file>resources/icons/icon_settings.png</file>
@@ -172,6 +170,17 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
+        <file>resources/icons/ic_vpn-client_hover.svg</file>
+        <file>resources/icons/ic_vpn-client.svg</file>
+        <file>resources/icons/icon_vpn-service_hover.svg</file>
+        <file>resources/icons/icon_vpn-service.svg</file>
+        <file>resources/icons/icon_logs_hover.svg</file>
+        <file>resources/icons/icon_logs.svg</file>
+        <file>resources/icons/icon_history_hover.svg</file>
+        <file>resources/icons/icon_history.svg</file>
+        <file>resources/icons/ic_tokens_hover.svg</file>
+        <file>resources/icons/ic_tokens.svg</file>
+        <file>resources/icons/illustration_new-wallet.svg</file>
         <file>screen/desktop/Wallet/DapWalletTab.qml</file>
         <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
         <file>screen/desktop/DapTokensListView.qml</file>

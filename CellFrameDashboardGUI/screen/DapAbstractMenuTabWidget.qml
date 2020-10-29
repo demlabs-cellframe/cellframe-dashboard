@@ -14,6 +14,8 @@ DapAbstractMenuTabWidgetForm
     property string normalColorItemMenu: "transparent"
     ///@detalis Сolor of the main menu bar item in the selected state.
     property string selectColorItemMenu: "#D51F5D"
+    property string normalFont: dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom
+    property string selectedFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
 
     // Widget of the main menu bar item
     Component
@@ -47,7 +49,7 @@ DapAbstractMenuTabWidgetForm
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: iconItem.right
                 anchors.leftMargin: 18 * pt
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom
+                font.family: normalFont
                 font.pixelSize: 16 * pt
                 color: "#FFFFFF"
                 text: name
@@ -64,7 +66,7 @@ DapAbstractMenuTabWidgetForm
                     if(!frameItemMenu.isPushed)
                     {
                         iconItem.source = hoverIcon;
-                        textItem.font.family = dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom;
+                        textItem.font.family = selectedFont;
                     }
                 }
 
@@ -73,7 +75,7 @@ DapAbstractMenuTabWidgetForm
                     if(!frameItemMenu.isPushed)
                     {
                         iconItem.source = normalIcon
-                        textItem.font.family = dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom;
+                        textItem.font.family = normalFont;
                     }
                 }
 
@@ -88,7 +90,7 @@ DapAbstractMenuTabWidgetForm
             {
                 frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
                 iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
-                textItem.font.family = (isPushed ? dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom : dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom);
+                textItem.font.family = (isPushed ? selectedFont : normalFont);
             }
         }
     }
