@@ -63,8 +63,8 @@
         <file>screen/mobile/History/DapHistoryTopPanelForm.ui.qml</file>
         <file>screen/DapAbstractMenuTabWidget.qml</file>
         <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
-        <file>resources/icons/new-wallet_icon_dark_hover.png</file>
-        <file>resources/icons/new-wallet_icon_dark.png</file>
+        <file>resources/icons/new-wallet_icon_dark_hover.svg</file>
+        <file>resources/icons/new-wallet_icon_dark.svg</file>
         <file>resources/icons/ic_arrow_drop_down.png</file>
         <file>resources/icons/ic_arrow_drop_up.png</file>
         <file>screen/desktop/Logs/DapLogsTab.qml</file>

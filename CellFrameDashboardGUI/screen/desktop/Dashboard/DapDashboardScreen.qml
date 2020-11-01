@@ -76,8 +76,8 @@ DapAbstractScreen
                 heightImageButton: 21 * pt
                 widthImageButton: 22 * pt
                 textButton: "New wallet"
-                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
-                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
+                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.svg"
+                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
                 indentImageLeftButton: 41 * pt
                 colorBackgroundNormal: "#070023"
                 colorBackgroundHover: "#D51F5D"
