@@ -67,6 +67,7 @@ Rectangle {
                 right: parent.right
                 bottom: parent.bottom
                 leftMargin: 16 * pt
+                rightMargin: 16 * pt
             }
         }
     }

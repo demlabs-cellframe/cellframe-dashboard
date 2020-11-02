@@ -18,7 +18,6 @@ Item {
 
     Item {
         anchors.right: parent.right
-        anchors.rightMargin: 16 * pt
         width: _comboBox.widthPopupComboBoxNormal
         height: parent.height
 
