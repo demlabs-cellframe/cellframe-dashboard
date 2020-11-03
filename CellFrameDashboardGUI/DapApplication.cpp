@@ -4,6 +4,7 @@
 #include <QIcon>
 #include <QClipboard>
 #include "quickcontrols/qrcodequickitem.h"
+#include "DapVpnOrdersModel.h"
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -72,6 +73,19 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
+
+    qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
+    qRegisterMetaType<DapVpnOrder>();
+    qmlRegisterSingletonType<DapVpnOrdersModel>("DapVpnOrdersModel", 1, 0, "DapVpnOrdersModel"
+            , [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
+                    Q_UNUSED(engine)
+                    Q_UNUSED(scriptEngine)
+
+                    //qInfo() << "DapCertificateCommands initialize in Qml";
+                    QQmlEngine::setObjectOwnership(DapVpnOrdersModel::instance()
+                                                   , QQmlEngine::ObjectOwnership::CppOwnership);
+                    return DapVpnOrdersModel::instance();
+            });
 }
 
 void DapApplication::setContextProperties()
