@@ -188,8 +188,8 @@ Item {
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.png",
-                hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
+                normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.svg",
+                hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
             })
             append({
                 name: qsTr("Wallet"),

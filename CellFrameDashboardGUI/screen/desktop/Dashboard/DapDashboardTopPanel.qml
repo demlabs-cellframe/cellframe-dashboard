@@ -106,8 +106,8 @@ DapTopPanel
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.png"
-        hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.png"
+        normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.svg"
+        hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
         implicitHeight: 36 * pt
         implicitWidth: 120 * pt
         widthImageButton: 28 * pt
