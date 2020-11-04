@@ -198,6 +198,9 @@
         <file>resources/icons/Icon_sync_net_hover.svg</file>
         <file>resources/icons/next-page.svg</file>
         <file>resources/icons/next-page_hover.svg</file>
-        <file>screen/desktop/DapRightPanel_New.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanelTextHeader.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanel_New.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanelPage.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
     </qresource>
 </RCC>
