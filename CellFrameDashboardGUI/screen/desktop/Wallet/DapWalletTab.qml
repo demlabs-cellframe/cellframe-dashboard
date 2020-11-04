@@ -1,8 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
-import "../../"
 import "../"
+import "../RightPanel"
 
 
 
@@ -30,21 +30,81 @@ Item
             DapRightPanel_New
             {
                 id: rightPanel
-                stackView.initialItem: firstPage
-                Component.onCompleted: stackView.push(secondPage)
+                initialPage: firstPageComponent
             }
             Component
             {
-                id:firstPage
-                Rectangle{
-                    color: "#ff0000"
+                id: firstPageComponent
+
+                DapRightPanelPage {
+                    id: firstPage
+
+                    caption: qsTr("First page");
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: "red"
+                        opacity: 0.1
+                    }
+
+                    Column {
+                        id: column1
+
+                        Rectangle {
+                            width: firstPage.width
+                            height: pt * 100
+                            color: "#ff0000"
+                        }
+
+                        Button {
+                            text: "Next panel"
+                            onClicked: firstPage.pushPageRequest(secondPageComponent)
+                        }
+                    }
                 }
             }
-            Component
-            {
-                id:secondPage
-                Rectangle{
-                    color: "#00ff62"
+            Component {
+                id: secondPageComponent
+
+                DapRightPanelPage {
+                    id: secondPage
+
+                    // Нужно установить implicitHeight для работы скролла. Не очень красиво получилось.
+                    implicitHeight: column2.height
+
+                    caption: qsTr("Second page");
+
+                    headerComponent: DapRightPanelComboBoxHeader {
+                        caption: secondPage.caption
+
+                        comboBox.comboBoxTextRole: ["text"]
+                        comboBox.model: ListModel {
+                            ListElement { text: "asd" }
+                            ListElement { text: "asd1" }
+                            ListElement { text: "asd2" }
+                        }
+
+                        Rectangle {
+                            color: "green"
+                            opacity: 0.1
+                            anchors.fill: parent
+                        }
+                    }
+
+                    Column {
+                        id: column2
+
+                        Repeater {
+                            model: 40
+
+                            Text {
+                                id: text
+
+                                text: qsTr("Second page")
+                                font.pixelSize: pt * 25
+                            }
+                        }
+                    }
                 }
             }
         }
