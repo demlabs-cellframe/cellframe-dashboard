@@ -237,8 +237,8 @@ Item {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetListNetworksCommand");
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+     //   dapServiceController.requestToService("DapGetListNetworksCommand");
+    //    dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
     Connections

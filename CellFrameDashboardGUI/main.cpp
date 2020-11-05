@@ -42,16 +42,6 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
-
-
-    /// Local client.
-    DapServiceClient dapServiceClient(DAP_SERVICE_NAME);
-    // Creating a service controller
-    DapServiceController &controller = DapServiceController::getInstance();
-    controller.init(&dapServiceClient);
-    dapServiceClient.init();
-
-
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());

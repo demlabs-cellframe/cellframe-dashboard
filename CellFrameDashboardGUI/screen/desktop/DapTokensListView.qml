@@ -9,4 +9,9 @@ Rectangle
     border.color: "#E2E1E6"
     border.width: 1 * pt
     radius: 8 * pt
+
+    ListView
+    {
+        model: app.currentWallet()
+    }
 }

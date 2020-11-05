@@ -64,6 +64,16 @@ QString DapServiceController::getCurrentChain() const
     return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
 }
 
+void DapServiceController::requestWalletList()
+{
+    this->requestToService("DapGetWalletsInfoCommand");
+}
+
+void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
+{
+    this->requestToService("DapGetWalletInfoCommand", a_walletName, a_networks);
+}
+
 void DapServiceController::requestNetworkStatus(QString a_networkName)
 {
     this->requestToService("DapGetNetworkStatusCommand", a_networkName);
@@ -139,6 +149,8 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
     // The team to create a new wallet on the Dashboard tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddWalletCommand("DapAddWalletCommand", m_DAPRpcSocket))), QString("walletCreated")));
+    // The command to get an wallet info
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletInfoCommand("DapGetWalletInfoCommand", m_DAPRpcSocket))), QString("walletInfoReceived")));
     // The command to get a list of available wallets
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_DAPRpcSocket))), QString("walletsInfoReceived")));
     // Command to save data from the Logs tab

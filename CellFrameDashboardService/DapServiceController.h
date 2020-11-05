@@ -31,6 +31,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapGetNetworkStatusCommand.h"
 #include "handlers/DapNetworkGoToCommand.h"
+#include "handlers/DapGetWalletInfoCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/DapExportLogCommand.h"
@@ -42,6 +43,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
+
 
 #include "DapSystemTrayIcon.h"
 #include "DapToolTipWidget.h"
