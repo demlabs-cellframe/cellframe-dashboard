@@ -48,6 +48,11 @@ void DapApplication::setClipboardText(const QString &text)
     clipboard()->setText(text);
 }
 
+DapVpnOrdersModel *DapApplication::getVpnOrdersModel()
+{
+    return &m_vpnOrders;
+}
+
 void DapApplication::registerQmlTypes()
 {
     //register only enums
@@ -76,16 +81,7 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
     qRegisterMetaType<DapVpnOrder>();
-    qmlRegisterSingletonType<DapVpnOrdersModel>("DapVpnOrdersModel", 1, 0, "DapVpnOrdersModel"
-            , [](QQmlEngine *engine, QJSEngine *scriptEngine) -> QObject * {
-                    Q_UNUSED(engine)
-                    Q_UNUSED(scriptEngine)
 
-                    //qInfo() << "DapCertificateCommands initialize in Qml";
-                    QQmlEngine::setObjectOwnership(DapVpnOrdersModel::instance()
-                                                   , QQmlEngine::ObjectOwnership::CppOwnership);
-                    return DapVpnOrdersModel::instance();
-            });
 }
 
 void DapApplication::setContextProperties()
@@ -95,4 +91,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("pt", 1);
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
+    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 }
