@@ -60,6 +60,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
     // The team to create a new wallet on the Dashboard tab
     m_pServer->addService(new DapAddWalletCommand("DapAddWalletCommand", m_pServer));
+    // Team to get information about wallet
+    m_pServer->addService(new DapGetWalletInfoCommand("DapGetWalletInfoCommand", m_pServer, CLI_PATH));
     // Team to get information on all available wallets
     m_pServer->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_pServer, CLI_PATH));
     // The command to get a list of available networks

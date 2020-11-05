@@ -17,6 +17,7 @@
 #include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapGetWalletInfoCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetNetworkStatusCommand.h"
 #include "handlers/DapNetworkGoToCommand.h"
@@ -113,9 +114,12 @@ public:
     Q_INVOKABLE QString getCurrentChain() const;
 
 public slots:
+    void requestWalletList();
+    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
     void requestNetworkStatus(QString a_networkName);
     void changeNetworkStateToOnline(QString a_networkName);
     void changeNetworkStateToOffline(QString a_networkName);
+
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -143,6 +147,7 @@ signals:
 
     void walletCreated(const QVariant& wallet);
 
+    void walletInfoReceived(const QVariant& walletInfo);
     void walletsInfoReceived(const QVariant& walletList);
 
     void walletsReceived(const QList<QObject*>& walletList);

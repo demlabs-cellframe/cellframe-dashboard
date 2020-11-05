@@ -1552,49 +1552,49 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{a73ea0a2-3170-44e8-9b4e-368145ef6914}</uid>
+                    <uid>{3b93e767-dcb6-40ad-b47b-1ae291584e9a}</uid>
                     <type>1</type>
                     <declaration>clients: QList&lt;DapRpcSocket&gt;</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{beb50ee5-c2fb-4b72-9606-08e147a7b8a6}</uid>
+                    <uid>{ecd40d40-5afb-4d85-b165-6406467da46a}</uid>
                     <type>2</type>
                     <declaration>+connectedClientCount()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{b1dd35c2-60e4-43fa-89f3-0299bbcb3e0a}</uid>
+                    <uid>{b164b690-5785-4650-8b6c-ba80d2cf9ce2}</uid>
                     <type>2</type>
                     <declaration>+listen(address: QString,  port:  quint16)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{c48b634d-9142-4272-8dd9-1dda8a5b3360}</uid>
+                    <uid>{6ae70e77-86d7-42de-bd96-b44fbc694bbd}</uid>
                     <type>2</type>
                     <declaration>+onClientConnected()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3ee4d5ec-55ef-4e66-bcc0-29b5eed6d681}</uid>
+                    <uid>{ba8413e3-29cb-407c-810d-baa13e6b47d6}</uid>
                     <type>2</type>
                     <declaration>+onClientDisconnected()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{baf7b94f-ab64-48b6-8bca-67e635a4cc9a}</uid>
+                    <uid>{4d26b4c5-8b50-407d-bbdb-86a330ec29c9}</uid>
                     <type>2</type>
                     <declaration>+notifyConnectedClients(message: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{19b2c623-7da5-460d-9f72-966135418f32}</uid>
+                    <uid>{74de58f6-62ee-4143-967e-5cb64a98edbd}</uid>
                     <type>2</type>
                     <declaration>+notifyConnectedClients(method: QString, params QJsonArray)</declaration>
                    </MClassMember>
@@ -2107,105 +2107,105 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{92eb9347-d6b6-4418-87c5-bed9798496dd}</uid>
+                    <uid>{3ea5a6bb-6fd3-4193-877d-811ba9f78103}</uid>
                     <type>1</type>
                     <declaration>#sCliPath</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{a80110ea-21a5-43c1-9f74-5ebaa932e370}</uid>
+                    <uid>{b7a22655-5426-48e7-8241-8a5e2253bfcb}</uid>
                     <type>2</type>
                     <declaration>+clientNotifed(notify: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{78a69d2e-6ec3-4ee9-9689-c94a9ea6fcd0}</uid>
+                    <uid>{fd66d376-6db1-450c-b76f-b200e5004dc3}</uid>
                     <type>2</type>
                     <declaration>+clientResponded(respond: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{af788bf7-012b-4589-a197-1d721c47597c}</uid>
+                    <uid>{e9ab0093-6ebd-4b62-981b-6489ec04bc43}</uid>
                     <type>2</type>
                     <declaration>+serviceNotifed(notify: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0e3ee4b8-a45a-43f2-b1b7-cd498b56d0e5}</uid>
+                    <uid>{305f345a-280d-48df-95fa-d2055f92834a}</uid>
                     <type>2</type>
                     <declaration>+serviceResponded(aRespond: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{e237e25a-2fcb-4c67-ba3e-af7847eaafce}</uid>
+                    <uid>{46857c1f-0b38-4595-bd0a-a553bf6a45ce}</uid>
                     <type>2</type>
                     <declaration>+notifyToClient(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d6afab66-c5d2-45d5-90dc-48904c4429d7}</uid>
+                    <uid>{1b6b2b94-eeaa-4782-993d-3b03af55d47f}</uid>
                     <type>2</type>
                     <declaration>+notifedFromService(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d300e27b-3de8-4515-968c-64abb6e4c1a5}</uid>
+                    <uid>{0ed62e38-9344-49c2-b914-2f50354fa980}</uid>
                     <type>2</type>
                     <declaration>+requestToClient(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{0cf99fbd-9e2a-47a0-b8ff-b49d66c0b053}</uid>
+                    <uid>{157caa80-e520-4c4f-9119-ea295cb4aff8}</uid>
                     <type>2</type>
                     <declaration>+respondToService(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{7bb34082-79b7-474a-b3ce-5dbcc41fc24e}</uid>
+                    <uid>{c98c9e47-fc7d-462e-ad3f-5e66419b15ad}</uid>
                     <type>2</type>
                     <declaration>+replyFromClient()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{9e77694b-8357-41c6-a57d-975cea4bd84b}</uid>
+                    <uid>{f87654b4-4d6c-447e-a984-8ecee5d61835}</uid>
                     <type>2</type>
                     <declaration>+notifyToService()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{a45cef0e-a87e-4b6b-aab1-0b995022469d}</uid>
+                    <uid>{b4d04cec-cdc2-4f1b-9c06-c27e1db1a675}</uid>
                     <type>2</type>
                     <declaration>+notifedFromClient()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{de3c200b-1d5a-4540-89c1-e34e79b7ea87}</uid>
+                    <uid>{e5db629c-a66b-459a-8a34-ba332a3a504e}</uid>
                     <type>2</type>
                     <declaration>+requestToService()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{12773c36-7a1c-4123-8b08-e3d984c83495}</uid>
+                    <uid>{dcd55fc9-36b3-44f4-907b-1d20320eb5ae}</uid>
                     <type>2</type>
                     <declaration>+respondToClient()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{171f5f45-912d-439c-af18-4582a6e563d4}</uid>
+                    <uid>{5fd35429-bbc8-4bd9-8fa2-687b24b1b7dc}</uid>
                     <type>2</type>
                     <declaration>+replyFromService()</declaration>
                    </MClassMember>
@@ -2470,49 +2470,49 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{16a815ef-084b-49a9-92c9-600af8ee326f}</uid>
+                    <uid>{e9567208-deb5-43d5-8143-595686a629b9}</uid>
                     <type>1</type>
                     <declaration>-request: DapRpcMessage</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{ca43482d-786d-4713-96bc-823f1af37d4d}</uid>
+                    <uid>{73ce5783-6d90-4a3f-93dc-0604ccde3fad}</uid>
                     <type>1</type>
                     <declaration>-socket: DapRpcSocket</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{c4d97890-5d90-4a9a-887e-96c638eb7f75}</uid>
+                    <uid>{715b91db-5560-4722-924d-03e078346ab2}</uid>
                     <type>2</type>
                     <declaration>+isValid()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{ef6cb1a8-70e9-4c13-9c7f-091eb0f734c9}</uid>
+                    <uid>{9bfb5248-17e4-4b1f-a15a-7240417c3d3a}</uid>
                     <type>2</type>
                     <declaration>+request()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{4c41ed00-7b1f-497f-a766-ff316772cad5}</uid>
+                    <uid>{122fee23-d608-4409-a2df-12bd8ff25405}</uid>
                     <type>2</type>
                     <declaration>+socket()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{6b55a1eb-1445-4cba-a6b6-369bc00fe35d}</uid>
+                    <uid>{a27b693c-9322-4ee3-aa32-180d12d67cb1}</uid>
                     <type>2</type>
                     <declaration>+respond(returnValue: QVariant)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{35ded623-9e0a-4747-9f75-083a5544ea9d}</uid>
+                    <uid>{070b38a8-6cef-40ab-bdca-4731ba287cb2}</uid>
                     <type>2</type>
                     <declaration>+respond(response: DapRpcMessage)</declaration>
                    </MClassMember>
@@ -2603,112 +2603,112 @@
                  <qlist>
                   <item>
                    <MClassMember>
-                    <uid>{34776978-8ee2-401a-ac99-94221899fa70}</uid>
+                    <uid>{d344934b-f108-43e9-8627-66cdfd7cc33d}</uid>
                     <type>1</type>
                     <declaration>- device: QIODevice</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{d21072a5-040c-4228-87a0-983383aaaff5}</uid>
+                    <uid>{663f8b3b-60c2-486b-abf3-83a5dcf34b94}</uid>
                     <type>1</type>
                     <declaration>- buffer: QByteArray</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{2ecc3c87-4197-40da-9c79-aa6930c74b3d}</uid>
+                    <uid>{cad1b31b-0502-41e2-bfc0-2adaccdb0c88}</uid>
                     <type>1</type>
                     <declaration>- replies: QHash&lt;int, QPointer&lt;DapRpcServiceReply&gt;&gt;</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{1dce2036-d6e9-4af8-bb5a-07c43a00f25b}</uid>
+                    <uid>{bcd0da7a-a6fe-4531-9849-352505724f3d}</uid>
                     <type>1</type>
                     <declaration>- defaultRequestTimeout: int</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{37a628aa-a3c0-49e8-a8fa-37b1e9f3d68e}</uid>
+                    <uid>{1c3c92ae-d030-4745-8cc3-b77cd8492cfd}</uid>
                     <type>2</type>
                     <declaration># processRequestMessage(message: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{e3cf42b1-2b6f-49f9-83be-faa291fba278}</uid>
+                    <uid>{386562c3-7ed8-4401-a7c4-00a3f8089a4c}</uid>
                     <type>2</type>
                     <declaration>+ isValid()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{36b613ff-7c60-48f9-9fb6-a9b6bc618eaf}</uid>
+                    <uid>{cd162671-3789-4d41-8407-fef3a84cc5b1}</uid>
                     <type>2</type>
                     <declaration>+ messageReceived(message: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{3a70a45d-a3ef-4097-bc3e-b17e0b95d14a}</uid>
+                    <uid>{530de079-6bfe-4eef-815c-b31211e5631d}</uid>
                     <type>2</type>
                     <declaration>- processIncomingData()</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{b5b544c0-77ba-42da-817e-e1b22e2a20aa}</uid>
+                    <uid>{db877eb8-f906-4e91-ac7d-204091d05116}</uid>
                     <type>2</type>
                     <declaration>- findJsonDocumentEnd(jsonData: QByteArray)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{baa6de0e-5e5f-4f3d-ac8b-cb78d01cacfb}</uid>
+                    <uid>{32479e25-2eac-4ffe-afc0-e7a655c22d05}</uid>
                     <type>2</type>
                     <declaration>- writeData(message: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{e311d04f-7f78-4df4-a4c9-151d8c15fb75}</uid>
+                    <uid>{378883db-64e2-46da-ac16-e2b0ae76f014}</uid>
                     <type>2</type>
                     <declaration>+ notify(message: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{2e41dc34-6eab-4348-aaac-b2168e953c28}</uid>
+                    <uid>{2ce38bcb-d7ae-4df2-a826-9c8f25acd6a0}</uid>
                     <type>2</type>
                     <declaration>+ sendMessageBlocking(message: DapRpcMessage, msecs: int)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{98f3feaf-8cbe-4324-8194-13ed957b7a8b}</uid>
+                    <uid>{db94c036-f77d-4f76-8010-c0e269703e4c}</uid>
                     <type>2</type>
                     <declaration>+ sendMessage(asMessage: DapRpcMessage)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{f91daff0-db14-41da-9ac2-d251874735e7}</uid>
+                    <uid>{83b049df-d388-4391-a86b-833fd4d12514}</uid>
                     <type>2</type>
                     <declaration>+ invokeRemoteMethodBlocking(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{945b5ae2-1f4d-47c6-9067-512f0033adfb}</uid>
+                    <uid>{d59f1051-2446-45a6-ad4d-094d75282725}</uid>
                     <type>2</type>
                     <declaration>+ invokeRemoteMethod(...)</declaration>
                    </MClassMember>
                   </item>
                   <item>
                    <MClassMember>
-                    <uid>{aa9ee7fd-e757-4203-9e81-21f57cf4e1a4}</uid>
+                    <uid>{9af50913-5d80-42e6-98ab-ae8a208f4cbb}</uid>
                     <type>2</type>
                     <declaration>+invokeRemoteMethod(message: DapRpcMessage)</declaration>
                    </MClassMember>

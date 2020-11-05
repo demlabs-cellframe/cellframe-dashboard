@@ -7,11 +7,16 @@
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
+    , m_serviceClient(DAP_SERVICE_NAME)
+    , m_serviceController(&DapServiceController::getInstance())
 {
     this->setOrganizationName("DEMLABS");
     this->setOrganizationDomain("demlabs.net");
     this->setApplicationName("CellFrame Dashboard");
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
+
+    m_serviceController->init(&m_serviceClient);
+    m_serviceClient.init();
 
     this->registerQmlTypes();
     this->setContextProperties();
@@ -20,6 +25,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
     connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
+        qDebug() << a_stateMap;
         networks()->setNetworkProperties(a_stateMap.toMap());
     });
 
@@ -30,10 +36,67 @@ DapApplication::DapApplication(int &argc, char **argv)
     connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
         qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
+
+    connect(m_serviceController, &DapServiceController::walletsReceived, [this](const QList<QObject*>& walletList)
+    {
+        qDebug() << walletList;
+        if (!walletList.isEmpty())
+            this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
+
+        this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
+    });
+    m_serviceController->requestWalletList();
+
+
+    connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
+    {
+        qDebug() << walletInfo;
+        QVariantMap infoMap = walletInfo.toMap();
+        if (currentWallet()->getName() == infoMap.value(DapGetWalletInfoCommand::WALLET_NAME).toString())
+        {
+            DapWalletBalanceModel::WalletBallanceInfo_t walletBalance;
+
+            QVariantMap networkAllInfos = infoMap.value(DapGetWalletInfoCommand::NETWORKS_INFO).toMap();
+            for (auto netIt = networkAllInfos.begin(); netIt != networkAllInfos.end(); ++netIt)
+            {
+                QVariantMap networkInfo = netIt.value().toMap().value(DapGetWalletInfoCommand::BALANCE).toMap();
+
+                if (networkInfo.count() == 0)
+                    continue;
+
+                DapBalanceModel::BalanceInfo_t networkBalance;
+                for (auto tokenIt = networkInfo.begin(); tokenIt != networkInfo.end(); ++tokenIt)
+                {
+                    const DapToken* currentToken = DapToken::token(tokenIt.key());
+
+                    balance_t currentAmount = tokenIt.value().value<balance_t>();
+
+                    if (networkBalance.contains(currentToken))
+                        currentAmount =  currentAmount + networkBalance[currentToken];
+
+                    networkBalance[currentToken] = currentAmount;
+                }
+
+                DapNetwork *currentNetwork = networks()->addIfNotExist(netIt.key());
+
+                walletBalance.insert(currentNetwork, networkBalance);
+            }
+            currentWallet()->setBalance(walletBalance);
+        }
+
+
+    });
+
+
+    m_currentWallet = new DapWallet(this);
+
+    m_currentWallet->setBalance({{}});
+
 }
 
 DapNetworksList *DapApplication::networks()
 {
+
     return &m_networks;
 }
 
@@ -72,6 +135,20 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
+}
+
+DapWallet *DapApplication::currentWallet() const
+{
+    return m_currentWallet;
+}
+
+void DapApplication::setCurrentWallet(DapWallet *a_currentWallet)
+{
+    if (m_currentWallet == a_currentWallet)
+        return;
+    m_currentWallet = a_currentWallet;
+
+    emit this->currentWalletChanged(a_currentWallet);
 }
 
 void DapApplication::setContextProperties()
