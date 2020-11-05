@@ -202,5 +202,19 @@
         <file>screen/desktop/RightPanel/DapRightPanel_New.qml</file>
         <file>screen/desktop/RightPanel/DapRightPanelPage.qml</file>
         <file>screen/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTopPanel.qml</file>
+        <file>resources/icons/icon_vpn-service.svg</file>
+        <file>resources/icons/icon_vpn-service_hover.svg</file>
+        <file>screen/desktop/VPNService/DapNoOrdersPanel.qml</file>
+        <file>screen/desktop/VPNService/DapTextButton.qml</file>
+        <file>screen/desktop/VPNService/DapCreateVPNOrderPanel.qml</file>
+        <file>resources/illustrations/illustration_vpn-service.svg</file>
+        <file>screen/desktop/VPNService/DapRightPanelElement.qml</file>
+        <file>screen/desktop/VPNService/DapSpinBox.qml</file>
+        <file>screen/desktop/VPNService/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/VPNService/DapVPNOrdersGridView.qml</file>
+        <file>resources/icons/ic_info_order.svg</file>
+        <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
     </qresource>
 </RCC>

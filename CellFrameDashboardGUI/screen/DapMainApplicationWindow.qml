@@ -15,6 +15,8 @@ Item {
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
+    ///@detalis Path to the VPN service tab.
+    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
     ///@detalis Path to the settings tab.
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
@@ -237,16 +239,24 @@ Item {
 
             append ({
                 name: qsTr("VPN service"),
-                page: settingsScreen,
+                page: vpnServiceScreen,
                 normalIcon: "qrc:/resources/icons/icon_vpn-service.svg",
                 hoverIcon: "qrc:/resources/icons/icon_vpn-service_hover.svg"
             })
+
 
             append ({
                 name: qsTr("Console"),
                 page: consoleScreen,
                 normalIcon: "qrc:/resources/icons/icon_console.png",
                 hoverIcon: "qrc:/resources/icons/icon_console_hover.png"
+            })
+
+            append ({
+                name: qsTr("Settings"),
+                page: settingsScreen,
+                normalIcon: "qrc:/resources/icons/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
             })
 
             append ({
