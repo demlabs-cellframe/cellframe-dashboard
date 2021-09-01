@@ -4,6 +4,7 @@
 #include <QIcon>
 #include <QClipboard>
 #include "quickcontrols/qrcodequickitem.h"
+#include "DapVpnOrdersModel.h"
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -110,6 +111,11 @@ void DapApplication::setClipboardText(const QString &text)
     clipboard()->setText(text);
 }
 
+DapVpnOrdersModel *DapApplication::getVpnOrdersModel()
+{
+    return &m_vpnOrders;
+}
+
 void DapApplication::registerQmlTypes()
 {
     //register only enums
@@ -135,6 +141,10 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<QrCodeQuickItem>("Demlabs", 1, 0, "QrCodeQuickItem");
     qRegisterMetaType<DapWallet>();
     qRegisterMetaType<DapWalletToken>();
+
+    qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
+    qRegisterMetaType<DapVpnOrder>();
+
 }
 
 DapWallet *DapApplication::currentWallet() const
@@ -158,4 +168,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("pt", 1);
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
+    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 }
