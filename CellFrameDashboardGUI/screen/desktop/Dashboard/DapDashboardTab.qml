@@ -75,10 +75,15 @@ DapAbstractTab
                 console.log("wallet from: " + dashboardTopPanel.dapComboboxWallet.mainLineText)
                 console.log("address wallet from: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
-                properties: {dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
-                                                                    dapCurrentWallet:  dashboardTopPanel.dapComboboxWallet.mainLineText,
-                                                                    dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens,
-                                                                    dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork)}});
+                                                        properties: {
+                                                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
+                                                            dapCurrentWallet:  dashboardTopPanel.dapComboboxWallet.mainLineText,
+                                                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex)
+                                                               .networks.get(dapServiceController.IndexCurrentNetwork).tokens,
+                                                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
+                                                               .findAddress(dapServiceController.CurrentNetwork)
+                                                        }
+                                                       });
                 dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
             }
         }
