@@ -183,5 +183,7 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
+        <file>screen/desktop/Orders/OrdersTab.qml</file>
+        <file>screen/desktop/Orders/OrdersListView.qml</file>
     </qresource>
 </RCC>
