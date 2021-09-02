@@ -53,9 +53,9 @@ DapAbstractTab
             }
             dapAddWalletButton.onClicked:
             {
-                createWallet()
-                dashboardTopPanel.dapWalletCreateFrame.visible = false;
-                dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
+                createWallet();
+                //dashboardTopPanel.dapWalletCreateFrame.visible = false;
+                //dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
         }
 
@@ -65,7 +65,7 @@ DapAbstractTab
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
-                createWallet()
+                createWallet();
                 dashboardTopPanel.dapWalletCreateFrame.visible = false;
                 dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
@@ -73,7 +73,8 @@ DapAbstractTab
             {
                 console.log("New payment")
                 console.log("wallet from: " + dashboardTopPanel.dapComboboxWallet.mainLineText)
-                console.log("address wallet from: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
+                console.log("Current network index: "+ dapServiceController.IndexCurrentNetwork);
+                console.log("address wallet from: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
                                                         properties: {
                                                             dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
@@ -84,7 +85,7 @@ DapAbstractTab
                                                                .findAddress(dapServiceController.CurrentNetwork)
                                                         }
                                                        });
-                dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
+                //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
             }
         }
 

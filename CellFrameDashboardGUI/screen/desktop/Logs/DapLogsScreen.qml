@@ -70,15 +70,15 @@ DapLogsScreenForm
 
         Rectangle
         {
-            height: 30 * pt
+            height: 20 * pt
             width: dapLogsListView.width
             color: "#908D9D"
 
             Text
             {
                 anchors.fill: parent
-                anchors.topMargin: 8 * pt
-                anchors.bottomMargin: 8 * pt
+                anchors.topMargin: 1 * pt
+                anchors.bottomMargin: 1 * pt
                 anchors.leftMargin: firstMarginList
                 color: "#FFFFFF"
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
@@ -116,8 +116,8 @@ DapLogsScreenForm
             Rectangle
             {
                 anchors.fill: parent
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 20 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 10 * pt
                 anchors.leftMargin: firstMarginList
                 anchors.rightMargin: fifthMarginList
                 color: parent.color

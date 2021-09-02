@@ -1,7 +1,12 @@
 import QtQuick 2.4
+import "qrc:/screen"
 import "qrc:/resources/QML"
+import "qrc:/screen/desktop/Dashboard"
+import "qrc:/screen/desktop/Exchange"
 import "qrc:/screen/desktop/Certificates"
 import "qrc:/screen/desktop/NetworksPanel"
+import "qrc:/screen/desktop/RightPanel"
+import "qrc:/screen/desktop/Settings"
 
 
 
@@ -123,7 +128,7 @@ Item {
                         selectedFont: "Quicksand"
                     }
 
-                    width: menuTabWidget.width
+                    width: 200*pt
                     height: columnMenuTab.height - logotype.height
                 }
             }
@@ -187,15 +192,15 @@ Item {
         
         Component.onCompleted:
         {
-            append({
+            /*append({
                 name: qsTr("Wallet"),
                 page: dashboardScreen,
                 normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.svg",
                 hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
-            })
+            })*/
             append({
                 name: qsTr("Wallet"),
-                page: walletScreen,
+                page: dashboardScreen,
                 normalIcon: "qrc:/resources/icons/icon_dashboard.png",
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
@@ -237,12 +242,12 @@ Item {
                 hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
             })
 
-            append ({
+           /* append ({
                 name: qsTr("VPN service"),
                 page: vpnServiceScreen,
                 normalIcon: "qrc:/resources/icons/icon_vpn-service.svg",
                 hoverIcon: "qrc:/resources/icons/icon_vpn-service_hover.svg"
-            })
+            })*/
 
 
             append ({
@@ -270,8 +275,8 @@ Item {
 
     Component.onCompleted:
     {
-     //   dapServiceController.requestToService("DapGetListNetworksCommand");
-    //    dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        //dapServiceController.requestToService("DapGetListNetworksCommand");
+       // dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
     Connections
@@ -292,44 +297,45 @@ Item {
 
         onWalletsReceived:
         {
-            console.log(walletList.length)
-            console.log(dapWallets.length)
-            console.log(dapModelWallets.count)
+            console.log(walletList.length);
+            console.log(dapWallets.length);
+            console.log(dapModelWallets.count);
                 for (var q = 0; q < walletList.length; ++q)
                 {
-                    dapWallets.push(walletList[q])
+                    dapWallets.push(walletList[q]);
                 }
                 for (var i = 0; i < dapWallets.length; ++i)
                 {
-                    console.log(dapWallets[i].Name)
+                    console.log("Wallet name: "+ dapWallets[i].Name);
                     dapModelWallets.append({ "name" : dapWallets[i].Name,
                                           "balance" : dapWallets[i].Balance,
                                           "icon" : dapWallets[i].Icon,
                                           "address" : dapWallets[i].Address,
-                                          "networks" : []})
-                    console.log(Object.keys(dapWallets[i].Networks).length)
+                                          "networks" : []});
+                    console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
                     for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                     {
+                        console.log("Network name: "+dapWallets[i].Networks[n]);
                          dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
                                                               "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
-                                                              "tokens": []})
-                        console.log(Object.keys(dapWallets[i].Tokens).length)
+                                                              "tokens": []});
+                        console.log(Object.keys(dapWallets[i].Tokens).length);
                         for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                         {
-                            console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])
+                            console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n]);
                             if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
                             {
                                  dapModelWallets.get(i).networks.get(n).tokens.append({"name": dapWallets[i].Tokens[t].Name,
                                                                                     "balance": dapWallets[i].Tokens[t].Balance,
                                                                                     "emission": dapWallets[i].Tokens[t].Emission,
-                                                                                    "network": dapWallets[i].Tokens[t].Network})
+                                                                                    "network": dapWallets[i].Tokens[t].Network});
                             }
                         }
 
                     }
 
                 }
-                modelWalletsUpdated()
+                modelWalletsUpdated();
             }
     }
 }

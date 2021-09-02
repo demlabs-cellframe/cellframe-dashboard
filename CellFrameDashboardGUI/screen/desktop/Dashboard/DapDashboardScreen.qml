@@ -128,8 +128,8 @@ DapAbstractScreen
                 width: 16 * pt
                 height: 16 * pt
                 hoverEnabled: true
-                anchors.left: titleText.right
-                anchors.leftMargin: 12 * pt
+                //anchors.left: titleText.right
+                //anchors.leftMargin: 12 * pt
 
                 Image
                 {

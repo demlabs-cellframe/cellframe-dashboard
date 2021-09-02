@@ -150,7 +150,7 @@ signals:
     void walletInfoReceived(const QVariant& walletInfo);
     void walletsInfoReceived(const QVariant& walletList);
 
-    void walletsReceived(const QList<QObject*>& walletList);
+    void walletsReceived(QList<QObject*> walletList);
 
     void networksListReceived(const QVariant& networkList);
 

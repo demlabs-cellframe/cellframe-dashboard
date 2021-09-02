@@ -122,8 +122,8 @@ Item {
         }
     }
 
-    Connections {
-        target: networks
-        onListCompositionChanged: listView.setNetworks(networks.model())
-    }
+    //Connections {
+    //    target: networks
+    //    onListCompositionChanged: listView.setNetworks(networks.model())
+    //}
 }

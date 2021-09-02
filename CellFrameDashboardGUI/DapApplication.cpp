@@ -16,6 +16,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName("CellFrame Dashboard");
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
+
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
 
@@ -38,7 +39,7 @@ DapApplication::DapApplication(int &argc, char **argv)
         qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 
-    connect(m_serviceController, &DapServiceController::walletsReceived, [this](const QList<QObject*>& walletList)
+    connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
     {
         qDebug() << walletList;
         if (!walletList.isEmpty())
@@ -97,7 +98,6 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapNetworksList *DapApplication::networks()
 {
-
     return &m_networks;
 }
 

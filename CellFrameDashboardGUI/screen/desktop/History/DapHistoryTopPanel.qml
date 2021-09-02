@@ -48,10 +48,10 @@ DapTopPanel
             TextField
             {
                 id: textFieldSearch
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.leftMargin: 10 * pt
-                anchors.right: parent.right
+                //anchors.top: parent.top
+                //anchors.left: parent.left
+                //anchors.leftMargin: 10 * pt
+                //anchors.right: parent.right
                 placeholderText: qsTr("Search")
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 style:
@@ -69,7 +69,7 @@ DapTopPanel
             }
             Rectangle
             {
-                anchors.top: textFieldSearch.bottom
+                //anchors.top: textFieldSearch.bottom
                 width: parent.width
                 height: 1 * pt
                 color: "#59556C"

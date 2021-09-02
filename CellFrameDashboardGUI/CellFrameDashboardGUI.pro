@@ -74,6 +74,7 @@ SOURCES += \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
 RESOURCES += $$PWD/qml.qrc
+RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

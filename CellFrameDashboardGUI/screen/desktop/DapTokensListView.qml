@@ -12,6 +12,6 @@ Rectangle
 
     ListView
     {
-        model: app.currentWallet()
+        model: app.currentWallet
     }
 }

@@ -107,7 +107,7 @@ DapAbstractRightPanel
                             id: comboboxToken
                             anchors.centerIn: parent
                             comboBoxTextRole: ["name", "name"]
-                            mainLineText: "all tokens"
+                            mainLineText: "tCELL"
                             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
                             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
                             sidePaddingNormal: 0 * pt
