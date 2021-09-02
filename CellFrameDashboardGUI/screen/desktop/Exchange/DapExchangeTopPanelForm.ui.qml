@@ -35,7 +35,7 @@ DapAbstractTopPanelForm
             id: comboboxWallet
             //model: modelWallets
             comboBoxTextRole: ["text"]
-            mainLineText: "all wallets"
+            mainLineText: "----"
             indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
             indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
             sidePaddingNormal: 0 * pt

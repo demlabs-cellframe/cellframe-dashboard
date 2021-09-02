@@ -11,8 +11,8 @@ DapInputNewWalletNameRightPanelForm
 
     dapButtonNext.onClicked:
     {
-        console.log(dapTextInputNameWallet.text)
-        console.log(dapSignatureTypeWallet)
+        console.log("Create new wallet "+dapTextInputNameWallet.text);
+        console.log(dapSignatureTypeWallet);
         console.log(dapServiceController.CurrentNetwork)
         dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text    //original
                                               , dapSignatureTypeWallet, dapServiceController.CurrentNetwork
@@ -30,10 +30,7 @@ DapInputNewWalletNameRightPanelForm
         target: dapServiceController
         onWalletCreated:
         {
-            if(wallet[0])
-            {
-                nextActivated("doneWallet")
-            }
+            nextActivated("doneWallet");
         }
     }
 

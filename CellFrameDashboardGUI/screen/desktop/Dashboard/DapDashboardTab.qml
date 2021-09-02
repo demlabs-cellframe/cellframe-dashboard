@@ -27,9 +27,9 @@ DapAbstractTab
 
     id: dashboardTab
 
-//    property alias dapDashboardRightPanel: stackViewRightPanel
-//    property alias dashboardTopPanel: dashboardTopPanel
-//    property alias dashboardTopPanel: dashboardScreen
+    property alias dapDashboardRightPanel: stackViewRightPanel
+    //property alias dashboardTopPanel: dashboardTopPanel
+    //property alias dashboardTopPanel: dashboardScreen
 
     dapTopPanel:
         DapDashboardTopPanel
@@ -54,7 +54,7 @@ DapAbstractTab
             dapAddWalletButton.onClicked:
             {
                 createWallet();
-                //dashboardTopPanel.dapWalletCreateFrame.visible = false;
+                dashboardTopPanel.dapWalletCreateFrame.visible = false;
                 //dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
         }
@@ -235,10 +235,7 @@ DapAbstractTab
         }
         onWalletCreated:
         {
-            if(wallet[0])
-            {
-                update()
-            }
+            update()
         }
     }
 

@@ -205,7 +205,7 @@ Item {
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
-            append ({
+/*            append ({
                 name: qsTr("Exchange"),
                 page: historyScreen, //TODO: here should be: exchangeScreen,
                 normalIcon: "qrc:/resources/icons/icon_exchange.png",
@@ -217,7 +217,7 @@ Item {
                 page: historyScreen,
                 normalIcon: "qrc:/resources/icons/icon_history.svg",
                 hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
-            })
+            })*/
 
 
             append ({
@@ -242,12 +242,12 @@ Item {
                 hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
             })
 
-           /* append ({
+            append ({
                 name: qsTr("VPN service"),
                 page: vpnServiceScreen,
                 normalIcon: "qrc:/resources/icons/icon_vpn-service.svg",
                 hoverIcon: "qrc:/resources/icons/icon_vpn-service_hover.svg"
-            })*/
+            })
 
 
             append ({
