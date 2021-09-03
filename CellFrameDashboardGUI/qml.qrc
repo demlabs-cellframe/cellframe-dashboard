@@ -185,5 +185,9 @@
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
         <file>screen/desktop/Orders/OrdersTab.qml</file>
         <file>screen/desktop/Orders/OrdersListView.qml</file>
+        <file>resources/icons/under construction.svg</file>
+        <file>resources/icons/illustration-new-wallet.svg</file>
+        <file>resources/fonts/Quicksand/Quicksand-Medium.ttf</file>
+        <file>resources/fonts/Quicksand/Quicksand-Regular.ttf</file>
     </qresource>
 </RCC>
