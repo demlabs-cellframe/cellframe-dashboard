@@ -10,9 +10,11 @@ Rectangle {
 
     signal findHandler(string text)
 
+    anchors.left: parent.left
+
     //color: "#211A3A"    //design color
     color: "#070023"      //original color
-    radius: 8 * pt
+//    radius: 8 * pt
 
 
     implicitWidth: searchBox.x + searchBox.width
@@ -23,7 +25,9 @@ Rectangle {
     SearchInputBox {
         id: searchBox
         x: 38 * pt
+//        x: 0
         anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: 0
 
         placeholderText: qsTr("Search")
         height: 28 * pt

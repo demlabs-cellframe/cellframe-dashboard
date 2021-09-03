@@ -16,7 +16,7 @@ TextField {
 
     property string smartPlaceHolderText: ""
     //placeholderTextColor: color     //5.12
-    property string placeholderTextColor: "#C7C6CE"    //5.10
+    property string placeholderTextColor_: "#C7C6CE"    //5.10
 
     property int borderWidth: 1 * pt
     property int borderWidthWhenFocus: 2 * pt
@@ -41,7 +41,7 @@ TextField {
     Text {
         id: placeholderTextView
         visible: root.displayText === ""
-        color: root.placeholderTextColor
+        color: root.placeholderTextColor_
         text: root.smartPlaceHolderText
         anchors.fill: parent
 
