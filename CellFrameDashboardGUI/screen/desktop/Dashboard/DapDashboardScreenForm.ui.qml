@@ -32,6 +32,7 @@ DapAbstractScreen
         anchors.horizontalCenter: parent.horizontalCenter
         Column
         {
+            y: 0
             anchors.horizontalCenter: parent.horizontalCenter
             Rectangle
             {
@@ -41,9 +42,12 @@ DapAbstractScreen
             Image
             {
                 id: iconCreateWallet
-                source: "qrc:/resources/icons/wallet.png"
-                width: 218 * pt
-                height: 180 * pt
+                y: 0
+                source: "../../../resources/icons/illustration-new-wallet.svg"
+                sourceSize.height: 315
+                sourceSize.width: 499
+                width: 499
+                height: 315
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Rectangle
@@ -57,7 +61,7 @@ DapAbstractScreen
                 font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
                 font.pixelSize: 30 * pt
                 color: "#757184"
-                text: qsTr("Create our first wallet")
+                text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Rectangle
@@ -170,3 +174,9 @@ DapAbstractScreen
         delegate: delegateTokenView
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

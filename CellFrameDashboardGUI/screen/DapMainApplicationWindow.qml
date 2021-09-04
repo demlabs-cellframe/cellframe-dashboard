@@ -26,10 +26,12 @@ DapMainApplicationWindowForm
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-    //readonly property DapFontQuicksand quicksandFonts:
+//    readonly property QtObject dapMainFonts: DapFontQuicksand {}
+//    readonly property DapFontQuicksand quicksandFonts:
     DapFontQuicksand {
         id: quicksandFonts
     }
+
 
 
 
@@ -105,12 +107,12 @@ DapMainApplicationWindowForm
                 hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
             })
 
-            append ({
-                name: qsTr("Logs"),
-                page: logsScreen,
-                normalIcon: "qrc:/resources/icons/icon_logs.png",
-                hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
-            })
+//            append ({
+//                name: qsTr("Logs"),
+//                page: logsScreen,
+//                normalIcon: "qrc:/resources/icons/icon_logs.png",
+//                hoverIcon: "qrc:/resources/icons/icon_logs_hover.png"
+//            })
 
             append ({
                 name: qsTr("Orders"),
