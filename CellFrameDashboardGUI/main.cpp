@@ -29,6 +29,15 @@ int main(int argc, char *argv[])
     DapApplication app(argc, argv);
 
     DapLogger dapLogger;
+
+    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND));
+
+    QDir dir(dapLogger.getPathToLog());
+    if (!dir.exists()) {
+        qDebug() << "No folder:" << dapLogger.getPathToLog();
+        dir.mkpath(".");
+    }
+
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
