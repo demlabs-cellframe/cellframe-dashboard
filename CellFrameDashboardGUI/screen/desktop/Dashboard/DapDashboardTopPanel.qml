@@ -9,6 +9,8 @@ DapTopPanel
     property alias dapAddWalletButton: addWalletButton
     property alias dapComboboxWallet: comboboxWallet
 
+
+
     // Static text "Wallet"
     Label
     {

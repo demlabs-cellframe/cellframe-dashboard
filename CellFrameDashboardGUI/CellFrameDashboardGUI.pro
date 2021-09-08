@@ -14,7 +14,7 @@ TARGET = $$BRAND
 
 VER_MAJ = 2
 VER_MIN = 0
-VER_PAT = 5
+VER_PAT = 6
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
@@ -87,6 +87,7 @@ HEADERS += \
     quickcontrols/qrcodequickitem.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
 
+include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-sdk/dap-sdk/core/libdap.pri)

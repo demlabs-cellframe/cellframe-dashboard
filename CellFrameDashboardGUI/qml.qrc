@@ -216,5 +216,6 @@
         <file>screen/desktop/VPNService/DapVPNOrdersGridView.qml</file>
         <file>resources/icons/ic_info_order.svg</file>
         <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
+        <file>resources/icons/under construction.svg</file>
     </qresource>
 </RCC>

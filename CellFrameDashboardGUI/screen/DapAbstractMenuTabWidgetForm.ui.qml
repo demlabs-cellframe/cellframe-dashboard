@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Window 2.12
 import "qrc:/widgets"
 
 DapMenuTabWidget
@@ -16,7 +16,8 @@ DapMenuTabWidget
         }
 }
 
-/*##^## Designer {
+/*##^##
+Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
- ##^##*/
+##^##*/

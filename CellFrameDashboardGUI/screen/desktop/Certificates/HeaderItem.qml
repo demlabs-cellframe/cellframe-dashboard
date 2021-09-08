@@ -9,10 +9,11 @@ Rectangle {
     id: root
 
     signal findHandler(string text)
+    anchors.left: parent.left
 
     //color: "#211A3A"    //design color
     color: "#070023"      //original color
-    radius: 8 * pt
+//    radius: 8 * pt
 
 
     implicitWidth: searchBox.x + searchBox.width

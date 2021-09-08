@@ -1,10 +1,10 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import ".."
+import "qrc:/widgets"
 
 Item {
     id: tab
-
     // TODO только для теста
     Item {
         id: vpnTest
@@ -81,6 +81,7 @@ Item {
                 id: mainPanel
 
                 property int margin: 24 * pt
+//                property int margin: 0
                 property int halfMargin: margin * 0.5
 
                 anchors.top: parent.top
@@ -134,9 +135,30 @@ Item {
                 }
             }
 
-            DapRightPanel_New {
+            DapRightPanel{
                 id: rightPanel
                 visible: false
+            }
+
+            Rectangle{
+                color: "white"
+                anchors.fill: parent
+                Rectangle{
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: 520
+                    height: 400
+
+
+                    Image {
+                        id: under_cunstruct_img
+                        anchors.fill: parent
+                        source: "qrc:/resources/icons/under construction.svg"
+                        anchors.centerIn: parent.Center
+                        sourceSize.width: parent.width
+                        sourceSize.height: parent.height
+                    }
+                }
             }
         }
     }
@@ -179,4 +201,5 @@ Item {
             }
         }
     ]
+
 }
