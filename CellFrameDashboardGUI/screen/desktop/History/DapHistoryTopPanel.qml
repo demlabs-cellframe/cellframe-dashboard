@@ -12,6 +12,7 @@ DapTopPanel
     property alias dapComboboxWallet: comboboxWallet
     property alias dapComboboxStatus: comboboxStatus
 
+
     // Frame icon search
     Rectangle
     {

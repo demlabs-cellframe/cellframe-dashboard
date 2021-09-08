@@ -87,7 +87,7 @@ Item {
                         anchors.fill: parent
                         color: "#070023"
                         height: 60 * pt
-                        radius: 8 * pt
+//                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
                         anchors.bottomMargin: -10*pt
                         Image
@@ -108,7 +108,7 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
-                        radius: 8 * pt
+//                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
 
                         onPathScreenChanged:
@@ -205,19 +205,19 @@ Item {
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
-/*            append ({
-                name: qsTr("Exchange"),
-                page: historyScreen, //TODO: here should be: exchangeScreen,
-                normalIcon: "qrc:/resources/icons/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
-            })
+//            append ({
+//                name: qsTr("Exchange"),
+//                page: historyScreen, //TODO: here should be: exchangeScreen,
+//                normalIcon: "qrrc:/resources/icons/icon_exchange.png",
+//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+//            })
     
             append ({
                 name: qsTr("History"),
                 page: historyScreen,
                 normalIcon: "qrc:/resources/icons/icon_history.svg",
                 hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
-            })*/
+            })
 
 
             append ({
@@ -264,14 +264,14 @@ Item {
                 hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
             })
 
-            append ({
-                name: qsTr("Logs"),
-                page: logsScreen,
-                normalIcon: "qrc:/resources/icons/icon_logs.svg",
-                hoverIcon: "qrc:/resources/icons/icon_logs_hover.svg"
-             })
+//            append ({
+//                name: qsTr("Logs"),
+//                page: logsScreen,
+//                normalIcon: "qrc:/resources/icons/icon_logs.svg",
+//                hoverIcon: "qrc:/resources/icons/icon_logs_hover.svg"
+//             })
         }
-    }  
+    }
 
     Component.onCompleted:
     {
