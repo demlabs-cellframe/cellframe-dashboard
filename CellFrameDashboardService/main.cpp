@@ -40,6 +40,15 @@ int main(int argc, char *argv[])
     a.setApplicationName("CellFrameDashboardService");
 
     DapLogger dapLogger;
+
+    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND));
+
+    QDir dir(dapLogger.getPathToLog());
+    if (!dir.exists()) {
+        qDebug() << "No folder:" << dapLogger.getPathToLog();
+        dir.mkpath(".");
+    }
+
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
@@ -52,6 +61,7 @@ int main(int argc, char *argv[])
 	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Service.log").arg(DAP_BRAND));
     #endif
 //#endif
+
     // Creating the main application object
     processArgs();
     DapServiceController serviceController;
