@@ -1,4 +1,4 @@
-QT += core network gui widgets
+QT += core network
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -51,20 +51,18 @@ DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
-    $$PWD/DapToolTipWidget.cpp \
-    $$PWD/main.cpp \
+    $$PWD/main.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    $$PWD/DapToolTipWidget.h
 
 include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)
-include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
+#include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
-include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
+#include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
                $$_PRO_FILE_PWD_/../dapRPCProtocol/
