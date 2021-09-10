@@ -53,9 +53,8 @@ DapAbstractTab
             }
             dapAddWalletButton.onClicked:
             {
-                createWallet();
-                dashboardTopPanel.dapWalletCreateFrame.visible = false;
-                //dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
+                createWallet()
+                dashboardScreen.dapWalletCreateFrame.visible = false
             }
         }
 
@@ -65,9 +64,9 @@ DapAbstractTab
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
-                createWallet();
-                dashboardTopPanel.dapWalletCreateFrame.visible = false;
-                dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
+                createWallet()
+                dashboardScreen.dapWalletCreateFrame.visible = false
+//                dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
             dapButtonNewPayment.onClicked:
             {
