@@ -10,6 +10,7 @@
 #include <QDataStream>
 
 #include "serviceClient/DapServiceClient.h"
+#include "DapServiceClientMessage.h"
 #include "DapWallet.h"
 #include "handlers/DapAbstractCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
@@ -49,6 +50,7 @@ class DapServiceController : public QObject
     int m_iIndexCurrentNetwork;
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
+    DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
     /// Command manager.
     QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.

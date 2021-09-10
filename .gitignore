@@ -13,3 +13,7 @@ CTestTestfile.cmake
 *.obj
 moc_*
 .DS_Store
+.autosave
+.qmake_stash
+qrc_*
+rcc/*
