@@ -14,3 +14,7 @@
 	path = prod_build
 	url = ../prod_build_cellframe-dashboard
 	branch = master
+[submodule "cellframe-node"]
+	path = cellframe-node
+	url = https://gitlab.demlabs.net/cellframe/cellframe-node
+	branch = master

@@ -26,15 +26,16 @@ variables:
 #      - /^release.*$/
 #     script: ~/production/integration/gitlab-CI/build_test_handler.sh cellframe-dashboard
 
-#cellframe-dashboard-merge-request-windows:
-#    stage: build
-#    tags:
-#     - cellframe-dashboard
-#    only: [merge_requests]
-#    except:
-#      variables:
-#        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "master"
-#    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
+cellframe-dashboard-merge-request-windows:
+   stage: build
+   tags:
+    - cellframe-dashboard
+   only: [merge_requests]
+   except:
+     variables:
+       - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "master"
+       - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME != "/^release.*$/"
+   script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
 
 cellframe-dashboard-merge-request-linux:
     stage: build
@@ -102,16 +103,11 @@ cellframe-dashboard_linux:
 #     - /^pubtest.*$/
 #    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
 
-#cellframe-dashboard_windows:
-#    stage: build
-#    tags:
-#     - cellframe-dashboard
-#    only:
-#     - /^pubtest.*$/
-#     - /^release.*$/
-#    except:
-#     - master
-#    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
+cellframe-dashboard_windows:
+   stage: build
+   tags:
+    - cellframe-dashboard
+   script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
 
 # Test
 # run unit-tests
