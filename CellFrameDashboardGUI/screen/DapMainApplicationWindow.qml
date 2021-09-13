@@ -275,68 +275,80 @@ Item {
 
     Component.onCompleted:
     {
-        //dapServiceController.requestToService("DapGetListNetworksCommand");
-       // dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        dapServiceController.requestToService("DapGetListNetworksCommand")
+//        dapServiceController.requestToService("DapGetWalletsInfoCommand")
     }
 
     Connections
     {
         target: dapServiceController
+
         onNetworksListReceived:
         {
+            console.log("Networks list received")
+
             if (!networkList)
                 console.error("networkList is empty")
+            else
+            {
+                dapServiceController.CurrentNetwork = networkList[0];
+                dapServiceController.IndexCurrentNetwork = 0;
+
+                console.log("Current network: "+dapServiceController.CurrentNetwork)
+            }
 
             for(var n=0; n < Object.keys(networkList).length; ++n)
             {
-                dapServiceController.CurrentNetwork = networkList[0];
-                dapServiceController.IndexCurrentNetwork = 0;                //тут разве не должно быть n? или этой строки вообще недолжно быть тут. А если список сетей пуст?
                 dapNetworkModel.append({name: networkList[n]})
             }
         }
 
         onWalletsReceived:
         {
-            console.log(walletList.length);
-            console.log(dapWallets.length);
-            console.log(dapModelWallets.count);
-                for (var q = 0; q < walletList.length; ++q)
+            console.log(walletList.length)
+            console.log(dapWallets.length)
+            console.log(dapModelWallets.count)
+            for (var q = 0; q < walletList.length; ++q)
+            {
+                dapWallets.push(walletList[q])
+            }
+            for (var i = 0; i < dapWallets.length; ++i)
+            {
+                console.log("Wallet name: "+ dapWallets[i].Name)
+                dapModelWallets.append({ "name" : dapWallets[i].Name,
+                                      "balance" : dapWallets[i].Balance,
+                                      "icon" : dapWallets[i].Icon,
+                                      "address" : dapWallets[i].Address,
+                                      "networks" : []})
+                console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
+                for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
-                    dapWallets.push(walletList[q]);
-                }
-                for (var i = 0; i < dapWallets.length; ++i)
-                {
-                    console.log("Wallet name: "+ dapWallets[i].Name);
-                    dapModelWallets.append({ "name" : dapWallets[i].Name,
-                                          "balance" : dapWallets[i].Balance,
-                                          "icon" : dapWallets[i].Icon,
-                                          "address" : dapWallets[i].Address,
-                                          "networks" : []});
-                    console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
-                    for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
+                    console.log("Network name: "+dapWallets[i].Networks[n])
+                    print(dapModelWallets.get(i).networks)
+                    print("name", dapWallets[i].Networks[n])
+                    print("address", dapWallets[i].findAddress(dapWallets[i].Networks[n]))
+                    dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
+                          "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
+                          "tokens": []})
+                    console.log(Object.keys(dapWallets[i].Tokens).length)
+                    for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
-                        console.log("Network name: "+dapWallets[i].Networks[n]);
-                         dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
-                                                              "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
-                                                              "tokens": []});
-                        console.log(Object.keys(dapWallets[i].Tokens).length);
-                        for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
+                        console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])
+                        if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
                         {
-                            console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n]);
-                            if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
-                            {
-                                 dapModelWallets.get(i).networks.get(n).tokens.append({"name": dapWallets[i].Tokens[t].Name,
-                                                                                    "balance": dapWallets[i].Tokens[t].Balance,
-                                                                                    "emission": dapWallets[i].Tokens[t].Emission,
-                                                                                    "network": dapWallets[i].Tokens[t].Network});
-                            }
+                             dapModelWallets.get(i).networks.get(n).tokens.append(
+                                 {"name": dapWallets[i].Tokens[t].Name,
+                                  "balance": dapWallets[i].Tokens[t].Balance,
+                                  "emission": dapWallets[i].Tokens[t].Emission,
+                                  "network": dapWallets[i].Tokens[t].Network})
                         }
-
                     }
 
                 }
-                modelWalletsUpdated();
+
             }
+            modelWalletsUpdated();
+        }
     }
 }
 
