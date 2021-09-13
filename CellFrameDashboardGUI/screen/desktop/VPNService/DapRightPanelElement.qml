@@ -45,7 +45,7 @@ Item {
 
             x: 15 * pt
             anchors.verticalCenter: parent.verticalCenter
-            font: quicksandFonts.medium12
+            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
             elide: Text.ElideRight
             color: "#FFFFFF"
             text: control.name

@@ -31,7 +31,7 @@ DapSettingsScreenForm
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text:"Network"
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: "#5F5F63"
                 }
             }
@@ -87,7 +87,7 @@ DapSettingsScreenForm
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text: "VPN"
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: "#5F5F63"
                 }
             }

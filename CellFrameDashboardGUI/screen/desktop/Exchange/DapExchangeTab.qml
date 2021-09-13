@@ -8,7 +8,7 @@ DapExchangeTabForm
         text: "Under construction"
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular28
+        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
         color: "#00000000"
     }
 }
