@@ -15,6 +15,8 @@ DapServiceController::DapServiceController(QObject *apParent)
 void DapServiceController::init(DapServiceClient *apDapServiceClient)
 {
     m_pDapServiceClient = apDapServiceClient;
+    m_pDapServiceClientMessage = new DapServiceClientMessage(nullptr);
+    connect(m_pDapServiceClient,SIGNAL(sendMessageBox(QString)),m_pDapServiceClientMessage, SLOT(messageBox(QString)));
     // Socket initialization
     m_DAPRpcSocket = new DapRpcSocket(apDapServiceClient->getClientSocket(), this);
     // Register command.
