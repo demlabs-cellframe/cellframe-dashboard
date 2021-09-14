@@ -38,7 +38,7 @@ DapConsoleScreenForm
             {
                 id: textQuery
                 text: "> " + query
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
             }
             Text
             {
@@ -46,7 +46,7 @@ DapConsoleScreenForm
                 text: response
                 width: parent.width
                 wrapMode: Text.Wrap
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
             }
         }
     }

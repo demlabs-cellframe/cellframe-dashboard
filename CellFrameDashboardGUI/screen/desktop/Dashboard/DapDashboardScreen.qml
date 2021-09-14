@@ -84,7 +84,7 @@ DapAbstractScreen
                 colorButtonTextNormal: "#FFFFFF"
                 colorButtonTextHover: "#FFFFFF"
                 indentTextRight: 37 * pt
-                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 borderColorButton: "#000000"
                 borderWidthButton: 0
                 horizontalAligmentText:Qt.AlignRight
@@ -116,7 +116,7 @@ DapAbstractScreen
             Text
             {
                 id: titleText
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
+                font.family: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
                 font.pixelSize: 20 * pt
                 text: "My first crypto wallet"
                 width: 185 * pt
@@ -164,7 +164,7 @@ DapAbstractScreen
                 heightImageButton: 20 * pt
                 indentImageLeftButton: 15 * pt
                 indentTextRight: 15 * pt
-                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
         }
     }
@@ -205,7 +205,7 @@ DapAbstractScreen
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
                     anchors.verticalCenter: parent.verticalCenter
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: "#FFFFFF"
                     verticalAlignment: Qt.AlignVCenter
                     text: name
@@ -224,7 +224,7 @@ DapAbstractScreen
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: "#908D9D"
                     text: qsTr("Network address")
                     width: 92 * pt
@@ -238,7 +238,7 @@ DapAbstractScreen
                    anchors.right:  networkAddressCopyButton.left
                    anchors.rightMargin: 4 * pt
                    anchors.verticalCenter: parent.verticalCenter
-                   fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                   fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular10
                    color: "#908D9D"
                    fullText: address
                    textElide: Text.ElideRight
@@ -319,7 +319,7 @@ DapAbstractScreen
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: currencyIcon.right
                             anchors.leftMargin: 10 * pt
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                             color: "#070023"
                             text: name
                             width: 172 * pt
@@ -340,7 +340,7 @@ DapAbstractScreen
                                 id: currencySum
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.left
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                 color: "#070023"
                                 text: balance + " "
                                 horizontalAlignment: Text.AlignLeft
@@ -353,7 +353,7 @@ DapAbstractScreen
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: currencySum.right
                                 anchors.right: parent.right
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                 color: "#070023"
                                 text: name
                                 horizontalAlignment: Text.AlignLeft
@@ -368,7 +368,7 @@ DapAbstractScreen
                             anchors.leftMargin: 16 * pt
                             anchors.right: parent.right
                             anchors.rightMargin: 16 * pt
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                             color: "#070023"
                             text: "$" + emission + " USD"
                             width: 188 * pt

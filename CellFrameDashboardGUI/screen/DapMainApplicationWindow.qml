@@ -34,7 +34,8 @@ Item {
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-    readonly property DapFontQuicksand quicksandFonts:
+//    readonly property QtObject dapQuicksandFonts: DapFontQuicksand {}
+    property alias dapQuicksandFonts: quicksandFonts
     DapFontQuicksand {
         id: quicksandFonts
     }

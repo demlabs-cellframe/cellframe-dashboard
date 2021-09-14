@@ -21,7 +21,7 @@ Item {
             width: Math.min(implicitWidth, control.width - indicator.width - row1.spacing - row1.rightPadding - row1.leftPadding)
             height: Math.min(implicitHeight, control.height)
 
-            font: quicksandFonts.medium12
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
             elide: Text.ElideRight
             color: control.textColor
             text: control.name
