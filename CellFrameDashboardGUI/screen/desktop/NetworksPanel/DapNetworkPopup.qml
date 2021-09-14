@@ -122,12 +122,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: quicksandFonts.medium12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                         color: "#070023"
                         text: qsTr("State: ")
                     }
                     Text {
-                        font: quicksandFonts.regular12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: contentItem.networkStateToString(control.networkState)
@@ -140,12 +140,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: quicksandFonts.medium12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                         color: "#070023"
                         text: qsTr("Target state: ")
                     }
                     Text {
-                        font: quicksandFonts.regular12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: contentItem.networkStateToString(control.networkTargetState)
@@ -158,12 +158,12 @@ Popup {
 
                 RowLayout {
                     Text {
-                        font: quicksandFonts.medium12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                         color: "#070023"
                         text: qsTr("Active links: ")
                     }
                     Text {
-                        font: quicksandFonts.regular12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.activeLinksCount + qsTr(" from ") + control.linksCount
@@ -177,12 +177,12 @@ Popup {
                 RowLayout {
                     Text {
                         id: textAddress
-                        font: quicksandFonts.medium12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                         color: "#070023"
                         text: qsTr("Address: ")
                     }
                     Text {
-                        font: quicksandFonts.regular12
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                         color: "#070023"
                         elide: Text.ElideRight
                         text: control.nodeAddress

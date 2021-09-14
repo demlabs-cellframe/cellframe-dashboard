@@ -55,7 +55,7 @@ Item {
         Text {
             id: filterTitleText
             x: 15 * pt
-            font: quicksandFonts.bold14
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: "#3E3853"
             text: qsTr("Filter")
         }
@@ -78,7 +78,7 @@ Item {
                     indicatorSize: 16 * pt
                     indicatorInnerSize: 7 * pt
                     spaceIndicatorText: 18 * pt
-                    fontRadioButton: quicksandFonts.regular16
+                    fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     indicatorBackgroundColor: "transparent"
                     indicatorBorder.width: 2 * pt
                     indicatorBorderColor: "#211A3A"
@@ -100,7 +100,7 @@ Item {
         id: actionsTitleText
         x: 15 * pt
         y: radioButtonFrame.y + radioButtonFrame.height + 44 * pt
-        font: quicksandFonts.bold14
+        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
         color: "#3E3853"
         text: qsTr("Actions")
     }
@@ -125,7 +125,7 @@ Item {
             borderColorButton: "#000000"
             borderWidthButton: 0
             radius: 4 * pt
-            fontButton: quicksandFonts.regular16
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
 
@@ -143,7 +143,7 @@ Item {
             borderColorButton: "#000000"
             borderWidthButton: 0
             radius: 4 * pt
-            fontButton: quicksandFonts.regular16
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
 
@@ -162,7 +162,7 @@ Item {
             borderColorButton: enabled ? "#000000" : "#211A3A"
             borderWidthButton: enabled ? 0 : (1 * pt)
             radius: 4 * pt
-            fontButton: quicksandFonts.regular16
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
 
@@ -181,7 +181,7 @@ Item {
             borderColorButton: enabled ? "#000000" : "#211A3A"
             borderWidthButton: enabled ? 0 : (1 * pt)
             radius: 4 * pt
-            fontButton: quicksandFonts.regular16
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
 
@@ -201,7 +201,7 @@ Item {
             borderColorButton: enabled ? "#000000" : "#211A3A"
             borderWidthButton: enabled ? 0 : (1 * pt)
             radius: 4 * pt
-            fontButton: quicksandFonts.regular16
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
 
@@ -219,7 +219,7 @@ Item {
             borderColorButton: enabled ? "#000000" : "#211A3A"
             borderWidthButton: enabled ? 0 : (1 * pt)
             radius: 4 * pt
-            fontButton: quicksandFonts.regular16
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
 

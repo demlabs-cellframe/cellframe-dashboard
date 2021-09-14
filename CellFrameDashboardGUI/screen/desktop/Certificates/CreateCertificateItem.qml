@@ -52,7 +52,7 @@ Rectangle {
                 leftMargin: 18 * pt
                 verticalCenter: closeButton.verticalCenter
             }
-            font: quicksandFonts.bold14
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: "#3E3853"
             text: qsTr("Create certificate")
         }
@@ -70,7 +70,7 @@ Rectangle {
             x: 15 * pt
             height: parent.height
             verticalAlignment: Text.AlignVCenter
-            font: quicksandFonts.medium11
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             text: qsTr("Required")
             color: "white"
         }
@@ -121,7 +121,7 @@ Rectangle {
             hilightTopColor: normalColor
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [quicksandFonts.regular16]
+            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
             colorMainTextComboBox: [["#070023", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
@@ -136,7 +136,7 @@ Rectangle {
             leftPadding: 0
             smartPlaceHolderText: qsTr("Title")
             color: focus ? "#D51F5D" : "#070023"
-            font: quicksandFonts.regular16
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
         }
 
 
@@ -154,7 +154,7 @@ Rectangle {
             x: 15 * pt
             height: parent.height
             verticalAlignment: Text.AlignVCenter
-            font: quicksandFonts.medium11
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             text: qsTr("Optional")
             color: "white"
         }
@@ -186,7 +186,7 @@ Rectangle {
                     color: focus ? "#D51F5D" : "#070023"
                     inputMask: model.inputFieldMask
 
-                    font: quicksandFonts.regular16
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     onEditingFinished: {
                         text = text.trim()
                         optionalRepeater.model.setProperty(model.index, "data", text)
@@ -211,7 +211,7 @@ Rectangle {
                 borderColorButton: enabled ? "#000000" : "#211A3A"
                 borderWidthButton: enabled ? 0 : (1 * pt)
                 radius: 4 * pt
-                fontButton: quicksandFonts.regular16
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Qt.AlignHCenter
             }
 

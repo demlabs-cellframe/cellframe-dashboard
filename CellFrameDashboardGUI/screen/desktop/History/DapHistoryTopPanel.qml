@@ -54,7 +54,7 @@ DapTopPanel
                 //anchors.leftMargin: 10 * pt
                 //anchors.right: parent.right
                 placeholderText: qsTr("Search")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 style:
                     TextFieldStyle
                     {
@@ -86,7 +86,7 @@ DapTopPanel
         anchors.left: frameTextFieldSearch.right
         anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -142,15 +142,15 @@ DapTopPanel
             dapIndicatorLeftInterval: 16 * pt
             dapColorTopNormalDropShadow: "#00000000"
             dapColorDropShadow: "#40ABABAB"
-            dapTextFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+            dapTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             dapDefaultMainLineText: "all time"
             dapIsDefaultNeedToAppend: true
             dapRangeElementWidth: 74 * pt
             dapRangeSpacing: 6 * pt
             dapRangeDefaultText: "dd.mm.yyyy"
-            dapInactiveRangeTextFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+            dapInactiveRangeTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             dapUnselectedRangeColorTopText: "#ACAAB5"
-            dapActiveRangeTextFont: dapMainFonts.dapMainFontTheme.dapFontRobotoMedium14
+            dapActiveRangeTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
             dapSelectedRangeColorTopText: "#FFFFFF"
 
             dapCalendars:
@@ -168,7 +168,7 @@ DapTopPanel
                     dapDayHeight: 24 * pt
                     dapDayLeftInterval: 8 * pt
                     dapDayTopInterval: 2 * pt
-                    dapCalendarFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                    dapCalendarFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     dapCalendarBackgroundColor: "#FFFFFF"
                     dapNormalTextColor: "#070023"
                     dapSelectedTextColor: "#FFFFFF"
@@ -192,7 +192,7 @@ DapTopPanel
         anchors.left: frameComboBoxPeriod.right
         anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -242,7 +242,7 @@ DapTopPanel
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }
@@ -256,7 +256,7 @@ DapTopPanel
         anchors.left: frameComboBoxWallet.right
         anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -315,7 +315,7 @@ DapTopPanel
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }

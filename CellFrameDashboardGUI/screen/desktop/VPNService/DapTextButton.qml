@@ -12,7 +12,7 @@ Button {
     property int borderWidth: 0
     property color borderColor
 
-    font: quicksandFonts.medium14
+    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
 
     contentItem: Text {
         font: control.font

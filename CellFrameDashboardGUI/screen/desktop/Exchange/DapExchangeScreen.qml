@@ -573,7 +573,7 @@ DapExchangeScreenForm
                         Text
                         {
                             color: "#070023"
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                             text: titleOrder
                         }
                     }
@@ -590,7 +590,7 @@ DapExchangeScreenForm
                 {
                     text: qsTr("Balance: ") + balance + " " + currencyName
                     color: "#59556C"
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 }
 
                 Rectangle
@@ -642,7 +642,7 @@ DapExchangeScreenForm
                                     horizontalAligmentText:Qt.AlignHCenter
                                     borderColorButton: checked ? "#070023" : "#908D9D"
                                     borderWidthButton: 1 * pt
-                                    fontButton:dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                                     colorTextButton: checked ? "#070023" : "#908D9D"
 
                                     onClicked:
@@ -667,7 +667,7 @@ DapExchangeScreenForm
                                     horizontalAligmentText:Qt.AlignHCenter
                                     borderColorButton: checked ? "#070023" : "#908D9D"
                                     borderWidthButton: 1 * pt
-                                    fontButton:dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                                     colorTextButton: checked ? "#070023" : "#908D9D"
 
                                     onClicked:
@@ -696,7 +696,7 @@ DapExchangeScreenForm
                                     {
                                         text: titleToken
                                         color: "#59556C"
-                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                     }
                                 }
 
@@ -725,7 +725,7 @@ DapExchangeScreenForm
                                         anchors.leftMargin: 6 * pt
                                         anchors.rightMargin: 6 * pt
                                         color: readOnly ? "#ACAAB5" : "#59556C"
-                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                         verticalAlignment: Qt.AlignVCenter
                                         validator: RegExpValidator{ regExp: /\d+/ }
                                         clip: true
@@ -745,7 +745,7 @@ DapExchangeScreenForm
                                         verticalAlignment: Text.AlignVCenter
                                         horizontalAlignment: Text.AlignRight
                                         color: "#59556C"
-                                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                         text: index === 0 ? currencyName : tokenName
                                     }
                                 }
@@ -765,7 +765,7 @@ DapExchangeScreenForm
                             horizontalAligmentText:Qt.AlignHCenter
                             borderColorButton: "#000000"
                             borderWidthButton: 0
-                            fontButton.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
+                            fontButton.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
                             fontButton.pixelSize: 13 * pt
                             colorTextButton: "#FFFFFF"
 
@@ -804,7 +804,7 @@ DapExchangeScreenForm
                 id: timeExchangeHistory
                 text: time
                 color: "#4F5357"
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.topMargin: 8 * pt
@@ -822,7 +822,7 @@ DapExchangeScreenForm
                     else
                         return "#6F9F00"
                 }
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular10
                 anchors.left: timeExchangeHistory.right
                 anchors.leftMargin: 20 * pt
                 anchors.top: parent.top
@@ -835,7 +835,7 @@ DapExchangeScreenForm
                 id: priceExchangeHistory
                 text: price
                 color: "#4F5357"
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                 anchors.left: statusExchangeHistory.right
                 anchors.leftMargin: 20 * pt
                 anchors.top: parent.top
@@ -848,7 +848,7 @@ DapExchangeScreenForm
                 id: tokenExchangeHistory
                 text: token
                 color: "#4F5357"
-                font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular11
+                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                 anchors.left: priceExchangeHistory.right
                 anchors.leftMargin: 20 * pt
                 anchors.top: parent.top

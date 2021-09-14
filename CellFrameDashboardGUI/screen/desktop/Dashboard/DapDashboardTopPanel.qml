@@ -19,7 +19,7 @@ DapTopPanel
         anchors.left: parent.left
         anchors.leftMargin: 24 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -68,7 +68,7 @@ DapTopPanel
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
             colorMainTextComboBox: [["#FFFFFF", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
 
@@ -120,7 +120,7 @@ DapTopPanel
         colorButtonTextNormal: "#FFFFFF"
         colorButtonTextHover: "#FFFFFF"
         indentTextRight: 10 * pt
-        fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
         borderColorButton: "#000000"
         borderWidthButton: 0
         horizontalAligmentText:Qt.AlignRight
