@@ -71,6 +71,7 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     DapApplication.cpp \
     quickcontrols/qrcodequickitem.cpp \
+    systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
 RESOURCES += $$PWD/qml.qrc
@@ -85,6 +86,7 @@ HEADERS += \
     $$PWD/DapServiceController.h \
     DapApplication.h \
     quickcontrols/qrcodequickitem.h \
+    systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
 
 include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)

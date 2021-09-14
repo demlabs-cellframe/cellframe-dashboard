@@ -16,6 +16,8 @@
 #include "DapWallet.h"
 #include "DapApplication.h"
 
+#include "systemtray.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
@@ -50,6 +52,10 @@ int main(int argc, char *argv[])
     dapLogger.setLogLevel(L_DEBUG);
     #endif
 //#endif
+
+    SystemTray * systemTray = new SystemTray();
+    QQmlContext * context = app.qmlEngine()->rootContext();
+    context->setContextProperty("systemTray", systemTray);
 
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
