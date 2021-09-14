@@ -10,6 +10,7 @@ ApplicationWindow
     visible: true
     width: 1280
     height: 800
+
     //Main window
     DapMainApplicationWindow
     {
@@ -42,11 +43,6 @@ ApplicationWindow
         visible: false
     }
 
-    onClosing:
-    {
-        window.hide()
-    }
-
     Connections
     {
         target: dapServiceController
@@ -65,4 +61,36 @@ ApplicationWindow
             }
         }
     }
+
+    Connections {
+        target: systemTray
+        onSignalShow: {
+            window.show()
+            window.raise()
+            window.requestActivate()
+        }
+
+        onSignalQuit: {
+            Qt.quit()
+        }
+
+        onSignalIconActivated: {
+             if(window.visibility === Window.Hidden)
+             {
+                 window.show()
+                 window.raise()
+                 window.requestActivate()
+             }
+             else
+             {
+                 window.hide()
+             }
+        }
+    }
+
+    onClosing: {
+        close.accepted = false
+        window.hide()
+    }
+
 }
