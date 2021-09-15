@@ -30,8 +30,8 @@ win32 {
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
-    DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
-    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
+    DEFINES += CLI_PATH=\\\"cellframe-node-cli\\\"
+    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool\\\"
     DEFINES += LOG_FILE=\\\"/opt/cellframe-node/var/log/cellframe-node.log\\\"
     DEFINES += CMD_HISTORY=\\\"/opt/cellframe-dashboard/data/cmd_history.txt\\\"
 }
