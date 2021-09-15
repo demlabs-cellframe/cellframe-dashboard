@@ -21,6 +21,7 @@ win32 {
     DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
     DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
+    RC_ICONS = $$PWD/resources/icons/icon_windows.ico
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -41,7 +42,7 @@ DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
     ICON = resources/icons/dashboard.icns
 }
-else {
+else: !win32 {
     ICON = qrc:/resources/icons/icon.ico
 }
 
@@ -89,11 +90,11 @@ HEADERS += \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
 
-include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
