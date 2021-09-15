@@ -71,6 +71,7 @@ ApplicationWindow
         }
 
         onSignalQuit: {
+            systemTray.hideIconTray()
             Qt.quit()
         }
 
