@@ -10,6 +10,7 @@ DapAbstractRightPanel
     property alias dapTextInputNameWallet: textInputNameWallet
     property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
     property alias dapButtonNext: buttonNext
+    property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
 
     dapNextRightPanel: doneWallet
@@ -118,6 +119,7 @@ DapAbstractRightPanel
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\s\-]+/ }
                     style:
                         TextFieldStyle
                         {
@@ -303,7 +305,7 @@ DapAbstractRightPanel
                 implicitWidth: 130 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameChooseRecoveryMethod.bottom
-                anchors.topMargin: 64 * pt
+                anchors.topMargin: 40 * pt
                 textButton: qsTr("Next")
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#3E3853"
@@ -311,6 +313,25 @@ DapAbstractRightPanel
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+            }
+
+            Text
+            {
+                id: textWalletNameWarning
+                anchors.top: buttonNext.bottom
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 16 * pt
+                anchors.right: parent.right
+                anchors.rightMargin: 16 * pt
+                anchors.topMargin: 20 * pt
+                width: parent.width - 32 * pt
+                color: "#ff2020"
+                text: qsTr("Enter the wallet name using Latin letters, spaces, dashes and / or numbers.")
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.WordWrap
+                visible: false
             }
 
             Rectangle
