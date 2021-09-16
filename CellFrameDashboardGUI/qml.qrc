@@ -217,5 +217,6 @@
         <file>resources/icons/ic_info_order.svg</file>
         <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
         <file>resources/icons/under construction.svg</file>
+        <file>resources/icons/illustration_new-wallet.png</file>
     </qresource>
 </RCC>
