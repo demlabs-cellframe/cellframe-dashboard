@@ -119,7 +119,7 @@ DapAbstractRightPanel
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
-                    validator: RegExpValidator { regExp: /[0-9A-Za-z\s\-]+/ }
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
                     style:
                         TextFieldStyle
                         {
@@ -327,7 +327,7 @@ DapAbstractRightPanel
                 anchors.topMargin: 20 * pt
                 width: parent.width - 32 * pt
                 color: "#ff2020"
-                text: qsTr("Enter the wallet name using Latin letters, spaces, dashes and / or numbers.")
+                text: qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap
