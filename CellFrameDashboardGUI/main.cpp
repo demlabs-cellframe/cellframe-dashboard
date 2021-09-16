@@ -24,11 +24,69 @@
 
 #include <sys/stat.h>
 
+//#ifdef Q_OS_WIN32
+//#include <windows.h>
+//#endif
+
+bool SingleApplicationTest(const QString &appName)
+{
+    static QSystemSemaphore semaphore("<"+appName+" uniq semaphore id>", 1);
+    semaphore.acquire();
+
+#ifndef Q_OS_WIN32
+    QSharedMemory nix_fix_shared_memory("<"+appName+" uniq memory id>");
+    if(nix_fix_shared_memory.attach())
+    {
+        nix_fix_shared_memory.detach();
+    }
+#endif
+
+    static QSharedMemory sharedMemory("<"+appName+" uniq memory id>");
+    bool is_running;
+    if (sharedMemory.attach())
+    {
+        is_running = true;
+    }
+    else
+    {
+        sharedMemory.create(1);
+        is_running = false;
+    }
+
+    semaphore.release();
+
+    if(is_running)
+    {
+        QMessageBox msgBox;
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
+        msgBox.exec();
+
+// Restore the application for the Windows system:
+//        QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+//        QString s = codec->toUnicode(appName.toUtf8());
+//        LPCWSTR lps = (LPCWSTR)s.utf16();
+
+//        HWND hWnd = FindWindow(nullptr, lps);
+//        if (hWnd)
+//        {
+//            ShowWindow(hWnd, SW_RESTORE);
+//            SetForegroundWindow(hWnd);
+//        }
+        return false;
+    }
+
+    return true;
+}
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     DapApplication app(argc, argv);
+
+    if (!SingleApplicationTest(app.applicationName()))
+        return 1;
 
     DapLogger dapLogger;
 
