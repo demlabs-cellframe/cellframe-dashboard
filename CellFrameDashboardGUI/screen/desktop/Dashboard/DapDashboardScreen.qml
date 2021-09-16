@@ -41,7 +41,7 @@ DapAbstractScreen
             Image
             {
                 id: iconCreateWallet
-                source: "qrc:/resources/icons/illustration_new-wallet.svg"
+                source: "qrc:/resources/icons/illustration_new-wallet.png"
                 width: 500 * pt
                 height: 300 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
