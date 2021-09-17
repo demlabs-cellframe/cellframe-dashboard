@@ -36,17 +36,18 @@ int main(int argc, char *argv[])
 
     QCoreApplication a(argc, argv);
     a.setOrganizationName("DEMLABS");
-    a.setOrganizationDomain("demlabs.net");
+    a.setOrganizationDomain("cellframe.net");
     a.setApplicationName("CellFrameDashboardService");
 
     DapLogger dapLogger;
 
     dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND));
-
     QDir dir(dapLogger.getPathToLog());
     if (!dir.exists()) {
         qDebug() << "No folder:" << dapLogger.getPathToLog();
         dir.mkpath(".");
+        QString str = "chmod 777 " + dapLogger.getPathToLog();
+        system(str.toUtf8().data());
     }
 
     /// TODO: The code is commented out at the time of developing the logging strategy in the project

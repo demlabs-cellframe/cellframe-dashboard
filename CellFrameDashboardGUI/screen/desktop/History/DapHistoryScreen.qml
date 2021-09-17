@@ -183,24 +183,24 @@ DapHistoryScreenForm
 
         visible: false
     }
-    Rectangle{
-        color: "white"
-        anchors.fill: parent
-        Rectangle{
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 520
-            height: 400
+//    Rectangle{
+//        color: "white"
+//        anchors.fill: parent
+//        Rectangle{
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            width: 520
+//            height: 400
 
 
-            Image {
-                id: under_cunstruct_img
-                anchors.fill: parent
-                source: "qrc:/resources/icons/under construction.svg"
-                anchors.centerIn: parent.Center
-                sourceSize.width: parent.width
-                sourceSize.height: parent.height
-            }
-        }
-    }
+//            Image {
+//                id: under_cunstruct_img
+//                anchors.fill: parent
+//                source: "qrc:/resources/icons/under construction.svg"
+//                anchors.centerIn: parent.Center
+//                sourceSize.width: parent.width
+//                sourceSize.height: parent.height
+//            }
+//        }
+//    }
 }
