@@ -7,14 +7,14 @@ LIBS += -ldl
 
 !defined(BRAND,var){
 #  Default brand
-    BRAND = CellFrameDashboard
+    BRAND = CellFrame-Dashboard
 }
 
 TARGET = $$BRAND
 
 VER_MAJ = 2
 VER_MIN = 0
-VER_PAT = 9
+VER_PAT = 10
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT

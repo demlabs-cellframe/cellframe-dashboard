@@ -66,7 +66,7 @@ Item {
                 top: parent.top;
                 right: parent.right;
                 bottom: networksPanel.top
-                bottomMargin: 4 * pt
+//                bottomMargin: 4 * pt
             }
 
             // Virtual logo column frame and menu bar
@@ -214,7 +214,7 @@ Item {
 //            })
     
             append ({
-                name: qsTr("History"),
+                name: qsTr("TX Explorer"),
                 page: historyScreen,
                 normalIcon: "qrc:/resources/icons/icon_history.svg",
                 hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
