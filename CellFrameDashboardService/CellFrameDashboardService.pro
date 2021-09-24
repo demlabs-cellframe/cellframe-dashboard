@@ -1,6 +1,6 @@
 QT += core network
 
-CONFIG += c++11 console
+CONFIG += c++11 console #nsis_build
 CONFIG -= app_bundle
 
 
@@ -57,9 +57,9 @@ HEADERS += \
     $$PWD/DapServiceController.h \
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
-include (../cellframe-sdk/dap-sdk/core/libdap.pri)
-include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)
-include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
@@ -81,3 +81,7 @@ RESOURCES += \
 
 DISTFILES += \
     classdiagram.qmodel
+
+win32: nsis_build {
+    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
+}

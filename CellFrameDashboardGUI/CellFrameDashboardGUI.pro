@@ -1,7 +1,7 @@
 QT += qml quick widgets svg
 
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++11 #nsis_build
 
 LIBS += -ldl
 
@@ -21,7 +21,7 @@ win32 {
     DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
     DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
-    RC_ICONS = $$PWD/resources/icons/icon_windows.ico
+    RC_ICONS = $$PWD/resources/icons/icon_win32.ico
 }
 else {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -92,9 +92,9 @@ HEADERS += \
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
-include (../cellframe-sdk/dap-sdk/core/libdap.pri)
-include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
-include (../cellframe-sdk/dap-sdk/net/libdap-net.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
@@ -107,4 +107,28 @@ unix: !mac : !android {
 
 defined(BUILD_FLAG,var){
     LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+}
+
+win32: nsis_build {
+    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
+    build_node.commands = $$PWD/../cellframe-node/prod_build/windows/scripts/compile.bat \
+        $$DESTDIR $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/configs) $$shell_path($$DESTDIR/dist/etc) &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca) $$shell_path($$DESTDIR/dist/share/ca) &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc) $$shell_path($$DESTDIR/dist/etc) &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/resources/icons/icon_win32.ico) $$DESTDIR &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/build.nsi) $$DESTDIR &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/modifyConfig.nsh) $$DESTDIR
+    nsis.commands += (echo !define APP_NAME \"$$BRAND\" && echo !define APP_VERSION \"$${VERSION}.0\" && echo !define APP_VER \"$${VER_MAJ}.$${VER_MIN}-$${VER_PAT}\") \
+        > $$shell_path($$DESTDIR/Nsis.defines.nsh)
+
+    QMAKE_EXTRA_TARGETS += build_node copyconfig nsis
+    POST_TARGETDEPS += build_node copyconfig nsis
+    QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
 }
