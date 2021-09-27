@@ -110,7 +110,7 @@ defined(BUILD_FLAG,var){
 }
 
 win32: nsis_build {
-    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
+    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32)
     build_node.commands = $$PWD/../cellframe-node/prod_build/windows/scripts/compile.bat \
         $$DESTDIR $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
     copyconfig.commands += $(COPY_DIR) \
