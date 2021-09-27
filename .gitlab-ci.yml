@@ -24,6 +24,8 @@ cellframe-dashboard_windows_update:
 
 cellframe-dashboard_linux:
     stage: build
+    rules:
+    - if: $UPDATE != "true"
     tags:
      - cellframe-dashboard
     script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard linux
@@ -31,6 +33,8 @@ cellframe-dashboard_linux:
 
 cellframe-dashboard_windows:
    stage: build
+   rules:
+    - if: $UPDATE != "true"
    tags:
     - cellframe-dashboard
    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
