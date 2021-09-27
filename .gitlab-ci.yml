@@ -13,10 +13,8 @@ variables:
 
 cellframe-dashboard_windows_update:
     stage: prepare
-    needs:
-     - project: cellframe/cellframe-node
-       job: trigger-dashboard
-       ref: support-4958
+    rules:
+    - if: $UPDATE == "true"
   #    ref: master
     tags:
      - cellframe-dashboard
