@@ -7,7 +7,7 @@ CellFrameDashboardGUI.depends = CellFrameDashboardService
 
 !defined(BRAND, var)
 {
-    BRAND = CellFrameDashboard
+    BRAND = CellFrame-Dashboard
 }
 
 unix: !mac : !android {
