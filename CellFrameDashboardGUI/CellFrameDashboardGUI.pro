@@ -118,7 +118,7 @@ win32: nsis_build {
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca) $$shell_path($$DESTDIR/dist/share/ca) &&
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc) $$shell_path($$DESTDIR/dist/etc) &&
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network) $$shell_path($$DESTDIR/dist/etc/network) &&
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/resources/icons/icon_win32.ico) $$DESTDIR &&
     copyconfig.commands += $(COPY_DIR) \
