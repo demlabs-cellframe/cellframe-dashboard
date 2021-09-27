@@ -12,7 +12,7 @@ variables:
     GIT_SUBMODULE_STRATEGY: normal
 
 cellframe-dashboard_windows_update:
-    stage: prepare
+    stage: update
     needs:
      - project: cellframe/cellframe-node
        job: build
