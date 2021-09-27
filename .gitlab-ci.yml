@@ -12,10 +12,10 @@ variables:
     GIT_SUBMODULE_STRATEGY: normal
 
 cellframe-dashboard_windows_update:
-    stage: update
+    stage: prepare
     needs:
      - project: cellframe/cellframe-node
-       job: build
+       job: trigger-dashboard
        ref: support-4958
   #    ref: master
     tags:
