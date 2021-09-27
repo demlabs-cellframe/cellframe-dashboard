@@ -11,21 +11,21 @@ stages:
 variables:
     GIT_SUBMODULE_STRATEGY: normal
 
-cellframe-dashboard_windows_update:
-    stage: prepare
+cellframe-dashboard_update:
+    stage: update
     rules:
-    - if: $UPDATE == "true"
+    - if: $UPDATE != "true"
   #    ref: master
     tags:
      - cellframe-dashboard
   # only:
   #   - master
-    script: ~/scripts/update_version.sh
+    script: ~/scripts/update_CellFrameDashboard.sh
 
 cellframe-dashboard_linux:
     stage: build
     rules:
-    - if: $UPDATE != "true"
+    - if: $UPDATE == "true"
     tags:
      - cellframe-dashboard
     script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard linux
@@ -34,7 +34,7 @@ cellframe-dashboard_linux:
 cellframe-dashboard_windows:
    stage: build
    rules:
-    - if: $UPDATE != "true"
+    - if: $UPDATE == "true"
    tags:
     - cellframe-dashboard
    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
