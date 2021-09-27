@@ -5,8 +5,7 @@ CellFrame Dashboard
 
 * The project uses Qt environment to build. To build the project, it's enough to exec the following in the project directory:
   ```
-  git submodule init
-  git submodule update --remote
+  git submodule update --init --recursive --remote
   qmake && make && make install 
   ```
 * Or if you haven't cloned the project yet:
