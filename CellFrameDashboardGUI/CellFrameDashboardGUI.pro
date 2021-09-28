@@ -114,11 +114,11 @@ win32: nsis_build {
     build_node.commands = $$PWD/../cellframe-node/prod_build/windows/scripts/compile.bat \
         $$DESTDIR $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/configs) $$shell_path($$DESTDIR/dist/etc) &&
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/configs/.) $$shell_path($$DESTDIR/dist/etc) &&
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca) $$shell_path($$DESTDIR/dist/share/ca) &&
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca/.) $$shell_path($$DESTDIR/dist/share/ca) &&
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network) $$shell_path($$DESTDIR/dist/etc/network) &&
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/resources/icons/icon_win32.ico) $$DESTDIR &&
     copyconfig.commands += $(COPY_DIR) \
