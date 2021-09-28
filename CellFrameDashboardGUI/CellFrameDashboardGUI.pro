@@ -14,7 +14,7 @@ TARGET = $$BRAND
 
 VER_MAJ = 2
 VER_MIN = 0
-VER_PAT = 10
+VER_PAT = 11
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
