@@ -110,8 +110,10 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
 {
 
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
-//    qDebug() << "DapServiceController::requestToService, asServiceName:" << asServiceName << arg1 << arg2 << arg3 << arg4 << arg5
-//             << "transceiver:" << transceiver;
+    qDebug() << "DapServiceController::requestToService, asServiceName:"
+             << asServiceName << arg1.toString() << arg2.toString()
+             << arg3.toString() << arg4.toString() << arg5.toString()
+             << "transceiver:" << transceiver;
     Q_ASSERT(transceiver);
     disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));

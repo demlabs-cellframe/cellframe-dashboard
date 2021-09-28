@@ -79,7 +79,7 @@ Item {
                 Item
                 {
                     id: logotype
-                    data: dapLogotype
+//                    data: dapLogotype
                     width: columnMenuTab.width
                     height: 60 * pt
                     Rectangle
@@ -138,7 +138,7 @@ Item {
             Item
             {
                 id: screens
-                data: dabScreensWidget
+//                data: dabScreensWidget
                 height: rowMainWindow.height
                 width: rowMainWindow.width - columnMenuTab.width
                 Loader
@@ -325,13 +325,13 @@ Item {
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
                     console.log("Network name: "+dapWallets[i].Networks[n])
-                    print(dapModelWallets.get(i).networks)
+//                    print(dapModelWallets.get(i).networks)
                     print("name", dapWallets[i].Networks[n])
                     print("address", dapWallets[i].findAddress(dapWallets[i].Networks[n]))
                     dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
                           "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
                           "tokens": []})
-                    console.log(Object.keys(dapWallets[i].Tokens).length)
+                    console.log("Tokens.length:", Object.keys(dapWallets[i].Tokens).length)
                     for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
                         console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])

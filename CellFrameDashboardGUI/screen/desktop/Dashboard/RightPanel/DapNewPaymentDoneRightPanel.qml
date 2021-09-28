@@ -10,12 +10,12 @@ DapNewPaymentDoneRightPanelForm
         dapServiceController.requestToService("DapMempoolProcessCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain)
 
         nextActivated("transaction done")
-        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+//        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
-        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+//        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 }
