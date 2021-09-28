@@ -342,7 +342,7 @@ DapAbstractScreen
                                 anchors.left: parent.left
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                 color: "#070023"
-                                text: balance + " "
+                                text: balance.toFixed(9) + " "
                                 horizontalAlignment: Text.AlignLeft
 
                             }
