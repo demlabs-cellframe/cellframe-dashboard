@@ -37,11 +37,11 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     a.setOrganizationName("DEMLABS");
     a.setOrganizationDomain("cellframe.net");
-    a.setApplicationName("CellFrameDashboardService");
+    a.setApplicationName("CellFrame-DashboardService");
 
     DapLogger dapLogger;
 
-    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND));
+    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
     QDir dir(dapLogger.getPathToLog());
     if (!dir.exists()) {
         qDebug() << "No folder:" << dapLogger.getPathToLog();
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Service.log").arg(DAP_BRAND));
+        dapLogger.setLogFile(QString("/opt/%1/log/%2Service.log").arg(DAP_BRAND_LO).arg(DAP_BRAND));
     #elif defined Q_OS_WIN
         dapLogger.setLogFile(QString("%1/%2/log/%2Service.log").arg(regGetUsrPath()).arg(DAP_BRAND));
         dapLogger.setLogLevel(L_INFO);

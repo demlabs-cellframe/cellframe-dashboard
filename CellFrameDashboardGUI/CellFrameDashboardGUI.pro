@@ -4,30 +4,12 @@ TEMPLATE = app
 CONFIG += c++11 #nsis_build
 
 LIBS += -ldl
-
-!defined(BRAND,var){
-#  Default brand
-    BRAND = CellFrame-Dashboard
-}
+include(../config.pri)
 
 TARGET = $$BRAND
 
-VER_MAJ = 2
-VER_MIN = 0
-VER_PAT = 11
-
 win32 {
-    VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
-    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
-    DEFINES += HAVE_STRNDUP
     RC_ICONS = $$PWD/resources/icons/icon_win32.ico
-}
-else {
-    VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
-    DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
-    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
-    DEFINES += CONFIG_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -35,9 +17,7 @@ else {
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
-DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
-DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
+DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
     ICON = resources/icons/dashboard.icns
@@ -80,7 +60,7 @@ RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/cellframe-dashboard/bin
+else: unix:!android: target.path = /opt/$${DAP_BRAND_LO}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
@@ -100,7 +80,7 @@ include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
-    gui_target.path = /opt/cellframe-dashboard/bin/
+    gui_target.path = /opt/$${DAP_BRAND_LO}/bin/
     INSTALLS += gui_target
     BUILD_FLAG = static
 }

@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 
     DapLogger dapLogger;
 
-    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND));
+    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
 
     QDir dir(dapLogger.getPathToLog());
     if (!dir.exists()) {
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
     #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/cellframe-dashboard/log/%1Gui.log").arg(DAP_BRAND));
+        dapLogger.setLogFile(QString("/opt/%1/log/%2Gui.log").arg(DAP_BRAND_LO).arg(DAP_BRAND));
     #elif defined Q_OS_MACOS
 	mkdir("/tmp/cellframe-dashboard_log",0777);
 	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));

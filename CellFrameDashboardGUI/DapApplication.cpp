@@ -13,9 +13,10 @@ DapApplication::DapApplication(int &argc, char **argv)
 {
     this->setOrganizationName("DEMLABS");
     this->setOrganizationDomain("demlabs.net");
-    this->setApplicationName("CellFrame Dashboard");
+    this->setApplicationName("CellFrame-Dashboard");
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
+    qDebug()<<QString(DAP_SERVICE_NAME);
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
