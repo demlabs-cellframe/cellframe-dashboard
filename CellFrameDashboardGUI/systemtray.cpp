@@ -19,7 +19,7 @@ SystemTray::SystemTray(QObject *parent) : QObject(parent)
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->setIcon(QIcon(":/resources/icons/icon.ico"));
     trayIcon->show();
-    trayIcon->setToolTip(tr("CellFrame Dashboard"));
+    trayIcon->setToolTip(tr(DAP_BRAND));
 
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));

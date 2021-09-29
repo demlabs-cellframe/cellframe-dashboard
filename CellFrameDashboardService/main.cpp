@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
     }
 
     QCoreApplication a(argc, argv);
-    a.setOrganizationName("DEMLABS");
-    a.setOrganizationDomain("cellframe.net");
-    a.setApplicationName("CellFrame-DashboardService");
+    a.setOrganizationName("Cellframe Network");
+    a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
+    a.setApplicationName(DAP_BRAND "Service");
 
     DapLogger dapLogger;
 
