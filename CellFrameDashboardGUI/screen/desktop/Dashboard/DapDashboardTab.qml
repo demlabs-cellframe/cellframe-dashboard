@@ -71,19 +71,25 @@ DapAbstractTab
             dapButtonNewPayment.onClicked:
             {
                 console.log("New payment")
+                console.log("wallet from: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].walletName)
+                console.log("wallet from: " + dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).walletName)
                 console.log("wallet from: " + dashboardTopPanel.dapComboboxWallet.mainLineText)
-                console.log("Current network index: "+ dapServiceController.IndexCurrentNetwork);
-                console.log("address wallet from: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
+                console.log("Current network index: " + dapServiceController.IndexCurrentNetwork)
+                console.log("wallet network: " + dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex)
+                            .networks.get(dapServiceController.IndexCurrentNetwork).name)
+                console.log("address wallet from: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
-                                                        properties: {
-                                                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
-                                                            dapCurrentWallet:  dashboardTopPanel.dapComboboxWallet.mainLineText,
-                                                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex)
-                                                               .networks.get(dapServiceController.IndexCurrentNetwork).tokens,
-                                                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
-                                                               .findAddress(dapServiceController.CurrentNetwork)
-                                                        }
-                                                       });
+                        properties: {
+//                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
+                            dapCurrentWallet:  dashboardTopPanel.dapComboboxWallet.mainLineText,
+                            dapCurrentNetwork: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex)
+                               .networks.get(dapServiceController.IndexCurrentNetwork).name,
+                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex)
+                               .networks.get(dapServiceController.IndexCurrentNetwork).tokens,
+                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
+                               .findAddress(dapServiceController.CurrentNetwork)
+                        }
+                       });
                 //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
             }
         }
