@@ -25,7 +25,7 @@ else {
     DEFINES += CLI_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-cli\\\"
     DEFINES += TOOLS_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-tool\\\"
     #DEFINES += CMD_HISTORY=\\\"/opt/$${BRAND_BASE_LO}/var/log/cmd_history.txt\\\"
-    DEFINES += CMD_HISTORY=\\\"/opt/$${BRAND_BASE_LO}/data/cmd_history.txt\\\"
+    DEFINES += CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\"
     DEFINES += DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\"
     DEFINES += LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\"
 }
