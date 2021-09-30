@@ -19,6 +19,8 @@ DapAbstractRightPanel
 
     property string dapCurrentWallet
 
+    property string dapCurrentNetwork
+
     property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
