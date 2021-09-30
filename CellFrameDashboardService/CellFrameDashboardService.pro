@@ -46,7 +46,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service
-    service_target.path = /opt/$${DAP_BRAND_LO}/bin/
+    service_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += service_target
     BUILD_FLAG = static
 }
