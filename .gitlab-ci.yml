@@ -8,7 +8,7 @@ stages:
     - deploy
 
 variables:
-    GIT_SUBMODULE_STRATEGY: normal
+    GIT_SUBMODULE_STRATEGY: recursive
 
 # Prepare
 #
