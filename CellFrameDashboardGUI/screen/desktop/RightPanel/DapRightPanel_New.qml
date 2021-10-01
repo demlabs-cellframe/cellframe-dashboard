@@ -6,6 +6,7 @@ Rectangle {
     id: control
 
     property alias initialPage: stackView.initialItem
+    property alias stackView_:stackView
 
     function push(item)
     {

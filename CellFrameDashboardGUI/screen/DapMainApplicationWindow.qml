@@ -22,6 +22,9 @@ Item {
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
     readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+//    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
+    ///@detalis Path to the VPN client tab.
+    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
     ///@detalis Path to the settings tab.
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
@@ -206,12 +209,12 @@ Item {
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
-//            append ({
-//                name: qsTr("Exchange"),
-//                page: historyScreen, //TODO: here should be: exchangeScreen,
-//                normalIcon: "qrrc:/resources/icons/icon_exchange.png",
-//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
-//            })
+            append ({
+                name: qsTr("Exchange"),
+                page: exchangeScreen, //TODO: here should be: exchangeScreen,
+                normalIcon: "qrc:/resources/icons/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+            })
     
             append ({
                 name: qsTr("TX Explorer"),
@@ -238,7 +241,7 @@ Item {
 
             append ({
                 name: qsTr("VPN client"),
-                page: settingsScreen,
+                page: vpnClientScreen,
                 normalIcon: "qrc:/resources/icons/ic_vpn-client.svg",
                 hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
             })
