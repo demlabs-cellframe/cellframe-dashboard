@@ -8,7 +8,8 @@ DapAbstractTab {
 
     ///@detalis Path to the right panel of input name wallet.
     readonly property string createOrder: "qrc:/screen/" + device + "/VPNService_New/DapCreateOrder.qml"
-
+    readonly property string lastActionsOrder: "qrc:/screen/" + device + "/VPNService_New/DapLastActionsRightPanel.qml"
+    readonly property string doneOrder: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletsssRightPanel.qml"
     id: vpnServiceTab
 
     property alias dapVPNServiceRightPanel: stackViewRightPanel
@@ -46,6 +47,7 @@ DapAbstractTab {
             dapAddOrderButton.onClicked: {
                 createOrderFunc()
                 vpnServiceScreen.dapOrderCreateFrame.visible = false
+//                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
             }
         }
 
@@ -56,6 +58,7 @@ DapAbstractTab {
             dapAddOrderButton.onClicked: {
                 createOrderFunc()
                 vpnServiceScreen.dapOrderCreateFrame.visible = false
+//                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
             }
 
         }
@@ -64,7 +67,7 @@ DapAbstractTab {
         StackView
         {
             id: stackViewRightPanel
-            initialItem: Qt.resolvedUrl(lastActionsWallet);
+            initialItem: Qt.resolvedUrl(lastActionsOrder);
             anchors.fill: parent
             width: 400
             delegate:
@@ -74,6 +77,7 @@ DapAbstractTab {
                 }
         }
     state: "ORDERDEFAULT"
+//    state: "ORDERSHOW"
     states:
         [
             State
@@ -84,11 +88,11 @@ DapAbstractTab {
                     target: vpnServiceScreen.dapOrderCreateFrame;
                     visible: true
                 }
-//                PropertyChanges
-//                {
-//                    target: dashboardScreen.dapTitleBlock;
-//                    visible: false
-//                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapFrameTitleCreateOrder;
+                    visible: false
+                }
                 PropertyChanges
                 {
                     target: vpnServiceScreen.dapGridViewOrder;
@@ -108,11 +112,11 @@ DapAbstractTab {
                     target: vpnServiceScreen.dapOrderCreateFrame;
                     visible: false
                 }
-//                PropertyChanges
-//                {
-//                    target: dashboardScreen.dapTitleBlock;
-//                    visible: true
-//                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapFrameTitleCreateOrder;
+                    visible: false
+                }
                 PropertyChanges
                 {
                     target: vpnServiceScreen.dapGridViewOrder;
@@ -130,13 +134,13 @@ DapAbstractTab {
                 PropertyChanges
                 {
                     target: vpnServiceScreen.dapOrderCreateFrame;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapFrameTitleCreateOrder;
                     visible: true
                 }
-//                PropertyChanges
-//                {
-//                    target: dashboardScreen.dapTitleBlock;
-//                    visible: false
-//                }
                 PropertyChanges
                 {
                     target: vpnServiceScreen.dapGridViewOrder;
@@ -155,6 +159,9 @@ DapAbstractTab {
         target: currentRightPanel
         onNextActivated:
         {
+            if(parametrsRightPanel !== createOrder)
+                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
+//            console.log(parametrsRightPanel)
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
 //            if(parametrsRightPanel === lastActionsWallet)
 //            {
@@ -167,6 +174,9 @@ DapAbstractTab {
         }
         onPreviousActivated:
         {
+//            console.log(parametrsRightPanel)
+            if(parametrsRightPanel !== createOrder)
+                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
 //            if(parametrsRightPanel === lastActionsWallet)
 //            {

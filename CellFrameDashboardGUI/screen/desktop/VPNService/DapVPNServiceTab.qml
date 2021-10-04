@@ -181,7 +181,5 @@ Item {
                 visible: true
             }
         }
-
     ]
-
 }

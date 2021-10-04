@@ -14,7 +14,8 @@ DapAbstractScreen {
 
     property alias dapAddOrderButton: addOrderButton
     property alias dapOrderCreateFrame: orderCreateFrame
-    property alias dapGridViewOrder: gridViewOrder
+    property alias dapGridViewOrder: vpnOrdersScreen
+    property alias dapFrameTitleCreateOrder: frameTitleCreateOrder
 
     Rectangle
     {
@@ -90,128 +91,153 @@ DapAbstractScreen {
             }
         }
     }
-    GridView{
-        id: gridViewOrder
+    Rectangle
+    {
+        id: frameTitleCreateOrder
+        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+//        anchors.verticalCenter: parent.verticalCenter
+        Text
+        {
+//            anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: "Quiksand"
+            font.pixelSize: 26 * pt
+            color: "#070023"
+            text: qsTr("Creating VPN order in process...")
+        }
+    }
+    Rectangle{
+        id:vpnOrdersScreen
 
-        property int delegateMargin
-        property int delegateWidth: 326 * pt
-        property int delegateHeight: 190 * pt
-        property int delegateContentMargin: 16 * pt
+        anchors.fill: parent
+//        anchors.margins: orderCreateFrame.halfMargin
+        visible: false
 
-        model: vpnTest.ordersModel
+        GridView{
+            id: gridViewOrder
 
-        cellWidth: delegateMargin * 2 + delegateWidth
-        cellHeight: delegateMargin * 2 + delegateHeight
+            property int delegateMargin
+            property int delegateWidth: 326 * pt
+            property int delegateHeight: 190 * pt
+            property int delegateContentMargin: 16 * pt
 
-        clip: true
-        currentIndex: -1
-        focus: true
+            model: vpnTest.ordersModel
 
-        delegate: Item {
-            id: cell
+            cellWidth: delegateMargin * 2 + delegateWidth
+            cellHeight: delegateMargin * 2 + delegateHeight
 
-            width: gridViewOrder.cellWidth
-            height: gridViewOrder.cellHeight
+            clip: true
+            currentIndex: -1
+            focus: true
 
-            GridView.onRemove: {
-                if (GridView.isCurrentItem) {
-                    gridViewOrder.currentIndex = -1;
+            delegate: Item {
+                id: cell
+
+                width: gridViewOrder.cellWidth
+                height: gridViewOrder.cellHeight
+
+                GridView.onRemove: {
+                    if (GridView.isCurrentItem) {
+                        gridViewOrder.currentIndex = -1;
+                    }
                 }
-            }
-
-            Rectangle {
-                id: contentFrame
-
-                x: gridViewOrder.delegateMargin
-                y: gridViewOrder.delegateMargin
-                width: parent.width - x * 2
-                height: parent.height - y * 2
-
-                color: "#00000000"
-                border.width: pt
-                border.color: "#E2E1E6"
-                radius: 8 * pt
-                focus: true
 
                 Rectangle {
-                    id: headerFrame
+                    id: contentFrame
 
-                    width: parent.width
-                    height: 30 * pt
-                    color: cell.GridView.isCurrentItem ? "#D51F5D" : "#3E3853"
+                    x: gridViewOrder.delegateMargin
+                    y: gridViewOrder.delegateMargin
+                    width: parent.width - x * 2
+                    height: parent.height - y * 2
+
+                    color: "#00000000"
+                    border.width: pt
+                    border.color: "#E2E1E6"
                     radius: 8 * pt
+                    focus: true
 
                     Rectangle {
-                        y: parent.height - height
+                        id: headerFrame
+
                         width: parent.width
-                        height: 8 * pt
-                        color: parent.color
-                    }
+                        height: 30 * pt
+                        color: cell.GridView.isCurrentItem ? "#D51F5D" : "#3E3853"
+                        radius: 8 * pt
 
-                    Text {
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent.left
-                        anchors.leftMargin: gridViewOrder.delegateContentMargin
-                        anchors.right: orderIcon.right
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                        elide: Text.ElideRight
-                        color: "#FFFFFF"
-                        text: model.name
-                    }
-
-                    Image {
-                        id: orderIcon
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: (gridViewOrder.delegateContentMargin / 2) * pt  // / 2 - ic_info_order.svg have space right
-                        sourceSize: Qt.size(parent.height, parent.height)
-                        source: "qrc:/resources/icons/ic_info_order.svg"
-                    }
-                }
-
-                Item {
-                    id: infoFrame
-
-                    anchors { left: parent.left; top: headerFrame.bottom; right: parent.right; bottom: parent.bottom }
-                    anchors.margins: gridViewOrder.delegateContentMargin
-
-                    Column {
-                        spacing: 12 * pt
-
-                        DapVPNOrderInfoLine {
-                            width: infoFrame.width
-                            name: qsTr("Date created")
-                            value: model.dateCreated
+                        Rectangle {
+                            y: parent.height - height
+                            width: parent.width
+                            height: 8 * pt
+                            color: parent.color
                         }
-                        DapVPNOrderInfoLine {
-                            width: infoFrame.width
-                            name: qsTr("Units")
-                            value: model.units
+
+                        Text {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: parent.left
+                            anchors.leftMargin: gridViewOrder.delegateContentMargin
+                            anchors.right: orderIcon.right
+                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                            elide: Text.ElideRight
+                            color: "#FFFFFF"
+                            text: model.name
                         }
-                        DapVPNOrderInfoLine {
-                            width: infoFrame.width
-                            name: qsTr("Units type")
-                            value: model.unitsType
-                        }
-                        DapVPNOrderInfoLine {
-                            width: infoFrame.width
-                            name: qsTr("Value")
-                            value: model.value
-                        }
-                        DapVPNOrderInfoLine {
-                            width: infoFrame.width
-                            name: qsTr("Token")
-                            value: model.token
+
+                        Image {
+                            id: orderIcon
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: (gridViewOrder.delegateContentMargin / 2) * pt  // / 2 - ic_info_order.svg have space right
+                            sourceSize: Qt.size(parent.height, parent.height)
+                            source: "qrc:/resources/icons/ic_info_order.svg"
                         }
                     }
-                }
 
-                MouseArea {
-                    anchors.fill: parent
+                    Item {
+                        id: infoFrame
 
-                    onClicked: {
-                        cell.forceActiveFocus();
-                        gridViewOrder.currentIndex = index;
+                        anchors { left: parent.left; top: headerFrame.bottom; right: parent.right; bottom: parent.bottom }
+                        anchors.margins: gridViewOrder.delegateContentMargin
+
+                        Column {
+                            spacing: 12 * pt
+
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Date created")
+                                value: model.dateCreated
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Units")
+                                value: model.units
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Units type")
+                                value: model.unitsType
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Value")
+                                value: model.value
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Token")
+                                value: model.token
+                            }
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        onClicked: {
+                            cell.forceActiveFocus();
+                            gridViewOrder.currentIndex = index;
+                        }
                     }
                 }
             }

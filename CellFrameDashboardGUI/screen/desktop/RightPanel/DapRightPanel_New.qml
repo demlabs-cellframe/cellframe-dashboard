@@ -110,6 +110,7 @@ Rectangle {
                 headerItem.height = Qt.binding(function() { return headerItemFrame.height });
             }
 
+
             pushEnter: null
             pushExit: null
             popEnter: null

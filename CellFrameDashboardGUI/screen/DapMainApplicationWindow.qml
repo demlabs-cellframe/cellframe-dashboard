@@ -21,8 +21,8 @@ Item {
     ///@detalis Path to the history tab.
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
-    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
-//    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
+//    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
     ///@detalis Path to the VPN client tab.
     readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
     ///@detalis Path to the settings tab.
