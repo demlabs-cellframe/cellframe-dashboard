@@ -16,7 +16,7 @@ DapAbstractRightPanel {
 
 
     dapNextRightPanel: doneOrder
-    dapPreviousRightPanel: lastActionsOrder
+    dapPreviousRightPanel: earnedFundsOrder
 
     width: 400 * pt
 

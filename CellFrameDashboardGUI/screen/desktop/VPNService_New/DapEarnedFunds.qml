@@ -1,9 +1,9 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../../"
+import "../../"
 
-DapLastActionsRightPanelForm
+DapEarnedFundsRightPanelForm
 {
     ////@ Variables to calculate Today, Yesterdat etc.
     property date today: new Date()

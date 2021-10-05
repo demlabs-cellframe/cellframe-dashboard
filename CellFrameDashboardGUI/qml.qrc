@@ -227,8 +227,8 @@
         <file>screen/desktop/VPNService_New/DapSpinBox.qml</file>
         <file>screen/desktop/VPNService_New/DapTextButton.qml</file>
         <file>screen/desktop/VPNService_New/DapDoubleSpinBox.qml</file>
-        <file>screen/desktop/VPNService_New/DapLastActionsRightPanel.qml</file>
-        <file>screen/desktop/VPNService_New/DapLastActionsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapEarnedFunds.qml</file>
+        <file>screen/desktop/VPNService_New/DapEarnedFundsRightPanelForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml</file>
     </qresource>
 </RCC>

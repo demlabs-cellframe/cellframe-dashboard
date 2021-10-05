@@ -8,7 +8,7 @@ DapAbstractTab {
 
     ///@detalis Path to the right panel of input name wallet.
     readonly property string createOrder: "qrc:/screen/" + device + "/VPNService_New/DapCreateOrder.qml"
-    readonly property string lastActionsOrder: "qrc:/screen/" + device + "/VPNService_New/DapLastActionsRightPanel.qml"
+    readonly property string earnedFundsOrder: "qrc:/screen/" + device + "/VPNService_New/DapEarnedFunds.qml"
     readonly property string doneOrder: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletsssRightPanel.qml"
     id: vpnServiceTab
 
@@ -67,7 +67,7 @@ DapAbstractTab {
         StackView
         {
             id: stackViewRightPanel
-            initialItem: Qt.resolvedUrl(lastActionsOrder);
+            initialItem: Qt.resolvedUrl(earnedFundsOrder);
             anchors.fill: parent
             width: 400
             delegate:
@@ -163,7 +163,7 @@ DapAbstractTab {
                 vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
 //            console.log(parametrsRightPanel)
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
-//            if(parametrsRightPanel === lastActionsWallet)
+//            if(parametrsRightPanel === earnedFundsOrder)
 //            {
 //                console.log("DapGetWalletHistoryCommand")
 //                console.log("   network: " + dapServiceController.CurrentNetwork)
@@ -178,7 +178,7 @@ DapAbstractTab {
             if(parametrsRightPanel !== createOrder)
                 vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-//            if(parametrsRightPanel === lastActionsWallet)
+//            if(parametrsRightPanel === earnedFundsOrder)
 //            {
 //                console.log("DapGetWalletHistoryCommand")
 //                console.log("   network: " + dapServiceController.CurrentNetwork)

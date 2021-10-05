@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../../"
+import "../../"
 
 DapAbstractRightPanel
 {
@@ -15,7 +15,7 @@ DapAbstractRightPanel
             {
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
-                text: qsTr("Last actions")
+                text: qsTr("Earned funds")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12

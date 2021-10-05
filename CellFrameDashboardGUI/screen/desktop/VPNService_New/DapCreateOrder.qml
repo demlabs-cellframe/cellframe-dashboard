@@ -35,12 +35,13 @@ DapCreateOrderForm {
             console.log("Unit "+dapUnitOrder);
             console.log("Price "+dapPriceOrder);
             console.log("Network "+dapServiceController.CurrentNetwork)
+            dapServiceController.requestToService();
         }
     }
     dapButtonClose.onClicked:
     {
         dapOrderNameWarning.visible = false
-        previousActivated(lastActionsOrder)
+        previousActivated(earnedFundsOrder)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 }
