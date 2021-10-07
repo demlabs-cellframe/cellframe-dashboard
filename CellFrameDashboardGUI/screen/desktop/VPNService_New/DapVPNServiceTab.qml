@@ -163,14 +163,14 @@ DapAbstractTab {
                 vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
 //            console.log(parametrsRightPanel)
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
-//            if(parametrsRightPanel === earnedFundsOrder)
-//            {
-//                console.log("DapGetWalletHistoryCommand")
+            if(parametrsRightPanel === earnedFundsOrder)
+            {
+                console.log("DapGetListOrdersCommand")
 //                console.log("   network: " + dapServiceController.CurrentNetwork)
 //                console.log("   chain: " + dapServiceController.CurrentChain)
 //                console.log("   wallet address: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
-//                dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
-//            }
+//                dapServiceController.requestToService("DapGetListOrdersCommand");
+            }
         }
         onPreviousActivated:
         {
@@ -178,14 +178,14 @@ DapAbstractTab {
             if(parametrsRightPanel !== createOrder)
                 vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-//            if(parametrsRightPanel === earnedFundsOrder)
-//            {
-//                console.log("DapGetWalletHistoryCommand")
+            if(parametrsRightPanel === earnedFundsOrder)
+            {
+                console.log("DapGetListOrdersCommand")
 //                console.log("   network: " + dapServiceController.CurrentNetwork)
 //                console.log("   chain: " + dapServiceController.CurrentChain)
 //                console.log("   wallet address: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
-//                dapServiceController.requestToService("DapGetWalletHistoryCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain, dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork));
-//            }
+                dapServiceController.requestToService("DapGetListOrdersCommand");
+            }
         }
     }
 

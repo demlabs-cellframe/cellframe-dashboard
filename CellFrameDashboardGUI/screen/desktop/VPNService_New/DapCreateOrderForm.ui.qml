@@ -293,7 +293,7 @@ DapAbstractRightPanel {
                 {
                     id: textPrice
                     color: "#ffffff"
-                    text: qsTr("Region")
+                    text: qsTr("Price")
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter

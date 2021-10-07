@@ -91,6 +91,11 @@ void DapServiceController::changeNetworkStateToOnline(QString a_networkName)
     this->requestToService("DapNetworkGoToCommand", a_networkName, "online");
 }
 
+void DapServiceController::requestOrdersList()
+{
+    this->requestToService("DapGetListOrdersCommand");
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -165,6 +170,10 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand", m_DAPRpcSocket))), QString("networkStatusReceived")));
     // The command to change network state
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_DAPRpcSocket))), QString("newTargetNetworkStateReceived")));
+
+    // The command to get a list of available orders
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
+
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 
