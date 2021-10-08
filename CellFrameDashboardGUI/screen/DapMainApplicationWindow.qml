@@ -169,8 +169,10 @@ Item {
 
 
     property var dapWallets: []
+    property var dapOrders: []
 
     signal modelWalletsUpdated()
+    signal modelOrdersUpdated()
 
 
     //open in module visible root context, only for work
@@ -352,6 +354,11 @@ Item {
 
             }
             modelWalletsUpdated();
+        }
+        onOrdersReceived:
+        {
+            console.log("Orders len " + orderList.length)
+            console.log("DapOrders len " + dapOrders.length)
         }
     }
 }

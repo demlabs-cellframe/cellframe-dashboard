@@ -180,7 +180,8 @@ signals:
      //соблюдаем оригинальную типизацию в сигналах, хотя тут лучше MapVariantList или что-то подобное
     void certificateManagerOperationResult(const QVariant& result);
 
-    void ordersListReceived(const QVariant& ordersList);
+    void ordersListReceived(const QVariant& ordersInfo);
+    void ordersReceived(QList<QObject*> orderList);
     
 private slots:
     /// Register command.

@@ -234,6 +234,27 @@ void DapServiceController::registerCommand()
         emit walletHistoryReceived(walletHistory);
     });
 
+    connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)
+    {
+        QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
+        QList<DapVpnOrder> tempOrders;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempOrders;
+
+        QList<QObject*> orders;
+        auto begin = tempOrders.begin();
+        auto end = tempOrders.end();
+        DapVpnOrder * order = nullptr;
+        for(;begin != end; ++begin)
+        {
+            order = new DapVpnOrder(*begin);
+            orders.append(order);
+        }
+
+        emit ordersReceived(orders);
+    });
+
     registerEmmitedSignal();
 }
 
