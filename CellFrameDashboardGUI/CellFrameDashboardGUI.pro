@@ -20,7 +20,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = resources/icons/icon_win32.ico
+    ICON = resources/icons/CellframeDashboard.icns
 }
 else: !win32 {
     ICON = qrc:/resources/icons/icon.ico
