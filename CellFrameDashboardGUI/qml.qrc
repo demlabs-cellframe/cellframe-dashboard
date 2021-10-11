@@ -230,5 +230,6 @@
         <file>screen/desktop/VPNService_New/DapEarnedFunds.qml</file>
         <file>screen/desktop/VPNService_New/DapEarnedFundsRightPanelForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNOrdersGridView.qml</file>
     </qresource>
 </RCC>

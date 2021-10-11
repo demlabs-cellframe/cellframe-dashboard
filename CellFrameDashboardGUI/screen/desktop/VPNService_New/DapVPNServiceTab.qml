@@ -13,31 +13,6 @@ DapAbstractTab {
     id: vpnServiceTab
 
     property alias dapVPNServiceRightPanel: stackViewRightPanel
-    property alias dapVPNTest: vpnTest
-
-    Item {
-        id: vpnTest
-
-        property alias ordersModel: ordersModel
-
-        ListModel {
-            id: ordersModel
-
-            onCountChanged: console.log("VPN TEST ORDERS COUNT CHANGED: " + count);
-        }
-        Component.onCompleted: {
-            for (var i = 0; i < 10; ++ i) {
-                ordersModel.append({
-                                       name: "order " + i,
-                                       dateCreated: "April 22, 2020",
-                                       units: 3600,
-                                       unitsType: "seconds",
-                                       value: 0.1,
-                                       token: "KELT"
-                                   });
-            }
-        }
-    }
 
 
     dapScreen:
@@ -76,8 +51,8 @@ DapAbstractTab {
                     pushTransition: StackViewTransition { }
                 }
         }
-    state: "ORDERDEFAULT"
-//    state: "ORDERSHOW"
+//    state: "ORDERDEFAULT"
+    state: "ORDERSHOW"
     states:
         [
             State
@@ -161,33 +136,61 @@ DapAbstractTab {
         {
             if(parametrsRightPanel !== createOrder)
                 vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
-//            console.log(parametrsRightPanel)
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
                 console.log("DapGetListOrdersCommand")
-//                console.log("   network: " + dapServiceController.CurrentNetwork)
-//                console.log("   chain: " + dapServiceController.CurrentChain)
-//                console.log("   wallet address: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
-//                dapServiceController.requestToService("DapGetListOrdersCommand");
+                dapServiceController.requestToService("DapGetListOrdersCommand");
             }
         }
         onPreviousActivated:
         {
-//            console.log(parametrsRightPanel)
             if(parametrsRightPanel !== createOrder)
                 vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
                 console.log("DapGetListOrdersCommand")
-//                console.log("   network: " + dapServiceController.CurrentNetwork)
-//                console.log("   chain: " + dapServiceController.CurrentChain)
-//                console.log("   wallet address: " + dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentNetwork))
                 dapServiceController.requestToService("DapGetListOrdersCommand");
             }
         }
     }
+
+    Connections
+    {
+        target: dapMainWindow
+        onModelOrdersUpdated:
+        {
+            console.log(dapModelOrders.count)
+
+            if(dapModelOrders.count > 0)
+                state = "ORDERSHOW"
+            else
+                state = "ORDERDEFAULT"
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onMempoolProcessed:
+        {
+            update()
+        }
+        onWalletCreated:
+        {
+            update()
+        }
+    }
+
+    function update()
+    {
+        dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
+        dapWallets.length = 0
+        dapModelOrders.clear()
+        dapServiceController.requestToService("DapGetListOrdersCommand");
+    }
+
 
     function createOrderFunc()
     {

@@ -190,6 +190,10 @@ Item {
     {
         id: dapModelWallets
     }
+    ListModel
+    {
+        id: dapModelOrders
+    }
 
     // Menu bar tab model
     ListModel 
@@ -213,7 +217,7 @@ Item {
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
-                page: exchangeScreen, //TODO: here should be: exchangeScreen,
+                page: settingsScreen, //TODO: here should be: exchangeScreen,
                 normalIcon: "qrc:/resources/icons/icon_exchange.png",
                 hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
             })
@@ -243,7 +247,7 @@ Item {
 
             append ({
                 name: qsTr("VPN client"),
-                page: vpnClientScreen,
+                page: settingsScreen,
                 normalIcon: "qrc:/resources/icons/ic_vpn-client.svg",
                 hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
             })
@@ -349,9 +353,7 @@ Item {
                                   "network": dapWallets[i].Tokens[t].Network})
                         }
                     }
-
                 }
-
             }
             modelWalletsUpdated();
         }
@@ -359,6 +361,23 @@ Item {
         {
             console.log("Orders len " + orderList.length)
             console.log("DapOrders len " + dapOrders.length)
+            console.log("DapModelOrders len " + dapModelOrders.count)
+            for (var q = 0; q < orderList.length; ++q)
+            {
+                dapOrders.push(orderList[q])
+            }
+            for (var i = 0; i < dapOrders.length; ++i)
+            {
+                console.log("Order index: "+ dapOrders[i].Index)
+                dapModelOrders.append({ "index" : dapOrders[i].Index,
+                                      "location" : dapOrders[i].Location,
+                                      "network" : dapOrders[i].Network,
+                                      "node_addr" : dapOrders[i].AddrNode,
+                                      "price" : dapOrders[i].TotalPrice})
+                console.log("Price : " + dapOrders[i].TotalPrice)
+                console.log("Network : "+ dapOrders[i].Network)
+            }
+            modelOrdersUpdated();
         }
     }
 }
