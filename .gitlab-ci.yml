@@ -9,7 +9,7 @@ stages:
     - update 
 
 variables:
-    GIT_SUBMODULE_STRATEGY: normal
+    GIT_SUBMODULE_STRATEGY: recursive
 
 cellframe-dashboard_update:
     stage: update

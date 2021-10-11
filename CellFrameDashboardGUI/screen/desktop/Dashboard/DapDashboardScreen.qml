@@ -293,87 +293,59 @@ DapAbstractScreen
                         color: "#908D9D"
                     }
 
-                    Rectangle
+                    RowLayout
                     {
-                        anchors.top: lineBalance.bottom
-                        anchors.topMargin: 24 * pt
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 12 * pt
-                        color: "transparent"
+                        anchors.fill: parent
+                        anchors.margins: 10 * pt
+                        spacing: 10 * pt
 
                         Image
                         {
                             id: currencyIcon
-                            anchors.left: parent.left
                             height: 30 * pt
                             width: 30 * pt
                             source: "qrc:/resources/icons/ic_cellframe.png"
                             sourceSize.width: width
                             sourceSize.height: height
-                            anchors.verticalCenter: parent.verticalCenter
                         }
 
                         Text
                         {
                             id: currencyName
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.left: currencyIcon.right
-                            anchors.leftMargin: 10 * pt
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                             color: "#070023"
                             text: name
                             width: 172 * pt
                             horizontalAlignment: Text.AlignLeft
-
-                        }
-
-                        Rectangle
-                        {
-                            id: frameBalance
-                            anchors.verticalCenter: parent.verticalCenter
-                            color: "transparent"
-                            width: 188 * pt
-                            anchors.left: currencyName.right
-                            anchors.leftMargin: 16 * pt
-                            Text
-                            {
-                                id: currencySum
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.left: parent.left
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                                color: "#070023"
-                                text: balance + " "
-                                horizontalAlignment: Text.AlignLeft
-
-                            }
-
-                            Text
-                            {
-                                id: currencyCode
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.left: currencySum.right
-                                anchors.right: parent.right
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                                color: "#070023"
-                                text: name
-                                horizontalAlignment: Text.AlignLeft
-                            }
                         }
 
                         Text
                         {
-                            id: currencyDollarEqv
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.left: frameBalance.right
-                            anchors.leftMargin: 16 * pt
-                            anchors.right: parent.right
-                            anchors.rightMargin: 16 * pt
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                            id: currencySum
+                            Layout.fillWidth: true
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                             color: "#070023"
-                            text: "$" + emission + " USD"
-                            width: 188 * pt
-                            horizontalAlignment: Text.AlignLeft
+                            text: balance.toFixed(9) + " "
+                            horizontalAlignment: Text.AlignRight
                         }
+
+                        Text
+                        {
+                            id: currencyCode
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                            color: "#070023"
+                            text: name
+                            horizontalAlignment: Text.AlignRight
+                        }
+
+//                        Text
+//                        {
+//                            id: currencyEmission
+//                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+//                            color: "#070023"
+//                            text: emission + " datoshi"
+//                            horizontalAlignment: Text.AlignRight
+//                        }
                     }
                 }
             }

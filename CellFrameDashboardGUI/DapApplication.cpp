@@ -11,11 +11,12 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
 {
-    this->setOrganizationName("DEMLABS");
-    this->setOrganizationDomain("demlabs.net");
-    this->setApplicationName("CellFrame Dashboard");
+    this->setOrganizationName("Cellframe Network");
+    this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
+    this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
+    qDebug()<<QString(DAP_SERVICE_NAME);
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
@@ -27,7 +28,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
     connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-        qDebug() << a_stateMap;
+        qDebug() << "networkStatusReceived" << a_stateMap;
         networks()->setNetworkProperties(a_stateMap.toMap());
     });
 
@@ -41,7 +42,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
     {
-        qDebug() << walletList;
+        qDebug() << "walletsReceived" << walletList;
         if (!walletList.isEmpty())
             this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
 
@@ -52,7 +53,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
     {
-        qDebug() << walletInfo;
+        qDebug() << "walletInfoReceived" << walletInfo;
         QVariantMap infoMap = walletInfo.toMap();
         if (currentWallet()->getName() == infoMap.value(DapGetWalletInfoCommand::WALLET_NAME).toString())
         {

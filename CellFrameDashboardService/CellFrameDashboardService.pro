@@ -7,33 +7,12 @@ CONFIG -= app_bundle
 LIBS += -ldl
 #LIBS+=-lz #-lz -lrt -lm -lpthread   -lrt -lm -lpthread
 #+LIBS+=-lrt
-
-
-!defined(BRAND,var){
-#  Default brand
-    BRAND = CellFrame-Dashboard
-}
-DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
+include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-VER_MAJ = 2
-VER_MIN = 0
-VER_PAT = 10
-
 win32 {
     CONFIG -= console
-    VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
-    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
-    DEFINES += HAVE_STRNDUP
-}
-else {
-    VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
-    DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
-    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
-    DEFINES += LOG_FILE=\\\"/opt/cellframe-node/var/log/cellframe-node.log\\\"
-    DEFINES += CMD_HISTORY=\\\"/opt/cellframe-dashboard/data/cmd_history.txt\\\"
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -67,7 +46,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
 
 unix: !mac : !android {
     service_target.files = $${BRAND}Service
-    service_target.path = /opt/cellframe-dashboard/bin/
+    service_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += service_target
     BUILD_FLAG = static
 }
