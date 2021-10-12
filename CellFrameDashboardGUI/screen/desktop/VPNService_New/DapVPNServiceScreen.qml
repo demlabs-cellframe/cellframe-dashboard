@@ -16,6 +16,7 @@ DapAbstractScreen {
     property alias dapOrderCreateFrame: orderCreateFrame
     property alias dapGridViewOrder: gridViewOrder
     property alias dapFrameTitleCreateOrder: frameTitleCreateOrder
+    property alias dapGridViewFrame: vpnOrdersView
 
     Rectangle
     {
@@ -134,5 +135,13 @@ DapAbstractScreen {
             delegateMargin: gridViewOrder.halfMargin
         }
 
+//        Connections
+//        {
+//            target: vpnOrdersView
+//            onOrderDetailsShow:
+//            {
+//                console.log("Index " + index)
+//            }
+//        }
     }
 }

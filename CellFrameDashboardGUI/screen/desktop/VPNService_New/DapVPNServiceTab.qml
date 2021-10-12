@@ -182,6 +182,14 @@ DapAbstractTab {
             update()
         }
     }
+    Connections
+    {
+        target: vpnServiceScreen.dapGridViewFrame
+        onOrderDetailsShow:
+        {
+            detailsShow(index);
+        }
+    }
 
     function update()
     {
@@ -197,5 +205,10 @@ DapAbstractTab {
         if(state !== "ORDERSHOW")
             state = "ORDERCREATE"
         currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(createOrder)});
+    }
+
+    function detailsShow(index_order)
+    {
+        console.log("Index " + index_order)
     }
 }

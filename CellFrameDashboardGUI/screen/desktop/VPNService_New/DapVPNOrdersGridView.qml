@@ -8,6 +8,8 @@ GridView {
     property int delegateHeight: 164 * pt
     property int delegateContentMargin: 16 * pt
 
+    signal orderDetailsShow(var index)
+
     model: dapModelOrders
 
     cellWidth: delegateMargin * 2 + delegateWidth
@@ -120,6 +122,7 @@ GridView {
                 onClicked: {
                     cell.forceActiveFocus();
                     control.currentIndex = index-1;
+                    orderDetailsShow(model.index)
                 }
             }
         }
