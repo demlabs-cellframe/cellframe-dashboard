@@ -8,6 +8,7 @@ DapAbstractTab {
 
     ///@detalis Path to the right panel of input name wallet.
     readonly property string createOrder: "qrc:/screen/" + device + "/VPNService_New/DapCreateOrder.qml"
+    readonly property string orderDetails: "qrc:/screen/" + device + "/VPNService_New/DapOrderDetails.qml"
     readonly property string earnedFundsOrder: "qrc:/screen/" + device + "/VPNService_New/DapEarnedFunds.qml"
     readonly property string doneOrder: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletsssRightPanel.qml"
     id: vpnServiceTab
@@ -139,8 +140,8 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
-                console.log("DapGetListOrdersCommand")
-                dapServiceController.requestToService("DapGetListOrdersCommand");
+//                console.log("DapGetListOrdersCommand")
+//                dapServiceController.requestToService("DapGetListOrdersCommand");
             }
         }
         onPreviousActivated:
@@ -150,8 +151,8 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
-                console.log("DapGetListOrdersCommand")
-                dapServiceController.requestToService("DapGetListOrdersCommand");
+//                console.log("DapGetListOrdersCommand")
+//                dapServiceController.requestToService("DapGetListOrdersCommand");
             }
         }
     }
@@ -210,5 +211,6 @@ DapAbstractTab {
     function detailsShow(index_order)
     {
         console.log("Index " + index_order)
+        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(orderDetails)});
     }
 }
