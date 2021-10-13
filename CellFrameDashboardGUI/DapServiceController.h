@@ -33,6 +33,7 @@
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
+#include "handlers/DapGetListOdersCommand.h"
 
 
 
@@ -121,6 +122,7 @@ public slots:
     void requestNetworkStatus(QString a_networkName);
     void changeNetworkStateToOnline(QString a_networkName);
     void changeNetworkStateToOffline(QString a_networkName);
+    void requestOrdersList();
 
 
 signals:
@@ -177,6 +179,9 @@ signals:
 
      //соблюдаем оригинальную типизацию в сигналах, хотя тут лучше MapVariantList или что-то подобное
     void certificateManagerOperationResult(const QVariant& result);
+
+    void ordersListReceived(const QVariant& ordersInfo);
+    void ordersReceived(QList<QObject*> orderList);
     
 private slots:
     /// Register command.

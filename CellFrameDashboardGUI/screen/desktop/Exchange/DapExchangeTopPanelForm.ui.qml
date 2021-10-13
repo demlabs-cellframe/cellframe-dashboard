@@ -3,7 +3,7 @@ import QtQuick.Controls 2.0
 import "qrc:/widgets"
 import "../../"
 
-DapAbstractTopPanelForm
+DapTopPanel
 {
     anchors.fill: parent
 

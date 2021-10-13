@@ -91,6 +91,11 @@ void DapServiceController::changeNetworkStateToOnline(QString a_networkName)
     this->requestToService("DapNetworkGoToCommand", a_networkName, "online");
 }
 
+void DapServiceController::requestOrdersList()
+{
+    this->requestToService("DapGetListOrdersCommand");
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -166,6 +171,10 @@ void DapServiceController::registerCommand()
     // The command to change network state
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_DAPRpcSocket))), QString("newTargetNetworkStateReceived")));
 
+    // The command to get a list of available orders
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
+
+
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_DAPRpcSocket))), QString("walletTokensReceived")));
@@ -223,6 +232,27 @@ void DapServiceController::registerCommand()
         }
 
         emit walletHistoryReceived(walletHistory);
+    });
+
+    connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)
+    {
+        QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
+        QList<DapVpnOrder> tempOrders;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempOrders;
+
+        QList<QObject*> orders;
+        auto begin = tempOrders.begin();
+        auto end = tempOrders.end();
+        DapVpnOrder * order = nullptr;
+        for(;begin != end; ++begin)
+        {
+            order = new DapVpnOrder(*begin);
+            orders.append(order);
+        }
+
+        emit ordersReceived(orders);
     });
 
     registerEmmitedSignal();
