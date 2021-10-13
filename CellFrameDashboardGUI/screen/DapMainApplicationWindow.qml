@@ -359,23 +359,23 @@ Item {
         }
         onOrdersReceived:
         {
-            console.log("Orders len " + orderList.length)
-            console.log("DapOrders len " + dapOrders.length)
-            console.log("DapModelOrders len " + dapModelOrders.count)
+//            console.log("Orders len " + orderList.length)
+//            console.log("DapOrders len " + dapOrders.length)
+//            console.log("DapModelOrders len " + dapModelOrders.count)
             for (var q = 0; q < orderList.length; ++q)
             {
                 dapOrders.push(orderList[q])
             }
             for (var i = 0; i < dapOrders.length; ++i)
             {
-                console.log("Order index: "+ dapOrders[i].Index)
+                console.log("Order index: "+ dapOrders[i].Index + " Network "+ dapOrders[i].Network + " - Loaded")
                 dapModelOrders.append({ "index" : dapOrders[i].Index,
                                       "location" : dapOrders[i].Location,
                                       "network" : dapOrders[i].Network,
                                       "node_addr" : dapOrders[i].AddrNode,
                                       "price" : dapOrders[i].TotalPrice})
-                console.log("Price : " + dapOrders[i].TotalPrice)
-                console.log("Network : "+ dapOrders[i].Network)
+//                console.log("Price : " + dapOrders[i].TotalPrice)
+//                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
         }
