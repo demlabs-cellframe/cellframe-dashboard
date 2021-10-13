@@ -41,7 +41,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
-
+#include "handlers/DapGetListOdersCommand.h"
 
 
 

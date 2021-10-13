@@ -49,7 +49,7 @@ DapApplication::DapApplication(int &argc, char **argv)
         this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
     });
     m_serviceController->requestWalletList();
-
+    m_serviceController->requestOrdersList();
 
     connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
     {
