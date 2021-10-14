@@ -12,7 +12,7 @@ DapAbstractRightPanel {
 //    property alias dapComboBoxUnit: comboBoxUnit
 //    property alias dapComboBoxPrice: comboBoxPrice
 //    property alias dapButtonCreate: buttonCreate
-//    property alias dapOrderNameWarning: textOrderNameWarning
+    property alias dapOrderIndex: textTotalUsers
 
 
     dapNextRightPanel: earnedFundsOrder

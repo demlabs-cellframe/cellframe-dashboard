@@ -6,6 +6,7 @@ Item {
 //    property alias activeButton:activeBtn
 
     property bool activeBtn:false
+    property alias info_text : infoText
 
     width: root.width
     height: 40 * pt
@@ -28,9 +29,27 @@ Item {
         id: delegateClicked
         width: parent.width
         height: parent.height
+        hoverEnabled: true
         onClicked: {
             if(activeBtn)
                 console.log(orderText.text + " clicked")
+        }
+
+        onEntered:
+        {
+            if(activeBtn){
+                orderText.color = "#D51F5D"
+                infoText.color = "#D51F5D"
+            }
+        }
+
+        onExited:
+        {
+            if(activeBtn)
+            {
+                orderText.color = "#070023"
+                infoText.color = "#070023"
+            }
         }
     }
 
@@ -59,7 +78,7 @@ Item {
             right: infoButton.right
             rightMargin: 14 * pt
         }
-        image.source: "qrc:/resources/icons/Certificates/ic_info.svg"
+        image.source: "qrc:/resources/icons/arrow-right_icon.svg"
         image.width: 30 * pt
         image.height: 30 * pt
 

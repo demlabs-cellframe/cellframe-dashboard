@@ -140,6 +140,7 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
+                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
 //                console.log("DapGetListOrdersCommand")
 //                dapServiceController.requestToService("DapGetListOrdersCommand");
             }
@@ -151,6 +152,7 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
+                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
 //                console.log("DapGetListOrdersCommand")
 //                dapServiceController.requestToService("DapGetListOrdersCommand");
             }
@@ -208,6 +210,7 @@ DapAbstractTab {
         currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(createOrder)});
     }
 
+    //TODO: no backend
     function detailsShow(index_order)
     {
         console.log("Index " + index_order)
