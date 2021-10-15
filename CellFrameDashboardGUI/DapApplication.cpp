@@ -28,7 +28,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
     connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-        qDebug() << a_stateMap;
+        qDebug() << "networkStatusReceived" << a_stateMap;
         networks()->setNetworkProperties(a_stateMap.toMap());
     });
 
@@ -42,18 +42,18 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
     {
-        qDebug() << walletList;
+        qDebug() << "walletsReceived" << walletList;
         if (!walletList.isEmpty())
             this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
 
         this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
     });
     m_serviceController->requestWalletList();
-
+    m_serviceController->requestOrdersList();
 
     connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
     {
-        qDebug() << walletInfo;
+        qDebug() << "walletInfoReceived" << walletInfo;
         QVariantMap infoMap = walletInfo.toMap();
         if (currentWallet()->getName() == infoMap.value(DapGetWalletInfoCommand::WALLET_NAME).toString())
         {

@@ -323,7 +323,7 @@ DapAbstractScreen
                         {
                             id: currencySum
                             Layout.fillWidth: true
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                             color: "#070023"
                             text: balance.toFixed(9) + " "
                             horizontalAlignment: Text.AlignRight
@@ -332,7 +332,7 @@ DapAbstractScreen
                         Text
                         {
                             id: currencyCode
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                             color: "#070023"
                             text: name
                             horizontalAlignment: Text.AlignRight

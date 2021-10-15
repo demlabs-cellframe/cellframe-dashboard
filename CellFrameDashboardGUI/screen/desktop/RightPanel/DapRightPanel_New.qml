@@ -6,6 +6,7 @@ Rectangle {
     id: control
 
     property alias initialPage: stackView.initialItem
+    property alias stackView_:stackView
 
     function push(item)
     {
@@ -108,6 +109,7 @@ Rectangle {
                 headerItem.width = Qt.binding(function() { return headerItemFrame.width });
                 headerItem.height = Qt.binding(function() { return headerItemFrame.height });
             }
+
 
             pushEnter: null
             pushExit: null

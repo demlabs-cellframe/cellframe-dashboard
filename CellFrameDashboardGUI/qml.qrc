@@ -218,5 +218,18 @@
         <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
         <file>resources/icons/under construction.svg</file>
         <file>resources/icons/illustration_new-wallet.png</file>
+        <file>screen/desktop/VPNService_New/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNServiceTopPanel.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNServiceScreen.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNOrderInfoLine.qml</file>
+        <file>screen/desktop/VPNService_New/DapCreateOrder.qml</file>
+        <file>screen/desktop/VPNService_New/DapCreateOrderRightPanelElements.qml</file>
+        <file>screen/desktop/VPNService_New/DapSpinBox.qml</file>
+        <file>screen/desktop/VPNService_New/DapTextButton.qml</file>
+        <file>screen/desktop/VPNService_New/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/VPNService_New/DapEarnedFunds.qml</file>
+        <file>screen/desktop/VPNService_New/DapEarnedFundsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNOrdersGridView.qml</file>
     </qresource>
 </RCC>

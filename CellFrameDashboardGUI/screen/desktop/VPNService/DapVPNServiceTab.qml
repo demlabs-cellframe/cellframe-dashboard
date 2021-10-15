@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.2
 import ".."
 import "qrc:/widgets"
+import "../RightPanel"
 
 Item {
     id: tab
@@ -11,18 +12,18 @@ Item {
 
         property alias ordersModel: ordersModel
 
-        Component.onCompleted: {
-            for (var i = 0; i < 10; ++ i) {
-                ordersModel.append({
-                                       name: "order " + i,
-                                       dateCreated: "April 22, 2020",
-                                       units: 3600,
-                                       unitsType: "seconds",
-                                       value: 0.1,
-                                       token: "KELT"
-                                   });
-            }
-        }
+//        Component.onCompleted: {
+//            for (var i = 0; i < 10; ++ i) {
+//                ordersModel.append({
+//                                       name: "order " + i,
+//                                       dateCreated: "April 22, 2020",
+//                                       units: 3600,
+//                                       unitsType: "seconds",
+//                                       value: 0.1,
+//                                       token: "KELT"
+//                                   });
+//            }
+//        }
 
         ListModel {
             id: ordersModel
@@ -45,9 +46,10 @@ Item {
 
     function newVPNOrder()
     {
-        rightPanel.caption = qsTr("Create VPN order");
-        rightPanel.stackView.clear();
-        rightPanel.stackView.push(createVPNOrderPanel);
+//        rightPanel.captionText = qsTr("Create VPN order");
+        rightPanel.stackView_.clear();
+
+        rightPanel.stackView_.push(createVPNOrderPanel);
         rightPanel.visible = true;
     }
 
@@ -135,30 +137,9 @@ Item {
                 }
             }
 
-            DapRightPanel{
+            DapRightPanel_New{
                 id: rightPanel
                 visible: false
-            }
-
-            Rectangle{
-                color: "white"
-                anchors.fill: parent
-                Rectangle{
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: 520
-                    height: 400
-
-
-                    Image {
-                        id: under_cunstruct_img
-                        anchors.fill: parent
-                        source: "qrc:/resources/icons/under construction.svg"
-                        anchors.centerIn: parent.Center
-                        sourceSize.width: parent.width
-                        sourceSize.height: parent.height
-                    }
-                }
             }
         }
     }
@@ -168,7 +149,7 @@ Item {
 
         DapCreateVPNOrderPanel {
             onOrderCreated: {
-                rightPanel.stackView.clear();
+                rightPanel.stackView_.clear();
                 rightPanel.visible = false;
             }
         }
@@ -201,5 +182,4 @@ Item {
             }
         }
     ]
-
 }

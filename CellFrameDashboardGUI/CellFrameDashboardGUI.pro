@@ -60,7 +60,7 @@ RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${DAP_BRAND_LO}/bin
+else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
@@ -80,7 +80,7 @@ include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
-    gui_target.path = /opt/$${DAP_BRAND_LO}/bin/
+    gui_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += gui_target
     BUILD_FLAG = static
 }

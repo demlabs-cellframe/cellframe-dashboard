@@ -21,7 +21,10 @@ Item {
     ///@detalis Path to the history tab.
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
-    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+//    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
+    ///@detalis Path to the VPN client tab.
+    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
     ///@detalis Path to the settings tab.
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
@@ -166,8 +169,10 @@ Item {
 
 
     property var dapWallets: []
+    property var dapOrders: []
 
     signal modelWalletsUpdated()
+    signal modelOrdersUpdated()
 
 
     //open in module visible root context, only for work
@@ -184,6 +189,10 @@ Item {
     ListModel
     {
         id: dapModelWallets
+    }
+    ListModel
+    {
+        id: dapModelOrders
     }
 
     // Menu bar tab model
@@ -206,12 +215,12 @@ Item {
                 hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
-//            append ({
-//                name: qsTr("Exchange"),
-//                page: historyScreen, //TODO: here should be: exchangeScreen,
-//                normalIcon: "qrrc:/resources/icons/icon_exchange.png",
-//                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
-//            })
+            append ({
+                name: qsTr("Exchange"),
+                page: settingsScreen, //TODO: here should be: exchangeScreen,
+                normalIcon: "qrc:/resources/icons/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+            })
     
             append ({
                 name: qsTr("TX Explorer"),
@@ -344,11 +353,31 @@ Item {
                                   "network": dapWallets[i].Tokens[t].Network})
                         }
                     }
-
                 }
-
             }
             modelWalletsUpdated();
+        }
+        onOrdersReceived:
+        {
+//            console.log("Orders len " + orderList.length)
+//            console.log("DapOrders len " + dapOrders.length)
+//            console.log("DapModelOrders len " + dapModelOrders.count)
+            for (var q = 0; q < orderList.length; ++q)
+            {
+                dapOrders.push(orderList[q])
+            }
+            for (var i = 0; i < dapOrders.length; ++i)
+            {
+                console.log("Order index: "+ dapOrders[i].Index + " Network "+ dapOrders[i].Network + " - Loaded")
+                dapModelOrders.append({ "index" : dapOrders[i].Index,
+                                      "location" : dapOrders[i].Location,
+                                      "network" : dapOrders[i].Network,
+                                      "node_addr" : dapOrders[i].AddrNode,
+                                      "price" : dapOrders[i].TotalPrice})
+//                console.log("Price : " + dapOrders[i].TotalPrice)
+//                console.log("Network : "+ dapOrders[i].Network)
+            }
+            modelOrdersUpdated();
         }
     }
 }

@@ -44,5 +44,4 @@ DapInputNewWalletNameRightPanelForm
             nextActivated("doneWallet");
         }
     }
-
 }
