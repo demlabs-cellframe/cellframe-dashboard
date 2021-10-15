@@ -7,6 +7,7 @@ GridView {
     property int delegateWidth: 300 * pt
     property int delegateHeight: 164 * pt
     property int delegateContentMargin: 16 * pt
+//    property alias currentIndex_ : currentIndex
 
     signal orderDetailsShow(var index)
 

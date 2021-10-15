@@ -33,7 +33,4 @@ MouseArea {
         verticalAlignment: Image.AlignVCenter
         horizontalAlignment: Image.AlignHCenter
     }
-
-
-
 }   //
