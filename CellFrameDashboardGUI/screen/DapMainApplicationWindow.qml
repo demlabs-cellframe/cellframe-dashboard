@@ -334,8 +334,6 @@ Item {
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
                     console.log("Network name: "+dapWallets[i].Networks[n])
-//                    print(dapModelWallets.get(i).networks)
-                    print("name", dapWallets[i].Networks[n])
                     print("address", dapWallets[i].findAddress(dapWallets[i].Networks[n]))
                     dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
                           "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
@@ -343,10 +341,10 @@ Item {
                     console.log("Tokens.length:", Object.keys(dapWallets[i].Tokens).length)
                     for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
-                        console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])
                         if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
                         {
-                             dapModelWallets.get(i).networks.get(n).tokens.append(
+                            console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])
+                            dapModelWallets.get(i).networks.get(n).tokens.append(
                                  {"name": dapWallets[i].Tokens[t].Name,
                                   "balance": dapWallets[i].Tokens[t].Balance,
                                   "emission": dapWallets[i].Tokens[t].Emission,
