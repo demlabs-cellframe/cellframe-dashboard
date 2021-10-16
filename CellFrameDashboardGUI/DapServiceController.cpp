@@ -63,7 +63,38 @@ void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
 
 QString DapServiceController::getCurrentChain() const
 {
-    return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
+    return m_sCurrentChain;
+}
+
+void DapServiceController::setCurrentChain(const QString &sCurrentChain)
+{
+    m_sCurrentChain = sCurrentChain;
+
+    emit currentChainChanged(m_sCurrentChain);
+}
+
+QString DapServiceController::getCurrentWallet() const
+{
+    return m_sCurrentWallet;
+}
+
+void DapServiceController::setCurrentWallet(const QString &sCurrentWallet)
+{
+    m_sCurrentWallet = sCurrentWallet;
+
+    emit currentWalletChanged(m_sCurrentWallet);
+}
+
+QString DapServiceController::getCurrentWalletNetwork() const
+{
+    return m_sCurrentWalletNetwork;
+}
+
+void DapServiceController::setCurrentWalletNetwork(const QString &sCurrentWalletNetwork)
+{
+    m_sCurrentWalletNetwork = sCurrentWalletNetwork;
+
+    emit currentWalletNetworkChanged(m_sCurrentWalletNetwork);
 }
 
 void DapServiceController::requestWalletList()
