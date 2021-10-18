@@ -8,6 +8,8 @@ import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 
+import "theme_test.js" as Theme
+
 
 
 Item {
@@ -90,6 +92,7 @@ Item {
                         id: frameLogotype
                         anchors.fill: parent
                         color: "#070023"
+//                        color: Theme.testTheme()
                         height: 60 * pt
 //                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
@@ -179,7 +182,6 @@ Item {
     Component{
         DapCertificatesMainPage { }
     }
-
 
     ListModel
     {

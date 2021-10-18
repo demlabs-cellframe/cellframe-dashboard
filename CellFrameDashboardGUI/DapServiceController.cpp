@@ -202,6 +202,7 @@ void DapServiceController::registerCommand()
     // The command to change network state
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_DAPRpcSocket))), QString("newTargetNetworkStateReceived")));
 
+
     // The command to get a list of available orders
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
 
