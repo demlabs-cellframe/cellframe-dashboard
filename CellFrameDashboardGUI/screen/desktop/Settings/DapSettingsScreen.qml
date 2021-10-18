@@ -93,24 +93,44 @@ DapSettingsScreenForm
             }
         }
     }
-    Rectangle{
-        color: "white"
-        anchors.fill: parent
-        Rectangle{
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 520
-            height: 400
 
-
-            Image {
-                id: under_cunstruct_img
-                anchors.fill: parent
-                source: "qrc:/resources/icons/under construction.svg"
-                anchors.centerIn: parent.Center
-                sourceSize.width: parent.width
-                sourceSize.height: parent.height
+    Switch {
+        id: themeSwitcher
+        anchors.centerIn: parent
+        onPositionChanged: {
+            if(currThemeVal === true) {
+                currThemeVal = false
+            } else {
+                currThemeVal = true
             }
+
         }
     }
+
+    Rectangle {
+        height: 100
+        width: 100
+        anchors.top: themeSwitcher.bottom
+        color: currTheme.background
+    }
+    //    Rectangle{
+    //        color: "white"
+    //        anchors.fill: parent
+    //        Rectangle{
+    //            anchors.verticalCenter: parent.verticalCenter
+    //            anchors.horizontalCenter: parent.horizontalCenter
+    //            width: 520
+    //            height: 400
+
+
+    //            Image {
+    //                id: under_cunstruct_img
+    //                anchors.fill: parent
+    //                source: "qrc:/resources/icons/under construction.svg"
+    //                anchors.centerIn: parent.Center
+    //                sourceSize.width: parent.width
+    //                sourceSize.height: parent.height
+    //            }
+    //        }
+    //    }
 }
