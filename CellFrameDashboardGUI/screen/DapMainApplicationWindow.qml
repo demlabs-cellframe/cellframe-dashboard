@@ -9,7 +9,6 @@ import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 
 
-
 Item {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
@@ -90,6 +89,7 @@ Item {
                         id: frameLogotype
                         anchors.fill: parent
                         color: "#070023"
+//                        color: Theme.testTheme()
                         height: 60 * pt
 //                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
@@ -123,7 +123,8 @@ Item {
                         anchors.fill: parent
                         dapFrameMenuTab.width: 180 * pt
                         heightItemMenu: 60 * pt
-                        normalColorItemMenu: "transparent"
+//                        normalColorItemMenu: "transparent"
+                        normalColorItemMenu: currTheme.background
                         selectColorItemMenu: "#D51F5D"
                         widthIconItemMenu: 18 * pt
                         heightIconItemMenu: 18 * pt
@@ -179,7 +180,6 @@ Item {
     Component{
         DapCertificatesMainPage { }
     }
-
 
     ListModel
     {

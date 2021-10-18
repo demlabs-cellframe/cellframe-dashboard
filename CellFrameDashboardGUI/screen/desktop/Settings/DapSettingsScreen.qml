@@ -1,9 +1,13 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
 
 DapSettingsScreenForm
 {
+    property alias settingsScreen_ : settingScreen
 
+    id:settingScreen
+    signal changeMatherial(var flag_theme)
     ///@detalis Settings item model.
     VisualItemModel
     {
@@ -93,44 +97,35 @@ DapSettingsScreenForm
             }
         }
     }
-
     Switch {
-        id: themeSwitcher
-        anchors.centerIn: parent
-        onPositionChanged: {
-            if(currThemeVal === true) {
-                currThemeVal = false
-            } else {
-                currThemeVal = true
+            id: themeSwitch
+            text: "Theme"
+            anchors.centerIn: parent
+            onPositionChanged:
+            {
+                if(currThemeVal)
+                    currThemeVal = false
+                else
+                    currThemeVal = true
             }
-
         }
-    }
+//    Rectangle{
+//        color: "white"
+//        anchors.fill: parent
+//        Rectangle{
+//            anchors.verticalCenter: parent.verticalCenter
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            width: 520
+//            height: 400
 
-    Rectangle {
-        height: 100
-        width: 100
-        anchors.top: themeSwitcher.bottom
-        color: currTheme.background
-    }
-    //    Rectangle{
-    //        color: "white"
-    //        anchors.fill: parent
-    //        Rectangle{
-    //            anchors.verticalCenter: parent.verticalCenter
-    //            anchors.horizontalCenter: parent.horizontalCenter
-    //            width: 520
-    //            height: 400
-
-
-    //            Image {
-    //                id: under_cunstruct_img
-    //                anchors.fill: parent
-    //                source: "qrc:/resources/icons/under construction.svg"
-    //                anchors.centerIn: parent.Center
-    //                sourceSize.width: parent.width
-    //                sourceSize.height: parent.height
-    //            }
-    //        }
-    //    }
+//            Image {
+//                id: under_cunstruct_img
+//                anchors.fill: parent
+//                source: "qrc:/resources/icons/under construction.svg"
+//                anchors.centerIn: parent.Center
+//                sourceSize.width: parent.width
+//                sourceSize.height: parent.height
+//            }
+//        }
+//    }
 }

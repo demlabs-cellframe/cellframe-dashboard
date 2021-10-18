@@ -32,6 +32,7 @@ ApplicationWindow
         }
     }
 
+
     ///The image with the effect fast blur
     Image
     {
