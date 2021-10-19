@@ -16,7 +16,7 @@ DapConsoleScreenForm
 
 
     Component.onCompleted:
-    {
+    {        
         //The start point for using history
         consoleHistoryIndex = -1
         //Set focus to console input
@@ -55,7 +55,7 @@ DapConsoleScreenForm
     onSendedCommandChanged:
     {
         if(sendedCommand != "")
-        {
+        {            
             sendCommand = sendedCommand;
             consoleHistoryIndex = -1;
             runCommand(sendCommand);

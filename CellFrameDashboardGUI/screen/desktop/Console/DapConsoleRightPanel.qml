@@ -40,11 +40,13 @@ DapConsoleRightPanelForm
         //Adding only new element
         if(!findElement(modelHistoryConsole, {query: commandQuery}))
         {
-            if(commandQuery !== "")
-                modelHistoryConsole.insert(0, {query: commandQuery});
+            if(commandQuery !== "") {
+                modelHistoryConsole.insert(0, {query: commandQuery})
+            }
         }
-        else
+        else {
             modelHistoryConsole.insert(0, {query: commandQuery});
+        }
 
         //History is limited by historySize and realized as FIFO
         if(historySize < modelHistoryConsole.count)

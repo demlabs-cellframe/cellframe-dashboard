@@ -1,7 +1,7 @@
 QT += qml quick widgets svg
 
 TEMPLATE = app
-CONFIG += c++11 #nsis_build
+CONFIG += c++11 declarative_debug #nsis_build
 
 LIBS += -ldl
 include(../config.pri)
