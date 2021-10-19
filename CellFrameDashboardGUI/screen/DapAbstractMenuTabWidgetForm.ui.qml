@@ -4,6 +4,7 @@ import "qrc:/widgets"
 
 DapMenuTabWidget
 {
+
     dapMenuWidget:
         ListView
         {
@@ -14,6 +15,8 @@ DapMenuTabWidget
             clip: true
             interactive: false
         }
+    color: currTheme.backgroundPanel
+
 }
 
 /*##^##

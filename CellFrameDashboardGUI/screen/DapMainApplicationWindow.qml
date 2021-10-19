@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 import "qrc:/screen"
 import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Dashboard"
@@ -9,7 +10,7 @@ import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 
 
-Item {
+Rectangle {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
@@ -56,7 +57,7 @@ Item {
 
 
 
-
+        color:currTheme.backgroundPanel
 
         // The horizontal location of the virtual menu column and tab view loader
         Row
@@ -82,15 +83,15 @@ Item {
                 {
                     id: logotype
 //                    data: dapLogotype
-                    width: columnMenuTab.width
+                    width: menuTabWidget.width -8*pt
                     height: 60 * pt
                     Rectangle
                     {
                         id: frameLogotype
                         anchors.fill: parent
-                        color: "#070023"
-//                        color: Theme.testTheme()
+                        color:currTheme.backgroundPanel
                         height: 60 * pt
+                        width: parent.width
 //                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
                         anchors.bottomMargin: -10*pt
@@ -102,7 +103,7 @@ Item {
                             height: 24 * pt
                             anchors.left: parent.left
                             anchors.leftMargin: 24 * pt
-                            source: "qrc:/resources/icons/Certificates/cellframe-logo-dashboard.svg"
+                            source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
                         }
                     }
                 }
@@ -112,6 +113,7 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
+                        color:currTheme.backgroundPanel
 //                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
 
@@ -124,8 +126,9 @@ Item {
                         dapFrameMenuTab.width: 180 * pt
                         heightItemMenu: 60 * pt
 //                        normalColorItemMenu: "transparent"
-                        normalColorItemMenu: currTheme.background
-                        selectColorItemMenu: "#D51F5D"
+                        normalColorItemMenu: currTheme.backgroundPanel
+//                        selectColorItemMenu: "#D51F5D"
+                        selectColorItemMenu: "transparent"
                         widthIconItemMenu: 18 * pt
                         heightIconItemMenu: 18 * pt
                         dapMenuWidget.model: modelMenuTab
@@ -134,7 +137,7 @@ Item {
                     }
 
                     width: 200*pt
-                    height: columnMenuTab.height - logotype.height
+                    height: columnMenuTab.height - logotype.height - 10*pt
                 }
             }
 
@@ -282,6 +285,26 @@ Item {
 //             })
         }
     }
+    //Main Shadow
+    DropShadow {
+            anchors.fill: parent
+            horizontalOffset: 5
+            verticalOffset: 5
+            radius: 8.0
+            color: "#21232A"
+            source: columnMenuTab
+            spread: 0.1
+        }
+    //NetworkPanel shadow
+    DropShadow {
+            anchors.fill: networksPanel
+            horizontalOffset: 0
+            verticalOffset: 0
+            radius: 3
+            color: "#444253"
+            source: networksPanel
+            spread: 0.7
+        }
 
     Component.onCompleted:
     {

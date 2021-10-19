@@ -7,7 +7,7 @@ import "../../"
 DapAbstractScreen
 {
     id: dapDashboardScreen
-    dapFrame.color: "#FFFFFF"
+    dapFrame.color: currTheme.backgroundMainScreen
     anchors.fill: parent
     anchors.leftMargin: 24 * pt
     anchors.rightMargin: 24 * pt
@@ -30,6 +30,7 @@ DapAbstractScreen
         id: walletCreateFrame
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
         Column
         {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -37,6 +38,7 @@ DapAbstractScreen
             {
                 height: 82.79 * pt
                 width: parent.width
+                color: "transparent"
             }
             Image
             {
@@ -50,6 +52,7 @@ DapAbstractScreen
             {
                 height: 45 * pt
                 width: parent.width
+                color: "transparent"
             }
             Text
             {
@@ -64,6 +67,7 @@ DapAbstractScreen
             {
                 height: 21 * pt
                 width: parent.width
+                color: "transparent"
             }
             DapButton
             {
@@ -108,6 +112,7 @@ DapAbstractScreen
         anchors.left: parent.left
         anchors.right: parent.right
         height: 36 * pt
+        color: "transparent"
 
         RowLayout
         {

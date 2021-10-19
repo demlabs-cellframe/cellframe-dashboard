@@ -26,6 +26,7 @@ DapAbstractTab
     property int dapIndexCurrentWallet: -1
 
     id: dashboardTab
+    color: currTheme.backgroundMainScreen
 
     property alias dapDashboardRightPanel: stackViewRightPanel
     //property alias dashboardTopPanel: dashboardTopPanel
@@ -34,6 +35,7 @@ DapAbstractTab
     dapTopPanel:
         DapDashboardTopPanel
         {
+            color: currTheme.backgroundPanel
             id: dashboardTopPanel
             dapComboboxWallet.onCurrentIndexChanged:
             {
@@ -68,11 +70,16 @@ DapAbstractTab
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
+
         }
+
+
 
     dapScreen:
         DapDashboardScreen
         {
+//            color: currTheme.backgroundMainScreen
+
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
