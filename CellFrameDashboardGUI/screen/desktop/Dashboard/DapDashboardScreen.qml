@@ -91,11 +91,11 @@ DapAbstractScreen
                 colorTextButton: "#FFFFFF"
 
             }
-            Rectangle
-            {
-                height: Layout.fillHeight
-                width: parent.width
-            }
+//            Rectangle
+//            {
+//                height: Layout.fillHeight
+//                width: parent.width
+//            }
         }
     }
 
@@ -325,7 +325,8 @@ DapAbstractScreen
                             Layout.fillWidth: true
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                             color: "#070023"
-                            text: balance.toFixed(9) + " "
+                            text: balance.toFixed(9)
+//                            text: balance.toPrecision()
                             horizontalAlignment: Text.AlignRight
                         }
 

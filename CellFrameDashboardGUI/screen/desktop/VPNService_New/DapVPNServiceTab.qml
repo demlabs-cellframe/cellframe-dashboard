@@ -52,8 +52,8 @@ DapAbstractTab {
                     pushTransition: StackViewTransition { }
                 }
         }
-//    state: "ORDERDEFAULT"
-    state: "ORDERSHOW"
+    state: "ORDERDEFAULT"
+//    state: "ORDERSHOW"
     states:
         [
             State
@@ -215,5 +215,13 @@ DapAbstractTab {
     {
         console.log("Index " + index_order)
         currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(orderDetails)});
+    }
+
+    Component.onCompleted:
+    {
+        if(dapModelOrders.count > 0)
+            state = "ORDERSHOW"
+        else
+            state = "ORDERDEFAULT"
     }
 }

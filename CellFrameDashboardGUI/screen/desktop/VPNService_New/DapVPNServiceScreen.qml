@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
 import "../../desktop/VPNService_New"
@@ -144,4 +145,34 @@ DapAbstractScreen {
 //            }
 //        }
     }
+//    Item {
+//        id: _innerShadow
+//        property var shadowSource: gridViewOrder
+//        property var color: "#B0000000"
+//        anchors.fill: shadowSource
+//        Item {
+//            id: _shadowMarker
+//            //width: source.width+1; height: source.height+1
+//            anchors.fill: parent;
+//            anchors.margins: -10
+//            ColorOverlay {
+//                anchors.fill: _shadowMarker;
+//                anchors.margins: 10
+//                source: _innerShadow.shadowSource
+//                color: "#00000000"
+//            }
+//            visible: false
+//        }
+//        InnerShadow {
+//            anchors.fill: _shadowMarker
+//            cached: true
+//            horizontalOffset: 0
+//            verticalOffset: 0
+//            radius: 30
+//            samples: 32
+//            color: _innerShadow.color
+//            smooth: true
+//            source: _shadowMarker
+//        }
+//    }
 }

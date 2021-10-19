@@ -235,5 +235,6 @@
         <file>screen/desktop/VPNService_New/DapOrderDetailsForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapOrderPanelButton.qml</file>
         <file>resources/icons/arrow-right_icon.svg</file>
+        <file>screen/theme_test.js</file>
     </qresource>
 </RCC>

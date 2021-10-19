@@ -5,9 +5,10 @@ DapNewPaymentDoneRightPanelForm
     dapButtonSend.onClicked:
     {
         console.log("DapMempoolProcessCommand")
-        console.log("   network: " + dapServiceController.CurrentNetwork)
+        console.log("   network: " + dapServiceController.CurrentWalletNetwork)
         console.log("   chain: " + dapServiceController.CurrentChain)
-        dapServiceController.requestToService("DapMempoolProcessCommand", dapServiceController.CurrentNetwork, dapServiceController.CurrentChain)
+        dapServiceController.requestToService("DapMempoolProcessCommand",
+            dapServiceController.CurrentWalletNetwork, dapServiceController.CurrentChain)
 
         nextActivated("transaction done")
 //        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"

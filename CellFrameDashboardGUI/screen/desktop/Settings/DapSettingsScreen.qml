@@ -1,9 +1,13 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
+import QtQuick.Controls.Material 2.0
 
 DapSettingsScreenForm
 {
+    property alias settingsScreen_ : settingScreen
 
+    id:settingScreen
+    signal changeMatherial(var flag_theme)
     ///@detalis Settings item model.
     VisualItemModel
     {
@@ -93,6 +97,18 @@ DapSettingsScreenForm
             }
         }
     }
+    Switch {
+            id: themeSwitch
+            text: "Dark"
+            anchors.centerIn: parent
+            onCheckedChanged:
+            {
+                if(checked)
+                    changeMatherial(1)
+                else
+                    changeMatherial(0)
+            }
+        }
     Rectangle{
         color: "white"
         anchors.fill: parent
@@ -101,7 +117,6 @@ DapSettingsScreenForm
             anchors.horizontalCenter: parent.horizontalCenter
             width: 520
             height: 400
-
 
             Image {
                 id: under_cunstruct_img

@@ -52,6 +52,7 @@ GridView {
                 width: parent.width
                 height: 30 * pt
                 color: cell.GridView.isCurrentItem ? "#D51F5D" : "#3E3853"
+//                color: cell.GridView.isCurrentItem ? "#D51F5D" : "gray"
                 radius: 8 * pt
 
                 Rectangle {
