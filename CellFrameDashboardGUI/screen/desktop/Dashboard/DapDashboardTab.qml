@@ -149,6 +149,16 @@ DapAbstractTab
                 target: dapRightPanel;
                 visible: false
             }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: false
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: false
+            }
         },
         State
         {
@@ -172,6 +182,16 @@ DapAbstractTab
             {
                 target: dapRightPanel;
                 visible: true
+            }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: false
             }
         },
         State
@@ -197,14 +217,18 @@ DapAbstractTab
                 target: dapRightPanel;
                 visible: true
             }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: true
+            }
         }
     ]
-
-
-
-
-
-
 
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
@@ -215,6 +239,9 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
+                if(dapModelWallets.count === 0)
+                    state = "WALLETDEFAULT"
+
                 console.log("DapGetWalletHistoryCommand")
                 console.log("   network: " + dapServiceController.CurrentWalletNetwork)
                 console.log("   chain: " + dapServiceController.CurrentChain)
@@ -229,6 +256,9 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
+                if(dapModelWallets.count === 0)
+                    state = "WALLETDEFAULT"
+
                 console.log("DapGetWalletHistoryCommand")
                 console.log("   network: " + dapServiceController.CurrentWalletNetwork)
                 console.log("   chain: " + dapServiceController.CurrentChain)

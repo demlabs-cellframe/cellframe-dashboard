@@ -114,7 +114,8 @@ Rectangle {
                     data: DapAbstractMenuTabWidget
                     {
                         color:currTheme.backgroundPanel
-//                        radius: 8 * pt
+                        radius: currTheme.radiusRectangle
+
                         anchors.leftMargin: -8*pt
 
                         onPathScreenChanged:
@@ -134,6 +135,14 @@ Rectangle {
                         dapMenuWidget.model: modelMenuTab
                         normalFont: "Quicksand"
                         selectedFont: "Quicksand"
+                    }
+                    //hide top radius element
+                    Rectangle{
+                        width: 5*pt
+                        height: currTheme.radiusRectangle
+                        anchors.top:parent.top
+                        anchors.right: parent.right
+                        color: currTheme.backgroundPanel
                     }
 
                     width: 200*pt
@@ -214,22 +223,22 @@ Rectangle {
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
-                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
                 page: settingsScreen, //TODO: here should be: exchangeScreen,
-                normalIcon: "qrc:/resources/icons/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
             })
     
             append ({
                 name: qsTr("TX Explorer"),
                 page: historyScreen,
-                normalIcon: "qrc:/resources/icons/icon_history.svg",
-                hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_history.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_history.png"
             })
 
 
@@ -237,44 +246,44 @@ Rectangle {
                 name: qsTr("Certificates"),
                 page: certificatesScreen,
                 normalIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg",
-                hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates_hover.svg"
+                hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg"
             })
 
             append ({
                 name: qsTr("Tokens"),
                 page: historyScreen, //TODO: add screen for "Tokens" tab
-                normalIcon: "qrc:/resources/icons/ic_tokens.svg",
-                hoverIcon: "qrc:/resources/icons/ic_tokens_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
             })
 
 
             append ({
                 name: qsTr("VPN client"),
                 page: settingsScreen,
-                normalIcon: "qrc:/resources/icons/ic_vpn-client.svg",
-                hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
             })
 
             append ({
                 name: qsTr("VPN service"),
                 page: vpnServiceScreen,
-                normalIcon: "qrc:/resources/icons/icon_vpn-service.svg",
-                hoverIcon: "qrc:/resources/icons/icon_vpn-service_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png"
             })
 
 
             append ({
                 name: qsTr("Console"),
                 page: consoleScreen,
-                normalIcon: "qrc:/resources/icons/icon_console.png",
-                hoverIcon: "qrc:/resources/icons/icon_console_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_console.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_console.png"
             })
 
             append ({
                 name: qsTr("Settings"),
                 page: settingsScreen,
-                normalIcon: "qrc:/resources/icons/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
 
 //            append ({
@@ -288,20 +297,18 @@ Rectangle {
     //Main Shadow
     DropShadow {
             anchors.fill: parent
-            horizontalOffset: 5
-            verticalOffset: 5
-            radius: 8.0
-            color: "#21232A"
+            horizontalOffset: currTheme.hOffset
+            verticalOffset: currTheme.vOffset
+            radius: currTheme.radiusShadow
+            color: currTheme.shadowColor
             source: columnMenuTab
             spread: 0.1
         }
     //NetworkPanel shadow
     DropShadow {
             anchors.fill: networksPanel
-            horizontalOffset: 0
-            verticalOffset: 0
-            radius: 3
-            color: "#444253"
+            radius: currTheme.radiusShadowSmall
+            color: currTheme.reflectionLight
             source: networksPanel
             spread: 0.7
         }

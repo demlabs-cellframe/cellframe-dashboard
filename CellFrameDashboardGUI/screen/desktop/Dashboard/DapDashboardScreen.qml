@@ -24,6 +24,8 @@ DapAbstractScreen
     property alias dapWalletCreateFrame: walletCreateFrame
     property alias dapTitleBlock: titleBlock
     property alias dapAddWalletButton: addWalletButton
+    property alias dapFrameTitleCreateWallet: frameTitleCreateWallet
+
 
     Rectangle
     {
@@ -43,7 +45,7 @@ DapAbstractScreen
             Image
             {
                 id: iconCreateWallet
-                source: "qrc:/resources/icons/illustration_new-wallet.png"
+                source: "qrc:/resources/icons/" + pathTheme + "/illustration-new-wallet.png"
                 width: 500 * pt
                 height: 300 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -59,7 +61,7 @@ DapAbstractScreen
                 id: titleTextWalletCreate
                 font.family: "Quiksand"
                 font.pixelSize: 26 * pt
-                color: "#070023"
+                color: currTheme.textColor
                 text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -69,37 +71,48 @@ DapAbstractScreen
                 width: parent.width
                 color: "transparent"
             }
+
             DapButton
             {
                 id: addWalletButton
 
                 implicitWidth: 180 * pt
                 implicitHeight: 36 * pt
-                radius: 4 * pt
+                radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
-                heightImageButton: 21 * pt
-                widthImageButton: 22 * pt
                 textButton: "New wallet"
-                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.svg"
-                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
-                indentImageLeftButton: 41 * pt
-                colorBackgroundNormal: "#070023"
-                colorBackgroundHover: "#D51F5D"
-                colorButtonTextNormal: "#FFFFFF"
-                colorButtonTextHover: "#FFFFFF"
-                indentTextRight: 37 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                borderColorButton: "#000000"
-                borderWidthButton: 0
-                horizontalAligmentText:Qt.AlignRight
+                colorBackgroundNormal: currTheme.buttonColorNormal
+                colorBackgroundHover: currTheme.buttonColorHover
+                colorButtonTextNormal: currTheme.textColor
+                colorButtonTextHover: currTheme.textColor
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                horizontalAligmentText:Qt.AlignCenter
                 colorTextButton: "#FFFFFF"
 
             }
-//            Rectangle
-//            {
-//                height: Layout.fillHeight
-//                width: parent.width
-//            }
+            Rectangle
+            {
+                height: Layout.fillHeight
+                width: parent.width
+            }
+        }
+    }
+    Rectangle
+    {
+        id: frameTitleCreateWallet
+        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
+//        anchors.verticalCenter: parent.verticalCenter
+        Text
+        {
+//            anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: "Quiksand"
+            font.pixelSize: 26 * pt
+            color: currTheme.textColor
+            text: qsTr("Creating wallet in process...")
         }
     }
 
@@ -110,6 +123,7 @@ DapAbstractScreen
         anchors.topMargin: 20 * pt
         anchors.bottomMargin: 20 * pt
         anchors.left: parent.left
+        anchors.leftMargin: 20 * pt
         anchors.right: parent.right
         height: 36 * pt
         color: "transparent"
@@ -125,6 +139,7 @@ DapAbstractScreen
                 font.pixelSize: 20 * pt
                 text: "My first crypto wallet"
                 width: 185 * pt
+                color: currTheme.textColor
             }
 
             MouseArea
@@ -180,7 +195,10 @@ DapAbstractScreen
         anchors.top: titleBlock.bottom
         anchors.topMargin: 20 * pt
         anchors.bottom: parent.bottom
-        width: parent.width
+        anchors.leftMargin: 20 *pt
+//        anchors.rightMargin: 10 *pt
+        anchors.left: parent.left
+        anchors.right: parent.right
         spacing: 5 * pt
         clip: true
 
@@ -202,7 +220,7 @@ DapAbstractScreen
                 id: stockNameBlock
                 height: 30 * pt
                 width: parent.width
-                color: "#908D9D"
+                color: "transparent"
 
                 Text
                 {
@@ -210,7 +228,7 @@ DapAbstractScreen
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
                     anchors.verticalCenter: parent.verticalCenter
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     color: "#FFFFFF"
                     verticalAlignment: Qt.AlignVCenter
                     text: name
@@ -222,6 +240,7 @@ DapAbstractScreen
                 id: networkAddressBlock
                 height: 40 * pt
                 width: parent.width
+                color: currTheme.backgroundElements
 
                 Text
                 {
@@ -229,8 +248,8 @@ DapAbstractScreen
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 16 * pt
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    color: "#908D9D"
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    color: currTheme.textColor
                     text: qsTr("Network address")
                     width: 92 * pt
                 }
@@ -243,8 +262,8 @@ DapAbstractScreen
                    anchors.right:  networkAddressCopyButton.left
                    anchors.rightMargin: 4 * pt
                    anchors.verticalCenter: parent.verticalCenter
-                   fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular10
-                   color: "#908D9D"
+                   fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                   color: currTheme.textColor
                    fullText: address
                    textElide: Text.ElideRight
                 }

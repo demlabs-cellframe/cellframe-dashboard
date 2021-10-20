@@ -10,6 +10,7 @@ DapTopPanel
     property alias dapComboboxWallet: comboboxWallet
 
     anchors.leftMargin: 28*pt
+    radius: currTheme.radiusRectangle
 
 
     // Static text "Wallet"

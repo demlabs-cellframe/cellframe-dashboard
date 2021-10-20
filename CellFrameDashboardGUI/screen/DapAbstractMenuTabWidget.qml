@@ -39,12 +39,12 @@ DapAbstractMenuTabWidgetForm
             {
                 id:menuItemImg
                 anchors.left: frameItemMenu.left
-                anchors.rightMargin: 30 * pt
+                anchors.rightMargin: 8 * pt
                 anchors.verticalCenter: frameItemMenu.verticalCenter
                 anchors.right: frameItemMenu.right
                 height: heightItemMenu - 7*pt
                 visible: false
-                source: "qrc:/resources/icons/BlackTheme/bg-menuitem_active.png"
+                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }
             Image
             {
@@ -84,7 +84,7 @@ DapAbstractMenuTabWidgetForm
                         iconItem.source = hoverIcon;
                         textItem.font.family = selectedFont;
                         menuItemImg.visible = true
-                        menuItemImg.source = "qrc:/resources/icons/BlackTheme/bg-menuitem_hover.png"
+                        menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_hover.png"
                     }
                 }
 
@@ -95,7 +95,7 @@ DapAbstractMenuTabWidgetForm
                         iconItem.source = normalIcon
                         textItem.font.family = normalFont;
                         menuItemImg.visible = false
-                        menuItemImg.source = "qrc:/resources/icons/BlackTheme/bg-menuitem_active.png"
+                        menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
                     }
                 }
 
@@ -104,7 +104,7 @@ DapAbstractMenuTabWidgetForm
                     dapMenuWidget.currentIndex = index;
                     pathScreen = page;
                     menuItemImg.visible = true
-                    menuItemImg.source = "qrc:/resources/icons/BlackTheme/bg-menuitem_active.png"
+                    menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
                 }
             }
 
