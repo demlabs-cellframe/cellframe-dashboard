@@ -10,6 +10,8 @@ ApplicationWindow
     visible: true
     width: 1280
     height: 800
+    minimumHeight: 650
+    minimumWidth: 880
 
     //Main window
     DapMainApplicationWindow

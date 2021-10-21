@@ -4,18 +4,13 @@ import DapCertificateManager.Commands 1.0
 import "qrc:/widgets"
 import "parts"
 
-
 Rectangle
 {
     id: dapCertificatesMainPage
 
-
     Utils {
         id: utils
     }
-
-
-
 
     CertificatesModels {
         id: models
@@ -24,7 +19,6 @@ Rectangle
     CertificatesLogic{
         id: logics
     }
-
 
     HeaderItem {
         id: headerItem
@@ -37,8 +31,6 @@ Rectangle
             models.certificatesFind.update()
         }
     }
-
-
 
     CertificatesListView {
         id: certificatesListView
@@ -91,8 +83,6 @@ Rectangle
         }
 
     }  //rightPanel
-
-
 
     Component {
         id: certificatesActionsComponent
@@ -273,10 +263,6 @@ Rectangle
         }
     }
 
-
-
-
-
     Loader {
         id: blockBusyIndicatorLoader
         active: logics.requestRunning
@@ -312,9 +298,4 @@ Rectangle
             item.open()
         }
     }   //
-
-
-
-
-
 }   //dapCertificatesMainPage

@@ -4,8 +4,6 @@ import "qrc:/"
 import "../"
 import "../RightPanel"
 
-
-
 Item
 {
     id: tab
