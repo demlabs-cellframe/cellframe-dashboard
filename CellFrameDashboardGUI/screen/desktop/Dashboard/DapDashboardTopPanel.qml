@@ -9,7 +9,7 @@ DapTopPanel
     property alias dapAddWalletButton: addWalletButton
     property alias dapComboboxWallet: comboboxWallet
 
-    anchors.leftMargin: 28*pt
+    anchors.leftMargin: 4*pt
     radius: currTheme.radiusRectangle
 
 

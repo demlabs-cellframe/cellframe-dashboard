@@ -276,5 +276,6 @@
         <file>resources/icons/BlackTheme/radio_btn_on.png</file>
         <file>resources/icons/BlackTheme/under construction.png</file>
         <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
+        <file>resources/icons/BlackTheme/icon_certificates.png</file>
     </qresource>
 </RCC>

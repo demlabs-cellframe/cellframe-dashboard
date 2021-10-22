@@ -22,5 +22,6 @@ DapRightPanel
         }
     
     dapHeader.height: 36 * pt
-    color: "#F8F7FA"
+    color: currTheme.backgroundElements
+
 }

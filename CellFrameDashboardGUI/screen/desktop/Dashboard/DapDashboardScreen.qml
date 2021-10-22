@@ -10,7 +10,7 @@ DapAbstractScreen
     dapFrame.color: currTheme.backgroundMainScreen
     anchors.fill: parent
     anchors.leftMargin: 24 * pt
-    anchors.rightMargin: 24 * pt
+//    anchors.rightMargin: 24 * pt
 
     // Paths to currency emblems
     property string bitCoinImagePath: "qrc:/resources/icons/tkn1_icon_light.png"
@@ -303,10 +303,11 @@ DapAbstractScreen
                 Rectangle
                 {
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+//                    anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
-                    anchors.rightMargin: 16 * pt
+//                    anchors.rightMargin: 16 * pt
                     height: 67 * pt
+                    color: currTheme.backgroundElements
 
                     Rectangle
                     {
@@ -314,7 +315,7 @@ DapAbstractScreen
                         anchors.top: parent.top
                         width: parent.width
                         height: 1 * pt
-                        color: "#908D9D"
+                        color: currTheme.backgroundElements
                     }
 
                     RowLayout
@@ -337,7 +338,7 @@ DapAbstractScreen
                         {
                             id: currencyName
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                            color: "#070023"
+                            color: currTheme.textColor
                             text: name
                             width: 172 * pt
                             horizontalAlignment: Text.AlignLeft
@@ -348,7 +349,7 @@ DapAbstractScreen
                             id: currencySum
                             Layout.fillWidth: true
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                            color: "#070023"
+                            color: currTheme.textColor
                             text: balance.toFixed(9)
 //                            text: balance.toPrecision()
                             horizontalAlignment: Text.AlignRight
@@ -358,7 +359,7 @@ DapAbstractScreen
                         {
                             id: currencyCode
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                            color: "#070023"
+                            color: currTheme.textColor
                             text: name
                             horizontalAlignment: Text.AlignRight
                         }

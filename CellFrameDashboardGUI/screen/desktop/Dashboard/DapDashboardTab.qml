@@ -7,7 +7,6 @@ import "../../"
 
 DapAbstractTab
 {
-
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
     ///@detalis Path to the right panel of input name wallet.
@@ -113,8 +112,8 @@ DapAbstractTab
             {
                 id: stackViewRightPanel
                 initialItem: Qt.resolvedUrl(lastActionsWallet);
+                width: 350
                 anchors.fill: parent
-                width: 400
                 delegate:
                     StackViewDelegate
                     {

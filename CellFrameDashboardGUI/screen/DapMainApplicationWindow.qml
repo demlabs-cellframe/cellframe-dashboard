@@ -63,13 +63,14 @@ Rectangle {
         Row
         {
             id: rowMainWindow
+//            height: 754
 
             anchors {
                 left: parent.left;
                 top: parent.top;
                 right: parent.right;
                 bottom: networksPanel.top
-//                bottomMargin: 4 * pt
+                bottomMargin: 4 * pt
             }
 
             // Virtual logo column frame and menu bar
@@ -125,6 +126,7 @@ Rectangle {
                         id: menuTabWidget
                         anchors.fill: parent
                         dapFrameMenuTab.width: 180 * pt
+                        widthItemMenu: 180*pt
                         heightItemMenu: 60 * pt
 //                        normalColorItemMenu: "transparent"
                         normalColorItemMenu: currTheme.backgroundPanel
@@ -145,8 +147,8 @@ Rectangle {
                         color: currTheme.backgroundPanel
                     }
 
-                    width: 200*pt
-                    height: columnMenuTab.height - logotype.height - 10*pt
+                    width: 180 * pt
+                    height: columnMenuTab.height - logotype.height
                 }
             }
 
@@ -245,8 +247,8 @@ Rectangle {
             append ({
                 name: qsTr("Certificates"),
                 page: certificatesScreen,
-                normalIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg",
-                hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png"
             })
 
             append ({
@@ -294,7 +296,7 @@ Rectangle {
 //             })
         }
     }
-    //Main Shadow
+//    //Main Shadow
     DropShadow {
             anchors.fill: parent
             horizontalOffset: currTheme.hOffset
@@ -303,6 +305,7 @@ Rectangle {
             color: currTheme.shadowColor
             source: columnMenuTab
             spread: 0.1
+            smooth: true
         }
     //NetworkPanel shadow
     DropShadow {
@@ -312,6 +315,7 @@ Rectangle {
             source: networksPanel
             spread: 0.7
         }
+
 
     Component.onCompleted:
     {
