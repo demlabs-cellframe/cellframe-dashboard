@@ -34,8 +34,8 @@ DapAbstractRightPanel
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-                color: "#3E3853"
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                color: currTheme.textColor
             }
         }
     dapContentItemData:
