@@ -11,16 +11,17 @@ DapRightPanel
         DapButton
         {
             id: buttonClose
-            height: 16 * pt
-            width: 16 * pt
-            heightImageButton: 16 * pt
-            widthImageButton: 16 * pt
-            colorBackgroundNormal: "#F8F7FA"
-            colorBackgroundHover: "#F8F7FA"
-            normalImageButton: "qrc:/resources/icons/close_icon.png"
-            hoverImageButton: "qrc:/resources/icons/close_icon_hover.png"
+            height: 20 * pt
+            width: 20 * pt
+            heightImageButton: 10 * pt
+            widthImageButton: 10 * pt
+            colorBackgroundNormal: currTheme.backgroundElements
+            colorBackgroundHover: currTheme.backgroundElements
+            normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+            hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
         }
     
     dapHeader.height: 36 * pt
-    color: "#F8F7FA"
+    color: currTheme.backgroundElements
+
 }

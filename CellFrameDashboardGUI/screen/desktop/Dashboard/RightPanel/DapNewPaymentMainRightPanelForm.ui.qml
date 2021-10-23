@@ -28,34 +28,45 @@ DapAbstractRightPanel
 
     property string dapCurrentNetwork
 
-    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
+//    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
     dapHeaderData:
-        Row
+        Item
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            anchors.topMargin: 12 * pt
-            anchors.bottomMargin: 12 * pt
-            spacing: 12 * pt
-
             Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
                 height: dapButtonClose.height
                 width: dapButtonClose.width
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 11 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 22 * pt
+                anchors.rightMargin: 13 * pt
+
             }
 
             Text
             {
                 id: textHeader
                 text: qsTr("New payment")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-                color: "#3E3853"
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 50 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
 
@@ -71,90 +82,103 @@ DapAbstractRightPanel
             {
                 id: frameSenderWallet
                 Layout.fillWidth: true
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textFrameSenderWallet
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("From")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
 
             ColumnLayout
             {
                 id: frameSenderWalletAddress
+//                anchors.fill: parent
+//                anchors.top: frameSenderWallet
+
                 Layout.fillWidth: true
-                Layout.margins: 16 * pt
-                spacing: 16 * pt
+                Layout.leftMargin: 5 * pt
+                Layout.rightMargin: 5 * pt
+//                Layout.margins: 16 * pt
+//                spacing: 16 * pt
+//                height: 70 * pt
 
                 Rectangle
                 {
                     id: frameSenderNetwork
-                    color: "transparent"
+                    color: currTheme.backgroundElements
                     Layout.fillWidth: true
-                    height: 40 * pt
+                    height: 70 * pt
                     DapComboBox
                     {
                         id: comboboxNetwork
                         anchors.centerIn: parent
                         comboBoxTextRole: ["name"]
                         mainLineText: "private"
-                        indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
-                        indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
-                        sidePaddingNormal: 0 * pt
-                        sidePaddingActive: 20 * pt
-                        normalColorText: "#070023"
-                        hilightColorText: "#FFFFFF"
-                        normalColorTopText: "#070023"
-                        hilightColorTopText: "#070023"
-                        hilightColor: "#330F54"
-                        normalTopColor: parent.color
-                        widthPopupComboBoxNormal: 328 * pt
-                        widthPopupComboBoxActive: 368 * pt
+                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                        sidePaddingNormal: 35 * pt
+                        sidePaddingActive: 37 * pt
+//                        normalColorText: currTheme.textColor
+//                        hilightColorText: currTheme.textColor
+//                        normalColorTopText: currTheme.textColor
+//                        hilightColorTopText: currTheme.textColor
+                        hilightColor: currTheme.buttonColorNormal
+
+                        widthPopupComboBoxNormal: 318 * pt
+                        widthPopupComboBoxActive: 318 * pt
                         heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 44 * pt
-                        bottomIntervalListElement: 8 * pt
+                        heightComboBoxActive: 42 * pt
+//                        bottomIntervalListElement: 10 * pt
                         topEffect: false
-                        x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
-                        normalColor: "#FFFFFF"
-                        hilightTopColor: normalColor
+
+                        x: sidePaddingNormal
+                        normalColor: currTheme.backgroundMainScreen
+                        normalTopColor: parent.color
+                        hilightTopColor: currTheme.backgroundMainScreen
+
+
                         paddingTopItemDelegate: 8 * pt
-                        heightListElement: 32 * pt
-                        intervalListElement: 10 * pt
+                        heightListElement: 42 * pt
+//                        intervalListElement: 10 * pt
                         indicatorWidth: 24 * pt
                         indicatorHeight: indicatorWidth
-                        indicatorLeftInterval: 20 * pt
-                        colorTopNormalDropShadow: "#00000000"
-                        colorDropShadow: "#40ABABAB"
-                        roleInterval: 20
+//                        indicatorLeftInterval: 0 * pt
+//                        colorTopNormalDropShadow: "#00000000"
+                        colorDropShadow: currTheme.shadowColor
+                        roleInterval: 15
                         endRowPadding: 44
+
                         fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
-                        colorMainTextComboBox: [["#070023", "#070023"], ["#070023", "#908D9D"]]
-                        colorTextComboBox: [["#070023", "#FFFFFF"], ["#908D9D", "#FFFFFF"]]
+                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
                 }
-                Rectangle
-                {
-                    id: splitLineSenderWalletToken
-                    height: 1 * pt
-                    Layout.fillWidth: true
-                    color: "#E3E2E6"
-                }
-                DapText
-                {
-                    id: textSenderWalletAddress
-                    Layout.fillWidth: true
-                    width: 240 * pt
-                    fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                    textColor: "#757184"
-                }
+//                Rectangle
+//                {
+//                    id: splitLineSenderWalletToken
+//                    height: 1 * pt
+//                    Layout.fillWidth: true
+//                    color: "#E3E2E6"
+//                }
+//                DapText
+//                {
+//                    id: textSenderWalletAddress
+//                    Layout.fillWidth: true
+//                    width: 240 * pt
+//                    fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+//                    textColor: "#757184"
+//                }
             }
 
             // Amount payment

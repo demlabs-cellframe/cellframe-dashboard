@@ -11,6 +11,7 @@ DapTopPanel
     property alias dapComboboxPeriod: comboboxPeriod
     property alias dapComboboxWallet: comboboxWallet
     property alias dapComboboxStatus: comboboxStatus
+    color: currTheme.backgroundPanel
 
 
     // Frame icon search

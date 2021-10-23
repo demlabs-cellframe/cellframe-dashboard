@@ -30,6 +30,7 @@ DapAbstractTab {
     dapTopPanel:
         DapVPNServiceTopPanel
         {
+            color: currTheme.backgroundPanel
             id: vpnServicetTopPanel
             dapAddOrderButton.onClicked: {
                 createOrderFunc()

@@ -23,7 +23,7 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
-            color: "#757184"
+            color: currTheme.backgroundMainScreen
 
             Text
             {
@@ -33,7 +33,7 @@ DapLastActionsRightPanelForm
                 anchors.rightMargin: 16 * pt
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: "#FFFFFF"
+                color: currTheme.textColor
                 text: getDateString(payDate)
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
@@ -55,6 +55,17 @@ DapLastActionsRightPanelForm
             }
         }
     }
+
+//    Component.onCompleted:
+//    {
+//        for (var i = 0; i < 20; ++i)
+//        {
+//            modelLastActions.append({ "name" : "a" + i,
+//                                      "amount" : "b" + i,
+//                                      "status" : "ok",
+//                                      "date" : "Today "})
+//        }
+//    }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)

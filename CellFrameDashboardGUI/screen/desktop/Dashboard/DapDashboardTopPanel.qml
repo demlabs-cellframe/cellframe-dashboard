@@ -9,6 +9,8 @@ DapTopPanel
     property alias dapAddWalletButton: addWalletButton
     property alias dapComboboxWallet: comboboxWallet
 
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
 
 
     // Static text "Wallet"

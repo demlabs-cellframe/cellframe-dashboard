@@ -6,8 +6,9 @@ DapTab
     ///@detalis Currently displayed right pane
     property DapRightPanel currentRightPanel
 
-    dapSeparator.width: 1 * pt
+    dapSeparator.width: 0 * pt
     dapSeparator.color: "#E3E2E6"
+
 
     Connections
     {

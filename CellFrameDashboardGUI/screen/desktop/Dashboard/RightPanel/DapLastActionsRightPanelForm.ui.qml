@@ -5,32 +5,35 @@ import "../../../"
 
 DapAbstractRightPanel
 {
+
     dapHeaderData:
         Rectangle
         {
-            anchors.fill: parent
             color: "transparent"
+            height: 38 * pt
+            width: 348*pt
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 * pt
+                anchors.leftMargin: 24 * pt
                 text: qsTr("Last actions")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                color: "#3E3853"
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
+
             }
 
-            Rectangle
-            {
-                id: borderBottom
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 1 * pt
-                color: "#757184"
-            }
+//            Rectangle
+//            {
+//                id: borderBottom
+//                anchors.bottom: parent.bottom
+//                anchors.left: parent.left
+//                anchors.right: parent.right
+//                height: 1 * pt
+//                color: "#757184"
+//            }
         }
 
     dapContentItemData:
@@ -64,7 +67,7 @@ DapAbstractRightPanel
                             {
                                 Layout.fillWidth: true
                                 text: name
-                                color: "#3E3853"
+                                color: currTheme.textColor
                                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                                 elide: Text.ElideRight
                             }
@@ -73,7 +76,7 @@ DapAbstractRightPanel
                             {
                                 Layout.fillWidth: true
                                 text: status
-                                color: "#757184"
+                                color: currTheme.textColor
                                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                             }
                         }
@@ -85,7 +88,7 @@ DapAbstractRightPanel
                             Layout.fillWidth: true
                             horizontalAlignment: Qt.AlignRight
                             verticalAlignment: Qt.AlignVCenter
-                            color: "#3E3853"
+                            color: currTheme.textColor
                             text: sign + amount + " " + name
                             font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         }
@@ -95,7 +98,7 @@ DapAbstractRightPanel
                     {
                         width: parent.width
                         height: 1 * pt
-                        color: "#E3E2E6"
+                        color: currTheme.lineSeparatorColor
                         anchors.bottom: parent.bottom
                     }
                 }

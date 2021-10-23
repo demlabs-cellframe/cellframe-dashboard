@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 import "qrc:/screen"
 import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Dashboard"
@@ -8,11 +9,8 @@ import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 
-import "theme_test.js" as Theme
 
-
-
-Item {
+Rectangle {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
@@ -59,19 +57,20 @@ Item {
 
 
 
-
+        color:currTheme.backgroundPanel
 
         // The horizontal location of the virtual menu column and tab view loader
         Row
         {
             id: rowMainWindow
+//            height: 754
 
             anchors {
                 left: parent.left;
                 top: parent.top;
                 right: parent.right;
                 bottom: networksPanel.top
-//                bottomMargin: 4 * pt
+                bottomMargin: 4 * pt
             }
 
             // Virtual logo column frame and menu bar
@@ -85,15 +84,15 @@ Item {
                 {
                     id: logotype
 //                    data: dapLogotype
-                    width: columnMenuTab.width
+                    width: menuTabWidget.width -8*pt
                     height: 60 * pt
                     Rectangle
                     {
                         id: frameLogotype
                         anchors.fill: parent
-                        color: "#070023"
-//                        color: Theme.testTheme()
+                        color:currTheme.backgroundPanel
                         height: 60 * pt
+                        width: parent.width
 //                        radius: 8 * pt
                         anchors.leftMargin: -8*pt
                         anchors.bottomMargin: -10*pt
@@ -105,7 +104,7 @@ Item {
                             height: 24 * pt
                             anchors.left: parent.left
                             anchors.leftMargin: 24 * pt
-                            source: "qrc:/resources/icons/Certificates/cellframe-logo-dashboard.svg"
+                            source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
                         }
                     }
                 }
@@ -115,7 +114,9 @@ Item {
                     id: menuWidget
                     data: DapAbstractMenuTabWidget
                     {
-//                        radius: 8 * pt
+                        color:currTheme.backgroundPanel
+                        radius: currTheme.radiusRectangle
+
                         anchors.leftMargin: -8*pt
 
                         onPathScreenChanged:
@@ -125,17 +126,28 @@ Item {
                         id: menuTabWidget
                         anchors.fill: parent
                         dapFrameMenuTab.width: 180 * pt
+                        widthItemMenu: 180*pt
                         heightItemMenu: 60 * pt
-                        normalColorItemMenu: "transparent"
-                        selectColorItemMenu: "#D51F5D"
+//                        normalColorItemMenu: "transparent"
+                        normalColorItemMenu: currTheme.backgroundPanel
+//                        selectColorItemMenu: "#D51F5D"
+                        selectColorItemMenu: "transparent"
                         widthIconItemMenu: 18 * pt
                         heightIconItemMenu: 18 * pt
                         dapMenuWidget.model: modelMenuTab
                         normalFont: "Quicksand"
                         selectedFont: "Quicksand"
                     }
+                    //hide top radius element
+                    Rectangle{
+                        width: 5*pt
+                        height: currTheme.radiusRectangle
+                        anchors.top:parent.top
+                        anchors.right: parent.right
+                        color: currTheme.backgroundPanel
+                    }
 
-                    width: 200*pt
+                    width: 180 * pt
                     height: columnMenuTab.height - logotype.height
                 }
             }
@@ -213,67 +225,67 @@ Item {
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreen,
-                normalIcon: "qrc:/resources/icons/icon_dashboard.png",
-                hoverIcon: "qrc:/resources/icons/icon_dashboard_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
                 page: settingsScreen, //TODO: here should be: exchangeScreen,
-                normalIcon: "qrc:/resources/icons/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/icon_exchange_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
             })
     
             append ({
                 name: qsTr("TX Explorer"),
                 page: historyScreen,
-                normalIcon: "qrc:/resources/icons/icon_history.svg",
-                hoverIcon: "qrc:/resources/icons/icon_history_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_history.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_history.png"
             })
 
 
             append ({
                 name: qsTr("Certificates"),
                 page: certificatesScreen,
-                normalIcon: "qrc:/resources/icons/Certificates/icon_certificates.svg",
-                hoverIcon: "qrc:/resources/icons/Certificates/icon_certificates_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png"
             })
 
             append ({
                 name: qsTr("Tokens"),
                 page: historyScreen, //TODO: add screen for "Tokens" tab
-                normalIcon: "qrc:/resources/icons/ic_tokens.svg",
-                hoverIcon: "qrc:/resources/icons/ic_tokens_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
             })
 
 
             append ({
                 name: qsTr("VPN client"),
                 page: settingsScreen,
-                normalIcon: "qrc:/resources/icons/ic_vpn-client.svg",
-                hoverIcon: "qrc:/resources/icons/ic_vpn-client_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
             })
 
             append ({
                 name: qsTr("VPN service"),
                 page: vpnServiceScreen,
-                normalIcon: "qrc:/resources/icons/icon_vpn-service.svg",
-                hoverIcon: "qrc:/resources/icons/icon_vpn-service_hover.svg"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png"
             })
 
 
             append ({
                 name: qsTr("Console"),
                 page: consoleScreen,
-                normalIcon: "qrc:/resources/icons/icon_console.png",
-                hoverIcon: "qrc:/resources/icons/icon_console_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_console.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_console.png"
             })
 
             append ({
                 name: qsTr("Settings"),
                 page: settingsScreen,
-                normalIcon: "qrc:/resources/icons/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/icon_settings_hover.png"
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
 
 //            append ({
@@ -284,6 +296,26 @@ Item {
 //             })
         }
     }
+//    //Main Shadow
+    DropShadow {
+            anchors.fill: parent
+            horizontalOffset: currTheme.hOffset
+            verticalOffset: currTheme.vOffset
+            radius: currTheme.radiusShadow
+            color: currTheme.shadowColor
+            source: columnMenuTab
+            spread: 0.1
+            smooth: true
+        }
+    //NetworkPanel shadow
+    DropShadow {
+            anchors.fill: networksPanel
+            radius: currTheme.radiusShadowSmall
+            color: currTheme.reflectionLight
+            source: networksPanel
+            spread: 0.7
+        }
+
 
     Component.onCompleted:
     {

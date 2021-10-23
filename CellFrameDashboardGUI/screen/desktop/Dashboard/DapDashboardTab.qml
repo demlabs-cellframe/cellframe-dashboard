@@ -5,7 +5,6 @@ import "../../"
 
 DapAbstractTab
 {
-
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
     ///@detalis Path to the right panel of input name wallet.
@@ -24,6 +23,7 @@ DapAbstractTab
     property int dapIndexCurrentWallet: -1
 
     id: dashboardTab
+    color: currTheme.backgroundMainScreen
 
     property alias dapDashboardRightPanel: stackViewRightPanel
     //property alias dashboardTopPanel: dashboardTopPanel
@@ -32,6 +32,7 @@ DapAbstractTab
     dapTopPanel:
         DapDashboardTopPanel
         {
+            color: currTheme.backgroundPanel
             id: dashboardTopPanel
             dapComboboxWallet.onCurrentIndexChanged:
             {
@@ -66,11 +67,16 @@ DapAbstractTab
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
+
         }
+
+
 
     dapScreen:
         DapDashboardScreen
         {
+//            color: currTheme.backgroundMainScreen
+
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
@@ -90,9 +96,9 @@ DapAbstractTab
                             dapCurrentNetwork: dapServiceController.CurrentWalletNetwork,
 //                            dapCmboBoxNetworkModel: dapNetworkModel,
                             dapCmboBoxNetworkModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
-                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(0).tokens,
-                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
-                               .findAddress(dapServiceController.CurrentWalletNetwork)
+                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(0).tokens
+//                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
+//                               .findAddress(dapServiceController.CurrentWalletNetwork)
                         }
                        });
                 //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
@@ -104,8 +110,8 @@ DapAbstractTab
             {
                 id: stackViewRightPanel
                 initialItem: Qt.resolvedUrl(lastActionsWallet);
+                width: 350
                 anchors.fill: parent
-                width: 400
                 delegate:
                     StackViewDelegate
                     {
@@ -140,6 +146,16 @@ DapAbstractTab
                 target: dapRightPanel;
                 visible: false
             }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: false
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: false
+            }
         },
         State
         {
@@ -163,6 +179,16 @@ DapAbstractTab
             {
                 target: dapRightPanel;
                 visible: true
+            }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: false
             }
         },
         State
@@ -188,14 +214,18 @@ DapAbstractTab
                 target: dapRightPanel;
                 visible: true
             }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: true
+            }
         }
     ]
-
-
-
-
-
-
 
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
@@ -206,6 +236,9 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
+                if(dapModelWallets.count === 0)
+                    state = "WALLETDEFAULT"
+
                 console.log("DapGetWalletHistoryCommand")
                 console.log("   network: " + dapServiceController.CurrentWalletNetwork)
                 console.log("   chain: " + dapServiceController.CurrentChain)
@@ -220,6 +253,9 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
+                if(dapModelWallets.count === 0)
+                    state = "WALLETDEFAULT"
+
                 console.log("DapGetWalletHistoryCommand")
                 console.log("   network: " + dapServiceController.CurrentWalletNetwork)
                 console.log("   chain: " + dapServiceController.CurrentChain)

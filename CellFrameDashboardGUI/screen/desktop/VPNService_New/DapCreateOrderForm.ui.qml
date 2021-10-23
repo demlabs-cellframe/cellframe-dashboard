@@ -17,6 +17,7 @@ DapAbstractRightPanel {
 
     dapNextRightPanel: doneOrder
     dapPreviousRightPanel: earnedFundsOrder
+//    radius: currTheme.radiusRectangle
 
     width: 400 * pt
 

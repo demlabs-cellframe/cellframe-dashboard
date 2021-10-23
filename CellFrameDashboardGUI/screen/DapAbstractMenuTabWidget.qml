@@ -37,6 +37,18 @@ DapAbstractMenuTabWidgetForm
 
             Image
             {
+                id:menuItemImg
+                anchors.left: frameItemMenu.left
+                anchors.rightMargin: 3 * pt
+                anchors.verticalCenter: frameItemMenu.verticalCenter
+                anchors.right: frameItemMenu.right
+                height: heightItemMenu
+                width: widthItemMenu - 8
+                visible: false
+                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+            }
+            Image
+            {
                 id: iconItem
                 anchors.left: parent.left
                 anchors.leftMargin: 24 * pt
@@ -45,6 +57,8 @@ DapAbstractMenuTabWidgetForm
                 width: widthIconItemMenu
                 source: normalIcon
             }
+
+
 
             Text
             {
@@ -70,6 +84,8 @@ DapAbstractMenuTabWidgetForm
                     {
                         iconItem.source = hoverIcon;
                         textItem.font.family = selectedFont;
+                        menuItemImg.visible = true
+                        menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_hover.png"
                     }
                 }
 
@@ -79,6 +95,8 @@ DapAbstractMenuTabWidgetForm
                     {
                         iconItem.source = normalIcon
                         textItem.font.family = normalFont;
+                        menuItemImg.visible = false
+                        menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
                     }
                 }
 
@@ -86,6 +104,8 @@ DapAbstractMenuTabWidgetForm
                 {
                     dapMenuWidget.currentIndex = index;
                     pathScreen = page;
+                    menuItemImg.visible = true
+                    menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
                 }
             }
 
@@ -94,6 +114,7 @@ DapAbstractMenuTabWidgetForm
                 frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
                 iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
                 textItem.font.family = (isPushed ? selectedFont : normalFont);
+                menuItemImg.visible = isPushed ? true : false
             }
         }
     }

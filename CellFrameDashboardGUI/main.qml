@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
+import "resources/theme" as Theme
 import "screen"
 
 ApplicationWindow
@@ -12,6 +13,13 @@ ApplicationWindow
     height: 800
     minimumHeight: 650
     minimumWidth: 880
+
+    Theme.Dark {id: darkTheme}
+    Theme.Light {id: lightTheme}
+
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
+    property var pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
 
     //Main window
     DapMainApplicationWindow

@@ -231,10 +231,51 @@
         <file>screen/desktop/VPNService_New/DapEarnedFundsRightPanelForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapVPNOrdersGridView.qml</file>
+        <file>resources/theme/Light.qml</file>
+        <file>resources/theme/Dark.qml</file>
         <file>screen/desktop/VPNService_New/DapOrderDetails.qml</file>
         <file>screen/desktop/VPNService_New/DapOrderDetailsForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapOrderPanelButton.qml</file>
         <file>resources/icons/arrow-right_icon.svg</file>
-        <file>screen/theme_test.js</file>
+        <file>resources/icons/BlackTheme/bg-menuitem_active.png</file>
+        <file>resources/icons/BlackTheme/bg-menuitem_hover.png</file>
+        <file>resources/icons/BlackTheme/cellframe-logo-dashboard.png</file>
+        <file>resources/icons/BlackTheme/back_icon.png</file>
+        <file>resources/icons/BlackTheme/back_icon_hover.png</file>
+        <file>resources/icons/BlackTheme/bg_menu.png</file>
+        <file>resources/icons/BlackTheme/bg_new-payment_btn.png</file>
+        <file>resources/icons/BlackTheme/bg_new-payment_btn_hover_active.png</file>
+        <file>resources/icons/BlackTheme/bg_plain_btn.png</file>
+        <file>resources/icons/BlackTheme/bg_plain_btn_hover_active.png</file>
+        <file>resources/icons/BlackTheme/bg_plain_btn_noactive.png</file>
+        <file>resources/icons/BlackTheme/clear_icon.png</file>
+        <file>resources/icons/BlackTheme/clear_icon_hover.png</file>
+        <file>resources/icons/BlackTheme/close_icon.png</file>
+        <file>resources/icons/BlackTheme/close_icon_hover.png</file>
+        <file>resources/icons/BlackTheme/ic_arrow_up.png</file>
+        <file>resources/icons/BlackTheme/ic_checkbox_off.png</file>
+        <file>resources/icons/BlackTheme/ic_checkbox_on.png</file>
+        <file>resources/icons/BlackTheme/icon_arrow_down.png</file>
+        <file>resources/icons/BlackTheme/icon_console.png</file>
+        <file>resources/icons/BlackTheme/icon_exchange.png</file>
+        <file>resources/icons/BlackTheme/icon_history.png</file>
+        <file>resources/icons/BlackTheme/icon_logs.png</file>
+        <file>resources/icons/BlackTheme/icon_logs-1.png</file>
+        <file>resources/icons/BlackTheme/icon_settings.png</file>
+        <file>resources/icons/BlackTheme/icon_tokens.png</file>
+        <file>resources/icons/BlackTheme/icon_vpn.png</file>
+        <file>resources/icons/BlackTheme/icon_wallet.png</file>
+        <file>resources/icons/BlackTheme/illustration-new-wallet.png</file>
+        <file>resources/icons/BlackTheme/indicator_error.png</file>
+        <file>resources/icons/BlackTheme/indicator_offline.png</file>
+        <file>resources/icons/BlackTheme/indicator_online.png</file>
+        <file>resources/icons/BlackTheme/next-page.png</file>
+        <file>resources/icons/BlackTheme/next-page_hover.png</file>
+        <file>resources/icons/BlackTheme/next-page_pressed.png</file>
+        <file>resources/icons/BlackTheme/radio_btn_off.png</file>
+        <file>resources/icons/BlackTheme/radio_btn_on.png</file>
+        <file>resources/icons/BlackTheme/under construction.png</file>
+        <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
+        <file>resources/icons/BlackTheme/icon_certificates.png</file>
     </qresource>
 </RCC>
