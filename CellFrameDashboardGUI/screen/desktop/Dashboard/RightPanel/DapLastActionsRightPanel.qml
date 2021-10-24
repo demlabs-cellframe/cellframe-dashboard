@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
@@ -14,6 +14,11 @@ DapLastActionsRightPanelForm
     ListModel
     {
         id: modelLastActions
+    }
+
+    ListModel
+    {
+        id: modelLastActionsDays
     }
 
     Component
@@ -45,27 +50,46 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            modelLastActions.clear()
-            for (var i = 0; i < walletHistory.length; ++i)
-            {
-                modelLastActions.append({ "name" : walletHistory[i].Name,
-                                          "amount" : walletHistory[i].Amount,
-                                          "status" : walletHistory[i].Status,
-                                          "date" : walletHistory[i].Date})
-            }
+            //            modelLastActions.clear()
+            //            for (let i = 0; i < 5; i++)
+            //            {
+            //                modelLastActions.append({
+            //                                            "day": "Day # " + i,
+            //                                            "name" : "a" + i,
+            //                                            "amount" : "b" + i,
+            //                                            "status" : "ok",
+            //                                            "date" : "Today "
+            //                                        })
+            //                modelLastActionsDays.append(modelLastActions)
+            //            }
+
+            //            for (let i = 0; i < walletHistory.length; ++i)
+            //            {
+            //                modelLastActions.append({ "name" : walletHistory[i].Name,
+            //                                          "amount" : walletHistory[i].Amount,
+            //                                          "status" : walletHistory[i].Status,
+            //                                          "date" : walletHistory[i].Date})
+            //            }
         }
     }
 
-//    Component.onCompleted:
-//    {
-//        for (var i = 0; i < 20; ++i)
-//        {
-//            modelLastActions.append({ "name" : "a" + i,
-//                                      "amount" : "b" + i,
-//                                      "status" : "ok",
-//                                      "date" : "Today "})
-//        }
-//    }
+    Shortcut {
+        sequence: "Ctrl+D"
+        onActivated: {
+            console.info("PRESSED")
+            modelLastActions.clear()
+            for (let i = 0; i < 5; i++)
+            {
+                modelLastActions.append({
+                                            "name" : "a" + i,
+                                            "amount" : "b" + i,
+                                            "status" : "ok",
+                                            "date" : "Today "
+                                        })
+                console.warn("modelLastActions.count =", modelLastActions.count)
+            }
+        }
+    }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
@@ -91,7 +115,7 @@ DapLastActionsRightPanelForm
     ////@ Checks if dates are same
     function isSameDay(date1, date2)
     {
-       return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
     }
 
     ////@ Checks if dates have same year
