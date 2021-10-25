@@ -16,9 +16,13 @@ QtObject {
     readonly property color lineSeparatorColor     : "#292929"
 
     readonly property color textColor              : "#ffffff" // OK
+    readonly property color placeHolderTextColor   : "#C7C6CE" // OK
+
+    readonly property color borderColor            : "#666E7D" // OK
+
 
     readonly property int radiusRectangle          : 20*pt
-    readonly property int radiusButton             : 30*pt
+    readonly property int radiusButton             : 50*pt
 
     //Shadow oprions
     readonly property color shadowColor            : "#20222A"
