@@ -44,29 +44,39 @@ DapAbstractRightPanel
     }
 
     dapHeaderData:
-        Row
+        Item
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            anchors.topMargin: 12 * pt
-            anchors.bottomMargin: 12 * pt
-            spacing: 12 * pt
-
             Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
                 height: dapButtonClose.height
                 width: dapButtonClose.width
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 11 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 22 * pt
+                anchors.rightMargin: 13 * pt
             }
 
             Text
             {
                 id: textHeader
                 text: qsTr("New wallet")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                color: "#3E3853"
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 50 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
 
@@ -84,75 +94,104 @@ DapAbstractRightPanel
                 anchors.right: parent.right
                 anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textNameWallet
                     color: "#ffffff"
                     text: qsTr("Name of wallet")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
 
             Rectangle
             {
                 id: frameInputNameWallet
-                height: 68 * pt
+                height: 41 * pt
                 color: "transparent"
                 anchors.top: frameNameWallet.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
+                anchors.leftMargin: 35 * pt
+                anchors.rightMargin: 35 * pt
                 TextField
                 {
                     id: textInputNameWallet
-                    placeholderText: qsTr("Wallet name")
+                    placeholderText: qsTr("Input name of wallet")
                     anchors.verticalCenter: parent.verticalCenter
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
+
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
                     style:
                         TextFieldStyle
                         {
-                            textColor: "#070023"
-                            placeholderTextColor: "#C7C6CE"
+                            textColor: currTheme.textColor
+                            placeholderTextColor: currTheme.textColor
                             background:
                                 Rectangle
                                 {
                                     border.width: 0
-                                    color: "transparent"
+                                    color: currTheme.backgroundElements
                                 }
                         }
                 }
+
+
             }
+            DapCheckBox
+            {
+                id: buttonUseExestingWallet
+                anchors.top: frameInputNameWallet.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 28 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 4 * pt
+                height: 46 * pt
+
+                nameCheckbox: qsTr("Use exsisting wallet")
+                fontCheckbox: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                nameTextColor: currTheme.textColor
+
+                checkboxOn:"qrc:/resources/icons/BlackTheme/ic_checkbox_on.png"
+                checkboxOff:"qrc:/resources/icons/BlackTheme/ic_checkbox_off.png"
+
+                indicatorInnerSize: 46 * pt
+            }
+
 
             Rectangle
             {
                 id: frameChooseSignatureType
-                anchors.top: frameInputNameWallet.bottom
-                anchors.right: parent.right
+                anchors.top: buttonUseExestingWallet.bottom
                 anchors.left: parent.left
-                color: "#757184"
+                anchors.right: parent.right
+                anchors.topMargin: 8 * pt
+                anchors.bottomMargin: 8 * pt
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textChooseSignatureType
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Choose signature type")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                    anchors.leftMargin: 16 * pt
-                    anchors.left: parent.left
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
 
@@ -210,20 +249,24 @@ DapAbstractRightPanel
             {
                 id: frameRecoveryMethod
                 anchors.top: frameSignatureType.bottom
-                anchors.right: parent.right
                 anchors.left: parent.left
-                color: "#757184"
+                anchors.right: parent.right
+                anchors.topMargin: 8 * pt
+                anchors.bottomMargin: 8 * pt
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textRecoveryMethod
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Recovery method")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                    anchors.leftMargin: 16 * pt
-                    anchors.left: parent.left
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
 

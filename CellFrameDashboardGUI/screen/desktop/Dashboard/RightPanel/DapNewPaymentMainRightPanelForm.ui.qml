@@ -164,7 +164,7 @@ DapAbstractRightPanel
                         roleInterval: 15
                         endRowPadding: 37
 
-                        fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                         colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -232,7 +232,7 @@ DapAbstractRightPanel
                         width: 150 * pt
                         height: 28 * pt
                         placeholderText: qsTr("0")
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAlignment: Text.AlignRight
 
                         style:
@@ -285,7 +285,7 @@ DapAbstractRightPanel
                             colorDropShadow: currTheme.shadowColor
                             roleInterval: 15
                             endRowPadding: 37
-                            fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
+                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                             colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -331,6 +331,7 @@ DapAbstractRightPanel
                 TextField
                 {
                     id: textInputRecipientWalletAddress
+                    Layout.fillWidth: true
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Paste here")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
@@ -413,7 +414,7 @@ DapAbstractRightPanel
                 Layout.margins: 30 * pt
                 color: "#ff2020"
                 text: qsTr("Not enough available tokens. Enter a lower value.")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WordWrap
                 visible: true
