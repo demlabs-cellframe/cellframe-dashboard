@@ -16,11 +16,6 @@ DapLastActionsRightPanelForm
         id: modelLastActions
     }
 
-    ListModel
-    {
-        id: modelLastActionsDays
-    }
-
     Component
     {
         id: delegateSection
@@ -30,9 +25,10 @@ DapLastActionsRightPanelForm
             width: parent.width
             color: currTheme.backgroundMainScreen
 
+            property date payDate: new Date(Date.parse(section))
+
             Text
             {
-                property date payDate: new Date(Date.parse(section))
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
@@ -50,18 +46,16 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            //            modelLastActions.clear()
-            //            for (let i = 0; i < 5; i++)
-            //            {
-            //                modelLastActions.append({
-            //                                            "day": "Day # " + i,
-            //                                            "name" : "a" + i,
-            //                                            "amount" : "b" + i,
-            //                                            "status" : "ok",
-            //                                            "date" : "Today "
-            //                                        })
-            //                modelLastActionsDays.append(modelLastActions)
-            //            }
+            modelLastActions.clear()
+            for (let i = 0; i < 5; i++)
+            {
+                modelLastActions.append({
+                                            "name" : "a" + i,
+                                            "amount" : "b" + i,
+                                            "status" : "ok",
+                                            "date" : "25.10.2021"
+                                        })
+            }
 
             //            for (let i = 0; i < walletHistory.length; ++i)
             //            {
@@ -76,7 +70,6 @@ DapLastActionsRightPanelForm
     Shortcut {
         sequence: "Ctrl+D"
         onActivated: {
-            console.info("PRESSED")
             modelLastActions.clear()
             for (let i = 0; i < 5; i++)
             {
@@ -86,7 +79,6 @@ DapLastActionsRightPanelForm
                                             "status" : "ok",
                                             "date" : "Today "
                                         })
-                console.warn("modelLastActions.count =", modelLastActions.count)
             }
         }
     }

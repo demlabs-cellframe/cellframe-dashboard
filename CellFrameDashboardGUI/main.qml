@@ -7,6 +7,7 @@ import "screen"
 
 ApplicationWindow
 {
+
     id: window
     visible: true
     width: 1280
