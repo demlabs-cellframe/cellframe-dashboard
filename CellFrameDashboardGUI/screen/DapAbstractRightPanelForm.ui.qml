@@ -8,7 +8,7 @@ DapRightPanel
 {
     id: rightPanel
 
-    property DapButton dapButtonClose: 
+    property DapButton dapButtonClose:
         DapButton
         {
             id: buttonClose
@@ -21,7 +21,6 @@ DapRightPanel
             normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
             hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
         }
-    
-    dapHeader.height: 36 * pt
 
+    dapHeader.height: 36 * pt
 }

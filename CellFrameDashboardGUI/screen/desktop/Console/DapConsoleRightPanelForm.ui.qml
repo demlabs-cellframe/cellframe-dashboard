@@ -1,7 +1,8 @@
 import QtQuick 2.4
+import "qrc:/widgets"
 import "../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
     dapHeaderData:
         Rectangle

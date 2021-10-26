@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
     dapHeaderData:
         Rectangle

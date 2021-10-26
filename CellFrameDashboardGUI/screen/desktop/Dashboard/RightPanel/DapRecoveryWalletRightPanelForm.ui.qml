@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
     dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
     dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"

@@ -7,13 +7,8 @@ import "screen"
 
 ApplicationWindow
 {
-
     id: window
     visible: true
-    width: 1280
-    height: 800
-    minimumHeight: 650
-    minimumWidth: 880
 
     Theme.Dark {id: darkTheme}
     Theme.Light {id: lightTheme}
@@ -22,10 +17,12 @@ ApplicationWindow
     property var currTheme: currThemeVal ? darkTheme : lightTheme
     property var pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
 
+    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+
     //Main window
     DapMainApplicationWindow
     {
-        id:mainWindow
+        id: mainWindow
         property alias device: dapDevice.device
 
         anchors.fill: parent
@@ -98,6 +95,15 @@ ApplicationWindow
              {
                  window.hide()
              }
+        }
+    }
+
+    Component.onCompleted: {
+        if(!isMobile) {
+            window.width = 1280
+            window.height = 800
+            window.minimumHeight = 650
+            window.minimumWidth = 880
         }
     }
 

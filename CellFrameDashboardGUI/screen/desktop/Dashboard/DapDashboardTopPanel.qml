@@ -117,17 +117,9 @@ DapTopPanel
         widthImageButton: 28 * pt
         heightImageButton: 28 * pt
         indentImageLeftButton: 10 * pt
-        colorBackgroundNormal: "#070023"
-        colorBackgroundHover: "#D51F5D"
-        colorButtonTextNormal: "#FFFFFF"
-        colorButtonTextHover: "#FFFFFF"
         indentTextRight: 10 * pt
         fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-        borderColorButton: "#000000"
-        borderWidthButton: 0
-        horizontalAligmentText:Qt.AlignRight
-        colorTextButton: "#FFFFFF"
-
+        horizontalAligmentText: Qt.AlignRight
     }
 
     Component.onCompleted:

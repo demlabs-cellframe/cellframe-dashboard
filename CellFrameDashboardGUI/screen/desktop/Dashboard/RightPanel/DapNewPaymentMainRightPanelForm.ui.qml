@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.4
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
     /// @param dapButtonSend Send funds button.
     property alias dapButtonSend: buttonSend

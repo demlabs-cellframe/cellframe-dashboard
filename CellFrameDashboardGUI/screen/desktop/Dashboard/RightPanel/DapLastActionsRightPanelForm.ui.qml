@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
 
     dapHeaderData:
@@ -44,7 +44,7 @@ DapAbstractRightPanel
         anchors.fill: parent
         anchors.bottomMargin: 10
         anchors.leftMargin: 5
-        anchors.rightMargin: 20
+        anchors.rightMargin: 5
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
         Column {
