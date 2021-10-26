@@ -115,10 +115,10 @@ DapAbstractRightPanel
 //                spacing: 16 * pt
 //                height: 70 * pt
 
-                Rectangle
+                RowLayout
                 {
                     id: frameSenderNetwork
-                    color: currTheme.backgroundElements
+//                    color: currTheme.backgroundElements
                     Layout.fillWidth: true
                     Layout.leftMargin: 16 * pt
                     Layout.rightMargin: 16 * pt
@@ -127,29 +127,27 @@ DapAbstractRightPanel
                     DapComboBox
                     {
                         id: comboboxNetwork
-                        anchors.centerIn: parent
+//                        anchors.centerIn: parent
                         comboBoxTextRole: ["name"]
                         mainLineText: "private"
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                         sidePaddingNormal: 19 * pt
                         sidePaddingActive: 19 * pt
-//                        normalColorText: currTheme.textColor
-//                        hilightColorText: currTheme.textColor
-//                        normalColorTopText: currTheme.textColor
-//                        hilightColorTopText: currTheme.textColor
                         hilightColor: currTheme.buttonColorNormal
+//                        anchors.fill: parent
+                        Layout.fillWidth: true
 
-                        widthPopupComboBoxNormal: 318 * pt
-                        widthPopupComboBoxActive: 318 * pt
+                        widthPopupComboBoxNormal: parent.width * pt
+                        widthPopupComboBoxActive: parent.width * pt
                         heightComboBoxNormal: 24 * pt
                         heightComboBoxActive: 42 * pt
 //                        bottomIntervalListElement: 10 * pt
                         topEffect: false
 
-                        x: sidePaddingNormal
+//                        x: sidePaddingNormal
                         normalColor: currTheme.backgroundMainScreen
-                        normalTopColor: parent.color
+                        normalTopColor: currTheme.backgroundElements
                         hilightTopColor: currTheme.backgroundMainScreen
 
 
@@ -395,6 +393,7 @@ DapAbstractRightPanel
 
             }
             DropShadow {
+//                Layout.alignment: buttonSend
                 anchors.fill: buttonSend
                 horizontalOffset: 1
                 verticalOffset: 1
