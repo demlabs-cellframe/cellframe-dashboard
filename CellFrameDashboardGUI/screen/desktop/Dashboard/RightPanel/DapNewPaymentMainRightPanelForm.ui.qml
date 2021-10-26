@@ -376,7 +376,7 @@ DapRightPanel
             DapButton
             {
                 id: buttonSend
-                radius: currTheme.radiusButton
+//                radius: currTheme.radiusButton
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
                 Layout.alignment: Qt.AlignCenter
