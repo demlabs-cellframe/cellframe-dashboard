@@ -15,7 +15,7 @@ DapTab
         target: dapRightPanel
         onVisibleChanged:
         {
-            rightPanel.width = dapRightPanel.visible ? 400 * pt : 0
+            rightPanel.width = dapRightPanel.visible ? 350 * pt : 0
         }
     }
 }

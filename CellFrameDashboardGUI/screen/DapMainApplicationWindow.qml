@@ -35,6 +35,8 @@ Rectangle {
     ///@detalis Path to the console tab.
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
 
+    readonly property string testScreen: "qrc:/screen/" + device + "/TestPage.qml"
+
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
 //    readonly property QtObject dapQuicksandFonts: DapFontQuicksand {}
@@ -284,6 +286,13 @@ Rectangle {
             append ({
                 name: qsTr("Settings"),
                 page: settingsScreen,
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+            })
+
+            append ({
+                name: qsTr("Test"),
+                page: testScreen,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })

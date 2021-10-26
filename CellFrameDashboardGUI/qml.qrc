@@ -277,5 +277,6 @@
         <file>resources/icons/BlackTheme/under construction.png</file>
         <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
         <file>resources/icons/BlackTheme/icon_certificates.png</file>
+        <file>screen/desktop/TestPage.qml</file>
     </qresource>
 </RCC>
