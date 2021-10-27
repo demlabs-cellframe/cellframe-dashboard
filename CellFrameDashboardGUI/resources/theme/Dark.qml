@@ -13,6 +13,12 @@ QtObject {
     readonly property color buttonColorHover       : "#E62172"
     readonly property color buttonColorNoActive    : "#2E3138"
 
+    //Gradient colors
+    readonly property color buttonColorHoverPosition0   : "#E62083" // OK
+    readonly property color buttonColorHoverPosition1   : "#E62263" // OK
+    readonly property color buttonColorNormalPosition0    : "#C91D73"
+    readonly property color buttonColorNormalPosition1    : "#D51F5D"
+
     readonly property color lineSeparatorColor     : "#292929"
 
     readonly property color textColor              : "#ffffff" // OK

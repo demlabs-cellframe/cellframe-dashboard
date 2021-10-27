@@ -279,5 +279,6 @@
         <file>resources/icons/BlackTheme/icon_certificates.png</file>
         <file>screen/desktop/TestPage.qml</file>
         <file>screen/desktop/TestScreen.qml</file>
+        <file>screen/desktop/UnderConstructions.qml</file>
     </qresource>
 </RCC>
