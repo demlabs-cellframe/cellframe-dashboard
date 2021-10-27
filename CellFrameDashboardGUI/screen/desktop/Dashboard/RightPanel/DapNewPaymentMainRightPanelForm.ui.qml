@@ -1,8 +1,12 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+<<<<<<< HEAD
 import QtQuick.Layouts 1.4
 import QtGraphicalEffects 1.0
+=======
+import QtQuick.Layouts 1.2
+>>>>>>> 990766395aed13affe0abbee4707278c791f91d3
 import "qrc:/widgets"
 import "../../../"
 
@@ -21,6 +25,11 @@ DapAbstractRightPanel
 
     property alias dapCmboBoxToken: comboboxToken
 
+    property alias dapFrameAmountPayment: frameAmountPayment
+    property alias dapFrameInputAmountPayment: frameInputAmountPayment
+    property alias dapFrameRecipientWallet: frameRecipientWallet
+    property alias dapFrameRecipientWalletAddress: frameRecipientWalletAddress
+
     property alias dapTextNotEnoughTokensWarning: textNotEnoughTokensWarning
     //@param dapSendedToken Name of token to send
     property string dapSendedToken: comboboxToken.mainLineText
@@ -29,7 +38,10 @@ DapAbstractRightPanel
 
     property string dapCurrentNetwork
 
+<<<<<<< HEAD
 //    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
+=======
+>>>>>>> 990766395aed13affe0abbee4707278c791f91d3
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -176,6 +188,7 @@ DapAbstractRightPanel
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
                 }
+<<<<<<< HEAD
 //                Rectangle
 //                {
 //                    id: splitLineSenderWalletToken
@@ -191,6 +204,8 @@ DapAbstractRightPanel
 //                    fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
 //                    textColor: "#757184"
 //                }
+=======
+>>>>>>> 990766395aed13affe0abbee4707278c791f91d3
             }
 
             // Amount payment
