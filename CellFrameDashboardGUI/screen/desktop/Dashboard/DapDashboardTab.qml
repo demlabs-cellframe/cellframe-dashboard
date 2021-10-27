@@ -92,9 +92,7 @@ DapAbstractTab
                             dapCurrentNetwork: dapServiceController.CurrentWalletNetwork,
 //                            dapCmboBoxNetworkModel: dapNetworkModel,
                             dapCmboBoxNetworkModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
-                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(0).tokens,
-                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
-                               .findAddress(dapServiceController.CurrentWalletNetwork)
+                            dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(0).tokens
                         }
                        });
                 //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
