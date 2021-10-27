@@ -9,7 +9,6 @@ import "qrc:/widgets"
 
 DapAbstractScreen {
 
-
     dapFrame.color: currTheme.backgroundMainScreen
 
     Rectangle
@@ -58,6 +57,24 @@ DapAbstractScreen {
     {
         id: modelTest
 
+        DapComboBoxNew {
+            id: testComboBoxNew
+            model: [
+                {
+                    "name": "test1"
+                },
+                {
+                    "name": "test2"
+                },
+                {
+                    "name": "test3"
+                },
+                {
+                    "name": "test4"
+                }
+            ]
+        }
+
         RowLayout
         {
             Switch{
@@ -72,15 +89,15 @@ DapAbstractScreen {
                         currThemeVal = true
                 }
                 contentItem: Text {
-                          text: parent.text
-                          font: parent.font
-                          color: currTheme.textColor
-                          verticalAlignment: Text.AlignVCenter
+                    text: parent.text
+                    font: parent.font
+                    color: currTheme.textColor
+                    verticalAlignment: Text.AlignVCenter
 
 
-//                          anchors.leftMargin: parent.indicator.width + parent.spacing
-                          leftPadding: parent.indicator.width + parent.spacing
-                      }
+                    //                          anchors.leftMargin: parent.indicator.width + parent.spacing
+                    leftPadding: parent.indicator.width + parent.spacing
+                }
 
 
 
@@ -135,8 +152,8 @@ DapAbstractScreen {
                 Layout.topMargin: 15 * pt
                 id: textInputAmountPayment
                 Layout.fillWidth: true
-//                        anchors.leftMargin: 10 * pt
-//                Layout.leftMargin: 20 * pt
+                //                        anchors.leftMargin: 10 * pt
+                //                Layout.leftMargin: 20 * pt
                 width: 150 * pt
                 height: 28 * pt
                 placeholderText: qsTr("0")
@@ -171,7 +188,7 @@ DapAbstractScreen {
             {
                 Layout.topMargin: 15 * pt
                 anchors.fill: parent
-//                anchors.leftMargin: 18 * pt
+                //                anchors.leftMargin: 18 * pt
                 verticalAlignment: Qt.AlignVCenter
                 text:"Network"
                 font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
