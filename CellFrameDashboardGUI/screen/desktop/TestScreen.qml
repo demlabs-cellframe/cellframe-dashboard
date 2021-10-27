@@ -50,7 +50,6 @@ DapAbstractScreen {
         radius: 1
         samples: 32
         color: "#4C4B5A"
-        //            smooth: true
         source: topLeftSadow
     }
 
@@ -76,16 +75,8 @@ DapAbstractScreen {
                           font: parent.font
                           color: currTheme.textColor
                           verticalAlignment: Text.AlignVCenter
-
-
-//                          anchors.leftMargin: parent.indicator.width + parent.spacing
                           leftPadding: parent.indicator.width + parent.spacing
                       }
-
-
-
-
-
             }
         }
 
@@ -132,14 +123,12 @@ DapAbstractScreen {
         {
             DapTextField
             {
-                Layout.topMargin: 15 * pt
+                Layout.topMargin: 30 * pt
                 id: textInputAmountPayment
                 Layout.fillWidth: true
-//                        anchors.leftMargin: 10 * pt
-//                Layout.leftMargin: 20 * pt
                 width: 150 * pt
                 height: 28 * pt
-                placeholderText: qsTr("0")
+                placeholderText: qsTr("Test Text Field")
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAlignment: Text.AlignRight
                 borderWidth: 1 * pt
@@ -149,35 +138,62 @@ DapAbstractScreen {
 
 
 
+        Rectangle
+        {
+//            height: 50 * pt
+//            Layout.topMargin: 30 * pt
+            Layout.fillWidth: true
+            color: "transparent"
+            height: 80 * pt
+            width: 250 * pt
+            DapComboBox
+            {
+                anchors.fill: parent
+                anchors.topMargin: 30 * pt
+                comboBoxTextRole: ["name"]
+                mainLineText: "private"
+                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                sidePaddingNormal: 19 * pt
+                sidePaddingActive: 19 * pt
+                widthPopupComboBoxNormal: 250 * pt
+                widthPopupComboBoxActive: 250 * pt
+                heightComboBoxNormal: 24 * pt
+                heightComboBoxActive: 42 * pt
+                topEffect: false
+                x: sidePaddingNormal
+                normalColor: currTheme.backgroundMainScreen
+                hilightTopColor: currTheme.backgroundMainScreen
+                hilightColor: currTheme.buttonColorNormal
+                normalTopColor: currTheme.backgroundMainScreen
+                paddingTopItemDelegate: 8 * pt
+                heightListElement: 42 * pt
+                indicatorWidth: 24 * pt
+                indicatorHeight: indicatorWidth
+                colorDropShadow: currTheme.shadowColor
+                roleInterval: 15
+                endRowPadding: 37
+                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                model: dapModelWallets
+            }
+        }
+
         RowLayout
         {
             height: 50 * pt
             Text
             {
-                Layout.topMargin: 15 * pt
+                Layout.topMargin: 30 * pt
+                Layout.leftMargin: 5 * pt
                 Layout.fillWidth: true
                 verticalAlignment: Qt.AlignVCenter
                 text:"Network"
                 font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                color: "#5F5F63"
+                color: currTheme.textColor
             }
-        }
-        Rectangle
-        {
-            color: "#DFE1E6"
-            Layout.fillWidth: true
-            height: 50 * pt
-            Text
-            {
-                Layout.topMargin: 15 * pt
-                anchors.fill: parent
-//                anchors.leftMargin: 18 * pt
-                verticalAlignment: Qt.AlignVCenter
-                text:"Network"
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                color: "#5F5F63"
-            }
-
         }
     }
 }

@@ -115,19 +115,27 @@ DapAbstractRightPanel
 //                spacing: 16 * pt
 //                height: 70 * pt
 
-                RowLayout
+                Rectangle
                 {
                     id: frameSenderNetwork
-//                    color: currTheme.backgroundElements
                     Layout.fillWidth: true
-                    Layout.leftMargin: 16 * pt
-                    Layout.rightMargin: 16 * pt
+                    Layout.leftMargin: 6 * pt
+                    Layout.rightMargin: 6 * pt
                     height: 70 * pt
+                    width: 350 * pt
+                    color: currTheme.backgroundElements
 
                     DapComboBox
                     {
                         id: comboboxNetwork
-//                        anchors.centerIn: parent
+
+                        anchors.centerIn: parent
+                        anchors.fill: parent
+                        anchors.topMargin: 11 * pt
+                        anchors.bottomMargin: 17 * pt
+                        anchors.leftMargin: 10 * pt
+                        anchors.rightMargin: 10 * pt
+
                         comboBoxTextRole: ["name"]
                         mainLineText: "private"
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -135,11 +143,11 @@ DapAbstractRightPanel
                         sidePaddingNormal: 19 * pt
                         sidePaddingActive: 19 * pt
                         hilightColor: currTheme.buttonColorNormal
-//                        anchors.fill: parent
-                        Layout.fillWidth: true
 
-                        widthPopupComboBoxNormal: parent.width * pt
-                        widthPopupComboBoxActive: parent.width * pt
+//                        Layout.fillWidth: true
+
+                        widthPopupComboBoxNormal: 318 * pt
+                        widthPopupComboBoxActive: 318 * pt
                         heightComboBoxNormal: 24 * pt
                         heightComboBoxActive: 42 * pt
 //                        bottomIntervalListElement: 10 * pt
@@ -273,9 +281,10 @@ DapAbstractRightPanel
                             topEffect: false
                             x: sidePaddingNormal
                             normalColor: currTheme.backgroundMainScreen
+                            normalTopColor: currTheme.backgroundElements
                             hilightTopColor: currTheme.backgroundMainScreen
                             hilightColor: currTheme.buttonColorNormal
-                            normalTopColor: parent.color
+
                             paddingTopItemDelegate: 8 * pt
                             heightListElement: 42 * pt
                             indicatorWidth: 24 * pt
@@ -382,29 +391,11 @@ DapAbstractRightPanel
                 Layout.alignment: Qt.AlignCenter
                 Layout.topMargin: 50 * pt
                 textButton: qsTr("Send")
-                colorBackgroundHover: currTheme.buttonColorHover
-                colorBackgroundNormal: currTheme.buttonColorNormal
-                colorButtonTextNormal: currTheme.textColor
-                colorButtonTextHover: currTheme.textColor
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-
-
+                shadowColor:"#2A2C33"
             }
-            DropShadow {
-//                Layout.alignment: buttonSend
-                anchors.fill: buttonSend
-                horizontalOffset: 1
-                verticalOffset: 1
-                radius: 10
-                samples: 32
-                color: "#2A2C33"
-                source: buttonSend
-                smooth: true
-                }
-
-
 
             Text
             {

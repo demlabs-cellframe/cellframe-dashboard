@@ -17,7 +17,10 @@ ApplicationWindow
 
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
-    property var pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
+
+    //for test
+//    property string pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
+    property string pathTheme: "BlackTheme"
 
     //Main window
     DapMainApplicationWindow
