@@ -1,7 +1,8 @@
-import QtQuick 2.6
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.5
+import QtQuick.Controls 1.4 as OldControls
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.4
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../"
@@ -56,6 +57,46 @@ DapAbstractScreen {
     VisualItemModel
     {
         id: modelTest
+
+        RowLayout {
+            Button {
+                text: "Red"
+                onClicked: {
+                    testTabView.currentIndex = 0
+                }
+            }
+            Button {
+                text: "Blue"
+                onClicked: {
+                    testTabView.currentIndex = 1
+                }
+            }
+            Button {
+                text: "Green"
+                onClicked: {
+                    testTabView.currentIndex = 2
+                }
+            }
+        }
+
+        OldControls.TabView {
+            id: testTabView
+            tabPosition: Qt.BottomEdge
+
+            tabsVisible: false
+            OldControls.Tab {
+                title: "Red"
+                Rectangle { color: "red" }
+            }
+            OldControls.Tab {
+                title: "Blue"
+                Rectangle { color: "blue" }
+            }
+            OldControls.Tab {
+                title: "Green"
+                Rectangle { color: "green" }
+            }
+        }
 
         DapComboBoxNew {
             id: testComboBoxNew
