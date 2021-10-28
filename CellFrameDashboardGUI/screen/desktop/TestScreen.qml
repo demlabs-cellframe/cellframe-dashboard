@@ -24,9 +24,10 @@ DapAbstractScreen {
         {
             id: listViewSettings
             anchors.fill: parent
-            anchors.topMargin: 35 * pt
+//            anchors.topMargin: 35 * pt
             anchors.leftMargin: 20 * pt
             model: modelTest
+            clip: true
         }
     }
 
@@ -59,18 +60,21 @@ DapAbstractScreen {
 
         RowLayout {
             Button {
+                Layout.topMargin: 20 * pt
                 text: "Red"
                 onClicked: {
                     testTabView.currentIndex = 0
                 }
             }
             Button {
+                Layout.topMargin: 20 * pt
                 text: "Blue"
                 onClicked: {
                     testTabView.currentIndex = 1
                 }
             }
             Button {
+                Layout.topMargin: 20 * pt
                 text: "Green"
                 onClicked: {
                     testTabView.currentIndex = 2
@@ -264,7 +268,9 @@ DapAbstractScreen {
             DapCheckBox
             {
                 id: buttonUseExestingWallet
-                anchors.fill: parent
+//                anchors.fill: parent
+                Layout.fillWidth: true
+                Layout.fillHeight: true
 //                anchors.leftMargin: 22 * pt
 //                height: 46 * pt
 

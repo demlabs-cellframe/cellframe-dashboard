@@ -286,7 +286,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Settings"),
-                page: underConstructionsScreen,
+                page: settingsScreen,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
