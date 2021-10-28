@@ -97,8 +97,6 @@ DapAbstractTab
 //                            dapCmboBoxNetworkModel: dapNetworkModel,
                             dapCmboBoxNetworkModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
                             dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(0).tokens
-//                            dapTextSenderWalletAddress: dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
-//                               .findAddress(dapServiceController.CurrentWalletNetwork)
                         }
                        });
                 //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"

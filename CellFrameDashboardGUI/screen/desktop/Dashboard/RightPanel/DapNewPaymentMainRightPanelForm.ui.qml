@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.4
 import QtGraphicalEffects 1.0
+
 import "qrc:/widgets"
 import "../../../"
 
@@ -21,6 +22,11 @@ DapRightPanel
 
     property alias dapCmboBoxToken: comboboxToken
 
+    property alias dapFrameAmountPayment: frameAmountPayment
+    property alias dapFrameInputAmountPayment: frameInputAmountPayment
+    property alias dapFrameRecipientWallet: frameRecipientWallet
+    property alias dapFrameRecipientWalletAddress: frameRecipientWalletAddress
+
     property alias dapTextNotEnoughTokensWarning: textNotEnoughTokensWarning
     //@param dapSendedToken Name of token to send
     property string dapSendedToken: comboboxToken.mainLineText
@@ -29,7 +35,10 @@ DapRightPanel
 
     property string dapCurrentNetwork
 
+<<<<<<< HEAD
 //    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
+=======
+>>>>>>> master
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -168,6 +177,7 @@ DapRightPanel
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
                 }
+<<<<<<< HEAD
 //                Rectangle
 //                {
 //                    id: splitLineSenderWalletToken
@@ -183,6 +193,8 @@ DapRightPanel
 //                    fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
 //                    textColor: "#757184"
 //                }
+=======
+>>>>>>> master
             }
 
             // Amount payment

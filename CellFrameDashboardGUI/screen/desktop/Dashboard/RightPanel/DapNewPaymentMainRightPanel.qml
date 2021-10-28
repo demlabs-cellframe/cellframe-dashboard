@@ -9,7 +9,6 @@ DapNewPaymentMainRightPanelForm
     Component.onCompleted:
     {
         dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
-        print("Init dapCmboBoxTokenModel", dapCmboBoxTokenModel.count)
         dapTextNotEnoughTokensWarning.visible = false
     }
 
@@ -19,6 +18,26 @@ DapNewPaymentMainRightPanelForm
         print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
         dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+
+        print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
+
+        if (dapCmboBoxTokenModel.count === 0)
+        {
+            dapFrameAmountPayment.visible = false
+            dapFrameInputAmountPayment.visible = false
+            dapFrameRecipientWallet.visible = false
+            dapFrameRecipientWalletAddress.visible = false
+            dapButtonSend.visible = false
+        }
+        else
+        {
+            dapFrameAmountPayment.visible = true
+            dapFrameInputAmountPayment.visible = true
+            dapFrameRecipientWallet.visible = true
+            dapFrameRecipientWalletAddress.visible = true
+            dapButtonSend.visible = true
+        }
+
         dapTextInputAmountPayment.text = "0"
     }
 

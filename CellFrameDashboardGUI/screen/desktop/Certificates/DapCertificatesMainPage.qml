@@ -104,7 +104,7 @@ Rectangle
                         break;
                     case 1:      //"private"
                         certificatesListView.seletedCertificateAccessType = qsTr("Private")
-                        models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Private
+                        models.certificatesFind.accessKeyTypeIndex = DapCertificateType.PublicAndPrivate
                         models.certificatesFind.update()
                         break;
                     case 2:      //"both"
