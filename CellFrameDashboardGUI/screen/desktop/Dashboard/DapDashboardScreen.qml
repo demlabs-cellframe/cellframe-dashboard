@@ -268,8 +268,6 @@ DapAbstractScreen
                    textElide: Text.ElideRight
                 }
 
-
-
                 MouseArea
                 {
                     id: networkAddressCopyButton

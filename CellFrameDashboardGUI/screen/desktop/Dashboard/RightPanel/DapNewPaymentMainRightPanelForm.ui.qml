@@ -7,7 +7,7 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
     /// @param dapButtonSend Send funds button.
     property alias dapButtonSend: buttonSend
@@ -40,9 +40,10 @@ DapAbstractRightPanel
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
     dapHeaderData:
-        Row
+        Item
         {
             anchors.fill: parent
+//            Layout.fillWidth: true
             Item
             {
                 id: itemButtonClose
@@ -259,6 +260,8 @@ DapAbstractRightPanel
                         {
                             id: comboboxToken
                             anchors.fill: parent
+//                            width: 119 * pt
+//                            height: 42 * pt
                             comboBoxTextRole: ["name"]
                             mainLineText: "tCELL"
                             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -372,6 +375,33 @@ DapAbstractRightPanel
                 }
             }
 
+            Rectangle
+            {
+                width: 278*pt
+                height: 69 * pt
+                color: "transparent"
+                Layout.topMargin: 43 * pt
+                Layout.fillWidth: true
+
+                Text
+                {
+                    id: textNotEnoughTokensWarning
+                    anchors.fill: parent
+    //                Layout.fillWidth: true
+//                    width: 278 * pt
+//                    Layout.margins: 43 * pt
+                    anchors.leftMargin: 37 * pt
+                    anchors.rightMargin: 36 * pt
+                    color: "#79FFFA"
+                    text: qsTr("Not enough available tokens. Enter a lower value.")
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                    visible: true
+                }
+            }
+
             // Button "Send"
             DapButton
             {
@@ -380,25 +410,12 @@ DapAbstractRightPanel
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
                 Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: 50 * pt
+                Layout.topMargin: 35 * pt
                 textButton: qsTr("Send")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 shadowColor:"#2A2C33"
-            }
-
-            Text
-            {
-                id: textNotEnoughTokensWarning
-                Layout.fillWidth: true
-                Layout.margins: 30 * pt
-                color: "#ff2020"
-                text: qsTr("Not enough available tokens. Enter a lower value.")
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                horizontalAlignment: Text.AlignLeft
-                wrapMode: Text.WordWrap
-                visible: true
             }
 
             Rectangle

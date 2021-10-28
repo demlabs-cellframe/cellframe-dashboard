@@ -44,7 +44,8 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
-        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+        //DmitriyT Removed this code below. Will see reaction of app.
+        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonSend.onClicked:

@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
@@ -25,9 +25,10 @@ DapLastActionsRightPanelForm
             width: parent.width
             color: currTheme.backgroundMainScreen
 
+            property date payDate: new Date(Date.parse(section))
+
             Text
             {
-                property date payDate: new Date(Date.parse(section))
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
@@ -46,26 +47,41 @@ DapLastActionsRightPanelForm
         onWalletHistoryReceived:
         {
             modelLastActions.clear()
-            for (var i = 0; i < walletHistory.length; ++i)
+            for (let i = 0; i < 5; i++)
             {
-                modelLastActions.append({ "name" : walletHistory[i].Name,
-                                          "amount" : walletHistory[i].Amount,
-                                          "status" : walletHistory[i].Status,
-                                          "date" : walletHistory[i].Date})
+                modelLastActions.append({
+                                            "name" : "a" + i,
+                                            "amount" : "b" + i,
+                                            "status" : "ok",
+                                            "date" : "25.10.2021"
+                                        })
             }
+
+            //            for (let i = 0; i < walletHistory.length; ++i)
+            //            {
+            //                modelLastActions.append({ "name" : walletHistory[i].Name,
+            //                                          "amount" : walletHistory[i].Amount,
+            //                                          "status" : walletHistory[i].Status,
+            //                                          "date" : walletHistory[i].Date})
+            //            }
         }
     }
 
-//    Component.onCompleted:
-//    {
-//        for (var i = 0; i < 20; ++i)
-//        {
-//            modelLastActions.append({ "name" : "a" + i,
-//                                      "amount" : "b" + i,
-//                                      "status" : "ok",
-//                                      "date" : "Today "})
-//        }
-//    }
+    Shortcut {
+        sequence: "Ctrl+D"
+        onActivated: {
+            modelLastActions.clear()
+            for (let i = 0; i < 5; i++)
+            {
+                modelLastActions.append({
+                                            "name" : "a" + i,
+                                            "amount" : "b" + i,
+                                            "status" : "ok",
+                                            "date" : "Today "
+                                        })
+            }
+        }
+    }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
@@ -91,7 +107,7 @@ DapLastActionsRightPanelForm
     ////@ Checks if dates are same
     function isSameDay(date1, date2)
     {
-       return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
     }
 
     ////@ Checks if dates have same year

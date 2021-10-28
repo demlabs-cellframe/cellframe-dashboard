@@ -76,11 +76,11 @@ Item {
                     Layout.preferredHeight: 16 * pt
                     Layout.fillWidth: true
                     indicatorSize: 16 * pt
-                    indicatorInnerSize: 7 * pt
+                    indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 18 * pt
                     fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     indicatorBackgroundColor: "transparent"
-                    indicatorBorder.width: 2 * pt
+//                    indicatorBorder.width: 2 * pt
                     indicatorBorderColor: "#211A3A"
                     indicatorInnerColorActiv: "#211A3A"
                     indicatorInnerColorNormal: "transparent"

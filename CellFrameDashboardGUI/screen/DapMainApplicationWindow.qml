@@ -186,7 +186,6 @@ Rectangle {
         }
 
 
-
     property var dapWallets: []
     property var dapOrders: []
 
@@ -361,9 +360,9 @@ Rectangle {
 
         onWalletsReceived:
         {
-            console.log(walletList.length)
-            console.log(dapWallets.length)
-            console.log(dapModelWallets.count)
+            console.log("walletList.length =", walletList.length)
+            console.log("dapWallets.length =", dapWallets.length)
+            console.log("dapModelWallets.count =", dapModelWallets.count)
             for (var q = 0; q < walletList.length; ++q)
             {
                 dapWallets.push(walletList[q])

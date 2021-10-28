@@ -5,7 +5,7 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../"
 
-DapAbstractRightPanel {
+DapRightPanel {
 
     property alias dapTextInputNameOrder: textInputNameOrder
     property alias dapComboBoxRegion: comboBoxRegion

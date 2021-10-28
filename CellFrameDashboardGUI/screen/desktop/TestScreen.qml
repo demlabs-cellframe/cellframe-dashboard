@@ -1,14 +1,14 @@
-import QtQuick 2.6
-import QtQuick.Controls 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.5
+import QtQuick.Controls 1.4 as OldControls
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.4
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../"
 import "qrc:/widgets"
 
 DapAbstractScreen {
-
 
     dapFrame.color: currTheme.backgroundMainScreen
 
@@ -57,6 +57,66 @@ DapAbstractScreen {
     {
         id: modelTest
 
+        RowLayout {
+            Button {
+                text: "Red"
+                onClicked: {
+                    testTabView.currentIndex = 0
+                }
+            }
+            Button {
+                text: "Blue"
+                onClicked: {
+                    testTabView.currentIndex = 1
+                }
+            }
+            Button {
+                text: "Green"
+                onClicked: {
+                    testTabView.currentIndex = 2
+                }
+            }
+        }
+
+        OldControls.TabView {
+            id: testTabView
+            tabPosition: Qt.BottomEdge
+
+            tabsVisible: false
+            OldControls.Tab {
+                title: "Red"
+                Rectangle { color: "red" }
+            }
+            OldControls.Tab {
+                title: "Blue"
+                Rectangle { color: "blue" }
+            }
+            OldControls.Tab {
+                title: "Green"
+                Rectangle { color: "green" }
+            }
+        }
+
+        DapComboBoxNew {
+            id: testComboBoxNew
+            width: 218 * pt
+            height: 42 * pt
+            model: [
+                {
+                    "name": "test1"
+                },
+                {
+                    "name": "test2"
+                },
+                {
+                    "name": "test3"
+                },
+                {
+                    "name": "test4"
+                }
+            ]
+        }
+
         RowLayout
         {
             Switch{
@@ -71,12 +131,15 @@ DapAbstractScreen {
                         currThemeVal = true
                 }
                 contentItem: Text {
-                          text: parent.text
-                          font: parent.font
-                          color: currTheme.textColor
-                          verticalAlignment: Text.AlignVCenter
-                          leftPadding: parent.indicator.width + parent.spacing
-                      }
+                    text: parent.text
+                    font: parent.font
+                    color: currTheme.textColor
+                    verticalAlignment: Text.AlignVCenter
+
+
+                    leftPadding: parent.indicator.width + parent.spacing
+                }
+
             }
         }
 
@@ -190,9 +253,51 @@ DapAbstractScreen {
                 Layout.leftMargin: 5 * pt
                 Layout.fillWidth: true
                 verticalAlignment: Qt.AlignVCenter
-                text:"Network"
+                text:"Test Text"
                 font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
+            }
+        }
+        RowLayout
+        {
+            height: 46 * pt
+            DapCheckBox
+            {
+                id: buttonUseExestingWallet
+                anchors.fill: parent
+//                anchors.leftMargin: 22 * pt
+//                height: 46 * pt
+
+                nameCheckbox: qsTr("Test Check Box")
+                fontCheckbox: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                nameTextColor: currTheme.textColor
+
+                checkboxOn:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_on.png"
+                checkboxOff:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_off.png"
+
+                indicatorInnerSize: 46 * pt
+            }
+        }
+        RowLayout
+        {
+            spacing: 100 * pt
+//            anchors.fill: parent
+            DapRadioButton
+            {
+                nameRadioButton: qsTr("Test Radio Button 1")
+                indicatorInnerSize: 46 * pt
+                spaceIndicatorText: 3 * pt
+                implicitHeight: indicatorInnerSize
+                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+            }
+            DapRadioButton
+            {
+                nameRadioButton: qsTr("Test Radio Button 2")
+                checked: true
+                indicatorInnerSize: 46 * pt
+                spaceIndicatorText: 3 * pt
+                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                implicitHeight: indicatorInnerSize
             }
         }
     }
