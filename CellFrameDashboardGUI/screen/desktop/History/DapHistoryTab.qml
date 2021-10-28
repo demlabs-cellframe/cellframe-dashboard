@@ -14,10 +14,10 @@ DapHistoryTabForm
     }
 
     //Use only this signal "onMainLineTextChanged" instead "onCurrentIndexChanged" and "onCurrentTextChanged"
-    dapHistoryTopPanel.dapComboboxWallet.onMainLineTextChanged:
-    {
-        console.log(dapHistoryTopPanel.dapComboboxWallet.mainLineText)
-    }
+//    dapHistoryTopPanel.dapComboboxWallet.onMainLineTextChanged:
+//    {
+//        console.log(dapHistoryTopPanel.dapComboboxWallet.mainLineText)
+//    }
 
     dapHistoryTopPanel.dapComboboxStatus.onCurrentTextChanged:
     {

@@ -197,7 +197,7 @@ DapAbstractTab {
 
     function update()
     {
-        dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
+        //dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
         dapWallets.length = 0
         dapModelOrders.clear()
         dapServiceController.requestToService("DapGetListOrdersCommand");

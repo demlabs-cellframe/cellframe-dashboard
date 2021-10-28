@@ -54,6 +54,14 @@ DapAbstractScreen {
         source: topLeftSadow
     }
 
+    Page {
+        id: newPage
+
+        background: Rectangle {
+            color: "Black"
+        }
+    }
+
     VisualItemModel
     {
         id: modelTest
@@ -87,33 +95,105 @@ DapAbstractScreen {
             OldControls.Tab {
                 title: "Red"
                 Rectangle { color: "red" }
+                Component.onCompleted: {
+                    console.info("RED TAB CREATED")
+                }
+                Component.onDestruction: {
+                    console.info("RED TAB DESTROYED")
+                }
             }
             OldControls.Tab {
                 title: "Blue"
-                Rectangle { color: "blue" }
+                StackView {
+                    id: testStack
+                    anchors.fill: parent
+                    initialItem: blueRect
+                    replaceEnter: Transition {
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 0
+                            to: 1
+                            duration: 300
+                        }
+                    }
+                    replaceExit: Transition {
+                        PropertyAnimation {
+                            property: "opacity"
+                            from: 1
+                            to: 0
+                            duration: 250
+                        }
+                    }
+                }
+
+                Page {
+                    id: blueRect
+
+                    Rectangle {
+                        width: blueRect.width / 2
+                        height: blueRect.height
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                        }
+
+                        color: "blue"
+                    }
+                    Rectangle {
+                        width: blueRect.width / 2
+                        height: blueRect.height
+                        anchors {
+                            top: parent.top
+                            right: parent.right
+                        }
+                        color: "yellow"
+                    }
+
+                    Button {
+                        text: "ADD"
+                        anchors.centerIn: parent
+                        onClicked: {
+                            push(newPage)
+                        }
+                    }
+
+                    Component.onCompleted: {
+                        console.info("BLUE TAB CREATED")
+                    }
+                    Component.onDestruction: {
+                        console.info("BLUE TAB DESTROYED")
+                    }
+                }
             }
             OldControls.Tab {
                 title: "Green"
                 Rectangle { color: "green" }
+                Component.onCompleted: {
+                    console.info("GREEN TAB CREATED")
+                }
+                Component.onDestruction: {
+                    console.info("GREEN TAB DESTROYED")
+                }
             }
         }
 
         DapComboBoxNew {
             id: testComboBoxNew
-            model: [
-                {
-                    "name": "test1"
-                },
-                {
-                    "name": "test2"
-                },
-                {
-                    "name": "test3"
-                },
-                {
-                    "name": "test4"
-                }
-            ]
+            model: ["test1","test2","test3","test4"]
+//            model: [
+//                {
+//                    "name": "test1"
+//                },
+//                {
+//                    "name": "test2"
+//                },
+//                {
+//                    "name": "test3"
+//                },
+//                {
+//                    "name": "test4"
+//                }
+//            ]
         }
 
         RowLayout

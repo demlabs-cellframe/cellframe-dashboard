@@ -58,8 +58,6 @@ DapAbstractMenuTabWidgetForm
                 source: normalIcon
             }
 
-
-
             Text
             {
                 id: textItem
