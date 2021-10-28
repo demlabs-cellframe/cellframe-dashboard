@@ -35,10 +35,6 @@ DapRightPanel
 
     property string dapCurrentNetwork
 
-<<<<<<< HEAD
-//    property alias dapTextSenderWalletAddress: textSenderWalletAddress.fullText
-=======
->>>>>>> master
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -177,24 +173,6 @@ DapRightPanel
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
                 }
-<<<<<<< HEAD
-//                Rectangle
-//                {
-//                    id: splitLineSenderWalletToken
-//                    height: 1 * pt
-//                    Layout.fillWidth: true
-//                    color: "#E3E2E6"
-//                }
-//                DapText
-//                {
-//                    id: textSenderWalletAddress
-//                    Layout.fillWidth: true
-//                    width: 240 * pt
-//                    fontDapText: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-//                    textColor: "#757184"
-//                }
-=======
->>>>>>> master
             }
 
             // Amount payment
