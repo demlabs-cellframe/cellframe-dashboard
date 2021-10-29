@@ -119,8 +119,9 @@ DapRightPanel
                 anchors.top: frameNameWallet.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 35 * pt
+                anchors.leftMargin: 29 * pt
                 anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
                 TextField
                 {
                     id: textInputNameWallet
@@ -154,17 +155,17 @@ DapRightPanel
                 anchors.top: frameInputNameWallet.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 28 * pt
+                anchors.leftMargin: 22 * pt
                 anchors.rightMargin: 35 * pt
-                anchors.topMargin: 4 * pt
+//                anchors.topMargin: 4 * pt
                 height: 46 * pt
 
                 nameCheckbox: qsTr("Use exsisting wallet")
                 fontCheckbox: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 nameTextColor: currTheme.textColor
 
-                checkboxOn:"qrc:/resources/icons/BlackTheme/ic_checkbox_on.png"
-                checkboxOff:"qrc:/resources/icons/BlackTheme/ic_checkbox_off.png"
+                checkboxOn:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_on.png"
+                checkboxOff:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_off.png"
 
                 indicatorInnerSize: 46 * pt
             }
@@ -198,50 +199,55 @@ DapRightPanel
             Rectangle
             {
                 id: frameSignatureType
-                height: 68 * pt
-                color: "transparent"
                 anchors.top: frameChooseSignatureType.bottom
+                anchors.topMargin: 12 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
+                anchors.leftMargin: 18 * pt
+                anchors.rightMargin: 19 * pt
+                height: 42 * pt
+                width: 350 * pt
+                color: currTheme.backgroundElements
                 DapComboBox
                 {
                     id: comboBoxSignatureTypeWallet
                     model: signatureTypeWallet
+
+                    anchors.centerIn: parent
+                    anchors.fill: parent
+//                    anchors.rightMargin: 10 * pt
+
                     comboBoxTextRole: ["name"]
                     mainLineText: "all signature"
-                    anchors.centerIn: parent
-                    indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
-                    indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
-                    sidePaddingNormal: 0 * pt
-                    sidePaddingActive: 20 * pt
-                    normalColorText: "#070023"
-                    hilightColorText: "#FFFFFF"
-                    normalColorTopText: "#070023"
-                    hilightColorTopText: "#070023"
-                    hilightColor: "#330F54"
-                    normalTopColor: "transparent"
-                    widthPopupComboBoxNormal: 328 * pt
-                    widthPopupComboBoxActive: 368 * pt
+
+                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                    sidePaddingNormal: 19 * pt
+                    sidePaddingActive: 19 * pt
+                    hilightColor: currTheme.buttonColorNormal
+
+                    widthPopupComboBoxNormal: 318 * pt
+                    widthPopupComboBoxActive: 318 * pt
                     heightComboBoxNormal: 24 * pt
-                    heightComboBoxActive: 44 * pt
-                    bottomIntervalListElement: 8 * pt
+                    heightComboBoxActive: 42 * pt
                     topEffect: false
-                    x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
-                    normalColor: "#FFFFFF"
-                    hilightTopColor: normalColor
+
+                    normalColor: currTheme.backgroundMainScreen
+                    normalTopColor: currTheme.backgroundElements
+                    hilightTopColor: currTheme.backgroundMainScreen
+
                     paddingTopItemDelegate: 8 * pt
-                    heightListElement: 32 * pt
-                    intervalListElement: 10 * pt
-                    indicatorWidth: 20 * pt
+                    heightListElement: 42 * pt
+                    indicatorWidth: 24 * pt
                     indicatorHeight: indicatorWidth
-                    indicatorLeftInterval: 20 * pt
-                    colorTopNormalDropShadow: "#00000000"
-                    colorDropShadow: "#40ABABAB"
-                    fontComboBox: [dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14]
-                    colorMainTextComboBox: [["#070023", "#070023"]]
-                    colorTextComboBox: [["#070023", "#FFFFFF"]]
+                    colorDropShadow: currTheme.shadowColor
+                    roleInterval: 15
+                    endRowPadding: 37
+
+                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                 }
             }
 
@@ -274,9 +280,9 @@ DapRightPanel
             {
                 id: frameChooseRecoveryMethod
                 anchors.top: frameRecoveryMethod.bottom
-                anchors.topMargin: 32 * pt
+                anchors.topMargin: 19 * pt
                 anchors.left: parent.left
-                anchors.leftMargin: 16 * pt
+                anchors.leftMargin: 21 * pt
                 anchors.right: parent.right
                 height: columnChooseRecoveryMethod.implicitHeight
                 color: "transparent"
@@ -284,59 +290,48 @@ DapRightPanel
                 ColumnLayout
                 {
                     id: columnChooseRecoveryMethod
-                    spacing: 32 * pt
+                    spacing: 6 * pt
                     anchors.fill: parent
-                    anchors.leftMargin: 16 * pt
-
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignTop
 
                     DapRadioButton
                     {
                         id: buttonSelectionWords
                         nameRadioButton: qsTr("24 words")
                         checked: true
-                        indicatorSize: 20 * pt
-                        indicatorInnerSize: 10 * pt
-                        spaceIndicatorText: 16 * pt
-                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                        indicatorBackgroundColor: "transparent"
-                        indicatorBorder.width: 2 * pt
+                        indicatorInnerSize: 46 * pt
+                        spaceIndicatorText: 3 * pt
+                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        implicitHeight: indicatorInnerSize
                     }
 
                     DapRadioButton
                     {
                         id: buttonSelectionQRcode
                         nameRadioButton: qsTr("QR code")
-                        indicatorSize: 20 * pt
-                        indicatorInnerSize: 10 * pt
-                        spaceIndicatorText: 16 * pt
-                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                        indicatorBackgroundColor: "transparent"
-                        indicatorBorder.width: 2 * pt
+                        indicatorInnerSize: 46 * pt
+                        spaceIndicatorText: 3 * pt
+                        implicitHeight: indicatorInnerSize
+                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     }
 
                     DapRadioButton
                     {
                         id: buttonSelectionExportToFile
                         nameRadioButton: qsTr("Export to file")
-                        indicatorSize: 20 * pt
-                        indicatorInnerSize: 10 * pt
-                        spaceIndicatorText: 16 * pt
-                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                        indicatorBackgroundColor: "transparent"
-                        indicatorBorder.width: 2 * pt
+                        indicatorInnerSize: 46 * pt
+                        spaceIndicatorText: 3 * pt
+                        implicitHeight: indicatorInnerSize
+                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     }
 
                     DapRadioButton
                     {
                         id: buttonSelectionNothing
                         nameRadioButton: qsTr("Nothing")
-                        indicatorSize: 20 * pt
-                        indicatorInnerSize: 10 * pt
-                        spaceIndicatorText: 16 * pt
-                        fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                        indicatorBackgroundColor: "transparent"
-                        indicatorBorder.width: 2 * pt
+                        indicatorInnerSize: 46 * pt
+                        spaceIndicatorText: 3 * pt
+                        implicitHeight: indicatorInnerSize
+                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     }
                 }
             }
@@ -344,49 +339,44 @@ DapRightPanel
             DapButton
             {
                 id: buttonNext
-                implicitHeight: 44 * pt
-                implicitWidth: 130 * pt
+                implicitHeight: 36 * pt
+                implicitWidth: 132 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameChooseRecoveryMethod.bottom
-                anchors.topMargin: 40 * pt
+                anchors.topMargin: 45 * pt
                 textButton: qsTr("Next")
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
-
-            Text
-            {
-                id: textWalletNameWarning
-                anchors.top: buttonNext.bottom
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 16 * pt
-                anchors.right: parent.right
-                anchors.rightMargin: 16 * pt
-                anchors.topMargin: 20 * pt
-                width: parent.width - 32 * pt
-                color: "#ff2020"
-                text: qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                horizontalAlignment: Text.AlignLeft
-                wrapMode: Text.WordWrap
-                visible: false
-            }
-
             Rectangle
             {
-                id: frameBottom
-                height: 124 * pt
+                width: 320*pt
+                height: 69 * pt
+                color: "transparent"
                 anchors.top: buttonNext.bottom
-                anchors.topMargin: 24 * pt
+//                anchors.topMargin: 10 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                color: "transparent"
+
+                Text
+                {
+                    id: textWalletNameWarning
+                    anchors.fill: parent
+                    anchors.leftMargin: 10 * pt
+                    anchors.rightMargin: 10 * pt
+                    color: "#79FFFA"
+                    text: qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                    visible: false
+                    anchors.bottomMargin: 10 * pt
+                }
             }
         }
 }

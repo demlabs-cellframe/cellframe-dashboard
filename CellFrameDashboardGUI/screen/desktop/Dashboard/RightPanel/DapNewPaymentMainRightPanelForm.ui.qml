@@ -42,6 +42,7 @@ DapRightPanel
         Item
         {
             anchors.fill: parent
+//            Layout.fillWidth: true
             Item
             {
                 id: itemButtonClose
@@ -120,14 +121,16 @@ DapRightPanel
 //                spacing: 16 * pt
 //                height: 70 * pt
 
-                RowLayout
+                Rectangle
                 {
                     id: frameSenderNetwork
-//                    color: currTheme.backgroundElements
                     Layout.fillWidth: true
-                    Layout.leftMargin: 16 * pt
-                    Layout.rightMargin: 16 * pt
+                    Layout.leftMargin: 6 * pt
+                    Layout.rightMargin: 6 * pt
                     height: 70 * pt
+                    width: 350 * pt
+                    color: currTheme.backgroundElements
+
 
                     DapComboBoxNew {
                         //id: comboboxNetwork
@@ -135,6 +138,57 @@ DapRightPanel
                         model: networks
 
                         //currentName: displayText.length ? displayText : qsTr("Choose network")
+                    }
+
+                    DapComboBox
+                    {
+                        id: comboboxNetwork
+
+                        anchors.centerIn: parent
+                        anchors.fill: parent
+                        anchors.topMargin: 11 * pt
+                        anchors.bottomMargin: 17 * pt
+                        anchors.leftMargin: 10 * pt
+                        anchors.rightMargin: 10 * pt
+
+                        comboBoxTextRole: ["name"]
+                        mainLineText: "private"
+                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                        sidePaddingNormal: 19 * pt
+                        sidePaddingActive: 19 * pt
+                        hilightColor: currTheme.buttonColorNormal
+
+//                        Layout.fillWidth: true
+
+                        widthPopupComboBoxNormal: 318 * pt
+                        widthPopupComboBoxActive: 318 * pt
+                        heightComboBoxNormal: 24 * pt
+                        heightComboBoxActive: 42 * pt
+//                        bottomIntervalListElement: 10 * pt
+                        topEffect: false
+
+//                        x: sidePaddingNormal
+                        normalColor: currTheme.backgroundMainScreen
+                        normalTopColor: currTheme.backgroundElements
+                        hilightTopColor: currTheme.backgroundMainScreen
+
+
+                        paddingTopItemDelegate: 8 * pt
+                        heightListElement: 42 * pt
+//                        intervalListElement: 10 * pt
+                        indicatorWidth: 24 * pt
+                        indicatorHeight: indicatorWidth
+//                        indicatorLeftInterval: 0 * pt
+//                        colorTopNormalDropShadow: "#00000000"
+                        colorDropShadow: currTheme.shadowColor
+                        roleInterval: 15
+                        endRowPadding: 37
+
+                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
 
 //                    DapComboBox
@@ -258,6 +312,8 @@ DapRightPanel
                         {
                             id: comboboxToken
                             anchors.fill: parent
+//                            width: 119 * pt
+//                            height: 42 * pt
                             comboBoxTextRole: ["name"]
                             mainLineText: "tCELL"
                             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -271,9 +327,10 @@ DapRightPanel
                             topEffect: false
                             x: sidePaddingNormal
                             normalColor: currTheme.backgroundMainScreen
+                            normalTopColor: currTheme.backgroundElements
                             hilightTopColor: currTheme.backgroundMainScreen
                             hilightColor: currTheme.buttonColorNormal
-                            normalTopColor: parent.color
+
                             paddingTopItemDelegate: 8 * pt
                             heightListElement: 42 * pt
                             indicatorWidth: 24 * pt
@@ -370,6 +427,33 @@ DapRightPanel
                 }
             }
 
+            Rectangle
+            {
+                width: 278*pt
+                height: 69 * pt
+                color: "transparent"
+                Layout.topMargin: 43 * pt
+                Layout.fillWidth: true
+
+                Text
+                {
+                    id: textNotEnoughTokensWarning
+                    anchors.fill: parent
+    //                Layout.fillWidth: true
+//                    width: 278 * pt
+//                    Layout.margins: 43 * pt
+                    anchors.leftMargin: 37 * pt
+                    anchors.rightMargin: 36 * pt
+                    color: "#79FFFA"
+                    text: qsTr("Not enough available tokens. Enter a lower value.")
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                    visible: true
+                }
+            }
+
             // Button "Send"
             DapButton
             {
@@ -378,43 +462,12 @@ DapRightPanel
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
                 Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: 50 * pt
+                Layout.topMargin: 35 * pt
                 textButton: qsTr("Send")
-                colorBackgroundHover: currTheme.buttonColorHover
-                colorBackgroundNormal: currTheme.buttonColorNormal
-                colorButtonTextNormal: currTheme.textColor
-                colorButtonTextHover: currTheme.textColor
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-
-
-            }
-            DropShadow {
-//                Layout.alignment: buttonSend
-                anchors.fill: buttonSend
-                horizontalOffset: 1
-                verticalOffset: 1
-                radius: 10
-                samples: 32
-                color: "#2A2C33"
-                source: buttonSend
-                smooth: true
-                }
-
-
-
-            Text
-            {
-                id: textNotEnoughTokensWarning
-                Layout.fillWidth: true
-                Layout.margins: 30 * pt
-                color: "#ff2020"
-                text: qsTr("Not enough available tokens. Enter a lower value.")
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                horizontalAlignment: Text.AlignLeft
-                wrapMode: Text.WordWrap
-                visible: true
+                shadowColor:"#2A2C33"
             }
 
             Rectangle

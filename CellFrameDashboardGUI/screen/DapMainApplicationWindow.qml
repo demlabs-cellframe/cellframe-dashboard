@@ -25,6 +25,7 @@ Page {
     readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
+    readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
     readonly property string testScreen: "qrc:/screen/" + device + "/TestPage.qml"
 
     ///@details dapMainFonts Project font loader
@@ -182,6 +183,12 @@ Page {
         id: networkPanelPopup
     }
 
+    property var dapWallets: []
+    property var dapOrders: []
+
+    signal modelWalletsUpdated()
+    signal modelOrdersUpdated()
+
     //open in module visible root context, only for work
     Component{
         DapCertificatesMainPage { }
@@ -222,11 +229,11 @@ Page {
                    })
             //TODO: The tab is disabled until the functional part is implemented
             append ({
-                        name: qsTr("Exchange"),
-                        page: settingsScreen, //TODO: here should be: exchangeScreen,
-                        normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
-                        hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
-                    })
+                name: qsTr("Exchange"),
+                page: underConstructionsScreen, //TODO: here should be: exchangeScreen,
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
+            })
 
             append ({
                         name: qsTr("TX Explorer"),
@@ -244,19 +251,19 @@ Page {
                     })
 
             append ({
-                        name: qsTr("Tokens"),
-                        page: historyScreen, //TODO: add screen for "Tokens" tab
-                        normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
-                        hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
-                    })
+                name: qsTr("Tokens"),
+                page: underConstructionsScreen, //TODO: add screen for "Tokens" tab
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
+            })
 
 
             append ({
-                        name: qsTr("VPN client"),
-                        page: settingsScreen,
-                        normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
-                        hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
-                    })
+                name: qsTr("VPN client"),
+                page: underConstructionsScreen,
+                normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
+            })
 
             append ({
                         name: qsTr("VPN service"),
@@ -280,6 +287,7 @@ Page {
                         hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
                     })
 
+            //Test elements page for debug
             append ({
                         name: qsTr("Test"),
                         page: testScreen,

@@ -9,46 +9,10 @@ DapAbstractRightPanel
 
     property alias dapButtonDone: buttonDone
 
-    dapButtonClose.height: 16 * pt
-    dapButtonClose.width: 16 * pt
-    dapButtonClose.heightImageButton: 16 * pt
-    dapButtonClose.widthImageButton: 16 * pt
-    dapButtonClose.normalImageButton: "qrc:/resources/icons/close_icon.png"
-    dapButtonClose.hoverImageButton: "qrc:/resources/icons/close_icon_hover.png"
-
-    dapHeaderData:
-        Row
-        {
-            anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            anchors.topMargin: 12 * pt
-            anchors.bottomMargin: 12 * pt
-
-            Item
-            {
-                id: itemButtonClose
-                data: dapButtonClose
-            }
-        }
-
     dapContentItemData:
-        Rectangle
+        Item
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            color: "transparent"
-
-            Rectangle
-            {
-                id: rectangleTop
-                anchors.top: parent.top
-                anchors.bottom: textMessage.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                color: "transparent"
-            }
 
             Text
             {
@@ -56,51 +20,29 @@ DapAbstractRightPanel
                 text: qsTr("Wallet created\nsuccessfully")
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin:  24 * pt
-                anchors.bottom: rectangleCenter.top
-                anchors.bottomMargin: 24 * pt
-                color: "#070023"
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-            }
-
-            Rectangle
-            {
-                id: rectangleCenter
-                height: 118 * pt
-                anchors.bottom: buttonDone.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                color: "transparent"
+                anchors.top: parent.top
+                anchors.topMargin:  180 * pt
+                anchors.leftMargin: 47 * pt
+                anchors.rightMargin: 49 * pt
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
             }
 
             DapButton
             {
                 id: buttonDone
-                heightButton: 44 * pt
-                widthButton: 130 * pt
+                height: 36 * pt
+                width: 132 * pt
+                anchors.top: textMessage.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: rectangleBottom.top
-                anchors.topMargin:  24 * pt
-                anchors.bottomMargin: 24 * pt
-                checkable: true
+                anchors.topMargin:  242 * pt
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton.pixelSize: 18 * pt
-                colorTextButton: buttonDone.checked ? "#3E3853" : "#FFFFFF"
-                colorBackgroundButton: "#3E3853"
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
-
-            Rectangle
-            {
-                id: rectangleBottom
-                height: 189 * pt
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                color: "transparent"
-            }
-
         }
 }
 
