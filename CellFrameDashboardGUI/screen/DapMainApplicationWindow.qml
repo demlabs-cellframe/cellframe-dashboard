@@ -216,6 +216,8 @@ Rectangle {
     ListModel 
     {
         id: modelMenuTab
+
+
         
         Component.onCompleted:
         {

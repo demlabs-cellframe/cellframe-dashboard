@@ -20,8 +20,6 @@ DapAbstractRightPanel
                 text: qsTr("Wallet created\nsuccessfully")
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.left: parent.left
-                anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.topMargin:  180 * pt
                 anchors.leftMargin: 47 * pt

@@ -280,5 +280,8 @@
         <file>screen/desktop/TestPage.qml</file>
         <file>screen/desktop/TestScreen.qml</file>
         <file>screen/desktop/UnderConstructions.qml</file>
+        <file>screen/desktop/SettingsWallet.js</file>
+        <file>resources/icons/BlackTheme/ic_copy.png</file>
+        <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
     </qresource>
 </RCC>

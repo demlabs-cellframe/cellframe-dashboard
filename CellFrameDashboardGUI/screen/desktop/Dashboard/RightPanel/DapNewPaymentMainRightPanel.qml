@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -8,16 +9,16 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
-        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.visible = false
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
-        print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
 

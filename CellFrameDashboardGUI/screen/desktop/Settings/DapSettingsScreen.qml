@@ -6,10 +6,12 @@ import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../../"
 import "qrc:/widgets"
+import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractScreen
 {
     property alias settingsScreen_ : settingScreen
+    property alias dapComboboxWallet: walletComboBox
     dapFrame.color: currTheme.backgroundMainScreen
 
     id:settingScreen
@@ -146,12 +148,12 @@ DapAbstractScreen
         }
         Rectangle
         {
-            id:walletComboBox
             color: currTheme.backgroundElements
             height: 80 * pt
             width: 200 * pt
             DapComboBox
             {
+                id:walletComboBox
                 anchors.fill: parent
                 anchors.topMargin: 25 * pt
                 anchors.leftMargin: 25 * pt
@@ -183,6 +185,11 @@ DapAbstractScreen
                 colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                 model: dapModelWallets
+                currentIndex: SettingsWallet.currentIndex
+                onCurrentIndexChanged:
+                {
+                    SettingsWallet.currentIndex = dapComboboxWallet.currentIndex
+                }
             }
         }
     }
