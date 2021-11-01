@@ -8,12 +8,18 @@ import "../../"
 DapAbstractScreen
 {
     id: dapDashboardScreen
-//    dapFrame.color: currTheme.backgroundMainScreen
-//    anchors.fill: parent
-//    anchors.leftMargin: 24 * pt
-//    anchors.topMargin: 24 * pt
-//    anchors.bottomMargin: 24 * pt
-//    anchors.rightMargin: 24 * pt
+    anchors
+    {
+        top: parent.top
+        topMargin: 24 * pt
+        right: parent.right
+        rightMargin: 44 * pt
+        left: parent.left
+        leftMargin: 24 * pt
+        bottom: parent.bottom
+        bottomMargin: 20 * pt
+
+    }
 
     // Paths to currency emblems
     property string bitCoinImagePath: "qrc:/resources/icons/tkn1_icon_light.png"
