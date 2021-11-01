@@ -29,10 +29,6 @@ DapAbstractRightPanel
     //@param dapSendedToken Name of token to send
     property string dapSendedToken: comboboxToken.mainLineText
 
-    property string dapCurrentWallet
-
-    property string dapCurrentNetwork
-
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 

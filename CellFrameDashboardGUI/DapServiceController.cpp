@@ -61,66 +61,6 @@ void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
     emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
 }
 
-QString DapServiceController::getCurrentChain() const
-{
-    return m_sCurrentChain;
-}
-
-void DapServiceController::setCurrentChain(const QString &sCurrentChain)
-{
-    m_sCurrentChain = sCurrentChain;
-
-    emit currentChainChanged(m_sCurrentChain);
-}
-
-QString DapServiceController::getCurrentWallet() const
-{
-    return m_sCurrentWallet;
-}
-
-void DapServiceController::setCurrentWallet(const QString &sCurrentWallet)
-{
-    m_sCurrentWallet = sCurrentWallet;
-
-    emit currentWalletChanged(m_sCurrentWallet);
-}
-
-QString DapServiceController::getCurrentWalletNetwork() const
-{
-    return m_sCurrentWalletNetwork;
-}
-
-void DapServiceController::setCurrentWalletNetwork(const QString &sCurrentWalletNetwork)
-{
-    m_sCurrentWalletNetwork = sCurrentWalletNetwork;
-
-    emit currentWalletNetworkChanged(m_sCurrentWalletNetwork);
-}
-
-QString DapServiceController::getCurrentSignatureType() const
-{
-    return m_sCurrentSignatureType;
-}
-
-void DapServiceController::setCurrentSignatureType(const QString &sCurrentSignatureType)
-{
-    m_sCurrentSignatureType = sCurrentSignatureType;
-
-    emit currentSignatureTypeChanged(m_sCurrentSignatureType);
-}
-
-QString DapServiceController::getCurrentRecoveryHash() const
-{
-    return m_sCurrentRecoveryHash;
-}
-
-void DapServiceController::setCurrentRecoveryHash(const QString &sCurrentRecoveryHash)
-{
-    m_sCurrentRecoveryHash = sCurrentRecoveryHash;
-
-    emit currentRecoveryHashChanged(m_sCurrentRecoveryHash);
-}
-
 void DapServiceController::requestWalletList()
 {
     this->requestToService("DapGetWalletsInfoCommand");

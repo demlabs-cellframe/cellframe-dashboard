@@ -48,15 +48,6 @@ class DapServiceController : public QObject
 
     QString m_sCurrentNetwork;
 
-    QString m_sCurrentChain;
-
-    QString m_sCurrentWallet;
-    QString m_sCurrentWalletNetwork;
-
-    QString m_sCurrentSignatureType;
-
-    QString m_sCurrentRecoveryHash;
-
     int m_iIndexCurrentNetwork;
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
@@ -103,23 +94,6 @@ public:
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
 
-//    Q_PROPERTY(QString CurrentChain READ getCurrentChain)
-    Q_PROPERTY(QString CurrentChain MEMBER m_sCurrentChain READ getCurrentChain WRITE setCurrentChain NOTIFY currentChainChanged)
-
-    Q_PROPERTY(QString CurrentWallet MEMBER m_sCurrentWallet READ getCurrentWallet WRITE setCurrentWallet NOTIFY currentWalletChanged)
-
-    Q_PROPERTY(QString CurrentWalletNetwork
-               MEMBER m_sCurrentWalletNetwork READ getCurrentWalletNetwork
-               WRITE setCurrentWalletNetwork NOTIFY currentWalletNetworkChanged)
-
-    Q_PROPERTY(QString CurrentSignatureType
-               MEMBER m_sCurrentSignatureType READ getCurrentSignatureType
-               WRITE setCurrentSignatureType NOTIFY currentSignatureTypeChanged)
-
-    Q_PROPERTY(QString CurrentRecoveryHash
-               MEMBER m_sCurrentRecoveryHash READ getCurrentRecoveryHash
-               WRITE setCurrentRecoveryHash NOTIFY currentRecoveryHashChanged)
-
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
@@ -137,21 +111,6 @@ public:
     int getIndexCurrentNetwork() const;
 
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
-
-    Q_INVOKABLE QString getCurrentChain() const;
-    Q_INVOKABLE void setCurrentChain(const QString &sCurrentChain);
-
-    Q_INVOKABLE QString getCurrentWallet() const;
-    Q_INVOKABLE void setCurrentWallet(const QString &sCurrentWallet);
-
-    Q_INVOKABLE QString getCurrentWalletNetwork() const;
-    Q_INVOKABLE void setCurrentWalletNetwork(const QString &sCurrentWalletNetwork);
-
-    Q_INVOKABLE QString getCurrentSignatureType() const;
-    Q_INVOKABLE void setCurrentSignatureType(const QString &sCurrentSignatureType);
-
-    Q_INVOKABLE QString getCurrentRecoveryHash() const;
-    Q_INVOKABLE void setCurrentRecoveryHash(const QString &sCurrentRecoveryHash);
 
 public slots:
     void requestWalletList();
@@ -171,16 +130,6 @@ signals:
     void versionChanged(const QString &version);
 
     void currentNetworkChanged(const QString &asCurrentNetwork);
-
-    void currentChainChanged(const QString &asCurrentChain);
-
-    void currentWalletChanged(const QString &asCurrentWallet);
-
-    void currentWalletNetworkChanged(const QString &asCurrentWalletNetwork);
-
-    void currentSignatureTypeChanged(const QString &asCurrentSignatureType);
-
-    void currentRecoveryHashChanged(const QString &asCurrentRecoveryHash);
 
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();

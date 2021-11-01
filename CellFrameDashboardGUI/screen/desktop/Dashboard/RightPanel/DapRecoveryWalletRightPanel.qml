@@ -10,8 +10,8 @@ DapRecoveryWalletRightPanelForm
         target: walletHashManager
         onSetHashString:
         {
-            dapServiceController.CurrentRecoveryHash = hash
-            print("hash = ", hash, dapServiceController.CurrentRecoveryHash)
+            walletInfo.recovery_hash = hash
+            print("hash = ", walletInfo.recovery_hash)
         }
     }
 
@@ -26,20 +26,20 @@ DapRecoveryWalletRightPanelForm
 
     dapButtonNext.onClicked:
     {
-        console.log("Create new wallet " + dapServiceController.CurrentWallet);
-        console.log(dapServiceController.CurrentSignatureType);
-        print("hash = ", dapServiceController.CurrentRecoveryHash)
+        console.log("Create new wallet " + walletInfo.name);
+        console.log(walletInfo.signature_type);
+        print("hash = ", walletInfo.recovery_hash)
         dapServiceController.requestToService("DapAddWalletCommand",
-               dapServiceController.CurrentWallet,
-               dapServiceController.CurrentSignatureType,
-               dapServiceController.CurrentRecoveryHash)
+               walletInfo.name,
+               walletInfo.signature_type,
+               walletInfo.recovery_hash)
     }
 
     Component.onCompleted:
     {
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
 
-        dapServiceController.CurrentRecoveryHash = ""
+        walletInfo.recovery_hash = ""
         walletHashManager.generateNewWords()
     }
 

@@ -23,17 +23,10 @@ DapInputNewWalletNameRightPanelForm
         {
             dapWalletNameWarning.visible = false
 
-            dapServiceController.CurrentWallet = dapTextInputNameWallet.text
-            dapServiceController.CurrentSignatureType = dapSignatureTypeWallet
+            walletInfo.name = dapTextInputNameWallet.text
+            walletInfo.signature_type = dapSignatureTypeWallet
 
             nextActivated("recoveryWallet");
-
-//            console.log("Create new wallet "+dapTextInputNameWallet.text);
-//            console.log(dapSignatureTypeWallet);
-//            console.log(dapServiceController.CurrentNetwork)
-//            dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text    //original
-//                                                  , dapSignatureTypeWallet, dapServiceController.CurrentNetwork
-//                                                  , "0xad12dec5ab4f");
         }
 
     }
