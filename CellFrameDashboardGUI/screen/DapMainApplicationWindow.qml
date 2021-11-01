@@ -88,26 +88,28 @@ Rectangle {
                 {
                     id: logotype
 //                    data: dapLogotype
-                    width: menuTabWidget.width -8*pt
+                    width: parent.width * pt
                     height: 60 * pt
                     Rectangle
                     {
                         id: frameLogotype
                         anchors.fill: parent
                         color:currTheme.backgroundPanel
-                        height: 60 * pt
-                        width: parent.width
+//                        width: parent.width
 //                        radius: 8 * pt
-                        anchors.leftMargin: -8*pt
-                        anchors.bottomMargin: -10*pt
                         Image
                         {
                             id: iconLogotype
-                            anchors.verticalCenter: parent.verticalCenter
+//                            anchors.verticalCenter: parent.verticalCenter
                             width: 111 * pt
                             height: 24 * pt
                             anchors.left: parent.left
-                            anchors.leftMargin: 24 * pt
+                            anchors.leftMargin: 26*pt
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 18*pt
+                            anchors.top: parent.top
+                            anchors.topMargin: 18 * pt
+
                             source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
                         }
                     }
@@ -121,7 +123,7 @@ Rectangle {
                         color:currTheme.backgroundPanel
                         radius: currTheme.radiusRectangle
 
-                        anchors.leftMargin: -8*pt
+//                        anchors.leftMargin: -8*pt
 
                         onPathScreenChanged:
                         {
@@ -129,26 +131,32 @@ Rectangle {
                         }
                         id: menuTabWidget
                         anchors.fill: parent
-                        dapFrameMenuTab.width: 180 * pt
                         widthItemMenu: 180*pt
-                        heightItemMenu: 60 * pt
-//                        normalColorItemMenu: "transparent"
+                        heightItemMenu: 52 * pt
                         normalColorItemMenu: currTheme.backgroundPanel
-//                        selectColorItemMenu: "#D51F5D"
                         selectColorItemMenu: "transparent"
-                        widthIconItemMenu: 18 * pt
-                        heightIconItemMenu: 18 * pt
+                        widthIconItemMenu: 16 * pt
+                        heightIconItemMenu: 16 * pt
                         dapMenuWidget.model: modelMenuTab
                         normalFont: "Quicksand"
                         selectedFont: "Quicksand"
                     }
                     //hide top radius element
                     Rectangle{
-                        width: 5*pt
+                        width: 9 * pt
                         height: currTheme.radiusRectangle
                         anchors.top:parent.top
                         anchors.right: parent.right
-                        color: currTheme.backgroundPanel
+                        color: currTheme.backgroundPanel/* "white"*/
+//                        radius: currTheme.radiusRectangle
+                        Rectangle
+                        {
+                            width: 9 * pt
+                            height: 4 * pt
+                            anchors.top: parent.top
+                            anchors.right: parent.left
+                            color: parent.color
+                        }
                     }
 
                     width: 180 * pt

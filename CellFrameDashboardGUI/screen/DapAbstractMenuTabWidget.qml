@@ -6,11 +6,11 @@ DapAbstractMenuTabWidgetForm
     ///@detalis Width of the main menu bar item.
     property int widthItemMenu: dapMenuWidget.width
     ///@detalis Height of the main menu bar item.
-    property int heightItemMenu: 60 * pt
+    property int heightItemMenu: 52 * pt
     ///@detalis Width of the main menu bar item icon.
-    property int widthIconItemMenu: 18 * pt
+    property int widthIconItemMenu: 16 * pt
     ///@detalis Height of the main menu bar item icon.
-    property int heightIconItemMenu: 18 * pt
+    property int heightIconItemMenu: 16 * pt
     ///@detalis Сolor of the main menu bar item in normal condition.
     property string normalColorItemMenu: "transparent"
     ///@detalis Сolor of the main menu bar item in the selected state.
@@ -38,12 +38,12 @@ DapAbstractMenuTabWidgetForm
             Image
             {
                 id:menuItemImg
-                anchors.left: frameItemMenu.left
-                anchors.rightMargin: 3 * pt
+                anchors.left: parent.left
+                anchors.rightMargin: 10 * pt
                 anchors.verticalCenter: frameItemMenu.verticalCenter
-                anchors.right: frameItemMenu.right
+                anchors.right: parent.right
                 height: heightItemMenu
-                width: widthItemMenu - 8
+                width: widthItemMenu
                 visible: false
                 source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }
@@ -51,7 +51,7 @@ DapAbstractMenuTabWidgetForm
             {
                 id: iconItem
                 anchors.left: parent.left
-                anchors.leftMargin: 24 * pt
+                anchors.leftMargin: 26 * pt
                 anchors.verticalCenter: parent.verticalCenter
                 height: heightIconItemMenu
                 width: widthIconItemMenu
@@ -65,9 +65,9 @@ DapAbstractMenuTabWidgetForm
                 id: textItem
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: iconItem.right
-                anchors.leftMargin: 18 * pt
+                anchors.leftMargin: 16 * pt
                 font.family: normalFont
-                font.pixelSize: 16 * pt
+                font.pixelSize: 13 * pt
                 color: "#FFFFFF"
                 text: name
             }

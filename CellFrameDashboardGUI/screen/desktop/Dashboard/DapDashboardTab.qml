@@ -117,16 +117,16 @@ DapAbstractTab
                 target: dashboardScreen.dapWalletCreateFrame;
                 visible: true
             }
-//            PropertyChanges
-//            {
-//                target: dashboardScreen.dapTitleBlock;
-//                visible: false
-//            }
             PropertyChanges
             {
-                target: dashboardScreen.dapListViewWallet;
+                target: dashboardScreen.dapMainFrameDashboard;
                 visible: false
             }
+//            PropertyChanges
+//            {
+//                target: dashboardScreen.dapListViewWallet;
+//                visible: false
+//            }
             PropertyChanges
             {
                 target: dapRightPanel;
@@ -151,16 +151,16 @@ DapAbstractTab
                 target: dashboardScreen.dapWalletCreateFrame;
                 visible: false
             }
-//            PropertyChanges
-//            {
-//                target: dashboardScreen.dapTitleBlock;
-//                visible: true
-//            }
             PropertyChanges
             {
-                target: dashboardScreen.dapListViewWallet;
+                target: dashboardScreen.dapMainFrameDashboard;
                 visible: true
             }
+//            PropertyChanges
+//            {
+//                target: dashboardScreen.dapListViewWallet;
+//                visible: true
+//            }
             PropertyChanges
             {
                 target: dapRightPanel;
@@ -185,16 +185,16 @@ DapAbstractTab
                 target: dashboardScreen.dapWalletCreateFrame;
                 visible: true
             }
-//            PropertyChanges
-//            {
-//                target: dashboardScreen.dapTitleBlock;
-//                visible: false
-//            }
             PropertyChanges
             {
-                target: dashboardScreen.dapListViewWallet;
+                target: dashboardScreen.dapMainFrameDashboard;
                 visible: false
             }
+//            PropertyChanges
+//            {
+//                target: dashboardScreen.dapListViewWallet;
+//                visible: false
+//            }
             PropertyChanges
             {
                 target: dapRightPanel;

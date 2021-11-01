@@ -12,7 +12,7 @@ DapAbstractScreen
 {
     property alias settingsScreen_ : settingScreen
     property alias dapComboboxWallet: walletComboBox
-    dapFrame.color: currTheme.backgroundMainScreen
+//    dapFrame.color: currTheme.backgroundMainScreen
 
     id:settingScreen
 
@@ -20,8 +20,8 @@ DapAbstractScreen
     {
         id: settingsFrame
         anchors.fill: parent
-        anchors.margins: 24 * pt
-        anchors.rightMargin: 67 * pt
+//        anchors.margins: 24 * pt
+//        anchors.rightMargin: 67 * pt
         color: currTheme.backgroundElements
         radius: 16*pt
         ListView

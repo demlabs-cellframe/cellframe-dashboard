@@ -52,7 +52,7 @@ DapRightPanel
                     {
                         id: textCommand
                         text: query
-                        color: "#070023"
+                        color: currTheme.textColor
                         width: parent.width
                         wrapMode: Text.Wrap
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
