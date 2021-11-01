@@ -53,6 +53,10 @@ class DapServiceController : public QObject
     QString m_sCurrentWallet;
     QString m_sCurrentWalletNetwork;
 
+    QString m_sCurrentSignatureType;
+
+    QString m_sCurrentRecoveryHash;
+
     int m_iIndexCurrentNetwork;
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
@@ -108,6 +112,14 @@ public:
                MEMBER m_sCurrentWalletNetwork READ getCurrentWalletNetwork
                WRITE setCurrentWalletNetwork NOTIFY currentWalletNetworkChanged)
 
+    Q_PROPERTY(QString CurrentSignatureType
+               MEMBER m_sCurrentSignatureType READ getCurrentSignatureType
+               WRITE setCurrentSignatureType NOTIFY currentSignatureTypeChanged)
+
+    Q_PROPERTY(QString CurrentRecoveryHash
+               MEMBER m_sCurrentRecoveryHash READ getCurrentRecoveryHash
+               WRITE setCurrentRecoveryHash NOTIFY currentRecoveryHashChanged)
+
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
@@ -135,6 +147,12 @@ public:
     Q_INVOKABLE QString getCurrentWalletNetwork() const;
     Q_INVOKABLE void setCurrentWalletNetwork(const QString &sCurrentWalletNetwork);
 
+    Q_INVOKABLE QString getCurrentSignatureType() const;
+    Q_INVOKABLE void setCurrentSignatureType(const QString &sCurrentSignatureType);
+
+    Q_INVOKABLE QString getCurrentRecoveryHash() const;
+    Q_INVOKABLE void setCurrentRecoveryHash(const QString &sCurrentRecoveryHash);
+
 public slots:
     void requestWalletList();
     void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
@@ -159,6 +177,10 @@ signals:
     void currentWalletChanged(const QString &asCurrentWallet);
 
     void currentWalletNetworkChanged(const QString &asCurrentWalletNetwork);
+
+    void currentSignatureTypeChanged(const QString &asCurrentSignatureType);
+
+    void currentRecoveryHashChanged(const QString &asCurrentRecoveryHash);
 
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();

@@ -236,5 +236,6 @@
         <file>screen/desktop/VPNService_New/DapOrderPanelButton.qml</file>
         <file>resources/icons/arrow-right_icon.svg</file>
         <file>screen/theme_test.js</file>
+        <file>WalletRestore/english_words.txt</file>
     </qresource>
 </RCC>

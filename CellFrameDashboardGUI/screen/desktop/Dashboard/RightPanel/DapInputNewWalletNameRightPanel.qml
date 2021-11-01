@@ -2,6 +2,9 @@ import QtQuick 2.4
 
 DapInputNewWalletNameRightPanelForm
 {
+    dapNextRightPanel: recoveryWallet
+    dapPreviousRightPanel: lastActionsWallet
+
     property string dapSignatureTypeWallet
 
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
@@ -11,7 +14,7 @@ DapInputNewWalletNameRightPanelForm
 
     dapButtonNext.onClicked:
     {
-        if (dapTextInputNameWallet.text == "")
+        if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.visible = true
             console.warn("Empty wallet name")
@@ -19,12 +22,18 @@ DapInputNewWalletNameRightPanelForm
         else
         {
             dapWalletNameWarning.visible = false
-            console.log("Create new wallet "+dapTextInputNameWallet.text);
-            console.log(dapSignatureTypeWallet);
-            console.log(dapServiceController.CurrentNetwork)
-            dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text    //original
-                                                  , dapSignatureTypeWallet, dapServiceController.CurrentNetwork
-                                                  , "0xad12dec5ab4f");
+
+            dapServiceController.CurrentWallet = dapTextInputNameWallet.text
+            dapServiceController.CurrentSignatureType = dapSignatureTypeWallet
+
+            nextActivated("recoveryWallet");
+
+//            console.log("Create new wallet "+dapTextInputNameWallet.text);
+//            console.log(dapSignatureTypeWallet);
+//            console.log(dapServiceController.CurrentNetwork)
+//            dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text    //original
+//                                                  , dapSignatureTypeWallet, dapServiceController.CurrentNetwork
+//                                                  , "0xad12dec5ab4f");
         }
 
     }
@@ -36,12 +45,12 @@ DapInputNewWalletNameRightPanelForm
         dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
-    Connections
-    {
-        target: dapServiceController
-        onWalletCreated:
-        {
-            nextActivated("doneWallet");
-        }
-    }
+//    Connections
+//    {
+//        target: dapServiceController
+//        onWalletCreated:
+//        {
+//            nextActivated("doneWallet");
+//        }
+//    }
 }

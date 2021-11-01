@@ -97,6 +97,30 @@ void DapServiceController::setCurrentWalletNetwork(const QString &sCurrentWallet
     emit currentWalletNetworkChanged(m_sCurrentWalletNetwork);
 }
 
+QString DapServiceController::getCurrentSignatureType() const
+{
+    return m_sCurrentSignatureType;
+}
+
+void DapServiceController::setCurrentSignatureType(const QString &sCurrentSignatureType)
+{
+    m_sCurrentSignatureType = sCurrentSignatureType;
+
+    emit currentSignatureTypeChanged(m_sCurrentSignatureType);
+}
+
+QString DapServiceController::getCurrentRecoveryHash() const
+{
+    return m_sCurrentRecoveryHash;
+}
+
+void DapServiceController::setCurrentRecoveryHash(const QString &sCurrentRecoveryHash)
+{
+    m_sCurrentRecoveryHash = sCurrentRecoveryHash;
+
+    emit currentRecoveryHashChanged(m_sCurrentRecoveryHash);
+}
+
 void DapServiceController::requestWalletList()
 {
     this->requestToService("DapGetWalletsInfoCommand");

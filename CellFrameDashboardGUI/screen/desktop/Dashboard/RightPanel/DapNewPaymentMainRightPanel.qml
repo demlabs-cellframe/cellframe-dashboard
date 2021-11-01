@@ -9,7 +9,7 @@ DapNewPaymentMainRightPanelForm
     Component.onCompleted:
     {
         dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
-        dapTextNotEnoughTokensWarning.visible = false
+        dapTextNotEnoughTokensWarning.text = ""
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
@@ -58,26 +58,23 @@ DapNewPaymentMainRightPanelForm
         {
             print("Not enough tokens")
             dapTextNotEnoughTokensWarning.text = qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value.").arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
-            dapTextNotEnoughTokensWarning.visible = true
         }
         else
         if (dapTextInputAmountPayment.text === "0")
         {
             print("Zero value")
             dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
-            dapTextNotEnoughTokensWarning.visible = true
         }
         else
         if (dapTextInputRecipientWalletAddress.text.length != 104)
         {
             print("Wrong address length")
             dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
-            dapTextNotEnoughTokensWarning.visible = true
         }
         else
         {
             print("Enough tokens. Correct address length.")
-            dapTextNotEnoughTokensWarning.visible = false
+            dapTextNotEnoughTokensWarning.text = ""
 
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)

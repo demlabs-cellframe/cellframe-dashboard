@@ -13,9 +13,6 @@ DapAbstractRightPanel
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
 
-    dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: lastActionsWallet
-
     width: 400 * pt
 
     ListModel
