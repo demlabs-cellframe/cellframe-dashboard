@@ -37,13 +37,16 @@ DapAbstractMenuTabWidgetForm
 
             Image
             {
-                id:menuItemImg
+                id: menuItemImg
+
                 anchors.left: frameItemMenu.left
                 anchors.rightMargin: 3 * pt
                 anchors.verticalCenter: frameItemMenu.verticalCenter
                 anchors.right: frameItemMenu.right
+
                 height: heightItemMenu
                 width: widthItemMenu - 8
+
                 visible: false
                 source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }

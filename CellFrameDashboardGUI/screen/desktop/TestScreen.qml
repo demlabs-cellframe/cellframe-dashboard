@@ -1,16 +1,17 @@
-import QtQuick 2.9
-import QtQuick.Controls 2.5
-import QtQuick.Controls 1.4 as OldControls
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../"
 import "qrc:/widgets"
 
-DapAbstractScreen {
-
-    dapFrame.color: currTheme.backgroundMainScreen
+Page {
+    anchors.fill: parent
+    background: Rectangle {
+        color: currTheme.backgroundMainScreen
+    }
 
     Rectangle
     {
@@ -24,7 +25,6 @@ DapAbstractScreen {
         {
             id: listViewSettings
             anchors.fill: parent
-//            anchors.topMargin: 35 * pt
             anchors.leftMargin: 20 * pt
             model: modelTest
             clip: true
@@ -54,150 +54,9 @@ DapAbstractScreen {
         source: topLeftSadow
     }
 
-    Page {
-        id: newPage
-
-        background: Rectangle {
-            color: "Black"
-        }
-    }
-
     VisualItemModel
     {
         id: modelTest
-
-        RowLayout {
-            Button {
-                Layout.topMargin: 20 * pt
-                text: "Red"
-                onClicked: {
-                    testTabView.currentIndex = 0
-                }
-            }
-            Button {
-                Layout.topMargin: 20 * pt
-                text: "Blue"
-                onClicked: {
-                    testTabView.currentIndex = 1
-                }
-            }
-            Button {
-                Layout.topMargin: 20 * pt
-                text: "Green"
-                onClicked: {
-                    testTabView.currentIndex = 2
-                }
-            }
-        }
-
-        OldControls.TabView {
-            id: testTabView
-            tabPosition: Qt.BottomEdge
-
-            tabsVisible: false
-            OldControls.Tab {
-                title: "Red"
-                Rectangle { color: "red" }
-                Component.onCompleted: {
-                    console.info("RED TAB CREATED")
-                }
-                Component.onDestruction: {
-                    console.info("RED TAB DESTROYED")
-                }
-            }
-            OldControls.Tab {
-                title: "Blue"
-                StackView {
-                    id: testStack
-                    anchors.fill: parent
-                    initialItem: blueRect
-                    replaceEnter: Transition {
-                        PropertyAnimation {
-                            property: "opacity"
-                            from: 0
-                            to: 1
-                            duration: 300
-                        }
-                    }
-                    replaceExit: Transition {
-                        PropertyAnimation {
-                            property: "opacity"
-                            from: 1
-                            to: 0
-                            duration: 250
-                        }
-                    }
-                }
-
-                Page {
-                    id: blueRect
-
-                    Rectangle {
-                        width: blueRect.width / 2
-                        height: blueRect.height
-                        anchors {
-                            top: parent.top
-                            left: parent.left
-                        }
-
-                        color: "blue"
-                    }
-                    Rectangle {
-                        width: blueRect.width / 2
-                        height: blueRect.height
-                        anchors {
-                            top: parent.top
-                            right: parent.right
-                        }
-                        color: "yellow"
-                    }
-
-                    Button {
-                        text: "ADD"
-                        anchors.centerIn: parent
-                        onClicked: {
-                            push(newPage)
-                        }
-                    }
-
-                    Component.onCompleted: {
-                        console.info("BLUE TAB CREATED")
-                    }
-                    Component.onDestruction: {
-                        console.info("BLUE TAB DESTROYED")
-                    }
-                }
-            }
-            OldControls.Tab {
-                title: "Green"
-                Rectangle { color: "green" }
-                Component.onCompleted: {
-                    console.info("GREEN TAB CREATED")
-                }
-                Component.onDestruction: {
-                    console.info("GREEN TAB DESTROYED")
-                }
-            }
-        }
-
-        DapComboBoxNew {
-            id: testComboBoxNew
-            model: ["test1","test2","test3","test4"]
-//            model: [
-//                {
-//                    "name": "test1"
-//                },
-//                {
-//                    "name": "test2"
-//                },
-//                {
-//                    "name": "test3"
-//                },
-//                {
-//                    "name": "test4"
-//                }
-//            ]
-        }
 
         RowLayout
         {

@@ -18,7 +18,7 @@ DapRightPanel
 
     //property alias dapComboboxNetwork: comboboxNetwork
 
-    //property alias dapCmboBoxNetworkModel: comboboxNetwork.model
+    property alias dapCmboBoxNetworkModel: comboboxNetwork.model
 
     property alias dapCmboBoxToken: comboboxToken
 
@@ -133,62 +133,9 @@ DapRightPanel
 
 
                     DapComboBoxNew {
-                        //id: comboboxNetwork
-                        Layout.fillWidth: true
-                        model: networks
-
-                        //currentName: displayText.length ? displayText : qsTr("Choose network")
-                    }
-
-                    DapComboBox
-                    {
                         id: comboboxNetwork
-
-                        anchors.centerIn: parent
-                        anchors.fill: parent
-                        anchors.topMargin: 11 * pt
-                        anchors.bottomMargin: 17 * pt
-                        anchors.leftMargin: 10 * pt
-                        anchors.rightMargin: 10 * pt
-
-                        comboBoxTextRole: ["name"]
-                        mainLineText: "private"
-                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                        sidePaddingNormal: 19 * pt
-                        sidePaddingActive: 19 * pt
-                        hilightColor: currTheme.buttonColorNormal
-
-//                        Layout.fillWidth: true
-
-                        widthPopupComboBoxNormal: 318 * pt
-                        widthPopupComboBoxActive: 318 * pt
-                        heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 42 * pt
-//                        bottomIntervalListElement: 10 * pt
-                        topEffect: false
-
-//                        x: sidePaddingNormal
-                        normalColor: currTheme.backgroundMainScreen
-                        normalTopColor: currTheme.backgroundElements
-                        hilightTopColor: currTheme.backgroundMainScreen
-
-
-                        paddingTopItemDelegate: 8 * pt
-                        heightListElement: 42 * pt
-//                        intervalListElement: 10 * pt
-                        indicatorWidth: 24 * pt
-                        indicatorHeight: indicatorWidth
-//                        indicatorLeftInterval: 0 * pt
-//                        colorTopNormalDropShadow: "#00000000"
-                        colorDropShadow: currTheme.shadowColor
-                        roleInterval: 15
-                        endRowPadding: 37
-
-                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        Layout.fillWidth: true
+                        model: networksNames
                     }
 
 //                    DapComboBox

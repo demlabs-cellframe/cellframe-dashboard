@@ -280,5 +280,8 @@
         <file>screen/desktop/TestPage.qml</file>
         <file>screen/desktop/TestScreen.qml</file>
         <file>screen/desktop/UnderConstructions.qml</file>
+        <file>screen/DapMainWindow.qml</file>
+        <file>screen/controls/DapMenuButton.qml</file>
+        <file>screen/controls/DapPage.qml</file>
     </qresource>
 </RCC>

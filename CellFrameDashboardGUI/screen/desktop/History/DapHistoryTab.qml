@@ -42,15 +42,8 @@ DapHistoryTabForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            console.log("WALLET HISTORY RECIEVED")
             for (var q = 0; q < walletHistory.length; ++q)
             {
-                console.info("WALLET HISTORY Wallet =", walletHistory[q].Wallet)
-                console.info("WALLET HISTORY Name =", walletHistory[q].Name)
-                console.info("WALLET HISTORY Status =", walletHistory[q].Status)
-                console.info("WALLET HISTORY Amount =", walletHistory[q].Amount)
-                console.info("WALLET HISTORY Date =", walletHistory[q].Date)
-
                 modelHistory.append({ "wallet" : walletHistory[q].Wallet,
                                       "name" : walletHistory[q].Name,
                                       "status" : walletHistory[q].Status,

@@ -1,46 +1,36 @@
-import QtQuick 2.4
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
+
 import "qrc:/"
 import "../"
 import "qrc:/widgets"
+import "../controls" as Controls
 
-DapTab {
-    id :testPageTab
-    color: currTheme.backgroundMainScreen
+Controls.DapPage {
+    id: testPageTab
 
-    dapTopPanel:
-        DapTopPanel
-        {   anchors.leftMargin: 4*pt
-            radius: currTheme.radiusRectangle
-            color: currTheme.backgroundPanel
-        }
+    header:
+        DapTopPanel {
+        id: header
+        anchors.leftMargin: 4*pt
+        radius: currTheme.radiusRectangle
+        color: currTheme.backgroundPanel
+    }
 
     dapScreen:
-        TestScreen
-        {}
+        StackView {
+        id: screen
+        anchors.fill: parent
+        initialItem: TestScreen { }
+    }
+
     dapRightPanel:
-        DapAbstractRightPanel
-        {
-            dapHeaderData:
-                RowLayout{
-                    Layout.fillWidth: true
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 20 * pt
-                        Layout.topMargin: 20 * pt
-                        text: qsTr("Test panel")
-                        verticalAlignment: Qt.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                        color: currTheme.textColor
-
-                    }
-                }
-            dapContentItemData:
-                ColumnLayout{
-                    Layout.fillWidth: true
-
-                }
+        StackView {
+        id: rightPanel
+        anchors.fill: parent
+        initialItem: DapRightPanel {
+            title: qsTr("Test Title")
         }
+    }
 }

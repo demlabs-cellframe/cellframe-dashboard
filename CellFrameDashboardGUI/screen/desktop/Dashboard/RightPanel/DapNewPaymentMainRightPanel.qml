@@ -50,10 +50,6 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonSend.onClicked:
     {
-        print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
-        print("amount:", dapTextInputAmountPayment.text)
-        print("wallet address: " + dapTextInputRecipientWalletAddress.text.length)
-
         if (dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission <
                 dapTextInputAmountPayment.text)
         {

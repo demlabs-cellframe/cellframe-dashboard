@@ -38,23 +38,13 @@ DapAbstractTab
             {
                 if(dapComboboxWallet.currentIndex != -1)
                 {
-                    dashboardScreen.dapListViewWallet.model = dapModelWallets.get(dapComboboxWallet.currentIndex).networks
-                    dashboardScreen.dapNameWalletTitle.text = dapModelWallets.get(dapComboboxWallet.currentIndex).name
+                    dashboardScreen.dapListViewWallet.model = networksModel//dapModelWallets.get(dapComboboxWallet.currentIndex).networks
+                    dashboardScreen.dapNameWalletTitle.text = walletsNames[dapComboboxWallet.currentIndex]//dapModelWallets.get(dapComboboxWallet.currentIndex).name
 
-                    console.log("dapComboboxWallet.onCurrentIndexChanged")
-                    console.log("wallet: "+dapModelWallets.get(dapComboboxWallet.currentIndex).name)
-                    console.log("network: "+dapModelWallets.get(dapComboboxWallet.currentIndex).networks.get(0).name)
-                    dapServiceController.CurrentWallet = dapModelWallets.get(dapComboboxWallet.currentIndex).name
-                    dapServiceController.CurrentWalletNetwork = dapModelWallets.get(dapComboboxWallet.currentIndex).networks.get(0).name
+                    dapServiceController.CurrentWallet = walletsNames[dapComboboxWallet.currentIndex]//dapModelWallets.get(dapComboboxWallet.currentIndex).name
+                    dapServiceController.CurrentWalletNetwork = walletsModel[dapComboboxWallet.currentIndex].networks[0].name//dapModelWallets.get(dapComboboxWallet.currentIndex).networks.get(0).name
                     dapServiceController.CurrentChain = "zero"
 
-                    console.log(dapComboboxWallet.currentIndex)
-                    console.log(dapModelWallets.get(dapComboboxWallet.currentIndex))
-                    console.log("DapGetWalletHistoryCommand")
-                    console.log("   network: " + dapServiceController.CurrentWalletNetwork)
-                    console.log("   chain: " + dapServiceController.CurrentChain)
-                    console.log("   wallet address: " + dapWallets[dashboardTopPanel
-                        .dapComboboxWallet.currentIndex].findAddress(dapServiceController.CurrentWalletNetwork))
                     dapServiceController.requestToService("DapGetWalletHistoryCommand",
                         dapServiceController.CurrentWalletNetwork, dapServiceController.CurrentChain,
                         dapWallets[dashboardTopPanel.dapComboboxWallet.currentIndex]
@@ -82,7 +72,6 @@ DapAbstractTab
             {
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
-//                dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
             dapButtonNewPayment.onClicked:
             {
@@ -94,14 +83,13 @@ DapAbstractTab
                         properties: {
                             dapCurrentWallet: dapServiceController.CurrentWallet,
                             dapCurrentNetwork: dapServiceController.CurrentWalletNetwork,
-//                            dapCmboBoxNetworkModel: dapNetworkModel,
+                            dapCmboBoxNetworkModel: walletsModel[dashboardTopPanel.dapComboboxWallet.currentIndex].networks
 
                             //dapCmboBoxNetworkModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks,
                             //dapCmboBoxTokenModel: dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(0).tokens
 
                         }
                        });
-                //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
             }
         }
 
@@ -324,6 +312,7 @@ DapAbstractTab
     function update()
     {
         dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
+        console.info("dapIndexCurrentWallet =", dapIndexCurrentWallet)
         dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");

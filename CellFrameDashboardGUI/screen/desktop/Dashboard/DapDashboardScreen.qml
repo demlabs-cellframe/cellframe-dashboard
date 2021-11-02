@@ -231,7 +231,7 @@ DapAbstractScreen
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     color: "#FFFFFF"
                     verticalAlignment: Qt.AlignVCenter
-                    text: name
+                    text: modelData.name
                 }
             }
 
@@ -264,7 +264,7 @@ DapAbstractScreen
                    anchors.verticalCenter: parent.verticalCenter
                    fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                    color: currTheme.textColor
-                   fullText: address
+                   fullText: modelData.address
                    textElide: Text.ElideRight
                 }
 
@@ -296,7 +296,7 @@ DapAbstractScreen
             Repeater
             {
                 width: parent.width
-                model: tokens
+                model: modelData.tokens
 
                 Rectangle
                 {

@@ -8,7 +8,7 @@ import "screen"
 ApplicationWindow
 {
     id: window
-    visible: true
+    visible: true    
 
     Theme.Dark {id: darkTheme}
     Theme.Light {id: lightTheme}
@@ -22,18 +22,22 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
+    header: Rectangle {
+
+    }
+
     //Main window
-    DapMainApplicationWindow
+    //DapMainApplicationWindow
+    DapMainWindow
     {
         id: mainWindow
-        property alias device: dapDevice.device
+        property string device: isMobile ? "mobile" : "desktop"
 
         anchors.fill: parent
-
-        Device
-        {
-            id: dapDevice
-        }
+// DmitriyT Let`s try to define OS by it`s name using Qt tools
+//        Device {
+//            id: dapDevice
+//        }
     }
 
 
@@ -101,12 +105,28 @@ ApplicationWindow
         }
     }
 
+    footer: Rectangle {
+        id: networkPanel
+        height: 40
+        color: currTheme.backgroundPanel
+    }
+
+    DropShadow {
+        anchors.fill: networkPanel
+        horizontalOffset: -5
+        verticalOffset: 0
+        radius: 2.0
+        samples: 17
+        color: "white"
+        source: networkPanel
+    }
+
     Component.onCompleted: {
         if(!isMobile) {
             window.width = 1280
             window.height = 800
-            window.minimumHeight = 650
             window.minimumWidth = 880
+            window.minimumHeight = 650
         }
     }
 

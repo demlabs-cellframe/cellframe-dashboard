@@ -36,7 +36,7 @@ DapTopPanel
 
         DapComboBoxNew {
             id: comboboxWallet
-            model: wallets
+            model: walletsNames
         }
 
 //        DapComboBox

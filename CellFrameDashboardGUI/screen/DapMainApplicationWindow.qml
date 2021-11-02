@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/screen"
 import "qrc:/resources/QML"
@@ -33,12 +34,16 @@ Page {
     //    readonly property QtObject dapQuicksandFonts: DapFontQuicksand {}
     property alias dapQuicksandFonts: quicksandFonts
 
-    property var dapWallets: []
-    property var dapOrders: []
+//    property var dapWallets: []
+//    property var dapOrders: []
 
-    property var wallets: []
-    property var networks: []
-    property var tokens: []
+    property var walletsNames: []
+    property var networksNames: []
+    property var tokensNames: []
+
+    property var walletsModel: []
+    property var networksModel: []
+    property var tokensModel: []
 
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
@@ -62,6 +67,7 @@ Page {
     //        property alias dapScreenLoader: stackViewTabs
 
     // The horizontal location of the virtual menu column and tab view loader
+
     Row
     {
         id: rowMainWindow
@@ -92,7 +98,7 @@ Page {
                 {
                     id: frameLogotype
                     anchors.fill: parent
-                    color:currTheme.backgroundPanel
+                    color: currTheme.backgroundPanel
                     height: 60 * pt
                     width: parent.width
                     //                        radius: 8 * pt
@@ -116,7 +122,7 @@ Page {
                 id: menuWidget
                 data: DapAbstractMenuTabWidget
                 {
-                    color:currTheme.backgroundPanel
+                    color: currTheme.backgroundPanel
                     radius: currTheme.radiusRectangle
 
                     anchors.leftMargin: -8*pt
@@ -144,7 +150,7 @@ Page {
                 Rectangle{
                     width: 5*pt
                     height: currTheme.radiusRectangle
-                    anchors.top:parent.top
+                    anchors.top: parent.top
                     anchors.right: parent.right
                     color: currTheme.backgroundPanel
                 }
@@ -182,12 +188,6 @@ Page {
     {
         id: networkPanelPopup
     }
-
-    property var dapWallets: []
-    property var dapOrders: []
-
-    signal modelWalletsUpdated()
-    signal modelOrdersUpdated()
 
     //open in module visible root context, only for work
     Component{
@@ -229,11 +229,11 @@ Page {
                    })
             //TODO: The tab is disabled until the functional part is implemented
             append ({
-                name: qsTr("Exchange"),
-                page: underConstructionsScreen, //TODO: here should be: exchangeScreen,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
-            })
+                        name: qsTr("Exchange"),
+                        page: underConstructionsScreen, //TODO: here should be: exchangeScreen,
+                        normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
+                        hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
+                    })
 
             append ({
                         name: qsTr("TX Explorer"),
@@ -251,19 +251,19 @@ Page {
                     })
 
             append ({
-                name: qsTr("Tokens"),
-                page: underConstructionsScreen, //TODO: add screen for "Tokens" tab
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
-            })
+                        name: qsTr("Tokens"),
+                        page: underConstructionsScreen, //TODO: add screen for "Tokens" tab
+                        normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
+                        hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
+                    })
 
 
             append ({
-                name: qsTr("VPN client"),
-                page: underConstructionsScreen,
-                normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
-            })
+                        name: qsTr("VPN client"),
+                        page: underConstructionsScreen,
+                        normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
+                        hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
+                    })
 
             append ({
                         name: qsTr("VPN service"),
@@ -344,11 +344,9 @@ Page {
             {
                 dapServiceController.CurrentNetwork = networkList[0];
                 dapServiceController.IndexCurrentNetwork = 0;
-
-                console.log("Current network: "+dapServiceController.CurrentNetwork)
             }
 
-            for(var n=0; n < Object.keys(networkList).length; ++n)
+            for(var n = 0; n < Object.keys(networkList).length; ++n)
             {
                 dapNetworkModel.append({name: networkList[n]})
             }
@@ -356,55 +354,61 @@ Page {
 
         onWalletsReceived:
         {
-            console.log("walletList.length =", walletList.length)
-            console.log("dapWallets.length =", dapWallets.length)
-            console.log("dapModelWallets.count =", dapModelWallets.count)
-
             for (var q = 0; q < walletList.length; ++q)
             {
                 dapWallets.push(walletList[q])
             }
+
             for (var i = 0; i < dapWallets.length; ++i)
             {
-                console.log("Wallet name: "+ dapWallets[i].Name)
                 dapModelWallets.append({ "name" : dapWallets[i].Name,
                                            "balance" : dapWallets[i].Balance,
                                            "icon" : dapWallets[i].Icon,
                                            "address" : dapWallets[i].Address,
                                            "networks" : []})
-                wallets.push(dapWallets[i].Name)
-                console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
+                walletsNames.push(dapWallets[i].Name)
+                walletsModel.push({ "name" : dapWallets[i].Name,
+                                      "balance" : dapWallets[i].Balance,
+                                      "icon" : dapWallets[i].Icon,
+                                      "address" : dapWallets[i].Address,
+                                      "networks" : networksModel})
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
-                    console.log("Network name: "+dapWallets[i].Networks[n])
-                    print("address", dapWallets[i].findAddress(dapWallets[i].Networks[n]))
                     dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
                                                                "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
                                                                "tokens": []})
-                    networks.push(dapWallets[i].Networks[n])
-                    console.log("Tokens.length:", Object.keys(dapWallets[i].Tokens).length)
+
+                    if (networksNames[n] !== dapWallets[i].Networks[n])
+                        networksNames.push(dapWallets[i].Networks[n])
+
+                    walletsModel[i].networks.push({"name": dapWallets[i].Networks[n],
+                                                      "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
+                                                      "tokens": tokensModel})
                     for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
                         if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
                         {
-                            console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])
                             dapModelWallets.get(i).networks.get(n).tokens.append(
                                         {"name": dapWallets[i].Tokens[t].Name,
                                             "balance": dapWallets[i].Tokens[t].Balance,
                                             "emission": dapWallets[i].Tokens[t].Emission,
                                             "network": dapWallets[i].Tokens[t].Network})
-                            tokens.push(dapWallets[i].Tokens[t].Name)
+                            tokensNames.push(dapWallets[i].Tokens[t].Name)
+                            tokensModel.push({
+                                                 "name": dapWallets[i].Tokens[t].Name,
+                                                 "balance": dapWallets[i].Tokens[t].Balance,
+                                                 "emission": dapWallets[i].Tokens[t].Emission,
+                                                 "network": dapWallets[i].Tokens[t].Network
+                                             })
                         }
                     }
                 }
             }
+
             modelWalletsUpdated();
         }
         onOrdersReceived:
         {
-            //            console.log("Orders len " + orderList.length)
-            //            console.log("DapOrders len " + dapOrders.length)
-            //            console.log("DapModelOrders len " + dapModelOrders.count)
             for (var q = 0; q < orderList.length; ++q)
             {
                 dapOrders.push(orderList[q])
@@ -417,8 +421,6 @@ Page {
                                           "network" : dapOrders[i].Network,
                                           "node_addr" : dapOrders[i].AddrNode,
                                           "price" : dapOrders[i].TotalPrice})
-                //                console.log("Price : " + dapOrders[i].TotalPrice)
-                //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
         }
