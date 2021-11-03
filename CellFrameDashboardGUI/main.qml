@@ -105,8 +105,8 @@ ApplicationWindow
         if(!isMobile) {
             window.width = 1280
             window.height = 800
-            window.minimumHeight = 650
             window.minimumWidth = 880
+            window.minimumHeight = 650
         }
     }
 

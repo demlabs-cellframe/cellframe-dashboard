@@ -15,6 +15,7 @@ DapRightPanel
         height: 38 * pt
         width: 348*pt
 
+
         Text
         {
             anchors.fill: parent
@@ -47,7 +48,7 @@ DapRightPanel
         anchors.leftMargin: 5
         anchors.rightMargin: 5
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-        ScrollBar.implicitBackgroundWidth: 1 *pt
+
 
         Column {
             Repeater {
