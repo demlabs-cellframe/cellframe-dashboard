@@ -312,7 +312,7 @@ DapAbstractScreen
                             id: networkAddressCopyButton
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
-                            anchors.rightMargin: 19 * pt
+                            anchors.rightMargin: 16 * pt
                             width: 16 * pt
                             height: 16 * pt
                             hoverEnabled: true
@@ -340,67 +340,71 @@ DapAbstractScreen
                         Rectangle
                         {
                             anchors.left: parent.left
-        //                    anchors.leftMargin: 16 * pt
+                            anchors.leftMargin: 13 * pt
                             anchors.right: parent.right
-        //                    anchors.rightMargin: 16 * pt
-                            height: 67 * pt
+                            anchors.rightMargin: 16 * pt
+                            height: 50 * pt
                             color: currTheme.backgroundElements
 
                             Rectangle
                             {
-                                id: lineBalance
-                                anchors.top: parent.top
+                                anchors.top: tokenInfoPlace.bottom
                                 width: parent.width
                                 height: 1 * pt
-                                color: currTheme.backgroundElements
+                                color: currTheme.lineSeparatorColor
                             }
 
-                            RowLayout
+                            Item
                             {
+                                id:tokenInfoPlace
                                 anchors.fill: parent
-                                anchors.margins: 10 * pt
-                                spacing: 10 * pt
-
-                                Image
-                                {
-                                    id: currencyIcon
-                                    height: 30 * pt
-                                    width: 30 * pt
-                                    source: "qrc:/resources/icons/ic_cellframe.png"
-                                    sourceSize.width: width
-                                    sourceSize.height: height
-                                }
+                                anchors.bottomMargin: 1*pt
+//                                height: 50 * pt
+//                                anchors.margins: 10 * pt
+//                                spacing: 10 * pt
 
                                 Text
                                 {
                                     id: currencyName
-                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                                    anchors.left: parent.left
+                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                                     color: currTheme.textColor
-                                    text: name
+                                    text: name + " (" + currencyCode.text + ")"
                                     width: 172 * pt
                                     horizontalAlignment: Text.AlignLeft
+                                    anchors.bottom: parent.bottom
+                                    anchors.bottomMargin: 10*pt
+
                                 }
 
                                 Text
                                 {
                                     id: currencySum
-                                    Layout.fillWidth: true
-                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+//                                    Layout.fillWidth: true
+                                    anchors.right: currencyCode.left
+                                    anchors.rightMargin: 5 * pt
+                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                     color: currTheme.textColor
                                     text: balance.toFixed(9)
         //                            text: balance.toPrecision()
                                     horizontalAlignment: Text.AlignRight
+                                    anchors.bottom: parent.bottom
+                                    anchors.bottomMargin: 10*pt
                                 }
 
                                 Text
                                 {
                                     id: currencyCode
-                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                    anchors.right: parent.right
+                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                     color: currTheme.textColor
                                     text: name
                                     horizontalAlignment: Text.AlignRight
+                                    anchors.bottom: parent.bottom
+                                    anchors.bottomMargin: 10*pt
                                 }
                             }
+
                         }
                         Component.onCompleted:
                         {

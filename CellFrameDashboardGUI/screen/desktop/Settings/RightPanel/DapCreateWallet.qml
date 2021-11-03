@@ -1,6 +1,6 @@
 import QtQuick 2.4
 
-DapInputNewWalletNameRightPanelForm
+DapCreateWalletForm
 {
     property string dapSignatureTypeWallet
 
@@ -32,7 +32,7 @@ DapInputNewWalletNameRightPanelForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.visible = false
-        previousActivated(lastActionsWallet)
+        previousActivated(emptyRightPanel)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
@@ -41,7 +41,7 @@ DapInputNewWalletNameRightPanelForm
         target: dapServiceController
         onWalletCreated:
         {
-            nextActivated("doneWallet");
+            nextActivated(doneWallet);
         }
     }
 }

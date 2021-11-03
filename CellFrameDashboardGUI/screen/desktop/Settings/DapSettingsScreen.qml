@@ -12,9 +12,21 @@ DapAbstractScreen
 {
     property alias settingsScreen_ : settingScreen
     property alias dapComboboxWallet: walletComboBox
-//    dapFrame.color: currTheme.backgroundMainScreen
 
     id:settingScreen
+    signal createWalletSignal()
+
+    anchors
+    {
+        top: parent.top
+        topMargin: 24 * pt
+        right: parent.right
+        rightMargin: 44 * pt
+        left: parent.left
+        leftMargin: 24 * pt
+        bottom: parent.bottom
+        bottomMargin: 20 * pt
+    }
 
     Rectangle
     {
@@ -190,6 +202,20 @@ DapAbstractScreen
                 {
                     SettingsWallet.currentIndex = dapComboboxWallet.currentIndex
                 }
+            }
+            // Wallet create button
+            DapButton
+            {
+                id: newWalletButton
+                textButton: "New wallet"
+                anchors.left: walletComboBox.right
+                anchors.leftMargin: 50 * pt
+                anchors.verticalCenter: walletComboBox.verticalCenter
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+                onClicked: createWalletSignal()
             }
         }
     }

@@ -320,8 +320,6 @@ DapAbstractTab
                 SettingsWallet.currentIndex = 0;
             }
         }
-
-
     }
 
     function update()
@@ -367,5 +365,4 @@ DapAbstractTab
             dashboardTab.state = "WALLETSHOW"
         }
     }
-
 }

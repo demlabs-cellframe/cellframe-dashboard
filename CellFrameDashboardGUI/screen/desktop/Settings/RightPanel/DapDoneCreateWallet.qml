@@ -1,17 +1,17 @@
 import QtQuick 2.4
 import "../../../"
 
-DapDoneWalletRightPanelForm
+DapDoneCreateWalletForm
 {
     dapButtonDone.onClicked:
     {
-        nextActivated(lastActionsWallet)
+        nextActivated(emptyRightPanel)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
     dapButtonClose.onClicked:
     {
-        previousActivated(lastActionsWallet)
+        previousActivated(emptyRightPanel)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 }

@@ -36,15 +36,17 @@ DapTopPanel
         }
     }
 
-    // Wallet create button
+    // Payment button
     DapButton
     {
         id: newPaymentButton
         textButton: "New payment"
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
+        anchors.top: parent.top
+        anchors.topMargin: 14 * pt
         anchors.verticalCenter: parent.verticalCenter
-        implicitHeight: 36 * pt
+        implicitHeight: 38 * pt
         implicitWidth: 163 * pt
         fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
         horizontalAligmentText: Text.AlignHCenter

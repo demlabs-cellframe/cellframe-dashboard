@@ -93,12 +93,9 @@
         <file>resources/icons/ic_scroll-up.png</file>
         <file>resources/icons/ic_scroll-up_hover.png</file>
         <file>screen/desktop/Settings/DapSettingsTab.qml</file>
-        <file>screen/desktop/Settings/DapSettingsTabForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
         <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
-        <file>screen/desktop/Settings/DapSettingsScreenForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
-        <file>screen/desktop/Settings/DapSettingsRightPanelForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTab.qml</file>
         <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
@@ -283,5 +280,11 @@
         <file>screen/desktop/SettingsWallet.js</file>
         <file>resources/icons/BlackTheme/ic_copy.png</file>
         <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
+        <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapDoneCreateWalletForm.ui.qml</file>
     </qresource>
 </RCC>
