@@ -76,27 +76,10 @@ Page {
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
-//            DapButton
-//            {
-//                enabled: false
-//                Layout.alignment: Qt.AlignCenter
-//                Layout.topMargin: 15 * pt
-//                implicitHeight: 36 * pt
-//                implicitWidth: 250 * pt
-//                textButton: qsTr("Test button no active")
-//                horizontalAligmentText: Text.AlignHCenter
-//                indentTextRight: 0
-//                colorBackgroundHover: currTheme.buttonColorNoActive
-//                colorBackgroundNormal: currTheme.buttonColorNoActive
-//                colorButtonTextNormal: currTheme.textColor
-//                colorButtonTextHover: currTheme.textColor
-//                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-//            }
-
             Controls.DapButton {
+
                 implicitWidth: 200
                 implicitHeight: 35
-                text: qsTr("Test")
             }
 
         }

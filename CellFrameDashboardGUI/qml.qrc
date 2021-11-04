@@ -287,5 +287,6 @@
         <file>screen/desktop/TestPageForRightPannel2.qml</file>
         <file>screen/controls/DapScreenPage.qml</file>
         <file>screen/controls/DapButton.qml</file>
+        <file>screen/desktop/TestPageForTopPanel.qml</file>
     </qresource>
 </RCC>

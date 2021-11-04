@@ -14,7 +14,7 @@ Page {
     contentItem: Rectangle {
         id: frame
         anchors.fill: parent
-        anchors.margins: 24 * pt
+        anchors.margins: 12 * pt
         color: currTheme.backgroundElements
         radius: 16 * pt
 

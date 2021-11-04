@@ -15,18 +15,15 @@ Controls.DapPage {
 
         function openPage2() {
             dapRightPanel.push("qrc:/screen/desktop/TestPageForRightPannel2.qml")
-        }
+        }        
     }
 
-    header:
-        DapTopPanel {
-        id: header
-        anchors.leftMargin: 4*pt
-        radius: currTheme.radiusRectangle
-        color: currTheme.backgroundPanel
-    }
+    // StackView
+    dapHeader.initialItem: TestPageForTopPanel { }
 
+    // StackView
     dapScreen.initialItem: TestScreen { }
 
+    // StackView
     dapRightPanel.initialItem: TestPageForRightPannel { }
 }

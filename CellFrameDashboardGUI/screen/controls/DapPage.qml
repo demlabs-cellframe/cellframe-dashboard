@@ -3,15 +3,22 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.0
 
+import "qrc:/widgets"
+
 Page {
     id: root
 
-    header: root.header
+    header: DapTopPanel {
+        StackView {
+            id: headerStack
+            anchors.fill: parent
+            anchors.leftMargin: 20
+        }
+    }
 
+    property alias dapHeader: headerStack
     property alias dapScreen: mainScreenStack
     property alias dapRightPanel: rightPanelStack
-
-    signal closeButtonClicked
 
     background: Rectangle {
         color: currTheme.backgroundMainScreen
@@ -43,5 +50,4 @@ Page {
             }
         }
     }
-
 }
