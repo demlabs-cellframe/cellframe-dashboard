@@ -220,7 +220,6 @@
         <file>screen/desktop/VPNService_New/DapVPNServiceScreen.qml</file>
         <file>screen/desktop/VPNService_New/DapVPNOrderInfoLine.qml</file>
         <file>screen/desktop/VPNService_New/DapCreateOrder.qml</file>
-        <file>screen/desktop/VPNService_New/DapCreateOrderRightPanelElements.qml</file>
         <file>screen/desktop/VPNService_New/DapSpinBox.qml</file>
         <file>screen/desktop/VPNService_New/DapTextButton.qml</file>
         <file>screen/desktop/VPNService_New/DapDoubleSpinBox.qml</file>

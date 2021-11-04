@@ -14,7 +14,6 @@ DapAbstractScreen {
     property alias dapGridViewOrder: gridViewOrder
     property alias dapFrameTitleCreateOrder: frameTitleCreateOrder
     property alias dapGridViewFrame: vpnOrdersView
-    property alias dapFrameOrderView: frameOrderView
 
     anchors
     {
@@ -114,58 +113,55 @@ DapAbstractScreen {
         }
     }
 
-    Item {
-        id:frameOrderView
+    Rectangle
+    {
+        id: gridViewOrder
+        property int halfMargin: margin * 0.5
+        property int margin: 14 * pt
         anchors.fill: parent
+        color: currTheme.backgroundElements
+        radius: 16*pt
+        visible: false
 
-        Rectangle
-        {
-            id: gridViewOrder
-            property int halfMargin: margin * 0.5
-            property int margin: 14 * pt
-            anchors.fill: parent
-            color: currTheme.backgroundElements
-            radius: 16*pt
-            visible: false
-
-            Text {
-                id: textMyVPNOrders
-                x: gridViewOrder.halfMargin
-                y: gridViewOrder.halfMargin
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
-                color: currTheme.textColor
-            }
-
-            DapVPNOrdersGridView {
-                id: vpnOrdersView
-
-                anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
-                anchors.leftMargin: 27 * pt
-                delegateMargin: gridViewOrder.halfMargin
-            }
+        Text {
+            id: textMyVPNOrders
+            x: gridViewOrder.halfMargin
+            y: gridViewOrder.halfMargin
+            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
+            color: currTheme.textColor
         }
-        InnerShadow {
-            id: topLeftSadow
-            anchors.fill: gridViewOrder
-            cached: true
-            horizontalOffset: 5
-            verticalOffset: 5
-            radius: 4
-            samples: 32
-            color: "#2A2C33"
-            smooth: true
-            source: gridViewOrder
-        }
-        InnerShadow {
-            anchors.fill: gridViewOrder
-            cached: true
-            horizontalOffset: -1
-            verticalOffset: -1
-            radius: 1
-            samples: 32
-            color: "#4C4B5A"
-            source: topLeftSadow
+
+        DapVPNOrdersGridView {
+            id: vpnOrdersView
+
+            anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
+            anchors.leftMargin: 27 * pt
+            delegateMargin: gridViewOrder.halfMargin
         }
     }
 
+    InnerShadow {
+        id: topLeftSadow
+        anchors.fill: gridViewOrder
+        cached: true
+        horizontalOffset: 5
+        verticalOffset: 5
+        radius: 4
+        samples: 32
+        color: "#2A2C33"
+        smooth: true
+        source: gridViewOrder
+        visible: gridViewOrder.visible
+    }
+    InnerShadow {
+        anchors.fill: gridViewOrder
+        cached: true
+        horizontalOffset: -1
+        verticalOffset: -1
+        radius: 1
+        samples: 32
+        color: "#4C4B5A"
+        source: topLeftSadow
+        visible: gridViewOrder.visible
+    }
 }

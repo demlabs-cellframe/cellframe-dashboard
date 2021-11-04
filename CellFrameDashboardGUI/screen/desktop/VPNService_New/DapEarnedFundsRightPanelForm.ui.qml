@@ -14,22 +14,12 @@ DapRightPanel
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 * pt
+                anchors.leftMargin: 24 * pt
                 text: qsTr("Earned funds")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                color: "#3E3853"
-            }
-
-            Rectangle
-            {
-                id: borderBottom
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 1 * pt
-                color: "#757184"
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
 
@@ -38,6 +28,9 @@ DapRightPanel
         {
             id: lastActionsView
             anchors.fill: parent
+            anchors.bottomMargin: 10
+            anchors.leftMargin: 5
+            anchors.rightMargin: 5
             clip: true
             model: modelLastActions
             delegate:
@@ -64,7 +57,7 @@ DapRightPanel
                             {
                                 Layout.fillWidth: true
                                 text: name
-                                color: "#3E3853"
+                                color: currTheme.textColor
                                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                                 elide: Text.ElideRight
                             }
@@ -73,7 +66,7 @@ DapRightPanel
                             {
                                 Layout.fillWidth: true
                                 text: status
-                                color: "#757184"
+                                color: currTheme.textColor
                                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                             }
                         }
@@ -85,17 +78,16 @@ DapRightPanel
                             Layout.fillWidth: true
                             horizontalAlignment: Qt.AlignRight
                             verticalAlignment: Qt.AlignVCenter
-                            color: "#3E3853"
+                            color: currTheme.textColor
                             text: sign + amount + " " + name
                             font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         }
                     }
-
                     Rectangle
                     {
                         width: parent.width
                         height: 1 * pt
-                        color: "#E3E2E6"
+                        color: currTheme.lineSeparatorColor
                         anchors.bottom: parent.bottom
                     }
                 }
@@ -103,17 +95,6 @@ DapRightPanel
             section.property: "date"
             section.criteria: ViewSection.FullString
             section.delegate: delegateSection
-
-            DapScrollView
-            {
-                id: scrollButtons
-                viewData: lastActionsView
-
-                scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
-                scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
-                scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
-                scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
-            }
         }
 }
 

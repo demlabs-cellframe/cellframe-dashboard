@@ -16,7 +16,7 @@ DapRightPanel
     dapNextRightPanel: doneWallet
     dapPreviousRightPanel: lastActionsWallet
 
-    width: 400 * pt
+//    width: 400 * pt
 
     ListModel
     {

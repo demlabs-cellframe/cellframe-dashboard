@@ -18,7 +18,7 @@ Item {
         height: parent.height
         verticalAlignment: Text.AlignVCenter
         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-        color: "#070023"
+        color: currTheme.textColor
         elide: Text.ElideRight
         maximumLineCount: 1
 
@@ -38,8 +38,8 @@ Item {
         onEntered:
         {
             if(activeBtn){
-                orderText.color = "#D51F5D"
-                infoText.color = "#D51F5D"
+                orderText.color = currTheme.buttonColorNormal
+                infoText.color = currTheme.buttonColorNormal
             }
         }
 
@@ -47,8 +47,8 @@ Item {
         {
             if(activeBtn)
             {
-                orderText.color = "#070023"
-                infoText.color = "#070023"
+                orderText.color = currTheme.textColor
+                infoText.color = currTheme.textColor
             }
         }
     }
@@ -60,7 +60,7 @@ Item {
         height: parent.height
         anchors.right: parent.right
         anchors.rightMargin: activeBtn? 50 * pt : 10 * pt
-        color: "#070023"
+        color: currTheme.textColor
         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
         verticalAlignment: Text.AlignVCenter
     }
@@ -94,6 +94,6 @@ Item {
         y: parent.height
         width: 648 * pt
         height: 1 * pt
-        color: "#E3E2E6"
+        color: currTheme.backgroundMainScreen
     }
 }

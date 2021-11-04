@@ -32,14 +32,38 @@ DapAbstractScreen
     {
         id: settingsFrame
         anchors.fill: parent
-//        anchors.margins: 24 * pt
-//        anchors.rightMargin: 67 * pt
         color: currTheme.backgroundElements
         radius: 16*pt
+
+        // Header
+        Item
+        {
+            id: settingsHeader
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 38 * pt
+
+            Text
+            {
+                anchors.fill: parent
+                anchors.leftMargin: 18 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 10 * pt
+                verticalAlignment: Qt.AlignVCenter
+                text: qsTr("Settings")
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
+            }
+        }
+
         ListView
         {
             id: listViewSettings
-            anchors.fill: parent
+            anchors.top: settingsHeader.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
             model: modelSettings
             clip: true
         }

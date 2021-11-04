@@ -409,6 +409,18 @@ Rectangle {
                 }
             }
             modelWalletsUpdated();
+
+
+            //Show orders for debug
+//            for (var e = 0; e < 10; ++e)
+//            {
+//                dapModelOrders.append({ "index" : e+1,
+//                                      "location" : "wqe",
+//                                      "network" : "sad",
+//                                      "node_addr" : "213",
+//                                      "price" : "1234515"})
+//            }
+//            modelOrdersUpdated();
         }
         onOrdersReceived:
         {

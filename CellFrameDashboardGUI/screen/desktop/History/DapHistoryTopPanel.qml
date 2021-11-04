@@ -12,6 +12,8 @@ DapTopPanel
     property alias dapComboboxWallet: comboboxWallet
     property alias dapComboboxStatus: comboboxStatus
     color: currTheme.backgroundPanel
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
 
 
     // Frame icon search

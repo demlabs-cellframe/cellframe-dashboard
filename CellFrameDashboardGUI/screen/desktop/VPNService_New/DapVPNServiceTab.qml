@@ -73,7 +73,7 @@ DapAbstractTab {
                 }
                 PropertyChanges
                 {
-                    target: vpnServiceScreen.dapFrameOrderView;
+                    target: vpnServiceScreen.dapGridViewOrder;
                     visible: false
                 }
                 PropertyChanges
@@ -97,7 +97,7 @@ DapAbstractTab {
                 }
                 PropertyChanges
                 {
-                    target: vpnServiceScreen.dapFrameOrderView;
+                    target: vpnServiceScreen.dapGridViewOrder;
                     visible: true
                 }
                 PropertyChanges
@@ -121,7 +121,7 @@ DapAbstractTab {
                 }
                 PropertyChanges
                 {
-                    target: vpnServiceScreen.dapFrameOrderView;
+                    target: vpnServiceScreen.dapGridViewOrder;
                     visible: false
                 }
                 PropertyChanges
