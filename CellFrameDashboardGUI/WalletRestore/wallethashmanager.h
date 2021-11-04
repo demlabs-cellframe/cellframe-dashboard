@@ -20,8 +20,12 @@ public:
 signals:
     void setHashString(const QString &hash);
 
+    void clipboardError();
+
 public slots:
     void generateNewWords();
+
+    void clearWords();
 
     void getHashForWords();
 

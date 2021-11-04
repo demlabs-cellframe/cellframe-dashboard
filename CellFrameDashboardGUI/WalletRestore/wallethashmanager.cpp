@@ -31,6 +31,17 @@ void WalletHashManager::generateNewWords()
     updateWordsModelAndHash();
 }
 
+void WalletHashManager::clearWords()
+{
+
+    currentWords.clear();
+    currentHash.clear();
+
+    qDebug() << "WalletHashManager::clearWords" << currentWords;
+
+    updateWordsModelAndHash();
+}
+
 void WalletHashManager::getHashForWords()
 {
     cryptographicHash.reset();
@@ -62,6 +73,8 @@ void WalletHashManager::pasteWordsFromClipboard()
     {
         currentWords.clear();
         currentHash.clear();
+
+        emit clipboardError();
     }
     else
         getHashForWords();

@@ -12,38 +12,59 @@ DapInputNewWalletNameRightPanelForm
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
+    dapComboBoxOperation.onCurrentIndexChanged:
+    {
+        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
+    }
+
     dapButtonNext.onClicked:
     {
         if (dapTextInputNameWallet.text === "")
         {
-            dapWalletNameWarning.visible = true
+            dapWalletNameWarning.text =
+                qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
             console.warn("Empty wallet name")
         }
         else
         {
-            dapWalletNameWarning.visible = false
+            dapWalletNameWarning.text = ""
 
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            nextActivated("recoveryWallet");
+            if (recoverySelectionWords.checked)
+            {
+                dapNextRightPanel = recoveryWallet
+                nextActivated("recoveryWallet");
+            }
+            if (recoverySelectionNothing.checked)
+            {
+                dapNextRightPanel = doneWallet
+
+                console.log("Create new wallet " + walletInfo.name);
+                console.log(walletInfo.signature_type);
+                dapServiceController.requestToService("DapAddWalletCommand",
+                       walletInfo.name,
+                       walletInfo.signature_type)
+            }
+
         }
 
     }
 
     dapButtonClose.onClicked:
     {
-        dapWalletNameWarning.visible = false
+        dapWalletNameWarning.text = ""
         previousActivated(lastActionsWallet)
         dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
-//    Connections
-//    {
-//        target: dapServiceController
-//        onWalletCreated:
-//        {
-//            nextActivated("doneWallet");
-//        }
-//    }
+    Connections
+    {
+        target: dapServiceController
+        onWalletCreated:
+        {
+            nextActivated("doneWallet");
+        }
+    }
 }

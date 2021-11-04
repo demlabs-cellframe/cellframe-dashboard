@@ -9,7 +9,11 @@ DapAbstractRightPanel
 //    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
 
     property alias dapButtonCopy: copyButton
+    property alias dapButtonPaste: pasteButton
     property alias dapButtonNext: nextButton
+
+    property alias dapTextBottomMessage: textBottomMessage
+    property alias dapTextTopMessage: textTopMessage
 
     dapHeaderData:
         Rectangle
@@ -87,9 +91,9 @@ DapAbstractRightPanel
             Text
             {
                 id: textTopMessage
+                Layout.minimumHeight: 50 * pt
                 Layout.alignment: Qt.AlignHCenter
                 Layout.maximumWidth: parent.width - 50 * pt
-                text: qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it")
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: "#FF0300"
@@ -120,7 +124,6 @@ DapAbstractRightPanel
             Text
             {
                 id: textBottomMessage
-//                Layout.fillWidth: true
                 Layout.minimumHeight: 50 * pt
                 Layout.alignment: Qt.AlignHCenter
                 Layout.maximumWidth: parent.width - 50 * pt
@@ -137,20 +140,6 @@ DapAbstractRightPanel
 
                 DapButton
                 {
-                    id: nextButton
-                    heightButton:  44 * pt
-                    widthButton: 130 * pt
-                    Layout.alignment: Qt.AlignCenter
-                    textButton: qsTr("Next")
-                    horizontalAligmentText: Text.AlignHCenter
-                    indentTextRight: 0
-                    fontButton.pixelSize: 18 * pt
-                    colorBackgroundButton: "#3E3853"
-                    colorTextButton: "#FFFFFF"
-                }
-
-                DapButton
-                {
                     id: copyButton
                     heightButton: 44 * pt
                     widthButton: 130 * pt
@@ -162,9 +151,35 @@ DapAbstractRightPanel
                     fontButton.pixelSize: 18 * pt
                     colorBackgroundButton: "#3E3853"
                     colorTextButton: "#FFFFFF"
+                }
 
-                    onClicked: textBottomMessage.text =
-                        qsTr("Recovery words copied to clipboard. Keep them in a safe place before proceeding to the next step.")
+                DapButton
+                {
+                    id: pasteButton
+                    heightButton: 44 * pt
+                    widthButton: 130 * pt
+                    Layout.alignment: Qt.AlignCenter
+                    checkable: true
+                    textButton: qsTr("Paste")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton.pixelSize: 18 * pt
+                    colorBackgroundButton: "#3E3853"
+                    colorTextButton: "#FFFFFF"
+                }
+
+                DapButton
+                {
+                    id: nextButton
+                    heightButton:  44 * pt
+                    widthButton: 130 * pt
+                    Layout.alignment: Qt.AlignCenter
+                    textButton: qsTr("Next")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton.pixelSize: 18 * pt
+                    colorBackgroundButton: "#3E3853"
+                    colorTextButton: "#FFFFFF"
                 }
 
             }

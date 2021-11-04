@@ -40,6 +40,17 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
+    ListModel
+    {
+        id: operationModel
+        ListElement { name: qsTr("Create wallet")
+            operation: "create" }
+        ListElement { name: qsTr("Restore wallet")
+            operation: "restore" }
+    }
+
+    property var walletOperation: operationModel.get(0).operation
+
     dapTopPanel:
         DapDashboardTopPanel
         {

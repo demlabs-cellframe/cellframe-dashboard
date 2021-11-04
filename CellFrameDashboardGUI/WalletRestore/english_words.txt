@@ -1792,7 +1792,7 @@ neighbour
 net
 network
 nicely
-no way
+no_way
 object
 objection
 obligation
@@ -1804,7 +1804,7 @@ occupy
 occur
 ocean
 o’clock
-of course
+of_course
 operate
 oppose
 pace
@@ -1930,7 +1930,7 @@ predict
 practise
 praise
 potato
-post office
+post_office
 pool
 politician
 policeman
@@ -2720,7 +2720,7 @@ holding
 household
 housing
 heavily
-ice cream
+ice_cream
 ideal
 identify
 illness
@@ -2764,7 +2764,7 @@ mud
 motorway
 mortgage
 moreover
-mobile phone
+mobile_phone
 mixture
 numerous
 nuisance
@@ -2991,7 +2991,7 @@ e-book
 hearty
 incurable
 jockey
-junk food
+junk_food
 mania
 margarine
 mosque
@@ -3000,7 +3000,7 @@ proclaim
 shiver
 skilful
 socket
-sportsman somewhere
+sportsman_somewhere
 sweetheart
 amazing
 definitely
@@ -4491,7 +4491,7 @@ careless
 cargo
 carpenter
 carriage
-carry on
+carry_on
 carsick
 cartoon
 cashier
@@ -4674,7 +4674,7 @@ immigrate
 immune
 impartial
 impolite
-income tax
+income_tax
 incomplete
 indirect
 indoor
@@ -8068,7 +8068,7 @@ mindless
 lullaby
 layout
 knob
-grown up
+grown_up
 flashy
 epic
 encode
@@ -8149,7 +8149,7 @@ duke
 dashing
 curry
 crumb
-crash down
+crash_down
 courier
 conclude
 cockroach
@@ -9263,7 +9263,7 @@ carbohydrate
 carbon
 carious
 carnivorous
-cast iron
+cast_iron
 catchy
 cater
 cattish
@@ -9672,7 +9672,7 @@ latent
 lavishness
 lax
 laxative
-leap year
+leap_year
 leaseholder
 legalize
 leggy
@@ -9863,7 +9863,7 @@ piety
 pillar
 pillowcase
 pilotage
-pine cone
+pine_cone
 pinprick
 placidity
 plash
