@@ -99,7 +99,7 @@ DapRightPanel
                 Text
                 {
                     id: textNameWallet
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Name of wallet")
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft

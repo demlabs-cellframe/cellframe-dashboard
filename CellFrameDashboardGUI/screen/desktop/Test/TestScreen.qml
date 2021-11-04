@@ -6,18 +6,31 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../"
+import "../../"
 import "qrc:/widgets"
 
 DapAbstractScreen {
 
     dapFrame.color: currTheme.backgroundMainScreen
 
+    anchors
+    {
+        top: parent.top
+        topMargin: 24 * pt
+        right: parent.right
+        rightMargin: 44 * pt
+        left: parent.left
+        leftMargin: 24 * pt
+        bottom: parent.bottom
+        bottomMargin: 20 * pt
+    }
+
     Rectangle
     {
         id: testFrame
         anchors.fill: parent
-        anchors.margins: 24 * pt
-        anchors.rightMargin: 0 * pt
+//        anchors.margins: 24 * pt
+//        anchors.rightMargin: 0 * pt
         color: currTheme.backgroundElements
         radius: 16*pt
         ListView

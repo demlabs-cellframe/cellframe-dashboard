@@ -17,7 +17,7 @@ Item {
         height: Math.max(implicitHeight, parent.height)
         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
         elide: Text.ElideRight
-        color: "#211A3A"
+        color: currTheme.textColor
         text: qsTr("text")
     }
 
@@ -30,7 +30,7 @@ Item {
         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
         elide: Text.ElideRight
         horizontalAlignment: Qt.AlignRight
-        color: "#757184"
+        color: currTheme.textColor
         text: qsTr("text")
     }
 }

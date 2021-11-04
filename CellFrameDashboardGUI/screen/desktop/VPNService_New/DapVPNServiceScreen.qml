@@ -8,22 +8,32 @@ import "../../desktop/VPNService_New"
 DapAbstractScreen {
     id:dapVPNCientScreen
 
-    dapFrame.color: "#FFFFFF"
-    anchors.fill: parent
-    anchors.leftMargin: 24 * pt
-    anchors.rightMargin: 24 * pt
 
     property alias dapAddOrderButton: addOrderButton
     property alias dapOrderCreateFrame: orderCreateFrame
     property alias dapGridViewOrder: gridViewOrder
     property alias dapFrameTitleCreateOrder: frameTitleCreateOrder
     property alias dapGridViewFrame: vpnOrdersView
+    property alias dapFrameOrderView: frameOrderView
+
+    anchors
+    {
+        top: parent.top
+        topMargin: 24 * pt
+        right: parent.right
+        rightMargin: 44 * pt
+        left: parent.left
+        leftMargin: 24 * pt
+        bottom: parent.bottom
+        bottomMargin: 20 * pt
+    }
 
     Rectangle
     {
         id: orderCreateFrame
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
         Column
         {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -31,7 +41,9 @@ DapAbstractScreen {
             {
                 height: 82.79 * pt
                 width: parent.width
+                color: "transparent"
             }
+
             Image
             {
                 id: iconCreateOrder
@@ -45,13 +57,15 @@ DapAbstractScreen {
             {
                 height: 45 * pt
                 width: parent.width
+                color: "transparent"
             }
+
             Text
             {
                 id: titleTextOrderCreate
                 font.family: "Quiksand"
                 font.pixelSize: 26 * pt
-                color: "#070023"
+                color: currTheme.textColor
                 text: qsTr("Create your first VPN order")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -59,30 +73,18 @@ DapAbstractScreen {
             {
                 height: 21 * pt
                 width: parent.width
+                color: "transparent"
             }
             DapButton
             {
                 id: addOrderButton
-
                 implicitWidth: 180 * pt
                 implicitHeight: 36 * pt
-                radius: 4 * pt
+                radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
-                heightImageButton: 21 * pt
-                widthImageButton: 22 * pt
                 textButton: "New VPN order"
-//                    normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.svg"
-//                    hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
-                indentImageLeftButton: 41 * pt
-                colorBackgroundNormal: "#070023"
-                colorBackgroundHover: "#D51F5D"
-                colorButtonTextNormal: "#FFFFFF"
-                colorButtonTextHover: "#FFFFFF"
-                indentTextRight: 37 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                borderColorButton: "#000000"
-                borderWidthButton: 0
-                horizontalAligmentText:Qt.AlignRight
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                horizontalAligmentText:Qt.AlignCenter
                 colorTextButton: "#FFFFFF"
 
             }
@@ -98,6 +100,7 @@ DapAbstractScreen {
         id: frameTitleCreateOrder
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
 //        anchors.verticalCenter: parent.verticalCenter
         Text
         {
@@ -106,73 +109,63 @@ DapAbstractScreen {
             anchors.verticalCenter: parent.verticalCenter
             font.family: "Quiksand"
             font.pixelSize: 26 * pt
-            color: "#070023"
+            color: currTheme.textColor
             text: qsTr("Creating VPN order in process...")
         }
     }
 
-    Item
-    {
-        id: gridViewOrder
-        property int halfMargin: margin * 0.5
-        property int margin: 14 * pt
+    Item {
+        id:frameOrderView
         anchors.fill: parent
-        anchors.margins: halfMargin
-        visible: false
 
-        Text {
-            id: textMyVPNOrders
-            x: gridViewOrder.halfMargin
-            y: gridViewOrder.halfMargin
-            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
-            color: "#3E3853"
-//            text: qsTr("My VPN orders")
+        Rectangle
+        {
+            id: gridViewOrder
+            property int halfMargin: margin * 0.5
+            property int margin: 14 * pt
+            anchors.fill: parent
+            color: currTheme.backgroundElements
+            radius: 16*pt
+            visible: false
+
+            Text {
+                id: textMyVPNOrders
+                x: gridViewOrder.halfMargin
+                y: gridViewOrder.halfMargin
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
+                color: currTheme.textColor
+            }
+
+            DapVPNOrdersGridView {
+                id: vpnOrdersView
+
+                anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
+                anchors.leftMargin: 27 * pt
+                delegateMargin: gridViewOrder.halfMargin
+            }
         }
-
-        DapVPNOrdersGridView {
-            id: vpnOrdersView
-
-            anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
-            delegateMargin: gridViewOrder.halfMargin
+        InnerShadow {
+            id: topLeftSadow
+            anchors.fill: gridViewOrder
+            cached: true
+            horizontalOffset: 5
+            verticalOffset: 5
+            radius: 4
+            samples: 32
+            color: "#2A2C33"
+            smooth: true
+            source: gridViewOrder
         }
-
-//        Connections
-//        {
-//            target: vpnOrdersView
-//            onOrderDetailsShow:
-//            {
-//                console.log("Index " + index)
-//            }
-//        }
+        InnerShadow {
+            anchors.fill: gridViewOrder
+            cached: true
+            horizontalOffset: -1
+            verticalOffset: -1
+            radius: 1
+            samples: 32
+            color: "#4C4B5A"
+            source: topLeftSadow
+        }
     }
-//    Item {
-//        id: _innerShadow
-//        property var shadowSource: gridViewOrder
-//        property var color: "#B0000000"
-//        anchors.fill: shadowSource
-//        Item {
-//            id: _shadowMarker
-//            //width: source.width+1; height: source.height+1
-//            anchors.fill: parent;
-//            anchors.margins: -10
-//            ColorOverlay {
-//                anchors.fill: _shadowMarker;
-//                anchors.margins: 10
-//                source: _innerShadow.shadowSource
-//                color: "#00000000"
-//            }
-//            visible: false
-//        }
-//        InnerShadow {
-//            anchors.fill: _shadowMarker
-//            cached: true
-//            horizontalOffset: 0
-//            verticalOffset: 0
-//            radius: 30
-//            samples: 32
-//            color: _innerShadow.color
-//            smooth: true
-//            source: _shadowMarker
-//        }
-//    }
+
 }

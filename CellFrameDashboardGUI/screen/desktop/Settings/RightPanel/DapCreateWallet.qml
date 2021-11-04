@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../"
 
 DapCreateWalletForm
 {
@@ -33,6 +34,7 @@ DapCreateWalletForm
     {
         dapWalletNameWarning.visible = false
         previousActivated(emptyRightPanel)
+        dapSettingsRightPanel.visible = false
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 

@@ -30,7 +30,8 @@ DapAbstractTab
     {
         id: stackViewRightPanel
         initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: 350
+        width: visible? 350 * pt : 0
+        visible: false
         anchors.fill: parent
         delegate:
             StackViewDelegate
@@ -44,6 +45,7 @@ DapAbstractTab
         target: settingsScreen
         onCreateWalletSignal:
         {
+            dapSettingsRightPanel.visible = true
             currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
         }
     }

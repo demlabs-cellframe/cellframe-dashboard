@@ -99,7 +99,7 @@ DapRightPanel
                 Text
                 {
                     id: textNameWallet
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Name of wallet")
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
@@ -345,9 +345,6 @@ DapRightPanel
                 anchors.top: frameChooseRecoveryMethod.bottom
                 anchors.topMargin: 45 * pt
                 textButton: qsTr("Next")
-                colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#3E3853"
-                colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16

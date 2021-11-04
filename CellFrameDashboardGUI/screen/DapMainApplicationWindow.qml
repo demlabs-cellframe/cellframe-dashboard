@@ -37,7 +37,7 @@ Rectangle {
 
     readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
 
-    readonly property string testScreen: "qrc:/screen/" + device + "/TestPage.qml"
+    readonly property string testScreen: "qrc:/screen/" + device + "/Test/TestPage.qml"
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
