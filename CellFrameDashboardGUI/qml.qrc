@@ -283,5 +283,9 @@
         <file>screen/DapMainWindow.qml</file>
         <file>screen/controls/DapMenuButton.qml</file>
         <file>screen/controls/DapPage.qml</file>
+        <file>screen/desktop/TestPageForRightPannel.qml</file>
+        <file>screen/desktop/TestPageForRightPannel2.qml</file>
+        <file>screen/controls/DapScreenPage.qml</file>
+        <file>screen/controls/DapButton.qml</file>
     </qresource>
 </RCC>

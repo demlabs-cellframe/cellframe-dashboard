@@ -1,14 +1,17 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtGraphicalEffects 1.0
 
 Page {
     id: root
 
     header: root.header
 
-    property Item dapScreen
-    property Item dapRightPanel
+    property alias dapScreen: mainScreenStack
+    property alias dapRightPanel: rightPanelStack
+
+    signal closeButtonClicked
 
     background: Rectangle {
         color: currTheme.backgroundMainScreen
@@ -18,18 +21,26 @@ Page {
         id: rootPageRow
         anchors.fill: parent
 
-        Item {
-            id: mainScreen
+        DapScreenPage {
             Layout.fillHeight: true
             Layout.preferredWidth: rootPageRow.width * 0.7
-            data: dapScreen
+            StackView {
+                id: mainScreenStack
+                clip: true
+                anchors.fill: parent
+                anchors.margins: 10
+            }
         }
 
-        Item {
-            id: rightPanel
+        DapScreenPage {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            data: dapRightPanel
+            StackView {
+                id: rightPanelStack
+                clip: true
+                anchors.fill: parent
+                anchors.margins: 10
+            }
         }
     }
 

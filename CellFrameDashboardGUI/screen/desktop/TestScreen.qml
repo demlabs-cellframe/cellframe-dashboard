@@ -6,52 +6,23 @@ import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../"
 import "qrc:/widgets"
+import "../controls" as Controls
 
 Page {
     anchors.fill: parent
     background: Rectangle {
-        color: currTheme.backgroundMainScreen
-    }
-
-    Rectangle
-    {
-        id: testFrame
-        anchors.fill: parent
-        anchors.margins: 24 * pt
-        anchors.rightMargin: 0 * pt
         color: currTheme.backgroundElements
-        radius: 16*pt
-        ListView
-        {
-            id: listViewSettings
-            anchors.fill: parent
-            anchors.leftMargin: 20 * pt
-            model: modelTest
-            clip: true
-        }
+        radius: 16 * pt
+        border.color: "white"
     }
 
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: testFrame
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: testFrame
-    }
-    InnerShadow {
-        anchors.fill: testFrame
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
+    ListView
+    {
+        id: listViewSettings
+        anchors.fill: parent
+        anchors.leftMargin: 20 * pt
+        model: modelTest
+        clip: true
     }
 
     VisualItemModel
@@ -105,22 +76,29 @@ Page {
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
-            DapButton
-            {
-                enabled: false
-                Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: 15 * pt
-                implicitHeight: 36 * pt
-                implicitWidth: 250 * pt
-                textButton: qsTr("Test button no active")
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                colorBackgroundHover: currTheme.buttonColorNoActive
-                colorBackgroundNormal: currTheme.buttonColorNoActive
-                colorButtonTextNormal: currTheme.textColor
-                colorButtonTextHover: currTheme.textColor
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+//            DapButton
+//            {
+//                enabled: false
+//                Layout.alignment: Qt.AlignCenter
+//                Layout.topMargin: 15 * pt
+//                implicitHeight: 36 * pt
+//                implicitWidth: 250 * pt
+//                textButton: qsTr("Test button no active")
+//                horizontalAligmentText: Text.AlignHCenter
+//                indentTextRight: 0
+//                colorBackgroundHover: currTheme.buttonColorNoActive
+//                colorBackgroundNormal: currTheme.buttonColorNoActive
+//                colorButtonTextNormal: currTheme.textColor
+//                colorButtonTextHover: currTheme.textColor
+//                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+//            }
+
+            Controls.DapButton {
+                implicitWidth: 200
+                implicitHeight: 35
+                text: qsTr("Test")
             }
+
         }
 
         RowLayout
@@ -144,8 +122,8 @@ Page {
 
         Rectangle
         {
-//            height: 50 * pt
-//            Layout.topMargin: 30 * pt
+            //            height: 50 * pt
+            //            Layout.topMargin: 30 * pt
             Layout.fillWidth: true
             color: "transparent"
             height: 80 * pt
@@ -205,11 +183,11 @@ Page {
             DapCheckBox
             {
                 id: buttonUseExestingWallet
-//                anchors.fill: parent
+                //                anchors.fill: parent
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-//                anchors.leftMargin: 22 * pt
-//                height: 46 * pt
+                //                anchors.leftMargin: 22 * pt
+                //                height: 46 * pt
 
                 nameCheckbox: qsTr("Test Check Box")
                 fontCheckbox: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
@@ -224,7 +202,7 @@ Page {
         RowLayout
         {
             spacing: 100 * pt
-//            anchors.fill: parent
+            //            anchors.fill: parent
             DapRadioButton
             {
                 nameRadioButton: qsTr("Test Radio Button 1")

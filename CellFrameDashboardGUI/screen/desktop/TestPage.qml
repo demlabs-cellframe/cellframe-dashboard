@@ -10,6 +10,14 @@ import "../controls" as Controls
 Controls.DapPage {
     id: testPageTab
 
+    QtObject {
+        id: navigator
+
+        function openPage2() {
+            dapRightPanel.push("qrc:/screen/desktop/TestPageForRightPannel2.qml")
+        }
+    }
+
     header:
         DapTopPanel {
         id: header
@@ -18,19 +26,7 @@ Controls.DapPage {
         color: currTheme.backgroundPanel
     }
 
-    dapScreen:
-        StackView {
-        id: screen
-        anchors.fill: parent
-        initialItem: TestScreen { }
-    }
+    dapScreen.initialItem: TestScreen { }
 
-    dapRightPanel:
-        StackView {
-        id: rightPanel
-        anchors.fill: parent
-        initialItem: DapRightPanel {
-            title: qsTr("Test Title")
-        }
-    }
+    dapRightPanel.initialItem: TestPageForRightPannel { }
 }
