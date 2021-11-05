@@ -65,6 +65,7 @@ DapRightPanel
 
             Text
             {
+
                 id: textHeader
                 text: qsTr("New wallet")
                 verticalAlignment: Qt.AlignLeft
