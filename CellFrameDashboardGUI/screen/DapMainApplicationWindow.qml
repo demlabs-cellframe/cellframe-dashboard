@@ -301,13 +301,13 @@ Rectangle {
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
 
-            //Test elements page for debug
-            append ({
-                name: qsTr("Test"),
-                page: testScreen,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
-            })
+//            //Test elements page for debug
+//            append ({
+//                name: qsTr("Test"),
+//                page: testScreen,
+//                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+//                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+//            })
 
 //            append ({
 //                name: qsTr("Logs"),

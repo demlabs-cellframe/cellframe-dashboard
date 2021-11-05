@@ -47,41 +47,32 @@ DapLastActionsRightPanelForm
         onWalletHistoryReceived:
         {
             modelLastActions.clear()
-            for (let i = 0; i < 5; i++)
-            {
-                modelLastActions.append({
-                                            "name" : "a" + i,
-                                            "amount" : "b" + i,
-                                            "status" : "ok",
-                                            "date" : "25.10.2021"
-                                        })
-            }
 
-            //            for (let i = 0; i < walletHistory.length; ++i)
-            //            {
-            //                modelLastActions.append({ "name" : walletHistory[i].Name,
-            //                                          "amount" : walletHistory[i].Amount,
-            //                                          "status" : walletHistory[i].Status,
-            //                                          "date" : walletHistory[i].Date})
-            //            }
-        }
-    }
-
-    Shortcut {
-        sequence: "Ctrl+D"
-        onActivated: {
-            modelLastActions.clear()
-            for (let i = 0; i < 5; i++)
+            for (let i = 0; i < walletHistory.length; ++i)
             {
-                modelLastActions.append({
-                                            "name" : "a" + i,
-                                            "amount" : "b" + i,
-                                            "status" : "ok",
-                                            "date" : "Today "
-                                        })
+                modelLastActions.append({ "name" : walletHistory[i].Name,
+                                          "amount" : walletHistory[i].Amount,
+                                          "status" : walletHistory[i].Status,
+                                          "date" : walletHistory[i].Date})
             }
         }
     }
+
+//    Shortcut {
+//        sequence: "Ctrl+D"
+//        onActivated: {
+//            modelLastActions.clear()
+//            for (let i = 0; i < 5; i++)
+//            {
+//                modelLastActions.append({
+//                                            "name" : "a" + i,
+//                                            "amount" : "b" + i,
+//                                            "status" : "ok",
+//                                            "date" : "Today "
+//                                        })
+//            }
+//        }
+//    }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)

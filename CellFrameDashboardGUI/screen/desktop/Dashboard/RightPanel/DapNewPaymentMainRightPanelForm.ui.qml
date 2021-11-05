@@ -397,19 +397,6 @@ DapRightPanel
                 }
             }
 
-            Text
-            {
-                id: textNotEnoughTokensWarning
-                Layout.fillWidth: true
-                Layout.minimumHeight: 100 * pt
-                color: "#ff2020"
-                text: ""
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-            }
-
             // Button "Send"
             DapButton
             {

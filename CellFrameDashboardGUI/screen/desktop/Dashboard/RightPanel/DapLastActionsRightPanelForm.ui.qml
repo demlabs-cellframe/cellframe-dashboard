@@ -47,7 +47,7 @@ DapRightPanel
         anchors.bottomMargin: 10
         anchors.leftMargin: 5
         anchors.rightMargin: 5
-        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+//        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
 
         Column {

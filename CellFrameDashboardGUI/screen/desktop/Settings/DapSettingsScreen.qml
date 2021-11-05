@@ -194,7 +194,7 @@ DapAbstractScreen
                 anchors.topMargin: 25 * pt
                 anchors.leftMargin: 25 * pt
                 comboBoxTextRole: ["name"]
-                mainLineText: "private"
+                mainLineText: "all wallets"
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 19 * pt

@@ -406,11 +406,11 @@ DapAbstractScreen
                             }
 
                         }
-                        Component.onCompleted:
-                        {
-                            if(tokens.count === 0)
-                                console.log("")
-                        }
+//                        Component.onCompleted:
+//                        {
+//                            if(tokens.count === 0)
+//                                console.log("")
+//                        }
                     }
                 }
             }
