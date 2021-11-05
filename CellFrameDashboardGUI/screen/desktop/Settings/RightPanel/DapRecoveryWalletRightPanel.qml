@@ -3,7 +3,7 @@ import QtQuick 2.4
 DapRecoveryWalletRightPanelForm
 {
     dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: lastActionsWallet
+    dapPreviousRightPanel: emptyRightPanel
 
     Connections
     {
@@ -114,9 +114,8 @@ DapRecoveryWalletRightPanelForm
         walletHashManager.pasteWordsFromClipboard()
     }
 
-
     dapButtonClose.onClicked:
     {
-        previousActivated(lastActionsWallet)
+        previousActivated(emptyRightPanel)
     }
 }

@@ -31,11 +31,6 @@ DapRightPanel
     //@param dapSendedToken Name of token to send
     property string dapSendedToken: comboboxToken.mainLineText
 
-    property string dapCurrentWallet
-
-    property string dapCurrentNetwork
-
-
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -400,6 +395,19 @@ DapRightPanel
                     wrapMode: Text.WordWrap
                     visible: true
                 }
+            }
+
+            Text
+            {
+                id: textNotEnoughTokensWarning
+                Layout.fillWidth: true
+                Layout.minimumHeight: 100 * pt
+                color: "#ff2020"
+                text: ""
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
             }
 
             // Button "Send"

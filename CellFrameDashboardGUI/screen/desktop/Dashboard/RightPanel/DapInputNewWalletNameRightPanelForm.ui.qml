@@ -7,14 +7,19 @@ import "../../../"
 
 DapRightPanel
 {
+    property alias dapUseExestionWallet: buttonUseExestingWallet
     property alias dapTextInputNameWallet: textInputNameWallet
     property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
     property alias dapButtonNext: buttonNext
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
 
-    dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: lastActionsWallet
+    property alias recoverySelectionWords: buttonSelectionWords
+    property alias recoverySelectionQRcode: buttonSelectionQRcode
+    property alias recoverySelectionExportToFile: buttonSelectionExportToFile
+    property alias recoverySelectionNothing: buttonSelectionNothing
+
+
 
 //    width: 400 * pt
 
@@ -112,6 +117,7 @@ DapRightPanel
                 }
             }
 
+
             Rectangle
             {
                 id: frameInputNameWallet
@@ -158,7 +164,7 @@ DapRightPanel
                 anchors.right: parent.right
                 anchors.leftMargin: 22 * pt
                 anchors.rightMargin: 35 * pt
-//                anchors.topMargin: 4 * pt
+    //                anchors.topMargin: 4 * pt
                 height: 46 * pt
 
                 nameCheckbox: qsTr("Use exsisting wallet")
@@ -216,7 +222,7 @@ DapRightPanel
 
                     anchors.centerIn: parent
                     anchors.fill: parent
-//                    anchors.rightMargin: 10 * pt
+    //                    anchors.rightMargin: 10 * pt
 
                     comboBoxTextRole: ["name"]
                     mainLineText: "all signature"
@@ -356,7 +362,6 @@ DapRightPanel
                 height: 69 * pt
                 color: "transparent"
                 anchors.top: buttonNext.bottom
-//                anchors.topMargin: 10 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
 

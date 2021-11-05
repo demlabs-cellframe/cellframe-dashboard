@@ -7,14 +7,19 @@ import "../../../"
 
 DapRightPanel
 {
+    property alias dapUseExestionWallet: buttonUseExestingWallet
     property alias dapTextInputNameWallet: textInputNameWallet
     property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
     property alias dapButtonNext: buttonNext
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
 
-    dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: emptyRightPanel
+    property alias recoverySelectionWords: buttonSelectionWords
+    property alias recoverySelectionQRcode: buttonSelectionQRcode
+    property alias recoverySelectionExportToFile: buttonSelectionExportToFile
+    property alias recoverySelectionNothing: buttonSelectionNothing
+
+
 
 //    width: 400 * pt
 
@@ -65,6 +70,7 @@ DapRightPanel
 
             Text
             {
+
                 id: textHeader
                 text: qsTr("New wallet")
                 verticalAlignment: Qt.AlignLeft
@@ -345,9 +351,6 @@ DapRightPanel
                 anchors.top: frameChooseRecoveryMethod.bottom
                 anchors.topMargin: 45 * pt
                 textButton: qsTr("Next")
-                colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#3E3853"
-                colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16

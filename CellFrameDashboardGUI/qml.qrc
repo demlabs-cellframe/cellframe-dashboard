@@ -287,5 +287,8 @@
         <file>screen/desktop/Test/DapTestRightPanelForm.ui.qml</file>
         <file>screen/desktop/Test/TestScreen.qml</file>
         <file>screen/desktop/Test/TestPage.qml</file>
+        <file>WalletRestore/english_words.txt</file>
+        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
     </qresource>
 </RCC>

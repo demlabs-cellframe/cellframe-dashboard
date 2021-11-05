@@ -13,12 +13,34 @@ DapAbstractTab
     readonly property string doneWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     //empty panel
     readonly property string emptyRightPanel: "qrc:/screen/" + device + "/Settings/RightPanel/DapEmptyRightPanel.qml"
+    ///@detalis Path to the right panel of recovery.
+    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
     color: currTheme.backgroundMainScreen
 
     property alias dapSettingsRightPanel: stackViewRightPanel
+
+    property var walletInfo:
+    {
+        "name": "",
+        "network": "",
+        "chain": "",
+        "signature_type": "",
+        "recovery_hash": ""
+    }
+
+    ListModel
+    {
+        id: operationModel
+        ListElement { name: qsTr("Create wallet")
+            operation: "create" }
+        ListElement { name: qsTr("Restore wallet")
+            operation: "restore" }
+    }
+
+    property var walletOperation: operationModel.get(0).operation
 
     dapTopPanel: DapSettingsTopPanel { }
 
