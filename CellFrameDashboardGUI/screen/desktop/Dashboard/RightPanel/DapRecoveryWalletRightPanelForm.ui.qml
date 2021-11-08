@@ -5,9 +5,16 @@ import "../../../"
 
 DapAbstractRightPanel
 {
-    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
-    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
-    
+//    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
+//    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
+
+    property alias dapButtonCopy: copyButton
+    property alias dapButtonPaste: pasteButton
+    property alias dapButtonNext: nextButton
+
+    property alias dapTextBottomMessage: textBottomMessage
+    property alias dapTextTopMessage: textTopMessage
+
     dapHeaderData:
         Rectangle
         {
@@ -56,23 +63,19 @@ DapAbstractRightPanel
                 color: "#757184"
             }
         }
-    
-    dapContentItemData: 
-        Rectangle
-        {
+
+    dapContentItemData:
+        ColumnLayout {
             anchors.fill: parent
-            color: "transparent"
+            spacing: 20 * pt
 
             Rectangle
             {
                 id: frameMethod
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottomMargin: 8 * pt
+                Layout.fillWidth: true
                 color: "#757184"
                 height: 30 * pt
-                Text 
+                Text
                 {
                     id: textMethod
                     color: "#ffffff"
@@ -84,199 +87,110 @@ DapAbstractRightPanel
                     anchors.leftMargin: 16 * pt
                 }
             }
-            
-            Text 
+
+            Text
             {
                 id: textTopMessage
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: frameMethod.bottom
-                anchors.topMargin: 24 * pt
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
-                anchors.bottomMargin: 24 * pt
-                text: qsTr("Keep these words in a safe place. They will be\nrequired to restore your wallet in case of loss of\naccess to it")
+                Layout.minimumHeight: 50 * pt
+                Layout.alignment: Qt.AlignHCenter
+                Layout.maximumWidth: parent.width - 50 * pt
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 color: "#FF0300"
+                wrapMode: Text.WordWrap
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-            }
-            
-            Rectangle 
-            {
-                id: frameRecoveryWords
-                anchors.top: textTopMessage.bottom
-                anchors.topMargin: 24 * pt
-                anchors.right: parent.right
-                anchors.left: parent.left
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
-                color: "transparent"
-                height: 250 * pt
-        
-                ListModel 
-                {
-                    id: modelRecoveryWords
-                    ListElement 
-                    {
-                        word: "Word1"
-                    }
-                    ListElement 
-                    {
-                        word: "Word2"
-                    }
-                    ListElement 
-                    {
-                        word: "Word3"
-                    }
-                    ListElement 
-                    {
-                        word: "Word4"
-                    }
-                    ListElement 
-                    {
-                        word: "Word5"
-                    }
-                    ListElement 
-                    {
-                        word: "Word6"
-                    }
-                    ListElement 
-                    {
-                        word: "Word7"
-                    }
-                    ListElement 
-                    {
-                        word: "Word8"
-                    }
-                    ListElement 
-                    {
-                        word: "Word9"
-                    }
-                    ListElement 
-                    {
-                        word: "Word10"
-                    }
-                    ListElement 
-                    {
-                        word: "Word11"
-                    }
-                    ListElement 
-                    {
-                        word: "Word12"
-                    }
-                }
-        
-                RowLayout 
-                {
-                    id: rowListView
-                    spacing: 60 * pt
-                    anchors.fill: parent
-                    height: frameRecoveryWords.height
-                    ListView 
-                    {
-                        id: firstListViewRecoveryWords
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        height: frameRecoveryWords.height
-                        width: 50 * pt
-                        model: modelRecoveryWords
-                        delegate: 
-                            Text 
-                            {
-                                text: word
-                                color: "#070023"
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-                            }
-                    }
-        
-                    ListView 
-                    {
-                        id: lastListViewRecoveryWords
-                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                        height: frameRecoveryWords.height
-                        width: 50 * pt
-                        model: modelRecoveryWords
-                        delegate: 
-                            Text 
-                            {
-                                text: word
-                                color: "#070023"
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-                            }
-                    }
-                }
-            }
-        
-            Text 
-            {
-                id: textBottomMessage
-                anchors.top: frameRecoveryWords.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.topMargin: 24 * pt
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
-                color: "#6F9F00"
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
             }
 
-            RowLayout 
-            {
-                id: rowButtons
-                height: 44 * pt
-                anchors.top: textBottomMessage.bottom
-                anchors.topMargin: 24 * pt
-                anchors.left: parent.left
-                anchors.right: parent.right
-                Layout.columnSpan: 2
-        
-                DapButton
-                {
-                    id: nextButton
-                    heightButton:  44 * pt
-                    widthButton: 130 * pt
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-                    textButton: qsTr("Next")
-                    existenceImage: false
-                    horizontalAligmentText: Text.AlignHCenter
-                    indentTextRight: 0
-                    fontButton.pixelSize: 18 * pt
-                    colorBackgroundButton: "#3E3853"
+            Grid {
+                Layout.alignment: Qt.AlignHCenter
+                spacing: 8
+                columns: 3
+                horizontalItemAlignment: Grid.AlignHCenter
+                verticalItemAlignment: Grid.AlignVCenter
+                flow: Grid.TopToBottom
+
+                Repeater {
+                    delegate: Text {
+                        text: modelData
+//                        font { bold: true; pixelSize: 12 }
+                        color: "#070023"
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+
+                    }
+                    model: wordsModel
                 }
-        
+            }
+
+            Text
+            {
+                id: textBottomMessage
+                Layout.minimumHeight: 50 * pt
+                Layout.alignment: Qt.AlignHCenter
+                Layout.maximumWidth: parent.width - 50 * pt
+                color: "#6F9F00"
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+            }
+
+
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+
                 DapButton
                 {
                     id: copyButton
                     heightButton: 44 * pt
                     widthButton: 130 * pt
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Layout.alignment: Qt.AlignCenter
                     checkable: true
                     textButton: qsTr("Copy")
-                    existenceImage: false
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton.pixelSize: 18 * pt
-                    colorBackgroundButton: copyButton.checked ? "#EDEFF2" : "#3E3853"
-                    colorTextButton: copyButton.checked ? "#3E3853" : "#FFFFFF"
-        
-                    onClicked: textBottomMessage.text = qsTr("Recovery words copied to clipboard. Keep them in a\nsafe place before proceeding to the next step.")
+                    colorBackgroundButton: "#3E3853"
+                    colorTextButton: "#FFFFFF"
                 }
+
+                DapButton
+                {
+                    id: pasteButton
+                    heightButton: 44 * pt
+                    widthButton: 130 * pt
+                    Layout.alignment: Qt.AlignCenter
+                    checkable: true
+                    textButton: qsTr("Paste")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton.pixelSize: 18 * pt
+                    colorBackgroundButton: "#3E3853"
+                    colorTextButton: "#FFFFFF"
+                }
+
+                DapButton
+                {
+                    id: nextButton
+                    heightButton:  44 * pt
+                    widthButton: 130 * pt
+                    Layout.alignment: Qt.AlignCenter
+                    textButton: qsTr("Next")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton.pixelSize: 18 * pt
+                    colorBackgroundButton: "#3E3853"
+                    colorTextButton: "#FFFFFF"
+                }
+
             }
-            
-            Rectangle 
+
+            Rectangle
             {
-                id: frameMethodData
-                height: 124 * pt
+                id: frameBottom
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 color: "transparent"
-                anchors.top: rowButtons.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
             }
-        }
+    }
+
 }
