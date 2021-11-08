@@ -11,6 +11,8 @@ Rectangle {
     signal findHandler(string text)
     anchors.left: parent.left
 
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
     color: currTheme.backgroundPanel
     //color: "#211A3A"    //design color
 //    color: "#070023"      //original color

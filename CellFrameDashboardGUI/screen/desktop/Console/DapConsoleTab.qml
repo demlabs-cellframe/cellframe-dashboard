@@ -3,6 +3,8 @@ import "qrc:/"
 
 DapConsoleTabForm
 {
+    color: currTheme.backgroundMainScreen
+
     dapConsoleScreen.onRunCommand:
     {
         dapServiceController.requestToService("DapRunCmdCommand", command);

@@ -27,6 +27,7 @@ DapAbstractScreen
         anchors.leftMargin: 20 * pt
         anchors.rightMargin: 20 * pt
         anchors.bottomMargin: 20 * pt
+        color: currTheme.backgroundElements
 
         ListView
         {
@@ -66,7 +67,8 @@ DapAbstractScreen
                 id: promt
                 verticalAlignment: Qt.AlignVCenter
                 text: ">"
-                color: "#070023"
+                color: currTheme.textColor
+
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
             }
 
@@ -77,6 +79,7 @@ DapAbstractScreen
                 wrapMode: TextArea.Wrap
                 placeholderText: qsTr("Type here...")
                 selectByMouse: true
+                color: currTheme.textColor
                 focus: true
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
                 Keys.onReturnPressed: text.length > 0 ?

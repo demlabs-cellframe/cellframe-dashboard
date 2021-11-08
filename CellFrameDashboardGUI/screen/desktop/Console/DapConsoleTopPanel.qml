@@ -5,4 +5,6 @@ import "qrc:/widgets"
 DapTopPanel
 {
     color: currTheme.backgroundPanel
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
 }

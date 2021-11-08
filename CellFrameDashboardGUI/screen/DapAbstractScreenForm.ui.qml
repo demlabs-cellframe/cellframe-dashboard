@@ -4,6 +4,6 @@ import "qrc:/widgets"
 
 DapScreen
 {
-    property Button buttonTest: Button {}
-    property Text textTest: Text {}
+//    property Button buttonTest: Button {}
+//    property Text textTest: Text {}
 }

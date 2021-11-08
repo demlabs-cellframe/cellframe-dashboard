@@ -29,9 +29,11 @@ DapHistoryTabForm
         for(var i=0; i < dapWallets.count; ++i)
         {
             modelHistory.clear()
+
+            // TODO: Here we need to get the values of CurrentNetwork and CurrentChain
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                                                  dapServiceController.CurrentNetwork,
-                                                  dapServiceController.CurrentChain,
+//                                                  dapServiceController.CurrentNetwork,
+//                                                  dapServiceController.CurrentChain,
                                                   dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
                                                   dapWallets[i].Name)
         }

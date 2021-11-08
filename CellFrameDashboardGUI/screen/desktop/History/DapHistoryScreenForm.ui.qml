@@ -4,6 +4,7 @@ import "../../"
 
 DapAbstractScreen
 {
+    color: currTheme.backgroundMainScreen
     ListView
     {
         id: dapListViewHistory

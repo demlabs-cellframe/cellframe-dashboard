@@ -27,7 +27,8 @@ Page {
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
     readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
-    readonly property string testScreen: "qrc:/screen/" + device + "/TestPage.qml"
+
+    readonly property string testScreen: "qrc:/screen/" + device + "/Test/TestPage.qml"
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
@@ -96,24 +97,82 @@ Page {
                 height: 60 * pt
                 Rectangle
                 {
-                    id: frameLogotype
-                    anchors.fill: parent
-                    color: currTheme.backgroundPanel
+//                    data: dapLogotype
+                    width: parent.width * pt
                     height: 60 * pt
-                    width: parent.width
                     //                        radius: 8 * pt
                     anchors.leftMargin: -8*pt
                     anchors.bottomMargin: -10*pt
                     Image
                     {
-                        id: iconLogotype
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: 111 * pt
-                        height: 24 * pt
-                        anchors.left: parent.left
-                        anchors.leftMargin: 24 * pt
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+                        id: frameLogotype
+                        anchors.fill: parent
+//                        width: parent.width
+//                        radius: 8 * pt
+                        Image
+                        {
+                            id: iconLogotype
+//                            anchors.verticalCenter: parent.verticalCenter
+                            width: 111 * pt
+                            height: 24 * pt
+                            anchors.left: parent.left
+                            anchors.leftMargin: 26*pt
+                            anchors.bottom: parent.bottom
+                            anchors.bottomMargin: 18*pt
+                            anchors.top: parent.top
+                            anchors.topMargin: 18 * pt
+
+                            source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+                        }
                     }
+                }
+                // Menu bar widget
+                Item
+                {
+                    id: menuWidget
+                    data: DapAbstractMenuTabWidget
+                    {
+                        color:currTheme.backgroundPanel
+                        radius: currTheme.radiusRectangle
+
+//                        anchors.leftMargin: -8*pt
+
+                        onPathScreenChanged:
+                        {
+                            stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
+                        }
+                        id: menuTabWidget
+                        anchors.fill: parent
+                        widthItemMenu: 180*pt
+                        heightItemMenu: 52 * pt
+                        normalColorItemMenu: currTheme.backgroundPanel
+                        selectColorItemMenu: "transparent"
+                        widthIconItemMenu: 16 * pt
+                        heightIconItemMenu: 16 * pt
+                        dapMenuWidget.model: modelMenuTab
+                        normalFont: "Quicksand"
+                        selectedFont: "Quicksand"
+                    }
+                    //hide top radius element
+                    Rectangle{
+                        width: 9 * pt
+                        height: currTheme.radiusRectangle
+                        anchors.top:parent.top
+                        anchors.right: parent.right
+                        color: currTheme.backgroundPanel/* "white"*/
+//                        radius: currTheme.radiusRectangle
+                        Rectangle
+                        {
+                            width: 9 * pt
+                            height: 4 * pt
+                            anchors.top: parent.top
+                            anchors.right: parent.left
+                            color: parent.color
+                        }
+                    }
+
+                    width: 180 * pt
+                    height: columnMenuTab.height - logotype.height
                 }
             }
             // Menu bar widget
@@ -131,7 +190,6 @@ Page {
                     {
                         stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
                     }
-                    id: menuTabWidget
                     anchors.fill: parent
                     dapFrameMenuTab.width: 180 * pt
                     widthItemMenu: 180*pt
@@ -212,6 +270,8 @@ Page {
     ListModel
     {
         id: modelMenuTab
+
+
         
         Component.onCompleted:
         {
@@ -286,21 +346,6 @@ Page {
                         normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                         hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
                     })
-
-            //Test elements page for debug
-            append ({
-                        name: qsTr("Test"),
-                        page: testScreen,
-                        normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-                        hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
-                    })
-
-            //            append ({
-            //                name: qsTr("Logs"),
-            //                page: logsScreen,
-            //                normalIcon: "qrc:/resources/icons/icon_logs.svg",
-            //                hoverIcon: "qrc:/resources/icons/icon_logs_hover.svg"
-            //             })
         }
     }
     //    //Main Shadow
@@ -406,6 +451,18 @@ Page {
             }
 
             modelWalletsUpdated();
+
+
+            //Show orders for debug
+//            for (var e = 0; e < 10; ++e)
+//            {
+//                dapModelOrders.append({ "index" : e+1,
+//                                      "location" : "wqe",
+//                                      "network" : "sad",
+//                                      "node_addr" : "213",
+//                                      "price" : "1234515"})
+//            }
+//            modelOrdersUpdated();
         }
         onOrdersReceived:
         {

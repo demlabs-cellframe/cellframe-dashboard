@@ -21,7 +21,6 @@ Page {
         text: qsTr("Open 2")
         anchors.top: rect.bottom
         onClicked: {
-            //dapRightPanel.push("qrc:/screen/desktop/TestPageForRightPannel2.qml")
             navigator.openPage2()
         }
     }

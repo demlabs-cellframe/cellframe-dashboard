@@ -18,32 +18,42 @@ DapRightPanel {
     dapNextRightPanel: earnedFundsOrder
     dapPreviousRightPanel: earnedFundsOrder
 
-    width: 400 * pt
+//    width: 400 * pt
 
     dapHeaderData:
-        Row
+        Item
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            anchors.topMargin: 12 * pt
-            anchors.bottomMargin: 12 * pt
-            spacing: 12 * pt
-
             Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
                 height: dapButtonClose.height
                 width: dapButtonClose.width
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 11 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 22 * pt
+                anchors.rightMargin: 13 * pt
             }
 
             Text
             {
                 id: textHeader
                 text: qsTr("Order details")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                color: "#3E3853"
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 50 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
     dapContentItemData:
@@ -59,30 +69,33 @@ DapRightPanel {
                 anchors.right: parent.right
                 anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textUsers
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Users")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
             Rectangle
             {
                 id: frameTotalUsers
-                height: 68 * pt
+                height: 41 * pt
                 color: "transparent"
                 anchors.top: frameUsers.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 10 * pt
-                anchors.rightMargin: 5 * pt
+                anchors.leftMargin: 29 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
                 DapOrderPanelButton
                 {
                     id: textTotalUsers
@@ -90,21 +103,20 @@ DapRightPanel {
                     activeBtn: true
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 10 * pt
-                    anchors.rightMargin: 5 * pt
                     anchors.right: parent.right
                 }
             }
             Rectangle
             {
                 id: frameNowUsers
-                height: 68 * pt
-                color: "transparent"
                 anchors.top: frameTotalUsers.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 10 * pt
-                anchors.rightMargin: 5 * pt
+                anchors.leftMargin: 29 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
+                height: 41 * pt
+                color: "transparent"
                 DapOrderPanelButton
                 {
                     id: textNowUsers
@@ -112,8 +124,6 @@ DapRightPanel {
                     activeBtn: false
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 10 * pt
-                    anchors.rightMargin: 5 * pt
                     anchors.right: parent.right
                 }
             }
@@ -123,30 +133,35 @@ DapRightPanel {
                 anchors.top: frameNowUsers.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                color: "#757184"
+                anchors.topMargin: 8 * pt
+                anchors.bottomMargin: 8 * pt
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textRegion
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Connection history")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
             Rectangle
             {
                 id: frameLastConnection
-                height: 68 * pt
-                color: "transparent"
                 anchors.top: frameConnectionHistory.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 10 * pt
-                anchors.rightMargin: 5 * pt
+                anchors.leftMargin: 29 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
+                height: 41 * pt
+                color: "transparent"
 
                 DapOrderPanelButton
                 {
@@ -155,8 +170,6 @@ DapRightPanel {
                     anchors.verticalCenter: parent.verticalCenter
                     activeBtn: true
                     anchors.left: parent.left
-                    anchors.leftMargin: 10 * pt
-                    anchors.rightMargin: 5 * pt
                     anchors.right: parent.right
                 }
             }
@@ -168,30 +181,33 @@ DapRightPanel {
                 anchors.right: parent.right
                 anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textUnits
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Load")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
             Rectangle
             {
                 id: frameAverageLoad
-                height: 68 * pt
-                color: "transparent"
                 anchors.top: frameLoad.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 10 * pt
-                anchors.rightMargin: 5 * pt
+                anchors.leftMargin: 29 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
+                height: 41 * pt
+                color: "transparent"
 
                 DapOrderPanelButton
                 {
@@ -200,21 +216,20 @@ DapRightPanel {
                     anchors.verticalCenter: parent.verticalCenter
                     activeBtn: false
                     anchors.left: parent.left
-                    anchors.leftMargin: 10 * pt
-                    anchors.rightMargin: 5 * pt
                     anchors.right: parent.right
                 }
             }
             Rectangle
             {
                 id: frameAverageReceipt
-                height: 68 * pt
-                color: "transparent"
                 anchors.top: frameAverageLoad.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 10 * pt
-                anchors.rightMargin: 5 * pt
+                anchors.leftMargin: 29 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
+                height: 41 * pt
+                color: "transparent"
 
                 DapOrderPanelButton
                 {
@@ -223,22 +238,8 @@ DapRightPanel {
                     anchors.verticalCenter: parent.verticalCenter
                     activeBtn: false
                     anchors.left: parent.left
-                    anchors.leftMargin: 10 * pt
-                    anchors.rightMargin: 5 * pt
                     anchors.right: parent.right
                 }
-            }
-
-            Rectangle
-            {
-                id: frameBottom
-                height: 124 * pt
-                anchors.top: frameAverageReceipt.bottom
-                anchors.topMargin: 24 * pt
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                color: "transparent"
             }
         }
 }

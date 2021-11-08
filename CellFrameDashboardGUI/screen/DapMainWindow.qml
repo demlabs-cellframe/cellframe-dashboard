@@ -22,9 +22,8 @@ FocusScope {
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
     readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
-    readonly property string testScreen: "qrc:/screen/" + device + "/TestPage.qml"
+    readonly property string testScreen: "qrc:/screen/" + device + "/Test/TestPage.qml"
 
-    ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
     property alias dapQuicksandFonts: quicksandFonts
 

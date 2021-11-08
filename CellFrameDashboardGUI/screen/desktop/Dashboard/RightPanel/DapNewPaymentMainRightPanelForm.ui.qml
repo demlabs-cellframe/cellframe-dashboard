@@ -31,10 +31,6 @@ DapRightPanel
     //@param dapSendedToken Name of token to send
     property string dapSendedToken: comboboxToken.mainLineText
 
-    property string dapCurrentWallet
-
-    property string dapCurrentNetwork
-
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
@@ -53,9 +49,9 @@ DapRightPanel
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 11 * pt
+                anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 22 * pt
+                anchors.leftMargin: 20 * pt
                 anchors.rightMargin: 13 * pt
 
             }
@@ -68,9 +64,9 @@ DapRightPanel
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
+                anchors.topMargin: 11 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 50 * pt
+                anchors.leftMargin: 48 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
@@ -109,17 +105,8 @@ DapRightPanel
             ColumnLayout
             {
                 id: frameSenderWalletAddress
-//                anchors.fill: parent
-//                anchors.top: frameSenderWallet
 
                 Layout.fillWidth: true
-//                Layout.leftMargin: 5 * pt
-//                Layout.rightMargin: 5 * pt
-//                Layout.margins: 16 * pt
-//                Layout.topMargin: 22 * pt
-//                Layout.bottomMargin: 22 * pt
-//                spacing: 16 * pt
-//                height: 70 * pt
 
                 Rectangle
                 {
@@ -137,50 +124,6 @@ DapRightPanel
                         Layout.fillWidth: true
                         model: networksNames
                     }
-
-//                    DapComboBox
-//                    {
-//                        id: comboboxNetwork
-////                        anchors.centerIn: parent
-//                        comboBoxTextRole: ["name"]
-//                        mainLineText: "private"
-//                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-//                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-//                        sidePaddingNormal: 19 * pt
-//                        sidePaddingActive: 19 * pt
-//                        hilightColor: currTheme.buttonColorNormal
-////                        anchors.fill: parent
-//                        Layout.fillWidth: true
-
-//                        widthPopupComboBoxNormal: parent.width * pt
-//                        widthPopupComboBoxActive: parent.width * pt
-//                        heightComboBoxNormal: 24 * pt
-//                        heightComboBoxActive: 42 * pt
-////                        bottomIntervalListElement: 10 * pt
-//                        topEffect: false
-
-////                        x: sidePaddingNormal
-//                        normalColor: currTheme.backgroundMainScreen
-//                        normalTopColor: currTheme.backgroundElements
-//                        hilightTopColor: currTheme.backgroundMainScreen
-
-
-//                        paddingTopItemDelegate: 8 * pt
-//                        heightListElement: 42 * pt
-////                        intervalListElement: 10 * pt
-//                        indicatorWidth: 24 * pt
-//                        indicatorHeight: indicatorWidth
-////                        indicatorLeftInterval: 0 * pt
-////                        colorTopNormalDropShadow: "#00000000"
-//                        colorDropShadow: currTheme.shadowColor
-//                        roleInterval: 15
-//                        endRowPadding: 37
-
-//                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-//                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-//                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-//                    }
                 }
             }
 
@@ -218,13 +161,11 @@ DapRightPanel
                     id: frameAmountField
                     Layout.fillWidth: true
                     Layout.margins: 16 * pt
-//                    spacing: 28 * pt
 
                     TextField
                     {
                         id: textInputAmountPayment
                         Layout.fillWidth: true
-//                        anchors.leftMargin: 10 * pt
                         Layout.leftMargin: 20 * pt
                         width: 150 * pt
                         height: 28 * pt
@@ -259,8 +200,6 @@ DapRightPanel
                         {
                             id: comboboxToken
                             anchors.fill: parent
-//                            width: 119 * pt
-//                            height: 42 * pt
                             comboBoxTextRole: ["name"]
                             mainLineText: "tCELL"
                             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -324,7 +263,6 @@ DapRightPanel
                 Layout.fillWidth: true
                 Layout.leftMargin: 38 * pt
                 Layout.rightMargin: 36 * pt
-//                Layout.topMargin: 26 * pt
                 height: 53 * pt
                 color: "transparent"
 
@@ -338,12 +276,7 @@ DapRightPanel
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.fill: parent
-//                    anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 26 * pt
-//                    anchors.left: parent.left
-//                    anchors.right: parent.right
-//                    anchors.leftMargin: 20 * pt - 8 * pt
-//                    anchors.rightMargin: 20 * pt
                     style:
                         TextFieldStyle
                         {
@@ -369,8 +302,6 @@ DapRightPanel
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.topMargin: 8 * pt
-//                    anchors.leftMargin: 20 * pt
-//                    anchors.rightMargin: 20 * pt
                 }
             }
 
@@ -386,9 +317,6 @@ DapRightPanel
                 {
                     id: textNotEnoughTokensWarning
                     anchors.fill: parent
-    //                Layout.fillWidth: true
-//                    width: 278 * pt
-//                    Layout.margins: 43 * pt
                     anchors.leftMargin: 37 * pt
                     anchors.rightMargin: 36 * pt
                     color: "#79FFFA"
@@ -405,7 +333,6 @@ DapRightPanel
             DapButton
             {
                 id: buttonSend
-//                radius: currTheme.radiusButton
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
                 Layout.alignment: Qt.AlignCenter

@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -8,38 +9,17 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
-        //dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
-        dapTextNotEnoughTokensWarning.visible = false
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapTextNotEnoughTokensWarning.text = ""
     }
 
-//    dapComboboxNetwork.onCurrentIndexChanged:
-//    {
-//        print("dapComboboxNetwork.onCurrentIndexChanged")
-//        print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+    dapComboboxNetwork.onCurrentIndexChanged:
+    {
+        print("dapComboboxNetwork.onCurrentIndexChanged")
+        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-//        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
-
-//        print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
-
-//        if (dapCmboBoxTokenModel.count === 0)
-//        {
-//            dapFrameAmountPayment.visible = false
-//            dapFrameInputAmountPayment.visible = false
-//            dapFrameRecipientWallet.visible = false
-//            dapFrameRecipientWalletAddress.visible = false
-//            dapButtonSend.visible = false
-//        }
-//        else
-//        {
-//            dapFrameAmountPayment.visible = true
-//            dapFrameInputAmountPayment.visible = true
-//            dapFrameRecipientWallet.visible = true
-//            dapFrameRecipientWalletAddress.visible = true
-//            dapButtonSend.visible = true
-//        }
-
-//        dapTextInputAmountPayment.text = "0"
-//    }
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        }
 
     dapButtonClose.onClicked:
     {
@@ -55,38 +35,35 @@ DapNewPaymentMainRightPanelForm
         {
             print("Not enough tokens")
             dapTextNotEnoughTokensWarning.text = qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value.").arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
-            dapTextNotEnoughTokensWarning.visible = true
         }
         else
         if (dapTextInputAmountPayment.text === "0")
         {
             print("Zero value")
             dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
-            dapTextNotEnoughTokensWarning.visible = true
         }
         else
         if (dapTextInputRecipientWalletAddress.text.length != 104)
         {
             print("Wrong address length")
             dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
-            dapTextNotEnoughTokensWarning.visible = true
         }
         else
         {
             print("Enough tokens. Correct address length.")
-            dapTextNotEnoughTokensWarning.visible = false
+            dapTextNotEnoughTokensWarning.text = ""
 
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)
-            console.log("   chain: " + dapServiceController.CurrentChain)
-            console.log("   wallet from: " + dapCurrentWallet)
+            console.log("   chain: " + walletInfo.chain)
+            console.log("   wallet from: " + walletInfo.name)
             console.log("   wallet to: " + dapTextInputRecipientWalletAddress.text)
             console.log("   token: " + dapCmboBoxToken.mainLineText)
             print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
             console.log("   amount: " + dapTextInputAmountPayment.text)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, dapServiceController.CurrentChain,
-                dapCurrentWallet, dapTextInputRecipientWalletAddress.text,
+                dapComboboxNetwork.mainLineText, walletInfo.chain,
+                walletInfo.name, dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, dapTextInputAmountPayment.text)
 
             nextActivated("transaction created")

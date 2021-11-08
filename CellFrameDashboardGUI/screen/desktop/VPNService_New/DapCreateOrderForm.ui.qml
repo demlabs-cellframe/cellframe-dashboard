@@ -17,34 +17,50 @@ DapRightPanel {
 
     dapNextRightPanel: doneOrder
     dapPreviousRightPanel: earnedFundsOrder
-//    radius: currTheme.radiusRectangle
 
-    width: 400 * pt
+    // TODO откуда брать список регионов
+    ListModel {
+        id: regionOrder
+        ListElement { region: qsTr("Europe, France") }
+        ListElement { region: qsTr("123123") }
+        ListElement { region: qsTr("123123123") }
+    }
+
 
     dapHeaderData:
-        Row
+        Item
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            anchors.topMargin: 12 * pt
-            anchors.bottomMargin: 12 * pt
-            spacing: 12 * pt
-
             Item
             {
                 id: itemButtonClose
                 data: dapButtonClose
                 height: dapButtonClose.height
                 width: dapButtonClose.width
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 11 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 22 * pt
+                anchors.rightMargin: 13 * pt
             }
 
             Text
             {
                 id: textHeader
-                text: qsTr("Create VPN Order")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                color: "#3E3853"
+                text: qsTr("New order")
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 50 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
     dapContentItemData:
@@ -60,12 +76,12 @@ DapRightPanel {
                 anchors.right: parent.right
                 anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textNameOrder
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Name")
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     horizontalAlignment: Text.AlignLeft
@@ -77,35 +93,35 @@ DapRightPanel {
             Rectangle
             {
                 id: frameInputNameOrder
-                height: 68 * pt
+                height: 41 * pt
                 color: "transparent"
                 anchors.top: frameNameOrder.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
+                anchors.leftMargin: 29 * pt
+                anchors.rightMargin: 35 * pt
+                anchors.topMargin: 5 * pt
                 TextField
                 {
                     id: textInputNameOrder
                     placeholderText: qsTr("Title, only you can see")
                     anchors.verticalCenter: parent.verticalCenter
-//                    anchors.horizontalCenter: parent.horizontalCenter
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
-                    anchors.leftMargin: 38 * pt
                     anchors.right: parent.right
+
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
                     style:
                         TextFieldStyle
                         {
-                            textColor: "#070023"
-                            placeholderTextColor: "#C7C6CE"
+                            textColor: currTheme.textColor
+                            placeholderTextColor: currTheme.textColor
                             background:
                                 Rectangle
                                 {
                                     border.width: 0
-                                    color: "transparent"
+                                    color: currTheme.backgroundElements
                                 }
                         }
                 }
@@ -116,72 +132,75 @@ DapRightPanel {
                 anchors.top: frameInputNameOrder.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                color: "#757184"
+                anchors.topMargin: 8 * pt
+                anchors.bottomMargin: 8 * pt
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textRegion
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Region")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
             Rectangle
             {
                 id: frameSelectRegion
-                height: 68 * pt
-                color: "transparent"
+                color: currTheme.backgroundElements
                 anchors.top: frameRegion.bottom
+                anchors.topMargin: 12 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
+                anchors.leftMargin: 18 * pt
+                anchors.rightMargin: 19 * pt
+                height: 42 * pt
+                width: 350 * pt
 
                 DapComboBox {
                     id: comboBoxRegion
+                    model: regionOrder
+
+                    anchors.centerIn: parent
+                    anchors.fill: parent
 
                     comboBoxTextRole: ["region"]
-                    anchors.centerIn: parent
-                    indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
-                    indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
-                    sidePaddingNormal: 0 * pt
-                    sidePaddingActive: 20 * pt
-                    normalColorText: "#070023"
-                    hilightColorText: "#FFFFFF"
-                    normalColorTopText: "#070023"
-                    hilightColorTopText: "#070023"
-                    hilightColor: "#330F54"
-                    normalTopColor: "transparent"
-                    widthPopupComboBoxNormal: 278 * pt
+                    mainLineText: "all signature"
+
+                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                    sidePaddingNormal: 19 * pt
+                    sidePaddingActive: 19 * pt
+                    hilightColor: currTheme.buttonColorNormal
+
+                    widthPopupComboBoxNormal: 318 * pt
                     widthPopupComboBoxActive: 318 * pt
                     heightComboBoxNormal: 24 * pt
-                    heightComboBoxActive: 44 * pt
-                    bottomIntervalListElement: 8 * pt
+                    heightComboBoxActive: 42 * pt
                     topEffect: false
-                    normalColor: "#FFFFFF"
-                    hilightTopColor: normalColor
-                    paddingTopItemDelegate: 8 * pt
-                    heightListElement: 32 * pt
-                    intervalListElement: 10 * pt
-                    indicatorWidth: 20 * pt
-                    indicatorHeight: indicatorWidth
-                    indicatorLeftInterval: 20 * pt
-                    colorTopNormalDropShadow: "#00000000"
-                    colorDropShadow: "#40ABABAB"
-                    fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
-                    colorMainTextComboBox: [["#070023", "#070023"]]
-                    colorTextComboBox: [["#070023", "#FFFFFF"]]
 
-                    // TODO откуда брать список регионов
-                    model: ListModel {
-                        ListElement { region: qsTr("Europe, France") }
-                        ListElement { region: qsTr("123123") }
-                        ListElement { region: qsTr("123123123") }
-                    }
+                    normalColor: currTheme.backgroundMainScreen
+                    normalTopColor: currTheme.backgroundElements
+                    hilightTopColor: currTheme.backgroundMainScreen
+
+                    paddingTopItemDelegate: 8 * pt
+                    heightListElement: 42 * pt
+                    indicatorWidth: 24 * pt
+                    indicatorHeight: indicatorWidth
+                    colorDropShadow: currTheme.shadowColor
+                    roleInterval: 15
+                    endRowPadding: 37
+
+                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                 }
             }
             Rectangle
@@ -192,18 +211,20 @@ DapRightPanel {
                 anchors.right: parent.right
                 anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textUnits
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Units")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
             Rectangle
@@ -217,48 +238,16 @@ DapRightPanel {
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
 
-
-
-                Item {
+                Item
+                {
                     id:boxUnits
                     anchors.right: parent.right
+                    anchors.rightMargin: 5 * pt
                     width: comboBoxUnit.widthPopupComboBoxNormal
                     height: parent.height
 
                     DapComboBox {
                         id: comboBoxUnit
-
-                        comboBoxTextRole: ["unit"]
-                        anchors.centerIn: parent
-                        indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
-                        indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
-                        sidePaddingNormal: 0 * pt
-                        sidePaddingActive: 20 * pt
-                        normalColorText: "#070023"
-                        hilightColorText: "#FFFFFF"
-                        normalColorTopText: "#070023"
-                        hilightColorTopText: "#070023"
-                        hilightColor: "#330F54"
-                        normalTopColor: "transparent"
-                        widthPopupComboBoxNormal: 94 * pt
-                        widthPopupComboBoxActive: 134 * pt
-                        heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 44 * pt
-                        bottomIntervalListElement: 8 * pt
-                        topEffect: false
-                        normalColor: "#FFFFFF"
-                        hilightTopColor: normalColor
-                        paddingTopItemDelegate: 8 * pt
-                        heightListElement: 32 * pt
-                        intervalListElement: 10 * pt
-                        indicatorWidth: 20 * pt
-                        indicatorHeight: indicatorWidth
-                        indicatorLeftInterval: 20 * pt
-                        colorTopNormalDropShadow: "#00000000"
-                        colorDropShadow: "#40ABABAB"
-                        fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
-                        colorMainTextComboBox: [["#070023", "#070023"]]
-                        colorTextComboBox: [["#070023", "#FFFFFF"]]
 
                         // TODO откуда брать список
                         model: ListModel {
@@ -266,19 +255,48 @@ DapRightPanel {
                             ListElement { unit: qsTr("days") }
                             ListElement { unit: qsTr("seconds") }
                         }
+
+                        comboBoxTextRole: ["unit"]
+                        anchors.centerIn: parent
+                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                        sidePaddingNormal: 19 * pt
+                        sidePaddingActive: 19 * pt
+                        widthPopupComboBoxNormal: 119 * pt
+                        widthPopupComboBoxActive: 119 * pt
+                        heightComboBoxNormal: 24 * pt
+                        heightComboBoxActive: 42 * pt
+                        topEffect: false
+                        x: sidePaddingNormal
+                        normalColor: currTheme.backgroundMainScreen
+                        normalTopColor: currTheme.backgroundElements
+                        hilightTopColor: currTheme.backgroundMainScreen
+                        hilightColor: currTheme.buttonColorNormal
+
+                        paddingTopItemDelegate: 8 * pt
+                        heightListElement: 42 * pt
+                        indicatorWidth: 24 * pt
+                        indicatorHeight: indicatorWidth
+                        colorDropShadow: currTheme.shadowColor
+                        roleInterval: 15
+                        endRowPadding: 37
+                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
                 }
                 DapSpinBox {
                     id: spinBoxUnit
 
                     anchors.verticalCenter: parent.verticalCenter
-//                    height: Math.min(implicitHeight, parent.height)
                     anchors.right: boxUnits.left
                     anchors.left: parent.left
-                    anchors.margins: 45
+                    anchors.margins: 25 * pt
                     from: 0
                     to: 2147483647
                 }
+
             }
             Rectangle
             {
@@ -288,18 +306,20 @@ DapRightPanel {
                 anchors.right: parent.right
                 anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textPrice
-                    color: "#ffffff"
+                    color: currTheme.textColor
                     text: qsTr("Price")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
             Rectangle
@@ -316,43 +336,12 @@ DapRightPanel {
                 Item {
                     id:boxPrice
                     anchors.right: parent.right
+                    anchors.rightMargin: 5 * pt
                     width: comboBoxPrice.widthPopupComboBoxNormal
                     height: parent.height
 
                     DapComboBox {
                         id: comboBoxPrice
-
-                        comboBoxTextRole: ["token"]
-                        anchors.centerIn: parent
-                        indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down_dark.png"
-                        indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
-                        sidePaddingNormal: 0 * pt
-                        sidePaddingActive: 20 * pt
-                        normalColorText: "#070023"
-                        hilightColorText: "#FFFFFF"
-                        normalColorTopText: "#070023"
-                        hilightColorTopText: "#070023"
-                        hilightColor: "#330F54"
-                        normalTopColor: "transparent"
-                        widthPopupComboBoxNormal: 94 * pt
-                        widthPopupComboBoxActive: 134 * pt
-                        heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 44 * pt
-                        bottomIntervalListElement: 8 * pt
-                        topEffect: false
-                        normalColor: "#FFFFFF"
-                        hilightTopColor: normalColor
-                        paddingTopItemDelegate: 8 * pt
-                        heightListElement: 32 * pt
-                        intervalListElement: 10 * pt
-                        indicatorWidth: 20 * pt
-                        indicatorHeight: indicatorWidth
-                        indicatorLeftInterval: 20 * pt
-                        colorTopNormalDropShadow: "#00000000"
-                        colorDropShadow: "#40ABABAB"
-                        fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
-                        colorMainTextComboBox: [["#070023", "#070023"]]
-                        colorTextComboBox: [["#070023", "#FFFFFF"]]
 
                         // TODO откуда брать список
                         model: ListModel {
@@ -362,6 +351,37 @@ DapRightPanel {
                             ListElement { token: "BTC"; decimals: 2 }
                             ListElement { token: "ETH"; decimals: 4 }
                         }
+
+                        comboBoxTextRole: ["token"]
+                        anchors.centerIn: parent
+                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                        sidePaddingNormal: 19 * pt
+                        sidePaddingActive: 19 * pt
+                        widthPopupComboBoxNormal: 119 * pt
+                        widthPopupComboBoxActive: 119 * pt
+                        heightComboBoxNormal: 24 * pt
+                        heightComboBoxActive: 42 * pt
+                        topEffect: false
+                        x: sidePaddingNormal
+                        normalColor: currTheme.backgroundMainScreen
+                        normalTopColor: currTheme.backgroundElements
+                        hilightTopColor: currTheme.backgroundMainScreen
+                        hilightColor: currTheme.buttonColorNormal
+
+                        paddingTopItemDelegate: 8 * pt
+                        heightListElement: 42 * pt
+                        indicatorWidth: 24 * pt
+                        indicatorHeight: indicatorWidth
+                        colorDropShadow: currTheme.shadowColor
+                        roleInterval: 15
+                        endRowPadding: 37
+                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+
+
                     }
                 }
                 DapDoubleSpinBox {
@@ -370,7 +390,7 @@ DapRightPanel {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: boxPrice.left
                     anchors.left: parent.left
-                    anchors.margins: 45
+                    anchors.margins: 25 * pt
                     from: 0
                     to: 9999999999
                     decimals: unitsModel.get(comboBoxPrice.currentIndex).decimals
@@ -380,49 +400,42 @@ DapRightPanel {
             DapButton
             {
                 id: buttonCreate
-                implicitHeight: 44 * pt
-                implicitWidth: 130 * pt
+                implicitHeight: 36 * pt
+                implicitWidth: 132 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: frameSelectPrice.bottom
-                anchors.topMargin: 40 * pt
+                anchors.topMargin: 45 * pt
                 textButton: qsTr("Create")
-                colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#3E3853"
-                colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
-
-            Text
-            {
-                id: textOrderNameWarning
-                anchors.top: buttonCreate.bottom
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 16 * pt
-                anchors.right: parent.right
-                anchors.rightMargin: 16 * pt
-                anchors.topMargin: 20 * pt
-                width: parent.width - 32 * pt
-                color: "#ff2020"
-                text: qsTr("Enter the order name using Latin letters, dotes, dashes and / or numbers.")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                horizontalAlignment: Text.AlignLeft
-                wrapMode: Text.WordWrap
-                visible: false
-            }
-
             Rectangle
             {
-                id: frameBottom
-                height: 124 * pt
+                width: 320*pt
+                height: 69 * pt
+                color: "transparent"
                 anchors.top: buttonCreate.bottom
-                anchors.topMargin: 24 * pt
+//                anchors.topMargin: 10 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                color: "transparent"
+
+                Text
+                {
+                    id: textOrderNameWarning
+                    anchors.fill: parent
+                    anchors.leftMargin: 10 * pt
+                    anchors.rightMargin: 10 * pt
+                    color: "#79FFFA"
+                    text: qsTr("Enter the order name using Latin letters, dotes, dashes and / or numbers.")
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    wrapMode: Text.WordWrap
+                    visible: false
+                    anchors.bottomMargin: 10 * pt
+                }
             }
+
         }
 }

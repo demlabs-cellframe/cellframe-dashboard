@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 
@@ -13,6 +14,7 @@ DapRightPanel
         color: "transparent"
         height: 38 * pt
         width: 348*pt
+
 
         Text
         {
@@ -45,7 +47,8 @@ DapRightPanel
         anchors.bottomMargin: 10
         anchors.leftMargin: 5
         anchors.rightMargin: 5
-        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+//        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
 
         Column {
             Repeater {

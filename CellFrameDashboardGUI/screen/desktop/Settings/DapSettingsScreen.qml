@@ -6,26 +6,64 @@ import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../../"
 import "qrc:/widgets"
+import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractScreen
 {
     property alias settingsScreen_ : settingScreen
-    dapFrame.color: currTheme.backgroundMainScreen
+    property alias dapComboboxWallet: walletComboBox
 
     id:settingScreen
+    signal createWalletSignal()
+
+    anchors
+    {
+        top: parent.top
+        topMargin: 24 * pt
+        right: parent.right
+        rightMargin: 44 * pt
+        left: parent.left
+        leftMargin: 24 * pt
+        bottom: parent.bottom
+        bottomMargin: 20 * pt
+    }
 
     Rectangle
     {
         id: settingsFrame
         anchors.fill: parent
-        anchors.margins: 24 * pt
-        anchors.rightMargin: 67 * pt
         color: currTheme.backgroundElements
         radius: 16*pt
+
+        // Header
+        Item
+        {
+            id: settingsHeader
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 38 * pt
+
+            Text
+            {
+                anchors.fill: parent
+                anchors.leftMargin: 18 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 10 * pt
+                verticalAlignment: Qt.AlignVCenter
+                text: qsTr("Settings")
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
+            }
+        }
+
         ListView
         {
             id: listViewSettings
-            anchors.fill: parent
+            anchors.top: settingsHeader.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
             model: modelSettings
             clip: true
         }
@@ -146,17 +184,17 @@ DapAbstractScreen
         }
         Rectangle
         {
-            id:walletComboBox
             color: currTheme.backgroundElements
             height: 80 * pt
             width: 200 * pt
             DapComboBox
             {
+                id:walletComboBox
                 anchors.fill: parent
                 anchors.topMargin: 25 * pt
                 anchors.leftMargin: 25 * pt
                 comboBoxTextRole: ["name"]
-                mainLineText: "private"
+                mainLineText: "all wallets"
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 19 * pt
@@ -183,6 +221,25 @@ DapAbstractScreen
                 colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                 model: dapModelWallets
+                currentIndex: SettingsWallet.currentIndex
+                onCurrentIndexChanged:
+                {
+                    SettingsWallet.currentIndex = dapComboboxWallet.currentIndex
+                }
+            }
+            // Wallet create button
+            DapButton
+            {
+                id: newWalletButton
+                textButton: "New wallet"
+                anchors.left: walletComboBox.right
+                anchors.leftMargin: 50 * pt
+                anchors.verticalCenter: walletComboBox.verticalCenter
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+                onClicked: createWalletSignal()
             }
         }
     }

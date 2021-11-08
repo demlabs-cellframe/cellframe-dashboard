@@ -51,6 +51,8 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     DapApplication.cpp \
+    WalletRestore/randomwords.cpp \
+    WalletRestore/wallethashmanager.cpp \
     quickcontrols/qrcodequickitem.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
@@ -66,6 +68,8 @@ else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 HEADERS += \
     $$PWD/DapServiceController.h \
     DapApplication.h \
+    WalletRestore/randomwords.h \
+    WalletRestore/wallethashmanager.h \
     quickcontrols/qrcodequickitem.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
