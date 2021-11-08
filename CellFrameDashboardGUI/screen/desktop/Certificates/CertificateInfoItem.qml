@@ -13,10 +13,8 @@ Rectangle {
     implicitWidth: 100
     implicitHeight: 200
 
-    border.color: "#E2E1E6"
-    border.width: 1 * pt
-    radius: 8 * pt
-    color: "transparent"
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
 
     //part animation on created and open
     visible: false
@@ -44,11 +42,11 @@ Rectangle {
             id: certificatesTitleText
             anchors{
                 left: closeButton.right
-                leftMargin: 18 * pt
+                leftMargin: 8 * pt
                 verticalCenter: closeButton.verticalCenter
             }
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            color: "#3E3853"
+            color: currTheme.textColor
             text: qsTr("Info about certificate")
         }
     }  //titleRectangle

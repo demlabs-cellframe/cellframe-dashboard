@@ -6,7 +6,7 @@ import "qrc:/widgets"
 
 
 
-Item {
+Rectangle {
     id: root
 
     signal selectedAccessKeyType(int index)
@@ -22,6 +22,8 @@ Item {
 
     property bool certificateSelected: false
     property bool bothAccessTypeCertificateSelected: false
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
 
     implicitWidth: 270 * pt
     implicitHeight: 166 * pt
@@ -56,7 +58,7 @@ Item {
             id: filterTitleText
             x: 15 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            color: "#3E3853"
+            color: currTheme.textColor
             text: qsTr("Filter")
         }
 
@@ -75,16 +77,11 @@ Item {
                     nameRadioButton: model.name
                     Layout.preferredHeight: 16 * pt
                     Layout.fillWidth: true
+                    implicitHeight: indicatorInnerSize
                     indicatorSize: 16 * pt
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 18 * pt
                     fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                    indicatorBackgroundColor: "transparent"
-//                    indicatorBorder.width: 2 * pt
-                    indicatorBorderColor: "#211A3A"
-                    indicatorInnerColorActiv: "#211A3A"
-                    indicatorInnerColorNormal: "transparent"
-                    nameTextColor: "#070023"
                     ButtonGroup.group: buttonGroup
                     checked: model.selected
                     onClicked: {
@@ -101,7 +98,7 @@ Item {
         x: 15 * pt
         y: radioButtonFrame.y + radioButtonFrame.height + 44 * pt
         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-        color: "#3E3853"
+        color: currTheme.textColor
         text: qsTr("Actions")
     }
 
@@ -115,112 +112,100 @@ Item {
         DapButton {
             id: createCertificateButton
             textButton: qsTr("Create certificate")
-            Layout.fillWidth: true
+
             Layout.preferredHeight: 36 * pt
 
-            colorBackgroundNormal: "#271C4E"
-            colorBackgroundHover: "#D2145D"
-            colorButtonTextNormal: "#FFFFFF"
-            colorButtonTextHover: "#FFFFFF"
-            borderColorButton: "#000000"
-            borderWidthButton: 0
-            radius: 4 * pt
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36 * pt
+            implicitWidth: 300 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
         }
 
         DapButton {
             id: importCertificateButton
             textButton: qsTr("Import certificate")
-            Layout.fillWidth: true
+//            Layout.fillWidth: true
             Layout.preferredHeight: 36 * pt
             visible: false   //TODO need clarification of the requirements
 
-            colorBackgroundNormal: "#271C4E"
-            colorBackgroundHover: "#D2145D"
-            colorButtonTextNormal: "#FFFFFF"
-            colorButtonTextHover: "#FFFFFF"
-            borderColorButton: "#000000"
-            borderWidthButton: 0
-            radius: 4 * pt
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36 * pt
+            implicitWidth: 300 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
         }
 
 
         DapButton {
             id: exportPublicCertificateToFileButton
             textButton: qsTr("Export public certificate to file")
-            Layout.fillWidth: true
+//            Layout.fillWidth: true
             Layout.preferredHeight: 36 * pt
 
             enabled: root.certificateSelected && bothAccessTypeCertificateSelected
-            colorBackgroundNormal: enabled ? "#271C4E" : "white"
-            colorBackgroundHover: enabled ? "#D2145D" : "white"
-            colorButtonTextNormal: enabled ? "#FFFFFF" : "#211A3A"
-            colorButtonTextHover: enabled ? "#FFFFFF" : "#211A3A"
-            borderColorButton: enabled ? "#000000" : "#211A3A"
-            borderWidthButton: enabled ? 0 : (1 * pt)
-            radius: 4 * pt
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36 * pt
+            implicitWidth: 300 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
         }
 
 
         DapButton {
             id: exportPublicCertificateToMempoolButton
             textButton: qsTr("Export public certificate to mempool")
-            Layout.fillWidth: true
+//            Layout.fillWidth: true
             Layout.preferredHeight: 36 * pt
 
             enabled: root.certificateSelected
-            colorBackgroundNormal: enabled ? "#271C4E" : "white"
-            colorBackgroundHover: enabled ? "#D2145D" : "white"
-            colorButtonTextNormal: enabled ? "#FFFFFF" : "#211A3A"
-            colorButtonTextHover: enabled ? "#FFFFFF" : "#211A3A"
-            borderColorButton: enabled ? "#000000" : "#211A3A"
-            borderWidthButton: enabled ? 0 : (1 * pt)
-            radius: 4 * pt
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36 * pt
+            implicitWidth: 300 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
         }
 
 
         DapButton {
             id: addSignatureToCertificateButton
             textButton: qsTr("Add signature to certificate")
-            Layout.fillWidth: true
+//            Layout.fillWidth: true
             Layout.preferredHeight: 36 * pt
             visible: false   //TODO need clarification of the requirements
 
             enabled: root.certificateSelected
-            colorBackgroundNormal: enabled ? "#271C4E" : "white"
-            colorBackgroundHover: enabled ? "#D2145D" : "white"
-            colorButtonTextNormal: enabled ? "#FFFFFF" : "#211A3A"
-            colorButtonTextHover: enabled ? "#FFFFFF" : "#211A3A"
-            borderColorButton: enabled ? "#000000" : "#211A3A"
-            borderWidthButton: enabled ? 0 : (1 * pt)
-            radius: 4 * pt
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36 * pt
+            implicitWidth: 300 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
         }
 
         DapButton {
             id: deleteCertificateButton
             textButton: qsTr("Delete certificate")
-            Layout.fillWidth: true
+//            Layout.fillWidth: true
             Layout.preferredHeight: 36 * pt
 
             enabled: root.certificateSelected
-            colorBackgroundNormal: enabled ? "#271C4E" : "white"
-            colorBackgroundHover: enabled ? "#D2145D" : "white"
-            colorButtonTextNormal: enabled ? "#FFFFFF" : "#211A3A"
-            colorButtonTextHover: enabled ? "#FFFFFF" : "#211A3A"
-            borderColorButton: enabled ? "#000000" : "#211A3A"
-            borderWidthButton: enabled ? 0 : (1 * pt)
-            radius: 4 * pt
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36 * pt
+            implicitWidth: 300 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
         }
 
 

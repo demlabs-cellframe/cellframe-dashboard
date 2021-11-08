@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.2
-import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "parts"
 
@@ -16,14 +17,11 @@ Rectangle {
     property alias titleCertificateTextInput: titleCertificateTextInput
 
     property bool requiredFieldValid: false
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
 
     implicitWidth: 100
     implicitHeight: 200
-
-    border.color: "#E2E1E6"
-    border.width: 1 * pt
-    radius: 8 * pt
-    color: "transparent"
 
     //part animation on created and open
     visible: false
@@ -49,11 +47,11 @@ Rectangle {
             id: certificateTitleText
             anchors{
                 left: closeButton.right
-                leftMargin: 18 * pt
+                leftMargin: 8 * pt
                 verticalCenter: closeButton.verticalCenter
             }
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            color: "#3E3853"
+            color: currTheme.textColor
             text: qsTr("Create certificate")
         }
     }  //titleRectangle
@@ -64,7 +62,7 @@ Rectangle {
         width: parent.width
         height: 30 * pt
         y: 38 * pt
-        color: "#3E3853"
+        color: currTheme.backgroundMainScreen
 
         Text {
             x: 15 * pt
@@ -72,7 +70,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             text: qsTr("Required")
-            color: "white"
+            color: currTheme.textColor
         }
 
     }
@@ -98,11 +96,11 @@ Rectangle {
 
             comboBoxTextRole: ["name"]
             mainLineText: qsTr("Signature type")
-            indicatorImageNormal: "qrc:/resources/icons/Certificates/icon_arrow_down.svg"  //"qrc:/resources/icons/ic_arrow_drop_down_dark.png"
-            indicatorImageActive: "qrc:/resources/icons/Certificates/ic_arrow_up.svg"   //qrc:/resources/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 20 * pt
-            bottomIntervalListElement: 8 * pt
+//            bottomIntervalListElement: 8 * pt
             paddingTopItemDelegate: 8 * pt
             heightListElement: 42 * pt
             //intervalListElement: 10 * pt
@@ -110,33 +108,53 @@ Rectangle {
             indicatorHeight: indicatorWidth
             indicatorLeftInterval: 20 * pt
 
-            normalColorText: "#070023"      //#B4B1B placeholder color
-            hilightColorText: "#FFFFFF"
-            normalColorTopText: "#070023"
-            hilightColorTopText: "#070023"
-            hilightColor: "#D51F5D"   //"#330F54"
-            normalTopColor: "transparent"
+            normalColor: currTheme.backgroundMainScreen
+            normalTopColor: currTheme.backgroundElements
+            hilightTopColor: currTheme.backgroundMainScreen
+            hilightColor: currTheme.buttonColorNormal
+
             topEffect: false
-            normalColor: "#FFFFFF"
-            hilightTopColor: normalColor
             colorTopNormalDropShadow: "#00000000"
-            colorDropShadow: "#40ABABAB"
-            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
-            colorMainTextComboBox: [["#070023", "#070023"]]
-            colorTextComboBox: [["#070023", "#FFFFFF"]]
+            colorDropShadow: currTheme.shadowColor
+
+            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+
         }
 
 
-        InputField {
+        TextField {
             id: titleCertificateTextInput
             x: (parent.width - width) / 2
             y: 78 * pt
             height: 28 * pt
             width: 277 * pt
-            leftPadding: 0
-            smartPlaceHolderText: qsTr("Title")
-            color: focus ? "#D51F5D" : "#070023"
+            placeholderText: qsTr("Title")
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+            style:
+                TextFieldStyle
+                {
+                    textColor: currTheme.textColor
+                    placeholderTextColor: currTheme.textColor
+                    background:
+                        Rectangle
+                        {
+                            border.width: 0
+                            color: currTheme.backgroundElements
+                        }
+                }
+        }
+        Rectangle //bottom line
+        {
+            anchors
+            {
+                left: titleCertificateTextInput.left
+                right: titleCertificateTextInput.right
+                top: titleCertificateTextInput.bottom
+            }
+            height: 1 * pt
+            color: currTheme.borderColor
         }
 
 
@@ -148,7 +166,7 @@ Rectangle {
         width: parent.width
         height: 30 * pt
         y: requiredBody.y + requiredBody.height
-        color: "#3E3853"
+        color: currTheme.backgroundMainScreen
 
         Text {
             x: 15 * pt
@@ -156,7 +174,7 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             text: qsTr("Optional")
-            color: "white"
+            color: currTheme.textColor
         }
 
     }   //optionalTitle
@@ -179,11 +197,12 @@ Rectangle {
                 id: optionalRepeater
 
                 InputField {
+                    Layout.leftMargin: 20 * pt
                     Layout.preferredHeight: 28 * pt
                     Layout.preferredWidth: 277 * pt
                     leftPadding: 0
                     smartPlaceHolderText: model.placeHolderText
-                    color: focus ? "#D51F5D" : "#070023"
+//                    color: focus ? currTheme.textColor : currTheme.textColor
                     inputMask: model.inputFieldMask
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -204,13 +223,7 @@ Rectangle {
                 Layout.alignment: Qt.AlignHCenter
 
                 enabled: root.requiredFieldValid
-                colorBackgroundNormal: enabled ? "#271C4E" : "white"
-                colorBackgroundHover: enabled ? "#D2145D" : "white"
-                colorButtonTextNormal: enabled ? "#FFFFFF" : "#211A3A"
-                colorButtonTextHover: enabled ? "#FFFFFF" : "#211A3A"
-                borderColorButton: enabled ? "#000000" : "#211A3A"
-                borderWidthButton: enabled ? 0 : (1 * pt)
-                radius: 4 * pt
+
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Qt.AlignHCenter
             }

@@ -19,15 +19,21 @@ ListView {
     clip: true
 
 
-    header: Item {
+    header: Rectangle {
         width: parent.width
         height: certificatesTitle.height + tableTitle.height + spacing
-        z: 10
+        z:10
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
 
         Rectangle {
             id: certificatesTitle
             width: parent.width
             height: 40 * pt
+            color: currTheme.backgroundElements
+            anchors.left: parent.left
+            anchors.leftMargin: 10 * pt
+            radius: currTheme.radiusRectangle
 
             Text {
                 id: certificatesTitleText
@@ -35,7 +41,7 @@ ListView {
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                color: "#3E3853"
+                color: currTheme.textColor
                 text: qsTr("Certificates")
             }
         }
@@ -45,16 +51,19 @@ ListView {
             id: tableTitle
             width: parent.width
             height: 30 * pt
-            y: 40 * pt
-            color: "#3E3853"
+
+            anchors.top: certificatesTitle.bottom
+            color: currTheme.backgroundMainScreen
 
             Text {
                 x: 15 * pt
                 height: parent.height
+                anchors.left: parent.left
+                anchors.leftMargin: 25 * pt
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: root.seletedCertificateAccessType
-                color: "white"
+                color: currTheme.textColor
             }
 
             Text {
@@ -69,7 +78,7 @@ ListView {
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: qsTr("Info")
                 visible: root.infoTitleTextVisible
-                color: "white"
+                color: currTheme.textColor
             }
         }
 
@@ -79,10 +88,14 @@ ListView {
     Component {
         id: delegateComponent
 
-        Item {
+        Rectangle {
             //this property need set from root
             width: root.width
+            anchors.left: parent.left
+            anchors.leftMargin: 10 * pt
             height: 40 * pt
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
 
             Text {
                 id: certificateNameText
@@ -92,7 +105,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font: model.selected ? dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMediumBold16 : dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 text: model.completeBaseName   //model.fileName
-                color: model.selected ? "#D51F5D" : "#070023"
+                color: model.selected ? currTheme.buttonColorNormal : currTheme.textColor
                 elide: Text.ElideRight
                 maximumLineCount: 1
             }
@@ -143,7 +156,7 @@ ListView {
                 y: parent.height
                 width: 648 * pt
                 height: 1 * pt
-                color: "#E3E2E6"
+                color: currTheme.backgroundElements
             }
 
         }  //
@@ -152,15 +165,15 @@ ListView {
 
 
 
-    Rectangle {  //border frame
-        width: parent.width
-        height: parent.height
-        border.color: "#E2E1E6"
-        border.width: 1 * pt
-        radius: 8 * pt
-        color: "transparent"
-        z: 1
-    }
+//    Rectangle {  //border frame
+//        width: parent.width
+//        height: parent.height
+//        border.color: currTheme.backgroundElements
+//        border.width: 1 * pt
+//        radius: 8 * pt
+//        color: "transparent"
+//        z: 1
+//    }
 
 
 

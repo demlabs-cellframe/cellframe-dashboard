@@ -14,10 +14,8 @@ Rectangle {
     implicitWidth: 100
     implicitHeight: 200
 
-    border.color: "#E2E1E6"
-    border.width: 1 * pt
-    radius: 8 * pt
-    color: "transparent"
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
 
     //part animation on created and open
     visible: false
@@ -44,11 +42,11 @@ Rectangle {
             id: certificatesTitleText
             anchors{
                 left: closeButton.right
-                leftMargin: 18 * pt
+                leftMargin: 8 * pt
                 verticalCenter: closeButton.verticalCenter
             }
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            color: "#3E3853"
+            color: currTheme.textColor
             text: qsTr("Create certificate")
         }
     }  //titleRectangle
@@ -59,7 +57,7 @@ Rectangle {
         y: 202 * pt
         anchors.horizontalCenter: parent.horizontalCenter
         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
-        color: "#070023"
+        color: currTheme.textColor
         text: qsTr("Certificate created\nsuccessfully")
         horizontalAlignment: Text.AlignHCenter
     }
@@ -72,13 +70,6 @@ Rectangle {
         x: (parent.width - width) / 2
         height: 36 * pt
         width: 132 * pt
-        colorBackgroundNormal: "#271C4E"
-        colorBackgroundHover: "#D2145D"
-        colorButtonTextNormal: "#FFFFFF"
-        colorButtonTextHover: "#FFFFFF"
-        borderColorButton: "#000000"
-        borderWidthButton: 0
-        radius: 4 * pt
         fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
         horizontalAligmentText: Qt.AlignHCenter
     }

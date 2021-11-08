@@ -1,12 +1,15 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import DapCertificateManager.Commands 1.0
+import QtQuick.Layouts 1.2
 import "qrc:/widgets"
 import "parts"
+import "../../"
 
-Rectangle
+DapAbstractTab
 {
     id: dapCertificatesMainPage
+    color: currTheme.backgroundMainScreen
 
     Utils {
         id: utils
@@ -20,55 +23,68 @@ Rectangle
         id: logics
     }
 
-    HeaderItem {
-        id: headerItem
-        x: 3 * pt
-        width: parent.width
-        height: 60 * pt
+    dapTopPanel:
+        HeaderItem {
+            id: headerItem
+            color: currTheme.backgroundPanel
 
-        onFindHandler: {    //text
-            models.certificatesFind.findString = text
-            models.certificatesFind.update()
+            onFindHandler: {    //text
+                models.certificatesFind.findString = text
+                models.certificatesFind.update()
+            }
         }
+    dapRightPanel: Item {
+        id: name
+    }
+    dapScreen: Item {
+        id: name2
     }
 
-    CertificatesListView {
-        id: certificatesListView
+    Rectangle{
         x: 24 * pt
         y: 84 * pt
         height: parent.height - y - 24 * pt
         width: 678 * pt
-        infoTitleTextVisible: models.certificates.isSelected
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+
+        CertificatesListView {
+            id: certificatesListView
+            anchors.fill: parent
 
 
-        Component.onCompleted: {
-            //need bind delegate with delegateModel
-            models.certificatesFind.delegate = delegateComponent
-            models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
-            models.certificatesFind.update()
-            model = models.certificatesFind  //original
-//            delegate = delegateComponent
-//            model = models.certificates
-        }
+            infoTitleTextVisible: models.certificates.isSelected
+            Component.onCompleted: {
+                //need bind delegate with delegateModel
+                models.certificatesFind.delegate = delegateComponent
+                models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
+                models.certificatesFind.update()
+                model = models.certificatesFind  //original
+    //            delegate = delegateComponent
+    //            model = models.certificates
+            }
 
-        onSelectedIndex: {   //index
-//            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
-//                models.certificates.clearSelected()
-//            else
-              models.certificates.setSelectedIndex(index)
-        }
+            onSelectedIndex: {   //index
+    //            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
+    //                models.certificates.clearSelected()
+    //            else
+                  models.certificates.setSelectedIndex(index)
+            }
 
-        onInfoClicked: {     //index
-            logics.dumpCertificate(index)
-            rightPanel.sourceComponent = certificateInfoComponent
-        }
+            onInfoClicked: {     //index
+                logics.dumpCertificate(index)
+                rightPanel.sourceComponent = certificateInfoComponent
+            }
 
-    }   //certificatesListView
+        }   //certificatesListView
+    }
 
 
     Loader {
         id: rightPanel
         anchors {
+            top: parent.top
+            topMargin: 84 * pt
             right: parent.right
             rightMargin: 26 * pt
         }
@@ -240,7 +256,7 @@ Rectangle
         id: messagePopup
         closePolicy: "NoAutoClose"
         padding: 0
-        background: Item { }
+        background: Item{}
         width: dapMessageBox.width
         height: dapMessageBox.height
         x: (parent.width - width) / 2

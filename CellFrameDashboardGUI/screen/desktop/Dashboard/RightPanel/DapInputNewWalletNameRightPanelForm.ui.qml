@@ -231,7 +231,7 @@ DapRightPanel
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                     sidePaddingNormal: 19 * pt
                     sidePaddingActive: 19 * pt
-                    hilightColor: currTheme.buttonColorNormal
+
 
                     widthPopupComboBoxNormal: 318 * pt
                     widthPopupComboBoxActive: 318 * pt
@@ -242,6 +242,7 @@ DapRightPanel
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
+                    hilightColor: currTheme.buttonColorNormal
 
                     paddingTopItemDelegate: 8 * pt
                     heightListElement: 42 * pt
