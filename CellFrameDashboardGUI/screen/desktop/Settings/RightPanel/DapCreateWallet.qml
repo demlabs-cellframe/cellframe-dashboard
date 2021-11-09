@@ -55,7 +55,7 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-        previousActivated(lastActionsWallet)
+        previousActivated(emptyRightPanel)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 

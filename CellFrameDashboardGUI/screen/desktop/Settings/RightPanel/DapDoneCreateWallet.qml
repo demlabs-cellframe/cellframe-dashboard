@@ -16,6 +16,6 @@ DapDoneCreateWalletForm
     {
         previousActivated(emptyRightPanel)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
-        dapSettingsRightPanel.visible = false
+//        dapSettingsRightPanel.visible = false
     }
 }

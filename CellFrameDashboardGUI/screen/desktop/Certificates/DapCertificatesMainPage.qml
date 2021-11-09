@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import DapCertificateManager.Commands 1.0
 import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
 import "../../"
@@ -41,6 +42,7 @@ DapAbstractTab
     }
 
     Rectangle{
+        id:frameListView
         x: 24 * pt
         y: 84 * pt
         height: parent.height - y - 24 * pt
@@ -77,6 +79,30 @@ DapAbstractTab
             }
 
         }   //certificatesListView
+    }
+    InnerShadow {
+        id: topLeftSadow
+        anchors.fill: frameListView
+        cached: true
+        horizontalOffset: 5
+        verticalOffset: 5
+        radius: 4
+        samples: 32
+        color: "#2A2C33"
+        smooth: true
+        source: frameListView
+        visible: frameListView.visible
+    }
+    InnerShadow {
+        anchors.fill: frameListView
+        cached: true
+        horizontalOffset: -1
+        verticalOffset: -1
+        radius: 1
+        samples: 32
+        color: "#4C4B5A"
+        source: topLeftSadow
+        visible: frameListView.visible
     }
 
 
