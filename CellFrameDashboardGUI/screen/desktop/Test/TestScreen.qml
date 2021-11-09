@@ -15,14 +15,14 @@ Page {
         radius: 16 * pt
     }
 
-    Rectangle
-    {
-        id: testFrame
-        anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: 16 * pt
-        //border.color: "white"
-    }
+//    Rectangle
+//    {
+//        id: testFrame
+//        anchors.fill: parent
+//        color: currTheme.backgroundElements
+//        radius: 16 * pt
+//        //border.color: "white"
+//    }
 
     ListView
     {

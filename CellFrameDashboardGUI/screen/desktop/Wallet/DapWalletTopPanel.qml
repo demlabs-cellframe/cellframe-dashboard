@@ -10,6 +10,10 @@ import "../../controls" as Controls
 Page {
     id: root
 
+    background: Rectangle {
+        color: currTheme.backgroundMainScreen
+    }
+
     RowLayout {
         anchors.fill: parent
 
@@ -17,6 +21,7 @@ Page {
             id: pageName
             Layout.alignment: Qt.AlignLeft
             text: qsTr("Wallet name")
+            color: currTheme.textColor
         }
 
         Controls.DapButton {

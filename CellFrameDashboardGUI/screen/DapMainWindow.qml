@@ -12,7 +12,7 @@ FocusScope {
 
     ///@detalis Path to the tabs.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/DapWalletTab.qml"
+    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/DapWalletPage.qml"
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
@@ -150,15 +150,14 @@ FocusScope {
             id: mainScreen
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: "transparent"
-            border.color: "green"
+            color: currTheme.backgroundMainScreen
 
             StackLayout {
                 id: mainScreenStack
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
 
-                StackView { id: dapWalletPage; Component.onCompleted: push(dashboardScreen)}
+                StackView { id: dapWalletPage; Component.onCompleted: push(walletScreen)}
                 StackView { id: exchangePage; Component.onCompleted: push(underConstructionsScreen)}
                 StackView { id: daphistoryPage; Component.onCompleted: push(underConstructionsScreen)}
                 StackView { id: dapCertificatesPage; Component.onCompleted: push(certificatesScreen)}

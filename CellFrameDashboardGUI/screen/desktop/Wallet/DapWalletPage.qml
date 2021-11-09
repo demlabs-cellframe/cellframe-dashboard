@@ -3,15 +3,21 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 import "qrc:/screen/controls" as Controls
+import "qrc:/screen/desktop"
 
 Controls.DapPage {
-    background: Rectangle {
-        color: currTheme.backgroundElements
-        radius: 16 * pt
+
+    QtObject {
+        id: navigator
+
+        function openPage2() {
+
+        }
     }
 
-    dapHeader.initialItem: DapWalletTopPanel {}
+    dapHeader.initialItem: DapWalletTopPanel { }
 
-    dapScreen.initialItem: {}
+    dapScreen.initialItem: DapWalletScreen { }
+
+    dapRightPanel.initialItem: TestPageForRightPannel { }
 }
-

@@ -1,10 +1,8 @@
-import QtQuick 2.4
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 1.4
-//import "qrc:/"
-//import "../../"
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
+import QtQuick.Controls 2.12
+
 import "../"
-//import "qrc:/widgets"
 import "qrc:/screen/controls" as Controls
 
 Controls.DapPage {
