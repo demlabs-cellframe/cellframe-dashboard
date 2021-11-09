@@ -26,10 +26,6 @@ DapRecoveryWalletRightPanelForm
 
             dapButtonPaste.enabled = true
             dapButtonNext.enabled = false
-//            dapButtonPaste.colorBackgroundButton = "#3E3853"
-//            dapButtonPaste.colorTextButton = "#FFFFFF"
-//            dapButtonNext.colorBackgroundButton = "#EDEFF2"
-//            dapButtonNext.colorTextButton = "#3E3853"
         }
     }
 
@@ -50,12 +46,6 @@ DapRecoveryWalletRightPanelForm
         dapButtonCopy.enabled = true
         dapButtonPaste.enabled = true
         dapButtonNext.enabled = false
-//        dapButtonCopy.colorBackgroundButton = "#3E3853"
-//        dapButtonCopy.colorTextButton = "#FFFFFF"
-//        dapButtonPaste.colorBackgroundButton = "#3E3853"
-//        dapButtonPaste.colorTextButton = "#FFFFFF"
-//        dapButtonNext.colorBackgroundButton = "#EDEFF2"
-//        dapButtonNext.colorTextButton = "#3E3853"
 
         walletInfo.recovery_hash = ""
 
@@ -91,10 +81,6 @@ DapRecoveryWalletRightPanelForm
     {
         dapButtonCopy.enabled = false
         dapButtonNext.enabled = true
-//        dapButtonCopy.colorBackgroundButton = "#EDEFF2"
-//        dapButtonCopy.colorTextButton = "#3E3853"
-//        dapButtonNext.colorBackgroundButton = "#3E3853"
-//        dapButtonNext.colorTextButton = "#FFFFFF"
 
         dapTextBottomMessage.text =
             qsTr("Recovery words copied to clipboard. Keep them in a safe place before proceeding to the next step.")
@@ -106,14 +92,9 @@ DapRecoveryWalletRightPanelForm
     {
         dapButtonPaste.enabled = false
         dapButtonNext.enabled = true
-//        dapButtonPaste.colorBackgroundButton = "#EDEFF2"
-//        dapButtonPaste.colorTextButton = "#3E3853"
-//        dapButtonNext.colorBackgroundButton = "#3E3853"
-//        dapButtonNext.colorTextButton = "#FFFFFF"
 
         walletHashManager.pasteWordsFromClipboard()
     }
-
 
     dapButtonClose.onClicked:
     {

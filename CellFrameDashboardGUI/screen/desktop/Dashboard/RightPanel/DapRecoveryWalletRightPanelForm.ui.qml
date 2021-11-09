@@ -85,7 +85,6 @@ DapRightPanel
             {
                 id: textTopMessage
 
-
                 Layout.minimumHeight: 69 * pt
                 Layout.maximumHeight: 69 * pt
                 Layout.minimumWidth: 278 * pt
@@ -120,7 +119,6 @@ DapRightPanel
                 columns: 2
 
                 columnSpacing: 50 * pt
-
 
                 horizontalItemAlignment: Grid.AlignHCenter
                 verticalItemAlignment: Grid.AlignVCenter
@@ -160,7 +158,6 @@ DapRightPanel
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 17 * pt
-//                Layout.bottomMargin: 82 * pt
                 Layout.topMargin: 25 * pt
 
                 DapButton
@@ -210,7 +207,6 @@ DapRightPanel
                 Layout.fillHeight: true
                 color: "transparent"
             }
-
     }
 
 }

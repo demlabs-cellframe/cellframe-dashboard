@@ -117,7 +117,6 @@ DapRightPanel
                 }
             }
 
-
             Rectangle
             {
                 id: frameInputNameWallet
@@ -164,7 +163,7 @@ DapRightPanel
                 anchors.right: parent.right
                 anchors.leftMargin: 22 * pt
                 anchors.rightMargin: 35 * pt
-    //                anchors.topMargin: 4 * pt
+//                anchors.topMargin: 4 * pt
                 height: 46 * pt
 
                 nameCheckbox: qsTr("Use exsisting wallet")
@@ -222,7 +221,7 @@ DapRightPanel
 
                     anchors.centerIn: parent
                     anchors.fill: parent
-    //                    anchors.rightMargin: 10 * pt
+//                    anchors.rightMargin: 10 * pt
 
                     comboBoxTextRole: ["name"]
                     mainLineText: "all signature"
@@ -231,7 +230,7 @@ DapRightPanel
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                     sidePaddingNormal: 19 * pt
                     sidePaddingActive: 19 * pt
-
+                    hilightColor: currTheme.buttonColorNormal
 
                     widthPopupComboBoxNormal: 318 * pt
                     widthPopupComboBoxActive: 318 * pt
@@ -242,7 +241,6 @@ DapRightPanel
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
-                    hilightColor: currTheme.buttonColorNormal
 
                     paddingTopItemDelegate: 8 * pt
                     heightListElement: 42 * pt
@@ -363,6 +361,7 @@ DapRightPanel
                 height: 69 * pt
                 color: "transparent"
                 anchors.top: buttonNext.bottom
+//                anchors.topMargin: 10 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
 
