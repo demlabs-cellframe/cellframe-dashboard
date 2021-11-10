@@ -14,12 +14,6 @@ DapAbstractRightPanel
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
 
-    property alias recoverySelectionWords: buttonSelectionWords
-    property alias recoverySelectionQRcode: buttonSelectionQRcode
-    property alias recoverySelectionExportToFile: buttonSelectionExportToFile
-    property alias recoverySelectionNothing: buttonSelectionNothing
-
-
     width: 400 * pt
 
     ListModel
@@ -312,6 +306,7 @@ DapAbstractRightPanel
                     fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                     indicatorBackgroundColor: "transparent"
                     indicatorBorder.width: 2 * pt
+                    onClicked: walletRecoveryType = "Words"
                 }
 
                 DapRadioButton
@@ -324,6 +319,7 @@ DapAbstractRightPanel
                     fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                     indicatorBackgroundColor: "transparent"
                     indicatorBorder.width: 2 * pt
+                    onClicked: walletRecoveryType = "QRcode"
                 }
 
                 DapRadioButton
@@ -336,6 +332,7 @@ DapAbstractRightPanel
                     fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                     indicatorBackgroundColor: "transparent"
                     indicatorBorder.width: 2 * pt
+                    onClicked: walletRecoveryType = "File"
                 }
 
                 DapRadioButton
@@ -348,7 +345,11 @@ DapAbstractRightPanel
                     fontRadioButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                     indicatorBackgroundColor: "transparent"
                     indicatorBorder.width: 2 * pt
+                    onClicked: walletRecoveryType = "Nothing"
                 }
+
+                Component.onCompleted:
+                    walletRecoveryType = "Words"
             }
         }
 
