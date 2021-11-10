@@ -89,8 +89,8 @@ DapAbstractScreen
                 verticalAlignment: Qt.AlignVCenter
                 text: ">"
                 color: currTheme.textColor
-                anchors.left: parent.left
-                anchors.leftMargin: 20 * pt
+//                Layout.left: parent.left
+                Layout.leftMargin: 20 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
             }
@@ -98,8 +98,9 @@ DapAbstractScreen
             TextArea
             {
                 id: consoleCmd
+                verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
-                Layout.leftMargin: 20 * pt
+//                Layout.leftMargin: 10 * pt
                 wrapMode: TextArea.Wrap
                 placeholderText: qsTr("Type here...")
                 selectByMouse: true
