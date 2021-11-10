@@ -51,6 +51,7 @@ DapAbstractTab
     }
 
     property var walletOperation: operationModel.get(0).operation
+    property string walletRecoveryType: "Nothing"
 
     dapTopPanel:
         DapDashboardTopPanel

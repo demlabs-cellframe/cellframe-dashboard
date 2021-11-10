@@ -8,12 +8,16 @@ DapRightPanel
 //    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
 //    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
 
-    property alias dapButtonCopy: copyButton
-    property alias dapButtonPaste: pasteButton
+    property alias dapButtonAction: actionButton
     property alias dapButtonNext: nextButton
 
-    property alias dapTextBottomMessage: textBottomMessage
+    property alias dapTextMethod: textMethod
+
+    property alias dapWordsGrid: wordsGrid
+    property alias dapBackupFileName: backupFileName
+
     property alias dapTextTopMessage: textTopMessage
+    property alias dapTextBottomMessage: textBottomMessage
 
     dapHeaderData:
         Item
@@ -85,7 +89,6 @@ DapRightPanel
             {
                 id: textTopMessage
 
-
                 Layout.minimumHeight: 69 * pt
                 Layout.maximumHeight: 69 * pt
                 Layout.minimumWidth: 278 * pt
@@ -101,26 +104,15 @@ DapRightPanel
             }
 
             Grid {
-
-                Layout.topMargin: 24 * pt
-
-//                Layout.fillWidth: true
+                id: wordsGrid
 
                 Layout.minimumHeight: 255 * pt
                 Layout.maximumHeight: 255 * pt
-//                Layout.minimumWidth: 302 * pt
-//                Layout.maximumWidth: 302 * pt
-
                 Layout.alignment: Qt.AlignHCenter
 
-//                Layout.leftMargin: 26 * pt
-//                Layout.rightMargin: 26 * pt
-
-//                spacing: 0 * pt
                 columns: 2
 
                 columnSpacing: 50 * pt
-
 
                 horizontalItemAlignment: Grid.AlignHCenter
                 verticalItemAlignment: Grid.AlignVCenter
@@ -137,6 +129,21 @@ DapRightPanel
                     model: wordsModel
                 }
             }
+
+            Text
+            {
+                id: backupFileName
+                Layout.minimumHeight: 50 * pt
+                Layout.alignment: Qt.AlignHCenter
+                Layout.maximumWidth: parent.width - 50 * pt
+                color: "#908D9D"
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+//                text: "D:\\WORK\\DEMLABS\\cellframe-dashboard\\CellFrameDashboardGUI\\screen\\desktop\\Dashboard\\RightPanel\\DapRecoveryWalletRightPanelForm.ui.qml"
+            }
+
 
             Text
             {
@@ -160,31 +167,15 @@ DapRightPanel
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 17 * pt
-//                Layout.bottomMargin: 82 * pt
                 Layout.topMargin: 25 * pt
 
                 DapButton
                 {
-                    id: copyButton
+                    id: actionButton
                     implicitHeight: 36 * pt
                     implicitWidth: 132 * pt
                     Layout.alignment: Qt.AlignCenter
                     checkable: true
-                    textButton: qsTr("Copy")
-                    horizontalAligmentText: Text.AlignHCenter
-                    indentTextRight: 0
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-
-                }
-
-                DapButton
-                {
-                    id: pasteButton
-                    implicitHeight: 36 * pt
-                    implicitWidth: 132 * pt
-                    Layout.alignment: Qt.AlignCenter
-                    checkable: true
-                    textButton: qsTr("Paste")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -210,7 +201,6 @@ DapRightPanel
                 Layout.fillHeight: true
                 color: "transparent"
             }
-
     }
 
 }

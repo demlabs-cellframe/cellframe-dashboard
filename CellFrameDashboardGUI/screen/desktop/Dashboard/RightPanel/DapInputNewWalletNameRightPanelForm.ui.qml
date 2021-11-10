@@ -14,15 +14,6 @@ DapRightPanel
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
 
-    property alias recoverySelectionWords: buttonSelectionWords
-    property alias recoverySelectionQRcode: buttonSelectionQRcode
-    property alias recoverySelectionExportToFile: buttonSelectionExportToFile
-    property alias recoverySelectionNothing: buttonSelectionNothing
-
-
-
-//    width: 400 * pt
-
     ListModel
     {
         id: signatureTypeWallet
@@ -308,6 +299,7 @@ DapRightPanel
                         spaceIndicatorText: 3 * pt
                         fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         implicitHeight: indicatorInnerSize
+                        onClicked: walletRecoveryType = "Words"
                     }
 
                     DapRadioButton
@@ -318,8 +310,8 @@ DapRightPanel
                         spaceIndicatorText: 3 * pt
                         implicitHeight: indicatorInnerSize
                         fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        onClicked: walletRecoveryType = "QRcode"
                     }
-
                     DapRadioButton
                     {
                         id: buttonSelectionExportToFile
@@ -328,6 +320,7 @@ DapRightPanel
                         spaceIndicatorText: 3 * pt
                         implicitHeight: indicatorInnerSize
                         fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        onClicked: walletRecoveryType = "File"
                     }
 
                     DapRadioButton
@@ -338,6 +331,7 @@ DapRightPanel
                         spaceIndicatorText: 3 * pt
                         implicitHeight: indicatorInnerSize
                         fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        onClicked: walletRecoveryType = "Nothing"
                     }
                 }
             }
@@ -364,7 +358,6 @@ DapRightPanel
 //                anchors.topMargin: 10 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
-
                 Text
                 {
                     id: textWalletNameWarning
@@ -381,5 +374,7 @@ DapRightPanel
                     anchors.bottomMargin: 10 * pt
                 }
             }
+            Component.onCompleted:
+                walletRecoveryType = "Words"
         }
 }

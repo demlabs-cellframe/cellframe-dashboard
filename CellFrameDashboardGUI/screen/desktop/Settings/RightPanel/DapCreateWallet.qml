@@ -33,12 +33,14 @@ DapCreateWalletForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (recoverySelectionWords.checked)
+            if (walletRecoveryType !== "Nothing")
             {
+                print("walletRecoveryType", walletRecoveryType)
+
                 dapNextRightPanel = recoveryWallet
                 nextActivated("recoveryWallet");
             }
-            if (recoverySelectionNothing.checked)
+            else
             {
                 dapNextRightPanel = doneWallet
 

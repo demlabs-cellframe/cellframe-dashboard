@@ -4,10 +4,13 @@
 #include <QObject>
 #include <QCryptographicHash>
 #include <QStringList>
+#include <QByteArray>
 #include <QQmlContext>
 #include <QClipboard>
+#include <QSettings>
 
 #include "randomwords.h"
+#include "randomfile.h"
 
 class WalletHashManager : public QObject
 {
@@ -22,6 +25,11 @@ signals:
 
     void clipboardError();
 
+    void fileError();
+
+    void setFileName(const QString &fileName);
+
+// 24 words
 public slots:
     void generateNewWords();
 
@@ -33,6 +41,16 @@ public slots:
 
     void pasteWordsFromClipboard();
 
+// backup file
+public slots:
+    void generateNewFile();
+
+    void getHashForFile();
+
+    void saveFile(const QString &fileName);
+
+    void openFile(const QString &fileName);
+
 private:
     void updateWordsModelAndHash();
 
@@ -40,13 +58,19 @@ private:
 
     QCryptographicHash cryptographicHash;
 
+    QString currentHash;
+
+    // 24 words
     RandomWords randomWords;
 
     QClipboard *clipboard;
 
     QStringList currentWords;
 
-    QString currentHash;
+    // backup file
+    RandomFile randomFile;
+
+    QByteArray currentData;
 };
 
 #endif // WALLETHASHMANAGER_H

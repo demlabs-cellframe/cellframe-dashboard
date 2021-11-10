@@ -85,6 +85,74 @@ void WalletHashManager::pasteWordsFromClipboard()
     updateWordsModelAndHash();
 }
 
+void WalletHashManager::generateNewFile()
+{
+    currentData = randomFile.generateRandomData();
+
+    getHashForFile();
+
+    emit setHashString(currentHash);
+}
+
+void WalletHashManager::getHashForFile()
+{
+    cryptographicHash.reset();
+
+    cryptographicHash.addData(currentData);
+
+    currentHash = "0x" + cryptographicHash.result().toHex();
+
+    qDebug() << "WalletHashManager::getHashForFile" << currentHash;
+}
+
+void WalletHashManager::saveFile(const QString &fileName)
+{
+    QString tempName = fileName;
+
+    #ifdef Q_OS_WIN
+    tempName.remove("file:///");
+    #else
+    tempName.remove("file://");
+    #endif
+
+    qDebug() << "WalletHashManager::saveFile" << tempName;
+
+    if (!randomFile.saveDataToFile(tempName, currentData))
+        emit fileError();
+    else
+        emit setFileName(tempName);
+}
+
+void WalletHashManager::openFile(const QString &fileName)
+{
+    QString tempName = fileName;
+
+    #ifdef Q_OS_WIN
+    tempName.remove("file:///");
+    #else
+    tempName.remove("file://");
+    #endif
+
+    qDebug() << "WalletHashManager::openFile" << tempName;
+
+    QByteArray data = randomFile.loadDataFromFile(tempName);
+
+    if (data.isEmpty())
+    {
+        emit fileError();
+        return;
+    }
+    else
+        emit setFileName(tempName);
+
+    currentData = data;
+
+    getHashForFile();
+
+    emit setHashString(currentHash);
+}
+
+
 void WalletHashManager::updateWordsModelAndHash()
 {
     context->setContextProperty("wordsModel", QVariant::fromValue(currentWords));

@@ -19,6 +19,7 @@ DapInputNewWalletNameRightPanelForm
 
     dapButtonNext.onClicked:
     {
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =
@@ -32,12 +33,14 @@ DapInputNewWalletNameRightPanelForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (recoverySelectionWords.checked)
+            if (walletRecoveryType !== "Nothing")
             {
+                print("walletRecoveryType", walletRecoveryType)
+
                 dapNextRightPanel = recoveryWallet
                 nextActivated("recoveryWallet");
             }
-            if (recoverySelectionNothing.checked)
+            else
             {
                 dapNextRightPanel = doneWallet
 
