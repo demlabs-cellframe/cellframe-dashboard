@@ -19,6 +19,7 @@ DapCreateWalletForm
 
     dapButtonNext.onClicked:
     {
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =

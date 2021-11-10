@@ -33,6 +33,8 @@ ListView {
             color: currTheme.backgroundElements
             anchors.left: parent.left
             anchors.leftMargin: 10 * pt
+            anchors.right: parent.right
+            anchors.rightMargin: 10 * pt
             radius: currTheme.radiusRectangle
 
             Text {
@@ -71,7 +73,7 @@ ListView {
                 x: 15 * pt
                 anchors {
                     right: parent.right
-                    rightMargin: 21 * pt
+                    rightMargin: 31 * pt
                 }
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
@@ -93,6 +95,8 @@ ListView {
             width: root.width
             anchors.left: parent.left
             anchors.leftMargin: 10 * pt
+            anchors.right: parent.right
+            anchors.rightMargin: 10 * pt
             height: 40 * pt
             color: currTheme.backgroundElements
             radius: currTheme.radiusRectangle

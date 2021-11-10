@@ -40,6 +40,7 @@ DapRecoveryWalletRightPanelForm
 
     Component.onCompleted:
     {
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
         print("walletOperation", walletOperation)
 

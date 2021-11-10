@@ -187,6 +187,7 @@ DapAbstractTab
 
     Component {
         id: createCertificateComponent
+
         CreateCertificateItem {
             optionalModel: models.createCertificateOptional
             signatureTypeCertificateComboBox.model: models.signatureType
