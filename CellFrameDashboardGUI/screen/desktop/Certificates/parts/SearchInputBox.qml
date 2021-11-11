@@ -20,15 +20,15 @@ TextField {
     property int spacing: 10 * pt
 
 
-    implicitHeight: 50 * pt
-    implicitWidth: 100 * pt
+    implicitHeight: 27 * pt
+    implicitWidth: 230 * pt
     font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
 
     style:
         TextFieldStyle
         {
             textColor: currTheme.textColor
-            placeholderTextColor: currTheme.textColor
+            placeholderTextColor: currTheme.textColorGray
             background:
                 Rectangle
                 {

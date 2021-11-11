@@ -29,13 +29,12 @@ DapAbstractTab
     color: currTheme.backgroundMainScreen
 
     property alias dapDashboardRightPanel: stackViewRightPanel
-    //property alias dashboardTopPanel: dashboardTopPanel
-    //property alias dashboardTopPanel: dashboardScreen
 
     property var walletInfo:
     {
         "name": "",
         "network": "",
+        "address": "",
         "chain": "",
         "signature_type": "",
         "recovery_hash": ""
@@ -52,6 +51,8 @@ DapAbstractTab
 
     property var walletOperation: operationModel.get(0).operation
     property string walletRecoveryType: "Nothing"
+
+    property int currentWalletIndex: 0
 
     dapTopPanel:
         DapDashboardTopPanel
@@ -245,13 +246,8 @@ DapAbstractTab
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
 
-                console.log("DapGetWalletHistoryCommand")
-                console.log("   network: " + walletInfo.network)
-                console.log("   chain: " + walletInfo.chain)
-                console.log("   wallet address: " + dapWallets[SettingsWallet.currentIndex].findAddress(walletInfo.network))
-                dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                    walletInfo.network, walletInfo.chain,
-                    dapWallets[SettingsWallet.currentIndex].findAddress(walletInfo.network));
+                getWalletHistory(currentWalletIndex,
+                    dapModelWallets.get(currentWalletIndex).networks)
             }
         }
         onPreviousActivated:
@@ -261,17 +257,13 @@ DapAbstractTab
             {
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
-
-                console.log("DapGetWalletHistoryCommand")
-                console.log("   network: " + walletInfo.network)
-                console.log("   chain: " + walletInfo.chain)
-                console.log("   wallet address: " + dapWallets[SettingsWallet.currentIndex].findAddress(walletInfo.network))
-                dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                    walletInfo.network, walletInfo.chain,
-                    dapWallets[SettingsWallet.currentIndex].findAddress(walletInfo.network));
             }
+
+                getWalletHistory(currentWalletIndex,
+                    dapModelWallets.get(currentWalletIndex).networks)
         }
     }
+
 
     Connections
     {
@@ -385,5 +377,38 @@ DapAbstractTab
                 dapWallets[SettingsWallet.currentIndex].findAddress(dapServiceController.CurrentWalletNetwork));
             dashboardTab.state = "WALLETSHOW"
         }
+    }
+
+    signal resetWalletHistory()
+
+    function getWalletHistory(index, model)
+    {
+        console.log("getWalletHistory", index, model.count, model.get(0).name)
+
+        resetWalletHistory()
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            walletInfo.network = model.get(i).name
+            walletInfo.address = dapWallets[index].findAddress(walletInfo.network)
+            if (walletInfo.network === "core-t")
+                walletInfo.chain = "zerochain"
+            else
+                walletInfo.chain = "zero"
+
+            console.log("DapGetWalletHistoryCommand")
+            console.log("   network: " + walletInfo.network)
+            console.log("   chain: " + walletInfo.chain)
+            console.log("   wallet address: " + walletInfo.address)
+            dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                walletInfo.network, walletInfo.chain, walletInfo.address);
+        }
+
+//        console.log("DapGetWalletHistoryCommand")
+//        console.log("   network: " + walletInfo.network)
+//        console.log("   chain: " + walletInfo.chain)
+//        console.log("   wallet address: " + walletInfo.address)
+//        dapServiceController.requestToService("DapGetWalletHistoryCommand",
+//            walletInfo.network, walletInfo.chain, walletInfo.address);
     }
 }

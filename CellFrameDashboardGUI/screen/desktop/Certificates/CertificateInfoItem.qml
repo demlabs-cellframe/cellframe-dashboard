@@ -73,6 +73,7 @@ Rectangle {
                 x: 20 * pt
                 title.text: model.keyView
                 content.text: model.value
+                title.color: currTheme.textColorGray
             }
         }
     } //frameRightPanel

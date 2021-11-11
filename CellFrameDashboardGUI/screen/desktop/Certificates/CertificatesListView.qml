@@ -107,9 +107,9 @@ ListView {
                 width: 612 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: model.selected ? dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMediumBold16 : dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                font: model.selected ? dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16 : dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 text: model.completeBaseName   //model.fileName
-                color: model.selected ? currTheme.buttonColorNormal : currTheme.textColor
+                color: model.selected ? "#FF0080" : currTheme.textColor
                 elide: Text.ElideRight
                 maximumLineCount: 1
             }
@@ -157,10 +157,15 @@ ListView {
             Rectangle {
                 id: bottomLine
                 x: certificateNameText.x
-                y: parent.height
-                width: 648 * pt
+//                y: parent.height
+//                width: 644 * pt
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.bottom
+                anchors.leftMargin: 14 * pt
+                anchors.rightMargin: 15 * pt
                 height: 1 * pt
-                color: currTheme.backgroundElements
+                color: currTheme.lineSeparatorColor
             }
 
         }  //

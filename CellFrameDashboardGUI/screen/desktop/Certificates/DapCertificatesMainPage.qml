@@ -45,10 +45,10 @@ DapAbstractTab
         id:frameListView
         x: 24 * pt
         y: 84 * pt
-        height: parent.height - y - 24 * pt
-        width: 678 * pt
+        height: 652/* - 24 * pt*/
+        width: 682 * pt
         color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        radius: 16 * pt
 
         CertificatesListView {
             id: certificatesListView
@@ -112,11 +112,13 @@ DapAbstractTab
             top: parent.top
             topMargin: 84 * pt
             right: parent.right
-            rightMargin: 26 * pt
+            rightMargin: 20 * pt
+            left: frameListView.right
+            leftMargin: 24 * pt
         }
         asynchronous: true
         y: certificatesListView.y
-        width: 348 * pt
+        width: 350 * pt
         height: certificatesListView.height
         sourceComponent: certificatesActionsComponent
 

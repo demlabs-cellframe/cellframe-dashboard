@@ -95,7 +95,7 @@ Rectangle {
                 // x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal    //???
 
                 anchors.verticalCenter: undefined
-                x: (parent.width - width) / 2
+                x: (parent.width - width) / 2 - 4 * pt
                 y: 13 * pt
                 widthPopupComboBoxNormal: 300 * pt
                 widthPopupComboBoxActive: 300 * pt
@@ -135,7 +135,7 @@ Rectangle {
 
             TextField {
                 id: titleCertificateTextInput
-                x: (parent.width - width) / 2
+                x: 35 * pt
                 y: 78 * pt
                 height: 28 * pt
                 width: 277 * pt
@@ -211,7 +211,8 @@ Rectangle {
                         Layout.preferredWidth: 277 * pt
                         leftPadding: 0
                         smartPlaceHolderText: model.placeHolderText
-    //                    color: focus ? currTheme.textColor : currTheme.textColor
+
+    //                    color: focus ? currTheme.textColor : "#C7C6CE"
                         inputMask: model.inputFieldMask
 
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16

@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
+import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "parts"
 
@@ -28,7 +29,7 @@ DapTopPanel {
     {
         id: frameIconSearch
         anchors.left: parent.left
-        anchors.leftMargin: 16 * pt
+        anchors.leftMargin: 37 * pt
         anchors.verticalCenter: parent.verticalCenter
         height: 20 * pt
         width: 20 * pt
@@ -58,6 +59,8 @@ DapTopPanel {
 //        width: Math.max(Math.min(leftPadding + contentWidth, root.width - searchBox.x * 2), 228 * pt)
 //        color: currTheme.textColor
         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+//        textColor: currTheme.textColorGray
+
 
         onEditingFinished: {
             filtering.clear()

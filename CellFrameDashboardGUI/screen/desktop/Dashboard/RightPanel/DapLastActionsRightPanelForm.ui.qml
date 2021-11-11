@@ -84,7 +84,7 @@ DapRightPanel
                                 Text
                                 {
                                     Layout.fillWidth: true
-                                    text: name
+                                    text: /*name*/network
                                     color: currTheme.textColor
                                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                                     elide: Text.ElideRight

@@ -46,37 +46,56 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            modelLastActions.clear()
-
-            for (let i = 0; i < walletHistory.length; ++i)
+//            modelLastActions.clear()
+            for (var i = 0; i < walletHistory.length; ++i)
             {
-                modelLastActions.append({ "name" : walletHistory[i].Name,
-                                          "amount" : walletHistory[i].Amount,
-                                          "status" : walletHistory[i].Status,
-                                          "date" : walletHistory[i].Date})
+                if (modelLastActions.count === 0)
+                    modelLastActions.append({ "network" : walletHistory[i].Network,
+                        "name" : walletHistory[i].Name,
+                        "amount" : walletHistory[i].Amount,
+                        "status" : walletHistory[i].Status,
+                        "date" : walletHistory[i].Date,
+                        "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                else
+                {
+                    var j = 0;
+                    while (modelLastActions.get(j).SecsSinceEpoch > walletHistory[i].SecsSinceEpoch)
+                    {
+                        ++j;
+                        if (j >= modelLastActions.count)
+                            break;
+                    }
+                    modelLastActions.insert(j, { "network" : walletHistory[i].Network,
+                        "name" : walletHistory[i].Name,
+                        "amount" : walletHistory[i].Amount,
+                        "status" : walletHistory[i].Status,
+                        "date" : walletHistory[i].Date,
+                        "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                }
+
+                console.log("modelLastActions",
+                            walletHistory[i].Network,
+                            walletHistory[i].Name,
+                            walletHistory[i].Amount,
+                            walletHistory[i].Status,
+                            walletHistory[i].Date)
             }
         }
     }
 
-//    Shortcut {
-//        sequence: "Ctrl+D"
-//        onActivated: {
-//            modelLastActions.clear()
-//            for (let i = 0; i < 5; i++)
-//            {
-//                modelLastActions.append({
-//                                            "name" : "a" + i,
-//                                            "amount" : "b" + i,
-//                                            "status" : "ok",
-//                                            "date" : "Today "
-//                                        })
-//            }
-//        }
-//    }
+    Connections {
+        target: dashboardTab
+        onResetWalletHistory:
+        {
+            modelLastActions.clear()
+        }
+    }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
     {
+        console.log("getDateString", date)
+
         if (isSameDay(today, date))
         {
             return qsTr("Today")

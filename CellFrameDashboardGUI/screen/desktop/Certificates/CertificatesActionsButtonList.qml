@@ -23,7 +23,7 @@ Rectangle {
 
     property bool certificateSelected: false
     property bool bothAccessTypeCertificateSelected: false
-    color: currTheme.backgroundElements
+    color: currTheme.backgroundMainScreen
     radius: currTheme.radiusRectangle
 
     implicitWidth: 270 * pt
@@ -48,12 +48,12 @@ Rectangle {
         id: buttonGroup
     }
 
-    Rectangle
+    Item
     {
         id:frameRightPanel
         anchors.fill: parent
-        color: parent.color
-        radius: parent.radius
+//        color: parent.color
+//        radius: parent.radius
 
         Item {
             id: radioButtonFrame
@@ -71,9 +71,9 @@ Rectangle {
 
             ColumnLayout {
                 id: certificateAccessTypeLayout
-                spacing: 35 * pt
+                spacing: 32 * pt
                 y: filterTitleText.y + filterTitleText.height + 24 * pt
-                x: 15 * pt
+                x: 3 * pt
                 width: parent.width - x
 
                 Repeater {
@@ -124,7 +124,7 @@ Rectangle {
 
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36 * pt
-                implicitWidth: 300 * pt
+                implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -136,11 +136,11 @@ Rectangle {
                 textButton: qsTr("Import certificate")
     //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
-                visible: false   //TODO need clarification of the requirements
+                visible: true   //TODO need clarification of the requirements
 
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36 * pt
-                implicitWidth: 300 * pt
+                implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -157,7 +157,7 @@ Rectangle {
                 enabled: root.certificateSelected && bothAccessTypeCertificateSelected
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36 * pt
-                implicitWidth: 300 * pt
+                implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -174,7 +174,7 @@ Rectangle {
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36 * pt
-                implicitWidth: 300 * pt
+                implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -187,12 +187,12 @@ Rectangle {
                 textButton: qsTr("Add signature to certificate")
     //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
-                visible: false   //TODO need clarification of the requirements
+                visible: true   //TODO need clarification of the requirements
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36 * pt
-                implicitWidth: 300 * pt
+                implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -208,7 +208,7 @@ Rectangle {
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
                 implicitHeight: 36 * pt
-                implicitWidth: 300 * pt
+                implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -218,28 +218,28 @@ Rectangle {
 
         }   //actionButtonsLayout
     } //frameRightPanel
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: frameRightPanel
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: frameRightPanel
-        visible: frameRightPanel.visible
-    }
-    InnerShadow {
-        anchors.fill: frameRightPanel
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
-        visible: frameRightPanel.visible
-    }
+//    InnerShadow {
+//        id: topLeftSadow
+//        anchors.fill: frameRightPanel
+//        cached: true
+//        horizontalOffset: 5
+//        verticalOffset: 5
+//        radius: 4
+//        samples: 32
+//        color: "#2A2C33"
+//        smooth: true
+//        source: frameRightPanel
+//        visible: frameRightPanel.visible
+//    }
+//    InnerShadow {
+//        anchors.fill: frameRightPanel
+//        cached: true
+//        horizontalOffset: -1
+//        verticalOffset: -1
+//        radius: 1
+//        samples: 32
+//        color: "#4C4B5A"
+//        source: topLeftSadow
+//        visible: frameRightPanel.visible
+//    }
 }  //root
