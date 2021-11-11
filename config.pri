@@ -8,7 +8,11 @@
 
 VER_MAJ = 2
 VER_MIN = 0
+<<<<<<< HEAD
 VER_PAT = 24
+=======
+VER_PAT = 23
+>>>>>>> f252faa5f553ea13c362b23ef6b591af4afc2483
 
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 DEFINES += DAP_BRAND_BASE_LO=\\\"$$BRAND_BASE_LO\\\"
