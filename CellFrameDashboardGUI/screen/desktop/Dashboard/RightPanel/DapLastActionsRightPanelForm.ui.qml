@@ -63,7 +63,7 @@ DapAbstractRightPanel
                             Text
                             {
                                 Layout.fillWidth: true
-                                text: name
+                                text: network
                                 color: "#3E3853"
                                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                                 elide: Text.ElideRight
