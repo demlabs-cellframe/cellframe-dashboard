@@ -11,7 +11,7 @@ Page {
     id: root
 
     background: Rectangle {
-        color: currTheme.backgroundMainScreen
+        color: "transparent"
     }
 
     RowLayout {

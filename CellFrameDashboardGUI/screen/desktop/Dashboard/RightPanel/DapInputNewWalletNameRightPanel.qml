@@ -12,9 +12,9 @@ DapInputNewWalletNameRightPanelForm
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
-    dapUseExestionWallet.onCheckedChanged:
+    dapComboBoxOperation.onCurrentIndexChanged:
     {
-        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
     }
 
     dapButtonNext.onClicked:
@@ -32,12 +32,14 @@ DapInputNewWalletNameRightPanelForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (recoverySelectionWords.checked)
+            if (walletRecoveryType !== "Nothing")
             {
+                print("walletRecoveryType", walletRecoveryType)
+
                 dapNextRightPanel = recoveryWallet
                 nextActivated("recoveryWallet");
             }
-            if (recoverySelectionNothing.checked)
+            else
             {
                 dapNextRightPanel = doneWallet
 
@@ -56,7 +58,7 @@ DapInputNewWalletNameRightPanelForm
     {
         dapWalletNameWarning.text = ""
         previousActivated(lastActionsWallet)
-//        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
+        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
     Connections

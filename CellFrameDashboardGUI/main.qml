@@ -22,10 +22,6 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
-    header: Rectangle {
-
-    }
-
     //Main window
     //DapMainApplicationWindow
     DapMainWindow

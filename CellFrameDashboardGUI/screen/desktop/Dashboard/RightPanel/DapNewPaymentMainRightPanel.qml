@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -9,27 +8,51 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
-        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
-        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+        print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+
+        print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
+
+        if (dapCmboBoxTokenModel.count === 0)
+        {
+            dapFrameAmountPayment.visible = false
+            dapFrameInputAmountPayment.visible = false
+            dapFrameRecipientWallet.visible = false
+            dapFrameRecipientWalletAddress.visible = false
+            dapButtonSend.visible = false
         }
+        else
+        {
+            dapFrameAmountPayment.visible = true
+            dapFrameInputAmountPayment.visible = true
+            dapFrameRecipientWallet.visible = true
+            dapFrameRecipientWalletAddress.visible = true
+            dapButtonSend.visible = true
+        }
+
+        dapTextInputAmountPayment.text = "0"
+    }
 
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
-        //DmitriyT Removed this code below. Will see reaction of app.
-        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonSend.onClicked:
     {
+        print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
+        print("amount:", dapTextInputAmountPayment.text)
+        print("wallet address: " + dapTextInputRecipientWalletAddress.text.length)
+
         if (dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission <
                 dapTextInputAmountPayment.text)
         {
