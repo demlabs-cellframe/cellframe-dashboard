@@ -1,13 +1,35 @@
+#before_build:
+
 stages:
     - prepare
     - build
     - test
+    - deploy
 
 variables:
-    GIT_SUBMODULE_STRATEGY: normal
+    GIT_SUBMODULE_STRATEGY: recursive
 
-cellframe-dashboard-schedule:
+
+cellframe-dashboard_linux:
     stage: build
     tags:
+     - cellframe-dashboard
+    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard linux
+
+cellframe-dashboard_mac:
+   stage: build
+   tags:
     - cellframe-dashboard
-    script: ~/production/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard
+   script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
+
+cellframe-dashboard_windows:
+   stage: build
+   tags:
+    - cellframe-dashboard
+   script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
+
+# Test
+# run unit-tests
+
+# Deploy
+# cp to builds folder

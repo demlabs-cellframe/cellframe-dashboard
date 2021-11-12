@@ -2,6 +2,9 @@ import QtQuick 2.4
 
 DapInputNewWalletNameRightPanelForm
 {
+    dapNextRightPanel: recoveryWallet
+    dapPreviousRightPanel: lastActionsWallet
+
     property string dapSignatureTypeWallet
 
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
@@ -9,20 +12,54 @@ DapInputNewWalletNameRightPanelForm
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
+    dapUseExestionWallet.onCheckedChanged:
+    {
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+    }
+
     dapButtonNext.onClicked:
     {
-        console.log(dapTextInputNameWallet.text)
-        console.log(dapSignatureTypeWallet)
-        console.log(dapServiceController.CurrentNetwork)
-        dapServiceController.requestToService("DapAddWalletCommand", dapTextInputNameWallet.text    //original
-                                              , dapSignatureTypeWallet, dapServiceController.CurrentNetwork
-                                              , "0xad12dec5ab4f");
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+        if (dapTextInputNameWallet.text === "")
+        {
+            dapWalletNameWarning.text =
+                qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
+            console.warn("Empty wallet name")
+        }
+        else
+        {
+            dapWalletNameWarning.text = ""
+
+            walletInfo.name = dapTextInputNameWallet.text
+            walletInfo.signature_type = dapSignatureTypeWallet
+
+            if (walletRecoveryType !== "Nothing")
+            {
+                print("walletRecoveryType", walletRecoveryType)
+
+                dapNextRightPanel = recoveryWallet
+                nextActivated("recoveryWallet");
+            }
+            else
+            {
+                dapNextRightPanel = doneWallet
+
+                console.log("Create new wallet " + walletInfo.name);
+                console.log(walletInfo.signature_type);
+                dapServiceController.requestToService("DapAddWalletCommand",
+                       walletInfo.name,
+                       walletInfo.signature_type)
+            }
+
+        }
+
     }
 
     dapButtonClose.onClicked:
     {
+        dapWalletNameWarning.text = ""
         previousActivated(lastActionsWallet)
-        dapDashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
+//        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
     Connections
@@ -30,11 +67,7 @@ DapInputNewWalletNameRightPanelForm
         target: dapServiceController
         onWalletCreated:
         {
-            if(wallet[0])
-            {
-                nextActivated("doneWallet")
-            }
+            nextActivated("doneWallet");
         }
     }
-
 }

@@ -14,8 +14,6 @@
 
 #include <QObject>
 #include <QCoreApplication>
-#include <QAction>
-#include <QMenu>
 
 #include "DapRpcLocalServer.h"
 
@@ -29,6 +27,9 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
+#include "handlers/DapGetNetworkStatusCommand.h"
+#include "handlers/DapNetworkGoToCommand.h"
+#include "handlers/DapGetWalletInfoCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
 #include "handlers/DapExportLogCommand.h"
@@ -40,9 +41,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
-
-#include "DapSystemTrayIcon.h"
-#include "DapToolTipWidget.h"
+#include "handlers/DapGetListOdersCommand.h"
 
 
 
@@ -58,12 +57,6 @@ class DapServiceController : public QObject
 
     /// Service core.
     DapUiService        * m_pServer {nullptr};
-    /// System tray widget in tray.
-    DapSystemTrayIcon   * m_pSystemTrayIcon {nullptr};
-    /// ToolTip pop-up widget.
-    DapToolTipWidget    * m_pToolTipWidget {nullptr};
-    /// The context menu of the widget in the system tray.
-    QMenu               * menuSystemTrayIcon {nullptr};
   
 public:
     /// Standard constructor.
@@ -83,7 +76,6 @@ private slots:
     /// Register command.
     void registerCommand();
     /// Initialize system tray.
-    void initSystemTrayIcon();
 };
 
 #endif // DAPSERVICECONTROLLER_H

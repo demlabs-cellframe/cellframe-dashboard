@@ -2,7 +2,7 @@ import QtQuick 2.4
 import "qrc:/"
 import "../../"
 
-DapTabForm {
+DapTab {
     id: dapDashboardTab
 
     anchors.fill: parent

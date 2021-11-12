@@ -164,9 +164,10 @@ Item {
         model: certificates
 
         property string findString: ""
-        property int accessKeyTypeIndex: 0            //from DapCertificateType::accessKeyType
+        property int accessKeyTypeIndex: DapCertificateType.Public  //from DapCertificateType::accessKeyType
 
         function update() {
+            print("FindDelegateModel update", findString, accessKeyTypeIndex)
             //console.info("update()", accessKeyTypeIndex, findString, items.count)
             if (findString !== "") {                             //find by name and accessKeyTypeIndex
                 var fstr = findString.toLocaleLowerCase()
@@ -178,8 +179,13 @@ Item {
                 renew()
                 return;
             } else {                                            //find only by accessKeyTypeIndex
-                predicate = function (obj) {
-                    return  obj.accessKeyType === accessKeyTypeIndex
+                if (accessKeyTypeIndex === DapCertificateType.Both)
+                    predicate = function(obj) { return true; }
+                else
+                {
+                    predicate = function (obj) {
+                        return obj.accessKeyType === accessKeyTypeIndex
+                    }
                 }
                 renew()
                 return;

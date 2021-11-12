@@ -1,6 +1,7 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.0
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Styles 1.4
 
 
 /*
@@ -16,30 +17,25 @@ TextField {
     id: root
 
     property alias filtering: filtering
-    property alias searchImage: searchImage
     property int spacing: 10 * pt
 
 
-    implicitHeight: 50 * pt
-    implicitWidth: 100 * pt
-    leftPadding: searchImage.width + spacing
-    font.pixelSize: 14 * pt
-    topPadding: 0
-    bottomPadding: 8 * pt
+    implicitHeight: 27 * pt
+    implicitWidth: 230 * pt
+    font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
 
-
-    Image{
-        id: searchImage
-        width: 20 * pt
-        height: 20 * pt
-        fillMode: Image.PreserveAspectFit
-        verticalAlignment: Image.AlignVCenter
-        horizontalAlignment: Image.AlignHCenter
-
-        source: "qrc:/resources/icons/ic_search.png"
-    }
-
-    background: Item {  }
+    style:
+        TextFieldStyle
+        {
+            textColor: currTheme.textColor
+            placeholderTextColor: currTheme.textColorGray
+            background:
+                Rectangle
+                {
+                    border.width: 0
+                    color: currTheme.backgroundPanel
+                }
+        }
 
 
     //bottom line
@@ -47,7 +43,7 @@ TextField {
         width: parent.width
         height: 1 * pt
         y: parent.height
-        color: "#453F5A"
+        color: currTheme.borderColor
 
         Behavior on width {
             NumberAnimation {

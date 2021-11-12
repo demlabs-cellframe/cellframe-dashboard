@@ -8,6 +8,7 @@ DapAbstractTab
 
     property alias dapHistoryTopPanel: historyTopPanel
     property alias dapHistoryScreen: historyScreen
+    color: currTheme.backgroundPanel
 
     dapTopPanel:
         DapHistoryTopPanel
