@@ -15,8 +15,8 @@ ToolButton {
         right: root.right
         rightMargin: 14 * pt
     }
-    image.source: isHovered ? "qrc:/resources/icons/Certificates/close_icon_hover.svg"
-                            : "qrc:/resources/icons/Certificates/close_icon.svg"
-    image.width: 20 * pt
-    image.height: 20 * pt
+    image.source: isHovered ? "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                            : "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+    image.width: 10 * pt
+    image.height: 10 * pt
 }  //

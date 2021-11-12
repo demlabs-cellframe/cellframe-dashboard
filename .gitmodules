@@ -1,7 +1,3 @@
-[submodule "cellframe-sdk"]
-	path = cellframe-sdk
-	url = https://gitlab.demlabs.net/cellframe/cellframe-sdk.git
-	branch = master
 [submodule "cellframe-ui-sdk"]
 	path = cellframe-ui-sdk
 	url = https://gitlab.demlabs.net/cellframe/cellframe-ui-sdk.git
@@ -9,7 +5,12 @@
 [submodule "dap-ui-sdk"]
 	path = dap-ui-sdk
 	url = https://gitlab.demlabs.net/dap/dap-ui-sdk
-	branch = master
+	branch = features-4880
 [submodule "prod_build"]
 	path = prod_build
 	url = ../prod_build_cellframe-dashboard
+	branch = master
+[submodule "cellframe-node"]
+	path = cellframe-node
+	url = https://gitlab.demlabs.net/cellframe/cellframe-node
+	branch = master

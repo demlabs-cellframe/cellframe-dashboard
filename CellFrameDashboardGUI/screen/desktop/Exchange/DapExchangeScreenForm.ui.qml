@@ -35,7 +35,7 @@ DapAbstractScreen
 
             DapComboBox
             {
-                model: conversionList
+                //model: conversionList
 
                 comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 144 * pt
@@ -82,7 +82,7 @@ DapAbstractScreen
             height: parent.height
             DapComboBox
             {
-                model:timeModel
+                //model:timeModel
                 comboBoxTextRole: ["text"]
                 widthPopupComboBoxActive: 132 * pt
                 widthPopupComboBoxNormal: 100 * pt

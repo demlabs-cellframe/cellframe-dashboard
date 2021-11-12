@@ -1,32 +1,15 @@
 QT += qml quick widgets svg
 
 TEMPLATE = app
-CONFIG += c++11
+CONFIG += c++11 #nsis_build
 
 LIBS += -ldl
-
-!defined(BRAND,var){
-#  Default brand
-    BRAND = CellFrameDashboard
-}
+include(../config.pri)
 
 TARGET = $$BRAND
 
-VER_MAJ = 2
-VER_MIN = 0
-VER_PAT = 4
-
 win32 {
-    VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
-    DEFINES += CLI_PATH=\\\"cellframe-node-cli.exe\\\"
-    DEFINES += TOOLS_PATH=\\\"cellframe-node-tool.exe\\\"
-    DEFINES += HAVE_STRNDUP
-}
-else {
-    VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
-    DEFINES += CLI_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
-    DEFINES += TOOLS_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-tool\\\"
-    DEFINES += CONFIG_PATH=\\\"/opt/cellframe-node/bin/cellframe-node-cli\\\"
+    RC_ICONS = $$PWD/resources/icons/icon_win32.ico
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -34,14 +17,12 @@ else {
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
-DEFINES += DAP_SERVICE_NAME=\\\"CellFrameDashboardService\\\"
-DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
+DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = resources/icons/dashboard.icns
+    ICON = resources/icons/CellframeDashboard.icns
 }
-else {
+else: !win32 {
     ICON = qrc:/resources/icons/icon.ico
 }
 
@@ -68,27 +49,72 @@ OTHER_FILES += libdap-qt-ui-qml \
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/DapServiceController.cpp
+    $$PWD/DapServiceController.cpp \
+    DapApplication.cpp \
+    WalletRestore/randomfile.cpp \
+    WalletRestore/randomwords.cpp \
+    WalletRestore/wallethashmanager.cpp \
+    quickcontrols/qrcodequickitem.cpp \
+    systemtray.cpp \
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
 RESOURCES += $$PWD/qml.qrc
+RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/cellframe-dashboard/bin
+else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    $$PWD/DapServiceController.h
+    $$PWD/DapServiceController.h \
+    DapApplication.h \
+    WalletRestore/randomfile.h \
+    WalletRestore/randomwords.h \
+    WalletRestore/wallethashmanager.h \
+    quickcontrols/qrcodequickitem.h \
+    systemtray.h \
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
-include (../cellframe-sdk/dap-sdk/core/libdap.pri)
-include (../cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
     gui_target.files = $${BRAND}
-    gui_target.path = /opt/cellframe-dashboard/bin/
+    gui_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += gui_target
+    BUILD_FLAG = static
+}
+
+defined(BUILD_FLAG,var){
+    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+}
+
+win32: nsis_build {
+    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32)
+    build_node.commands = $$PWD/../cellframe-node/prod_build/windows/scripts/compile.bat \
+        $$DESTDIR $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/configs/.) $$shell_path($$DESTDIR/dist/etc) &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca/.) $$shell_path($$DESTDIR/dist/share/ca) &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/resources/icons/icon_win32.ico) $$DESTDIR &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/build.nsi) $$DESTDIR &&
+    copyconfig.commands += $(COPY_DIR) \
+        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/modifyConfig.nsh) $$DESTDIR
+    nsis.commands += (echo !define APP_NAME \"$$BRAND\" && echo !define APP_VERSION \"$${VERSION}.0\" && echo !define APP_VER \"$${VER_MAJ}.$${VER_MIN}-$${VER_PAT}\") \
+        > $$shell_path($$DESTDIR/Nsis.defines.nsh)
+
+    QMAKE_EXTRA_TARGETS += build_node copyconfig nsis
+    POST_TARGETDEPS += build_node copyconfig nsis
+    QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
 }

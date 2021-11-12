@@ -18,8 +18,8 @@ Item {
 
     Text {
         id: title
-        font: quicksandFonts.regular12
-        color: "#B4B1BD"
+        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        color: currTheme.textColor
         elide: Text.ElideRight
         maximumLineCount: 1
     }
@@ -29,8 +29,8 @@ Item {
     Text {
         id: content
         y: title.height + verticalSpacing
-        font: quicksandFonts.regular14
-        color: "#070023"
+        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        color: currTheme.textColor
         elide: Text.ElideRight
         maximumLineCount: 1
     }

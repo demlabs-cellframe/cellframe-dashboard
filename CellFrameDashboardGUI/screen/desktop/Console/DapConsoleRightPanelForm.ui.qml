@@ -1,7 +1,8 @@
 import QtQuick 2.4
+import "qrc:/widgets"
 import "../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
     dapHeaderData:
         Rectangle
@@ -12,23 +13,17 @@ DapAbstractRightPanel
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
                 text: qsTr("Last actions")
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                color: "#3E3853"
-            }
-
-            Rectangle
-            {
-                id: borderBottom
-                anchors.bottom: parent.bottom
+                verticalAlignment: Qt.AlignLeft
                 anchors.left: parent.left
-                anchors.right: parent.right
-                height: 1
-                color: "#757184"
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 24 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
 
@@ -51,10 +46,10 @@ DapAbstractRightPanel
                     {
                         id: textCommand
                         text: query
-                        color: "#070023"
+                        color: currTheme.textColor
                         width: parent.width
                         wrapMode: Text.Wrap
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         //For the automatic sending selected command from history
                         MouseArea
                         {

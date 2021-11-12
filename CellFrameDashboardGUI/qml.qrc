@@ -7,8 +7,6 @@
         <file>resources/icons/icon_dashboard_hover.png</file>
         <file>resources/icons/icon_exchange.png</file>
         <file>resources/icons/icon_exchange_hover.png</file>
-        <file>resources/icons/icon_history.png</file>
-        <file>resources/icons/icon_history_hover.png</file>
         <file>resources/icons/icon_logs.png</file>
         <file>resources/icons/icon_logs_hover.png</file>
         <file>resources/icons/icon_settings.png</file>
@@ -16,21 +14,14 @@
         <file>main.qml</file>
         <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
-        <file>screen/DapMainApplicationWindowForm.ui.qml</file>
-        <file>screen/DapAbstractTopPanel.qml</file>
-        <file>screen/DapAbstractTopPanelForm.ui.qml</file>
         <file>screen/DapAbstractTab.qml</file>
-        <file>screen/DapAbstractTabForm.ui.qml</file>
         <file>screen/DapAbstractScreen.qml</file>
         <file>screen/DapAbstractScreenForm.ui.qml</file>
         <file>screen/DapAbstractRightPanel.qml</file>
         <file>screen/DapAbstractRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardScreenForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTab.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardTabForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTopPanel.qml</file>
-        <file>screen/desktop/Dashboard/DapDashboardTopPanelForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
         <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
@@ -46,7 +37,6 @@
         <file>screen/desktop/History/DapHistoryTab.qml</file>
         <file>screen/desktop/History/DapHistoryTabForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryTopPanel.qml</file>
-        <file>screen/desktop/History/DapHistoryTopPanelForm.ui.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanel.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardScreen.qml</file>
@@ -73,14 +63,13 @@
         <file>screen/mobile/History/DapHistoryTopPanelForm.ui.qml</file>
         <file>screen/DapAbstractMenuTabWidget.qml</file>
         <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
-        <file>resources/icons/new-wallet_icon_dark_hover.png</file>
-        <file>resources/icons/new-wallet_icon_dark.png</file>
+        <file>resources/icons/new-wallet_icon_dark_hover.svg</file>
+        <file>resources/icons/new-wallet_icon_dark.svg</file>
         <file>resources/icons/ic_arrow_drop_down.png</file>
         <file>resources/icons/ic_arrow_drop_up.png</file>
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
         <file>screen/desktop/Logs/DapLogsTabForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
-        <file>screen/desktop/Logs/DapLogsTopPanelForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsScreen.qml</file>
         <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
@@ -104,13 +93,9 @@
         <file>resources/icons/ic_scroll-up.png</file>
         <file>resources/icons/ic_scroll-up_hover.png</file>
         <file>screen/desktop/Settings/DapSettingsTab.qml</file>
-        <file>screen/desktop/Settings/DapSettingsTabForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
-        <file>screen/desktop/Settings/DapSettingsTopPanelForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
-        <file>screen/desktop/Settings/DapSettingsScreenForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
-        <file>screen/desktop/Settings/DapSettingsRightPanelForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTab.qml</file>
         <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
@@ -118,7 +103,6 @@
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
         <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
-        <file>screen/desktop/Console/DapConsoleTopPanelForm.ui.qml</file>
         <file>resources/icons/icon.ico</file>
         <file>resources/icons/ic_flag.png</file>
         <file>resources/icons/buy_icon.png</file>
@@ -183,9 +167,129 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
-        <file>screen/desktop/Orders/OrdersTab.qml</file>
-        <file>screen/desktop/Orders/OrdersListView.qml</file>
+        <file>resources/icons/ic_vpn-client_hover.svg</file>
+        <file>resources/icons/ic_vpn-client.svg</file>
+        <file>resources/icons/icon_vpn-service_hover.svg</file>
+        <file>resources/icons/icon_vpn-service.svg</file>
+        <file>resources/icons/icon_logs_hover.svg</file>
+        <file>resources/icons/icon_logs.svg</file>
+        <file>resources/icons/icon_history_hover.svg</file>
+        <file>resources/icons/icon_history.svg</file>
+        <file>resources/icons/ic_tokens_hover.svg</file>
+        <file>resources/icons/ic_tokens.svg</file>
+        <file>resources/icons/illustration_new-wallet.svg</file>
+        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
+        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
+        <file>screen/desktop/DapTokensListView.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopup.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkName.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkPopupButton.qml</file>
+        <file>resources/icons/ic_copy.svg</file>
+        <file>resources/icons/ic_copy_hover.svg</file>
+        <file>resources/icons/icon_on_off_net.svg</file>
+        <file>resources/icons/icon_on_off_net_hover.svg</file>
+        <file>resources/icons/Icon_sync_net.svg</file>
+        <file>resources/icons/Icon_sync_net_hover.svg</file>
+        <file>resources/icons/next-page.svg</file>
+        <file>resources/icons/next-page_hover.svg</file>
+        <file>screen/desktop/RightPanel/DapRightPanelTextHeader.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanel_New.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanelPage.qml</file>
+        <file>screen/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTopPanel.qml</file>
+        <file>resources/icons/icon_vpn-service.svg</file>
+        <file>resources/icons/icon_vpn-service_hover.svg</file>
+        <file>screen/desktop/VPNService/DapNoOrdersPanel.qml</file>
+        <file>screen/desktop/VPNService/DapTextButton.qml</file>
+        <file>screen/desktop/VPNService/DapCreateVPNOrderPanel.qml</file>
+        <file>resources/illustrations/illustration_vpn-service.svg</file>
+        <file>screen/desktop/VPNService/DapRightPanelElement.qml</file>
+        <file>screen/desktop/VPNService/DapSpinBox.qml</file>
+        <file>screen/desktop/VPNService/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/VPNService/DapVPNOrdersGridView.qml</file>
+        <file>resources/icons/ic_info_order.svg</file>
+        <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
         <file>resources/icons/under construction.svg</file>
-        <file>resources/icons/illustration-new-wallet.svg</file>
+        <file>resources/icons/illustration_new-wallet.png</file>
+        <file>screen/desktop/VPNService_New/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNServiceTopPanel.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNServiceScreen.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNOrderInfoLine.qml</file>
+        <file>screen/desktop/VPNService_New/DapCreateOrder.qml</file>
+        <file>screen/desktop/VPNService_New/DapSpinBox.qml</file>
+        <file>screen/desktop/VPNService_New/DapTextButton.qml</file>
+        <file>screen/desktop/VPNService_New/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/VPNService_New/DapEarnedFunds.qml</file>
+        <file>screen/desktop/VPNService_New/DapEarnedFundsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapVPNOrdersGridView.qml</file>
+        <file>resources/theme/Light.qml</file>
+        <file>resources/theme/Dark.qml</file>
+        <file>screen/desktop/VPNService_New/DapOrderDetails.qml</file>
+        <file>screen/desktop/VPNService_New/DapOrderDetailsForm.ui.qml</file>
+        <file>screen/desktop/VPNService_New/DapOrderPanelButton.qml</file>
+        <file>resources/icons/arrow-right_icon.svg</file>
+        <file>resources/icons/BlackTheme/bg-menuitem_active.png</file>
+        <file>resources/icons/BlackTheme/bg-menuitem_hover.png</file>
+        <file>resources/icons/BlackTheme/cellframe-logo-dashboard.png</file>
+        <file>resources/icons/BlackTheme/back_icon.png</file>
+        <file>resources/icons/BlackTheme/back_icon_hover.png</file>
+        <file>resources/icons/BlackTheme/bg_menu.png</file>
+        <file>resources/icons/BlackTheme/bg_new-payment_btn.png</file>
+        <file>resources/icons/BlackTheme/bg_new-payment_btn_hover_active.png</file>
+        <file>resources/icons/BlackTheme/bg_plain_btn.png</file>
+        <file>resources/icons/BlackTheme/bg_plain_btn_hover_active.png</file>
+        <file>resources/icons/BlackTheme/bg_plain_btn_noactive.png</file>
+        <file>resources/icons/BlackTheme/clear_icon.png</file>
+        <file>resources/icons/BlackTheme/clear_icon_hover.png</file>
+        <file>resources/icons/BlackTheme/close_icon.png</file>
+        <file>resources/icons/BlackTheme/close_icon_hover.png</file>
+        <file>resources/icons/BlackTheme/ic_arrow_up.png</file>
+        <file>resources/icons/BlackTheme/ic_checkbox_off.png</file>
+        <file>resources/icons/BlackTheme/ic_checkbox_on.png</file>
+        <file>resources/icons/BlackTheme/icon_arrow_down.png</file>
+        <file>resources/icons/BlackTheme/icon_console.png</file>
+        <file>resources/icons/BlackTheme/icon_exchange.png</file>
+        <file>resources/icons/BlackTheme/icon_history.png</file>
+        <file>resources/icons/BlackTheme/icon_logs.png</file>
+        <file>resources/icons/BlackTheme/icon_logs-1.png</file>
+        <file>resources/icons/BlackTheme/icon_settings.png</file>
+        <file>resources/icons/BlackTheme/icon_tokens.png</file>
+        <file>resources/icons/BlackTheme/icon_vpn.png</file>
+        <file>resources/icons/BlackTheme/icon_wallet.png</file>
+        <file>resources/icons/BlackTheme/illustration-new-wallet.png</file>
+        <file>resources/icons/BlackTheme/indicator_error.png</file>
+        <file>resources/icons/BlackTheme/indicator_offline.png</file>
+        <file>resources/icons/BlackTheme/indicator_online.png</file>
+        <file>resources/icons/BlackTheme/next-page.png</file>
+        <file>resources/icons/BlackTheme/next-page_hover.png</file>
+        <file>resources/icons/BlackTheme/next-page_pressed.png</file>
+        <file>resources/icons/BlackTheme/radio_btn_off.png</file>
+        <file>resources/icons/BlackTheme/radio_btn_on.png</file>
+        <file>resources/icons/BlackTheme/under construction.png</file>
+        <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
+        <file>resources/icons/BlackTheme/icon_certificates.png</file>
+        <file>screen/desktop/UnderConstructions.qml</file>
+        <file>screen/desktop/SettingsWallet.js</file>
+        <file>resources/icons/BlackTheme/ic_copy.png</file>
+        <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
+        <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapDoneCreateWalletForm.ui.qml</file>
+        <file>screen/desktop/Test/DapTestRightPanel.qml</file>
+        <file>screen/desktop/Test/DapTestRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Test/TestScreen.qml</file>
+        <file>screen/desktop/Test/TestPage.qml</file>
+        <file>WalletRestore/english_words.txt</file>
+        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
+        <file>WalletRestore/english_words.txt</file>
     </qresource>
 </RCC>
