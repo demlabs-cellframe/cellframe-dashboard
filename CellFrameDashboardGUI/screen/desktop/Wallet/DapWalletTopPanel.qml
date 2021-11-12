@@ -16,6 +16,7 @@ Page {
 
     RowLayout {
         anchors.fill: parent
+        anchors.rightMargin: 20
 
         Text {
             id: pageName
@@ -25,6 +26,8 @@ Page {
         }
 
         Controls.DapButton {
+            id: newPaymentButton
+            buttonText: qsTr("New payment")
             Layout.alignment: Qt.AlignRight
         }
     }

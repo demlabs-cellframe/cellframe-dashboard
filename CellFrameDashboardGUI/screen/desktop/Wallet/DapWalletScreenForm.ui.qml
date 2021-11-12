@@ -49,7 +49,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: someModel
+            model: _tokensModel
 
             section.property: "network"
             section.criteria: ViewSection.FullString
@@ -66,13 +66,15 @@ Page {
                     anchors.fill: parent
 
                     Text {
+                        Layout.alignment: Qt.AlignLeft
                         text: name
-                        color: "white"
+                        color: currTheme.textColor
                     }
 
                     Text {
-                        text: number
-                        color: "white"
+                        Layout.alignment: Qt.AlignRight
+                        text: balance
+                        color: currTheme.textColor
                     }
                 }
             }

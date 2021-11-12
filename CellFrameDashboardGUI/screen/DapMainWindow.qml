@@ -29,6 +29,7 @@ FocusScope {
 
     property var _dapWallets: []
 
+    property ListModel _tokensModel
     property var _dapWalletsModel: []
     property var _dapNetworksModel: []
 
@@ -212,6 +213,12 @@ FocusScope {
                                                        "emission": _dapWallets[j].Tokens[l].Emission,
                                                        "network": _dapWallets[j].Tokens[l].Network
                                                    })
+                _tokensModel.append({
+                                        name: _dapWallets[j].Tokens[l].Name,
+                                        balance: _dapWallets[j].Tokens[l].Balance,
+                                        emission: _dapWallets[j].Tokens[l].Emission,
+                                        network: _dapWallets[j].Tokens[l].Network
+                                    })
             }
         }
     }

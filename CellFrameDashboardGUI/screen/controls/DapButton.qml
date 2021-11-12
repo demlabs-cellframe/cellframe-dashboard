@@ -5,11 +5,18 @@ import QtGraphicalEffects 1.0
 Button {
     id: control
 
+    property alias buttonText: buttonText.text
+
+    implicitWidth: 200
+    implicitHeight: 35
+
     background: Item {
         id: dapBackgroundButton
         Rectangle {
-
-            anchors.fill: parent
+            id: btnBackgrnd
+            anchors {
+                fill: parent
+            }
             radius: 20
             LinearGradient
             {
@@ -25,26 +32,25 @@ Button {
             }
 
         }
+
+        DropShadow {
+            anchors.fill: btnBackgrnd
+            visible: !control.down
+            horizontalOffset: 5
+            verticalOffset: 5
+            radius: 10
+            samples: 32
+            color: "#2A2C33"
+            source: btnBackgrnd
+            smooth: true
+        }
     }
 
     contentItem: Text {
         id: buttonText
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        text: "Test"
-        color: "white"
-    }
-
-    DropShadow {
-        anchors.fill: dapBackgroundButton
-        visible: !control.down
-        horizontalOffset: 2
-        verticalOffset: 2
-        radius: 10
-        samples: 32
-        color: "#2A2C33"
-        source: dapBackgroundButton
-        smooth: true
+        color: currTheme.textColor
     }
 
     MouseArea {

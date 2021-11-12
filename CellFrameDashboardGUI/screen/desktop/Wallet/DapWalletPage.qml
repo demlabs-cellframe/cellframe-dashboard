@@ -10,8 +10,8 @@ Controls.DapPage {
     QtObject {
         id: navigator
 
-        function openPage2() {
-
+        function openNewPayment() {
+            dapRightPanel.push()
         }
     }
 

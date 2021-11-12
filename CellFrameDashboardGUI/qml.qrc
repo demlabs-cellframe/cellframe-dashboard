@@ -301,5 +301,11 @@
         <file>screen/desktop/Wallet/DapWalletPage.qml</file>
         <file>screen/desktop/Wallet/DapWalletScreen.qml</file>
         <file>screen/desktop/Wallet/DapWalletScreenForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActionsRightPanel.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActions.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActionsForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapNewPayment.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapNewPaymentForm.ui.qml</file>
     </qresource>
 </RCC>
