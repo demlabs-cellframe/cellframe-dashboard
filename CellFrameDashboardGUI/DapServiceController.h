@@ -10,6 +10,7 @@
 #include <QDataStream>
 
 #include "serviceClient/DapServiceClient.h"
+#include "DapServiceClientMessage.h"
 #include "DapWallet.h"
 #include "handlers/DapAbstractCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
@@ -17,7 +18,10 @@
 #include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapUpdateLogsCommand.h"
 #include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapGetWalletInfoCommand.h"
 #include "handlers/DapGetWalletsInfoCommand.h"
+#include "handlers/DapGetNetworkStatusCommand.h"
+#include "handlers/DapNetworkGoToCommand.h"
 #include "handlers/DapGetListNetworksCommand.h"
 #include "handlers/DapExportLogCommand.h"
 #include "handlers/DapGetWalletAddressesCommand.h"
@@ -29,6 +33,7 @@
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
+#include "handlers/DapGetListOdersCommand.h"
 
 
 
@@ -46,6 +51,7 @@ class DapServiceController : public QObject
     int m_iIndexCurrentNetwork;
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
+    DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
     /// Command manager.
     QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.
@@ -88,8 +94,6 @@ public:
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
 
-    Q_PROPERTY(QString CurrentChain READ getCurrentChain)
-    
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
@@ -108,7 +112,14 @@ public:
 
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
 
-    Q_INVOKABLE QString getCurrentChain() const;
+public slots:
+    void requestWalletList();
+    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
+    void requestNetworkStatus(QString a_networkName);
+    void changeNetworkStateToOnline(QString a_networkName);
+    void changeNetworkStateToOffline(QString a_networkName);
+    void requestOrdersList();
+
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -119,6 +130,7 @@ signals:
     void versionChanged(const QString &version);
 
     void currentNetworkChanged(const QString &asCurrentNetwork);
+
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();
     ///This signal sends data about saving a file from the Logs tab
@@ -136,11 +148,15 @@ signals:
 
     void walletCreated(const QVariant& wallet);
 
+    void walletInfoReceived(const QVariant& walletInfo);
     void walletsInfoReceived(const QVariant& walletList);
 
-    void walletsReceived(const QList<QObject*>& walletList);
+    void walletsReceived(QList<QObject*> walletList);
 
     void networksListReceived(const QVariant& networkList);
+
+    void networkStatusReceived(const QVariant& networkStatus);
+    void newTargetNetworkStateReceived(const QVariant& targetStateString);
 
     void walletAddressesReceived(const QVariant& walletAddresses);
 
@@ -160,6 +176,9 @@ signals:
 
      //соблюдаем оригинальную типизацию в сигналах, хотя тут лучше MapVariantList или что-то подобное
     void certificateManagerOperationResult(const QVariant& result);
+
+    void ordersListReceived(const QVariant& ordersInfo);
+    void ordersReceived(QList<QObject*> orderList);
     
 private slots:
     /// Register command.

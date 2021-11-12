@@ -1,6 +1,8 @@
-import QtQuick 2.4
+import "qrc:/widgets"
 
-DapSettingsTopPanelForm
+DapTopPanel
 {
-
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
+    color: currTheme.backgroundPanel
 }

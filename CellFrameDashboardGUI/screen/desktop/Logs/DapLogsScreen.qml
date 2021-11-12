@@ -70,18 +70,18 @@ DapLogsScreenForm
 
         Rectangle
         {
-            height: 30 * pt
+            height: 20 * pt
             width: dapLogsListView.width
             color: "#908D9D"
 
             Text
             {
                 anchors.fill: parent
-                anchors.topMargin: 8 * pt
-                anchors.bottomMargin: 8 * pt
+                anchors.topMargin: 1 * pt
+                anchors.bottomMargin: 1 * pt
                 anchors.leftMargin: firstMarginList
                 color: "#FFFFFF"
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 text: section
             }
         }
@@ -116,8 +116,8 @@ DapLogsScreenForm
             Rectangle
             {
                 anchors.fill: parent
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 20 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 10 * pt
                 anchors.leftMargin: firstMarginList
                 anchors.rightMargin: fifthMarginList
                 color: parent.color
@@ -136,7 +136,7 @@ DapLogsScreenForm
                     {
                         id: typeLog
                         anchors.fill: parent
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         color: fontColor
                         text: type
                     }
@@ -158,7 +158,7 @@ DapLogsScreenForm
                     {
                         id: textLog
                         anchors.fill: parent
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         color: fontColor
                         text: info
                     }
@@ -179,7 +179,7 @@ DapLogsScreenForm
                     {
                         id: fileLog
                         anchors.fill: parent
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         color: fontColor
                         text: file
                     }
@@ -199,7 +199,7 @@ DapLogsScreenForm
                     {
                         id: timeLog
                         anchors.fill: parent
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         color: fontColor
                         text: time
                     }

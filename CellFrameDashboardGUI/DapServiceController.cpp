@@ -1,5 +1,7 @@
 #include "DapServiceController.h"
 
+#include "DapNetwork.h"
+
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
@@ -13,6 +15,8 @@ DapServiceController::DapServiceController(QObject *apParent)
 void DapServiceController::init(DapServiceClient *apDapServiceClient)
 {
     m_pDapServiceClient = apDapServiceClient;
+    m_pDapServiceClientMessage = new DapServiceClientMessage(nullptr);
+    connect(m_pDapServiceClient,SIGNAL(sendMessageBox(QString)),m_pDapServiceClientMessage, SLOT(messageBox(QString)));
     // Socket initialization
     m_DAPRpcSocket = new DapRpcSocket(apDapServiceClient->getClientSocket(), this);
     // Register command.
@@ -57,9 +61,34 @@ void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
     emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
 }
 
-QString DapServiceController::getCurrentChain() const
+void DapServiceController::requestWalletList()
 {
-    return (m_sCurrentNetwork == "private") ? "gdb" : "plasma";
+    this->requestToService("DapGetWalletsInfoCommand");
+}
+
+void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
+{
+    this->requestToService("DapGetWalletInfoCommand", a_walletName, a_networks);
+}
+
+void DapServiceController::requestNetworkStatus(QString a_networkName)
+{
+    this->requestToService("DapGetNetworkStatusCommand", a_networkName);
+}
+
+void DapServiceController::changeNetworkStateToOffline(QString a_networkName)
+{
+    this->requestToService("DapGetNetworkStatusCommand", a_networkName, "offline");
+}
+
+void DapServiceController::changeNetworkStateToOnline(QString a_networkName)
+{
+    this->requestToService("DapNetworkGoToCommand", a_networkName, "online");
+}
+
+void DapServiceController::requestOrdersList()
+{
+    this->requestToService("DapGetListOrdersCommand");
 }
 
 /// Get an instance of a class.
@@ -81,8 +110,10 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
 {
 
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
-//    qDebug() << "DapServiceController::requestToService, asServiceName:" << asServiceName << arg1 << arg2 << arg3 << arg4 << arg5
-//             << "transceiver:" << transceiver;
+    qDebug() << "DapServiceController::requestToService, asServiceName:"
+             << asServiceName << arg1.toString() << arg2.toString()
+             << arg3.toString() << arg4.toString() << arg5.toString()
+             << "transceiver:" << transceiver;
     Q_ASSERT(transceiver);
     disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
@@ -122,12 +153,23 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
     // The team to create a new wallet on the Dashboard tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddWalletCommand("DapAddWalletCommand", m_DAPRpcSocket))), QString("walletCreated")));
+    // The command to get an wallet info
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletInfoCommand("DapGetWalletInfoCommand", m_DAPRpcSocket))), QString("walletInfoReceived")));
     // The command to get a list of available wallets
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_DAPRpcSocket))), QString("walletsInfoReceived")));
     // Command to save data from the Logs tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapExportLogCommand("DapExportLogCommand",m_DAPRpcSocket))), QString("exportLogs")));
     // The command to get a list of available networks
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_DAPRpcSocket))), QString("networksListReceived")));
+    // The command to get a network status
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand", m_DAPRpcSocket))), QString("networkStatusReceived")));
+    // The command to change network state
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_DAPRpcSocket))), QString("newTargetNetworkStateReceived")));
+
+
+    // The command to get a list of available orders
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
+
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 
@@ -186,6 +228,27 @@ void DapServiceController::registerCommand()
         }
 
         emit walletHistoryReceived(walletHistory);
+    });
+
+    connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)
+    {
+        QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
+        QList<DapVpnOrder> tempOrders;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempOrders;
+
+        QList<QObject*> orders;
+        auto begin = tempOrders.begin();
+        auto end = tempOrders.end();
+        DapVpnOrder * order = nullptr;
+        for(;begin != end; ++begin)
+        {
+            order = new DapVpnOrder(*begin);
+            orders.append(order);
+        }
+
+        emit ordersReceived(orders);
     });
 
     registerEmmitedSignal();

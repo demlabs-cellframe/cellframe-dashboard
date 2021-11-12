@@ -1,21 +1,20 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import DapCertificateManager.Commands 1.0
+import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
+import "../../"
 
-
-Rectangle
+DapAbstractTab
 {
     id: dapCertificatesMainPage
-
+    color: currTheme.backgroundMainScreen
 
     Utils {
         id: utils
     }
-
-
-
 
     CertificatesModels {
         id: models
@@ -25,64 +24,101 @@ Rectangle
         id: logics
     }
 
+    dapTopPanel:
+        HeaderItem {
+            id: headerItem
+            color: currTheme.backgroundPanel
 
-    HeaderItem {
-        id: headerItem
-        x: 3 * pt
-        width: parent.width
-        height: 60 * pt
-
-        onFindHandler: {    //text
-            models.certificatesFind.findString = text
-            models.certificatesFind.update()
+            onFindHandler: {    //text
+                models.certificatesFind.findString = text
+                models.certificatesFind.update()
+            }
         }
+    dapRightPanel: Item {
+        id: name
+    }
+    dapScreen: Item {
+        id: name2
     }
 
-
-
-    CertificatesListView {
-        id: certificatesListView
+    Rectangle{
+        id:frameListView
         x: 24 * pt
         y: 84 * pt
-        height: parent.height - y - 24 * pt
-        width: 678 * pt
-        infoTitleTextVisible: models.certificates.isSelected
+        height: 652/* - 24 * pt*/
+        width: 682 * pt
+        color: currTheme.backgroundElements
+        radius: 16 * pt
+
+        CertificatesListView {
+            id: certificatesListView
+            anchors.fill: parent
 
 
-        Component.onCompleted: {
-            //need bind delegate with delegateModel
-            models.certificatesFind.delegate = delegateComponent
-            models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
-            models.certificatesFind.update()
-            model = models.certificatesFind  //original
-//            delegate = delegateComponent
-//            model = models.certificates
-        }
+            infoTitleTextVisible: models.certificates.isSelected
+            Component.onCompleted: {
+                //need bind delegate with delegateModel
+                models.certificatesFind.delegate = delegateComponent
+                models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
+                models.certificatesFind.update()
+                model = models.certificatesFind  //original
+    //            delegate = delegateComponent
+    //            model = models.certificates
+            }
 
-        onSelectedIndex: {   //index
-//            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
-//                models.certificates.clearSelected()
-//            else
-              models.certificates.setSelectedIndex(index)
-        }
+            onSelectedIndex: {   //index
+    //            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
+    //                models.certificates.clearSelected()
+    //            else
+                  models.certificates.setSelectedIndex(index)
+            }
 
-        onInfoClicked: {     //index
-            logics.dumpCertificate(index)
-            rightPanel.sourceComponent = certificateInfoComponent
-        }
+            onInfoClicked: {     //index
+                logics.dumpCertificate(index)
+                rightPanel.sourceComponent = certificateInfoComponent
+            }
 
-    }   //certificatesListView
+        }   //certificatesListView
+    }
+    InnerShadow {
+        id: topLeftSadow
+        anchors.fill: frameListView
+        cached: true
+        horizontalOffset: 5
+        verticalOffset: 5
+        radius: 4
+        samples: 32
+        color: "#2A2C33"
+        smooth: true
+        source: frameListView
+        visible: frameListView.visible
+    }
+    InnerShadow {
+        anchors.fill: frameListView
+        cached: true
+        horizontalOffset: -1
+        verticalOffset: -1
+        radius: 1
+        samples: 32
+        color: "#4C4B5A"
+        source: topLeftSadow
+        visible: frameListView.visible
+    }
 
 
     Loader {
         id: rightPanel
         anchors {
+            top: parent.top
+            topMargin: 84 * pt
             right: parent.right
-            rightMargin: 26 * pt
+            rightMargin: 20 * pt
+            left: frameListView.right
+            leftMargin: 24 * pt
         }
         asynchronous: true
         y: certificatesListView.y
-        width: 348 * pt
+        width: 350 * pt
         height: certificatesListView.height
         sourceComponent: certificatesActionsComponent
 
@@ -91,8 +127,6 @@ Rectangle
         }
 
     }  //rightPanel
-
-
 
     Component {
         id: certificatesActionsComponent
@@ -114,7 +148,7 @@ Rectangle
                         break;
                     case 1:      //"private"
                         certificatesListView.seletedCertificateAccessType = qsTr("Private")
-                        models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Private
+                        models.certificatesFind.accessKeyTypeIndex = DapCertificateType.PublicAndPrivate
                         models.certificatesFind.update()
                         break;
                     case 2:      //"both"
@@ -155,6 +189,7 @@ Rectangle
 
     Component {
         id: createCertificateComponent
+
         CreateCertificateItem {
             optionalModel: models.createCertificateOptional
             signatureTypeCertificateComboBox.model: models.signatureType
@@ -250,7 +285,7 @@ Rectangle
         id: messagePopup
         closePolicy: "NoAutoClose"
         padding: 0
-        background: Item { }
+        background: Item{}
         width: dapMessageBox.width
         height: dapMessageBox.height
         x: (parent.width - width) / 2
@@ -272,10 +307,6 @@ Rectangle
             }
         }
     }
-
-
-
-
 
     Loader {
         id: blockBusyIndicatorLoader
@@ -312,9 +343,4 @@ Rectangle
             item.open()
         }
     }   //
-
-
-
-
-
 }   //dapCertificatesMainPage
