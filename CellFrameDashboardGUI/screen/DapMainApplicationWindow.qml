@@ -267,7 +267,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Tokens"),
-                page: tokensScreen, //TODO: add screen for "Tokens" tab
+                page: underConstructionsScreen, //TODO: add screen for "Tokens" tab
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
             })
@@ -275,7 +275,7 @@ Rectangle {
 
             append ({
                 name: qsTr("VPN client"),
-                page: vpnClientScreen,
+                page: underConstructionsScreen,
                 normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
             })

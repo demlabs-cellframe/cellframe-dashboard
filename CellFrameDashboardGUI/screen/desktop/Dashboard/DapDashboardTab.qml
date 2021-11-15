@@ -332,6 +332,7 @@ DapAbstractTab
                 SettingsWallet.currentIndex = 0;
             }
         }
+        walletInfo.name = dapModelWallets.get(currentWalletIndex).name
     }
 
     function update()
@@ -368,13 +369,9 @@ DapAbstractTab
 
 //                    console.log(dapComboboxWallet.currentIndex)
 //                    console.log(dapModelWallets.get(dapComboboxWallet.currentIndex))
-            console.log("DapGetWalletHistoryCommand")
-            console.log("   network: " + dapServiceController.CurrentWalletNetwork)
-            console.log("   chain: " + dapServiceController.CurrentChain)
-            console.log("   wallet address: " + dapWallets[SettingsWallet.currentIndex].findAddress(dapServiceController.CurrentWalletNetwork))
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                dapServiceController.CurrentWalletNetwork, dapServiceController.CurrentChain,
-                dapWallets[SettingsWallet.currentIndex].findAddress(dapServiceController.CurrentWalletNetwork));
+            getWalletHistory(currentWalletIndex,
+                dapModelWallets.get(currentWalletIndex).networks)
+
             dashboardTab.state = "WALLETSHOW"
         }
     }
@@ -391,6 +388,7 @@ DapAbstractTab
         {
             walletInfo.network = model.get(i).name
             walletInfo.address = dapWallets[index].findAddress(walletInfo.network)
+
             if (walletInfo.network === "core-t")
                 walletInfo.chain = "zerochain"
             else
