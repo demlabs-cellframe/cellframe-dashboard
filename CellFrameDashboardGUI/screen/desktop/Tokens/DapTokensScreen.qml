@@ -7,6 +7,13 @@ import "../../"
 DapAbstractScreen {
 
     id: dapTokenScreen
+
+    property alias delegateComponent: delegateTokenView
+    signal selectedIndex(int index)
+    signal infoClicked(int index)
+
+   property bool isCurrentIndex:false
+
     anchors
     {
         top: parent.top
@@ -77,6 +84,7 @@ DapAbstractScreen {
             anchors.right: parent.right
 //            spacing: 5 * pt
             clip: true
+            currentIndex: -1
 
             delegate: delegateTokenView
         }
@@ -86,6 +94,7 @@ DapAbstractScreen {
             id: delegateTokenView
             Column
             {
+                id: delegateToken
                 width: parent.width
 
                 Rectangle
@@ -141,7 +150,7 @@ DapAbstractScreen {
                                 id: currencyName
                                 anchors.left: parent.left
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                                color: currTheme.textColor
+                                color: model.selected ? "#FF0080" : currTheme.textColor
                                 text: name + " (" + currencyCode.text + ")"
                                 width: 172 * pt
                                 horizontalAlignment: Text.AlignLeft
@@ -157,7 +166,7 @@ DapAbstractScreen {
                                 anchors.right: currencyCode.left
                                 anchors.rightMargin: 5 * pt
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                                color: currTheme.textColor
+                                color: model.selected ? "#FF0080" : currTheme.textColor
                                 text: balance.toFixed(9)
     //                            text: balance.toPrecision()
                                 horizontalAlignment: Text.AlignRight
@@ -170,19 +179,34 @@ DapAbstractScreen {
                                 id: currencyCode
                                 anchors.right: parent.right
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                                color: currTheme.textColor
+                                color: isCurrentIndex ? "#FF0080" : currTheme.textColor
                                 text: name
                                 horizontalAlignment: Text.AlignRight
                                 anchors.bottom: parent.bottom
                                 anchors.bottomMargin: 10*pt
                             }
                         }
+                        MouseArea{
+                            id: delegateClicked
+                            width: parent.width
+                            height: parent.height
+                            onClicked: {
+                                listViewTokens.currentIndex = index
+                                isCurrentIndex = true
+                                selectedIndex(model.index)
+
+                            }
+
+                            onDoubleClicked: {
+                                infoClicked(model.index)
+                                //root.selectedIndex(model.index)
+                            }
+                        }
 
                     }
                     Component.onCompleted:
                     {
-                        if(tokens.count === 0)
-                            console.log("")
+                        listViewTokens.currentIndex = -1;
                     }
                 }
             }

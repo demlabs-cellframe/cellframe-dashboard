@@ -25,6 +25,17 @@ DapAbstractTab {
         "recovery_hash": ""
     }
 
+    property var tokensInfo:
+    {
+        "name": "",
+        "balance": "",
+        "emission": "",
+        "network": "",
+        "selected": ""
+    }
+
+    property int selectedIndex: -1
+
     dapTopPanel:
         DapTokensTopPanel{}
 
@@ -32,6 +43,15 @@ DapAbstractTab {
         DapTokensScreen
         {
             id: tokensScreen
+//            onSelectedIndex: {   //index
+//                setSelectedIndex(index)
+//            }
+
+//            function setSelectedIndex(index){
+//                tokensTab.selectedIndex = index
+//                for (var i = 0; i < dapModelWallets.count; ++i)
+//                     setProperty(i, "selected", index === i)
+//            }
         }
 
     dapRightPanel:
@@ -76,21 +96,6 @@ DapAbstractTab {
 
     Connections
     {
-        target: dapMainWindow
-        onModelWalletsUpdated:
-        {
-            if(SettingsWallet.currentIndex != -1)
-            {
-                tokensScreen.dapListViewTokens.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
-                dapServiceController.CurrentWallet = dapModelWallets.get(SettingsWallet.currentIndex).name
-                dapServiceController.CurrentWalletNetwork = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(0).name
-                dapServiceController.CurrentChain = "zero"
-            }
-        }
-    }
-
-    Connections
-    {
         target: dapServiceController
         onWalletHistoryReceived:
         {
@@ -129,6 +134,14 @@ DapAbstractTab {
                                                   dapServiceController.CurrentChain,
                                                   dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
                                                   dapWallets[i].Name)
+        }
+        if(SettingsWallet.currentIndex != -1)
+        {
+//            for (var i = 0; i < dapModelWallets(SettingsWallet.currentIndex).Tokens.count; ++i)
+//            {
+//                tokensInfo(i).
+//            }
+                tokensScreen.dapListViewTokens.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
         }
     }
 
