@@ -23,6 +23,9 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
+//            anchors.left: parent.left
+//            anchors.leftMargin: -8*pt
+//            anchors.right: parent.right
             color: currTheme.backgroundMainScreen
 
             property date payDate: new Date(Date.parse(section))

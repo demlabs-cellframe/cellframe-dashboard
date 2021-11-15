@@ -24,16 +24,17 @@ Rectangle {
 //    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
     readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
     ///@detalis Path to the VPN client tab.
-    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNClient/DapVpnClientTab.qml"
     ///@detalis Path to the settings tab.
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
     readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     ///@detalis Path to the console tab.
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
-
     ///@detalis Path to the console tab.
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
+    ///@detalis Path to the console tab.
+    readonly property string tokensScreen: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
 
     readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
 

@@ -107,7 +107,7 @@ ListView {
                 width: 612 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: model.selected ? dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16 : dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 text: model.completeBaseName   //model.fileName
                 color: model.selected ? "#FF0080" : currTheme.textColor
                 elide: Text.ElideRight
