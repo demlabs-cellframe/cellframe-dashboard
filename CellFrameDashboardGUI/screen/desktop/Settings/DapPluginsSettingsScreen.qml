@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 import "qrc:/widgets"
+import "../SettingsWallet.js" as SettingsWallet
 
 Rectangle
 {
@@ -214,6 +215,7 @@ Rectangle
             {
                 currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
                 listModel.get(listViewPlug.currentIndex).status = "Install"
+                SettingsWallet.activePlugin = currentPlugin
 
             }
         }
@@ -236,10 +238,15 @@ Rectangle
 
             onClicked:
             {
-                if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath)
-                    currentPlugin = ""
-                listModel.remove(listViewPlug.currentIndex)
-
+                if(listModel.count > 0)
+                {
+                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                        currentPlugin = ""
+                        SettingsWallet.activePlugin = ""
+                    }
+                    listModel.remove(listViewPlug.currentIndex)
+                    SettingsWallet.activePlugin = ""
+                }
 //                console.log(currentPlugin)
             }
         }
