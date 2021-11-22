@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.0
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
@@ -185,6 +185,10 @@ Rectangle
                 title: qsTr("Please choose a *.so ui library file")
                 folder: "~"
                 visible: false
+                fileMode: FileDialog.OpenFile
+
+                nameFilters: [qsTr("Plugin files (*.qml)"), "All files (*.*)"]
+                defaultSuffix: "qml"
                 onAccepted:
                 {
                     listModel.append({urlPath: dialogSelectPlug.fileUrls[0], status:"Not Installed"})
