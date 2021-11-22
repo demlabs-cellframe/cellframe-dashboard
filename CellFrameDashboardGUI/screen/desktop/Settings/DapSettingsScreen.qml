@@ -270,6 +270,45 @@ DapAbstractScreen
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: createWalletSignal()
+            } 
+        }
+        Rectangle
+        {
+            height: 25 * pt
+        }
+        Rectangle
+        {
+            height: pluginsHeader.height
+            width: listViewSettings.width
+            color: currTheme.backgroundMainScreen
+            // Header
+            Rectangle
+            {
+                id: pluginsHeader
+                color: "transparent"
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 30 * pt
+                Text
+                {
+                    anchors.fill: parent
+                    anchors.leftMargin: 18 * pt
+                    verticalAlignment: Qt.AlignVCenter
+                    text: "Plugins"
+                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    color: currTheme.textColor
+                }
+            }
+        }
+        Item
+        {
+            width: listViewSettings.width
+            height: 350 * pt
+
+            DapPluginsSettingsScreen
+            {
+
             }
         }
     }

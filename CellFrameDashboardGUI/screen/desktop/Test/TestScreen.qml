@@ -9,6 +9,8 @@ import "../"
 import "../../"
 import "qrc:/widgets"
 
+import net.demlabs.plug 1.0
+
 DapAbstractScreen {
 
     dapFrame.color: currTheme.backgroundMainScreen
@@ -318,6 +320,12 @@ DapAbstractScreen {
                 fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 implicitHeight: indicatorInnerSize
             }
+        }
+
+        RectanglePlug
+        {
+            width: 250
+            height: 40
         }
     }
 }
