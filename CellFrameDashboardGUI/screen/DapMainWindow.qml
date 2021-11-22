@@ -233,6 +233,10 @@ FocusScope {
 
         onNetworksListReceived: {
             console.info("NETWORKS -> ", JSON.stringify(networkList))
+            for (let i = 0; i < networkList.length; i++) {
+                _dapNetworksModel.push(networkList[i])
+                console.warn("_dapNetworksModel[i] ->",_dapNetworksModel[i])
+            }
         }
 
         onWalletsReceived: {

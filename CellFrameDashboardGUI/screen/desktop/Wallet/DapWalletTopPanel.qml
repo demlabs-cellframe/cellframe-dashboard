@@ -29,6 +29,8 @@ Page {
             id: newPaymentButton
             buttonText: qsTr("New payment")
             Layout.alignment: Qt.AlignRight
+
+            onClicked: navigator.openNewPayment()
         }
     }
 }

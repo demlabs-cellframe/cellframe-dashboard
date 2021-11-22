@@ -5,11 +5,7 @@ import QtQuick.Layouts 1.12
 DapWalletScreenForm {
 
     testAddButton.onClicked: {
-        someModel.append({
-                             name: "New name",
-                             number: "New number",
-                             network: "New netwrk"
-                         })
+        dapRightPanel.clear()
     }
 
     Component {

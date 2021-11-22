@@ -22,8 +22,6 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
-    //Main window
-    //DapMainApplicationWindow
     DapMainWindow
     {
         id: mainWindow
@@ -71,7 +69,7 @@ ApplicationWindow
             {
                 window.hide()
             }
-        }
+        }        
     }
 
     Connections {

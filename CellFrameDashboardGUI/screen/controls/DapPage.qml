@@ -4,11 +4,12 @@ import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.0
 
 import "qrc:/widgets"
+import "qrc:/screen/controls" as Controls
 
 Page {
     id: root
 
-    header: DapTopPanel {
+    header: Controls.DapTopPanel {
         StackView {
             id: headerStack
             anchors.fill: parent
@@ -31,6 +32,9 @@ Page {
         DapScreenPage {
             Layout.fillHeight: true
             Layout.preferredWidth: rootPageRow.width * 0.7
+//            Layout.preferredWidth: rightPanelStack.depth > 0 ?
+//                                       rootPageRow.width * 0.7 :
+//                                       rootPageRow.width
             StackView {
                 id: mainScreenStack
                 clip: true
@@ -40,7 +44,10 @@ Page {
         }
 
         DapScreenPage {
+            id: rightPanelComponent
+            visible: true
             Layout.fillHeight: true
+            //Layout.fillWidth: rightPanelStack.depth > 0 ? true : false
             Layout.fillWidth: true
             StackView {
                 id: rightPanelStack

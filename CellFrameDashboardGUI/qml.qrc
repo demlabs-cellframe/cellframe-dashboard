@@ -178,7 +178,6 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
         <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
         <file>screen/desktop/DapTokensListView.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
@@ -307,5 +306,8 @@
         <file>screen/desktop/Wallet/RightPanel/DapLastActionsForm.ui.qml</file>
         <file>screen/desktop/Wallet/RightPanel/DapNewPayment.qml</file>
         <file>screen/desktop/Wallet/RightPanel/DapNewPaymentForm.ui.qml</file>
+        <file>screen/controls/DapTopPanel.qml</file>
+        <file>screen/controls/DapComboBox.qml</file>
+        <file>screen/controls/DapTextField.qml</file>
     </qresource>
 </RCC>
