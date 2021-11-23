@@ -1,9 +1,9 @@
-import QtQuick 2.4
-import QtQuick.Layouts 1.3
+import QtQuick 2.12
+import QtQuick.Layouts 1.12
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+DapRightPanel
 {
 //    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
 //    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
@@ -20,95 +20,100 @@ DapAbstractRightPanel
     property alias dapTextBottomMessage: textBottomMessage
 
     dapHeaderData:
-        Rectangle
+        Item
         {
-            id: frameHeaderItem
             anchors.fill: parent
-            height: parent.height
-            color: "transparent"
-            Rectangle
+            Item
             {
-                anchors.fill: parent
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 12 * pt
-                color: "transparent"
-
-                Item
-                {
-                    id: itemButtonBack
-                    data: dapButtonClose
-                    height: dapButtonClose.height
-                    width: dapButtonClose.width
-                    anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                Text
-                {
-                    id: textHeader
-                    text: qsTr("New wallet")
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                    color: "#3E3853"
-                    anchors.left: itemButtonBack.right
-                    anchors.leftMargin: 12 * pt
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+                id: itemButtonClose
+                data: dapButtonClose
+                height: dapButtonClose.height
+                width: dapButtonClose.width
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 11 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 22 * pt
+                anchors.rightMargin: 13 * pt
             }
 
-            Rectangle
+            Text
             {
-                id: bottomBorder
-                height: 1 * pt
+
+                id: textHeader
+                text: qsTr("New wallet")
+                verticalAlignment: Qt.AlignLeft
                 anchors.left: parent.left
-                anchors.right: parent.right
+                anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                color: "#757184"
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 50 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
             }
         }
 
     dapContentItemData:
         ColumnLayout {
             anchors.fill: parent
-            spacing: 20 * pt
+            spacing: 0 * pt
 
             Rectangle
             {
                 id: frameMethod
+                Layout.topMargin: 8 * pt
+                Layout.bottomMargin: 8 * pt
                 Layout.fillWidth: true
-                color: "#757184"
+                color: currTheme.backgroundMainScreen
                 height: 30 * pt
                 Text
                 {
                     id: textMethod
-                    color: "#ffffff"
-                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                    color: currTheme.textColor
+                    text: qsTr("Recovery method: 24 words")
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
+                    anchors.leftMargin: 15 * pt
+                    anchors.topMargin: 8
+                    anchors.bottomMargin: 7
                 }
             }
 
             Text
             {
                 id: textTopMessage
-                Layout.minimumHeight: 50 * pt
+
+                Layout.minimumHeight: 69 * pt
+                Layout.maximumHeight: 69 * pt
+                Layout.minimumWidth: 278 * pt
+                Layout.maximumWidth: 278 * pt
+
                 Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: parent.width - 50 * pt
+
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                color: "#FF0300"
+                color: "#79FFFA"
                 wrapMode: Text.WordWrap
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             }
 
             Grid {
                 id: wordsGrid
+
+                Layout.minimumHeight: 255 * pt
+                Layout.maximumHeight: 255 * pt
                 Layout.alignment: Qt.AlignHCenter
-                spacing: 8
-                columns: 3
+
+                columns: 2
+
+                columnSpacing: 50 * pt
+
                 horizontalItemAlignment: Grid.AlignHCenter
                 verticalItemAlignment: Grid.AlignVCenter
                 flow: Grid.TopToBottom
@@ -117,8 +122,8 @@ DapAbstractRightPanel
                     delegate: Text {
                         text: modelData
 //                        font { bold: true; pixelSize: 12 }
-                        color: "#070023"
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                        color: currTheme.textColor
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
 
                     }
                     model: wordsModel
@@ -143,50 +148,52 @@ DapAbstractRightPanel
             Text
             {
                 id: textBottomMessage
-                Layout.minimumHeight: 50 * pt
+                Layout.minimumHeight: 62 * pt
+                Layout.maximumHeight: 62 * pt
+                Layout.minimumWidth: 302 * pt
+                Layout.maximumWidth: 302 * pt
+
+                Layout.topMargin: 35 * pt
+
                 Layout.alignment: Qt.AlignHCenter
-                Layout.maximumWidth: parent.width - 50 * pt
-                color: "#6F9F00"
+                color: "#B3FF00"
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             }
 
 
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
+                spacing: 17 * pt
+                Layout.topMargin: 25 * pt
 
                 DapButton
                 {
                     id: actionButton
-                    heightButton: 44 * pt
-                    widthButton: 130 * pt
+                    implicitHeight: 36 * pt
+                    implicitWidth: 132 * pt
                     Layout.alignment: Qt.AlignCenter
                     checkable: true
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton.pixelSize: 18 * pt
-                    colorBackgroundButton: "#3E3853"
-                    colorTextButton: "#FFFFFF"
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 }
 
                 DapButton
                 {
                     id: nextButton
-                    heightButton:  44 * pt
-                    widthButton: 130 * pt
+                    implicitHeight: 36 * pt
+                    implicitWidth: 132 * pt
                     Layout.alignment: Qt.AlignCenter
                     textButton: qsTr("Next")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton.pixelSize: 18 * pt
-                    colorBackgroundButton: "#3E3853"
-                    colorTextButton: "#FFFFFF"
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 }
 
             }
-
             Rectangle
             {
                 id: frameBottom

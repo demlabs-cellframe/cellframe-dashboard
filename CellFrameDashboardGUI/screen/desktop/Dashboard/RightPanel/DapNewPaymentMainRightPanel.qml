@@ -8,7 +8,9 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
-        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+
         dapTextNotEnoughTokensWarning.text = ""
     }
 

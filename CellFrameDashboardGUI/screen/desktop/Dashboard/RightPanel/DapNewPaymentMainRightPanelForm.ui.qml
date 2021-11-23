@@ -319,19 +319,6 @@ DapAbstractRightPanel
                 }
             }
 
-            Text
-            {
-                id: textNotEnoughTokensWarning
-                Layout.fillWidth: true
-                Layout.minimumHeight: 100 * pt
-                color: "#ff2020"
-                text: ""
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-            }
-
             // Button "Send"
             DapButton
             {
@@ -339,14 +326,15 @@ DapAbstractRightPanel
                 implicitHeight: 44 * pt
                 implicitWidth: 130 * pt
                 Layout.alignment: Qt.AlignCenter
-//                Layout.topMargin: 30 * pt
+                Layout.topMargin: 35 * pt
                 textButton: qsTr("Send")
                 colorBackgroundHover: "#D51F5D"
                 colorBackgroundNormal: "#3E3853"
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                shadowColor:"#2A2C33"
             }
 
             Rectangle

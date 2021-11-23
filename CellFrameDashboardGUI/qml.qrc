@@ -309,5 +309,14 @@
         <file>screen/controls/DapTopPanel.qml</file>
         <file>screen/controls/DapComboBox.qml</file>
         <file>screen/controls/DapTextField.qml</file>
+        <file>WalletRestore/english_words.txt</file>
+        <file>screen/desktop/VPNClient/DapVpnClientScreen.qml</file>
+        <file>screen/desktop/VPNClient/DapVpnClientTab.qml</file>
+        <file>screen/desktop/VPNClient/DapVpnClientTopPanel.qml</file>
+        <file>screen/desktop/Tokens/DapTokensScreen.qml</file>
+        <file>screen/desktop/Tokens/DapTokensTab.qml</file>
+        <file>screen/desktop/Tokens/DapTokensTopPanel.qml</file>
+        <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanel.qml</file>
+        <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
     </qresource>
 </RCC>

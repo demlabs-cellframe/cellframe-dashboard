@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.12
 
 DapInputNewWalletNameRightPanelForm
 {
@@ -12,13 +12,14 @@ DapInputNewWalletNameRightPanelForm
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
-    dapComboBoxOperation.onCurrentIndexChanged:
+    dapUseExestionWallet.onCheckedChanged:
     {
-        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
     }
 
     dapButtonNext.onClicked:
     {
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =
@@ -58,7 +59,7 @@ DapInputNewWalletNameRightPanelForm
     {
         dapWalletNameWarning.text = ""
         previousActivated(lastActionsWallet)
-        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
+//        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 
     Connections

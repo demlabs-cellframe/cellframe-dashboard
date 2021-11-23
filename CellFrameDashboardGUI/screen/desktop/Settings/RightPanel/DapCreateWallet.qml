@@ -19,6 +19,7 @@ DapCreateWalletForm
 
     dapButtonNext.onClicked:
     {
+        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =
@@ -32,12 +33,14 @@ DapCreateWalletForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (recoverySelectionWords.checked)
+            if (walletRecoveryType !== "Nothing")
             {
+                print("walletRecoveryType", walletRecoveryType)
+
                 dapNextRightPanel = recoveryWallet
                 nextActivated("recoveryWallet");
             }
-            if (recoverySelectionNothing.checked)
+            else
             {
                 dapNextRightPanel = doneWallet
 
@@ -55,7 +58,7 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-        previousActivated(lastActionsWallet)
+        previousActivated(emptyRightPanel)
 //        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
     }
 

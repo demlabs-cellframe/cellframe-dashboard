@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
@@ -23,23 +23,18 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
-
-//            anchors.left: parent.left
-//            anchors.leftMargin: -8*pt
-//            anchors.right: parent.right
             color: currTheme.backgroundMainScreen
 
             property date payDate: new Date(Date.parse(section))
 
             Text
             {
-                property date payDate: new Date(Date.parse(section))
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: "#FFFFFF"
+                color: currTheme.textColor
                 text: getDateString(payDate)
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
@@ -89,7 +84,7 @@ DapLastActionsRightPanelForm
     }
 
     Connections {
-        target: dashboardTab
+        target: tokensTab
         onResetWalletHistory:
         {
             modelLastActions.clear()
@@ -122,7 +117,7 @@ DapLastActionsRightPanelForm
     ////@ Checks if dates are same
     function isSameDay(date1, date2)
     {
-       return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
     }
 
     ////@ Checks if dates have same year

@@ -7,7 +7,6 @@ import "../../../"
 
 DapRightPanel
 {
-    id:control
 
     dapHeaderData:
         Rectangle
@@ -45,9 +44,9 @@ DapRightPanel
         id: lastActionsList
         clip: true
         anchors.fill: parent
-        anchors.bottomMargin: 10 * pt
-        anchors.leftMargin: 5 * pt
-        anchors.rightMargin: 1 * pt
+        anchors.bottomMargin: 10
+        anchors.leftMargin: 5
+        anchors.rightMargin: 5
 //        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
 
@@ -66,7 +65,7 @@ DapRightPanel
                     section.delegate: delegateSection
 
                     delegate: Rectangle {
-                        width: control.width
+                        width: actionsListView.width
                         color: currTheme.backgroundElements
                         height: 50 * pt
 
@@ -138,3 +137,5 @@ DapRightPanel
         //        }
 
 }
+
+
