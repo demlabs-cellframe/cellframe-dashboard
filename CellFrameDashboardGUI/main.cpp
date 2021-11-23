@@ -15,6 +15,7 @@
 #include "DapLogMessage.h"
 #include "DapWallet.h"
 #include "DapApplication.h"
+#include "DapPluginsController.h"
 
 #include "dap_config.h"
 
@@ -163,6 +164,22 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
+    //Plugin file
+        QString filePluginConfig;
+    #ifdef Q_OS_LINUX
+        filePluginConfig = QString("/opt/%1/plugins/configPlugin.ini").arg(DAP_BRAND_LO);
+    #elif defined Q_OS_MACOS
+        mkdir("/tmp/cellframe-dashboard_plugins",0777);
+        filePluginConfig = QString("/tmp/cellframe-dashboard_plugins/configPlugin.ini");
+    #elif defined Q_OS_WIN
+        filePluginConfig = QString("%1/%2/plugins/configPlugin.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
+    #endif
+    QFile filePlugin(filePluginConfig);
+    if(filePlugin.open(QIODevice::WriteOnly))
+    {
+        filePlugin.close();
+    }
+
     SystemTray * systemTray = new SystemTray();
     QQmlContext * context = app.qmlEngine()->rootContext();
     context->setContextProperty("systemTray", systemTray);
@@ -172,6 +189,11 @@ int main(int argc, char *argv[])
 
     context->setContextProperty("walletHashManager", &walletHashManager);
     walletHashManager.setContext(context);
+
+    //For plugins
+    DapPluginsController pluginsManager(filePluginConfig);
+    context->setContextProperty("pluginsManager", &pluginsManager);
+
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());

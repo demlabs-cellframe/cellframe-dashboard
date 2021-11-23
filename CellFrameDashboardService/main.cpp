@@ -69,6 +69,7 @@ int main(int argc, char *argv[])
 
     DapLogger dapLogger;
 
+    //logs
     dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
     QDir dir(dapLogger.getPathToLog());
     if (!dir.exists()) {
@@ -77,6 +78,19 @@ int main(int argc, char *argv[])
         QString str = "chmod 777 " + dapLogger.getPathToLog();
         system(str.toUtf8().data());
     }
+
+    //plugins path
+    dapLogger.setPathToPlugin(DapLogger::defaultPluginPath(DAP_BRAND_LO));
+    QDir dirPlug(dapLogger.getPathToPlugin());
+    if(!dirPlug.exists())
+    {
+        qDebug() << "No folder:" << dapLogger.getPathToPlugin();
+        dirPlug.mkpath(".");
+        QString str = "chmod 777 " + dapLogger.getPathToPlugin();
+        system(str.toUtf8().data());
+    }
+
+
 
     bool debug_mode = false;
     QString config_path = getConfigPath();

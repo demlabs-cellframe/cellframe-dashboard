@@ -64,6 +64,7 @@ DapAbstractScreen
             anchors.bottom: parent.bottom
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.leftMargin: 4 * pt
             model: modelSettings
             clip: true
         }
