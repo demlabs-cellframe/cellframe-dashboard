@@ -2,6 +2,9 @@
 #define DAPPLUGINSCONTROLLER_H
 
 #include <QObject>
+#include <QSettings>
+#include <QFile>
+#include <QDebug>
 
 class DapPluginsController : public QObject
 {
@@ -12,19 +15,24 @@ public:
 private:
 
     void readPluginsFile(QString *path);
+    void updateFileConfig();
+    void sortList();
 
 public slots:
 
-//    void getListPlugins();
+    void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
+    void addPlugin(QVariant, QVariant, QVariant);
+    void setStatusPlugin(int, QString);
+    void deletePlugin(int);
 
 signals:
 
-//    void rcvListPlugins(QStringList rcvList);
+    void rcvListPlugins(QList <QVariant> m_pluginsList);
 
 private:
 
     QString m_pathPluginsConfigFile;
-    QStringList m_pluginsList;
+    QList <QVariant> m_pluginsList;
 
 };
 

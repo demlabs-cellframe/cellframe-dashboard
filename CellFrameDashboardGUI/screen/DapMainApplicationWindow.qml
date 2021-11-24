@@ -35,6 +35,8 @@ Rectangle {
     readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
     ///@detalis Path to the console tab.
     readonly property string tokensScreen: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
+     ///@detalis Path to the console tab.
+    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/DapPluginsTab.qml"
 
     readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
 
@@ -197,9 +199,11 @@ Rectangle {
 
     property var dapWallets: []
     property var dapOrders: []
+    property var dapPlugins: []
 
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
+    signal modelPluginsUpdated()
 
 
     //open in module visible root context, only for work
@@ -219,6 +223,10 @@ Rectangle {
     ListModel
     {
         id: dapModelOrders
+    }
+    ListModel
+    {
+        id: dapModelPlugins
     }
 
     // Menu bar tab model
@@ -301,6 +309,14 @@ Rectangle {
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
+
+            append ({
+                name: qsTr("Plugins"),
+                page: pluginsScreen,
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+            })
+
             //Test elements page for debug
             append ({
                 name: qsTr("Test"),
@@ -341,6 +357,7 @@ Rectangle {
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetListNetworksCommand")
+        pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
     }
 
@@ -443,6 +460,27 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+    }
+    Connections{
+        target: pluginsManager
+        onRcvListPlugins:
+        {
+            dapPlugins.splice(0,dapPlugins.length)
+            dapModelPlugins.clear()
+
+            for(var i = 0; i < m_pluginsList.length ; i++)
+            {
+                dapPlugins.push(m_pluginsList[i])
+            }
+            for(var q = 0; q < dapPlugins.length; q++)
+            {
+                console.log("Plugin name: "+ dapPlugins[q][0] + " - Loaded")
+                dapModelPlugins.append({"name" : dapPlugins[q][0],
+                                        "path" : dapPlugins[q][1],
+                                        "status" : dapPlugins[q][2]})
+            }
+            modelPluginsUpdated()
         }
     }
 }

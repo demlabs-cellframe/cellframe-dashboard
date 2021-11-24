@@ -174,10 +174,12 @@ int main(int argc, char *argv[])
     #elif defined Q_OS_WIN
         filePluginConfig = QString("%1/%2/plugins/configPlugin.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
     #endif
+
     QFile filePlugin(filePluginConfig);
-    if(filePlugin.open(QIODevice::WriteOnly))
+    if(!filePlugin.exists())
     {
-        filePlugin.close();
+        if(filePlugin.open(QIODevice::WriteOnly))
+            filePlugin.close();
     }
 
     SystemTray * systemTray = new SystemTray();

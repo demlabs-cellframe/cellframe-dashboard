@@ -24,7 +24,7 @@ Rectangle
         anchors.fill: parent
         anchors.margins: 10 * pt
         rows: 2
-        columns: 3
+        columns: 4
 
         rowSpacing: 10 * pt
 
@@ -34,7 +34,7 @@ Rectangle
             Layout.row: 1
             Layout.rowSpan: 1
             Layout.column: 1
-            Layout.columnSpan: 3
+            Layout.columnSpan: 4
             Layout.fillHeight: true
             Layout.fillWidth: true
             radius: plugins.radius
@@ -197,7 +197,7 @@ Rectangle
                                     Text{
                                         id: statusPlugin
                                         anchors.centerIn: parent
-                                        text: status ? "Installed":"Not Installed"
+                                        text: status === "1" ? "Installed":"Not Installed"
                                         color: currTheme.textColor
                                         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                     }
@@ -220,26 +220,48 @@ Rectangle
                 {
                     if(currentIndex >= 0)
                     {
-                        if(listModel.get(listViewPlug.currentIndex).status)
+                        if(listModel.get(listViewPlug.currentIndex).status === "1")
                         {
                             installPlug.enabled = false
                             deletePlug.enabled = true
+                            uninstallPlug.enabled = true
                         }
                         else
                         {
                             installPlug.enabled = true
                             deletePlug.enabled = true
+                            uninstallPlug.enabled = false
                         }
                     }
                     else
                     {
                         installPlug.enabled = false
                         deletePlug.enabled = false
+                        uninstallPlug.enabled = false
                     }
                 }
 
             }
             Component.onCompleted:{
+                updatePluginsList()
+            }
+
+            Connections{
+                target: dapMainWindow
+                onModelPluginsUpdated:
+                {
+                    rectanglePlug.updatePluginsList()
+                }
+            }
+
+            function updatePluginsList()
+            {
+                listModel.clear()
+
+                for(var i = 0; i < dapModelPlugins.count; i++ )
+                {
+                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status})
+                }
 
             }
         }
@@ -272,7 +294,8 @@ Rectangle
                 defaultSuffix: "qml"
                 onAccepted:
                 {
-                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
+                    pluginsManager.addPlugin(dapMessageBox.dapContentInput.text, dialogSelectPlug.files[0], 0);
+//                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
                     messagePopup.close()
                     console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
                 }
@@ -302,7 +325,8 @@ Rectangle
             onClicked:
             {
                 currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
-                listModel.get(listViewPlug.currentIndex).status = 1
+                pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 1)
+//                listModel.get(listViewPlug.currentIndex).status = "1"
                 listViewPlug.setEnableButtons()
                 SettingsWallet.activePlugin = currentPlugin
             }
@@ -318,6 +342,35 @@ Rectangle
             implicitHeight: 36 * pt
             implicitWidth: 163 * pt
 
+            id:uninstallPlug
+            textButton: "Unistall Plugin"
+
+            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+            horizontalAligmentText: Text.AlignHCenter
+
+            onClicked:
+            {
+                if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                    currentPlugin = ""
+                    SettingsWallet.activePlugin = ""
+                }
+                pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 0)
+                SettingsWallet.activePlugin = ""
+
+                listViewPlug.setEnableButtons()
+            }
+        }
+        DapButton
+        {
+            Layout.row: 2
+            Layout.rowSpan: 1
+            Layout.column: 4
+            Layout.columnSpan: 1
+            Layout.fillWidth: true
+
+            implicitHeight: 36 * pt
+            implicitWidth: 163 * pt
+
             id:deletePlug
             textButton: "Delete Plugin"
 
@@ -326,16 +379,16 @@ Rectangle
 
             onClicked:
             {
-                listViewPlug.setEnableButtons()
-                if(listModel.count > 0)
-                {
-                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
-                        currentPlugin = ""
-                        SettingsWallet.activePlugin = ""
-                    }
-                    listModel.remove(listViewPlug.currentIndex)
+
+                if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                    currentPlugin = ""
                     SettingsWallet.activePlugin = ""
                 }
+//                    listModel.remove(listViewPlug.currentIndex)
+                pluginsManager.deletePlugin(listViewPlug.currentIndex)
+                SettingsWallet.activePlugin = ""
+
+                listViewPlug.setEnableButtons()
 //                console.log(currentPlugin)
             }
         }
