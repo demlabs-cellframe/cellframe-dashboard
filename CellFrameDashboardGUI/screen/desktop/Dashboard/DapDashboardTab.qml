@@ -37,11 +37,6 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-//    property var walletOperation: operationModel.get(0).operation
-//    property string walletRecoveryType: "Nothing"
-
-//    property int currentWalletIndex: 0
-
     dapTopPanel:
         DapDashboardTopPanel
         {

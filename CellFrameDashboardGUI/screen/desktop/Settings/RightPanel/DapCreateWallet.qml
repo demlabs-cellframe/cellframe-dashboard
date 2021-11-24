@@ -20,14 +20,14 @@ DapCreateWalletForm
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
-    dapUseExestionWallet.onCheckedChanged:
+    dapComboBoxOperation.onCurrentIndexChanged:
     {
-        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
     }
 
     dapButtonNext.onClicked:
     {
-        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =
