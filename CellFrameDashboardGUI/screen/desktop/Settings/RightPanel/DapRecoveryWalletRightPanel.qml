@@ -4,7 +4,7 @@ import Qt.labs.platform 1.0
 DapRecoveryWalletRightPanelForm
 {
     dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: emptyRightPanel
+    dapPreviousRightPanel: ""
 
     Connections
     {
@@ -65,6 +65,11 @@ DapRecoveryWalletRightPanelForm
 
     Component.onCompleted:
     {
+        if (currentTab === dashboardScreenPath)
+          dapPreviousRightPanel = lastActionsWallet
+        if (currentTab === settingsScreenPath)
+          dapPreviousRightPanel = emptyRightPanel
+
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
         print("walletOperation", walletOperation)
 
@@ -225,6 +230,9 @@ DapRecoveryWalletRightPanelForm
 
     dapButtonClose.onClicked:
     {
-        previousActivated(emptyRightPanel)
+        if (currentTab === dashboardScreenPath)
+            previousActivated(lastActionsWallet)
+        if (currentTab === settingsScreenPath)
+            previousActivated(emptyRightPanel)
     }
 }

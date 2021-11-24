@@ -89,10 +89,8 @@ DapRightPanel
             {
                 id: textTopMessage
 
-                Layout.minimumHeight: 69 * pt
-                Layout.maximumHeight: 69 * pt
-                Layout.minimumWidth: 278 * pt
-                Layout.maximumWidth: 278 * pt
+                Layout.maximumWidth: parent.width - 50 * pt
+                Layout.margins: 10 * pt
 
                 Layout.alignment: Qt.AlignHCenter
 
@@ -106,8 +104,8 @@ DapRightPanel
             Grid {
                 id: wordsGrid
 
-                Layout.minimumHeight: 255 * pt
-                Layout.maximumHeight: 255 * pt
+                Layout.minimumHeight: 280 * pt
+                Layout.maximumHeight: 280 * pt
                 Layout.alignment: Qt.AlignHCenter
 
                 columns: 2
@@ -123,7 +121,7 @@ DapRightPanel
                         text: modelData
 //                        font { bold: true; pixelSize: 12 }
                         color: currTheme.textColor
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
 
                     }
                     model: wordsModel
@@ -133,7 +131,7 @@ DapRightPanel
             Text
             {
                 id: backupFileName
-                Layout.minimumHeight: 50 * pt
+                Layout.minimumHeight: 100 * pt
                 Layout.alignment: Qt.AlignHCenter
                 Layout.maximumWidth: parent.width - 50 * pt
                 color: "#908D9D"
@@ -141,20 +139,13 @@ DapRightPanel
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-//                text: "D:\\WORK\\DEMLABS\\cellframe-dashboard\\CellFrameDashboardGUI\\screen\\desktop\\Dashboard\\RightPanel\\DapRecoveryWalletRightPanelForm.ui.qml"
             }
-
 
             Text
             {
                 id: textBottomMessage
-                Layout.minimumHeight: 62 * pt
-                Layout.maximumHeight: 62 * pt
-                Layout.minimumWidth: 302 * pt
-                Layout.maximumWidth: 302 * pt
-
-                Layout.topMargin: 35 * pt
-
+                Layout.minimumHeight: 100 * pt
+                Layout.maximumWidth: parent.width - 50 * pt
                 Layout.alignment: Qt.AlignHCenter
                 color: "#B3FF00"
                 verticalAlignment: Text.AlignVCenter
@@ -167,7 +158,7 @@ DapRightPanel
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 17 * pt
-                Layout.topMargin: 25 * pt
+                Layout.topMargin: 10 * pt
 
                 DapButton
                 {

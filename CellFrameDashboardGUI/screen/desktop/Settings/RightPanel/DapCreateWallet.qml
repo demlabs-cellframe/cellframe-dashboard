@@ -3,23 +3,31 @@ import QtQuick 2.4
 DapCreateWalletForm
 {
     dapNextRightPanel: recoveryWallet
-    dapPreviousRightPanel: emptyRightPanel
+    dapPreviousRightPanel: ""
 
     property string dapSignatureTypeWallet
+
+    Component.onCompleted:
+    {
+        if (currentTab === dashboardScreenPath)
+          dapPreviousRightPanel = lastActionsWallet
+        if (currentTab === settingsScreenPath)
+          dapPreviousRightPanel = emptyRightPanel
+    }
 
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
     {
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
-    dapUseExestionWallet.onCheckedChanged:
+    dapComboBoxOperation.onCurrentIndexChanged:
     {
-        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
     }
 
     dapButtonNext.onClicked:
     {
-        walletOperation = operationModel.get(dapUseExestionWallet.checked ? 1 : 0).operation
+        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =
@@ -58,8 +66,10 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-        previousActivated(emptyRightPanel)
-//        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
+        if (currentTab === dashboardScreenPath)
+            previousActivated(lastActionsWallet)
+        if (currentTab === settingsScreenPath)
+            previousActivated(emptyRightPanel)
     }
 
     Connections
