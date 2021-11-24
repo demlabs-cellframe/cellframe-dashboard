@@ -8,37 +8,38 @@ import "qrc:/screen/desktop/Certificates"
 import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
+import "desktop/SettingsWallet.js" as SettingsWallet
 
 
 Rectangle {
     id: dapMainWindow
     ///@detalis Path to the dashboard tab.
-    readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    readonly property string dashboardScreenPath: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
     ///@detalis Path to the dashboard tab.
-    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/DapWalletTab.qml"
+    readonly property string walletScreenPath: "qrc:/screen/" + device + "/Wallet/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
-    readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
+    readonly property string exchangeScreenPath: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
-    readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
+    readonly property string historyScreenPath: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
-//    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
-    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
+//    readonly property string vpnServiceScreenPath: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+    readonly property string vpnServiceScreenPath: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
     ///@detalis Path to the VPN client tab.
-    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNClient/DapVpnClientTab.qml"
+    readonly property string vpnClientScreenPath: "qrc:/screen/" + device + "/VPNClient/DapVpnClientTab.qml"
     ///@detalis Path to the settings tab.
-    readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
+    readonly property string settingsScreenPath: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
-    readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
+    readonly property string logsScreenPath: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     ///@detalis Path to the console tab.
-    readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
+    readonly property string consoleScreenPath: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
     ///@detalis Path to the console tab.
-    readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
+    readonly property string certificatesScreenPath: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
     ///@detalis Path to the console tab.
-    readonly property string tokensScreen: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
+    readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
 
-    readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
+    readonly property string underConstructionsScreenPath: "qrc:/screen/" + device + "/UnderConstructions.qml"
 
-    readonly property string testScreen: "qrc:/screen/" + device + "/Test/TestPage.qml"
+    readonly property string testScreenPath: "qrc:/screen/" + device + "/Test/TestPage.qml"
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
@@ -48,8 +49,19 @@ Rectangle {
         id: quicksandFonts
     }
 
+    property string currentTab: stackViewTabs.source
 
+    ListModel
+    {
+        id: operationModel
+        ListElement { name: qsTr("Create wallet")
+            operation: "create" }
+        ListElement { name: qsTr("Restore wallet")
+            operation: "restore" }
+    }
 
+    property var walletOperation: operationModel.get(0).operation
+    property string walletRecoveryType: "Nothing"
 
         ///@detalis Logo icon.
 //        property alias dapIconLogotype: iconLogotype
@@ -62,137 +74,137 @@ Rectangle {
 
 
 
-        color:currTheme.backgroundPanel
+    color:currTheme.backgroundPanel
 
-        // The horizontal location of the virtual menu column and tab view loader
-        Row
-        {
-            id: rowMainWindow
+    // The horizontal location of the virtual menu column and tab view loader
+    Row
+    {
+        id: rowMainWindow
 //            height: 754
 
-            anchors {
-                left: parent.left;
-                top: parent.top;
-                right: parent.right;
-                bottom: networksPanel.top
-                bottomMargin: 4 * pt
-            }
+        anchors {
+            left: parent.left;
+            top: parent.top;
+            right: parent.right;
+            bottom: networksPanel.top
+            bottomMargin: 4 * pt
+        }
 
-            // Virtual logo column frame and menu bar
-            Column
+        // Virtual logo column frame and menu bar
+        Column
+        {
+            id: columnMenuTab
+            height: rowMainWindow.height
+            width: 180 * pt
+            // Logotype widget
+            Item
             {
-                id: columnMenuTab
-                height: rowMainWindow.height
-                width: 180 * pt
-                // Logotype widget
-                Item
-                {
-                    id: logotype
+                id: logotype
 //                    data: dapLogotype
-                    width: parent.width * pt
-                    height: 60 * pt
-                    Rectangle
-                    {
-                        id: frameLogotype
-                        anchors.fill: parent
-                        color:currTheme.backgroundPanel
+                width: parent.width * pt
+                height: 60 * pt
+                Rectangle
+                {
+                    id: frameLogotype
+                    anchors.fill: parent
+                    color:currTheme.backgroundPanel
 //                        width: parent.width
 //                        radius: 8 * pt
-                        Image
-                        {
-                            id: iconLogotype
+                    Image
+                    {
+                        id: iconLogotype
 //                            anchors.verticalCenter: parent.verticalCenter
-                            width: 111 * pt
-                            height: 24 * pt
-                            anchors.left: parent.left
-                            anchors.leftMargin: 26*pt
-                            anchors.bottom: parent.bottom
-                            anchors.bottomMargin: 18*pt
-                            anchors.top: parent.top
-                            anchors.topMargin: 18 * pt
+                        width: 111 * pt
+                        height: 24 * pt
+                        anchors.left: parent.left
+                        anchors.leftMargin: 26*pt
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: 18*pt
+                        anchors.top: parent.top
+                        anchors.topMargin: 18 * pt
 
-                            source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
-                        }
+                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
                     }
                 }
-                // Menu bar widget
-                Item
+            }
+            // Menu bar widget
+            Item
+            {
+                id: menuWidget
+                data: DapAbstractMenuTabWidget
                 {
-                    id: menuWidget
-                    data: DapAbstractMenuTabWidget
-                    {
-                        color:currTheme.backgroundPanel
-                        radius: currTheme.radiusRectangle
+                    color:currTheme.backgroundPanel
+                    radius: currTheme.radiusRectangle
 
 //                        anchors.leftMargin: -8*pt
 
-                        onPathScreenChanged:
-                        {
-                            stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
-                        }
-                        id: menuTabWidget
-                        anchors.fill: parent
-                        widthItemMenu: 180*pt
-                        heightItemMenu: 52 * pt
-                        normalColorItemMenu: currTheme.backgroundPanel
-                        selectColorItemMenu: "transparent"
-                        widthIconItemMenu: 16 * pt
-                        heightIconItemMenu: 16 * pt
-                        dapMenuWidget.model: modelMenuTab
-                        normalFont: "Quicksand"
-                        selectedFont: "Quicksand"
+                    onPathScreenChanged:
+                    {
+                        stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
                     }
-                    //hide top radius element
-                    Rectangle{
-                        width: 9 * pt
-                        height: currTheme.radiusRectangle
-                        anchors.top:parent.top
-                        anchors.right: parent.right
-                        color: currTheme.backgroundPanel/* "white"*/
-//                        radius: currTheme.radiusRectangle
-                        Rectangle
-                        {
-                            width: 9 * pt
-                            height: 4 * pt
-                            anchors.top: parent.top
-                            anchors.right: parent.left
-                            color: parent.color
-                        }
-                    }
-
-                    width: 180 * pt
-                    height: columnMenuTab.height - logotype.height
-                }
-            }
-
-            // Screen downloader widget
-            Item
-            {
-                id: screens
-//                data: dabScreensWidget
-                height: rowMainWindow.height
-                width: rowMainWindow.width - columnMenuTab.width
-                Loader
-                {
-                    id: stackViewTabs
+                    id: menuTabWidget
                     anchors.fill: parent
-                    clip: true
-                    source: dashboardScreen
+                    widthItemMenu: 180*pt
+                    heightItemMenu: 52 * pt
+                    normalColorItemMenu: currTheme.backgroundPanel
+                    selectColorItemMenu: "transparent"
+                    widthIconItemMenu: 16 * pt
+                    heightIconItemMenu: 16 * pt
+                    dapMenuWidget.model: modelMenuTab
+                    normalFont: "Quicksand"
+                    selectedFont: "Quicksand"
                 }
+                //hide top radius element
+                Rectangle{
+                    width: 9 * pt
+                    height: currTheme.radiusRectangle
+                    anchors.top:parent.top
+                    anchors.right: parent.right
+                    color: currTheme.backgroundPanel/* "white"*/
+//                        radius: currTheme.radiusRectangle
+                    Rectangle
+                    {
+                        width: 9 * pt
+                        height: 4 * pt
+                        anchors.top: parent.top
+                        anchors.right: parent.left
+                        color: parent.color
+                    }
+                }
+
+                width: 180 * pt
+                height: columnMenuTab.height - logotype.height
             }
         }
 
-        DapNetworksPanel
+        // Screen downloader widget
+        Item
         {
-            id: networksPanel
-            y: parent.height - height
-            width: parent.width
+            id: screens
+//                data: dabScreensWidget
+            height: rowMainWindow.height
+            width: rowMainWindow.width - columnMenuTab.width
+            Loader
+            {
+                id: stackViewTabs
+                anchors.fill: parent
+                clip: true
+                source: dashboardScreenPath
+            }
         }
+    }
 
-        DapNetworkPopup
-        {
-            id: networkPanelPopup
-        }
+    DapNetworksPanel
+    {
+        id: networksPanel
+        y: parent.height - height
+        width: parent.width
+    }
+
+    DapNetworkPopup
+    {
+        id: networkPanelPopup
+    }
 
 
     property var dapWallets: []
@@ -232,27 +244,27 @@ Rectangle {
         {
             /*append({
                 name: qsTr("Wallet"),
-                page: dashboardScreen,
+                page: dashboardScreenPath,
                 normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.svg",
                 hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
             })*/
             append({
                 name: qsTr("Wallet"),
-                page: dashboardScreen,
+                page: dashboardScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
-                page: underConstructionsScreen, //TODO: here should be: exchangeScreen,
+                page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
             })
     
             append ({
                 name: qsTr("TX Explorer"),
-                page: historyScreen,
+                page: historyScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_history.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_history.png"
             })
@@ -260,14 +272,14 @@ Rectangle {
 
             append ({
                 name: qsTr("Certificates"),
-                page: certificatesScreen,
+                page: certificatesScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png"
             })
 
             append ({
                 name: qsTr("Tokens"),
-                page: underConstructionsScreen, //TODO: add screen for "Tokens" tab
+                page: underConstructionsScreenPath, //TODO: add screen for "Tokens" tab
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
             })
@@ -275,14 +287,14 @@ Rectangle {
 
             append ({
                 name: qsTr("VPN client"),
-                page: underConstructionsScreen,
+                page: underConstructionsScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
             })
 
             append ({
                 name: qsTr("VPN service"),
-                page: vpnServiceScreen,
+                page: vpnServiceScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png"
             })
@@ -290,28 +302,28 @@ Rectangle {
 
             append ({
                 name: qsTr("Console"),
-                page: consoleScreen,
+                page: consoleScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_console.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_console.png"
             })
 
             append ({
                 name: qsTr("Settings"),
-                page: settingsScreen,
+                page: settingsScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
 //            //Test elements page for debug
 //            append ({
 //                name: qsTr("Test"),
-//                page: testScreen,
+//                page: testScreenPath,
 //                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
 //                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
 //            })
 
 //            append ({
 //                name: qsTr("Logs"),
-//                page: logsScreen,
+//                page: logsScreenPath,
 //                normalIcon: "qrc:/resources/icons/icon_logs.svg",
 //                hoverIcon: "qrc:/resources/icons/icon_logs_hover.svg"
 //             })
@@ -373,10 +385,12 @@ Rectangle {
             console.log("walletList.length =", walletList.length)
             console.log("dapWallets.length =", dapWallets.length)
             console.log("dapModelWallets.count =", dapModelWallets.count)
+
             for (var q = 0; q < walletList.length; ++q)
             {
                 dapWallets.push(walletList[q])
             }
+
             for (var i = 0; i < dapWallets.length; ++i)
             {
                 console.log("Wallet name: "+ dapWallets[i].Name)
@@ -408,6 +422,12 @@ Rectangle {
                     }
                 }
             }
+
+            if (dapModelWallets.count > 0)
+                SettingsWallet.currentIndex = 0
+            else
+                SettingsWallet.currentIndex = -1
+
             modelWalletsUpdated();
 
 

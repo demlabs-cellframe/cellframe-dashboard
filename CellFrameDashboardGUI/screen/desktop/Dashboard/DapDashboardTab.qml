@@ -5,25 +5,22 @@ import "../../"
 import "../SettingsWallet.js" as SettingsWallet
 
 
-
 DapAbstractTab
 {
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string inputNameWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml"
+    readonly property string createNewWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml"
+    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
     ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
+    readonly property string doneWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of last actions.
     readonly property string lastActionsWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
     ///@detalis Path to the right panel of new payment.
     readonly property string newPaymentMain: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
     ///@detalis Path to the right panel of new payment done.
     readonly property string newPaymentDone: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
-
-    property int dapIndexCurrentWallet: -1
 
     id: dashboardTab
     color: currTheme.backgroundMainScreen
@@ -40,19 +37,10 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-    ListModel
-    {
-        id: operationModel
-        ListElement { name: qsTr("Create wallet")
-            operation: "create" }
-        ListElement { name: qsTr("Restore wallet")
-            operation: "restore" }
-    }
+//    property var walletOperation: operationModel.get(0).operation
+//    property string walletRecoveryType: "Nothing"
 
-    property var walletOperation: operationModel.get(0).operation
-    property string walletRecoveryType: "Nothing"
-
-    property int currentWalletIndex: 0
+//    property int currentWalletIndex: 0
 
     dapTopPanel:
         DapDashboardTopPanel
@@ -67,8 +55,8 @@ DapAbstractTab
                 console.log("wallet from: " + walletInfo.name)
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
                         properties: {
-                            dapCmboBoxNetworkModel: dapModelWallets.get(currentWalletIndex).networks,
-                            dapCmboBoxTokenModel: dapModelWallets.get(currentWalletIndex).networks.get(0).tokens
+                            dapCmboBoxNetworkModel: dapModelWallets.get(SettingsWallet.currentIndex).networks,
+                            dapCmboBoxTokenModel: dapModelWallets.get(SettingsWallet.currentIndex).networks.get(0).tokens
                         }
                        });
             }
@@ -86,7 +74,6 @@ DapAbstractTab
             {
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
-//                dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
             }
         }
 
@@ -227,9 +214,6 @@ DapAbstractTab
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-//            dashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
-            SettingsWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
-//            console.log(dapModelWallets.count)
             updateComboBox()
         }
     }
@@ -237,36 +221,21 @@ DapAbstractTab
     Connections
     {
         target: dapServiceController
-//        onMempoolProcessed:
-//        {
-//            update()
-//        }
         onWalletCreated:
         {
             update()
         }
     }
 
+    property string str3
+
     Component.onCompleted:
     {
         updateComboBox()
-
-        if(dapModelWallets.count > 0)
-        {
-            if(dapModelWallets.get(0).name === "all wallets")
-            {
-//                dapComboboxWallet.currentIndex = -1;
-                SettingsWallet.currentIndex = -1
-                dapModelWallets.remove(0, 1);
-//                dapComboboxWallet.currentIndex = 0;
-                SettingsWallet.currentIndex = 0;
-            }
-        }
     }
 
     function update()
     {
-        dapIndexCurrentWallet = SettingsWallet.currentIndex
         dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
@@ -276,8 +245,7 @@ DapAbstractTab
     {
         if(state !== "WALLETSHOW")
             state = "WALLETCREATE"
-//        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(recoveryWallet)});
-        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(createNewWallet)});
     }
 
     function updateComboBox()

@@ -4,18 +4,36 @@ import "../"
 
 DapDoneCreateWalletForm
 {
+    dapNextRightPanel: ""
+    dapPreviousRightPanel: ""
+
+    Component.onCompleted:
+    {
+        if (currentTab === dashboardScreenPath)
+        {
+          dapNextRightPanel = lastActionsWallet
+          dapPreviousRightPanel = lastActionsWallet
+        }
+        if (currentTab === settingsScreenPath)
+        {
+          dapNextRightPanel = emptyRightPanel
+          dapPreviousRightPanel = emptyRightPanel
+        }
+    }
+
     dapButtonDone.onClicked:
     {
-        nextActivated(emptyRightPanel)
-//        dapSettingsRightPanel.visible = false
-//        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
-
+        if (currentTab === dashboardScreenPath)
+            previousActivated(lastActionsWallet)
+        if (currentTab === settingsScreenPath)
+            previousActivated(emptyRightPanel)
     }
 
     dapButtonClose.onClicked:
     {
-        previousActivated(emptyRightPanel)
-//        dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#070023"
-//        dapSettingsRightPanel.visible = false
+        if (currentTab === dashboardScreenPath)
+            previousActivated(lastActionsWallet)
+        if (currentTab === settingsScreenPath)
+            previousActivated(emptyRightPanel)
     }
 }
