@@ -330,12 +330,12 @@ Rectangle {
             })
 
             //Test elements page for debug
-            append ({
-                name: qsTr("Test"),
-                page: testScreen,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
-            })
+//            append ({
+//                name: qsTr("Test"),
+//                page: testScreen,
+//                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+//                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+//            })
 //            append ({
 //                name: qsTr("Logs"),
 //                page: logsScreenPath,
@@ -398,9 +398,13 @@ Rectangle {
 
         onWalletsReceived:
         {
+            dapWallets.splice(0,dapPlugins.length)
+            dapModelWallets.clear()
             console.log("walletList.length =", walletList.length)
             console.log("dapWallets.length =", dapWallets.length)
             console.log("dapModelWallets.count =", dapModelWallets.count)
+
+
 
             for (var q = 0; q < walletList.length; ++q)
             {
@@ -463,6 +467,8 @@ Rectangle {
 //            console.log("Orders len " + orderList.length)
 //            console.log("DapOrders len " + dapOrders.length)
 //            console.log("DapModelOrders len " + dapModelOrders.count)
+            dapOrders.splice(0,dapOrders.length)
+            dapModelOrders.clear()
             for (var q = 0; q < orderList.length; ++q)
             {
                 dapOrders.push(orderList[q])

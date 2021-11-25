@@ -294,7 +294,21 @@
         <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
         <file>screen/desktop/Settings/DapPluginsSettingsScreen.qml</file>
         <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
-        <file>screen/desktop/Plugins/DapPluginsTopPanel.qml</file>
         <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
+        <file>screen/desktop/Plugin/DapPlugin.qml</file>
+        <file>screen/desktop/Plugin/Elements/DapPluginButton.qml</file>
+        <file>screen/desktop/Plugin/Elements/DapPluginMainScreen.qml</file>
+        <file>screen/desktop/Plugin/Elements/DapPluginsBlock.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/DapWindowLoader.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/DapShowWallet.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapShowOrders.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersGrid.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersInfo.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapShowWallets.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapWalletsInfo.qml</file>
     </qresource>
 </RCC>

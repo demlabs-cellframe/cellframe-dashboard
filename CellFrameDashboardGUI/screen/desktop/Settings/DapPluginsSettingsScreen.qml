@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import Qt.labs.platform 1.0
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
@@ -44,9 +45,35 @@ Rectangle
 
             Component {
                 id: highlight
+
                 Rectangle {
+                    id:controlHighligh
+                    property var isHover
                     width: 180 * pt; height: 40 * pt
                     color: currTheme.buttonColorNormal; radius: 5 * pt
+
+                    LinearGradient
+                    {
+                        anchors.fill: parent
+                        source: parent
+                        start: Qt.point(0,parent.height/2)
+                        end: Qt.point(parent.width,parent.height/2)
+                        gradient:
+                            Gradient {
+                                GradientStop
+                                {
+                                    position: 0;
+                                    color:  controlHighligh.isHover ? currTheme.buttonColorHoverPosition0 :
+                                                               currTheme.buttonColorNormalPosition0
+                                }
+                                GradientStop
+                                {
+                                    position: 1;
+                                    color:  controlHighligh.isHover ? currTheme.buttonColorHoverPosition1 :
+                                                                currTheme.buttonColorNormalPosition1
+                                }
+                            }
+                    }
 //                        y: listViewPlug.currentItem.y
 
                     Behavior on y {
@@ -55,7 +82,13 @@ Rectangle
                             damping: 0.2
                         }
                     }
-                }
+//                    MouseArea
+//                    {
+//                        anchors.fill: parent
+//                        onEntered: parent.isHover = true
+//                        onExited: parent.isHover = false
+//                    }
+                } 
             }
 
             ListView

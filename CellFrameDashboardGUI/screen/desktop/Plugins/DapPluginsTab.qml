@@ -7,32 +7,11 @@ import "../"
 import "qrc:/widgets"
 
 DapAbstractTab {
-
-    readonly property string dapPluginsRightPanel : "qrc:/screen/" + device + "/Test/DapTestRightPanelForm.ui.qml"
-
     id :testPageTab
     color: currTheme.backgroundMainScreen
 
-    dapTopPanel:
-        DapPluginsTopPanel
-        {
-            color: currTheme.backgroundPanel
-        }
+    dapTopPanel:Item{}
+    dapRightPanel: Item{}
 
-    dapScreen:
-        DapPluginsScreen
-        {}
-    dapRightPanel: StackView
-    {
-        id: stackViewRightPanel
-        initialItem: Qt.resolvedUrl(dapPluginsRightPanel);
-        width: 350 * pt
-        anchors.fill: parent
-        visible: true
-        delegate:
-            StackViewDelegate
-            {
-                pushTransition: StackViewTransition { }
-            }
-    }
+    dapScreen:DapPluginsScreen{}
 }
