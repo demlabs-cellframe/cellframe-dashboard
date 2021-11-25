@@ -78,6 +78,10 @@ DapNewPaymentMainRightPanelForm
             print("Enough tokens. Correct address length.")
             dapTextNotEnoughTokensWarning.text = ""
 
+            walletInfo.chain = "zero"
+            if (dapComboboxNetwork.mainLineText === "core-t")
+                walletInfo.chain = "zerochain"
+
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)
             console.log("   chain: " + walletInfo.chain)

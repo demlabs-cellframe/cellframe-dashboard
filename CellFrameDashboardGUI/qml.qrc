@@ -75,12 +75,6 @@
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanelForm.ui.qml</file>
         <file>resources/icons/icon_export.png</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapInputNewWalletNameRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
         <file>resources/icons/back_icon_hover.png</file>
