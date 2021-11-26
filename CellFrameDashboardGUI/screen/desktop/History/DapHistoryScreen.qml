@@ -44,7 +44,8 @@ DapHistoryScreenForm
             RowLayout
             {
                 anchors.fill: parent
-                anchors.margins: 10 * pt
+                anchors.leftMargin: 20 * pt
+                anchors.rightMargin: 20 * pt
                 spacing: 10 * pt
 
                 // Network name
