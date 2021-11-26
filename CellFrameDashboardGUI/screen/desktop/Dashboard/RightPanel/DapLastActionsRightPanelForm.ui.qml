@@ -33,12 +33,11 @@ DapRightPanel
     dapContentItemData:
     ListView
     {
+
         id: lastActionsView
         anchors.fill: parent
         clip: true
         model: modelLastActions
-        anchors.leftMargin: 5 * pt
-        anchors.rightMargin: 1 * pt
         ScrollBar.vertical: ScrollBar {
             active: true
         }
@@ -48,7 +47,11 @@ DapRightPanel
         section.delegate: delegateSection
 
         delegate: Rectangle {
-            width: control.width
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: 5 * pt
+            anchors.rightMargin: 5 * pt
+//            width: control.width
             color: currTheme.backgroundElements
             height: 50 * pt
 
@@ -67,7 +70,7 @@ DapRightPanel
                     Text
                     {
                         Layout.fillWidth: true
-                        text: /*name*/network
+                        text: network
                         color: currTheme.textColor
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         elide: Text.ElideRight

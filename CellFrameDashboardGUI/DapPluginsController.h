@@ -6,17 +6,26 @@
 #include <QFile>
 #include <QDebug>
 
+#include <QtGui/private/qzipreader_p.h>
+#include <QtGui/private/qzipwriter_p.h>
+#include <QCryptographicHash>
+
+//#include "qzip/qzipreader_p.h"
+//#include "qzip/qzip.cpp"
+
 class DapPluginsController : public QObject
 {
     Q_OBJECT
 public:
-    explicit DapPluginsController(QString pathPluginsConfigFile, QObject *parent = nullptr);
+    explicit DapPluginsController(QString pathPluginsConfigFile, QString pathPlugins, QObject *parent = nullptr);
 
 private:
 
     void readPluginsFile(QString *path);
     void updateFileConfig();
     void sortList();
+    bool zipManage(QString *path);
+    QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
 
 public slots:
 
@@ -32,6 +41,7 @@ signals:
 private:
 
     QString m_pathPluginsConfigFile;
+    QString m_pathPlugins;
     QList <QVariant> m_pluginsList;
 
 };

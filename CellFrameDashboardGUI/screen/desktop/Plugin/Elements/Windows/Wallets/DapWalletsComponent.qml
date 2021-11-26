@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQuick.Layouts 1.3
 
 
 Component {
@@ -8,7 +9,7 @@ Component {
 
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 60 * pt
+        height: 300 * pt
         color: "#363A42"
         radius: 16 * pt
         border.width: 1
@@ -22,7 +23,6 @@ Component {
             anchors.top: parent.top
             height: 40 * pt
             color: "#2E3138"
-
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -39,18 +39,65 @@ Component {
         Item {
             id: infoFrame
 
-            anchors { left: parent.left; top: headerFrame.bottom; right: parent.right; bottom: parent.bottom }
+            anchors {
+                left: parent.left;
+                top: headerFrame.bottom;
+                right: parent.right;
+                bottom: parent.bottom
+                topMargin: 10 * pt
+            }
 
             Column {
                 spacing: 12 * pt
 
                 Repeater
                 {
+                    id:netRepeat
                     model: dapModelWallets.get(0).networks.count
-                    Rectangle
+
+                    ColumnLayout
                     {
-                        width: 50
-                        height: 50
+//                        anchors.fill: parent
+                        DapWalletsInfo
+                        {
+                            Layout.fillWidth: true
+                            width: infoFrame.width
+    //                        anchors.left: infoFrame.left
+    //                        anchors.right: infoFrame.right
+
+                            name: dapModelWallets.get(index).networks.get(index).name
+                            value: dapModelWallets.get(index).networks.get(index).address
+                            color: "#2D3037"
+                        }
+
+                        Repeater
+                        {
+                            property var count : dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).tokens.count
+                            model:
+                            {
+                                dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).tokens.count
+                                console.log(dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).tokens.count)
+                            }
+
+
+                            ColumnLayout
+                            {
+
+                                DapWalletsInfo
+                                {
+                                    Layout.fillWidth: true
+                                    width: infoFrame.width
+            //                        anchors.left: infoFrame.left
+            //                        anchors.right: infoFrame.right
+
+        //                            name: dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).name
+        //                            value: dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).address
+                                    name: "8"
+                                    value: "1"
+                                    color: "white"
+                                }
+                            }
+                        }
                     }
                 }
 

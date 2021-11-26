@@ -503,7 +503,8 @@ Rectangle {
                 console.log("Plugin name: "+ dapPlugins[q][0] + " - Loaded")
                 dapModelPlugins.append({"name" : dapPlugins[q][0],
                                         "path" : dapPlugins[q][1],
-                                        "status" : dapPlugins[q][2]})
+                                        "status" : dapPlugins[q][2],
+                                        "verifed" : dapPlugins[q][3]})
             }
             modelPluginsUpdated()
         }

@@ -1,4 +1,4 @@
-QT += qml quick widgets svg
+QT += qml quick widgets svg gui-private
 
 TEMPLATE = app
 CONFIG += c++11 #nsis_build
@@ -123,3 +123,7 @@ win32: nsis_build {
     POST_TARGETDEPS += build_node copyconfig nsis
     QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
 }
+
+DISTFILES += \
+    qzip/zlib/zlib-1.2.5.zip \
+    qzip/zlib/zlib125dll.zip

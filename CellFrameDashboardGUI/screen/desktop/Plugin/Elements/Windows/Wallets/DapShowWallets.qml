@@ -58,7 +58,8 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        dapServiceController.requestToService("DapGetWalletsInfoCommand"); // 1 - Get List Certificates
+        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+
     }
 
     InnerShadow {

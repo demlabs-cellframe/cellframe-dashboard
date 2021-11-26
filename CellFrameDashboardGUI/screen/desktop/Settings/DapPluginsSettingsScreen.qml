@@ -322,8 +322,8 @@ Rectangle
                 title: qsTr("Please choose a *.qml file")
                 folder: "~"
                 visible: false
-//                nameFilters: [qsTr("Plugin files (*.qml)"), "All files (*.*)"]
-                nameFilters: [qsTr("Plugin files (*.qml)")]
+                nameFilters: [qsTr("Plugin files (*.qml)"), "All files (*.*)"]
+//                nameFilters: [qsTr("Plugin files (*.qml)")]
                 defaultSuffix: "qml"
                 onAccepted:
                 {
