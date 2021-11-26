@@ -18,12 +18,16 @@ DapAbstractScreen
         margins: 24 * pt
     }
 
-    Rectangle
+    DapRectangleLitAndShaded
     {
         id: mainFrameHistory
         anchors.fill: parent
         color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
+        contentData:
         ListView
         {
             id: dapListViewHistory

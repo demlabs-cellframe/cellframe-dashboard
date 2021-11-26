@@ -123,235 +123,199 @@ DapAbstractScreen
     }
 
 
-    Rectangle
+    DapRectangleLitAndShaded
     {
         id: mainFrameDashboard
         anchors.fill: parent
         color: currTheme.backgroundElements
-        radius: 16*pt
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-        // Header
-        Item
-        {
-            id: walletShowHeader
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-//            width: parent.width
-            height: 38 * pt
-//            color: currTheme.backgroundElements
-//            radius: 16*pt
-            Text
+        contentData:
+            Item
             {
                 anchors.fill: parent
-                anchors.leftMargin: 18 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
-//                    anchors.verticalCenter: parent.verticalCenter
 
-                verticalAlignment: Qt.AlignVCenter
-                text: qsTr("Tokens")
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                color: currTheme.textColor
-            }
-        }
-
-        ListView
-        {
-            id: listViewWallet
-//            anchors.fill: parent
-            anchors.top: walletShowHeader.bottom
-//            anchors.topMargin: 20 * pt
-            anchors.bottom: parent.bottom
-//            anchors.leftMargin: 20 *pt
-//            anchors.rightMargin: 10 *pt
-            anchors.left: parent.left
-            anchors.right: parent.right
-//            spacing: 5 * pt
-            clip: true
-
-            delegate: delegateTokenView
-        }
-
-
-
-
-        Component
-        {
-            id: delegateTokenView
-            Column
-            {
-                width: parent.width
-
-                Rectangle
+                // Header
+                Item
                 {
-                    id: stockNameBlock
-                    height: 30 * pt
-                    width: parent.width
-                    color: currTheme.backgroundMainScreen
-
+                    id: walletShowHeader
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 38 * pt
                     Text
                     {
-                        id: stockNameText
-                        anchors.left: parent.left
-                        anchors.leftMargin: 16 * pt
-                        anchors.verticalCenter: parent.verticalCenter
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
-                        color: currTheme.textColor
+                        anchors.fill: parent
+                        anchors.leftMargin: 18 * pt
+                        anchors.topMargin: 10 * pt
+                        anchors.bottomMargin: 10 * pt
+
                         verticalAlignment: Qt.AlignVCenter
-                        text: name
-                    }
-
-//                    Text
-//                    {
-//                        id: networkAddressLabel
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        anchors.left: parent.left
-//                        anchors.leftMargin: 16 * pt
-//                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-//                        color: currTheme.textColor
-//                        text: qsTr("Network address")
-//                        width: 92 * pt
-//                    }
-                    DapText
-                    {
-                       id: textMetworkAddress
-//                       anchors.left: parent.left
-//                       anchors.leftMargin: 500 * pt
-                       width: 63 * pt
-                       anchors.right:  networkAddressCopyButton.left
-                       anchors.rightMargin: 4 * pt
-                       anchors.verticalCenter: parent.verticalCenter
-                       fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
-                       color: currTheme.textColor
-                       fullText: address
-                       textElide: Text.ElideMiddle
-                       horizontalAlignment: Qt.Alignleft
-                    }
-
-                    MouseArea
-                    {
-                        id: networkAddressCopyButton
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 16 * pt
-                        width: 16 * pt
-                        height: 16 * pt
-                        hoverEnabled: true
-
-                        onClicked: textMetworkAddress.copyFullText()
-
-
-                        Image
-                        {
-                            id: networkAddressCopyButtonImage
-                            anchors.fill: parent
-                            source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
-                            sourceSize.width: parent.width
-                            sourceSize.height: parent.height
-
-                        }
+                        text: qsTr("Tokens")
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        color: currTheme.textColor
                     }
                 }
 
-                Repeater
+                ListView
                 {
-                    width: parent.width
-                    model: tokens
+                    id: listViewWallet
+                    anchors.top: walletShowHeader.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    clip: true
 
-                    Rectangle
+                    delegate: delegateTokenView
+                }
+
+
+
+
+                Component
+                {
+                    id: delegateTokenView
+                    Column
                     {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        height: 50 * pt
-                        color: currTheme.backgroundElements
+                        width: parent.width
 
                         Rectangle
                         {
-                            anchors.top: tokenInfoPlace.bottom
+                            id: stockNameBlock
+                            height: 30 * pt
                             width: parent.width
-                            height: 1 * pt
-                            color: currTheme.lineSeparatorColor
+                            color: currTheme.backgroundMainScreen
+
+                            Text
+                            {
+                                id: stockNameText
+                                anchors.left: parent.left
+                                anchors.leftMargin: 16 * pt
+                                anchors.verticalCenter: parent.verticalCenter
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                color: currTheme.textColor
+                                verticalAlignment: Qt.AlignVCenter
+                                text: name
+                            }
+
+        //                    Text
+        //                    {
+        //                        id: networkAddressLabel
+        //                        anchors.verticalCenter: parent.verticalCenter
+        //                        anchors.left: parent.left
+        //                        anchors.leftMargin: 16 * pt
+        //                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        //                        color: currTheme.textColor
+        //                        text: qsTr("Network address")
+        //                        width: 92 * pt
+        //                    }
+                            DapText
+                            {
+                               id: textMetworkAddress
+        //                       anchors.left: parent.left
+        //                       anchors.leftMargin: 500 * pt
+                               width: 63 * pt
+                               anchors.right:  networkAddressCopyButton.left
+                               anchors.rightMargin: 4 * pt
+                               anchors.verticalCenter: parent.verticalCenter
+                               fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                               color: currTheme.textColor
+                               fullText: address
+                               textElide: Text.ElideMiddle
+                               horizontalAlignment: Qt.Alignleft
+                            }
+
+                            MouseArea
+                            {
+                                id: networkAddressCopyButton
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.right: parent.right
+                                anchors.rightMargin: 16 * pt
+                                width: 16 * pt
+                                height: 16 * pt
+                                hoverEnabled: true
+
+                                onClicked: textMetworkAddress.copyFullText()
+
+
+                                Image
+                                {
+                                    id: networkAddressCopyButtonImage
+                                    anchors.fill: parent
+                                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+                                    sourceSize.width: parent.width
+                                    sourceSize.height: parent.height
+
+                                }
+                            }
                         }
 
-                        RowLayout
+                        Repeater
                         {
-                            anchors.fill: parent
-                            anchors.margins: 10 * pt
-                            spacing: 10 * pt
+                            width: parent.width
+                            model: tokens
 
-                            Text
+                            Rectangle
                             {
-                                id: currencyName
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                                color: currTheme.textColor
-                                text: name
-                                width: 172 * pt
-                                horizontalAlignment: Text.AlignLeft
-                            }
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                height: 50 * pt
+                                color: currTheme.backgroundElements
 
-                            Text
-                            {
-                                id: currencySum
-                                Layout.fillWidth: true
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                                color: currTheme.textColor
-                                text: balance.toFixed(9)
-    //                            text: balance.toPrecision()
-                                horizontalAlignment: Text.AlignRight
-                            }
+                                Rectangle
+                                {
+                                    anchors.top: tokenInfoPlace.bottom
+                                    width: parent.width
+                                    height: 1 * pt
+                                    color: currTheme.lineSeparatorColor
+                                }
 
-                            Text
-                            {
-                                id: currencyCode
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                                color: currTheme.textColor
-                                text: name
-                                horizontalAlignment: Text.AlignRight
+                                RowLayout
+                                {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: 20 * pt
+                                    anchors.rightMargin: 20 * pt
+                                    spacing: 10 * pt
+
+                                    Text
+                                    {
+                                        id: currencyName
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                                        color: currTheme.textColor
+                                        text: name
+                                        width: 172 * pt
+                                        horizontalAlignment: Text.AlignLeft
+                                    }
+
+                                    Text
+                                    {
+                                        id: currencySum
+                                        Layout.fillWidth: true
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        color: currTheme.textColor
+                                        text: balance.toFixed(9)
+            //                            text: balance.toPrecision()
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+
+                                    Text
+                                    {
+                                        id: currencyCode
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        color: currTheme.textColor
+                                        text: name
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+                                }
+
                             }
                         }
-
                     }
                 }
+
             }
-        }
 
-    }
-
-    Rectangle {
-        id: testBorder
-        radius: mainFrameDashboard.radius+3
-        border.color: currTheme.backgroundPanel
-        border.width: 6*pt
-        color: 'transparent'
-        anchors.fill: mainFrameDashboard
-        anchors.margins: -6
-        z: 1
-        visible: true
-      }
-
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: mainFrameDashboard
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: mainFrameDashboard
-        visible: mainFrameDashboard.visible
-    }
-    InnerShadow {
-        anchors.fill: mainFrameDashboard
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
-        visible: mainFrameDashboard.visible
     }
 }
