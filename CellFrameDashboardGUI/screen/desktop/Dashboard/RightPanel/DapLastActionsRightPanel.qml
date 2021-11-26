@@ -24,9 +24,6 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
-//            anchors.left: parent.left
-//            anchors.leftMargin: -8*pt
-//            anchors.right: parent.right
             color: currTheme.backgroundMainScreen
 
             property date payDate: new Date(Date.parse(section))
@@ -107,7 +104,7 @@ DapLastActionsRightPanelForm
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
     {
-        console.log("getDateString", date)
+        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
 
         if (isSameDay(today, date))
         {
