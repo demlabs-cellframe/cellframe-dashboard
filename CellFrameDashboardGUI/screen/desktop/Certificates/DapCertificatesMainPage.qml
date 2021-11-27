@@ -41,92 +41,80 @@ DapAbstractTab
         id: name2
     }
 
-    Rectangle{
-        id:frameListView
-        x: 24 * pt
-        y: 84 * pt
-        height: 652/* - 24 * pt*/
-        width: 682 * pt
-        color: currTheme.backgroundElements
-        radius: 16 * pt
 
-        CertificatesListView {
-            id: certificatesListView
-            anchors.fill: parent
-
-
-            infoTitleTextVisible: models.certificates.isSelected
-            Component.onCompleted: {
-                //need bind delegate with delegateModel
-                models.certificatesFind.delegate = delegateComponent
-                models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
-                models.certificatesFind.update()
-                model = models.certificatesFind  //original
-    //            delegate = delegateComponent
-    //            model = models.certificates
-            }
-
-            onSelectedIndex: {   //index
-    //            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
-    //                models.certificates.clearSelected()
-    //            else
-                  models.certificates.setSelectedIndex(index)
-            }
-
-            onInfoClicked: {     //index
-                logics.dumpCertificate(index)
-                rightPanel.sourceComponent = certificateInfoComponent
-            }
-
-        }   //certificatesListView
-    }
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: frameListView
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: frameListView
-        visible: frameListView.visible
-    }
-    InnerShadow {
-        anchors.fill: frameListView
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
-        visible: frameListView.visible
-    }
-
-
-    Loader {
-        id: rightPanel
-        anchors {
-            top: parent.top
+    RowLayout
+    {
+        //            x: 24 * pt
+        anchors
+        {
+            fill: parent
+            margins: 24 * pt
             topMargin: 84 * pt
-            right: parent.right
-            rightMargin: 20 * pt
-            left: frameListView.right
-            leftMargin: 24 * pt
-        }
-        asynchronous: true
-        y: certificatesListView.y
-        width: 350 * pt
-        height: certificatesListView.height
-        sourceComponent: certificatesActionsComponent
-
-        onLoaded: {
-            item.visible = true
         }
 
-    }  //rightPanel
+        spacing: 24 * pt
+
+
+        DapRectangleLitAndShaded
+        {
+            id:frameListView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
+
+            contentData:
+            CertificatesListView {
+                id: certificatesListView
+                anchors.fill: parent
+
+
+                infoTitleTextVisible: models.certificates.isSelected
+                Component.onCompleted: {
+                    //need bind delegate with delegateModel
+                    models.certificatesFind.delegate = delegateComponent
+                    models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
+                    models.certificatesFind.update()
+                    model = models.certificatesFind  //original
+        //            delegate = delegateComponent
+        //            model = models.certificates
+                }
+
+                onSelectedIndex: {   //index
+        //            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
+        //                models.certificates.clearSelected()
+        //            else
+                      models.certificates.setSelectedIndex(index)
+                }
+
+                onInfoClicked: {     //index
+                    logics.dumpCertificate(index)
+                    rightPanel.sourceComponent = certificateInfoComponent
+                }
+
+            }   //certificatesListView
+
+        }
+
+        Loader {
+            id: rightPanel
+
+            asynchronous: true
+
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
+
+            sourceComponent: certificatesActionsComponent
+
+            onLoaded: {
+                item.visible = true
+            }
+
+        }  //rightPanel
+    }
+
 
     Component {
         id: certificatesActionsComponent
@@ -300,8 +288,10 @@ DapAbstractTab
 
         DapMessageBox {
             id: dapMessageBox
-            width: 240 * pt
+            width: 300 * pt
             height: 240 * pt
+            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            fontButtonText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             dapButtonOk.onClicked: {
                 messagePopup.close()
             }

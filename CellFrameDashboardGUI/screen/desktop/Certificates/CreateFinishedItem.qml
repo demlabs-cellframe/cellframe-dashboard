@@ -26,89 +26,64 @@ Rectangle {
         }
     }
 
-    Rectangle
+    DapRectangleLitAndShaded
     {
-        id:frameRightPanel
         anchors.fill: parent
-        color: parent.color
-        radius: parent.radius
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
+
+        contentData:
+        Item
+        {
+            anchors.fill: parent
+            Item {
+                id: titleRectangle
+                width: parent.width
+                height: 40 * pt
+
+                CloseButton {
+                    id: closeButton
+                }  //
 
 
-        Item {
-            id: titleRectangle
-            width: parent.width
-            height: 40 * pt
-
-            CloseButton {
-                id: closeButton
-            }  //
+                Text {
+                    id: certificatesTitleText
+                    anchors{
+                        left: closeButton.right
+                        leftMargin: 8 * pt
+                        verticalCenter: closeButton.verticalCenter
+                    }
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                    color: currTheme.textColor
+                    text: qsTr("Create certificate")
+                }
+            }  //titleRectangle
 
 
             Text {
-                id: certificatesTitleText
-                anchors{
-                    left: closeButton.right
-                    leftMargin: 8 * pt
-                    verticalCenter: closeButton.verticalCenter
-                }
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                id: finishedText
+                y: 202 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
                 color: currTheme.textColor
-                text: qsTr("Create certificate")
+                text: qsTr("Certificate created\nsuccessfully")
+                horizontalAlignment: Text.AlignHCenter
             }
-        }  //titleRectangle
 
 
-        Text {
-            id: finishedText
-            y: 202 * pt
-            anchors.horizontalCenter: parent.horizontalCenter
-            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
-            color: currTheme.textColor
-            text: qsTr("Certificate created\nsuccessfully")
-            horizontalAlignment: Text.AlignHCenter
-        }
-
-
-        DapButton {
-            id: doneButton
-            textButton: qsTr("Done")
-            y: 468 * pt
-            x: (parent.width - width) / 2
-            height: 36 * pt
-            width: 132 * pt
-            fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-            horizontalAligmentText: Qt.AlignHCenter
+            DapButton {
+                id: doneButton
+                textButton: qsTr("Done")
+                y: 468 * pt
+                x: (parent.width - width) / 2
+                height: 36 * pt
+                width: 132 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                horizontalAligmentText: Qt.AlignHCenter
+            }
         }
     } //frameRightPanel
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: frameRightPanel
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: frameRightPanel
-        visible: frameRightPanel.visible
-    }
-    InnerShadow {
-        anchors.fill: frameRightPanel
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
-        visible: frameRightPanel.visible
-    }
-
-
-
 
 }   //root
-
-
-

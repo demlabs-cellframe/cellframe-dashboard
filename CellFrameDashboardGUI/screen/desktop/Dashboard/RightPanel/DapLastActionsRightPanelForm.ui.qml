@@ -16,7 +16,6 @@ DapRightPanel
         height: 38 * pt
         width: 348*pt
 
-
         Text
         {
             anchors.fill: parent
@@ -29,112 +28,80 @@ DapRightPanel
 
         }
 
-        //            Rectangle
-        //            {
-        //                id: borderBottom
-        //                anchors.bottom: parent.bottom
-        //                anchors.left: parent.left
-        //                anchors.right: parent.right
-        //                height: 1 * pt
-        //                color: "#757184"
-        //            }
     }
 
     dapContentItemData:
-        ScrollView {
-        id: lastActionsList
-        clip: true
+    ListView
+    {
+
+        id: lastActionsView
         anchors.fill: parent
-        anchors.bottomMargin: 10 * pt
-        anchors.leftMargin: 5 * pt
-        anchors.rightMargin: 1 * pt
-//        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+        clip: true
+        model: modelLastActions
+        ScrollBar.vertical: ScrollBar {
+            active: true
+        }
 
+        section.property: "date"
+        section.criteria: ViewSection.FullString
+        section.delegate: delegateSection
 
-        Column {
-            Repeater {
-                model: 5 // Ammount of days in history
-                delegate: ListView {
-                    id: actionsListView
-                    interactive: false
-                    width: lastActionsList.width
-                    height: ((50 * pt) * modelLastActions.count) + (35 * pt)
-                    model: modelLastActions
+        delegate: Rectangle {
+            width: control.width
+            color: currTheme.backgroundElements
+            height: 50 * pt
 
-                    section.property: "date"
-                    section.criteria: ViewSection.FullString
-                    section.delegate: delegateSection
+            RowLayout
+            {
+                anchors.fill: parent
+                anchors.rightMargin: 20 * pt
+                anchors.leftMargin: 16 * pt
 
-                    delegate: Rectangle {
-                        width: control.width
-                        color: currTheme.backgroundElements
-                        height: 50 * pt
+                ColumnLayout
+                {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    spacing: 2 * pt
 
-                        RowLayout
-                        {
-                            anchors.fill: parent
-                            anchors.rightMargin: 20 * pt
-                            anchors.leftMargin: 16 * pt
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        text: network
+                        color: currTheme.textColor
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                        elide: Text.ElideRight
+                    }
 
-                            ColumnLayout
-                            {
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                spacing: 2 * pt
-
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    text: /*name*/network
-                                    color: currTheme.textColor
-                                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                                    elide: Text.ElideRight
-                                }
-
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    text: status
-                                    color: currTheme.textColor
-                                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                                }
-                            }
-
-                            Text
-                            {
-                                property string sign: (status === "Sent") ? "- " : "+ "
-                                Layout.fillHeight: true
-                                Layout.fillWidth: true
-                                horizontalAlignment: Qt.AlignRight
-                                verticalAlignment: Qt.AlignVCenter
-                                color: currTheme.textColor
-                                text: sign + amount + " " + name
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                            }
-                        }
-
-                        Rectangle
-                        {
-                            width: parent.width
-                            height: 1 * pt
-                            color: currTheme.lineSeparatorColor
-                            anchors.bottom: parent.bottom
-                        }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        text: status
+                        color: currTheme.textColor
+                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     }
                 }
+
+                Text
+                {
+                    property string sign: (status === "Sent") ? "- " : "+ "
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    horizontalAlignment: Qt.AlignRight
+                    verticalAlignment: Qt.AlignVCenter
+                    color: currTheme.textColor
+                    text: sign + amount + " " + name
+                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                }
+            }
+
+            Rectangle
+            {
+                width: parent.width
+                height: 1 * pt
+                color: currTheme.lineSeparatorColor
+                anchors.bottom: parent.bottom
             }
         }
     }
-
-        //        DapScrollView
-        //        {
-        //            id: scrollButtons
-        //            viewData: lastActionsView
-
-        //            scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
-        //            scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
-        //            scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
-        //            scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
-        //        }
 
 }

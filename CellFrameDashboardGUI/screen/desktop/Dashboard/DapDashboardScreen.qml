@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
 
@@ -7,10 +8,14 @@ import "../../"
 DapAbstractScreen
 {
     id: dapDashboardScreen
-    dapFrame.color: "#FFFFFF"
-    anchors.fill: parent
-    anchors.leftMargin: 24 * pt
-    anchors.rightMargin: 24 * pt
+    anchors
+    {
+        fill: parent
+        topMargin: 24 * pt
+        rightMargin: 44 * pt
+        leftMargin: 24 * pt
+        bottomMargin: 20 * pt
+    }
 
     // Paths to currency emblems
     property string bitCoinImagePath: "qrc:/resources/icons/tkn1_icon_light.png"
@@ -18,18 +23,22 @@ DapAbstractScreen
     property string newGoldImagePath: "qrc:/resources/icons/ng_icon.png"
     property string kelvinImagePath: "qrc:/resources/icons/ic_klvn.png"
     ///@param dapButtonNewPayment Button to create a new payment.
-    property alias dapButtonNewPayment: buttonNewPayment
+//    property alias dapButtonNewPayment: buttonNewPayment
     property alias dapListViewWallet: listViewWallet
-    property alias dapNameWalletTitle: titleText
+//    property alias dapNameWalletTitle: titleText
     property alias dapWalletCreateFrame: walletCreateFrame
-    property alias dapTitleBlock: titleBlock
+//    property alias dapTitleBlock: titleBlock
     property alias dapAddWalletButton: addWalletButton
+    property alias dapFrameTitleCreateWallet: frameTitleCreateWallet
+    property alias dapMainFrameDashboard : mainFrameDashboard
+
 
     Rectangle
     {
         id: walletCreateFrame
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
         Column
         {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -37,11 +46,12 @@ DapAbstractScreen
             {
                 height: 82.79 * pt
                 width: parent.width
+                color: "transparent"
             }
             Image
             {
                 id: iconCreateWallet
-                source: "qrc:/resources/icons/illustration_new-wallet.png"
+                source: "qrc:/resources/icons/" + pathTheme + "/illustration-new-wallet.png"
                 width: 500 * pt
                 height: 300 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -50,13 +60,14 @@ DapAbstractScreen
             {
                 height: 45 * pt
                 width: parent.width
+                color: "transparent"
             }
             Text
             {
                 id: titleTextWalletCreate
                 font.family: "Quiksand"
                 font.pixelSize: 26 * pt
-                color: "#070023"
+                color: currTheme.textColor
                 text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -64,292 +75,249 @@ DapAbstractScreen
             {
                 height: 21 * pt
                 width: parent.width
+                color: "transparent"
             }
+
             DapButton
             {
                 id: addWalletButton
 
                 implicitWidth: 180 * pt
                 implicitHeight: 36 * pt
-                radius: 4 * pt
+                radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
-                heightImageButton: 21 * pt
-                widthImageButton: 22 * pt
                 textButton: "New wallet"
-                normalImageButton: "qrc:/resources/icons/new-wallet_icon_dark.svg"
-                hoverImageButton: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
-                indentImageLeftButton: 41 * pt
-                colorBackgroundNormal: "#070023"
-                colorBackgroundHover: "#D51F5D"
-                colorButtonTextNormal: "#FFFFFF"
-                colorButtonTextHover: "#FFFFFF"
-                indentTextRight: 37 * pt
-                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                borderColorButton: "#000000"
-                borderWidthButton: 0
-                horizontalAligmentText:Qt.AlignRight
+                colorBackgroundNormal: currTheme.buttonColorNormal
+                colorBackgroundHover: currTheme.buttonColorHover
+                colorButtonTextNormal: currTheme.textColor
+                colorButtonTextHover: currTheme.textColor
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                horizontalAligmentText:Qt.AlignCenter
                 colorTextButton: "#FFFFFF"
 
             }
-//            Rectangle
-//            {
-//                height: Layout.fillHeight
-//                width: parent.width
-//            }
+            Rectangle
+            {
+                height: Layout.fillHeight
+                width: parent.width
+            }
         }
     }
-
     Rectangle
     {
-        id: titleBlock
-        anchors.top: parent.top
-        anchors.topMargin: 20 * pt
-        anchors.bottomMargin: 20 * pt
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: 36 * pt
-
-        RowLayout
+        id: frameTitleCreateWallet
+        anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "transparent"
+//        anchors.verticalCenter: parent.verticalCenter
+        Text
         {
-            anchors.fill: parent
+//            anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: "Quiksand"
+            font.pixelSize: 26 * pt
+            color: currTheme.textColor
+            text: qsTr("Creating wallet in process...")
+        }
+    }
 
-            Text
-            {
-                id: titleText
-                font.family: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
-                font.pixelSize: 20 * pt
-                text: "My first crypto wallet"
-                width: 185 * pt
-            }
 
-            MouseArea
-            {
-                id: walletNameEditButton
-                width: 16 * pt
-                height: 16 * pt
-                hoverEnabled: true
-                //anchors.left: titleText.right
-                //anchors.leftMargin: 12 * pt
+    DapRectangleLitAndShaded
+    {
+        id: mainFrameDashboard
+        anchors.fill: parent
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-                Image
-                {
-                    id: walletNameEditButtonImage
-                    anchors.fill: parent
-                    source: parent.containsMouse ? "qrc:/resources/icons/ic_edit_hover.png" : "qrc:/resources/icons/ic_edit.png"
-                    sourceSize.width: width
-                    sourceSize.height: height
-
-                }
-            }
-
+        contentData:
             Item
             {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-            }
+                anchors.fill: parent
 
-            DapButton
-            {
-                id: buttonNewPayment
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
-                textButton: "New payment"
-                colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#070023"
-                colorButtonTextNormal: "#FFFFFF"
-                colorButtonTextHover: "#FFFFFF"
-                normalImageButton: "qrc:/resources/icons/new-payment_icon.png"
-                hoverImageButton: "qrc:/resources/icons/new-payment_icon.png"
-                widthImageButton: 20 * pt
-                heightImageButton: 20 * pt
-                indentImageLeftButton: 15 * pt
-                indentTextRight: 15 * pt
-                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-            }
-        }
-    }
-
-    ListView
-    {
-        id: listViewWallet
-        anchors.top: titleBlock.bottom
-        anchors.topMargin: 20 * pt
-        anchors.bottom: parent.bottom
-        width: parent.width
-        spacing: 5 * pt
-        clip: true
-
-        delegate: delegateTokenView
-    }
-
-
-
-
-    Component
-    {
-        id: delegateTokenView
-        Column
-        {
-            width: parent.width
-
-            Rectangle
-            {
-                id: stockNameBlock
-                height: 30 * pt
-                width: parent.width
-                color: "#908D9D"
-
-                Text
+                // Header
+                Item
                 {
-                    id: stockNameText
+                    id: walletShowHeader
+                    anchors.top: parent.top
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
-                    anchors.verticalCenter: parent.verticalCenter
-                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    color: "#FFFFFF"
-                    verticalAlignment: Qt.AlignVCenter
-                    text: name
-                }
-            }
-
-            Rectangle
-            {
-                id: networkAddressBlock
-                height: 40 * pt
-                width: parent.width
-
-                Text
-                {
-                    id: networkAddressLabel
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
-                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    color: "#908D9D"
-                    text: qsTr("Network address")
-                    width: 92 * pt
-                }
-
-                DapText
-                {
-                   id: textMetworkAddress
-                   anchors.left: networkAddressLabel.right
-                   anchors.leftMargin: 36 * pt
-                   anchors.right:  networkAddressCopyButton.left
-                   anchors.rightMargin: 4 * pt
-                   anchors.verticalCenter: parent.verticalCenter
-                   fontDapText: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular10
-                   color: "#908D9D"
-                   fullText: address
-                   textElide: Text.ElideRight
-                }
-
-
-
-                MouseArea
-                {
-                    id: networkAddressCopyButton
-                    anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    anchors.rightMargin: networkAddressLabel.anchors.leftMargin
-                    width: 16 * pt
-                    height: 16 * pt
-                    hoverEnabled: true
-
-                    onClicked: textMetworkAddress.copyFullText()
-
-
-                    Image
+                    height: 38 * pt
+                    Text
                     {
-                        id: networkAddressCopyButtonImage
                         anchors.fill: parent
-                        source: parent.containsMouse ? "qrc:/resources/icons/ic_copy_hover.png" : "qrc:/resources/icons/ic_copy.png"
-                        sourceSize.width: parent.width
-                        sourceSize.height: parent.height
+                        anchors.leftMargin: 18 * pt
+                        anchors.topMargin: 10 * pt
+                        anchors.bottomMargin: 10 * pt
 
+                        verticalAlignment: Qt.AlignVCenter
+                        text: qsTr("Tokens")
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        color: currTheme.textColor
                     }
                 }
-            }
 
-            Repeater
-            {
-                width: parent.width
-                model: tokens
-
-                Rectangle
+                ListView
                 {
+                    id: listViewWallet
+                    anchors.top: walletShowHeader.bottom
+                    anchors.bottom: parent.bottom
                     anchors.left: parent.left
-                    anchors.leftMargin: 16 * pt
                     anchors.right: parent.right
-                    anchors.rightMargin: 16 * pt
-                    height: 67 * pt
+                    clip: true
 
-                    Rectangle
+                    delegate: delegateTokenView
+                }
+
+
+
+
+                Component
+                {
+                    id: delegateTokenView
+                    Column
                     {
-                        id: lineBalance
-                        anchors.top: parent.top
                         width: parent.width
-                        height: 1 * pt
-                        color: "#908D9D"
-                    }
 
-                    RowLayout
-                    {
-                        anchors.fill: parent
-                        anchors.margins: 10 * pt
-                        spacing: 10 * pt
-
-                        Image
+                        Rectangle
                         {
-                            id: currencyIcon
+                            id: stockNameBlock
                             height: 30 * pt
-                            width: 30 * pt
-                            source: "qrc:/resources/icons/ic_cellframe.png"
-                            sourceSize.width: width
-                            sourceSize.height: height
+                            width: parent.width
+                            color: currTheme.backgroundMainScreen
+
+                            Text
+                            {
+                                id: stockNameText
+                                anchors.left: parent.left
+                                anchors.leftMargin: 16 * pt
+                                anchors.verticalCenter: parent.verticalCenter
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                color: currTheme.textColor
+                                verticalAlignment: Qt.AlignVCenter
+                                text: name
+                            }
+
+        //                    Text
+        //                    {
+        //                        id: networkAddressLabel
+        //                        anchors.verticalCenter: parent.verticalCenter
+        //                        anchors.left: parent.left
+        //                        anchors.leftMargin: 16 * pt
+        //                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        //                        color: currTheme.textColor
+        //                        text: qsTr("Network address")
+        //                        width: 92 * pt
+        //                    }
+                            DapText
+                            {
+                               id: textMetworkAddress
+        //                       anchors.left: parent.left
+        //                       anchors.leftMargin: 500 * pt
+                               width: 63 * pt
+                               anchors.right:  networkAddressCopyButton.left
+                               anchors.rightMargin: 4 * pt
+                               anchors.verticalCenter: parent.verticalCenter
+                               fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                               color: currTheme.textColor
+                               fullText: address
+                               textElide: Text.ElideMiddle
+                               horizontalAlignment: Qt.Alignleft
+                            }
+
+                            MouseArea
+                            {
+                                id: networkAddressCopyButton
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.right: parent.right
+                                anchors.rightMargin: 16 * pt
+                                width: 16 * pt
+                                height: 16 * pt
+                                hoverEnabled: true
+
+                                onClicked: textMetworkAddress.copyFullText()
+
+
+                                Image
+                                {
+                                    id: networkAddressCopyButtonImage
+                                    anchors.fill: parent
+                                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+                                    sourceSize.width: parent.width
+                                    sourceSize.height: parent.height
+
+                                }
+                            }
                         }
 
-                        Text
+                        Repeater
                         {
-                            id: currencyName
-                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                            color: "#070023"
-                            text: name
-                            width: 172 * pt
-                            horizontalAlignment: Text.AlignLeft
-                        }
+                            width: parent.width
+                            model: tokens
 
-                        Text
-                        {
-                            id: currencySum
-                            Layout.fillWidth: true
-                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                            color: "#070023"
-                            text: balance.toFixed(9)
-//                            text: balance.toPrecision()
-                            horizontalAlignment: Text.AlignRight
-                        }
+                            Rectangle
+                            {
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                height: 50 * pt
+                                color: currTheme.backgroundElements
 
-                        Text
-                        {
-                            id: currencyCode
-                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                            color: "#070023"
-                            text: name
-                            horizontalAlignment: Text.AlignRight
-                        }
+                                RowLayout
+                                {
+                                    anchors.fill: parent
+                                    anchors.leftMargin: 20 * pt
+                                    anchors.rightMargin: 20 * pt
+                                    spacing: 10 * pt
 
-//                        Text
-//                        {
-//                            id: currencyEmission
-//                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-//                            color: "#070023"
-//                            text: emission + " datoshi"
-//                            horizontalAlignment: Text.AlignRight
-//                        }
+                                    Text
+                                    {
+                                        id: currencyName
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                                        color: currTheme.textColor
+                                        text: name
+                                        width: 172 * pt
+                                        horizontalAlignment: Text.AlignLeft
+                                    }
+
+                                    Text
+                                    {
+                                        id: currencySum
+                                        Layout.fillWidth: true
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        color: currTheme.textColor
+                                        text: balance.toFixed(9)
+            //                            text: balance.toPrecision()
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+
+                                    Text
+                                    {
+                                        id: currencyCode
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        color: currTheme.textColor
+                                        text: name
+                                        horizontalAlignment: Text.AlignRight
+                                    }
+                                }
+
+                                //  Underline
+                                Rectangle
+                                {
+                                    x: 20 * pt
+                                    y: parent.height - 1 * pt
+                                    width: parent.width - 40 * pt
+                                    height: 1 * pt
+                                    color: currTheme.lineSeparatorColor
+                                }
+
+                            }
+                        }
                     }
                 }
+
             }
-        }
+
     }
 }

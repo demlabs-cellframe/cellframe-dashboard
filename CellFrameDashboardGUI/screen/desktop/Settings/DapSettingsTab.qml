@@ -31,19 +31,6 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-    ListModel
-    {
-        id: operationModel
-        ListElement { name: qsTr("Create wallet")
-            operation: "create" }
-        ListElement { name: qsTr("Restore wallet")
-            operation: "restore" }
-    }
-
-    property var walletOperation: operationModel.get(0).operation
-    property string walletRecoveryType: "Nothing"
-
-
     dapTopPanel: DapSettingsTopPanel { }
 
     dapScreen: DapSettingsScreen {
@@ -107,4 +94,5 @@ DapAbstractTab
             settingsScreen.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
         }
     }
+
 }

@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapLastActionsRightPanelForm
 {
@@ -24,9 +25,6 @@ DapLastActionsRightPanelForm
             height: 30 * pt
             width: parent.width
 
-//            anchors.left: parent.left
-//            anchors.leftMargin: -8*pt
-//            anchors.right: parent.right
             color: currTheme.backgroundMainScreen
 
             property date payDate: new Date(Date.parse(section))
@@ -51,7 +49,8 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-//            modelLastActions.clear()
+            console.log("onWalletHistoryReceived")
+
             for (var i = 0; i < walletHistory.length; ++i)
             {
                 if (modelLastActions.count === 0)
@@ -88,18 +87,26 @@ DapLastActionsRightPanelForm
         }
     }
 
-    Connections {
-        target: dashboardTab
-        onResetWalletHistory:
+    Connections
+    {
+        target: dapMainWindow
+        onModelWalletsUpdated:
         {
-            modelLastActions.clear()
+            console.log("onModelWalletsUpdated")
+
+            getWalletHistory()
         }
+    }
+
+    Component.onCompleted:
+    {
+        getWalletHistory()
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
     {
-        console.log("getDateString", date)
+        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
 
         if (isSameDay(today, date))
         {
@@ -130,4 +137,38 @@ DapLastActionsRightPanelForm
     {
         return (date1.getFullYear() === date2.getFullYear()) ? true : false
     }
+
+
+    function getWalletHistory()
+    {
+        var index = SettingsWallet.currentIndex
+
+        if (index < 0)
+            return;
+
+        var model = dapModelWallets.get(index).networks
+        var name = dapModelWallets.get(index).name
+
+        console.log("getWalletHistory", index, model.count)
+
+        modelLastActions.clear()
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            var network = model.get(i).name
+            var address = model.get(i).address
+            var chain = "zero"
+            if (network === "core-t")
+                chain = "zerochain"
+
+            console.log("DapGetWalletHistoryCommand")
+            console.log("   wallet name:", name)
+            console.log("   network:", network)
+            console.log("   chain:", chain)
+            console.log("   wallet address:", address)
+            dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                network, chain, address, name);
+        }
+    }
+
 }

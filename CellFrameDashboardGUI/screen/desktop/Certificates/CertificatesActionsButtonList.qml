@@ -218,28 +218,4 @@ Rectangle {
 
         }   //actionButtonsLayout
     } //frameRightPanel
-//    InnerShadow {
-//        id: topLeftSadow
-//        anchors.fill: frameRightPanel
-//        cached: true
-//        horizontalOffset: 5
-//        verticalOffset: 5
-//        radius: 4
-//        samples: 32
-//        color: "#2A2C33"
-//        smooth: true
-//        source: frameRightPanel
-//        visible: frameRightPanel.visible
-//    }
-//    InnerShadow {
-//        anchors.fill: frameRightPanel
-//        cached: true
-//        horizontalOffset: -1
-//        verticalOffset: -1
-//        radius: 1
-//        samples: 32
-//        color: "#4C4B5A"
-//        source: topLeftSadow
-//        visible: frameRightPanel.visible
-//    }
 }  //root

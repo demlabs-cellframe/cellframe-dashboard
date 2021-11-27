@@ -1,100 +1,79 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick 2.4
+import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.12
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-
 import "qrc:/"
 import "../../"
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
-import "qrc:/screen/controls" as Controls
 
-Page
+DapAbstractScreen
 {
-    background: Rectangle {
-        color: "transparent"
+    property alias settingsScreen_ : settingScreen
+    property alias dapComboboxWallet: walletComboBox
+
+    id:settingScreen
+    signal createWalletSignal()
+
+    anchors
+    {
+        top: parent.top
+        topMargin: 24 * pt
+        right: parent.right
+        rightMargin: 44 * pt
+        left: parent.left
+        leftMargin: 24 * pt
+        bottom: parent.bottom
+        bottomMargin: 20 * pt
     }
 
-    property alias settingsScreen_ : settingScreen
-    //property alias dapComboboxWallet: walletComboBox
-
-    id: settingScreen
-    signal createWalletSignal
-
-//    anchors
-//    {
-//        top: parent.top
-//        topMargin: 24 * pt
-//        right: parent.right
-//        rightMargin: 44 * pt
-//        left: parent.left
-//        leftMargin: 24 * pt
-//        bottom: parent.bottom
-//        bottomMargin: 20 * pt
-//    }
-
-    Rectangle
+    DapRectangleLitAndShaded
     {
-        id: settingsFrame
         anchors.fill: parent
         color: currTheme.backgroundElements
-        radius: 16*pt
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-        // Header
-        Item
-        {
-            id: settingsHeader
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 38 * pt
-
-            Text
+        contentData:
+            Item
             {
                 anchors.fill: parent
-                anchors.leftMargin: 18 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
-                verticalAlignment: Qt.AlignVCenter
-                text: qsTr("Settings")
-                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                color: currTheme.textColor
-            }
-        }
 
-        ListView
-        {
-            id: listViewSettings
-            anchors.top: settingsHeader.bottom
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            model: modelSettings
-            clip: true
-        }
-    }
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: settingsFrame
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: settingsFrame
-    }
-    InnerShadow {
-        anchors.fill: settingsFrame
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
+                // Header
+                Item
+                {
+                    id: settingsHeader
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 38 * pt
+
+                    Text
+                    {
+                        anchors.fill: parent
+                        anchors.leftMargin: 18 * pt
+                        anchors.topMargin: 10 * pt
+                        anchors.bottomMargin: 10 * pt
+                        verticalAlignment: Qt.AlignVCenter
+                        text: qsTr("Settings")
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        color: currTheme.textColor
+                    }
+                }
+
+                ListView
+                {
+                    id: listViewSettings
+                    anchors.top: settingsHeader.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    model: modelSettings
+                    clip: true
+                }
+            }
     }
 
     ///@detalis Settings item model.
@@ -127,7 +106,7 @@ Page
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text:"Network"
-                    font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: currTheme.textColor
                 }
             }
@@ -177,11 +156,11 @@ Page
                     colorDropShadow: currTheme.shadowColor
                     roleInterval: 15
                     endRowPadding: 37
-                    fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                     colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                     alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                    //model: dapNetworkModel
+                    model: dapNetworkModel
                     onCurrentIndexChanged:
                     {
                         dapServiceController.CurrentNetwork = currentText
@@ -213,7 +192,7 @@ Page
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text: "Wallet"
-                    font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: currTheme.textColor
                 }
             }
@@ -223,10 +202,9 @@ Page
             color: currTheme.backgroundElements
             height: 80 * pt
             width: 200 * pt
-
             DapComboBox
             {
-                id: walletComboBox
+                id:walletComboBox
                 anchors.fill: parent
                 anchors.topMargin: 25 * pt
                 anchors.leftMargin: 25 * pt
@@ -253,11 +231,11 @@ Page
                 colorDropShadow: currTheme.shadowColor
                 roleInterval: 15
                 endRowPadding: 37
-                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                model: dapWalletsNames
+                model: dapModelWallets
                 currentIndex: SettingsWallet.currentIndex
                 onCurrentIndexChanged:
                 {
@@ -265,17 +243,17 @@ Page
                 }
             }
             // Wallet create button
-            Controls.DapButton
+            DapButton
             {
                 id: newWalletButton
-                buttonText: qsTr("New wallet")
+                textButton: "New wallet"
                 anchors.left: walletComboBox.right
                 anchors.leftMargin: 50 * pt
                 anchors.verticalCenter: walletComboBox.verticalCenter
                 implicitHeight: 36 * pt
                 implicitWidth: 163 * pt
-                //fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                //horizontalAligmentText: Text.AlignHCenter
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
                 onClicked: createWalletSignal()
             }
         }

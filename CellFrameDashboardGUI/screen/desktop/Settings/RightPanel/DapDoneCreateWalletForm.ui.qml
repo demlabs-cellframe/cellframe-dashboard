@@ -4,10 +4,6 @@ import "../../../"
 
 DapAbstractRightPanel
 {
-    dapNextRightPanel: emptyRightPanel
-    dapPreviousRightPanel: emptyRightPanel
-
-
     property alias dapButtonDone: buttonDone
 
     dapContentItemData:

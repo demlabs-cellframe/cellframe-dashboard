@@ -32,93 +32,99 @@ DapAbstractScreen
 
     }
 
-    Rectangle
+    DapRectangleLitAndShaded
     {
         id: consoleRectangle
         anchors.fill: parent
-//        anchors.bottomMargin: 20 * pt
-//        anchors.topMargin: 24 * pt
-//        anchors.leftMargin: 120 * pt
-//        anchors.rightMargin: 20 * pt
-//        anchors.bottomMargin: 20 * pt
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-        ListView
+        contentData:
+        Item
         {
-            id: listViewConsoleCommand
-//            anchors.top: parent.top
-//            anchors.left: parent.left
-//            anchors.right: parent.right
             anchors.fill: parent
-            anchors.bottomMargin: 50 * pt
-            anchors.leftMargin: 20 *pt
-            anchors.topMargin: 24 * pt
-            height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
-                        contentHeight :
-                        (consoleRectangle.height - inputCommand.height)
-            clip: true
-            model: modelConsoleCommand
-            delegate: delegateConsoleCommand
 
-            currentIndex: count - 1
-            highlightFollowsCurrentItem: true
-            highlightRangeMode: ListView.ApplyRange
-
-            DapScrollViewHandling
+            ListView
             {
-                id: scrollHandler
-                viewData: listViewConsoleCommand
-                scrollMouseAtArrow: consoleScroll.mouseAtArrow
-            }
-        }
+                id: listViewConsoleCommand
+    //            anchors.top: parent.top
+    //            anchors.left: parent.left
+    //            anchors.right: parent.right
+                anchors.fill: parent
+                anchors.bottomMargin: 50 * pt
+                anchors.leftMargin: 20 *pt
+                anchors.topMargin: 24 * pt
+                height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
+                            contentHeight :
+                            (consoleRectangle.height - inputCommand.height)
+                clip: true
+                model: modelConsoleCommand
+                delegate: delegateConsoleCommand
 
-        RowLayout
-        {
-            id: inputCommand
-            spacing: 0
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: listViewConsoleCommand.bottom
-            height: consoleCmd.contentHeight
+                currentIndex: count - 1
+                highlightFollowsCurrentItem: true
+                highlightRangeMode: ListView.ApplyRange
 
-
-            Text
-            {
-                id: promt
-                verticalAlignment: Qt.AlignVCenter
-                text: ">"
-                color: currTheme.textColor
-//                Layout.left: parent.left
-                Layout.leftMargin: 20 * pt
-
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+//                DapScrollViewHandling
+//                {
+//                    id: scrollHandler
+//                    viewData: listViewConsoleCommand
+//                    scrollMouseAtArrow: consoleScroll.mouseAtArrow
+//                }
+                ScrollBar.vertical: ScrollBar {
+                    active: true
+                }
             }
 
-            TextArea
+            RowLayout
             {
-                id: consoleCmd
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
-//                Layout.leftMargin: 10 * pt
-                wrapMode: TextArea.Wrap
-                placeholderText: qsTr("Type here...")
-                selectByMouse: true
-                color: currTheme.textColor
-                focus: true
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                Keys.onReturnPressed: text.length > 0 ?
-                                          sendedCommand = text :
-                                          sendedCommand = ""
-                Keys.onEnterPressed: text.length > 0 ?
-                                         sendedCommand = text :
-                                         sendedCommand = ""
-                Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-                                      consoleHistoryIndex += 1 :
-                                      null
-                Keys.onDownPressed: (consoleHistoryIndex > -1) ?
-                                        consoleHistoryIndex -= 1 :
-                                        null
+                id: inputCommand
+                spacing: 0
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: listViewConsoleCommand.bottom
+                height: consoleCmd.contentHeight
+
+
+                Text
+                {
+                    id: promt
+                    verticalAlignment: Qt.AlignVCenter
+                    text: ">"
+                    color: currTheme.textColor
+    //                Layout.left: parent.left
+                    Layout.leftMargin: 20 * pt
+
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                }
+
+                TextArea
+                {
+                    id: consoleCmd
+                    verticalAlignment: Qt.AlignVCenter
+                    Layout.fillWidth: true
+    //                Layout.leftMargin: 10 * pt
+                    wrapMode: TextArea.Wrap
+                    placeholderText: qsTr("Type here...")
+                    selectByMouse: true
+                    color: currTheme.textColor
+                    focus: true
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                    Keys.onReturnPressed: text.length > 0 ?
+                                              sendedCommand = text :
+                                              sendedCommand = ""
+                    Keys.onEnterPressed: text.length > 0 ?
+                                             sendedCommand = text :
+                                             sendedCommand = ""
+                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                                          consoleHistoryIndex += 1 :
+                                          null
+                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+                                            consoleHistoryIndex -= 1 :
+                                            null
+                }
             }
         }
     }
@@ -139,29 +145,5 @@ DapAbstractScreen
         scrollButtonBottomMargin: 10 * pt
         scrollButtonLeftMargin: 10 * pt
         scrollButtonRightMargin: 10 * pt
-    }
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: consoleRectangle
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: consoleRectangle
-        visible: consoleRectangle.visible
-    }
-    InnerShadow {
-        anchors.fill: consoleRectangle
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
-        visible: consoleRectangle.visible
     }
 }

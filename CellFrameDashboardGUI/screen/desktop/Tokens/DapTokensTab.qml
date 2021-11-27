@@ -126,15 +126,15 @@ DapAbstractTab {
 
     Component.onCompleted:
     {
-        for(var i=0; i < dapWallets.count; ++i)
-        {
-            modelHistory.clear()
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                                                  dapServiceController.CurrentNetwork,
-                                                  dapServiceController.CurrentChain,
-                                                  dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
-                                                  dapWallets[i].Name)
-        }
+//        for(var i=0; i < dapWallets.count; ++i)
+//        {
+//            modelHistory.clear()
+//            dapServiceController.requestToService("DapGetWalletHistoryCommand",
+//                                                  dapServiceController.CurrentNetwork,
+//                                                  dapServiceController.CurrentChain,
+//                                                  dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
+//                                                  dapWallets[i].Name)
+//        }
         if(SettingsWallet.currentIndex != -1)
         {
 //            for (var i = 0; i < dapModelWallets(SettingsWallet.currentIndex).Tokens.count; ++i)
