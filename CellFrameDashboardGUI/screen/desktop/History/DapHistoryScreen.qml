@@ -99,8 +99,10 @@ DapHistoryScreenForm
             //  Underline
             Rectangle
             {
-                width: parent.width
-                height: 1
+                x: 20 * pt
+                y: parent.height - 1 * pt
+                width: parent.width - 40 * pt
+                height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
         }

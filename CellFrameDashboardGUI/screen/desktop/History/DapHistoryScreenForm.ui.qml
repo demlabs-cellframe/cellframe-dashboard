@@ -20,7 +20,6 @@ DapAbstractScreen
 
     DapRectangleLitAndShaded
     {
-        id: mainFrameHistory
         anchors.fill: parent
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle

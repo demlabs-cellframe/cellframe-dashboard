@@ -264,14 +264,6 @@ DapAbstractScreen
                                 height: 50 * pt
                                 color: currTheme.backgroundElements
 
-                                Rectangle
-                                {
-                                    anchors.top: tokenInfoPlace.bottom
-                                    width: parent.width
-                                    height: 1 * pt
-                                    color: currTheme.lineSeparatorColor
-                                }
-
                                 RowLayout
                                 {
                                     anchors.fill: parent
@@ -308,6 +300,16 @@ DapAbstractScreen
                                         text: name
                                         horizontalAlignment: Text.AlignRight
                                     }
+                                }
+
+                                //  Underline
+                                Rectangle
+                                {
+                                    x: 20 * pt
+                                    y: parent.height - 1 * pt
+                                    width: parent.width - 40 * pt
+                                    height: 1 * pt
+                                    color: currTheme.lineSeparatorColor
                                 }
 
                             }
