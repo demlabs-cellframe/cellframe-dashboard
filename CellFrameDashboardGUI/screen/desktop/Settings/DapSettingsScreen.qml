@@ -28,67 +28,52 @@ DapAbstractScreen
         bottomMargin: 20 * pt
     }
 
-    Rectangle
+    DapRectangleLitAndShaded
     {
-        id: settingsFrame
         anchors.fill: parent
         color: currTheme.backgroundElements
-        radius: 16*pt
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-        // Header
-        Item
-        {
-            id: settingsHeader
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 38 * pt
-
-            Text
+        contentData:
+            Item
             {
                 anchors.fill: parent
-                anchors.leftMargin: 18 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
-                verticalAlignment: Qt.AlignVCenter
-                text: qsTr("Settings")
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                color: currTheme.textColor
-            }
-        }
 
-        ListView
-        {
-            id: listViewSettings
-            anchors.top: settingsHeader.bottom
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            model: modelSettings
-            clip: true
-        }
-    }
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: settingsFrame
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: settingsFrame
-    }
-    InnerShadow {
-        anchors.fill: settingsFrame
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
+                // Header
+                Item
+                {
+                    id: settingsHeader
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 38 * pt
+
+                    Text
+                    {
+                        anchors.fill: parent
+                        anchors.leftMargin: 18 * pt
+                        anchors.topMargin: 10 * pt
+                        anchors.bottomMargin: 10 * pt
+                        verticalAlignment: Qt.AlignVCenter
+                        text: qsTr("Settings")
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        color: currTheme.textColor
+                    }
+                }
+
+                ListView
+                {
+                    id: listViewSettings
+                    anchors.top: settingsHeader.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    model: modelSettings
+                    clip: true
+                }
+            }
     }
 
     ///@detalis Settings item model.
