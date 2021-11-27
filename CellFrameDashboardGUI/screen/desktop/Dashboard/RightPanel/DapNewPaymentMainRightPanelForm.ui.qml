@@ -333,7 +333,7 @@ DapAbstractRightPanel
                 colorButtonTextNormal: "#FFFFFF"
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 shadowColor:"#2A2C33"
             }
 

@@ -16,7 +16,7 @@ DapRightPanel
                 text: qsTr("Test panel")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
 
             }

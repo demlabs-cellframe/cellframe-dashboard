@@ -72,7 +72,7 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 50 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
@@ -98,7 +98,7 @@ DapRightPanel
                     id: textNameWallet
                     color: currTheme.textColor
                     text: qsTr("Name of wallet")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -124,7 +124,7 @@ DapRightPanel
                     id: textInputNameWallet
                     placeholderText: qsTr("Input name of wallet")
                     anchors.verticalCenter: parent.verticalCenter
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -158,7 +158,7 @@ DapRightPanel
                 height: 46 * pt
 
                 nameCheckbox: qsTr("Use exsisting wallet")
-                fontCheckbox: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                fontCheckbox: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 nameTextColor: currTheme.textColor
 
                 checkboxOn:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_on.png"
@@ -183,7 +183,7 @@ DapRightPanel
                     id: textChooseSignatureType
                     color: currTheme.textColor
                     text: qsTr("Choose signature type")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -241,7 +241,7 @@ DapRightPanel
                     roleInterval: 15
                     endRowPadding: 37
 
-                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                     colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                     alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -263,7 +263,7 @@ DapRightPanel
                     id: textRecoveryMethod
                     color: currTheme.textColor
                     text: qsTr("Recovery method")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -297,7 +297,7 @@ DapRightPanel
                         checked: true
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         implicitHeight: indicatorInnerSize
                         onClicked: walletRecoveryType = "Words"
                     }
@@ -309,7 +309,7 @@ DapRightPanel
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
                         implicitHeight: indicatorInnerSize
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         onClicked: walletRecoveryType = "QRcode"
                     }
                     DapRadioButton
@@ -319,7 +319,7 @@ DapRightPanel
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
                         implicitHeight: indicatorInnerSize
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         onClicked: walletRecoveryType = "File"
                     }
 
@@ -330,7 +330,7 @@ DapRightPanel
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
                         implicitHeight: indicatorInnerSize
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         onClicked: walletRecoveryType = "Nothing"
                     }
                 }
@@ -347,7 +347,7 @@ DapRightPanel
                 textButton: qsTr("Next")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
             Rectangle
             {
@@ -366,7 +366,7 @@ DapRightPanel
                     anchors.rightMargin: 10 * pt
                     color: "#79FFFA"
                     text: qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap

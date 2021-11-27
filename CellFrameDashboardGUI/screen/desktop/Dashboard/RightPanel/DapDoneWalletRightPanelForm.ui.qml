@@ -25,7 +25,7 @@ DapAbstractRightPanel
                 anchors.leftMargin: 47 * pt
                 anchors.rightMargin: 49 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
             }
 
             DapButton
@@ -39,7 +39,7 @@ DapAbstractRightPanel
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
         }
 }

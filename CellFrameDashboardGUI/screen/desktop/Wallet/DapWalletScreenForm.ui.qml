@@ -8,7 +8,9 @@ Page {
         radius: 16 * pt
     }
 
-    property alias testAddButton: testAddButton
+    property alias addRightPanel: addRightPanel
+    property alias addTest: addTest
+    property alias clear: clear
     property alias someModel: someModel
     property alias list: list
 
@@ -81,8 +83,16 @@ Page {
         }
 
         Button {
-            id: testAddButton
-            text: "TEST ADD"
+            id: addTest
+            text: "TEST ADD TEST"
+        }
+        Button {
+            id: addRightPanel
+            text: "TEST ADD NEWPAY"
+        }
+        Button {
+            id: clear
+            text: "CLEAR"
         }
     }
 }

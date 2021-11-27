@@ -81,7 +81,7 @@ DapLogsScreenForm
                 anchors.bottomMargin: 1 * pt
                 anchors.leftMargin: firstMarginList
                 color: "#FFFFFF"
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 text: section
             }
         }
@@ -136,7 +136,7 @@ DapLogsScreenForm
                     {
                         id: typeLog
                         anchors.fill: parent
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         color: fontColor
                         text: type
                     }
@@ -158,7 +158,7 @@ DapLogsScreenForm
                     {
                         id: textLog
                         anchors.fill: parent
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         color: fontColor
                         text: info
                     }
@@ -179,7 +179,7 @@ DapLogsScreenForm
                     {
                         id: fileLog
                         anchors.fill: parent
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         color: fontColor
                         text: file
                     }
@@ -199,7 +199,7 @@ DapLogsScreenForm
                     {
                         id: timeLog
                         anchors.fill: parent
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         color: fontColor
                         text: time
                     }

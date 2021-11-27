@@ -30,7 +30,7 @@ DapAbstractRightPanel
                 anchors.leftMargin: 46 * pt
                 anchors.rightMargin: 50 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
             }
 
             Text
@@ -42,7 +42,7 @@ DapAbstractRightPanel
                 anchors.top: textMessage.bottom
                 anchors.topMargin: 36 * pt
                 color: "#A4A3C0"
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
             }
 
             Text
@@ -54,7 +54,7 @@ DapAbstractRightPanel
                 anchors.top: textStatus.bottom
 //                anchors.topMargin: 8 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
             }
 
             // Button "Send"
@@ -69,7 +69,7 @@ DapAbstractRightPanel
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
             Rectangle

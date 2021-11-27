@@ -58,7 +58,7 @@ DapTopPanel
                 //anchors.leftMargin: 10 * pt
                 //anchors.right: parent.right
                 placeholderText: qsTr("Search")
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 style:
                     TextFieldStyle
                     {
@@ -90,7 +90,7 @@ DapTopPanel
         anchors.left: frameTextFieldSearch.right
         anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -146,15 +146,15 @@ DapTopPanel
             dapIndicatorLeftInterval: 16 * pt
             dapColorTopNormalDropShadow: "#00000000"
             dapColorDropShadow: currTheme.shadowColor
-            dapTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+            dapTextFont:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             dapDefaultMainLineText: "all time"
             dapIsDefaultNeedToAppend: true
             dapRangeElementWidth: 74 * pt
             dapRangeSpacing: 6 * pt
             dapRangeDefaultText: "dd.mm.yyyy"
-            dapInactiveRangeTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+            dapInactiveRangeTextFont:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             dapUnselectedRangeColorTopText: "#ACAAB5"
-            dapActiveRangeTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+            dapActiveRangeTextFont:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
             dapSelectedRangeColorTopText: "#FFFFFF"
 
             dapCalendars:
@@ -172,7 +172,7 @@ DapTopPanel
                     dapDayHeight: 24 * pt
                     dapDayLeftInterval: 8 * pt
                     dapDayTopInterval: 2 * pt
-                    dapCalendarFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    dapCalendarFont:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
 
                     dapCalendarBackgroundColor: currTheme.backgroundMainScreen
                     dapNormalTextColor: currTheme.textColor
@@ -199,7 +199,7 @@ DapTopPanel
         anchors.left: frameComboBoxPeriod.right
         anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -250,7 +250,7 @@ DapTopPanel
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: currTheme.shadowColor
 
-            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
             colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
         }
@@ -264,7 +264,7 @@ DapTopPanel
         anchors.left: frameComboBoxWallet.right
         anchors.leftMargin: 42 * pt
         anchors.verticalCenter: parent.verticalCenter
-        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: "#ACAAB5"
     }
 
@@ -324,7 +324,7 @@ DapTopPanel
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: currTheme.shadowColor
 
-            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
             colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
         }

@@ -1,32 +1,38 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.0
+
 import "qrc:/"
 import "../../"
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
+import "qrc:/screen/controls" as Controls
 
-DapAbstractScreen
+Page
 {
-    property alias settingsScreen_ : settingScreen
-    property alias dapComboboxWallet: walletComboBox
-
-    id:settingScreen
-    signal createWalletSignal()
-
-    anchors
-    {
-        top: parent.top
-        topMargin: 24 * pt
-        right: parent.right
-        rightMargin: 44 * pt
-        left: parent.left
-        leftMargin: 24 * pt
-        bottom: parent.bottom
-        bottomMargin: 20 * pt
+    background: Rectangle {
+        color: "transparent"
     }
+
+    property alias settingsScreen_ : settingScreen
+    //property alias dapComboboxWallet: walletComboBox
+
+    id: settingScreen
+    signal createWalletSignal
+
+//    anchors
+//    {
+//        top: parent.top
+//        topMargin: 24 * pt
+//        right: parent.right
+//        rightMargin: 44 * pt
+//        left: parent.left
+//        leftMargin: 24 * pt
+//        bottom: parent.bottom
+//        bottomMargin: 20 * pt
+//    }
 
     Rectangle
     {
@@ -52,7 +58,7 @@ DapAbstractScreen
                 anchors.bottomMargin: 10 * pt
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Settings")
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
@@ -121,7 +127,7 @@ DapAbstractScreen
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text:"Network"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: currTheme.textColor
                 }
             }
@@ -171,11 +177,11 @@ DapAbstractScreen
                     colorDropShadow: currTheme.shadowColor
                     roleInterval: 15
                     endRowPadding: 37
-                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                     colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                     alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                    model: dapNetworkModel
+                    //model: dapNetworkModel
                     onCurrentIndexChanged:
                     {
                         dapServiceController.CurrentNetwork = currentText
@@ -207,7 +213,7 @@ DapAbstractScreen
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
                     text: "Wallet"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: currTheme.textColor
                 }
             }
@@ -217,9 +223,10 @@ DapAbstractScreen
             color: currTheme.backgroundElements
             height: 80 * pt
             width: 200 * pt
+
             DapComboBox
             {
-                id:walletComboBox
+                id: walletComboBox
                 anchors.fill: parent
                 anchors.topMargin: 25 * pt
                 anchors.leftMargin: 25 * pt
@@ -246,11 +253,11 @@ DapAbstractScreen
                 colorDropShadow: currTheme.shadowColor
                 roleInterval: 15
                 endRowPadding: 37
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                model: dapModelWallets
+                model: dapWalletsNames
                 currentIndex: SettingsWallet.currentIndex
                 onCurrentIndexChanged:
                 {
@@ -258,17 +265,17 @@ DapAbstractScreen
                 }
             }
             // Wallet create button
-            DapButton
+            Controls.DapButton
             {
                 id: newWalletButton
-                textButton: "New wallet"
+                buttonText: qsTr("New wallet")
                 anchors.left: walletComboBox.right
                 anchors.leftMargin: 50 * pt
                 anchors.verticalCenter: walletComboBox.verticalCenter
                 implicitHeight: 36 * pt
                 implicitWidth: 163 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText: Text.AlignHCenter
+                //fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                //horizontalAligmentText: Text.AlignHCenter
                 onClicked: createWalletSignal()
             }
         }

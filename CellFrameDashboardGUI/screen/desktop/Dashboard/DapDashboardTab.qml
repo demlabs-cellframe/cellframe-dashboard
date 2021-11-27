@@ -57,7 +57,7 @@ DapAbstractTab
     dapTopPanel:
         DapDashboardTopPanel
         {
-            color: currTheme.backgroundPanel
+            //color: currTheme.backgroundPanel
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {

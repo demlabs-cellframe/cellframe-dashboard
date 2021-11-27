@@ -81,7 +81,7 @@ Page {
                 colorBackgroundNormal: currTheme.buttonColorNormal
                 colorButtonTextNormal: currTheme.textColor
                 colorButtonTextHover: currTheme.textColor
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
             Controls.DapButton {
@@ -102,7 +102,7 @@ Page {
                 width: 150 * pt
                 height: 28 * pt
                 placeholderText: qsTr("Test Text Field")
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAlignment: Text.AlignRight
                 borderWidth: 1 * pt
                 borderRadius: 5 * pt
@@ -144,7 +144,7 @@ Page {
                 colorDropShadow: currTheme.shadowColor
                 roleInterval: 15
                 endRowPadding: 37
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -162,7 +162,7 @@ Page {
                 Layout.fillWidth: true
                 verticalAlignment: Qt.AlignVCenter
                 text:"Test Text"
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
             }
         }
@@ -176,7 +176,7 @@ Page {
                 Layout.fillHeight: true
 
                 nameCheckbox: qsTr("Test Check Box")
-                fontCheckbox: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                fontCheckbox: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 nameTextColor: currTheme.textColor
 
                 checkboxOn:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_on.png"
@@ -194,7 +194,7 @@ Page {
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
                 implicitHeight: indicatorInnerSize
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
             DapRadioButton
             {
@@ -202,7 +202,7 @@ Page {
                 checked: true
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 implicitHeight: indicatorInnerSize
             }
         }

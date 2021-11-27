@@ -42,8 +42,8 @@ Rectangle {
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-//    readonly property QtObject dapQuicksandFonts: DapFontQuicksand {}
-    property alias dapQuicksandFonts: quicksandFonts
+//    readonly property QtObject _dapQuicksandFonts: DapFontQuicksand {}
+    property alias _dapQuicksandFonts: quicksandFonts
     DapFontQuicksand {
         id: quicksandFonts
     }

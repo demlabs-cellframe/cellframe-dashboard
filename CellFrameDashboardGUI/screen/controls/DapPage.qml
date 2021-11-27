@@ -53,7 +53,7 @@ Page {
                 id: rightPanelStack
                 clip: true
                 anchors.fill: parent
-                anchors.margins: 10
+                //anchors.margins: 10
             }
         }
     }

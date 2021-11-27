@@ -92,7 +92,7 @@ DapAbstractScreen
 //                Layout.left: parent.left
                 Layout.leftMargin: 20 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
             }
 
             TextArea
@@ -106,7 +106,7 @@ DapAbstractScreen
                 selectByMouse: true
                 color: currTheme.textColor
                 focus: true
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 Keys.onReturnPressed: text.length > 0 ?
                                           sendedCommand = text :
                                           sendedCommand = ""

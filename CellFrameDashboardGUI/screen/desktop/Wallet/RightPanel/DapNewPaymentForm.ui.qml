@@ -14,17 +14,36 @@ Page {
     property alias walletToAddress: walletToAddress
 
     background: Rectangle {
+        color: "transparent"
+    }
+
+    Rectangle {
         color: currTheme.backgroundElements
-        radius: 16 * pt
+        anchors.fill: parent
+        anchors.margins: 10
+        //border.color: "white"
     }
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: 10
         spacing: 10
+
+        RowLayout {
+            Layout.leftMargin: 5
+            Layout.topMargin: 5
+            Text {
+                id: pageTitle
+                color: currTheme.textColor
+                text: qsTr("New payment")
+            }
+        }
 
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 35
+            Layout.leftMargin: -10
+            Layout.rightMargin: -10
 
             color: currTheme.backgroundMainScreen
 
@@ -45,6 +64,8 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 35
+            Layout.leftMargin: -10
+            Layout.rightMargin: -10
 
             color: currTheme.backgroundMainScreen
 
@@ -76,6 +97,8 @@ Page {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 35
+            Layout.leftMargin: -10
+            Layout.rightMargin: -10
 
             color: currTheme.backgroundMainScreen
 

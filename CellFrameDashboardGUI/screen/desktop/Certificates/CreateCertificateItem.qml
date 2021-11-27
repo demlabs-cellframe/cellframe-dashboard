@@ -58,7 +58,7 @@ Rectangle {
                     leftMargin: 8 * pt
                     verticalCenter: closeButton.verticalCenter
                 }
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
                 text: qsTr("Create certificate")
             }
@@ -76,7 +76,7 @@ Rectangle {
                 x: 15 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: qsTr("Required")
                 color: currTheme.textColor
             }
@@ -126,7 +126,7 @@ Rectangle {
                 colorTopNormalDropShadow: "#00000000"
                 colorDropShadow: currTheme.shadowColor
 
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
 
@@ -140,7 +140,7 @@ Rectangle {
                 height: 28 * pt
                 width: 277 * pt
                 placeholderText: qsTr("Title")
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 style:
                     TextFieldStyle
                     {
@@ -181,7 +181,7 @@ Rectangle {
                 x: 15 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: qsTr("Optional")
                 color: currTheme.textColor
             }
@@ -215,7 +215,7 @@ Rectangle {
     //                    color: focus ? currTheme.textColor : "#C7C6CE"
                         inputMask: model.inputFieldMask
 
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         onEditingFinished: {
                             text = text.trim()
                             optionalRepeater.model.setProperty(model.index, "data", text)
@@ -234,7 +234,7 @@ Rectangle {
 
                     enabled: root.requiredFieldValid
 
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAligmentText: Qt.AlignHCenter
                 }
 

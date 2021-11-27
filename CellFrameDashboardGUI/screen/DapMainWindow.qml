@@ -25,13 +25,15 @@ FocusScope {
     readonly property string testScreen: "qrc:/screen/" + device + "/Test/TestPage.qml"
 
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-    property alias dapQuicksandFonts: quicksandFonts
+    property alias _dapQuicksandFonts: quicksandFonts
 
     property var _dapWallets: []
 
     property ListModel _tokensModel
+
     property var _dapWalletsModel: []
     property var _dapNetworksModel: []
+    property var _dapPluggins: []
 
     property var mainButtonsModel: [
         {

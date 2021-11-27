@@ -4,7 +4,20 @@ import QtQuick.Layouts 1.12
 
 Page {
     background: Rectangle {
-        color: currTheme.backgroundElements
-        radius: 16 * pt
+        color: "transparent"//currTheme.backgroundElements
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "transparent"
+        border.color: "green"
+        anchors.margins: 10
+    }
+
+    Rectangle {
+        anchors.centerIn: parent
+        height: 100
+        width: 100
+        color: "red"
     }
 }

@@ -17,7 +17,7 @@ Item {
 
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
+            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
             text: qsTr("Create your first VPN order")
         }
 

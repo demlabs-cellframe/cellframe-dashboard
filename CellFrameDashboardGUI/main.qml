@@ -22,8 +22,8 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
-    DapMainApplicationWindow
-    //DapMainWindow
+    //DapMainApplicationWindow
+    DapMainWindow
     {
         id: mainWindow
         property string device: isMobile ? "mobile" : "desktop"

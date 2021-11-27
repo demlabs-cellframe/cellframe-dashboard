@@ -16,6 +16,16 @@ Controls.DapPage {
 
         function openNewPayment() {
             dapRightPanel.push("qrc:/screen/desktop/Wallet/RightPanel/DapNewPayment.qml")
+            console.info("dapRightPanel count NEW PAYMENT =", dapRightPanel.depth)
+        }
+
+        function openTestPage() {
+            dapRightPanel.replace("qrc:/screen/desktop/TestPageForRightPannel.qml")
+            console.info("dapRightPanel count TEST =", dapRightPanel.depth)
+        }
+
+        function clearRightPanel() {
+            dapRightPanel.pop(null)
         }
     }
 

@@ -37,7 +37,7 @@ Page {
             id: frameTitleCreateWallet
             anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
-            font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+            font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             color: currTheme.textColor
             text: qsTr("Name of my wallet")
         }
@@ -55,7 +55,7 @@ Page {
         anchors.verticalCenter: parent.verticalCenter
         implicitHeight: 38 * pt
         implicitWidth: 163 * pt
-        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+        fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
         horizontalAligmentText: Text.AlignHCenter
     }
 }

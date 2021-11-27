@@ -51,7 +51,7 @@ Rectangle {
                     leftMargin: 8 * pt
                     verticalCenter: closeButton.verticalCenter
                 }
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
                 text: qsTr("Create certificate")
             }
@@ -62,7 +62,7 @@ Rectangle {
             id: finishedText
             y: 202 * pt
             anchors.horizontalCenter: parent.horizontalCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
             color: currTheme.textColor
             text: qsTr("Certificate created\nsuccessfully")
             horizontalAlignment: Text.AlignHCenter
@@ -76,7 +76,7 @@ Rectangle {
             x: (parent.width - width) / 2
             height: 36 * pt
             width: 132 * pt
-            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+            fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             horizontalAligmentText: Qt.AlignHCenter
         }
     } //frameRightPanel

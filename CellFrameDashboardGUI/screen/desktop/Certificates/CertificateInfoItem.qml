@@ -54,7 +54,7 @@ Rectangle {
                     leftMargin: 8 * pt
                     verticalCenter: closeButton.verticalCenter
                 }
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
                 text: qsTr("Info about certificate")
             }

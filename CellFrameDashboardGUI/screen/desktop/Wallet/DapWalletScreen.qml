@@ -4,8 +4,16 @@ import QtQuick.Layouts 1.12
 
 DapWalletScreenForm {
 
-    testAddButton.onClicked: {
-        dapRightPanel.clear()
+    addRightPanel.onClicked: {
+        navigator.openNewPayment()
+    }
+
+    addTest.onClicked: {
+        navigator.openTestPage()
+    }
+
+    clear.onClicked: {
+        navigator.clearRightPanel()
     }
 
     Component {
