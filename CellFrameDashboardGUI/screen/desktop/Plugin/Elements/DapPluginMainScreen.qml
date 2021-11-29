@@ -5,8 +5,10 @@ import "Windows"
 Rectangle {
 
     property string showWallets : "qrc:/screen/desktop/Plugin/Elements/Windows/Wallets/DapShowWallets.qml"
+    property string createWallet : "qrc:/screen/desktop/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml"
     property string showOrders : "qrc:/screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml"
     property string showCertificates : "qrc:/screen/desktop/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml"
+    property string createCertificates : "qrc:/screen/desktop/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml"
 
     anchors.fill: parent
     anchors.margins: 30
@@ -40,6 +42,11 @@ Rectangle {
                 loader.source = showWallets
                 loader.open()
             }
+            rightButton.onClicked:
+            {
+                loader.source = createWallet
+                loader.open()
+            }
         }
         DapPluginsBlock
         {
@@ -56,6 +63,11 @@ Rectangle {
                 loader.source = showCertificates
                 loader.open()
             }
+            rightButton.onClicked:
+            {
+                loader.source = createCertificates
+                loader.open()
+            }
         }
         DapPluginsBlock
         {
@@ -65,13 +77,14 @@ Rectangle {
             Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
-            leftButton.textButton: "Get Orders"
-            rightButton.textButton: "Create Order"
+            leftButton.textButton: "Open Orders"
+            rightButton.visible: false
 
             leftButton.onClicked: {
                 loader.source = showOrders
                 loader.open()
             }
+
         }
         DapPluginsBlock
         {

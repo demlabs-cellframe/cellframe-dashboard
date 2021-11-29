@@ -41,7 +41,7 @@ Item {
             font.family: "Quicksand"
             font.pixelSize: 12
             elide: Text.ElideMiddle
-            horizontalAlignment: Qt.AlignLeft
+            horizontalAlignment: Qt.AlignRight
             color: currTheme.textColor
             text: qsTr("text")
         }

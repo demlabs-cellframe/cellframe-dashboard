@@ -18,12 +18,13 @@ Rectangle {
 
         Text {
             id: textMyVPNOrders
-            x: gridViewOrder.halfMargin
-            y: gridViewOrder.halfMargin
+            x: 18 * pt
+            y: 10 * pt
             font.family: "Quicksand"
             font.pixelSize: 14
             font.bold: true
             color: currTheme.textColor
+            text: qsTr("Orders")
         }
 
         DapOrdersGrid {
@@ -31,6 +32,7 @@ Rectangle {
 
             anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
             anchors.leftMargin: 27 * pt
+            anchors.topMargin: 10 * pt
             delegateMargin: gridViewOrder.halfMargin
         }
     }

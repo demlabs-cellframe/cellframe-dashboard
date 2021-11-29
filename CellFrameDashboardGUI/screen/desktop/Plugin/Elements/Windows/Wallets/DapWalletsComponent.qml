@@ -5,142 +5,136 @@ import QtQuick.Layouts 1.3
 Component {
     id: delegateComponent
 
-    Rectangle {
-
-        anchors.left: parent.left
-        anchors.right: parent.right
-        height: 300 * pt
-        color: "#363A42"
-        radius: 16 * pt
-        border.width: 1
-        border.color: "#666E7D"
+//    ColumnLayout
+//    {
+//        anchors.left: parent.left
+//        anchors.right: parent.right
 
         Rectangle {
-            id: headerFrame
-            width: parent.width
+
+            id:control
+            property var modelNetworks: model.networks
+
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.top: parent.top
-            height: 40 * pt
-            color: "#2E3138"
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
+//            Layout.fillWidth: true
+            height: list.contentHeight + headerFrame.height + 10 * pt
+//            height: repeater.implicitHeight
+            color: "#363A42"
+//            radius: 16 * pt
+//            border.width: 2
+//            border.color: "#292929"
+
+            Rectangle {
+                id: headerFrame
+                width: parent.width
                 anchors.left: parent.left
-                anchors.leftMargin: 14 * pt
                 anchors.right: parent.right
-                font.family: "Quicksand"
-                font.pixelSize: 16
-                elide: Text.ElideRight
-                color: "#ffffff"
-                text:  model.name
-            }
-        }
-
-        Item {
-            id: infoFrame
-
-            anchors {
-                left: parent.left;
-                top: headerFrame.bottom;
-                right: parent.right;
-                bottom: parent.bottom
-                topMargin: 10 * pt
+                anchors.top: parent.top
+                height: 40 * pt
+                color: "#D01E67"
+                Text {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 14 * pt
+                    anchors.right: parent.right
+                    font.family: "Quicksand"
+                    font.pixelSize: 16
+                    elide: Text.ElideRight
+                    color: "#ffffff"
+                    text:  model.name
+                }
             }
 
-            Column {
-                spacing: 12 * pt
+            ListView{
+                id: list
+                anchors {
+                    left: parent.left;
+                    right: parent.right;
+                    top: headerFrame.bottom;
+                    bottom: parent.bottom
 
-                Repeater
+                }
+                clip: true
+                focus: true
+
+                model:modelNetworks
+                delegate: delegateTokenView
+            }
+
+            Component
+            {
+
+                id: delegateTokenView
+                Column
                 {
-                    id:netRepeat
-                    model: dapModelWallets.get(0).networks.count
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    onHeightChanged: list.contentHeight = height
 
-                    ColumnLayout
+                    Rectangle
                     {
-//                        anchors.fill: parent
+                        id: stockNameBlock
+                        height: 30 * pt
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        color: currTheme.backgroundMainScreen
+
                         DapWalletsInfo
                         {
-                            Layout.fillWidth: true
-                            width: infoFrame.width
-    //                        anchors.left: infoFrame.left
-    //                        anchors.right: infoFrame.right
-
-                            name: dapModelWallets.get(index).networks.get(index).name
-                            value: dapModelWallets.get(index).networks.get(index).address
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+//                            width: infoFrame.width
+                            name: model.name
+                            value: model.address
                             color: "#2D3037"
                         }
+                    }
 
-                        Repeater
+                    Repeater
+                    {
+                        id:repeater
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        model: tokens
+
+                        Rectangle
                         {
-                            property var count : dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).tokens.count
-                            model:
-                            {
-                                dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).tokens.count
-                                console.log(dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).tokens.count)
-                            }
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 50 * pt
+                            color: currTheme.backgroundElements
 
-
-                            ColumnLayout
+                            RowLayout
                             {
+                                anchors.fill: parent
+                                anchors.leftMargin: 20 * pt
+                                anchors.rightMargin: 20 * pt
+                                spacing: 10 * pt
 
                                 DapWalletsInfo
                                 {
                                     Layout.fillWidth: true
-                                    width: infoFrame.width
-            //                        anchors.left: infoFrame.left
-            //                        anchors.right: infoFrame.right
-
-        //                            name: dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).name
-        //                            value: dapModelWallets.get(netRepeat.index).networks.get(netRepeat.index).address
-                                    name: "8"
-                                    value: "1"
-                                    color: "white"
+                                    name: model.name
+                                    value: balance.toFixed(9)
+                                    color: "transparent"
                                 }
+                            }
+                            //  Underline
+                            Rectangle
+                            {
+                                x: 20 * pt
+                                y: parent.height - 1 * pt
+                                width: parent.width - 40 * pt
+                                height: 1 * pt
+                                color: currTheme.lineSeparatorColor
                             }
                         }
                     }
                 }
-
-//                DapOrdersInfo {
-//                    width: infoFrame.width
-//                    name: qsTr("Location ")
-//                    value: model.location
-//                    visible: model.location === "None-None" ? false : true
-//                }
-//                DapOrdersInfo {
-//                    width: infoFrame.width
-//                    name: qsTr("Network")
-//                    value: model.network
-//                }
-//                DapOrdersInfo {
-//                    width: infoFrame.width
-//                    name: qsTr("Node Addr")
-//                    value: model.node_addr
-//                    visible: model.node_addr === "" ? false : true
-
-//                }
-//                DapOrdersInfo {
-//                    width: infoFrame.width
-//                    name: qsTr("Price")
-//                    value: model.price
-//                }
             }
-        }
-
-//        Rectangle {
-//            id: bottomLine
-
-//            anchors.top: headerFrame.bottom
-//            anchors.left: parent.left
-//            anchors.right: parent.right
-//            anchors.leftMargin: 14 * pt
-//            anchors.rightMargin: 15 * pt
-//            height: 1 * pt
-//            color: currTheme.lineSeparatorColor
-//        }
-
-    }  //
-
+        }  //
+//    }
 }  //delegateComponent
 
 

@@ -99,7 +99,7 @@ void DapPluginsController::addPlugin(QVariant name, QVariant path, QVariant stat
     QStringList splitPath = path.toString().split("/");
     QString name_mainFilePlugin = "/" + splitPath.last();
 
-    if(zipManage(&path_plug))
+    if(zipManage(path_plug))
     {
         QStringList list;
 
@@ -143,12 +143,33 @@ QByteArray DapPluginsController::fileChecksum(const QString &file, QCryptographi
     return QByteArray();
 }
 
-bool DapPluginsController::zipManage(QString *path)
+QString DapPluginsController::pkeyHash(QString &path)
 {
+    QFile file(path);
+    QByteArray fileData;
+
+    if (file.open(QFile::ReadOnly)) {
+
+        fileData = file.readAll();
+    }
+
+    dap_chain_hash_fast_t l_hash_cert_pkey;
+    dap_hash_fast(fileData.constData(), fileData.size(), &l_hash_cert_pkey);
+    char *l_cert_pkey_hash_str = dap_chain_hash_fast_to_str_new(&l_hash_cert_pkey);
+    QString ret = QString::fromLatin1(l_cert_pkey_hash_str);
+    DAP_DEL_Z(l_cert_pkey_hash_str)
+    return ret;
+}
+
+bool DapPluginsController::zipManage(QString &path)
+{
+    //TODO: release
+//    QString file = path;
     QString file = "/home/denis/Proj/Cellframe_master/asd.zip";
 
     //TODO: Make a request to the node to confirm the hash
-    QByteArray hash = fileChecksum(file, QCryptographicHash::Sha256).toHex();
+//    QByteArray hash = fileChecksum(file, QCryptographicHash::Sha256).toHex();
+    QString str = pkeyHash(file);
 
     //TODO: If the hash passed, then unpack the plugin
     QZipReader zip_reader(file);

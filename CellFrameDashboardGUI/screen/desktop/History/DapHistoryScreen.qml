@@ -44,7 +44,8 @@ DapHistoryScreenForm
             RowLayout
             {
                 anchors.fill: parent
-                anchors.margins: 10 * pt
+                anchors.leftMargin: 20 * pt
+                anchors.rightMargin: 20 * pt
                 spacing: 10 * pt
 
                 // Network name
@@ -98,8 +99,10 @@ DapHistoryScreenForm
             //  Underline
             Rectangle
             {
-                width: parent.width
-                height: 1
+                x: 20 * pt
+                y: parent.height - 1 * pt
+                width: parent.width - 40 * pt
+                height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
         }

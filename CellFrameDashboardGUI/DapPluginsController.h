@@ -9,9 +9,7 @@
 #include <QtGui/private/qzipreader_p.h>
 #include <QtGui/private/qzipwriter_p.h>
 #include <QCryptographicHash>
-
-//#include "qzip/qzipreader_p.h"
-//#include "qzip/qzip.cpp"
+#include <dap_hash.h>
 
 class DapPluginsController : public QObject
 {
@@ -24,8 +22,10 @@ private:
     void readPluginsFile(QString *path);
     void updateFileConfig();
     void sortList();
-    bool zipManage(QString *path);
+    bool zipManage(QString &path);
+
     QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
+    QString pkeyHash(QString &path);
 
 public slots:
 

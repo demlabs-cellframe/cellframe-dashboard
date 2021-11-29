@@ -267,6 +267,7 @@ Rectangle {
             append ({
                 name: qsTr("Exchange"),
                 page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
+//                page: exchangeScreenPath, //TODO: here should be: exchangeScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
             })
@@ -398,7 +399,7 @@ Rectangle {
 
         onWalletsReceived:
         {
-            dapWallets.splice(0,dapPlugins.length)
+            dapWallets.splice(0,dapWallets.length)
             dapModelWallets.clear()
             console.log("walletList.length =", walletList.length)
             console.log("dapWallets.length =", dapWallets.length)

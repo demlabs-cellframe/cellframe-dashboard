@@ -74,7 +74,6 @@ Rectangle
                                 }
                             }
                     }
-//                        y: listViewPlug.currentItem.y
 
                     Behavior on y {
                         SpringAnimation {
@@ -82,12 +81,6 @@ Rectangle
                             damping: 0.2
                         }
                     }
-//                    MouseArea
-//                    {
-//                        anchors.fill: parent
-//                        onEntered: parent.isHover = true
-//                        onExited: parent.isHover = false
-//                    }
                 } 
             }
 
