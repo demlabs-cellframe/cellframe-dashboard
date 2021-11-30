@@ -25,6 +25,11 @@ public:
     void setCurrentWallet(DapWallet *a_currentWallet);
     DapVpnOrdersModel* getVpnOrdersModel();
 
+    DapServiceController* getServiceControllerPointer() const
+    {
+        return m_serviceController;
+    }
+
 signals:
     void currentWalletChanged(DapWallet* a_currentWallet);
 private:

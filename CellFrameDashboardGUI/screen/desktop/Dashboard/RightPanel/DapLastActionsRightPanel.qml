@@ -10,12 +10,21 @@ DapLastActionsRightPanelForm
     property date today: new Date()
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
-    property alias dapModelLastActions: modelLastActions
+//    property alias dapModelLastActions: modelLastActions
 
-    ListModel
-    {
-        id: modelLastActions
-    }
+/*    Connections {
+        target: walletHistoryManager
+        onTestSignal: {
+            print("DapLastActionsRightPanelForm", message)
+
+//            print("modelLastActions size", modelLastActions.count)
+        }
+    }*/
+
+//    ListModel
+//    {
+//        id: modelLastActions
+//    }
 
     Component
     {
@@ -44,7 +53,7 @@ DapLastActionsRightPanelForm
 
     Connections
     {
-        target: dapServiceController
+/*        target: dapServiceController
         onWalletHistoryReceived:
         {
             console.log("onWalletHistoryReceived")
@@ -82,7 +91,7 @@ DapLastActionsRightPanelForm
                             walletHistory[i].Status,
                             walletHistory[i].Date)
             }
-        }
+        }*/
     }
 
     Connections
@@ -139,7 +148,7 @@ DapLastActionsRightPanelForm
 
     function getWalletHistory()
     {
-        var index = SettingsWallet.currentIndex
+/*        var index = SettingsWallet.currentIndex
 
         if (index < 0)
             return;
@@ -166,7 +175,7 @@ DapLastActionsRightPanelForm
             console.log("   wallet address:", address)
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
-        }
+        }*/
     }
 
 }

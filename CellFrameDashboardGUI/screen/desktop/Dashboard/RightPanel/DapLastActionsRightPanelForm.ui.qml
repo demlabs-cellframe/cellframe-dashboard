@@ -33,20 +33,22 @@ DapRightPanel
     dapContentItemData:
     ListView
     {
-
         id: lastActionsView
         anchors.fill: parent
         clip: true
+//        required modelLastActions
         model: modelLastActions
         ScrollBar.vertical: ScrollBar {
             active: true
         }
 
-        section.property: "date"
+//        section.property: "date"
+        section.property: "modelData.date"
         section.criteria: ViewSection.FullString
         section.delegate: delegateSection
 
         delegate: Rectangle {
+
             width: control.width
             color: currTheme.backgroundElements
             height: 50 * pt
@@ -66,7 +68,7 @@ DapRightPanel
                     Text
                     {
                         Layout.fillWidth: true
-                        text: network
+                        text: modelData.network
                         color: currTheme.textColor
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                         elide: Text.ElideRight
@@ -75,21 +77,29 @@ DapRightPanel
                     Text
                     {
                         Layout.fillWidth: true
-                        text: status
+                        text: modelData.txStatus
                         color: currTheme.textColor
                         font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
                     }
                 }
 
+//                Text
+//                {
+//                    Layout.fillWidth: true
+//                    text: modelData.date
+//                    color: currTheme.textColor
+//                    font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+//                }
+
                 Text
                 {
-                    property string sign: (status === "Sent") ? "- " : "+ "
+                    property string sign: (modelData.txStatus === "Sent") ? "- " : "+ "
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     horizontalAlignment: Qt.AlignRight
                     verticalAlignment: Qt.AlignVCenter
                     color: currTheme.textColor
-                    text: sign + amount + " " + name
+                    text: sign + modelData.txAmount + " " + modelData.token
                     font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
                 }
             }

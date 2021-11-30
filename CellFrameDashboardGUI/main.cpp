@@ -37,6 +37,7 @@
 //#endif
 
 #include "WalletRestore/wallethashmanager.h"
+#include "WalletHistory/wallethistorymanager.h"
 
 bool SingleApplicationTest(const QString &appName)
 {
@@ -169,9 +170,20 @@ int main(int argc, char *argv[])
 
     // For wallet restore
     WalletHashManager walletHashManager;
-
     context->setContextProperty("walletHashManager", &walletHashManager);
     walletHashManager.setContext(context);
+
+    WalletHistoryManager walletHistoryManager;
+    context->setContextProperty("walletHistoryManager", &walletHistoryManager);
+    walletHistoryManager.setContext(context);
+
+    QObject::connect(app.getServiceControllerPointer(), &DapServiceController::walletsInfoReceived,
+         &walletHistoryManager, &WalletHistoryManager::walletsInfoReceived);
+    QObject::connect(app.getServiceControllerPointer(), &DapServiceController::historyReceived,
+         &walletHistoryManager, &WalletHistoryManager::historyReceived);
+    QObject::connect(&walletHistoryManager, &WalletHistoryManager::requestToService,
+         app.getServiceControllerPointer(), &DapServiceController::requestToService);
+
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
