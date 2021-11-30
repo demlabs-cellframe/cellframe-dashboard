@@ -9,8 +9,11 @@ Rectangle {
     color: "#2E3138"
     id:controlLastActions
 
-    property date today: new Date()
-    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
+    property var dapWallets: []
+
+    ListModel{
+        id: dapModelWallets
+    }
 
     ListModel
     {
@@ -19,7 +22,7 @@ Rectangle {
 
     Rectangle
     {
-        id: viewWallets
+        id: viewLastActions
         anchors.fill: parent
         color: "#363A42"
         radius: 16 * pt
@@ -27,7 +30,7 @@ Rectangle {
         // Header
         Item
         {
-            id: waalletsHeader
+            id: lastActionsHeader
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
@@ -52,112 +55,62 @@ Rectangle {
         {
 
             id: lastActionsView
-            anchors.fill: parent
+            anchors.top: lastActionsHeader.bottom
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
             clip: true
             model: modelLastActions
+            delegate: DapDelegateLastActions{}
+
+            section.property: "date"
+            section.criteria: ViewSection.FullString
+            section.delegate: delegateDate
+
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
 
-            section.property: "date"
-            section.criteria: ViewSection.FullString
-            section.delegate: delegateSection
-
-            delegate: Rectangle {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 5 * pt
-                anchors.rightMargin: 5 * pt
-    //            width: control.width
-                color: currTheme.backgroundElements
-                height: 50 * pt
-
-                RowLayout
+            Component
+            {
+                id: delegateDate
+                Rectangle
                 {
-                    anchors.fill: parent
-                    anchors.rightMargin: 20 * pt
-                    anchors.leftMargin: 16 * pt
-
-                    ColumnLayout
-                    {
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        spacing: 2 * pt
-
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            text: network
-                            color: currTheme.textColor
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
-                            elide: Text.ElideRight
-                        }
-
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            text: status
-                            color: currTheme.textColor
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
-                        }
-                    }
+                    height: 30 * pt
+                    width: parent.width
+                    color: "#2E3138"
 
                     Text
                     {
-                        property string sign: (status === "Sent") ? "- " : "+ "
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                        horizontalAlignment: Qt.AlignRight
+                        anchors.fill: parent
+                        anchors.leftMargin: 16 * pt
+                        anchors.rightMargin: 16 * pt
                         verticalAlignment: Qt.AlignVCenter
-                        color: currTheme.textColor
-                        text: sign + amount + " " + name
-                        font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                        horizontalAlignment: Qt.AlignLeft
+                        color: "#ffffff"
+                        font.family: "Quicksand"
+                        font.pixelSize: 12
+                        text: section
+
                     }
-                }
-
-                Rectangle
-                {
-                    width: parent.width
-                    height: 1 * pt
-                    color: currTheme.lineSeparatorColor
-                    anchors.bottom: parent.bottom
-                }
-            }
-        }
-
-        Component
-        {
-            id: delegateSection
-            Rectangle
-            {
-                height: 30 * pt
-                width: parent.width
-                color: currTheme.backgroundMainScreen
-
-                property date payDate: new Date(Date.parse(section))
-
-                Text
-                {
-                    anchors.fill: parent
-                    anchors.leftMargin: 16 * pt
-                    anchors.rightMargin: 16 * pt
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignLeft
-                    color: currTheme.textColor
-                    text: getDateString(payDate)
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 }
             }
         }
     }
 
-    Component.onCompleted: {
-        getWalletHistory()
+    Component.onCompleted:
+    {
+        modelLastActions.clear()
+        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+//        if (dapModelWallets.count > 0)
+//        {
+//            getWalletHistory(1)
+//        }
     }
 
     InnerShadow {
         id: topLeftSadow
-        anchors.fill: viewWallets
+        anchors.fill: viewLastActions
         cached: true
         horizontalOffset: 5
         verticalOffset: 5
@@ -165,11 +118,11 @@ Rectangle {
         samples: 32
         color: "#2A2C33"
         smooth: true
-        source: viewWallets
-        visible: viewWallets.visible
+        source: viewLastActions
+        visible: viewLastActions.visible
     }
     InnerShadow {
-        anchors.fill: viewWallets
+        anchors.fill: viewLastActions
         cached: true
         horizontalOffset: -1
         verticalOffset: -1
@@ -177,89 +130,69 @@ Rectangle {
         samples: 32
         color: "#4C4B5A"
         source: topLeftSadow
-        visible: viewWallets.visible
+        visible: viewLastActions.visible
     }
 
     Connections
     {
         target: dapServiceController
-        onWalletHistoryReceived:
+        onWalletsReceived:
         {
+            dapWallets.splice(0,dapWallets.length)
+            dapModelWallets.clear()
+
+            for (var q = 0; q < walletList.length; ++q)
             {
-                for (var q = 0; q < walletHistory.length; ++q)
+                dapWallets.push(walletList[q])
+            }
+
+            for (var i = 0; i < dapWallets.length; ++i)
+            {
+                dapModelWallets.append({ "name" : dapWallets[i].Name,
+                                      "balance" : dapWallets[i].Balance,
+                                      "icon" : dapWallets[i].Icon,
+                                      "address" : dapWallets[i].Address,
+                                      "networks" : []})
+                for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
-                    if (modelHistory.count === 0)
-                        modelHistory.append({"wallet" : walletHistory[q].Wallet,
-                                              "network" : walletHistory[q].Network,
-                                              "name" : walletHistory[q].Name,
-                                              "status" : walletHistory[q].Status,
-                                              "amount" : walletHistory[q].Amount,
-                                              "date" : walletHistory[q].Date,
-                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
-                    else
+                    dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
+                          "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
+                          "tokens": []})
+
+                    for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
-                        var j = 0;
-                        while (modelHistory.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                        if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
                         {
-                            ++j;
-                            if (j >= modelHistory.count)
-                                break;
+                            dapModelWallets.get(i).networks.get(n).tokens.append(
+                                 {"name": dapWallets[i].Tokens[t].Name,
+                                  "balance": dapWallets[i].Tokens[t].Balance,
+                                  "emission": dapWallets[i].Tokens[t].Emission,
+                                  "network": dapWallets[i].Tokens[t].Network})
                         }
-                        modelHistory.insert(j, {"wallet" : walletHistory[q].Wallet,
-                                              "network" : walletHistory[q].Network,
-                                              "name" : walletHistory[q].Name,
-                                              "status" : walletHistory[q].Status,
-                                              "amount" : walletHistory[q].Amount,
-                                              "date" : walletHistory[q].Date,
-                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
                     }
                 }
+                getWalletHistory(i)
+            }
+        }
+        onWalletHistoryReceived:
+        {
+            for (var q = 0; q < walletHistory.length; ++q)
+            {
+                    modelLastActions.append({"wallet" : walletHistory[q].Wallet,
+                                          "network" : walletHistory[q].Network,
+                                          "name" : walletHistory[q].Name,
+                                          "status" : walletHistory[q].Status,
+                                          "amount" : walletHistory[q].Amount,
+                                          "date" : walletHistory[q].Date,
+                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
             }
         }
     }
 
-    ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
-    function getDateString(date)
-    {
-        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
-
-        if (isSameDay(today, date))
-        {
-            return qsTr("Today")
-        }
-        else if (isSameDay(yesterday, date))
-        {
-            return qsTr("Yesterday")
-        }
-        else if (!isSameYear(today, date))
-        {
-            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy")
-        }
-        else
-        {
-            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d") // Does locale should be changed?
-        }
-    }
-
-    ////@ Checks if dates are same
-    function isSameDay(date1, date2)
-    {
-        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
-    }
-
-    ////@ Checks if dates have same year
-    function isSameYear(date1, date2)
-    {
-        return (date1.getFullYear() === date2.getFullYear()) ? true : false
-    }
-
-
-    function getWalletHistory()
+    function getWalletHistory(index)
     {
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
-
-        console.log("getWalletHistory", index, model.count)
 
         for (var i = 0; i < model.count; ++i)
         {
@@ -269,11 +202,6 @@ Rectangle {
             if (network === "core-t")
                 chain = "zerochain"
 
-            console.log("DapGetWalletHistoryCommand")
-            console.log("   wallet name:", name)
-            console.log("   network:", network)
-            console.log("   chain:", chain)
-            console.log("   wallet address:", address)
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
         }

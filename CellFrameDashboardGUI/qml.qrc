@@ -313,5 +313,8 @@
         <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml</file>
         <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
         <file>screen/desktop/Plugin/Elements/Windows/LastActions/DapShowLastActions.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/LastActions/DapDelegateLastActions.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Console/DapShowConsole.qml</file>
+        <file>screen/desktop/Plugin/Elements/Windows/Console/DapConsoleComponent.qml</file>
     </qresource>
 </RCC>

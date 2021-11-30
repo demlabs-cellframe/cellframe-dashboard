@@ -92,7 +92,7 @@ Rectangle {
         target: dapServiceController
         onWalletsReceived:
         {
-            dapWallets.splice(0,dapPlugins.length)
+            dapWallets.splice(0,dapWallets.length)
             dapModelWallets.clear()
 
             for (var q = 0; q < walletList.length; ++q)

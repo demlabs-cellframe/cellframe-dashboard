@@ -4,11 +4,13 @@ import "Windows"
 
 Rectangle {
 
-    property string showWallets : "qrc:/screen/desktop/Plugin/Elements/Windows/Wallets/DapShowWallets.qml"
-    property string createWallet : "qrc:/screen/desktop/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml"
-    property string showOrders : "qrc:/screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml"
-    property string showCertificates : "qrc:/screen/desktop/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml"
+    property string showWallets        : "qrc:/screen/desktop/Plugin/Elements/Windows/Wallets/DapShowWallets.qml"
+    property string createWallet       : "qrc:/screen/desktop/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml"
+    property string showOrders         : "qrc:/screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml"
+    property string showCertificates   : "qrc:/screen/desktop/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml"
     property string createCertificates : "qrc:/screen/desktop/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml"
+    property string showLastActions    : "qrc:/screen/desktop/Plugin/Elements/Windows/LastActions/DapShowLastActions.qml"
+    property string showConsole        : "qrc:/screen/desktop/Plugin/Elements/Windows/Console/DapShowConsole.qml"
 
     anchors.fill: parent
     anchors.margins: 30
@@ -96,6 +98,11 @@ Rectangle {
             Layout.fillWidth: true
             leftButton.textButton: "Open Last Actions"
             rightButton.visible: false
+
+            leftButton.onClicked: {
+                loader.source = showLastActions
+                loader.open()
+            }
         }
         DapPluginsBlock
         {
@@ -107,6 +114,11 @@ Rectangle {
             Layout.fillWidth: true
             leftButton.textButton: "Open Console"
             rightButton.visible: false
+
+            leftButton.onClicked: {
+                loader.source = showConsole
+                loader.open()
+            }
         }
     }
 
