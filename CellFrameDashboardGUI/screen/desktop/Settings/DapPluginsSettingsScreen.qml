@@ -1,8 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.3
+import QtQuick 2.5
+import QtQuick.Controls 2.2
+import QtQuick.Layouts 1.12
 import Qt.labs.platform 1.0
 import QtGraphicalEffects 1.0
+
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
@@ -24,7 +25,7 @@ Rectangle
     {
         anchors.fill: parent
         anchors.margins: 10 * pt
-        rows: 2
+        rows: 3
         columns: 4
 
         rowSpacing: 10 * pt
@@ -419,7 +420,35 @@ Rectangle
 //                console.log(currentPlugin)
             }
         }
+//        DapButton
+//        {
+//            Layout.row: 3
+//            Layout.rowSpan: 1
+//            Layout.column: 1
+//            Layout.columnSpan: 4
+//            Layout.fillWidth: true
+
+//            implicitHeight: 36 * pt
+//            implicitWidth: 163 * pt
+
+//            id:test
+//            textButton: "Test"
+
+//            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+//            horizontalAligmentText: Text.AlignHCenter
+
+//            onClicked:
+//            {
+//                dial.open()
+//            }
+//        }
     }
+
+//    TestDial
+//    {
+//        id:dial
+//    }
+
 
     Popup{
         id: messagePopup
