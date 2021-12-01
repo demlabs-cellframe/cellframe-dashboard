@@ -47,7 +47,11 @@ DapRightPanel
         section.delegate: delegateSection
 
         delegate: Rectangle {
-            width: control.width
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.leftMargin: 5 * pt
+            anchors.rightMargin: 5 * pt
+//            width: control.width
             color: currTheme.backgroundElements
             height: 50 * pt
 

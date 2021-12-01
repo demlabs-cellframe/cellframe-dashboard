@@ -277,7 +277,6 @@
         <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapDoneCreateWalletForm.ui.qml</file>
-        <file>screen/desktop/Test/DapTestRightPanel.qml</file>
         <file>screen/desktop/Test/DapTestRightPanelForm.ui.qml</file>
         <file>screen/desktop/Test/TestScreen.qml</file>
         <file>screen/desktop/Test/TestPage.qml</file>
@@ -293,5 +292,8 @@
         <file>screen/desktop/Tokens/DapTokensTopPanel.qml</file>
         <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapPluginsSettingsScreen.qml</file>
+        <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
+        <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
     </qresource>
 </RCC>
