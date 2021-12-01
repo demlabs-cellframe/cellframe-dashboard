@@ -295,6 +295,5 @@
         <file>screen/desktop/Settings/DapPluginsSettingsScreen.qml</file>
         <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
         <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
-        <file>screen/desktop/Settings/TestDial.qml</file>
     </qresource>
 </RCC>

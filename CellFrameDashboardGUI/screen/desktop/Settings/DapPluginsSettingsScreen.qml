@@ -21,22 +21,22 @@ Rectangle
     border.width: pt
     border.color: currTheme.lineSeparatorColor
 
-    GridLayout
+    ColumnLayout
     {
         anchors.fill: parent
         anchors.margins: 10 * pt
-        rows: 3
-        columns: 4
+//        rows: 3
+//        columns: 4
 
-        rowSpacing: 10 * pt
+//        rowSpacing: 10 * pt
 
         Rectangle
         {
             id:rectanglePlug
-            Layout.row: 1
-            Layout.rowSpan: 1
-            Layout.column: 1
-            Layout.columnSpan: 4
+//            Layout.row: 1
+//            Layout.rowSpan: 1
+//            Layout.column: 1
+//            Layout.columnSpan: 4
             Layout.fillHeight: true
             Layout.fillWidth: true
             radius: plugins.radius
@@ -293,162 +293,137 @@ Rectangle
             }
         }
 
-        DapButton
+        RowLayout
         {
-            Layout.row: 2
-            Layout.rowSpan: 1
-            Layout.column: 1
-            Layout.columnSpan: 1
-            Layout.fillWidth: true
+            DapButton
+            {
+//                Layout.row: 2
+//                Layout.rowSpan: 1
+//                Layout.column: 1
+//                Layout.columnSpan: 1
+                Layout.fillWidth: true
 
-            implicitHeight: 36 * pt
-            implicitWidth: 163 * pt
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
 
-            id:loadPlug
-            textButton: "Add Plugin"
+                id:loadPlug
+                textButton: "Add Plugin"
 
-            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText: Text.AlignHCenter
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
 
 
-            FileDialog {
-                id: dialogSelectPlug
-                title: qsTr("Please choose a *.zip file")
-                folder: "~"
-                visible: false
-                nameFilters: [qsTr("Zip files (*.zip)"), "All files (*.*)"]
-//                nameFilters: [qsTr("Plugin files (*.qml)")]
-                defaultSuffix: "qml"
-                onAccepted:
+                FileDialog {
+                    id: dialogSelectPlug
+                    title: qsTr("Please choose a *.zip file")
+                    folder: "~"
+                    visible: false
+                    nameFilters: [qsTr("Zip files (*.zip)"), "All files (*.*)"]
+    //                nameFilters: [qsTr("Plugin files (*.qml)")]
+                    defaultSuffix: "qml"
+                    onAccepted:
+                    {
+                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0);
+    //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
+    //                    messagePopup.close()
+    //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
+                    }
+                }
+                onClicked:
                 {
-                    pluginsManager.addPlugin(dialogSelectPlug.files[0], 0);
-//                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
-//                    messagePopup.close()
-//                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
+                    dialogSelectPlug.open()
+    //                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
                 }
             }
-            onClicked:
+            DapButton
             {
-                dialogSelectPlug.open()
-//                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
+//                Layout.row: 2
+//                Layout.rowSpan: 1
+//                Layout.column: 2
+//                Layout.columnSpan: 1
+                Layout.fillWidth: true
+
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+
+                id:installPlug
+                textButton: "Install Plugin"
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked:
+                {
+                    currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
+                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 1)
+    //                listModel.get(listViewPlug.currentIndex).status = "1"
+                    listViewPlug.setEnableButtons()
+                    SettingsWallet.activePlugin = currentPlugin
+                }
             }
-        }
-        DapButton
-        {
-            Layout.row: 2
-            Layout.rowSpan: 1
-            Layout.column: 2
-            Layout.columnSpan: 1
-            Layout.fillWidth: true
-
-            implicitHeight: 36 * pt
-            implicitWidth: 163 * pt
-
-            id:installPlug
-            textButton: "Install Plugin"
-
-            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText: Text.AlignHCenter
-
-            onClicked:
+            DapButton
             {
-                currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
-                pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 1)
-//                listModel.get(listViewPlug.currentIndex).status = "1"
-                listViewPlug.setEnableButtons()
-                SettingsWallet.activePlugin = currentPlugin
-            }
-        }
-        DapButton
-        {
-            Layout.row: 2
-            Layout.rowSpan: 1
-            Layout.column: 3
-            Layout.columnSpan: 1
-            Layout.fillWidth: true
+//                Layout.row: 2
+//                Layout.rowSpan: 1
+//                Layout.column: 3
+//                Layout.columnSpan: 1
+                Layout.fillWidth: true
 
-            implicitHeight: 36 * pt
-            implicitWidth: 163 * pt
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
 
-            id:uninstallPlug
-            textButton: "Unistall Plugin"
+                id:uninstallPlug
+                textButton: "Unistall Plugin"
 
-            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText: Text.AlignHCenter
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
 
-            onClicked:
-            {
-                if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
-                    currentPlugin = ""
+                onClicked:
+                {
+                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                        currentPlugin = ""
+                        SettingsWallet.activePlugin = ""
+                    }
+                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 0)
                     SettingsWallet.activePlugin = ""
+
+                    listViewPlug.setEnableButtons()
                 }
-                pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 0)
-                SettingsWallet.activePlugin = ""
-
-                listViewPlug.setEnableButtons()
             }
-        }
-        DapButton
-        {
-            Layout.row: 2
-            Layout.rowSpan: 1
-            Layout.column: 4
-            Layout.columnSpan: 1
-            Layout.fillWidth: true
-
-            implicitHeight: 36 * pt
-            implicitWidth: 163 * pt
-
-            id:deletePlug
-            textButton: "Delete Plugin"
-
-            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText: Text.AlignHCenter
-
-            onClicked:
+            DapButton
             {
+//                Layout.row: 2
+//                Layout.rowSpan: 1
+//                Layout.column: 4
+//                Layout.columnSpan: 1
+                Layout.fillWidth: true
 
-                if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
-                    currentPlugin = ""
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+
+                id:deletePlug
+                textButton: "Delete Plugin"
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked:
+                {
+
+                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                        currentPlugin = ""
+                        SettingsWallet.activePlugin = ""
+                    }
+    //                    listModel.remove(listViewPlug.currentIndex)
+                    pluginsManager.deletePlugin(listViewPlug.currentIndex)
                     SettingsWallet.activePlugin = ""
-                }
-//                    listModel.remove(listViewPlug.currentIndex)
-                pluginsManager.deletePlugin(listViewPlug.currentIndex)
-                SettingsWallet.activePlugin = ""
 
-                listViewPlug.setEnableButtons()
-//                console.log(currentPlugin)
+                    listViewPlug.setEnableButtons()
+    //                console.log(currentPlugin)
+                }
             }
         }
-//        DapButton
-//        {
-//            Layout.row: 3
-//            Layout.rowSpan: 1
-//            Layout.column: 1
-//            Layout.columnSpan: 4
-//            Layout.fillWidth: true
-
-//            implicitHeight: 36 * pt
-//            implicitWidth: 163 * pt
-
-//            id:test
-//            textButton: "Test"
-
-//            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-//            horizontalAligmentText: Text.AlignHCenter
-
-//            onClicked:
-//            {
-//                dial.open()
-//            }
-//        }
     }
-
-//    TestDial
-//    {
-//        id:dial
-//    }
-
 
     Popup{
         id: messagePopup
