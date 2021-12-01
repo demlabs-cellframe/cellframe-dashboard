@@ -23,7 +23,7 @@ private:
 
     void readPluginsFile(QString *path);
     void updateFileConfig();
-    void sortList();
+    void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
     bool zipManage(QString &path);
 
     QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
