@@ -11,6 +11,8 @@
 #include <QCryptographicHash>
 #include <dap_hash.h>
 
+#include "JlCompress.h"
+
 class DapPluginsController : public QObject
 {
     Q_OBJECT
@@ -30,7 +32,7 @@ private:
 public slots:
 
     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-    void addPlugin(QVariant, QVariant, QVariant);
+    void addPlugin(QVariant, QVariant);
     void setStatusPlugin(int, QString);
     void deletePlugin(int);
 

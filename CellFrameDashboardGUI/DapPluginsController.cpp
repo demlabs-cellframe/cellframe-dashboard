@@ -51,27 +51,6 @@ void DapPluginsController::readPluginsFile(QString *path)
     }
 }
 
-void DapPluginsController::sortList()
-{
-//    int n;
-//    int i;
-//    for (n=0; n < m_pluginsList.count(); n++)
-//    {
-//        for (i=n+1; i < m_pluginsList.count(); i++)
-//        {
-//            QStringList valorN=m_pluginsList.at(n).toStringList();
-//            QStringList valorI=m_pluginsList.at(i).toStringList();
-
-//            if (valorN[0].toUpper() > valorI[0].toUpper())
-//            {
-//                m_pluginsList.move(i, n);
-//                n=0;
-//            }
-//        }
-//    }
-    std::sort(m_pluginsList.begin(), m_pluginsList.end());
-}
-
 void DapPluginsController::updateFileConfig()
 {
     QFile file(m_pathPluginsConfigFile);
@@ -92,24 +71,21 @@ void DapPluginsController::updateFileConfig()
     }
 }
 
-void DapPluginsController::addPlugin(QVariant name, QVariant path, QVariant status)
+void DapPluginsController::addPlugin(QVariant path, QVariant status)
 {
 
     QString path_plug = path.toString();
     QStringList splitPath = path.toString().split("/");
-    QString name_mainFilePlugin = "/" + splitPath.last();
+    QString name_mainFilePlugin = splitPath.last().remove(".zip");
 
-    if(zipManage(path_plug))
+    if(zipManage(path_plug.remove("file://")))
     {
         QStringList list;
 
-        list.append(name.toString());
-
-        //TODO: release
-//        list.append(QString("file://" + m_pathPlugins + name_mainFilePlugin));
-        list.append(path.toString());
-
-        list.append(status.toString());
+        list.append(name_mainFilePlugin); //name plugin
+        list.append(QString("file://" + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml")); //path main.qml
+        list.append(status.toString()); //instal or not install
+        list.append(0); // verefied
 
         m_pluginsList.append(list);
 
@@ -121,13 +97,13 @@ void DapPluginsController::addPlugin(QVariant name, QVariant path, QVariant stat
             out<<"["<<list[0]<<"]"<<"\n";
             out<<"path = "<<list[1]<<"\n";
             out<<"status = "<<list[2]<<"\n";
-            out<<"verifed = " << "0" <<"\n";
+            out<<"verifed = " << list[3] <<"\n";
             file.close();
         }
 
         getListPlugins();
 
-        qDebug()<<name<< " " <<path<< " " <<status;
+//        qDebug()<<name_mainFilePlugin<< " " <<path<< " " <<status;
     }
 }
 
@@ -151,6 +127,7 @@ QString DapPluginsController::pkeyHash(QString &path)
     if (file.open(QFile::ReadOnly)) {
 
         fileData = file.readAll();
+        file.close();
     }
 
     dap_chain_hash_fast_t l_hash_cert_pkey;
@@ -163,34 +140,15 @@ QString DapPluginsController::pkeyHash(QString &path)
 
 bool DapPluginsController::zipManage(QString &path)
 {
-    //TODO: release
-//    QString file = path;
-    QString file = "/home/denis/Proj/Cellframe_master/asd.zip";
+    QString file =  path;
 
     //TODO: Make a request to the node to confirm the hash
 //    QByteArray hash = fileChecksum(file, QCryptographicHash::Sha256).toHex();
-    QString str = pkeyHash(file);
+    QString hash = pkeyHash(file);
 
-    //TODO: If the hash passed, then unpack the plugin
-    QZipReader zip_reader(file);
+    QStringList result = JlCompress::extractDir(file,m_pathPlugins);
 
-    if(zip_reader.exists())
-    {
-        qDebug() << "Number of items in the zip archive =" << zip_reader.count();
-        foreach (QZipReader::FileInfo info, zip_reader.fileInfoList()) {
-            if(info.isFile)
-                qDebug() << "File:" << info.filePath << info.size;
-            else if (info.isDir)
-                qDebug() << "Dir:" << info.filePath;
-            else
-                qDebug() << "SymLink:" << info.filePath;
-        }
-        zip_reader.extractAll(m_pathPlugins);
-        return true;
-    }
-    else
-        return false;
-
+    return !result.isEmpty();
 }
 
 void DapPluginsController::setStatusPlugin(int number, QString status)

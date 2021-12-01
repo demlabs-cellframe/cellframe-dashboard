@@ -320,15 +320,16 @@ Rectangle
                 defaultSuffix: "qml"
                 onAccepted:
                 {
-                    pluginsManager.addPlugin(dapMessageBox.dapContentInput.text, dialogSelectPlug.files[0], 0);
+                    pluginsManager.addPlugin(dialogSelectPlug.files[0], 0);
 //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
-                    messagePopup.close()
-                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
+//                    messagePopup.close()
+//                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
                 }
             }
             onClicked:
             {
-                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
+                dialogSelectPlug.open()
+//                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
             }
         }
         DapButton
