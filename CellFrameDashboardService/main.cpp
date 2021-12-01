@@ -9,6 +9,7 @@
 #include "DapHelper.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
+#include "DapPluginsPathControll.h"
 
 #include "dap_config.h"
 
@@ -79,14 +80,16 @@ int main(int argc, char *argv[])
         system(str.toUtf8().data());
     }
 
+    DapPluginsPathControll dapPlugins;
+
     //plugins path
-    dapLogger.setPathToPlugin(DapLogger::defaultPluginPath(DAP_BRAND_LO));
-    QDir dirPlug(dapLogger.getPathToPlugin());
+    dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
+    QDir dirPlug(dapPlugins.getPathToPlugin());
     if(!dirPlug.exists())
     {
-        qDebug() << "No folder:" << dapLogger.getPathToPlugin();
+        qDebug() << "No folder:" << dapPlugins.getPathToPlugin();
         dirPlug.mkpath(".");
-        QString str = "chmod 777 " + dapLogger.getPathToPlugin();
+        QString str = "chmod 777 " + dapPlugins.getPathToPlugin();
         system(str.toUtf8().data());
     }
 

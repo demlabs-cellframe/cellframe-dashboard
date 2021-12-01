@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
-    //Plugin file
+    //Plugins config file
         QString filePluginConfig;
         QString pluginPath;
     #ifdef Q_OS_LINUX
