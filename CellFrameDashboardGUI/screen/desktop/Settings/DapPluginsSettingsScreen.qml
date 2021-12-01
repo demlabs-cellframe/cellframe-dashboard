@@ -312,10 +312,10 @@ Rectangle
 
             FileDialog {
                 id: dialogSelectPlug
-                title: qsTr("Please choose a *.qml file")
+                title: qsTr("Please choose a *.zip file")
                 folder: "~"
                 visible: false
-                nameFilters: [qsTr("Plugin files (*.qml)"), "All files (*.*)"]
+                nameFilters: [qsTr("Zip files (*.zip)"), "All files (*.*)"]
 //                nameFilters: [qsTr("Plugin files (*.qml)")]
                 defaultSuffix: "qml"
                 onAccepted:

@@ -164,6 +164,13 @@ void DapPluginsController::setStatusPlugin(int number, QString status)
 
 void DapPluginsController::deletePlugin(int number)
 {
+    QStringList str = m_pluginsList.value(number).toStringList();
+    str[1].remove(QString("/" + str[0] + ".qml"));
+    str[1].remove("file://");
+
+    QDir dir(str[1]);
+    dir.removeRecursively();
+
     m_pluginsList.removeAt(number);
 
     updateFileConfig();
