@@ -1,53 +1,53 @@
-//#ifndef DAPPLUGINSCONTROLLER_H
-//#define DAPPLUGINSCONTROLLER_H
+#ifndef DAPPLUGINSCONTROLLER_H
+#define DAPPLUGINSCONTROLLER_H
 
-//#include <QObject>
-//#include <QSettings>
-//#include <QFile>
-//#include <QDebug>
+#include <QObject>
+#include <QSettings>
+#include <QFile>
+#include <QDebug>
 
-//#include <QtGui/private/qzipreader_p.h>
-//#include <QtGui/private/qzipwriter_p.h>
-//#include <QCryptographicHash>
-//#include <dap_hash.h>
+#include <QtGui/private/qzipreader_p.h>
+#include <QtGui/private/qzipwriter_p.h>
+#include <QCryptographicHash>
+#include <dap_hash.h>
 
-//#include "JlCompress.h"
+#include "JlCompress.h"
 
-//class DapPluginsController : public QObject
-//{
-//    Q_OBJECT
-//public:
-//    explicit DapPluginsController(QString pathPluginsConfigFile, QString pathPlugins, QObject *parent = nullptr);
+class DapPluginsController : public QObject
+{
+    Q_OBJECT
+public:
+    explicit DapPluginsController(QString pathPluginsConfigFile, QString pathPlugins, QObject *parent = nullptr);
 
-//private:
+private:
 
-//    void readPluginsFile(QString *path);
-//    void updateFileConfig();
-//    void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
-//    bool zipManage(QString &path);
+    void readPluginsFile(QString *path);
+    void updateFileConfig();
+    void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
+    bool zipManage(QString &path);
 
-//    QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
-//    QString pkeyHash(QString &path);
+    QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
+    QString pkeyHash(QString &path);
 
-//public slots:
+public slots:
 
-//    void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-//    void addPlugin(QVariant, QVariant);
-//    void setStatusPlugin(int, QString);
-//    void deletePlugin(int);
+    void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
+    void addPlugin(QVariant, QVariant);
+    void setStatusPlugin(int, QString);
+    void deletePlugin(int);
 
-//signals:
+signals:
 
-//    void rcvListPlugins(QList <QVariant> m_pluginsList);
+    void rcvListPlugins(QList <QVariant> m_pluginsList);
 
-//private:
+private:
 
-//    QString m_pathPluginsConfigFile;
-//    QString m_pathPlugins;
-//    QList <QVariant> m_pluginsList;
+    QString m_pathPluginsConfigFile;
+    QString m_pathPlugins;
+    QList <QVariant> m_pluginsList;
 
-//    QString m_filePrefix;
+    QString m_filePrefix;
 
-//};
+};
 
-//#endif // DAPPLUGINSCONTROLLER_H
+#endif // DAPPLUGINSCONTROLLER_H
