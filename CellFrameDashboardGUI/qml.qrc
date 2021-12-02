@@ -315,5 +315,11 @@
         <file>screen/desktop/Wallet/RightPanel/DapRecoveryWallet.qml</file>
         <file>screen/desktop/Wallet/RightPanel/DapRecoveryWalletForm.ui.qml</file>
         <file>screen/desktop/Settings/DapSettingsPage.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientPage.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientTopPanel.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientScreen.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientScreenForm.ui.qml</file>
+        <file>screen/desktop/VPNClient/VPNOrders.qml</file>
+        <file>screen/desktop/VPNClient/VPNOrdersForm.ui.qml</file>
     </qresource>
 </RCC>

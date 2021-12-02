@@ -16,7 +16,7 @@ FocusScope {
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
-    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
+    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNClient/VPNClientPage.qml"
     readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
     readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
@@ -165,7 +165,7 @@ FocusScope {
                 StackView { id: daphistoryPage; Component.onCompleted: push(underConstructionsScreen)}
                 StackView { id: dapCertificatesPage; Component.onCompleted: push(certificatesScreen)}
                 StackView { id: dapTokensPage; Component.onCompleted: push(underConstructionsScreen)}
-                StackView { id: dapVPNClientPage; Component.onCompleted: push(underConstructionsScreen)}
+                StackView { id: dapVPNClientPage; Component.onCompleted: push(vpnClientScreen)}
                 StackView { id: dapVPNServicePage; Component.onCompleted: push(vpnServiceScreen)}
                 StackView { id: dapConsolePage; Component.onCompleted: push(consoleScreen)}
                 //StackView { id: dapLogsPage; Component.onCompleted: push(underConstructionsScreen)}

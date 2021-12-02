@@ -51,7 +51,7 @@ Page {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: _tokensModel
+            model: tokensModel
 
             section.property: "network"
             section.criteria: ViewSection.FullString

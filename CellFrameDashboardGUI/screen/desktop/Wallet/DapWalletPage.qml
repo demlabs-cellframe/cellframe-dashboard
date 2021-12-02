@@ -10,6 +10,7 @@ import "qrc:/screen"
 Controls.DapPage {
 
     property var networksList: _dapNetworksModel
+    property var tokensModel: _tokensModel
 
     QtObject {
         id: navigator

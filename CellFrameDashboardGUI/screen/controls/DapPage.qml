@@ -17,6 +17,8 @@ Page {
         }
     }
 
+    property bool screenFrameVisible: true
+
     property alias dapHeader: headerStack
     property alias dapScreen: mainScreenStack
     property alias dapRightPanel: rightPanelStack
@@ -30,6 +32,8 @@ Page {
         anchors.fill: parent
 
         DapScreenPage {
+            id: screenFrame
+            frameVisible: screenFrameVisible
             Layout.fillHeight: true
             Layout.preferredWidth: rootPageRow.width * 0.7
 //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
