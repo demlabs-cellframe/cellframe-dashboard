@@ -5,22 +5,6 @@ import "../../"
 
 DapRightPanel
 {
-    dapHeaderData:
-        RowLayout{
-            Layout.fillWidth: true
-            Text
-            {
-                Layout.fillWidth: true
-                Layout.leftMargin: 20 * pt
-                Layout.topMargin: 20 * pt
-                text: qsTr("Test panel")
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                color: currTheme.textColor
-
-            }
-        }
     dapContentItemData:
         ColumnLayout{
             Layout.fillWidth: true

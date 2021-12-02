@@ -36,6 +36,9 @@ Rectangle {
     readonly property string certificatesScreenPath: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
     ///@detalis Path to the console tab.
     readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
+     ///@detalis Path to the console tab.
+    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/DapPluginsTab.qml"
+
 
     readonly property string underConstructionsScreenPath: "qrc:/screen/" + device + "/UnderConstructions.qml"
 
@@ -209,9 +212,11 @@ Rectangle {
 
     property var dapWallets: []
     property var dapOrders: []
+    property var dapPlugins: []
 
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
+    signal modelPluginsUpdated()
 
 
     //open in module visible root context, only for work
@@ -231,6 +236,10 @@ Rectangle {
     ListModel
     {
         id: dapModelOrders
+    }
+    ListModel
+    {
+        id: dapModelPlugins
     }
 
     // Menu bar tab model
@@ -258,6 +267,7 @@ Rectangle {
             append ({
                 name: qsTr("Exchange"),
                 page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
+//                page: exchangeScreenPath, //TODO: here should be: exchangeScreenPath,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
             })
@@ -313,14 +323,20 @@ Rectangle {
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
-//            //Test elements page for debug
+            append ({
+                name: qsTr("Plugins"),
+                page: pluginsScreen,
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+            })
+
+            //Test elements page for debug
 //            append ({
 //                name: qsTr("Test"),
-//                page: testScreenPath,
+//                page: testScreen,
 //                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
 //                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
 //            })
-
 //            append ({
 //                name: qsTr("Logs"),
 //                page: logsScreenPath,
@@ -353,6 +369,7 @@ Rectangle {
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetListNetworksCommand")
+        pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
     }
 
@@ -382,9 +399,13 @@ Rectangle {
 
         onWalletsReceived:
         {
+            dapWallets.splice(0,dapWallets.length)
+            dapModelWallets.clear()
             console.log("walletList.length =", walletList.length)
             console.log("dapWallets.length =", dapWallets.length)
             console.log("dapModelWallets.count =", dapModelWallets.count)
+
+
 
             for (var q = 0; q < walletList.length; ++q)
             {
@@ -447,6 +468,8 @@ Rectangle {
 //            console.log("Orders len " + orderList.length)
 //            console.log("DapOrders len " + dapOrders.length)
 //            console.log("DapModelOrders len " + dapModelOrders.count)
+            dapOrders.splice(0,dapOrders.length)
+            dapModelOrders.clear()
             for (var q = 0; q < orderList.length; ++q)
             {
                 dapOrders.push(orderList[q])
@@ -463,6 +486,28 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+    }
+    Connections{
+        target: pluginsManager
+        onRcvListPlugins:
+        {
+            dapPlugins.splice(0,dapPlugins.length)
+            dapModelPlugins.clear()
+
+            for(var i = 0; i < m_pluginsList.length ; i++)
+            {
+                dapPlugins.push(m_pluginsList[i])
+            }
+            for(var q = 0; q < dapPlugins.length; q++)
+            {
+                console.log("Plugin name: "+ dapPlugins[q][0] + " - Loaded")
+                dapModelPlugins.append({"name" : dapPlugins[q][0],
+                                        "path" : dapPlugins[q][1],
+                                        "status" : dapPlugins[q][2],
+                                        "verifed" : dapPlugins[q][3]})
+            }
+            modelPluginsUpdated()
         }
     }
 }

@@ -6,6 +6,7 @@ import "../"
 import "qrc:/screen/controls" as Controls
 
 Controls.DapPage {
+    readonly property string dapTestRightPanel : "qrc:/screen/" + device + "/Test/DapTestRightPanelForm.ui.qml"
 
     QtObject {
         id: navigator
