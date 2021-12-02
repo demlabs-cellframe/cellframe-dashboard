@@ -78,16 +78,32 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status)
     QStringList splitPath = path.toString().split("/");
     QString name_mainFilePlugin = splitPath.last().remove(".zip");
 
-    if(zipManage(path_plug.remove("file://")))
+#if !defined(Q_OS_WIN)
+    path_plug.remove("file://");
+#else
+    path_plug.remove("file:///");
+#endif
+
+    if(zipManage(path_plug))
     {
         QStringList list;
 
+        QString pathMainFileQml;
+
+#if !defined(Q_OS_WIN)
+    pathMainFileQml = QString("file://" + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml") ;
+#else
+    pathMainFileQml = QString("file:///" + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml");
+#endif
+
+
         list.append(name_mainFilePlugin); //name plugin
-        list.append(QString("file://" + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml")); //path main.qml
+        list.append(pathMainFileQml); //path main.qml
         list.append(status.toString()); //instal or not install
         list.append(0); // verefied
 
         m_pluginsList.append(list);
+        qInfo()<<list[1];
 
         QFile file(m_pathPluginsConfigFile);
 
