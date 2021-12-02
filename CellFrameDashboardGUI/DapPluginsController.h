@@ -46,6 +46,8 @@ private:
     QString m_pathPlugins;
     QList <QVariant> m_pluginsList;
 
+    QString m_filePrefix;
+
 };
 
 #endif // DAPPLUGINSCONTROLLER_H

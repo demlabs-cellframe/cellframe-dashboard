@@ -5,6 +5,12 @@ DapPluginsController::DapPluginsController(QString pathPluginsConfigFile, QStrin
     m_pathPluginsConfigFile = pathPluginsConfigFile;
     m_pathPlugins = pathPlugins;
 
+#if !defined(Q_OS_WIN)
+    m_filePrefix = "file://";
+#else
+    m_filePrefix = "file:///";
+#endif
+
     readPluginsFile(&m_pathPluginsConfigFile);
 }
 
@@ -78,12 +84,16 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status)
     QStringList splitPath = path.toString().split("/");
     QString name_mainFilePlugin = splitPath.last().remove(".zip");
 
-    if(zipManage(path_plug.remove("file://")))
+    path_plug.remove(m_filePrefix);
+
+    if(zipManage(path_plug))
     {
         QStringList list;
 
+        QString pathMainFileQml = QString(m_filePrefix + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml") ;
+
         list.append(name_mainFilePlugin); //name plugin
-        list.append(QString("file://" + m_pathPlugins + "/" + name_mainFilePlugin + "/" + name_mainFilePlugin +".qml")); //path main.qml
+        list.append(pathMainFileQml); //path main.qml
         list.append(status.toString()); //instal or not install
         list.append(0); // verefied
 
@@ -166,7 +176,7 @@ void DapPluginsController::deletePlugin(int number)
 {
     QStringList str = m_pluginsList.value(number).toStringList();
     str[1].remove(QString("/" + str[0] + ".qml"));
-    str[1].remove("file://");
+    str[1].remove(m_filePrefix);
 
     QDir dir(str[1]);
     dir.removeRecursively();
