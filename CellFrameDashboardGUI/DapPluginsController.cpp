@@ -110,6 +110,10 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status)
             out<<"verifed = " << list[3] <<"\n";
             file.close();
         }
+        else
+        {
+            qWarning() << "File not open" << file.errorString();
+        }
 
         getListPlugins();
 
