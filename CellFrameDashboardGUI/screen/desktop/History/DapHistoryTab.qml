@@ -3,6 +3,8 @@ import "../SettingsWallet.js" as SettingsWallet
 
 DapHistoryTabForm
 {
+    property int networkCounter: 0
+
     ListModel
     {
         id: modelHistory
@@ -27,8 +29,6 @@ DapHistoryTabForm
 
     Component.onCompleted:
     {
-        modelHistory.clear()
-
         print("DapHistoryTabForm onCompleted")
         print("dapWallets.count", dapModelWallets.count)
 
@@ -43,6 +43,11 @@ DapHistoryTabForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
+            if (networkCounter <= 0)
+                return
+
+            --networkCounter
+
             for (var q = 0; q < walletHistory.length; ++q)
             {
                 if (modelHistory.count === 0)
@@ -87,6 +92,12 @@ DapHistoryTabForm
         if (index < 0)
             return;
 
+        if (networkCounter > 0)
+            return
+
+        modelHistory.clear()
+        networkCounter = 0
+
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
 
@@ -100,13 +111,12 @@ DapHistoryTabForm
             if (network === "core-t")
                 chain = "zerochain"
 
-            console.log("DapGetWalletHistoryCommand")
-            console.log("   wallet name:", name)
-            console.log("   network:", network)
-            console.log("   chain:", chain)
-            console.log("   wallet address:", address)
+            console.log("DapGetWalletHistoryCommand - name:", name,
+                "network:", network, "chain:", chain, "address:", address)
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
+
+            ++networkCounter
         }
     }
 }
