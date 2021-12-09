@@ -444,9 +444,9 @@ Rectangle {
                 }
             }
 
-            if (dapModelWallets.count > 0)
+            if (SettingsWallet.currentIndex < 0 && dapModelWallets.count > 0)
                 SettingsWallet.currentIndex = 0
-            else
+            if (dapModelWallets.count < 0)
                 SettingsWallet.currentIndex = -1
 
             modelWalletsUpdated();

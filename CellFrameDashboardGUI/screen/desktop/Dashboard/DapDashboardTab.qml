@@ -222,8 +222,6 @@ DapAbstractTab
         }
     }
 
-    property string str3
-
     Component.onCompleted:
     {
         updateComboBox()

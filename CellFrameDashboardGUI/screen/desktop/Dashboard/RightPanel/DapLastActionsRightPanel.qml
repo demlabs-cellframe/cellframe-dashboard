@@ -12,6 +12,8 @@ DapLastActionsRightPanelForm
 
     property alias dapModelLastActions: modelLastActions
 
+    property int networksCounter: 0
+
     ListModel
     {
         id: modelLastActions
@@ -47,7 +49,13 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
+            if (networksCounter <= 0)
+                return
+
             console.log("onWalletHistoryReceived")
+            console.log("networksCounter", networksCounter)
+
+            --networksCounter
 
             for (var i = 0; i < walletHistory.length; ++i)
             {
@@ -98,6 +106,7 @@ DapLastActionsRightPanelForm
 
     Component.onCompleted:
     {
+        console.log("onCompleted")
         getWalletHistory()
     }
 
@@ -142,14 +151,18 @@ DapLastActionsRightPanelForm
         var index = SettingsWallet.currentIndex
 
         if (index < 0)
-            return;
+            return
 
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
 
+        if (networksCounter > 0)
+            return
+
         console.log("getWalletHistory", index, model.count)
 
         modelLastActions.clear()
+        networksCounter = 0
 
         for (var i = 0; i < model.count; ++i)
         {
@@ -159,13 +172,13 @@ DapLastActionsRightPanelForm
             if (network === "core-t")
                 chain = "zerochain"
 
-            console.log("DapGetWalletHistoryCommand")
-            console.log("   wallet name:", name)
-            console.log("   network:", network)
-            console.log("   chain:", chain)
-            console.log("   wallet address:", address)
+            console.log("DapGetWalletHistoryCommand - name:", name,
+                "network:", network, "chain:", chain, "address:", address)
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
+
+            ++networksCounter
+            console.log("networksCounter", networksCounter)
         }
     }
 

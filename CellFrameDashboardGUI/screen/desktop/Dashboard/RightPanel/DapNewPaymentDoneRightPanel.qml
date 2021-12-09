@@ -10,8 +10,10 @@ DapNewPaymentDoneRightPanelForm
 //        dapServiceController.requestToService("DapMempoolProcessCommand",
 //            walletInfo.network, walletInfo.chain)
 
-        dapWallets.length = 0
-        dapModelWallets.clear()
+        console.log("dapButtonSend.onClicked")
+
+//        dapWallets.length = 0
+//        dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
         nextActivated("transaction done")
