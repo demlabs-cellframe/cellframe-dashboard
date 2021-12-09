@@ -12,7 +12,7 @@ DapLastActionsRightPanelForm
 
     property alias dapModelLastActions: modelLastActions
 
-    property int networksCounter: 0
+    property int networkCounter: 0
 
     ListModel
     {
@@ -49,13 +49,12 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            if (networksCounter <= 0)
+            if (networkCounter <= 0)
                 return
 
             console.log("onWalletHistoryReceived")
-            console.log("networksCounter", networksCounter)
 
-            --networksCounter
+            --networkCounter
 
             for (var i = 0; i < walletHistory.length; ++i)
             {
@@ -153,16 +152,16 @@ DapLastActionsRightPanelForm
         if (index < 0)
             return
 
+        if (networkCounter > 0)
+            return
+
+        modelLastActions.clear()
+        networkCounter = 0
+
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
 
-        if (networksCounter > 0)
-            return
-
         console.log("getWalletHistory", index, model.count)
-
-        modelLastActions.clear()
-        networksCounter = 0
 
         for (var i = 0; i < model.count; ++i)
         {
@@ -177,8 +176,7 @@ DapLastActionsRightPanelForm
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
 
-            ++networksCounter
-            console.log("networksCounter", networksCounter)
+            ++networkCounter
         }
     }
 
