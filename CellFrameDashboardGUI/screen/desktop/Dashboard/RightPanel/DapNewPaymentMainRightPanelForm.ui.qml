@@ -105,25 +105,14 @@ DapRightPanel
             ColumnLayout
             {
                 id: frameSenderWalletAddress
-//                anchors.fill: parent
-//                anchors.top: frameSenderWallet
 
                 Layout.fillWidth: true
-//                Layout.leftMargin: 5 * pt
-//                Layout.rightMargin: 5 * pt
-//                Layout.margins: 16 * pt
-//                Layout.topMargin: 22 * pt
-//                Layout.bottomMargin: 22 * pt
-//                spacing: 16 * pt
-//                height: 70 * pt
 
                 Rectangle
                 {
                     id: frameSenderNetwork
                     Layout.fillWidth: true
-                    Layout.leftMargin: 6 * pt
-                    Layout.rightMargin: 6 * pt
-                    height: 70 * pt
+                    height: 60 * pt
                     width: 350 * pt
                     color: currTheme.backgroundElements
 
@@ -133,17 +122,15 @@ DapRightPanel
 
                         anchors.centerIn: parent
                         anchors.fill: parent
-                        anchors.topMargin: 11 * pt
-                        anchors.bottomMargin: 17 * pt
-                        anchors.leftMargin: 10 * pt
-                        anchors.rightMargin: 10 * pt
+                        anchors.margins: 10 * pt
+                        anchors.leftMargin: 15 * pt
 
                         comboBoxTextRole: ["name"]
                         mainLineText: "private"
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                        sidePaddingNormal: 19 * pt
-                        sidePaddingActive: 19 * pt
+                        sidePaddingNormal: 10 * pt
+                        sidePaddingActive: 10 * pt
                         hilightColor: currTheme.buttonColorNormal
 
 //                        Layout.fillWidth: true
@@ -206,22 +193,21 @@ DapRightPanel
             {
                 id: frameInputAmountPayment
                 Layout.fillWidth: true
-                Layout.margins: 0 * pt
-                spacing: 0 * pt
+                Layout.margins: 10 * pt
+                spacing: 10 * pt
 
                 RowLayout
                 {
                     id: frameAmountField
                     Layout.fillWidth: true
-                    Layout.margins: 16 * pt
+                    Layout.margins: 0 * pt
 //                    spacing: 28 * pt
 
                     TextField
                     {
                         id: textInputAmountPayment
                         Layout.fillWidth: true
-//                        anchors.leftMargin: 10 * pt
-                        Layout.leftMargin: 20 * pt
+                        Layout.leftMargin: 15 * pt
                         width: 150 * pt
                         height: 28 * pt
                         placeholderText: qsTr("0")
@@ -248,21 +234,19 @@ DapRightPanel
                         id: frameSenderWalletToken
                         color: "transparent"
                         height: 42 * pt
-                        width: 119 * pt
-                        Layout.leftMargin: 28 * pt
-                        Layout.rightMargin: 5 * pt
+                        width: 125 * pt
+                        Layout.leftMargin: 0 * pt
+                        Layout.rightMargin: 0 * pt
                         DapComboBox
                         {
                             id: comboboxToken
                             anchors.fill: parent
-//                            width: 119 * pt
-//                            height: 42 * pt
                             comboBoxTextRole: ["name"]
                             mainLineText: "tCELL"
                             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                            sidePaddingNormal: 19 * pt
-                            sidePaddingActive: 19 * pt
+                            sidePaddingNormal: 10 * pt
+                            sidePaddingActive: 10 * pt
                             widthPopupComboBoxNormal: 119 * pt
                             widthPopupComboBoxActive: 119 * pt
                             heightComboBoxNormal: 24 * pt
@@ -318,9 +302,8 @@ DapRightPanel
             {
                 id: frameRecipientWalletAddress
                 Layout.fillWidth: true
-                Layout.leftMargin: 38 * pt
-                Layout.rightMargin: 36 * pt
-//                Layout.topMargin: 26 * pt
+                Layout.leftMargin: 20 * pt
+                Layout.rightMargin: 20 * pt
                 height: 53 * pt
                 color: "transparent"
 
@@ -329,17 +312,12 @@ DapRightPanel
                     id: textInputRecipientWalletAddress
                     Layout.fillWidth: true
                     anchors.verticalCenter: parent.verticalCenter
-                    placeholderText: qsTr("Paste here")
+                    placeholderText: qsTr("Paste address here")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.fill: parent
-//                    anchors.top: frameRecipientWalletAddress.top
                     anchors.topMargin: 26 * pt
-//                    anchors.left: parent.left
-//                    anchors.right: parent.right
-//                    anchors.leftMargin: 20 * pt - 8 * pt
-//                    anchors.rightMargin: 20 * pt
                     style:
                         TextFieldStyle
                         {
@@ -382,9 +360,6 @@ DapRightPanel
                 {
                     id: textNotEnoughTokensWarning
                     anchors.fill: parent
-    //                Layout.fillWidth: true
-//                    width: 278 * pt
-//                    Layout.margins: 43 * pt
                     anchors.leftMargin: 37 * pt
                     anchors.rightMargin: 36 * pt
                     color: "#79FFFA"
