@@ -215,6 +215,47 @@ Rectangle
                                         color: currTheme.lineSeparatorColor
                                     }
                                 }
+                            // verifed plugin
+                                Item {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 100 * pt
+                                    Layout.maximumWidth: 100 * pt
+                                    Layout.fillHeight: true
+
+                                    RowLayout
+                                    {
+                                        anchors.fill: parent
+                                        Rectangle
+                                        {
+                                            Layout.maximumHeight: 30
+                                            Layout.maximumWidth: 10
+                                            Layout.fillHeight: true
+                                            Layout.fillWidth: true
+                                            radius: 5 * pt
+//                                            color: verifed === "1" ? "green" : "red"
+                                            color: verifed === "1" ? "green" : currTheme.backgroundMainScreen
+                                        }
+                                        Text{
+//                                            Layout.fillHeight: true
+//                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignCenter
+                                            id: verifedPlugin
+//                                            anchors.centerIn: parent
+                                            text: verifed === "1" ? "Verifed":"Not Verifed"
+                                            color: currTheme.textColor
+                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                        }
+                                        Rectangle
+                                        {
+                                            Layout.fillHeight: true
+//                                            anchors.right: parent.right
+//                                            anchors.top: parent.top
+//                                            anchors.bottom: parent.bottom
+                                            width: 2 * pt
+                                            color: currTheme.lineSeparatorColor
+                                        }
+                                    }
+                                }
                             // status plugin
                                 Item {
                                     Layout.fillWidth: true
@@ -287,7 +328,7 @@ Rectangle
 
                 for(var i = 0; i < dapModelPlugins.count; i++ )
                 {
-                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status})
+                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
                 }
 
             }
