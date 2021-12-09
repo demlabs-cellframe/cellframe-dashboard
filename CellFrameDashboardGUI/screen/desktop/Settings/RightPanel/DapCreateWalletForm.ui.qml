@@ -123,8 +123,8 @@ DapRightPanel
 
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
+                sidePaddingNormal: 10 * pt
+                sidePaddingActive: 10 * pt
                 hilightColor: currTheme.buttonColorNormal
 
                 widthPopupComboBoxNormal: 318 * pt
@@ -252,8 +252,8 @@ DapRightPanel
 
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
+                sidePaddingNormal: 10 * pt
+                sidePaddingActive: 10 * pt
                 hilightColor: currTheme.buttonColorNormal
 
                 widthPopupComboBoxNormal: 318 * pt
