@@ -169,7 +169,8 @@ Rectangle
                                             topMargin: 5 * pt
                                             left: parent.left
                                             right: parent.right
-//                                            bottom: parent.bottom
+                                            bottom: parent.bottom
+                                            bottomMargin: 8 * pt
                                         }
                                         elide: Text.ElideMiddle
                                         text: urlPath
