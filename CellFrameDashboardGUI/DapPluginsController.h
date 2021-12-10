@@ -31,7 +31,7 @@ private:
     void updateFileConfig();
     void sortList(){std::sort(m_pluginsList.begin(), m_pluginsList.end());};
     bool zipManage(QString &path);
-    bool checkDuplicates(QString name);
+    bool checkDuplicates(QString name, QString verifed);
     bool checkHttps(QString path);
     void downloadPlugin(QString name);
 
@@ -45,8 +45,8 @@ private:
 public slots:
 
     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
-    void addPlugin(QVariant, QVariant);
-    void setStatusPlugin(int, QString);
+    void addPlugin(QVariant, QVariant, QVariant);
+    void installPlugin(int, QString, QString);
     void deletePlugin(int);
 
     //repository work
@@ -75,6 +75,7 @@ private:
     QNetworkAccessManager* m_networkManager;
     QString m_repoPlugins;
     QFile* m_fileUpload;
+    QString m_nameDownloadingFile;
 
 };
 

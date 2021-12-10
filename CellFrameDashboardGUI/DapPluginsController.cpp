@@ -59,7 +59,7 @@ void DapPluginsController::readPluginsFile(QString *path)
                 readFile = readFile.trimmed();
                 lst.append(readFile);
             }
-            if(checkDuplicates(lst[0]))
+            if(checkDuplicates(lst[0], lst[3]))
                 m_pluginsList.append(lst);
         }
         file.close();
@@ -178,7 +178,20 @@ void DapPluginsController::appendReplyToListPlugins()
 
         for(int i = 0; i < appendList.length(); i++)
         {
-            m_pluginsList.append(appendList[i]);
+            bool ok = true;
+            for(int j = 0; j < m_pluginsList.length(); j++)
+            {
+                QStringList str = m_pluginsList[j].toStringList();
+                QStringList str2 = appendList[i];
+
+                if(str[0] == str2[0].remove(".zip") && str[3].toInt())
+                {
+                    ok = false;
+                    break;
+                }
+            }
+            if(ok)
+                m_pluginsList.append(appendList[i]);
         }
         m_buffPluginsByUrl.erase(m_buffPluginsByUrl.begin(), m_buffPluginsByUrl.end());
     }
@@ -216,7 +229,7 @@ void DapPluginsController::updateFileConfig()
 
 }
 
-void DapPluginsController::addPlugin(QVariant path, QVariant status)
+void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant verifed)
 {
 
     QString path_plug = path.toString();
@@ -225,7 +238,7 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status)
 
     path_plug.remove(m_filePrefix);
 
-    if(checkDuplicates(name_mainFilePlugin) && zipManage(path_plug))
+    if(checkDuplicates(name_mainFilePlugin, verifed.toString()) && zipManage(path_plug))
     {
         QStringList list;
 
@@ -252,6 +265,9 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status)
         }
         else
             qWarning() << "Plugins Config not open. " << file.errorString();
+
+        if(status.toInt())
+            installPlugin(m_pluginsList.length()-1,status.toString(), verifed.toString());
 
         getListPlugins();
 
@@ -303,16 +319,30 @@ bool DapPluginsController::zipManage(QString &path)
     return !result.isEmpty();
 }
 
-bool DapPluginsController::checkDuplicates(QString name)
+bool DapPluginsController::checkDuplicates(QString name, QString verifed)
 {
+    int ind = 1000;
+    bool ok = true;
     for(int i = 0; i < m_pluginsList.length(); i++)
     {
         QStringList str = m_pluginsList[i].toStringList();
+        QString checkName = m_pluginsList[i].toStringList()[0].remove(".zip");
 
-        if(name == str[i])
-            return false;
+        if(name == checkName && verifed.toInt())
+            ind = i;
+
+        if(name == str[0])
+        {
+            ok = false;
+            break;
+        }
     }
-    return true;
+
+    if(ind != 1000)
+    {
+        m_pluginsList.removeAt(ind);
+    }
+    return ok;
 }
 
 bool DapPluginsController::checkHttps(QString path)
@@ -329,7 +359,7 @@ bool DapPluginsController::checkHttps(QString path)
         return true;
 }
 
-void DapPluginsController::setStatusPlugin(int number, QString status)
+void DapPluginsController::installPlugin(int number, QString status, QString verifed)
 {
     QStringList str = m_pluginsList.value(number).toStringList();
 
@@ -341,11 +371,11 @@ void DapPluginsController::setStatusPlugin(int number, QString status)
     {
         m_pluginsList.removeAt(number);
         str[2] = status;
+        str[3] = verifed;
         m_pluginsList.append(str);
-    }
-
-    updateFileConfig();
-    getListPlugins();
+        updateFileConfig();
+        getListPlugins();
+    } 
 }
 
 void DapPluginsController::deletePlugin(int number)
@@ -360,15 +390,41 @@ void DapPluginsController::deletePlugin(int number)
     m_pluginsList.removeAt(number);
 
     updateFileConfig();
-    getListPlugins();
+    getListPluginsByUrl();
 }
 
 void DapPluginsController::downloadPlugin(QString name)
 {
+    QNetworkReply *reply;
+    reply = m_networkManager->get(QNetworkRequest(QUrl(m_repoPlugins + name)));
+    m_nameDownloadingFile = name;
 
+    connect(reply, SIGNAL(finished()),this,SLOT(downloadFinished()));
 }
 
 void DapPluginsController::downloadFinished()
 {
+    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        QString path = m_pathPlugins + "/download/" + m_nameDownloadingFile;
+        QFile fileDownload(path);
+
+        if(fileDownload.open(QIODevice::WriteOnly))
+        {
+            fileDownload.write(reply->readAll());
+            fileDownload.close();
+        }
+        else
+            qWarning()<< "Failed Download Plugin. " << fileDownload.errorString();
+
+        addPlugin(path,1,1);
+    }
+    else
+        qWarning()<<reply->errorString();
+
+    disconnect(reply, SIGNAL(finished()),this,SLOT(downloadFinished()));
+    reply->deleteLater();
+    m_nameDownloadingFile = "";
 }

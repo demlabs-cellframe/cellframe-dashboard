@@ -300,6 +300,15 @@ Rectangle
                             deletePlug.enabled = true
                             uninstallPlug.enabled = false
                         }
+
+                        if(deletePlug.enabled === true)
+                        {
+                            var path = listModel.get(listViewPlug.currentIndex).urlPath;
+                            if((path[0] + path[1] + path[2]) === "htt")
+                            {
+                                deletePlug.enabled = false
+                            }
+                        }
                     }
                     else
                     {
@@ -330,6 +339,7 @@ Rectangle
                 {
                     listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
                 }
+                listViewPlug.setEnableButtons()
 
             }
         }
@@ -364,7 +374,7 @@ Rectangle
                     defaultSuffix: "qml"
                     onAccepted:
                     {
-                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0);
+                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0, 0);
     //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
     //                    messagePopup.close()
     //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
@@ -396,7 +406,7 @@ Rectangle
                 onClicked:
                 {
                     currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
-                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 1)
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 1,listModel.get(listViewPlug.currentIndex).verifed)
     //                listModel.get(listViewPlug.currentIndex).status = "1"
                     listViewPlug.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
@@ -425,7 +435,7 @@ Rectangle
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
-                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 0)
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 0, listModel.get(listViewPlug.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
                     listViewPlug.setEnableButtons()
