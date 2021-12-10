@@ -169,7 +169,8 @@ Rectangle
                                             topMargin: 5 * pt
                                             left: parent.left
                                             right: parent.right
-//                                            bottom: parent.bottom
+                                            bottom: parent.bottom
+                                            bottomMargin: 8 * pt
                                         }
                                         elide: Text.ElideMiddle
                                         text: urlPath
@@ -213,6 +214,47 @@ Rectangle
                                         anchors.bottom: parent.bottom
                                         width: 2 * pt
                                         color: currTheme.lineSeparatorColor
+                                    }
+                                }
+                            // verifed plugin
+                                Item {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 100 * pt
+                                    Layout.maximumWidth: 100 * pt
+                                    Layout.fillHeight: true
+
+                                    RowLayout
+                                    {
+                                        anchors.fill: parent
+                                        Rectangle
+                                        {
+                                            Layout.maximumHeight: 30
+                                            Layout.maximumWidth: 10
+                                            Layout.fillHeight: true
+                                            Layout.fillWidth: true
+                                            radius: 5 * pt
+//                                            color: verifed === "1" ? "green" : "red"
+                                            color: verifed === "1" ? "green" : currTheme.backgroundMainScreen
+                                        }
+                                        Text{
+//                                            Layout.fillHeight: true
+//                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignCenter
+                                            id: verifedPlugin
+//                                            anchors.centerIn: parent
+                                            text: verifed === "1" ? "Verifed":"Not Verifed"
+                                            color: currTheme.textColor
+                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                        }
+                                        Rectangle
+                                        {
+                                            Layout.fillHeight: true
+//                                            anchors.right: parent.right
+//                                            anchors.top: parent.top
+//                                            anchors.bottom: parent.bottom
+                                            width: 2 * pt
+                                            color: currTheme.lineSeparatorColor
+                                        }
                                     }
                                 }
                             // status plugin
@@ -259,6 +301,15 @@ Rectangle
                             deletePlug.enabled = true
                             uninstallPlug.enabled = false
                         }
+
+                        if(deletePlug.enabled === true)
+                        {
+                            var path = listModel.get(listViewPlug.currentIndex).urlPath;
+                            if((path[0] + path[1] + path[2]) === "htt")
+                            {
+                                deletePlug.enabled = false
+                            }
+                        }
                     }
                     else
                     {
@@ -287,8 +338,9 @@ Rectangle
 
                 for(var i = 0; i < dapModelPlugins.count; i++ )
                 {
-                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status})
+                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
                 }
+                listViewPlug.setEnableButtons()
 
             }
         }
@@ -323,7 +375,7 @@ Rectangle
                     defaultSuffix: "qml"
                     onAccepted:
                     {
-                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0);
+                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0, 0);
     //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
     //                    messagePopup.close()
     //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
@@ -355,7 +407,7 @@ Rectangle
                 onClicked:
                 {
                     currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
-                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 1)
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 1,listModel.get(listViewPlug.currentIndex).verifed)
     //                listModel.get(listViewPlug.currentIndex).status = "1"
                     listViewPlug.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
@@ -384,7 +436,7 @@ Rectangle
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
-                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 0)
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 0, listModel.get(listViewPlug.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
                     listViewPlug.setEnableButtons()

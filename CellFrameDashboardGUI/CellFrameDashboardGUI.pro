@@ -1,4 +1,4 @@
-QT += qml quick widgets svg gui-private
+QT += qml quick widgets svg gui-private network
 
 TEMPLATE = app
 CONFIG += c++11 #nsis_build
