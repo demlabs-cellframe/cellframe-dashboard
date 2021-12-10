@@ -91,10 +91,13 @@ int main(int argc, char *argv[])
         dirPlug.mkpath(".");
         QString str = "chmod 777 " + dapPlugins.getPathToPlugin();
         system(str.toUtf8().data());
-
-        QDir dirDownloadPlug(dapPlugins.getPathToPluginsDownload());
+    }
+    QDir dirDownloadPlug(dapPlugins.getPathToPluginsDownload());
+    if(!dirDownloadPlug.exists())
+    {
+        qDebug() << "No folder:" << dapPlugins.getPathToPluginsDownload();
         dirDownloadPlug.mkpath(".");
-        str = "chmod 777 " + dapPlugins.getPathToPluginsDownload();
+        QString str = "chmod 777 " + dapPlugins.getPathToPluginsDownload();
         system(str.toUtf8().data());
     }
 
