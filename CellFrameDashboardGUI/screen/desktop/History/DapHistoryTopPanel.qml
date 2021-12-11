@@ -8,14 +8,12 @@ import "../../"
 
 DapTopPanel
 {
-//    property alias dapComboboxPeriod: comboboxPeriod
-//    property alias dapComboboxWallet: comboboxWallet
-//    property alias dapComboboxStatus: comboboxStatus
+    signal currentSearchString(string text)
+
     color: currTheme.backgroundPanel
     anchors.leftMargin: 4*pt
     anchors.right: parent.right
     radius: currTheme.radiusRectangle
-
 
     // Frame icon search
     Rectangle
@@ -59,11 +57,6 @@ DapTopPanel
             {
                 id: textFieldSearch
                 Layout.minimumHeight: 28 * pt
-//                height: 28 * pt
-                //anchors.top: parent.top
-                //anchors.left: parent.left
-                //anchors.leftMargin: 10 * pt
-                //anchors.right: parent.right
                 placeholderText: qsTr("Search")
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 style:
@@ -78,10 +71,13 @@ DapTopPanel
                                 color: currTheme.backgroundPanel
                             }
                     }
+                onTextChanged: {
+                    currentSearchString(text)
+                }
+
             }
             Rectangle
             {
-                //anchors.top: textFieldSearch.bottom
                 width: parent.width
                 height: 1 * pt
                 color: currTheme.borderColor
