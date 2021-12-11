@@ -5,6 +5,11 @@ DapHistoryTabForm
 {
     property int networkCounter: 0
 
+    property string currentString: ""
+    property string currentStatus: "All statuses"
+    property string currentPeriod: "all time"
+    property bool isCurrentRange: false
+
     ListModel
     {
         id: modelHistory
@@ -76,20 +81,34 @@ DapHistoryTabForm
         }
     }
 
+    dapHistoryTopPanel.onCurrentSearchString: {
+        console.log("currentSearchString", text)
+
+        currentString = text
+
+        filterResults()
+    }
+
     dapHistoryScreen.dapHistoryRightPanel.onCurrentStatusSelected: {
         console.log("currentStatusSelected", status)
 
-        modelHistory.clear()
+        currentStatus = status
 
-        for (var i = 0; i < temporaryModel.count; ++i)
-        {
-            if (status === "All statuses" || temporaryModel.get(i).status === status)
-                modelHistory.append(temporaryModel.get(i))
-        }
+        filterResults()
     }
 
     dapHistoryScreen.dapHistoryRightPanel.onCurrentPeriodSelected: {
         console.log("currentPeriodSelected", period, isRange)
+
+        currentPeriod = period
+        isCurrentRange = isRange
+
+        filterResults()
+    }
+
+    function filterResults()
+    {
+        modelHistory.clear()
 
         var today = new Date()
         var yesterday = new Date(new Date().setDate(new Date().getDate()-1))
@@ -98,32 +117,55 @@ DapHistoryTabForm
         var begin
         var end
 
-        if (isRange)
+        if (isCurrentRange)
         {
-            var index = period.indexOf('-')
+            var index = currentPeriod.indexOf('-')
 
-            begin = getDate(period.slice(0, index))
-            end = getDate(period.slice(index+1))
+            begin = getDate(currentPeriod.slice(0, index))
+            end = getDate(currentPeriod.slice(index+1))
         }
-
-        modelHistory.clear()
 
         for (var i = 0; i < temporaryModel.count; ++i)
         {
-            var payDate = new Date(Date.parse(temporaryModel.get(i).date))
+            if (currentString === "" || checkText(temporaryModel.get(i), currentString))
+            {
+                if (currentStatus === "All statuses" || temporaryModel.get(i).status === currentStatus)
+                {
+                    var payDate = new Date(Date.parse(temporaryModel.get(i).date))
 
-            if (isRange)
-            {
-                if (payDate > begin && payDate < end ||
-                    isSameDay(payDate, begin) || isSameDay(payDate, end))
-                    modelHistory.append(temporaryModel.get(i))
-            }
-            else
-            {
-                if (checkDate(payDate, period, today, yesterday, week))
-                    modelHistory.append(temporaryModel.get(i))
+                    if (isCurrentRange)
+                    {
+                        if ((payDate > begin && payDate < end) ||
+                            isSameDay(payDate, begin) || isSameDay(payDate, end))
+                            modelHistory.append(temporaryModel.get(i))
+                    }
+                    else
+                    {
+                        if (checkDate(payDate, currentPeriod, today, yesterday, week))
+                            modelHistory.append(temporaryModel.get(i))
+                    }
+                }
+
             }
         }
+
+    }
+
+    function checkText(item, line)
+    {
+        if (item.network.includes(line))
+            return true
+
+        if (item.name.includes(line))
+            return true
+
+        if (item.status.includes(line))
+            return true
+
+        if (item.amount.toString().includes(line))
+            return true
+
+        return false
     }
 
     function checkDate(date, period, today, yesterday, week)
@@ -131,13 +173,14 @@ DapHistoryTabForm
         if (period === "all time")
             return true
 
-        if (period === "today" && isSameDay(date, today))
+        if (period === "today" && isSameDay(today, date))
             return true
 
-        if (period === "yesterday" && isSameDay(date, yesterday))
+        if (period === "yesterday" && isSameDay(yesterday, date))
             return true
 
-        if (period === "last week" && date <= today && date >= week)
+        if (period === "last week" && ((date > week && date < today) ||
+                 isSameDay(week, date) || isSameDay(today, date)))
             return true
 
         if (period === "this month" && date.getMonth() === today.getMonth())
@@ -148,6 +191,18 @@ DapHistoryTabForm
 
     function isSameDay(date1, date2)
     {
+        console.log(date1.getFullYear(),
+                    date1.getMonth(),
+                    date1.getDate(),
+
+                    date2.getFullYear(),
+                    date2.getMonth(),
+                    date2.getDate(),
+
+                    (date1.getFullYear() === date2.getFullYear()
+                    && date1.getMonth() === date2.getMonth()
+                    && date1.getDate() === date2.getDate()))
+
         return (date1.getFullYear() === date2.getFullYear()
                 && date1.getMonth() === date2.getMonth()
                 && date1.getDate() === date2.getDate()) ? true : false
