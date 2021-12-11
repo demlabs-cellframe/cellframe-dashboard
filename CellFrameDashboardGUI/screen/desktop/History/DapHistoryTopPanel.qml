@@ -11,6 +11,10 @@ DapTopPanel
     property alias dapComboboxPeriod: comboboxPeriod
     property alias dapComboboxWallet: comboboxWallet
     property alias dapComboboxStatus: comboboxStatus
+    color: currTheme.backgroundPanel
+    anchors.leftMargin: 4*pt
+    anchors.right: parent.right
+    radius: currTheme.radiusRectangle
 
 
     // Frame icon search
@@ -58,13 +62,13 @@ DapTopPanel
                 style:
                     TextFieldStyle
                     {
-                        textColor: "#ACAAB5"
-                        placeholderTextColor: "#ACAAB5"
+                        textColor: currTheme.textColor
+                        placeholderTextColor: currTheme.textColor
                         background:
                             Rectangle
                             {
                                 border.width: 0
-                                color: "transparent"
+                                color: currTheme.backgroundPanel
                             }
                     }
             }
@@ -73,7 +77,7 @@ DapTopPanel
                 //anchors.top: textFieldSearch.bottom
                 width: parent.width
                 height: 1 * pt
-                color: "#59556C"
+                color: currTheme.borderColor
             }
         }
     }
@@ -115,33 +119,33 @@ DapTopPanel
         {
             id: comboboxPeriod
             model: periodModel
-            dapIndicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
-            dapIndicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
+            dapIndicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+            dapIndicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             dapSidePaddingNormal: 0 * pt
             dapSidePaddingActive: 16 * pt
-            dapNormalColorText: "#070023"
-            dapHilightColorText: "#FFFFFF"
-            dapNormalColorTopText: "#FFFFFF"
-            dapHilightColorTopText: "#070023"
-            dapHilightColor: "#330F54"
-            dapNormalTopColor: "#070023"
+            dapNormalColorText: currTheme.textColor
+            dapHilightColorText: currTheme.textColor
+            dapNormalColorTopText: currTheme.textColor
+            dapHilightColorTopText: currTheme.textColor
+            dapHilightColor: currTheme.buttonColorNormal
+            dapNormalTopColor: currTheme.backgroundMainScreen
             dapWidthPopupComboBoxNormal: 204 * pt
             dapWidthPopupComboBoxActive: 236 * pt
             dapHeightComboBoxNormal: 24 * pt
             dapHeightComboBoxActive: 46 * pt
-            dapBottomIntervalListElement: 8 * pt
+//            dapBottomIntervalListElement: 8 * pt
             dapTopEffect: false
             x: popup.visible ? dapSidePaddingActive * (-1) : dapSidePaddingNormal
-            dapNormalColor: "#FFFFFF"
+            dapNormalColor: currTheme.backgroundMainScreen
             dapHilightTopColor: dapNormalColor
             dapPaddingTopItemDelegate: 8 * pt
             dapHeightListElement: 32 * pt
-            dapIntervalListElement: 10 * pt
+//            dapIntervalListElement: 10 * pt
             dapIndicatorWidth: 24 * pt
             dapIndicatorHeight: dapIndicatorWidth
             dapIndicatorLeftInterval: 16 * pt
             dapColorTopNormalDropShadow: "#00000000"
-            dapColorDropShadow: "#40ABABAB"
+            dapColorDropShadow: currTheme.shadowColor
             dapTextFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             dapDefaultMainLineText: "all time"
             dapIsDefaultNeedToAppend: true
@@ -169,12 +173,15 @@ DapTopPanel
                     dapDayLeftInterval: 8 * pt
                     dapDayTopInterval: 2 * pt
                     dapCalendarFont:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                    dapCalendarBackgroundColor: "#FFFFFF"
-                    dapNormalTextColor: "#070023"
-                    dapSelectedTextColor: "#FFFFFF"
+
+                    dapCalendarBackgroundColor: currTheme.backgroundMainScreen
+                    dapNormalTextColor: currTheme.textColor
+                    dapSelectedTextColor: currTheme.textColor
                     dapInvalidTextColor: "#908D9D"
-                    dapNormalBackgroundColor: "#FFFFFF"
-                    dapSelectedBackgroundColor: "#3E3853"
+
+                    dapNormalBackgroundColor: currTheme.backgroundMainScreen
+                    dapSelectedBackgroundColor: currTheme.buttonColorNormal
+
                     dapDayOfWeeksFormat: Locale.NarrowFormat
                     dapPreviousYearButtonImage: "qrc:/resources/icons/previous_year_icon.png"
                     dapPreviousMonthButtonImage: "qrc:/resources/icons/previous_month_icon.png"
@@ -215,36 +222,37 @@ DapTopPanel
             mainLineText: "all wallets"
             currentIndex: -1
             isDefaultNeedToAppend: true
-            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
-            normalColorText: "#070023"
-            hilightColorText: "#FFFFFF"
-            normalColorTopText: "#FFFFFF"
-            hilightColorTopText: "#070023"
-            hilightColor: "#330F54"
-            normalTopColor: "#070023"
+            normalColorText: currTheme.textColor
+            hilightColorText: currTheme.textColor
+            normalColorTopText: currTheme.textColor
+            hilightColorTopText: currTheme.textColor
+            hilightColor: currTheme.buttonColorNormal
+            normalTopColor: currTheme.backgroundMainScreen
             widthPopupComboBoxNormal: 148 * pt
             widthPopupComboBoxActive: 180 * pt
             heightComboBoxNormal: 24 * pt
             heightComboBoxActive: 44 * pt
-            bottomIntervalListElement: 8 * pt
+//            bottomIntervalListElement: 8 * pt
             topEffect: false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
-            normalColor: "#FFFFFF"
+            normalColor: currTheme.backgroundMainScreen
             hilightTopColor: normalColor
             paddingTopItemDelegate: 8 * pt
             heightListElement: 32 * pt
-            intervalListElement: 10 * pt
+//            intervalListElement: 10 * pt
             indicatorWidth: 24 * pt
             indicatorHeight: indicatorWidth
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
-            colorDropShadow: "#40ABABAB"
-            fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
-            colorTextComboBox: [["#070023", "#FFFFFF"]]
+            colorDropShadow: currTheme.shadowColor
+
+            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
         }
     }
 
@@ -288,36 +296,37 @@ DapTopPanel
             mainLineText: "all statuses"
             currentIndex: -1
             isDefaultNeedToAppend: true
-            indicatorImageNormal: "qrc:/resources/icons/ic_arrow_drop_down.png"
-            indicatorImageActive: "qrc:/resources/icons/ic_arrow_drop_up.png"
+            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 0 * pt
             sidePaddingActive: 16 * pt
-            normalColorText: "#070023"
-            hilightColorText: "#FFFFFF"
-            normalColorTopText: "#FFFFFF"
-            hilightColorTopText: "#070023"
-            hilightColor: "#330F54"
-            normalTopColor: "#070023"
-            widthPopupComboBoxNormal: 120 * pt
-            widthPopupComboBoxActive: 152 * pt
+            normalColorText: currTheme.textColor
+            hilightColorText: currTheme.textColor
+            normalColorTopText: currTheme.textColor
+            hilightColorTopText: currTheme.textColor
+            hilightColor: currTheme.buttonColorNormal
+            normalTopColor: currTheme.backgroundMainScreen
+            widthPopupComboBoxNormal: 148 * pt
+            widthPopupComboBoxActive: 180 * pt
             heightComboBoxNormal: 24 * pt
             heightComboBoxActive: 44 * pt
-            bottomIntervalListElement: 8 * pt
+//            bottomIntervalListElement: 8 * pt
             topEffect: false
             x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal
-            normalColor: "#FFFFFF"
+            normalColor: currTheme.backgroundMainScreen
             hilightTopColor: normalColor
             paddingTopItemDelegate: 8 * pt
             heightListElement: 32 * pt
-            intervalListElement: 10 * pt
+//            intervalListElement: 10 * pt
             indicatorWidth: 24 * pt
             indicatorHeight: indicatorWidth
             indicatorLeftInterval: 8 * pt
             colorTopNormalDropShadow: "#00000000"
-            colorDropShadow: "#40ABABAB"
-            fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-            colorMainTextComboBox: [["#FFFFFF", "#070023"]]
-            colorTextComboBox: [["#070023", "#FFFFFF"]]
+            colorDropShadow: currTheme.shadowColor
+
+            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
         }
     }
 }

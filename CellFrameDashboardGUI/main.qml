@@ -2,19 +2,30 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
+import "resources/theme" as Theme
 import "screen"
 
 ApplicationWindow
 {
     id: window
     visible: true
-    width: 1280
-    height: 800
+
+    Theme.Dark {id: darkTheme}
+    Theme.Light {id: lightTheme}
+
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
+
+    //for test
+//    property string pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
+    property string pathTheme: "BlackTheme"
+
+    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
     //Main window
     DapMainApplicationWindow
     {
-        id:mainWindow
+        id: mainWindow
         property alias device: dapDevice.device
 
         anchors.fill: parent
@@ -87,6 +98,15 @@ ApplicationWindow
              {
                  window.hide()
              }
+        }
+    }
+
+    Component.onCompleted: {
+        if(!isMobile) {
+            window.width = 1280
+            window.height = 800
+            window.minimumWidth = 880
+            window.minimumHeight = 650
         }
     }
 

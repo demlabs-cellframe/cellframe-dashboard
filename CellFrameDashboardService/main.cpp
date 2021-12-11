@@ -9,6 +9,7 @@
 #include "DapHelper.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
+#include "DapPluginsPathControll.h"
 
 #include "dap_config.h"
 
@@ -69,6 +70,7 @@ int main(int argc, char *argv[])
 
     DapLogger dapLogger;
 
+    //logs
     dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
     QDir dir(dapLogger.getPathToLog());
     if (!dir.exists()) {
@@ -77,6 +79,29 @@ int main(int argc, char *argv[])
         QString str = "chmod 777 " + dapLogger.getPathToLog();
         system(str.toUtf8().data());
     }
+
+    DapPluginsPathControll dapPlugins;
+
+    //plugins path
+    dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
+    QDir dirPlug(dapPlugins.getPathToPlugin());
+    if(!dirPlug.exists())
+    {
+        qDebug() << "No folder:" << dapPlugins.getPathToPlugin();
+        dirPlug.mkpath(".");
+        QString str = "chmod 777 " + dapPlugins.getPathToPlugin();
+        system(str.toUtf8().data());
+    }
+    QDir dirDownloadPlug(dapPlugins.getPathToPluginsDownload());
+    if(!dirDownloadPlug.exists())
+    {
+        qDebug() << "No folder:" << dapPlugins.getPathToPluginsDownload();
+        dirDownloadPlug.mkpath(".");
+        QString str = "chmod 777 " + dapPlugins.getPathToPluginsDownload();
+        system(str.toUtf8().data());
+    }
+
+
 
     bool debug_mode = false;
     QString config_path = getConfigPath();

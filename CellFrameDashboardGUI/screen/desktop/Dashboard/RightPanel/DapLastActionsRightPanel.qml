@@ -1,7 +1,8 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapLastActionsRightPanelForm
 {
@@ -10,6 +11,8 @@ DapLastActionsRightPanelForm
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
     property alias dapModelLastActions: modelLastActions
+
+    property int networkCounter: 0
 
     ListModel
     {
@@ -23,17 +26,18 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
-            color: "#757184"
+            color: currTheme.backgroundMainScreen
+
+            property date payDate: new Date(Date.parse(section))
 
             Text
             {
-                property date payDate: new Date(Date.parse(section))
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: "#FFFFFF"
+                color: currTheme.textColor
                 text: getDateString(payDate)
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
@@ -45,7 +49,13 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-//            modelLastActions.clear()
+            if (networkCounter <= 0)
+                return
+
+            console.log("onWalletHistoryReceived")
+
+            --networkCounter
+
             for (var i = 0; i < walletHistory.length; ++i)
             {
                 if (modelLastActions.count === 0)
@@ -82,18 +92,27 @@ DapLastActionsRightPanelForm
         }
     }
 
-    Connections {
-        target: dashboardTab
-        onResetWalletHistory:
+    Connections
+    {
+        target: dapMainWindow
+        onModelWalletsUpdated:
         {
-            modelLastActions.clear()
+            console.log("onModelWalletsUpdated")
+
+            getWalletHistory()
         }
+    }
+
+    Component.onCompleted:
+    {
+        console.log("onCompleted")
+        getWalletHistory()
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
     {
-        console.log("getDateString", date)
+        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
 
         if (isSameDay(today, date))
         {
@@ -116,7 +135,7 @@ DapLastActionsRightPanelForm
     ////@ Checks if dates are same
     function isSameDay(date1, date2)
     {
-       return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
     }
 
     ////@ Checks if dates have same year
@@ -124,4 +143,41 @@ DapLastActionsRightPanelForm
     {
         return (date1.getFullYear() === date2.getFullYear()) ? true : false
     }
+
+
+    function getWalletHistory()
+    {
+        var index = SettingsWallet.currentIndex
+
+        if (index < 0)
+            return
+
+        if (networkCounter > 0)
+            return
+
+        modelLastActions.clear()
+        networkCounter = 0
+
+        var model = dapModelWallets.get(index).networks
+        var name = dapModelWallets.get(index).name
+
+        console.log("getWalletHistory", index, model.count)
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            var network = model.get(i).name
+            var address = model.get(i).address
+            var chain = "zero"
+            if (network === "core-t")
+                chain = "zerochain"
+
+            console.log("DapGetWalletHistoryCommand - name:", name,
+                "network:", network, "chain:", chain, "address:", address)
+            dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                network, chain, address, name);
+
+            ++networkCounter
+        }
+    }
+
 }

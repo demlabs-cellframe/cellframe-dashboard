@@ -1,21 +1,20 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import DapCertificateManager.Commands 1.0
+import QtQuick.Layouts 1.2
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
+import "../../"
 
-
-Rectangle
+DapAbstractTab
 {
     id: dapCertificatesMainPage
-
+    color: currTheme.backgroundMainScreen
 
     Utils {
         id: utils
     }
-
-
-
 
     CertificatesModels {
         id: models
@@ -25,73 +24,96 @@ Rectangle
         id: logics
     }
 
+    dapTopPanel:
+        HeaderItem {
+            id: headerItem
+            color: currTheme.backgroundPanel
 
-    HeaderItem {
-        id: headerItem
-        x: 3 * pt
-        width: parent.width
-        height: 60 * pt
-
-        onFindHandler: {    //text
-            models.certificatesFind.findString = text
-            models.certificatesFind.update()
+            onFindHandler: {    //text
+                models.certificatesFind.findString = text
+                models.certificatesFind.update()
+            }
         }
+    dapRightPanel: Item {
+        id: name
+    }
+    dapScreen: Item {
+        id: name2
     }
 
 
-
-    CertificatesListView {
-        id: certificatesListView
-        x: 24 * pt
-        y: 84 * pt
-        height: parent.height - y - 24 * pt
-        width: 678 * pt
-        infoTitleTextVisible: models.certificates.isSelected
-
-
-        Component.onCompleted: {
-            //need bind delegate with delegateModel
-            models.certificatesFind.delegate = delegateComponent
-            models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
-            models.certificatesFind.update()
-            model = models.certificatesFind  //original
-//            delegate = delegateComponent
-//            model = models.certificates
+    RowLayout
+    {
+        //            x: 24 * pt
+        anchors
+        {
+            fill: parent
+            margins: 24 * pt
+            topMargin: 84 * pt
         }
 
-        onSelectedIndex: {   //index
-//            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
-//                models.certificates.clearSelected()
-//            else
-              models.certificates.setSelectedIndex(index)
+        spacing: 24 * pt
+
+
+        DapRectangleLitAndShaded
+        {
+            id:frameListView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
+
+            contentData:
+            CertificatesListView {
+                id: certificatesListView
+                anchors.fill: parent
+
+
+                infoTitleTextVisible: models.certificates.isSelected
+                Component.onCompleted: {
+                    //need bind delegate with delegateModel
+                    models.certificatesFind.delegate = delegateComponent
+                    models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
+                    models.certificatesFind.update()
+                    model = models.certificatesFind  //original
+        //            delegate = delegateComponent
+        //            model = models.certificates
+                }
+
+                onSelectedIndex: {   //index
+        //            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
+        //                models.certificates.clearSelected()
+        //            else
+                      models.certificates.setSelectedIndex(index)
+                }
+
+                onInfoClicked: {     //index
+                    logics.dumpCertificate(index)
+                    rightPanel.sourceComponent = certificateInfoComponent
+                }
+
+            }   //certificatesListView
+
         }
 
-        onInfoClicked: {     //index
-            logics.dumpCertificate(index)
-            rightPanel.sourceComponent = certificateInfoComponent
-        }
+        Loader {
+            id: rightPanel
 
-    }   //certificatesListView
+            asynchronous: true
 
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
 
-    Loader {
-        id: rightPanel
-        anchors {
-            right: parent.right
-            rightMargin: 26 * pt
-        }
-        asynchronous: true
-        y: certificatesListView.y
-        width: 348 * pt
-        height: certificatesListView.height
-        sourceComponent: certificatesActionsComponent
+            sourceComponent: certificatesActionsComponent
 
-        onLoaded: {
-            item.visible = true
-        }
+            onLoaded: {
+                item.visible = true
+            }
 
-    }  //rightPanel
-
+        }  //rightPanel
+    }
 
 
     Component {
@@ -155,6 +177,7 @@ Rectangle
 
     Component {
         id: createCertificateComponent
+
         CreateCertificateItem {
             optionalModel: models.createCertificateOptional
             signatureTypeCertificateComboBox.model: models.signatureType
@@ -250,7 +273,7 @@ Rectangle
         id: messagePopup
         closePolicy: "NoAutoClose"
         padding: 0
-        background: Item { }
+        background: Item{}
         width: dapMessageBox.width
         height: dapMessageBox.height
         x: (parent.width - width) / 2
@@ -265,17 +288,15 @@ Rectangle
 
         DapMessageBox {
             id: dapMessageBox
-            width: 240 * pt
+            width: 300 * pt
             height: 240 * pt
+            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            fontButtonText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             dapButtonOk.onClicked: {
                 messagePopup.close()
             }
         }
     }
-
-
-
-
 
     Loader {
         id: blockBusyIndicatorLoader
@@ -312,9 +333,4 @@ Rectangle
             item.open()
         }
     }   //
-
-
-
-
-
 }   //dapCertificatesMainPage

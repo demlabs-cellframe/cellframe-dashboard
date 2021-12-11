@@ -5,6 +5,8 @@ import "qrc:/widgets"
 
 DapTopPanel {
     property alias dapAddOrderButton: addOrderButton
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
 
     DapButton
     {

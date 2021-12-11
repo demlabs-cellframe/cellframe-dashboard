@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -8,16 +9,16 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
-        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
-        print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
 
@@ -44,7 +45,8 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
-        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+        //DmitriyT Removed this code below. Will see reaction of app.
+        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonSend.onClicked:
@@ -75,6 +77,10 @@ DapNewPaymentMainRightPanelForm
         {
             print("Enough tokens. Correct address length.")
             dapTextNotEnoughTokensWarning.text = ""
+
+            walletInfo.chain = "zero"
+            if (dapComboboxNetwork.mainLineText === "core-t")
+                walletInfo.chain = "zerochain"
 
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)

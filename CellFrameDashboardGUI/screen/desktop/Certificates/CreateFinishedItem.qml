@@ -1,8 +1,7 @@
 import QtQuick 2.9
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
-
-
 
 
 Rectangle {
@@ -14,10 +13,8 @@ Rectangle {
     implicitWidth: 100
     implicitHeight: 200
 
-    border.color: "#E2E1E6"
-    border.width: 1 * pt
-    radius: 8 * pt
-    color: "transparent"
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
 
     //part animation on created and open
     visible: false
@@ -29,62 +26,65 @@ Rectangle {
         }
     }
 
+    DapRectangleLitAndShaded
+    {
+        anchors.fill: parent
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-    Item {
-        id: titleRectangle
-        width: parent.width
-        height: 40 * pt
+        contentData:
+        Item
+        {
+            anchors.fill: parent
+            Item {
+                id: titleRectangle
+                width: parent.width
+                height: 40 * pt
 
-        CloseButton {
-            id: closeButton
-        }  //
+                CloseButton {
+                    id: closeButton
+                }  //
 
 
-        Text {
-            id: certificatesTitleText
-            anchors{
-                left: closeButton.right
-                leftMargin: 18 * pt
-                verticalCenter: closeButton.verticalCenter
+                Text {
+                    id: certificatesTitleText
+                    anchors{
+                        left: closeButton.right
+                        leftMargin: 8 * pt
+                        verticalCenter: closeButton.verticalCenter
+                    }
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                    color: currTheme.textColor
+                    text: qsTr("Create certificate")
+                }
+            }  //titleRectangle
+
+
+            Text {
+                id: finishedText
+                y: 202 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
+                color: currTheme.textColor
+                text: qsTr("Certificate created\nsuccessfully")
+                horizontalAlignment: Text.AlignHCenter
             }
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            color: "#3E3853"
-            text: qsTr("Create certificate")
+
+
+            DapButton {
+                id: doneButton
+                textButton: qsTr("Done")
+                y: 468 * pt
+                x: (parent.width - width) / 2
+                height: 36 * pt
+                width: 132 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                horizontalAligmentText: Qt.AlignHCenter
+            }
         }
-    }  //titleRectangle
-
-
-    Text {
-        id: finishedText
-        y: 202 * pt
-        anchors.horizontalCenter: parent.horizontalCenter
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
-        color: "#070023"
-        text: qsTr("Certificate created\nsuccessfully")
-        horizontalAlignment: Text.AlignHCenter
-    }
-
-
-    DapButton {
-        id: doneButton
-        textButton: qsTr("Done")
-        y: 468 * pt
-        x: (parent.width - width) / 2
-        height: 36 * pt
-        width: 132 * pt
-        colorBackgroundNormal: "#271C4E"
-        colorBackgroundHover: "#D2145D"
-        colorButtonTextNormal: "#FFFFFF"
-        colorButtonTextHover: "#FFFFFF"
-        borderColorButton: "#000000"
-        borderWidthButton: 0
-        radius: 4 * pt
-        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-        horizontalAligmentText: Qt.AlignHCenter
-    }
-
-
-
+    } //frameRightPanel
 
 }   //root
 

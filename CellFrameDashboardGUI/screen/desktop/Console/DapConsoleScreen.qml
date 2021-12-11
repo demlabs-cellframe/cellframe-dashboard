@@ -1,6 +1,6 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
+import QtQuick.Layouts 1.3
 
 DapConsoleScreenForm
 {
@@ -13,7 +13,6 @@ DapConsoleScreenForm
     property string receivedAnswer
 
     signal runCommand(string command)
-
 
     Component.onCompleted:
     {
@@ -34,11 +33,14 @@ DapConsoleScreenForm
         Column
         {
             width: parent.width
+//            Layout.bottomMargin: 20 * pt
             Text
             {
                 id: textQuery
                 text: "> " + query
                 font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                color: currTheme.textColor
+
             }
             Text
             {
@@ -47,6 +49,7 @@ DapConsoleScreenForm
                 width: parent.width
                 wrapMode: Text.Wrap
                 font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                color: currTheme.textColor
             }
         }
     }

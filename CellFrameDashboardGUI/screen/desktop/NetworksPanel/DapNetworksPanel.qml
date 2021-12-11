@@ -6,7 +6,7 @@ Rectangle {
     implicitHeight: Math.max(btnPrevious.implicitHeight, networksListView.implicitHeight, btnNext.implicitHeight)
     implicitWidth: btnPrevious.implicitWidth + btnNext.implicitWidth + 180 * pt
 
-    color: "#070023"
+    color: currTheme.backgroundPanel
 
     DapNetworkPanelButton {
         id: btnPrevious

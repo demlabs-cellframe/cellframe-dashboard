@@ -1,4 +1,4 @@
-QT += qml quick widgets svg
+QT += qml quick widgets svg gui-private network
 
 TEMPLATE = app
 CONFIG += c++11 #nsis_build
@@ -51,6 +51,7 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     DapApplication.cpp \
+    DapPluginsController.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -61,6 +62,9 @@ SOURCES += \
 RESOURCES += $$PWD/qml.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
@@ -69,6 +73,7 @@ else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 HEADERS += \
     $$PWD/DapServiceController.h \
     DapApplication.h \
+    DapPluginsController.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
@@ -118,3 +123,7 @@ win32: nsis_build {
     POST_TARGETDEPS += build_node copyconfig nsis
     QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
 }
+
+DISTFILES += \
+    qzip/zlib/zlib-1.2.5.zip \
+    qzip/zlib/zlib125dll.zip

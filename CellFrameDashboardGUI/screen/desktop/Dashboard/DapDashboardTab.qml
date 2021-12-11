@@ -2,20 +2,19 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
-
+import "../SettingsWallet.js" as SettingsWallet
 
 
 DapAbstractTab
 {
-
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string inputNameWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapInputNewWalletNameRightPanel.qml"
+    readonly property string createNewWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml"
+    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
     ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
+    readonly property string doneWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of last actions.
     readonly property string lastActionsWallet: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
     ///@detalis Path to the right panel of new payment.
@@ -23,9 +22,8 @@ DapAbstractTab
     ///@detalis Path to the right panel of new payment done.
     readonly property string newPaymentDone: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
 
-    property int dapIndexCurrentWallet: -1
-
     id: dashboardTab
+    color: currTheme.backgroundMainScreen
 
     property alias dapDashboardRightPanel: stackViewRightPanel
 
@@ -39,81 +37,38 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-    ListModel
-    {
-        id: operationModel
-        ListElement { name: qsTr("Create wallet")
-            operation: "create" }
-        ListElement { name: qsTr("Restore wallet")
-            operation: "restore" }
-    }
-
-    property var walletOperation: operationModel.get(0).operation
-    property string walletRecoveryType: "Nothing"
-
-    property int currentWalletIndex: 0
-
     dapTopPanel:
         DapDashboardTopPanel
         {
+            color: currTheme.backgroundPanel
             id: dashboardTopPanel
-            dapComboboxWallet.onCurrentIndexChanged:
+            dapNewPayment.onClicked:
             {
-                if(dapComboboxWallet.currentIndex != -1)
-                {
-                    currentWalletIndex = dapComboboxWallet.currentIndex
+                walletInfo.name = dapModelWallets.get(SettingsWallet.currentIndex).name
 
-                    dashboardScreen.dapListViewWallet.model = dapModelWallets.get(currentWalletIndex).networks
-                    dashboardScreen.dapNameWalletTitle.text = dapModelWallets.get(currentWalletIndex).name
-
-                    console.log("dapComboboxWallet.onCurrentIndexChanged")
-                    console.log("wallet: "+dapModelWallets.get(currentWalletIndex).name)
-                    console.log("network: "+dapModelWallets.get(currentWalletIndex).networks.get(2).name)
-                    walletInfo.name = dapModelWallets.get(currentWalletIndex).name
-                    walletInfo.network = dapModelWallets.get(currentWalletIndex).networks.get(2).name
-                    walletInfo.address = dapWallets[currentWalletIndex].findAddress(walletInfo.network)
-                    if (walletInfo.network === "core-t")
-                        walletInfo.chain = "zerochain"
-                    else
-                        walletInfo.chain = "zero"
-
-
-                    getWalletHistory(currentWalletIndex,
-                        dapModelWallets.get(currentWalletIndex).networks)
-
-                    dashboardTab.state = "WALLETSHOW"
-                }
-            }
-            dapAddWalletButton.onClicked:
-            {
-                createWallet()
-                dashboardScreen.dapWalletCreateFrame.visible = false
+                console.log("New payment")
+                console.log("wallet from: " + walletInfo.name)
+                currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
+                        properties: {
+                            dapCmboBoxNetworkModel: dapModelWallets.get(SettingsWallet.currentIndex).networks,
+                            dapCmboBoxTokenModel: dapModelWallets.get(SettingsWallet.currentIndex).networks.get(0).tokens
+                        }
+                       });
             }
         }
+
+
 
     dapScreen:
         DapDashboardScreen
         {
+//            color: currTheme.backgroundMainScreen
+
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
-//                dashboardTopPanel.dapAddWalletButton.colorBackgroundNormal = "#D51F5D"
-            }
-            dapButtonNewPayment.onClicked:
-            {
-                console.log("New payment")
-                console.log("wallet from: " + walletInfo.name)
-                console.log("wallet network: " + walletInfo.network)
-                console.log("address wallet from: " + walletInfo.address)
-                currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
-                        properties: {
-                            dapCmboBoxNetworkModel: dapModelWallets.get(currentWalletIndex).networks,
-                            dapCmboBoxTokenModel: dapModelWallets.get(currentWalletIndex).networks.get(0).tokens
-                        }
-                       });
-                //dashboardTopPanel.dapButtonNewPayment.colorBackgroundNormal = "#D51F5D"
             }
         }
 
@@ -122,8 +77,8 @@ DapAbstractTab
             {
                 id: stackViewRightPanel
                 initialItem: Qt.resolvedUrl(lastActionsWallet);
+                width: 350
                 anchors.fill: parent
-                width: 400
                 delegate:
                     StackViewDelegate
                     {
@@ -145,17 +100,22 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapTitleBlock;
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapListViewWallet;
+                target: dashboardScreen.dapMainFrameDashboard;
                 visible: false
             }
             PropertyChanges
             {
                 target: dapRightPanel;
+                visible: false
+            }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: false
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
                 visible: false
             }
         },
@@ -169,18 +129,23 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapTitleBlock;
-                visible: true
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapListViewWallet;
+                target: dashboardScreen.dapMainFrameDashboard;
                 visible: true
             }
             PropertyChanges
             {
                 target: dapRightPanel;
                 visible: true
+            }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: false
             }
         },
         State
@@ -193,12 +158,7 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapTitleBlock;
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapListViewWallet;
+                target: dashboardScreen.dapMainFrameDashboard;
                 visible: false
             }
             PropertyChanges
@@ -206,14 +166,18 @@ DapAbstractTab
                 target: dapRightPanel;
                 visible: true
             }
+            PropertyChanges
+            {
+                target: dapTopPanel
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardScreen.dapFrameTitleCreateWallet;
+                visible: true
+            }
         }
     ]
-
-
-
-
-
-
 
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
@@ -224,8 +188,8 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
-                getWalletHistory(currentWalletIndex,
-                    dapModelWallets.get(currentWalletIndex).networks)
+                if(dapModelWallets.count === 0)
+                    state = "WALLETDEFAULT"
             }
         }
         onPreviousActivated:
@@ -233,38 +197,38 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
-                getWalletHistory(currentWalletIndex,
-                    dapModelWallets.get(currentWalletIndex).networks)
+                if(dapModelWallets.count === 0)
+                    state = "WALLETDEFAULT"
             }
         }
     }
+
 
     Connections
     {
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            dashboardTopPanel.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
+            updateComboBox()
         }
     }
 
     Connections
     {
         target: dapServiceController
-        onMempoolProcessed:
-        {
-            update()
-        }
         onWalletCreated:
         {
             update()
         }
     }
 
+    Component.onCompleted:
+    {
+        updateComboBox()
+    }
 
     function update()
     {
-        dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
         dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
@@ -274,40 +238,20 @@ DapAbstractTab
     {
         if(state !== "WALLETSHOW")
             state = "WALLETCREATE"
-//        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(recoveryWallet)});
-        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(createNewWallet)});
     }
 
-    signal resetWalletHistory()
-
-    function getWalletHistory(index, model)
+    function updateComboBox()
     {
-        console.log("getWalletHistory", index, model.count, model.get(0).name)
-
-        resetWalletHistory()
-
-        for (var i = 0; i < model.count; ++i)
+        if(SettingsWallet.currentIndex !== -1)
         {
-            walletInfo.network = model.get(i).name
-            walletInfo.address = dapWallets[index].findAddress(walletInfo.network)
-            if (walletInfo.network === "core-t")
-                walletInfo.chain = "zerochain"
-            else
-                walletInfo.chain = "zero"
+            dashboardScreen.dapListViewWallet.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
+            dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(SettingsWallet.currentIndex).name
 
-            console.log("DapGetWalletHistoryCommand")
-            console.log("   network: " + walletInfo.network)
-            console.log("   chain: " + walletInfo.chain)
-            console.log("   wallet address: " + walletInfo.address)
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                walletInfo.network, walletInfo.chain, walletInfo.address);
+            console.log("dapComboboxWallet.onCurrentIndexChanged")
+
+            dashboardTab.state = "WALLETSHOW"
         }
-
-//        console.log("DapGetWalletHistoryCommand")
-//        console.log("   network: " + walletInfo.network)
-//        console.log("   chain: " + walletInfo.chain)
-//        console.log("   wallet address: " + walletInfo.address)
-//        dapServiceController.requestToService("DapGetWalletHistoryCommand",
-//            walletInfo.network, walletInfo.chain, walletInfo.address);
     }
+
 }
