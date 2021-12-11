@@ -31,7 +31,6 @@
         <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
-        <file>screen/desktop/History/DapHistoryRightPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryScreen.qml</file>
         <file>screen/desktop/History/DapHistoryScreenForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryTab.qml</file>

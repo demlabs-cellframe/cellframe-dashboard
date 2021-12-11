@@ -10,21 +10,9 @@ DapHistoryTabForm
         id: modelHistory
     }
 
-    //Use only this signal "onDapResultTextChanged" instead "onCurrentIndexChanged" and "onCurrentTextChanged"
-    dapHistoryTopPanel.dapComboboxPeriod.onDapResultTextChanged:
+    ListModel
     {
-        console.log(dapHistoryTopPanel.dapComboboxPeriod.dapResultText)
-    }
-
-    //Use only this signal "onMainLineTextChanged" instead "onCurrentIndexChanged" and "onCurrentTextChanged"
-    dapHistoryTopPanel.dapComboboxWallet.onMainLineTextChanged:
-    {
-        console.log(dapHistoryTopPanel.dapComboboxWallet.mainLineText)
-    }
-
-    dapHistoryTopPanel.dapComboboxStatus.onCurrentTextChanged:
-    {
-        console.log(dapHistoryTopPanel.dapComboboxStatus.currentText)
+        id: temporaryModel
     }
 
     Component.onCompleted:
@@ -50,8 +38,8 @@ DapHistoryTabForm
 
             for (var q = 0; q < walletHistory.length; ++q)
             {
-                if (modelHistory.count === 0)
-                    modelHistory.append({"wallet" : walletHistory[q].Wallet,
+                if (temporaryModel.count === 0)
+                    temporaryModel.append({"wallet" : walletHistory[q].Wallet,
                                           "network" : walletHistory[q].Network,
                                           "name" : walletHistory[q].Name,
                                           "status" : walletHistory[q].Status,
@@ -61,13 +49,13 @@ DapHistoryTabForm
                 else
                 {
                     var j = 0;
-                    while (modelHistory.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                    while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
                     {
                         ++j;
-                        if (j >= modelHistory.count)
+                        if (j >= temporaryModel.count)
                             break;
                     }
-                    modelHistory.insert(j, {"wallet" : walletHistory[q].Wallet,
+                    temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
                                           "network" : walletHistory[q].Network,
                                           "name" : walletHistory[q].Name,
                                           "status" : walletHistory[q].Status,
@@ -75,17 +63,104 @@ DapHistoryTabForm
                                           "date" : walletHistory[q].Date,
                                           "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
                 }
+            }
 
-                print("walletHistory", "wallet", walletHistory[q].Wallet,
-                      "network", walletHistory[q].Network,
-                      "name", walletHistory[q].Name,
-                      "status", walletHistory[q].Status,
-                      "amount", walletHistory[q].Amount,
-                      "date", walletHistory[q].Date,
-                      "SecsSinceEpoch", walletHistory[q].SecsSinceEpoch)
+            if (networkCounter <= 0)
+            {
+                modelHistory.clear()
+
+                for (var i = 0; i < temporaryModel.count; ++i)
+                    modelHistory.append(temporaryModel.get(i))
+            }
+
+        }
+    }
+
+    dapHistoryScreen.dapHistoryRightPanel.onCurrentStatusSelected: {
+        console.log("currentStatusSelected", status)
+
+        modelHistory.clear()
+
+        for (var i = 0; i < temporaryModel.count; ++i)
+        {
+            if (status === "All statuses" || temporaryModel.get(i).status === status)
+                modelHistory.append(temporaryModel.get(i))
+        }
+    }
+
+    dapHistoryScreen.dapHistoryRightPanel.onCurrentPeriodSelected: {
+        console.log("currentPeriodSelected", period, isRange)
+
+        var today = new Date()
+        var yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+        var week = new Date(new Date().setDate(new Date().getDate()-7))
+
+        var begin
+        var end
+
+        if (isRange)
+        {
+            var index = period.indexOf('-')
+
+            begin = getDate(period.slice(0, index))
+            end = getDate(period.slice(index+1))
+        }
+
+        modelHistory.clear()
+
+        for (var i = 0; i < temporaryModel.count; ++i)
+        {
+            var payDate = new Date(Date.parse(temporaryModel.get(i).date))
+
+            if (isRange)
+            {
+                if (payDate > begin && payDate < end ||
+                    isSameDay(payDate, begin) || isSameDay(payDate, end))
+                    modelHistory.append(temporaryModel.get(i))
+            }
+            else
+            {
+                if (checkDate(payDate, period, today, yesterday, week))
+                    modelHistory.append(temporaryModel.get(i))
             }
         }
     }
+
+    function checkDate(date, period, today, yesterday, week)
+    {
+        if (period === "all time")
+            return true
+
+        if (period === "today" && isSameDay(date, today))
+            return true
+
+        if (period === "yesterday" && isSameDay(date, yesterday))
+            return true
+
+        if (period === "last week" && date <= today && date >= week)
+            return true
+
+        if (period === "this month" && date.getMonth() === today.getMonth())
+            return true
+
+        return false
+    }
+
+    function isSameDay(date1, date2)
+    {
+        return (date1.getFullYear() === date2.getFullYear()
+                && date1.getMonth() === date2.getMonth()
+                && date1.getDate() === date2.getDate()) ? true : false
+    }
+
+    function getDate(date)
+    {
+        var parts = date.split(".");
+        return new Date(parseInt(parts[2], 10),
+                          parseInt(parts[1], 10) - 1,
+                          parseInt(parts[0], 10));
+    }
+
 
     function getWalletHistory(index)
     {
