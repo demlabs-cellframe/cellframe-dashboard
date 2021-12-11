@@ -241,8 +241,8 @@ DapHistoryTabForm
             if (network === "core-t")
                 chain = "zerochain"
 
-            console.log("DapGetWalletHistoryCommand - name:", name,
-                "network:", network, "chain:", chain, "address:", address)
+//            console.log("DapGetWalletHistoryCommand - name:", name,
+//                "network:", network, "chain:", chain, "address:", address)
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
 
