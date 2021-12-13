@@ -15,6 +15,7 @@
 #include <QRegularExpression>
 
 #include "JlCompress.h"
+#include "DapNetworkManager.h"
 
 class DapPluginsController : public QWidget
 {
@@ -31,14 +32,10 @@ private:
     bool zipManage(QString &path);
     bool checkDuplicates(QString name, QString verifed);
     bool checkHttps(QString path);
-    void downloadPlugin(QString name);
 
-    QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
     QString pkeyHash(QString &path);
 
-    //repository work
-    void getListPluginsByUrl();
-    void uploadFile();
+    void attachSignals();
 
 public slots:
 
@@ -47,19 +44,14 @@ public slots:
     void installPlugin(int, QString, QString);
     void deletePlugin(int);
 
-    //repository work
-    void replyFinished();
-    void uploadFinished(QNetworkReply *reply);
-    void downloadFinished();
-
 signals:
 
-    void completedParseReply();
     void rcvListPlugins(QList <QVariant> m_pluginsList);
 
 private slots:
 
-    void appendReplyToListPlugins();
+    void onFilesReceived();
+    void onDownloadCompleted(QString path){addPlugin(path,1,1);};
 
 private:
 
@@ -70,11 +62,10 @@ private:
 
     QString m_filePrefix;
 
-    QNetworkAccessManager* m_networkManager;
     QString m_repoPlugins;
-    QFile* m_fileUpload;
-    QString m_nameDownloadingFile;
 
+
+    DapNetworkManager * m_dapNetworkManager;
 };
 
 #endif // DAPPLUGINSCONTROLLER_H

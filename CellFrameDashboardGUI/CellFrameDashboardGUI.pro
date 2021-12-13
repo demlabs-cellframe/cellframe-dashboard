@@ -51,7 +51,8 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     DapApplication.cpp \
-    DapPluginsController.cpp \
+    PluginsController/DapNetworkManager.cpp \
+    PluginsController/DapPluginsController.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -73,7 +74,8 @@ else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 HEADERS += \
     $$PWD/DapServiceController.h \
     DapApplication.h \
-    DapPluginsController.h \
+    PluginsController/DapNetworkManager.h \
+    PluginsController/DapPluginsController.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \

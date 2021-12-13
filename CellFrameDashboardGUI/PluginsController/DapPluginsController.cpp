@@ -5,21 +5,26 @@ DapPluginsController::DapPluginsController(QString pathPluginsConfigFile, QStrin
     m_pathPluginsConfigFile = pathPluginsConfigFile;
     m_pathPlugins = pathPlugins;
 
-    m_networkManager = new QNetworkAccessManager(this);
     m_repoPlugins = "https://plugins.cellframe.net/dashboard/";
+
+    m_dapNetworkManager = new DapNetworkManager(m_repoPlugins, m_pathPlugins); //
+    attachSignals();
 
 #if !defined(Q_OS_WIN)
     m_filePrefix = "file://";
 #else
     m_filePrefix = "file:///";
 #endif
-//    connect(m_networkManager, &QNetworkAccessManager::finished, this, &DapPluginsController::uploadFinished);
-//    uploadFile();
-
-    connect(this, SIGNAL(completedParseReply()),this, SLOT(appendReplyToListPlugins()));
 
     readPluginsFile(&m_pathPluginsConfigFile);
-    getListPluginsByUrl();
+    m_dapNetworkManager->getFiles(); //
+
+}
+
+void DapPluginsController::attachSignals()
+{
+    connect(m_dapNetworkManager, SIGNAL(filesReceived()), this, SLOT(onFilesReceived()));
+    connect(m_dapNetworkManager, SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
 }
 
 void DapPluginsController::readPluginsFile(QString *path)
@@ -66,74 +71,15 @@ void DapPluginsController::readPluginsFile(QString *path)
     }
 }
 
-void DapPluginsController::getListPluginsByUrl()
+
+void DapPluginsController::onFilesReceived()
 {
-    QNetworkReply *reply;
-    reply = m_networkManager->get(QNetworkRequest(QUrl(m_repoPlugins)));
+    m_buffPluginsByUrl = m_dapNetworkManager->m_bufferFiles;
 
-    connect(reply, SIGNAL(finished()),this,SLOT(replyFinished()));
-}
+    m_dapNetworkManager->m_bufferFiles.erase(
+                m_dapNetworkManager->m_bufferFiles.begin(),
+                m_dapNetworkManager->m_bufferFiles.end());
 
-void DapPluginsController::replyFinished()
-{
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
-
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        QByteArray content= reply->readAll();
-        QTextCodec *codec = QTextCodec::codecForName("utf8");
-        QString str = codec->toUnicode(content.data());
-        QRegExp rw("[\\w+|\\s+]{,}.zip");
-
-        int lastPos = 0;
-        while((lastPos = rw.indexIn(str,lastPos)) != -1)
-        {
-            lastPos += rw.matchedLength();
-            m_buffPluginsByUrl.append(rw.cap(0));
-        }
-        m_buffPluginsByUrl.removeDuplicates();
-    }
-    else
-        qWarning()<<reply->errorString();
-
-    disconnect(reply, SIGNAL(finished()),this,SLOT(replyFinished()));
-    reply->deleteLater();
-
-    emit completedParseReply();
-}
-
-// no uses --------
-void DapPluginsController::uploadFile()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, "Get Any file");
-    m_fileUpload = new QFile(fileName);
-
-    QFileInfo fileInfo (*m_fileUpload);
-
-    QUrl url(m_repoPlugins + fileInfo.fileName());
-    url.setUserName("ftpuser");
-    url.setPassword("sGpawUJeC");
-    url.setPort(21);
-
-    if(m_fileUpload->open(QIODevice::ReadOnly))
-        m_networkManager->put(QNetworkRequest(url),m_fileUpload);
-}
-
-void DapPluginsController::uploadFinished(QNetworkReply* reply)
-{
-    if (!reply->error())
-        qDebug()<< "good";
-    else
-        qDebug()<< reply->errorString();
-
-    m_fileUpload->close();
-    m_fileUpload->deleteLater();
-    reply->deleteLater();
-}
-//---------------
-
-void DapPluginsController::appendReplyToListPlugins()
-{
     if(m_buffPluginsByUrl.count())
     {
         QList <QStringList> appendList;
@@ -275,98 +221,13 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant ve
     }
 }
 
-QByteArray DapPluginsController::fileChecksum(const QString &file, QCryptographicHash::Algorithm hashAlgorithm)
-{
-    QFile f(file);
-    if (f.open(QFile::ReadOnly)) {
-        QCryptographicHash hash(hashAlgorithm);
-        if (hash.addData(&f)) {
-            return hash.result();
-        }
-    }
-    return QByteArray();
-}
-
-QString DapPluginsController::pkeyHash(QString &path)
-{
-    QFile file(path);
-    QByteArray fileData;
-
-    if (file.open(QFile::ReadOnly)) {
-
-        fileData = file.readAll();
-        file.close();
-    }
-
-    dap_chain_hash_fast_t l_hash_cert_pkey;
-    dap_hash_fast(fileData.constData(), fileData.size(), &l_hash_cert_pkey);
-    char *l_cert_pkey_hash_str = dap_chain_hash_fast_to_str_new(&l_hash_cert_pkey);
-    QString ret = QString::fromLatin1(l_cert_pkey_hash_str);
-    DAP_DEL_Z(l_cert_pkey_hash_str)
-    return ret;
-}
-
-bool DapPluginsController::zipManage(QString &path)
-{
-    QString file =  path;
-
-    //TODO: Make a request to the node to confirm the hash
-//    QByteArray hash = fileChecksum(file, QCryptographicHash::Sha256).toHex();
-    QString hash = pkeyHash(file);
-
-    QStringList result = JlCompress::extractDir(file,m_pathPlugins);
-
-    return !result.isEmpty();
-}
-
-bool DapPluginsController::checkDuplicates(QString name, QString verifed)
-{
-    int ind = 1000;
-    bool ok = true;
-    for(int i = 0; i < m_pluginsList.length(); i++)
-    {
-        QStringList str = m_pluginsList[i].toStringList();
-        QString checkName = m_pluginsList[i].toStringList()[0].remove(".zip");
-
-        if(name == checkName && verifed.toInt())
-            ind = i;
-
-        if(name == str[0])
-        {
-            ok = false;
-            break;
-        }
-    }
-
-    if(ind != 1000)
-    {
-        m_pluginsList.removeAt(ind);
-    }
-    return ok;
-}
-
-bool DapPluginsController::checkHttps(QString path)
-{
-
-    QStringList findWord = {"https://"};
-    QString findReg = '(' + findWord.join('|') + ')';
-    QRegularExpression re(findReg);
-    QString endStr = re.match(path).capturedTexts().join(' ');
-
-    if(endStr.isEmpty())
-        return false;
-    else
-        return true;
-}
 
 void DapPluginsController::installPlugin(int number, QString status, QString verifed)
 {
     QStringList str = m_pluginsList.value(number).toStringList();
 
     if(checkHttps(str[1]))
-    {
-        downloadPlugin(str[0]);
-    }
+        m_dapNetworkManager->downloadFile(str[0]);
     else
     {
         m_pluginsList.removeAt(number);
@@ -390,41 +251,72 @@ void DapPluginsController::deletePlugin(int number)
     m_pluginsList.removeAt(number);
 
     updateFileConfig();
-    getListPluginsByUrl();
+    m_dapNetworkManager->getFiles();
 }
 
-void DapPluginsController::downloadPlugin(QString name)
+bool DapPluginsController::zipManage(QString &path)
 {
-    QNetworkReply *reply;
-    reply = m_networkManager->get(QNetworkRequest(QUrl(m_repoPlugins + name)));
-    m_nameDownloadingFile = name;
+    //TODO: Make a request to the node to confirm the hash
+    QString hash = pkeyHash(path);
 
-    connect(reply, SIGNAL(finished()),this,SLOT(downloadFinished()));
+    QStringList result = JlCompress::extractDir(path,m_pathPlugins);
+
+    return !result.isEmpty();
 }
 
-void DapPluginsController::downloadFinished()
+QString DapPluginsController::pkeyHash(QString &path)
 {
-    QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+    QFile file(path);
+    QByteArray fileData;
 
-    if (reply->error() == QNetworkReply::NoError)
-    {
-        QString path = m_pathPlugins + "/download/" + m_nameDownloadingFile;
-        QFile fileDownload(path);
+    if (file.open(QFile::ReadOnly)) {
 
-        if(fileDownload.open(QIODevice::WriteOnly))
-        {
-            fileDownload.write(reply->readAll());
-            fileDownload.close();
-        }
-        else
-            qWarning()<< "Failed Download Plugin. " << fileDownload.errorString();
-
-        addPlugin(path,1,1);
+        fileData = file.readAll();
+        file.close();
     }
-    else
-        qWarning()<<reply->errorString();
 
-    disconnect(reply, SIGNAL(finished()),this,SLOT(downloadFinished()));
-    reply->deleteLater();
-    m_nameDownloadingFile = "";
+    dap_chain_hash_fast_t l_hash_cert_pkey;
+    dap_hash_fast(fileData.constData(), fileData.size(), &l_hash_cert_pkey);
+    char *l_cert_pkey_hash_str = dap_chain_hash_fast_to_str_new(&l_hash_cert_pkey);
+    QString ret = QString::fromLatin1(l_cert_pkey_hash_str);
+    DAP_DEL_Z(l_cert_pkey_hash_str)
+    return ret;
+}
+
+bool DapPluginsController::checkDuplicates(QString name, QString verifed)
+{
+    int ind = 10000;
+    bool ok = true;
+    for(int i = 0; i < m_pluginsList.length(); i++)
+    {
+        QStringList str = m_pluginsList[i].toStringList();
+        QString checkName = m_pluginsList[i].toStringList()[0].remove(".zip");
+
+        if(name == checkName && verifed.toInt())
+            ind = i;
+
+        if(name == str[0])
+        {
+            ok = false;
+            break;
+        }
+    }
+
+    if(ind != 10000)
+    {
+        m_pluginsList.removeAt(ind);
+    }
+    return ok;
+}
+
+bool DapPluginsController::checkHttps(QString path)
+{
+
+    QStringList findWord = {"https://"};
+    QString findReg = '(' + findWord.join('|') + ')';
+    QRegularExpression re(findReg);
+    QString endStr = re.match(path).capturedTexts().join(' ');
+
+    return !endStr.isEmpty();
+
 }
