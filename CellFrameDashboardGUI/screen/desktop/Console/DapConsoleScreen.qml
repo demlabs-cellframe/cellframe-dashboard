@@ -34,16 +34,20 @@ DapConsoleScreenForm
         {
             width: parent.width
 //            Layout.bottomMargin: 20 * pt
-            Text
+            TextEdit
             {
+                readOnly: true
+                selectByMouse: true
                 id: textQuery
                 text: "> " + query
                 font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
 
             }
-            Text
+            TextEdit
             {
+                readOnly: true
+                selectByMouse: true
                 id: textResponse
                 text: response
                 width: parent.width
