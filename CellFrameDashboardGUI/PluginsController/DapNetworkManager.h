@@ -22,15 +22,21 @@ public:
     void uploadFile();
     void getFiles();
 
+    void cancelDownload();
+
 signals:
     void downloadCompleted(QString path);
+    void downloadProgress(double,double);
+    void aborted();
     void uploadCompleted();
     void filesReceived();
 
 private slots:
     void onDownloadCompleted();
+    void onReadyRead();
     void onUploadCompleted(QNetworkReply *reply);
     void onFilesReceived();
+    void onUploadProgress(quint64,quint64);
 
 public:
 
@@ -40,7 +46,8 @@ public:
     QString m_fileName;
     QStringList m_bufferFiles;
 
-    QFile * m_fileUpload;
+    QFile * m_file;
+    QNetworkReply * m_currentReply {nullptr};
 
 };
 

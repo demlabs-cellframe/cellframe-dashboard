@@ -10,11 +10,16 @@ DapNetworkManager::DapNetworkManager(QString path, QString pathPlugins, QWidget 
 
 void DapNetworkManager::downloadFile(QString name)
 {
-    QNetworkReply *reply;
-    reply = m_networkManager->get(QNetworkRequest(QUrl(m_path + name)));
+    m_currentReply = m_networkManager->get(QNetworkRequest(QUrl(m_path + name)));
     m_fileName = name;
+    QString path = m_pathPlugins + "/download/" + m_fileName;
 
-    connect(reply, SIGNAL(finished()),this,SLOT(onDownloadCompleted()));
+    m_file = new QFile(path);
+
+    m_file->open(QIODevice::ReadWrite | QIODevice::Append);
+    connect(m_currentReply, &QNetworkReply::finished,this, &DapNetworkManager::onDownloadCompleted);
+    connect(m_currentReply, &QNetworkReply::readyRead, this, &DapNetworkManager::onReadyRead);
+    connect(m_currentReply, &QNetworkReply::downloadProgress, this, &DapNetworkManager::onUploadProgress);
 }
 
 void DapNetworkManager::onDownloadCompleted()
@@ -24,41 +29,59 @@ void DapNetworkManager::onDownloadCompleted()
     if (reply->error() == QNetworkReply::NoError)
     {
         QString path = m_pathPlugins + "/download/" + m_fileName;
-        QFile fileDownload(path);
 
-        if(fileDownload.open(QIODevice::WriteOnly))
-        {
-            fileDownload.write(reply->readAll());
-            fileDownload.close();
-        }
-        else
-            qWarning()<< "Failed Download Plugin. " << fileDownload.errorString();
+        m_file->flush();
+        m_file->close();
 
         emit downloadCompleted(path);
     }
     else
-        qWarning()<<reply->errorString();
+        qWarning()<<"Failed Download Plugin. " << reply->errorString();
 
-    disconnect(reply, SIGNAL(finished()),this,SLOT(onDownloadCompleted()));
     reply->deleteLater();
+    m_file->deleteLater();
     m_fileName = "";
+}
+
+void DapNetworkManager::onReadyRead()
+{
+   if(m_currentReply->size())
+   {
+       QByteArray data = m_currentReply->readAll();
+       m_file->write(data);
+   }
+}
+
+void DapNetworkManager::onUploadProgress(quint64 load, quint64 total)
+{
+    double prog = load / 1024.0 / 1024.0;
+    double tot = total / 1024.0 / 1024.0;
+
+    emit downloadProgress(prog, tot);
+}
+
+void DapNetworkManager::cancelDownload()
+{
+    if(m_currentReply)
+    {
+        m_currentReply->abort();
+        emit aborted();
+    }
 }
 
 void DapNetworkManager::uploadFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Get Any file");
-    m_fileUpload = new QFile(fileName);
-
-    QFileInfo fileInfo (*m_fileUpload);
-
+    m_file = new QFile(fileName);
+    QFileInfo fileInfo (*m_file);
     QUrl url(m_path + fileInfo.fileName());
     url.setUserName("ftpuser");
     url.setPassword("sGpawUJeC");
     url.setPort(21);
 
-    if(m_fileUpload->open(QIODevice::ReadOnly))
+    if(m_file->open(QIODevice::ReadOnly))
     {
-        m_networkManager->put(QNetworkRequest(url),m_fileUpload);
+        m_networkManager->put(QNetworkRequest(url),m_file);
     }
 }
 
@@ -69,8 +92,8 @@ void DapNetworkManager::onUploadCompleted(QNetworkReply *reply)
     else
         qDebug()<< reply->errorString();
 
-    m_fileUpload->close();
-    m_fileUpload->deleteLater();
+    m_file->close();
+    m_file->deleteLater();
     reply->deleteLater();
 }
 
@@ -91,8 +114,8 @@ void DapNetworkManager::onFilesReceived()
         QTextCodec *codec = QTextCodec::codecForName("utf8");
         QString str = codec->toUnicode(content.data());
         QRegExp rw("[\\w+|\\s+]{,}.zip");
-
         int lastPos = 0;
+
         while((lastPos = rw.indexIn(str,lastPos)) != -1)
         {
             lastPos += rw.matchedLength();
@@ -103,7 +126,6 @@ void DapNetworkManager::onFilesReceived()
     else
         qWarning()<<reply->errorString();
 
-    disconnect(reply, SIGNAL(finished()),this,SLOT(onFilesReceived()));
     reply->deleteLater();
 
     emit filesReceived();

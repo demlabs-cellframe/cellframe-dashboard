@@ -13,6 +13,7 @@
 #include <QNetworkReply>
 #include <QFileDialog>
 #include <QRegularExpression>
+#include <QString>
 
 #include "JlCompress.h"
 #include "DapNetworkManager.h"
@@ -22,6 +23,9 @@ class DapPluginsController : public QWidget
     Q_OBJECT
 public:
     explicit DapPluginsController(QString pathPluginsConfigFile, QString pathPlugins, QWidget *parent = nullptr);
+
+private:
+    void init();
 
 private:
 
@@ -35,23 +39,26 @@ private:
 
     QString pkeyHash(QString &path);
 
-    void attachSignals();
-
 public slots:
 
     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
     void addPlugin(QVariant, QVariant, QVariant);
     void installPlugin(int, QString, QString);
     void deletePlugin(int);
+    void cancelDownload(){m_dapNetworkManager->cancelDownload();};
 
 signals:
 
     void rcvListPlugins(QList <QVariant> m_pluginsList);
+    void rcvProgressDownload(QString progress, int completed);
+    void rcvAbort();
 
 private slots:
 
     void onFilesReceived();
     void onDownloadCompleted(QString path){addPlugin(path,1,1);};
+    void onDownloadProgress(double progress, double total);
+    void onAborted(){emit rcvAbort();};
 
 private:
 

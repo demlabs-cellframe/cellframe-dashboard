@@ -51,6 +51,7 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     DapApplication.cpp \
+    PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
     WalletRestore/randomfile.cpp \

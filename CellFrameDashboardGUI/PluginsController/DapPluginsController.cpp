@@ -7,70 +7,28 @@ DapPluginsController::DapPluginsController(QString pathPluginsConfigFile, QStrin
 
     m_repoPlugins = "https://plugins.cellframe.net/dashboard/";
 
-    m_dapNetworkManager = new DapNetworkManager(m_repoPlugins, m_pathPlugins); //
-    attachSignals();
-
 #if !defined(Q_OS_WIN)
     m_filePrefix = "file://";
 #else
     m_filePrefix = "file:///";
 #endif
 
-    readPluginsFile(&m_pathPluginsConfigFile);
-    m_dapNetworkManager->getFiles(); //
+    init();
 
 }
 
-void DapPluginsController::attachSignals()
+void DapPluginsController::init()
 {
+    m_dapNetworkManager = new DapNetworkManager(m_repoPlugins, m_pathPlugins);
+
     connect(m_dapNetworkManager, SIGNAL(filesReceived()), this, SLOT(onFilesReceived()));
     connect(m_dapNetworkManager, SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
+    connect(m_dapNetworkManager, SIGNAL(downloadProgress(double,double)), this, SLOT(onDownloadProgress(double,double)));
+    connect(m_dapNetworkManager, SIGNAL(aborted()), this, SLOT(onAborted()));
+
+    readPluginsFile(&m_pathPluginsConfigFile);
+    m_dapNetworkManager->getFiles();
 }
-
-void DapPluginsController::readPluginsFile(QString *path)
-{
-    QFile file(*path);
-
-    QString readFile;
-
-    if(file.open(QIODevice::ReadOnly))
-    {
-        while(!file.atEnd())
-        {
-            QStringList lst;
-            for(int i = 0; i < 4 ; i++ )
-            {
-                readFile = file.readLine();
-                if(i == 0)
-                {
-                    readFile = readFile.split('[')[1];
-                    readFile = readFile.split(']')[0];
-                }
-                else if(i == 1)
-                {
-                    readFile = readFile.split("path")[1];
-                    readFile = readFile.split('=')[1];
-                }
-                else if(i == 2)
-                {
-                    readFile = readFile.split("status")[1];
-                    readFile = readFile.split('=')[1];
-                }
-                else if(i == 3)
-                {
-                    readFile = readFile.split("verifed")[1];
-                    readFile = readFile.split('=')[1];
-                }
-                readFile = readFile.trimmed();
-                lst.append(readFile);
-            }
-            if(checkDuplicates(lst[0], lst[3]))
-                m_pluginsList.append(lst);
-        }
-        file.close();
-    }
-}
-
 
 void DapPluginsController::onFilesReceived()
 {
@@ -144,36 +102,22 @@ void DapPluginsController::onFilesReceived()
     else
         qWarning()<<"No Plugins in repository";
 
-    sortList();
     updateFileConfig();
     getListPlugins();
 }
 
-void DapPluginsController::updateFileConfig()
+void DapPluginsController::onDownloadProgress(double prog, double total)
 {
-    QFile file(m_pathPluginsConfigFile);
+    double percent_progress = (prog * 100)/total;
+    QString progress = QString::number(percent_progress,'f',2);
 
-    if(file.open(QIODevice::WriteOnly))
-    {
-        QTextStream out(&file);
-        for(int i = 0; i < m_pluginsList.length(); i++)
-        {
-            QStringList str = m_pluginsList.value(i).toStringList();
+    int completed = progress == "100"? 1 : 0;
 
-            if(!checkHttps(str[1]))
-            {
-                out<<"["<<str[0]<<"]"<<"\n";
-                out<<"path = "<<str[1]<<"\n";
-                out<<"status = "<<str[2]<<"\n";
-                out<<"verifed = " <<str[3]<<"\n";
-            }
-        }
-        file.close();
-    }
-    else
-        qWarning() << "Plugins Config not open. " << file.errorString();
+    emit rcvProgressDownload(progress, completed);
 
+//    qDebug()<<progress << " - " << total << " - " << percent << "%";
 }
+
 
 void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant verifed)
 {
@@ -216,8 +160,6 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant ve
             installPlugin(m_pluginsList.length()-1,status.toString(), verifed.toString());
 
         getListPlugins();
-
-//        qDebug()<<name_mainFilePlugin<< " " <<path<< " " <<status;
     }
 }
 

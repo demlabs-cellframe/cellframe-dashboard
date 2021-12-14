@@ -331,6 +331,38 @@ Rectangle
                     rectanglePlug.updatePluginsList()
                 }
             }
+            Connections{
+                target:pluginsManager
+                onRcvProgressDownload:
+                {
+                    if(!completed)
+                    {
+                        if(!messagePopup.isOpen)
+                        {
+                            messagePopup.openProgress();
+                            messagePopup.progress_text.text = progress + " %";
+                            messagePopup.progress_bar.currentValue = progress;
+                        }
+                        else
+                        {
+                            messagePopup.progress_text.text = progress + " %";
+                            messagePopup.progress_bar.currentValue = progress;
+                        }
+                    }
+                    else
+                    {
+                        messagePopup.close();
+                        messagePopup.progress_text.text = "";
+                    }
+                }
+                onRcvAbort:
+                {
+                    messagePopup.close()
+                    messagePopup.isOpen = false
+                    messagePopup.progress_text.text = "";
+                }
+
+            }
 
             function updatePluginsList()
             {
@@ -478,46 +510,142 @@ Rectangle
     }
 
     Popup{
+
+        property alias progress_text: bar_progress
+        property alias progress_bar: bar_progress
+        property bool isOpen: false
+
         id: messagePopup
         closePolicy: "NoAutoClose"
-        padding: 0
-        background: Item{}
-        width: dapMessageBox.width
-        height: dapMessageBox.height
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
+        parent: plugins
 
-        function smartOpen(title, contentText) {
-            dapMessageBox.dapTitleText.text = title
-            dapMessageBox.dapContentText.text = contentText
+        anchors.centerIn: parent
+        width: parent.width
+        height: parent.height
+
+        //        padding: 0
+        //        background: Item{}
+        //        width: dapMessageBox.width
+        //        height: dapMessageBox.height
+        //        x: (parent.width - width) / 2
+        //        y: (parent.height - height) / 2
+        modal: false
+
+        padding: 100
+
+        contentItem:
+            Item{
+
+                anchors.fill: parent
+                anchors.margins: 50 * pt
+                anchors.leftMargin: 150 * pt
+                anchors.rightMargin: 150 * pt
+                ColumnLayout
+                {
+                    anchors.fill: parent
+
+                    DapPluginsProgressBar
+                    {
+                        id: bar_progress
+//                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
+//                        width: 200
+//                        height: 200
+
+                    }
+
+                    DapButton
+                    {
+//                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignHCenter
+
+                        implicitHeight: 36 * pt
+                        implicitWidth: 163 * pt
+
+                        id:canceledDownload
+                        textButton: "Cancel"
+
+                        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                        horizontalAligmentText: Text.AlignHCenter
+                        onClicked:
+                        {
+                            pluginsManager.cancelDownload();
+                        }
+
+                    }
+                }
+            }
+
+        background:
+            Rectangle
+            {
+                anchors.fill: parent
+                color:"#bf363A42"
+                radius: 16*pt
+
+                Rectangle
+                {
+                    id:framePopup
+                    anchors.fill: parent
+                    anchors.margins: 50 * pt
+                    anchors.leftMargin: 150 * pt
+                    anchors.rightMargin: 150 * pt
+                    radius: 16*pt
+    //                color: "transparent"
+                    color:currTheme.backgroundMainScreen
+//                    opacity: 0.5
+
+                }
+
+                DropShadow {
+                        anchors.fill: framePopup
+                        horizontalOffset: currTheme.hOffset
+                        verticalOffset: currTheme.vOffset
+                        radius: currTheme.radiusShadow
+                        color: currTheme.shadowColor
+                        source: framePopup
+                        spread: 0.1
+                        smooth: true
+                    }
+            }
+
+        function openProgress()
+        {
+            isOpen = true;
             open()
         }
 
-        DapMessageBox {
-            id: dapMessageBox
-            width: 240 * pt
-            height: 240 * pt
-            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
 
-            dapContentInput.visible: true
-            dapButtonOk.enabled: false
-            dapContentInput.placeholderText: qsTr("Name plugin")
-            dapContentInput.onTextChanged:
-            {
-                if(dapContentInput.text.replace(/\s/g,"") !== "")
-                    dapButtonOk.enabled = true
-                else
-                    dapButtonOk.enabled = false
-            }
 
-            dapButtonOk.onClicked: {
-                dialogSelectPlug.visible = true
-            }
-            dapButtonBack.onClicked:
-            {
-                messagePopup.close()
-            }
-        }
+
+//        function smartOpen(title, contentText) {
+//            dapMessageBox.dapTitleText.text = title
+//            dapMessageBox.dapContentText.text = contentText
+//            open()
+//        }
+
+//        DapMessageBox {
+//            id: dapMessageBox
+//            width: 240 * pt
+//            height: 240 * pt
+//            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+
+////            dapContentInput.visible: false
+//            dapButtonOk.enabled: false
+//            dapButtonBack.text: qsTr("Cancel")
+////            dapContentInput.placeholderText: qsTr("Name plugin")
+////            dapContentInput.onTextChanged:
+////            {
+////                if(dapContentInput.text.replace(/\s/g,"") !== "")
+////                    dapButtonOk.enabled = true
+////                else
+////                    dapButtonOk.enabled = false
+////            }
+
+//            dapButtonBack.onClicked:
+//            {
+//                messagePopup.close()
+//            }
+//        }
     }
 }
