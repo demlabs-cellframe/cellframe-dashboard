@@ -11,6 +11,7 @@ DapLastActionsRightPanelForm
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
     property date lastDate: new Date(0)
+    property date prevDate: new Date(0)
 
     property alias dapModelLastActions: modelLastActions
 
@@ -91,15 +92,21 @@ DapLastActionsRightPanelForm
 
                 var currDate = new Date(Date.parse(walletHistory[i].Date))
 
-                if (lastDate === new Date(0) || lastDate < currDate)
+                if (lastDate === new Date(0))
+                {
                     lastDate = currDate
+                    prevDate = currDate
+                }
+                if (lastDate < currDate)
+                {
+                    prevDate = lastDate
+                    lastDate = currDate
+                }
             }
 
             if (networkCounter <= 0)
             {
                 modelLastActions.clear()
-
-                var prevDate = new Date(lastDate.getFullYear(), lastDate.getMonth(), lastDate.getDate()-1)
 
                 for (var k = 0; k < temporaryModel.count; ++k)
                 {
@@ -183,18 +190,16 @@ DapLastActionsRightPanelForm
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
 
-//        console.log("getWalletHistory", index, model.count)
-
         for (var i = 0; i < model.count; ++i)
         {
             var network = model.get(i).name
             var address = model.get(i).address
             var chain = "zero"
-            if (network === "core-t")
-                chain = "zerochain"
+            if (model.get(i).chains.count > 0)
+                chain = model.get(i).chains.get(0).name
 
-//            console.log("DapGetWalletHistoryCommand - name:", name,
-//                "network:", network, "chain:", chain, "address:", address)
+            print("network", network, "chain", chain)
+
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
 
