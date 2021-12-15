@@ -3,12 +3,12 @@ import "../SettingsWallet.js" as SettingsWallet
 
 DapHistoryTabForm
 {
-    property int networkCounter: 0
-
     property string currentString: ""
     property string currentStatus: "All statuses"
     property string currentPeriod: "all time"
     property bool isCurrentRange: false
+
+    property int requestCounter: 0
 
     ListModel
     {
@@ -22,12 +22,12 @@ DapHistoryTabForm
 
     Component.onCompleted:
     {
-        print("DapHistoryTabForm onCompleted")
-        print("dapWallets.count", dapModelWallets.count)
-
-        if (dapModelWallets.count > 0)
+        if (SettingsWallet.currentIndex >= 0 &&
+            requestCounter === 0)
         {
-            getWalletHistory(SettingsWallet.currentIndex)
+            modelHistory.clear()
+
+            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
         }
     }
 
@@ -36,10 +36,10 @@ DapHistoryTabForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            if (networkCounter <= 0)
+            if (requestCounter <= 0)
                 return
 
-            --networkCounter
+            --requestCounter
 
             for (var q = 0; q < walletHistory.length; ++q)
             {
@@ -70,7 +70,7 @@ DapHistoryTabForm
                 }
             }
 
-            if (networkCounter <= 0)
+            if (requestCounter <= 0)
             {
                 modelHistory.clear()
 
@@ -214,37 +214,5 @@ DapHistoryTabForm
         return new Date(parseInt(parts[2], 10),
                           parseInt(parts[1], 10) - 1,
                           parseInt(parts[0], 10));
-    }
-
-
-    function getWalletHistory(index)
-    {
-        if (index < 0)
-            return;
-
-        if (networkCounter > 0)
-            return
-
-        modelHistory.clear()
-        networkCounter = 0
-
-        var model = dapModelWallets.get(index).networks
-        var name = dapModelWallets.get(index).name
-
-        for (var i = 0; i < model.count; ++i)
-        {
-            var network = model.get(i).name
-            var address = model.get(i).address
-            var chain = "zero"
-            if (model.get(i).chains.count > 0)
-                chain = model.get(i).chains.get(0).name
-
-            print("network", network, "chain", chain)
-
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                network, chain, address, name);
-
-            ++networkCounter
-        }
     }
 }
