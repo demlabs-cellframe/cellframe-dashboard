@@ -15,7 +15,7 @@
 #include "DapLogMessage.h"
 #include "DapWallet.h"
 #include "DapApplication.h"
-#include "DapPluginsController.h"
+#include "PluginsController/DapPluginsController.h"
 
 #include "dap_config.h"
 
