@@ -111,11 +111,11 @@ void DapPluginsController::onDownloadProgress(double prog, double total)
     double percent_progress = (prog * 100)/total;
     QString progress = QString::number(percent_progress,'f',2);
 
-    int completed = progress == "100"? 1 : 0;
+    int completed = progress == "100.00"? 1 : 0;
 
     emit rcvProgressDownload(progress, completed);
 
-//    qDebug()<<progress << " - " << total << " - " << percent << "%";
+//    qDebug()<<total << " - " << progress << "%" << " - "  <<completed;
 }
 
 

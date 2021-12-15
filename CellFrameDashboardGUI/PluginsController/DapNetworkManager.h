@@ -10,6 +10,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QTimer>
 
 class DapNetworkManager : public QWidget
 {
@@ -22,7 +23,7 @@ public:
     void uploadFile();
     void getFiles();
 
-    void cancelDownload();
+    void cancelDownload(bool ok);
 
 signals:
     void downloadCompleted(QString path);
@@ -34,9 +35,14 @@ signals:
 private slots:
     void onDownloadCompleted();
     void onReadyRead();
+    void onDownloadProgress(quint64,quint64);
+    void onDownloadError(QNetworkReply::NetworkError);
+
     void onUploadCompleted(QNetworkReply *reply);
     void onFilesReceived();
-    void onUploadProgress(quint64,quint64);
+
+    void onReconnect();
+
 
 public:
 
@@ -48,6 +54,8 @@ public:
 
     QFile * m_file;
     QNetworkReply * m_currentReply {nullptr};
+
+    QTimer * m_reconnectTimer;
 
 };
 

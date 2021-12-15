@@ -11,12 +11,18 @@ DapNewPaymentMainRightPanelForm
     {
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
+
+        dapCmboBoxCnainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+            get(dapComboboxNetwork.currentIndex).chains
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
         print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+
+        dapCmboBoxCnainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+            get(dapComboboxNetwork.currentIndex).chains
 
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
@@ -78,21 +84,18 @@ DapNewPaymentMainRightPanelForm
             print("Enough tokens. Correct address length.")
             dapTextNotEnoughTokensWarning.text = ""
 
-            walletInfo.chain = "zero"
-            if (dapComboboxNetwork.mainLineText === "core-t")
-                walletInfo.chain = "zerochain"
-
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)
-            console.log("   chain: " + walletInfo.chain)
-            console.log("   wallet from: " + walletInfo.name)
+            console.log("   chain: " + dapComboboxChain.mainLineText)
+            console.log("   wallet from: " + dapModelWallets.get(SettingsWallet.currentIndex).name)
             console.log("   wallet to: " + dapTextInputRecipientWalletAddress.text)
             console.log("   token: " + dapCmboBoxToken.mainLineText)
             print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
             console.log("   amount: " + dapTextInputAmountPayment.text)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, walletInfo.chain,
-                walletInfo.name, dapTextInputRecipientWalletAddress.text,
+                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
+                dapModelWallets.get(SettingsWallet.currentIndex).name,
+                dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, dapTextInputAmountPayment.text)
 
             nextActivated("transaction created")

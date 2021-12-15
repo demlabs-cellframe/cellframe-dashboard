@@ -45,7 +45,7 @@ public slots:
     void addPlugin(QVariant, QVariant, QVariant);
     void installPlugin(int, QString, QString);
     void deletePlugin(int);
-    void cancelDownload(){m_dapNetworkManager->cancelDownload();};
+    void cancelDownload(){m_dapNetworkManager->cancelDownload(1);};
 
 signals:
 

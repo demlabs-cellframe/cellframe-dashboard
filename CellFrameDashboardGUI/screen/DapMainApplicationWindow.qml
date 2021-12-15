@@ -368,7 +368,7 @@ Rectangle {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetListNetworksCommand")
+        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
     }
@@ -385,16 +385,60 @@ Rectangle {
                 console.error("networkList is empty")
             else
             {
-                dapServiceController.CurrentNetwork = networkList[0];
+                if (networkList[0] === "[net]")
+                    dapServiceController.CurrentNetwork = networkList[1];
+                else
+                    dapServiceController.CurrentNetwork = networkList[0];
                 dapServiceController.IndexCurrentNetwork = 0;
 
                 console.log("Current network: "+dapServiceController.CurrentNetwork)
             }
 
-            for(var n=0; n < Object.keys(networkList).length; ++n)
+            var i = 0
+            var net = -1
+
+            while (i < Object.keys(networkList).length)
             {
-                dapNetworkModel.append({name: networkList[n]})
+                if (networkList[i] === "[net]")
+                {
+                    ++i
+                    if (i >= Object.keys(networkList).length)
+                        break
+
+                    ++net
+                    dapNetworkModel.append({ "name" : networkList[i],
+                                          "chains" : []})
+
+                    print("[net]", networkList[i])
+
+                    ++i
+                    if (i >= Object.keys(networkList).length)
+                        break
+
+                    while (i < Object.keys(networkList).length
+                           && networkList[i] === "[chain]")
+                    {
+                        ++i
+                        if (i >= Object.keys(networkList).length)
+                            break
+
+                        dapNetworkModel.get(net).chains.append({"name": networkList[i]})
+
+                        print("[chain]", networkList[i])
+
+                        ++i
+                        if (i >= Object.keys(networkList).length)
+                            break
+                    }
+                }
+                else
+                    ++i
             }
+
+//            for(var n=0; n < Object.keys(networkList).length; ++n)
+//            {
+//                dapNetworkModel.append({name: networkList[n]})
+//            }
         }
 
         onWalletsReceived:
@@ -404,8 +448,6 @@ Rectangle {
             console.log("walletList.length =", walletList.length)
             console.log("dapWallets.length =", dapWallets.length)
             console.log("dapModelWallets.count =", dapModelWallets.count)
-
-
 
             for (var q = 0; q < walletList.length; ++q)
             {
@@ -418,16 +460,33 @@ Rectangle {
                 dapModelWallets.append({ "name" : dapWallets[i].Name,
                                       "balance" : dapWallets[i].Balance,
                                       "icon" : dapWallets[i].Icon,
-                                      "address" : dapWallets[i].Address,
+                                      // "address" : dapWallets[i].Address,
                                       "networks" : []})
                 console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
                     console.log("Network name: "+dapWallets[i].Networks[n])
                     print("address", dapWallets[i].findAddress(dapWallets[i].Networks[n]))
+                    print("chains", dapWallets[i].getChains(dapWallets[i].Networks[n]))
+
                     dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
                           "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
+                          "chains": [],
                           "tokens": []})
+
+                    var chains = dapWallets[i].getChains(dapWallets[i].Networks[n])
+
+                    console.log("chains", chains)
+
+                    for (var c = 0; c < chains.length; ++c)
+                    {
+                        print(chains[c])
+                        dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+                    }
+
+                    console.log("dapModelWallets.get(i).networks.get(n).chains.count",
+                                dapModelWallets.get(i).networks.get(n).chains.count)
+
                     console.log("Tokens.length:", Object.keys(dapWallets[i].Tokens).length)
                     for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
