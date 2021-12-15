@@ -231,18 +231,16 @@ DapHistoryTabForm
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
 
-        console.log("getWalletHistory", index, model.count)
-
         for (var i = 0; i < model.count; ++i)
         {
             var network = model.get(i).name
             var address = model.get(i).address
             var chain = "zero"
-            if (network === "core-t")
-                chain = "zerochain"
+            if (model.get(i).chains.count > 0)
+                chain = model.get(i).chains.get(0).name
 
-//            console.log("DapGetWalletHistoryCommand - name:", name,
-//                "network:", network, "chain:", chain, "address:", address)
+            print("network", network, "chain", chain)
+
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
 

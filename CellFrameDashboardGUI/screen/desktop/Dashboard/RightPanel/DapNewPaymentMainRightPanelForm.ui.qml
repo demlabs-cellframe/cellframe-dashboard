@@ -17,8 +17,10 @@ DapRightPanel
     property alias dapCmboBoxTokenModel: comboboxToken.model
 
     property alias dapComboboxNetwork: comboboxNetwork
+    property alias dapComboboxChain: comboboxChain
 
     property alias dapCmboBoxNetworkModel: comboboxNetwork.model
+    property alias dapCmboBoxCnainModel: comboboxChain.model
 
     property alias dapCmboBoxToken: comboboxToken
 
@@ -107,64 +109,136 @@ DapRightPanel
                 id: frameSenderWalletAddress
 
                 Layout.fillWidth: true
+                spacing: 10 * pt
+                Layout.topMargin: 10 * pt
+                Layout.bottomMargin: 10 * pt
+                Layout.leftMargin: 25 * pt
+                Layout.rightMargin: 10 * pt
 
-                Rectangle
+                RowLayout
                 {
-                    id: frameSenderNetwork
                     Layout.fillWidth: true
-                    height: 60 * pt
-                    width: 350 * pt
-                    color: currTheme.backgroundElements
+                    Layout.minimumHeight: 40 * pt
+                    Layout.maximumHeight: 40 * pt
 
-                    DapComboBox
+                    Text
                     {
-                        id: comboboxNetwork
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        text: qsTr("Network: ")
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        horizontalAlignment: Text.AlignLeft
+                    }
 
-                        anchors.centerIn: parent
-                        anchors.fill: parent
-                        anchors.margins: 10 * pt
-                        anchors.leftMargin: 15 * pt
+                    Rectangle
+                    {
+                        width: 200 * pt
+                        height: 40 * pt
+                        color: "transparent"
 
-                        comboBoxTextRole: ["name"]
-                        mainLineText: "private"
-                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                        sidePaddingNormal: 10 * pt
-                        sidePaddingActive: 10 * pt
-                        hilightColor: currTheme.buttonColorNormal
+                        DapComboBox
+                        {
+                            id: comboboxNetwork
 
-//                        Layout.fillWidth: true
+                            anchors.centerIn: parent
+                            anchors.fill: parent
 
-                        widthPopupComboBoxNormal: 318 * pt
-                        widthPopupComboBoxActive: 318 * pt
-                        heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 42 * pt
-//                        bottomIntervalListElement: 10 * pt
-                        topEffect: false
+                            comboBoxTextRole: ["name"]
+                            mainLineText: "private"
+                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                            sidePaddingNormal: 10 * pt
+                            sidePaddingActive: 10 * pt
+                            hilightColor: currTheme.buttonColorNormal
 
-//                        x: sidePaddingNormal
-                        normalColor: currTheme.backgroundMainScreen
-                        normalTopColor: currTheme.backgroundElements
-                        hilightTopColor: currTheme.backgroundMainScreen
+                            widthPopupComboBoxNormal: 318 * pt
+                            widthPopupComboBoxActive: 318 * pt
+                            heightComboBoxNormal: 24 * pt
+                            heightComboBoxActive: 42 * pt
+                            topEffect: false
 
+                            normalColor: currTheme.backgroundMainScreen
+                            normalTopColor: currTheme.backgroundMainScreen
+                            hilightTopColor: currTheme.backgroundMainScreen
 
-                        paddingTopItemDelegate: 8 * pt
-                        heightListElement: 42 * pt
-//                        intervalListElement: 10 * pt
-                        indicatorWidth: 24 * pt
-                        indicatorHeight: indicatorWidth
-//                        indicatorLeftInterval: 0 * pt
-//                        colorTopNormalDropShadow: "#00000000"
-                        colorDropShadow: currTheme.shadowColor
-                        roleInterval: 15
-                        endRowPadding: 37
+                            paddingTopItemDelegate: 8 * pt
+                            heightListElement: 42 * pt
+                            indicatorWidth: 24 * pt
+                            indicatorHeight: indicatorWidth
+                            colorDropShadow: currTheme.shadowColor
+                            roleInterval: 15
+                            endRowPadding: 37
 
-                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                        colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        }
                     }
                 }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.minimumHeight: 40 * pt
+                    Layout.maximumHeight: 40 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        text: qsTr("Chain:")
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        horizontalAlignment: Text.AlignLeft
+                    }
+
+                    Rectangle
+                    {
+                        width: 200 * pt
+                        height: 40 * pt
+                        color: "transparent"
+
+                        DapComboBox
+                        {
+                            id: comboboxChain
+
+                            anchors.centerIn: parent
+                            anchors.fill: parent
+
+                            comboBoxTextRole: ["name"]
+                            mainLineText: "private"
+                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                            sidePaddingNormal: 10 * pt
+                            sidePaddingActive: 10 * pt
+                            hilightColor: currTheme.buttonColorNormal
+
+                            widthPopupComboBoxNormal: 318 * pt
+                            widthPopupComboBoxActive: 318 * pt
+                            heightComboBoxNormal: 24 * pt
+                            heightComboBoxActive: 42 * pt
+                            topEffect: false
+
+                            normalColor: currTheme.backgroundMainScreen
+                            normalTopColor: currTheme.backgroundMainScreen
+                            hilightTopColor: currTheme.backgroundMainScreen
+
+                            paddingTopItemDelegate: 8 * pt
+                            heightListElement: 42 * pt
+                            indicatorWidth: 24 * pt
+                            indicatorHeight: indicatorWidth
+                            colorDropShadow: currTheme.shadowColor
+                            roleInterval: 15
+                            endRowPadding: 37
+
+                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        }
+                    }
+                }
+
             }
 
             // Amount payment
@@ -254,7 +328,7 @@ DapRightPanel
                             topEffect: false
                             x: sidePaddingNormal
                             normalColor: currTheme.backgroundMainScreen
-                            normalTopColor: currTheme.backgroundElements
+                            normalTopColor: currTheme.backgroundMainScreen
                             hilightTopColor: currTheme.backgroundMainScreen
                             hilightColor: currTheme.buttonColorNormal
 
