@@ -569,6 +569,47 @@ Rectangle {
             modelPluginsUpdated()
         }
     }
+
+    // function for DapLastActionsRightPanel.qml and DapHistoryTab.qml
+    function getWalletHistory(index)
+    {
+        var counter = 0
+
+        if (index < 0 || index >= dapModelWallets.count)
+            return counter
+
+        var model = dapModelWallets.get(index).networks
+        var name = dapModelWallets.get(index).name
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            var network = model.get(i).name
+            var address = model.get(i).address
+
+            if (model.get(i).chains.count > 0)
+            {
+                for (var j = 0; j < model.get(i).chains.count; ++j)
+                {
+                    var chain = model.get(i).chains.get(j).name
+
+                    dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                        network, chain, address, name);
+
+                    ++counter
+                }
+            }
+            else
+            {
+                dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                    network, "zero", address, name);
+
+                ++counter
+            }
+        }
+
+        return counter
+    }
+
 }
 
 /*##^## Designer {

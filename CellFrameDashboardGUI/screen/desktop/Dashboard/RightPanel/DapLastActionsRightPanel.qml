@@ -15,7 +15,7 @@ DapLastActionsRightPanelForm
 
     property alias dapModelLastActions: modelLastActions
 
-    property int networkCounter: 0
+    property int requestCounter: 0
 
     ListModel
     {
@@ -57,12 +57,12 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            if (networkCounter <= 0)
+            if (requestCounter <= 0)
                 return
 
             console.log("onWalletHistoryReceived")
 
-            --networkCounter
+            --requestCounter
 
             for (var i = 0; i < walletHistory.length; ++i)
             {
@@ -104,8 +104,11 @@ DapLastActionsRightPanelForm
                 }
             }
 
-            if (networkCounter <= 0)
+            if (requestCounter <= 0)
             {
+                today = new Date()
+                yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
                 modelLastActions.clear()
 
                 for (var k = 0; k < temporaryModel.count; ++k)
@@ -124,16 +127,31 @@ DapLastActionsRightPanelForm
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            getWalletHistory()
+            if (SettingsWallet.currentIndex >= 0 &&
+                requestCounter === 0)
+            {
+                lastDate = new Date(0)
+                prevDate = new Date(0)
+
+                modelLastActions.clear()
+
+                requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            }
         }
     }
 
     Component.onCompleted:
     {
-        today = new Date()
-        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+        if (SettingsWallet.currentIndex >= 0 &&
+            requestCounter === 0)
+        {
+            lastDate = new Date(0)
+            prevDate = new Date(0)
 
-        getWalletHistory()
+            modelLastActions.clear()
+
+            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+        }
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
@@ -170,41 +188,4 @@ DapLastActionsRightPanelForm
     {
         return (date1.getFullYear() === date2.getFullYear()) ? true : false
     }
-
-
-    function getWalletHistory()
-    {
-        var index = SettingsWallet.currentIndex
-
-        if (index < 0)
-            return
-
-        if (networkCounter > 0)
-            return
-
-        lastDate = new Date(0)
-
-        modelLastActions.clear()
-        networkCounter = 0
-
-        var model = dapModelWallets.get(index).networks
-        var name = dapModelWallets.get(index).name
-
-        for (var i = 0; i < model.count; ++i)
-        {
-            var network = model.get(i).name
-            var address = model.get(i).address
-            var chain = "zero"
-            if (model.get(i).chains.count > 0)
-                chain = model.get(i).chains.get(0).name
-
-            print("network", network, "chain", chain)
-
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                network, chain, address, name);
-
-            ++networkCounter
-        }
-    }
-
 }
