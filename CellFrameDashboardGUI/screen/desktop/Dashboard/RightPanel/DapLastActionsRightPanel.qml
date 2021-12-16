@@ -10,13 +10,21 @@ DapLastActionsRightPanelForm
     property date today: new Date()
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
+    property date lastDate: new Date(0)
+    property date prevDate: new Date(0)
+
     property alias dapModelLastActions: modelLastActions
 
-    property int networkCounter: 0
+    property int requestCounter: 0
 
     ListModel
     {
         id: modelLastActions
+    }
+
+    ListModel
+    {
+        id: temporaryModel
     }
 
     Component
@@ -49,17 +57,17 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            if (networkCounter <= 0)
+            if (requestCounter <= 0)
                 return
 
             console.log("onWalletHistoryReceived")
 
-            --networkCounter
+            --requestCounter
 
             for (var i = 0; i < walletHistory.length; ++i)
             {
-                if (modelLastActions.count === 0)
-                    modelLastActions.append({ "network" : walletHistory[i].Network,
+                if (temporaryModel.count === 0)
+                    temporaryModel.append({ "network" : walletHistory[i].Network,
                         "name" : walletHistory[i].Name,
                         "amount" : walletHistory[i].Amount,
                         "status" : walletHistory[i].Status,
@@ -68,13 +76,13 @@ DapLastActionsRightPanelForm
                 else
                 {
                     var j = 0;
-                    while (modelLastActions.get(j).SecsSinceEpoch > walletHistory[i].SecsSinceEpoch)
+                    while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[i].SecsSinceEpoch)
                     {
                         ++j;
-                        if (j >= modelLastActions.count)
+                        if (j >= temporaryModel.count)
                             break;
                     }
-                    modelLastActions.insert(j, { "network" : walletHistory[i].Network,
+                    temporaryModel.insert(j, { "network" : walletHistory[i].Network,
                         "name" : walletHistory[i].Name,
                         "amount" : walletHistory[i].Amount,
                         "status" : walletHistory[i].Status,
@@ -82,12 +90,34 @@ DapLastActionsRightPanelForm
                         "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
                 }
 
-                console.log("modelLastActions",
-                            walletHistory[i].Network,
-                            walletHistory[i].Name,
-                            walletHistory[i].Amount,
-                            walletHistory[i].Status,
-                            walletHistory[i].Date)
+                var currDate = new Date(Date.parse(walletHistory[i].Date))
+
+                if (lastDate === new Date(0))
+                {
+                    lastDate = currDate
+                    prevDate = currDate
+                }
+                if (lastDate < currDate)
+                {
+                    prevDate = lastDate
+                    lastDate = currDate
+                }
+            }
+
+            if (requestCounter <= 0)
+            {
+                today = new Date()
+                yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+                modelLastActions.clear()
+
+                for (var k = 0; k < temporaryModel.count; ++k)
+                {
+                    var payDate = new Date(Date.parse(temporaryModel.get(k).date))
+
+                    if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
+                        modelLastActions.append(temporaryModel.get(k))
+                }
             }
         }
     }
@@ -97,22 +127,37 @@ DapLastActionsRightPanelForm
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            console.log("onModelWalletsUpdated")
+            if (SettingsWallet.currentIndex >= 0 &&
+                requestCounter === 0)
+            {
+                lastDate = new Date(0)
+                prevDate = new Date(0)
 
-            getWalletHistory()
+                modelLastActions.clear()
+
+                requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            }
         }
     }
 
     Component.onCompleted:
     {
-        console.log("onCompleted")
-        getWalletHistory()
+        if (SettingsWallet.currentIndex >= 0 &&
+            requestCounter === 0)
+        {
+            lastDate = new Date(0)
+            prevDate = new Date(0)
+
+            modelLastActions.clear()
+
+            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+        }
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
     {
-        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
+//        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
 
         if (isSameDay(today, date))
         {
@@ -143,41 +188,4 @@ DapLastActionsRightPanelForm
     {
         return (date1.getFullYear() === date2.getFullYear()) ? true : false
     }
-
-
-    function getWalletHistory()
-    {
-        var index = SettingsWallet.currentIndex
-
-        if (index < 0)
-            return
-
-        if (networkCounter > 0)
-            return
-
-        modelLastActions.clear()
-        networkCounter = 0
-
-        var model = dapModelWallets.get(index).networks
-        var name = dapModelWallets.get(index).name
-
-        console.log("getWalletHistory", index, model.count)
-
-        for (var i = 0; i < model.count; ++i)
-        {
-            var network = model.get(i).name
-            var address = model.get(i).address
-            var chain = "zero"
-            if (network === "core-t")
-                chain = "zerochain"
-
-            console.log("DapGetWalletHistoryCommand - name:", name,
-                "network:", network, "chain:", chain, "address:", address)
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                network, chain, address, name);
-
-            ++networkCounter
-        }
-    }
-
 }

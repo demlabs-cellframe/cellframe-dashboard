@@ -13,14 +13,19 @@
 #include <QNetworkReply>
 #include <QFileDialog>
 #include <QRegularExpression>
+#include <QString>
 
 #include "JlCompress.h"
+#include "DapNetworkManager.h"
 
 class DapPluginsController : public QWidget
 {
     Q_OBJECT
 public:
     explicit DapPluginsController(QString pathPluginsConfigFile, QString pathPlugins, QWidget *parent = nullptr);
+
+private:
+    void init();
 
 private:
 
@@ -31,14 +36,8 @@ private:
     bool zipManage(QString &path);
     bool checkDuplicates(QString name, QString verifed);
     bool checkHttps(QString path);
-    void downloadPlugin(QString name);
 
-    QByteArray fileChecksum(const QString &fileName, QCryptographicHash::Algorithm hashAlgorithm);
     QString pkeyHash(QString &path);
-
-    //repository work
-    void getListPluginsByUrl();
-    void uploadFile();
 
 public slots:
 
@@ -46,20 +45,20 @@ public slots:
     void addPlugin(QVariant, QVariant, QVariant);
     void installPlugin(int, QString, QString);
     void deletePlugin(int);
-
-    //repository work
-    void replyFinished();
-    void uploadFinished(QNetworkReply *reply);
-    void downloadFinished();
+    void cancelDownload(){m_dapNetworkManager->cancelDownload(1);};
 
 signals:
 
-    void completedParseReply();
     void rcvListPlugins(QList <QVariant> m_pluginsList);
+    void rcvProgressDownload(QString progress, int completed);
+    void rcvAbort();
 
 private slots:
 
-    void appendReplyToListPlugins();
+    void onFilesReceived();
+    void onDownloadCompleted(QString path){addPlugin(path,1,1);};
+    void onDownloadProgress(double progress, double total);
+    void onAborted(){emit rcvAbort();};
 
 private:
 
@@ -70,11 +69,10 @@ private:
 
     QString m_filePrefix;
 
-    QNetworkAccessManager* m_networkManager;
     QString m_repoPlugins;
-    QFile* m_fileUpload;
-    QString m_nameDownloadingFile;
 
+
+    DapNetworkManager * m_dapNetworkManager;
 };
 
 #endif // DAPPLUGINSCONTROLLER_H

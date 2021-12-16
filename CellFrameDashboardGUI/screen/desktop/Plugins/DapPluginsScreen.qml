@@ -73,11 +73,14 @@ DapAbstractScreen
                 }
             }
 
-            //load sourse in tabs
-            for(var q = 0; q < pluginsTabView.count; q++)
+            for(var j = 0; j < dapModelPlugins.count; j++)
             {
-                if(dapModelPlugins.get(q).name === pluginsTabView.getTab(q).title)
-                    pluginsTabView.getTab(q).source = dapModelPlugins.get(q).path
+                //load sourse in tabs
+                for(var q = 0; q < pluginsTabView.count; q++)
+                {
+                    if(dapModelPlugins.get(j).name === pluginsTabView.getTab(q).title)
+                        pluginsTabView.getTab(q).source = dapModelPlugins.get(j).path
+                }
             }
         }
     }
