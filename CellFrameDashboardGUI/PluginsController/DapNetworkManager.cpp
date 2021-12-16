@@ -20,6 +20,7 @@ void DapNetworkManager::downloadFile(QString name)
     m_file = new QFile(path);
 
     quint64 data;
+    m_bytesReceived = 0;
 
     if(m_file->exists())
     {
@@ -28,6 +29,7 @@ void DapNetworkManager::downloadFile(QString name)
 
         QString strRange = QString("bytes=%1-").arg(data);
         request.setRawHeader("Range", strRange.toLatin1());
+        m_bytesReceived = data;
     }
 
     m_currentReply = m_networkManager->get(request);
@@ -61,6 +63,7 @@ void DapNetworkManager::onDownloadCompleted()
 
     reply->deleteLater();
     m_file->deleteLater();
+
 }
 
 void DapNetworkManager::onReadyRead()
@@ -74,8 +77,8 @@ void DapNetworkManager::onReadyRead()
 
 void DapNetworkManager::onDownloadProgress(quint64 load, quint64 total)
 {
-    double prog = load / 1024.0 / 1024.0;
-    double tot = total / 1024.0 / 1024.0;
+    quint64 prog = load + m_bytesReceived;
+    quint64 tot = total + m_bytesReceived;
 
     emit downloadProgress(prog, tot);
 }

@@ -27,7 +27,7 @@ public:
 
 signals:
     void downloadCompleted(QString path);
-    void downloadProgress(double,double);
+    void downloadProgress(quint64,quint64);
     void aborted();
     void uploadCompleted();
     void filesReceived();
@@ -51,6 +51,8 @@ public:
     QString m_pathPlugins;
     QString m_fileName;
     QStringList m_bufferFiles;
+
+    quint64 m_bytesReceived = 0;
 
     QFile * m_file;
     QNetworkReply * m_currentReply {nullptr};
