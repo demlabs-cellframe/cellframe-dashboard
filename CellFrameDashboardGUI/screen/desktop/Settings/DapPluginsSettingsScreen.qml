@@ -765,6 +765,7 @@ Rectangle
 //                            horizontalAligmentText: Text.AlignHCenter
 //                        }
                     }
+
                 }
 
                 DropShadow {
@@ -780,10 +781,44 @@ Rectangle
             }
         background: Item{}
 
+
         function openProgress()
         {
             isOpen = true;
             open()
         }
+
+
+
+
+//        function smartOpen(title, contentText) {
+//            dapMessageBox.dapTitleText.text = title
+//            dapMessageBox.dapContentText.text = contentText
+//            open()
+//        }
+
+//        DapMessageBox {
+//            id: dapMessageBox
+//            width: 240 * pt
+//            height: 240 * pt
+//            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+
+////            dapContentInput.visible: false
+//            dapButtonOk.enabled: false
+//            dapButtonBack.text: qsTr("Cancel")
+////            dapContentInput.placeholderText: qsTr("Name plugin")
+////            dapContentInput.onTextChanged:
+////            {
+////                if(dapContentInput.text.replace(/\s/g,"") !== "")
+////                    dapButtonOk.enabled = true
+////                else
+////                    dapButtonOk.enabled = false
+////            }
+
+//            dapButtonBack.onClicked:
+//            {
+//                messagePopup.close()
+//            }
+//        }
     }
 }

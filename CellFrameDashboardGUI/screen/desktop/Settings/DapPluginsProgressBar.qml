@@ -39,7 +39,6 @@ Canvas {
         ctx.save();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 //        if (mouseArea.pressed) {
 //            ctx.beginPath();
 //            ctx.lineWidth = 1;

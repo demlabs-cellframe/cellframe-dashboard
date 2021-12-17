@@ -153,7 +153,9 @@ void DapPluginsController::onDownloadProgress(quint64 prog, quint64 total, QStri
         emit rcvProgressDownload(progress, 0, downloadTransform, totalTransform, "0", "0", name, error);
     }
 
+//    qDebug()<<total << " - " << progress << "%" << " - "  <<completed;
 }
+
 
 void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant verifed)
 {

@@ -79,6 +79,7 @@ private:
     quint64 m_bytesTotal;
     QTime m_timeRecord;
     QString m_speed, m_time;
+
     DapNetworkManager * m_dapNetworkManager;
 };
 

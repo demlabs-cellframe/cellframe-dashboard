@@ -233,6 +233,8 @@ Rectangle {
         //                    color: focus ? currTheme.textColor : "#C7C6CE"
                             inputMask: model.inputFieldMask
 
+                            onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", "")}
+
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                             onEditingFinished: {
                                 text = text.trim()
