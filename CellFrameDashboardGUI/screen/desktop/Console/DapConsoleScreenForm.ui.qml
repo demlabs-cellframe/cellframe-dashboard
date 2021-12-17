@@ -114,13 +114,10 @@ DapAbstractScreen
 
                     ScrollBar.vertical: ScrollBar {}
 
-//                    flickableDirection: Flickable.VerticalFlick
-
                     TextArea.flickable: TextArea {
                         id: consoleCmd
 
                         verticalAlignment: Qt.AlignVCenter
-
                         wrapMode: TextArea.Wrap
                         placeholderText: qsTr("Type here...")
                         selectByMouse: true
@@ -140,8 +137,6 @@ DapAbstractScreen
                         Keys.onDownPressed: (consoleHistoryIndex > -1) ?
                                                 consoleHistoryIndex -= 1 :
                                                 null
-
-//                        onTextChanged: { consoleCmd.cursorPosition = consoleCmd.length }
                     }
                 }
 

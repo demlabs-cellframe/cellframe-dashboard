@@ -68,19 +68,38 @@ void DapNetworkManager::onDownloadCompleted()
 
 void DapNetworkManager::onReadyRead()
 {
-   if(m_currentReply->size())
-   {
-       QByteArray data = m_currentReply->readAll();
-       m_file->write(data);
-   }
+    m_error = "Connected";
+    if(m_file->exists())
+    {
+       if(m_currentReply->size())
+       {
+           QByteArray data = m_currentReply->readAll();
+           m_file->write(data);
+       }
+    }
+    else
+    {
+        cancelDownload(1);
+        downloadFile(m_fileName);
+    }
 }
 
 void DapNetworkManager::onDownloadProgress(quint64 load, quint64 total)
 {
-    quint64 prog = load + m_bytesReceived;
-    quint64 tot = total + m_bytesReceived;
+    quint64 prog;
+    quint64 tot;
+    if(total)
+    {
+        prog = load + m_bytesReceived;
+        tot = total + m_bytesReceived;
+    }
+    else
+    {
+        prog = 0;
+        tot = 0;
+    }
 
-    emit downloadProgress(prog, tot, m_fileName);
+    emit downloadProgress(prog, tot, m_fileName, m_error);
 }
 
 void DapNetworkManager::cancelDownload(bool ok)
@@ -101,12 +120,16 @@ void DapNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
     {
         qWarning()<<"Error Download Plugin. Code: " << statusCode.toInt() << ". " << m_currentReply->errorString();
 
-        if(statusCode == QNetworkReply::ContentConflictError || statusCode.toInt() == 0 || statusCode.toInt() == 200) // connections network errors
+        m_error = "Error code: " + QString::number(statusCode.toInt()) + ". " + m_currentReply->errorString();
+
+        if(statusCode == QNetworkReply::ContentConflictError || statusCode.toInt() == 0 || statusCode.toInt() == 200 || statusCode.toInt() == 206) // connections network errors
         {
             m_reconnectTimer->start(10000);
         }
 
-        cancelDownload(0);
+        onDownloadProgress(0,0);
+//        else
+//        cancelDownload(0);
     }
 }
 

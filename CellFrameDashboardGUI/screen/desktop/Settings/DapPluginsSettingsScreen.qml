@@ -347,7 +347,7 @@ Rectangle
                             messagePopup.total =  "Total: " + total;
                             messagePopup.time = "Time remain: " + time;
                             messagePopup.speed = "Speed: " + speed;
-                            messagePopup.errors.text = "Connected";
+                            messagePopup.errors.text = error;
 
                         }
                         else
@@ -359,7 +359,15 @@ Rectangle
                             messagePopup.total =  "Total: " + total;
                             messagePopup.time = "Time remain: " + time;
                             messagePopup.speed = "Speed: " + speed;
-                            messagePopup.errors.text = "Connected";
+                            messagePopup.errors.text = error;
+                        }
+                        if(error === "Connected")
+                        {
+                            messagePopup.errors.color = "#B3FF00"
+                        }
+                        else
+                        {
+                             messagePopup.errors.color = currTheme.buttonColorNormal
                         }
                     }
                     else
