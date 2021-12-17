@@ -27,7 +27,7 @@ public:
 
 signals:
     void downloadCompleted(QString path);
-    void downloadProgress(quint64,quint64);
+    void downloadProgress(quint64,quint64,QString);
     void aborted();
     void uploadCompleted();
     void filesReceived();

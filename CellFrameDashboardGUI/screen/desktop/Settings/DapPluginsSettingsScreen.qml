@@ -342,6 +342,7 @@ Rectangle
                             messagePopup.openProgress();
                             messagePopup.progress_text.text = progress + " %";
                             messagePopup.progress_bar.currentValue = progress;
+                            messagePopup.name = name;
                             messagePopup.download = "Download: " + download;
                             messagePopup.total =  "Total: " + total;
                             messagePopup.time = "Time remain: " + time;
@@ -353,6 +354,7 @@ Rectangle
                         {
                             messagePopup.progress_text.text = progress + " %";
                             messagePopup.progress_bar.currentValue = progress;
+                            messagePopup.name = name;
                             messagePopup.download = "Download: " + download;
                             messagePopup.total =  "Total: " + total;
                             messagePopup.time = "Time remain: " + time;
@@ -525,11 +527,14 @@ Rectangle
         property alias progress_text: bar_progress
         property alias progress_bar: bar_progress
 
+        property alias name: _name.text
         property alias total: _total.text
         property alias download: _download.text
         property alias speed: _speed.text
         property alias time: _time.text
         property alias errors: _errors
+
+        property alias frame:framePopup
 
         property bool isOpen: false
 
@@ -552,152 +557,6 @@ Rectangle
         padding: 100
 
         contentItem:
-            Item{
-
-                anchors.fill: parent
-                anchors.margins: 50 * pt
-                anchors.leftMargin: 80 * pt
-                anchors.rightMargin: 80 * pt
-                GridLayout
-                {
-                    rows: 6
-                    columns: 3
-                    anchors.fill: parent
-
-                    Text{
-                        Layout.row:1
-                        Layout.rowSpan: 1
-                        Layout.column:1
-                        Layout.columnSpan: 1
-
-                        Layout.minimumWidth: 130
-                        Layout.maximumWidth: 130
-                        Layout.leftMargin: 10 * pt
-
-                        id:_total
-
-                        color: currTheme.textColor;
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        horizontalAlignment: Text.AlignLeft
-                    }
-                    Text{
-                        Layout.row:2
-                        Layout.rowSpan: 1
-                        Layout.column:1
-                        Layout.columnSpan: 1
-
-                        Layout.minimumWidth: 130
-                        Layout.maximumWidth: 130
-                        Layout.leftMargin: 10 * pt
-
-                        id:_download
-
-                        color: currTheme.textColor;
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        horizontalAlignment: Text.AlignLeft
-                    }
-                    Text{
-                        Layout.row:3
-                        Layout.rowSpan: 1
-                        Layout.column:1
-                        Layout.columnSpan: 1
-
-                        Layout.minimumWidth: 130
-                        Layout.maximumWidth: 130
-                        Layout.leftMargin: 10 * pt
-
-                        id:_speed
-
-                        color: currTheme.textColor;
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        horizontalAlignment: Text.AlignLeft
-                    }
-                    Text{
-                        Layout.row:4
-                        Layout.rowSpan: 1
-                        Layout.column:1
-                        Layout.columnSpan: 1
-
-                        Layout.minimumWidth: 130
-                        Layout.maximumWidth: 130
-                        Layout.leftMargin: 10 * pt
-
-                        id:_time
-
-                        color: currTheme.textColor;
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        horizontalAlignment: Text.AlignLeft
-                    }
-
-                    DapPluginsProgressBar
-                    {
-                        Layout.row:1
-                        Layout.rowSpan: 4
-                        Layout.column:2
-                        Layout.columnSpan: 1
-                        id: bar_progress
-//                        Layout.fillWidth: true
-                        Layout.alignment: Qt.AlignHCenter
-//                        width: 200
-//                        height: 200
-
-                    }
-                    Text{
-                        Layout.row:5
-                        Layout.rowSpan: 1
-                        Layout.column:2
-                        Layout.columnSpan: 1
-
-                        id:_errors
-
-                        color: currTheme.textColor;
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        horizontalAlignment: Text.AlignVCenter
-                    }
-
-                    DapButton
-                    {
-                        Layout.row:6
-                        Layout.rowSpan: 1
-                        Layout.column:2
-                        Layout.columnSpan: 1
-                        Layout.alignment: Qt.AlignHCenter
-
-                        implicitHeight: 36 * pt
-                        implicitWidth: 163 * pt
-
-                        id:canceledDownload
-                        textButton: "Cancel"
-
-                        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                        horizontalAligmentText: Text.AlignHCenter
-                        onClicked:
-                        {
-                            pluginsManager.cancelDownload();
-                        }
-                    }
-
-                    DapButton
-                    {
-                        Layout.row:1
-                        Layout.rowSpan: 4
-                        Layout.column:3
-                        Layout.columnSpan: 1
-                        Layout.alignment: Qt.AlignHCenter
-
-                        implicitHeight: 36 * pt
-                        implicitWidth: 163 * pt
-
-                        id:reloadDownload
-                        textButton: "Reload"
-                        enabled: false
-                        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                        horizontalAligmentText: Text.AlignHCenter
-                    }
-                }
-            }
-
-        background:
             Rectangle
             {
                 anchors.fill: parent
@@ -711,11 +570,193 @@ Rectangle
                     anchors.margins: 50 * pt
                     anchors.leftMargin: 80 * pt
                     anchors.rightMargin: 80 * pt
+                    anchors.centerIn: parent
                     radius: 16*pt
-    //                color: "transparent"
                     color:currTheme.backgroundMainScreen
-//                    opacity: 0.5
 
+                    GridLayout
+                    {
+                        rows: 7
+                        columns: 2
+                        anchors.fill: parent
+
+                        Text{
+                            Layout.row:1
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_name
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+
+                        Text{
+                            Layout.row:2
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_total
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Text{
+                            Layout.row:3
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_download
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Text{
+                            Layout.row:4
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_speed
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Text{
+                            Layout.row:5
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_time
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+
+                        DapPluginsProgressBar
+                        {
+                            Layout.row:1
+                            Layout.rowSpan: 5
+                            Layout.column:2
+                            Layout.columnSpan: 1
+                            id: bar_progress
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignHCenter
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+    //                        width: 200
+    //                        height: 200
+
+                        }
+                        Text{
+                            Layout.row:6
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 2
+
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignHCenter
+
+
+                            id:_errors
+
+//                            color: currTheme.textColor
+                            color: "#B3FF00"
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+    //                        horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                            horizontalAlignment: Qt.AlignHCenter
+                        }
+
+                        DapButton
+                        {
+                            Layout.row:7
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 2
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Layout.minimumHeight: 36 * pt
+                            Layout.maximumHeight: 36 * pt
+
+                            Layout.minimumWidth: 163 * pt
+                            Layout.maximumWidth: 163 * pt
+
+//                            implicitHeight: 36 * pt
+//                            implicitWidth: 163 * pt
+
+                            id:canceledDownload
+                            textButton: "Cancel"
+
+                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                            horizontalAligmentText: Text.AlignHCenter
+                            onClicked:
+                            {
+                                pluginsManager.cancelDownload();
+                            }
+                        }
+
+//                        DapButton
+//                        {
+//                            Layout.row:1
+//                            Layout.rowSpan: 4
+//                            Layout.column:3
+//                            Layout.columnSpan: 1
+//                            Layout.alignment: Qt.AlignHCenter
+
+//                            Layout.fillWidth: true
+
+//                            implicitHeight: 36 * pt
+//                            implicitWidth: 163 * pt
+//                            Layout.minimumWidth: 130
+//                            Layout.maximumWidth: 130
+
+//                            id:reloadDownload
+//                            textButton: "Reload"
+//                            enabled: false
+//                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+//                            horizontalAligmentText: Text.AlignHCenter
+//                        }
+                    }
                 }
 
                 DropShadow {
@@ -729,6 +770,7 @@ Rectangle
                         smooth: true
                     }
             }
+        background: Item{}
 
         function openProgress()
         {

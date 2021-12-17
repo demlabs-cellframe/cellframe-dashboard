@@ -80,7 +80,7 @@ void DapNetworkManager::onDownloadProgress(quint64 load, quint64 total)
     quint64 prog = load + m_bytesReceived;
     quint64 tot = total + m_bytesReceived;
 
-    emit downloadProgress(prog, tot);
+    emit downloadProgress(prog, tot, m_fileName);
 }
 
 void DapNetworkManager::cancelDownload(bool ok)

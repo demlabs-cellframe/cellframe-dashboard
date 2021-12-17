@@ -24,7 +24,7 @@ void DapPluginsController::init()
 
     connect(m_dapNetworkManager, SIGNAL(filesReceived()), this, SLOT(onFilesReceived()));
     connect(m_dapNetworkManager, SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
-    connect(m_dapNetworkManager, SIGNAL(downloadProgress(quint64,quint64)), this, SLOT(onDownloadProgress(quint64,quint64)));
+    connect(m_dapNetworkManager, SIGNAL(downloadProgress(quint64,quint64,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString)));
     connect(m_dapNetworkManager, SIGNAL(aborted()), this, SLOT(onAborted()));
 
     readPluginsFile(&m_pathPluginsConfigFile);
@@ -107,7 +107,7 @@ void DapPluginsController::onFilesReceived()
     getListPlugins();
 }
 
-void DapPluginsController::onDownloadProgress(quint64 prog, quint64 total)
+void DapPluginsController::onDownloadProgress(quint64 prog, quint64 total, QString name)
 {
     double percent_progress = ((double)prog * 100.0)/(double)total;
     QString progress = QString::number(percent_progress,'f',2);
@@ -136,7 +136,7 @@ void DapPluginsController::onDownloadProgress(quint64 prog, quint64 total)
 
 //    qDebug()<< progress << " - " << completed << " - " << downloadTransform << " - " << totalTransform << " - " << time << " - " << speed;
 
-    emit rcvProgressDownload(progress, completed, downloadTransform, totalTransform, m_time, m_speed);
+    emit rcvProgressDownload(progress, completed, downloadTransform, totalTransform, m_time, m_speed, name);
 }
 
 void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant verifed)
