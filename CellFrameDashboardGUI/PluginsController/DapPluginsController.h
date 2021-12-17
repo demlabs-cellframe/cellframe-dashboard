@@ -39,6 +39,9 @@ private:
 
     QString pkeyHash(QString &path);
 
+    QString transformUnit(double bytes, bool isSpeed);
+    QString transformTime(quint64 seconds);
+
 public slots:
 
     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
@@ -50,14 +53,14 @@ public slots:
 signals:
 
     void rcvListPlugins(QList <QVariant> m_pluginsList);
-    void rcvProgressDownload(QString progress, int completed);
+    void rcvProgressDownload(QString progress, int completed, QString download, QString total, QString time, QString speed, QString name, QString error);
     void rcvAbort();
 
 private slots:
 
     void onFilesReceived();
     void onDownloadCompleted(QString path){addPlugin(path,1,1);};
-    void onDownloadProgress(double progress, double total);
+    void onDownloadProgress(quint64 progress, quint64 total, QString name, QString error);
     void onAborted(){emit rcvAbort();};
 
 private:
@@ -71,6 +74,11 @@ private:
 
     QString m_repoPlugins;
 
+    uint m_timeInterval;
+    quint64 m_bytesDownload;
+    quint64 m_bytesTotal;
+    QTime m_timeRecord;
+    QString m_speed, m_time;
 
     DapNetworkManager * m_dapNetworkManager;
 };

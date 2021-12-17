@@ -240,6 +240,7 @@ DapAbstractScreen
                 {
                     SettingsWallet.currentIndex = dapComboboxWallet.currentIndex
                 }
+
             }
             // Wallet create button
             DapButton
@@ -254,7 +255,8 @@ DapAbstractScreen
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: createWalletSignal()
-            } 
+            }
+
         }
         Rectangle
         {
@@ -295,5 +297,10 @@ DapAbstractScreen
 
             }
         }
+    }
+    Component.onCompleted:
+    {
+        comboBoxNetwork.currentIndex = 0;
+        walletComboBox.currentIndex = SettingsWallet.currentIndex;
     }
 }
