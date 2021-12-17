@@ -301,6 +301,8 @@ DapAbstractScreen
     Component.onCompleted:
     {
         comboBoxNetwork.currentIndex = 0;
+        comboBoxNetwork.update();
         walletComboBox.currentIndex = SettingsWallet.currentIndex;
+        walletComboBox.update();
     }
 }
