@@ -42,16 +42,16 @@ DapAbstractScreen
         lightColor: currTheme.reflectionLight
 
         contentData:
-            Item
+        Item
         {
             anchors.fill: parent
 
             ListView
             {
                 id: listViewConsoleCommand
-                //            anchors.top: parent.top
-                //            anchors.left: parent.left
-                //            anchors.right: parent.right
+    //            anchors.top: parent.top
+    //            anchors.left: parent.left
+    //            anchors.right: parent.right
                 anchors.fill: parent
                 anchors.bottomMargin: 50 * pt
                 anchors.leftMargin: 20 *pt
@@ -67,12 +67,12 @@ DapAbstractScreen
                 highlightFollowsCurrentItem: true
                 highlightRangeMode: ListView.ApplyRange
 
-                //                DapScrollViewHandling
-                //                {
-                //                    id: scrollHandler
-                //                    viewData: listViewConsoleCommand
-                //                    scrollMouseAtArrow: consoleScroll.mouseAtArrow
-                //                }
+//                DapScrollViewHandling
+//                {
+//                    id: scrollHandler
+//                    viewData: listViewConsoleCommand
+//                    scrollMouseAtArrow: consoleScroll.mouseAtArrow
+//                }
                 ScrollBar.vertical: ScrollBar {
                     active: true
                 }
@@ -99,7 +99,7 @@ DapAbstractScreen
                     //verticalAlignment: Qt.AlignVCenter
                     text: ">"
                     color: currTheme.textColor
-                    //                Layout.left: parent.left
+    //                Layout.left: parent.left
                     x: 20 * pt
                     y: 5 * pt
 
@@ -134,7 +134,6 @@ DapAbstractScreen
                                             consoleHistoryIndex -= 1 :
                                             null
                 }
-                //}
             }
         }
     }
