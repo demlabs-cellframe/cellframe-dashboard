@@ -42,16 +42,16 @@ DapAbstractScreen
         lightColor: currTheme.reflectionLight
 
         contentData:
-        Item
+            Item
         {
             anchors.fill: parent
 
             ListView
             {
                 id: listViewConsoleCommand
-    //            anchors.top: parent.top
-    //            anchors.left: parent.left
-    //            anchors.right: parent.right
+                //            anchors.top: parent.top
+                //            anchors.left: parent.left
+                //            anchors.right: parent.right
                 anchors.fill: parent
                 anchors.bottomMargin: 50 * pt
                 anchors.leftMargin: 20 *pt
@@ -67,35 +67,41 @@ DapAbstractScreen
                 highlightFollowsCurrentItem: true
                 highlightRangeMode: ListView.ApplyRange
 
-//                DapScrollViewHandling
-//                {
-//                    id: scrollHandler
-//                    viewData: listViewConsoleCommand
-//                    scrollMouseAtArrow: consoleScroll.mouseAtArrow
-//                }
+                //                DapScrollViewHandling
+                //                {
+                //                    id: scrollHandler
+                //                    viewData: listViewConsoleCommand
+                //                    scrollMouseAtArrow: consoleScroll.mouseAtArrow
+                //                }
                 ScrollBar.vertical: ScrollBar {
                     active: true
                 }
             }
 
-            RowLayout
+            //RowLayout
+            Flickable
             {
+                clip: true
                 id: inputCommand
-                spacing: 0
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: listViewConsoleCommand.bottom
-                height: consoleCmd.contentHeight
-
+                width: parent.width
+                //spacing: 0
+                //anchors.left: parent.left
+                //anchors.right: parent.right
+                //anchors.top: listViewConsoleCommand.bottom
+                anchors.bottom: parent.bottom
+                //height: consoleCmd.contentHeight
+                height: contentHeight < 100 * pt ? contentHeight : 100 * pt
+                contentHeight: consoleCmd.height
 
                 Text
                 {
                     id: promt
-                    verticalAlignment: Qt.AlignVCenter
+                    //verticalAlignment: Qt.AlignVCenter
                     text: ">"
                     color: currTheme.textColor
-    //                Layout.left: parent.left
-                    Layout.leftMargin: 20 * pt
+                    //                Layout.left: parent.left
+                    x: 20 * pt
+                    y: 5 * pt
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
@@ -103,9 +109,12 @@ DapAbstractScreen
                 TextArea
                 {
                     id: consoleCmd
-                    verticalAlignment: Qt.AlignVCenter
-                    Layout.fillWidth: true
-    //                Layout.leftMargin: 10 * pt
+                    //verticalAlignment: Qt.AlignVCenter
+                    width: parent.width - x
+                    //Layout.fillWidth: true
+                    anchors.bottom: parent.bottom
+                    x: promt.x + promt.width + 5 * pt
+                    //                Layout.leftMargin: 10 * pt
                     wrapMode: TextArea.Wrap
                     placeholderText: qsTr("Type here...")
                     selectByMouse: true
@@ -125,6 +134,7 @@ DapAbstractScreen
                                             consoleHistoryIndex -= 1 :
                                             null
                 }
+                //}
             }
         }
     }
