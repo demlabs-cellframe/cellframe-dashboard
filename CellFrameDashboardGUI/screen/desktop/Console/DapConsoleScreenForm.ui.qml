@@ -85,11 +85,13 @@ DapAbstractScreen
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: listViewConsoleCommand.bottom
-                height: consoleCmd.contentHeight
+                height: 50
 
 
                 Text
                 {
+//                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     id: promt
                     verticalAlignment: Qt.AlignVCenter
                     text: ">"
@@ -100,31 +102,74 @@ DapAbstractScreen
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
 
-                TextArea
-                {
-                    id: consoleCmd
-                    verticalAlignment: Qt.AlignVCenter
+                Flickable {
+                    id:flick
                     Layout.fillWidth: true
-    //                Layout.leftMargin: 10 * pt
-                    wrapMode: TextArea.Wrap
-                    placeholderText: qsTr("Type here...")
-                    selectByMouse: true
-                    color: currTheme.textColor
-                    focus: true
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                    Keys.onReturnPressed: text.length > 0 ?
-                                              sendedCommand = text :
-                                              sendedCommand = ""
-                    Keys.onEnterPressed: text.length > 0 ?
-                                             sendedCommand = text :
-                                             sendedCommand = ""
-                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-                                          consoleHistoryIndex += 1 :
-                                          null
-                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
-                                            consoleHistoryIndex -= 1 :
-                                            null
+                    Layout.fillHeight: true
+//                    height: contentHeight
+//                    contentWidth: width
+//                    contentHeight: consoleCmd.implicitHeight
+
+                    clip: true
+
+                    ScrollBar.vertical: ScrollBar {}
+
+                    TextArea.flickable: TextArea {
+                        id: consoleCmd
+
+                        verticalAlignment: Qt.AlignVCenter
+                        wrapMode: TextArea.Wrap
+                        placeholderText: qsTr("Type here...")
+                        selectByMouse: true
+                        color: currTheme.textColor
+                        focus: true
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                        clip: true
+                        Keys.onReturnPressed: text.length > 0 ?
+                                                  sendedCommand = text :
+                                                  sendedCommand = ""
+                        Keys.onEnterPressed: text.length > 0 ?
+                                                 sendedCommand = text :
+                                                 sendedCommand = ""
+                        Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                                              consoleHistoryIndex += 1 :
+                                              null
+                        Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+                                                consoleHistoryIndex -= 1 :
+                                                null
+                    }
                 }
+
+
+
+
+//                TextArea
+//                {
+//                    id: consoleCmd
+//                    verticalAlignment: Qt.AlignVCenter
+//                    Layout.fillWidth: true
+//    //                Layout.leftMargin: 10 * pt
+//                    wrapMode: TextArea.Wrap
+//                    placeholderText: qsTr("Type here...")
+//                    selectByMouse: true
+//                    color: currTheme.textColor
+//                    focus: true
+//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+//                    clip: true
+//                    Keys.onReturnPressed: text.length > 0 ?
+//                                              sendedCommand = text :
+//                                              sendedCommand = ""
+//                    Keys.onEnterPressed: text.length > 0 ?
+//                                             sendedCommand = text :
+//                                             sendedCommand = ""
+//                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+//                                          consoleHistoryIndex += 1 :
+//                                          null
+//                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+//                                            consoleHistoryIndex -= 1 :
+//                                            null
+
+//                }
             }
         }
     }
