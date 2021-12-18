@@ -95,6 +95,8 @@ DapAbstractScreen
 
                 Text
                 {
+//                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     id: promt
                     //verticalAlignment: Qt.AlignVCenter
                     text: ">"
@@ -136,6 +138,37 @@ DapAbstractScreen
 
                     onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
                 }
+
+
+
+
+//                TextArea
+//                {
+//                    id: consoleCmd
+//                    verticalAlignment: Qt.AlignVCenter
+//                    Layout.fillWidth: true
+//    //                Layout.leftMargin: 10 * pt
+//                    wrapMode: TextArea.Wrap
+//                    placeholderText: qsTr("Type here...")
+//                    selectByMouse: true
+//                    color: currTheme.textColor
+//                    focus: true
+//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+//                    clip: true
+//                    Keys.onReturnPressed: text.length > 0 ?
+//                                              sendedCommand = text :
+//                                              sendedCommand = ""
+//                    Keys.onEnterPressed: text.length > 0 ?
+//                                             sendedCommand = text :
+//                                             sendedCommand = ""
+//                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+//                                          consoleHistoryIndex += 1 :
+//                                          null
+//                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+//                                            consoleHistoryIndex -= 1 :
+//                                            null
+
+//                }
             }
         }
     }
