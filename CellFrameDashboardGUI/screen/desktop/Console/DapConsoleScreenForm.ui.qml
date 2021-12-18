@@ -133,6 +133,8 @@ DapAbstractScreen
                     Keys.onDownPressed: (consoleHistoryIndex > -1) ?
                                             consoleHistoryIndex -= 1 :
                                             null
+                                        
+                onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
                 }
             }
         }
