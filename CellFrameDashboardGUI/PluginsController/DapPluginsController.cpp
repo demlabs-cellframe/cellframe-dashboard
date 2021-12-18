@@ -1,4 +1,5 @@
 #include "DapPluginsController.h"
+#define TIME_INTERVAL 500
 
 DapPluginsController::DapPluginsController(QString pathPluginsConfigFile, QString pathPlugins,  QWidget *parent) : QWidget(parent)
 {
@@ -23,7 +24,7 @@ void DapPluginsController::init()
 
     connect(m_dapNetworkManager, SIGNAL(filesReceived()), this, SLOT(onFilesReceived()));
     connect(m_dapNetworkManager, SIGNAL(downloadCompleted(QString)), this, SLOT(onDownloadCompleted(QString)));
-    connect(m_dapNetworkManager, SIGNAL(downloadProgress(double,double)), this, SLOT(onDownloadProgress(double,double)));
+    connect(m_dapNetworkManager, SIGNAL(downloadProgress(quint64,quint64,QString,QString)), this, SLOT(onDownloadProgress(quint64,quint64,QString,QString)));
     connect(m_dapNetworkManager, SIGNAL(aborted()), this, SLOT(onAborted()));
 
     readPluginsFile(&m_pathPluginsConfigFile);
@@ -106,14 +107,51 @@ void DapPluginsController::onFilesReceived()
     getListPlugins();
 }
 
-void DapPluginsController::onDownloadProgress(double prog, double total)
+void DapPluginsController::onDownloadProgress(quint64 prog, quint64 total, QString name, QString error)
 {
-    double percent_progress = (prog * 100)/total;
-    QString progress = QString::number(percent_progress,'f',2);
+    if(total)
+    {
+        double percent_progress = ((double)prog * 100.0)/(double)total;
+        QString progress = QString::number(percent_progress,'f',2);
 
-    int completed = progress == "100.00"? 1 : 0;
+        int completed = progress == "100.00"? 1 : 0;
 
-    emit rcvProgressDownload(progress, completed);
+        quint64 deltaDownload = prog - m_bytesDownload;
+        m_bytesDownload = prog;
+        m_bytesTotal = total;
+        uint timeNow = m_timeRecord.elapsed();
+
+        if(timeNow - m_timeInterval > TIME_INTERVAL)
+        {
+            //speed
+            qint64 ispeed = deltaDownload * 1000 / (timeNow - m_timeInterval);
+            m_speed = transformUnit((double)ispeed, true);
+            // time;
+            qint64 timeRemain = (total - prog) / ispeed;
+            m_time = transformTime(timeRemain);
+
+            m_timeInterval = timeNow;
+        }
+
+        QString downloadTransform, totalTransform;
+        downloadTransform = transformUnit((double)m_bytesDownload,false);
+        totalTransform = transformUnit((double)m_bytesTotal,false);
+
+    //    qDebug()<< progress << " - " << completed << " - " << downloadTransform << " - " << totalTransform << " - " << time << " - " << speed;
+
+        emit rcvProgressDownload(progress, completed, downloadTransform, totalTransform, m_time, m_speed, name, error);
+    }
+    else
+    {
+        double percent_progress = ((double)m_bytesDownload * 100.0)/(double)m_bytesTotal;
+        QString progress = QString::number(percent_progress,'f',2);
+
+        QString downloadTransform, totalTransform;
+        downloadTransform = transformUnit((double)m_bytesDownload,false);
+        totalTransform = transformUnit((double)m_bytesTotal,false);
+
+        emit rcvProgressDownload(progress, 0, downloadTransform, totalTransform, "0", "0", name, error);
+    }
 
 //    qDebug()<<total << " - " << progress << "%" << " - "  <<completed;
 }
@@ -169,7 +207,14 @@ void DapPluginsController::installPlugin(int number, QString status, QString ver
     QStringList str = m_pluginsList.value(number).toStringList();
 
     if(checkHttps(str[1]))
+    {
         m_dapNetworkManager->downloadFile(str[0]);
+        m_timeRecord.start();
+        m_timeInterval = 0;
+        m_bytesDownload = 0;
+        m_time = "";
+        m_speed = "";
+    }
     else
     {
         m_pluginsList.removeAt(number);

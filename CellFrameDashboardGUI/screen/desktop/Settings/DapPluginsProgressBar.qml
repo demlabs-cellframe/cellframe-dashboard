@@ -1,9 +1,6 @@
 import QtQml 2.2
 import QtQuick 2.0
 
-// draws two arcs (portion of a circle)
-// fills the circle with a lighter secondary color
-// when pressed
 Canvas {
     id: canvas
     width: 120
@@ -23,13 +20,8 @@ Canvas {
     property real maximumValue: 100
     property real currentValue: 0
 
-    // this is the angle that splits the circle in two arcs
-    // first arc is drawn from 0 radians to angle radians
-    // second arc is angle radians to 2*PI radians
     property real angle: (currentValue - minimumValue) / (maximumValue - minimumValue) * 2 * Math.PI
 
-    // we want both circle to start / end at 12 o'clock
-    // without this offset we would start / end at 9 o'clock
     property real angleOffset: -Math.PI / 2
 
     property string text: "Text"
@@ -47,25 +39,17 @@ Canvas {
         ctx.save();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // fills the mouse area when pressed
-        // the fill color is a lighter version of the
-        // secondary color
-
-        if (mouseArea.pressed) {
-            ctx.beginPath();
-            ctx.lineWidth = 1;
-            ctx.fillStyle = Qt.lighter(canvas.secondaryColor, 1.25);
-            ctx.arc(canvas.centerWidth,
-                    canvas.centerHeight,
-                    canvas.radius,
-                    0,
-                    2*Math.PI);
-            ctx.fill();
-        }
-
-        // First, thinner arc
-        // From angle to 2*PI
+//        if (mouseArea.pressed) {
+//            ctx.beginPath();
+//            ctx.lineWidth = 1;
+//            ctx.fillStyle = Qt.lighter(canvas.secondaryColor, 1.25);
+//            ctx.arc(canvas.centerWidth,
+//                    canvas.centerHeight,
+//                    canvas.radius,
+//                    0,
+//                    2*Math.PI);
+//            ctx.fill();
+//        }
 
         ctx.beginPath();
         ctx.lineWidth = 5;
@@ -76,10 +60,6 @@ Canvas {
                 angleOffset + canvas.angle,
                 angleOffset + 2*Math.PI);
         ctx.stroke();
-
-
-        // Second, thicker arc
-        // From 0 to angle
 
         ctx.beginPath();
         ctx.lineWidth = 15;
