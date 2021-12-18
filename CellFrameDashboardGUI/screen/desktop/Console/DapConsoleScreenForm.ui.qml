@@ -78,66 +78,65 @@ DapAbstractScreen
                 }
             }
 
-            RowLayout
+            //RowLayout
+            Flickable
             {
+                clip: true
                 id: inputCommand
-                spacing: 0
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: listViewConsoleCommand.bottom
-                height: 50
-
+                width: parent.width
+                //spacing: 0
+                //anchors.left: parent.left
+                //anchors.right: parent.right
+                //anchors.top: listViewConsoleCommand.bottom
+                anchors.bottom: parent.bottom
+                //height: consoleCmd.contentHeight
+                height: contentHeight < 100 * pt ? contentHeight : 100 * pt
+                contentHeight: consoleCmd.height
 
                 Text
                 {
 //                    Layout.fillWidth: true
                     Layout.fillHeight: true
                     id: promt
-                    verticalAlignment: Qt.AlignVCenter
+                    //verticalAlignment: Qt.AlignVCenter
                     text: ">"
                     color: currTheme.textColor
     //                Layout.left: parent.left
-                    Layout.leftMargin: 20 * pt
+                    x: 20 * pt
+                    y: 5 * pt
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
 
-                Flickable {
-                    id:flick
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-//                    height: contentHeight
-//                    contentWidth: width
-//                    contentHeight: consoleCmd.implicitHeight
+                TextArea
+                {
+                    id: consoleCmd
+                    //verticalAlignment: Qt.AlignVCenter
+                    width: parent.width - x
+                    //Layout.fillWidth: true
+                    anchors.bottom: parent.bottom
+                    x: promt.x + promt.width + 5 * pt
+                    //                Layout.leftMargin: 10 * pt
+                    wrapMode: TextArea.Wrap
+                    placeholderText: qsTr("Type here...")
+                    selectByMouse: true
+                    color: currTheme.textColor
+                    focus: true
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                    Keys.onReturnPressed: text.length > 0 ?
+                                              sendedCommand = text :
+                                              sendedCommand = ""
+                    Keys.onEnterPressed: text.length > 0 ?
+                                             sendedCommand = text :
+                                             sendedCommand = ""
+                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                                          consoleHistoryIndex += 1 :
+                                          null
+                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+                                            consoleHistoryIndex -= 1 :
+                                            null
 
-                    clip: true
-
-                    ScrollBar.vertical: ScrollBar {}
-
-                    TextArea.flickable: TextArea {
-                        id: consoleCmd
-
-                        verticalAlignment: Qt.AlignVCenter
-                        wrapMode: TextArea.Wrap
-                        placeholderText: qsTr("Type here...")
-                        selectByMouse: true
-                        color: currTheme.textColor
-                        focus: true
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                        clip: true
-                        Keys.onReturnPressed: text.length > 0 ?
-                                                  sendedCommand = text :
-                                                  sendedCommand = ""
-                        Keys.onEnterPressed: text.length > 0 ?
-                                                 sendedCommand = text :
-                                                 sendedCommand = ""
-                        Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-                                              consoleHistoryIndex += 1 :
-                                              null
-                        Keys.onDownPressed: (consoleHistoryIndex > -1) ?
-                                                consoleHistoryIndex -= 1 :
-                                                null
-                    }
+                    onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
                 }
 
 
