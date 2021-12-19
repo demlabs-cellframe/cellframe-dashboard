@@ -412,7 +412,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:loadPlug
-                textButton: "Add Plugin"
+                textButton: "Add dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -452,7 +452,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:installPlug
-                textButton: "Install Plugin"
+                textButton: "Install dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -478,7 +478,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:uninstallPlug
-                textButton: "Unistall Plugin"
+                textButton: "Unistall dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -507,7 +507,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:deletePlug
-                textButton: "Delete Plugin"
+                textButton: "Delete dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter

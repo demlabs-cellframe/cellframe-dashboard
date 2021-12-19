@@ -281,7 +281,7 @@ DapAbstractScreen
                     anchors.fill: parent
                     anchors.leftMargin: 18 * pt
                     verticalAlignment: Qt.AlignVCenter
-                    text: "Plugins"
+                    text: "dApps"
                     font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     color: currTheme.textColor
                 }
@@ -297,12 +297,5 @@ DapAbstractScreen
 
             }
         }
-    }
-    Component.onCompleted:
-    {
-        comboBoxNetwork.currentIndex = 0;
-        comboBoxNetwork.update();
-        walletComboBox.currentIndex = SettingsWallet.currentIndex;
-        walletComboBox.update();
     }
 }
