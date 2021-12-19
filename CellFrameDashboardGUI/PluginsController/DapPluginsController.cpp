@@ -101,7 +101,7 @@ void DapPluginsController::onFilesReceived()
         m_buffPluginsByUrl.erase(m_buffPluginsByUrl.begin(), m_buffPluginsByUrl.end());
     }
     else
-        qWarning()<<"No Plugins in repository";
+        qWarning()<<"No dApps in repository";
 
     updateFileConfig();
     getListPlugins();
@@ -192,7 +192,7 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant ve
             file.close();
         }
         else
-            qWarning() << "Plugins Config not open. " << file.errorString();
+            qWarning() << "dApps Config not open. " << file.errorString();
 
         if(status.toInt())
             installPlugin(m_pluginsList.length()-1,status.toString(), verifed.toString());

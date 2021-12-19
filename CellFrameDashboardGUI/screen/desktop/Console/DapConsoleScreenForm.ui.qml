@@ -93,6 +93,8 @@ DapAbstractScreen
                 height: contentHeight < 100 * pt ? contentHeight : 100 * pt
                 contentHeight: consoleCmd.height
 
+                ScrollBar.vertical: ScrollBar {}
+
                 Text
                 {
 //                    Layout.fillWidth: true
@@ -135,40 +137,14 @@ DapAbstractScreen
                     Keys.onDownPressed: (consoleHistoryIndex > -1) ?
                                             consoleHistoryIndex -= 1 :
                                             null
+<<<<<<< HEAD
+
+                    onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+=======
                                         
                 onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+>>>>>>> 7389829f0987fa4ebb086206e095b7b14e6a5eaa
                 }
-
-
-
-
-//                TextArea
-//                {
-//                    id: consoleCmd
-//                    verticalAlignment: Qt.AlignVCenter
-//                    Layout.fillWidth: true
-//    //                Layout.leftMargin: 10 * pt
-//                    wrapMode: TextArea.Wrap
-//                    placeholderText: qsTr("Type here...")
-//                    selectByMouse: true
-//                    color: currTheme.textColor
-//                    focus: true
-//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-//                    clip: true
-//                    Keys.onReturnPressed: text.length > 0 ?
-//                                              sendedCommand = text :
-//                                              sendedCommand = ""
-//                    Keys.onEnterPressed: text.length > 0 ?
-//                                             sendedCommand = text :
-//                                             sendedCommand = ""
-//                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-//                                          consoleHistoryIndex += 1 :
-//                                          null
-//                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
-//                                            consoleHistoryIndex -= 1 :
-//                                            null
-
-//                }
             }
         }
     }

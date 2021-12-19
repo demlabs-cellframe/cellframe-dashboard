@@ -324,7 +324,7 @@ Rectangle {
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
             append ({
-                name: qsTr("Plugins"),
+                name: qsTr("dApps"),
                 page: pluginsScreen,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
