@@ -117,7 +117,7 @@ void DapNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
     QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     if(!(statusCode.toInt() == 416)) // !file download
     {
-        qWarning()<<"Error Download Plugin. Code: " << statusCode.toInt() << ". " << m_currentReply->errorString();
+        qWarning()<<"Error Download dApp. Code: " << statusCode.toInt() << ". " << m_currentReply->errorString();
         m_error = "Error code: " + QString::number(statusCode.toInt()) + ". " + m_currentReply->errorString();
 
         if(statusCode == QNetworkReply::ContentConflictError || statusCode.toInt() == 0 || statusCode.toInt() == 200 || statusCode.toInt() == 206) // connections network errors

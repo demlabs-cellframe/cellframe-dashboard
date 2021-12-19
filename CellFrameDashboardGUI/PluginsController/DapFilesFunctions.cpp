@@ -69,7 +69,7 @@ void DapPluginsController::updateFileConfig()
         file.close();
     }
     else
-        qWarning() << "Plugins Config not open. " << file.errorString();
+        qWarning() << "dApps Config not open. " << file.errorString();
 }
 
 QString DapPluginsController::transformUnit(double bytes, bool isSpeed)

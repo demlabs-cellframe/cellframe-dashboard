@@ -164,19 +164,19 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
-    //Plugins config file
+    //dApps config file
         QString filePluginConfig;
         QString pluginPath;
     #ifdef Q_OS_LINUX
-        filePluginConfig = QString("/opt/%1/plugins/configPlugin.ini").arg(DAP_BRAND_LO);
-        pluginPath = QString("/opt/%1/plugins").arg(DAP_BRAND_LO);
+        filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
+        pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
     #elif defined Q_OS_MACOS
-        mkdir("/tmp/cellframe-dashboard_plugins",0777);
-        filePluginConfig = QString("/tmp/cellframe-dashboard_plugins/configPlugin.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_plugins/");
+        mkdir("/tmp/cellframe-dashboard_dapps",0777);
+        filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
     #elif defined Q_OS_WIN
-        filePluginConfig = QString("%1/%2/plugins/configPlugin.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-        pluginPath = QString("%1/%2/plugins").arg(regGetUsrPath()).arg(DAP_BRAND);
+        filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
+        pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
     #endif
 
     QFile filePlugin(filePluginConfig);
