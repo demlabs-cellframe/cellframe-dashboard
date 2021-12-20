@@ -2,12 +2,10 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-import "../Wallet/RightPanel" as Rp
-import "qrc:/screen/controls" as Controls
-import "qrc:/screen/desktop"
-import "qrc:/screen"
+import "qrc:/screen/desktop/Wallet/RightPanel"
+import "qrc:/screen/controls"
 
-Controls.DapPage {
+DapPage {
 
     property var networksList: _dapNetworksModel
     property var tokensModel: _tokensModel
@@ -30,9 +28,9 @@ Controls.DapPage {
         }
     }
 
-    dapHeader.initialItem: DapWalletTopPanel { }
+    dapHeader.initialItem: WalletTopPanel { }
 
-    dapScreen.initialItem: DapWalletScreen { }
+    dapScreen.initialItem: WalletScreen { }
 
-    dapRightPanel.initialItem: Rp.DapLastActions { }
+    dapRightPanel.initialItem: LastActions { }
 }

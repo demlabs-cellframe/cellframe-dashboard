@@ -3,6 +3,7 @@
 #include <QSharedMemory>
 #include <QCommandLineParser>
 #include <QProcess>
+#include <QAndroidService>
 
 #include <unistd.h>
 
@@ -48,7 +49,7 @@ QString getConfigPath()
 }
 
 int main(int argc, char *argv[])
-{
+{    
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
 
@@ -62,12 +63,17 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-
+#ifdef Q_OS_ANDROID
+    QAndroidService a(argc, argv);
+    a.setOrganizationName("Cellframe Network");
+    a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
+    a.setApplicationName(DAP_BRAND "Service");
+#else
     QCoreApplication a(argc, argv);
     a.setOrganizationName("Cellframe Network");
     a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     a.setApplicationName(DAP_BRAND "Service");
-
+#endif
     DapLogger dapLogger;
 
     //logs
@@ -132,7 +138,7 @@ int main(int argc, char *argv[])
     processArgs();
     DapServiceController serviceController;
     serviceController.start();
-
+    qDebug() << "SERVICE STARTED";
     
     return a.exec();
 }

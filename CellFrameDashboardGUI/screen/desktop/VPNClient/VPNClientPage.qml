@@ -8,7 +8,7 @@ import "qrc:/screen/desktop"
 import "qrc:/screen"
 
 Controls.DapPage {
-    screenFrameVisible: false
+    screenOverlay: true
 
     QtObject {
         id: navigator

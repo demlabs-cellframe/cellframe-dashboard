@@ -12,7 +12,7 @@ FocusScope {
 
     ///@detalis Path to the tabs.
     readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/DapWalletPage.qml"
+    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/WalletPage.qml"
     readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
     readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"

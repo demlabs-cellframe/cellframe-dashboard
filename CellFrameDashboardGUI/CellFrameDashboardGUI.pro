@@ -123,7 +123,25 @@ win32: nsis_build {
     POST_TARGETDEPS += build_node copyconfig nsis
     QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
 }
-
+android: {
+QT += androidextras
+OTHER_FILES += \
+    android/AndroidManifest.xml
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+#DISTFILES += android/src/net/demlabs/CellFrameDashboard/DashboardService.java
 DISTFILES += \
+    #android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle.properties \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml \
     qzip/zlib/zlib-1.2.5.zip \
     qzip/zlib/zlib125dll.zip
+
+}
+
+DISTFILES += \
+    android/src/net/demlabs/CellFrameDashboard/DashboardService.java

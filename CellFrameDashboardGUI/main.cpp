@@ -7,6 +7,9 @@
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QScreen>
+#include <QtAndroid>
+#include <QAndroidJniObject>
+#include <QAndroidIntent>
 
 #include "DapHelper.h"
 #include "serviceClient/DapServiceClient.h"
@@ -114,6 +117,13 @@ QString getConfigPath()
 
 int main(int argc, char *argv[])
 {
+    QAndroidJniObject::callStaticMethod<void>("net/demlabs/CellFrameDashboard/DashboardService",
+                                              "startDashboardService",
+                                              "(Landroid/content/Context;)V",
+                                              QtAndroid::androidActivity().object());
+    //QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),"net/demlabs/CellFrameDashboard/DashboardService"); //-- Имя пакета и название класса
+    //QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod("startService", "(Landroid/content/Intent;)Landroid/content/ComponentName;", serviceIntent.handle().object());
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     DapApplication app(argc, argv);
@@ -203,7 +213,6 @@ int main(int argc, char *argv[])
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
-
 
     return app.exec();
 }

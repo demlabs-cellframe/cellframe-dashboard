@@ -10,7 +10,7 @@ Controls.DapPage {
     id: root
     title: qsTr("Settings")
 
-    property alias dapWalletsNames: []
+    //property alias dapWalletsNames: []
 
     QtObject {
         id: navigator

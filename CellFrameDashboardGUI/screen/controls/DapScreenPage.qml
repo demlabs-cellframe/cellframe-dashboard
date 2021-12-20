@@ -6,8 +6,6 @@ import QtGraphicalEffects 1.0
 Page {
     id: root
 
-    property bool frameVisible: true
-
     background: Rectangle {
         radius: 16 * pt
         color: currTheme.backgroundMainScreen
@@ -15,7 +13,6 @@ Page {
 
     contentItem: Rectangle {
         id: frame
-        visible: frameVisible
         anchors.fill: parent
         anchors.margins: 12 * pt
         color: currTheme.backgroundElements

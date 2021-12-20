@@ -172,7 +172,6 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
         <file>screen/desktop/DapTokensListView.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
@@ -290,9 +289,6 @@
         <file>WalletRestore/english_words.txt</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Wallet/DapWalletPage.qml</file>
-        <file>screen/desktop/Wallet/DapWalletScreen.qml</file>
-        <file>screen/desktop/Wallet/DapWalletScreenForm.ui.qml</file>
         <file>screen/desktop/Wallet/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Wallet/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
         <file>screen/desktop/Wallet/RightPanel/DapLastActions.qml</file>
@@ -323,5 +319,11 @@
         <file>screen/desktop/Settings/DapPluginsSettingsScreen.qml</file>
         <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
         <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
+        <file>screen/desktop/Wallet/WalletPage.qml</file>
+        <file>screen/desktop/Wallet/WalletTopPanel.qml</file>
+        <file>screen/desktop/Wallet/WalletScreen.qml</file>
+        <file>screen/desktop/Wallet/WalletScreenForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/LastActions.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/LastActionsForm.ui.qml</file>
     </qresource>
 </RCC>

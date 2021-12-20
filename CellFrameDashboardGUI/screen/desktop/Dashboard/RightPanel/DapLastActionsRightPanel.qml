@@ -149,8 +149,6 @@ DapLastActionsRightPanelForm
         var model = dapModelWallets.get(index).networks
         var name = dapModelWallets.get(index).name
 
-        console.log("getWalletHistory", index, model.count)
-
         modelLastActions.clear()
 
         for (var i = 0; i < model.count; ++i)
@@ -160,12 +158,6 @@ DapLastActionsRightPanelForm
             var chain = "zero"
             if (network === "core-t")
                 chain = "zerochain"
-
-            console.log("DapGetWalletHistoryCommand")
-            console.log("   wallet name:", name)
-            console.log("   network:", network)
-            console.log("   chain:", chain)
-            console.log("   wallet address:", address)
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);
         }

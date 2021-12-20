@@ -2,11 +2,9 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-Page {
-    background: Rectangle {
-        color: currTheme.backgroundElements
-        radius: 16 * pt
-    }
+import "qrc:/screen/controls" as Controls
+
+Controls.DapScreenPage {
 
     property alias addRightPanel: addRightPanel
     property alias addTest: addTest
@@ -36,6 +34,7 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.margins: 10
 
         Text {
             id: pageTitle

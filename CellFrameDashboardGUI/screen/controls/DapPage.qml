@@ -17,7 +17,8 @@ Page {
         }
     }
 
-    property bool screenFrameVisible: true
+    property bool screenOverlay: false
+    property bool rightPanelOverlay: false
 
     property alias dapHeader: headerStack
     property alias dapScreen: mainScreenStack
@@ -31,34 +32,22 @@ Page {
         id: rootPageRow
         anchors.fill: parent
 
-        DapScreenPage {
-            id: screenFrame
-            frameVisible: screenFrameVisible
+        StackView {
+            id: mainScreenStack
+            clip: true
             Layout.fillHeight: true
             Layout.preferredWidth: rootPageRow.width * 0.7
-//            Layout.preferredWidth: rightPanelStack.depth > 0 ?
-//                                       rootPageRow.width * 0.7 :
-//                                       rootPageRow.width
-            StackView {
-                id: mainScreenStack
-                clip: true
-                anchors.fill: parent
-                anchors.margins: 10
-            }
+            //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
+            //                                       rootPageRow.width * 0.7 :
+            //                                       rootPageRow.width
         }
 
-        DapScreenPage {
-            id: rightPanelComponent
-            visible: true
+        StackView {
+            id: rightPanelStack
+            clip: true
             Layout.fillHeight: true
             //Layout.fillWidth: rightPanelStack.depth > 0 ? true : false
             Layout.fillWidth: true
-            StackView {
-                id: rightPanelStack
-                clip: true
-                anchors.fill: parent
-                //anchors.margins: 10
-            }
         }
     }
 }

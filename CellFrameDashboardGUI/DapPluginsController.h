@@ -6,8 +6,8 @@
 #include <QFile>
 #include <QDebug>
 
-#include <QtGui/private/qzipreader_p.h>
-#include <QtGui/private/qzipwriter_p.h>
+//#include <QtGui/private/qzipreader_p.h>
+//#include <QtGui/private/qzipwriter_p.h>
 #include <QCryptographicHash>
 #include <dap_hash.h>
 
