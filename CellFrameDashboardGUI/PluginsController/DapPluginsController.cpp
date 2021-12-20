@@ -6,7 +6,8 @@ DapPluginsController::DapPluginsController(QString pathPluginsConfigFile, QStrin
     m_pathPluginsConfigFile = pathPluginsConfigFile;
     m_pathPlugins = pathPlugins;
 
-    m_repoPlugins = "https://plugins.cellframe.net/dashboard/";
+//    m_repoPlugins = "https://plugins.cellframe.net/dashboard/";
+    m_repoPlugins = "https://dapps.cellframe.net/dashboard/";
 
 #if !defined(Q_OS_WIN)
     m_filePrefix = "file://";
