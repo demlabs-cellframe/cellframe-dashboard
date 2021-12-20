@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentDoneRightPanelForm
 {
@@ -6,7 +7,9 @@ DapNewPaymentDoneRightPanelForm
     {
         console.log("dapButtonSend.onClicked")
 
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+//        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        dapServiceController.requestWalletInfo(
+                    dapModelWallets.get(SettingsWallet.currentIndex).name);
 
         nextActivated("transaction done")
     }

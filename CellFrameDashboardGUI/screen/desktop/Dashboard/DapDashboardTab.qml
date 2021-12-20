@@ -44,10 +44,7 @@ DapAbstractTab
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
-                walletInfo.name = dapModelWallets.get(SettingsWallet.currentIndex).name
-
                 console.log("New payment")
-                console.log("wallet from: " + walletInfo.name)
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
                         properties: {
                             dapCmboBoxNetworkModel: dapModelWallets.get(SettingsWallet.currentIndex).networks,
@@ -218,7 +215,7 @@ DapAbstractTab
         target: dapServiceController
         onWalletCreated:
         {
-            update()
+            dapServiceController.requestToService("DapGetWalletsInfoCommand");
         }
     }
 
@@ -227,12 +224,11 @@ DapAbstractTab
         updateComboBox()
     }
 
-    function update()
-    {
-        dapWallets.length = 0
-        dapModelWallets.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
-    }
+//    function update()
+//    {
+////        dapWallets.length = 0
+////        dapModelWallets.clear()
+//    }
 
     function createWallet()
     {
@@ -248,7 +244,7 @@ DapAbstractTab
             dashboardScreen.dapListViewWallet.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
             dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(SettingsWallet.currentIndex).name
 
-            console.log("dapComboboxWallet.onCurrentIndexChanged")
+            console.log("dapComboboxWallet.onCurrentIndexChanged", dapModelWallets.get(SettingsWallet.currentIndex).name)
 
             dashboardTab.state = "WALLETSHOW"
         }

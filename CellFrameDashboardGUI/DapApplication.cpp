@@ -40,18 +40,20 @@ DapApplication::DapApplication(int &argc, char **argv)
         qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 
-    connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
+/*    connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
     {
-        qDebug() << "walletsReceived" << walletList;
-        if (!walletList.isEmpty())
-            this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
+        qDebug() << "DapApplication::DapApplication" << "walletsReceived" << walletList;
+//        if (!walletList.isEmpty())
+//            this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
 
-        this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
-    });
+//        this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
+    });*/
+
     m_serviceController->requestWalletList();
-    m_serviceController->requestOrdersList();
+    m_serviceController->requestNetworktList();
+//    m_serviceController->requestOrdersList();
 
-    connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
+/*    connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
     {
         qDebug() << "walletInfoReceived" << walletInfo;
         QVariantMap infoMap = walletInfo.toMap();
@@ -88,7 +90,7 @@ DapApplication::DapApplication(int &argc, char **argv)
         }
 
 
-    });
+    });*/
 
 
     m_currentWallet = new DapWallet(this);

@@ -49,6 +49,9 @@ class DapServiceController : public QObject
     QString m_sCurrentNetwork;
 
     int m_iIndexCurrentNetwork;
+
+    QStringList m_sNetworkList;
+
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
@@ -94,6 +97,8 @@ public:
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
 
+    Q_PROPERTY(QStringList NetworkList MEMBER m_sNetworkList READ getNetworkList WRITE setNetworkList NOTIFY networkListChanged)
+
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
@@ -112,8 +117,14 @@ public:
 
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
 
+    QStringList getNetworkList() const;
+
+    Q_INVOKABLE void setNetworkList(const QStringList &sNetworkList);
+
 public slots:
     void requestWalletList();
+    void requestNetworktList();
+    void requestWalletInfo(const QString& a_walletName);
     void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
     void requestNetworkStatus(QString a_networkName);
     void changeNetworkStateToOnline(QString a_networkName);
@@ -130,6 +141,8 @@ signals:
     void versionChanged(const QString &version);
 
     void currentNetworkChanged(const QString &asCurrentNetwork);
+
+    void networkListChanged(const QStringList &asNetworkList);
 
     /// The signal is emitted when a command to activate a client is received.
     void clientActivated();
@@ -152,6 +165,8 @@ signals:
     void walletsInfoReceived(const QVariant& walletList);
 
     void walletsReceived(QList<QObject*> walletList);
+
+    void walletReceived(QObject* wallet);
 
     void networksListReceived(const QVariant& networkList);
 

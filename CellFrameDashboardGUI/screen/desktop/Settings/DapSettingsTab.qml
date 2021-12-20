@@ -80,8 +80,8 @@ DapAbstractTab
         onWalletCreated:
         {
             dapIndexCurrentWallet = settingsScreen.dapComboboxWallet.currentIndex
-            dapWallets.length = 0
-            dapModelWallets.clear()
+//            dapWallets.length = 0
+//            dapModelWallets.clear()
             dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
         }
