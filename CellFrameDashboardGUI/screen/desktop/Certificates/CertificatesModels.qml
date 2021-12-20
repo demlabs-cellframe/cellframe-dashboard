@@ -174,7 +174,7 @@ Item {
 
                 predicate = function (obj) {
                     return obj.fileName.toLowerCase().indexOf(fstr) >= 0
-                           && obj.accessKeyType === accessKeyTypeIndex
+                           && (obj.accessKeyType === accessKeyTypeIndex || accessKeyTypeIndex === DapCertificateType.Both)
                 }
                 renew()
                 return;
