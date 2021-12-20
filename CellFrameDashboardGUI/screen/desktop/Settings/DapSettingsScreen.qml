@@ -28,52 +28,98 @@ DapAbstractScreen
         bottomMargin: 20 * pt
     }
 
-    DapRectangleLitAndShaded
+    Item
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+//        color: currTheme.backgroundElements
+//        radius: currTheme.radiusRectangle
+//        shadowColor: currTheme.shadowColor
+//        lightColor: currTheme.reflectionLight
 
-        contentData:
-            Item
-            {
-                anchors.fill: parent
-                // Header
-                Item
+//        contentData:
+//            Item
+//            {
+//                anchors.fill: parent
+//                // Header
+//                Item
+//                {
+//                    id: settingsHeader
+//                    anchors.top: parent.top
+//                    anchors.left: parent.left
+//                    anchors.right: parent.right
+//                    height: 38 * pt
+
+//                    Text
+//                    {
+//                        anchors.fill: parent
+//                        anchors.leftMargin: 18 * pt
+//                        anchors.topMargin: 10 * pt
+//                        anchors.bottomMargin: 10 * pt
+//                        verticalAlignment: Qt.AlignVCenter
+//                        text: qsTr("Settings")
+//                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+//                        color: currTheme.textColor
+//                    }
+//                }
+
+//                ListView
+//                {
+//                    id: listViewSettings
+//                    visible: false
+////                    anchors.top: settingsHeader.bottom
+////                    anchors.bottom: parent.bottom
+////                    anchors.left: parent.left
+////                    anchors.right: parent.right
+////                    model: modelSettings
+////                    clip: true
+//                }
+
+                RowLayout
                 {
-                    id: settingsHeader
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 38 * pt
+                    anchors.fill: parent
+                    spacing: 25 * pt
 
-                    Text
+
+                    DapRectangleLitAndShaded
                     {
-                        anchors.fill: parent
-                        anchors.leftMargin: 18 * pt
-                        anchors.topMargin: 10 * pt
-                        anchors.bottomMargin: 10 * pt
-                        verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Settings")
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                        color: currTheme.textColor
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignTop
+                        height: 300
+                        color: currTheme.backgroundElements
+                        radius: currTheme.radiusRectangle
+                        shadowColor: currTheme.shadowColor
+                        lightColor: currTheme.reflectionLight
+                        ListView
+                        {
+                            id: listViewSettingsGeneral
+                            anchors.fill: parent
+
+//                            delegate: testComp
+                            clip: true
+                        }
+                    }
+                    DapRectangleLitAndShaded
+                    {
+                        Layout.fillWidth: true
+                        Layout.alignment: Qt.AlignTop
+                        height: 300
+                        color: currTheme.backgroundElements
+                        radius: currTheme.radiusRectangle
+                        shadowColor: currTheme.shadowColor
+                        lightColor: currTheme.reflectionLight
+                        ListView
+                        {
+                            id: listViewSettingsAppearance
+//                            Layout.fillWidth: true
+//                            delegate: testComp
+                            clip: true
+                        }
                     }
                 }
-
-                ListView
-                {
-                    id: listViewSettings
-                    anchors.top: settingsHeader.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    model: modelSettings
-                    clip: true
-                }
             }
-    }
+//    }
+
+
 
     ///@detalis Settings item model.
     VisualItemModel
