@@ -1,0 +1,209 @@
+import QtQuick 2.9
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.2
+import Qt.labs.platform 1.0
+import "qrc:/widgets"
+
+Item
+{
+    id: historyRightPanel
+
+    signal currentStatusSelected(string status)
+
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: 5 * pt
+        spacing: 0 * pt
+
+        Text {
+            Layout.minimumHeight: 35 * pt
+            Layout.maximumHeight: 35 * pt
+            verticalAlignment: Text.AlignVCenter
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            color: currTheme.textColor
+            text: qsTr("Filter")
+        }
+
+        ColumnLayout
+        {
+//            Layout.margins: 3 * pt
+            spacing: 3 * pt
+
+            DapRadioButton
+            {
+                id: buttonSelectionAllStatuses
+                nameRadioButton: qsTr("Verified")
+                checked: true
+                indicatorInnerSize: 46 * pt
+                spaceIndicatorText: 3 * pt
+                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                implicitHeight: indicatorInnerSize
+                onClicked: {
+                    currentStatusSelected("Verified")
+                }
+            }
+
+            DapRadioButton
+            {
+                id: buttonSelectionPending
+                nameRadioButton: qsTr("Unverified")
+                indicatorInnerSize: 46 * pt
+                spaceIndicatorText: 3 * pt
+                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                implicitHeight: indicatorInnerSize
+                onClicked: {
+                    currentStatusSelected("Unverified")
+                }
+            }
+
+            DapRadioButton
+            {
+                id: buttonSelectionSent
+                nameRadioButton: qsTr("Both")
+                indicatorInnerSize: 46 * pt
+                spaceIndicatorText: 3 * pt
+                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                implicitHeight: indicatorInnerSize
+                onClicked: {
+                    currentStatusSelected("Both")
+                }
+            }
+        }
+
+        Text {
+            Layout.topMargin: 20 * pt
+            Layout.minimumHeight: 35 * pt
+            Layout.maximumHeight: 35 * pt
+            verticalAlignment: Text.AlignVCenter
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            color: currTheme.textColor
+            text: qsTr("Actions")
+        }
+
+        // Actions buttons
+
+        ColumnLayout
+        {
+            Layout.topMargin: 24 * pt
+            spacing: 24 * pt
+
+            DapButton
+            {
+
+                Layout.fillWidth: true
+
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+
+                id:loadPlug
+                textButton: "Add dApp"
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+
+                FileDialog {
+                    id: dialogSelectPlug
+                    title: qsTr("Please choose a *.zip file")
+                    folder: "~"
+                    visible: false
+                    nameFilters: [qsTr("Zip files (*.zip)"), "All files (*.*)"]
+                    defaultSuffix: "qml"
+                    onAccepted:
+                    {
+                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0, 0);
+    //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
+    //                    messagePopup.close()
+    //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
+                    }
+                }
+                onClicked:
+                {
+                    dialogSelectPlug.open()
+    //                messagePopup.smartOpen(qsTr("Add Plugin"),qsTr("Input name plugin"))
+                }
+            }
+            DapButton
+            {
+                Layout.fillWidth: true
+
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+
+                id:installPlug
+                textButton: "Install dApp"
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked:
+                {
+                    currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 1,listModel.get(listViewPlug.currentIndex).verifed)
+                    listViewPlug.setEnableButtons()
+                    SettingsWallet.activePlugin = currentPlugin
+                }
+            }
+            DapButton
+            {
+                Layout.fillWidth: true
+
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+
+                id:uninstallPlug
+                textButton: "Unistall dApp"
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked:
+                {
+                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                        currentPlugin = ""
+                        SettingsWallet.activePlugin = ""
+                    }
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 0, listModel.get(listViewPlug.currentIndex).verifed)
+                    SettingsWallet.activePlugin = ""
+
+                    listViewPlug.setEnableButtons()
+                }
+            }
+            DapButton
+            {
+                Layout.fillWidth: true
+
+                implicitHeight: 36 * pt
+                implicitWidth: 163 * pt
+
+                id:deletePlug
+                textButton: "Delete dApp"
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked:
+                {
+
+                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                        currentPlugin = ""
+                        SettingsWallet.activePlugin = ""
+                    }
+    //                    listModel.remove(listViewPlug.currentIndex)
+                    pluginsManager.deletePlugin(listViewPlug.currentIndex)
+                    SettingsWallet.activePlugin = ""
+
+                    listViewPlug.setEnableButtons()
+                }
+            }
+        }
+
+        Rectangle
+        {
+            id: frameBottom
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: "transparent"
+        }
+    }
+}

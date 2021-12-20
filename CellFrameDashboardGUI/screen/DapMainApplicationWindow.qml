@@ -32,12 +32,14 @@ Rectangle {
     readonly property string logsScreenPath: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
     ///@detalis Path to the console tab.
     readonly property string consoleScreenPath: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
-    ///@detalis Path to the console tab.
+    ///@detalis Path to the certificates tab.
     readonly property string certificatesScreenPath: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
-    ///@detalis Path to the console tab.
+    ///@detalis Path to the tokens tab.
     readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
-     ///@detalis Path to the console tab.
+     ///@detalis Path to the plugins tab.
     readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/DapPluginsTab.qml"
+    ///@detalis Path to the dApps tab.
+   readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
 
 
     readonly property string underConstructionsScreenPath: "qrc:/screen/" + device + "/UnderConstructions.qml"
@@ -324,8 +326,14 @@ Rectangle {
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })
             append ({
-                name: qsTr("dApps"),
+                name: qsTr("Plugins"),
                 page: pluginsScreen,
+                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+            })
+            append ({
+                name: qsTr("dApps"),
+                page: dAppsScreen,
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
             })

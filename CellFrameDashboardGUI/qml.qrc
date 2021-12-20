@@ -295,5 +295,9 @@
         <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
         <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
         <file>screen/desktop/Settings/DapPluginsProgressBar.qml</file>
+        <file>screen/desktop/dApps/DapAppsScreen.qml</file>
+        <file>screen/desktop/dApps/DapAppsTab.qml</file>
+        <file>screen/desktop/dApps/DapAppsTopPanel.qml</file>
+        <file>screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml</file>
     </qresource>
 </RCC>
