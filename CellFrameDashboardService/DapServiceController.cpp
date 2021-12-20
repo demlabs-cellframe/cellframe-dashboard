@@ -75,6 +75,8 @@ void DapServiceController::registerCommand()
     // The command to get a list of available orders
     m_pServer->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
+
     m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
     // Creating a token transfer transaction between wallets
     m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));

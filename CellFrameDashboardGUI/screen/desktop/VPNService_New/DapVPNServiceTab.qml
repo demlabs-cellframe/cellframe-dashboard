@@ -200,6 +200,7 @@ DapAbstractTab {
         dapWallets.length = 0
         dapModelOrders.clear()
         dapServiceController.requestToService("DapGetListOrdersCommand");
+
     }
 
 

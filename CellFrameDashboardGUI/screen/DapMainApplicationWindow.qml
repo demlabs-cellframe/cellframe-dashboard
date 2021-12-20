@@ -173,6 +173,7 @@ Item {
 
     property var dapWallets: []
     property var dapOrders: []
+    property var dapNetworks: []
 
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
@@ -299,19 +300,19 @@ Item {
         {
             console.log("Networks list received")
 
-            if (!networkList)
-                console.error("networkList is empty")
+            if (!networksList)
+                console.error("networksList is empty")
             else
             {
-                dapServiceController.CurrentNetwork = networkList[0];
+                dapServiceController.CurrentNetwork = networksList[0];
                 dapServiceController.IndexCurrentNetwork = 0;
 
                 console.log("Current network: "+dapServiceController.CurrentNetwork)
             }
 
-            for(var n=0; n < Object.keys(networkList).length; ++n)
+            for(var n=0; n < Object.keys(networksList).length; ++n)
             {
-                dapNetworkModel.append({name: networkList[n]})
+                dapNetworkModel.append({name: networksList[n]})
             }
         }
 
@@ -378,6 +379,23 @@ Item {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+        onNetworksReceived:
+        {
+            for (var q = 0; q < networksList.length; ++q)
+            {
+                dapNetworks.push(networksList[q])
+            }
+            for (var i = 0; i < dapNetworks.length; ++i)
+            {
+                dapModelNetworks.append({   "name" : dapNetworks[i].name,
+                                            "networkState" : dapNetworks[i].state,
+                                            "targetState" : dapNetworks[i].targetState,
+                                            "linksCount" : dapNetworks[i].linksCount,
+                                            "linksFrom" : dapNetworks[i].activeLinksCount,
+                                            "address" : dapNetworks[i].nodeAddress})
+            }
+            modelNetworksUpdated();
         }
     }
 }

@@ -10,7 +10,7 @@ Popup {
     height: 150
     padding: 1
     focus: true
-    closePolicy: Popup.CloseOnEscape
+    closePolicy: Popup.NoAutoClose
     visible: false
 
     property variant networkState

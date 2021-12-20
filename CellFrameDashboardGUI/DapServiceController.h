@@ -142,7 +142,7 @@ public slots:
     void changeNetworkStateToOnline(QString a_networkName);
     void changeNetworkStateToOffline(QString a_networkName);
     void requestOrdersList();
-
+    void requestNetworksList();
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -182,7 +182,7 @@ signals:
 
     void walletsReceived(QList<QObject*> walletList);
 
-    void networksListReceived(const QVariant& networkList);
+    void networksListReceived(const QVariant& networksList);
 
     void networkStatusReceived(const QVariant& networkStatus);
     void newTargetNetworkStateReceived(const QVariant& targetStateString);
@@ -208,7 +208,8 @@ signals:
 
     void ordersListReceived(const QVariant& ordersInfo);
     void ordersReceived(QList<QObject*> orderList);
-    
+    void networksReceived(QList<QObject*> networksList);
+
 private slots:
     /// Register command.
     void registerCommand();

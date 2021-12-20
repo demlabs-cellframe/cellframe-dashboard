@@ -93,6 +93,7 @@ ApplicationWindow
     }
 
     footer: Rectangle {
+        id: networksPanel
         width: parent.width; height: 40
         color: "#070023"
         border.width: 1
@@ -100,6 +101,7 @@ ApplicationWindow
 
         Component {
             id: dapNetworkItem
+
             Item {
                 width: parent.parent.width/dapNetworkModel1.count; height: 40
                 RowLayout {
@@ -133,6 +135,7 @@ ApplicationWindow
                             networkListPopups[index].linksFrom = dapNetworkList.model.get(index).linksFrom
                             networkListPopups[index].address = dapNetworkList.model.get(index).address
 
+//                            networkListPopups[index].networkState = dapServiceController.CurrentWalletNetwork.
                             networkListPopups[index].open()
                         }
                         else {
@@ -190,7 +193,7 @@ ApplicationWindow
 
         ListView {
             id: dapNetworkList
-            clip: true
+            interactive: false
             orientation: ListView.Horizontal
             ScrollBar.horizontal: ScrollBar {
                 active: true
