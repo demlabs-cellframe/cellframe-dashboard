@@ -3,9 +3,15 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
 import Qt.labs.platform 1.0
 import "qrc:/widgets"
+import "../../SettingsWallet.js" as SettingsWallet
 
 Item
 {
+    property alias dapAddButton: loadPlug
+    property alias dapActiveButton: installPlug
+    property alias dapUnactiveButton: uninstallPlug
+    property alias dapDeleteButton: deletePlug
+
     id: historyRightPanel
 
     signal currentStatusSelected(string status)
@@ -33,7 +39,6 @@ Item
             {
                 id: buttonSelectionAllStatuses
                 nameRadioButton: qsTr("Verified")
-                checked: true
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
                 fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -67,6 +72,7 @@ Item
                 onClicked: {
                     currentStatusSelected("Both")
                 }
+                checked: true
             }
         }
 
@@ -84,7 +90,7 @@ Item
 
         ColumnLayout
         {
-            Layout.topMargin: 24 * pt
+            Layout.topMargin: 21 * pt
             spacing: 24 * pt
 
             DapButton
@@ -131,16 +137,16 @@ Item
                 implicitWidth: 163 * pt
 
                 id:installPlug
-                textButton: "Install dApp"
+                textButton: "Activate dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
                 {
-                    currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
-                    pluginsManager.installPlugin(listViewPlug.currentIndex, 1,listModel.get(listViewPlug.currentIndex).verifed)
-                    listViewPlug.setEnableButtons()
+                    currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
+                    pluginsManager.installPlugin(dapListViewApps.currentIndex, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    historyRightPanel.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
                 }
             }
@@ -152,21 +158,21 @@ Item
                 implicitWidth: 163 * pt
 
                 id:uninstallPlug
-                textButton: "Unistall dApp"
+                textButton: "Unactivate dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
                 {
-                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                    if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
-                    pluginsManager.installPlugin(listViewPlug.currentIndex, 0, listModel.get(listViewPlug.currentIndex).verifed)
+                    pluginsManager.installPlugin(dapListViewApps.currentIndex, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
-                    listViewPlug.setEnableButtons()
+                    historyRightPanel.setEnableButtons()
                 }
             }
             DapButton
@@ -185,15 +191,15 @@ Item
                 onClicked:
                 {
 
-                    if(currentPlugin === listModel.get(listViewPlug.currentIndex).urlPath){
+                    if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
     //                    listModel.remove(listViewPlug.currentIndex)
-                    pluginsManager.deletePlugin(listViewPlug.currentIndex)
+                    pluginsManager.deletePlugin(dapListViewApps.currentIndex)
                     SettingsWallet.activePlugin = ""
 
-                    listViewPlug.setEnableButtons()
+                    historyRightPanel.setEnableButtons()
                 }
             }
         }
@@ -206,4 +212,39 @@ Item
             color: "transparent"
         }
     }
+
+    function setEnableButtons()
+    {
+        if(listViewApps.currentIndex >= 0 && listModelApps.count)
+        {
+            if(dapAppsModel.get(listViewApps.currentIndex).status === "1")
+            {
+                installPlug.enabled = false
+                deletePlug.enabled = true
+                uninstallPlug.enabled = true
+            }
+            else
+            {
+                installPlug.enabled = true
+                deletePlug.enabled = true
+                uninstallPlug.enabled = false
+            }
+
+            if(deletePlug.enabled === true)
+            {
+                var path = dapAppsModel.get(listViewApps.currentIndex).urlPath;
+                if((path[0] + path[1] + path[2]) === "htt")
+                {
+                    deletePlug.enabled = false
+                }
+            }
+        }
+        else
+        {
+            installPlug.enabled = false
+            deletePlug.enabled = false
+            uninstallPlug.enabled = false
+        }
+    }
+
 }

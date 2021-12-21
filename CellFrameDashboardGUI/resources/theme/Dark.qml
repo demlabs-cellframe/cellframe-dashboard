@@ -28,7 +28,7 @@ QtObject {
     readonly property color borderColor            : "#666E7D" // OK
 
 
-    readonly property int radiusRectangle          : 20*pt
+    readonly property int radiusRectangle          : 16*pt
     readonly property int radiusButton             : 50*pt
 
     //Shadow oprions
