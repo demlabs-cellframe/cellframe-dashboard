@@ -79,7 +79,7 @@ DapTopPanel {
 
 
     Rectangle {
-        width: searchBox.width + 30
+        width: searchBox.width + 30 * pt
         height: 1 * pt
         anchors.top: searchBox.bottom
         anchors.left: frameIconSearch.left
