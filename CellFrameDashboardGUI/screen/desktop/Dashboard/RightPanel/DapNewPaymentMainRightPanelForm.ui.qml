@@ -182,6 +182,7 @@ DapRightPanel
                     Layout.fillWidth: true
                     Layout.minimumHeight: 40 * pt
                     Layout.maximumHeight: 40 * pt
+                    visible: false
 
                     Text
                     {
