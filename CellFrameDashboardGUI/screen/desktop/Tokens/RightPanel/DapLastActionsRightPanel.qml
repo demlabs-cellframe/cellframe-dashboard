@@ -9,12 +9,12 @@ DapLastActionsRightPanelForm
     property date today: new Date()
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
-    property alias dapModelLastActions: modelLastActions
+    //property alias dapModelLastActions: modelLastActions
 
-    ListModel
+    /*ListModel
     {
         id: modelLastActions
-    }
+    }*/
 
     Component
     {
@@ -41,7 +41,7 @@ DapLastActionsRightPanelForm
         }
     }
 
-    Connections
+    /*Connections
     {
         target: dapServiceController
         onWalletHistoryReceived:
@@ -89,6 +89,11 @@ DapLastActionsRightPanelForm
         {
             modelLastActions.clear()
         }
+    }*/
+
+    function updateModel()
+    {
+
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output

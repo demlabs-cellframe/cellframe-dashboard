@@ -13,14 +13,14 @@ DapLastActionsRightPanelForm
     property date lastDate: new Date(0)
     property date prevDate: new Date(0)
 
-    property alias dapModelLastActions: modelLastActions
+    //property alias dapModelLastActions: modelLastActions
 
     property int requestCounter: 0
 
-    ListModel
+    /*ListModel
     {
         id: modelLastActions
-    }
+    }*/
 
     ListModel
     {
@@ -67,12 +67,15 @@ DapLastActionsRightPanelForm
             for (var i = 0; i < walletHistory.length; ++i)
             {
                 if (temporaryModel.count === 0)
+                {
                     temporaryModel.append({ "network" : walletHistory[i].Network,
                         "name" : walletHistory[i].Name,
                         "amount" : walletHistory[i].Amount,
                         "status" : walletHistory[i].Status,
                         "date" : walletHistory[i].Date,
                         "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                }
+
                 else
                 {
                     var j = 0;
@@ -109,14 +112,23 @@ DapLastActionsRightPanelForm
                 today = new Date()
                 yesterday = new Date(new Date().setDate(new Date().getDate()-1))
 
-                modelLastActions.clear()
+
+
+                //modelLastActions.clear()
+                globalHistoryModel.clear()
+
+
 
                 for (var k = 0; k < temporaryModel.count; ++k)
                 {
                     var payDate = new Date(Date.parse(temporaryModel.get(k).date))
 
                     if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
-                        modelLastActions.append(temporaryModel.get(k))
+                    {
+                        //modelLastActions.append(temporaryModel.get(k))
+                        globalHistoryModel.append(temporaryModel.get(k))
+
+                    }
                 }
             }
         }
@@ -133,7 +145,9 @@ DapLastActionsRightPanelForm
                 lastDate = new Date(0)
                 prevDate = new Date(0)
 
-                modelLastActions.clear()
+                //modelLastActions.clear()
+                globalHistoryModel.clear()
+
 
                 requestCounter = getWalletHistory(SettingsWallet.currentIndex)
             }
@@ -148,7 +162,8 @@ DapLastActionsRightPanelForm
             lastDate = new Date(0)
             prevDate = new Date(0)
 
-            modelLastActions.clear()
+            //modelLastActions.clear()
+            globalHistoryModel.clear()
 
             requestCounter = getWalletHistory(SettingsWallet.currentIndex)
         }

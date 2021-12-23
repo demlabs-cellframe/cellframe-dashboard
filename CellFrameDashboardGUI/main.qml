@@ -101,6 +101,12 @@ ApplicationWindow
         }
     }
 
+
+    ListModel
+    {
+        id: globalHistoryModel
+    }
+
     Component.onCompleted: {
         if(!isMobile) {
             window.width = 1280
@@ -114,5 +120,7 @@ ApplicationWindow
         close.accepted = false
         window.hide()
     }
+
+
 
 }

@@ -52,13 +52,13 @@ DapRightPanel
 
         Column {
             Repeater {
-                model: 5 // Ammount of days in history
+                model: 1 // Ammount of days in history
                 delegate: ListView {
                     id: actionsListView
                     interactive: false
                     width: lastActionsList.width
-                    height: ((50 * pt) * modelLastActions.count) + (35 * pt)
-                    model: modelLastActions
+                    height: ((50 * pt) * globalHistoryModel.count) + (35 * pt)
+                    model: globalHistoryModel
 
                     section.property: "date"
                     section.criteria: ViewSection.FullString

@@ -37,7 +37,7 @@ DapRightPanel
         id: lastActionsView
         anchors.fill: parent
         clip: true
-        model: modelLastActions
+        model: globalHistoryModel//modelLastActions
         ScrollBar.vertical: ScrollBar {
             active: true
         }

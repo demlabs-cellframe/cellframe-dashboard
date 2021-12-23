@@ -289,7 +289,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Tokens"),
-                page: underConstructionsScreenPath, //TODO: add screen for "Tokens" tab
+                page: tokensScreenPath, //TODO: add screen for "Tokens" tab
                 normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
                 hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
             })
