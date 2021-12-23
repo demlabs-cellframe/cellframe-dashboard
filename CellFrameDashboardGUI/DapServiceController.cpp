@@ -61,9 +61,33 @@ void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
     emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
 }
 
+QStringList DapServiceController::getNetworkList() const
+{
+    return m_sNetworkList;
+}
+
+void DapServiceController::setNetworkList(const QStringList &sNetworkList)
+{
+    m_sNetworkList = sNetworkList;
+
+    qDebug() << "m_sNetworkList" << m_sNetworkList;
+
+    emit networkListChanged(m_sNetworkList);
+}
+
 void DapServiceController::requestWalletList()
 {
     this->requestToService("DapGetWalletsInfoCommand");
+}
+
+void DapServiceController::requestNetworktList()
+{
+    this->requestToService("DapGetListNetworksCommand", "chains");
+}
+
+void DapServiceController::requestWalletInfo(const QString &a_walletName)
+{
+    this->requestToService("DapGetWalletInfoCommand", a_walletName, m_sNetworkList);
 }
 
 void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
@@ -190,6 +214,8 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
+        qDebug() << "DapServiceController::registerCommand" << "walletsInfoReceived";
+
         QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
         QList<DapWallet> tempWallets;
 
@@ -207,6 +233,21 @@ void DapServiceController::registerCommand()
         }
 
         emit walletsReceived(wallets);
+    });
+
+    connect(this, &DapServiceController::walletInfoReceived, [=] (const QVariant& wallet)
+    {
+        qDebug() << "DapServiceController::registerCommand" << "walletInfoReceived";
+
+        QByteArray array = QByteArray::fromHex(wallet.toByteArray());
+        DapWallet tempWallet;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWallet;
+
+        DapWallet * newWallet = new DapWallet(tempWallet);
+
+        emit walletReceived(newWallet);
     });
 
     connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)

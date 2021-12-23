@@ -210,7 +210,7 @@ Rectangle {
     }
 
 
-    property var dapWallets: []
+//    property var dapWallets: []
     property var dapOrders: []
     property var dapPlugins: []
 
@@ -368,9 +368,11 @@ Rectangle {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
-        pluginsManager.getListPlugins();
+        // request in DapApplication.cpp
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
+        // request in DapApplication.cpp
+//        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
+        pluginsManager.getListPlugins();
     }
 
     Connections
@@ -386,12 +388,14 @@ Rectangle {
             else
             {
                 if (networkList[0] === "[net]")
-                    dapServiceController.CurrentNetwork = networkList[1];
+                    dapServiceController.CurrentNetwork = networkList[1]
                 else
-                    dapServiceController.CurrentNetwork = networkList[0];
-                dapServiceController.IndexCurrentNetwork = 0;
+                    dapServiceController.CurrentNetwork = networkList[0]
+                dapServiceController.IndexCurrentNetwork = 0
 
                 console.log("Current network: "+dapServiceController.CurrentNetwork)
+
+                dapServiceController.NetworkList = networkList
             }
 
             var i = 0
@@ -434,20 +438,15 @@ Rectangle {
                 else
                     ++i
             }
-
-//            for(var n=0; n < Object.keys(networkList).length; ++n)
-//            {
-//                dapNetworkModel.append({name: networkList[n]})
-//            }
         }
 
         onWalletsReceived:
         {
-            dapWallets.splice(0,dapWallets.length)
+            var dapWallets = []
+
             dapModelWallets.clear()
+
             console.log("walletList.length =", walletList.length)
-            console.log("dapWallets.length =", dapWallets.length)
-            console.log("dapModelWallets.count =", dapModelWallets.count)
 
             for (var q = 0; q < walletList.length; ++q)
             {
@@ -460,7 +459,6 @@ Rectangle {
                 dapModelWallets.append({ "name" : dapWallets[i].Name,
                                       "balance" : dapWallets[i].Balance,
                                       "icon" : dapWallets[i].Icon,
-                                      // "address" : dapWallets[i].Address,
                                       "networks" : []})
                 console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
@@ -509,19 +507,73 @@ Rectangle {
                 SettingsWallet.currentIndex = -1
 
             modelWalletsUpdated();
-
-
-            //Show orders for debug
-//            for (var e = 0; e < 10; ++e)
-//            {
-//                dapModelOrders.append({ "index" : e+1,
-//                                      "location" : "wqe",
-//                                      "network" : "sad",
-//                                      "node_addr" : "213",
-//                                      "price" : "1234515"})
-//            }
-//            modelOrdersUpdated();
         }
+
+        onWalletReceived:
+        {
+            console.log("New wallet name:", wallet.Name)
+
+            for (var i = 0; i < dapModelWallets.count; ++i)
+            {
+                console.log("Wallet name:", dapModelWallets.get(i).name)
+
+                if (dapModelWallets.get(i).name === wallet.Name)
+                {
+                    dapModelWallets.set(i, { "name" : wallet.Name,
+                                          "balance" : wallet.Balance,
+                                          "icon" : wallet.Icon,
+                                          "networks" : []})
+
+                    for (var n = 0; n < Object.keys(wallet.Networks).length; ++n)
+                    {
+                        console.log("Network name:", wallet.Networks[n])
+
+                        dapModelWallets.get(i).networks.append({"name": wallet.Networks[n],
+                              "address": wallet.findAddress(wallet.Networks[n]),
+                              "chains": [],
+                              "tokens": []})
+
+                        var chains = wallet.getChains(wallet.Networks[n])
+
+                        for (var c = 0; c < chains.length; ++c)
+                        {
+                            print(chains[c])
+                            dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+                        }
+
+                        console.log("Tokens.length:", Object.keys(wallet.Tokens).length)
+                        for (var t = 0; t < Object.keys(wallet.Tokens).length; ++t)
+                        {
+                            if(wallet.Tokens[t].Network === wallet.Networks[n])
+                            {
+                                console.log("Token name", wallet.Tokens[t].Name,
+                                            "balance", wallet.Tokens[t].Balance,
+                                            "emission", wallet.Tokens[t].Emission)
+
+                                dapModelWallets.get(i).networks.get(n).tokens.append(
+                                     {"name": wallet.Tokens[t].Name,
+                                      "balance": wallet.Tokens[t].Balance,
+                                      "emission": wallet.Tokens[t].Emission,
+                                      "network": wallet.Tokens[t].Network})
+
+                                var ind = dapModelWallets.get(i).networks.get(n).tokens.count -1
+
+                                console.log("dapModelWallets Token name",
+                                            dapModelWallets.get(i).networks.get(n).tokens.get(ind).name,
+                                            "balance",
+                                            dapModelWallets.get(i).networks.get(n).tokens.get(ind).balance,
+                                            "emission",
+                                            dapModelWallets.get(i).networks.get(n).tokens.get(ind).emission)
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            modelWalletsUpdated();
+        }
+
         onOrdersReceived:
         {
 //            console.log("Orders len " + orderList.length)
@@ -547,6 +599,7 @@ Rectangle {
             modelOrdersUpdated();
         }
     }
+
     Connections{
         target: pluginsManager
         onRcvListPlugins:
