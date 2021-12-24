@@ -28,6 +28,7 @@ DapAbstractScreen
 
     Item
     {
+        id: control
         anchors.fill: parent
 //        color: currTheme.backgroundElements
 //        radius: currTheme.radiusRectangle
@@ -85,22 +86,19 @@ DapAbstractScreen
 
                         DapRectangleLitAndShaded
                         {
+                            property int spacing: (72 + 39) * pt
                             Layout.fillWidth: true
+                            Layout.preferredHeight: contentData.implicitHeight
+                            Layout.maximumHeight: control.height - spacing
+
 //                            Layout.minimumWidth: 327 * pt
 
-                            height: 300
+//                            height: 300
                             color: currTheme.backgroundElements
                             radius: currTheme.radiusRectangle
                             shadowColor: currTheme.shadowColor
                             lightColor: currTheme.reflectionLight
-                            ListView
-                            {
-                                id: listViewSettingsGeneral
-                                anchors.fill: parent
-
-    //                            delegate: testComp
-                                clip: true
-                            }
+                            contentData: DapGeneralBlock{}
                         }
 
                         // Wallet create button
@@ -150,7 +148,7 @@ DapAbstractScreen
                         Layout.fillWidth: true
                         Layout.minimumWidth: 327 * pt
                         Layout.alignment: Qt.AlignTop
-                        height: contentData.implicitHeight
+                        Layout.preferredHeight: contentData.implicitHeight
                         color: currTheme.backgroundElements
                         radius: currTheme.radiusRectangle
                         shadowColor: currTheme.shadowColor

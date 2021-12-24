@@ -313,5 +313,6 @@
         <file>resources/icons/BlackTheme/Illustratons/comingsoon_illustration.png</file>
         <file>resources/icons/BlackTheme/Illustratons/wallet_illustration.png</file>
         <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
     </qresource>
 </RCC>
