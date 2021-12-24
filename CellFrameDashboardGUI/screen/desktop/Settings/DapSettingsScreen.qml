@@ -18,13 +18,10 @@ DapAbstractScreen
 
     anchors
     {
-        top: parent.top
+        fill: parent
         topMargin: 24 * pt
-        right: parent.right
-        rightMargin: 44 * pt
-        left: parent.left
+        rightMargin: 24 * pt
         leftMargin: 24 * pt
-        bottom: parent.bottom
         bottomMargin: 20 * pt
     }
 
@@ -79,28 +76,224 @@ DapAbstractScreen
                     anchors.fill: parent
                     spacing: 25 * pt
 
-
-                    DapRectangleLitAndShaded
+                    ColumnLayout
                     {
-                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.minimumWidth: 327 * pt
                         Layout.alignment: Qt.AlignTop
-                        height: 300
-                        color: currTheme.backgroundElements
-                        radius: currTheme.radiusRectangle
-                        shadowColor: currTheme.shadowColor
-                        lightColor: currTheme.reflectionLight
-                        ListView
-                        {
-                            id: listViewSettingsGeneral
-                            anchors.fill: parent
 
-//                            delegate: testComp
-                            clip: true
+                        DapRectangleLitAndShaded
+                        {
+                            Layout.fillWidth: true
+//                            Layout.minimumWidth: 327 * pt
+
+                            height: 300
+                            color: currTheme.backgroundElements
+                            radius: currTheme.radiusRectangle
+                            shadowColor: currTheme.shadowColor
+                            lightColor: currTheme.reflectionLight
+                            ListView
+                            {
+                                id: listViewSettingsGeneral
+                                anchors.fill: parent
+
+    //                            delegate: testComp
+                                clip: true
+                            }
+                        }
+
+                        // Wallet create button
+                        DapButton
+                        {
+                            id: newWalletButton
+
+                            Layout.minimumWidth: 297 * pt
+                            Layout.maximumWidth: 297 * pt
+                            Layout.minimumHeight: 36 * pt
+                            Layout.maximumHeight: 36 * pt
+                            Layout.topMargin: 23 * pt
+                            Layout.alignment: Qt.AlignHCenter
+
+                            textButton: "Create a new wallet"
+
+                            implicitHeight: 36 * pt
+                            implicitWidth: 297 * pt
+                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                            horizontalAligmentText: Text.AlignHCenter
+                            onClicked: createWalletSignal()
+                        }
+
+                        // Restore wallet
+                        DapButton
+                        {
+                            id: restortWalletButton
+
+                            Layout.minimumWidth: 297 * pt
+                            Layout.maximumWidth: 297 * pt
+                            Layout.minimumHeight: 36 * pt
+                            Layout.maximumHeight: 36 * pt
+                            Layout.topMargin: 16 * pt
+                            Layout.alignment: Qt.AlignHCenter
+
+                            textButton: "Import an existing wallet"
+
+                            implicitHeight: 36 * pt
+                            implicitWidth: 297 * pt
+                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                            horizontalAligmentText: Text.AlignHCenter
+                            onClicked: createWalletSignal()
                         }
                     }
                     DapRectangleLitAndShaded
                     {
                         Layout.fillWidth: true
+                        Layout.minimumWidth: 327 * pt
+                        Layout.alignment: Qt.AlignTop
+//                        height: 400
+                        height: contentData.implicitHeight
+                        color: currTheme.backgroundElements
+                        radius: currTheme.radiusRectangle
+                        shadowColor: currTheme.shadowColor
+                        lightColor: currTheme.reflectionLight
+
+                        contentData:
+                            ColumnLayout
+                            {
+                                Item
+                                {
+                                    id: headerAppearance
+                                    Layout.fillWidth: true
+                                    height: 38 * pt
+
+                                    Text
+                                    {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: 15 * pt
+                                        anchors.topMargin: 10 * pt
+                                        anchors.bottomMargin:  10 * pt
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                                        color: currTheme.textColor
+                                        verticalAlignment: Qt.AlignVCenter
+                                        text: qsTr("Appearance")
+                                    }
+                                }
+
+                                Rectangle
+                                {
+                                    id:headerSettingsAppearance
+                                    Layout.fillWidth: true
+                                    height: 30 * pt
+                                    color: currTheme.backgroundMainScreen
+
+                                    Text
+                                    {
+                                        anchors.left: parent.left
+                                        anchors.leftMargin: 17 * pt
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        color: currTheme.textColor
+                                        verticalAlignment: Qt.AlignVCenter
+                                        text: qsTr("Edit menu")
+                                    }
+                                }
+
+
+                                Repeater
+                                {
+                                    model: 7
+                                    Item {
+                                        Layout.preferredHeight: 50 * pt
+                                        Layout.preferredWidth: 327 * pt
+
+                                        RowLayout
+                                        {
+                                            anchors.fill: parent
+
+                                            Text
+                                            {
+                                                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                                                Layout.leftMargin: 15 * pt
+
+                                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                                color: currTheme.textColor
+                                                verticalAlignment: Qt.AlignVCenter
+                                                text: qsTr("Name page")
+                                            }
+                                            Switch
+                                            {
+                                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                                Layout.rightMargin: 15 * pt
+                                                Layout.preferredHeight: 26*pt
+                                                Layout.preferredWidth: 46 * pt
+                                            }
+                                        }
+                                        Rectangle
+                                        {
+                                            anchors.left: parent.left
+                                            anchors.right: parent.right
+                                            anchors.bottom: parent.bottom
+                                            height: 1 * pt
+                                            color: currTheme.lineSeparatorColor
+
+                                        }
+
+
+                                    }
+
+                                }
+
+
+                                Rectangle
+                                {
+                                    id:headerColorsAppearance
+                                    Layout.fillWidth: true
+                                    height: 30 * pt
+                                    color: currTheme.backgroundMainScreen
+
+                                    Text
+                                    {
+                                        anchors.left: parent.left
+                                        anchors.leftMargin: 17 * pt
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        color: currTheme.textColor
+                                        verticalAlignment: Qt.AlignVCenter
+                                        text: qsTr("Colours")
+                                    }
+                                }
+                                Repeater
+                                {
+                                    id: colorsAppearanceView
+                                    model: 1
+
+                                    Rectangle
+                                    {
+                                        Layout.leftMargin: 20 * pt
+                                        Layout.preferredHeight: 50 * pt
+                                        Layout.preferredWidth: 327 * pt
+                                    }
+
+                                }
+                        }
+
+//                        ListView
+//                        {
+//                            id: listViewSettingsAppearance
+//                            anchors{
+//                                top: headerApperance.bottom
+//                                left: parent.left
+//                                right: parent.right
+//                                bottom: parent.bottom
+//                            }
+
+//                            clip: true
+//                            delegate: apperanceDelegate
+//                        }
+                    }
+                    DapRectangleLitAndShaded
+                    {
+                        Layout.fillWidth: true
+                        Layout.minimumWidth: 350 * pt
                         Layout.alignment: Qt.AlignTop
                         height: 300
                         color: currTheme.backgroundElements
@@ -109,15 +302,27 @@ DapAbstractScreen
                         lightColor: currTheme.reflectionLight
                         ListView
                         {
-                            id: listViewSettingsAppearance
+                            id: listViewSettingsApps
 //                            Layout.fillWidth: true
 //                            delegate: testComp
                             clip: true
                         }
                     }
                 }
+
+//                Component
+//                {
+//                    id:apperanceDelegate
+//                    Rectangle
+//                    {
+
+//                    }
+//                }
             }
 //    }
+
+
+
 
 
 
@@ -288,20 +493,20 @@ DapAbstractScreen
                 }
 
             }
-            // Wallet create button
-            DapButton
-            {
-                id: newWalletButton
-                textButton: "New wallet"
-                anchors.left: walletComboBox.right
-                anchors.leftMargin: 50 * pt
-                anchors.verticalCenter: walletComboBox.verticalCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText: Text.AlignHCenter
-                onClicked: createWalletSignal()
-            }
+//            // Wallet create button
+//            DapButton
+//            {
+//                id: newWalletButton
+//                textButton: "New wallet"
+//                anchors.left: walletComboBox.right
+//                anchors.leftMargin: 50 * pt
+//                anchors.verticalCenter: walletComboBox.verticalCenter
+//                implicitHeight: 36 * pt
+//                implicitWidth: 163 * pt
+//                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+//                horizontalAligmentText: Text.AlignHCenter
+//                onClicked: createWalletSignal()
+//            }
 
         }
         Rectangle

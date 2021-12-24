@@ -41,8 +41,9 @@ DapAbstractTab
     {
         id: stackViewRightPanel
         initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: 350 * pt
+        width: visible ? 350 * pt : 0
         anchors.fill: parent
+        visible:false
         delegate:
             StackViewDelegate
             {

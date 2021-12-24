@@ -25,35 +25,37 @@ DapTopPanel {
 
 
     // Frame icon search
-    Rectangle
-    {
-        id: frameIconSearch
-        anchors.left: parent.left
-        anchors.leftMargin: 37 * pt
-        anchors.verticalCenter: parent.verticalCenter
-        height: 20 * pt
-        width: 20 * pt
-        color: "transparent"
+    //Rectangle
+    //{
         Image
         {
-            id: iconSearch
-            anchors.fill: parent
+            id: frameIconSearch
+            anchors.left: parent.left
+            anchors.leftMargin: 38 * pt
+            anchors.verticalCenter: parent.verticalCenter
+            height: 20 * pt
+            width: 20 * pt
+            //color: "transparent"
+            //id: iconSearch
+            //anchors.fill: parent
             fillMode: Image.PreserveAspectFit
             verticalAlignment: Image.AlignVCenter
             horizontalAlignment: Image.AlignHCenter
 
             source: "qrc:/resources/icons/ic_search.png"
         }
-    }
+    //}
 
 
     SearchInputBox {
         id: searchBox
-        x: 38 * pt
+        //x: 38 * pt
 //        x: 0
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: frameIconSearch.right
         anchors.leftMargin: 10 * pt
+
+        bottomLineVisible: false
 
         placeholderText: qsTr("Search")
         height: 28 * pt
@@ -73,7 +75,15 @@ DapTopPanel {
         filtering.onAwaitingFinished: {
             root.findHandler(text)
         }
+    }
 
+
+    Rectangle {
+        width: searchBox.width + 30 * pt
+        height: 1 * pt
+        anchors.top: searchBox.bottom
+        anchors.left: frameIconSearch.left
+        color: "#393B41" //currTheme.borderColor
     }
 
 

@@ -69,7 +69,11 @@ DapCreateWalletForm
         if (currentTab === dashboardScreenPath)
             previousActivated(lastActionsWallet)
         if (currentTab === settingsScreenPath)
+        {
             previousActivated(emptyRightPanel)
+            dapSettingsRightPanel.visible = false
+            dapSettingsRightPanel.width = 0
+        }
     }
 
     Connections
