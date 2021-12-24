@@ -150,7 +150,7 @@ Rectangle {
 
             DapButton {
                 id: exportPublicCertificateToFileButton
-                textButton: qsTr("Export public certificate to file")
+                textButton: qsTr("Export private certificate to public")
     //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
 

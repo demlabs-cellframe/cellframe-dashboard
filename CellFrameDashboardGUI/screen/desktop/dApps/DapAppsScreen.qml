@@ -45,10 +45,10 @@ DapAbstractScreen
                 {
                     anchors.fill: parent
 
-                    // Header
+                    // Title
                     Item
                     {
-                        id: dAppsShowHeader
+                        id: dAppsTitle
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -66,6 +66,12 @@ DapAbstractScreen
                             color: currTheme.textColor
                         }
                     }
+                    // Header
+//                    Component
+//                    {
+//                        id:dAppsHeader
+
+//                    }
 
                     Component {
                         id: highlight
@@ -82,7 +88,7 @@ DapAbstractScreen
                     ListView
                     {
                         id: listViewApps
-                        anchors.top: dAppsShowHeader.bottom
+                        anchors.top: dAppsTitle.bottom
                         anchors.bottom: parent.bottom
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -99,6 +105,58 @@ DapAbstractScreen
                         {
                             dapAppsTab.updateButtons();
                         }
+
+                        headerPositioning: ListView.OverlayHeader
+                        header: Rectangle
+                        {
+//                            id: dAppsHeader
+                            width:parent.width
+                            height: 30 * pt
+                            color: currTheme.backgroundMainScreen
+                            z:10
+
+                            RowLayout
+                            {
+                                anchors.fill: parent
+    //                            anchors.leftMargin: 18 * pt
+                                spacing: 15 * pt
+                                Text
+                                {
+                                    Layout.minimumWidth: 438 * pt
+                                    Layout.fillHeight: true
+                                    Layout.leftMargin: 18 * pt
+
+                                    verticalAlignment: Qt.AlignVCenter
+    //                                horizontalAlignment: Qt.AlignLeft
+                                    text: qsTr("Name")
+                                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                    color: currTheme.textColor
+                                }
+                                Text
+                                {
+                                    Layout.minimumWidth: 90 * pt
+                                    Layout.fillHeight: true
+
+                                    verticalAlignment: Qt.AlignVCenter
+    //                                horizontalAlignment: Qt.AlignLeft
+                                    text: qsTr("Verified")
+                                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                    color: currTheme.textColor
+                                }
+                                Text
+                                {
+                                    Layout.minimumWidth: 149 * pt
+                                    Layout.fillHeight: true
+
+                                    verticalAlignment: Qt.AlignVCenter
+    //                                horizontalAlignment: Qt.AlignLeft
+                                    text: qsTr("Status")
+                                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                    color: currTheme.textColor
+                                }
+                            }
+                        }
+
                     }
 
                     Component
@@ -115,16 +173,18 @@ DapAbstractScreen
                             {
                                 anchors.fill: parent
                                 anchors.leftMargin: 15 * pt
-                                spacing: 5
+//                                spacing: 5
 
                                 // path plugin
                                     Item {
-                                        Layout.fillWidth: true
+//                                        Layout.fillWidth: true
+                                        Layout.minimumWidth: 438 * pt
                                         Layout.fillHeight: true
-                                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
                                         Text{
                                             id:namePlugin
+//                                            anchors.fill: parent
                                             anchors{
                                                 topMargin: 5 * pt
                                                 top: parent.top
@@ -195,54 +255,44 @@ DapAbstractScreen
                                     }
                                 // verifed plugin
                                     Item {
-                                        Layout.fillWidth: true
-                                        Layout.minimumWidth: 100 * pt
-                                        Layout.maximumWidth: 100 * pt
+                                        Layout.minimumWidth: 90 * pt
                                         Layout.fillHeight: true
+                                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
                                         RowLayout
                                         {
                                             anchors.fill: parent
                                             Rectangle
                                             {
-                                                Layout.maximumHeight: 30
-                                                Layout.maximumWidth: 10
-                                                Layout.fillHeight: true
-                                                Layout.fillWidth: true
+                                                Layout.minimumHeight: 20
+                                                Layout.minimumWidth: 20
+                                                Layout.leftMargin: 28 * pt
+                                                Layout.rightMargin: 42 * pt
+//                                                Layout.fillHeight: true
+//                                                Layout.fillWidth: true
                                                 radius: 5 * pt
     //                                            color: verifed === "1" ? "green" : "red"
                                                 color: verifed === "1" ? "green" : currTheme.backgroundMainScreen
                                             }
-                                            Text{
-    //                                            Layout.fillHeight: true
-    //                                            Layout.fillWidth: true
-                                                Layout.alignment: Qt.AlignCenter
-                                                id: verifedPlugin
-    //                                            anchors.centerIn: parent
-                                                text: verifed === "1" ? "Verifed":"Not Verifed"
-                                                color: currTheme.textColor
-                                                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                                            }
-//                                            Rectangle
-//                                            {
-//                                                Layout.fillHeight: true
-//    //                                            anchors.right: parent.right
-//    //                                            anchors.top: parent.top
-//    //                                            anchors.bottom: parent.bottom
-//                                                width: 2 * pt
-//                                                color: currTheme.lineSeparatorColor
-//                                            }
                                         }
                                     }
                                 // status plugin
                                     Item {
-                                        Layout.fillWidth: true
-                                        Layout.minimumWidth: 100 * pt
-                                        Layout.maximumWidth: 100 * pt
+//                                        Layout.fillWidth: true
+//                                        Layout.minimumWidth: 100 * pt
+//                                        Layout.maximumWidth: 100 * pt
+                                        Layout.minimumWidth: 149 * pt
                                         Layout.fillHeight: true
                                         Text{
                                             id: statusPlugin
-                                            anchors.centerIn: parent
+
+                                            anchors.fill: parent
+//                                            anchors.centerIn: parent
+                                            verticalAlignment: Text.AlignLeft
+                                            anchors.topMargin: 16 * pt
+                                            anchors.leftMargin: 16 * pt
+//                                            horizontalAlignment: Text.AlignLeft
+
                                             text: status === "1" ? "Activated":"Unactivated"
                                             color: currTheme.textColor
                                             font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12

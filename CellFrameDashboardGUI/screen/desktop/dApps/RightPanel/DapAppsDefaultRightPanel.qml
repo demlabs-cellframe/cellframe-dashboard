@@ -18,7 +18,8 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 5 * pt
+//        anchors.margins: 5 * pt
+        anchors.topMargin: 11 * pt
         spacing: 0 * pt
 
         Text {
@@ -33,7 +34,8 @@ Item
         ColumnLayout
         {
 //            Layout.margins: 3 * pt
-            spacing: 3 * pt
+            Layout.leftMargin: -12 * pt
+             spacing: 3 * pt
 
             DapRadioButton
             {
