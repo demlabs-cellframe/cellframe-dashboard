@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../../"
+import "MenuBlocks"
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
@@ -149,146 +150,13 @@ DapAbstractScreen
                         Layout.fillWidth: true
                         Layout.minimumWidth: 327 * pt
                         Layout.alignment: Qt.AlignTop
-//                        height: 400
                         height: contentData.implicitHeight
                         color: currTheme.backgroundElements
                         radius: currTheme.radiusRectangle
                         shadowColor: currTheme.shadowColor
                         lightColor: currTheme.reflectionLight
 
-                        contentData:
-                            ColumnLayout
-                            {
-                                Item
-                                {
-                                    id: headerAppearance
-                                    Layout.fillWidth: true
-                                    height: 38 * pt
-
-                                    Text
-                                    {
-                                        anchors.fill: parent
-                                        anchors.leftMargin: 15 * pt
-                                        anchors.topMargin: 10 * pt
-                                        anchors.bottomMargin:  10 * pt
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                                        color: currTheme.textColor
-                                        verticalAlignment: Qt.AlignVCenter
-                                        text: qsTr("Appearance")
-                                    }
-                                }
-
-                                Rectangle
-                                {
-                                    id:headerSettingsAppearance
-                                    Layout.fillWidth: true
-                                    height: 30 * pt
-                                    color: currTheme.backgroundMainScreen
-
-                                    Text
-                                    {
-                                        anchors.left: parent.left
-                                        anchors.leftMargin: 17 * pt
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
-                                        color: currTheme.textColor
-                                        verticalAlignment: Qt.AlignVCenter
-                                        text: qsTr("Edit menu")
-                                    }
-                                }
-
-
-                                Repeater
-                                {
-                                    model: 7
-                                    Item {
-                                        Layout.preferredHeight: 50 * pt
-                                        Layout.preferredWidth: 327 * pt
-
-                                        RowLayout
-                                        {
-                                            anchors.fill: parent
-
-                                            Text
-                                            {
-                                                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                                                Layout.leftMargin: 15 * pt
-
-                                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                                                color: currTheme.textColor
-                                                verticalAlignment: Qt.AlignVCenter
-                                                text: qsTr("Name page")
-                                            }
-                                            Switch
-                                            {
-                                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                                Layout.rightMargin: 15 * pt
-                                                Layout.preferredHeight: 26*pt
-                                                Layout.preferredWidth: 46 * pt
-                                            }
-                                        }
-                                        Rectangle
-                                        {
-                                            anchors.left: parent.left
-                                            anchors.right: parent.right
-                                            anchors.bottom: parent.bottom
-                                            height: 1 * pt
-                                            color: currTheme.lineSeparatorColor
-
-                                        }
-
-
-                                    }
-
-                                }
-
-
-                                Rectangle
-                                {
-                                    id:headerColorsAppearance
-                                    Layout.fillWidth: true
-                                    height: 30 * pt
-                                    color: currTheme.backgroundMainScreen
-
-                                    Text
-                                    {
-                                        anchors.left: parent.left
-                                        anchors.leftMargin: 17 * pt
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
-                                        color: currTheme.textColor
-                                        verticalAlignment: Qt.AlignVCenter
-                                        text: qsTr("Colours")
-                                    }
-                                }
-                                Repeater
-                                {
-                                    id: colorsAppearanceView
-                                    model: 1
-
-                                    Rectangle
-                                    {
-                                        Layout.leftMargin: 20 * pt
-                                        Layout.preferredHeight: 50 * pt
-                                        Layout.preferredWidth: 327 * pt
-                                    }
-
-                                }
-                        }
-
-//                        ListView
-//                        {
-//                            id: listViewSettingsAppearance
-//                            anchors{
-//                                top: headerApperance.bottom
-//                                left: parent.left
-//                                right: parent.right
-//                                bottom: parent.bottom
-//                            }
-
-//                            clip: true
-//                            delegate: apperanceDelegate
-//                        }
+                        contentData: DapAppearanceBlock{}
                     }
                     DapRectangleLitAndShaded
                     {

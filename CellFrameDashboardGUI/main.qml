@@ -2,23 +2,12 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
-import "resources/theme" as Theme
 import "screen"
 
 ApplicationWindow
 {
     id: window
     visible: true
-
-    Theme.Dark {id: darkTheme}
-    Theme.Light {id: lightTheme}
-
-    property bool currThemeVal: true
-    property var currTheme: currThemeVal ? darkTheme : lightTheme
-
-    //for test
-//    property string pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
-    property string pathTheme: "BlackTheme"
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 

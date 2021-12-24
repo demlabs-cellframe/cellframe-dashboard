@@ -9,6 +9,7 @@ import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 import "desktop/SettingsWallet.js" as SettingsWallet
+import "../resources/theme" as Theme
 
 
 Rectangle {
@@ -53,6 +54,25 @@ Rectangle {
     DapFontQuicksand {
         id: quicksandFonts
     }
+
+    Theme.Dark {id: darkTheme}
+    Theme.Light {id: lightTheme}
+
+    ListModel{
+        id:themes
+        Component.onCompleted:
+        {
+            append({name:qsTr("Dark theme"),
+                    source:darkTheme
+                   })
+        }
+    }
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
+
+    //for test
+//    property string pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
+    property string pathTheme: "BlackTheme"
 
     property string currentTab: stackViewTabs.source
 
@@ -245,6 +265,11 @@ Rectangle {
     }
 
     // Menu bar tab model
+    ListModel
+    {
+        id: modelMenuTabFromSettings
+    }
+
     ListModel 
     {
         id: modelMenuTab
@@ -259,6 +284,14 @@ Rectangle {
                 normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.svg",
                 hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
             })*/
+            modelMenuTabFromSettings.append({name:qsTr("Certificates")});
+            modelMenuTabFromSettings.append({name:qsTr("Tokens")});
+            modelMenuTabFromSettings.append({name:qsTr("VPN service")});
+            modelMenuTabFromSettings.append({name:qsTr("Console")});
+            modelMenuTabFromSettings.append({name:qsTr("Logs")});
+            modelMenuTabFromSettings.append({name:qsTr("dApps")});
+            modelMenuTabFromSettings.append({name:qsTr("Plugins")});
+
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreenPath,
