@@ -53,9 +53,9 @@ DapRightPanel
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 11 * pt
+                anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 22 * pt
+                anchors.leftMargin: 18 * pt
                 anchors.rightMargin: 13 * pt
             }
 
@@ -70,7 +70,7 @@ DapRightPanel
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 12 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 50 * pt
+                anchors.leftMargin: 46 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
