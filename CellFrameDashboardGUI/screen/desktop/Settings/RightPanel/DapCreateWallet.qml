@@ -13,6 +13,11 @@ DapCreateWalletForm
           dapPreviousRightPanel = lastActionsWallet
         if (currentTab === settingsScreenPath)
           dapPreviousRightPanel = emptyRightPanel
+
+        if (!restoreWalletMode)
+            dapTextHeader.text = qsTr("Create a new wallet")
+        else
+            dapTextHeader.text = qsTr("Restore a wallet")
     }
 
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
@@ -20,14 +25,8 @@ DapCreateWalletForm
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
     }
 
-    dapComboBoxOperation.onCurrentIndexChanged:
-    {
-        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
-    }
-
     dapButtonNext.onClicked:
     {
-        walletOperation = operationModel.get(dapComboBoxOperation.currentIndex).operation
         if (dapTextInputNameWallet.text === "")
         {
             dapWalletNameWarning.text =

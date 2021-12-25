@@ -15,7 +15,7 @@ DapAbstractScreen
     property alias dapComboboxWallet: walletComboBox
 
     id:settingScreen
-    signal createWalletSignal()
+    signal createWalletSignal(bool restoreMode)
 
     anchors
     {
@@ -119,13 +119,13 @@ DapAbstractScreen
                             implicitWidth: 297 * pt
                             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                             horizontalAligmentText: Text.AlignHCenter
-                            onClicked: createWalletSignal()
+                            onClicked: createWalletSignal(false)
                         }
 
                         // Restore wallet
                         DapButton
                         {
-                            id: restortWalletButton
+                            id: restoreWalletButton
 
                             Layout.minimumWidth: 297 * pt
                             Layout.maximumWidth: 297 * pt
@@ -140,7 +140,7 @@ DapAbstractScreen
                             implicitWidth: 297 * pt
                             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                             horizontalAligmentText: Text.AlignHCenter
-                            onClicked: createWalletSignal()
+                            onClicked: createWalletSignal(true)
                         }
                     }
                     DapRectangleLitAndShaded

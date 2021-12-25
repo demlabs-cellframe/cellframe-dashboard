@@ -76,16 +76,8 @@ Rectangle {
 
     property string currentTab: stackViewTabs.source
 
-    ListModel
-    {
-        id: operationModel
-        ListElement { name: qsTr("Create wallet")
-            operation: "create" }
-        ListElement { name: qsTr("Restore wallet")
-            operation: "restore" }
-    }
+    property bool restoreWalletMode: false
 
-    property var walletOperation: operationModel.get(0).operation
     property string walletRecoveryType: "Nothing"
 
         ///@detalis Logo icon.

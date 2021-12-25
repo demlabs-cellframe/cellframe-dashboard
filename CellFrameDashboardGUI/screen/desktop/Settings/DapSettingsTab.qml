@@ -56,6 +56,7 @@ DapAbstractTab
         target: settingsScreen
         onCreateWalletSignal:
         {
+            restoreWalletMode = restoreMode
             dapSettingsRightPanel.visible = true
             currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
         }
