@@ -7,7 +7,7 @@ import "../../../"
 
 DapRightPanel
 {
-    property alias dapComboBoxOperation: comboBoxOperation
+    property alias dapTextHeader: textHeader
     property alias dapTextInputNameWallet: textInputNameWallet
     property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
     property alias dapButtonNext: buttonNext
@@ -63,7 +63,7 @@ DapRightPanel
             {
 
                 id: textHeader
-                text: qsTr("New wallet")
+                text: qsTr("Create new wallet")
                 verticalAlignment: Qt.AlignLeft
                 anchors.left: parent.left
                 anchors.top: parent.top
@@ -82,75 +82,6 @@ DapRightPanel
     {
         anchors.fill: parent
         spacing: 0 * pt
-
-        Rectangle
-        {
-            color: currTheme.backgroundMainScreen
-            Layout.fillWidth: true
-            height: 30 * pt
-            Text
-            {
-                color: currTheme.textColor
-                text: qsTr("Operation")
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                horizontalAlignment: Text.AlignLeft
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
-                anchors.topMargin: 8
-                anchors.bottomMargin: 7
-            }
-        }
-
-        Rectangle
-        {
-            id: frameOperation
-            height: 60 * pt
-            color: "transparent"
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
-            DapComboBox
-            {
-                id: comboBoxOperation
-                model: operationModel
-
-                anchors.centerIn: parent
-                anchors.fill: parent
-                anchors.margins: 10 * pt
-                anchors.leftMargin: 15 * pt
-
-                comboBoxTextRole: ["name"]
-
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-                hilightColor: currTheme.buttonColorNormal
-
-                widthPopupComboBoxNormal: 318 * pt
-                widthPopupComboBoxActive: 318 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-            }
-        }
 
         Rectangle
         {
