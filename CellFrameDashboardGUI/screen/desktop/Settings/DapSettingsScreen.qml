@@ -19,7 +19,7 @@ DapAbstractScreen
 
     signal createWalletSignal(bool restoreMode)
 
-    signal switchMenuTab(string name, bool state)
+    signal switchMenuTab(string tag, bool state)
 
     anchors
     {

@@ -44,7 +44,7 @@ ColumnLayout
 
     Repeater
     {
-        model: modelMenuTabFromSettings.count
+        model: modelMenuTabStates.count
         Item {
             Layout.preferredHeight: 50 * pt
             Layout.preferredWidth: 327 * pt
@@ -61,7 +61,7 @@ ColumnLayout
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     color: currTheme.textColor
                     verticalAlignment: Qt.AlignVCenter
-                    text: modelMenuTabFromSettings.get(index).name
+                    text: modelMenuTabStates.get(index).name
                 }
                 Switch
                 {
@@ -69,8 +69,11 @@ ColumnLayout
                     Layout.rightMargin: 15 * pt
                     Layout.preferredHeight: 26*pt
                     Layout.preferredWidth: 46 * pt
-                    checked: modelMenuTabFromSettings.get(index).show
-                    onToggled: switchMenuTab(modelMenuTabFromSettings.get(index).name, checked)
+                    checked: modelMenuTabStates.get(index).show
+                    onToggled: {
+                        modelMenuTabStates.get(index).show = checked
+                        switchMenuTab(modelMenuTabStates.get(index).tag, checked)
+                    }
                 }
             }
             Rectangle
