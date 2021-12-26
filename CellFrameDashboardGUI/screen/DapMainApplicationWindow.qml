@@ -481,10 +481,18 @@ Rectangle {
         if (menuTabStates) {
           console.log("loading menuTabStates", menuTabStates)
 
-          modelMenuTabStates.clear()
+//          modelMenuTabStates.clear()
           var datamodel = JSON.parse(menuTabStates)
+
           for (var i = 0; i < datamodel.length; ++i)
-              modelMenuTabStates.append(datamodel[i])
+              for (var j = 0; j < modelMenuTabStates.count; ++j)
+                  if (datamodel[i].tag === modelMenuTabStates.get(j).tag)
+                  {
+                      modelMenuTabStates.get(j).show = datamodel[i].show
+//                      console.log(datamodel[i].tag, datamodel[i].show,
+//                          modelMenuTabStates.get(j).tag, modelMenuTabStates.get(j).show)
+                      break
+                  }
         }
     }
 
