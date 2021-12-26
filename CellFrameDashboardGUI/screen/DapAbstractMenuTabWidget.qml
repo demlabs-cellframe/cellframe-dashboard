@@ -32,8 +32,10 @@ DapAbstractMenuTabWidgetForm
             property bool isPushed: dapMenuWidget.currentIndex === index
 
             width: widthItemMenu
-            height: heightItemMenu
+//            height: heightItemMenu
+            height: showTab ? heightItemMenu : 0
             color: normalColorItemMenu
+            visible: showTab
 
             Image
             {
@@ -47,6 +49,7 @@ DapAbstractMenuTabWidgetForm
                 visible: false
                 source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }
+
             Image
             {
                 id: iconItem
@@ -57,8 +60,6 @@ DapAbstractMenuTabWidgetForm
                 width: widthIconItemMenu
                 source: normalIcon
             }
-
-
 
             Text
             {

@@ -34,7 +34,7 @@ DapAbstractTab
     dapTopPanel: DapSettingsTopPanel { }
 
     dapScreen: DapSettingsScreen {
-        id:settingsScreen
+        id: settingsScreen
     }
 
     dapRightPanel: StackView
@@ -94,6 +94,22 @@ DapAbstractTab
         onModelWalletsUpdated:
         {
             settingsScreen.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
+        }
+    }
+
+    Connections
+    {
+        target: settingsScreen
+        onSwitchMenuTab:
+        {
+            console.log("onSwitchMenuTab", name, state)
+
+            for (var i = 0; i < modelMenuTab.count; ++i)
+                if (modelMenuTab.get(i).name === name)
+                {
+                    modelMenuTab.setProperty(i, "showTab", state)
+                    break
+                }
         }
     }
 
