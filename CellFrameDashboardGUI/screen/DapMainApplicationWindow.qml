@@ -1,5 +1,7 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
+import Qt.labs.settings 1.0
+
 import "qrc:/screen"
 import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Dashboard"
@@ -40,7 +42,7 @@ Rectangle {
      ///@detalis Path to the plugins tab.
     readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/DapPluginsTab.qml"
     ///@detalis Path to the dApps tab.
-   readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
+    readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
 
 
     readonly property string underConstructionsScreenPath: "qrc:/screen/" + device + "/UnderConstructions.qml"
@@ -70,24 +72,58 @@ Rectangle {
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
 
+    signal menuTabChanged()
+
+    property alias dapModelMenuTabStates: modelMenuTabStates
+
     // Menu bar tab model
     ListModel
     {
-        id: modelMenuTabFromSettings
-        ListElement { name: qsTr("Certificates")
+        id: modelMenuTabStates
+        ListElement { tag: "Certificates"
+            name: qsTr("Certificates")
             show: true }
-        ListElement { name: qsTr("Tokens")
+        ListElement { tag: "Tokens"
+            name: qsTr("Tokens")
             show: true }
-        ListElement { name: qsTr("VPN service")
+        ListElement { tag: "VPN service"
+            name: qsTr("VPN service")
             show: true }
-        ListElement { name: qsTr("Console")
+        ListElement { tag: "Console"
+            name: qsTr("Console")
             show: true }
-        ListElement { name: qsTr("Logs")
+        ListElement { tag: "Logs"
+            name: qsTr("Logs")
             show: true }
-        ListElement { name: qsTr("dApps")
+        ListElement { tag: "dApps"
+            name: qsTr("dApps")
             show: true }
-        ListElement { name: qsTr("Plugins")
+        ListElement { tag: "Plugins"
+            name: qsTr("Plugins")
             show: true }
+    }
+
+    property string menuTabStates: ""
+
+    Settings {
+      property alias menuTabStates: dapMainWindow.menuTabStates
+    }
+
+    Connections
+    {
+        onMenuTabChanged:
+        {
+            console.log("onMenuTabChanged")
+
+            var datamodel = []
+            for (var i = 0; i < modelMenuTabStates.count; ++i)
+            {
+                datamodel.push(modelMenuTabStates.get(i))
+                console.log(modelMenuTabStates.get(i).tag,
+                            "show", modelMenuTabStates.get(i).show)
+            }
+            menuTabStates = JSON.stringify(datamodel)
+        }
     }
 
     //for test
@@ -284,6 +320,7 @@ Rectangle {
         {
             append({
                 name: qsTr("Wallet"),
+                tag: "Wallet",
                 page: dashboardScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
@@ -293,6 +330,7 @@ Rectangle {
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
+                tag: "Exchange",
                 page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
 //                page: exchangeScreenPath, //TODO: here should be: exchangeScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
@@ -302,6 +340,7 @@ Rectangle {
     
             append ({
                 name: qsTr("TX Explorer"),
+                tag: "TX Explorer",
                 page: historyScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
@@ -310,6 +349,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Certificates"),
+                tag: "Certificates",
                 page: certificatesScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
@@ -318,6 +358,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Tokens"),
+                tag: "Tokens",
                 page: underConstructionsScreenPath, //TODO: add screen for "Tokens" tab
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
@@ -326,6 +367,7 @@ Rectangle {
 
             append ({
                 name: qsTr("VPN client"),
+                tag: "VPN client",
                 page: underConstructionsScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
@@ -334,6 +376,7 @@ Rectangle {
 
             append ({
                 name: qsTr("VPN service"),
+                tag: "VPN service",
                 page: vpnServiceScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
@@ -342,6 +385,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Console"),
+                tag: "Console",
                 page: consoleScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
@@ -350,6 +394,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Logs"),
+                tag: "Logs",
                 page: logsScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png",
@@ -358,6 +403,7 @@ Rectangle {
 
             append ({
                 name: qsTr("dApps"),
+                tag: "dApps",
                 page: dAppsScreen,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
@@ -366,6 +412,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Settings"),
+                tag: "Settings",
                 page: settingsScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
@@ -374,6 +421,7 @@ Rectangle {
 
             append ({
                 name: qsTr("Plugins"),
+                tag: "Plugins",
                 page: pluginsScreen,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
@@ -383,12 +431,24 @@ Rectangle {
             //Test elements page for debug
 //            append ({
 //                name: qsTr("Test"),
+//                tag: "Test",
 //                page: testScreen,
 //                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
 //                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
 //                showTab: true
 //            })
 
+            for (var j = 0; j < modelMenuTabStates.count; ++j)
+                for (var k = 0; k < modelMenuTab.count; ++k)
+                    if (modelMenuTabStates.get(j).tag ===
+                        modelMenuTab.get(k).tag)
+                {
+                    console.log(modelMenuTabStates.get(j).tag,
+                                "show", modelMenuTabStates.get(j).show)
+
+                    modelMenuTab.get(k).showTab = modelMenuTabStates.get(j).show
+                    break
+                }
         }
     }
 //    //Main Shadow
@@ -417,6 +477,15 @@ Rectangle {
         dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
+
+        if (menuTabStates) {
+          console.log("loading menuTabStates", menuTabStates)
+
+          modelMenuTabStates.clear()
+          var datamodel = JSON.parse(menuTabStates)
+          for (var i = 0; i < datamodel.length; ++i)
+              modelMenuTabStates.append(datamodel[i])
+        }
     }
 
     Connections

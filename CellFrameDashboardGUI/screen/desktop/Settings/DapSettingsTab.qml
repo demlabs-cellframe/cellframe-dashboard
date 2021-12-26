@@ -102,14 +102,16 @@ DapAbstractTab
         target: settingsScreen
         onSwitchMenuTab:
         {
-            console.log("onSwitchMenuTab", name, state)
+            console.log("onSwitchMenuTab", tag, state)
 
             for (var i = 0; i < modelMenuTab.count; ++i)
-                if (modelMenuTab.get(i).name === name)
+                if (modelMenuTab.get(i).tag === tag)
                 {
                     modelMenuTab.setProperty(i, "showTab", state)
                     break
                 }
+
+            menuTabChanged()
         }
     }
 
