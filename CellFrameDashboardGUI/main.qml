@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
+import Qt.labs.settings 1.0
 import "screen"
 
 ApplicationWindow
@@ -10,6 +11,18 @@ ApplicationWindow
     visible: true
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+
+    width: 1280
+    height: 800
+    minimumWidth: 1280
+    minimumHeight: 800
+
+    Settings {
+        property alias x: window.x
+        property alias y: window.y
+        property alias width: window.width
+        property alias height: window.height
+    }
 
     //Main window
     DapMainApplicationWindow
@@ -91,11 +104,9 @@ ApplicationWindow
     }
 
     Component.onCompleted: {
-        if(!isMobile) {
-            window.width = 1280
-            window.height = 800
-            window.minimumWidth = 1280
-            window.minimumHeight = 800
+        if(isMobile) {
+            window.minimumWidth = 0
+            window.minimumHeight = 0
         }
     }
 
