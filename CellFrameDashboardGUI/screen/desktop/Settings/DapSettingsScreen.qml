@@ -11,11 +11,14 @@ import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractScreen
 {
+    id: settingScreen
+
     property alias settingsScreen_ : settingScreen
     property alias dapComboboxWallet: walletComboBox
 
-    id:settingScreen
     signal createWalletSignal(bool restoreMode)
+
+    signal switchMenuTab(string name, bool state)
 
     anchors
     {
@@ -145,6 +148,7 @@ DapAbstractScreen
                     }
                     DapRectangleLitAndShaded
                     {
+                        id: appearanceBlock
                         Layout.fillWidth: true
                         Layout.minimumWidth: 327 * pt
                         Layout.alignment: Qt.AlignTop

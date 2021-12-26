@@ -70,6 +70,26 @@ Rectangle {
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
 
+    // Menu bar tab model
+    ListModel
+    {
+        id: modelMenuTabFromSettings
+        ListElement { name: qsTr("Certificates")
+            show: true }
+        ListElement { name: qsTr("Tokens")
+            show: true }
+        ListElement { name: qsTr("VPN service")
+            show: true }
+        ListElement { name: qsTr("Console")
+            show: true }
+        ListElement { name: qsTr("Logs")
+            show: true }
+        ListElement { name: qsTr("dApps")
+            show: true }
+        ListElement { name: qsTr("Plugins")
+            show: true }
+    }
+
     //for test
 //    property string pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
     property string pathTheme: "BlackTheme"
@@ -256,116 +276,108 @@ Rectangle {
         id: dapModelPlugins
     }
 
-    // Menu bar tab model
-    ListModel
-    {
-        id: modelMenuTabFromSettings
-    }
-
     ListModel 
     {
         id: modelMenuTab
 
-
-        
         Component.onCompleted:
         {
-            /*append({
-                name: qsTr("Wallet"),
-                page: dashboardScreenPath,
-                normalIcon: "qrc:/resources/icons/new-wallet_icon_dark.svg",
-                hoverIcon: "qrc:/resources/icons/new-wallet_icon_dark_hover.svg"
-            })*/
-            modelMenuTabFromSettings.append({name:qsTr("Certificates")});
-            modelMenuTabFromSettings.append({name:qsTr("Tokens")});
-            modelMenuTabFromSettings.append({name:qsTr("VPN service")});
-            modelMenuTabFromSettings.append({name:qsTr("Console")});
-            modelMenuTabFromSettings.append({name:qsTr("Logs")});
-            modelMenuTabFromSettings.append({name:qsTr("dApps")});
-            modelMenuTabFromSettings.append({name:qsTr("Plugins")});
-
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
+                showTab: true
             })
+
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
                 page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
 //                page: exchangeScreenPath, //TODO: here should be: exchangeScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
+                showTab: true
             })
     
             append ({
                 name: qsTr("TX Explorer"),
                 page: historyScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
+                showTab: true
             })
-
 
             append ({
                 name: qsTr("Certificates"),
                 page: certificatesScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                showTab: true
             })
 
             append ({
                 name: qsTr("Tokens"),
                 page: underConstructionsScreenPath, //TODO: add screen for "Tokens" tab
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
+                showTab: true
             })
-
 
             append ({
                 name: qsTr("VPN client"),
                 page: underConstructionsScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
+                showTab: true
             })
 
             append ({
                 name: qsTr("VPN service"),
                 page: vpnServiceScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
+                showTab: true
             })
-
 
             append ({
                 name: qsTr("Console"),
                 page: consoleScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
+                showTab: true
             })
+
             append ({
                 name: qsTr("Logs"),
                 page: logsScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png"
-             })
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png",
+                showTab: true
+            })
+
             append ({
                 name: qsTr("dApps"),
                 page: dAppsScreen,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+                showTab: true
             })
+
             append ({
                 name: qsTr("Settings"),
                 page: settingsScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
+                showTab: true
             })
+
             append ({
                 name: qsTr("Plugins"),
                 page: pluginsScreen,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png"
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+                showTab: true
             })
 
             //Test elements page for debug
@@ -373,7 +385,8 @@ Rectangle {
 //                name: qsTr("Test"),
 //                page: testScreen,
 //                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-//                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+//                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
+//                showTab: true
 //            })
 
         }

@@ -69,6 +69,8 @@ ColumnLayout
                     Layout.rightMargin: 15 * pt
                     Layout.preferredHeight: 26*pt
                     Layout.preferredWidth: 46 * pt
+                    checked: modelMenuTabFromSettings.get(index).show
+                    onToggled: switchMenuTab(modelMenuTabFromSettings.get(index).name, checked)
                 }
             }
             Rectangle
