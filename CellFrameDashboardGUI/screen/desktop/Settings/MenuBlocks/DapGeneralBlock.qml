@@ -3,13 +3,20 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import "../../SettingsWallet.js" as SettingsWallet
 
 ColumnLayout
 {
+    id:control
+    anchors.fill: parent
+
+    property alias dapWalletsButtons : buttonGroup
+    property int dapCurrentWallet: SettingsWallet.currentIndex
+
     Item
     {
         Layout.fillWidth: true
-        height: 38 * pt
+        Layout.preferredHeight: 38 * pt
 
         Text
         {
@@ -26,7 +33,7 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        height: 30 * pt
+        Layout.preferredHeight: 30 * pt
         color: currTheme.backgroundMainScreen
 
         Text
@@ -41,55 +48,89 @@ ColumnLayout
         }
     }
 
-    Repeater
+    ButtonGroup
     {
-        model: dapModelWallets.count
-        Item {
-            Layout.preferredHeight: 50 * pt
-            Layout.preferredWidth: 327 * pt
+        id: buttonGroup
+    }
+    ListView
+    {
+        id:listWallet
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        Layout.preferredHeight: contentHeight
+        model:dapModelWallets
+        clip: true
+        delegate: delegateList
 
-            RowLayout
-            {
-                anchors.fill: parent
+    }
 
-                Text
+    Component{
+        id:delegateList
+
+        ColumnLayout
+        {
+            id:columnWallets
+            anchors.left: parent.left
+            anchors.right: parent.right
+            onHeightChanged: listWallet.contentHeight = height
+
+            Item {
+                Layout.preferredHeight: 50 * pt
+                Layout.preferredWidth: 327 * pt
+
+                RowLayout
                 {
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.leftMargin: 15 * pt
+                    anchors.fill: parent
 
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                    color: currTheme.textColor
-                    verticalAlignment: Qt.AlignVCenter
-                    text: dapModelWallets.get(index).name
+                    Text
+                    {
+                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        Layout.leftMargin: 15 * pt
+
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        color: currTheme.textColor
+                        verticalAlignment: Qt.AlignVCenter
+                        text: name
+                    }
+
+
+                    DapRadioButton
+                    {
+                        id: radioBut
+
+//                        signal setWallet(var index)
+
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        Layout.rightMargin: 15 * pt
+                        Layout.preferredHeight: 26*pt
+                        Layout.preferredWidth: 46 * pt
+
+                        ButtonGroup.group: buttonGroup
+
+                        nameRadioButton: qsTr("")
+                        indicatorInnerSize: 46 * pt
+                        spaceIndicatorText: 3 * pt
+                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        implicitHeight: indicatorInnerSize
+                        checked: index === SettingsWallet.currentIndex? true:false
+
+                        onClicked:
+                        {
+                            dapCurrentWallet = index
+                            SettingsWallet.currentIndex = index
+                        }
+                    }
                 }
-
-
-                DapRadioButton
+                Rectangle
                 {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.rightMargin: 15 * pt
-                    Layout.preferredHeight: 26*pt
-                    Layout.preferredWidth: 46 * pt
-
-                    nameRadioButton: qsTr("")
-                    indicatorInnerSize: 46 * pt
-                    spaceIndicatorText: 3 * pt
-                    fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                    implicitHeight: indicatorInnerSize
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    height: 1 * pt
+                    color: currTheme.lineSeparatorColor
 
                 }
-            }
-            Rectangle
-            {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: 1 * pt
-                color: currTheme.lineSeparatorColor
-
             }
         }
     }
-
-
 }

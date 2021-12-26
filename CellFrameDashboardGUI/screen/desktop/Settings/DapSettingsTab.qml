@@ -81,19 +81,11 @@ DapAbstractTab
 
         onWalletCreated:
         {
-            dapIndexCurrentWallet = settingsScreen.dapComboboxWallet.currentIndex
+            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
             dapWallets.length = 0
             dapModelWallets.clear()
             dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
-        }
-    }
-    Connections
-    {
-        target: dapMainWindow
-        onModelWalletsUpdated:
-        {
-            settingsScreen.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
         }
     }
 
