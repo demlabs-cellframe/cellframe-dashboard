@@ -260,74 +260,74 @@ Rectangle {
             append({
                 name: qsTr("Wallet"),
                 page: dashboardScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_wallet.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png"
             })
 //TODO: The tab is disabled until the functional part is implemented
             append ({
                 name: qsTr("Exchange"),
                 page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
 //                page: exchangeScreenPath, //TODO: here should be: exchangeScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_exchange.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png"
             })
     
             append ({
                 name: qsTr("TX Explorer"),
                 page: historyScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_history.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_history.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png"
             })
 
 
             append ({
                 name: qsTr("Certificates"),
                 page: certificatesScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_certificates.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png"
             })
 
             append ({
                 name: qsTr("Tokens"),
                 page: underConstructionsScreenPath, //TODO: add screen for "Tokens" tab
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_tokens.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png"
             })
 
 
             append ({
                 name: qsTr("VPN client"),
                 page: underConstructionsScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/vpn-client_icon.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png"
             })
 
             append ({
                 name: qsTr("VPN service"),
                 page: vpnServiceScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_vpn.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png"
             })
 
 
             append ({
                 name: qsTr("Console"),
                 page: consoleScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_console.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_console.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png"
             })
 
             append ({
                 name: qsTr("Settings"),
                 page: settingsScreenPath,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png"
             })
             append ({
                 name: qsTr("dApps"),
                 page: pluginsScreen,
-                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png"
+                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png"
             })
 
             //Test elements page for debug
