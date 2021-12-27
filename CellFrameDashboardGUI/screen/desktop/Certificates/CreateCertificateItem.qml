@@ -50,7 +50,7 @@ Rectangle {
             Item {
                 id: titleRectangle
                 width: parent.width
-                height: 40 * pt
+                height: 35 * pt
 
                 CloseButton {
                     id: closeButton
@@ -60,13 +60,14 @@ Rectangle {
                     id: certificateTitleText
                     anchors{
                         left: closeButton.right
-                        leftMargin: 8 * pt
-                        verticalCenter: closeButton.verticalCenter
+                        leftMargin: 13 * pt
+                        verticalCenter: parent.verticalCenter
                     }
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                     color: currTheme.textColor
                     text: qsTr("Create certificate")
                 }
+
             }  //titleRectangle
 
 
@@ -74,7 +75,7 @@ Rectangle {
                 id: requiredTitle
                 width: parent.width
                 height: 30 * pt
-                y: 38 * pt
+                y: 35 * pt
                 color: currTheme.backgroundMainScreen
 
                 Text {
