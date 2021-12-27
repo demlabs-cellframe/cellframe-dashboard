@@ -1,7 +1,8 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapLastActionsRightPanelForm
 {
@@ -9,11 +10,21 @@ DapLastActionsRightPanelForm
     property date today: new Date()
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
 
+    property date lastDate: new Date(0)
+    property date prevDate: new Date(0)
+
     property alias dapModelLastActions: modelLastActions
+
+    property int requestCounter: 0
 
     ListModel
     {
         id: modelLastActions
+    }
+
+    ListModel
+    {
+        id: temporaryModel
     }
 
     Component
@@ -23,17 +34,18 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
-            color: "#757184"
+            color: currTheme.backgroundMainScreen
+
+            property date payDate: new Date(Date.parse(section))
 
             Text
             {
-                property date payDate: new Date(Date.parse(section))
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: "#FFFFFF"
+                color: currTheme.textColor
                 text: getDateString(payDate)
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
@@ -45,20 +57,108 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onWalletHistoryReceived:
         {
-            modelLastActions.clear()
+            if (requestCounter <= 0)
+                return
+
+            console.log("onWalletHistoryReceived")
+
+            --requestCounter
+
             for (var i = 0; i < walletHistory.length; ++i)
             {
-                modelLastActions.append({ "name" : walletHistory[i].Name,
-                                          "amount" : walletHistory[i].Amount,
-                                          "status" : walletHistory[i].Status,
-                                          "date" : walletHistory[i].Date})
+                if (temporaryModel.count === 0)
+                    temporaryModel.append({ "network" : walletHistory[i].Network,
+                        "name" : walletHistory[i].Name,
+                        "amount" : walletHistory[i].Amount,
+                        "status" : walletHistory[i].Status,
+                        "date" : walletHistory[i].Date,
+                        "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                else
+                {
+                    var j = 0;
+                    while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[i].SecsSinceEpoch)
+                    {
+                        ++j;
+                        if (j >= temporaryModel.count)
+                            break;
+                    }
+                    temporaryModel.insert(j, { "network" : walletHistory[i].Network,
+                        "name" : walletHistory[i].Name,
+                        "amount" : walletHistory[i].Amount,
+                        "status" : walletHistory[i].Status,
+                        "date" : walletHistory[i].Date,
+                        "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                }
+
+                var currDate = new Date(Date.parse(walletHistory[i].Date))
+
+                if (lastDate === new Date(0))
+                {
+                    lastDate = currDate
+                    prevDate = currDate
+                }
+                if (lastDate < currDate)
+                {
+                    prevDate = lastDate
+                    lastDate = currDate
+                }
             }
+
+            if (requestCounter <= 0)
+            {
+                today = new Date()
+                yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+                modelLastActions.clear()
+
+                for (var k = 0; k < temporaryModel.count; ++k)
+                {
+                    var payDate = new Date(Date.parse(temporaryModel.get(k).date))
+
+                    if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
+                        modelLastActions.append(temporaryModel.get(k))
+                }
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapMainWindow
+        onModelWalletsUpdated:
+        {
+            if (SettingsWallet.currentIndex >= 0 &&
+                requestCounter === 0)
+            {
+                lastDate = new Date(0)
+                prevDate = new Date(0)
+
+                modelLastActions.clear()
+
+                requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            }
+        }
+    }
+
+    Component.onCompleted:
+    {
+        if (SettingsWallet.currentIndex >= 0 &&
+            requestCounter === 0)
+        {
+            lastDate = new Date(0)
+            prevDate = new Date(0)
+
+            modelLastActions.clear()
+
+            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
         }
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
     function getDateString(date)
     {
+//        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
+
         if (isSameDay(today, date))
         {
             return qsTr("Today")
@@ -80,7 +180,7 @@ DapLastActionsRightPanelForm
     ////@ Checks if dates are same
     function isSameDay(date1, date2)
     {
-       return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
     }
 
     ////@ Checks if dates have same year

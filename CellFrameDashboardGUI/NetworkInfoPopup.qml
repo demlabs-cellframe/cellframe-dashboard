@@ -5,7 +5,7 @@ import QtQuick.Controls 2.0
 
 Popup {
     id: networkInfoPupup
-    y: footer.y-height
+    y: networksPanel.y-height
     width: 300
     height: 150
     padding: 1

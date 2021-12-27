@@ -14,6 +14,7 @@ DapAbstractTab {
     id: vpnServiceTab
 
     property alias dapVPNServiceRightPanel: stackViewRightPanel
+    color: currTheme.backgroundMainScreen
 
 
     dapScreen:
@@ -30,6 +31,7 @@ DapAbstractTab {
     dapTopPanel:
         DapVPNServiceTopPanel
         {
+            color: currTheme.backgroundPanel
             id: vpnServicetTopPanel
             dapAddOrderButton.onClicked: {
                 createOrderFunc()
@@ -140,6 +142,8 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
+                if(dapModelOrders.count === 0)
+                    state = "ORDERDEFAULT"
                 vpnServiceScreen.dapGridViewFrame.currentIndex = -1
 //                console.log("DapGetListOrdersCommand")
 //                dapServiceController.requestToService("DapGetListOrdersCommand");
@@ -152,6 +156,8 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
+                if(dapModelOrders.count === 0)
+                    state = "ORDERDEFAULT"
                 vpnServiceScreen.dapGridViewFrame.currentIndex = -1
 //                console.log("DapGetListOrdersCommand")
 //                dapServiceController.requestToService("DapGetListOrdersCommand");
@@ -197,7 +203,7 @@ DapAbstractTab {
     function update()
     {
         dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
-        dapWallets.length = 0
+        dapOrders.length = 0
         dapModelOrders.clear()
         dapServiceController.requestToService("DapGetListOrdersCommand");
 

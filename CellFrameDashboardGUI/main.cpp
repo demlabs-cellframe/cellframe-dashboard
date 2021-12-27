@@ -15,6 +15,7 @@
 #include "DapLogMessage.h"
 #include "DapWallet.h"
 #include "DapApplication.h"
+#include "PluginsController/DapPluginsController.h"
 
 #include "dap_config.h"
 
@@ -23,6 +24,8 @@
 #endif
 
 #include "systemtray.h"
+
+#include "models/VpnOrdersModel.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -33,6 +36,8 @@
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
 //#endif
+
+#include "WalletRestore/wallethashmanager.h"
 
 bool SingleApplicationTest(const QString &appName)
 {
@@ -159,9 +164,41 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
+    //dApps config file
+        QString filePluginConfig;
+        QString pluginPath;
+    #ifdef Q_OS_LINUX
+        filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
+        pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
+    #elif defined Q_OS_MACOS
+        mkdir("/tmp/cellframe-dashboard_dapps",0777);
+        filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
+    #elif defined Q_OS_WIN
+        filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
+        pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
+    #endif
+
+    QFile filePlugin(filePluginConfig);
+    if(!filePlugin.exists())
+    {
+        if(filePlugin.open(QIODevice::WriteOnly))
+            filePlugin.close();
+    }
+
     SystemTray * systemTray = new SystemTray();
     QQmlContext * context = app.qmlEngine()->rootContext();
     context->setContextProperty("systemTray", systemTray);
+
+    // For wallet restore
+    WalletHashManager walletHashManager;
+
+    context->setContextProperty("walletHashManager", &walletHashManager);
+    walletHashManager.setContext(context);
+
+    //For plugins
+    DapPluginsController pluginsManager(filePluginConfig,pluginPath);
+    context->setContextProperty("pluginsManager", &pluginsManager);
 
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 

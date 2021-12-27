@@ -8,6 +8,7 @@ import "qrc:/widgets"
 DapTopPanel
 {
     id:topLogsPanel
+    color: currTheme.backgroundPanel
 
     property alias buttonNormalColor: exportLogButton.colorBackgroundNormal
 

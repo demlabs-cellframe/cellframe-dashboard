@@ -16,20 +16,20 @@ TextField {
 
     property string smartPlaceHolderText: ""
     //placeholderTextColor: color     //5.12
-    property string placeholderTextColor_: "#C7C6CE"    //5.10
+    property string placeholderTextColor_: currTheme.textColor    //5.10
 
     property int borderWidth: 1 * pt
     property int borderWidthWhenFocus: 2 * pt
 
     property color backgroundColor: "transparent"
     property color backgroundColorWhenDisabled: backgroundColor
-    property color borderColor: "#C7C6CE"
+    property color borderColor: currTheme.borderColor
     property color borderColorWhenDisabled: borderColor
 
 
-    color: "#070023"
+    color: currTheme.textColor
     verticalAlignment: TextInput.AlignVCenter
-    selectByMouse: false
+    selectByMouse: true
     //inputMethodHints: Qt.ImhPreferLowercase
 
     leftPadding: 12 * pt
@@ -64,7 +64,7 @@ TextField {
         anchors.bottom: parent.bottom
         width: parent.width
         height: 1 * pt
-        color: root.enabled ? backgroundColor : backgroundColorWhenDisabled
+        color: currTheme.borderColor
         border.color: root.enabled ? borderColor : borderColorWhenDisabled
         border.width: root.activeFocus ? borderWidthWhenFocus : borderWidth
     }

@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Layouts 1.4
 import "qrc:/widgets"
 import "../../../"
 
@@ -12,70 +13,24 @@ DapAbstractRightPanel
     dapNextRightPanel: lastActionsWallet
     dapPreviousRightPanel: lastActionsWallet
 
-    dapHeaderData:
-        Row
-        {
-            anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            anchors.topMargin: 12 * pt
-            anchors.bottomMargin: 12 * pt
-            spacing: 12 * pt
-
-            Item
-            {
-                id: itemButtonClose
-                data: dapButtonClose
-                height: dapButtonClose.height
-                width: dapButtonClose.width
-            }
-
-            Text
-            {
-                id: textHeader
-                text: qsTr("New payment")
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
-                color: "#3E3853"
-            }
-        }
     dapContentItemData:
-        Rectangle
+        Item
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.rightMargin: 16 * pt
-            color: "transparent"
-
-            Rectangle
-            {
-                id: rectangleTop
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 156 * pt
-                color: "transparent"
-            }
 
             Text
             {
                 id: textMessage
                 text: qsTr("Placed to mempool")
                 horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: rectangleTop.bottom
-                anchors.topMargin:  24 * pt
-                color: "#070023"
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular28
-            }
-
-            Rectangle
-            {
-                id: rectangleCenter
-                height: 48 * pt
-                anchors.top: textMessage.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
-                color: "transparent"
+                anchors.top: parent.top
+                anchors.topMargin:  150 * pt
+                anchors.leftMargin: 46 * pt
+                anchors.rightMargin: 50 * pt
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
             }
 
             Text
@@ -84,9 +39,10 @@ DapAbstractRightPanel
                 text: qsTr("Status")
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: rectangleCenter.bottom
-                color: "#757184"
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular22
+                anchors.top: textMessage.bottom
+                anchors.topMargin: 36 * pt
+                color: "#A4A3C0"
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
             }
 
             Text
@@ -96,38 +52,24 @@ DapAbstractRightPanel
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: textStatus.bottom
-                anchors.topMargin: 8 * pt
-                color: "#070023"
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular28
-            }
-
-            Rectangle
-            {
-                id: rectangleTopButton
-                height: 64 * pt
-                anchors.top: textStatusMessage.bottom
-                anchors.topMargin: 24 * pt
-                anchors.left: parent.left
-                anchors.right: parent.right
-                color: "transparent"
+//                anchors.topMargin: 8 * pt
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
             }
 
             // Button "Send"
             DapButton
             {
                 id: buttonSend
-                height: 44 * pt
-                width: 130 * pt
+                height: 36 * pt
+                width: 132 * pt
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: rectangleTopButton.bottom
-                anchors.topMargin: 24 * pt
-                textButton: qsTr("Send")
-                colorBackgroundHover: "#D51F5D"
-                colorBackgroundNormal: "#3E3853"
-                colorButtonTextNormal: "#FFFFFF"
+                anchors.top: textStatusMessage.bottom
+                anchors.topMargin: 190 * pt
+                textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular18
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
             Rectangle

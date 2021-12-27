@@ -28,7 +28,7 @@ Control {
         text: control.textFromValue(control.value, control.locale)
 
         font: control.font
-        color: "#3E3853"
+        color: currTheme.textColor
         horizontalAlignment: Qt.AlignRight
         verticalAlignment: Qt.AlignVCenter
 
@@ -41,7 +41,7 @@ Control {
 
     background: Rectangle {
         implicitWidth: 140 * pt
-        color: "#00000000"
+        color:"transparent"
         border.width: pt
         border.color: "#B4B1BD"
         radius: 4 * pt

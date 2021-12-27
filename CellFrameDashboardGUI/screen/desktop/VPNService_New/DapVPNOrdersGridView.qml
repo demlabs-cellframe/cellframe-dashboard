@@ -40,10 +40,10 @@ GridView {
             width: parent.width - x * 2
             height: parent.height - y * 2
 
-            color: "#00000000"
+            color: currTheme.backgroundMainScreen
             border.width: pt
-            border.color: "#E2E1E6"
-            radius: 8 * pt
+            border.color: currTheme.lineSeparatorColor
+            radius: currTheme.radiusRectangle
             focus: true
 
             Rectangle {
@@ -51,14 +51,14 @@ GridView {
 
                 width: parent.width
                 height: 30 * pt
-                color: cell.GridView.isCurrentItem ? "#D51F5D" : "#3E3853"
+                color: cell.GridView.isCurrentItem ? currTheme.buttonColorNormal : currTheme.backgroundPanel
 //                color: cell.GridView.isCurrentItem ? "#D51F5D" : "gray"
-                radius: 8 * pt
+                radius: parent.radius
 
                 Rectangle {
                     y: parent.height - height
                     width: parent.width
-                    height: 8 * pt
+                    height: parent.radius - 2 * pt
                     color: parent.color
                 }
 
@@ -69,7 +69,7 @@ GridView {
                     anchors.right: orderIcon.right
                     font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     elide: Text.ElideRight
-                    color: "#FFFFFF"
+                    color: currTheme.textColor
                     text: "VPN Order " + model.index
                 }
 
@@ -80,6 +80,14 @@ GridView {
                     anchors.rightMargin: (control.delegateContentMargin / 2) * pt  // / 2 - ic_info_order.svg have space right
                     sourceSize: Qt.size(parent.height, parent.height)
                     source: "qrc:/resources/icons/ic_info_order.svg"
+                }
+                Rectangle
+                {
+                    anchors.top: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 1 * pt
+                    color: currTheme.lineSeparatorColor
                 }
             }
 

@@ -8,6 +8,7 @@ DapAbstractTab
 
     property alias dapHistoryTopPanel: historyTopPanel
     property alias dapHistoryScreen: historyScreen
+    color: currTheme.backgroundPanel
 
     dapTopPanel:
         DapHistoryTopPanel
@@ -22,10 +23,12 @@ DapAbstractTab
         }
 
     dapRightPanel:
-        DapHistoryRightPanel
-        {
-            visible: false
-        }
+        Item { visible: false }
+
+//        DapHistoryRightPanel
+//        {
+//            visible: false
+//        }
 }
 
 /*##^## Designer {

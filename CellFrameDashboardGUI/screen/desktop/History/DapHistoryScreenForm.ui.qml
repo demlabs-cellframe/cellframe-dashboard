@@ -1,47 +1,69 @@
-import QtQuick 2.4
+//import QtQuick 2.4
+import QtQuick 2.9
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.5
+import QtQuick.Controls.Styles 1.4
+import QtGraphicalEffects 1.0
+
 import "qrc:/widgets"
 import "../../"
 
 DapAbstractScreen
 {
-    ListView
+    color: currTheme.backgroundMainScreen
+
+    property alias dapHistoryRightPanel: historyRightPanel
+
+    anchors
     {
-        id: dapListViewHistory
+        fill: parent
+        margins: 24 * pt
+    }
+
+    RowLayout
+    {
         anchors.fill: parent
+        spacing: 24 * pt
 
-        anchors.topMargin: 24 * pt
-        anchors.leftMargin: 24 * pt
-        anchors.rightMargin: 24 * pt
-        model: modelHistory
-        delegate: delegateToken
-        section.property: "date"
-        section.criteria: ViewSection.FullString
-        section.delegate: delegateDate
-        clip: true
-
-        DapScrollViewHandling
+        DapRectangleLitAndShaded
         {
-            id: historyListScrollHandler
-            viewData: dapListViewHistory
-            scrollMouseAtArrow: historyListScroll.mouseAtArrow
-            z: -1
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+//            anchors.fill: parent
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
+
+            contentData:
+            ListView
+            {
+                id: dapListViewHistory
+                anchors.fill: parent
+                model: modelHistory
+                clip: true
+
+                delegate: delegateToken
+
+                section.property: "date"
+                section.criteria: ViewSection.FullString
+                section.delegate: delegateDate
+
+                ScrollBar.vertical: ScrollBar {
+                    active: true
+                }
+            }
+
         }
+
+        DapHistoryRightPanel
+        {
+            id: historyRightPanel
+
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
+        }
+
     }
 
-    DapScrollView
-    {
-        id: historyListScroll
-        scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
-        scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
-        scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
-        scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
-        viewData: dapListViewHistory
-        //Assign DapScrollView with DapScrollViewHandling which must have no parent-child relationship
-        onClicked: historyListScrollHandler.scrollDirectionUp = !historyListScrollHandler.scrollDirectionUp
-        scrollButtonVisible: historyListScrollHandler.scrollVisible
-        scrollButtonArrowUp: historyListScrollHandler.scrollDirectionUp
-        scrollButtonRightMargin: 10 * pt
-        scrollButtonTopMargin: dapListViewHistory.anchors.topMargin + 20 * pt
-        scrollButtonBottomMargin: 10 * pt
-    }
 }
