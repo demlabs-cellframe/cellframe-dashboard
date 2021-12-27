@@ -25,7 +25,7 @@ DapAbstractMenuTabWidgetForm
     {
         id: itemMenuTabDelegate
 
-        Rectangle
+        Item
         {
             id: frameItemMenu
 
@@ -34,7 +34,8 @@ DapAbstractMenuTabWidgetForm
             width: widthItemMenu
 //            height: heightItemMenu
             height: showTab ? heightItemMenu : 0
-            color: normalColorItemMenu
+//            color: normalColorItemMenu
+
             visible: showTab
 
             Image
@@ -112,7 +113,7 @@ DapAbstractMenuTabWidgetForm
 
             onIsPushedChanged:
             {
-                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
+//                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
                 iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
                 textItem.font.family = (isPushed ? selectedFont : normalFont);
                 menuItemImg.visible = isPushed ? true : false

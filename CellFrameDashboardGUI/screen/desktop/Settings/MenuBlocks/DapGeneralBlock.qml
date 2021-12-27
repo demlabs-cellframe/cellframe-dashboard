@@ -81,8 +81,6 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 20 * pt
-                    anchors.rightMargin: 15 * pt
                     anchors.topMargin: 10 * pt
                     anchors.bottomMargin: 15 * pt
 
@@ -91,6 +89,7 @@ ColumnLayout
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         height: 26*pt
                         Layout.fillWidth: true
+                        Layout.leftMargin: 15 * pt
 
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         color: currTheme.textColor
@@ -108,6 +107,7 @@ ColumnLayout
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         Layout.preferredHeight: 26*pt
                         Layout.preferredWidth: 46 * pt
+                        Layout.rightMargin: 15 * pt
 
                         ButtonGroup.group: buttonGroup
 
@@ -120,6 +120,8 @@ ColumnLayout
 
                         onClicked:
                         {
+                            if(!checked)
+                                checked = true
                             dapCurrentWallet = index
                             SettingsWallet.currentIndex = index
                         }
@@ -133,6 +135,11 @@ ColumnLayout
                     height: 1 * pt
                     color: currTheme.lineSeparatorColor
 
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: radioBut.clicked();
                 }
             }
         }

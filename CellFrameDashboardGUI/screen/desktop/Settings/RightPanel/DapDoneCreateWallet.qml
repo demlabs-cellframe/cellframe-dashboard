@@ -30,6 +30,7 @@ DapDoneCreateWalletForm
             previousActivated(emptyRightPanel)
             dapSettingsRightPanel.visible = false
             dapSettingsRightPanel.width = 0
+            dapSettingsScreen.dapExtensionsBlock.visible = true
         }
     }
 
@@ -42,6 +43,7 @@ DapDoneCreateWalletForm
             previousActivated(emptyRightPanel)
             dapSettingsRightPanel.visible = false
             dapSettingsRightPanel.width = 0
+            dapSettingsScreen.dapExtensionsBlock.visible = true
         }
     }
 }

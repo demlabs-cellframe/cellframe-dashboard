@@ -13,8 +13,9 @@ DapAbstractScreen
 {
     id: settingScreen
 
-    property alias settingsScreen_ : settingScreen
-    property alias dapGeneralBlock:generalBlock
+    property alias settingsScreen_: settingScreen
+    property alias dapGeneralBlock: generalBlock
+    property alias dapExtensionsBlock: extensionsBlock
 //    property alias dapComboboxWallet: walletComboBox
 
     signal createWalletSignal(bool restoreMode)
@@ -39,7 +40,7 @@ DapAbstractScreen
         RowLayout
         {
             anchors.fill: parent
-            spacing: 25 * pt
+            spacing: 23 * pt
 
             ColumnLayout
             {
@@ -113,6 +114,7 @@ DapAbstractScreen
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredHeight: contentData.implicitHeight
+                Layout.leftMargin: 2 * pt
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
@@ -128,12 +130,32 @@ DapAbstractScreen
                 Layout.maximumWidth: 350 * pt
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredHeight: contentData.implicitHeight
+
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 
                 contentData: DapExtensionsBlock{}
+
+                onVisibleChanged:
+                {
+                    if(visible)
+                        separatop.visible = false
+                    else
+                        separatop.visible = true
+                }
+
+            }
+            Item
+            {
+                id:separatop
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.minimumWidth: 0 * pt
+                Layout.maximumWidth: 0 * pt
+//                Layout.leftMargin: 23 * pt
+                visible: false
             }
         }
     }

@@ -21,6 +21,7 @@ DapAbstractTab
     color: currTheme.backgroundMainScreen
 
     property alias dapSettingsRightPanel: stackViewRightPanel
+    property alias dapSettingsScreen: settingsScreen
 
     property var walletInfo:
     {
@@ -53,17 +54,6 @@ DapAbstractTab
 
     Connections
     {
-        target: settingsScreen
-        onCreateWalletSignal:
-        {
-            restoreWalletMode = restoreMode
-            dapSettingsRightPanel.visible = true
-            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
-        }
-    }
-
-    Connections
-    {
         target: currentRightPanel
         onNextActivated:
         {
@@ -92,6 +82,15 @@ DapAbstractTab
     Connections
     {
         target: settingsScreen
+
+        onCreateWalletSignal:
+        {
+            restoreWalletMode = restoreMode
+            dapSettingsRightPanel.visible = true
+            settingsScreen.dapExtensionsBlock.visible = false
+            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+        }
+
         onSwitchMenuTab:
         {
             console.log("onSwitchMenuTab", tag, state)
@@ -105,11 +104,7 @@ DapAbstractTab
 
             menuTabChanged()
         }
-    }
 
-    Connections
-    {
-        target: settingsScreen
         onSwitchAppsTab:
         {
             console.log("onSwitchMenuTab", tag, name, state)
@@ -124,5 +119,4 @@ DapAbstractTab
             menuTabChanged()
         }
     }
-
 }

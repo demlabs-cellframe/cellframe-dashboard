@@ -28,7 +28,7 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        height: 30 * pt
+        Layout.preferredHeight: 30 * pt
         color: currTheme.backgroundMainScreen
 
         Text
@@ -54,8 +54,6 @@ ColumnLayout
             RowLayout
             {
                 anchors.fill: parent
-                anchors.leftMargin: 20 * pt
-                anchors.rightMargin: 15 * pt
                 anchors.topMargin: 5 * pt
                 anchors.bottomMargin: 15 * pt
 
@@ -64,6 +62,7 @@ ColumnLayout
                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     Layout.preferredHeight: 25 * pt
                     Layout.fillWidth: true
+                    Layout.leftMargin: 15 * pt
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     color: currTheme.textColor
@@ -72,9 +71,11 @@ ColumnLayout
                 }
                 DapSwitch
                 {
+                    id: switchTab
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredHeight: 26 * pt
                     Layout.preferredWidth: 46 * pt
+                    Layout.rightMargin: 15 * pt
 
                     backgroundColor: currTheme.backgroundMainScreen
                     borderColor: currTheme.reflectionLight

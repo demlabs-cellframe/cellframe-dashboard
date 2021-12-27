@@ -17,8 +17,8 @@ ColumnLayout
         {
             anchors.fill: parent
             anchors.leftMargin: 15 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin:  10 * pt
+            anchors.topMargin: 15 * pt
+            anchors.bottomMargin:  5 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -86,6 +86,8 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
+                    anchors.topMargin: 5 * pt
+                    anchors.bottomMargin: 15 * pt
 
                     Text
                     {
@@ -97,12 +99,19 @@ ColumnLayout
                         verticalAlignment: Qt.AlignVCenter
                         text: name
                     }
-                    Switch
+
+                    DapSwitch
                     {
+                        id: switchApp
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        Layout.rightMargin: 15 * pt
                         Layout.preferredHeight: 26 * pt
                         Layout.preferredWidth: 46 * pt
+                        Layout.rightMargin: 15 * pt
+
+                        backgroundColor: currTheme.backgroundMainScreen
+                        borderColor: currTheme.reflectionLight
+                        shadowColor: currTheme.shadowColor
+
                         checked: modelAppsTabStates.get(index).show
                         onToggled: {
                             modelAppsTabStates.get(index).show = checked
