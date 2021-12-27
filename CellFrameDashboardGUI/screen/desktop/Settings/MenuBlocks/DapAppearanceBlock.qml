@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
 
 ColumnLayout
 {
@@ -63,12 +64,17 @@ ColumnLayout
                     verticalAlignment: Qt.AlignVCenter
                     text: modelMenuTabStates.get(index).name
                 }
-                Switch
+                DapSwitch
                 {
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.rightMargin: 15 * pt
                     Layout.preferredHeight: 26*pt
                     Layout.preferredWidth: 46 * pt
+
+                    backgroundColor: currTheme.backgroundMainScreen
+                    borderColor: currTheme.reflectionLight
+                    shadowColor: currTheme.shadowColor
+
                     checked: modelMenuTabStates.get(index).show
                     onToggled: {
                         modelMenuTabStates.get(index).show = checked
@@ -88,7 +94,7 @@ ColumnLayout
         }
     }
 
-    Rectangle
+/*    Rectangle
     {
         Layout.fillWidth: true
         height: 30 * pt
@@ -144,5 +150,5 @@ ColumnLayout
                 color: currTheme.lineSeparatorColor
             }
         }
-    }
+    }*/
 }
