@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
+import QtQuick.Layouts 1.3
 
 import "qrc:/screen"
 import "qrc:/resources/QML"
@@ -73,6 +74,7 @@ Rectangle {
     property var currTheme: currThemeVal ? darkTheme : lightTheme
 
     signal menuTabChanged()
+    signal pluginsTabChanged(var auto, var removed, var name)
 
     property alias dapModelMenuTabStates: modelMenuTabStates
 
@@ -109,6 +111,11 @@ Rectangle {
       property alias menuTabStates: dapMainWindow.menuTabStates
     }
 
+    ListModel
+    {
+        id:modelAppsTabStates
+    }
+
     Connections
     {
         onMenuTabChanged:
@@ -118,11 +125,66 @@ Rectangle {
             var datamodel = []
             for (var i = 0; i < modelMenuTabStates.count; ++i)
             {
+//                if(modelMenuTabStates.get(i).tag !== "Plugin")
+                {
                 datamodel.push(modelMenuTabStates.get(i))
                 console.log(modelMenuTabStates.get(i).tag,
-                            "show", modelMenuTabStates.get(i).show)
+                                "show", modelMenuTabStates.get(i).show)
+                }
             }
             menuTabStates = JSON.stringify(datamodel)
+
+        }
+    }
+
+    Connections
+    {
+        onPluginsTabChanged:
+        {
+            if(auto)
+            {
+                for(var i = 0; i < modelAppsTabStates.count; i++)
+                {
+                    modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
+                                        tag: modelAppsTabStates.get(i).tag,
+                                        page: modelAppsTabStates.get(i).path,
+                                        normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                                        hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                                        showTab: modelAppsTabStates.get(i).show})
+                }
+            }
+            else
+            {
+                var index;
+                if(removed)
+                {
+                    for(i = 0; i < modelMenuTab.count; i++)
+                    {
+
+                        if(modelMenuTab.get(i).name === name)
+                        {
+                            modelMenuTab.remove(i);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    for(i = 0; i < modelAppsTabStates.count; i++)
+                    {
+                        if(modelAppsTabStates.get(i).name === name)
+                        {
+                            modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
+                                                tag: modelAppsTabStates.get(i).tag,
+                                                page: modelAppsTabStates.get(i).path,
+                                                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                                                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                                                showTab: modelAppsTabStates.get(i).show})
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -168,6 +230,7 @@ Rectangle {
         {
             id: columnMenuTab
             height: rowMainWindow.height
+//            Layout.
             width: 180 * pt
             // Logotype widget
             Item
@@ -204,6 +267,8 @@ Rectangle {
             Item
             {
                 id: menuWidget
+                width: 180 * pt
+                height: columnMenuTab.height - logotype.height
                 data: DapAbstractMenuTabWidget
                 {
                     color:currTheme.backgroundPanel
@@ -244,9 +309,6 @@ Rectangle {
                         color: parent.color
                     }
                 }
-
-                width: 180 * pt
-                height: columnMenuTab.height - logotype.height
             }
         }
 
@@ -419,14 +481,14 @@ Rectangle {
                 showTab: true
             })
 
-            append ({
-                name: qsTr("Plugins"),
-                tag: "Plugins",
-                page: pluginsScreen,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                showTab: true
-            })
+//            append ({
+//                name: qsTr("Plugins"),
+//                tag: "Plugins",
+//                page: pluginsScreen,
+//                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+//                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+//                showTab: true
+//            })
 
             //Test elements page for debug
 //            append ({
@@ -449,6 +511,7 @@ Rectangle {
                     modelMenuTab.get(k).showTab = modelMenuTabStates.get(j).show
                     break
                 }
+            pluginsTabChanged(true,false,"")
         }
     }
 //    //Main Shadow
@@ -670,6 +733,7 @@ Rectangle {
             modelOrdersUpdated();
         }
     }
+
     Connections{
         target: pluginsManager
         onRcvListPlugins:
@@ -690,6 +754,7 @@ Rectangle {
                                         "verifed" : dapPlugins[q][3]})
             }
             modelPluginsUpdated()
+            updateModelAppsTab()
         }
     }
 
@@ -733,6 +798,63 @@ Rectangle {
         return counter
     }
 
+    function updateModelAppsTab() //create model apps from left menu tab
+    {
+        if(modelAppsTabStates.count)
+        {
+            for(var i = 0; i < dapModelPlugins.count; i++)
+            {
+                var indexCreate;
+                for(var j = 0; j < modelAppsTabStates.count; j++)
+                {
+                    if(dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name && dapModelPlugins.get(i).status !== "1")
+                    {
+                        pluginsTabChanged(false, true, modelAppsTabStates.get(j).name)
+                        modelAppsTabStates.remove(j);
+                        j--;
+                    }
+                    else if(dapModelPlugins.get(i).status === "1" && dapModelPlugins.get(i).name !== modelAppsTabStates.get(j).name)
+                    {
+                        indexCreate = i;
+                    }
+                    else if(dapModelPlugins.get(i).status === "1" && dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name)
+                    {
+                        indexCreate = -1;
+                        break
+                    }
+                }
+
+                if(indexCreate >= 0)
+                {
+                    modelAppsTabStates.append({tag: "Plugin",
+                                               name:dapModelPlugins.get(indexCreate).name,
+                                               path: dapModelPlugins.get(indexCreate).path,
+                                               verified:dapModelPlugins.get(indexCreate).varified,
+                                               show:true})
+
+                    pluginsTabChanged(false, false, dapModelPlugins.get(indexCreate).name)
+                    break
+                }
+            }
+
+        }
+        else
+        {
+            for(i = 0; i < dapModelPlugins.count; i++)
+            {
+                if(dapModelPlugins.get(i).status === "1")
+                {
+                    modelAppsTabStates.append({tag: "Plugin",
+                                               name:dapModelPlugins.get(i).name,
+                                               path: dapModelPlugins.get(i).path,
+                                               verified:dapModelPlugins.get(i).varified,
+                                               show:true})
+                }
+            }
+            if(modelMenuTab.count)
+                pluginsTabChanged(true,false,"")
+        }
+    }
 }
 
 /*##^## Designer {

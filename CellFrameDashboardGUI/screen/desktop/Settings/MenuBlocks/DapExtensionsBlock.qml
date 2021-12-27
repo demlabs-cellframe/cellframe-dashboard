@@ -3,16 +3,11 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../SettingsWallet.js" as SettingsWallet
 
 ColumnLayout
 {
     id:control
     anchors.fill: parent
-
-    property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: SettingsWallet.currentIndex
-
     Item
     {
         Layout.fillWidth: true
@@ -27,7 +22,7 @@ ColumnLayout
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("General settings")
+            text: qsTr("Extensions")
         }
     }
     Rectangle
@@ -44,21 +39,31 @@ ColumnLayout
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Choose a wallet")
+            text: qsTr("Manage dApps")
         }
     }
 
-    ButtonGroup
+    ListModel
     {
-        id: buttonGroup
+        id: modelApps
+        Component.onCompleted:
+        {
+            for(var i = 0; i < dapModelPlugins.count; i++)
+            {
+                if(dapModelPlugins.get(i).status === "1")
+                    modelApps.append({name:dapModelPlugins.get(i).name, status:dapModelPlugins.get(i).status})
+
+            }
+        }
     }
+
     ListView
     {
         id:listWallet
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: contentHeight
-        model:dapModelWallets
+        model:modelApps
         clip: true
         delegate: delegateList
 
@@ -92,32 +97,16 @@ ColumnLayout
                         verticalAlignment: Qt.AlignVCenter
                         text: name
                     }
-
-
-                    DapRadioButton
+                    Switch
                     {
-                        id: radioBut
-
-//                        signal setWallet(var index)
-
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         Layout.rightMargin: 15 * pt
-                        Layout.preferredHeight: 26*pt
+                        Layout.preferredHeight: 26 * pt
                         Layout.preferredWidth: 46 * pt
-
-                        ButtonGroup.group: buttonGroup
-
-                        nameRadioButton: qsTr("")
-                        indicatorInnerSize: 46 * pt
-                        spaceIndicatorText: 3 * pt
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                        implicitHeight: indicatorInnerSize
-                        checked: index === SettingsWallet.currentIndex? true:false
-
-                        onClicked:
-                        {
-                            dapCurrentWallet = index
-                            SettingsWallet.currentIndex = index
+                        checked: modelAppsTabStates.get(index).show
+                        onToggled: {
+                            modelAppsTabStates.get(index).show = checked
+                            switchAppsTab(modelAppsTabStates.get(index).tag, modelAppsTabStates.get(index).name, checked)
                         }
                     }
                 }

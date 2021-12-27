@@ -13,7 +13,7 @@ DapMenuTabWidget
             delegate: itemMenuTabDelegate
 //            spacing: 3 * pt
             clip: true
-            interactive: false
+            interactive: true
         }
     color: currTheme.backgroundPanel
 

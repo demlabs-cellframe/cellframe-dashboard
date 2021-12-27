@@ -20,6 +20,7 @@ DapAbstractScreen
     signal createWalletSignal(bool restoreMode)
 
     signal switchMenuTab(string tag, bool state)
+    signal switchAppsTab(string tag, string name, bool state)
 
     anchors
     {
@@ -49,16 +50,17 @@ DapAbstractScreen
                 DapRectangleLitAndShaded
                 {
                     property alias dapContent:content
-                    id:generalBlock
                     property int spacing: (72 + 39) * pt
+
+                    id:generalBlock
                     Layout.fillWidth: true
                     Layout.preferredHeight: content.implicitHeight
                     Layout.maximumHeight: control.height - spacing
-
                     color: currTheme.backgroundElements
                     radius: currTheme.radiusRectangle
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
+
                     contentData: DapGeneralBlock{id:content}
                 }
 
@@ -120,23 +122,19 @@ DapAbstractScreen
             }
             DapRectangleLitAndShaded
             {
+                id:extensionsBlock
                 Layout.fillWidth: true
                 Layout.minimumWidth: 350 * pt
+                Layout.maximumWidth: 350 * pt
                 Layout.alignment: Qt.AlignTop
-                height: 300
+                Layout.preferredHeight: contentData.implicitHeight
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
-                ListView
-                {
-                    id: listViewSettingsApps
-//                            Layout.fillWidth: true
-//                            delegate: testComp
-                    clip: true
-                }
+
+                contentData: DapExtensionsBlock{}
             }
         }
     }
-
 }

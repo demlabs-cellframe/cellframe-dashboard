@@ -107,4 +107,22 @@ DapAbstractTab
         }
     }
 
+    Connections
+    {
+        target: settingsScreen
+        onSwitchAppsTab:
+        {
+            console.log("onSwitchMenuTab", tag, name, state)
+
+            for (var i = 0; i < modelMenuTab.count; ++i)
+                if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
+                {
+                    modelMenuTab.setProperty(i, "showTab", state)
+                    break
+                }
+
+            menuTabChanged()
+        }
+    }
+
 }

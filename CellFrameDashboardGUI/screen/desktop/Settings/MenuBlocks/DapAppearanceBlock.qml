@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 
 ColumnLayout
 {
+    anchors.fill: parent
     Item
     {
         Layout.fillWidth: true
@@ -47,7 +48,7 @@ ColumnLayout
         model: modelMenuTabStates.count
         Item {
             Layout.preferredHeight: 50 * pt
-            Layout.preferredWidth: 327 * pt
+            Layout.fillWidth: true
 
             RowLayout
             {
@@ -88,61 +89,61 @@ ColumnLayout
         }
     }
 
-    Rectangle
-    {
-        Layout.fillWidth: true
-        height: 30 * pt
-        color: currTheme.backgroundMainScreen
+//    Rectangle
+//    {
+//        Layout.fillWidth: true
+//        height: 30 * pt
+//        color: currTheme.backgroundMainScreen
 
-        Text
-        {
-            anchors.left: parent.left
-            anchors.leftMargin: 17 * pt
-            anchors.verticalCenter: parent.verticalCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
-            color: currTheme.textColor
-            verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Colours")
-        }
-    }
-    Repeater
-    {
-        model: themes
+//        Text
+//        {
+//            anchors.left: parent.left
+//            anchors.leftMargin: 17 * pt
+//            anchors.verticalCenter: parent.verticalCenter
+//            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+//            color: currTheme.textColor
+//            verticalAlignment: Qt.AlignVCenter
+//            text: qsTr("Colours")
+//        }
+//    }
+//    Repeater
+//    {
+//        model: themes
 
-        Item {
-            Layout.preferredHeight: 50 * pt
-            Layout.preferredWidth: 327 * pt
+//        Item {
+//            Layout.preferredHeight: 50 * pt
+//            Layout.preferredWidth: 327 * pt
 
-            RowLayout
-            {
-                anchors.fill: parent
+//            RowLayout
+//            {
+//                anchors.fill: parent
 
-                Text
-                {
-                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.leftMargin: 15 * pt
+//                Text
+//                {
+//                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+//                    Layout.leftMargin: 15 * pt
 
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                    color: currTheme.textColor
-                    verticalAlignment: Qt.AlignVCenter
-                    text: themes.get(index).name
-                }
-                Switch
-                {
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.rightMargin: 15 * pt
-                    Layout.preferredHeight: 26*pt
-                    Layout.preferredWidth: 46 * pt
-                }
-            }
-            Rectangle
-            {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: 1 * pt
-                color: currTheme.lineSeparatorColor
-            }
-        }
-    }
+//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+//                    color: currTheme.textColor
+//                    verticalAlignment: Qt.AlignVCenter
+//                    text: themes.get(index).name
+//                }
+//                Switch
+//                {
+//                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+//                    Layout.rightMargin: 15 * pt
+//                    Layout.preferredHeight: 26*pt
+//                    Layout.preferredWidth: 46 * pt
+//                }
+//            }
+//            Rectangle
+//            {
+//                anchors.left: parent.left
+//                anchors.right: parent.right
+//                anchors.bottom: parent.bottom
+//                height: 1 * pt
+//                color: currTheme.lineSeparatorColor
+//            }
+//        }
+//    }
 }
