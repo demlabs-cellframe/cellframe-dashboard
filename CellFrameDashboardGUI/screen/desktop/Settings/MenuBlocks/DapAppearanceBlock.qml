@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
 
 ColumnLayout
 {
@@ -15,8 +16,8 @@ ColumnLayout
         {
             anchors.fill: parent
             anchors.leftMargin: 15 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin:  10 * pt
+            anchors.topMargin: 15 * pt
+            anchors.bottomMargin:  5 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -53,23 +54,32 @@ ColumnLayout
             RowLayout
             {
                 anchors.fill: parent
+                anchors.leftMargin: 20 * pt
+                anchors.rightMargin: 15 * pt
+                anchors.topMargin: 5 * pt
+                anchors.bottomMargin: 15 * pt
 
                 Text
                 {
                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.leftMargin: 15 * pt
+                    Layout.preferredHeight: 25 * pt
+                    Layout.fillWidth: true
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     color: currTheme.textColor
                     verticalAlignment: Qt.AlignVCenter
                     text: modelMenuTabStates.get(index).name
                 }
-                Switch
+                DapSwitch
                 {
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.rightMargin: 15 * pt
-                    Layout.preferredHeight: 26*pt
+                    Layout.preferredHeight: 26 * pt
                     Layout.preferredWidth: 46 * pt
+
+                    backgroundColor: currTheme.backgroundMainScreen
+                    borderColor: currTheme.reflectionLight
+                    shadowColor: currTheme.shadowColor
+
                     checked: modelMenuTabStates.get(index).show
                     onToggled: {
                         modelMenuTabStates.get(index).show = checked
@@ -88,7 +98,6 @@ ColumnLayout
             }
         }
     }
-
 //    Rectangle
 //    {
 //        Layout.fillWidth: true
