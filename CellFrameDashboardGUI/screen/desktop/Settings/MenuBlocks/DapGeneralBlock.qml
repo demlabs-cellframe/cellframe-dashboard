@@ -22,8 +22,8 @@ ColumnLayout
         {
             anchors.fill: parent
             anchors.leftMargin: 15 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin:  10 * pt
+            anchors.topMargin: 15 * pt
+            anchors.bottomMargin:  5 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -75,17 +75,22 @@ ColumnLayout
             onHeightChanged: listWallet.contentHeight = height
 
             Item {
-                Layout.preferredHeight: 50 * pt
-                Layout.preferredWidth: 327 * pt
+                height: 50 * pt
+                Layout.fillWidth: true
 
                 RowLayout
                 {
                     anchors.fill: parent
+                    anchors.leftMargin: 20 * pt
+                    anchors.rightMargin: 15 * pt
+                    anchors.topMargin: 10 * pt
+                    anchors.bottomMargin: 15 * pt
 
                     Text
                     {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                        Layout.leftMargin: 15 * pt
+                        height: 26*pt
+                        Layout.fillWidth: true
 
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         color: currTheme.textColor
@@ -101,7 +106,6 @@ ColumnLayout
 //                        signal setWallet(var index)
 
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        Layout.rightMargin: 15 * pt
                         Layout.preferredHeight: 26*pt
                         Layout.preferredWidth: 46 * pt
 
