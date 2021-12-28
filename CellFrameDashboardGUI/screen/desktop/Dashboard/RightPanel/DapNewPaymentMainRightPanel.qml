@@ -9,10 +9,15 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
+        if (dapServiceController.ReadingChains)
+            dapChainGroup.visible = true
+        else
+            dapChainGroup.visible = false
+
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
 
-        dapCmboBoxCnainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
     }
 
@@ -21,7 +26,7 @@ DapNewPaymentMainRightPanelForm
         print("dapComboboxNetwork.onCurrentIndexChanged")
         print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxCnainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
