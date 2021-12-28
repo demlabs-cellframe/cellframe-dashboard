@@ -754,7 +754,7 @@ Rectangle {
                                         "verifed" : dapPlugins[q][3]})
             }
             modelPluginsUpdated()
-            updateModelAppsTab()
+//            updateModelAppsTab()
         }
     }
 
