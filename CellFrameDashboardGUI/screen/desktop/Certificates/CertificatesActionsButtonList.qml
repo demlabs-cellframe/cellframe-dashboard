@@ -82,27 +82,28 @@ Rectangle {
                     DapRadioButton {    //qrc:/screen/desktop/Certificates/CertificatesActionsButtonList.qml:73:17: QML DapRadioButtonForm.ui: Binding loop detected for property "baselineOffset"
                         id: buttonSelectionNothing
                         nameRadioButton: model.name
-                        Layout.preferredHeight: 16 * pt
+                        Layout.preferredHeight: 20 * pt
                         Layout.fillWidth: true
                         implicitHeight: indicatorInnerSize
                         indicatorSize: 16 * pt
                         indicatorInnerSize: 46 * pt
-                        spaceIndicatorText: 18 * pt
+                        //spaceIndicatorText: 18 * pt
                         fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         ButtonGroup.group: buttonGroup
                         checked: model.selected
+
                         onClicked: {
                             root.selectedAccessKeyType(model.index)
                         }
                     }  //
                 }  //
-            }  //
-        }  //radioButtonFrame
+            }
 
+        }  //radioButtonFrame
 
         Text {
             id: actionsTitleText
-            x: 15 * pt
+            x: 16 * pt
             y: radioButtonFrame.y + radioButtonFrame.height + 44 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
@@ -183,7 +184,7 @@ Rectangle {
 
 
             DapButton {
-                id: addSignatureToCertificateButton
+                id: addSignatureToCertificateButton //#373A42
                 textButton: qsTr("Add signature to certificate")
     //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
