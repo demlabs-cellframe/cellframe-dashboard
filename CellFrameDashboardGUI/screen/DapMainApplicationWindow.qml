@@ -846,9 +846,9 @@ Rectangle {
             }
 
         }
-        console.log("3.3 step")
         else
         {
+            console.log("3.3 step")
             for(i = 0; i < dapModelPlugins.count; i++)
             {
                 if(dapModelPlugins.get(i).status === "1")
@@ -863,6 +863,7 @@ Rectangle {
             if(modelMenuTab.count)
                 pluginsTabChanged(true,false,"")
         }
+        console.log("3.4 step")
     }
 }
 
