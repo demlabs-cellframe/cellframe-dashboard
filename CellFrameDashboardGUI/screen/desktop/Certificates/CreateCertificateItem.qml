@@ -94,17 +94,17 @@ Rectangle {
                 id: requiredBody
                 y: requiredTitle.y + requiredTitle.height
                 width: parent.width
-                height: 138 * pt
+                height: 139 * pt
 
                 DapComboBox {
                     id: signatureTypeCertificateComboBox
                     // x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal    //???
 
                     anchors.verticalCenter: undefined
-                    x: (parent.width - width) / 2 - 4 * pt
+                    x: (parent.width - width) / 2
                     y: 13 * pt
-                    widthPopupComboBoxNormal: 300 * pt
-                    widthPopupComboBoxActive: 300 * pt
+                    widthPopupComboBoxNormal: 316 * pt
+                    widthPopupComboBoxActive: 316 * pt
                     heightComboBoxNormal: 42 * pt
                     heightComboBoxActive: 42 * pt
 
@@ -114,7 +114,8 @@ Rectangle {
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                     sidePaddingNormal: 19 * pt
                     sidePaddingActive: 19 * pt
-                    paddingTopItemDelegate: 8 * pt
+                    paddingTopItemDelegate: 11 * pt
+                    currentIndex: -1
         //            bottomIntervalListElement: 8 * pt
                     heightListElement: 42 * pt
                     //intervalListElement: 10 * pt
@@ -122,7 +123,6 @@ Rectangle {
                     indicatorHeight: indicatorWidth
                     indicatorLeftInterval: 20 * pt
                     roleInterval: 15
-
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
@@ -135,16 +135,15 @@ Rectangle {
                     fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                     colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-
                 }
 
 
                 InputField {
                     id: titleCertificateTextInput
-                    x: 35 * pt
-                    y: 78 * pt
+                    x: parent.width * 0.5 - width * 0.5
+                    y: parent. height - height - 32 * pt
                     height: 28 * pt
-                    width: 277 * pt
+                    width: 280 * pt
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
 
@@ -216,7 +215,7 @@ Rectangle {
 
                 ColumnLayout {
                     id: optionalBodyLayout
-                    spacing: 24 * pt
+                    spacing: 25 * pt
                     y: spacing
                     x: 15 * pt
                     width: parent.width - x
@@ -232,7 +231,16 @@ Rectangle {
                             smartPlaceHolderText: model.placeHolderText
 
         //                    color: focus ? currTheme.textColor : "#C7C6CE"
-                            inputMask: model.inputFieldMask
+                            //inputMask: model.inputFieldMask
+
+                            onFocusChanged:
+                            {
+                                if (focus)
+                                    inputMask = model.inputFieldMask;
+                                else if (text == "..")
+                                    inputMask = ""
+                            }
+
 
                             onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", "")}
 
@@ -244,7 +252,6 @@ Rectangle {
                         }
 
                     }  //
-
 
                     DapButton {
                         id: createButton
@@ -261,7 +268,6 @@ Rectangle {
 
 
                 }  //optionalBodyeLayout
-
 
             }  //optionalBody
         }
