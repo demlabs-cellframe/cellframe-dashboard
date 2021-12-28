@@ -849,21 +849,24 @@ Rectangle {
         else
         {
             console.log("3.3 step")
-            for(i = 0; i < dapModelPlugins.count; i++)
+            for(var k = 0; k < dapModelPlugins.count; k++)
             {
-                if(dapModelPlugins.get(i).status === "1")
+                if(dapModelPlugins.get(k).status === "1")
                 {
                     modelAppsTabStates.append({tag: "Plugin",
-                                               name:dapModelPlugins.get(i).name,
-                                               path: dapModelPlugins.get(i).path,
-                                               verified:dapModelPlugins.get(i).varified,
+                                               name:dapModelPlugins.get(k).name,
+                                               path: dapModelPlugins.get(k).path,
+                                               verified:dapModelPlugins.get(k).varified,
                                                show:true})
                 }
             }
+            console.log("3.4 step")
             if(modelMenuTab.count)
+            {
+                console.log("3.4.1 step")
                 pluginsTabChanged(true,false,"")
+            }
         }
-        console.log("3.4 step")
     }
 }
 
