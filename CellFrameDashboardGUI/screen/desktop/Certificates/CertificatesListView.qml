@@ -98,17 +98,17 @@ ListView {
             //this property need set from root
             width: root.width
             anchors.left: parent.left
-            anchors.leftMargin: 10 * pt
+            anchors.leftMargin: 14 * pt
             anchors.right: parent.right
-            anchors.rightMargin: 10 * pt
+            anchors.rightMargin: 14 * pt
             height: 40 * pt
             color: currTheme.backgroundElements
             radius: currTheme.radiusRectangle
 
             Text {
                 id: certificateNameText
-                x: 14 * pt
-                width: 612 * pt
+                //x: 14 * pt
+                width: 597 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -160,14 +160,14 @@ ListView {
 
             Rectangle {
                 id: bottomLine
-                x: certificateNameText.x
+                //x: certificateNameText.x
 //                y: parent.height
 //                width: 644 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.bottom
-                anchors.leftMargin: 14 * pt
-                anchors.rightMargin: 15 * pt
+                //anchors.leftMargin: 14 * pt
+                //anchors.rightMargin: 15 * pt
                 height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
