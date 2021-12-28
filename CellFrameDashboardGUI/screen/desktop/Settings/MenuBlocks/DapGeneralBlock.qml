@@ -52,13 +52,31 @@ ColumnLayout
     {
         id: buttonGroup
     }
+
+    ListModel{
+        id:networksModelGenegal
+
+        function createModelNetworks()
+        {
+            for(var i = 0; i < dapModelWallets.count; i++)
+            {
+                for(var j = 0; j < dapModelWallets.get(i).networks.count; j++)
+                {
+                    if(dapModelWallets.get(i).networks.get(j).name === "subzero")
+                        networksModelGenegal.append({address:dapModelWallets.get(i).networks.get(j).address})
+                }
+            }
+        }
+    }
+
+
     ListView
     {
         id:listWallet
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: contentHeight
-        model:dapModelWallets
+        model:{networksModelGenegal.createModelNetworks(); return dapModelWallets}
         clip: true
         delegate: delegateList
 
@@ -77,26 +95,66 @@ ColumnLayout
             Item {
                 Layout.preferredHeight: 50 * pt
                 Layout.fillWidth: true
+                Layout.topMargin: 10 * pt
+
 
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 10 * pt
-                    anchors.bottomMargin: 15 * pt
 
-                    Text
+                    ColumnLayout
                     {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                        height: 26*pt
-                        Layout.fillWidth: true
                         Layout.leftMargin: 15 * pt
 
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        color: currTheme.textColor
-                        verticalAlignment: Qt.AlignVCenter
-                        text: name
-                    }
+                        Text
+                        {
 
+                            height: 26*pt
+                            Layout.fillWidth: true
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            color: currTheme.textColor
+                            verticalAlignment: Qt.AlignVCenter
+                            text: name
+                        }
+                        RowLayout
+                        {
+                            Layout.preferredHeight: 16 * pt
+                            Layout.bottomMargin: 9 * pt
+                            spacing: 0 * pt
+                            DapText
+                            {
+                               id: textMetworkAddress
+                               Layout.preferredWidth: 96 * pt
+
+                               fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                               color: currTheme.textColorGrayTwo
+                               fullText: networksModelGenegal.get(index).address
+                               textElide: Text.ElideMiddle
+                               horizontalAlignment: Qt.Alignleft
+
+                            }
+                            MouseArea
+                            {
+                                id: networkAddressCopyButton
+                                Layout.preferredHeight: 16 * pt
+                                Layout.preferredWidth: 16 * pt
+                                hoverEnabled: true
+
+                                onClicked: textMetworkAddress.copyFullText()
+
+                                Image
+                                {
+                                    id: networkAddressCopyButtonImage
+                                    anchors.fill: parent
+                                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+                                    sourceSize.width: parent.width
+                                    sourceSize.height: parent.height
+
+                                }
+                            }
+                        }
+                    }
 
                     DapRadioButton
                     {
@@ -120,8 +178,8 @@ ColumnLayout
 
                         onClicked:
                         {
-                            if(!checked)
-                                checked = true
+//                            if(!checked)
+//                                checked = true
                             dapCurrentWallet = index
                             SettingsWallet.currentIndex = index
                         }
@@ -136,11 +194,11 @@ ColumnLayout
                     color: currTheme.lineSeparatorColor
 
                 }
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked: radioBut.clicked();
-                }
+//                MouseArea
+//                {
+//                    anchors.fill: parent
+//                    onClicked: radioBut.clicked();
+//                }
             }
         }
     }
