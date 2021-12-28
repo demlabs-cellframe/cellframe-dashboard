@@ -752,9 +752,13 @@ Rectangle {
                                         "path" : dapPlugins[q][1],
                                         "status" : dapPlugins[q][2],
                                         "verifed" : dapPlugins[q][3]})
+                console.log("1 step")
             }
+            console.log("2 step")
             modelPluginsUpdated()
+            console.log("3 step")
             updateModelAppsTab()
+            console.log("4 step")
         }
     }
 
