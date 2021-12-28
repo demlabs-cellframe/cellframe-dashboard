@@ -806,11 +806,15 @@ Rectangle {
     {
         if(modelAppsTabStates.count)
         {
+            console.log("modelAppsTabStates.count"+ modelAppsTabStates.count)
             for(var i = 0; i < dapModelPlugins.count; i++)
             {
+                console.log("3.1 step")
                 var indexCreate;
                 for(var j = 0; j < modelAppsTabStates.count; j++)
                 {
+                    console.log("modelAppsTabStates.count"+ modelAppsTabStates.count)
+                    console.log("j="+ j)
                     if(dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name && dapModelPlugins.get(i).status !== "1")
                     {
                         pluginsTabChanged(false, true, modelAppsTabStates.get(j).name)
@@ -827,7 +831,7 @@ Rectangle {
                         break
                     }
                 }
-
+                console.log("3.2 step")
                 if(indexCreate >= 0)
                 {
                     modelAppsTabStates.append({tag: "Plugin",
@@ -842,6 +846,7 @@ Rectangle {
             }
 
         }
+        console.log("3.3 step")
         else
         {
             for(i = 0; i < dapModelPlugins.count; i++)
