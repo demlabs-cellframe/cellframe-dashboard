@@ -158,7 +158,7 @@ Rectangle {
                 var index;
                 if(removed)
                 {
-                    for(i = 0; i < modelMenuTab.count; i++)
+                    for(var i = 0; i < modelMenuTab.count; i++)
                     {
 
                         if(modelMenuTab.get(i).name === name)
@@ -170,7 +170,7 @@ Rectangle {
                 }
                 else
                 {
-                    for(i = 0; i < modelAppsTabStates.count; i++)
+                    for(var i = 0; i < modelAppsTabStates.count; i++)
                     {
                         if(modelAppsTabStates.get(i).name === name)
                         {
@@ -754,7 +754,7 @@ Rectangle {
                                         "verifed" : dapPlugins[q][3]})
             }
             modelPluginsUpdated()
-//            updateModelAppsTab()
+            updateModelAppsTab()
         }
     }
 
@@ -840,7 +840,7 @@ Rectangle {
         }
         else
         {
-            for(i = 0; i < dapModelPlugins.count; i++)
+            for(var i = 0; i < dapModelPlugins.count; i++)
             {
                 if(dapModelPlugins.get(i).status === "1")
                 {
