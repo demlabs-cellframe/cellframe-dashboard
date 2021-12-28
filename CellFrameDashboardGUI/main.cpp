@@ -17,21 +17,17 @@
 #include "DapApplication.h"
 #include "PluginsController/DapPluginsController.h"
 
-#include "dap_config.h"
-
-#if defined (Q_OS_MACOS)
-#include "dap_common.h"
-#endif
+#include "dapconfigreader.h"
 
 #include "systemtray.h"
 
 #include "models/VpnOrdersModel.h"
 
+#include <sys/stat.h>
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
-
-#include <sys/stat.h>
 
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
@@ -90,28 +86,6 @@ bool SingleApplicationTest(const QString &appName)
     return true;
 }
 
-QString getConfigPath()
-{
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/etc").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/etc").arg(l_username);
-#elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/etc").arg(regWGetUsrPath());
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/etc");
-#else
-    return QString();
-#endif
-}
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -131,19 +105,9 @@ int main(int argc, char *argv[])
         dir.mkpath(".");
     }
 
-    bool debug_mode = false;
-    QString config_path = getConfigPath();
-    if (!dap_config_init(config_path.toLocal8Bit()))
-    {
-        dap_config_t * config = dap_config_open("cellframe-node");
-        if (config != NULL)
-            debug_mode = dap_config_get_item_bool_default(
-                        config, "general", "debug_dashboard_mode", false);
-        else
-            qDebug() << "Error in dap_config_open!";
-    }
-    else
-        qDebug() << "Error in dap_config_init!" << config_path;
+    DapConfigReader configReader;
+
+    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
 
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
