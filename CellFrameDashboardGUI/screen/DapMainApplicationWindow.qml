@@ -829,7 +829,7 @@ Rectangle {
                     modelAppsTabStates.append({tag: "Plugin",
                                                name:dapModelPlugins.get(indexCreate).name,
                                                path: dapModelPlugins.get(indexCreate).path,
-                                               verified:dapModelPlugins.get(indexCreate).varified,
+                                               verified:dapModelPlugins.get(indexCreate).verifed,
                                                show:true})
 
                     pluginsTabChanged(false, false, dapModelPlugins.get(indexCreate).name)
@@ -847,7 +847,7 @@ Rectangle {
                     modelAppsTabStates.append({tag: "Plugin",
                                                name:dapModelPlugins.get(i).name,
                                                path: dapModelPlugins.get(i).path,
-                                               verified:dapModelPlugins.get(i).varified,
+                                               verified:dapModelPlugins.get(i).verifed,
                                                show:true})
                 }
             }
