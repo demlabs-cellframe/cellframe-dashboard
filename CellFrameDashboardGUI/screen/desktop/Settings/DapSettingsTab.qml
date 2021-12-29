@@ -21,6 +21,7 @@ DapAbstractTab
     color: currTheme.backgroundMainScreen
 
     property alias dapSettingsRightPanel: stackViewRightPanel
+    property alias dapSettingsScreen: settingsScreen
 
     property var walletInfo:
     {
@@ -34,30 +35,21 @@ DapAbstractTab
     dapTopPanel: DapSettingsTopPanel { }
 
     dapScreen: DapSettingsScreen {
-        id:settingsScreen
+        id: settingsScreen
     }
 
     dapRightPanel: StackView
     {
         id: stackViewRightPanel
         initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: 350 * pt
+        width: visible ? 350 * pt : 0
         anchors.fill: parent
+        visible:false
         delegate:
             StackViewDelegate
             {
                 pushTransition: StackViewTransition { }
             }
-    }
-
-    Connections
-    {
-        target: settingsScreen
-        onCreateWalletSignal:
-        {
-            dapSettingsRightPanel.visible = true
-            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
-        }
     }
 
     Connections
@@ -79,20 +71,52 @@ DapAbstractTab
 
         onWalletCreated:
         {
-            dapIndexCurrentWallet = settingsScreen.dapComboboxWallet.currentIndex
+            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
             dapWallets.length = 0
             dapModelWallets.clear()
             dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
         }
     }
+
     Connections
     {
-        target: dapMainWindow
-        onModelWalletsUpdated:
+        target: settingsScreen
+
+        onCreateWalletSignal:
         {
-            settingsScreen.dapComboboxWallet.currentIndex = dapIndexCurrentWallet == -1 ? (dapModelWallets.count > 0 ? 0 : -1) : dapIndexCurrentWallet
+            restoreWalletMode = restoreMode
+            dapSettingsRightPanel.visible = true
+            settingsScreen.dapExtensionsBlock.visible = false
+            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+        }
+
+        onSwitchMenuTab:
+        {
+            console.log("onSwitchMenuTab", tag, state)
+
+            for (var i = 0; i < modelMenuTab.count; ++i)
+                if (modelMenuTab.get(i).tag === tag)
+                {
+                    modelMenuTab.setProperty(i, "showTab", state)
+                    break
+                }
+
+            menuTabChanged()
+        }
+
+        onSwitchAppsTab:
+        {
+            console.log("onSwitchMenuTab", tag, name, state)
+
+            for (var i = 0; i < modelMenuTab.count; ++i)
+                if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
+                {
+                    modelMenuTab.setProperty(i, "showTab", state)
+                    break
+                }
+
+            menuTabChanged()
         }
     }
-
 }

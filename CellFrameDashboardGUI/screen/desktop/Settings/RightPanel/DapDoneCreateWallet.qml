@@ -26,7 +26,12 @@ DapDoneCreateWalletForm
         if (currentTab === dashboardScreenPath)
             previousActivated(lastActionsWallet)
         if (currentTab === settingsScreenPath)
+        {
             previousActivated(emptyRightPanel)
+            dapSettingsRightPanel.visible = false
+            dapSettingsRightPanel.width = 0
+            dapSettingsScreen.dapExtensionsBlock.visible = true
+        }
     }
 
     dapButtonClose.onClicked:
@@ -34,6 +39,11 @@ DapDoneCreateWalletForm
         if (currentTab === dashboardScreenPath)
             previousActivated(lastActionsWallet)
         if (currentTab === settingsScreenPath)
+        {
             previousActivated(emptyRightPanel)
+            dapSettingsRightPanel.visible = false
+            dapSettingsRightPanel.width = 0
+            dapSettingsScreen.dapExtensionsBlock.visible = true
+        }
     }
 }

@@ -20,6 +20,8 @@ DapAbstractScreen
     }
     color: currTheme.backgroundMainScreen
 
+    data: {}
+
     TabView
     {
         id:pluginsTabView

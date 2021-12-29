@@ -25,15 +25,18 @@ DapAbstractMenuTabWidgetForm
     {
         id: itemMenuTabDelegate
 
-        Rectangle
+        Item
         {
             id: frameItemMenu
 
             property bool isPushed: dapMenuWidget.currentIndex === index
 
             width: widthItemMenu
-            height: heightItemMenu
-            color: normalColorItemMenu
+//            height: heightItemMenu
+            height: showTab ? heightItemMenu : 0
+//            color: normalColorItemMenu
+
+            visible: showTab
 
             Image
             {
@@ -47,6 +50,7 @@ DapAbstractMenuTabWidgetForm
                 visible: false
                 source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }
+
             Image
             {
                 id: iconItem
@@ -57,8 +61,6 @@ DapAbstractMenuTabWidgetForm
                 width: widthIconItemMenu
                 source: normalIcon
             }
-
-
 
             Text
             {
@@ -111,7 +113,7 @@ DapAbstractMenuTabWidgetForm
 
             onIsPushedChanged:
             {
-                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
+//                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
                 iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
                 textItem.font.family = (isPushed ? selectedFont : normalFont);
                 menuItemImg.visible = isPushed ? true : false

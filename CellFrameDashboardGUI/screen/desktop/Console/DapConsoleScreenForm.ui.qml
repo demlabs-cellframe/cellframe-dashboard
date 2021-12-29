@@ -21,13 +21,10 @@ DapAbstractScreen
     property alias consoleInput: consoleCmd
     anchors
     {
-        top: parent.top
+        fill: parent
         topMargin: 24 * pt
-        right: parent.right
-        rightMargin: 20 * pt
-        left: parent.left
+        rightMargin: 44 * pt
         leftMargin: 24 * pt
-        bottom: parent.bottom
         bottomMargin: 20 * pt
 
     }

@@ -49,6 +49,9 @@ class DapServiceController : public QObject
     QString m_sCurrentNetwork;
 
     int m_iIndexCurrentNetwork;
+
+    bool m_bReadingChains;
+
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
@@ -94,6 +97,8 @@ public:
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
 
+    Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)
+
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
@@ -111,6 +116,11 @@ public:
     int getIndexCurrentNetwork() const;
 
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
+
+    bool getReadingChains() const;
+
+    Q_INVOKABLE void setReadingChains(bool bReadingChains);
+
 
 public slots:
     void requestWalletList();
@@ -163,6 +173,8 @@ signals:
     void walletTokensReceived(const QVariant& walletTokens);
 
     void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
+
+    void readingChainsChanged(bool bReadingChains);
 
     void historyReceived(const QVariant& walletHistory);
 
