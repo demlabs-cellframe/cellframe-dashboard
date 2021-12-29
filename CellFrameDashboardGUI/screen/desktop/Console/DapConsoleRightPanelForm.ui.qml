@@ -22,7 +22,7 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 24 * pt
 
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
@@ -49,7 +49,7 @@ DapRightPanel
                         color: currTheme.textColor
                         width: parent.width
                         wrapMode: Text.Wrap
-                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         //For the automatic sending selected command from history
                         MouseArea
                         {

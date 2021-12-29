@@ -12,37 +12,56 @@ DapAbstractScreen
 {
     color: currTheme.backgroundMainScreen
 
+    property alias dapHistoryRightPanel: historyRightPanel
+
     anchors
     {
         fill: parent
         margins: 24 * pt
     }
 
-    DapRectangleLitAndShaded
+    RowLayout
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        spacing: 24 * pt
 
-        contentData:
-        ListView
+        DapRectangleLitAndShaded
         {
-            id: dapListViewHistory
-            anchors.fill: parent
-            model: modelHistory
-            clip: true
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+//            anchors.fill: parent
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
 
-            delegate: delegateToken
+            contentData:
+            ListView
+            {
+                id: dapListViewHistory
+                anchors.fill: parent
+                model: modelHistory
+                clip: true
 
-            section.property: "date"
-            section.criteria: ViewSection.FullString
-            section.delegate: delegateDate
+                delegate: delegateToken
 
-            ScrollBar.vertical: ScrollBar {
-                active: true
+                section.property: "date"
+                section.criteria: ViewSection.FullString
+                section.delegate: delegateDate
+
+                ScrollBar.vertical: ScrollBar {
+                    active: true
+                }
             }
+
+        }
+
+        DapHistoryRightPanel
+        {
+            id: historyRightPanel
+
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
         }
 
     }

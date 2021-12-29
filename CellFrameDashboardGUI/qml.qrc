@@ -31,7 +31,6 @@
         <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
-        <file>screen/desktop/History/DapHistoryRightPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryScreen.qml</file>
         <file>screen/desktop/History/DapHistoryScreenForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryTab.qml</file>
@@ -325,5 +324,26 @@
         <file>screen/desktop/Wallet/WalletScreenForm.ui.qml</file>
         <file>screen/desktop/Wallet/RightPanel/LastActions.qml</file>
         <file>screen/desktop/Wallet/RightPanel/LastActionsForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapPluginsProgressBar.qml</file>
+        <file>screen/desktop/dApps/DapAppsScreen.qml</file>
+        <file>screen/desktop/dApps/DapAppsTab.qml</file>
+        <file>screen/desktop/dApps/DapAppsTopPanel.qml</file>
+        <file>screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_certificates.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_console.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_daaps.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_exchange.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_history.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_logs.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_settings.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_tokens.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_vpn.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/icon_wallet.png</file>
+        <file>resources/icons/BlackTheme/LeftIcons/vpn-client_icon.png</file>
+        <file>resources/icons/BlackTheme/Illustratons/comingsoon_illustration.png</file>
+        <file>resources/icons/BlackTheme/Illustratons/wallet_illustration.png</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
     </qresource>
 </RCC>

@@ -169,7 +169,8 @@ Rectangle
                                             topMargin: 5 * pt
                                             left: parent.left
                                             right: parent.right
-//                                            bottom: parent.bottom
+                                            bottom: parent.bottom
+                                            bottomMargin: 8 * pt
                                         }
                                         elide: Text.ElideMiddle
                                         text: urlPath
@@ -213,6 +214,47 @@ Rectangle
                                         anchors.bottom: parent.bottom
                                         width: 2 * pt
                                         color: currTheme.lineSeparatorColor
+                                    }
+                                }
+                            // verifed plugin
+                                Item {
+                                    Layout.fillWidth: true
+                                    Layout.minimumWidth: 100 * pt
+                                    Layout.maximumWidth: 100 * pt
+                                    Layout.fillHeight: true
+
+                                    RowLayout
+                                    {
+                                        anchors.fill: parent
+                                        Rectangle
+                                        {
+                                            Layout.maximumHeight: 30
+                                            Layout.maximumWidth: 10
+                                            Layout.fillHeight: true
+                                            Layout.fillWidth: true
+                                            radius: 5 * pt
+//                                            color: verifed === "1" ? "green" : "red"
+                                            color: verifed === "1" ? "green" : currTheme.backgroundMainScreen
+                                        }
+                                        Text{
+//                                            Layout.fillHeight: true
+//                                            Layout.fillWidth: true
+                                            Layout.alignment: Qt.AlignCenter
+                                            id: verifedPlugin
+//                                            anchors.centerIn: parent
+                                            text: verifed === "1" ? "Verifed":"Not Verifed"
+                                            color: currTheme.textColor
+                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                        }
+                                        Rectangle
+                                        {
+                                            Layout.fillHeight: true
+//                                            anchors.right: parent.right
+//                                            anchors.top: parent.top
+//                                            anchors.bottom: parent.bottom
+                                            width: 2 * pt
+                                            color: currTheme.lineSeparatorColor
+                                        }
                                     }
                                 }
                             // status plugin
@@ -259,6 +301,15 @@ Rectangle
                             deletePlug.enabled = true
                             uninstallPlug.enabled = false
                         }
+
+                        if(deletePlug.enabled === true)
+                        {
+                            var path = listModel.get(listViewPlug.currentIndex).urlPath;
+                            if((path[0] + path[1] + path[2]) === "htt")
+                            {
+                                deletePlug.enabled = false
+                            }
+                        }
                     }
                     else
                     {
@@ -280,6 +331,59 @@ Rectangle
                     rectanglePlug.updatePluginsList()
                 }
             }
+            Connections{
+                target:pluginsManager
+                onRcvProgressDownload:
+                {
+                    if(!completed)
+                    {
+                        if(!messagePopup.isOpen)
+                        {
+                            messagePopup.openProgress();
+                            messagePopup.progress_text.text = progress + " %";
+                            messagePopup.progress_bar.currentValue = progress;
+                            messagePopup.name = name;
+                            messagePopup.download = "Download: " + download;
+                            messagePopup.total =  "Total: " + total;
+                            messagePopup.time = "Time remain: " + time;
+                            messagePopup.speed = "Speed: " + speed;
+                            messagePopup.errors.text = error;
+
+                        }
+                        else
+                        {
+                            messagePopup.progress_text.text = progress + " %";
+                            messagePopup.progress_bar.currentValue = progress;
+                            messagePopup.name = name;
+                            messagePopup.download = "Download: " + download;
+                            messagePopup.total =  "Total: " + total;
+                            messagePopup.time = "Time remain: " + time;
+                            messagePopup.speed = "Speed: " + speed;
+                            messagePopup.errors.text = error;
+                        }
+                        if(error === "Connected")
+                        {
+                            messagePopup.errors.color = "#B3FF00"
+                        }
+                        else
+                        {
+                             messagePopup.errors.color = currTheme.buttonColorNormal
+                        }
+                    }
+                    else
+                    {
+                        messagePopup.close();
+                        messagePopup.progress_text.text = "";
+                    }
+                }
+                onRcvAbort:
+                {
+                    messagePopup.close()
+                    messagePopup.isOpen = false
+                    messagePopup.progress_text.text = "";
+                }
+
+            }
 
             function updatePluginsList()
             {
@@ -287,8 +391,9 @@ Rectangle
 
                 for(var i = 0; i < dapModelPlugins.count; i++ )
                 {
-                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status})
+                    listModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
                 }
+                listViewPlug.setEnableButtons()
 
             }
         }
@@ -307,7 +412,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:loadPlug
-                textButton: "Add Plugin"
+                textButton: "Add dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -323,7 +428,7 @@ Rectangle
                     defaultSuffix: "qml"
                     onAccepted:
                     {
-                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0);
+                        pluginsManager.addPlugin(dialogSelectPlug.files[0], 0, 0);
     //                    listModel.append({name:dapMessageBox.dapContentInput.text, urlPath: dialogSelectPlug.files[0], status:0})
     //                    messagePopup.close()
     //                    console.log("Added plugin. Name: " + dapMessageBox.dapContentInput.text + " URL: " + dialogSelectPlug.files[0])
@@ -347,7 +452,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:installPlug
-                textButton: "Install Plugin"
+                textButton: "Install dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -355,7 +460,7 @@ Rectangle
                 onClicked:
                 {
                     currentPlugin = listModel.get(listViewPlug.currentIndex).urlPath
-                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 1)
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 1,listModel.get(listViewPlug.currentIndex).verifed)
     //                listModel.get(listViewPlug.currentIndex).status = "1"
                     listViewPlug.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
@@ -373,7 +478,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:uninstallPlug
-                textButton: "Unistall Plugin"
+                textButton: "Unistall dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -384,7 +489,7 @@ Rectangle
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
-                    pluginsManager.setStatusPlugin(listViewPlug.currentIndex, 0)
+                    pluginsManager.installPlugin(listViewPlug.currentIndex, 0, listModel.get(listViewPlug.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
                     listViewPlug.setEnableButtons()
@@ -402,7 +507,7 @@ Rectangle
                 implicitWidth: 163 * pt
 
                 id:deletePlug
-                textButton: "Delete Plugin"
+                textButton: "Delete dApp"
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
@@ -426,46 +531,294 @@ Rectangle
     }
 
     Popup{
+
+        property alias progress_text: bar_progress
+        property alias progress_bar: bar_progress
+
+        property alias name: _name.text
+        property alias total: _total.text
+        property alias download: _download.text
+        property alias speed: _speed.text
+        property alias time: _time.text
+        property alias errors: _errors
+
+        property alias frame:framePopup
+
+        property bool isOpen: false
+
         id: messagePopup
         closePolicy: "NoAutoClose"
-        padding: 0
-        background: Item{}
-        width: dapMessageBox.width
-        height: dapMessageBox.height
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
-        modal: true
+        parent: plugins
 
-        function smartOpen(title, contentText) {
-            dapMessageBox.dapTitleText.text = title
-            dapMessageBox.dapContentText.text = contentText
+        anchors.centerIn: parent
+        width: parent.width
+        height: parent.height
+
+        //        padding: 0
+        //        background: Item{}
+        //        width: dapMessageBox.width
+        //        height: dapMessageBox.height
+        //        x: (parent.width - width) / 2
+        //        y: (parent.height - height) / 2
+        modal: false
+
+        padding: 100
+
+        contentItem:
+            Rectangle
+            {
+                anchors.fill: parent
+                color:"#bf363A42"
+                radius: 16*pt
+
+                Rectangle
+                {
+                    id:framePopup
+                    anchors.fill: parent
+                    anchors.margins: 50 * pt
+                    anchors.leftMargin: 80 * pt
+                    anchors.rightMargin: 80 * pt
+                    anchors.centerIn: parent
+                    radius: 16*pt
+                    color:currTheme.backgroundMainScreen
+
+                    GridLayout
+                    {
+                        rows: 7
+                        columns: 2
+                        anchors.fill: parent
+
+                        Text{
+                            Layout.row:1
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_name
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+
+                        Text{
+                            Layout.row:2
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_total
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Text{
+                            Layout.row:3
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_download
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Text{
+                            Layout.row:4
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_speed
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+                        Text{
+                            Layout.row:5
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 1
+
+                            Layout.fillWidth: true
+
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+                            Layout.leftMargin: 10 * pt
+
+                            id:_time
+
+                            color: currTheme.textColor;
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            horizontalAlignment: Text.AlignLeft
+                        }
+
+                        DapPluginsProgressBar
+                        {
+                            Layout.row:1
+                            Layout.rowSpan: 5
+                            Layout.column:2
+                            Layout.columnSpan: 1
+                            id: bar_progress
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignHCenter
+                            Layout.minimumWidth: 130
+                            Layout.maximumWidth: 130
+    //                        width: 200
+    //                        height: 200
+
+                        }
+                        Text{
+                            Layout.row:6
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 2
+
+                            Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignHCenter
+
+
+                            id:_errors
+
+//                            color: currTheme.textColor
+                            color: "#B3FF00"
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+    //                        horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                            horizontalAlignment: Qt.AlignHCenter
+                        }
+
+                        DapButton
+                        {
+                            Layout.row:7
+                            Layout.rowSpan: 1
+                            Layout.column:1
+                            Layout.columnSpan: 2
+                            Layout.alignment: Qt.AlignHCenter
+
+                            Layout.minimumHeight: 36 * pt
+                            Layout.maximumHeight: 36 * pt
+
+                            Layout.minimumWidth: 163 * pt
+                            Layout.maximumWidth: 163 * pt
+
+//                            implicitHeight: 36 * pt
+//                            implicitWidth: 163 * pt
+
+                            id:canceledDownload
+                            textButton: "Cancel"
+
+                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                            horizontalAligmentText: Text.AlignHCenter
+                            onClicked:
+                            {
+                                pluginsManager.cancelDownload();
+                            }
+                        }
+
+//                        DapButton
+//                        {
+//                            Layout.row:1
+//                            Layout.rowSpan: 4
+//                            Layout.column:3
+//                            Layout.columnSpan: 1
+//                            Layout.alignment: Qt.AlignHCenter
+
+//                            Layout.fillWidth: true
+
+//                            implicitHeight: 36 * pt
+//                            implicitWidth: 163 * pt
+//                            Layout.minimumWidth: 130
+//                            Layout.maximumWidth: 130
+
+//                            id:reloadDownload
+//                            textButton: "Reload"
+//                            enabled: false
+//                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+//                            horizontalAligmentText: Text.AlignHCenter
+//                        }
+                    }
+
+                }
+
+                DropShadow {
+                        anchors.fill: framePopup
+                        horizontalOffset: currTheme.hOffset
+                        verticalOffset: currTheme.vOffset
+                        radius: currTheme.radiusShadow
+                        color: currTheme.shadowColor
+                        source: framePopup
+                        spread: 0.1
+                        smooth: true
+                    }
+            }
+        background: Item{}
+
+
+        function openProgress()
+        {
+            isOpen = true;
             open()
         }
 
-        DapMessageBox {
-            id: dapMessageBox
-            width: 240 * pt
-            height: 240 * pt
-            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
 
-            dapContentInput.visible: true
-            dapButtonOk.enabled: false
-            dapContentInput.placeholderText: qsTr("Name plugin")
-            dapContentInput.onTextChanged:
-            {
-                if(dapContentInput.text.replace(/\s/g,"") !== "")
-                    dapButtonOk.enabled = true
-                else
-                    dapButtonOk.enabled = false
-            }
 
-            dapButtonOk.onClicked: {
-                dialogSelectPlug.visible = true
-            }
-            dapButtonBack.onClicked:
-            {
-                messagePopup.close()
-            }
-        }
+
+//        function smartOpen(title, contentText) {
+//            dapMessageBox.dapTitleText.text = title
+//            dapMessageBox.dapContentText.text = contentText
+//            open()
+//        }
+
+//        DapMessageBox {
+//            id: dapMessageBox
+//            width: 240 * pt
+//            height: 240 * pt
+//            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+
+////            dapContentInput.visible: false
+//            dapButtonOk.enabled: false
+//            dapButtonBack.text: qsTr("Cancel")
+////            dapContentInput.placeholderText: qsTr("Name plugin")
+////            dapContentInput.onTextChanged:
+////            {
+////                if(dapContentInput.text.replace(/\s/g,"") !== "")
+////                    dapButtonOk.enabled = true
+////                else
+////                    dapButtonOk.enabled = false
+////            }
+
+//            dapButtonBack.onClicked:
+//            {
+//                messagePopup.close()
+//            }
+//        }
     }
 }

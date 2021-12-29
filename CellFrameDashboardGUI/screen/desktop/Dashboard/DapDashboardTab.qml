@@ -67,6 +67,7 @@ DapAbstractTab
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
+                restoreWalletMode = false
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
@@ -221,8 +222,6 @@ DapAbstractTab
             update()
         }
     }
-
-    property string str3
 
     Component.onCompleted:
     {

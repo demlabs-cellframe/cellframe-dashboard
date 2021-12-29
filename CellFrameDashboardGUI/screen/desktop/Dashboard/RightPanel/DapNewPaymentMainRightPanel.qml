@@ -8,10 +8,17 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
+        if (dapServiceController.ReadingChains)
+            dapChainGroup.visible = true
+        else
+            dapChainGroup.visible = false
 
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         dapTextNotEnoughTokensWarning.text = ""
+
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+            get(dapComboboxNetwork.currentIndex).chains
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
@@ -19,7 +26,10 @@ DapNewPaymentMainRightPanelForm
         print("dapComboboxNetwork.onCurrentIndexChanged")
         print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxTokenModel = dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+            get(dapComboboxNetwork.currentIndex).chains
+
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
 
@@ -78,21 +88,28 @@ DapNewPaymentMainRightPanelForm
             print("Enough tokens. Correct address length.")
             dapTextNotEnoughTokensWarning.text = ""
 
-            walletInfo.chain = "zero"
-            if (dapComboboxNetwork.mainLineText === "core-t")
-                walletInfo.chain = "zerochain"
+            var chain;
+            if(dapComboboxNetwork.mainLineText === "kelvin-testnet")
+                chain = "plasma"
+            else if(dapComboboxNetwork.mainLineText === "subzero")
+                chain = "support"
+            else if(dapComboboxNetwork.mainLineText === "private")
+                chain = "zero"
+            else
+                chain = dapComboboxChain.mainLineText
 
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)
-            console.log("   chain: " + walletInfo.chain)
-            console.log("   wallet from: " + walletInfo.name)
+            console.log("   chain: " + dapComboboxChain.mainLineText)
+            console.log("   wallet from: " + dapModelWallets.get(SettingsWallet.currentIndex).name)
             console.log("   wallet to: " + dapTextInputRecipientWalletAddress.text)
             console.log("   token: " + dapCmboBoxToken.mainLineText)
             print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
             console.log("   amount: " + dapTextInputAmountPayment.text)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, walletInfo.chain,
-                walletInfo.name, dapTextInputRecipientWalletAddress.text,
+                dapComboboxNetwork.mainLineText, chain,
+                dapModelWallets.get(SettingsWallet.currentIndex).name,
+                dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, dapTextInputAmountPayment.text)
 
             nextActivated("transaction created")

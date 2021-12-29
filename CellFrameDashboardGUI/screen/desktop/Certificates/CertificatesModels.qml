@@ -39,7 +39,7 @@ Item {
         id: accessKeyType
         property int selectedIndex: 0
         //selected certificate with private and public key
-        readonly property bool bothTypeCertificateSelected: selectedIndex === 2
+        readonly property bool bothTypeCertificateSelected: selectedIndex === 1
 
         ListElement { name: qsTr("Public certificates"); type: "public"; selected: true }
         ListElement { name: qsTr("Private certificates"); type: "private"; selected: false }
@@ -174,7 +174,7 @@ Item {
 
                 predicate = function (obj) {
                     return obj.fileName.toLowerCase().indexOf(fstr) >= 0
-                           && obj.accessKeyType === accessKeyTypeIndex
+                           && (obj.accessKeyType === accessKeyTypeIndex || accessKeyTypeIndex === DapCertificateType.Both)
                 }
                 renew()
                 return;

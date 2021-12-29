@@ -18,6 +18,7 @@ TextField {
 
     property alias filtering: filtering
     property int spacing: 10 * pt
+    property bool bottomLineVisible: true
 
 
     implicitHeight: 27 * pt
@@ -40,6 +41,7 @@ TextField {
 
     //bottom line
     Rectangle {
+        visible: bottomLineVisible
         width: parent.width
         height: 1 * pt
         y: parent.height

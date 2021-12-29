@@ -8,6 +8,16 @@ DapHistoryScreenForm
 {
     id: historyScreen
 
+    ////@ Variables to calculate Today, Yesterdat etc.
+    property date today: new Date()
+    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
+
+    Component.onCompleted:
+    {
+        today = new Date()
+        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+    }
+
     Component
     {
         id: delegateDate
@@ -17,6 +27,8 @@ DapHistoryScreenForm
             width: parent.width
             color: currTheme.backgroundMainScreen
 
+            property date payDate: new Date(Date.parse(section))
+
             Text
             {
                 anchors.fill: parent
@@ -25,7 +37,7 @@ DapHistoryScreenForm
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
-                text: section
+                text: getDateString(payDate)
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
         }
@@ -107,5 +119,41 @@ DapHistoryScreenForm
             }
         }
     }
+
+    ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
+    function getDateString(date)
+    {
+//        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
+
+        if (isSameDay(today, date))
+        {
+            return qsTr("Today")
+        }
+        else if (isSameDay(yesterday, date))
+        {
+            return qsTr("Yesterday")
+        }
+        else if (!isSameYear(today, date))
+        {
+            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy")
+        }
+        else
+        {
+            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d") // Does locale should be changed?
+        }
+    }
+
+    ////@ Checks if dates are same
+    function isSameDay(date1, date2)
+    {
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+    }
+
+    ////@ Checks if dates have same year
+    function isSameYear(date1, date2)
+    {
+        return (date1.getFullYear() === date2.getFullYear()) ? true : false
+    }
+
 
 }

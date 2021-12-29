@@ -18,23 +18,19 @@
 #include "DapLogMessage.h"
 #include "DapWallet.h"
 #include "DapApplication.h"
-#include "DapPluginsController.h"
+#include "PluginsController/DapPluginsController.h"
 
-#include "dap_config.h"
-
-#if defined (Q_OS_MACOS)
-#include "dap_common.h"
-#endif
+#include "dapconfigreader.h"
 
 #include "systemtray.h"
 
 #include "models/VpnOrdersModel.h"
 
+#include <sys/stat.h>
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
-
-#include <sys/stat.h>
 
 //#ifdef Q_OS_WIN32
 //#include <windows.h>
@@ -93,28 +89,6 @@ bool SingleApplicationTest(const QString &appName)
     return true;
 }
 
-QString getConfigPath()
-{
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/etc").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/etc").arg(l_username);
-#elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/etc").arg(regWGetUsrPath());
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/etc");
-#else
-    return QString();
-#endif
-}
-
 int main(int argc, char *argv[])
 {
     QAndroidJniObject::callStaticMethod<void>("net/demlabs/CellFrameDashboard/DashboardService",
@@ -141,19 +115,9 @@ int main(int argc, char *argv[])
         dir.mkpath(".");
     }
 
-    bool debug_mode = false;
-    QString config_path = getConfigPath();
-    if (!dap_config_init(config_path.toLocal8Bit()))
-    {
-        dap_config_t * config = dap_config_open("cellframe-node");
-        if (config != NULL)
-            debug_mode = dap_config_get_item_bool_default(
-                        config, "general", "debug_dashboard_mode", false);
-        else
-            qDebug() << "Error in dap_config_open!";
-    }
-    else
-        qDebug() << "Error in dap_config_init!" << config_path;
+    DapConfigReader configReader;
+
+    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
 
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
@@ -174,19 +138,19 @@ int main(int argc, char *argv[])
     #endif
 //#endif
 
-    //Plugins config file
+    //dApps config file
         QString filePluginConfig;
         QString pluginPath;
     #ifdef Q_OS_LINUX
-        filePluginConfig = QString("/opt/%1/plugins/configPlugin.ini").arg(DAP_BRAND_LO);
-        pluginPath = QString("/opt/%1/plugins").arg(DAP_BRAND_LO);
+        filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
+        pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
     #elif defined Q_OS_MACOS
-        mkdir("/tmp/cellframe-dashboard_plugins",0777);
-        filePluginConfig = QString("/tmp/cellframe-dashboard_plugins/configPlugin.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_plugins/");
+        mkdir("/tmp/cellframe-dashboard_dapps",0777);
+        filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
     #elif defined Q_OS_WIN
-        filePluginConfig = QString("%1/%2/plugins/configPlugin.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-        pluginPath = QString("%1/%2/plugins").arg(regGetUsrPath()).arg(DAP_BRAND);
+        filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
+        pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
     #endif
 
     QFile filePlugin(filePluginConfig);

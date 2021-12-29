@@ -39,7 +39,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             color: currTheme.textColor
-            text: qsTr("Name of my wallet")
+//            text: qsTr("Name of my wallet")
         }
     }
 
@@ -57,5 +57,6 @@ Page {
         implicitWidth: 163 * pt
         fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
         horizontalAligmentText: Text.AlignHCenter
+        visible: frameTitleCreateWallet.text === "" ? false : true
     }
 }

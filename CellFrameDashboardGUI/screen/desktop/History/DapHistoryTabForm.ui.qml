@@ -23,10 +23,12 @@ DapAbstractTab
         }
 
     dapRightPanel:
-        DapHistoryRightPanel
-        {
-            visible: false
-        }
+        Item { visible: false }
+
+//        DapHistoryRightPanel
+//        {
+//            visible: false
+//        }
 }
 
 /*##^## Designer {

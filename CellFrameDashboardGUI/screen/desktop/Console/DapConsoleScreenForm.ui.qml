@@ -21,13 +21,10 @@ DapAbstractScreen
     property alias consoleInput: consoleCmd
     anchors
     {
-        top: parent.top
+        fill: parent
         topMargin: 24 * pt
-        right: parent.right
-        rightMargin: 20 * pt
-        left: parent.left
+        rightMargin: 44 * pt
         leftMargin: 24 * pt
-        bottom: parent.bottom
         bottomMargin: 20 * pt
 
     }
@@ -78,24 +75,34 @@ DapAbstractScreen
                 }
             }
 
-            RowLayout
+            //RowLayout
+            Flickable
             {
+                clip: true
                 id: inputCommand
-                spacing: 0
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: listViewConsoleCommand.bottom
-                height: consoleCmd.contentHeight
+                width: parent.width
+                //spacing: 0
+                //anchors.left: parent.left
+                //anchors.right: parent.right
+                //anchors.top: listViewConsoleCommand.bottom
+                anchors.bottom: parent.bottom
+                //height: consoleCmd.contentHeight
+                height: contentHeight < 100 * pt ? contentHeight : 100 * pt
+                contentHeight: consoleCmd.height
 
+                ScrollBar.vertical: ScrollBar {}
 
                 Text
                 {
+//                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     id: promt
-                    verticalAlignment: Qt.AlignVCenter
+                    //verticalAlignment: Qt.AlignVCenter
                     text: ">"
                     color: currTheme.textColor
     //                Layout.left: parent.left
-                    Layout.leftMargin: 20 * pt
+                    x: 20 * pt
+                    y: 5 * pt
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
@@ -103,9 +110,12 @@ DapAbstractScreen
                 TextArea
                 {
                     id: consoleCmd
-                    verticalAlignment: Qt.AlignVCenter
-                    Layout.fillWidth: true
-    //                Layout.leftMargin: 10 * pt
+                    //verticalAlignment: Qt.AlignVCenter
+                    width: parent.width - x
+                    //Layout.fillWidth: true
+                    anchors.bottom: parent.bottom
+                    x: promt.x + promt.width + 5 * pt
+                    //                Layout.leftMargin: 10 * pt
                     wrapMode: TextArea.Wrap
                     placeholderText: qsTr("Type here...")
                     selectByMouse: true
@@ -124,6 +134,8 @@ DapAbstractScreen
                     Keys.onDownPressed: (consoleHistoryIndex > -1) ?
                                             consoleHistoryIndex -= 1 :
                                             null
+
+                    onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
                 }
             }
         }
