@@ -21,6 +21,16 @@ DapAbstractTab {
     dapScreen: DapAppsScreen{
         id: dAppsScreen
         onUpdateFiltr: updateFiltrApps(status);
+
+        dapDownloadPanel.reloadButton.onClicked:
+        {
+
+        }
+
+        dapDownloadPanel.canceledButton.onClicked:
+        {
+            pluginsManager.cancelDownload();
+        }
     }
 
     dapRightPanel: Item{}
@@ -31,6 +41,64 @@ DapAbstractTab {
         {
             updateFiltrApps(dAppsScreen.currentFiltr)
         }
+    }
+
+    Connections{
+        target:pluginsManager
+        onRcvProgressDownload:
+        {
+            if(!completed)
+            {
+                if(!dAppsScreen.dapDownloadPanel.isOpen)
+                {
+                    dAppsScreen.dapDefaultRightPanel.visible = false
+                    dAppsScreen.dapDownloadPanel.visible = true
+                    dAppsScreen.dapDownloadPanel.isOpen = true
+                    dAppsScreen.dapDownloadPanel.progress_text.text = progress + " %";
+                    dAppsScreen.dapDownloadPanel.progress_bar.currentValue = progress;
+                    dAppsScreen.dapDownloadPanel.name = name;
+                    dAppsScreen.dapDownloadPanel.download =  download;
+                    dAppsScreen.dapDownloadPanel.total =  total;
+                    dAppsScreen.dapDownloadPanel.time = time;
+                    dAppsScreen.dapDownloadPanel.speed = speed;
+                    dAppsScreen.dapDownloadPanel.errors.text = error;
+
+                }
+                else
+                {
+                    dAppsScreen.dapDownloadPanel.progress_text.text = progress + " %";
+                    dAppsScreen.dapDownloadPanel.progress_bar.currentValue = progress;
+                    dAppsScreen.dapDownloadPanel.name = name;
+                    dAppsScreen.dapDownloadPanel.download = download;
+                    dAppsScreen.dapDownloadPanel.total = total;
+                    dAppsScreen.dapDownloadPanel.time = time;
+                    dAppsScreen.dapDownloadPanel.speed = speed;
+                    dAppsScreen.dapDownloadPanel.errors.text = error;
+                }
+                if(error === "Connected")
+                {
+                    dAppsScreen.dapDownloadPanel.errors.color = currTheme.placeHolderTextColor
+                }
+                else
+                {
+                     dAppsScreen.dapDownloadPanel.errors.color = currTheme.buttonColorNormal
+                }
+            }
+            else
+            {
+                dAppsScreen.dapDownloadPanel.visible = false;
+                dAppsScreen.dapDownloadPanel.progress_text.text = "";
+                dAppsScreen.dapDefaultRightPanel.visible = true;
+            }
+        }
+        onRcvAbort:
+        {
+            dAppsScreen.dapDownloadPanel.visible = false
+            dAppsScreen.dapDownloadPanel.isOpen = false
+            dAppsScreen.dapDownloadPanel.progress_text.text = "";
+            dAppsScreen.dapDefaultRightPanel.visible = true;
+        }
+
     }
 
     Component.onCompleted:{

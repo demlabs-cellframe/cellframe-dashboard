@@ -11,6 +11,8 @@ DapAbstractScreen
 {
     property alias dapFrameApps: frameApps
     property alias dapListViewApps: listViewApps
+    property alias dapDownloadPanel: downloadRightPanel
+    property alias dapDefaultRightPanel: defaultRightPanel
 
     property string currentPlugin:""
     property string currentFiltr:"Both"
@@ -364,44 +366,12 @@ DapAbstractScreen
             }
         }
 
-
-
-//        Loader {
-//            id: rightPanel
-
-//            asynchronous: true
-
-//            Layout.fillHeight: true
-//            Layout.minimumWidth: 350 * pt
-
-//            sourceComponent: component
-
-
-//            onLoaded: {
-//                item.visible = true
-
-//            }
-
-//        }  //rightPanel
-
-//        Component
-//        {
-//            id: component
-//            DapAppsDefaultRightPanel
-//            {
-//                id:defaultRightPanel
-//                anchors.fill: parent
-
-//                Connections
-//                {
-//                    target:dapAppsTab
-//                    onUpdateButtons:
-//                    {
-//                        defaultRightPanel.setEnableButtons()
-//                    }
-//                }
-//            }
-
-//        }
+        DapAppsDownloadRightPanel
+        {
+            id:downloadRightPanel
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
+            Layout.maximumWidth: 350 * pt
+        }
     }
 }
