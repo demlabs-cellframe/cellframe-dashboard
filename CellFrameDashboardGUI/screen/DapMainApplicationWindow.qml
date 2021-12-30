@@ -350,12 +350,19 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     Text {
                         id: txt_left
+                        Layout.fillWidth: true
+                        font.family: "Quicksand"
+                        font.pixelSize: 16 * pt
                         color: "white"
                         text: '<b>Name:</b> ' + networkName
                     }
-                    Text {
-                        anchors.left: txt_left.anchors.RightAnchor
-                        text: '<font size="2" color="' + stateColor + '"> \u2B24</font>'
+                    Rectangle
+                    {
+                        Layout.alignment: Qt.AlignVCenter
+                        Layout.preferredHeight: 10 * pt
+                        Layout.preferredWidth: 10 * pt
+                        radius: width/2
+                        color: stateColor
                     }
                 }
 
