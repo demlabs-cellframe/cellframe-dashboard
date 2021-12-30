@@ -67,6 +67,7 @@ DapAbstractTab
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
+                restoreWalletMode = false
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }

@@ -2,12 +2,16 @@
 
 #include "DapNetwork.h"
 
+#include "dapconfigreader.h"
+
 /// Standard constructor.
 /// @param apParent Parent.
 DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
+    DapConfigReader configReader;
 
+    m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 }
 
 /// Client controller initialization.
@@ -59,6 +63,18 @@ void DapServiceController::setIndexCurrentNetwork(int iIndexCurrentNetwork)
     m_iIndexCurrentNetwork = iIndexCurrentNetwork;
 
     emit indexCurrentNetworkChanged(m_iIndexCurrentNetwork);
+}
+
+bool DapServiceController::getReadingChains() const
+{
+    return m_bReadingChains;
+}
+
+void DapServiceController::setReadingChains(bool bReadingChains)
+{
+    m_bReadingChains = bReadingChains;
+
+    emit readingChainsChanged(bReadingChains);
 }
 
 void DapServiceController::requestWalletList()

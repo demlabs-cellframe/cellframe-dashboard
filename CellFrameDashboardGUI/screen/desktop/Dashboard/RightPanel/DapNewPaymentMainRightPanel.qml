@@ -9,10 +9,15 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
+        if (dapServiceController.ReadingChains)
+            dapChainGroup.visible = true
+        else
+            dapChainGroup.visible = false
+
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
 
-        dapCmboBoxCnainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
     }
 
@@ -21,7 +26,7 @@ DapNewPaymentMainRightPanelForm
         print("dapComboboxNetwork.onCurrentIndexChanged")
         print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxCnainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
@@ -84,6 +89,16 @@ DapNewPaymentMainRightPanelForm
             print("Enough tokens. Correct address length.")
             dapTextNotEnoughTokensWarning.text = ""
 
+            var chain;
+            if(dapComboboxNetwork.mainLineText === "kelvin-testnet")
+                chain = "plasma"
+            else if(dapComboboxNetwork.mainLineText === "subzero")
+                chain = "support"
+            else if(dapComboboxNetwork.mainLineText === "private")
+                chain = "zero"
+            else
+                chain = dapComboboxChain.mainLineText
+
             console.log("DapCreateTransactionCommand:")
             console.log("   network: " + dapComboboxNetwork.mainLineText)
             console.log("   chain: " + dapComboboxChain.mainLineText)
@@ -93,7 +108,7 @@ DapNewPaymentMainRightPanelForm
             print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
             console.log("   amount: " + dapTextInputAmountPayment.text)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
+                dapComboboxNetwork.mainLineText, chain,
                 dapModelWallets.get(SettingsWallet.currentIndex).name,
                 dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, dapTextInputAmountPayment.text)

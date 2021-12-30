@@ -2,29 +2,28 @@ import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
-import QtQuick.Layouts 1.12
-import "resources/theme" as Theme
+import Qt.labs.settings 1.0
 import "screen"
 
 ApplicationWindow
 {
     id: window
     visible: true
-    width: 1280
-    height: 700
 //    property variant networkListPopups : []
 
-    Theme.Dark {id: darkTheme}
-    Theme.Light {id: lightTheme}
-
-    property bool currThemeVal: true
-    property var currTheme: currThemeVal ? darkTheme : lightTheme
-
-    //for test
-//    property string pathTheme: currThemeVal ? "BlackTheme":"WhiteTheme"
-    property string pathTheme: "BlackTheme"
-
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+
+    width: 1280
+    height: 800
+    minimumWidth: 1280
+    minimumHeight: 800
+
+    Settings {
+        property alias x: window.x
+        property alias y: window.y
+        property alias width: window.width
+        property alias height: window.height
+    }
 
     //Main window
     DapMainApplicationWindow
@@ -106,11 +105,9 @@ ApplicationWindow
     }
 
     Component.onCompleted: {
-        if(!isMobile) {
-            window.width = 1280
-            window.height = 700
-            window.minimumWidth = 1280
-            window.minimumHeight = 700
+        if(isMobile) {
+            window.minimumWidth = 0
+            window.minimumHeight = 0
         }
     }
 

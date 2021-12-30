@@ -32,7 +32,7 @@ DapTopPanel
             anchors.horizontalCenter: parent.horizontalCenter
             font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             color: currTheme.textColor
-            text: qsTr("Name of my wallet")
+//            text: qsTr("Name of my wallet")
         }
     }
 
@@ -50,5 +50,6 @@ DapTopPanel
         implicitWidth: 163 * pt
         fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
         horizontalAligmentText: Text.AlignHCenter
+        visible: frameTitleCreateWallet.text === "" ? false : true
     }
 }
