@@ -34,6 +34,7 @@
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetNetworksStateCommand.h"
 
 
 
@@ -120,6 +121,7 @@ public slots:
     void changeNetworkStateToOffline(QString a_networkName);
     void requestOrdersList();
     void requestNetworksList();
+    void requestNetworksStateList();
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -155,6 +157,7 @@ signals:
 
     void networksListReceived(const QVariant& networksList);
 
+
     void networkStatusReceived(const QVariant& networkStatus);
     void newTargetNetworkStateReceived(const QVariant& targetStateString);
 
@@ -179,6 +182,10 @@ signals:
 
     void ordersListReceived(const QVariant& ordersInfo);
     void ordersReceived(QList<QObject*> orderList);
+
+    void networkStatesListReceived(const QVariant& networksStateList);
+    void networksStatesReceived(QList<QObject*> networksStatesList);
+
     void networksReceived(QList<QObject*> networksList);
 
 private slots:

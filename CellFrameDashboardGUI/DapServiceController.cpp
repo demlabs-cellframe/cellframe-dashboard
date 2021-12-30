@@ -96,6 +96,11 @@ void DapServiceController::requestNetworksList()
     this->requestToService("DapGetListNetworksCommand");
 }
 
+void DapServiceController::requestNetworksStateList()
+{
+    this->requestToService("DapGetNetworksStateCommand");
+}
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -173,6 +178,9 @@ void DapServiceController::registerCommand()
 
     // The command to get a list of available orders
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_DAPRpcSocket))), QString("networkStatesListReceived")));
+
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 
@@ -252,6 +260,28 @@ void DapServiceController::registerCommand()
         }
 
         emit ordersReceived(orders);
+    });
+
+    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
+    {
+        qDebug()<<"ssssssssssssssssss---------------------";
+        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
+        QList<DapNetwork> tempNetworks;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempNetworks;
+
+        QList<QObject*> networks;
+        auto begin = tempNetworks.begin();
+        auto end = tempNetworks.end();
+        DapNetwork * network = nullptr;
+        for(;begin != end; ++begin)
+        {
+            network = new DapNetwork(*begin);
+            networks.append(network);
+        }
+
+        emit networksStatesReceived(networks);
     });
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
