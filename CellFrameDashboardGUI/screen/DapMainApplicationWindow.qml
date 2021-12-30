@@ -354,7 +354,7 @@ Rectangle {
                         font.family: "Quicksand"
                         font.pixelSize: 16 * pt
                         color: "white"
-                        text: '<b>Name:</b> ' + networkName
+                        text: '<b>Name:</b> ' + name
                     }
                     Rectangle
                     {
@@ -397,46 +397,46 @@ Rectangle {
 
         ListModel {
             id: dapNetworkModel1
-            ListElement {
-                networkName: "Cellnet"
-                networkState: "ONLINE"
-                stateColor: "green"
-                error: ""
-                targetState: "ONLINE"
-                linksCount: 1
-                linksFrom: 2
-                address: "1234::0000::0001::0002"
-            }
-            ListElement {
-                networkName: "Mainnet"
-                networkState: "ESTABLISHING"
-                stateColor: "green"
-                error: ""
-                targetState: "ONLINE"
-                linksCount: 0
-                linksFrom: 1
-                address: "1234::0000::0001::0002"
-            }
-            ListElement {
-                networkName: "Somenet"
-                networkState: "DISCONNECTING"
-                stateColor: "yellow"
-                error: ""
-                targetState: "OFFLINE"
-                linksCount: 0
-                linksFrom: 3
-                address: "1234::0000::0001::0002"
-            }
-            ListElement {
-                networkName: "Testnet"
-                networkState: "ERROR"
-                stateColor: "red"
-                error: "Text ERROR"
-                targetState: "ONLINE"
-                linksCount: 1
-                linksFrom: 2
-                address: "1234::0000::0001::0002"
-            }
+//            ListElement {
+//                networkName: "Cellnet"
+//                networkState: "ONLINE"
+//                stateColor: "green"
+//                error: ""
+//                targetState: "ONLINE"
+//                linksCount: 1
+//                linksFrom: 2
+//                address: "1234::0000::0001::0002"
+//            }
+//            ListElement {
+//                networkName: "Mainnet"
+//                networkState: "ESTABLISHING"
+//                stateColor: "green"
+//                error: ""
+//                targetState: "ONLINE"
+//                linksCount: 0
+//                linksFrom: 1
+//                address: "1234::0000::0001::0002"
+//            }
+//            ListElement {
+//                networkName: "Somenet"
+//                networkState: "DISCONNECTING"
+//                stateColor: "yellow"
+//                error: ""
+//                targetState: "OFFLINE"
+//                linksCount: 0
+//                linksFrom: 3
+//                address: "1234::0000::0001::0002"
+//            }
+//            ListElement {
+//                networkName: "Testnet"
+//                networkState: "ERROR"
+//                stateColor: "red"
+//                error: "Text ERROR"
+//                targetState: "ONLINE"
+//                linksCount: 1
+//                linksFrom: 2
+//                address: "1234::0000::0001::0002"
+//            }
         }
 
         ListView {
@@ -448,10 +448,16 @@ Rectangle {
             }
 
             anchors.fill: parent
-            model: dapNetworkModel1
+//            model: dapNetworkModel1
             delegate: dapNetworkItem
             focus: true
         }
+
+        function modelUpdate()
+        {
+            dapNetworkList.model = dapNetworkModel1
+        }
+
     }
 
     DapNetworkPopup
@@ -853,23 +859,45 @@ Rectangle {
             }
             modelOrdersUpdated();
         }
-        onNetworksReceived:
+        onNetworksStatesReceived:
         {
-            for (var q = 0; q < networksList.length; ++q)
+            dapNetworks.splice(0,dapOrders.length)
+            dapNetworkModel1.clear()
+
+            for (var q = 0; q < networksStatesList.length; ++q)
             {
-                dapNetworks.push(networksList[q])
+                dapNetworks.push(networksStatesList[q])
             }
             for (var i = 0; i < dapNetworks.length; ++i)
             {
-                dapModelNetworks.append({   "name" : dapNetworks[i].name,
-                                            "networkState" : dapNetworks[i].state,
-                                            "targetState" : dapNetworks[i].targetState,
-                                            "linksCount" : dapNetworks[i].linksCount,
-                                            "linksFrom" : dapNetworks[i].activeLinksCount,
+                dapNetworkModel1.append({   "name" : dapNetworks[i].name,
+//                                            "networkState" : dapNetworks[i].state,
+//                                            "targetState" : dapNetworks[i].targetState,
+//                                            "linksCount" : dapNetworks[i].linksCount,
+//                                            "linksFrom" : dapNetworks[i].activeLinksCount,
                                             "address" : dapNetworks[i].nodeAddress})
             }
-            modelNetworksUpdated();
+
+            networksPanel.modelUpdate()
         }
+
+//        onNetworksReceived:
+//        {
+//            for (var q = 0; q < networksList.length; ++q)
+//            {
+//                dapNetworks.push(networksList[q])
+//            }
+//            for (var i = 0; i < dapNetworks.length; ++i)
+//            {
+//                dapModelNetworks.append({   "name" : dapNetworks[i].name,
+//                                            "networkState" : dapNetworks[i].state,
+//                                            "targetState" : dapNetworks[i].targetState,
+//                                            "linksCount" : dapNetworks[i].linksCount,
+//                                            "linksFrom" : dapNetworks[i].activeLinksCount,
+//                                            "address" : dapNetworks[i].nodeAddress})
+//            }
+//            modelNetworksUpdated();
+//        }
     }
 
     Connections{

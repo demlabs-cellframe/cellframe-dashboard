@@ -280,7 +280,6 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
     {
-        qDebug()<<"ssssssssssssssssss---------------------";
         QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
         QList<DapNetwork> tempNetworks;
 
