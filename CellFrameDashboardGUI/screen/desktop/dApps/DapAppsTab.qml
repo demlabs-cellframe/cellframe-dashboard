@@ -24,10 +24,14 @@ DapAbstractTab {
 
         dapDownloadPanel.reloadButton.onClicked:
         {
-
+            pluginsManager.reloadDownload();
         }
 
         dapDownloadPanel.canceledButton.onClicked:
+        {
+            pluginsManager.cancelDownload();
+        }
+        dapDownloadPanel.closeButton.onClicked:
         {
             pluginsManager.cancelDownload();
         }
@@ -102,6 +106,7 @@ DapAbstractTab {
     }
 
     Component.onCompleted:{
+        pluginsManager.updatePluginsRepository()
         updateFiltrApps(dAppsScreen.currentFiltr)
     }
 

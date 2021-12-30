@@ -16,6 +16,7 @@ DapRectangleLitAndShaded {
     lightColor: currTheme.reflectionLight
     property alias canceledButton: canceledDownload
     property alias reloadButton: reloadDownload
+    property alias closeButton: buttonClose
 
     property alias progress_text: bar_progress
     property alias progress_bar: bar_progress
@@ -54,18 +55,38 @@ DapRectangleLitAndShaded {
                 RowLayout
                 {
                     anchors.fill: parent
+
+                    DapButton
+                    {
+                        Layout.topMargin: 9 * pt
+                        Layout.bottomMargin: 9 * pt
+                        Layout.leftMargin: 17 * pt
+
+                        id: buttonClose
+                        Layout.preferredHeight: 20 * pt
+                        Layout.preferredWidth: 20 * pt
+                        heightImageButton: 10 * pt
+                        widthImageButton: 10 * pt
+                        activeFrame: false
+                        normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                        hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                    }
+
                     Text
                     {
+                        Layout.topMargin: 11 * pt
+                        Layout.bottomMargin: 8 * pt
+//                        Layout.leftMargin: 13 * pt
+
                         id: textHeader
                         text: qsTr("Activated dApp")
                         verticalAlignment: Qt.AlignLeft
-
-                        Layout.topMargin: 11 * pt
-                        Layout.bottomMargin: 8 * pt
-                        Layout.leftMargin: 48 * pt
-
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                         color: currTheme.textColor
+                    }
+                    Item {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
                     }
                 }
 
@@ -305,7 +326,6 @@ DapRectangleLitAndShaded {
 
                             id:reloadDownload
                             textButton: "Reload"
-                            enabled: false
                             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                             horizontalAligmentText: Text.AlignHCenter
                         }
@@ -322,7 +342,6 @@ DapRectangleLitAndShaded {
 
                             id: canceledDownload
                             textButton: "Cancel"
-                            enabled: true
                             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                             horizontalAligmentText: Text.AlignHCenter
                         }

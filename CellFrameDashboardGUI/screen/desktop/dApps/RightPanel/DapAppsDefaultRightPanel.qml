@@ -210,6 +210,27 @@ Item
                     SettingsWallet.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
+
+                    for(var i = 0; i < modelAppsTabStates.count; i++)
+                    {
+                        if(dapModelPlugins.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
+                        {
+                            var name = modelAppsTabStates.get(i).name
+
+                            for(var j = 0; j < modelMenuTab.count; j++)
+                            {
+
+                                if(modelMenuTab.get(j).name === name)
+                                {
+                                    modelMenuTab.remove(j);
+                                    break;
+                                }
+                            }
+
+                            modelAppsTabStates.remove(i);
+                            break;
+                        }
+                    }
                 }
             }
         }

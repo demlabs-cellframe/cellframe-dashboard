@@ -809,6 +809,7 @@ Rectangle {
                 {
                     if(dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name && dapModelPlugins.get(i).status !== "1")
                     {
+
                         pluginsTabChanged(false, true, modelAppsTabStates.get(j).name)
                         modelAppsTabStates.remove(j);
                         j--;
