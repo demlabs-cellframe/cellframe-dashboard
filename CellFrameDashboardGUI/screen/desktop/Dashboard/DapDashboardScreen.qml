@@ -306,8 +306,9 @@ DapAbstractScreen
                                         Layout.fillWidth: true
                                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                                         color: currTheme.textColor
-                                        text: balance.toFixed(9)
-            //                            text: balance.toPrecision()
+                                        text: balance_without_zeros
+//                                        text: full_balance
+//                                        text: datoshi
                                         horizontalAlignment: Text.AlignRight
                                     }
 
