@@ -264,17 +264,36 @@ DapAbstractScreen
                                         RowLayout
                                         {
                                             anchors.fill: parent
-                                            Rectangle
-                                            {
+
+                                            Item {
+
                                                 Layout.minimumHeight: 20
                                                 Layout.minimumWidth: 20
                                                 Layout.leftMargin: 28 * pt
                                                 Layout.rightMargin: 42 * pt
-//                                                Layout.fillHeight: true
-//                                                Layout.fillWidth: true
-                                                radius: 5 * pt
-    //                                            color: verifed === "1" ? "green" : "red"
-                                                color: verifed === "1" ? "green" : currTheme.backgroundMainScreen
+                                                Layout.topMargin: 15 * pt
+                                                Layout.bottomMargin: 15 * pt
+                                                width: 20 * pt
+                                                height: 20 * pt
+
+                                                Image
+                                                {
+                                                    anchors.fill: parent
+                                                    id: indicatorRadioButton
+                                                    sourceSize.width: 20 * pt
+                                                    sourceSize.height: 20 * pt
+//                                                    anchors.verticalCenter: parent.verticalCenter
+                                                    fillMode: Image.PreserveAspectFit
+                                                    source: verifed === "0" ? "qrc:/resources/icons/" + pathTheme + "/no_icon.png" : "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
+                                                    visible: true
+                                                }
+                                                ColorOverlay {
+                                                    id: overlay
+                                                    anchors.fill: indicatorRadioButton
+                                                    source: indicatorRadioButton
+                                                    color: "#FFFF0000"
+                                                    visible: false
+                                                  }
                                             }
                                         }
                                     }
