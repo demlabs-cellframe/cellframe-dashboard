@@ -289,7 +289,9 @@ DapRightPanel
                         Layout.leftMargin: 15 * pt
                         width: 150 * pt
                         height: 28 * pt
-                        placeholderText: qsTr("0")
+                        placeholderText: ""
+//                        placeholderText: "0.0"
+                        validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAlignment: Text.AlignRight
 

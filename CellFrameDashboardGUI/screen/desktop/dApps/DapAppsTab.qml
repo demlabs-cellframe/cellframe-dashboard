@@ -16,7 +16,15 @@ DapAbstractTab {
         id: listModelApps
     }
 
-    dapTopPanel: DapAppsTopPanel{color: currTheme.backgroundPanel}
+    ListModel{
+        id: temporaryModel
+    }
+
+    dapTopPanel: DapAppsTopPanel{
+        color: currTheme.backgroundPanel
+
+        onFindHandler: dapAppsTab.searchElement(text)
+    }
 
     dapScreen: DapAppsScreen{
         id: dAppsScreen
@@ -112,14 +120,14 @@ DapAbstractTab {
 
     function updateFiltrApps(status)
     {
-        listModelApps.clear();
+        temporaryModel.clear()
 
         if(status === "Verified")
         {
             for(var i = 0; i < dapModelPlugins.count; i++ )
             {
                 if(dapModelPlugins.get(i).verifed === "1")
-                    listModelApps.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
+                    temporaryModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
             }
         }
         else if(status === "Unverified")
@@ -127,14 +135,47 @@ DapAbstractTab {
             for(var i = 0; i < dapModelPlugins.count; i++ )
             {
                 if(dapModelPlugins.get(i).verifed === "0")
-                    listModelApps.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
+                    temporaryModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
             }
         }
         else
         {
             for(var i = 0; i < dapModelPlugins.count; i++ )
-                listModelApps.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
+                temporaryModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
         }
+
+        listModelApps.clear();
+
+        for (var i = 0; i < temporaryModel.count; ++i)
+            listModelApps.append(temporaryModel.get(i))
+
         updateButtons();
+    }
+
+    function searchElement(text)
+    {
+        listModelApps.clear()
+        for(var i = 0; i < temporaryModel.count; i++)
+        {
+            if(temporaryModel.get(i).name.includes(text))
+            {
+                if(dAppsScreen.currentFiltr === "Both")
+                {
+                    listModelApps.append(temporaryModel.get(i))
+                }
+                else if(dAppsScreen.currentFiltr === "Verified" && temporaryModel.get(i).verifed === "1")
+                {
+                    listModelApps.append(temporaryModel.get(i))
+                }
+                else if(dAppsScreen.currentFiltr === "Unverified" && temporaryModel.get(i).verifed === "0")
+                {
+                    listModelApps.append(temporaryModel.get(i))
+                }
+            }
+            else if(text === "")
+            {
+                listModelApps.append(temporaryModel.get(i))
+            }
+        }
     }
 }
