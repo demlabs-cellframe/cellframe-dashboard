@@ -19,6 +19,8 @@ DapNewPaymentMainRightPanelForm
 
         dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
+
+        dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:
@@ -50,7 +52,12 @@ DapNewPaymentMainRightPanelForm
             dapButtonSend.visible = true
         }
 
-        dapTextInputAmountPayment.text = "0"
+        dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
+    }
+
+    dapCmboBoxToken.onCurrentIndexChanged:
+    {
+        dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
     }
 
     dapButtonClose.onClicked:
@@ -62,21 +69,25 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonSend.onClicked:
     {
-        print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
+        print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).datoshi)
         print("amount:", dapTextInputAmountPayment.text)
-        print("wallet address: " + dapTextInputRecipientWalletAddress.text.length)
+        print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
-        if (dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission <
-                dapTextInputAmountPayment.text)
-        {
-            print("Not enough tokens")
-            dapTextNotEnoughTokensWarning.text = qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value.").arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
-        }
-        else
-        if (dapTextInputAmountPayment.text === "0")
+        if (dapTextInputAmountPayment.text === "" ||
+            testAmount("0.0", dapTextInputAmountPayment.text))
         {
             print("Zero value")
             dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
+        }
+        else
+        if (!testAmount(
+            dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance,
+            dapTextInputAmountPayment.text))
+        {
+            print("Not enough tokens")
+            dapTextNotEnoughTokensWarning.text =
+                qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value.").
+                arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).balance_without_zeros)
         }
         else
         if (dapTextInputRecipientWalletAddress.text.length != 104)
@@ -89,34 +100,167 @@ DapNewPaymentMainRightPanelForm
             print("Enough tokens. Correct address length.")
             dapTextNotEnoughTokensWarning.text = ""
 
-            var chain;
-            if(dapComboboxNetwork.mainLineText === "kelvin-testnet")
-                chain = "plasma"
-            else if(dapComboboxNetwork.mainLineText === "subzero")
-                chain = "support"
-            else if(dapComboboxNetwork.mainLineText === "private")
-                chain = "zero"
-            else
-                chain = dapComboboxChain.mainLineText
+            var amount = toDatoshi(dapTextInputAmountPayment.text)
 
             console.log("DapCreateTransactionCommand:")
-            console.log("   network: " + dapComboboxNetwork.mainLineText)
-            console.log("   chain: " + dapComboboxChain.mainLineText)
-            console.log("   wallet from: " + dapModelWallets.get(SettingsWallet.currentIndex).name)
-            console.log("   wallet to: " + dapTextInputRecipientWalletAddress.text)
-            console.log("   token: " + dapCmboBoxToken.mainLineText)
-            print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).emission)
-            console.log("   amount: " + dapTextInputAmountPayment.text)
+            console.log("   network:", dapComboboxNetwork.mainLineText)
+            console.log("   chain:", dapComboboxChain.mainLineText)
+            console.log("   wallet from:", dapModelWallets.get(SettingsWallet.currentIndex).name)
+            console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
+            console.log("   token:", dapCmboBoxToken.mainLineText)
+            console.log("   amount:", amount)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, chain,
+                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
                 dapModelWallets.get(SettingsWallet.currentIndex).name,
                 dapTextInputRecipientWalletAddress.text,
-                dapCmboBoxToken.mainLineText, dapTextInputAmountPayment.text)
+                dapCmboBoxToken.mainLineText, amount)
 
             nextActivated("transaction created")
         }
 
     }
 
+//    function testAmount(balance, amount)
+//    {
+//        var res = testAmount1(balance, amount)
+//        print("testAmount", balance, amount, res)
 
+//        return res
+//    }
+
+    function testAmount(balance, amount)
+    {
+        balance = clearZeros(balance)
+        amount = clearZeros(amount)
+
+        var balanceArray = balance.split('.')
+        var amountArray = amount.split('.')
+
+        if (balanceArray.length < 1 || amountArray.length < 1)
+            return false
+
+        if (compareStringNumbers1(balanceArray[0], amountArray[0]) > 0)
+            return true
+
+        if (compareStringNumbers1(balanceArray[0], amountArray[0]) < 0)
+            return false
+
+        if (amountArray.length < 2)
+            return true
+
+        if (balanceArray.length < 2)
+            return false
+
+        if (compareStringNumbers2(balanceArray[1], amountArray[1]) > 0)
+            return true
+
+        if (compareStringNumbers2(balanceArray[1], amountArray[1]) < 0)
+            return false
+
+        return true
+    }
+
+    function clearZeros(str)
+    {
+        var i = 0;
+        while (i < str.length)
+        {
+            if (str[i] !== '0')
+                break
+            ++i
+        }
+        str = str.slice(i, str.length)
+
+        if (str.indexOf('.') === -1)
+            return str
+
+        i = str.length-1
+        while (i >= 0)
+        {
+            if (str[i] !== '0')
+                break
+            --i
+        }
+        str = str.slice(0, i+1)
+
+        return str
+    }
+
+    function compareStringNumbers1(str1, str2)
+    {
+        if (str1 === str2)
+            return 0
+
+        if (str1.length < str2.length)
+            return -1
+
+        if (str1.length > str2.length)
+            return 1
+
+        if (str1 < str2)
+            return -1
+
+        if (str1 > str2)
+            return 1
+
+        return 0
+    }
+
+    function compareStringNumbers2(str1, str2)
+    {
+        if (str1 === str2)
+            return 0
+
+        var size = str1.length
+
+        if (str1.length > str2.length)
+            size = str2.length
+
+        for (var i = 0; i < size; ++i)
+        {
+            if (str1[i] < str2[i])
+                return -1
+            if (str1[i] > str2[i])
+                return 1
+        }
+
+        if (str1.length < str2.length)
+            return -1
+
+        if (str1.length > str2.length)
+            return 1
+
+        return 0
+    }
+
+    function toDatoshi(str)
+    {
+        print("toDatoshi", str)
+
+        var dotIndex = str.indexOf('.')
+
+        if (dotIndex === -1)
+        {
+            str += "000000000"
+        }
+        else
+        {
+            var shift = 10 - str.length + dotIndex
+
+            str += "0".repeat(shift)
+
+            str = str.slice(0, dotIndex) + str.slice(dotIndex+1, str.length)
+        }
+
+        var i = 0;
+        while (i < str.length)
+        {
+            if (str[i] !== '0')
+                break
+            ++i
+        }
+        str = str.slice(i, str.length)
+
+        return str
+    }
 }

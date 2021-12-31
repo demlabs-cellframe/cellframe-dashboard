@@ -48,7 +48,7 @@ DapHistoryTabForm
                                           "network" : walletHistory[q].Network,
                                           "name" : walletHistory[q].Name,
                                           "status" : walletHistory[q].Status,
-                                          "amount" : walletHistory[q].Amount,
+                                          "amount" : walletHistory[q].AmountWithoutZeros,
                                           "date" : walletHistory[q].Date,
                                           "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
                 else
@@ -64,7 +64,7 @@ DapHistoryTabForm
                                           "network" : walletHistory[q].Network,
                                           "name" : walletHistory[q].Name,
                                           "status" : walletHistory[q].Status,
-                                          "amount" : walletHistory[q].Amount,
+                                          "amount" : walletHistory[q].AmountWithoutZeros,
                                           "date" : walletHistory[q].Date,
                                           "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
                 }
