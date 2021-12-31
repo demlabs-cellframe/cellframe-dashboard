@@ -315,5 +315,9 @@
         <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
+        <file>screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml</file>
+        <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
+        <file>resources/icons/BlackTheme/check_icon.png</file>
+        <file>resources/icons/BlackTheme/no_icon.png</file>
     </qresource>
 </RCC>
