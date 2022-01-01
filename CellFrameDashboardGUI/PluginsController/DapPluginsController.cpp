@@ -90,7 +90,7 @@ void DapPluginsController::onFilesReceived()
                 QStringList str = m_pluginsList[j].toStringList();
                 QStringList str2 = appendList[i];
 
-                if(str[0] == str2[0].remove(".zip") && str[3].toInt())
+                if(str[0].remove(".zip") == str2[0].remove(".zip") && str[3].toInt())
                 {
                     ok = false;
                     break;

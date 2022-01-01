@@ -1,7 +1,7 @@
-import QtQuick 2.4
+import QtQuick 2.12
 import QtGraphicalEffects 1.0
-import Qt.labs.settings 1.0
-import QtQuick.Layouts 1.3
+import Qt.labs.settings 1.1
+import QtQuick.Layouts 1.12
 
 import "qrc:/screen"
 import "qrc:/resources/QML"
@@ -62,7 +62,7 @@ Rectangle {
     Theme.Light {id: lightTheme}
 
     ListModel{
-        id:themes
+        id: themes
         Component.onCompleted:
         {
             append({name:qsTr("Dark theme"),
@@ -644,9 +644,7 @@ Rectangle {
             {
                 console.log("Wallet name: "+ dapWallets[i].Name)
                 dapModelWallets.append({ "name" : dapWallets[i].Name,
-                                      "balance" : dapWallets[i].Balance,
                                       "icon" : dapWallets[i].Icon,
-                                      // "address" : dapWallets[i].Address,
                                       "networks" : []})
                 console.log("Networks number: "+Object.keys(dapWallets[i].Networks).length)
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
@@ -681,8 +679,9 @@ Rectangle {
                             console.log(dapWallets[i].Tokens[t].Network + " === " + dapWallets[i].Networks[n])
                             dapModelWallets.get(i).networks.get(n).tokens.append(
                                  {"name": dapWallets[i].Tokens[t].Name,
-                                  "balance": dapWallets[i].Tokens[t].Balance,
-                                  "emission": dapWallets[i].Tokens[t].Emission,
+                                  "full_balance": dapWallets[i].Tokens[t].FullBalance,
+                                  "balance_without_zeros": dapWallets[i].Tokens[t].BalanceWithoutZeros,
+                                  "datoshi": dapWallets[i].Tokens[t].Datoshi,
                                   "network": dapWallets[i].Tokens[t].Network})
                         }
                     }
@@ -809,6 +808,7 @@ Rectangle {
                 {
                     if(dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name && dapModelPlugins.get(i).status !== "1")
                     {
+
                         pluginsTabChanged(false, true, modelAppsTabStates.get(j).name)
                         modelAppsTabStates.remove(j);
                         j--;

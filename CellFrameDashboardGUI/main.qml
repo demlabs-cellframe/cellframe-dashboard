@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.12
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
@@ -24,8 +25,8 @@ ApplicationWindow
         property alias height: window.height
     }
 
-    DapMainApplicationWindow
-    //DapMainWindow
+    //DapMainApplicationWindow
+    DapMainWindow
     {
         id: mainWindow
         property string device: isMobile ? "mobile" : "desktop"

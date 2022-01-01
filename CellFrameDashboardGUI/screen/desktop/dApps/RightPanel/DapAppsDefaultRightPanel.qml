@@ -12,9 +12,17 @@ Item
     property alias dapUnactiveButton: uninstallPlug
     property alias dapDeleteButton: deletePlug
 
-    id: historyRightPanel
+    id: defaultRightPanel
 
     signal currentStatusSelected(string status)
+
+    opacity: visible ? 1.0 : 0.0
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -148,7 +156,7 @@ Item
                 {
                     currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
                     pluginsManager.installPlugin(dapListViewApps.currentIndex, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
-                    historyRightPanel.setEnableButtons()
+                    defaultRightPanel.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
                 }
             }
@@ -174,7 +182,7 @@ Item
                     pluginsManager.installPlugin(dapListViewApps.currentIndex, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
-                    historyRightPanel.setEnableButtons()
+                    defaultRightPanel.setEnableButtons()
                 }
             }
             DapButton
@@ -201,7 +209,28 @@ Item
                     pluginsManager.deletePlugin(dapListViewApps.currentIndex)
                     SettingsWallet.activePlugin = ""
 
-                    historyRightPanel.setEnableButtons()
+                    defaultRightPanel.setEnableButtons()
+
+                    for(var i = 0; i < modelAppsTabStates.count; i++)
+                    {
+                        if(dapModelPlugins.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
+                        {
+                            var name = modelAppsTabStates.get(i).name
+
+                            for(var j = 0; j < modelMenuTab.count; j++)
+                            {
+
+                                if(modelMenuTab.get(j).name === name)
+                                {
+                                    modelMenuTab.remove(j);
+                                    break;
+                                }
+                            }
+
+                            modelAppsTabStates.remove(i);
+                            break;
+                        }
+                    }
                 }
             }
         }

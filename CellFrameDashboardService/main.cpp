@@ -3,7 +3,6 @@
 #include <QSharedMemory>
 #include <QCommandLineParser>
 #include <QProcess>
-#include <QAndroidService>
 
 #include <unistd.h>
 
@@ -15,6 +14,10 @@
 #include "dapconfigreader.h"
 
 #include <sys/stat.h>
+
+#ifdef Q_OS_ANDROID
+#include <QAndroidService>
+#endif
 
 #ifdef Q_OS_WIN
 #include "registry.h"
