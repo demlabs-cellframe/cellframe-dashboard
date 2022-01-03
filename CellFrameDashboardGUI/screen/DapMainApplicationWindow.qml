@@ -222,7 +222,7 @@ Rectangle {
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-            bottomMargin: 4 * pt
+            bottomMargin: 6 * pt
         }
 
         // Virtual logo column frame and menu bar
