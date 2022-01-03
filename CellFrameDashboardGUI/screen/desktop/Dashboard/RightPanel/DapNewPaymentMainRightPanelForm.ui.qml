@@ -53,9 +53,9 @@ DapRightPanel
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
+                anchors.topMargin: 9 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 20 * pt
+                anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
 
             }
@@ -68,9 +68,9 @@ DapRightPanel
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 11 * pt
+                anchors.topMargin: 12 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 48 * pt
+                anchors.leftMargin: 52 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
@@ -100,9 +100,9 @@ DapRightPanel
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                 }
             }
 
@@ -186,7 +186,7 @@ DapRightPanel
                     Layout.fillWidth: true
                     Layout.minimumHeight: 40 * pt
                     Layout.maximumHeight: 40 * pt
-                    visible: true
+                    visible: false
 
                     Text
                     {
@@ -259,10 +259,10 @@ DapRightPanel
                     color: currTheme.textColor
                     text: qsTr("Amount")
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                    anchors.leftMargin: 15 * pt
                     anchors.left: parent.left
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                     horizontalAlignment: Text.AlignRight
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -289,7 +289,9 @@ DapRightPanel
                         Layout.leftMargin: 15 * pt
                         width: 150 * pt
                         height: 28 * pt
-                        placeholderText: qsTr("0")
+                        placeholderText: ""
+//                        placeholderText: "0.0"
+                        validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAlignment: Text.AlignRight
 
@@ -371,9 +373,9 @@ DapRightPanel
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                 }
             }
 

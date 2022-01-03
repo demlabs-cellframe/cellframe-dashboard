@@ -69,7 +69,7 @@ DapLastActionsRightPanelForm
                 if (temporaryModel.count === 0)
                     temporaryModel.append({ "network" : walletHistory[i].Network,
                         "name" : walletHistory[i].Name,
-                        "amount" : walletHistory[i].Amount,
+                        "amount" : walletHistory[i].AmountWithoutZeros,
                         "status" : walletHistory[i].Status,
                         "date" : walletHistory[i].Date,
                         "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
@@ -84,7 +84,7 @@ DapLastActionsRightPanelForm
                     }
                     temporaryModel.insert(j, { "network" : walletHistory[i].Network,
                         "name" : walletHistory[i].Name,
-                        "amount" : walletHistory[i].Amount,
+                        "amount" : walletHistory[i].AmountWithoutZeros,
                         "status" : walletHistory[i].Status,
                         "date" : walletHistory[i].Date,
                         "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})

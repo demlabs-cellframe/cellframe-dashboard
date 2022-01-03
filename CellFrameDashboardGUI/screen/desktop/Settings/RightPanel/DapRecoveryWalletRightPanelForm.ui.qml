@@ -5,8 +5,11 @@ import "../../../"
 
 DapRightPanel
 {
-//    dapButtonClose.normalImageButton: "qrc:/resources/icons/back_icon.png"
-//    dapButtonClose.hoverImageButton: "qrc:/resources/icons/back_icon_hover.png"
+    dapButtonClose.normalImageButton: "qrc:/resources/icons/" + pathTheme + "/back_icon.png"
+    dapButtonClose.hoverImageButton: "qrc:/resources/icons/" + pathTheme + "/back_icon_hover.png"
+
+    dapButtonClose.heightImageButton: 14 * pt
+    dapButtonClose.widthImageButton: 13 * pt
 
     property alias dapButtonAction: actionButton
     property alias dapButtonNext: nextButton
@@ -33,10 +36,11 @@ DapRightPanel
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 11 * pt
+                anchors.topMargin: 9 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 22 * pt
+                anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
+
             }
 
             Text
@@ -50,7 +54,7 @@ DapRightPanel
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 12 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 50 * pt
+                anchors.leftMargin: 52 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
@@ -65,8 +69,6 @@ DapRightPanel
             Rectangle
             {
                 id: frameMethod
-                Layout.topMargin: 8 * pt
-                Layout.bottomMargin: 8 * pt
                 Layout.fillWidth: true
                 color: currTheme.backgroundMainScreen
                 height: 30 * pt
@@ -75,37 +77,42 @@ DapRightPanel
                     id: textMethod
                     color: currTheme.textColor
                     text: qsTr("Recovery method: 24 words")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                 }
             }
 
-            Text
-            {
-                id: textTopMessage
+            Item {
+                Layout.preferredHeight: 69 * pt
+                Layout.preferredWidth: 278 * pt
+                Layout.topMargin: 24 * pt
+                Layout.leftMargin: 38 * pt
+                Layout.rightMargin: 34 * pt
 
-                Layout.maximumWidth: parent.width - 50 * pt
-                Layout.margins: 10 * pt
+                Text
+                {
+                    id: textTopMessage
+                    anchors.fill: parent
 
-                Layout.alignment: Qt.AlignHCenter
-
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                color: "#79FFFA"
-                wrapMode: Text.WordWrap
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "#79FFFA"
+                    wrapMode: Text.WordWrap
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                }
             }
 
             Grid {
                 id: wordsGrid
 
-                Layout.minimumHeight: 280 * pt
-                Layout.maximumHeight: 280 * pt
+                Layout.topMargin: 24 * pt
+                Layout.minimumHeight: 255 * pt
+                Layout.maximumHeight: 255 * pt
                 Layout.alignment: Qt.AlignHCenter
 
                 columns: 2
@@ -147,6 +154,7 @@ DapRightPanel
                 Layout.minimumHeight: 100 * pt
                 Layout.maximumWidth: parent.width - 50 * pt
                 Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 15 * pt
                 color: "#B3FF00"
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
@@ -158,7 +166,7 @@ DapRightPanel
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 spacing: 17 * pt
-                Layout.topMargin: 10 * pt
+                Layout.topMargin: 17 * pt
 
                 DapButton
                 {
@@ -182,6 +190,7 @@ DapRightPanel
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    visible: false
                 }
 
             }
