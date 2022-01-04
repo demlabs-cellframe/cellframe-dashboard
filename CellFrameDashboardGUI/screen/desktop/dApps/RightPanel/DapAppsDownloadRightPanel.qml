@@ -49,18 +49,23 @@ DapRectangleLitAndShaded {
             Item {
 
                 Layout.fillWidth: true
-                Layout.preferredHeight: 38 * pt
+                height: 68 * pt
                 Layout.alignment: Qt.AlignTop
+                Layout.bottomMargin: 0
 
                 RowLayout
                 {
-                    anchors.fill: parent
+                    id: rowHeader
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 38 * pt
 
                     DapButton
                     {
                         Layout.topMargin: 9 * pt
-                        Layout.bottomMargin: 9 * pt
-                        Layout.leftMargin: 17 * pt
+                        Layout.bottomMargin: 8 * pt
+                        Layout.leftMargin: 24 * pt
 
                         id: buttonClose
                         Layout.preferredHeight: 20 * pt
@@ -74,7 +79,7 @@ DapRectangleLitAndShaded {
 
                     Text
                     {
-                        Layout.topMargin: 11 * pt
+                        Layout.topMargin: 12 * pt
                         Layout.bottomMargin: 8 * pt
 //                        Layout.leftMargin: 13 * pt
 
@@ -90,57 +95,47 @@ DapRectangleLitAndShaded {
                     }
                 }
 
-            }
-
-            // Header dApp
-            Rectangle
-            {
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
-                color: currTheme.backgroundMainScreen
-                Layout.preferredHeight: 30 * pt
-
-                Text
+                // Header dApp
+                Rectangle
                 {
-                    id: _name
-                    color: currTheme.textColor
-                    text: qsTr("dApp")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                    horizontalAlignment: Text.AlignLeft
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.top: rowHeader.bottom
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.right: parent.right
+
+                    color: currTheme.backgroundMainScreen
+                    height: 30 * pt
+
+                    Text
+                    {
+                        id: _name
+                        color: currTheme.textColor
+                        text: qsTr("dApp")
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                        horizontalAlignment: Text.AlignLeft
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 15 * pt
+                        anchors.topMargin: 8
+                        anchors.bottomMargin: 7
+                    }
                 }
             }
 
-            Item {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredHeight: 49 * pt
-//                        Layout.preferredHeight: 82 * pt
 
-            }
 
                 DapProgressBar
                 {
                     id: bar_progress
-                    Layout.alignment: Qt.AlignTop
-//                    Layout.preferredWidth: 114 * pt
-                    Layout.minimumWidth: 114 * pt
-                    Layout.maximumWidth: 114 * pt
-//                    Layout.topMargin: 49 * pt
-                    Layout.leftMargin: 118 * pt
-                    Layout.rightMargin: 118 * pt
-
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.fillWidth: true
+                    Layout.topMargin: 41 * pt
                 }
 
                 Text{
 
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.topMargin: 13 * pt
+                    Layout.topMargin: 5 * pt
 
                     id:_errors
                     color: currTheme.placeHolderTextColor
@@ -148,19 +143,19 @@ DapRectangleLitAndShaded {
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignHCenter
 
-                    text: "sadsadasd"
+                    text: ""
                 }
 
                 RowLayout
                 {
                     Layout.alignment: Qt.AlignTop
                     Layout.fillWidth: true
-                    Layout.topMargin: 30 * pt
+                    Layout.topMargin: 47 * pt
 
                     Item {
                         Layout.preferredHeight: 80 * pt
                         Layout.preferredWidth: 150 * pt
-                        Layout.leftMargin: 25 * pt
+                        Layout.leftMargin: 27 * pt
                         //Total
                         Text{
 
@@ -205,7 +200,6 @@ DapRectangleLitAndShaded {
                             anchors.right: parent.right
 
                             id:_speed
-                            text: "sadsadasd"
 
                             color: currTheme.textColor;
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
@@ -218,6 +212,7 @@ DapRectangleLitAndShaded {
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
                             anchors.topMargin: 7 * pt
+                            anchors.rightMargin: 6 * pt
 
                             text: qsTr("SPEED")
 
@@ -246,7 +241,6 @@ DapRectangleLitAndShaded {
                                 anchors.right: parent.right
 
                                 id:_download
-                                text: "sadsadasd"
 
                                 color: currTheme.textColor;
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
@@ -281,7 +275,6 @@ DapRectangleLitAndShaded {
                                 anchors.right: parent.right
 
                                 id:_time
-                                text: "sadsadasd"
 
                                 color: currTheme.textColor;
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
@@ -294,6 +287,8 @@ DapRectangleLitAndShaded {
                                 anchors.right: parent.right
                                 anchors.bottom: parent.bottom
                                 anchors.topMargin: 7 * pt
+                                anchors.rightMargin: 4 * pt
+
 
                                 text: qsTr("TIME REMAIN")
 
@@ -302,20 +297,23 @@ DapRectangleLitAndShaded {
                                 horizontalAlignment: Text.AlignHCenter
                             }
                         }
-
                     }
 
                     RowLayout
                     {
-                        Layout.alignment: Qt.AlignTop
+//                        Layout.alignment: Qt.AlignTop
+                        Layout.fillHeight: true
                         Layout.fillWidth: true
-                        Layout.topMargin: 98 * pt
-                        Layout.bottomMargin: 82 * pt
+                        Layout.topMargin: 66 * pt
+                        Layout.leftMargin: 2 * pt
+                        Layout.bottomMargin: 108 * pt
                         spacing: 17 * pt
 
                         DapButton
                         {
-//                            Layout.alignment: Qt.AlignHCenter
+//                            Layout.alignment: Qt.AlignVCenter
+//                            Layout.fillWidth: true
+//                            Layout.fillHeight: true
 //                            Layout.fillWidth: true
                             Layout.preferredHeight: 36 * pt
                             Layout.preferredWidth: 132 * pt
@@ -332,7 +330,10 @@ DapRectangleLitAndShaded {
 
                         DapButton
                         {
+//                            Layout.alignment: Qt.AlignVCenter
 //                            Layout.alignment: Qt.AlignHCenter
+//                            Layout.fillWidth: true
+//                            Layout.fillHeight: true
 //                            Layout.fillWidth: true
                             Layout.preferredHeight: 36 * pt
                             Layout.preferredWidth: 132 * pt

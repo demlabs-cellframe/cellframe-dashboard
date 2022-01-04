@@ -13,17 +13,19 @@ ColumnLayout
     property alias dapWalletsButtons : buttonGroup
     property int dapCurrentWallet: SettingsWallet.currentIndex
 
+    spacing: 0
+
     Item
     {
         Layout.fillWidth: true
-        Layout.preferredHeight: 38 * pt
+        height: 38 * pt
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 15 * pt
-            anchors.topMargin: 15 * pt
-            anchors.bottomMargin:  5 * pt
+            anchors.leftMargin: 17 * pt
+            anchors.topMargin: 10 * pt
+            anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -33,14 +35,17 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        Layout.preferredHeight: 30 * pt
+//        Layout.topMargin: 1 * pt
+//        Layout.bottomMargin: 1 * pt
+        height: 30 * pt
         color: currTheme.backgroundMainScreen
 
         Text
         {
-            anchors.left: parent.left
-            anchors.leftMargin: 17 * pt
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.topMargin: 8 * pt
+            anchors.bottomMargin: 8 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -90,28 +95,30 @@ ColumnLayout
             id:columnWallets
             anchors.left: parent.left
             anchors.right: parent.right
+            height: 50 * pt
             onHeightChanged: listWallet.contentHeight = height
 
             Item {
-                Layout.preferredHeight: 50 * pt
+//                height: 50 * pt
                 Layout.fillWidth: true
-                Layout.topMargin: 10 * pt
-
+                Layout.fillHeight: true
 
                 RowLayout
                 {
                     anchors.fill: parent
-
                     ColumnLayout
                     {
-                        Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignLeft
                         Layout.leftMargin: 15 * pt
+//                        Layout.topMargin: 4 * pt
+//                        Layout.bottomMargin: 14 * pt
 
                         Text
                         {
 
                             height: 26*pt
                             Layout.fillWidth: true
+
                             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
@@ -120,12 +127,12 @@ ColumnLayout
                         RowLayout
                         {
                             Layout.preferredHeight: 16 * pt
-                            Layout.bottomMargin: 9 * pt
+
                             spacing: 0 * pt
                             DapText
                             {
                                id: textMetworkAddress
-                               Layout.preferredWidth: 96 * pt
+                               Layout.preferredWidth: 98 * pt
 
                                fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                color: currTheme.textColorGrayTwo
@@ -138,7 +145,7 @@ ColumnLayout
                             {
                                 id: networkAddressCopyButton
                                 Layout.preferredHeight: 16 * pt
-                                Layout.preferredWidth: 16 * pt
+                                Layout.preferredWidth: 15.5 * pt
                                 hoverEnabled: true
 
                                 onClicked: textMetworkAddress.copyFullText()
@@ -163,9 +170,11 @@ ColumnLayout
 //                        signal setWallet(var index)
 
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        Layout.preferredHeight: 26*pt
+                        Layout.preferredHeight: 46 * pt
                         Layout.preferredWidth: 46 * pt
                         Layout.rightMargin: 15 * pt
+//                        Layout.topMargin: 2 * pt
+//                        Layout.bottomMargin: 2 * pt
 
                         ButtonGroup.group: buttonGroup
 
