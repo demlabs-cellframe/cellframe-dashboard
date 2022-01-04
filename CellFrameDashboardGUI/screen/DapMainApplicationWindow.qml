@@ -82,11 +82,11 @@ Rectangle {
     ListModel
     {
         id: modelMenuTabStates
-        ListElement { tag: "Certificates"
-            name: qsTr("Certificates")
-            show: true }
         ListElement { tag: "Tokens"
             name: qsTr("Tokens")
+            show: true }
+        ListElement { tag: "Certificates"
+            name: qsTr("Certificates")
             show: true }
         ListElement { tag: "VPN service"
             name: qsTr("VPN service")
@@ -99,9 +99,6 @@ Rectangle {
             show: true }
         ListElement { tag: "dApps"
             name: qsTr("dApps")
-            show: true }
-        ListElement { tag: "Plugins"
-            name: qsTr("Plugins")
             show: true }
     }
 
@@ -231,7 +228,7 @@ Rectangle {
             id: columnMenuTab
             height: rowMainWindow.height
 //            Layout.
-            width: 180 * pt
+            width: 183 * pt
             // Logotype widget
             Item
             {
@@ -267,7 +264,7 @@ Rectangle {
             Item
             {
                 id: menuWidget
-                width: 180 * pt
+                width: 183 * pt
                 height: columnMenuTab.height - logotype.height
                 data: DapAbstractMenuTabWidget
                 {
@@ -282,7 +279,7 @@ Rectangle {
                     }
                     id: menuTabWidget
                     anchors.fill: parent
-                    widthItemMenu: 180*pt
+                    widthItemMenu: 183*pt
                     heightItemMenu: 52 * pt
                     normalColorItemMenu: currTheme.backgroundPanel
                     selectColorItemMenu: "transparent"

@@ -17,7 +17,7 @@ DapTopPanel
     {
         id: frameIconSearch
         anchors.left: parent.left
-        anchors.leftMargin: 38 * pt
+        anchors.leftMargin: 34 * pt
         anchors.verticalCenter: parent.verticalCenter
         height: 20 * pt
         width: 20 * pt
@@ -36,7 +36,7 @@ DapTopPanel
 
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: frameIconSearch.right
-        anchors.leftMargin: 10 * pt
+        anchors.leftMargin: 7 * pt
 
         bottomLineVisible: false
 
@@ -57,10 +57,11 @@ DapTopPanel
     }
 
     Rectangle {
-        width: searchBox.width + 30 * pt
+        width: 227 * pt
         height: 1 * pt
         anchors.top: searchBox.bottom
         anchors.left: frameIconSearch.left
+        anchors.topMargin: 4 * pt
         color: "#393B41" //currTheme.borderColor
     }
 

@@ -74,7 +74,7 @@ DapAbstractScreen
                     Layout.maximumWidth: 297 * pt
                     Layout.minimumHeight: 36 * pt
                     Layout.maximumHeight: 36 * pt
-                    Layout.topMargin: 23 * pt
+                    Layout.topMargin: 20 * pt
                     Layout.alignment: Qt.AlignHCenter
 
                     textButton: "Create a new wallet"
@@ -95,7 +95,7 @@ DapAbstractScreen
                     Layout.maximumWidth: 297 * pt
                     Layout.minimumHeight: 36 * pt
                     Layout.maximumHeight: 36 * pt
-                    Layout.topMargin: 16 * pt
+                    Layout.topMargin: 9 * pt
                     Layout.alignment: Qt.AlignHCenter
 
                     textButton: "Import an existing wallet"
