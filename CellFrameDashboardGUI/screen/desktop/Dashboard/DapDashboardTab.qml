@@ -225,7 +225,13 @@ DapAbstractTab
 
     Component.onCompleted:
     {
+        print("DapDashboardTab onCompleted")
         updateComboBox()
+    }
+
+    Component.onDestruction:
+    {
+        print("DapDashboardTab onDestruction")
     }
 
     function update()

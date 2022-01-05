@@ -14,6 +14,8 @@ DapAbstractScreen
 
     property alias dapHistoryRightPanel: historyRightPanel
 
+    property alias dapHistoryVerticalScrollBar: historyVerticalScrollBar
+
     anchors
     {
         fill: parent
@@ -50,6 +52,7 @@ DapAbstractScreen
                 section.delegate: delegateDate
 
                 ScrollBar.vertical: ScrollBar {
+                    id: historyVerticalScrollBar
                     active: true
                 }
             }

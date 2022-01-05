@@ -20,15 +20,39 @@ DapHistoryTabForm
         id: temporaryModel
     }
 
+    Timer {
+        id: updateTimer
+        interval: 1000; running: false; repeat: true
+        onTriggered:
+        {
+            print("DapHistoryTab updateTimer",
+                  updateTimer.running, txExplorerTimerStarted)
+
+            updateWalletHisory()
+        }
+    }
+
     Component.onCompleted:
     {
-        if (SettingsWallet.currentIndex >= 0 &&
-            requestCounter === 0)
-        {
-            modelHistory.clear()
+        print("DapHistoryTab onCompleted",
+              updateTimer.running, txExplorerTimerStarted)
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+        updateWalletHisory()
+
+        if (!txExplorerTimerStarted)
+        {
+            txExplorerTimerStarted = true
+            updateTimer.start()
         }
+    }
+
+    Component.onDestruction:
+    {
+        print("DapHistoryTab onDestruction",
+              updateTimer.running, txExplorerTimerStarted)
+
+        updateTimer.stop()
+        txExplorerTimerStarted = false
     }
 
     Connections
@@ -72,10 +96,14 @@ DapHistoryTabForm
 
             if (requestCounter <= 0)
             {
-                modelHistory.clear()
+                print("dapHistoryVerticalScrollBar", dapHistoryScreen.dapHistoryVerticalScrollBar.position)
+/*                modelHistory.clear()
 
                 for (var i = 0; i < temporaryModel.count; ++i)
-                    modelHistory.append(temporaryModel.get(i))
+                    modelHistory.append(temporaryModel.get(i))*/
+                filterResults()
+
+                print("dapHistoryVerticalScrollBar", dapHistoryScreen.dapHistoryVerticalScrollBar.position)
             }
 
         }
@@ -104,6 +132,19 @@ DapHistoryTabForm
         isCurrentRange = isRange
 
         filterResults()
+    }
+
+    function updateWalletHisory()
+    {
+        if (SettingsWallet.currentIndex >= 0 &&
+            requestCounter === 0)
+        {
+            temporaryModel.clear()
+
+//            modelHistory.clear()
+
+            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+        }
     }
 
     function filterResults()

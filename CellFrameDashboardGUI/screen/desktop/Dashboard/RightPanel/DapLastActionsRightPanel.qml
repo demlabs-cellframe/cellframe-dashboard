@@ -60,8 +60,6 @@ DapLastActionsRightPanelForm
             if (requestCounter <= 0)
                 return
 
-            console.log("onWalletHistoryReceived")
-
             --requestCounter
 
             for (var i = 0; i < walletHistory.length; ++i)
@@ -127,20 +125,46 @@ DapLastActionsRightPanelForm
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            if (SettingsWallet.currentIndex >= 0 &&
-                requestCounter === 0)
-            {
-                lastDate = new Date(0)
-                prevDate = new Date(0)
+            updateWalletHisory()
+        }
+    }
 
-                modelLastActions.clear()
+    Timer {
+        id: updateTimer
+        interval: 1000; running: false; repeat: true
+        onTriggered:
+        {
+            print("DapLastActionsRightPanel updateTimer",
+                  updateTimer.running, lastActionsTimerStarted)
 
-                requestCounter = getWalletHistory(SettingsWallet.currentIndex)
-            }
+            updateWalletHisory()
         }
     }
 
     Component.onCompleted:
+    {
+        print("DapLastActionsRightPanel onCompleted",
+              updateTimer.running, lastActionsTimerStarted)
+
+        updateWalletHisory()
+
+        if (!lastActionsTimerStarted)
+        {
+            lastActionsTimerStarted = true
+            updateTimer.start()
+        }
+    }
+
+    Component.onDestruction:
+    {
+        print("DapLastActionsRightPanel onDestruction",
+              updateTimer.running, lastActionsTimerStarted)
+
+        updateTimer.stop()
+        lastActionsTimerStarted = false
+    }
+
+    function updateWalletHisory()
     {
         if (SettingsWallet.currentIndex >= 0 &&
             requestCounter === 0)
@@ -148,7 +172,8 @@ DapLastActionsRightPanelForm
             lastDate = new Date(0)
             prevDate = new Date(0)
 
-            modelLastActions.clear()
+            temporaryModel.clear()
+//            modelLastActions.clear()
 
             requestCounter = getWalletHistory(SettingsWallet.currentIndex)
         }
