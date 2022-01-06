@@ -15,7 +15,7 @@ DapCreateWalletForm
           dapPreviousRightPanel = emptyRightPanel
 
         if (!restoreWalletMode)
-            dapTextHeader.text = qsTr("Create a new wallet")
+            dapTextHeader.text = qsTr("New wallet")
         else
             dapTextHeader.text = qsTr("Restore a wallet")
     }

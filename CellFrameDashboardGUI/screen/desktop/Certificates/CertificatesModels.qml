@@ -19,8 +19,8 @@ Item {
     readonly property var signatureKeyToViewName: ({
                                                "sig_dil": qsTr("Crystal-Dylithium"),
                                                "sig_bliss": qsTr("Bliss"),
-                                               "sig_picnic": qsTr("Picnic"),
-                                               "sig_tesla": qsTr("Tesla")
+                                               "sig_picnic": qsTr("Picnic")/*,
+                                               "sig_tesla": qsTr("Tesla")*/
                                            })
 
 
@@ -95,10 +95,10 @@ Item {
 
     ListModel {        //this common model
         id: signatureType
-        ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; isRecomended: true  }
+        ListElement {  name: "Crystal-Dylithium  (Recomended)"; signature: "sig_dil"; isRecomended: true  }
         ListElement {  name: "Bliss"; signature: "sig_bliss"; isRecomended: false  }
         ListElement {  name: "Picnic"; signature: "sig_picnic"; isRecomended: false  }
-        ListElement {  name: "Tesla"; signature: "sig_tesla"; isRecomended: false  }
+//        ListElement {  name: "Tesla"; signature: "sig_tesla"; isRecomended: false  }
     }
 
 

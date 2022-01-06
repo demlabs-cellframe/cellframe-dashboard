@@ -29,6 +29,7 @@ DapRecoveryWalletRightPanelForm
 
             dapButtonAction.enabled = true
             dapButtonNext.enabled = false
+            dapButtonNext.visible = false
         }
 
         onFileError:
@@ -43,6 +44,7 @@ DapRecoveryWalletRightPanelForm
 
             dapButtonAction.enabled = true
             dapButtonNext.enabled = false
+            dapButtonNext.visible = false
         }
 
         onSetFileName:
@@ -66,20 +68,21 @@ DapRecoveryWalletRightPanelForm
     Component.onCompleted:
     {
         if (currentTab === dashboardScreenPath)
-          dapPreviousRightPanel = lastActionsWallet
+          dapPreviousRightPanel = createNewWallet
         if (currentTab === settingsScreenPath)
-          dapPreviousRightPanel = emptyRightPanel
+          dapPreviousRightPanel = inputNameWallet
 
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
         print("restoreWalletMode", restoreWalletMode)
 
         dapButtonAction.enabled = true
         dapButtonNext.enabled = false
+        dapButtonNext.visible = false
         walletInfo.recovery_hash = ""
 
         if (walletRecoveryType === "Words")
         {
-            dapTextMethod.text = qsTr("24 words")
+            dapTextMethod.text = qsTr("Recovery method: 24 words")
 
             if (!restoreWalletMode)
                 dapButtonAction.textButton = qsTr("Copy")
@@ -91,7 +94,7 @@ DapRecoveryWalletRightPanelForm
         }
         if (walletRecoveryType === "File")
         {
-            dapTextMethod.text = qsTr("Backup file")
+            dapTextMethod.text = qsTr("Recovery method: Backup file")
 
             if (!restoreWalletMode)
                 dapButtonAction.textButton = qsTr("Save")
@@ -108,7 +111,7 @@ DapRecoveryWalletRightPanelForm
             if (!restoreWalletMode)
             {
                 dapTextTopMessage.text =
-                    qsTr("Click the 'Copy' button and keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
+                    qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
                 walletHashManager.generateNewWords()
             }
             else
@@ -149,14 +152,15 @@ DapRecoveryWalletRightPanelForm
 
     dapButtonAction.onClicked:
     {
-        dapButtonAction.enabled = false
+        dapButtonAction.enabled = true
         dapButtonNext.enabled = true
+        dapButtonNext.visible = true
 
         if (walletRecoveryType === "Words")
         {
             if (!restoreWalletMode)
             {
-                dapTextBottomMessage.color = "#6F9F00"
+                dapTextBottomMessage.color = "#B3FF00"
                 dapTextBottomMessage.text =
                     qsTr("Recovery words copied to clipboard. Keep them in a safe place before proceeding to the next step.")
 
@@ -202,6 +206,7 @@ DapRecoveryWalletRightPanelForm
 
             dapButtonAction.enabled = true
             dapButtonNext.enabled = false
+            dapButtonNext.visible = false
         }
     }
 
@@ -225,19 +230,20 @@ DapRecoveryWalletRightPanelForm
 
             dapButtonAction.enabled = true
             dapButtonNext.enabled = false
+            dapButtonNext.visible = false
         }
     }
 
     dapButtonClose.onClicked:
     {
         if (currentTab === dashboardScreenPath)
-            previousActivated(lastActionsWallet)
+            previousActivated(createNewWallet)
         if (currentTab === settingsScreenPath)
         {
-            previousActivated(emptyRightPanel)
-            dapSettingsRightPanel.visible = false
-            dapSettingsRightPanel.width = 0
-            dapSettingsScreen.dapExtensionsBlock.visible = true
+            previousActivated(inputNameWallet)
+//            dapSettingsRightPanel.visible = false
+//            dapSettingsRightPanel.width = 0
+//            dapSettingsScreen.dapExtensionsBlock.visible = true
         }
     }
 }

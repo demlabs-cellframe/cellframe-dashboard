@@ -85,11 +85,11 @@ Rectangle {
     ListModel
     {
         id: modelMenuTabStates
-        ListElement { tag: "Certificates"
-            name: qsTr("Certificates")
-            show: true }
         ListElement { tag: "Tokens"
             name: qsTr("Tokens")
+            show: true }
+        ListElement { tag: "Certificates"
+            name: qsTr("Certificates")
             show: true }
         ListElement { tag: "VPN service"
             name: qsTr("VPN service")
@@ -102,9 +102,6 @@ Rectangle {
             show: true }
         ListElement { tag: "dApps"
             name: qsTr("dApps")
-            show: true }
-        ListElement { tag: "Plugins"
-            name: qsTr("Plugins")
             show: true }
     }
 
@@ -225,7 +222,7 @@ Rectangle {
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-            bottomMargin: 4 * pt
+            bottomMargin: 6 * pt
         }
 
         // Virtual logo column frame and menu bar
@@ -234,7 +231,7 @@ Rectangle {
             id: columnMenuTab
             height: rowMainWindow.height
 //            Layout.
-            width: 180 * pt
+            width: 183 * pt
             // Logotype widget
             Item
             {
@@ -270,7 +267,7 @@ Rectangle {
             Item
             {
                 id: menuWidget
-                width: 180 * pt
+                width: 183 * pt
                 height: columnMenuTab.height - logotype.height
                 data: DapAbstractMenuTabWidget
                 {
@@ -285,7 +282,7 @@ Rectangle {
                     }
                     id: menuTabWidget
                     anchors.fill: parent
-                    widthItemMenu: 180*pt
+                    widthItemMenu: 183*pt
                     heightItemMenu: 52 * pt
                     normalColorItemMenu: currTheme.backgroundPanel
                     selectColorItemMenu: "transparent"
@@ -811,6 +808,7 @@ Rectangle {
                 {
                     if(dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name && dapModelPlugins.get(i).status !== "1")
                     {
+
                         pluginsTabChanged(false, true, modelAppsTabStates.get(j).name)
                         modelAppsTabStates.remove(j);
                         j--;

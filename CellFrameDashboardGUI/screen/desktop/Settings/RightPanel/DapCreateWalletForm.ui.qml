@@ -32,11 +32,11 @@ DapRightPanel
             name: "Picnic"
             sign: " sig_picnic"
         }
-        ListElement
-        {
-            name: "Tesla"
-            sign: " sig_tesla"
-        }
+//        ListElement
+//        {
+//            name: "Tesla"
+//            sign: " sig_tesla"
+//        }
     }
 
     dapHeaderData:
@@ -53,9 +53,9 @@ DapRightPanel
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
+                anchors.topMargin: 9 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 18 * pt
+                anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
             }
 
@@ -70,7 +70,7 @@ DapRightPanel
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 12 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 46 * pt
+                anchors.leftMargin: 52 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
@@ -98,9 +98,9 @@ DapRightPanel
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
-                anchors.topMargin: 8
-                anchors.bottomMargin: 7
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
             }
         }
 
@@ -110,7 +110,7 @@ DapRightPanel
             height: 60 * pt
             color: "transparent"
             Layout.fillWidth: true
-            Layout.alignment: Qt.AlignHCenter
+//            Layout.topMargin: 21 * pt
 //            Layout.maximumWidth: parent.width - 50 * pt
             TextField
             {
@@ -120,7 +120,9 @@ DapRightPanel
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
                 anchors.margins: 10 * pt
-                anchors.leftMargin: 25 * pt
+                anchors.leftMargin: 29 * pt
+//                anchors.topMargin: 17 * pt
+
 
                 validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
                 style:
@@ -155,9 +157,9 @@ DapRightPanel
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
-                anchors.topMargin: 8
-                anchors.bottomMargin: 7
+                anchors.leftMargin: 21 * pt
+                anchors.topMargin: 16 * pt
+                anchors.bottomMargin: 7 * pt
             }
         }
 
@@ -227,9 +229,9 @@ DapRightPanel
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
-                anchors.topMargin: 8
-                anchors.bottomMargin: 7
+                anchors.leftMargin: 22 * pt
+                anchors.topMargin: 16 * pt
+                anchors.bottomMargin: 7 * pt
             }
         }
 
@@ -297,8 +299,10 @@ DapRightPanel
         {
             id: buttonNext
             implicitHeight: 36 * pt
-            Layout.maximumWidth: parent.width - 200 * pt
-            Layout.fillWidth: true
+            implicitWidth: 132 * pt
+            Layout.topMargin: 58 * pt
+//            Layout.maximumWidth: parent.width - 200 * pt
+//            Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             textButton: qsTr("Next")
             horizontalAligmentText: Text.AlignHCenter

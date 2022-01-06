@@ -12,19 +12,28 @@ Item
     property alias dapUnactiveButton: uninstallPlug
     property alias dapDeleteButton: deletePlug
 
-    id: historyRightPanel
+    id: defaultRightPanel
 
     signal currentStatusSelected(string status)
+
+    opacity: visible ? 1.0 : 0.0
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
 
     ColumnLayout {
         anchors.fill: parent
 //        anchors.margins: 5 * pt
-        anchors.topMargin: 11 * pt
+        anchors.topMargin: 3 * pt
         spacing: 0 * pt
 
         Text {
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
+            Layout.leftMargin: 15 * pt
             verticalAlignment: Text.AlignVCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
@@ -34,8 +43,9 @@ Item
         ColumnLayout
         {
 //            Layout.margins: 3 * pt
-            Layout.leftMargin: -12 * pt
-             spacing: 3 * pt
+            Layout.leftMargin: 2 * pt
+            Layout.topMargin: 3 * pt
+            spacing: 0
 
             DapRadioButton
             {
@@ -54,6 +64,7 @@ Item
             {
                 id: buttonSelectionPending
                 nameRadioButton: qsTr("Unverified")
+                Layout.topMargin: 5 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
                 fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -67,6 +78,7 @@ Item
             {
                 id: buttonSelectionSent
                 nameRadioButton: qsTr("Both")
+                Layout.topMargin: 6 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
                 fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -79,7 +91,8 @@ Item
         }
 
         Text {
-            Layout.topMargin: 20 * pt
+            Layout.topMargin: 24 * pt
+            Layout.leftMargin: 15 * pt
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
             verticalAlignment: Text.AlignVCenter
@@ -92,16 +105,16 @@ Item
 
         ColumnLayout
         {
-            Layout.topMargin: 21 * pt
+            Layout.topMargin: 16 * pt
             spacing: 24 * pt
 
             DapButton
             {
 
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:loadPlug
                 textButton: "Add dApp"
@@ -133,10 +146,10 @@ Item
             }
             DapButton
             {
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:installPlug
                 textButton: "Activate dApp"
@@ -148,16 +161,16 @@ Item
                 {
                     currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
                     pluginsManager.installPlugin(dapListViewApps.currentIndex, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
-                    historyRightPanel.setEnableButtons()
+                    defaultRightPanel.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
                 }
             }
             DapButton
             {
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:uninstallPlug
                 textButton: "Unactivate dApp"
@@ -174,15 +187,15 @@ Item
                     pluginsManager.installPlugin(dapListViewApps.currentIndex, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
-                    historyRightPanel.setEnableButtons()
+                    defaultRightPanel.setEnableButtons()
                 }
             }
             DapButton
             {
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:deletePlug
                 textButton: "Delete dApp"
@@ -201,7 +214,28 @@ Item
                     pluginsManager.deletePlugin(dapListViewApps.currentIndex)
                     SettingsWallet.activePlugin = ""
 
-                    historyRightPanel.setEnableButtons()
+                    defaultRightPanel.setEnableButtons()
+
+                    for(var i = 0; i < modelAppsTabStates.count; i++)
+                    {
+                        if(dapModelPlugins.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
+                        {
+                            var name = modelAppsTabStates.get(i).name
+
+                            for(var j = 0; j < modelMenuTab.count; j++)
+                            {
+
+                                if(modelMenuTab.get(j).name === name)
+                                {
+                                    modelMenuTab.remove(j);
+                                    break;
+                                }
+                            }
+
+                            modelAppsTabStates.remove(i);
+                            break;
+                        }
+                    }
                 }
             }
         }

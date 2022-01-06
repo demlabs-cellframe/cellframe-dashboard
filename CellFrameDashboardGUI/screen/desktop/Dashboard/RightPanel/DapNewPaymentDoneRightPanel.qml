@@ -15,4 +15,9 @@ DapNewPaymentDoneRightPanelForm
     {
         previousActivated(lastActionsWallet)
     }
+
+    Component.onCompleted:
+    {
+        dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
+    }
 }
