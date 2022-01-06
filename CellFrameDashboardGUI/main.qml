@@ -106,7 +106,7 @@ ApplicationWindow
     footer: Rectangle {
         id: networkPanel
         height: 40
-        color: currTheme.backgroundPanel
+        color: "#2D3037"
     }
 
     DropShadow {

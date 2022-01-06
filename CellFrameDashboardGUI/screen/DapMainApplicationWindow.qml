@@ -58,15 +58,16 @@ Rectangle {
         id: quicksandFonts
     }
 
-    Theme.Dark {id: darkTheme}
-    Theme.Light {id: lightTheme}
+    Theme.Dark { id: darkTheme }
+    Theme.Light { id: lightTheme }
 
-    ListModel{
+    ListModel {
         id: themes
         Component.onCompleted:
         {
-            append({name:qsTr("Dark theme"),
-                    source:darkTheme
+            append({
+                       name: qsTr("Dark theme"),
+                       source: darkTheme
                    })
         }
     }

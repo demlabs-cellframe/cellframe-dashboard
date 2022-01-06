@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 import "../screen"
 import "qrc:/resources/QML"
 import "../screen/controls"
+import "../resources/theme"
 
 FocusScope {
     id: dapMainPage
@@ -30,6 +31,14 @@ FocusScope {
     property var _dapWallets: []
 
     property ListModel _tokensModel
+
+    Dark { id: darkTheme }
+    Light { id: lightTheme }
+
+    property string pathTheme: "BlackTheme"
+
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
 
     property var _dapWalletsModel: []
     property var _dapNetworksModel: []

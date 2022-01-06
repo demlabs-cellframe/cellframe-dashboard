@@ -5,7 +5,7 @@ import android.util.Log;
 import org.qtproject.qt5.android.bindings.QtService;
 
 public class DashboardService extends QtService {
-    private static final String TAG = "MyService1";
+    private static final String TAG = "Dashboard service";
 
        @Override
        public void onCreate() {
@@ -25,8 +25,10 @@ public class DashboardService extends QtService {
            return ret;
        }
 
-   public static void startDashboardService(Context ctx) {
-       ctx.startService(new Intent(ctx, DashboardService.class));
+   public static void startDashboardService(/*Context ctx*/) {
+       //ctx.startService(new Intent(ctx, DashboardService.class));
        Log.i(TAG, "DO SOME WORK");
+       Intent intent = new Intent(getApplicationContext(), DashboardService.class);
+       getApplicationContext().startForegroundService(intent);
    }
 }
