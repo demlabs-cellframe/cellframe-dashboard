@@ -16,6 +16,8 @@ DapAbstractScreen
 
     property alias dapHistoryVerticalScrollBar: historyVerticalScrollBar
 
+    property alias dapListViewHistory: dapListViewHistory
+
     anchors
     {
         fill: parent

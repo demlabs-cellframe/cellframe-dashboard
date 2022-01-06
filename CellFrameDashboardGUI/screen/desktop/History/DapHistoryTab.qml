@@ -20,14 +20,16 @@ DapHistoryTabForm
         id: temporaryModel
     }
 
+    ListModel
+    {
+        id: previousModel
+    }
+
     Timer {
         id: updateTimer
         interval: 1000; running: false; repeat: true
         onTriggered:
         {
-            print("DapHistoryTab updateTimer",
-                  updateTimer.running, txExplorerTimerStarted)
-
             updateWalletHisory()
         }
     }
@@ -96,14 +98,29 @@ DapHistoryTabForm
 
             if (requestCounter <= 0)
             {
-                print("dapHistoryVerticalScrollBar", dapHistoryScreen.dapHistoryVerticalScrollBar.position)
-/*                modelHistory.clear()
+                var test = true
 
-                for (var i = 0; i < temporaryModel.count; ++i)
-                    modelHistory.append(temporaryModel.get(i))*/
-                filterResults()
+                if (previousModel.count !== temporaryModel.count)
+                    test = false
+                else
+                {
+                    for (var i = 0; i < previousModel.count; ++i)
+                        if (!compareHistoryElements(temporaryModel.get(i), previousModel.get(i)))
+                        {
+                            test = false
+                            break
+                        }
+                }
 
-                print("dapHistoryVerticalScrollBar", dapHistoryScreen.dapHistoryVerticalScrollBar.position)
+                previousModel.clear()
+                for (var k = 0; k < temporaryModel.count; ++k)
+                    previousModel.append(temporaryModel.get(k))
+
+                if (!test)
+                {
+                    print("New model != Previous model")
+                    outNewModel()
+                }
             }
 
         }
@@ -134,6 +151,11 @@ DapHistoryTabForm
         filterResults()
     }
 
+//    dapHistoryScreen.dapHistoryVerticalScrollBar.onPositionChanged: {
+//        console.log("dapHistoryVerticalScrollBar.onPositionChanged",
+//                    dapHistoryScreen.dapHistoryVerticalScrollBar.position)
+//    }
+
     function updateWalletHisory()
     {
         if (SettingsWallet.currentIndex >= 0 &&
@@ -141,13 +163,39 @@ DapHistoryTabForm
         {
             temporaryModel.clear()
 
-//            modelHistory.clear()
-
             requestCounter = getWalletHistory(SettingsWallet.currentIndex)
         }
     }
 
+    function compareHistoryElements(elem1, elem2)
+    {
+        if (elem1.wallet !== elem2.wallet)
+            return false
+        if (elem1.network !== elem2.network)
+            return false
+        if (elem1.name !== elem2.name)
+            return false
+        if (elem1.status !== elem2.status)
+            return false
+        if (elem1.amount !== elem2.amount)
+            return false
+        if (elem1.date !== elem2.date)
+            return false
+        if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
+            return false
+
+        return true
+    }
+
     function filterResults()
+    {
+        previousModel.clear()
+
+        if (requestCounter === 0)
+            outNewModel()
+    }
+
+    function outNewModel()
     {
         modelHistory.clear()
 
@@ -190,6 +238,8 @@ DapHistoryTabForm
             }
         }
 
+        print("Reset position")
+        dapHistoryScreen.dapListViewHistory.positionViewAtBeginning()
     }
 
     function checkText(item, line)
