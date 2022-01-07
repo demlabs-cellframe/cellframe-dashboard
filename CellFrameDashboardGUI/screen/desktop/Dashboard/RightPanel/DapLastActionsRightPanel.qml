@@ -27,6 +27,11 @@ DapLastActionsRightPanelForm
         id: temporaryModel
     }
 
+    ListModel
+    {
+        id: previousModel
+    }
+
     Component
     {
         id: delegateSection
@@ -104,17 +109,43 @@ DapLastActionsRightPanelForm
 
             if (requestCounter <= 0)
             {
-                today = new Date()
-                yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+                var test = true
 
-                modelLastActions.clear()
-
-                for (var k = 0; k < temporaryModel.count; ++k)
+                if (previousModel.count !== temporaryModel.count)
+                    test = false
+                else
                 {
-                    var payDate = new Date(Date.parse(temporaryModel.get(k).date))
+                    for (var k = 0; k < previousModel.count; ++k)
+                        if (!compareHistoryElements(temporaryModel.get(k), previousModel.get(k)))
+                        {
+                            test = false
+                            break
+                        }
+                }
 
-                    if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
-                        modelLastActions.append(temporaryModel.get(k))
+                previousModel.clear()
+                for (var l = 0; l < temporaryModel.count; ++l)
+                    previousModel.append(temporaryModel.get(l))
+
+                if (!test)
+                {
+                    print("New model != Previous model")
+
+                    today = new Date()
+                    yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+                    modelLastActions.clear()
+
+                    for (var m = 0; m < temporaryModel.count; ++m)
+                    {
+                        var payDate = new Date(Date.parse(temporaryModel.get(m).date))
+
+                        if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
+                            modelLastActions.append(temporaryModel.get(m))
+                    }
+
+                    print("Reset position")
+                    dapLastActionsView.positionViewAtBeginning()
                 }
             }
         }
@@ -134,8 +165,7 @@ DapLastActionsRightPanelForm
         interval: 1000; running: false; repeat: true
         onTriggered:
         {
-            print("DapLastActionsRightPanel updateTimer",
-                  updateTimer.running, lastActionsTimerStarted)
+//            print("DapLastActionsRightPanel updateTimer", updateTimer.running)
 
             updateWalletHisory()
         }
@@ -143,25 +173,19 @@ DapLastActionsRightPanelForm
 
     Component.onCompleted:
     {
-        print("DapLastActionsRightPanel onCompleted",
-              updateTimer.running, lastActionsTimerStarted)
+        print("DapLastActionsRightPanel onCompleted", updateTimer.running)
 
         updateWalletHisory()
 
-        if (!lastActionsTimerStarted)
-        {
-            lastActionsTimerStarted = true
+        if (!updateTimer.running)
             updateTimer.start()
-        }
     }
 
     Component.onDestruction:
     {
-        print("DapLastActionsRightPanel onDestruction",
-              updateTimer.running, lastActionsTimerStarted)
+        print("DapLastActionsRightPanel onDestruction", updateTimer.running)
 
         updateTimer.stop()
-        lastActionsTimerStarted = false
     }
 
     function updateWalletHisory()
@@ -173,10 +197,29 @@ DapLastActionsRightPanelForm
             prevDate = new Date(0)
 
             temporaryModel.clear()
-//            modelLastActions.clear()
 
             requestCounter = getWalletHistory(SettingsWallet.currentIndex)
         }
+    }
+
+    function compareHistoryElements(elem1, elem2)
+    {
+        if (elem1.wallet !== elem2.wallet)
+            return false
+        if (elem1.network !== elem2.network)
+            return false
+        if (elem1.name !== elem2.name)
+            return false
+        if (elem1.status !== elem2.status)
+            return false
+        if (elem1.amount !== elem2.amount)
+            return false
+        if (elem1.date !== elem2.date)
+            return false
+        if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
+            return false
+
+        return true
     }
 
     ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output

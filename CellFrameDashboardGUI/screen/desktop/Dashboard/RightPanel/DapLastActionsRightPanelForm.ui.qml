@@ -9,6 +9,8 @@ DapRightPanel
 {
     id:control
 
+    property alias dapLastActionsView: lastActionsView
+
     dapHeaderData:
         Rectangle
     {

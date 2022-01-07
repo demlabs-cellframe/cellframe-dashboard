@@ -36,25 +36,19 @@ DapHistoryTabForm
 
     Component.onCompleted:
     {
-        print("DapHistoryTab onCompleted",
-              updateTimer.running, txExplorerTimerStarted)
+        print("DapHistoryTab onCompleted", updateTimer.running)
 
         updateWalletHisory()
 
-        if (!txExplorerTimerStarted)
-        {
-            txExplorerTimerStarted = true
+        if (!updateTimer.running)
             updateTimer.start()
-        }
     }
 
     Component.onDestruction:
     {
-        print("DapHistoryTab onDestruction",
-              updateTimer.running, txExplorerTimerStarted)
+        print("DapHistoryTab onDestruction", updateTimer.running)
 
         updateTimer.stop()
-        txExplorerTimerStarted = false
     }
 
     Connections

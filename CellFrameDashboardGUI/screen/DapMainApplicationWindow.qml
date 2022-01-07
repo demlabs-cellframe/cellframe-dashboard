@@ -73,9 +73,6 @@ Rectangle {
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
 
-    property bool lastActionsTimerStarted: false
-    property bool txExplorerTimerStarted: false
-
     signal menuTabChanged()
     signal pluginsTabChanged(var auto, var removed, var name)
 

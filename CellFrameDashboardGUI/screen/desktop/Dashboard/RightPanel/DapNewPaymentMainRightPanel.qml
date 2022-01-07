@@ -14,6 +14,8 @@ DapNewPaymentMainRightPanelForm
         else
             dapChainGroup.visible = false
 
+        dapCmboBoxNetworkModel = dapModelWallets.get(SettingsWallet.currentIndex).networks
+
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
 

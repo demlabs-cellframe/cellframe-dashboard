@@ -16,7 +16,7 @@ DapAbstractScreen
 
     property alias dapHistoryVerticalScrollBar: historyVerticalScrollBar
 
-    property alias dapListViewHistory: dapListViewHistory
+    property alias dapListViewHistory: listViewHistory
 
     anchors
     {
@@ -42,7 +42,7 @@ DapAbstractScreen
             contentData:
             ListView
             {
-                id: dapListViewHistory
+                id: listViewHistory
                 anchors.fill: parent
                 model: modelHistory
                 clip: true
