@@ -204,7 +204,7 @@ Rectangle {
                 id: deleteCertificateButton
                 textButton: qsTr("Delete certificate")
     //            Layout.fillWidth: true
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 30 * pt
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
@@ -212,6 +212,7 @@ Rectangle {
                 implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
+
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
