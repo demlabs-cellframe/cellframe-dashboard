@@ -12,7 +12,7 @@ DapTopPanel {
     signal findHandler(string text)
 //    anchors.left: parent.left
 
-    anchors.leftMargin: 4*pt
+    //anchors.leftMargin: 4 * pt
     radius: currTheme.radiusRectangle
 //    color: currTheme.backgroundMainScreen
     //color: "#211A3A"    //design color
@@ -32,9 +32,10 @@ DapTopPanel {
             id: frameIconSearch
             anchors.left: parent.left
             anchors.leftMargin: 38 * pt
-            anchors.verticalCenter: parent.verticalCenter
-            height: 20 * pt
-            width: 20 * pt
+            //anchors.verticalCenter: parent.verticalCenter
+            y: 21 * pt
+            height: 19 * pt
+            width: 19 * pt
             //color: "transparent"
             //id: iconSearch
             //anchors.fill: parent
@@ -53,7 +54,7 @@ DapTopPanel {
 //        x: 0
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: frameIconSearch.right
-        anchors.leftMargin: 10 * pt
+        anchors.leftMargin: 7 * pt
 
         bottomLineVisible: false
 
@@ -79,9 +80,10 @@ DapTopPanel {
 
 
     Rectangle {
-        width: searchBox.width + 30 * pt
+        width: searchBox.width
         height: 1 * pt
         anchors.top: searchBox.bottom
+        anchors.topMargin: 3 * pt
         anchors.left: frameIconSearch.left
         color: "#393B41" //currTheme.borderColor
     }
