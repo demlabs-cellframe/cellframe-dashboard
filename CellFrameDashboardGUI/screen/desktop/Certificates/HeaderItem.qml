@@ -25,27 +25,20 @@ DapTopPanel {
 
 
     // Frame icon search
-    //Rectangle
-    //{
-        Image
-        {
-            id: frameIconSearch
-            anchors.left: parent.left
-            anchors.leftMargin: 38 * pt
-            //anchors.verticalCenter: parent.verticalCenter
-            y: 21 * pt
-            height: 19 * pt
-            width: 19 * pt
-            //color: "transparent"
-            //id: iconSearch
-            //anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            verticalAlignment: Image.AlignVCenter
-            horizontalAlignment: Image.AlignHCenter
+    Image
+    {
+        id: frameIconSearch
+        anchors.left: parent.left
+        anchors.leftMargin: 38 * pt
+        y: 21 * pt
+        height: 19 * pt
+        width: 19 * pt
+        fillMode: Image.PreserveAspectFit
+        verticalAlignment: Image.AlignVCenter
+        horizontalAlignment: Image.AlignHCenter
 
-            source: "qrc:/resources/icons/ic_search.png"
-        }
-    //}
+        source: "qrc:/resources/icons/ic_search.png"
+    }
 
 
     SearchInputBox {
