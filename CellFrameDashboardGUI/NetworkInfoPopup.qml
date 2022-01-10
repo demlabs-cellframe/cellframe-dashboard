@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Window 2.0
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.0
@@ -21,7 +21,7 @@ Popup {
     property variant address
 
     background: Rectangle {
-        color: "#070023"
+        color: currTheme.shadowColor
         border.color: "grey"
     }
 
@@ -31,6 +31,16 @@ Popup {
             id: buttonSync
             Layout.preferredWidth: parent.parent.width / 2
 
+            Image
+            {
+                fillMode: Image.PreserveAspectFit
+                anchors.left: parent.left
+                anchors.verticalCenter: buttonOn.verticalCenter
+                sourceSize.width: parent.height * pt
+                sourceSize.height: parent.height * pt
+                source: "qrc:/resources/icons/Icon_sync_net_hover.svg"
+            }
+
             contentItem: Text {
                 text: "Sync Network"
                 color: "white"
@@ -38,17 +48,25 @@ Popup {
             }
 
             background: Rectangle {
-                color: buttonSync.hovered ? "#D51F5D" : "#070023"
+                color: buttonSync.hovered ? "#D51F5D" : currTheme.shadowColor
                 border.width: 1
                 border.color: "grey"
             }
-//            onClicked:
         }
-
 
         Button {
             id: buttonOn
             Layout.preferredWidth: parent.parent.width / 2
+
+            Image
+            {
+                fillMode: Image.PreserveAspectFit
+                anchors.left: parent.left
+                anchors.verticalCenter: buttonOn.verticalCenter
+                sourceSize.width: parent.height * pt
+                sourceSize.height: parent.height * pt
+                source: "qrc:/resources/icons/icon_on_off_net_hover.svg"
+            }
 
             contentItem: Text {
                 text: "On network"
@@ -57,15 +75,15 @@ Popup {
             }
 
             background: Rectangle {
-                color: buttonOn.hovered ? "#D51F5D" : "#070023"
+                color: buttonOn.hovered ? "#D51F5D" : currTheme.shadowColor
                 border.width: 1
                 border.color: "grey"
             }
-//            onClicked:
         }
     }
 
     Text {
+        id: popupContent
         anchors.centerIn: parent
 
         text:   '<font color="white"><b>State: </b>' + networkState + '<br />' +
@@ -73,5 +91,48 @@ Popup {
                 '<b>Target state: </b>' + targetState + '<br />' +
                 '<b>Active links: </b>' + linksCount + ' from ' + linksFrom + '<br />' +
                 '<b>Address: </b>' + address + '</font>'
+    }
+
+    MouseArea
+    {
+        id: networkAddrCopyButton
+        anchors.verticalCenter: popupContent.verticalCenter
+        anchors.verticalCenterOffset: 30
+        anchors.right: parent.right
+        anchors.rightMargin: 16 * pt
+        width: 16 * pt
+        height: 16 * pt
+        hoverEnabled: true
+
+        onClicked: copyStringToClipboard()
+
+        Image
+        {
+            id: networkAddrCopyButtonImage
+            anchors.fill: parent
+            source: parent.containsMouse ? "qrc:/resources/icons/ic_copy_hover.png" : "qrc:/resources/icons/ic_copy.png"
+
+            sourceSize.width: parent.width
+            sourceSize.height: parent.height
+        }
+    }
+    TextEdit{
+        id: textEdit
+        visible: false
+    }
+    Shortcut {
+        sequence: StandardKey.Copy
+        onActivated: {
+            textEdit.text = address
+            textEdit.selectAll()
+            textEdit.copy()
+        }
+    }
+
+    function copyStringToClipboard()
+    {
+        textEdit.text = address
+        textEdit.selectAll()
+        textEdit.copy()
     }
 }

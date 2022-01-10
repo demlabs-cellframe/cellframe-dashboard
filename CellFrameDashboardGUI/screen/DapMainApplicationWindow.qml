@@ -336,7 +336,8 @@ Rectangle {
         id: networksPanel
         y: parent.height - height
         width: parent.width
-        color: "#070023"
+        color: currTheme.shadowColor
+
         border.width: 1
         border.color: "grey"
 
@@ -356,7 +357,7 @@ Rectangle {
                         color: "white"
                         text: '<b>Name:</b> ' + name
                     }
-                    Rectangle
+                    Rectangle // !!!
                     {
                         Layout.alignment: Qt.AlignVCenter
                         Layout.preferredHeight: 10 * pt
@@ -374,16 +375,16 @@ Rectangle {
 
                         if (networkListPopups[index] === 0 || typeof networkListPopups[index] === "undefined") {
                             networkListPopups[index] = popupComponent.createObject(dapMainWindow, {"parent" : dapMainWindow})
-                            networkListPopups[index].x = (dapNetworkList.width / dapNetworkList.count)*index
+                            var widthItem = dapNetworkList.width / dapNetworkList.count
+                            networkListPopups[index].x = widthItem*index+(widthItem-networkListPopups[index].width)/2
 
                             networkListPopups[index].networkState = dapNetworkList.model.get(index).networkState
-                            networkListPopups[index].error = dapNetworkList.model.get(index).error
+                            networkListPopups[index].error = dapNetworkList.model.get(index).errorMessage
                             networkListPopups[index].targetState = dapNetworkList.model.get(index).targetState
                             networkListPopups[index].linksCount = dapNetworkList.model.get(index).linksCount
                             networkListPopups[index].linksFrom = dapNetworkList.model.get(index).linksFrom
                             networkListPopups[index].address = dapNetworkList.model.get(index).address
 
-//                            networkListPopups[index].networkState = dapServiceController.CurrentWalletNetwork.
                             networkListPopups[index].open()
                         }
                         else {
@@ -397,46 +398,6 @@ Rectangle {
 
         ListModel {
             id: dapNetworkModel1
-//            ListElement {
-//                networkName: "Cellnet"
-//                networkState: "ONLINE"
-//                stateColor: "green"
-//                error: ""
-//                targetState: "ONLINE"
-//                linksCount: 1
-//                linksFrom: 2
-//                address: "1234::0000::0001::0002"
-//            }
-//            ListElement {
-//                networkName: "Mainnet"
-//                networkState: "ESTABLISHING"
-//                stateColor: "green"
-//                error: ""
-//                targetState: "ONLINE"
-//                linksCount: 0
-//                linksFrom: 1
-//                address: "1234::0000::0001::0002"
-//            }
-//            ListElement {
-//                networkName: "Somenet"
-//                networkState: "DISCONNECTING"
-//                stateColor: "yellow"
-//                error: ""
-//                targetState: "OFFLINE"
-//                linksCount: 0
-//                linksFrom: 3
-//                address: "1234::0000::0001::0002"
-//            }
-//            ListElement {
-//                networkName: "Testnet"
-//                networkState: "ERROR"
-//                stateColor: "red"
-//                error: "Text ERROR"
-//                targetState: "ONLINE"
-//                linksCount: 1
-//                linksFrom: 2
-//                address: "1234::0000::0001::0002"
-//            }
         }
 
         ListView {
@@ -448,7 +409,6 @@ Rectangle {
             }
 
             anchors.fill: parent
-//            model: dapNetworkModel1
             delegate: dapNetworkItem
             focus: true
         }
@@ -861,7 +821,7 @@ Rectangle {
         }
         onNetworksStatesReceived:
         {
-            dapNetworks.splice(0,dapOrders.length)
+            dapNetworks.splice(0,dapNetworks.length)
             dapNetworkModel1.clear()
 
             for (var q = 0; q < networksStatesList.length; ++q)
@@ -871,33 +831,17 @@ Rectangle {
             for (var i = 0; i < dapNetworks.length; ++i)
             {
                 dapNetworkModel1.append({   "name" : dapNetworks[i].name,
-//                                            "networkState" : dapNetworks[i].state,
-//                                            "targetState" : dapNetworks[i].targetState,
-//                                            "linksCount" : dapNetworks[i].linksCount,
-//                                            "linksFrom" : dapNetworks[i].activeLinksCount,
+                                            "networkState" : dapNetworks[i].state,
+                                            "targetState" : dapNetworks[i].targetState,
+                                            "stateColor" : dapNetworks[i].stateColor,
+                                            "errorMessage" : dapNetworks[i].errorMessage,
+                                            "linksCount" : dapNetworks[i].linksCount,
+                                            "linksFrom" : dapNetworks[i].activeLinksCount,
                                             "address" : dapNetworks[i].nodeAddress})
             }
 
             networksPanel.modelUpdate()
         }
-
-//        onNetworksReceived:
-//        {
-//            for (var q = 0; q < networksList.length; ++q)
-//            {
-//                dapNetworks.push(networksList[q])
-//            }
-//            for (var i = 0; i < dapNetworks.length; ++i)
-//            {
-//                dapModelNetworks.append({   "name" : dapNetworks[i].name,
-//                                            "networkState" : dapNetworks[i].state,
-//                                            "targetState" : dapNetworks[i].targetState,
-//                                            "linksCount" : dapNetworks[i].linksCount,
-//                                            "linksFrom" : dapNetworks[i].activeLinksCount,
-//                                            "address" : dapNetworks[i].nodeAddress})
-//            }
-//            modelNetworksUpdated();
-//        }
     }
 
     Connections{

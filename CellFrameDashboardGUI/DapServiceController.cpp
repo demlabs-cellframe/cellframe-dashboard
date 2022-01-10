@@ -1,6 +1,6 @@
 #include "DapServiceController.h"
 
-#include "DapNetwork.h"
+#include "DapNetworkStr.h"
 
 #include "dapconfigreader.h"
 
@@ -281,7 +281,7 @@ void DapServiceController::registerCommand()
     connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
     {
         QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
-        QList<DapNetwork> tempNetworks;
+        QList<DapNetworkStr> tempNetworks;
 
         QDataStream in(&array, QIODevice::ReadOnly);
         in >> tempNetworks;
@@ -289,10 +289,10 @@ void DapServiceController::registerCommand()
         QList<QObject*> networks;
         auto begin = tempNetworks.begin();
         auto end = tempNetworks.end();
-        DapNetwork * network = nullptr;
+        DapNetworkStr * network = nullptr;
         for(;begin != end; ++begin)
         {
-            network = new DapNetwork(*begin);
+            network = new DapNetworkStr(*begin);
             networks.append(network);
         }
 
@@ -302,7 +302,7 @@ void DapServiceController::registerCommand()
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {
         QByteArray  array = QByteArray::fromHex(networksList.toByteArray());
-        QList<DapNetwork> tempNetworks;
+        QList<DapNetworkStr> tempNetworks;
 
         QDataStream in(&array, QIODevice::ReadOnly);
         in >> tempNetworks;
@@ -310,10 +310,10 @@ void DapServiceController::registerCommand()
         QList<QObject*> networks;
         auto begin = tempNetworks.begin();
         auto end = tempNetworks.end();
-        DapNetwork * network = nullptr;
+        DapNetworkStr * network = nullptr;
         for(;begin != end; ++begin)
         {
-            network = new DapNetwork(*begin);
+            network = new DapNetworkStr(*begin);
             networks.append(network);
         }
 
