@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
+import "qrc:/widgets"
 
 DapAbstractMenuTabWidgetForm
 {
@@ -38,29 +39,53 @@ DapAbstractMenuTabWidgetForm
 
             visible: showTab
 
-            Image
-            {
+            DapImageLoader{
                 id:menuItemImg
+                innerWidth: widthItemMenu
+                innerHeight: heightItemMenu
+                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+
                 anchors.left: parent.left
                 anchors.rightMargin: 10 * pt
                 anchors.verticalCenter: frameItemMenu.verticalCenter
                 anchors.right: parent.right
-                height: heightItemMenu
-                width: widthItemMenu
                 visible: false
-                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }
 
-            Image
-            {
-                id: iconItem
+//            Image
+//            {
+//                id:menuItemImg
+//                anchors.left: parent.left
+//                anchors.rightMargin: 10 * pt
+//                anchors.verticalCenter: frameItemMenu.verticalCenter
+//                anchors.right: parent.right
+//                height: heightItemMenu
+//                width: widthItemMenu
+//                visible: false
+//                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+//            }
+
+            DapImageLoader{
+                id:iconItem
+                innerWidth: widthIconItemMenu
+                innerHeight: heightIconItemMenu
+                source: normalIcon
+
                 anchors.left: parent.left
                 anchors.leftMargin: 26 * pt
                 anchors.verticalCenter: parent.verticalCenter
-                height: heightIconItemMenu
-                width: widthIconItemMenu
-                source: normalIcon
             }
+
+//            Image
+//            {
+//                id: iconItem
+//                anchors.left: parent.left
+//                anchors.leftMargin: 26 * pt
+//                anchors.verticalCenter: parent.verticalCenter
+//                height: heightIconItemMenu
+//                width: widthIconItemMenu
+//                source: normalIcon
+//            }
 
             Text
             {

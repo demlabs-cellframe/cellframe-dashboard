@@ -16,7 +16,7 @@ ListView {
 
     //interactive: contentHeight > height
     headerPositioning: ListView.OverlayHeader
-    spacing: 14 * pt
+    spacing: 17 * pt
     clip: true
 
     ScrollBar.vertical: ScrollBar {
@@ -25,7 +25,7 @@ ListView {
 
     header: Rectangle {
         width: parent.width
-        height: certificatesTitle.height + tableTitle.height + spacing
+        height: certificatesTitle.height + tableTitle.height + spacing - 6 * pt
         z:10
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
@@ -43,7 +43,7 @@ ListView {
 
             Text {
                 id: certificatesTitleText
-                x: 15 * pt
+                x: 3 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
@@ -64,8 +64,6 @@ ListView {
             Text {
                 x: 15 * pt
                 height: parent.height
-                anchors.left: parent.left
-                anchors.leftMargin: 25 * pt
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: root.seletedCertificateAccessType
@@ -101,7 +99,7 @@ ListView {
             anchors.leftMargin: 14 * pt
             anchors.right: parent.right
             anchors.rightMargin: 14 * pt
-            height: 40 * pt
+            height: 38 * pt
             color: currTheme.backgroundElements
             radius: currTheme.radiusRectangle
 
@@ -187,9 +185,6 @@ ListView {
 //        color: "transparent"
 //        z: 1
 //    }
-
-
-
 
 
 }  //root

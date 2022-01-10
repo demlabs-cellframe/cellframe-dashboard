@@ -24,6 +24,7 @@ DapRightPanel {
         Item
         {
             anchors.fill: parent
+//            Layout.fillWidth: true
             Item
             {
                 id: itemButtonClose
@@ -34,9 +35,9 @@ DapRightPanel {
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 11 * pt
+                anchors.topMargin: 9 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 22 * pt
+                anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
             }
 
@@ -50,7 +51,7 @@ DapRightPanel {
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 12 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 50 * pt
+                anchors.leftMargin: 52 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
@@ -67,7 +68,7 @@ DapRightPanel {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.topMargin: 8 * pt
+//                anchors.topMargin: 8 * pt
                 anchors.bottomMargin: 8 * pt
                 color: currTheme.backgroundMainScreen
                 height: 30 * pt

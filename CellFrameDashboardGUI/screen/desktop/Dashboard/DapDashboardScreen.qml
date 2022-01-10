@@ -59,6 +59,7 @@ DapAbstractScreen
 //                height: 450 * pt
                 width: iconCreateWallet.implicitWidth
                 height: iconCreateWallet.implicitHeight
+
                 Image
                 {
                     anchors.fill: parent
@@ -66,6 +67,7 @@ DapAbstractScreen
                     source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
                     sourceSize.width: 450 * pt
                     sourceSize.height: 450 * pt
+                    fillMode: Image.PreserveAspectFit
 
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -258,15 +260,11 @@ DapAbstractScreen
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-
-                                Image
-                                {
-                                    id: networkAddressCopyButtonImage
-                                    anchors.fill: parent
+                                DapImageLoader{
+                                    id:networkAddressCopyButtonImage
+                                    innerWidth: parent.width
+                                    innerHeight: parent.height
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
-                                    sourceSize.width: parent.width
-                                    sourceSize.height: parent.height
-
                                 }
                             }
                         }

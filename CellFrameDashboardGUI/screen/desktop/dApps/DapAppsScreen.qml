@@ -286,24 +286,13 @@ DapAbstractScreen
                                                 width: 20 * pt
                                                 height: 20 * pt
 
-                                                Image
-                                                {
+                                                DapImageLoader{
+                                                    id:indicatorRadioButton
                                                     anchors.fill: parent
-                                                    id: indicatorRadioButton
-                                                    sourceSize.width: 20 * pt
-                                                    sourceSize.height: 20 * pt
-//                                                    anchors.verticalCenter: parent.verticalCenter
-                                                    fillMode: Image.PreserveAspectFit
+                                                    innerWidth: 20 * pt
+                                                    innerHeight: 20 * pt
                                                     source: verifed === "0" ? "qrc:/resources/icons/" + pathTheme + "/no_icon.png" : "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
-                                                    visible: true
                                                 }
-                                                ColorOverlay {
-                                                    id: overlay
-                                                    anchors.fill: indicatorRadioButton
-                                                    source: indicatorRadioButton
-                                                    color: "#FFFF0000"
-                                                    visible: false
-                                                  }
                                             }
                                         }
                                     }

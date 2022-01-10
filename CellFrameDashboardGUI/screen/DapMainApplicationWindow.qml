@@ -13,6 +13,7 @@ import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 import "desktop/SettingsWallet.js" as SettingsWallet
 import "../resources/theme" as Theme
+import "qrc:/widgets"
 
 
 Rectangle {
@@ -236,6 +237,7 @@ Rectangle {
 //                    data: dapLogotype
                 width: parent.width * pt
                 height: 60 * pt
+
                 Rectangle
                 {
                     id: frameLogotype
@@ -243,21 +245,35 @@ Rectangle {
                     color:currTheme.backgroundPanel
 //                        width: parent.width
 //                        radius: 8 * pt
-                    Image
-                    {
-                        id: iconLogotype
-//                            anchors.verticalCenter: parent.verticalCenter
-                        width: 111 * pt
-                        height: 24 * pt
+
+                    DapImageLoader{
+                        innerWidth: 111 * pt
+                        innerHeight: 24 * pt
+                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+
+//                        anchors.fill: parent
                         anchors.left: parent.left
                         anchors.leftMargin: 26*pt
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 18*pt
                         anchors.top: parent.top
                         anchors.topMargin: 18 * pt
-
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
                     }
+//                    Image
+//                    {
+//                        id: iconLogotype
+////                            anchors.verticalCenter: parent.verticalCenter
+//                        width: 111 * pt
+//                        height: 24 * pt
+//                        anchors.left: parent.left
+//                        anchors.leftMargin: 26*pt
+//                        anchors.bottom: parent.bottom
+//                        anchors.bottomMargin: 18*pt
+//                        anchors.top: parent.top
+//                        anchors.topMargin: 18 * pt
+
+//                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+//                    }
                 }
             }
             // Menu bar widget
