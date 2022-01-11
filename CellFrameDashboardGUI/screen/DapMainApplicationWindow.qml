@@ -42,7 +42,7 @@ Rectangle {
     ///@detalis Path to the tokens tab.
     readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
      ///@detalis Path to the plugins tab.
-    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/DapPluginsTab.qml"
+    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugin/DapApp.qml"
     ///@detalis Path to the dApps tab.
     readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
 
@@ -495,7 +495,7 @@ Rectangle {
             })
 
 //            append ({
-//                name: qsTr("Plugins"),
+//                name: qsTr("Plugin"),
 //                tag: "Plugins",
 //                page: pluginsScreen,
 //                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
