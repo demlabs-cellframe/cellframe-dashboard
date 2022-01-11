@@ -233,6 +233,12 @@ void DapPluginsController::deletePlugin(int number)
     str[1].remove(QString("/" + str[0] + ".qml"));
     str[1].remove(m_filePrefix);
 
+    QFile file(QString(m_pathPlugins + "/download/" + str[0] + ".zip"));
+
+    if(file.exists())
+        file.remove();
+
+
     QDir dir(str[1]);
     dir.removeRecursively();
 
