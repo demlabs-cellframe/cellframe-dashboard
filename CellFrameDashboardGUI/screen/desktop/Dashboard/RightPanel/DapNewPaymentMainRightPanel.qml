@@ -22,8 +22,8 @@ DapNewPaymentMainRightPanelForm
 
         dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
 
-        if(dapComboboxNetwork.model.get(0).count)
-            dapComboboxNetwork.mainLineText = dapComboboxNetwork.model.get(0).name
+        if(dapCmboBoxNetworkModel.count)
+            dapComboboxNetwork.mainLineText = dapCmboBoxNetworkModel.get(0).name
         else
             dapComboboxNetwork.mainLineText = "Networks"
     }
