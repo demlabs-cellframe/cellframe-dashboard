@@ -144,8 +144,8 @@ ColumnLayout
                             MouseArea
                             {
                                 id: networkAddressCopyButton
-                                Layout.preferredHeight: 16 * pt
-                                Layout.preferredWidth: 15.5 * pt
+                                Layout.preferredHeight: 18 * pt
+                                Layout.preferredWidth: 17 * pt
                                 hoverEnabled: true
 
                                 onClicked: textMetworkAddress.copyFullText()
