@@ -204,7 +204,7 @@ Rectangle {
                 id: deleteCertificateButton
                 textButton: qsTr("Delete certificate")
     //            Layout.fillWidth: true
-                Layout.preferredHeight: 30 * pt
+                Layout.preferredHeight: 36 * pt
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter

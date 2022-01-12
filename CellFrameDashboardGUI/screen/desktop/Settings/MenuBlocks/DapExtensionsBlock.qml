@@ -19,7 +19,7 @@ ColumnLayout
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 17 * pt
+            anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
