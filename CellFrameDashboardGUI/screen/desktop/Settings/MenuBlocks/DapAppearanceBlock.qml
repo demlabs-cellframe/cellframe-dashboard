@@ -16,7 +16,7 @@ ColumnLayout
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 17 * pt
+            anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
@@ -64,7 +64,7 @@ ColumnLayout
                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     Layout.preferredHeight: 25 * pt
                     Layout.fillWidth: true
-                    Layout.leftMargin: 15 * pt
+                    Layout.leftMargin: 13 * pt
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     color: currTheme.textColor
@@ -77,7 +77,7 @@ ColumnLayout
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredHeight: 26 * pt
                     Layout.preferredWidth: 46 * pt
-                    Layout.rightMargin: 15 * pt
+                    Layout.rightMargin: 19 * pt
 
                     backgroundColor: currTheme.backgroundMainScreen
                     borderColor: currTheme.reflectionLight

@@ -127,7 +127,6 @@ Rectangle {
     {
         onPluginsTabChanged:
         {
-            var datamodel = []
             if(auto)
             {
                 for(var i = 0; i < modelAppsTabStates.count; i++)
@@ -230,6 +229,7 @@ Rectangle {
             id: columnMenuTab
             height: rowMainWindow.height
             width: 183 * pt
+            spacing: 0
             // Logotype widget
             Item
             {
@@ -263,10 +263,30 @@ Rectangle {
                 id: menuWidget
                 width: 183 * pt
                 height: columnMenuTab.height - logotype.height
+                //hide left radius element
+                Rectangle
+                {
+                    id: squareRect
+                    width: menuTabWidget.radius
+                    color: currTheme.backgroundPanel
+                    anchors.bottom: menuTabWidget.bottom
+                    anchors.left: menuTabWidget.left
+                    anchors.top: menuTabWidget.top
+                }
+                //hide top radius element
+                Rectangle{
+                    height: currTheme.radiusRectangle
+                    anchors.top:parent.top
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    color: currTheme.backgroundPanel
+                }
+
                 data: DapAbstractMenuTabWidget
                 {
                     color:currTheme.backgroundPanel
                     radius: currTheme.radiusRectangle
+
 
 //                        anchors.leftMargin: -8*pt
 
@@ -276,7 +296,7 @@ Rectangle {
                     }
                     id: menuTabWidget
                     anchors.fill: parent
-                    widthItemMenu: 183*pt
+                    widthItemMenu: 186*pt
                     heightItemMenu: 52 * pt
                     normalColorItemMenu: currTheme.backgroundPanel
                     selectColorItemMenu: "transparent"
@@ -285,23 +305,6 @@ Rectangle {
                     dapMenuWidget.model: modelMenuTab
                     normalFont: "Quicksand"
                     selectedFont: "Quicksand"
-                }
-                //hide top radius element
-                Rectangle{
-                    width: 9 * pt
-                    height: currTheme.radiusRectangle
-                    anchors.top:parent.top
-                    anchors.right: parent.right
-                    color: currTheme.backgroundPanel/* "white"*/
-//                        radius: currTheme.radiusRectangle
-                    Rectangle
-                    {
-                        width: 9 * pt
-                        height: 4 * pt
-                        anchors.top: parent.top
-                        anchors.right: parent.left
-                        color: parent.color
-                    }
                 }
             }
         }
