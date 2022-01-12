@@ -119,9 +119,9 @@ Item {
             for (var i = 0; i < dapWallets.length; ++i)
             {
                 dapModelWallets.append({ "name" : dapWallets[i].Name,
-                                      "balance" : dapWallets[i].Balance,
                                       "icon" : dapWallets[i].Icon,
                                       "networks" : []})
+
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
                     dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],

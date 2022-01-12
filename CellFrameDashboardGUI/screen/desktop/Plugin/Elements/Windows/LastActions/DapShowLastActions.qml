@@ -162,9 +162,7 @@ Rectangle {
             for (var i = 0; i < dapWallets.length; ++i)
             {
                 dapModelWallets.append({ "name" : dapWallets[i].Name,
-                                      "balance" : dapWallets[i].Balance,
                                       "icon" : dapWallets[i].Icon,
-                                      "address" : dapWallets[i].Address,
                                       "networks" : []})
                 for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
                 {
@@ -178,8 +176,9 @@ Rectangle {
                         {
                             dapModelWallets.get(i).networks.get(n).tokens.append(
                                  {"name": dapWallets[i].Tokens[t].Name,
-                                  "balance": dapWallets[i].Tokens[t].Balance,
-                                  "emission": dapWallets[i].Tokens[t].Emission,
+                                  "full_balance": dapWallets[i].Tokens[t].FullBalance,
+                                  "balance_without_zeros": dapWallets[i].Tokens[t].BalanceWithoutZeros,
+                                  "datoshi": dapWallets[i].Tokens[t].Datoshi,
                                   "network": dapWallets[i].Tokens[t].Network})
                         }
                     }
@@ -211,9 +210,15 @@ Rectangle {
         {
             var network = model.get(i).name
             var address = model.get(i).address
+
             var chain = "zero"
             if (network === "core-t")
                 chain = "zerochain"
+            else if(network === "subzero")
+                chain = "support"
+            else if(network === "kelvin-testnet")
+                chain = "plasma"
+
 
             dapServiceController.requestToService("DapGetWalletHistoryCommand",
                 network, chain, address, name);

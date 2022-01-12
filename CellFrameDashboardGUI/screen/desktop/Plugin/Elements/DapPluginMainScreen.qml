@@ -33,8 +33,6 @@ Rectangle {
         {
             Layout.row: 1
             Layout.rowSpan:1
-            Layout.column: 1
-            Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
 
@@ -55,8 +53,6 @@ Rectangle {
         {
             Layout.row: 2
             Layout.rowSpan:1
-            Layout.column: 1
-            Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
             leftButton.textButton: "Get Certificates"
@@ -76,8 +72,6 @@ Rectangle {
         {
             Layout.row: 3
             Layout.rowSpan:1
-            Layout.column: 1
-            Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
             leftButton.textButton: "Open Orders"
@@ -93,8 +87,6 @@ Rectangle {
         {
             Layout.row: 4
             Layout.rowSpan:1
-            Layout.column: 1
-            Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
             leftButton.textButton: "Open Last Actions"
@@ -109,8 +101,6 @@ Rectangle {
         {
             Layout.row: 5
             Layout.rowSpan:1
-            Layout.column: 1
-            Layout.columnSpan: 1
             Layout.fillHeight: true
             Layout.fillWidth: true
             leftButton.textButton: "Open Console"
