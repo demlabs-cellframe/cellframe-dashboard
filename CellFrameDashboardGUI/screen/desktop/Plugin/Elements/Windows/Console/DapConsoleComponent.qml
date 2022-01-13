@@ -8,10 +8,12 @@ Component
         width: parent.width
         TextEdit
         {
+            width: parent.width
             id: textQuery
             readOnly: true
             selectByMouse: true
             text: "> " + query
+            wrapMode: TextEdit.Wrap
             font.family: "Quicksand"
             font.pixelSize: 18
             color: "#ffffff"
@@ -24,7 +26,7 @@ Component
             selectByMouse: true
             text: response
             width: parent.width
-            wrapMode: Text.Wrap
+            wrapMode: TextEdit.Wrap
             font.family: "Quicksand"
             font.pixelSize: 18
             color: "#ffffff"
