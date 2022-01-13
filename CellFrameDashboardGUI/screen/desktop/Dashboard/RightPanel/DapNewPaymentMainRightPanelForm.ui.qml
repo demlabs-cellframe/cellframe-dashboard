@@ -174,7 +174,7 @@ DapRightPanel
                             fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                             colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]                     
                         }
                     }
                 }

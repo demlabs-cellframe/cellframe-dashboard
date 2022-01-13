@@ -52,18 +52,6 @@ DapAbstractMenuTabWidgetForm
                 visible: false
             }
 
-//            Image
-//            {
-//                id:menuItemImg
-//                anchors.left: parent.left
-//                anchors.rightMargin: 10 * pt
-//                anchors.verticalCenter: frameItemMenu.verticalCenter
-//                anchors.right: parent.right
-//                height: heightItemMenu
-//                width: widthItemMenu
-//                visible: false
-//                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
-//            }
 
             DapImageLoader{
                 id:iconItem
@@ -75,17 +63,6 @@ DapAbstractMenuTabWidgetForm
                 anchors.leftMargin: 26 * pt
                 anchors.verticalCenter: parent.verticalCenter
             }
-
-//            Image
-//            {
-//                id: iconItem
-//                anchors.left: parent.left
-//                anchors.leftMargin: 26 * pt
-//                anchors.verticalCenter: parent.verticalCenter
-//                height: heightIconItemMenu
-//                width: widthIconItemMenu
-//                source: normalIcon
-//            }
 
             Text
             {
