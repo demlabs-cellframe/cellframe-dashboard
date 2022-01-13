@@ -16,12 +16,14 @@ WorkerScript.onMessage = function(msg)
     {
         var arrLogString = parceStringFromLog(msg.stringList[ind]);
         var stringTime = parceTime(arrLogString[1]);
-        msg.model.append({"type": arrLogString[2],
-                             "info": arrLogString[4],
-                             "file": arrLogString[3],
-                             "time": getTime(stringTime),
-                             "date": getDay(stringTime, privateDate),
-                             "momentTime": stringTime});
+
+        if(stringTime !== "error")
+            msg.model.append({"type": arrLogString[2],
+                                 "info": arrLogString[4],
+                                 "file": arrLogString[3],
+                                 "time": getTime(stringTime),
+                                 "date": getDay(stringTime, privateDate),
+                                 "momentTime": stringTime});
     }
     msg.model.sync();
     WorkerScript.sendMessage({result: true});

@@ -8,6 +8,9 @@ import "qrc:/widgets"
 DapTopPanel
 {
     id:topLogsPanel
+
+    anchors.leftMargin: 4*pt
+    radius: currTheme.radiusRectangle
     color: currTheme.backgroundPanel
 
     property alias buttonNormalColor: exportLogButton.colorBackgroundNormal

@@ -221,22 +221,9 @@ DapAbstractScreen
                                 text: name
                             }
 
-        //                    Text
-        //                    {
-        //                        id: networkAddressLabel
-        //                        anchors.verticalCenter: parent.verticalCenter
-        //                        anchors.left: parent.left
-        //                        anchors.leftMargin: 16 * pt
-        //                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-        //                        color: currTheme.textColor
-        //                        text: qsTr("Network address")
-        //                        width: 92 * pt
-        //                    }
                             DapText
                             {
                                id: textMetworkAddress
-        //                       anchors.left: parent.left
-        //                       anchors.leftMargin: 500 * pt
                                width: 63 * pt
                                anchors.right:  networkAddressCopyButton.left
                                anchors.rightMargin: 4 * pt

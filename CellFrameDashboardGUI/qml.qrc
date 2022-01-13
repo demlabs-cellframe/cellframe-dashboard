@@ -67,12 +67,10 @@
         <file>resources/icons/ic_arrow_drop_down.png</file>
         <file>resources/icons/ic_arrow_drop_up.png</file>
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
-        <file>screen/desktop/Logs/DapLogsTabForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
         <file>screen/desktop/Logs/DapLogsScreen.qml</file>
         <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
-        <file>screen/desktop/Logs/DapLogsRightPanelForm.ui.qml</file>
         <file>resources/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>

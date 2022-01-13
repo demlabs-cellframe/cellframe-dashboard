@@ -70,18 +70,20 @@ DapLogsScreenForm
 
         Rectangle
         {
-            height: 20 * pt
-            width: dapLogsListView.width
-            color: "#908D9D"
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 30 * pt
+            color: currTheme.backgroundMainScreen
+            z:10
 
             Text
             {
                 anchors.fill: parent
-                anchors.topMargin: 1 * pt
-                anchors.bottomMargin: 1 * pt
-                anchors.leftMargin: firstMarginList
-                color: "#FFFFFF"
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                anchors.leftMargin: 15 * pt
+                verticalAlignment: Qt.AlignVCenter
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                color: currTheme.textColor
                 text: section
             }
         }
@@ -93,28 +95,21 @@ DapLogsScreenForm
     {
         id:delegateLogs
 
-
         //Frame delegate
         Rectangle
         {
-            height: 60 * pt
-            width: dapLogsListView.width
+            anchors.left: parent.left
+            anchors.right: parent.right
+            color: "transparent"
+//            height: 70 * pt
+            height: textLog.implicitHeight > 60 * pt ? textLog.implicitHeight + 20 * pt : 60 * pt
 
-            color:
-            {
-                if(dapLogsListViewIndex === index)
-                {
-                    return "#FAE5ED";
-                }
-                else
-                {
-                    return "#FFFFFF";
-                }
-            }
+
 
             //Event container
             Rectangle
             {
+                id: container
                 anchors.fill: parent
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 10 * pt
@@ -136,8 +131,9 @@ DapLogsScreenForm
                     {
                         id: typeLog
                         anchors.fill: parent
+                        verticalAlignment: Qt.AlignVCenter
                         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                        color: fontColor
+                        color: currTheme.textColor
                         text: type
                     }
                 }
@@ -158,8 +154,10 @@ DapLogsScreenForm
                     {
                         id: textLog
                         anchors.fill: parent
+                        verticalAlignment: Qt.AlignVCenter
+                        wrapMode: Text.Wrap
                         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                        color: fontColor
+                        color: currTheme.textColor
                         text: info
                     }
                 }
@@ -172,15 +170,16 @@ DapLogsScreenForm
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.rightMargin: thirdMarginList
-                    width: 326 * pt
+                    width: 200 * pt
                     color: parent.color
                     clip: true
                     Text
                     {
                         id: fileLog
                         anchors.fill: parent
+                        verticalAlignment: Qt.AlignVCenter
                         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        color: fontColor
+                        color: currTheme.textColor
                         text: file
                     }
                 }
@@ -199,8 +198,9 @@ DapLogsScreenForm
                     {
                         id: timeLog
                         anchors.fill: parent
+                        verticalAlignment: Qt.AlignVCenter
                         font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                        color: fontColor
+                        color: currTheme.textColor
                         text: time
                     }
                 }
@@ -209,21 +209,11 @@ DapLogsScreenForm
             //Underline bar
             Rectangle
             {
+                anchors.right: parent.right
+                anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                color: "#E3E2E6"
-                width: parent.width
-                height: 1 * pt
-                visible:
-                {
-                    if(dapLogsListViewIndex === index | dapLogsListViewIndex - 1 === index)
-                    {
-                        return false;
-                    }
-                    else
-                    {
-                        return true;
-                    }
-                }
+                height: 2 * pt
+                color: currTheme.lineSeparatorColor
             }
 
             MouseArea
