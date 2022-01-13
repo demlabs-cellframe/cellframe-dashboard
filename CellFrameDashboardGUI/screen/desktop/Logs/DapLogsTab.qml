@@ -1,12 +1,22 @@
 import QtQuick 2.4
+import "qrc:/"
+import "../../"
 
-DapLogsTabForm
+DapAbstractTab
 {
+    id: logsTab
+    color: currTheme.backgroundMainScreen
     ///Log window model.
     ListModel
     {
         id:dapLogsModel
     }
+
+    dapTopPanel: DapLogsTopPanel { }
+
+    dapScreen: DapLogsScreen { }
+
+    dapRightPanel: DapLogsRightPanel { }
 
     Component.onCompleted:
     {
