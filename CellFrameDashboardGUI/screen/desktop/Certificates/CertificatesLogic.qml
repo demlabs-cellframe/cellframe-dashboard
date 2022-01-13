@@ -91,11 +91,14 @@ Item {
                                                           keyView: qsTr("Title")
                                                         , value: result.data.name } )
 
+                        var dateItem
+
+
                         for (var i in result.data.metadata) {
                             var metadataElement = result.data.metadata[i]
 //                            switch (metadataElement.key) {      //date format
-//                                case "creation_date":
-//                                case "expiration_date": {
+//                                case "1_creation_date":
+//                                case "2_expiration_date": {
 //                                      //TODO need save date to ISO
 //                                    metadataElement.value = Qt.formatDate(new Date(metadataElement.value, '.', '-'), "dd MMM, yyyy")
 //                                    }
@@ -103,12 +106,25 @@ Item {
 //                            }
 
                             var keyView = models.metadataKeyToViewKey[metadataElement.key]
+
+                            if (metadataElement.key !== "creation_date")
                              models.certificateInfo.append({
                                                                  key: metadataElement.key
                                                                , keyView: keyView ? keyView : metadataElement.key
                                                                , value: metadataElement.value
                                                            })
+                            else
+                            {
+                            dateItem = {
+                                    key: metadataElement.key
+                                  , keyView: keyView ? keyView : metadataElement.key
+                                  , value: metadataElement.value
+                              }
+                            }
                         }
+                        if (dateItem)
+                            models.certificateInfo.insert(2, dateItem)
+
                     }
                     break;
                 case DapCertificateCommands.ImportCertificate:

@@ -26,12 +26,12 @@ Item {
 
     readonly property var metadataKeyToViewKey: ({
                                                "creation_date": qsTr("Date of creation"),
-                                               "expiration_date": qsTr("Expiration date"),
-                                               "domain": qsTr("Domain"),
-                                               "organization": qsTr("Organization"),
-                                               "fullname": qsTr("Full name"),
-                                               "email": qsTr("Email"),
-                                               "description": qsTr("Description")
+                                               "2_expiration_date": qsTr("Expiration date"),
+                                               "3_domain": qsTr("Domain"),
+                                               "4_organization": qsTr("Organization"),
+                                               "5_fullname": qsTr("Full name"),
+                                               "6_email": qsTr("Email"),
+                                               "7_description": qsTr("Description")
                                            })
 
 
@@ -61,17 +61,16 @@ Item {
 
     }
 
-
     ListModel {
         id: createCertificateOptional
         //вообще эти ключи нужно вынести в общее перечисление
         //creation_date default key
-        ListElement { placeHolderText: qsTr("Domain"); key: "domain"; data: ""; inputFieldMask: "";  }
-        ListElement { placeHolderText: qsTr("Expiration date"); key: "expiration_date"; data: ""; inputFieldMask: "99.99.9999"; }
-        ListElement { placeHolderText: qsTr("Organization"); key: "organization"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Full name"); key: "fullname"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Email"); key: "email"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Description"); key: "description"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Domain"); key: "3_domain"; data: ""; inputFieldMask: "";  }
+        ListElement { placeHolderText: qsTr("Expiration date"); key: "2_expiration_date"; data: ""; inputFieldMask: "99.99.9999"; }
+        ListElement { placeHolderText: qsTr("Organization"); key: "4_organization"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Full name"); key: "5_fullname"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Email"); key: "6_email"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Description"); key: "7_description"; data: ""; inputFieldMask: ""; }
 
         function dataClear(){
             for (var i = 0; i < count; ++i)

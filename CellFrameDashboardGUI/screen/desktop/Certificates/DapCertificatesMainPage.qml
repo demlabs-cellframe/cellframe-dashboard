@@ -194,21 +194,21 @@ DapAbstractTab
                     var optionalField = models.createCertificateOptional.get(i)
                     var data = optionalField.data
                     switch (optionalField.key) {
-                        case "domain":
+                        case "3_domain":
                             if (data !== "" && !utils.validDomain(optionalField.data)) {
                                 messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                        , "Please fill field correctly.")
                                 return false;
                             }
                             break;
-                        case "expiration_date":
+                        case "2_expiration_date":
                             if (data !== "" && !utils.validDate(optionalField.data)) {
                                 messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                        , "Please fill field correctly.")
                                 return false;
                             }
                             break;
-                        case "email":
+                        case "6_email":
                             if (data !== "" && !utils.validEmail(optionalField.data)) {
                                 messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                        , "Please fill field correctly.")
