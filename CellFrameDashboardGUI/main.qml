@@ -9,7 +9,8 @@ ApplicationWindow
 {
     id: window
     visible: true
-//    property variant networkListPopups : []
+
+    //    property variant networkListPopups : []
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 

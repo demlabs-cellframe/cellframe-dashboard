@@ -35,8 +35,7 @@
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapGetListOdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
-
-
+#include "handlers/DapNetworkSingleSyncCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -131,7 +130,6 @@ public slots:
     void changeNetworkStateToOffline(QString a_networkName);
     void requestOrdersList();
     void requestNetworksList();
-    void requestNetworksStateList();
 
 signals:
     /// The signal is emitted when the Brand company property changes.

@@ -79,6 +79,8 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_pServer, CLI_PATH));
+
     m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
     // Creating a token transfer transaction between wallets
     m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));

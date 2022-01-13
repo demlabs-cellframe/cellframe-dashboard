@@ -51,7 +51,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_serviceController->requestWalletList();
     m_serviceController->requestOrdersList();
     m_serviceController->requestNetworksList();
-    m_serviceController->requestNetworksStateList();
+//    m_serviceController->requestNetworksStateList();
 
     connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
     {

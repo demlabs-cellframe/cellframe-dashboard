@@ -43,8 +43,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapCertificateManagerCommands.h"
 #include "handlers/DapGetListOdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
-
-
+#include "handlers/DapNetworkSingleSyncCommand.h"
 
 /**
  * @brief The DapServiceController class

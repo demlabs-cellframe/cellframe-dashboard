@@ -112,10 +112,6 @@ void DapServiceController::requestNetworksList()
     this->requestToService("DapGetListNetworksCommand");
 }
 
-void DapServiceController::requestNetworksStateList()
-{
-    this->requestToService("DapGetNetworksStateCommand");
-}
 
 /// Get an instance of a class.
 /// @return Instance of a class.
@@ -197,6 +193,7 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_DAPRpcSocket))), QString("networkStatesListReceived")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_DAPRpcSocket))), QString()));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 

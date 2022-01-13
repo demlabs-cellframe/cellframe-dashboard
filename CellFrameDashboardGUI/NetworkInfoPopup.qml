@@ -13,12 +13,14 @@ Popup {
     closePolicy: Popup.NoAutoClose
     visible: false
 
+    property variant networkName
     property variant networkState
     property variant error
     property variant targetState
     property variant linksCount
-    property variant linksFrom
-    property variant address
+    property variant activeLinksCount
+    property variant nodeAddress
+    property variant isOpen
 
     background: Rectangle {
         color: currTheme.shadowColor
@@ -31,11 +33,9 @@ Popup {
             id: buttonSync
             Layout.preferredWidth: parent.parent.width / 2
 
-            Image
-            {
+            Image {
                 fillMode: Image.PreserveAspectFit
                 anchors.left: parent.left
-                anchors.verticalCenter: buttonOn.verticalCenter
                 sourceSize.width: parent.height * pt
                 sourceSize.height: parent.height * pt
                 source: "qrc:/resources/icons/Icon_sync_net_hover.svg"
@@ -52,6 +52,13 @@ Popup {
                 border.width: 1
                 border.color: "grey"
             }
+
+            onClicked:
+            {
+                dapServiceController.requestToService("DapNetworkSingleSyncCommand", networkName)
+                isOpen = false
+                networkInfoPupup.close()
+            }
         }
 
         Button {
@@ -62,7 +69,6 @@ Popup {
             {
                 fillMode: Image.PreserveAspectFit
                 anchors.left: parent.left
-                anchors.verticalCenter: buttonOn.verticalCenter
                 sourceSize.width: parent.height * pt
                 sourceSize.height: parent.height * pt
                 source: "qrc:/resources/icons/icon_on_off_net_hover.svg"
@@ -79,6 +85,16 @@ Popup {
                 border.width: 1
                 border.color: "grey"
             }
+
+            onClicked:
+            {
+                if (targetState === "ONLINE")
+                    dapServiceController.requestToService("DapNetworkGoToCommand", networkName, false)
+                else
+                    dapServiceController.requestToService("DapNetworkGoToCommand", networkName, true)
+                isOpen = false
+                networkInfoPupup.close()
+            }
         }
     }
 
@@ -89,8 +105,8 @@ Popup {
         text:   '<font color="white"><b>State: </b>' + networkState + '<br />' +
                 '<font color="red">' + error + '</font><br />' +
                 '<b>Target state: </b>' + targetState + '<br />' +
-                '<b>Active links: </b>' + linksCount + ' from ' + linksFrom + '<br />' +
-                '<b>Address: </b>' + address + '</font>'
+                '<b>Active links: </b>' + linksCount + ' from ' + activeLinksCount + '<br />' +
+                '<b>Address: </b>' + nodeAddress + '</font>'
     }
 
     MouseArea
@@ -123,7 +139,7 @@ Popup {
     Shortcut {
         sequence: StandardKey.Copy
         onActivated: {
-            textEdit.text = address
+            textEdit.text = nodeAddress
             textEdit.selectAll()
             textEdit.copy()
         }
@@ -131,7 +147,7 @@ Popup {
 
     function copyStringToClipboard()
     {
-        textEdit.text = address
+        textEdit.text = nodeAddress
         textEdit.selectAll()
         textEdit.copy()
     }
