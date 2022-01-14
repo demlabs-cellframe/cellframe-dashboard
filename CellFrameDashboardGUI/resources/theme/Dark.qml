@@ -11,7 +11,7 @@ QtObject {
 
     readonly property color buttonColorNormal      : "#D01E67" // OK
     readonly property color buttonColorHover       : "#E62172"
-    readonly property color buttonColorNoActive    : "#2E3138"
+    readonly property color buttonColorNoActive    : "#373A42"
 
     //Gradient colors
     readonly property color buttonColorHoverPosition0   : "#E62083" // OK
