@@ -41,6 +41,7 @@ DapAbstractScreen
         anchors.leftMargin: 301 * pt
         anchors.rightMargin: 281 * pt
         anchors.bottomMargin: 131 * pt
+
         color: "transparent"
         Column
         {

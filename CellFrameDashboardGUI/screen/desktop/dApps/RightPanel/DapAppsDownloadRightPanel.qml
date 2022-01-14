@@ -84,7 +84,7 @@ DapRectangleLitAndShaded {
 //                        Layout.leftMargin: 13 * pt
 
                     id: textHeader
-                    text: qsTr("Activated dApp")
+                    text: qsTr("Activating dApp")
                     verticalAlignment: Qt.AlignLeft
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                     color: currTheme.textColor
@@ -314,6 +314,7 @@ DapRectangleLitAndShaded {
 
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
+                radius: currTheme.radiusRectangle
 
                 id:reloadDownload
                 textButton: "Reload"
@@ -328,6 +329,7 @@ DapRectangleLitAndShaded {
 
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
+                radius: currTheme.radiusRectangle
 
                 id: canceledDownload
                 textButton: "Cancel"

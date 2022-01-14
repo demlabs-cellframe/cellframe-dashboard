@@ -59,6 +59,8 @@ DapLogsScreenForm
             logWorkerScript.msg = {'stringList' : logs, 'model': dapLogsModel};
 
             logWorkerScript.sendMessage(logWorkerScript.msg);
+//            dapServiceController.notifyService("DapUpdateLogsCommand","stop");
+
         }
             //fillModel(logs);
     }

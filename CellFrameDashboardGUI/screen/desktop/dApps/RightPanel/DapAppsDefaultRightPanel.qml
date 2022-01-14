@@ -119,7 +119,7 @@ Item
                 id:loadPlug
                 textButton: "Add dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
 
@@ -154,7 +154,7 @@ Item
                 id:installPlug
                 textButton: "Activate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -173,9 +173,9 @@ Item
                 implicitWidth: 350 * pt
 
                 id:uninstallPlug
-                textButton: "Unactivate dApp"
+                textButton: "Deactivate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -200,7 +200,7 @@ Item
                 id:deletePlug
                 textButton: "Delete dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
