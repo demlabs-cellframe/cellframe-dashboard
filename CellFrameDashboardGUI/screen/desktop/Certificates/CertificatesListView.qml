@@ -88,7 +88,6 @@ ListView {
 
     }  //header
 
-
     Component {
         id: delegateComponent
 
@@ -123,6 +122,7 @@ ListView {
                 height: parent.height
                 onClicked: {
                     root.selectedIndex(model.index)
+                    models.selectedAccessKeyType = model.accessKeyType
                 }
 
                 onDoubleClicked: {
