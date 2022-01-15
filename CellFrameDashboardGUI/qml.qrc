@@ -349,5 +349,6 @@
         <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
         <file>resources/icons/BlackTheme/check_icon.png</file>
         <file>resources/icons/BlackTheme/no_icon.png</file>
+        <file>screen/controls/DapPageElement.qml</file>
     </qresource>
 </RCC>

@@ -32,22 +32,49 @@ Page {
         id: rootPageRow
         anchors.fill: parent
 
-        StackView {
-            id: mainScreenStack
-            clip: true
+        DapScreenPage {
             Layout.fillHeight: true
             Layout.preferredWidth: rootPageRow.width * 0.7
-            //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
-            //                                       rootPageRow.width * 0.7 :
-            //                                       rootPageRow.width
+
+            StackView {
+                id: mainScreenStack
+                anchors.fill: parent
+                clip: true
+                //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
+                //                                       rootPageRow.width * 0.7 :
+                //                                       rootPageRow.width
+            }
         }
 
-        StackView {
-            id: rightPanelStack
-            clip: true
-            Layout.fillHeight: true
-            //Layout.fillWidth: rightPanelStack.depth > 0 ? true : false
+        DapScreenPage {
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            StackView {
+                id: rightPanelStack
+                anchors.fill: parent
+                clip: true
+                //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
+                //                                       rootPageRow.width * 0.7 :
+                //                                       rootPageRow.width
+            }
         }
+
+        //        StackView {
+        //            id: mainScreenStack
+        //            clip: true
+        //            Layout.fillHeight: true
+        //            Layout.preferredWidth: rootPageRow.width * 0.7
+        //            //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
+        //            //                                       rootPageRow.width * 0.7 :
+        //            //                                       rootPageRow.width
+        //        }
+
+        //        StackView {
+        //            id: rightPanelStack
+        //            clip: true
+        //            Layout.fillHeight: true
+        //            //Layout.fillWidth: rightPanelStack.depth > 0 ? true : false
+        //            Layout.fillWidth: true
+        //        }
     }
 }

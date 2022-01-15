@@ -4,7 +4,13 @@ import QtQuick.Layouts 1.12
 
 import "qrc:/screen/controls" as Controls
 
-Controls.DapScreenPage {
+Page {
+
+    anchors.fill: parent
+
+    background: Rectangle {
+        color: "transparent"
+    }
 
     property alias addRightPanel: addRightPanel
     property alias addTest: addTest

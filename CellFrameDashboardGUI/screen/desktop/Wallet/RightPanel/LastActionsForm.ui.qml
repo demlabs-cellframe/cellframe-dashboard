@@ -4,7 +4,11 @@ import QtQuick.Layouts 1.12
 
 import "qrc:/screen/controls" as Controls
 
-Controls.DapScreenPage {
+Page {
+
+    background: Rectangle {
+        color: "transparent"
+    }
 
     ListView
     {
