@@ -8,7 +8,7 @@
 
 VER_MAJ = 2
 VER_MIN = 1
-VER_PAT = 11
+VER_PAT = 12
 
 
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
@@ -16,7 +16,7 @@ DEFINES += DAP_BRAND_BASE_LO=\\\"$$BRAND_BASE_LO\\\"
 DEFINES += DAP_BRAND_LO=\\\"$$BRAND_LO\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
-#BUILD_TYPE = static
+BUILD_TYPE = static
 
 unix: !mac: !android {
     defined(BUILD_TYPE,var) {
