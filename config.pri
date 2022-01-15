@@ -16,7 +16,7 @@ DEFINES += DAP_BRAND_BASE_LO=\\\"$$BRAND_BASE_LO\\\"
 DEFINES += DAP_BRAND_LO=\\\"$$BRAND_LO\\\"
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
-BUILD_TYPE = static
+#BUILD_TYPE = static
 
 unix: !mac: !android {
     defined(BUILD_TYPE,var) {
