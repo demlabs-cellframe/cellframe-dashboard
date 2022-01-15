@@ -258,7 +258,6 @@ DapAbstractScreen
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-
                                 Image
                                 {
                                     id: networkAddressCopyButtonImage
@@ -266,7 +265,6 @@ DapAbstractScreen
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                     sourceSize.width: parent.width
                                     sourceSize.height: parent.height
-
                                 }
                             }
                         }

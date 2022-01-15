@@ -337,10 +337,8 @@ Rectangle {
         id: networksPanel
         y: parent.height - height
         width: parent.width
-        color: currTheme.shadowColor
-
-        border.width: 1
-        border.color: "grey"
+        height: 40
+        color: currTheme.backgroundPanel
 
         Timer {
             id: idNetworkPanelTimer
@@ -359,16 +357,15 @@ Rectangle {
                     Text {
                         id: txt_left
                         Layout.fillWidth: true
-                        font.family: "Quicksand"
-                        font.pixelSize: 16 * pt
-                        color: "white"
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+                        color: currTheme.textColor
                         text: name
                     }
                     Rectangle
                     {
                         Layout.alignment: Qt.AlignVCenter
-                        Layout.preferredHeight: 10 * pt
-                        Layout.preferredWidth: 10 * pt
+                        Layout.preferredHeight: 8 * pt
+                        Layout.preferredWidth: 8 * pt
                         radius: width/2
                         color: stateColor
                     }
@@ -482,6 +479,8 @@ Rectangle {
                 popup.networkName = curDataFromModel.name
             if (popup.networkState !== curDataFromModel.networkState)
                 popup.networkState = curDataFromModel.networkState
+            if (popup.stateColor !== curDataFromModel.stateColor)
+                popup.stateColor = curDataFromModel.stateColor
             if (popup.error !== curDataFromModel.errorMessage)
                 popup.error = curDataFromModel.errorMessage
             if (popup.targetState !== curDataFromModel.targetState)
