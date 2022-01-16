@@ -45,10 +45,12 @@ private:
 public slots:
 
     void getListPlugins(){sortList(); emit rcvListPlugins(m_pluginsList);};
+    void updatePluginsRepository(){m_dapNetworkManager->getFiles();};
     void addPlugin(QVariant, QVariant, QVariant);
     void installPlugin(int, QString, QString);
     void deletePlugin(int);
-    void cancelDownload(){m_dapNetworkManager->cancelDownload(1);};
+    void cancelDownload(){m_dapNetworkManager->cancelDownload(1,0);};
+    void reloadDownload(){m_dapNetworkManager->cancelDownload(1,1);};
 
 signals:
 

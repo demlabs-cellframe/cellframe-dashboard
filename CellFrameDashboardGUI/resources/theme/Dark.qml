@@ -11,7 +11,7 @@ QtObject {
 
     readonly property color buttonColorNormal      : "#D01E67" // OK
     readonly property color buttonColorHover       : "#E62172"
-    readonly property color buttonColorNoActive    : "#2E3138"
+    readonly property color buttonColorNoActive    : "#373A42"
 
     //network buttons
     readonly property color buttonNetworkColorNoActive    : "#2D3037"
@@ -24,6 +24,7 @@ QtObject {
 
     readonly property color lineSeparatorColor     : "#292929"
 
+    //Text colors
     readonly property color textColor              : "#ffffff" // OK
     readonly property color textColorGray          : "#B4B1BD" // OK
     readonly property color textColorGrayTwo       : "#B2B2B2" // OK
@@ -35,7 +36,7 @@ QtObject {
     readonly property int radiusRectangle          : 16*pt
     readonly property int radiusButton             : 50*pt
 
-    //Shadow oprions
+    //Shadow options
     readonly property color shadowColor            : "#20222A"
     readonly property color reflection             : "#524D64"
     readonly property color reflectionLight        : "#444253"

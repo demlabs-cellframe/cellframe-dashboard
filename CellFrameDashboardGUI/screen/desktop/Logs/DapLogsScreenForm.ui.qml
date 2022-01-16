@@ -13,64 +13,89 @@ DapAbstractScreen
     property alias dapLogsListView: dapLogsList
     property bool isModelLoaded: false
 
-    ListView
+    anchors
     {
-        id: dapLogsList
+        fill: parent
+        topMargin: 24 * pt
+        rightMargin: 24 * pt
+        leftMargin: 24 * pt
+        bottomMargin: 20 * pt
+    }
+    DapRectangleLitAndShaded
+    {
         anchors.fill: parent
-        anchors.topMargin: 24 * pt
-        anchors.leftMargin: 24 * pt
-        anchors.rightMargin: 24 * pt
-        clip: true
-        model: dapLogsModel
-        delegate: delegateLogs
-        section.property: "date"
-        section.criteria: ViewSection.FullString
-        section.delegate: delegateLogsHeader
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-        DapScrollViewHandling
-        {
-            id: logListScrollHandler
-            viewData: dapLogsList
-            scrollMouseAtArrow: logListScroll.mouseAtArrow
-            z: -1
-        }
+        contentData:
+            Item
+            {
+                anchors.fill: parent
 
-    }
+                // Title
+                Item
+                {
+                    id: consoleTitle
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 38 * pt
+                    Text
+                    {
+                        anchors.fill: parent
+                        anchors.leftMargin: 15 * pt
+                        anchors.topMargin: 10 * pt
+                        anchors.bottomMargin: 10 * pt
 
-    DapScrollView
-    {
-        id: logListScroll
-        scrollDownButtonImageSource: "qrc:/resources/icons/ic_scroll-down.png"
-        scrollDownButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-down_hover.png"
-        scrollUpButtonImageSource: "qrc:/resources/icons/ic_scroll-up.png"
-        scrollUpButtonHoveredImageSource: "qrc:/resources/icons/ic_scroll-up_hover.png"
-        viewData: dapLogsList
-        //Assign DapScrollView with DapScrollViewHandling which must have no parent-child relationship
-        onClicked: logListScrollHandler.scrollDirectionUp = !logListScrollHandler.scrollDirectionUp
-        scrollButtonVisible: logListScrollHandler.scrollVisible
-        scrollButtonArrowUp: logListScrollHandler.scrollDirectionUp
-        scrollButtonRightMargin: 10 * pt
-        scrollButtonTopMargin: dapLogsList.anchors.topMargin + 20 * pt
-        scrollButtonBottomMargin: 10 * pt
+                        verticalAlignment: Qt.AlignVCenter
+                        text: qsTr("Node data logs")
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        color: currTheme.textColor
+                    }
+                }
 
-    }
+                ListView
+                {
+                    id: dapLogsList
+                    anchors.top: consoleTitle.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    clip: true
+                    model: dapLogsModel
+                    delegate: delegateLogs
+                    section.property: "date"
+                    section.criteria: ViewSection.FullString
+                    section.delegate: delegateLogsHeader
 
-    DapBusyIndicator
-    {
-        x: parent.width / 2
-        y: parent.height / 2
-        busyPointNum: 8
-        busyPointRounding: 50
-        busyPointWidth: 12
-        busyPointHeight: 12
-        busyPointMinScale: 1.0
-        busyPointMaxScale: 1.0
-        busyIndicatorWidth: 40
-        busyIndicatorHeight: 40
-        busyIndicatorDelay: 125
-        busyIndicatorDarkColor: "#d51f5d"
-        busyIndicatorLightColor: "#FFFFFF"
-        running: !isModelLoaded
+                    highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
+                    highlightMoveDuration: 0
+
+                    ScrollBar.vertical: ScrollBar {
+                        active: true
+                    }
+                }
+
+                DapBusyIndicator
+                {
+                    x: parent.width / 2
+                    y: parent.height / 2
+                    busyPointNum: 8
+                    busyPointRounding: 50
+                    busyPointWidth: 12
+                    busyPointHeight: 12
+                    busyPointMinScale: 1.0
+                    busyPointMaxScale: 1.0
+                    busyIndicatorWidth: 40
+                    busyIndicatorHeight: 40
+                    busyIndicatorDelay: 125
+                    busyIndicatorDarkColor: "#d51f5d"
+                    busyIndicatorLightColor: "#FFFFFF"
+                    running: !isModelLoaded
+                }
+            }
     }
 }
 

@@ -7,6 +7,7 @@ DapNetworkManager::DapNetworkManager(QString path, QString pathPlugins, QWidget 
     m_pathPlugins = pathPlugins;
     m_networkManager = new QNetworkAccessManager(this);
     m_reconnectTimer = new QTimer(this);
+    m_reload = false;
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(onReconnect()));
 }
 
@@ -24,12 +25,22 @@ void DapNetworkManager::downloadFile(QString name)
 
     if(m_file->exists())
     {
-        QFileInfo fileInfo (*m_file);
-        data = fileInfo.size();
+        if(m_reload)
+        {
+            m_file->remove();
+            m_file->deleteLater();
+            m_file = new QFile(path);
+            m_reload = 0;
+        }
+        else
+        {
+            QFileInfo fileInfo (*m_file);
+            data = fileInfo.size();
 
-        QString strRange = QString("bytes=%1-").arg(data);
-        request.setRawHeader("Range", strRange.toLatin1());
-        m_bytesReceived = data;
+            QString strRange = QString("bytes=%1-").arg(data);
+            request.setRawHeader("Range", strRange.toLatin1());
+            m_bytesReceived = data;
+        }
     }
 
     m_currentReply = m_networkManager->get(request);
@@ -78,7 +89,7 @@ void DapNetworkManager::onReadyRead()
     }
     else
     {
-        cancelDownload(1);
+        cancelDownload(1,0);
         downloadFile(m_fileName);
     }
 }
@@ -97,18 +108,33 @@ void DapNetworkManager::onDownloadProgress(quint64 load, quint64 total)
         prog = 0;
         tot = 0;
     }
+    if(m_reload)
+    {
+        m_error = "Connected";
+        prog = 0;
+    }
 
     emit downloadProgress(prog, tot, m_fileName, m_error);
 }
 
-void DapNetworkManager::cancelDownload(bool ok)
+void DapNetworkManager::cancelDownload(bool ok, bool reload)
 {
     if(m_currentReply)
     {
-        m_currentReply->abort();
-        emit aborted();
+        m_reload = reload;
+
+        if(m_error == "Connected")
+            m_currentReply->abort();
+
+        if(!reload)
+            emit aborted();
         if(ok)
+        {
             m_reconnectTimer->stop();
+
+            if(reload)
+                m_reconnectTimer->start(1);
+        }
     }
 }
 

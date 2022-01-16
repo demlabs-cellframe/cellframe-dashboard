@@ -6,7 +6,7 @@ import "parts"
 
 Rectangle {
     id: root
-    property alias closeButton: closeButton
+//    property alias closeButton: closeButton
     property alias doneButton: doneButton
     property alias finishedText: finishedText
 
@@ -38,40 +38,42 @@ Rectangle {
         Item
         {
             anchors.fill: parent
-            Item {
-                id: titleRectangle
-                width: parent.width
-                height: 40 * pt
+//            Item {
+//                id: titleRectangle
+//                width: parent.width
+//                height: 40 * pt
 
-                CloseButton {
-                    id: closeButton
-                }  //
+//                CloseButton {
+//                    id: closeButton
+//                }  //
 
 
-                Text {
-                    id: certificatesTitleText
-                    anchors{
-                        left: closeButton.right
-                        leftMargin: 8 * pt
-                        verticalCenter: closeButton.verticalCenter
-                    }
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                    color: currTheme.textColor
-                    text: qsTr("Create certificate")
-                }
-            }  //titleRectangle
+//                Text {
+//                    id: certificatesTitleText
+//                    anchors{
+//                        left: closeButton.right
+//                        leftMargin: 12 * pt
+//                        top: parent.top
+//                        topMargin: 9 * pt
+//                        //verticalCenter: closeButton.verticalCenter
+//                    }
+//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+//                    color: currTheme.textColor
+//                    text: qsTr("Create certificate")
+//                }
+//            }  //titleRectangle
 
 
             Text {
                 id: finishedText
-                y: 202 * pt
-                anchors.horizontalCenter: parent.horizontalCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
+                y: 198 * pt
+                //anchors.horizontalCenter: parent.horizontalCenter
+                x: 53 * pt
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium28
                 color: currTheme.textColor
                 text: qsTr("Certificate created\nsuccessfully")
                 horizontalAlignment: Text.AlignHCenter
             }
-
 
             DapButton {
                 id: doneButton

@@ -13,12 +13,13 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 5 * pt
+        anchors.topMargin: 3 * pt
         spacing: 0 * pt
 
         Text {
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
+            Layout.leftMargin: 15 * pt
             verticalAlignment: Text.AlignVCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
@@ -28,7 +29,9 @@ Item
         ColumnLayout
         {
 //            Layout.margins: 3 * pt
-            spacing: 3 * pt
+            Layout.leftMargin: 2 * pt
+            Layout.topMargin: 3 * pt
+            spacing: 0
 
             DapRadioButton
             {
@@ -98,7 +101,8 @@ Item
         }
 
         Text {
-            Layout.topMargin: 20 * pt
+            Layout.topMargin: 24 * pt
+            Layout.leftMargin: 15 * pt
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
             verticalAlignment: Text.AlignVCenter
@@ -111,6 +115,7 @@ Item
         Rectangle
         {
             id: frameComboBoxPeriod
+            Layout.topMargin: 16 * pt
             implicitHeight: 60 * pt
 //            Layout.maximumHeight: 46 * pt
             Layout.fillWidth: true

@@ -167,8 +167,7 @@ DapAbstractScreen {
                                 anchors.rightMargin: 5 * pt
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                 color: model.selected ? "#FF0080" : currTheme.textColor
-                                text: balance.toFixed(9)
-    //                            text: balance.toPrecision()
+                                text: full_balance
                                 horizontalAlignment: Text.AlignRight
                                 anchors.bottom: parent.bottom
                                 anchors.bottomMargin: 10*pt

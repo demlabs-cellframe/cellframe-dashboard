@@ -55,6 +55,8 @@ Popup {
             radius: 0
             samples: 0
             opacity: 1
+            fast: true
+            cached: true
         }
         DropShadow {
             anchors.fill: rPopup
@@ -88,7 +90,7 @@ Popup {
                 }
             }
 
-            InnerShadow {
+            DropShadow {
                 anchors.fill: buttonSync
                 source: buttonSync
                 color: currTheme.reflection
@@ -97,6 +99,8 @@ Popup {
                 radius: 0
                 samples: 0
                 opacity: 1
+                fast: true
+                cached: true
             }
             DropShadow {
                 anchors.fill: buttonSync
@@ -127,7 +131,7 @@ Popup {
                 }
             }
 
-            InnerShadow {
+            DropShadow {
                 anchors.fill: buttonNetwork
                 source: buttonNetwork
                 color: currTheme.reflection
@@ -136,6 +140,8 @@ Popup {
                 radius: 0
                 samples: 0
                 opacity: 1
+                fast: true
+                cached: true
             }
             DropShadow {
                 anchors.fill: buttonNetwork

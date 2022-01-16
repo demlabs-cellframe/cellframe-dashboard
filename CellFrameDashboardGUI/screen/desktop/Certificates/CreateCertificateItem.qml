@@ -82,7 +82,7 @@ Rectangle {
                     x: 15 * pt
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium13
                     text: qsTr("Required")
                     color: currTheme.textColor
                 }
@@ -102,7 +102,7 @@ Rectangle {
 
                     anchors.verticalCenter: undefined
                     x: (parent.width - width) / 2
-                    y: 13 * pt
+                    y: 15 * pt
                     widthPopupComboBoxNormal: 316 * pt
                     widthPopupComboBoxActive: 316 * pt
                     heightComboBoxNormal: 42 * pt
@@ -132,7 +132,7 @@ Rectangle {
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: currTheme.shadowColor
 
-                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                     colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 }
@@ -141,13 +141,13 @@ Rectangle {
                 InputField {
                     id: titleCertificateTextInput
                     x: parent.width * 0.5 - width * 0.5
-                    y: parent. height - height - 32 * pt
+                    y: parent. height - height - 33 * pt
                     height: 28 * pt
                     width: 280 * pt
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
 
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
 
 
@@ -199,7 +199,7 @@ Rectangle {
                     x: 15 * pt
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium13
                     text: qsTr("Optional")
                     color: currTheme.textColor
                 }
@@ -215,20 +215,21 @@ Rectangle {
 
                 ColumnLayout {
                     id: optionalBodyLayout
-                    spacing: 25 * pt
-                    y: spacing
-                    x: 15 * pt
+                    spacing: 24 * pt
+                    y: spacing - 3 * pt
+                    //x: 15 * pt
                     width: parent.width - x
 
                     Repeater {
                         id: optionalRepeater
 
                         InputField {
-                            Layout.leftMargin: 20 * pt
+                            Layout.leftMargin: 39 * pt
                             Layout.preferredHeight: 28 * pt
                             Layout.preferredWidth: 277 * pt
                             leftPadding: 0
                             smartPlaceHolderText: model.placeHolderText
+                            textAndLineSpacing: 3 * pt
 
         //                    color: focus ? currTheme.textColor : "#C7C6CE"
                             //inputMask: model.inputFieldMask
@@ -253,19 +254,28 @@ Rectangle {
 
                     }  //
 
+                    Item
+                    {
+                        Layout.preferredWidth: parent.width
+                        Layout.preferredHeight: createButton.height + 10 * pt
+
                     DapButton {
                         id: createButton
                         textButton: qsTr("Create")
-                        Layout.preferredWidth: 132 * pt
-                        Layout.preferredHeight: 36 * pt
-                        Layout.alignment: Qt.AlignHCenter
+                        //Layout.preferredWidth: 132 * pt
+                        //Layout.preferredHeight: 36 * pt
+                        //Layout.alignment: Qt.AlignHCenter
+                        width: 132 * pt
+                        height: 36 * pt
+                        x: parent.width * 0.5 - width * 0.5
+                        y: parent.height - height
 
                         enabled: root.requiredFieldValid
 
                         fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAligmentText: Qt.AlignHCenter
                     }
-
+                    }
 
                 }  //optionalBodyeLayout
 

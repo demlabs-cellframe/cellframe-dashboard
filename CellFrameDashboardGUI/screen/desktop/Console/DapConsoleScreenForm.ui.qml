@@ -46,9 +46,6 @@ DapAbstractScreen
             ListView
             {
                 id: listViewConsoleCommand
-    //            anchors.top: parent.top
-    //            anchors.left: parent.left
-    //            anchors.right: parent.right
                 anchors.fill: parent
                 anchors.bottomMargin: 50 * pt
                 anchors.leftMargin: 20 *pt

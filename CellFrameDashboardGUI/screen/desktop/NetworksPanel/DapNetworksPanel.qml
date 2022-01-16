@@ -4,7 +4,7 @@ Rectangle {
     id: control
 
 //    implicitHeight: Math.max(btnPrevious.implicitHeight, networksListView.implicitHeight, btnNext.implicitHeight)
-    height: 43 * pt
+    height: 40 * pt
     implicitWidth: btnPrevious.implicitWidth + btnNext.implicitWidth + 180 * pt
 
     color: currTheme.backgroundPanel
