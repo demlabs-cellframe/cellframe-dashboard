@@ -192,8 +192,6 @@
         <file>screen/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
         <file>screen/desktop/VPNService/DapVPNServiceTab.qml</file>
         <file>screen/desktop/VPNService/DapVPNServiceTopPanel.qml</file>
-        <file>resources/icons/icon_vpn-service.svg</file>
-        <file>resources/icons/icon_vpn-service_hover.svg</file>
         <file>screen/desktop/VPNService/DapNoOrdersPanel.qml</file>
         <file>screen/desktop/VPNService/DapTextButton.qml</file>
         <file>screen/desktop/VPNService/DapCreateVPNOrderPanel.qml</file>
@@ -277,7 +275,6 @@
         <file>screen/desktop/Test/DapTestRightPanelForm.ui.qml</file>
         <file>screen/desktop/Test/TestScreen.qml</file>
         <file>screen/desktop/Test/TestPage.qml</file>
-        <file>WalletRestore/english_words.txt</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
         <file>WalletRestore/english_words.txt</file>
@@ -309,6 +306,9 @@
         <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
+        <file>screen/desktop/NetworksPanel/DapControlNetworksPanel.qml</file>
+        <file>screen/desktop/NetworksPanel/NetworkInfoPopup.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkButton.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
         <file>resources/icons/BlackTheme/check_icon.png</file>

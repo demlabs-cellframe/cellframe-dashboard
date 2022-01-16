@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
@@ -18,6 +19,7 @@ import "qrc:/widgets"
 
 Rectangle {
     id: dapMainWindow
+
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreenPath: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
     ///@detalis Path to the dashboard tab.
@@ -207,6 +209,7 @@ Rectangle {
 
 
 
+
     color:currTheme.backgroundPanel
 
     // The horizontal location of the virtual menu column and tab view loader
@@ -326,18 +329,24 @@ Rectangle {
         }
     }
 
-    DapNetworksPanel
+    DapControlNetworksPanel
     {
         id: networksPanel
-        y: parent.height - height
-        width: parent.width
     }
 
-    DapNetworkPopup
+    ListModel
     {
-        id: networkPanelPopup
+        id:networkListPopups
     }
 
+    ListModel {
+        id: networksModel
+    }
+
+//    DapNetworkPopup
+//    {
+//        id: networkPanelPopup
+//    }
 
     property var dapWallets: []
     property var dapOrders: []
@@ -605,14 +614,16 @@ Rectangle {
         {
             console.log("Networks list received")
 
-            if (!networkList)
-                console.error("networkList is empty")
+            if (!networksList)
+                console.error("networksList is empty")
             else
             {
-                if (networkList[0] === "[net]")
-                    dapServiceController.CurrentNetwork = networkList[1];
+                dapServiceController.CurrentNetwork = networksList[0];
+
+                if (networksList[0] === "[net]")
+                    dapServiceController.CurrentNetwork = networksList[1];
                 else
-                    dapServiceController.CurrentNetwork = networkList[0];
+                    dapServiceController.CurrentNetwork = networksList[0];
                 dapServiceController.IndexCurrentNetwork = 0;
 
                 console.log("Current network: "+dapServiceController.CurrentNetwork)
@@ -621,37 +632,37 @@ Rectangle {
             var i = 0
             var net = -1
 
-            while (i < Object.keys(networkList).length)
+            while (i < Object.keys(networksList).length)
             {
-                if (networkList[i] === "[net]")
+                if (networksList[i] === "[net]")
                 {
                     ++i
-                    if (i >= Object.keys(networkList).length)
+                    if (i >= Object.keys(networksList).length)
                         break
 
                     ++net
-                    dapNetworkModel.append({ "name" : networkList[i],
+                    dapNetworkModel.append({ "name" : networksList[i],
                                           "chains" : []})
 
-                    print("[net]", networkList[i])
+                    print("[net]", networksList[i])
 
                     ++i
-                    if (i >= Object.keys(networkList).length)
+                    if (i >= Object.keys(networksList).length)
                         break
 
-                    while (i < Object.keys(networkList).length
-                           && networkList[i] === "[chain]")
+                    while (i < Object.keys(networksList).length
+                           && networksList[i] === "[chain]")
                     {
                         ++i
-                        if (i >= Object.keys(networkList).length)
+                        if (i >= Object.keys(networksList).length)
                             break
 
-                        dapNetworkModel.get(net).chains.append({"name": networkList[i]})
+                        dapNetworkModel.get(net).chains.append({"name": networksList[i]})
 
-                        print("[chain]", networkList[i])
+                        print("[chain]", networksList[i])
 
                         ++i
-                        if (i >= Object.keys(networkList).length)
+                        if (i >= Object.keys(networksList).length)
                             break
                     }
                 }
@@ -659,9 +670,9 @@ Rectangle {
                     ++i
             }
 
-//            for(var n=0; n < Object.keys(networkList).length; ++n)
+//            for(var n=0; n < Object.keys(networksList).length; ++n)
 //            {
-//                dapNetworkModel.append({name: networkList[n]})
+//                dapNetworkModel.append({name: networksList[n]})
 //            }
         }
 
@@ -768,6 +779,16 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+        onNetworksStatesReceived:
+        {
+            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+                networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+            }
+
+            networksPanel.modelUpdate(networksStatesList)
+            networksPanel.recreatePopups(networksPanel.dapNetworkList.model, networkListPopups)
+            networksPanel.updateContentInAllOpenedPopups(networkListPopups, networksModel)
         }
     }
 
