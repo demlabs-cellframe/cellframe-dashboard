@@ -224,7 +224,6 @@
         <file>screen/desktop/VPNService_New/DapOrderDetailsForm.ui.qml</file>
         <file>screen/desktop/VPNService_New/DapOrderPanelButton.qml</file>
         <file>resources/icons/arrow-right_icon.svg</file>
-        <file>NetworkInfoPopup.qml</file>
         <file>resources/icons/BlackTheme/bg-menuitem_active.png</file>
         <file>resources/icons/BlackTheme/bg-menuitem_hover.png</file>
         <file>resources/icons/BlackTheme/cellframe-logo-dashboard.png</file>
@@ -313,5 +312,8 @@
         <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
+        <file>screen/desktop/NetworksPanel/DapControlNetworksPanel.qml</file>
+        <file>screen/desktop/NetworksPanel/NetworkInfoPopup.qml</file>
+        <file>screen/desktop/NetworksPanel/DapNetworkButton.qml</file>
     </qresource>
 </RCC>
