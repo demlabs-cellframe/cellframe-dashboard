@@ -350,5 +350,6 @@
         <file>resources/icons/BlackTheme/check_icon.png</file>
         <file>resources/icons/BlackTheme/no_icon.png</file>
         <file>screen/controls/DapPageElement.qml</file>
+        <file>screen/controls/DapPageClean.qml</file>
     </qresource>
 </RCC>

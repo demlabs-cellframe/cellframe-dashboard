@@ -17,9 +17,6 @@ Page {
         }
     }
 
-    property bool screenOverlay: false
-    property bool rightPanelOverlay: false
-
     property alias dapHeader: headerStack
     property alias dapScreen: mainScreenStack
     property alias dapRightPanel: rightPanelStack

@@ -28,7 +28,7 @@ public class DashboardService extends QtService {
    public static void startDashboardService(/*Context ctx*/) {
        //ctx.startService(new Intent(ctx, DashboardService.class));
        Log.i(TAG, "DO SOME WORK");
-       Intent intent = new Intent(getApplicationContext(), DashboardService.class);
-       getApplicationContext().startForegroundService(intent);
+       //Intent intent = new Intent(getApplicationContext(), DashboardService.class);
+       //getApplicationContext().startForegroundService(intent);
    }
 }
