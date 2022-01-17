@@ -15,9 +15,9 @@ ApplicationWindow
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
     width: 1280
-    height: 700
+    height: 800
     minimumWidth: 1280
-    minimumHeight: 700
+    minimumHeight: 800
 
     Settings {
         property alias x: window.x
