@@ -1,11 +1,12 @@
 import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
-import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.5
 import "qrc:/widgets"
 import "../../"
+import "qrc:/resources/JS/TimeFunctions.js" as TimeFunction
 
-DapLogsScreenForm
+DapAbstractScreen
 {
     id:dapLogsScreenForm
 
@@ -20,21 +21,102 @@ DapLogsScreenForm
     ///@detalis Font color.
     property string fontColor: "#070023"
 
+    ///@detalis dapLogsListView Indicates an active item.
+    property alias dapLogsListViewIndex: dapLogsList.currentIndex
+    ///@detalis dapLogsListView Log list widget.
+    property alias dapLogsListView: dapLogsList
+    property bool isModelLoaded: false
 
-    ///In this block, the properties are only auxiliary for internal use.
-    QtObject
+    anchors
     {
-        id: privateDate
-        //Day
-        property int day: 86400
-        //Current time
-        property var today
-        property var todayDay
-        property var todayMonth
-        property var todayYear
-        property var stringTime
+        fill: parent
+        topMargin: 24 * pt
+        rightMargin: 24 * pt
+        leftMargin: 24 * pt
+        bottomMargin: 20 * pt
     }
 
+    DapRectangleLitAndShaded
+    {
+        anchors.fill: parent
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
+
+        contentData:
+            Item
+            {
+                anchors.fill: parent
+                // Title
+                Item
+                {
+                    id: consoleTitle
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 38 * pt
+                    Text
+                    {
+                        anchors.fill: parent
+                        anchors.leftMargin: 15 * pt
+                        anchors.topMargin: 10 * pt
+                        anchors.bottomMargin: 10 * pt
+
+                        verticalAlignment: Qt.AlignVCenter
+                        text: qsTr("Node data logs")
+                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        color: currTheme.textColor
+                    }
+                }
+
+                ListView
+                {
+                    id: dapLogsList
+                    anchors.top: consoleTitle.bottom
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    clip: true
+                    model: dapLogsModel
+                    delegate: delegateLogs
+                    section.property: "date"
+                    section.criteria: ViewSection.FullString
+                    section.delegate: delegateLogsHeader
+
+                    highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
+                    highlightMoveDuration: 0
+
+                    ScrollBar.vertical: ScrollBar {
+                        id: scrollBar
+                        parent: dapLogsList
+                        active: true
+                    }
+                    function upScroll()
+                    {
+                        scrollBar.position = 0.0
+                    }
+                }
+            }
+
+        DapBusyIndicator
+        {
+            x: parent.width / 2
+            y: parent.height / 2
+            busyPointNum: 8
+            busyPointRounding: 50
+            busyPointWidth: 12
+            busyPointHeight: 12
+            busyPointMinScale: 1.0
+            busyPointMaxScale: 1.0
+            busyIndicatorWidth: 40
+            busyIndicatorHeight: 40
+            busyIndicatorDelay: 125
+            busyIndicatorDarkColor: "#d51f5d"
+            busyIndicatorLightColor: "#FFFFFF"
+            running: !isModelLoaded
+        }
+    }
 
     //Creates a list model for the example
     Component.onCompleted:
@@ -48,6 +130,11 @@ DapLogsScreenForm
         var day = new Date(86400);
     }
 
+    Timer {
+        id: test
+        interval: 500; running: false; repeat: true
+//        onTriggered: {console.log(dapLogsListView.model.count)}
+    }
 
     //Slot for updating data in the model. The signal comes from C++.
     Connections
@@ -56,13 +143,10 @@ DapLogsScreenForm
         onLogUpdated:
         {
             isModelLoaded = false;
-            logWorkerScript.msg = {'stringList' : logs, 'model': dapLogsModel};
-
-            logWorkerScript.sendMessage(logWorkerScript.msg);
-//            dapServiceController.notifyService("DapUpdateLogsCommand","stop");
-
+            isModelLoaded = updateLogsModel(logs);
+            dapLogsListView.currentIndex = -1
+            dapLogsListView.upScroll()
         }
-            //fillModel(logs);
     }
 
     //The Component Header
@@ -104,9 +188,7 @@ DapLogsScreenForm
             anchors.right: parent.right
             color: "transparent"
 //            height: 70 * pt
-            height: textLog.implicitHeight > 60 * pt ? textLog.implicitHeight + 20 * pt : 60 * pt
-
-
+            height: textLog.implicitHeight < 60 * pt ? 60 * pt : textLog.implicitHeight + 20 * pt
 
             //Event container
             Rectangle
@@ -229,11 +311,46 @@ DapLogsScreenForm
         }
     }
 
-    WorkerScript
+    ///In this block, the properties are only auxiliary for internal use.
+    QtObject
     {
-        id: logWorkerScript
-        source: "JS/DapLogScreenScripts.js"
-        property var msg
-        onMessage: isModelLoaded = messageObject.result
+        id: privateDate
+        //Day
+        property int day: 86400
+        //Current time
+        property var today
+        property var todayDay
+        property var todayMonth
+        property var todayYear
+        property var stringTime
+    }
+
+    function updateLogsModel(logList)
+    {
+        dapLogsModel.clear();
+        var count = Object.keys(logList).length
+        console.log(count);
+        var thisDay = new Date();
+        var privateDate = {'today' : thisDay,
+                            'todayDay': thisDay.getDate(),
+                            'todayMonth': thisDay.getMonth(),
+                            'todayYear': thisDay.getFullYear()};
+
+        for (var ind = count-1; ind >= 0; ind--)
+        {
+            var arrLogString = TimeFunction.parceStringFromLog(logList[ind]);
+            var stringTime = TimeFunction.parceTime(arrLogString[1]);
+
+            if(stringTime !== "error" && arrLogString[2] !== "")
+            {
+                dapLogsModel.append({"type": arrLogString[2],
+                                     "info": arrLogString[4],
+                                     "file": arrLogString[3],
+                                     "time": TimeFunction.getTime(stringTime),
+                                     "date": TimeFunction.getDay(stringTime, privateDate),
+                                     "momentTime": stringTime});
+            }
+        }
+        return true
     }
 }

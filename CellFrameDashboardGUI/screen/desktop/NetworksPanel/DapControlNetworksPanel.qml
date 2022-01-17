@@ -19,7 +19,7 @@ DapNetworksPanel
 
     Timer {
         id: idNetworkPanelTimer
-        interval: 1000; running: true; repeat: true
+        interval: 5000; running: true; repeat: true
         onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
