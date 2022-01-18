@@ -284,26 +284,17 @@ Popup {
 
                 onClicked: copyStringToClipboard()
 
-                Image {
+                DapImageLoader {
                     id: networkAddrCopyButtonImage
-                    anchors.fill: parent
-                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
 
-                    sourceSize.width: parent.width
-                    sourceSize.height: parent.height
+                    innerWidth: parent.width
+                    innerHeight: parent.height
+                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                 }
             }
             TextEdit {
                 id: textEdit
                 visible: false
-            }
-            Shortcut {
-                sequence: StandardKey.Copy
-                onActivated: {
-                    textEdit.text = nodeAddress
-                    textEdit.selectAll()
-                    textEdit.copy()
-                }
             }
         }
     }
