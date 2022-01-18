@@ -106,7 +106,7 @@ DapAbstractScreen
                     running: !isModelLoaded
                 }
             }
-    }s
+    }
 }
 
 /*##^##

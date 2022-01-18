@@ -132,8 +132,8 @@ DapAbstractScreen
 
     Timer {
         id: test
-        interval: 500; running: false; repeat: true
-//        onTriggered: {console.log(dapLogsListView.model.count)}
+        interval: 5000; running: false; repeat: true
+//        onTriggered: {updateLogsModel()}
     }
 
     //Slot for updating data in the model. The signal comes from C++.
@@ -142,10 +142,13 @@ DapAbstractScreen
         target: dapServiceController
         onLogUpdated:
         {
+            dapLogsList.enabled = false
             isModelLoaded = false;
             isModelLoaded = updateLogsModel(logs);
             dapLogsListView.currentIndex = -1
-            dapLogsListView.upScroll()
+            dapLogsListView.update()
+            dapLogsList.enabled = true
+//            dapLogsListView.upScroll()
         }
     }
 
