@@ -125,6 +125,7 @@ ColumnLayout
                 }
                 Rectangle
                 {
+//                    visible: index === listWallet.count - 1? false : true
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
