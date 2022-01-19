@@ -88,13 +88,7 @@ DapAbstractScreen
                     highlightMoveDuration: 0
 
                     ScrollBar.vertical: ScrollBar {
-                        id: scrollBar
-                        parent: dapLogsList
                         active: true
-                    }
-                    function upScroll()
-                    {
-                        scrollBar.position = 0.0
                     }
                 }
             }
@@ -130,12 +124,6 @@ DapAbstractScreen
         var day = new Date(86400);
     }
 
-    Timer {
-        id: test
-        interval: 5000; running: false; repeat: true
-//        onTriggered: {updateLogsModel()}
-    }
-
     //Slot for updating data in the model. The signal comes from C++.
     Connections
     {
@@ -148,7 +136,6 @@ DapAbstractScreen
             dapLogsListView.currentIndex = -1
             dapLogsListView.update()
             dapLogsList.enabled = true
-//            dapLogsListView.upScroll()
         }
     }
 
