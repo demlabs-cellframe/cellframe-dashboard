@@ -82,6 +82,7 @@ ColumnLayout
             anchors.left: parent.left
             anchors.right: parent.right
             onHeightChanged: listWallet.contentHeight = height
+            spacing: 0
 
             Item {
                 Layout.preferredHeight: 50 * pt
@@ -90,8 +91,9 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 16 * pt
-                    anchors.bottomMargin: 16 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.topMargin: 16 * pt
+//                    anchors.bottomMargin: 16 * pt
 
                     Text
                     {
