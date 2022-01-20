@@ -21,4 +21,3 @@ unix: !mac : !android {
 
     INSTALLS += share_target node_share_target node_network_target node_bin_target cli_bin_target tool_bin_target
 }
-}
