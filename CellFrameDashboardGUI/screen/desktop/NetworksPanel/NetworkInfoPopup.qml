@@ -321,7 +321,7 @@ Popup {
             text: networkName
         }
 
-        DapImageLoader{
+        DapImageLoader {
             id: nameStatus
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: 8 * pt

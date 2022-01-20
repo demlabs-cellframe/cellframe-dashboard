@@ -5,19 +5,19 @@ import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
 import "screen"
 
+import "qrc:/screen/desktop/NetworksPanel"
+
 ApplicationWindow
 {
     id: window
     visible: true
 
-    //    property variant networkListPopups : []
-
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
     width: 1280
-    height: 800
+    height: 700
     minimumWidth: 1280
-    minimumHeight: 800
+    minimumHeight: 700
 
     Settings {
         property alias x: window.x
@@ -31,6 +31,7 @@ ApplicationWindow
     {
         id: mainWindow
         property alias device: dapDevice.device
+        property alias footer: networksPanel
 
         anchors.fill: parent
 
@@ -38,8 +39,16 @@ ApplicationWindow
         {
             id: dapDevice
         }
-    }
 
+        DapControlNetworksPanel
+        {
+            id: networksPanel
+            property alias pathTheme: mainWindow.pathTheme
+            property alias currTheme: mainWindow.currTheme
+            property alias dapQuicksandFonts: mainWindow.dapQuicksandFonts
+            property alias dapMainWindow: mainWindow
+        }
+    }
 
     ///The image with the effect fast blur
     Image

@@ -8,7 +8,7 @@ import "qrc:/"
 import "../../"
 
 DapNetworksPanel
-{
+{    
     property alias dapNetworkList: networkList
 
     id: control
@@ -16,6 +16,15 @@ DapNetworksPanel
     width: parent.width
     height: 40
     color: currTheme.backgroundPanel
+
+    layer.enabled: true
+    layer.effect: DropShadow {
+        anchors.fill: control
+        radius: currTheme.radiusShadowSmall
+        color: currTheme.reflectionLight
+        source: control
+        spread: 0.7
+    }
 
     Timer {
         id: idNetworkPanelTimer
@@ -58,6 +67,7 @@ DapNetworksPanel
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
+
                     if (!networkListPopups[index].isOpen) {
                         control.updateContentInSpecifiedPopup(networkListPopups[index], networkList.model.get(index))
                         networkListPopups[index].open()
@@ -85,6 +95,15 @@ DapNetworksPanel
         focus: true
     }
 
+    ListModel
+    {
+        id:networkListPopups
+    }
+
+    ListModel {
+        id: networksModel
+    }
+
     onWidthChanged:
     {
         var widthItem = networkList.width / networkList.count
@@ -93,6 +112,21 @@ DapNetworksPanel
             {
                 networkListPopups[i].x = widthItem*i+(widthItem-networkListPopups[i].width)/2
             }
+        }
+    }
+    Connections
+    {
+        target: dapServiceController
+
+        onNetworksStatesReceived:
+        {
+            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+                networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+            }
+
+            networksPanel.modelUpdate(networksStatesList)
+            networksPanel.recreatePopups(networksPanel.dapNetworkList.model, networkListPopups)
+            networksPanel.updateContentInAllOpenedPopups(networkListPopups, networksModel)
         }
     }
 
