@@ -23,7 +23,7 @@ public:
     void uploadFile();
     void getFiles();
 
-    void cancelDownload(bool ok);
+    void cancelDownload(bool ok, bool reload);
 
 signals:
     void downloadCompleted(QString path);
@@ -52,6 +52,8 @@ public:
     QString m_pathPlugins;
     QString m_fileName;
     QStringList m_bufferFiles;
+
+    bool m_reload;
 
     quint64 m_bytesReceived = 0;
     QString m_error;

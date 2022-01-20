@@ -3,7 +3,8 @@ import QtQuick 2.7
 Rectangle {
     id: control
 
-    implicitHeight: Math.max(btnPrevious.implicitHeight, networksListView.implicitHeight, btnNext.implicitHeight)
+//    implicitHeight: Math.max(btnPrevious.implicitHeight, networksListView.implicitHeight, btnNext.implicitHeight)
+    height: 40 * pt
     implicitWidth: btnPrevious.implicitWidth + btnNext.implicitWidth + 180 * pt
 
     color: currTheme.backgroundPanel

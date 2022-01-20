@@ -26,6 +26,7 @@ DapAbstractTab
     color: currTheme.backgroundMainScreen
 
     property alias dapDashboardRightPanel: stackViewRightPanel
+    property alias dapDashboardScreen: dashboardScreen
 
     property var walletInfo:
     {
@@ -67,6 +68,7 @@ DapAbstractTab
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
+                restoreWalletMode = false
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
@@ -191,6 +193,10 @@ DapAbstractTab
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
             }
+            else if(parametrsRightPanel === createNewWallet)
+            {
+                dashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Creating wallet in process...")
+            }
         }
         onPreviousActivated:
         {
@@ -199,6 +205,10 @@ DapAbstractTab
             {
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
+            }
+            else if(parametrsRightPanel === createNewWallet)
+            {
+                dashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Creating wallet in process...")
             }
         }
     }
@@ -224,6 +234,7 @@ DapAbstractTab
 
     Component.onCompleted:
     {
+        update()
         updateComboBox()
     }
 

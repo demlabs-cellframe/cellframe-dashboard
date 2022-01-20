@@ -5,296 +5,157 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/"
 import "../../"
+import "MenuBlocks"
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractScreen
 {
-    property alias settingsScreen_ : settingScreen
-    property alias dapComboboxWallet: walletComboBox
+    id: settingScreen
 
-    id:settingScreen
-    signal createWalletSignal()
+    property alias settingsScreen_: settingScreen
+    property alias dapGeneralBlock: generalBlock
+    property alias dapExtensionsBlock: extensionsBlock
+//    property alias dapComboboxWallet: walletComboBox
+
+    signal createWalletSignal(bool restoreMode)
+
+    signal switchMenuTab(string tag, bool state)
+    signal switchAppsTab(string tag, string name, bool state)
 
     anchors
     {
-        top: parent.top
+        fill: parent
         topMargin: 24 * pt
-        right: parent.right
-        rightMargin: 44 * pt
-        left: parent.left
+        rightMargin: 24 * pt
         leftMargin: 24 * pt
-        bottom: parent.bottom
         bottomMargin: 20 * pt
     }
 
-    DapRectangleLitAndShaded
+    Item
     {
+        id: control
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
 
-        contentData:
-            Item
-            {
-                anchors.fill: parent
-                // Header
-                Item
-                {
-                    id: settingsHeader
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 38 * pt
-
-                    Text
-                    {
-                        anchors.fill: parent
-                        anchors.leftMargin: 18 * pt
-                        anchors.topMargin: 10 * pt
-                        anchors.bottomMargin: 10 * pt
-                        verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Settings")
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                        color: currTheme.textColor
-                    }
-                }
-
-                ListView
-                {
-                    id: listViewSettings
-                    anchors.top: settingsHeader.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    model: modelSettings
-                    clip: true
-                }
-            }
-    }
-
-    ///@detalis Settings item model.
-    VisualItemModel
-    {
-        id: modelSettings
-
-        // Network settings section
-        Rectangle
+        RowLayout
         {
-            id: itemNetwork
-            height: networkHeader.height + contentNetwork.height
-            width: listViewSettings.width
-            color: currTheme.backgroundMainScreen
-//            radius: 16*pt
-            z:10
+            anchors.fill: parent
+            spacing: 23 * pt
 
-            // Header
-            Rectangle
+            ColumnLayout
             {
-                id: networkHeader
-                color: "transparent"
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 30 * pt
-                Text
+                Layout.fillHeight: true
+                Layout.minimumWidth: 327 * pt
+                Layout.alignment: Qt.AlignTop
+
+                DapRectangleLitAndShaded
                 {
-                    anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    verticalAlignment: Qt.AlignVCenter
-                    text:"Network"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    color: currTheme.textColor
+                    property alias dapContent:content
+                    property int spacing: (72 + 39) * pt
+
+                    id:generalBlock
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: content.implicitHeight
+                    Layout.maximumHeight: control.height - spacing
+                    color: currTheme.backgroundElements
+                    radius: currTheme.radiusRectangle
+                    shadowColor: currTheme.shadowColor
+                    lightColor: currTheme.reflectionLight
+
+                    contentData: DapGeneralBlock{id:content}
+                }
+
+                // Wallet create button
+                DapButton
+                {
+                    id: newWalletButton
+
+                    Layout.minimumWidth: 297 * pt
+                    Layout.maximumWidth: 297 * pt
+                    Layout.minimumHeight: 36 * pt
+                    Layout.maximumHeight: 36 * pt
+                    Layout.topMargin: 20 * pt
+                    Layout.alignment: Qt.AlignHCenter
+
+                    textButton: "Create a new wallet"
+
+                    implicitHeight: 36 * pt
+                    implicitWidth: 297 * pt
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    horizontalAligmentText: Text.AlignHCenter
+                    onClicked: createWalletSignal(false)
+                }
+
+                // Restore wallet
+                DapButton
+                {
+                    id: restoreWalletButton
+
+                    Layout.minimumWidth: 297 * pt
+                    Layout.maximumWidth: 297 * pt
+                    Layout.minimumHeight: 36 * pt
+                    Layout.maximumHeight: 36 * pt
+                    Layout.topMargin: 9 * pt
+                    Layout.alignment: Qt.AlignHCenter
+
+                    textButton: "Import an existing wallet"
+
+                    implicitHeight: 36 * pt
+                    implicitWidth: 297 * pt
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    horizontalAligmentText: Text.AlignHCenter
+                    onClicked: createWalletSignal(true)
                 }
             }
-
-            // Content
-            Rectangle
+            DapRectangleLitAndShaded
             {
-                id: contentNetwork
-                anchors.top: networkHeader.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
+                id: appearanceBlock
+                Layout.fillWidth: true
+                Layout.minimumWidth: 327 * pt
+                Layout.alignment: Qt.AlignTop
+                Layout.preferredHeight: contentData.implicitHeight
+                Layout.leftMargin: 2 * pt
+                color: currTheme.backgroundElements
+                radius: currTheme.radiusRectangle
+                shadowColor: currTheme.shadowColor
+                lightColor: currTheme.reflectionLight
+
+                contentData: DapAppearanceBlock{}
+            }
+            DapRectangleLitAndShaded
+            {
+                id:extensionsBlock
+                Layout.fillWidth: true
+                Layout.minimumWidth: 350 * pt
+                Layout.maximumWidth: 350 * pt
+                Layout.alignment: Qt.AlignTop
+                Layout.preferredHeight: contentData.implicitHeight
 
                 color: currTheme.backgroundElements
-                height: 80 * pt
+                radius: currTheme.radiusRectangle
+                shadowColor: currTheme.shadowColor
+                lightColor: currTheme.reflectionLight
 
-                DapComboBox
-                {
-                    id:comboBoxNetwork
-//                    anchors.fill: parent
-//                    anchors.top: parent.top
-                    anchors.left: parent.left
-//                    anchors.bottom: parent.bottom
+                contentData: DapExtensionsBlock{}
 
-                    anchors.topMargin: 25 * pt
-                    anchors.leftMargin: 25 * pt
-                    comboBoxTextRole: ["name"]
-//                    mainLineText: "private"
-                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                    sidePaddingNormal: 19 * pt
-                    sidePaddingActive: 19 * pt
-                    widthPopupComboBoxNormal: 175 * pt
-                    widthPopupComboBoxActive: 175 * pt
-                    heightComboBoxNormal: 50 * pt
-                    heightComboBoxActive: 50 * pt
-                    topEffect: false
-                    x: sidePaddingNormal
-                    normalColor: currTheme.backgroundMainScreen
-                    hilightTopColor: currTheme.backgroundMainScreen
-                    hilightColor: currTheme.buttonColorNormal
-                    normalTopColor: currTheme.backgroundMainScreen
-                    paddingTopItemDelegate: 8 * pt
-                    heightListElement: 42 * pt
-                    indicatorWidth: 24 * pt
-                    indicatorHeight: indicatorWidth
-                    colorDropShadow: currTheme.shadowColor
-                    roleInterval: 15
-                    endRowPadding: 37
-                    fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                    model: dapNetworkModel
-                    onCurrentIndexChanged:
-                    {
-                        dapServiceController.CurrentNetwork = currentText
-                        dapServiceController.IndexCurrentNetwork = currentIndex
-                    }
-                }
-            }
-        }
-
-        // VPN settings section
-        Rectangle
-        {
-            id: walletSettings
-            height: walletHeader.height
-            width: listViewSettings.width
-            color: currTheme.backgroundMainScreen
-            // Header
-            Rectangle
-            {
-                id: walletHeader
-                color: "transparent"
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 30 * pt
-                Text
+                onVisibleChanged:
                 {
-                    anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    verticalAlignment: Qt.AlignVCenter
-                    text: "Wallet"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    color: currTheme.textColor
-                }
-            }
-        }
-        Rectangle
-        {
-            color: currTheme.backgroundElements
-            height: 80 * pt
-            width: 200 * pt
-            DapComboBox
-            {
-                id:walletComboBox
-                anchors.fill: parent
-                anchors.topMargin: 25 * pt
-                anchors.leftMargin: 25 * pt
-                comboBoxTextRole: ["name"]
-                mainLineText: "all wallets"
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
-                widthPopupComboBoxNormal: 125 * pt
-                widthPopupComboBoxActive: 125 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-                x: sidePaddingNormal
-                normalColor: currTheme.backgroundMainScreen
-                hilightTopColor: currTheme.backgroundMainScreen
-                hilightColor: currTheme.buttonColorNormal
-                normalTopColor: currTheme.backgroundMainScreen
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                model: dapModelWallets
-                currentIndex: SettingsWallet.currentIndex
-                onCurrentIndexChanged:
-                {
-                    SettingsWallet.currentIndex = dapComboboxWallet.currentIndex
+                    if(visible)
+                        separatop.visible = false
+                    else
+                        separatop.visible = true
                 }
 
             }
-            // Wallet create button
-            DapButton
+            Item
             {
-                id: newWalletButton
-                textButton: "New wallet"
-                anchors.left: walletComboBox.right
-                anchors.leftMargin: 50 * pt
-                anchors.verticalCenter: walletComboBox.verticalCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText: Text.AlignHCenter
-                onClicked: createWalletSignal()
-            }
-
-        }
-        Rectangle
-        {
-            height: 25 * pt
-        }
-        Rectangle
-        {
-            height: pluginsHeader.height
-            width: listViewSettings.width
-            color: currTheme.backgroundMainScreen
-            // Header
-            Rectangle
-            {
-                id: pluginsHeader
-                color: "transparent"
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 30 * pt
-                Text
-                {
-                    anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    verticalAlignment: Qt.AlignVCenter
-                    text: "dApps"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    color: currTheme.textColor
-                }
-            }
-        }
-        Item
-        {
-            width: listViewSettings.width
-            height: 350 * pt
-
-            DapPluginsSettingsScreen
-            {
-
+                id:separatop
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.minimumWidth: 0 * pt
+                Layout.maximumWidth: 0 * pt
+//                Layout.leftMargin: 23 * pt
+                visible: false
             }
         }
     }

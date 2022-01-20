@@ -13,4 +13,4 @@
 [submodule "cellframe-node"]
 	path = cellframe-node
 	url = https://gitlab.demlabs.net/cellframe/cellframe-node
-	branch = release-5.0
+	branch = master

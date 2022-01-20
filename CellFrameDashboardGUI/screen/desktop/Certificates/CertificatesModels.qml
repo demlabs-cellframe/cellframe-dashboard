@@ -12,6 +12,8 @@ Item {
     property alias certificatesFind: certificatesFind
     property alias certificateInfo: certificateInfo
 
+    property int selectedAccessKeyType: 0
+
     property alias signatureType: signatureType
     property alias createCertificateOptional: createCertificateOptional
 
@@ -19,8 +21,8 @@ Item {
     readonly property var signatureKeyToViewName: ({
                                                "sig_dil": qsTr("Crystal-Dylithium"),
                                                "sig_bliss": qsTr("Bliss"),
-                                               "sig_picnic": qsTr("Picnic"),
-                                               "sig_tesla": qsTr("Tesla")
+                                               "sig_picnic": qsTr("Picnic")/*,
+                                               "sig_tesla": qsTr("Tesla")*/
                                            })
 
 
@@ -39,7 +41,7 @@ Item {
         id: accessKeyType
         property int selectedIndex: 0
         //selected certificate with private and public key
-        readonly property bool bothTypeCertificateSelected: selectedIndex === 2
+        readonly property bool bothTypeCertificateSelected: selectedIndex === 1 || (selectedIndex === 2 && selectedAccessKeyType == 1)
 
         ListElement { name: qsTr("Public certificates"); type: "public"; selected: true }
         ListElement { name: qsTr("Private certificates"); type: "private"; selected: false }
@@ -95,10 +97,10 @@ Item {
 
     ListModel {        //this common model
         id: signatureType
-        ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; isRecomended: true  }
+        ListElement {  name: "Crystal-Dylithium  (Recomended)"; signature: "sig_dil"; isRecomended: true  }
         ListElement {  name: "Bliss"; signature: "sig_bliss"; isRecomended: false  }
         ListElement {  name: "Picnic"; signature: "sig_picnic"; isRecomended: false  }
-        ListElement {  name: "Tesla"; signature: "sig_tesla"; isRecomended: false  }
+//        ListElement {  name: "Tesla"; signature: "sig_tesla"; isRecomended: false  }
     }
 
 

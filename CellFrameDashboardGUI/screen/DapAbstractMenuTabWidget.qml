@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtGraphicalEffects 1.0
+import "qrc:/widgets"
 
 DapAbstractMenuTabWidgetForm
 {
@@ -25,40 +26,43 @@ DapAbstractMenuTabWidgetForm
     {
         id: itemMenuTabDelegate
 
-        Rectangle
+        Item
         {
             id: frameItemMenu
 
             property bool isPushed: dapMenuWidget.currentIndex === index
 
             width: widthItemMenu
-            height: heightItemMenu
-            color: normalColorItemMenu
+//            height: heightItemMenu
+            height: showTab ? heightItemMenu : 0
+//            color: normalColorItemMenu
 
-            Image
-            {
+            visible: showTab
+
+            DapImageLoader{
                 id:menuItemImg
+                innerWidth: widthItemMenu
+                innerHeight: heightItemMenu
+                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+
                 anchors.left: parent.left
                 anchors.rightMargin: 10 * pt
                 anchors.verticalCenter: frameItemMenu.verticalCenter
                 anchors.right: parent.right
-                height: heightItemMenu
-                width: widthItemMenu
                 visible: false
-                source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
             }
-            Image
-            {
-                id: iconItem
+
+
+            DapImageLoader{
+                id:iconItem
+                innerWidth: widthIconItemMenu
+                innerHeight: heightIconItemMenu
+                source: normalIcon
+
                 anchors.left: parent.left
                 anchors.leftMargin: 26 * pt
                 anchors.verticalCenter: parent.verticalCenter
-                height: heightIconItemMenu
-                width: widthIconItemMenu
-                source: normalIcon
             }
-
-
 
             Text
             {
@@ -111,7 +115,7 @@ DapAbstractMenuTabWidgetForm
 
             onIsPushedChanged:
             {
-                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
+//                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
                 iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
                 textItem.font.family = (isPushed ? selectedFont : normalFont);
                 menuItemImg.visible = isPushed ? true : false

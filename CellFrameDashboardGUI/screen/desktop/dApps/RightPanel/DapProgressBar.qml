@@ -3,8 +3,10 @@ import QtQuick 2.0
 
 Canvas {
     id: canvas
-    width: 120
-    height: 120
+    width: 130
+    height: 130
+//    width: 200
+//    height: 200
     antialiasing: true
 
 //    property color primaryColor: "orange"
@@ -79,7 +81,7 @@ Canvas {
 
         text: canvas.text
         color: currTheme.textColor
-        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
     }
 
     MouseArea {

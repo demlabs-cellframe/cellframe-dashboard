@@ -11,11 +11,7 @@
 #include "DapLogger.h"
 #include "DapPluginsPathControll.h"
 
-#include "dap_config.h"
-
-#if defined (Q_OS_MACOS)
-#include "dap_common.h"
-#endif
+#include "dapconfigreader.h"
 
 #include <sys/stat.h>
 
@@ -24,28 +20,6 @@
 #endif
 
 void processArgs();
-
-QString getConfigPath()
-{
-#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/etc").arg(DAP_BRAND_BASE_LO);
-#elif defined (Q_OS_MACOS)
-    char * l_username = NULL;
-    exec_with_ret(&l_username,"whoami|tr -d '\n'");
-    if (!l_username)
-    {
-        qWarning() << "Fatal Error: Can't obtain username";
-        return QString();
-    }
-    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/etc").arg(l_username);
-#elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/etc").arg(regWGetUsrPath());
-#elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/etc");
-#else
-    return QString();
-#endif
-}
 
 int main(int argc, char *argv[])
 {
@@ -101,21 +75,9 @@ int main(int argc, char *argv[])
         system(str.toUtf8().data());
     }
 
+    DapConfigReader configReader;
 
-
-    bool debug_mode = false;
-    QString config_path = getConfigPath();
-    if (!dap_config_init(config_path.toLocal8Bit()))
-    {
-        dap_config_t * config = dap_config_open("cellframe-node");
-        if (config != NULL)
-            debug_mode = dap_config_get_item_bool_default(
-                        config, "general", "debug_dashboard_mode", false);
-        else
-            qDebug() << "Error in dap_config_open!";
-    }
-    else
-        qDebug() << "Error in dap_config_init!" << config_path;
+    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
 
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
@@ -140,7 +102,6 @@ int main(int argc, char *argv[])
     processArgs();
     DapServiceController serviceController;
     serviceController.start();
-
     
     return a.exec();
 }

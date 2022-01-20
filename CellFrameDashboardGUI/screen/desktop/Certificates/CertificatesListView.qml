@@ -16,7 +16,7 @@ ListView {
 
     //interactive: contentHeight > height
     headerPositioning: ListView.OverlayHeader
-    spacing: 14 * pt
+    spacing: 17 * pt
     clip: true
 
     ScrollBar.vertical: ScrollBar {
@@ -25,7 +25,7 @@ ListView {
 
     header: Rectangle {
         width: parent.width
-        height: certificatesTitle.height + tableTitle.height + spacing
+        height: certificatesTitle.height + tableTitle.height + spacing - 6 * pt
         z:10
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
@@ -43,7 +43,7 @@ ListView {
 
             Text {
                 id: certificatesTitleText
-                x: 15 * pt
+                x: 3 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
@@ -64,8 +64,6 @@ ListView {
             Text {
                 x: 15 * pt
                 height: parent.height
-                anchors.left: parent.left
-                anchors.leftMargin: 25 * pt
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: root.seletedCertificateAccessType
@@ -90,7 +88,6 @@ ListView {
 
     }  //header
 
-
     Component {
         id: delegateComponent
 
@@ -98,17 +95,17 @@ ListView {
             //this property need set from root
             width: root.width
             anchors.left: parent.left
-            anchors.leftMargin: 10 * pt
+            anchors.leftMargin: 14 * pt
             anchors.right: parent.right
-            anchors.rightMargin: 10 * pt
-            height: 40 * pt
+            anchors.rightMargin: 14 * pt
+            height: 38 * pt
             color: currTheme.backgroundElements
             radius: currTheme.radiusRectangle
 
             Text {
                 id: certificateNameText
-                x: 14 * pt
-                width: 612 * pt
+                //x: 14 * pt
+                width: 597 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -125,6 +122,7 @@ ListView {
                 height: parent.height
                 onClicked: {
                     root.selectedIndex(model.index)
+                    models.selectedAccessKeyType = model.accessKeyType
                 }
 
                 onDoubleClicked: {
@@ -160,14 +158,14 @@ ListView {
 
             Rectangle {
                 id: bottomLine
-                x: certificateNameText.x
+                //x: certificateNameText.x
 //                y: parent.height
 //                width: 644 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.bottom
-                anchors.leftMargin: 14 * pt
-                anchors.rightMargin: 15 * pt
+                //anchors.leftMargin: 14 * pt
+                //anchors.rightMargin: 15 * pt
                 height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
@@ -187,9 +185,6 @@ ListView {
 //        color: "transparent"
 //        z: 1
 //    }
-
-
-
 
 
 }  //root

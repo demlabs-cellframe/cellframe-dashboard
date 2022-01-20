@@ -11,7 +11,7 @@ DapAbstractScreen
     anchors
     {
         fill: parent
-        topMargin: 24 * pt
+//        topMargin: 24 * pt
         rightMargin: 44 * pt
         leftMargin: 24 * pt
         bottomMargin: 20 * pt
@@ -37,66 +37,81 @@ DapAbstractScreen
     {
         id: walletCreateFrame
         anchors.fill: parent
-        anchors.horizontalCenter: parent.horizontalCenter
+//        anchors.topMargin: 41 * pt
+        anchors.leftMargin: 301 * pt
+        anchors.rightMargin: 281 * pt
+        anchors.bottomMargin: 131 * pt
+
         color: "transparent"
         Column
         {
-            anchors.horizontalCenter: parent.horizontalCenter
-            Rectangle
+//            anchors.top: parent.top
+//            anchors.fill: parent
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            Rectangle
+//            {
+//                height: 82.79 * pt
+//                width: parent.width
+//                color: "transparent"
+//            }
+            Item
             {
-                height: 82.79 * pt
-                width: parent.width
-                color: "transparent"
-            }
-            Image
-            {
-                id: iconCreateWallet
-                source: "qrc:/resources/icons/" + pathTheme + "/illustration-new-wallet.png"
-                width: 500 * pt
-                height: 300 * pt
+//                width: 450 * pt
+//                height: 450 * pt
+                width: iconCreateWallet.implicitWidth
+                height: iconCreateWallet.implicitHeight
+
+                Image
+                {
+                    anchors.fill: parent
+                    id: iconCreateWallet
+                    source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
+                    sourceSize.width: 450 * pt
+                    sourceSize.height: 450 * pt
+                    fillMode: Image.PreserveAspectFit
+
+                }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-            Rectangle
-            {
-                height: 45 * pt
-                width: parent.width
-                color: "transparent"
-            }
+//            Rectangle
+//            {
+//                height: 45 * pt
+//                width: parent.width
+//                color: "transparent"
+//            }
             Text
             {
                 id: titleTextWalletCreate
-                font.family: "Quiksand"
-                font.pixelSize: 26 * pt
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
                 color: currTheme.textColor
                 text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-            Rectangle
+            Item
             {
                 height: 21 * pt
                 width: parent.width
-                color: "transparent"
             }
 
             DapButton
             {
                 id: addWalletButton
 
-                implicitWidth: 180 * pt
+                implicitWidth: 165 * pt
                 implicitHeight: 36 * pt
                 radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
-                textButton: "New wallet"
+                textButton: "Get started"
                 colorBackgroundNormal: currTheme.buttonColorNormal
                 colorBackgroundHover: currTheme.buttonColorHover
                 colorButtonTextNormal: currTheme.textColor
                 colorButtonTextHover: currTheme.textColor
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText:Qt.AlignCenter
                 colorTextButton: "#FFFFFF"
 
             }
-            Rectangle
+            Item
             {
                 height: Layout.fillHeight
                 width: parent.width
@@ -105,9 +120,14 @@ DapAbstractScreen
     }
     Rectangle
     {
+        FontLoader{id: font; source: "qrc:/resources/fonts/Quicksand/Quicksand-Medium.ttf"}
+
+
         id: frameTitleCreateWallet
         anchors.fill: parent
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 8 * pt
+        anchors.leftMargin: 2 * pt
+//        anchors.horizontalCenter: parent.horizontalCenter
         color: "transparent"
 //        anchors.verticalCenter: parent.verticalCenter
         Text
@@ -115,8 +135,9 @@ DapAbstractScreen
 //            anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Quiksand"
-            font.pixelSize: 26 * pt
+            font.family: font.name
+            font.pixelSize:26 * pt
+//            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
             color: currTheme.textColor
             text: qsTr("Creating wallet in process...")
         }
@@ -127,6 +148,7 @@ DapAbstractScreen
     {
         id: mainFrameDashboard
         anchors.fill: parent
+        anchors.topMargin: 24 * pt
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
         shadowColor: currTheme.shadowColor
@@ -200,22 +222,9 @@ DapAbstractScreen
                                 text: name
                             }
 
-        //                    Text
-        //                    {
-        //                        id: networkAddressLabel
-        //                        anchors.verticalCenter: parent.verticalCenter
-        //                        anchors.left: parent.left
-        //                        anchors.leftMargin: 16 * pt
-        //                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-        //                        color: currTheme.textColor
-        //                        text: qsTr("Network address")
-        //                        width: 92 * pt
-        //                    }
                             DapText
                             {
                                id: textMetworkAddress
-        //                       anchors.left: parent.left
-        //                       anchors.leftMargin: 500 * pt
                                width: 63 * pt
                                anchors.right:  networkAddressCopyButton.left
                                anchors.rightMargin: 4 * pt
@@ -239,15 +248,11 @@ DapAbstractScreen
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-
-                                Image
-                                {
-                                    id: networkAddressCopyButtonImage
-                                    anchors.fill: parent
+                                DapImageLoader{
+                                    id:networkAddressCopyButtonImage
+                                    innerWidth: parent.width
+                                    innerHeight: parent.height
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
-                                    sourceSize.width: parent.width
-                                    sourceSize.height: parent.height
-
                                 }
                             }
                         }
@@ -287,8 +292,9 @@ DapAbstractScreen
                                         Layout.fillWidth: true
                                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                                         color: currTheme.textColor
-                                        text: balance.toFixed(9)
-            //                            text: balance.toPrecision()
+                                        text: balance_without_zeros
+//                                        text: full_balance
+//                                        text: datoshi
                                         horizontalAlignment: Text.AlignRight
                                     }
 

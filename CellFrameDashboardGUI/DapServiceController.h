@@ -34,8 +34,8 @@
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
 #include "handlers/DapGetListOdersCommand.h"
-
-
+#include "handlers/DapGetNetworksStateCommand.h"
+#include "handlers/DapNetworkSingleSyncCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -49,6 +49,9 @@ class DapServiceController : public QObject
     QString m_sCurrentNetwork;
 
     int m_iIndexCurrentNetwork;
+
+    bool m_bReadingChains;
+
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
     DapServiceClientMessage *m_pDapServiceClientMessage {nullptr};
@@ -94,6 +97,8 @@ public:
 
     Q_PROPERTY(int IndexCurrentNetwork MEMBER m_iIndexCurrentNetwork READ getIndexCurrentNetwork WRITE setIndexCurrentNetwork NOTIFY indexCurrentNetworkChanged)
 
+    Q_PROPERTY(bool ReadingChains MEMBER m_bReadingChains READ getReadingChains WRITE setReadingChains NOTIFY readingChainsChanged)
+
     /// Client controller initialization.
     /// @param apDapServiceClient Network connection controller.
     void init(DapServiceClient *apDapServiceClient);
@@ -112,6 +117,11 @@ public:
 
     Q_INVOKABLE void setIndexCurrentNetwork(int iIndexCurrentNetwork);
 
+    bool getReadingChains() const;
+
+    Q_INVOKABLE void setReadingChains(bool bReadingChains);
+
+
 public slots:
     void requestWalletList();
     void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
@@ -119,7 +129,7 @@ public slots:
     void changeNetworkStateToOnline(QString a_networkName);
     void changeNetworkStateToOffline(QString a_networkName);
     void requestOrdersList();
-
+    void requestNetworksList();
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -153,7 +163,8 @@ signals:
 
     void walletsReceived(QList<QObject*> walletList);
 
-    void networksListReceived(const QVariant& networkList);
+    void networksListReceived(const QVariant& networksList);
+
 
     void networkStatusReceived(const QVariant& networkStatus);
     void newTargetNetworkStateReceived(const QVariant& targetStateString);
@@ -163,6 +174,8 @@ signals:
     void walletTokensReceived(const QVariant& walletTokens);
 
     void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
+
+    void readingChainsChanged(bool bReadingChains);
 
     void historyReceived(const QVariant& walletHistory);
 
@@ -179,7 +192,12 @@ signals:
 
     void ordersListReceived(const QVariant& ordersInfo);
     void ordersReceived(QList<QObject*> orderList);
-    
+
+    void networkStatesListReceived(const QVariant& networksStateList);
+    void networksStatesReceived(QList<QObject*> networksStatesList);
+
+    void networksReceived(QList<QObject*> networksList);
+
 private slots:
     /// Register command.
     void registerCommand();

@@ -90,7 +90,7 @@ void DapPluginsController::onFilesReceived()
                 QStringList str = m_pluginsList[j].toStringList();
                 QStringList str2 = appendList[i];
 
-                if(str[0] == str2[0].remove(".zip") && str[3].toInt())
+                if(str[0].remove(".zip") == str2[0].remove(".zip") && str[3].toInt())
                 {
                     ok = false;
                     break;
@@ -232,6 +232,12 @@ void DapPluginsController::deletePlugin(int number)
     QStringList str = m_pluginsList.value(number).toStringList();
     str[1].remove(QString("/" + str[0] + ".qml"));
     str[1].remove(m_filePrefix);
+
+    QFile file(QString(m_pathPlugins + "/download/" + str[0] + ".zip"));
+
+    if(file.exists())
+        file.remove();
+
 
     QDir dir(str[1]);
     dir.removeRecursively();
