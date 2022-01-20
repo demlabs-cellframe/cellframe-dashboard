@@ -1,5 +1,5 @@
 ﻿import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import "qrc:/widgets"
 import "../../"
 
@@ -8,6 +8,7 @@ DapAbstractScreen
 
     id: logsBoard
     ///@detalis dapLogsListView Indicates an active item.
+    property alias dapScrollView: scrollView
     property alias dapLogsListViewIndex: dapLogsList.currentIndex
     ///@detalis dapLogsListView Log list widget.
     property alias dapLogsListView: dapLogsList
@@ -56,26 +57,35 @@ DapAbstractScreen
                     }
                 }
 
-                ListView
-                {
-                    id: dapLogsList
+                ScrollView{
+                    id: scrollView
                     anchors.top: consoleTitle.bottom
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    clip: true
-                    model: dapLogsModel
-                    delegate: delegateLogs
-                    section.property: "date"
-                    section.criteria: ViewSection.FullString
-                    section.delegate: delegateLogsHeader
 
-                    highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
-                    highlightMoveDuration: 0
+                    contentData:
+                        ListView
+                        {
+                            id: dapLogsList
+                            anchors.fill: parent
+                            clip: true
+                            model: dapLogsModel
+                            delegate: delegateLogs
+                            section.property: "date"
+                            section.criteria: ViewSection.FullString
+                            section.delegate: delegateLogsHeader
+    //                        boundsBehavior: Flickable.StopAtBounds
 
-                    ScrollBar.vertical: ScrollBar {
-                        active: true
-                    }
+                            highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
+                            highlightMoveDuration: 0
+
+    //                        ScrollBar.vertical: ScrollBar {
+    //                            active: true
+    //                        }
+                        }
+
+
                 }
 
                 DapBusyIndicator

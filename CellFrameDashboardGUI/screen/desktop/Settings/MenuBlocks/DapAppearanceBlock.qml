@@ -92,6 +92,7 @@ ColumnLayout
             }
             Rectangle
             {
+//                visible: index === modelMenuTabStates.count - 1? false : true
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
