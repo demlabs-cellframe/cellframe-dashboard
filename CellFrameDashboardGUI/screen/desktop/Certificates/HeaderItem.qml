@@ -12,7 +12,7 @@ DapTopPanel {
     signal findHandler(string text)
 //    anchors.left: parent.left
 
-    anchors.leftMargin: 4*pt
+    //anchors.leftMargin: 4 * pt
     radius: currTheme.radiusRectangle
 //    color: currTheme.backgroundMainScreen
     //color: "#211A3A"    //design color
@@ -25,26 +25,20 @@ DapTopPanel {
 
 
     // Frame icon search
-    //Rectangle
-    //{
-        Image
-        {
-            id: frameIconSearch
-            anchors.left: parent.left
-            anchors.leftMargin: 38 * pt
-            anchors.verticalCenter: parent.verticalCenter
-            height: 20 * pt
-            width: 20 * pt
-            //color: "transparent"
-            //id: iconSearch
-            //anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            verticalAlignment: Image.AlignVCenter
-            horizontalAlignment: Image.AlignHCenter
+    Image
+    {
+        id: frameIconSearch
+        anchors.left: parent.left
+        anchors.leftMargin: 38 * pt
+        y: 21 * pt
+        height: 19 * pt
+        width: 19 * pt
+        fillMode: Image.PreserveAspectFit
+        verticalAlignment: Image.AlignVCenter
+        horizontalAlignment: Image.AlignHCenter
 
-            source: "qrc:/resources/icons/ic_search.png"
-        }
-    //}
+        source: "qrc:/resources/icons/ic_search.png"
+    }
 
 
     SearchInputBox {
@@ -53,7 +47,7 @@ DapTopPanel {
 //        x: 0
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: frameIconSearch.right
-        anchors.leftMargin: 10 * pt
+        anchors.leftMargin: 7 * pt
 
         bottomLineVisible: false
 
@@ -79,9 +73,10 @@ DapTopPanel {
 
 
     Rectangle {
-        width: searchBox.width + 30 * pt
+        width: searchBox.width
         height: 1 * pt
         anchors.top: searchBox.bottom
+        anchors.topMargin: 3 * pt
         anchors.left: frameIconSearch.left
         color: "#393B41" //currTheme.borderColor
     }

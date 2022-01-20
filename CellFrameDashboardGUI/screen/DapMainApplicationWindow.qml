@@ -1,4 +1,5 @@
-import QtQuick 2.12
+import QtQuick 2.4
+import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.1
 import QtQuick.Layouts 1.12
@@ -13,10 +14,12 @@ import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 import "desktop/SettingsWallet.js" as SettingsWallet
 import "../resources/theme" as Theme
+import "qrc:/widgets"
 
 
 Rectangle {
     id: dapMainWindow
+
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreenPath: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
     ///@detalis Path to the dashboard tab.
@@ -41,7 +44,7 @@ Rectangle {
     ///@detalis Path to the tokens tab.
     readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
      ///@detalis Path to the plugins tab.
-    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/DapPluginsTab.qml"
+    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugin/DapApp.qml"
     ///@detalis Path to the dApps tab.
     readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
 
@@ -83,11 +86,11 @@ Rectangle {
     ListModel
     {
         id: modelMenuTabStates
-        ListElement { tag: "Certificates"
-            name: qsTr("Certificates")
-            show: true }
         ListElement { tag: "Tokens"
             name: qsTr("Tokens")
+            show: true }
+        ListElement { tag: "Certificates"
+            name: qsTr("Certificates")
             show: true }
         ListElement { tag: "VPN service"
             name: qsTr("VPN service")
@@ -100,9 +103,6 @@ Rectangle {
             show: true }
         ListElement { tag: "dApps"
             name: qsTr("dApps")
-            show: true }
-        ListElement { tag: "Plugins"
-            name: qsTr("Plugins")
             show: true }
     }
 
@@ -122,19 +122,7 @@ Rectangle {
         onMenuTabChanged:
         {
             console.log("onMenuTabChanged")
-
-            var datamodel = []
-            for (var i = 0; i < modelMenuTabStates.count; ++i)
-            {
-//                if(modelMenuTabStates.get(i).tag !== "Plugin")
-                {
-                datamodel.push(modelMenuTabStates.get(i))
-                console.log(modelMenuTabStates.get(i).tag,
-                                "show", modelMenuTabStates.get(i).show)
-                }
-            }
-            menuTabStates = JSON.stringify(datamodel)
-
+            updateMenuTabStatus()
         }
     }
 
@@ -186,7 +174,28 @@ Rectangle {
                     }
                 }
             }
+            updateMenuTabStatus()
         }
+    }
+
+    function updateMenuTabStatus()
+    {
+        var datamodel = []
+        for (var i = 0; i < modelMenuTabStates.count; ++i)
+        {
+            datamodel.push(modelMenuTabStates.get(i))
+            console.log(modelMenuTabStates.get(i).tag,
+                            "show", modelMenuTabStates.get(i).show)
+        }
+
+        for (var i = 0; i < modelAppsTabStates.count; ++i)
+        {
+            datamodel.push(modelAppsTabStates.get(i))
+            console.log(modelAppsTabStates.get(i).tag,
+                            "show", modelAppsTabStates.get(i).show)
+        }
+
+        menuTabStates = JSON.stringify(datamodel)
     }
 
     //for test
@@ -199,14 +208,6 @@ Rectangle {
 
     property string walletRecoveryType: "Nothing"
 
-        ///@detalis Logo icon.
-//        property alias dapIconLogotype: iconLogotype
-//        ///@detalis Logo frame.
-//        property alias dapFrameLogotype: frameLogotype
-//        ///@detalis Menu bar.
-//        property alias dapMenuTabWidget: menuTabWidget
-
-//        property alias dapScreenLoader: stackViewTabs
 
 
 
@@ -223,7 +224,7 @@ Rectangle {
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-            bottomMargin: 4 * pt
+            bottomMargin: 6 * pt
         }
 
         // Virtual logo column frame and menu bar
@@ -231,36 +232,32 @@ Rectangle {
         {
             id: columnMenuTab
             height: rowMainWindow.height
-//            Layout.
-            width: 180 * pt
+            width: 183 * pt
+            spacing: 0
             // Logotype widget
             Item
             {
                 id: logotype
-//                    data: dapLogotype
                 width: parent.width * pt
                 height: 60 * pt
+
                 Rectangle
                 {
                     id: frameLogotype
                     anchors.fill: parent
                     color:currTheme.backgroundPanel
-//                        width: parent.width
-//                        radius: 8 * pt
-                    Image
-                    {
-                        id: iconLogotype
-//                            anchors.verticalCenter: parent.verticalCenter
-                        width: 111 * pt
-                        height: 24 * pt
+
+                    DapImageLoader{
+                        innerWidth: 111 * pt
+                        innerHeight: 24 * pt
+                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+
                         anchors.left: parent.left
                         anchors.leftMargin: 26*pt
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 18*pt
                         anchors.top: parent.top
                         anchors.topMargin: 18 * pt
-
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
                     }
                 }
             }
@@ -268,12 +265,32 @@ Rectangle {
             Item
             {
                 id: menuWidget
-                width: 180 * pt
+                width: 183 * pt
                 height: columnMenuTab.height - logotype.height
+                //hide left radius element
+                Rectangle
+                {
+                    id: squareRect
+                    width: menuTabWidget.radius
+                    color: currTheme.backgroundPanel
+                    anchors.bottom: menuTabWidget.bottom
+                    anchors.left: menuTabWidget.left
+                    anchors.top: menuTabWidget.top
+                }
+                //hide top radius element
+                Rectangle{
+                    height: currTheme.radiusRectangle
+                    anchors.top:parent.top
+                    anchors.right: parent.right
+                    anchors.left: parent.left
+                    color: currTheme.backgroundPanel
+                }
+
                 data: DapAbstractMenuTabWidget
                 {
                     color:currTheme.backgroundPanel
                     radius: currTheme.radiusRectangle
+
 
 //                        anchors.leftMargin: -8*pt
 
@@ -283,7 +300,7 @@ Rectangle {
                     }
                     id: menuTabWidget
                     anchors.fill: parent
-                    widthItemMenu: 180*pt
+                    widthItemMenu: 186*pt
                     heightItemMenu: 52 * pt
                     normalColorItemMenu: currTheme.backgroundPanel
                     selectColorItemMenu: "transparent"
@@ -292,23 +309,6 @@ Rectangle {
                     dapMenuWidget.model: modelMenuTab
                     normalFont: "Quicksand"
                     selectedFont: "Quicksand"
-                }
-                //hide top radius element
-                Rectangle{
-                    width: 9 * pt
-                    height: currTheme.radiusRectangle
-                    anchors.top:parent.top
-                    anchors.right: parent.right
-                    color: currTheme.backgroundPanel/* "white"*/
-//                        radius: currTheme.radiusRectangle
-                    Rectangle
-                    {
-                        width: 9 * pt
-                        height: 4 * pt
-                        anchors.top: parent.top
-                        anchors.right: parent.left
-                        color: parent.color
-                    }
                 }
             }
         }
@@ -330,18 +330,24 @@ Rectangle {
         }
     }
 
-    DapNetworksPanel
+    DapControlNetworksPanel
     {
         id: networksPanel
-        y: parent.height - height
-        width: parent.width
     }
 
-    DapNetworkPopup
+    ListModel
     {
-        id: networkPanelPopup
+        id:networkListPopups
     }
 
+    ListModel {
+        id: networksModel
+    }
+
+//    DapNetworkPopup
+//    {
+//        id: networkPanelPopup
+//    }
 
     property var dapWallets: []
     property var dapOrders: []
@@ -483,7 +489,7 @@ Rectangle {
             })
 
 //            append ({
-//                name: qsTr("Plugins"),
+//                name: qsTr("Plugin"),
 //                tag: "Plugins",
 //                page: pluginsScreen,
 //                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
@@ -502,16 +508,38 @@ Rectangle {
 //            })
 
             for (var j = 0; j < modelMenuTabStates.count; ++j)
+            {
                 for (var k = 0; k < modelMenuTab.count; ++k)
+                {
                     if (modelMenuTabStates.get(j).tag ===
                         modelMenuTab.get(k).tag)
-                {
-                    console.log(modelMenuTabStates.get(j).tag,
-                                "show", modelMenuTabStates.get(j).show)
+                    {
+                        console.log(modelMenuTabStates.get(j).tag,
+                                    "show", modelMenuTabStates.get(j).show)
 
-                    modelMenuTab.get(k).showTab = modelMenuTabStates.get(j).show
-                    break
+                        modelMenuTab.get(k).showTab = modelMenuTabStates.get(j).show
+                        break
+                    }
                 }
+            }
+
+            for (var j = 0; j < modelAppsTabStates.count; ++j)
+            {
+                for (var k = 0; k < modelMenuTab.count; ++k)
+                {
+                    if (modelAppsTabStates.get(j).tag ===
+                        modelMenuTab.get(k).tag &&
+                        modelAppsTabStates.get(j).name ===
+                        modelMenuTab.get(k).name)
+                    {
+                        console.log(modelAppsTabStates.get(j).tag,
+                                    "show", modelAppsTabStates.get(j).show)
+
+                        modelMenuTab.get(k).showTab = modelAppsTabStates.get(j).show
+                        break
+                    }
+                }
+            }
             pluginsTabChanged(true,false,"")
         }
     }
@@ -539,24 +567,44 @@ Rectangle {
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
+        dapServiceController.requestToService("DapGetNetworksStateCommand")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
 
-        if (menuTabStates) {
-          console.log("loading menuTabStates", menuTabStates)
+        if (menuTabStates)
+        {
+            console.log("loading menuTabStates", menuTabStates)
 
-//          modelMenuTabStates.clear()
-          var datamodel = JSON.parse(menuTabStates)
+            var datamodel = JSON.parse(menuTabStates)
 
-          for (var i = 0; i < datamodel.length; ++i)
-              for (var j = 0; j < modelMenuTabStates.count; ++j)
-                  if (datamodel[i].tag === modelMenuTabStates.get(j).tag)
-                  {
-                      modelMenuTabStates.get(j).show = datamodel[i].show
-//                      console.log(datamodel[i].tag, datamodel[i].show,
-//                          modelMenuTabStates.get(j).tag, modelMenuTabStates.get(j).show)
-                      break
-                  }
+            for (var i = 0; i < datamodel.length; ++i)
+            {
+                for (var j = 0; j < modelMenuTabStates.count; ++j)
+                {
+                    if (datamodel[i].tag ===modelMenuTabStates.get(j).tag)
+                    {
+                        modelMenuTabStates.get(j).show = datamodel[i].show
+    //                      console.log(datamodel[i].tag, datamodel[i].show,
+    //                          modelMenuTabStates.get(j).tag, modelMenuTabStates.get(j).show)
+                        break
+                    }
+                }
+            }
+            for (var i = 0; i < datamodel.length; ++i)
+            {
+                for (var j = 0; j < modelAppsTabStates.count; ++j)
+                {
+                    if (datamodel[i].tag ===
+                            modelAppsTabStates.get(j).tag &&
+                            modelAppsTabStates.get(j).name ===
+                            datamodel[i].name)
+                    {
+                        modelAppsTabStates.get(j).show = datamodel[i].show
+                        break
+                    }
+                }
+            }
+
         }
     }
 
@@ -568,14 +616,16 @@ Rectangle {
         {
             console.log("Networks list received")
 
-            if (!networkList)
-                console.error("networkList is empty")
+            if (!networksList)
+                console.error("networksList is empty")
             else
             {
-                if (networkList[0] === "[net]")
-                    dapServiceController.CurrentNetwork = networkList[1];
+                dapServiceController.CurrentNetwork = networksList[0];
+
+                if (networksList[0] === "[net]")
+                    dapServiceController.CurrentNetwork = networksList[1];
                 else
-                    dapServiceController.CurrentNetwork = networkList[0];
+                    dapServiceController.CurrentNetwork = networksList[0];
                 dapServiceController.IndexCurrentNetwork = 0;
 
                 console.log("Current network: "+dapServiceController.CurrentNetwork)
@@ -584,37 +634,37 @@ Rectangle {
             var i = 0
             var net = -1
 
-            while (i < Object.keys(networkList).length)
+            while (i < Object.keys(networksList).length)
             {
-                if (networkList[i] === "[net]")
+                if (networksList[i] === "[net]")
                 {
                     ++i
-                    if (i >= Object.keys(networkList).length)
+                    if (i >= Object.keys(networksList).length)
                         break
 
                     ++net
-                    dapNetworkModel.append({ "name" : networkList[i],
+                    dapNetworkModel.append({ "name" : networksList[i],
                                           "chains" : []})
 
-                    print("[net]", networkList[i])
+                    print("[net]", networksList[i])
 
                     ++i
-                    if (i >= Object.keys(networkList).length)
+                    if (i >= Object.keys(networksList).length)
                         break
 
-                    while (i < Object.keys(networkList).length
-                           && networkList[i] === "[chain]")
+                    while (i < Object.keys(networksList).length
+                           && networksList[i] === "[chain]")
                     {
                         ++i
-                        if (i >= Object.keys(networkList).length)
+                        if (i >= Object.keys(networksList).length)
                             break
 
-                        dapNetworkModel.get(net).chains.append({"name": networkList[i]})
+                        dapNetworkModel.get(net).chains.append({"name": networksList[i]})
 
-                        print("[chain]", networkList[i])
+                        print("[chain]", networksList[i])
 
                         ++i
-                        if (i >= Object.keys(networkList).length)
+                        if (i >= Object.keys(networksList).length)
                             break
                     }
                 }
@@ -622,9 +672,9 @@ Rectangle {
                     ++i
             }
 
-//            for(var n=0; n < Object.keys(networkList).length; ++n)
+//            for(var n=0; n < Object.keys(networksList).length; ++n)
 //            {
-//                dapNetworkModel.append({name: networkList[n]})
+//                dapNetworkModel.append({name: networksList[n]})
 //            }
         }
 
@@ -731,6 +781,16 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+        onNetworksStatesReceived:
+        {
+            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+                networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+            }
+
+            networksPanel.modelUpdate(networksStatesList)
+            networksPanel.recreatePopups(networksPanel.dapNetworkList.model, networkListPopups)
+            networksPanel.updateContentInAllOpenedPopups(networkListPopups, networksModel)
         }
     }
 

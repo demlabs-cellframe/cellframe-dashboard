@@ -20,6 +20,7 @@ TextField {
 
     property int borderWidth: 1 * pt
     property int borderWidthWhenFocus: 2 * pt
+    property int textAndLineSpacing: 0
 
     property color backgroundColor: "transparent"
     property color backgroundColorWhenDisabled: backgroundColor
@@ -62,6 +63,7 @@ TextField {
         id: borderLine
         z: -1
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: -textAndLineSpacing
         width: parent.width
         height: 1 * pt
         color: currTheme.borderColor

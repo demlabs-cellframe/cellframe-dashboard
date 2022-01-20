@@ -22,7 +22,22 @@ DapAbstractRightPanel
                 anchors.leftMargin: 47 * pt
                 anchors.rightMargin: 49 * pt
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium28
+            }
+
+            Text
+            {
+                anchors.top: textMessage.bottom
+                anchors.topMargin:  24 * pt
+                anchors.leftMargin: 43 * pt
+                anchors.rightMargin: 32 * pt
+
+                id: textMessageBottom
+                text: qsTr("Now you can manage your\nwallets in Settings")
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                color: currTheme.placeHolderTextColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             }
 
             DapButton
@@ -30,13 +45,13 @@ DapAbstractRightPanel
                 id: buttonDone
                 height: 36 * pt
                 width: 132 * pt
-                anchors.top: textMessage.bottom
+                anchors.top: textMessageBottom.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.topMargin:  242 * pt
+                anchors.topMargin:  153 * pt
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
             }
         }
 }

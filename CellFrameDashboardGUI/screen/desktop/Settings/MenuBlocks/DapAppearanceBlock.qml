@@ -7,6 +7,7 @@ import "qrc:/widgets"
 ColumnLayout
 {
     anchors.fill: parent
+    spacing: 0
     Item
     {
         Layout.fillWidth: true
@@ -15,9 +16,9 @@ ColumnLayout
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 15 * pt
-            anchors.topMargin: 15 * pt
-            anchors.bottomMargin:  5 * pt
+            anchors.leftMargin: 14 * pt
+            anchors.topMargin: 10 * pt
+            anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -28,14 +29,15 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        Layout.preferredHeight: 30 * pt
+        height: 30 * pt
         color: currTheme.backgroundMainScreen
 
         Text
         {
-            anchors.left: parent.left
-            anchors.leftMargin: 17 * pt
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.topMargin: 8 * pt
+            anchors.bottomMargin: 8 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -48,21 +50,21 @@ ColumnLayout
     {
         model: modelMenuTabStates.count
         Item {
-            Layout.preferredHeight: 50 * pt
+            height: 50 * pt
             Layout.fillWidth: true
 
             RowLayout
             {
                 anchors.fill: parent
-                anchors.topMargin: 5 * pt
-                anchors.bottomMargin: 15 * pt
+                anchors.topMargin: 13 * pt
+                anchors.bottomMargin: 16 * pt
 
                 Text
                 {
                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                     Layout.preferredHeight: 25 * pt
                     Layout.fillWidth: true
-                    Layout.leftMargin: 15 * pt
+                    Layout.leftMargin: 13 * pt
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     color: currTheme.textColor
@@ -75,7 +77,7 @@ ColumnLayout
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     Layout.preferredHeight: 26 * pt
                     Layout.preferredWidth: 46 * pt
-                    Layout.rightMargin: 15 * pt
+                    Layout.rightMargin: 19 * pt
 
                     backgroundColor: currTheme.backgroundMainScreen
                     borderColor: currTheme.reflectionLight
@@ -90,6 +92,7 @@ ColumnLayout
             }
             Rectangle
             {
+//                visible: index === modelMenuTabStates.count - 1? false : true
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom

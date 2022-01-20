@@ -202,11 +202,19 @@ DapAbstractTab
                             }
                             break;
                         case "expiration_date":
-                            if (data !== "" && !utils.validDate(optionalField.data)) {
+                        {
+                            var locale = Qt.locale()
+                            var dataDate = Date.fromLocaleDateString(locale, data, "dd.MM.yyyy")
+                            var day = new Date()
+                            var nextDay = new Date(day)
+                            nextDay.setDate(day.getDate() + 1)
+
+                            if (data !== "" && (!utils.validDate(optionalField.data) || dataDate < nextDay)) {
                                 messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                        , "Please fill field correctly.")
                                 return false;
                             }
+                        }
                             break;
                         case "email":
                             if (data !== "" && !utils.validEmail(optionalField.data)) {

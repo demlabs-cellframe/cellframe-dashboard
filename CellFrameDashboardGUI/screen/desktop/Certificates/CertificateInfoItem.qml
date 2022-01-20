@@ -52,7 +52,7 @@ Rectangle {
                     id: certificatesTitleText
                     anchors{
                         left: closeButton.right
-                        leftMargin: 8 * pt
+                        leftMargin: 12 * pt
                         verticalCenter: closeButton.verticalCenter
                     }
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
@@ -64,14 +64,14 @@ Rectangle {
 
             ListView {
                 id: certificateDataListView
-                y: titleRectangle.y + titleRectangle.height + 26 * pt
+                y: titleRectangle.y + titleRectangle.height + 11 * pt
                 width: parent.width
                 height: contentHeight
                 spacing: 22 * pt
                 clip: true
 
                 delegate: TitleTextView {
-                    x: 20 * pt
+                    x: 18 * pt
                     title.text: model.keyView
                     content.text: model.value
                     title.color: currTheme.textColorGray

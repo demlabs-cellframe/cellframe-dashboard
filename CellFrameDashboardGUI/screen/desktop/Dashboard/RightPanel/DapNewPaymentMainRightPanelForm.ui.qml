@@ -51,9 +51,9 @@ DapRightPanel
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
+                anchors.topMargin: 9 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 20 * pt
+                anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
 
             }
@@ -66,9 +66,9 @@ DapRightPanel
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 11 * pt
+                anchors.topMargin: 12 * pt
                 anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 48 * pt
+                anchors.leftMargin: 52 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
@@ -98,9 +98,9 @@ DapRightPanel
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                 }
             }
 
@@ -172,7 +172,7 @@ DapRightPanel
                             fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                             colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]                     
                         }
                     }
                 }
@@ -255,10 +255,10 @@ DapRightPanel
                     color: currTheme.textColor
                     text: qsTr("Amount")
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                    anchors.leftMargin: 15 * pt
                     anchors.left: parent.left
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                     horizontalAlignment: Text.AlignRight
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -369,9 +369,9 @@ DapRightPanel
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
-                    anchors.topMargin: 8
-                    anchors.bottomMargin: 7
+                    anchors.leftMargin: 17 * pt
+                    anchors.topMargin: 20 * pt
+                    anchors.bottomMargin: 5 * pt
                 }
             }
 

@@ -8,17 +8,20 @@ ColumnLayout
 {
     id:control
     anchors.fill: parent
+
+    spacing: 0
+
     Item
     {
         Layout.fillWidth: true
-        Layout.preferredHeight: 38 * pt
+        height: 38 * pt
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 15 * pt
-            anchors.topMargin: 15 * pt
-            anchors.bottomMargin:  5 * pt
+            anchors.leftMargin: 14 * pt
+            anchors.topMargin: 10 * pt
+            anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -28,14 +31,15 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        Layout.preferredHeight: 30 * pt
+        height: 30 * pt
         color: currTheme.backgroundMainScreen
 
         Text
         {
-            anchors.left: parent.left
-            anchors.leftMargin: 17 * pt
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.topMargin: 8 * pt
+            anchors.bottomMargin: 8 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -78,6 +82,7 @@ ColumnLayout
             anchors.left: parent.left
             anchors.right: parent.right
             onHeightChanged: listWallet.contentHeight = height
+            spacing: 0
 
             Item {
                 Layout.preferredHeight: 50 * pt
@@ -86,8 +91,9 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 5 * pt
-                    anchors.bottomMargin: 15 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.topMargin: 16 * pt
+//                    anchors.bottomMargin: 16 * pt
 
                     Text
                     {
@@ -121,6 +127,7 @@ ColumnLayout
                 }
                 Rectangle
                 {
+//                    visible: index === listWallet.count - 1? false : true
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom

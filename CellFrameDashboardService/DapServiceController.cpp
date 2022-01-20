@@ -5,6 +5,10 @@
 #define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
 #endif
 
+#ifdef Q_OS_MAC
+#define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
+#endif
+
 /// Standard constructor.
 /// @param parent Parent.
 DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
@@ -74,6 +78,12 @@ void DapServiceController::registerCommand()
 
     // The command to get a list of available orders
     m_pServer->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
     // Creating a token transfer transaction between wallets

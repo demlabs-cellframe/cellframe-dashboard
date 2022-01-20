@@ -1,6 +1,6 @@
 #include "DapServiceController.h"
 
-#include "DapNetwork.h"
+#include "DapNetworkStr.h"
 
 #include "dapconfigreader.h"
 
@@ -107,6 +107,12 @@ void DapServiceController::requestOrdersList()
     this->requestToService("DapGetListOrdersCommand");
 }
 
+void DapServiceController::requestNetworksList()
+{
+    this->requestToService("DapGetListNetworksCommand");
+}
+
+
 /// Get an instance of a class.
 /// @return Instance of a class.
 DapServiceController &DapServiceController::getInstance()
@@ -182,10 +188,12 @@ void DapServiceController::registerCommand()
     // The command to change network state
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_DAPRpcSocket))), QString("newTargetNetworkStateReceived")));
 
-
     // The command to get a list of available orders
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_DAPRpcSocket))), QString("ordersListReceived")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_DAPRpcSocket))), QString("networkStatesListReceived")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_DAPRpcSocket))), QString()));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_DAPRpcSocket))), QString("walletAddressesReceived")));
 
@@ -265,6 +273,48 @@ void DapServiceController::registerCommand()
         }
 
         emit ordersReceived(orders);
+    });
+
+    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
+    {
+        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
+        QList<DapNetworkStr> tempNetworks;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempNetworks;
+
+        QList<QObject*> networks;
+        auto begin = tempNetworks.begin();
+        auto end = tempNetworks.end();
+        DapNetworkStr * network = nullptr;
+        for(;begin != end; ++begin)
+        {
+            network = new DapNetworkStr(*begin);
+            networks.append(network);
+        }
+
+        emit networksStatesReceived(networks);
+    });
+
+    connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
+    {
+        QByteArray  array = QByteArray::fromHex(networksList.toByteArray());
+        QList<DapNetworkStr> tempNetworks;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempNetworks;
+
+        QList<QObject*> networks;
+        auto begin = tempNetworks.begin();
+        auto end = tempNetworks.end();
+        DapNetworkStr * network = nullptr;
+        for(;begin != end; ++begin)
+        {
+            network = new DapNetworkStr(*begin);
+            networks.append(network);
+        }
+
+        emit networksReceived(networks);
     });
 
     registerEmmitedSignal();

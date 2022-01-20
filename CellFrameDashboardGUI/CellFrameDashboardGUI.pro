@@ -2,6 +2,7 @@ QT += qml quick widgets svg gui-private network
 
 TEMPLATE = app
 CONFIG += c++11 #nsis_build
+CONFIG += node_build
 
 LIBS += -ldl
 include(../config.pri)
@@ -101,6 +102,13 @@ unix: !mac : !android {
 
 defined(BUILD_FLAG,var){
     LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+}
+
+unix: !mac : !android : node_build {
+    node_build.commands = $$PWD/../prod_build/linux/debian/scripts/compile_node.sh \
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
+    QMAKE_EXTRA_TARGETS += node_build
+    POST_TARGETDEPS += node_build
 }
 
 win32: nsis_build {

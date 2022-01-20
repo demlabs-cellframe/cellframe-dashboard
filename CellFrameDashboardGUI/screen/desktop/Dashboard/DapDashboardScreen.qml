@@ -41,6 +41,7 @@ DapAbstractScreen
         anchors.leftMargin: 301 * pt
         anchors.rightMargin: 281 * pt
         anchors.bottomMargin: 131 * pt
+
         color: "transparent"
         Column
         {
@@ -59,6 +60,7 @@ DapAbstractScreen
 //                height: 450 * pt
                 width: iconCreateWallet.implicitWidth
                 height: iconCreateWallet.implicitHeight
+
                 Image
                 {
                     anchors.fill: parent
@@ -66,6 +68,7 @@ DapAbstractScreen
                     source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
                     sourceSize.width: 450 * pt
                     sourceSize.height: 450 * pt
+                    fillMode: Image.PreserveAspectFit
 
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -219,22 +222,9 @@ DapAbstractScreen
                                 text: name
                             }
 
-        //                    Text
-        //                    {
-        //                        id: networkAddressLabel
-        //                        anchors.verticalCenter: parent.verticalCenter
-        //                        anchors.left: parent.left
-        //                        anchors.leftMargin: 16 * pt
-        //                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-        //                        color: currTheme.textColor
-        //                        text: qsTr("Network address")
-        //                        width: 92 * pt
-        //                    }
                             DapText
                             {
                                id: textMetworkAddress
-        //                       anchors.left: parent.left
-        //                       anchors.leftMargin: 500 * pt
                                width: 63 * pt
                                anchors.right:  networkAddressCopyButton.left
                                anchors.rightMargin: 4 * pt
@@ -258,15 +248,11 @@ DapAbstractScreen
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-
-                                Image
-                                {
-                                    id: networkAddressCopyButtonImage
-                                    anchors.fill: parent
+                                DapImageLoader{
+                                    id:networkAddressCopyButtonImage
+                                    innerWidth: parent.width
+                                    innerHeight: parent.height
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
-                                    sourceSize.width: parent.width
-                                    sourceSize.height: parent.height
-
                                 }
                             }
                         }

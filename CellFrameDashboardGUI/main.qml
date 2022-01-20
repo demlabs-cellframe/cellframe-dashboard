@@ -11,6 +11,8 @@ ApplicationWindow
     id: window
     visible: true    
 
+    //    property variant networkListPopups : []
+
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
     width: 1280
@@ -130,5 +132,4 @@ ApplicationWindow
         close.accepted = false
         window.hide()
     }
-
 }

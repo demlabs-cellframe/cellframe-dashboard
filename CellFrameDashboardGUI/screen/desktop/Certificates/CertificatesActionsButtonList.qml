@@ -213,6 +213,7 @@ Rectangle {
                 implicitWidth: 350 * pt
 
                 horizontalAligmentText: Text.AlignHCenter
+
                 indentTextRight: 0
                 fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }

@@ -39,66 +39,71 @@ DapRectangleLitAndShaded {
             easing.type: Easing.InOutQuad
         }
     }
-        ColumnLayout
-        {
-            anchors.fill: parent
-            anchors.margins: 0
-            spacing: 0
+    ColumnLayout
+    {
+        anchors.fill: parent
+        anchors.margins: 0
+        spacing: 0
 
-            //Name right panel
-            Item {
+        //Name right panel
+        Item {
 
-                Layout.fillWidth: true
-                Layout.preferredHeight: 38 * pt
-                Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+            height: 68 * pt
+            Layout.alignment: Qt.AlignTop
+            Layout.bottomMargin: 0
 
-                RowLayout
+            RowLayout
+            {
+                id: rowHeader
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 38 * pt
+
+                DapButton
                 {
-                    anchors.fill: parent
+                    Layout.topMargin: 9 * pt
+                    Layout.bottomMargin: 8 * pt
+                    Layout.leftMargin: 24 * pt
 
-                    DapButton
-                    {
-                        Layout.topMargin: 9 * pt
-                        Layout.bottomMargin: 9 * pt
-                        Layout.leftMargin: 17 * pt
-
-                        id: buttonClose
-                        Layout.preferredHeight: 20 * pt
-                        Layout.preferredWidth: 20 * pt
-                        heightImageButton: 10 * pt
-                        widthImageButton: 10 * pt
-                        activeFrame: false
-                        normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                        hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
-                    }
-
-                    Text
-                    {
-                        Layout.topMargin: 11 * pt
-                        Layout.bottomMargin: 8 * pt
-//                        Layout.leftMargin: 13 * pt
-
-                        id: textHeader
-                        text: qsTr("Activated dApp")
-                        verticalAlignment: Qt.AlignLeft
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                        color: currTheme.textColor
-                    }
-                    Item {
-                        Layout.fillHeight: true
-                        Layout.fillWidth: true
-                    }
+                    id: buttonClose
+                    Layout.preferredHeight: 20 * pt
+                    Layout.preferredWidth: 20 * pt
+                    heightImageButton: 10 * pt
+                    widthImageButton: 10 * pt
+                    activeFrame: false
+                    normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                    hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
                 }
 
+                Text
+                {
+                    Layout.topMargin: 12 * pt
+                    Layout.bottomMargin: 8 * pt
+//                        Layout.leftMargin: 13 * pt
+
+                    id: textHeader
+                    text: qsTr("Activating dApp")
+                    verticalAlignment: Qt.AlignLeft
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                    color: currTheme.textColor
+                }
+                Item {
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                }
             }
 
             // Header dApp
             Rectangle
             {
-                Layout.alignment: Qt.AlignTop
-                Layout.fillWidth: true
+                anchors.top: rowHeader.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+
                 color: currTheme.backgroundMainScreen
-                Layout.preferredHeight: 30 * pt
+                height: 30 * pt
 
                 Text
                 {
@@ -114,252 +119,226 @@ DapRectangleLitAndShaded {
                     anchors.bottomMargin: 7
                 }
             }
+        }
+
+        DapProgressBar
+        {
+            id: bar_progress
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            Layout.topMargin: 41 * pt
+        }
+
+        Text{
+
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+            Layout.topMargin: 5 * pt
+
+            id:_errors
+            color: currTheme.placeHolderTextColor
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+
+            text: ""
+        }
+
+        RowLayout
+        {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+            Layout.topMargin: 47 * pt
 
             Item {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.preferredHeight: 49 * pt
-//                        Layout.preferredHeight: 82 * pt
-
-            }
-
-                DapProgressBar
-                {
-                    id: bar_progress
-                    Layout.alignment: Qt.AlignTop
-//                    Layout.preferredWidth: 114 * pt
-                    Layout.minimumWidth: 114 * pt
-                    Layout.maximumWidth: 114 * pt
-//                    Layout.topMargin: 49 * pt
-                    Layout.leftMargin: 118 * pt
-                    Layout.rightMargin: 118 * pt
-
-                }
-
+                Layout.preferredHeight: 80 * pt
+                Layout.preferredWidth: 150 * pt
+                Layout.leftMargin: 27 * pt
+                //Total
                 Text{
 
-                    Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                    Layout.topMargin: 13 * pt
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
 
-                    id:_errors
+                    id:_total
+
+
+                    color: currTheme.textColor;
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text{
+
+                    anchors.top: _total.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 7 * pt
+
+                    text: qsTr("TOTAL")
+
                     color: currTheme.placeHolderTextColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignHCenter
-
-                    text: "sadsadasd"
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    horizontalAlignment: Text.AlignHCenter
                 }
+            }
 
-                RowLayout
-                {
-                    Layout.alignment: Qt.AlignTop
-                    Layout.fillWidth: true
-                    Layout.topMargin: 30 * pt
+            Item
+            {
+                Layout.preferredHeight: 80 * pt
+                Layout.preferredWidth: 150 * pt
+                Layout.rightMargin: 25 * pt
 
-                    Item {
-                        Layout.preferredHeight: 80 * pt
-                        Layout.preferredWidth: 150 * pt
-                        Layout.leftMargin: 25 * pt
-                        //Total
-                        Text{
+                //Speed
+                Text{
 
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
 
-                            id:_total
+                    id:_speed
 
-
-                            color: currTheme.textColor;
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        Text{
-
-                            anchors.top: _total.bottom
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.bottom: parent.bottom
-                            anchors.topMargin: 7 * pt
-
-                            text: qsTr("TOTAL")
-
-                            color: currTheme.placeHolderTextColor
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
-
-                    Item
-                    {
-                        Layout.preferredHeight: 80 * pt
-                        Layout.preferredWidth: 150 * pt
-                        Layout.rightMargin: 25 * pt
-
-                        //Speed
-                        Text{
-
-                            anchors.top: parent.top
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-
-                            id:_speed
-                            text: "sadsadasd"
-
-                            color: currTheme.textColor;
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                        Text{
-
-                            anchors.top: _speed.bottom
-                            anchors.left: parent.left
-                            anchors.right: parent.right
-                            anchors.bottom: parent.bottom
-                            anchors.topMargin: 7 * pt
-
-                            text: qsTr("SPEED")
-
-                            color: currTheme.placeHolderTextColor
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                            horizontalAlignment: Text.AlignHCenter
-                        }
-                    }
+                    color: currTheme.textColor;
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    horizontalAlignment: Text.AlignHCenter
                 }
+                Text{
 
-                    RowLayout
-                    {
-                        Layout.alignment: Qt.AlignTop
-                        Layout.fillWidth: true
+                    anchors.top: _speed.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 7 * pt
+                    anchors.rightMargin: 6 * pt
 
-                        Item
-                        {
-                            Layout.preferredHeight: 80 * pt
-                            Layout.preferredWidth: 150 * pt
-                            Layout.leftMargin: 25 * pt
-                            //Download
-                            Text{
+                    text: qsTr("SPEED")
 
-                                anchors.top: parent.top
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-
-                                id:_download
-                                text: "sadsadasd"
-
-                                color: currTheme.textColor;
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
-                                horizontalAlignment: Text.AlignHCenter
-                            }
-                            Text{
-
-                                anchors.top: _download.bottom
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                anchors.bottom: parent.bottom
-                                anchors.topMargin: 7 * pt
-
-                                text: qsTr("DOWNLOAD")
-
-                                color: currTheme.placeHolderTextColor
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                                horizontalAlignment: Text.AlignHCenter
-                            }
-                        }
-
-                        Item
-                        {
-                            Layout.preferredHeight: 80 * pt
-                            Layout.preferredWidth: 150 * pt
-                            Layout.rightMargin: 25 * pt
-                            //Time remain
-                            Text{
-
-                                anchors.top: parent.top
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-
-                                id:_time
-                                text: "sadsadasd"
-
-                                color: currTheme.textColor;
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
-                                horizontalAlignment: Text.AlignHCenter
-                            }
-                            Text{
-
-                                anchors.top: _time.bottom
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                anchors.bottom: parent.bottom
-                                anchors.topMargin: 7 * pt
-
-                                text: qsTr("TIME REMAIN")
-
-                                color: currTheme.placeHolderTextColor
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                                horizontalAlignment: Text.AlignHCenter
-                            }
-                        }
-
-                    }
-
-                    RowLayout
-                    {
-                        Layout.alignment: Qt.AlignTop
-                        Layout.fillWidth: true
-                        Layout.topMargin: 98 * pt
-                        Layout.bottomMargin: 82 * pt
-                        spacing: 17 * pt
-
-                        DapButton
-                        {
-//                            Layout.alignment: Qt.AlignHCenter
-//                            Layout.fillWidth: true
-                            Layout.preferredHeight: 36 * pt
-                            Layout.preferredWidth: 132 * pt
-                            Layout.leftMargin: 35 * pt
-
-                            implicitHeight: 36 * pt
-                            implicitWidth: 132 * pt
-
-                            id:reloadDownload
-                            textButton: "Reload"
-                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                            horizontalAligmentText: Text.AlignHCenter
-                        }
-
-                        DapButton
-                        {
-//                            Layout.alignment: Qt.AlignHCenter
-//                            Layout.fillWidth: true
-                            Layout.preferredHeight: 36 * pt
-                            Layout.preferredWidth: 132 * pt
-
-                            implicitHeight: 36 * pt
-                            implicitWidth: 132 * pt
-
-                            id: canceledDownload
-                            textButton: "Cancel"
-                            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                            horizontalAligmentText: Text.AlignHCenter
-                        }
-
-                    }
-
-//                    Item {
-//                        Layout.fillHeight: true
-//                        Layout.fillWidth: true
-
-//                    }
-
+                    color: currTheme.placeHolderTextColor
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    horizontalAlignment: Text.AlignHCenter
                 }
+            }
+        }
+
+        RowLayout
+        {
+            Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
+
+            Item
+            {
+                Layout.preferredHeight: 80 * pt
+                Layout.preferredWidth: 150 * pt
+                Layout.leftMargin: 25 * pt
+                //Download
+                Text{
+
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+
+                    id:_download
+
+                    color: currTheme.textColor;
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text{
+
+                    anchors.top: _download.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 7 * pt
+
+                    text: qsTr("DOWNLOAD")
+
+                    color: currTheme.placeHolderTextColor
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+
+            Item
+            {
+                Layout.preferredHeight: 80 * pt
+                Layout.preferredWidth: 150 * pt
+                Layout.rightMargin: 25 * pt
+                //Time remain
+                Text{
+
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+
+                    id:_time
+
+                    color: currTheme.textColor;
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text{
+
+                    anchors.top: _time.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.topMargin: 7 * pt
+                    anchors.rightMargin: 4 * pt
 
 
+                    text: qsTr("TIME REMAIN")
 
+                    color: currTheme.placeHolderTextColor
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+        }
 
+        RowLayout
+        {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+            Layout.topMargin: 66 * pt
+            Layout.leftMargin: 2 * pt
+            Layout.bottomMargin: 108 * pt
+            spacing: 17 * pt
 
+            DapButton
+            {
+                Layout.preferredHeight: 36 * pt
+                Layout.preferredWidth: 132 * pt
+                Layout.leftMargin: 35 * pt
+
+                implicitHeight: 36 * pt
+                implicitWidth: 132 * pt
+                radius: currTheme.radiusRectangle
+
+                id:reloadDownload
+                textButton: "Reload"
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+            }
+
+            DapButton
+            {
+                Layout.preferredHeight: 36 * pt
+                Layout.preferredWidth: 132 * pt
+
+                implicitHeight: 36 * pt
+                implicitWidth: 132 * pt
+                radius: currTheme.radiusRectangle
+
+                id: canceledDownload
+                textButton: "Cancel"
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+            }
+
+        }
+    }
 
 }   //root
 

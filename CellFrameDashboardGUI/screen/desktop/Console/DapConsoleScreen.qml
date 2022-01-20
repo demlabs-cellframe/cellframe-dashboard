@@ -36,11 +36,13 @@ DapConsoleScreenForm
 //            Layout.bottomMargin: 20 * pt
             TextEdit
             {
+                width: parent.width
                 readOnly: true
                 selectByMouse: true
                 id: textQuery
                 text: "> " + query
-                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                wrapMode: TextEdit.Wrap
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
 
             }
@@ -51,8 +53,8 @@ DapConsoleScreenForm
                 id: textResponse
                 text: response
                 width: parent.width
-                wrapMode: Text.Wrap
-                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                wrapMode: TextEdit.Wrap
+                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
             }
         }

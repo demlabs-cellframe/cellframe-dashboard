@@ -27,12 +27,13 @@ Item
     ColumnLayout {
         anchors.fill: parent
 //        anchors.margins: 5 * pt
-        anchors.topMargin: 11 * pt
+        anchors.topMargin: 3 * pt
         spacing: 0 * pt
 
         Text {
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
+            Layout.leftMargin: 15 * pt
             verticalAlignment: Text.AlignVCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
@@ -42,8 +43,9 @@ Item
         ColumnLayout
         {
 //            Layout.margins: 3 * pt
-            Layout.leftMargin: -12 * pt
-             spacing: 3 * pt
+            Layout.leftMargin: 2 * pt
+            Layout.topMargin: 3 * pt
+            spacing: 0
 
             DapRadioButton
             {
@@ -62,6 +64,7 @@ Item
             {
                 id: buttonSelectionPending
                 nameRadioButton: qsTr("Unverified")
+                Layout.topMargin: 5 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
                 fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -75,6 +78,7 @@ Item
             {
                 id: buttonSelectionSent
                 nameRadioButton: qsTr("Both")
+                Layout.topMargin: 6 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
                 fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -87,7 +91,8 @@ Item
         }
 
         Text {
-            Layout.topMargin: 20 * pt
+            Layout.topMargin: 24 * pt
+            Layout.leftMargin: 15 * pt
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
             verticalAlignment: Text.AlignVCenter
@@ -100,21 +105,21 @@ Item
 
         ColumnLayout
         {
-            Layout.topMargin: 21 * pt
+            Layout.topMargin: 16 * pt
             spacing: 24 * pt
 
             DapButton
             {
 
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:loadPlug
                 textButton: "Add dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
 
@@ -141,15 +146,15 @@ Item
             }
             DapButton
             {
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:installPlug
                 textButton: "Activate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -162,15 +167,15 @@ Item
             }
             DapButton
             {
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:uninstallPlug
-                textButton: "Unactivate dApp"
+                textButton: "Deactivate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -187,15 +192,15 @@ Item
             }
             DapButton
             {
-                Layout.fillWidth: true
+                Layout.preferredWidth: 350 * pt
 
                 implicitHeight: 36 * pt
-                implicitWidth: 163 * pt
+                implicitWidth: 350 * pt
 
                 id:deletePlug
                 textButton: "Delete dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
