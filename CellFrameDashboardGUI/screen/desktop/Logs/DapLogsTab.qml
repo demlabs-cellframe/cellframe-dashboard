@@ -21,7 +21,7 @@ DapAbstractTab
     Component.onCompleted:
     {
         console.log("Log tab open")
-        dapServiceController.notifyService("DapUpdateLogsCommand","start", 200);
+        dapServiceController.notifyService("DapUpdateLogsCommand","start", 100);
     }
 
     Component.onDestruction:

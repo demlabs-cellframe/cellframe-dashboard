@@ -83,7 +83,7 @@ DapAbstractScreen
                     section.property: "date"
                     section.criteria: ViewSection.FullString
                     section.delegate: delegateLogsHeader
-
+                    cacheBuffer: 15000
                     highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
                     highlightMoveDuration: 0
 
@@ -130,12 +130,12 @@ DapAbstractScreen
         target: dapServiceController
         onLogUpdated:
         {
-            dapLogsList.enabled = false
+//            dapLogsList.enabled = false
             isModelLoaded = false;
             isModelLoaded = updateLogsModel(logs);
             dapLogsListView.currentIndex = -1
             dapLogsListView.update()
-            dapLogsList.enabled = true
+//            dapLogsList.enabled = true
         }
     }
 

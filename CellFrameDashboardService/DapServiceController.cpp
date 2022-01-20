@@ -5,6 +5,10 @@
 #define CMD_HISTORY QString("%1/%2/data/cmd_history.txt").arg(regGetUsrPath()).arg(DAP_BRAND)
 #endif
 
+#ifdef Q_OS_MAC
+#define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
+#endif
+
 /// Standard constructor.
 /// @param parent Parent.
 DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
