@@ -117,25 +117,25 @@ ApplicationWindow
 
     function sizeUpdate()
     {
-        if(Screen.width > 1280 && Screen.height > 800)
+        if(Screen.width > 1280 * pt && Screen.height > 600 * pt)
         {
-            width = 1280
-            height = 800
+            width = 1280 * pt
+            height = 600 * pt
         }
-        else if(Screen.width < 1280 && Screen.height > 800)
+        else if(Screen.width < 1280 * pt && Screen.height > 600 * pt)
         {
-            width = Screen.width - 60
-            height = 800
+            width = Screen.width
+            height = 600 * pt
         }
-        else if(Screen.height < 800 && Screen.width > 1280)
+        else if(Screen.height < 600 * pt && Screen.width > 1280 * pt)
         {
-            width = 1280
-            height = Screen.height
+            width = 1280 * pt
+            height = Screen.height - 60 * pt
         }
         else
         {
-            width = Screen.width - 60
-            height = Screen.height
+            width = Screen.width
+            height = Screen.height - 60 * pt
 
         }
         minimumWidth = width
