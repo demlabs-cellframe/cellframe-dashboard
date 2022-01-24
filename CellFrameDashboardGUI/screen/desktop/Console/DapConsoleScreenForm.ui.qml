@@ -104,7 +104,7 @@ DapAbstractScreen
                         anchors.bottom: parent.bottom
                         x: promt.x + promt.width + 5 * pt
                         wrapMode: TextArea.Wrap
-                        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\s*]+/ }
+                        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\s*]+/ }
                         placeholderText: qsTr("Type here...")
                         selectByMouse: true
                         background: Rectangle{color: currTheme.backgroundElements}
