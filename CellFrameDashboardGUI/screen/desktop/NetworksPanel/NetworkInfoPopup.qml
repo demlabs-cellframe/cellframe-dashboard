@@ -10,7 +10,8 @@ import "../../"
 Popup {
     id: networkInfoPupup
     y: networksPanel.height+networksPanel.y-height
-    width: 295
+    width: curWidth <= 295 ? 295 : curWidth
+
     height: 190
     padding: 0
     focus: true
@@ -26,6 +27,7 @@ Popup {
     property string activeLinksCount : ""
     property string nodeAddress : ""
     property bool isOpen : false
+    property int curWidth : 295
 
     MouseArea {
         width: parent.width
@@ -85,8 +87,6 @@ Popup {
 
                 onClicked: {
                     dapServiceController.requestToService("DapNetworkSingleSyncCommand", networkName)
-                    isOpen = false
-                    networkInfoPupup.close()
                 }
             }
 
@@ -122,12 +122,13 @@ Popup {
                 anchors.fill: parent
 
                 onClicked: {
-                    if (targetState === "ONLINE")
+                    if (targetState === "ONLINE") {
                         dapServiceController.requestToService("DapNetworkGoToCommand", networkName, false)
-                    else
+                    }
+
+                    else {
                         dapServiceController.requestToService("DapNetworkGoToCommand", networkName, true)
-                    isOpen = false
-                    networkInfoPupup.close()
+                    }
                 }
             }
 

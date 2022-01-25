@@ -11,6 +11,10 @@ DapNetworksPanel
 {    
     property alias dapNetworkList: networkList
 
+    property int cur_index: 0
+    readonly property int visible_count: 4
+    readonly property int item_width: 295
+
     id: control
     y: parent.height - height
     width: parent.width
@@ -36,10 +40,8 @@ DapNetworksPanel
         id: dapNetworkItem
 
         Item {
-            width: parent.parent.width/networksModel.count; height: 40
-//            border.width: 1
-//            border.color: "green"
-//            color: "transparent"
+            width: item_width
+            height: 40
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -61,38 +63,163 @@ DapNetworksPanel
                     source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
                             networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
                                                          "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
-                }
+                }                
             }
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
+                    var coordInList = mapToItem(networkList, mouse.x, mouse.y)
+                    var section_number = getSectionNumberForPopup(coordInList.x)
 
-                    if (!networkListPopups[index].isOpen) {
-                        control.updateContentInSpecifiedPopup(networkListPopups[index], networkList.model.get(index))
-                        networkListPopups[index].open()
-                        networkListPopups[index].isOpen = true
+                    if (section_number >= 0) {
+                        if (!networkListPopups[index].isOpen) {
+                            closeAllPopups(networkListPopups, networkList.count)
+                            control.updateContentInSpecifiedPopup(networkListPopups[index], networkList.model.get(index))
+
+                            var idx = index
+                            var cur_idx = networkList.currentIndex
+                            networkListPopups[index].open()
+
+                            var delta = networkList.width - 4*item_width
+                            if (networkList.currentIndex > 2 && delta > 0) {
+                                networkListPopups[index].x = delta + networkList.x+item_width*section_number+(item_width-networkListPopups[index].width)/2
+                            } else {
+                                networkListPopups[index].x = networkList.x+item_width*section_number+(item_width-networkListPopups[index].width)/2
+                            }
+
+                            networkListPopups[index].isOpen = true
+                        } else {
+                            networkListPopups[index].close()
+                            networkListPopups[index].isOpen = false
+                        }
                     } else {
-                        networkListPopups[index].close()
-                        networkListPopups[index].isOpen = false
+                        if (networkList.currentIndex > 0) {
+                            networkList.currentIndex -= 1
+
+                        }
                     }
                 }
             }
         }
     }
 
+    Rectangle {
+        id: left_button
+        visible: networkList.count > 4
+        width: parent.height
+        radius: 50
+        color: currTheme.backgroundPanel
+
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        DapImageLoader {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            innerHeight: 30 * pt
+            innerWidth: 30 * pt
+            source: "qrc:/resources/icons/previous_year_icon.png"
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (networkList.currentIndex > 0) {
+                    networkList.currentIndex -= 1
+                    networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+                }
+            }
+        }
+    }
+    DropShadow {
+        anchors.fill: left_button
+        source: left_button
+        color: currTheme.reflection
+        horizontalOffset: -1
+        verticalOffset: -1
+        radius: 2
+        samples: 0
+        opacity: 1
+        fast: true
+        cached: true
+    }
+    DropShadow {
+        anchors.fill: left_button
+        source: left_button
+        color: currTheme.networkPanelShadow
+        horizontalOffset: 5
+        verticalOffset: 5
+        radius: 10
+        samples: 20
+        opacity: 1
+    }
+
     ListView {
         id: networkList
         model: networksModel
-        interactive: false
-        orientation: ListView.Horizontal
-        ScrollBar.horizontal: ScrollBar {
-            active: true
-        }
+        highlightMoveDuration : 200
 
-        anchors.fill: parent
+        orientation: ListView.Horizontal
+        anchors.right: right_button.left
+        anchors.left: left_button.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
         delegate: dapNetworkItem
         focus: true
+    }
+
+    Rectangle {
+        id: right_button
+        visible: networkList.count > 4
+        width: parent.height
+        radius: 50
+        color: currTheme.backgroundPanel
+
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+
+        DapImageLoader {
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            innerHeight: 30 * pt
+            innerWidth: 30 * pt
+            source: "qrc:/resources/icons/next-page.svg"
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                if (networkList.currentIndex < networkList.count-1) {
+                    networkList.currentIndex += 1
+                    networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+                }
+            }
+        }
+    }
+    DropShadow {
+        anchors.fill: right_button
+        source: right_button
+        color: currTheme.reflection
+        horizontalOffset: -1
+        verticalOffset: -1
+        radius: 2
+        samples: 0
+        opacity: 1
+        fast: true
+        cached: true
+    }
+    DropShadow {
+        anchors.fill: right_button
+        source: right_button
+        color: currTheme.networkPanelShadow
+        horizontalOffset: 5
+        verticalOffset: 5
+        radius: 10
+        samples: 20
+        opacity: 1
     }
 
     ListModel
@@ -106,11 +233,10 @@ DapNetworksPanel
 
     onWidthChanged:
     {
-        var widthItem = networkList.width / networkList.count
         for (var i=0; i<networkList.count; ++i) {
             if (networkListPopups[i])
             {
-                networkListPopups[i].x = widthItem*i+(widthItem-networkListPopups[i].width)/2
+                networkListPopups[i].x = networkList.x+item_width*i+(item_width-networkListPopups[i].width)/2
             }
         }
     }
@@ -133,11 +259,10 @@ DapNetworksPanel
     function recreatePopups(curModel, popups)
     {
         var popupComponent = Qt.createComponent("qrc:/screen/desktop/NetworksPanel/NetworkInfoPopup.qml")
-        var widthItem = networkList.width / networkList.count
         for (var i=0; i<curModel.count; ++i) {
             if (popups[i] === 0 || typeof popups[i] === "undefined") {
                 popups[i] = popupComponent.createObject(dapMainWindow, {"parent" : dapMainWindow})
-                popups[i].x = widthItem*i+(widthItem-popups[i].width)/2
+                popups[i].x = networkList.x+item_width*i+(item_width-popups[i].width)/2
                 popups[i].isOpen = false
             }
         }
@@ -238,6 +363,14 @@ DapNetworksPanel
             return true
         } else {
             return false
+        }
+    }
+    function getSectionNumberForPopup(mouseX)
+    {
+        if (mouseX >= 0) {
+            return Math.floor(mouseX / item_width)
+        } else {
+            return -1
         }
     }
 }

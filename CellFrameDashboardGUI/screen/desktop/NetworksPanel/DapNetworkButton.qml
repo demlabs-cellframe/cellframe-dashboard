@@ -28,6 +28,7 @@ Button {
             }
 
             Text {
+                id: button_caption
                 Layout.alignment: Qt.AlignVCenter
                 Layout.rightMargin: isSynch ? 22 * pt : 28 * pt
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
