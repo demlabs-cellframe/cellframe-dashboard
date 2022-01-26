@@ -310,8 +310,6 @@
         <file>screen/desktop/VPNClient/VPNClientScreenForm.ui.qml</file>
         <file>screen/desktop/VPNClient/VPNOrders.qml</file>
         <file>screen/desktop/VPNClient/VPNOrdersForm.ui.qml</file>
-        <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
-        <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
         <file>screen/desktop/Wallet/WalletPage.qml</file>
         <file>screen/desktop/Wallet/WalletTopPanel.qml</file>
         <file>screen/desktop/Wallet/WalletScreen.qml</file>
