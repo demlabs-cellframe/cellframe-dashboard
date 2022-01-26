@@ -2,7 +2,7 @@ QT += qml quick widgets svg gui-private network
 
 TEMPLATE = app
 CONFIG += c++11 #nsis_build
-CONFIG += node_build
+#CONFIG += node_build
 
 LIBS += -ldl
 include(../config.pri)
