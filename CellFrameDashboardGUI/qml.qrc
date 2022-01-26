@@ -310,7 +310,6 @@
         <file>screen/desktop/VPNClient/VPNClientScreenForm.ui.qml</file>
         <file>screen/desktop/VPNClient/VPNOrders.qml</file>
         <file>screen/desktop/VPNClient/VPNOrdersForm.ui.qml</file>
-        <file>screen/desktop/Settings/DapPluginsSettingsScreen.qml</file>
         <file>screen/desktop/Plugins/DapPluginsTab.qml</file>
         <file>screen/desktop/Plugins/DapPluginsScreen.qml</file>
         <file>screen/desktop/Wallet/WalletPage.qml</file>
@@ -319,7 +318,6 @@
         <file>screen/desktop/Wallet/WalletScreenForm.ui.qml</file>
         <file>screen/desktop/Wallet/RightPanel/LastActions.qml</file>
         <file>screen/desktop/Wallet/RightPanel/LastActionsForm.ui.qml</file>
-        <file>screen/desktop/Settings/DapPluginsProgressBar.qml</file>
         <file>screen/desktop/dApps/DapAppsScreen.qml</file>
         <file>screen/desktop/dApps/DapAppsTab.qml</file>
         <file>screen/desktop/dApps/DapAppsTopPanel.qml</file>
