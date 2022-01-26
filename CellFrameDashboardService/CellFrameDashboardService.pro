@@ -15,10 +15,10 @@ win32 {
 }
 
 android: {
-    QT += androidextras
+    QT += core androidextras
     TEMPLATE = lib
     CONFIG += dll
-    TARGET = CellFrameDashboardService
+    TARGET = DashboardService
 }
 
 # The following define makes your compiler emit warnings if you use

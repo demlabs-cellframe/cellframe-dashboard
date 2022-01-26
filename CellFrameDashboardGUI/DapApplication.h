@@ -2,6 +2,7 @@
 #define DAPAPPLICATION_H
 
 #include <QApplication>
+#include <QtAndroid>
 #include "DapNetworksList.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
@@ -22,6 +23,7 @@ public:
 
     Q_INVOKABLE void setClipboardText(const QString &text);
     Q_INVOKABLE DapWallet *currentWallet() const;
+    Q_INVOKABLE void startService();
     void setCurrentWallet(DapWallet *a_currentWallet);
     DapVpnOrdersModel* getVpnOrdersModel();
 

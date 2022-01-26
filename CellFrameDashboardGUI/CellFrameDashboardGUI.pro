@@ -155,4 +155,5 @@ DISTFILES += \
 }
 
 DISTFILES += \
-    android/src/net/demlabs/CellFrameDashboard/DashboardService.java
+    android/src/net/demlabs/CellFrameDashboard/DashboardService.java \
+    android/src/net/demlabs/CellFrameDashboard/MainActivity.java

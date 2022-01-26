@@ -94,14 +94,6 @@ bool SingleApplicationTest(const QString &appName)
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_OS_ANDROID
-    QAndroidJniObject::callStaticMethod<void>("net/demlabs/CellFrameDashboard/DashboardService",
-                                              "startDashboardService",
-                                              "()V",
-                                              QtAndroid::androidActivity().object());
-    //QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),"net/demlabs/CellFrameDashboard/DashboardService"); //-- Имя пакета и название класса
-    //QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod("startService", "(Landroid/content/Intent;)Landroid/content/ComponentName;", serviceIntent.handle().object());
-#endif
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     DapApplication app(argc, argv);
