@@ -1,4 +1,4 @@
-package net.demlabs.CellFrameDashboard;
+package net.demlabs;
 import org.qtproject.qt5.android.bindings.QtActivity;
 
 import android.content.Intent;
@@ -6,22 +6,22 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
-import net.demlabs.CellFrameDashboard.DashboardService;
+import com.demlabs.DashboardService;
 
 public class MainActivity extends QtActivity
 {
-    public final static String LOG_TAG="Dashboard GUI";
+    public final static String LOG_TAG="KelVPN GUI";
+
+    public String getExtFilesDir()
+    {
+        return getExternalFilesDir(null).getPath();
+    }
 
 @Override
     public void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
     }
-
-public String getExtFilesDir()
-{
-    return getExternalFilesDir(null).getPath();
-}
 
 @Override
     protected void onDestroy()

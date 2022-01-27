@@ -136,12 +136,19 @@ win32: nsis_build {
 }
 android: {
 QT += androidextras
-OTHER_FILES += \
-    android/AndroidManifest.xml
+OTHER_FILES +=
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 #DISTFILES += android/src/net/demlabs/CellFrameDashboard/DashboardService.java
 DISTFILES += \
     #android/AndroidManifest.xml \
+    qzip/zlib/zlib-1.2.5.zip \
+    qzip/zlib/zlib125dll.zip
+
+include($$(OPENSSL_LIB)/openssl.pri)
+}
+
+DISTFILES += \
+    android/AndroidManifest.xml \
     android/build.gradle \
     android/gradle.properties \
     android/gradle/wrapper/gradle-wrapper.jar \
@@ -149,11 +156,5 @@ DISTFILES += \
     android/gradlew \
     android/gradlew.bat \
     android/res/values/libs.xml \
-    qzip/zlib/zlib-1.2.5.zip \
-    qzip/zlib/zlib125dll.zip
-
-}
-
-DISTFILES += \
-    android/src/net/demlabs/CellFrameDashboard/DashboardService.java \
-    android/src/net/demlabs/CellFrameDashboard/MainActivity.java
+    android/src/net/demlabs/DashboardService.java \
+    android/src/net/demlabs/MainActivity.java
