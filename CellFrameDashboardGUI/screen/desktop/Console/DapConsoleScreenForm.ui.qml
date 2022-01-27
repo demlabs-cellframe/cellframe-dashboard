@@ -19,6 +19,8 @@ DapAbstractScreen
     property int consoleHistoryIndex
     ///@detalis consoleInput Reference to console input area
     property alias consoleInput: consoleCmd
+    property alias dapInputCommand: inputCommand
+
     anchors
     {
         fill: parent
@@ -46,9 +48,6 @@ DapAbstractScreen
             ListView
             {
                 id: listViewConsoleCommand
-    //            anchors.top: parent.top
-    //            anchors.left: parent.left
-    //            anchors.right: parent.right
                 anchors.fill: parent
                 anchors.bottomMargin: 50 * pt
                 anchors.leftMargin: 20 *pt
@@ -64,12 +63,6 @@ DapAbstractScreen
                 highlightFollowsCurrentItem: true
                 highlightRangeMode: ListView.ApplyRange
 
-//                DapScrollViewHandling
-//                {
-//                    id: scrollHandler
-//                    viewData: listViewConsoleCommand
-//                    scrollMouseAtArrow: consoleScroll.mouseAtArrow
-//                }
                 ScrollBar.vertical: ScrollBar {
                     active: true
                 }
@@ -81,61 +74,60 @@ DapAbstractScreen
                 clip: true
                 id: inputCommand
                 width: parent.width
-                //spacing: 0
-                //anchors.left: parent.left
-                //anchors.right: parent.right
-                //anchors.top: listViewConsoleCommand.bottom
                 anchors.bottom: parent.bottom
-                //height: consoleCmd.contentHeight
                 height: contentHeight < 100 * pt ? contentHeight : 100 * pt
                 contentHeight: consoleCmd.height
 
                 ScrollBar.vertical: ScrollBar {}
 
-                Text
+                Rectangle
                 {
-//                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    id: promt
-                    //verticalAlignment: Qt.AlignVCenter
-                    text: ">"
-                    color: currTheme.textColor
-    //                Layout.left: parent.left
-                    x: 20 * pt
-                    y: 5 * pt
+                    color: currTheme.backgroundElements
+                    anchors.fill: parent
 
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                }
+                    Text
+                    {
+                        Layout.fillHeight: true
+                        id: promt
+                        text: ">"
+                        color: currTheme.textColor
+                        x: 20 * pt
+                        y: 5 * pt
 
-                TextArea
-                {
-                    id: consoleCmd
-                    //verticalAlignment: Qt.AlignVCenter
-                    width: parent.width - x
-                    //Layout.fillWidth: true
-                    anchors.bottom: parent.bottom
-                    x: promt.x + promt.width + 5 * pt
-                    //                Layout.leftMargin: 10 * pt
-                    wrapMode: TextArea.Wrap
-                    placeholderText: qsTr("Type here...")
-                    selectByMouse: true
-                    color: currTheme.textColor
-                    focus: true
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                    Keys.onReturnPressed: text.length > 0 ?
-                                              sendedCommand = text :
-                                              sendedCommand = ""
-                    Keys.onEnterPressed: text.length > 0 ?
-                                             sendedCommand = text :
-                                             sendedCommand = ""
-                    Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-                                          consoleHistoryIndex += 1 :
-                                          null
-                    Keys.onDownPressed: (consoleHistoryIndex > -1) ?
-                                            consoleHistoryIndex -= 1 :
-                                            null
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                    }
 
-                    onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+                    TextField
+                    {
+                        id: consoleCmd
+                        width: parent.width - x
+                        anchors.bottom: parent.bottom
+                        x: promt.x + promt.width + 5 * pt
+                        wrapMode: TextArea.Wrap
+                        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\s*]+/ }
+                        placeholderText: qsTr("Type here...")
+                        selectByMouse: true
+                        background: Rectangle{color: currTheme.backgroundElements}
+
+                        color: currTheme.textColor
+                        focus: true
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+
+                        Keys.onReturnPressed: text.length > 0 ?
+                                                  sendedCommand = text :
+                                                  sendedCommand = ""
+                        Keys.onEnterPressed: text.length > 0 ?
+                                                 sendedCommand = text :
+                                                 sendedCommand = ""
+                        Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                                              consoleHistoryIndex += 1 :
+                                              null
+                        Keys.onDownPressed: (consoleHistoryIndex > -1) ?
+                                                consoleHistoryIndex -= 1 :
+                                                null
+
+                        onTextChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+                    }
                 }
             }
         }

@@ -19,7 +19,7 @@ ColumnLayout
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 17 * pt
+            anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
@@ -82,6 +82,7 @@ ColumnLayout
             anchors.left: parent.left
             anchors.right: parent.right
             onHeightChanged: listWallet.contentHeight = height
+            spacing: 0
 
             Item {
                 Layout.preferredHeight: 50 * pt
@@ -90,8 +91,9 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 16 * pt
-                    anchors.bottomMargin: 16 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.topMargin: 16 * pt
+//                    anchors.bottomMargin: 16 * pt
 
                     Text
                     {
@@ -125,6 +127,7 @@ ColumnLayout
                 }
                 Rectangle
                 {
+//                    visible: index === listWallet.count - 1? false : true
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom

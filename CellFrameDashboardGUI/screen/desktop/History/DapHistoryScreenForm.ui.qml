@@ -22,6 +22,8 @@ DapAbstractScreen
     {
         fill: parent
         margins: 24 * pt
+        rightMargin: 22 * pt
+        bottomMargin: 20 * pt
     }
 
     RowLayout

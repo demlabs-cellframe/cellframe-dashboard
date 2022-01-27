@@ -23,6 +23,11 @@ DapNewPaymentMainRightPanelForm
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
+
+        if(dapCmboBoxNetworkModel.count)
+            dapComboboxNetwork.mainLineText = dapCmboBoxNetworkModel.get(0).name
+        else
+            dapComboboxNetwork.mainLineText = "Networks"
     }
 
     dapComboboxNetwork.onCurrentIndexChanged:

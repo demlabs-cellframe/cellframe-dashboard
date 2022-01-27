@@ -23,7 +23,7 @@ ColumnLayout
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 17 * pt
+            anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
@@ -112,6 +112,7 @@ ColumnLayout
                         Layout.leftMargin: 15 * pt
 //                        Layout.topMargin: 4 * pt
 //                        Layout.bottomMargin: 14 * pt
+                        spacing: 0
 
                         Text
                         {
@@ -132,7 +133,7 @@ ColumnLayout
                             DapText
                             {
                                id: textMetworkAddress
-                               Layout.preferredWidth: 98 * pt
+                               Layout.preferredWidth: 101 * pt
 
                                fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                color: currTheme.textColorGrayTwo
@@ -144,20 +145,18 @@ ColumnLayout
                             MouseArea
                             {
                                 id: networkAddressCopyButton
-                                Layout.preferredHeight: 16 * pt
-                                Layout.preferredWidth: 15.5 * pt
+//                                Layout.leftMargin: 3 * pt
+                                Layout.preferredHeight: 18 * pt
+                                Layout.preferredWidth: 17 * pt
                                 hoverEnabled: true
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-                                Image
-                                {
-                                    id: networkAddressCopyButtonImage
-                                    anchors.fill: parent
+                                DapImageLoader{
+                                    id:networkAddressCopyButtonImage
+                                    innerWidth: parent.width
+                                    innerHeight: parent.height
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
-                                    sourceSize.width: parent.width
-                                    sourceSize.height: parent.height
-
                                 }
                             }
                         }
@@ -172,9 +171,8 @@ ColumnLayout
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         Layout.preferredHeight: 46 * pt
                         Layout.preferredWidth: 46 * pt
-                        Layout.rightMargin: 15 * pt
-//                        Layout.topMargin: 2 * pt
-//                        Layout.bottomMargin: 2 * pt
+                        Layout.rightMargin: 17 * pt
+                        Layout.topMargin: 2 * pt
 
                         ButtonGroup.group: buttonGroup
 
@@ -196,6 +194,7 @@ ColumnLayout
                 }
                 Rectangle
                 {
+//                    visible: index === listWallet.count - 1? false : true
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom

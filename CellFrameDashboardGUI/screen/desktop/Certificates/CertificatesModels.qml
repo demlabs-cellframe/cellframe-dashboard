@@ -12,6 +12,8 @@ Item {
     property alias certificatesFind: certificatesFind
     property alias certificateInfo: certificateInfo
 
+    property int selectedAccessKeyType: 0
+
     property alias signatureType: signatureType
     property alias createCertificateOptional: createCertificateOptional
 
@@ -39,7 +41,7 @@ Item {
         id: accessKeyType
         property int selectedIndex: 0
         //selected certificate with private and public key
-        readonly property bool bothTypeCertificateSelected: selectedIndex === 1
+        readonly property bool bothTypeCertificateSelected: selectedIndex === 1 || (selectedIndex === 2 && selectedAccessKeyType == 1)
 
         ListElement { name: qsTr("Public certificates"); type: "public"; selected: true }
         ListElement { name: qsTr("Private certificates"); type: "private"; selected: false }
