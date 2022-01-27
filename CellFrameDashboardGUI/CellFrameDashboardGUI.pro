@@ -1,13 +1,14 @@
 QT += qml quick widgets svg gui-private network
-
-TEMPLATE = app
+!android {
+    TEMPLATE = app
+}
 CONFIG += c++11 #nsis_build
 CONFIG += node_build
 
 LIBS += -ldl
 include(../config.pri)
 
-TARGET = $$BRAND
+TARGET = $${BRAND}
 
 win32 {
     RC_ICONS = $$PWD/resources/icons/icon_win32.ico
@@ -32,15 +33,18 @@ else: !win32 {
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
-MOC_DIR = moc
-OBJECTS_DIR = obj
-RCC_DIR = rcc
-UI_DIR = uic
+!android {
+    MOC_DIR = moc
+    OBJECTS_DIR = obj
+    RCC_DIR = rcc
+    UI_DIR = uic
 
-CONFIG(debug, debug|release) {
-    DESTDIR = bin/debug
-} else {
-    DESTDIR = bin/release
+
+    CONFIG(debug, debug|release) {
+        DESTDIR = bin/debug
+    } else {
+        DESTDIR = bin/release
+    }
 }
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
@@ -135,6 +139,24 @@ win32: nsis_build {
     QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
 }
 
-DISTFILES += \
-    qzip/zlib/zlib-1.2.5.zip \
-    qzip/zlib/zlib125dll.zip
+android {
+    QT += androidextras
+
+    DISTFILES += \
+        android/AndroidManifest.xml \
+        android/build.gradle \
+        android/gradle/wrapper/gradle-wrapper.jar \
+        android/gradle/wrapper/gradle-wrapper.properties \
+        android/gradlew \
+        android/gradlew.bat \
+        android/res/values/libs.xml \
+        qzip/zlib/zlib-1.2.5.zip \
+        qzip/zlib/zlib125dll.zip \
+        android/src/com/Cellframe/Dashboard/*.java
+
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+    gui_data_static.path = /
+    gui_data_static.files = android/*
+    INSTALLS += gui_data_static
+}

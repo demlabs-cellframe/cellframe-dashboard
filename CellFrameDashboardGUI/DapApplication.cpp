@@ -6,6 +6,13 @@
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
 
+#ifdef ANDROID
+#include <QtAndroid>
+#include <QAndroidJniEnvironment>
+#include <QAndroidJniObject>
+#include <QAndroidIntent>
+#endif
+
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceClient(DAP_SERVICE_NAME)
@@ -17,6 +24,15 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
     qDebug()<<QString(DAP_SERVICE_NAME);
+
+#ifdef Q_OS_ANDROID
+    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
+                                        "com/Cellframe/Dashboard/DashboardService");
+    QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+                "startForegroundService",
+                "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+                serviceIntent.handle().object());
+#endif
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();

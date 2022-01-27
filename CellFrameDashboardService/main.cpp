@@ -1,4 +1,9 @@
+#ifdef ANDROID
+#include <QAndroidService>
+#include <android/log.h>
+#else
 #include <QCoreApplication>
+#endif
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QCommandLineParser>
@@ -36,8 +41,12 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-
+#ifdef Q_OS_ANDROID
+    QAndroidService a(argc, argv);
+#else
     QCoreApplication a(argc, argv);
+#endif
+
     a.setOrganizationName("Cellframe Network");
     a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     a.setApplicationName(DAP_BRAND "Service");
@@ -88,7 +97,9 @@ int main(int argc, char *argv[])
 
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
 //#ifndef QT_DEBUG
-    #ifdef Q_OS_LINUX
+    #ifdef Q_OS_ANDROID
+        dapLogger.setLogFile(QString("%1/%2").arg(dapLogger.getPathToLog()).arg("Service.log"));
+    #elif defined Q_OS_LINUX
         dapLogger.setLogFile(QString("/opt/%1/log/%2Service.log").arg(DAP_BRAND_LO).arg(DAP_BRAND));
     #elif defined Q_OS_WIN
         dapLogger.setLogFile(QString("%1/%2/log/%2Service.log").arg(regGetUsrPath()).arg(DAP_BRAND));

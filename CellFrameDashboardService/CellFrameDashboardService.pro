@@ -11,8 +11,8 @@ include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-win32 {
-    CONFIG -= console
+!win32 {
+    CONFIG += console
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -63,4 +63,11 @@ DISTFILES += \
 
 win32: nsis_build {
     DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
+}
+
+android {
+    TEMPLATE = lib
+    CONFIG += dll
+    QT += androidextras
+    TARGET = DashboardService
 }
