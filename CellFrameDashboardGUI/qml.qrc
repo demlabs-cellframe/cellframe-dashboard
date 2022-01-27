@@ -367,5 +367,6 @@
         <file>screen/desktop/Plugin/DapApp.qml</file>
         <file>screen/mobile/Wallet/WalletPage.qml</file>
         <file>screen/mobile/Wallet/WalletPageForm.ui.qml</file>
+        <file>screen/DapMainWindowMobile.qml</file>
     </qresource>
 </RCC>

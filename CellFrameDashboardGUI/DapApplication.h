@@ -2,12 +2,15 @@
 #define DAPAPPLICATION_H
 
 #include <QApplication>
-#include <QtAndroid>
 #include "DapNetworksList.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
 #include "DapVpnOrdersModel.h"
+
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
 
 class DapApplication : public QApplication
 {

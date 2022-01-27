@@ -8,12 +8,11 @@ Page {
 
     property alias startServiceButton: startServiceButton
 
-    ColumnLayout {
-        anchors.fill: parent
-        Button {
-            id: startServiceButton
-            Layout.alignment: Qt.AlignCenter
-            text: qsTr("Start service")
-        }
+    Button {
+        id: startServiceButton
+        width: 150
+        height: 100
+        anchors.centerIn: parent
+        text: qsTr("Start service")
     }
 }

@@ -9,31 +9,35 @@ import "screen"
 ApplicationWindow
 {
     id: window
-    visible: true    
-
-    //    property variant networkListPopups : []
+    visible: true
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
     Settings {
         property alias x: window.x
         property alias y: window.y
-//        property alias width: window.width
-//        property alias height: window.height
+    }
+
+    QtObject {
+
+    }
+
+    DapMainWindowMobile {
+        anchors.fill: parent
     }
 
     //DapMainApplicationWindow
-    DapMainWindow
-    {
-        id: mainWindow
-        property string device: isMobile ? "mobile" : "desktop"
+//    DapMainWindow
+//    {
+//        id: mainWindow
+//        property string device: isMobile ? "mobile" : "desktop"
 
-        anchors.fill: parent
-// DmitriyT Let`s try to define OS by it`s name using Qt tools
-//        Device {
-//            id: dapDevice
-//        }
-    }
+//        anchors.fill: parent
+//// DmitriyT Let`s try to define OS by it`s name using Qt tools
+////        Device {
+////            id: dapDevice
+////        }
+//    }
 
 
     ///The image with the effect fast blur

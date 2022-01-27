@@ -108,7 +108,7 @@ FocusScope {
             radius: 20
             color: currTheme.backgroundMainScreen
 
-            visible: !isMobile
+            visible: false
 
             Rectangle {
                 width: 30

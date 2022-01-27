@@ -2,22 +2,20 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
-WalletForm {
+WalletPageForm {
     id: root
-
-    anchors.fill: parent
 
     property bool active: false
     property string title: qsTr("Wallet")
 
-    Timer {
-        interval: 100
-        running: true
-        repeat: false
-        onTriggered: {
-            app.startService()
-        }
-    }
+//    Timer {
+//        interval: 100
+//        running: true
+//        repeat: false
+//        onTriggered: {
+//            app.startService()
+//        }
+//    }
 
     startServiceButton.onClicked: {
         app.startService()

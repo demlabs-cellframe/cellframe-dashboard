@@ -158,7 +158,9 @@ DapWallet *DapApplication::currentWallet() const
 void DapApplication::startService()
 {
     qInfo()<<"C++ -> < Go run Dashboard Service >";
+#ifdef Q_OS_ANDROID
     QtAndroid::androidContext().callMethod<void>("startService", "()V");
+#endif
 }
 
 void DapApplication::setCurrentWallet(DapWallet *a_currentWallet)
