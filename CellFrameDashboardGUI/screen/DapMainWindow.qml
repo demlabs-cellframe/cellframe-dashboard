@@ -106,9 +106,7 @@ FocusScope {
             Layout.bottomMargin: 7
             width: 200
             radius: 20
-            color: currTheme.backgroundMainScreen
-
-            visible: false
+            color: currTheme.backgroundMainScreen            
 
             Rectangle {
                 width: 30
@@ -128,36 +126,45 @@ FocusScope {
                 }
                 color: currTheme.backgroundMainScreen
             }
-
-            ColumnLayout {
-                id: mainButtonsColumn
-                anchors.fill: parent
-
-                Item {
-                    id: logo
-                    Layout.margins: 10
-                    width: 111 * pt
-                    height: 24 * pt
-                    Image {
-                        id: logoImg
-                        anchors.fill: parent
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
-                    }
-                }
-
-                ListView {
-                    id: mainButtonsList
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    spacing: 5
-                    clip: true
-                    //interactive: false
-                    model: mainButtonsModel
-
-                    delegate: DapMenuButton { }
-                }
-
+            Button {
+                id: startServiceButton
+                width: 200
+                height: 100
+                anchors.left: parent.left
+                anchors.top: parent.top
+                text: qsTr("Start service")
+                onClicked: { app.startService() }
             }
+
+//            ColumnLayout {
+//                id: mainButtonsColumn
+//                anchors.fill: parent
+
+//                Item {
+//                    id: logo
+//                    Layout.margins: 10
+//                    width: 111 * pt
+//                    height: 24 * pt
+//                    Image {
+//                        id: logoImg
+//                        anchors.fill: parent
+//                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+//                    }
+//                }
+
+//                ListView {
+//                    id: mainButtonsList
+//                    Layout.fillHeight: true
+//                    Layout.fillWidth: true
+//                    spacing: 5
+//                    clip: true
+//                    //interactive: false
+//                    model: mainButtonsModel
+
+//                    delegate: DapMenuButton { }
+//                }
+
+//            }
         }
 
         Rectangle {

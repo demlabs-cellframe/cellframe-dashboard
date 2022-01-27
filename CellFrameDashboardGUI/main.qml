@@ -18,13 +18,25 @@ ApplicationWindow
         property alias y: window.y
     }
 
-    QtObject {
-
+    Component {
+        id: mainWindow
+        DapMainWindow {}
     }
 
-    DapMainWindowMobile {
+    Component {
+        id: mainWindowMobile
+        DapMainWindowMobile {}
+    }
+
+    StackView {
+        id: mainWindowStack
         anchors.fill: parent
+        initialItem: isMobile ? mainWindowMobile : mainWindow
     }
+
+//    DapMainWindowMobile {
+//        anchors.fill: parent
+//    }
 
     //DapMainApplicationWindow
 //    DapMainWindow

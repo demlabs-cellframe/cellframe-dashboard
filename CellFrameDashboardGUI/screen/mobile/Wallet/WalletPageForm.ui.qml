@@ -10,9 +10,10 @@ Page {
 
     Button {
         id: startServiceButton
-        width: 150
+        width: 250
         height: 100
-        anchors.centerIn: parent
+        anchors.left: root.left
+        anchors.top: root.top
         text: qsTr("Start service")
     }
 }

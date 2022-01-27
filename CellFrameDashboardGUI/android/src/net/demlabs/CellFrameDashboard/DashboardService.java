@@ -8,7 +8,7 @@ public class DashboardService extends QtService {
 
     @Override
     public void onCreate() {
-        super.onCreate();        
+        super.onCreate();
         Log.i(TAG, "CREATING SERVICE <JAVA -> Dashboard service>");
     }
 

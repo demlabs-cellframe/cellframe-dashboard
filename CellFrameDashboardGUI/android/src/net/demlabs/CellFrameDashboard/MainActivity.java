@@ -18,6 +18,11 @@ public class MainActivity extends QtActivity
         super.onCreate(savedInstanceState);
     }
 
+public String getExtFilesDir()
+{
+    return getExternalFilesDir(null).getPath();
+}
+
 @Override
     protected void onDestroy()
     {
