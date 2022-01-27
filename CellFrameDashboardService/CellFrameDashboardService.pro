@@ -30,10 +30,12 @@ DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
-    $$PWD/main.cpp
+    $$PWD/main.cpp \
+    dapnotificationwatcher.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
+    dapnotificationwatcher.h
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)

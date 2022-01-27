@@ -15,6 +15,8 @@
 
 #include <sys/stat.h>
 
+#include <dapnotificationwatcher.h>
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #endif
@@ -23,6 +25,9 @@ void processArgs();
 
 int main(int argc, char *argv[])
 {
+
+    DapNotificationWatcher *watcher = new DapNotificationWatcher();
+
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
 
