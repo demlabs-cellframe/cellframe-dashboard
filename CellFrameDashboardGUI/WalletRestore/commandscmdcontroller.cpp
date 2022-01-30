@@ -1,0 +1,204 @@
+#include "commandscmdcontroller.h"
+
+
+void CommandsCmdController::getCommands()
+{
+    commands.append(QString::fromLatin1(globalDBCellsAdd));
+    commands.append(QString::fromLatin1(globalDBFlush));
+    commands.append(QString::fromLatin1(globalDBWlletInfoSet));
+    commands.append(QString::fromLatin1(nodeAdd));
+    commands.append(QString::fromLatin1(nodeDel));
+    commands.append(QString::fromLatin1(nodeLink));
+    commands.append(QString::fromLatin1(nodeAlias));
+    commands.append(QString::fromLatin1(nodeConnect));
+    commands.append(QString::fromLatin1(nodeHandshake));
+    commands.append(QString::fromLatin1(nodeDump));
+    commands.append(QString::fromLatin1(tracerouteHost));
+    commands.append(QString::fromLatin1(tracepathHost));
+    commands.append(QString::fromLatin1(tokenUpdate));
+    commands.append(QString::fromLatin1(tokenDecl));
+    commands.append(QString::fromLatin1(tokenDeclSign));
+    commands.append(QString::fromLatin1(tokenEmit));
+    commands.append(QString::fromLatin1(mempoolList));
+    commands.append(QString::fromLatin1(mempoolProc));
+    commands.append(QString::fromLatin1(mempoolDelete));
+    commands.append(QString::fromLatin1(mempoolAddCa));
+    commands.append(QString::fromLatin1(chainCaPub));
+    commands.append(QString::fromLatin1(chainCaCopy));
+    commands.append(QString::fromLatin1(txCreate));
+    commands.append(QString::fromLatin1(txCondCreate));
+    commands.append(QString::fromLatin1(txVerify));
+    commands.append(QString::fromLatin1(txHistory));
+    commands.append(QString::fromLatin1(ledgerListCoins));
+    commands.append(QString::fromLatin1(ledgerListCoinsCond));
+    commands.append(QString::fromLatin1(ledgerListAddrs));
+    commands.append(QString::fromLatin1(ledgerTx));
+    commands.append(QString::fromLatin1(tokenList));
+    commands.append(QString::fromLatin1(tokenInfo));
+    commands.append(QString::fromLatin1(tokenTx));
+    commands.append(QString::fromLatin1(printLog));
+    commands.append(QString::fromLatin1(statsCpu));
+    commands.append(QString::fromLatin1(gdbExport));
+    commands.append(QString::fromLatin1(gdbExportFilename));
+    commands.append(QString::fromLatin1(gdbImport));
+    commands.append(QString::fromLatin1(gdbImportFilename));
+}
+
+void CommandsCmdController::getShortCommands()
+{
+    shortCommands.append(QString::fromLatin1(globalDB));
+    shortCommands.append(QString::fromLatin1(node));
+    shortCommands.append(QString::fromLatin1(ping));
+    shortCommands.append(QString::fromLatin1(traceroute));
+    shortCommands.append(QString::fromLatin1(tracepath));
+    shortCommands.append(QString::fromLatin1(version));
+    shortCommands.append(QString::fromLatin1(help));
+    shortCommands.append(QString::fromLatin1(wallet));
+    shortCommands.append(QString::fromLatin1(ledger));
+    shortCommands.append(QString::fromLatin1(token));
+    shortCommands.append(QString::fromLatin1(stats));
+}
+
+void CommandsCmdController::getCommandsWithParams()
+{
+    commandsWithParams.append(QString::fromLatin1(globalDBCellsAddParams));
+    commandsWithParams.append(QString::fromLatin1(globalDBFlushParams));
+    commandsWithParams.append(QString::fromLatin1(nodeAddParams));
+    commandsWithParams.append(QString::fromLatin1(nodeDelParams));
+    commandsWithParams.append(QString::fromLatin1(nodeLinkParams));
+    commandsWithParams.append(QString::fromLatin1(nodeAliasParams));
+    commandsWithParams.append(QString::fromLatin1(nodeConnectParams));
+    commandsWithParams.append(QString::fromLatin1(nodeHandshakeParams));
+    commandsWithParams.append(QString::fromLatin1(nodeDumpParams));
+    commandsWithParams.append(QString::fromLatin1(pingParams));
+    commandsWithParams.append(QString::fromLatin1(tracerouteHostParams));
+    commandsWithParams.append(QString::fromLatin1(tracepathHostParams));
+    commandsWithParams.append(QString::fromLatin1(versionParams));
+    commandsWithParams.append(QString::fromLatin1(helpParams));
+    commandsWithParams.append(QString::fromLatin1(bigHelpParams));
+    commandsWithParams.append(QString::fromLatin1(walletParams));
+    commandsWithParams.append(QString::fromLatin1(tokenEmitParams));
+    commandsWithParams.append(QString::fromLatin1(mempoolListParams));
+    commandsWithParams.append(QString::fromLatin1(mempoolProcParams));
+    commandsWithParams.append(QString::fromLatin1(mempoolDeleteParams));
+    commandsWithParams.append(QString::fromLatin1(mempoolAddCaParams));
+    commandsWithParams.append(QString::fromLatin1(chainCaParams));
+    commandsWithParams.append(QString::fromLatin1(chainCaCopyParams));
+    commandsWithParams.append(QString::fromLatin1(txCreateParams));
+    commandsWithParams.append(QString::fromLatin1(txCondCreateParams));
+    commandsWithParams.append(QString::fromLatin1(txVerifyParams));
+    commandsWithParams.append(QString::fromLatin1(txHistoryParams));
+    commandsWithParams.append(QString::fromLatin1(ledgerListCoinsParams));
+    commandsWithParams.append(QString::fromLatin1(ledgerListCoinsCondParams));
+    commandsWithParams.append(QString::fromLatin1(ledgerListAddrsParams));
+    commandsWithParams.append(QString::fromLatin1(ledgerTxParams));
+    commandsWithParams.append(QString::fromLatin1(tokenListParams));
+    commandsWithParams.append(QString::fromLatin1(tokenInfoParams));
+    commandsWithParams.append(QString::fromLatin1(tokenTxParams));
+    commandsWithParams.append(QString::fromLatin1(printLogParams));
+    commandsWithParams.append(QString::fromLatin1(gdbExportFilenameParams));
+    commandsWithParams.append(QString::fromLatin1(gdbImportFilenameParams));
+}
+
+void CommandsCmdController::getAllCommands()
+{
+    allCommands.append(QString::fromLatin1(globalDB));
+    allCommands.append(QString::fromLatin1(globalDBCellsAdd));
+    allCommands.append(QString::fromLatin1(globalDBCellsAddParams));
+    allCommands.append(QString::fromLatin1(globalDBFlush));
+    allCommands.append(QString::fromLatin1(globalDBFlushParams));
+    allCommands.append(QString::fromLatin1(globalDBWlletInfoSet));
+    allCommands.append(QString::fromLatin1(node));
+    allCommands.append(QString::fromLatin1(nodeAdd));
+    allCommands.append(QString::fromLatin1(nodeAddParams));
+    allCommands.append(QString::fromLatin1(nodeDel));
+    allCommands.append(QString::fromLatin1(nodeDelParams));
+    allCommands.append(QString::fromLatin1(nodeLink));
+    allCommands.append(QString::fromLatin1(nodeLinkParams));
+    allCommands.append(QString::fromLatin1(nodeAlias));
+    allCommands.append(QString::fromLatin1(nodeAliasParams));
+    allCommands.append(QString::fromLatin1(nodeConnect));
+    allCommands.append(QString::fromLatin1(nodeConnectParams));
+    allCommands.append(QString::fromLatin1(nodeHandshake));
+    allCommands.append(QString::fromLatin1(nodeHandshakeParams));
+    allCommands.append(QString::fromLatin1(nodeDump));
+    allCommands.append(QString::fromLatin1(nodeDumpParams));
+    allCommands.append(QString::fromLatin1(ping));
+    allCommands.append(QString::fromLatin1(pingParams));
+    allCommands.append(QString::fromLatin1(traceroute));
+    allCommands.append(QString::fromLatin1(tracerouteHost));
+    allCommands.append(QString::fromLatin1(tracerouteHostParams));
+    allCommands.append(QString::fromLatin1(tracepath));
+    allCommands.append(QString::fromLatin1(tracepathHost));
+    allCommands.append(QString::fromLatin1(tracepathHostParams));
+    allCommands.append(QString::fromLatin1(version));
+    allCommands.append(QString::fromLatin1(versionParams));
+    allCommands.append(QString::fromLatin1(reternVersionNumber)); //to do
+    allCommands.append(QString::fromLatin1(reternVersionNumberParams)); //to do
+    allCommands.append(QString::fromLatin1(help));
+    allCommands.append(QString::fromLatin1(helpParams));
+    allCommands.append(QString::fromLatin1(bigHelpParams));
+    allCommands.append(QString::fromLatin1(wallet));
+    allCommands.append(QString::fromLatin1(walletParams));
+    allCommands.append(QString::fromLatin1(tokenUpdate));
+    allCommands.append(QString::fromLatin1(tokenDecl));
+    allCommands.append(QString::fromLatin1(tokenDeclSign));
+    allCommands.append(QString::fromLatin1(tokenEmit));
+    allCommands.append(QString::fromLatin1(tokenEmitParams));
+    allCommands.append(QString::fromLatin1(mempoolList));
+    allCommands.append(QString::fromLatin1(mempoolListParams));
+    allCommands.append(QString::fromLatin1(mempoolProc));
+    allCommands.append(QString::fromLatin1(mempoolProcParams));
+    allCommands.append(QString::fromLatin1(mempoolDelete));
+    allCommands.append(QString::fromLatin1(mempoolDeleteParams));
+    allCommands.append(QString::fromLatin1(mempoolAddCa));
+    allCommands.append(QString::fromLatin1(mempoolAddCaParams));
+    allCommands.append(QString::fromLatin1(chainCaPub));
+    allCommands.append(QString::fromLatin1(chainCaParams));
+    allCommands.append(QString::fromLatin1(chainCaCopy));
+    allCommands.append(QString::fromLatin1(chainCaCopyParams));
+    allCommands.append(QString::fromLatin1(txCreate));
+    allCommands.append(QString::fromLatin1(txCreateParams));
+    allCommands.append(QString::fromLatin1(txCondCreate));
+    allCommands.append(QString::fromLatin1(txCondCreateParams));
+    allCommands.append(QString::fromLatin1(txVerify));
+    allCommands.append(QString::fromLatin1(txVerifyParams));
+    allCommands.append(QString::fromLatin1(txHistory));
+    allCommands.append(QString::fromLatin1(txHistoryParams));
+    allCommands.append(QString::fromLatin1(ledger));
+    allCommands.append(QString::fromLatin1(ledgerListCoins));
+    allCommands.append(QString::fromLatin1(ledgerListCoinsParams));
+    allCommands.append(QString::fromLatin1(ledgerListCoinsCond));
+    allCommands.append(QString::fromLatin1(ledgerListCoinsCondParams));
+    allCommands.append(QString::fromLatin1(ledgerListAddrs));
+    allCommands.append(QString::fromLatin1(ledgerListAddrsParams));
+    allCommands.append(QString::fromLatin1(ledgerTx));
+    allCommands.append(QString::fromLatin1(ledgerTxParams));
+    allCommands.append(QString::fromLatin1(token));
+    allCommands.append(QString::fromLatin1(tokenList));
+    allCommands.append(QString::fromLatin1(tokenListParams));
+    allCommands.append(QString::fromLatin1(tokenInfo));
+    allCommands.append(QString::fromLatin1(tokenInfoParams));
+    allCommands.append(QString::fromLatin1(tokenTx));
+    allCommands.append(QString::fromLatin1(tokenTxParams));
+    allCommands.append(QString::fromLatin1(printLog));
+    allCommands.append(QString::fromLatin1(printLogParams));
+    allCommands.append(QString::fromLatin1(stats));
+    allCommands.append(QString::fromLatin1(statsCpu));
+    allCommands.append(QString::fromLatin1(gdbExport));
+    allCommands.append(QString::fromLatin1(gdbExportFilename));
+    allCommands.append(QString::fromLatin1(gdbExportFilenameParams));
+    allCommands.append(QString::fromLatin1(gdbImport));
+    allCommands.append(QString::fromLatin1(gdbImportFilename));
+    allCommands.append(QString::fromLatin1(gdbImportFilenameParams));
+}
+
+CommandsCmdController::CommandsCmdController(QObject *parent) : QObject(parent)
+{
+
+}
+
+QString CommandsCmdController::commandsIncludedValue(const QString &value)
+{
+    return "";
+}
