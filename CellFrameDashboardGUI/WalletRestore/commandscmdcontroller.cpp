@@ -195,10 +195,17 @@ void CommandsCmdController::getAllCommands()
 
 CommandsCmdController::CommandsCmdController(QObject *parent) : QObject(parent)
 {
-
+    void getCommands();
+    void getShortCommands();
+    void getCommandsWithParams();
 }
 
-QString CommandsCmdController::commandsIncludedValue(const QString &value)
+QString CommandsCmdController::shortCommandsIncludedValue(const QString &value)
 {
-    return "";
+    for (int i = 0; i < shortCommands.size(); ++i)
+    {
+        if (shortCommands[i].contains(value))
+            return shortCommands[i];
+    }
+    return value;
 }

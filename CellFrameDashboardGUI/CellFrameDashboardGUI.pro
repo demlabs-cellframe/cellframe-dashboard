@@ -95,8 +95,6 @@ include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
-include (../cellframe-node/cellframe-sdk/modules/net/dap_chain_node_commands.h)
-
 unix: !mac : !android {
     gui_target.files = $${BRAND}
     gui_target.path = /opt/$${BRAND_LO}/bin/

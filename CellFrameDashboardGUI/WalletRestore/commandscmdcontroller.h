@@ -20,7 +20,8 @@ class CommandsCmdController : public QObject
 public:
     explicit CommandsCmdController(QObject *parent = nullptr);
 
-    QString commandsIncludedValue(const QString &value);
+public slots:
+    QString shortCommandsIncludedValue(const QString &value);
 
 signals:
 
