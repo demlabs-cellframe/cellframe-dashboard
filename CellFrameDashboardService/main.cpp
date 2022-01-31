@@ -10,15 +10,8 @@
 #include "DapServiceController.h"
 #include "DapLogger.h"
 #include "DapPluginsPathControll.h"
-
 #include "dapconfigreader.h"
-
 #include <sys/stat.h>
-
-#ifdef Q_OS_WIN
-#include "registry.h"
-#include "Service.h"
-#endif
 
 void processArgs();
 
@@ -32,8 +25,7 @@ void ServiceMain(int argc, char *argv[]) {
         a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
         a.setApplicationName(DAP_BRAND "Service");
 
-        DapLogger dapLogger;
-        dapLogger.setLogFile(QString("%1/%2/log/%2Service.log").arg(regGetUsrPath()).arg(DAP_BRAND));
+        DapLogger dapLogger(QCoreApplication::instance(), "Service");
 
         DapPluginsPathControll dapPlugins;
         dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
@@ -157,17 +149,7 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     a.setApplicationName(DAP_BRAND "Service");
 
-    DapLogger dapLogger;
-
-    //logs
-    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
-    QDir dir(dapLogger.getPathToLog());
-    if (!dir.exists()) {
-        qDebug() << "No folder:" << dapLogger.getPathToLog();
-        dir.mkpath(".");
-        QString str = "chmod 777 " + dapLogger.getPathToLog();
-        system(str.toUtf8().data());
-    }
+    DapLogger dapLogger(QCoreApplication::instance(), "Service");
 
     DapPluginsPathControll dapPlugins;
 
@@ -196,22 +178,7 @@ int main(int argc, char *argv[])
 
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
-    if (debug_mode)
-        dapLogger.setLogLevel(L_DEBUG);
-    else
-        dapLogger.setLogLevel(L_INFO);
-
-    /// TODO: The code is commented out at the time of developing the logging strategy in the project
-//#ifndef QT_DEBUG
-    #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/%1/log/%2Service.log").arg(DAP_BRAND_LO).arg(DAP_BRAND));
-    #elif defined Q_OS_WIN
-        dapLogger.setLogFile(QString("%1/%2/log/%2Service.log").arg(regGetUsrPath()).arg(DAP_BRAND));
-    #elif defined Q_OS_MAC
-	mkdir("tmp/cellframe-dashboard_log",0777);
-	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Service.log").arg(DAP_BRAND));
-    #endif
-//#endif
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
 
     // Creating the main application object
     processArgs();

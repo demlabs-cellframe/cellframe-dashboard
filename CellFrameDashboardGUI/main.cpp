@@ -89,13 +89,7 @@ bool SingleApplicationTest(const QString &appName)
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    DapLogger dapLogger;
-    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
-    QDir dir(dapLogger.getPathToLog());
-    if (!dir.exists()) {
-        qDebug() << "No folder:" << dapLogger.getPathToLog();
-        dir.mkpath(".");
-    }
+    DapLogger dapLogger(QCoreApplication::instance(), "GUI");
 
     DapApplication app(argc, argv);
 
@@ -105,25 +99,9 @@ int main(int argc, char *argv[])
     DapConfigReader configReader;
 
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
     qDebug() << "debug_dashboard_mode" << debug_mode;
-
-    if (debug_mode)
-        dapLogger.setLogLevel(L_DEBUG);
-    else
-        dapLogger.setLogLevel(L_INFO);
-
     /// TODO: The code is commented out at the time of developing the logging strategy in the project
-//#ifndef QT_DEBUG
-    #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/%1/log/%2Gui.log").arg(DAP_BRAND_LO).arg(DAP_BRAND));
-    #elif defined Q_OS_MACOS
-	mkdir("/tmp/cellframe-dashboard_log",0777);
-	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
-    #elif defined Q_OS_WIN
-    dapLogger.setLogFile(QString("%1/%2/log/%2GUI.log").arg(regGetUsrPath()).arg(DAP_BRAND));
-    #endif
-//#endif
 
     //dApps config file
         QString filePluginConfig;
