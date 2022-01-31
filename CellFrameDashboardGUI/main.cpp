@@ -89,21 +89,18 @@ bool SingleApplicationTest(const QString &appName)
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
-    DapApplication app(argc, argv);
-
-    if (!SingleApplicationTest(app.applicationName()))
-        return 1;
-
     DapLogger dapLogger;
-
     dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
-
     QDir dir(dapLogger.getPathToLog());
     if (!dir.exists()) {
         qDebug() << "No folder:" << dapLogger.getPathToLog();
         dir.mkpath(".");
     }
+
+    DapApplication app(argc, argv);
+
+    if (!SingleApplicationTest(app.applicationName()))
+        return 1;
 
     DapConfigReader configReader;
 
