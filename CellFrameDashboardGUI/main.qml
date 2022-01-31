@@ -26,20 +26,22 @@ ApplicationWindow
         property alias height: window.height
     }
 
-    //Main window
-    DapMainApplicationWindow
-    {
+    Component {
         id: mainWindow
-        property alias device: dapDevice.device
-
-        anchors.fill: parent
-
-        Device
-        {
-            id: dapDevice
-        }
+        DapMainWindow {}
     }
 
+    Component {
+        id: mainWindowMobile
+        DapMainWindowMobile {}
+    }
+
+    //Main window
+    StackView {
+        id: mainWindowStack
+        anchors.fill: parent
+        initialItem: isMobile ? mainWindowMobile : mainWindow
+    }
 
     ///The image with the effect fast blur
     Image
@@ -92,16 +94,16 @@ ApplicationWindow
         }
 
         onSignalIconActivated: {
-             if(window.visibility === Window.Hidden)
-             {
-                 window.show()
-                 window.raise()
-                 window.requestActivate()
-             }
-             else
-             {
-                 window.hide()
-             }
+            if(window.visibility === Window.Hidden)
+            {
+                window.show()
+                window.raise()
+                window.requestActivate()
+            }
+            else
+            {
+                window.hide()
+            }
         }
     }
 
