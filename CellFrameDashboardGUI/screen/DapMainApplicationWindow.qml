@@ -9,7 +9,7 @@ import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Dashboard"
 import "qrc:/screen/desktop/Exchange"
 import "qrc:/screen/desktop/Certificates"
-import "qrc:/screen/desktop/NetworksPanel"
+//import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 import "desktop/SettingsWallet.js" as SettingsWallet
@@ -222,7 +222,7 @@ Rectangle {
             left: parent.left;
             top: parent.top;
             right: parent.right;
-            bottom: networksPanel.top
+            bottom: footer.top
             bottomMargin: 6 * pt
         }
 
@@ -327,20 +327,6 @@ Rectangle {
                 source: dashboardScreenPath
             }
         }
-    }
-
-    DapControlNetworksPanel
-    {
-        id: networksPanel
-    }
-
-    ListModel
-    {
-        id:networkListPopups
-    }
-
-    ListModel {
-        id: networksModel
     }
 
 //    DapNetworkPopup
@@ -553,15 +539,6 @@ Rectangle {
             spread: 0.1
             smooth: true
         }
-    //NetworkPanel shadow
-    DropShadow {
-            anchors.fill: networksPanel
-            radius: currTheme.radiusShadowSmall
-            color: currTheme.reflectionLight
-            source: networksPanel
-            spread: 0.7
-        }
-
 
     Component.onCompleted:
     {
@@ -780,16 +757,6 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
-        }
-        onNetworksStatesReceived:
-        {
-            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
-                networksPanel.closeAllPopups(networkListPopups, networksModel.count)
-            }
-
-            networksPanel.modelUpdate(networksStatesList)
-            networksPanel.recreatePopups(networksPanel.dapNetworkList.model, networkListPopups)
-            networksPanel.updateContentInAllOpenedPopups(networkListPopups, networksModel)
         }
     }
 
