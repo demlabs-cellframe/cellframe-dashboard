@@ -12,18 +12,18 @@ FocusScope {
     id: dapMainPage
 
     ///@detalis Path to the tabs.
-    readonly property string dashboardScreen: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-    readonly property string walletScreen: "qrc:/screen/" + device + "/Wallet/WalletPage.qml"
-    readonly property string exchangeScreen: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
-    readonly property string historyScreen: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
-    readonly property string vpnServiceScreen: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
-    readonly property string vpnClientScreen: "qrc:/screen/" + device + "/VPNClient/VPNClientPage.qml"
-    readonly property string settingsScreen: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
-    readonly property string logsScreen: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
-    readonly property string consoleScreen: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
-    readonly property string certificatesScreen: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
-    readonly property string underConstructionsScreen: "qrc:/screen/" + device + "/UnderConstructions.qml"
-    readonly property string testScreen: "qrc:/screen/" + device + "/Test/TestPage.qml"
+    readonly property string dashboardScreen: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"
+    readonly property string walletScreen: "qrc:/screen//Wallet/WalletPage.qml"
+    readonly property string exchangeScreen: "qrc:/screen/desktop/Exchange/DapExchangeTab.qml"
+    readonly property string historyScreen: "qrc:/screen/desktop/History/DapHistoryTab.qml"
+    readonly property string vpnServiceScreen: "qrc:/screen/desktop/VPNService_New/DapVPNServiceTab.qml"
+    readonly property string vpnClientScreen: "qrc:/screen/desktop/VPNClient/VPNClientPage.qml"
+    readonly property string settingsScreen: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"
+    readonly property string logsScreen: "qrc:/screen/desktop/Logs/DapLogsTab.qml"
+    readonly property string consoleScreen: "qrc:/screen/desktop/Console/DapConsoleTab.qml"
+    readonly property string certificatesScreen: "qrc:/screen/desktop/Certificates/DapCertificatesMainPage.qml"
+    readonly property string underConstructionsScreen: "qrc:/screen/desktop/UnderConstructions.qml"
+    readonly property string testScreen: "qrc:/screen/desktop/Test/TestPage.qml"
 
     readonly property QtObject dapMainFonts: DapFontRoboto {}
     property alias _dapQuicksandFonts: quicksandFonts
@@ -169,18 +169,18 @@ FocusScope {
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
 
-                StackView { id: dapWalletPage; Component.onCompleted: push(walletScreen)}
-                StackView { id: exchangePage; Component.onCompleted: push(underConstructionsScreen)}
-                StackView { id: daphistoryPage; Component.onCompleted: push(underConstructionsScreen)}
-                StackView { id: dapCertificatesPage; Component.onCompleted: push(certificatesScreen)}
-                StackView { id: dapTokensPage; Component.onCompleted: push(underConstructionsScreen)}
-                StackView { id: dapVPNClientPage; Component.onCompleted: push(vpnClientScreen)}
-                StackView { id: dapVPNServicePage; Component.onCompleted: push(vpnServiceScreen)}
-                StackView { id: dapConsolePage; Component.onCompleted: push(consoleScreen)}
-                //StackView { id: dapLogsPage; Component.onCompleted: push(underConstructionsScreen)}
-                StackView { id: dapSettingsPage; Component.onCompleted: push(settingsScreen)}
+                StackView { id: dapWalletPage; initialItem: walletScreen}
+                StackView { id: exchangePage; initialItem: underConstructionsScreen}
+                StackView { id: daphistoryPage; initialItem: underConstructionsScreen}
+                StackView { id: dapCertificatesPage; initialItem: certificatesScreen}
+                StackView { id: dapTokensPage; initialItem: underConstructionsScreen}
+                StackView { id: dapVPNClientPage; initialItem: vpnClientScreen}
+                StackView { id: dapVPNServicePage; initialItem: vpnServiceScreen}
+                StackView { id: dapConsolePage; initialItem: consoleScreen}
+                //StackView { id: dapLogsPage; initialItem: underConstructionsScreen}
+                StackView { id: dapSettingsPage; initialItem: settingsScreen}
 
-                StackView { id: dapTestPage; Component.onCompleted: push(testScreen)}
+                StackView { id: dapTestPage; initialItem: testScreen}
             }
         }
     }
