@@ -9,8 +9,8 @@ QtObject {
     readonly property color backgroundPanel        : "#2D3037" // OK
     readonly property color backgroundElements     : "#363A42" // OK
 
-    readonly property color buttonColorNormal      : "#D01E67" // OK
-    readonly property color buttonColorHover       : "#E62172"
+    readonly property color buttonColorNormal      : "#7930DE" // OK
+    readonly property color buttonColorHover       : "#7F65FF"
     readonly property color buttonColorNoActive    : "#373A42"
 
     readonly property color hilightColorComboBox     : "#DBFF71"

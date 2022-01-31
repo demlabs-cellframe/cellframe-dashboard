@@ -110,7 +110,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 text: model.completeBaseName   //model.fileName
-                color: model.selected ? "#FF0080" : currTheme.textColor
+                color: model.selected ? currTheme.buttonColorHover : currTheme.textColor
                 elide: Text.ElideRight
                 maximumLineCount: 1
             }
