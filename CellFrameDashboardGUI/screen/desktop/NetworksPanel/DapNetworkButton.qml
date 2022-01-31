@@ -7,6 +7,8 @@ import "qrc:/widgets"
 
 Button {
     property bool isSynch : false
+    property alias textBut: button_caption.text
+
 
     id: control
 
@@ -28,6 +30,7 @@ Button {
             }
 
             Text {
+                id: button_caption
                 Layout.alignment: Qt.AlignVCenter
                 Layout.rightMargin: isSynch ? 22 * pt : 28 * pt
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
@@ -61,6 +64,4 @@ Button {
                 }
         }
     }
-
-
 }

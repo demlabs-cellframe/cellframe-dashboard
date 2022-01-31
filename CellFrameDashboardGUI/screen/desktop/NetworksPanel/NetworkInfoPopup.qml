@@ -9,23 +9,15 @@ import "../../"
 
 Popup {
     id: networkInfoPupup
-    y: networksPanel.height+networksPanel.y-height
-    width: 295
+
     height: 190
     padding: 0
     focus: true
     closePolicy: Popup.NoAutoClose
-    visible: false
 
-    property string networkName : ""
-    property string networkState : ""
-    property string stateColor : ""
-    property string error : ""
-    property string targetState : ""
-    property string linksCount : ""
-    property string activeLinksCount : ""
-    property string nodeAddress : ""
+    property int parentWidth
     property bool isOpen : false
+    property int curWidth : 295
 
     MouseArea {
         width: parent.width
@@ -82,11 +74,10 @@ Popup {
                 id: buttonSync
                 anchors.fill: parent
                 isSynch: true
+                hoverEnabled: true
 
                 onClicked: {
-                    dapServiceController.requestToService("DapNetworkSingleSyncCommand", networkName)
-                    isOpen = false
-                    networkInfoPupup.close()
+                    dapServiceController.requestToService("DapNetworkSingleSyncCommand", name)
                 }
             }
 
@@ -120,14 +111,30 @@ Popup {
             DapNetworkButton {
                 id: buttonNetwork
                 anchors.fill: parent
+                hoverEnabled: true
 
                 onClicked: {
-                    if (targetState === "ONLINE")
-                        dapServiceController.requestToService("DapNetworkGoToCommand", networkName, false)
-                    else
-                        dapServiceController.requestToService("DapNetworkGoToCommand", networkName, true)
-                    isOpen = false
-                    networkInfoPupup.close()
+                    if (targetState === "ONLINE") {
+                        dapServiceController.requestToService("DapNetworkGoToCommand", name, false)
+                    }
+                    else {
+                        dapServiceController.requestToService("DapNetworkGoToCommand", name, true)
+                    }
+                }
+                Component.onCompleted:
+                {
+                    setText()
+                }
+
+                function setText()
+                {
+                    if (networkState === "OFFLINE") {
+                        buttonNetwork.textBut = qsTr("On network")
+                    }
+
+                    else {
+                        buttonNetwork.textBut = qsTr("Off network")
+                    }
                 }
             }
 
@@ -184,6 +191,10 @@ Popup {
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 text: networkState
                 color: currTheme.textColor
+                onTextChanged:
+                {
+                    buttonNetwork.setText()
+                }
             }
         }
 
@@ -199,7 +210,7 @@ Popup {
                 id: errorNetwork
                 anchors.verticalCenter: parent.verticalCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
-                text: error
+                text: errorMessage
                 color: "#FF0000"
             }
         }
@@ -300,19 +311,20 @@ Popup {
     }
 
     RowLayout {
-        x: (networkInfoPupup.width/2 - (nameText.width + nameStatus.width)/2) - 3 * pt
+        x: (networkInfoPupup.width/2 - (nameText.width + nameStatus.width + spacing) /2)
         y: 162 * pt
-        height: 15
+        height: 15 * pt
+        spacing: 5 * pt
 
         Text {
             id: nameText
             Layout.alignment: Qt.AlignVCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
             color: currTheme.textColor
-            text: networkName
+            text: name
         }
 
-        DapImageLoader{
+        DapImageLoader {
             id: nameStatus
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: 8 * pt
