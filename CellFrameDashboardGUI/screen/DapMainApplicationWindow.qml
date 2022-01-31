@@ -543,6 +543,7 @@ Rectangle {
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
+        dapServiceController.requestToService("DapGetNetworksStateCommand")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
 

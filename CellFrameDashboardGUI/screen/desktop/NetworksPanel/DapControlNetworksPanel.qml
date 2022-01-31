@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
@@ -12,8 +12,8 @@ DapNetworksPanel
     property alias dapNetworkList: networkList
 
     property int cur_index: 0
-    readonly property int visible_count: 4
-    readonly property int item_width: 295
+    property int visible_count: 4
+    readonly property int item_width: 295 * pt
 
     id: control
     y: parent.height - height
@@ -32,7 +32,7 @@ DapNetworksPanel
 
     Timer {
         id: idNetworkPanelTimer
-        interval: 1000; running: true; repeat: true
+        interval: 5000; running: true; repeat: true
         onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
@@ -40,11 +40,15 @@ DapNetworksPanel
         id: dapNetworkItem
 
         Item {
-            width: item_width
+            id:controlDelegate
+            width: networksModel.count > visible_count -1 ? item_width : parent.parent.width/networksModel.count
             height: 40
+            objectName: "delegateList"
+            property int list_index:index
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+                spacing: 5 * pt
                 Text {
                     id: txt_left
                     Layout.fillWidth: true
@@ -69,94 +73,94 @@ DapNetworksPanel
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    var coordInList = mapToItem(networkList, mouse.x, mouse.y)
-                    var section_number = getSectionNumberForPopup(coordInList.x)
+                    if(popup_.isOpen)
+                        popup_.close()
+                    else
+                    {
+                        networkList.closePopups()
+                        popup_.open()
+                    }
+                    popup_.isOpen = !popup_.isOpen
+                }
+            }
 
-                    if (section_number >= 0) {
-                        if (!networkListPopups[index].isOpen) {
-                            closeAllPopups(networkListPopups, networkList.count)
-                            control.updateContentInSpecifiedPopup(networkListPopups[index], networkList.model.get(index))
+            NetworkInfoPopup
+            {
+                id:popup_
+                width: item_width
+                parentWidth: controlDelegate.width
+                isOpen: false
+                y: -150
+                x: controlDelegate.width/2 - popup_.width/2
+            }
+            Connections
+            {
+                target: networkList
+                onClosePopups:{
+                    popup_.isOpen = false
+                    popup_.close()
+                }
+            }
+        }
+    }
 
-                            var idx = index
-                            var cur_idx = networkList.currentIndex
-                            networkListPopups[index].open()
+    DapNetworkPanelButton
+    {
+        id: left_button
+        anchors.left: parent.left
+        anchors.leftMargin: 7 * pt
+        anchors.verticalCenter: parent.verticalCenter
 
-                            var delta = networkList.width - 4*item_width
-                            if (networkList.currentIndex > 2 && delta > 0) {
-                                networkListPopups[index].x = delta + networkList.x+item_width*section_number+(item_width-networkListPopups[index].width)/2
-                            } else {
-                                networkListPopups[index].x = networkList.x+item_width*section_number+(item_width-networkListPopups[index].width)/2
-                            }
+        visible: networkList.count > visible_count && networkList.currentIndex != 0 ? true : false
+        mirror: true
 
-                            networkListPopups[index].isOpen = true
-                        } else {
-                            networkListPopups[index].close()
-                            networkListPopups[index].isOpen = false
-                        }
-                    } else {
-                        if (networkList.currentIndex > 0) {
-                            networkList.currentIndex -= 1
+        onClicked:
+        {
+            if (networkList.currentIndex > 0) {
 
-                        }
+                var zero = 0;
+
+                for(var i = visible_count; i > 0; i--)
+                {
+                    if(networkList.currentIndex - i >= zero )
+                    {
+                        networkList.currentIndex -= i
+                        break;
                     }
                 }
+                networkList.closePopups()
             }
         }
     }
 
-    Rectangle {
-        id: left_button
-        visible: networkList.count > 4
-        width: parent.height
-        radius: 50
-        color: currTheme.backgroundPanel
+    DapNetworkPanelButton
+    {
+        id: right_button
+        anchors.right: parent.right
+        anchors.rightMargin: 7 * pt
 
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors.verticalCenter: parent.verticalCenter
+        visible: networkList.count > visible_count && networkList.currentIndex != networkList.count -1 ? true : false
 
-        DapImageLoader {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            innerHeight: 30 * pt
-            innerWidth: 30 * pt
-            source: "qrc:/resources/icons/previous_year_icon.png"
-        }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (networkList.currentIndex > 0) {
-                    networkList.currentIndex -= 1
-                    networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+        onClicked: {
+            if (networkList.currentIndex < networkList.count-1) {
+
+                for(var i = visible_count; i > 0; i--)
+                {
+                    if(networkList.currentIndex + i <= networkList.count -1)
+                    {
+                        networkList.currentIndex += i
+                        break;
+                    }
                 }
+                networkList.closePopups()
             }
         }
-    }
-    DropShadow {
-        anchors.fill: left_button
-        source: left_button
-        color: currTheme.reflection
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 2
-        samples: 0
-        opacity: 1
-        fast: true
-        cached: true
-    }
-    DropShadow {
-        anchors.fill: left_button
-        source: left_button
-        color: currTheme.networkPanelShadow
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 10
-        samples: 20
-        opacity: 1
     }
 
     ListView {
+        signal closePopups()
         id: networkList
         model: networksModel
         highlightMoveDuration : 200
@@ -166,65 +170,12 @@ DapNetworksPanel
         anchors.left: left_button.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+
+        anchors.leftMargin: 10 * pt
+        anchors.rightMargin: 10 * pt
         delegate: dapNetworkItem
-        focus: true
-    }
-
-    Rectangle {
-        id: right_button
-        visible: networkList.count > 4
-        width: parent.height
-        radius: 50
-        color: currTheme.backgroundPanel
-
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-
-        DapImageLoader {
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            innerHeight: 30 * pt
-            innerWidth: 30 * pt
-            source: "qrc:/resources/icons/next-page.svg"
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                if (networkList.currentIndex < networkList.count-1) {
-                    networkList.currentIndex += 1
-                    networksPanel.closeAllPopups(networkListPopups, networksModel.count)
-                }
-            }
-        }
-    }
-    DropShadow {
-        anchors.fill: right_button
-        source: right_button
-        color: currTheme.reflection
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 2
-        samples: 0
-        opacity: 1
-        fast: true
-        cached: true
-    }
-    DropShadow {
-        anchors.fill: right_button
-        source: right_button
-        color: currTheme.networkPanelShadow
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 10
-        samples: 20
-        opacity: 1
-    }
-
-    ListModel
-    {
-        id:networkListPopups
+        interactive: false
+        clip: true
     }
 
     ListModel {
@@ -233,12 +184,8 @@ DapNetworksPanel
 
     onWidthChanged:
     {
-        for (var i=0; i<networkList.count; ++i) {
-            if (networkListPopups[i])
-            {
-                networkListPopups[i].x = networkList.x+item_width*i+(item_width-networkListPopups[i].width)/2
-            }
-        }
+        control.visible_count = getCountVisiblePopups()
+        networkList.currentIndex = cur_index
     }
     Connections
     {
@@ -247,24 +194,10 @@ DapNetworksPanel
         onNetworksStatesReceived:
         {
             if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
-                networksPanel.closeAllPopups(networkListPopups, networksModel.count)
+                networkList.closePopups()
             }
-
             networksPanel.modelUpdate(networksStatesList)
-            networksPanel.recreatePopups(networksPanel.dapNetworkList.model, networkListPopups)
-            networksPanel.updateContentInAllOpenedPopups(networkListPopups, networksModel)
-        }
-    }
-
-    function recreatePopups(curModel, popups)
-    {
-        var popupComponent = Qt.createComponent("qrc:/screen/desktop/NetworksPanel/NetworkInfoPopup.qml")
-        for (var i=0; i<curModel.count; ++i) {
-            if (popups[i] === 0 || typeof popups[i] === "undefined") {
-                popups[i] = popupComponent.createObject(dapMainWindow, {"parent" : dapMainWindow})
-                popups[i].x = networkList.x+item_width*i+(item_width-popups[i].width)/2
-                popups[i].isOpen = false
-            }
+            networksPanel.updateContentInAllOpenedPopups(networksModel)
         }
     }
 
@@ -325,14 +258,14 @@ DapNetworksPanel
 
     function updateContentInSpecifiedPopup(popup, curDataFromModel)
     {
-        if (popup.networkName !== curDataFromModel.name)
-            popup.networkName = curDataFromModel.name
+        if (popup.name !== curDataFromModel.name)
+            popup.name = curDataFromModel.name
         if (popup.networkState !== curDataFromModel.networkState)
             popup.networkState = curDataFromModel.networkState
         if (popup.stateColor !== curDataFromModel.stateColor)
             popup.stateColor = curDataFromModel.stateColor
-        if (popup.error !== curDataFromModel.errorMessage)
-            popup.error = curDataFromModel.errorMessage
+        if (popup.errorMessage !== curDataFromModel.errorMessage)
+            popup.errorMessage = curDataFromModel.errorMessage
         if (popup.targetState !== curDataFromModel.targetState)
             popup.targetState = curDataFromModel.targetState
         if (popup.linksCount !== curDataFromModel.linksCount)
@@ -343,12 +276,10 @@ DapNetworksPanel
             popup.nodeAddress = curDataFromModel.nodeAddress
     }
 
-    function updateContentInAllOpenedPopups(popups, curModel)
+    function updateContentInAllOpenedPopups(curModel)
     {
         for (var i=0; i<curModel.count; ++i) {
-            if (popups[i].isOpen) {
-                updateContentInSpecifiedPopup(popups[i], curModel.get(i))
-            }
+            updateContentInSpecifiedPopup(networksModel.get(i), curModel.get(i))
         }
     }
 
@@ -365,12 +296,10 @@ DapNetworksPanel
             return false
         }
     }
-    function getSectionNumberForPopup(mouseX)
+
+    function getCountVisiblePopups()
     {
-        if (mouseX >= 0) {
-            return Math.floor(mouseX / item_width)
-        } else {
-            return -1
-        }
+        var count = (control.parent.parent.width - 114 * pt)/item_width
+        return Math.round(count)
     }
 }

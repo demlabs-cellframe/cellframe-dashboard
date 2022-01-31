@@ -14,16 +14,11 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
-    width: 1280
-    height: 700
-    minimumWidth: 1280
-    minimumHeight: 700
-
     Settings {
         property alias x: window.x
         property alias y: window.y
-        property alias width: window.width
-        property alias height: window.height
+//        property alias width: window.width
+//        property alias height: window.height
     }
 
     //Main window
@@ -47,6 +42,7 @@ ApplicationWindow
             property alias currTheme: mainWindow.currTheme
             property alias dapQuicksandFonts: mainWindow.dapQuicksandFonts
             property alias dapMainWindow: mainWindow
+            height: 40 * pt
         }
     }
 
@@ -119,10 +115,40 @@ ApplicationWindow
             window.minimumWidth = 0
             window.minimumHeight = 0
         }
+        else
+            sizeUpdate()
+
     }
 
     onClosing: {
         close.accepted = false
         window.hide()
+    }
+
+    function sizeUpdate()
+    {
+        if(Screen.width > 1280 && Screen.height > 800)
+        {
+            width = 1280
+            height = 800
+        }
+        else if(Screen.width < 1280 && Screen.height > 800)
+        {
+            width = Screen.width
+            height = 800
+        }
+        else if(Screen.height < 800 && Screen.width > 1280)
+        {
+            width = 1280
+            height = Screen.height - 60
+        }
+        else
+        {
+            width = Screen.width
+            height = Screen.height - 60
+
+        }
+        minimumWidth = width
+        minimumHeight = height
     }
 }

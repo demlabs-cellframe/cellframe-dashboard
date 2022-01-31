@@ -67,31 +67,31 @@ DapTopPanel
     Component
     {
         id:saveFile
-            FileDialog
+        FileDialog
+        {
+            id: saveDialog
+            title: "Save the file"
+            fileMode: FileDialog.SaveFile
+            nameFilters: filterFileArray
+            selectedNameFilter.index: 0
+            modality: Qt.WindowModal
+
+            onFileChanged:
             {
-                id: saveDialog
-                title: "Save the file"
-                fileMode: FileDialog.SaveFile
-                nameFilters: filterFileArray
-                selectedNameFilter.index: 0
-                modality: Qt.WindowModal
+                setPropertyDefaultWindow();
 
-                onFileChanged:
-                {
-                    setPropertyDefaultWindow();
+                var resultAddres = String(currentFile).replace(/file:\/\//,"");
+                resultAddres = resultAddres.replace(/\.([$A-Za-z0-9]{2,4})/,"");
+                resultAddres += "." + selectedNameFilter.extensions[0];
+                dapServiceController.requestToService("DapExportLogCommand",resultAddres,sendLogToFile());
 
-                    var resultAddres = String(currentFile).replace(/file:\/\//,"");
-                    resultAddres = resultAddres.replace(/\.([$A-Za-z0-9]{2,4})/,"");
-                    resultAddres += "." + selectedNameFilter.extensions[0];
-                    dapServiceController.requestToService("DapExportLogCommand",resultAddres,sendLogToFile());
-
-                }
-                onRejected:
-                {
-                    setPropertyDefaultWindow();
-                }
-                Component.onCompleted: visible = true;
             }
+            onRejected:
+            {
+                setPropertyDefaultWindow();
+            }
+            Component.onCompleted: visible = true;
+        }
     }
     ///Creates a string from the model to save to a file.
     function sendLogToFile()

@@ -234,6 +234,7 @@ DapAbstractTab
 
     Component.onCompleted:
     {
+        update()
         updateComboBox()
     }
 

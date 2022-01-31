@@ -7,6 +7,8 @@ import "qrc:/widgets"
 
 Button {
     property bool isSynch : false
+    property alias textBut: button_caption.text
+
 
     id: control
 
@@ -62,6 +64,4 @@ Button {
                 }
         }
     }
-
-
 }
