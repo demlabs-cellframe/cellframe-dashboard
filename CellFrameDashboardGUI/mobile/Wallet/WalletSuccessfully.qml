@@ -43,7 +43,7 @@ Page {
             textButton: qsTr("Done")
 
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText:Qt.AlignCenter
+            horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:
             {

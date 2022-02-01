@@ -83,7 +83,7 @@ Page {
                 textButton: qsTr("Back")
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText:Qt.AlignCenter
+                horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
@@ -103,7 +103,7 @@ Page {
                 textButton: qsTr("Next")
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText:Qt.AlignCenter
+                horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
@@ -111,24 +111,6 @@ Page {
                 }
 
             }
-
-//            Button {
-//                Layout.fillWidth: true
-//                text: qsTr("Back")
-//                onClicked:
-//                {
-//                    mainStackView.pop()
-//                }
-//            }
-
-//            Button {
-//                Layout.fillWidth: true
-//                text: qsTr("Next")
-//                onClicked:
-//                {
-//                    mainStackView.push("qrc:/mobile/Wallet/WalletRecovery.qml")
-//                }
-//            }
         }
 
 

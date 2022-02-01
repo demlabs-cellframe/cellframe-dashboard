@@ -73,7 +73,7 @@ Page {
                 textButton: qsTr("Copy")
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText:Qt.AlignCenter
+                horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
@@ -91,11 +91,12 @@ Page {
                 implicitWidth: 132 * pt
                 implicitHeight: 36 * pt
                 radius: currTheme.radiusButton
+                enabled: false
 
                 textButton: qsTr("Next")
 
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                horizontalAligmentText:Qt.AlignCenter
+                horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
@@ -103,26 +104,6 @@ Page {
                 }
 
             }
-
-//            Button {
-//                Layout.fillWidth: true
-//                text: qsTr("Copy")
-//                onClicked:
-//                {
-//                    next.enabled = true
-//                }
-//            }
-
-//            Button {
-//                id: next
-//                Layout.fillWidth: true
-//                text: qsTr("Next")
-//                enabled: false
-//                onClicked:
-//                {
-//                    mainStackView.push("qrc:/mobile/Wallet/WalletSuccessfully.qml")
-//                }
-//            }
         }
 
         Item {

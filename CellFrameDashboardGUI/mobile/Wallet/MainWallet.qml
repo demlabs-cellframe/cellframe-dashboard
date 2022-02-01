@@ -35,17 +35,6 @@ Page {
             wrapMode: Text.WordWrap
         }
 
-//        Button {
-//            Layout.alignment: Qt.AlignHCenter
-
-//            text: qsTr("Get started")
-//            onClicked:
-//            {
-//                print("Button click")
-//                mainStackView.push("qrc:/Wallet/WalletName.qml")
-//            }
-//        }
-
         DapButton
         {
             Layout.alignment: Qt.AlignHCenter
@@ -57,7 +46,7 @@ Page {
             textButton: qsTr("Get started")
 
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText:Qt.AlignCenter
+            horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:
             {
@@ -84,26 +73,6 @@ Page {
 //                mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
 //            }
 
-//        }
-
-//        Button {
-//            Layout.alignment: Qt.AlignHCenter
-
-//            text: qsTr("Get started")
-//            onClicked:
-//            {
-//                mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
-//            }
-//        }
-
-//        Button {
-//            Layout.alignment: Qt.AlignHCenter
-
-//            text: qsTr("Import an existing wallet")
-//            onClicked:
-//            {
-//                mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
-//            }
 //        }
 
         Item {
