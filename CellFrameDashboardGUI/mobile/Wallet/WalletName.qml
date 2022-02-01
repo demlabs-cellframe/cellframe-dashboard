@@ -62,7 +62,7 @@ Page {
             textButton: qsTr("Next")
 
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-            horizontalAligmentText:Qt.AlignCenter
+            horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:
             {
@@ -70,19 +70,6 @@ Page {
             }
 
         }
-
-
-
-//        Button {
-//            Layout.alignment: Qt.AlignHCenter
-//            Layout.topMargin: 14 * pt
-
-//            text: qsTr("Next")
-//            onClicked:
-//            {
-//                mainStackView.push("qrc:/mobile/Wallet/WalletSignature.qml")
-//            }
-//        }
 
         Item {
             Layout.fillHeight: true

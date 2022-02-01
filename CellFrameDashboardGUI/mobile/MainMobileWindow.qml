@@ -91,23 +91,6 @@ ApplicationWindow {
                 }
             }
 
-//            ToolButton {
-//                id: toolButton
-////                text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-////                icon.source: "qrc:/mobile/Icons/MenuIcon.png"
-//                icon.source: stackView.depth > 1 ? "qrc:/mobile/Icons/Close.png" : "qrc:/mobile/Icons/MenuIcon.png"
-//                font.pixelSize: Qt.application.font.pixelSize * 1.6
-
-//                onClicked: {
-//                    if (stackView.depth > 1) {
-////                        stackView.pop()
-//                        stackView.clearAll()
-//                    } else {
-//                        drawer.open()
-//                    }
-//                }
-//            }
-
             Label {
                 Layout.fillWidth: true
                 text: stackView.currentItem.title
@@ -135,14 +118,6 @@ ApplicationWindow {
                     networkDrawer.open()
                 }
             }
-
-//            ToolButton {
-//                id: toolButton1
-//                icon.source: stackView.depth > 1 ?  "" : "qrc:/mobile/Icons/NetIcon.png"
-//                font.pixelSize: Qt.application.font.pixelSize * 1.6
-//                enabled: stackView.depth <= 1
-//            }
-
         }
 
     }
