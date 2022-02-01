@@ -164,7 +164,8 @@ int main(int argc, char *argv[])
     DapPluginsController pluginsManager(filePluginConfig,pluginPath);
     context->setContextProperty("pluginsManager", &pluginsManager);
 
-    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+//    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+    app.qmlEngine()->load(QUrl("qrc:/mobile/MainMobileWindow.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
 

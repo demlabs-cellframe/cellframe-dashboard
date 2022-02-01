@@ -333,5 +333,34 @@
         <file>screen/desktop/Plugin/Elements/DapPluginMainScreen.qml</file>
         <file>screen/desktop/Plugin/Elements/DapPluginsBlock.qml</file>
         <file>screen/desktop/Plugin/DapApp.qml</file>
+        <file>mobile/MainMobileWindow.qml</file>
+        <file>mobile/MainMenu.qml</file>
+        <file>mobile/MainStackView.qml</file>
+        <file>mobile/Page1Form.ui.qml</file>
+        <file>mobile/Page2Form.ui.qml</file>
+        <file>mobile/PageComingSoon.qml</file>
+        <file>mobile/Wallet/CustomRadioButton.qml</file>
+        <file>mobile/Wallet/MainWallet.qml</file>
+        <file>mobile/Wallet/Wallet24Words.qml</file>
+        <file>mobile/Wallet/WalletName.qml</file>
+        <file>mobile/Wallet/WalletRecovery.qml</file>
+        <file>mobile/Wallet/WalletSignature.qml</file>
+        <file>mobile/Wallet/WalletSuccessfully.qml</file>
+        <file>mobile/Icons/Close.png</file>
+        <file>mobile/Icons/ComingSoon.png</file>
+        <file>mobile/Icons/IconCertificates.png</file>
+        <file>mobile/Icons/IconExchange.png</file>
+        <file>mobile/Icons/IconHistory.png</file>
+        <file>mobile/Icons/IconLogs.png</file>
+        <file>mobile/Icons/IconSettings.png</file>
+        <file>mobile/Icons/IconTokens.png</file>
+        <file>mobile/Icons/IconVPNclient.png</file>
+        <file>mobile/Icons/IconVPNservice.png</file>
+        <file>mobile/Icons/IconWallet.png</file>
+        <file>mobile/Icons/MenuIcon.png</file>
+        <file>mobile/Icons/MenuIconLight.png</file>
+        <file>mobile/Icons/NetIcon.png</file>
+        <file>mobile/Icons/NetIconLight.png</file>
+        <file>mobile/Icons/Wallet.png</file>
     </qresource>
 </RCC>
