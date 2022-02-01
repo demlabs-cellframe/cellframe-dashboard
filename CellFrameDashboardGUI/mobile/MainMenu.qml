@@ -34,19 +34,17 @@ Drawer {
 
     ColumnLayout {
         anchors.fill: parent
-//        anchors.topMargin: 5 * pt
         spacing: 0
 
         Item {
             Layout.fillWidth: true
             Layout.preferredHeight: 44 * pt
-//            Layout.topMargin: 15 * pt
-//            contentItem:
+
             RowLayout
             {
                 anchors.fill: parent
                 anchors.leftMargin: 10 * pt
-                spacing: 0
+
                 Image {
                     Layout.alignment: Qt.AlignVCenter
                     sourceSize.width: 24 * pt
@@ -55,11 +53,14 @@ Drawer {
                     source: "qrc:/mobile/Icons/MenuIcon.png"
                 }
                 Text {
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.leftMargin: 10 * pt
+                    Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
+                    Layout.leftMargin: 5 * pt
                     text: qsTr("Cellframe Dashboard")
                     color: currTheme.textColor
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+                }
+                Item {
+                    Layout.fillWidth: true
                 }
             }
 
@@ -171,7 +172,7 @@ Drawer {
         {
             "name": qsTr("Settings"),
             "bttnIco": "icon_settings.png",
-            "url": "qrc:/mobile/PageComingSoon.qml"
+            "url": "qrc:/mobile/Settings/MainSettings.qml"
         }
     ]
 

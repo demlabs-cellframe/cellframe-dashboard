@@ -147,6 +147,22 @@ ApplicationWindow {
 
     }
 
+    ListModel {
+        id: tokensModelTest
+
+        ListElement {
+            name: "Dap Wallet"
+            address: "0xQRY567812YGAHSJDN456HASJDTQWYE"
+            selected: true
+        }
+
+        ListElement {
+            name: "My Wallet"
+            address: "0xQwRfasf5678956GHJK2aSDfggqQSfg"
+            selected: false
+        }
+    }
+
     MainMenu
     {
         id: mainDrawer

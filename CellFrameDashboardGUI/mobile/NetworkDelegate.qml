@@ -2,31 +2,36 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
-ItemDelegate {
+Item {
     id: deleagte
-    property string networkName: "name"
+    width: 231 * pt
+    height: 140 * pt
+//    property string networkName: "name"
 
-    contentItem:
+//    contentItem:
     ColumnLayout {
         anchors.fill: parent
         anchors.leftMargin: 15
         anchors.rightMargin: 10
+        anchors.topMargin: 15
 
         RowLayout {
             Layout.fillWidth: true
 
             Image {
-                source: "qrc:/mobile/Icons/indicator_online.png"
+                source: modelData.icon
                 Layout.preferredWidth: 10
                 Layout.preferredHeight: 10
                 Layout.alignment: Qt.AlignHCenter
             }
 
             Text {
+                Layout.leftMargin: 12 * pt
                 Layout.fillWidth: true
-                text: networkName
-                font: deleagte.font
+                text: modelData.nameNet
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
 
             Button {
@@ -60,14 +65,18 @@ ItemDelegate {
 
             Text {
                 text: "State:"
-                font.bold: true
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
 
             Text {
                 Layout.fillWidth: true
-                text: "ONLINE"
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                text: modelData.stateNet
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
         }
 
@@ -77,14 +86,18 @@ ItemDelegate {
 
             Text {
                 text: "Target state:"
-                font.bold: true
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
 
             Text {
                 Layout.fillWidth: true
-                text: "ONLINE"
+                text: modelData.targetState
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
         }
 
@@ -94,14 +107,18 @@ ItemDelegate {
 
             Text {
                 text: "Active links:"
-                font.bold: true
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
 
             Text {
                 Layout.fillWidth: true
-                text: "2 from 3"
+                text: modelData.activeLinks
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
         }
 
@@ -111,13 +128,17 @@ ItemDelegate {
 
             Text {
                 text: "Address:"
-                font.bold: true
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
 
             Text {
-                text: "1234...0002"
+                text: modelData.addressNet
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
+                color: currTheme.textColor
             }
 
             Button {

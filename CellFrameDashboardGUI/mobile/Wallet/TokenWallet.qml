@@ -182,14 +182,8 @@ Page {
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                         color: currTheme.textColor
                     }
-
                 }
-
             }
-
-
-
-
         }
     }
 }

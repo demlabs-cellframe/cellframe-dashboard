@@ -371,5 +371,6 @@
         <file>mobile/Icons/Power.png</file>
         <file>mobile/Icons/Reload.png</file>
         <file>mobile/Wallet/TokenWallet.qml</file>
+        <file>mobile/Settings/MainSettings.qml</file>
     </qresource>
 </RCC>
