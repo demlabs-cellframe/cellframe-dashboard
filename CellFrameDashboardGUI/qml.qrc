@@ -362,5 +362,13 @@
         <file>mobile/Icons/NetIcon.png</file>
         <file>mobile/Icons/NetIconLight.png</file>
         <file>mobile/Icons/Wallet.png</file>
+        <file>mobile/NetworkDelegate.qml</file>
+        <file>mobile/NetworkMenu.qml</file>
+        <file>mobile/Icons/Copy.png</file>
+        <file>mobile/Icons/indicator_error.png</file>
+        <file>mobile/Icons/indicator_offline.png</file>
+        <file>mobile/Icons/indicator_online.png</file>
+        <file>mobile/Icons/Power.png</file>
+        <file>mobile/Icons/Reload.png</file>
     </qresource>
 </RCC>
