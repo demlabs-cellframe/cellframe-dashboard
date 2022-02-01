@@ -52,11 +52,12 @@ Drawer {
                     sourceSize.width: 24 * pt
                     sourceSize.height: 24 * pt
                     fillMode: Image.PreserveAspectFit
-                    source: "qrc:/mobile/Icons/MenuIcon.png"
+                    source: "qrc:/mobile/Icons/MenuIconLight.png"
                 }
                 Text {
                     Layout.alignment: Qt.AlignVCenter
                     Layout.leftMargin: 10 * pt
+                    Layout.fillWidth: true
                     text: qsTr("Cellframe Dashboard")
                     color: currTheme.textColor
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
@@ -136,7 +137,7 @@ Drawer {
         {
             "name": qsTr("Exchange"),
             "bttnIco": "icon_exchange.png",
-            "url": "qrc:/mobile/Page1Form.ui.qml"
+            "url": "qrc:/mobile/PageComingSoon.qml"
         },
         {
             "name": qsTr("TX Explorer"),
@@ -146,7 +147,7 @@ Drawer {
         {
             "name": qsTr("Certificates"),
             "bttnIco": "icon_certificates.png",
-            "url": "qrc:/mobile/Page2Form.ui.qml"
+            "url": "qrc:/mobile/PageComingSoon.qml"
         },
         {
             "name": qsTr("Tokens"),

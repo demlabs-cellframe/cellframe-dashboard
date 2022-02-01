@@ -25,6 +25,30 @@ ApplicationWindow {
     property var currTheme: currThemeVal ? darkTheme : lightTheme
 
 
+    property int currentWallet: 0
+    property int currentNetwork: 0
+    property int currentToken: 0
+
+    ListModel {
+        id: walletsModel
+    }
+
+    ListModel {
+        id: networksModel
+    }
+
+
+    property alias mainWalletsModel: walletsModel
+
+    property alias mainNetworkModel: networksModel
+
+    Component.onCompleted:
+    {
+        initModel()
+
+        updateNetworksModel()
+    }
+
     property alias mainStackView: stackView
 
     title: qsTr("Cellframe Dashboard")
@@ -167,4 +191,111 @@ ApplicationWindow {
 //        initialItem: "qrc:/mobile/Wallet/MainWallet.qml"
         initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
     }
+
+    function initModel()
+    {
+        walletsModel.append(
+                    { "name" : "MyWallet",
+                      "networks" : [] })
+
+        // NETWORKS
+        walletsModel.get(0).networks.append(
+                    { "name" : "CORE-T",
+                      "address" : "RpiDC8c1T1Phj39nZxX36V9bzq1XtZYVsGW6FwfsF3zxdGWdaBgRLRUr53pWDYxGWpBS9E1zza1wfNAJVkaSEsXvqS6C7fvgB8SutDyz",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        walletsModel.get(0).networks.append(
+                    { "name" : "KELVIN-TESTNET",
+                      "address" : "RvHrfKqLPYy2uCKx1YtaiYvu62qBAPuPEaA32noX6pMnpwxovghxKiHjToD2PvovVsQCu9sQWX6d5HmpXrxSv46Pmbdvc1v7huo8Q5yM",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        walletsModel.get(0).networks.append(
+                    { "name" : "PRIVATE",
+                      "address" : "RpiDC8c1T1Phj39nYaFWBGDxHaPPWb1TR7qEFK5eQPFfjahknJuP9bd5B5a88JaRSaCBy6M2nv6fV1bbCai1Pt6hPhmaq1j9sPDc5mHr",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        walletsModel.get(0).networks.append(
+                    { "name" : "SUBZERO",
+                      "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+
+        // TOKENS 0
+        walletsModel.get(0).networks.get(0).tokens.append(
+                    { "name" : "CELL",
+                      "balance" : 1963.521002,
+                      "balance text" : "1963.521002"})
+        walletsModel.get(0).networks.get(0).tokens.append(
+                    { "name" : "KEL",
+                      "balance" : 70340.239,
+                      "balance text" : "70340.239"})
+        walletsModel.get(0).networks.get(0).tokens.append(
+                    { "name" : "TOKEN",
+                      "balance" : 23.9847,
+                      "balance text" : "23.9847"})
+
+        // TOKENS 1
+        walletsModel.get(0).networks.get(1).tokens.append(
+                    { "name" : "CELL",
+                      "balance" : 1963.521002,
+                      "balance text" : "1963.521002"})
+        walletsModel.get(0).networks.get(1).tokens.append(
+                    { "name" : "KEL",
+                      "balance" : 70340.239,
+                      "balance text" : "70340.239"})
+        walletsModel.get(0).networks.get(1).tokens.append(
+                    { "name" : "TOKEN",
+                      "balance" : 23.9847,
+                      "balance text" : "23.9847"})
+
+        // TOKENS 2
+        walletsModel.get(0).networks.get(2).tokens.append(
+                    { "name" : "CELL",
+                      "balance" : 1963.521002,
+                      "balance text" : "1963.521002"})
+        walletsModel.get(0).networks.get(2).tokens.append(
+                    { "name" : "KEL",
+                      "balance" : 70340.239,
+                      "balance text" : "70340.239"})
+        walletsModel.get(0).networks.get(2).tokens.append(
+                    { "name" : "TOKEN",
+                      "balance" : 23.9847,
+                      "balance text" : "23.9847"})
+
+        // TOKENS 3
+        walletsModel.get(0).networks.get(3).tokens.append(
+                    { "name" : "CELL",
+                      "balance" : 1963.521002,
+                      "balance text" : "1963.521002"})
+        walletsModel.get(0).networks.get(3).tokens.append(
+                    { "name" : "KEL",
+                      "balance" : 70340.239,
+                      "balance text" : "70340.239"})
+        walletsModel.get(0).networks.get(3).tokens.append(
+                    { "name" : "TOKEN",
+                      "balance" : 23.9847,
+                      "balance text" : "23.9847"})
+
+    }
+
+    function updateNetworksModel()
+    {
+        networksModel.clear()
+
+        var tempModel = mainWalletsModel.get(currentWallet).networks
+
+        for (var i = 0; i < tempModel.count; ++i)
+        {
+            networksModel.append({"name" : tempModel.get(i).name})
+        }
+    }
+
 }
