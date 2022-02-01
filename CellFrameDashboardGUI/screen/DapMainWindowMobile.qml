@@ -23,8 +23,10 @@ Page {
 
     //property string title: qsTr("Main window")
 
-    header: RowLayout {
-        height: 100
+    header: GridLayout {
+        //height: 100
+        rows: 2
+        columns: 3
 
         Rectangle {
             id: headerRect
@@ -67,27 +69,13 @@ Page {
             }
         }
 
-        ColumnLayout {
-            Layout.fillHeight: true
+        Text {
+            id: titleText
             Layout.fillWidth: true
-            Item {
-                Layout.fillHeight: true
-            }
-            Text {
-                id: titleText
-                Layout.fillWidth: true
-                font.bold: true
-                horizontalAlignment: Text.AlignHCenter
-                color: currTheme.textColor
-                text: qsTr("Wallet")
-            }
-            Text {
-                id: walletName
-                Layout.fillWidth: true
-                horizontalAlignment: Text.AlignHCenter
-                color: currTheme.textColor
-                text: qsTr("Name of my wallet")
-            }
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+            color: currTheme.textColor
+            text: qsTr("Wallet")
         }
 
         ItemDelegate {
@@ -106,6 +94,22 @@ Page {
 
                 }
             }
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+        Text {
+            id: walletName
+            Layout.fillWidth: true
+            horizontalAlignment: Text.AlignHCenter
+            color: currTheme.textColor
+            text: qsTr("Name of my wallet")
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 
