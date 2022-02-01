@@ -10,7 +10,7 @@ RadioButton {
     contentItem: Text {
         text: control.text
 //        opacity: enabled ? 1.0 : 0.3
-        color: control.checked ? "black" : "grey"
+        color: control.checked ? "#ffffff" : "#ACABB3"
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }
