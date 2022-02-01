@@ -8,39 +8,9 @@ Page {
     title: qsTr("Wallet")
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
-    ListModel {
-        id: networksModel
-
-        ListElement {
-            name: "CELLNET"
-            selected: true
-        }
-
-        ListElement {
-            name: "KELNET"
-            selected: false
-        }
-
-        ListElement {
-            name: "TEST"
-            selected: false
-        }
-
-        ListElement {
-            name: "TEST"
-            selected: false
-        }
-
-        ListElement {
-            name: "TEST"
-            selected: false
-        }
-
-        ListElement {
-            name: "TEST"
-            selected: false
-        }
-    }
+//    ListModel {
+//        id: networksModel
+//    }
 
     ListModel {
         id: tokensModel
@@ -70,7 +40,7 @@ Page {
     {
         anchors.fill: parent
 
-        spacing: 20
+        spacing: 10
 
         ListView {
             clip: true
@@ -78,7 +48,7 @@ Page {
             Layout.fillWidth: true
             height: 50 * pt
 
-            model: networksModel
+            model: mainNetworkModel
 
             ScrollBar.horizontal: ScrollBar {
                 active: true
@@ -96,7 +66,7 @@ Page {
                     text: name
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                     horizontalAlignment: Text.AlignHCenter
-                    color: selected ? currTheme.buttonColorHover : currTheme.textColor
+                    color: index === currentNetwork ? currTheme.buttonColorHover : currTheme.textColor
                 }
 
                 Rectangle
@@ -104,7 +74,7 @@ Page {
                     Layout.alignment: Qt.AlignCenter
                     width: 20 * pt
                     height: 3 * pt
-                    color: selected ? currTheme.buttonColorHover : currTheme.textColor
+                    color: index === currentNetwork ? currTheme.buttonColorHover : currTheme.textColor
                 }
             }
 
@@ -125,7 +95,7 @@ Page {
             }
 
             delegate:
-                Item{
+            Item {
 //                width: parent.width
                 height: 40
 //                anchors.margins: 10
