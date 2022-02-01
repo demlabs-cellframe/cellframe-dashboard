@@ -86,7 +86,7 @@ ApplicationWindow {
 //                        stackView.pop()
                         stackView.clearAll()
                     } else {
-                        drawer.open()
+                        mainDrawer.open()
                     }
                 }
             }
@@ -131,6 +131,9 @@ ApplicationWindow {
                 indentImageLeftButton: 0 * pt
                 transColor: true
                 enabled: stackView.depth <= 1
+                onClicked: {
+                    networkDrawer.open()
+                }
             }
 
 //            ToolButton {
@@ -146,7 +149,14 @@ ApplicationWindow {
 
     MainMenu
     {
-        id: drawer
+        id: mainDrawer
+        width: parent.width * 0.66
+        height: parent.height
+    }
+
+    NetworkMenu
+    {
+        id: networkDrawer
         width: parent.width * 0.66
         height: parent.height
     }
