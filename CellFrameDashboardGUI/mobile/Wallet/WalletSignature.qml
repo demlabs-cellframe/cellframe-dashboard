@@ -1,9 +1,11 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import "qrc:/widgets/"
 
 Page {
     title: qsTr("Choose signature type")
+    background: Rectangle {color: currTheme.backgroundMainScreen }
 
     ColumnLayout
     {
@@ -29,7 +31,7 @@ Page {
             {
                 Layout.fillWidth: true
                 height: 1
-                color: "grey"
+                color: "#6B6979"
             }
 
             CustomRadioButton {
@@ -41,7 +43,7 @@ Page {
             {
                 Layout.fillWidth: true
                 height: 1
-                color: "grey"
+                color: "#6B6979"
             }
 
             CustomRadioButton {
@@ -53,7 +55,7 @@ Page {
             {
                 Layout.fillWidth: true
                 height: 1
-                color: "grey"
+                color: "#6B6979"
             }
 
             CustomRadioButton {
@@ -61,28 +63,72 @@ Page {
                 text: qsTr("Tesla")
             }
         }
+        Item {
+            Layout.fillHeight: true
+        }
 
         RowLayout
         {
             Layout.fillWidth: true
+            spacing: 17 * pt
 
-            Button {
+            DapButton
+            {
                 Layout.fillWidth: true
-                text: qsTr("Back")
+
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
+                radius: currTheme.radiusButton
+
+                textButton: qsTr("Back")
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText:Qt.AlignCenter
+                colorTextButton: "#FFFFFF"
                 onClicked:
                 {
                     mainStackView.pop()
                 }
+
             }
 
-            Button {
+            DapButton
+            {
                 Layout.fillWidth: true
-                text: qsTr("Next")
+
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
+                radius: currTheme.radiusButton
+
+                textButton: qsTr("Next")
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText:Qt.AlignCenter
+                colorTextButton: "#FFFFFF"
                 onClicked:
                 {
                     mainStackView.push("qrc:/mobile/Wallet/WalletRecovery.qml")
                 }
+
             }
+
+//            Button {
+//                Layout.fillWidth: true
+//                text: qsTr("Back")
+//                onClicked:
+//                {
+//                    mainStackView.pop()
+//                }
+//            }
+
+//            Button {
+//                Layout.fillWidth: true
+//                text: qsTr("Next")
+//                onClicked:
+//                {
+//                    mainStackView.push("qrc:/mobile/Wallet/WalletRecovery.qml")
+//                }
+//            }
         }
 
 
