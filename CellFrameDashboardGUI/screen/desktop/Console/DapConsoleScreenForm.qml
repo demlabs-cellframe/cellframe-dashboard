@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
+import CommandsCmdController 1.0
 
 DapAbstractScreen
 {
@@ -20,6 +21,13 @@ DapAbstractScreen
     ///@detalis consoleInput Reference to console input area
     property alias consoleInput: consoleCmd
     property alias dapInputCommand: inputCommand
+
+    CommandsCmdController
+    {
+        id: commandsCmdController
+    }
+
+   // Component.onCompleted: console.log("LLLLLLLLLLLLLLLLLLLLLLLLLLLL")
 
     anchors
     {
@@ -125,6 +133,8 @@ DapAbstractScreen
                         Keys.onDownPressed: (consoleHistoryIndex > -1) ?
                                                 consoleHistoryIndex -= 1 :
                                                 null
+
+                        Keys.onTabPressed: text = commandsCmdController.shortCommandsIncludedValue(text)
 
                         onTextChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
                     }

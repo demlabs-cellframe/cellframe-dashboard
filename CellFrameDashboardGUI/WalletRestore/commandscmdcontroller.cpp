@@ -1,5 +1,5 @@
 #include "commandscmdcontroller.h"
-
+#include <QDebug>
 
 void CommandsCmdController::getCommands()
 {
@@ -195,17 +195,19 @@ void CommandsCmdController::getAllCommands()
 
 CommandsCmdController::CommandsCmdController(QObject *parent) : QObject(parent)
 {
-    void getCommands();
-    void getShortCommands();
-    void getCommandsWithParams();
+    getCommands();
+    getShortCommands();
+    getCommandsWithParams();
 }
 
 QString CommandsCmdController::shortCommandsIncludedValue(const QString &value)
 {
-    for (int i = 0; i < shortCommands.size(); ++i)
+    for (int i = 0; i < shortCommands.length(); ++i)
     {
         if (shortCommands[i].contains(value))
+        {
             return shortCommands[i];
+        }
     }
     return value;
 }
