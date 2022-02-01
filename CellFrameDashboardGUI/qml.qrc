@@ -348,5 +348,7 @@
         <file>screen/DapMainWindowMobile.qml</file>
         <file>resources/icons/burger_menu_icon.png</file>
         <file>resources/icons/network_icon.png</file>
+        <file>screen/controls/DapMainButtonsMenu.qml</file>
+        <file>screen/controls/DapMenuButtonMobile.qml</file>
     </qresource>
 </RCC>

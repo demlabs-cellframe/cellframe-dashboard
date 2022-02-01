@@ -21,28 +21,62 @@ Page {
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
 
+    //property string title: qsTr("Main window")
+
     header: RowLayout {
+        height: 100
+
         Rectangle {
+            id: headerRect
+            Rectangle {
+                width: parent.width
+                height: 30
+                anchors.top: parent.top
+                color: currTheme.backgroundPanel
+            }
             anchors.fill: parent
             color: currTheme.backgroundPanel
-            radius: 10
+            radius: 20
         }
 
-        Item {
+        InnerShadow {
+            anchors.fill: headerRect
+            radius: 3.0
+            samples: 16
+            horizontalOffset: 0
+            verticalOffset: -1
+            color: "#858585"
+            source: headerRect
+        }
+
+        ItemDelegate {
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
+            Layout.leftMargin: 10
+
             Image {
                 anchors.fill: parent
                 source: "qrc:/resources/icons/burger_menu_icon.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    mainButtonsMenu.open()
+                }
             }
         }
 
         ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            Item {
+                Layout.fillHeight: true
+            }
             Text {
                 id: titleText
                 Layout.fillWidth: true
+                font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 color: currTheme.textColor
                 text: qsTr("Wallet")
@@ -56,12 +90,21 @@ Page {
             }
         }
 
-        Item {
+        ItemDelegate {
             Layout.preferredWidth: 25
             Layout.preferredHeight: 25
+            Layout.rightMargin: 10
+
             Image {
                 anchors.fill: parent
                 source: "qrc:/resources/icons/network_icon.png"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+
+                }
             }
         }
     }
@@ -75,5 +118,9 @@ Page {
         anchors.fill: parent
 
         initialItem: walletPage
+    }
+
+    DapMainButtonsMenu {
+        id: mainButtonsMenu
     }
 }
