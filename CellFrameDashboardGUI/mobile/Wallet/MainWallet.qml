@@ -4,9 +4,6 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets/"
 
 Page {
-//    width: 600
-//    height: 400
-
     title: qsTr("Wallet")
     background: Rectangle {color: currTheme.backgroundMainScreen }
 

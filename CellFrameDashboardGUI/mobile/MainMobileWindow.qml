@@ -31,7 +31,7 @@ ApplicationWindow {
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
     header: ToolBar {
-        contentHeight: 56 * pt
+//        contentHeight: 56 * pt
 
         background:
             Item {
@@ -51,7 +51,8 @@ ApplicationWindow {
                 InnerShadow {
                     anchors.fill: headerRect
                     radius: 3.0
-                    samples: 16
+                    samples: 10
+                    cached: true
                     horizontalOffset: 0
                     verticalOffset: -1
                     color: "#858585"
@@ -65,17 +66,21 @@ ApplicationWindow {
         {
             anchors.fill: parent
             anchors.leftMargin: 10 * pt
-            anchors.rightMargin: -4 * pt
+            anchors.rightMargin: 10 * pt
 
             DapButton
             {
-                Layout.preferredHeight: 40 * pt
-                Layout.preferredWidth: 40 * pt
+                Layout.alignment: Qt.AlignTop
+                Layout.topMargin: 10 * pt
+                Layout.bottomMargin: 15 * pt
+
+                Layout.preferredHeight: 24 * pt
+                Layout.preferredWidth: 24 * pt
                 id: toolButton
                 normalImageButton: stackView.depth > 1 ? "qrc:/mobile/Icons/Close.png" : "qrc:/mobile/Icons/MenuIcon.png"
                 hoverImageButton: stackView.depth > 1 ? "qrc:/mobile/Icons/Close.png" : "qrc:/mobile/Icons/MenuIcon.png"
-                height: 40 * pt
-                width: 40 * pt
+//                height: 40 * pt
+//                width: 40 * pt
                 widthImageButton: 24 * pt
                 heightImageButton: 24 * pt
                 indentImageLeftButton: 0 * pt
@@ -91,41 +96,44 @@ ApplicationWindow {
                 }
             }
 
-//            ToolButton {
-//                id: toolButton
-////                text: stackView.depth > 1 ? "\u25C0" : "\u2630"
-////                icon.source: "qrc:/mobile/Icons/MenuIcon.png"
-//                icon.source: stackView.depth > 1 ? "qrc:/mobile/Icons/Close.png" : "qrc:/mobile/Icons/MenuIcon.png"
-//                font.pixelSize: Qt.application.font.pixelSize * 1.6
-
-//                onClicked: {
-//                    if (stackView.depth > 1) {
-////                        stackView.pop()
-//                        stackView.clearAll()
-//                    } else {
-//                        drawer.open()
-//                    }
-//                }
-//            }
-
-            Label {
+            ColumnLayout
+            {
+                Layout.alignment: Qt.AlignTop
+                Layout.topMargin: 10 * pt
+                Layout.bottomMargin: 5 * pt
                 Layout.fillWidth: true
-                text: stackView.currentItem.title
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
-                horizontalAlignment: Text.AlignHCenter
-                color: currTheme.textColor
-//                anchors.centerIn: parent
+
+                Label {
+                    Layout.fillWidth: true
+                    text: stackView.currentItem.title
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+                    horizontalAlignment: Text.AlignHCenter
+                    color: currTheme.textColor
+                }
+
+                Label {
+                    visible: true
+                    Layout.fillWidth: true
+                    text: "MyWallet"
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    horizontalAlignment: Text.AlignHCenter
+                    color: currTheme.textColor
+                }
             }
 
             DapButton
             {
-                Layout.preferredHeight: 40 * pt
-                Layout.preferredWidth: 40 * pt
+                Layout.alignment: Qt.AlignTop
+                Layout.topMargin: 10 * pt
+                Layout.bottomMargin: 15 * pt
+
+                Layout.preferredHeight: 24 * pt
+                Layout.preferredWidth: 24 * pt
                 id: toolButton1
                 normalImageButton: stackView.depth > 1 ?  "" : "qrc:/mobile/Icons/NetIcon.png"
                 hoverImageButton: stackView.depth > 1 ?  "" : "qrc:/mobile/Icons/NetIcon.png"
-                height: 40 * pt
-                width: 40 * pt
+//                height: 40 * pt
+//                width: 40 * pt
                 widthImageButton: 24 * pt
                 heightImageButton: 24 * pt
                 indentImageLeftButton: 0 * pt
@@ -135,14 +143,6 @@ ApplicationWindow {
                     networkDrawer.open()
                 }
             }
-
-//            ToolButton {
-//                id: toolButton1
-//                icon.source: stackView.depth > 1 ?  "" : "qrc:/mobile/Icons/NetIcon.png"
-//                font.pixelSize: Qt.application.font.pixelSize * 1.6
-//                enabled: stackView.depth <= 1
-//            }
-
         }
 
     }
@@ -164,6 +164,7 @@ ApplicationWindow {
     MainStackView {
         id: stackView
         anchors.fill: parent
-        initialItem: "qrc:/mobile/Wallet/MainWallet.qml"
+//        initialItem: "qrc:/mobile/Wallet/MainWallet.qml"
+        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
     }
 }

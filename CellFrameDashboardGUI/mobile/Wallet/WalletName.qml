@@ -17,26 +17,18 @@ Page {
         Item {
             Layout.fillHeight: true
         }
-        CustomRadioButton {
+
+        TextField {
             Layout.alignment: Qt.AlignHCenter
-            width: contentItem.implicitWidth
-            checked: true
-            contentItem:
-            TextField {
-//                Layout.alignment: Qt.AlignHCenter
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width
 
-                placeholderText: qsTr("Enter a new wallet name")
-                color: "#ffffff"
+            placeholderText: qsTr("Enter a new wallet name")
+            color: "#ffffff"
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
 
-                background: Rectangle{color:"transparent"}
-                onFocusChanged:
-                {
-                    if(focus)
-                        parent.checked = true
-                }
-            }
+            background: Rectangle{color:"transparent"}
         }
-
 
         Rectangle
         {
