@@ -22,9 +22,9 @@ Page {
 
             model: mainNetworkModel
 
-            ScrollBar.horizontal: ScrollBar {
-                active: true
-            }
+//            ScrollBar.horizontal: ScrollBar {
+//                active: true
+//            }
 
             delegate:
             ColumnLayout
@@ -69,7 +69,7 @@ Page {
 
             clip: true
 
-            model: mainTokenModel
+            model: tokenModel
 
             ScrollBar.vertical: ScrollBar {
                 active: true

@@ -24,7 +24,9 @@ Item {
             Layout.fillWidth: true
 
             Image {
-                source: "qrc:/mobile/Icons/indicator_online.png"
+                source: curr_state === "ONLINE" ?  "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
+                        curr_state === "ERROR"   ?  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
+                                                    "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
                 Layout.preferredWidth: 10
                 Layout.preferredHeight: 10
                 Layout.alignment: Qt.AlignHCenter
