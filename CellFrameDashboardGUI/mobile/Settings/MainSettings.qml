@@ -161,6 +161,7 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
+                walletNameLabel.visible = false
                 mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
             }
 
@@ -168,6 +169,7 @@ Page {
 
         DapButton
         {
+            visible: false
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: 10 * pt
 
@@ -182,6 +184,7 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
+                walletNameLabel.visible = false
                 mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
             }
 

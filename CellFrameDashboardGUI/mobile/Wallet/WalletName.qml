@@ -59,7 +59,7 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
-                window.createWallet(nameWallet.text);
+                newWalletName = nameWallet.text
                 mainStackView.push("qrc:/mobile/Wallet/WalletSignature.qml")
             }
 
