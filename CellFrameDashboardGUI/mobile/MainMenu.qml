@@ -65,6 +65,11 @@ Drawer {
                 }
             }
 
+            MouseArea {
+                anchors.fill: parent
+                onClicked:
+                    drawer.close()
+            }
         }
 
         Rectangle {

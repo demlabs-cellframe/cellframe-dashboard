@@ -122,6 +122,7 @@ Page {
                             id:controlCopy
                             anchors.fill: parent
                             hoverEnabled: true
+                            onClicked: clipboard.setText(networks.get(currentNetwork).address)
                         }
 
                     }
