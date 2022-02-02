@@ -123,9 +123,18 @@ Page {
 
                 textButton: qsTr("Paste")
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
+
+                customColors: true
+                gradientHover0:"#B9B8D9"
+                gradientNormal0:"#A4A3C0"
+                gradientHover1:"#9392B0"
+                gradientNormal1:"#7D7C96"
+                gradientNoActive:"gray"
+
+
                 onClicked:
                 {
                     addressText.text = clipboard.getText()

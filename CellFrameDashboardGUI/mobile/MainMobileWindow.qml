@@ -225,6 +225,7 @@ ApplicationWindow {
         walletModel.get(0).networks.append(
                     { "name" : "CORE-T",
                       "address" : "RpiDC8c1T1Phj39nZxX36V9bzq1XtZYVsGW6FwfsF3zxdGWdaBgRLRUr53pWDYxGWpBS9E1zza1wfNAJVkaSEsXvqS6C7fvgB8SutDyz",
+                      "net_address" : "N2CA::00FQ::KJB4::875G",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
@@ -232,6 +233,7 @@ ApplicationWindow {
         walletModel.get(0).networks.append(
                     { "name" : "KELVIN-TESTNET",
                       "address" : "RvHrfKqLPYy2uCKx1YtaiYvu62qBAPuPEaA32noX6pMnpwxovghxKiHjToD2PvovVsQCu9sQWX6d5HmpXrxSv46Pmbdvc1v7huo8Q5yM",
+                      "net_address" : "875G::N2CA::KJB4::875G",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
@@ -239,6 +241,7 @@ ApplicationWindow {
         walletModel.get(0).networks.append(
                     { "name" : "PRIVATE",
                       "address" : "RpiDC8c1T1Phj39nYaFWBGDxHaPPWb1TR7qEFK5eQPFfjahknJuP9bd5B5a88JaRSaCBy6M2nv6fV1bbCai1Pt6hPhmaq1j9sPDc5mHr",
+                      "net_address" : "KJB4::875G::N2CA::00FQ",
                       "curr_state" : "ERROR",
                       "target_state" : "ERROR",
                       "active_links" : 0,
@@ -246,6 +249,7 @@ ApplicationWindow {
         walletModel.get(0).networks.append(
                     { "name" : "SUBZERO",
                       "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "net_address" : "1128::00FQ::N2CA::N2CA",
                       "curr_state" : "DISCONNECTING",
                       "target_state" : "OFFLINE",
                       "active_links" : 1,
@@ -296,6 +300,7 @@ ApplicationWindow {
         {
             networkModel.append({"name" : tempModel.get(i).name,
                                 "address" : tempModel.get(i).address,
+                                "net_address" : tempModel.get(i).net_address,
                                 "curr_state" : tempModel.get(i).curr_state,
                                 "target_state" : tempModel.get(i).target_state,
                                 "active_links" : tempModel.get(i).active_links})
@@ -357,6 +362,7 @@ ApplicationWindow {
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "CORE-T",
                       "address" : "RpiDC8c1SxrTF3aStz2MaMxqb1JKP26oSFx3tycvLWZ1BQxYyF7G2ASNewNJvzobmi3qfbhpQDVq8HxyNGax8DYediXUxtrZ3GgsJyEa",
+                      "net_address" : "N2CA::00FQ::KJB4::875G",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
@@ -364,6 +370,7 @@ ApplicationWindow {
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "KELVIN-TESTNET",
                       "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "net_address" : "875G::N2CA::KJB4::875G",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
@@ -371,16 +378,18 @@ ApplicationWindow {
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "PRIVATE",
                       "address" : "rTDbDdeStfpodpLUcfpwxuto4VVuqySxypZQAP3jFLPfKZHC94kR3ZqsVZWL1Qo8sZnT65746a18ijq2ZZr2SjrBszdot72kNH4YSnKN",
-                      "curr_state" : "ONLINE",
-                      "target_state" : "ONLINE",
-                      "active_links" : 2,
+                      "net_address" : "KJB4::875G::N2CA::00FQ",
+                      "curr_state" : "ERROR",
+                      "target_state" : "ERROR",
+                      "active_links" : 0,
                       "tokens" : []})
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "SUBZERO",
                       "address" : "rTDbDdeStfpodpLUe46Ut8pSmk84Dwz1RyEGB1dx618xDF64vwXTEPhePXkiHgrkzvKQRdu2FJJE2fXBYtDDFPqGHgNQUzWZr5yd9YGQ",
-                      "curr_state" : "ONLINE",
+                      "net_address" : "1128::00FQ::N2CA::N2CA",
+                      "curr_state" : "DISCONNECTING",
                       "target_state" : "ONLINE",
-                      "active_links" : 2,
+                      "active_links" : 1,
                       "tokens" : []})
         // TOKENS 0
         walletModel.get(walletModel.count-1).networks.get(0).tokens.append(
