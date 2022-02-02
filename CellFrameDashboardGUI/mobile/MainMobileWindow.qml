@@ -52,6 +52,7 @@ ApplicationWindow {
 
     property real sendAmount: 123.456
     property string sendAddress: ""
+    property string sendToken: ""
 
     Component.onCompleted:
     {
@@ -253,43 +254,35 @@ ApplicationWindow {
         // TOKENS 0
         walletModel.get(0).networks.get(0).tokens.append(
                     { "name" : "CELL-core",
-                      "balance" : 1963.521002,
-                      "balance_text" : "1963.521002"})
+                      "balance" : 1963.521002})
         walletModel.get(0).networks.get(0).tokens.append(
                     { "name" : "TOKENL-core",
-                      "balance" : 382.02803,
-                      "balance_text" : "382.02803"})
+                      "balance" : 382.02803})
 
         // TOKENS 1
         walletModel.get(0).networks.get(1).tokens.append(
                     { "name" : "CELL-kelvin",
-                      "balance" : 39058.00045,
-                      "balance_text" : "39058.00045"})
+                      "balance" : 39058.00045})
         walletModel.get(0).networks.get(1).tokens.append(
                     { "name" : "KEL-kelvin",
-                      "balance" : 509014.000561,
-                      "balance_text" : "509014.000561"})
+                      "balance" : 509014.000561})
         walletModel.get(0).networks.get(1).tokens.append(
                     { "name" : "TOKEN-kelvin",
-                      "balance" : 566.3839,
-                      "balance_text" : "566.3839"})
+                      "balance" : 566.3839})
 
         // TOKENS 2
         walletModel.get(0).networks.get(2).tokens.append(
                     { "name" : "TEST",
-                      "balance" : 4472.9391,
-                      "balance_text" : "4472.9391"})
+                      "balance" : 4472.9391})
 
 
         // TOKENS 3
         walletModel.get(0).networks.get(3).tokens.append(
                     { "name" : "CELL-subzero",
-                      "balance" : 9037.17033,
-                      "balance_text" : "9037.17033"})
+                      "balance" : 9037.17033})
         walletModel.get(0).networks.get(3).tokens.append(
                     { "name" : "KEL-subzero",
-                      "balance" : 24905.7384,
-                      "balance_text" : "24905.7384"})
+                      "balance" : 24905.7384})
 
     }
 
@@ -318,8 +311,7 @@ ApplicationWindow {
         for (var i = 0; i < tempModel.count; ++i)
         {
             tokenModel.append({"name" : tempModel.get(i).name,
-                               "balance" : tempModel.get(i).balance,
-                               "balance_text" : tempModel.get(i).balance_text})
+                               "balance" : tempModel.get(i).balance})
         }
     }
 
@@ -328,10 +320,32 @@ ApplicationWindow {
         var balance = mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance - sendAmount
 
         mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance = balance;
-        mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance_text = balance;
+
+        for (var i = 0; i < mainWalletModel.count; ++i)
+        {
+            for (var j = 0; j < mainWalletModel.get(i).networks.count; ++j)
+            {
+                if (sendAddress === mainWalletModel.get(i).networks.get(j).address)
+                {
+                    print("sendAddress", sendAddress)
+
+                    var tempModel = mainWalletModel.get(i).networks.get(j).tokens
+
+                    for (var k = 0; k < tempModel.count; ++k)
+                    {
+                        if (tempModel.get(k).name === sendToken)
+                        {
+                            print("sendToken", sendToken)
+
+                            print(sendToken, tempModel.get(k).name)
+                            tempModel.get(k).balance += sendAmount
+                        }
+                    }
+                }
+            }
+        }
 
         updateTokenModel()
-
     }
 
     function createWallet(name)
@@ -371,43 +385,35 @@ ApplicationWindow {
         // TOKENS 0
         walletModel.get(walletModel.count-1).networks.get(0).tokens.append(
                     { "name" : "CELL-core",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
         walletModel.get(walletModel.count-1).networks.get(0).tokens.append(
                     { "name" : "TOKENL-core",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
 
         // TOKENS 1
         walletModel.get(walletModel.count-1).networks.get(1).tokens.append(
                     { "name" : "CELL-kelvin",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
         walletModel.get(walletModel.count-1).networks.get(1).tokens.append(
                     { "name" : "KEL-kelvin",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
         walletModel.get(walletModel.count-1).networks.get(1).tokens.append(
                     { "name" : "TOKEN-kelvin",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
 
         // TOKENS 2
         walletModel.get(walletModel.count-1).networks.get(2).tokens.append(
                     { "name" : "TEST",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
 
 
         // TOKENS 3
         walletModel.get(walletModel.count-1).networks.get(3).tokens.append(
                     { "name" : "CELL-subzero",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
         walletModel.get(walletModel.count-1).networks.get(3).tokens.append(
                     { "name" : "KEL-subzero",
-                        "balance" : 0.0,
-                        "balance_text" : "0.0"})
+                        "balance" : 0.0})
 
 
     }

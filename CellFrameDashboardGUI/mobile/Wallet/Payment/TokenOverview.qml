@@ -162,6 +162,7 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
+                    sendToken = walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name
                     mainStackView.push("qrc:/mobile/Wallet/Payment/TokenAmount.qml")
                 }
 
