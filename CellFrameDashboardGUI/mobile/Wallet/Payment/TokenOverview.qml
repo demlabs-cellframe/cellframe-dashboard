@@ -25,7 +25,7 @@ Page {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-                text: qsTr(walletsModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
             }
             Item {
                 Layout.fillWidth: true
@@ -34,7 +34,7 @@ Page {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                text: qsTr(walletsModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance.toString())
+                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance.toString())
             }
         }
         Rectangle
@@ -163,7 +163,7 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
-                    mainStackView.push("qrc:/mobile/Wallet/Payment/SendToken.qml")
+                    mainStackView.push("qrc:/mobile/Wallet/Payment/TransactionOverview.qml")
                 }
 
             }

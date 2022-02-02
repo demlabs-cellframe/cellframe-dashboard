@@ -1,0 +1,145 @@
+import QtQuick 2.12
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
+import "qrc:/widgets/"
+
+Page {
+    title: qsTr("Transaction overview")
+    background: Rectangle {color: currTheme.backgroundMainScreen }
+
+    ColumnLayout
+    {
+        anchors.fill: parent
+        anchors.margins: 50 * pt
+        width: parent.width
+        spacing: 10 * pt
+
+        RowLayout
+        {
+//            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Text {
+                color: currTheme.textColor
+//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font.family: "Quicksand"
+                font.pixelSize: 16 * pt
+                font.bold: true
+                text: qsTr("Network: ")
+            }
+
+            Text {
+
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).name)
+            }
+        }
+
+        RowLayout
+        {
+//            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Text {
+                color: currTheme.textColor
+//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font.family: "Quicksand"
+                font.pixelSize: 16 * pt
+                font.bold: true
+                text: qsTr("Amount: ")
+            }
+
+            Text {
+
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                text: qsTr( sendAmount + " " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+            }
+        }
+
+        RowLayout
+        {
+//            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+//            Layout.maximumWidth: Qt
+            Text {
+                Layout.alignment: Qt.AlignTop
+                color: currTheme.textColor
+//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font.family: "Quicksand"
+                font.pixelSize: 16 * pt
+                font.bold: true
+                text: qsTr("To: ")
+            }
+
+            Text {
+                Layout.fillWidth: true
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.Wrap
+
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).address)
+
+            }
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+        RowLayout
+        {
+            Layout.fillWidth: true
+            spacing: 17 * pt
+
+            DapButton
+            {
+                Layout.fillWidth: true
+
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
+                radius: currTheme.radiusButton
+
+                textButton: qsTr("Back")
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+                colorTextButton: "#FFFFFF"
+                onClicked:
+                {
+
+                    mainStackView.pop()
+                }
+
+            }
+
+            DapButton
+            {
+                id: next
+                Layout.fillWidth: true
+
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
+                radius: currTheme.radiusButton
+                enabled: true
+
+                textButton: qsTr("Next")
+
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+                colorTextButton: "#FFFFFF"
+                onClicked:
+                {
+                    mainStackView.push("qrc:/mobile/Wallet/Payment/TransactionSuccessfully.qml")
+                }
+
+            }
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+    }
+}
