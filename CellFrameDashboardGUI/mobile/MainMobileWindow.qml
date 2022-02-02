@@ -50,6 +50,8 @@ ApplicationWindow {
 
     property string newWalletName: ""
 
+    property real sendAmount: 123.456
+
     Component.onCompleted:
     {
         initModel()
