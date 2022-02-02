@@ -47,6 +47,7 @@ ApplicationWindow {
         initModel()
 
         updateNetworksModel()
+        nameWallet.text = walletsModel.get(currentWallet).name
     }
 
     property alias mainStackView: stackView
@@ -136,9 +137,10 @@ ApplicationWindow {
                 }
 
                 Label {
+                    id:nameWallet
                     visible: true
                     Layout.fillWidth: true
-                    text: "MyWallet"
+                    text: walletsModel.get(currentWallet).name
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAlignment: Text.AlignHCenter
                     color: currTheme.textColor
@@ -171,22 +173,6 @@ ApplicationWindow {
 
     }
 
-    ListModel {
-        id: tokensModelTest
-
-        ListElement {
-            name: "Dap Wallet"
-            address: "0xQRY567812YGAHSJDN456HASJDTQWYE"
-            selected: true
-        }
-
-        ListElement {
-            name: "My Wallet"
-            address: "0xQwRfasf5678956GHJK2aSDfggqQSfg"
-            selected: false
-        }
-    }
-
     MainMenu
     {
         id: mainDrawer
@@ -211,7 +197,7 @@ ApplicationWindow {
     function initModel()
     {
         walletsModel.append(
-                    { "name" : "MyWallet",
+                    { "name" : "DapWallet",
                       "networks" : [] })
 
         // NETWORKS
@@ -312,6 +298,48 @@ ApplicationWindow {
         {
             networksModel.append({"name" : tempModel.get(i).name})
         }
+    }
+
+    function createWallet(name)
+    {
+        walletsModel.append(
+                    { "name" : name,
+                      "networks" : [] })
+
+        walletsModel.get(walletsModel.count-1).networks.append(
+                    { "name" : "CORE-T",
+                      "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        walletsModel.get(walletsModel.count-1).networks.append(
+                    { "name" : "KELVIN-TESTNET",
+                      "address" : "RvHrfKqLPYy2uCKx1YtaiYvu62qBAPuPEaA32noX6pMnpwxovghxKiHjToD2PvovVsQCu9sQWX6d5HmpXrxSv46Pmbdvc1v7huo8Q5yM",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        walletsModel.get(walletsModel.count-1).networks.append(
+                    { "name" : "PRIVATE",
+                      "address" : "RpiDC8c1T1Phj39nYaFWBGDxHaPPWb1TR7qEFK5eQPFfjahknJuP9bd5B5a88JaRSaCBy6M2nv6fV1bbCai1Pt6hPhmaq1j9sPDc5mHr",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        walletsModel.get(walletsModel.count-1).networks.append(
+                    { "name" : "SUBZERO",
+                      "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "state" : "ONLINE",
+                      "target state" : "ONLINE",
+                      "active links" : 1,
+                      "tokens" : []})
+        // TOKENS 0
+        walletsModel.get(walletsModel.count-1).networks.get(currentNetwork).tokens.append(
+                    { "name" : "CELL",
+                      "balance" : 0.0,
+                      "balance text" : "0.0"})
+
     }
 
 }

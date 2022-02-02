@@ -55,26 +55,6 @@ Page {
 
         }
 
-//        DapButton
-//        {
-//            Layout.alignment: Qt.AlignHCenter
-
-//            implicitWidth: 165 * pt
-//            implicitHeight: 36 * pt
-//            radius: currTheme.radiusButton
-
-//            textButton: qsTr("Import an existing wallet")
-
-//            fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-//            horizontalAligmentText:Qt.AlignCenter
-//            colorTextButton: "#FFFFFF"
-//            onClicked:
-//            {
-//                mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
-//            }
-
-//        }
-
         Item {
             Layout.fillHeight: true
         }

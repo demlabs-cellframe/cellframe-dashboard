@@ -138,7 +138,7 @@ Drawer {
         {
             "name": qsTr("Wallet"),
             "bttnIco": "icon_wallet.png",
-            "url": "qrc:/mobile/Wallet/MainWallet.qml"
+            "url": walletsModel.count > 0 ? "qrc:/mobile/Wallet/TokenWallet.qml" : "qrc:/mobile/Wallet/MainWallet.qml"
         },
         {
             "name": qsTr("Exchange"),

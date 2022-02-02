@@ -22,7 +22,8 @@ Page {
 
             clip: true
 
-            model: tokensModelTest
+//            model: tokensModelTest
+            model: walletsModel
 
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -42,7 +43,7 @@ Page {
                 Rectangle {
                     id: headerRect
                     anchors.fill: parent
-                    color: selected? currTheme.buttonColorNormalPosition0 : "#32363D"
+                    color: index === currentWallet? currTheme.buttonColorNormalPosition0 : "#32363D"
                     radius: 10
                 }
                 InnerShadow {
@@ -85,8 +86,7 @@ Page {
                     Label {
                         Layout.fillWidth: true
                         Layout.maximumWidth: controlList.width/2.5
-//                        width: controlList.width - nameWall.width - parent.spacing - 5 * pt
-                        text: address
+                        text: networks.get(currentNetwork).address
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                         color: currTheme.textColor
                         elide: Text.ElideMiddle
@@ -121,10 +121,10 @@ Page {
                     {
                         if(!controlCopy.containsMouse)
                         {
-                            if(!selected)
+                            if(index !== currentWallet)
                                 controlList.setSelected(index)
                         }else
-                            controlList.copyStringToClipboard(address)
+                            controlList.copyStringToClipboard(model.get(index).networks.get(currentNetwork).address)
                     }
                 }
             }
@@ -135,16 +135,8 @@ Page {
 
             function setSelected(index)
             {
-                unselectedAll()
-                tokensModelTest.get(index).selected = true;
-            }
-
-            function unselectedAll()
-            {
-                for(var i = 0; i < tokensModelTest.count; i++)
-                {
-                    tokensModelTest.get(i).selected = false;
-                }
+                currentWallet = index;
+                nameWallet.text = walletsModel.get(currentWallet).name
             }
 
             function copyStringToClipboard(address)
@@ -200,7 +192,5 @@ Page {
         {
             Layout.fillHeight: true
         }
-
     }
-
 }

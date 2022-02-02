@@ -19,6 +19,7 @@ Page {
         }
 
         TextField {
+            id: nameWallet
             Layout.alignment: Qt.AlignHCenter
             horizontalAlignment: Text.AlignHCenter
             width: parent.width
@@ -58,6 +59,7 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
+                window.createWallet(nameWallet.text);
                 mainStackView.push("qrc:/mobile/Wallet/WalletSignature.qml")
             }
 
