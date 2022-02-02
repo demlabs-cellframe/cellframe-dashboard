@@ -97,26 +97,34 @@ Page {
                         elide: Text.ElideMiddle
                     }
 
-                    MouseArea {
-                        id:controlCopy
+                    DapButton
+                    {
+                        implicitWidth: 50 * pt
+                        implicitHeight: 20 * pt
+                        radius: 5 * pt
 
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 20 * pt
-                        Layout.maximumWidth: 20 * pt
-                        Layout.minimumHeight: 20 * pt
-                        Layout.maximumHeight: 20 * pt
-                        hoverEnabled: true
-//                        onClicked: controlList.copyStringToClipboard(address)
+                        textButton: qsTr("Copy")
 
-                        DapImageLoader {
-                            id: networkAddrCopyButtonImage
+                        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                        horizontalAligmentText: Text.AlignHCenter
+                        colorTextButton: "#FFFFFF"
 
+                        customColors: true
+                        gradientHover0:"#B9B8D9"
+                        gradientNormal0:"#A4A3C0"
+                        gradientHover1:"#9392B0"
+                        gradientNormal1:"#7D7C96"
+                        gradientNoActive:"gray"
 
-                            innerWidth: parent.width
-                            innerHeight: parent.height
-                            source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+                        MouseArea {
+                            id:controlCopy
+                            anchors.fill: parent
+                            hoverEnabled: true
                         }
+
                     }
+
+
                 }
 
                 MouseArea

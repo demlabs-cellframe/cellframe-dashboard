@@ -142,7 +142,7 @@ Item {
             }
 
             Text {
-                text: address
+                text: net_address
                 Layout.maximumWidth: deleagte.width/2.5
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
