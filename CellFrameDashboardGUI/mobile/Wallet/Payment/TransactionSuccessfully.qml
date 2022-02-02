@@ -71,9 +71,9 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
-
-                window.createWallet(newWalletName);
+                window.updateBalance()
                 mainStackView.clearAll()
+
             }
 
         }

@@ -240,16 +240,16 @@ ApplicationWindow {
         walletModel.get(0).networks.append(
                     { "name" : "PRIVATE",
                       "address" : "RpiDC8c1T1Phj39nYaFWBGDxHaPPWb1TR7qEFK5eQPFfjahknJuP9bd5B5a88JaRSaCBy6M2nv6fV1bbCai1Pt6hPhmaq1j9sPDc5mHr",
-                      "curr_state" : "ONLINE",
-                      "target_state" : "ONLINE",
-                      "active_links" : 2,
+                      "curr_state" : "ERROR",
+                      "target_state" : "ERROR",
+                      "active_links" : 0,
                       "tokens" : []})
         walletModel.get(0).networks.append(
                     { "name" : "SUBZERO",
                       "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
-                      "curr_state" : "ONLINE",
-                      "target_state" : "ONLINE",
-                      "active_links" : 2,
+                      "curr_state" : "DISCONNECTING",
+                      "target_state" : "OFFLINE",
+                      "active_links" : 1,
                       "tokens" : []})
 
         // TOKENS 0
@@ -323,6 +323,17 @@ ApplicationWindow {
                                "balance" : tempModel.get(i).balance,
                                "balance_text" : tempModel.get(i).balance_text})
         }
+    }
+
+    function updateBalance()
+    {
+        var balance = mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance - sendAmount
+
+        mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance = balance;
+        mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance_text = balance;
+
+        updateTokenModel()
+
     }
 
     function createWallet(name)
