@@ -108,7 +108,7 @@ Page {
                 Rectangle {
                     id: headerRect
                     anchors.fill: parent
-                    color: "#32363D"
+                    color: mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :"#32363D"
                     radius: 10
                 }
                 InnerShadow {
@@ -151,6 +151,16 @@ Page {
                         text: balance
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                         color: currTheme.textColor
+                    }
+                }
+
+                MouseArea
+                {
+                    id: mouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked:{
+                        mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
                     }
                 }
             }
