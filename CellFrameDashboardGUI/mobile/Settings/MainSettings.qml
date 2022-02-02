@@ -161,6 +161,7 @@ Page {
             {
                 walletNameLabel.visible = false
                 mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
+                headerWindow.background.visible = false
             }
 
         }

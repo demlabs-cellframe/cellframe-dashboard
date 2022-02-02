@@ -143,6 +143,8 @@ Page {
                     onClicked:{
                         currentToken = index
                         mainStackView.push("qrc:/mobile/Wallet/Payment/TokenOverview.qml")
+                        headerWindow.background.visible = false
+                        walletNameLabel.visible = false
                     }
                 }
             }
