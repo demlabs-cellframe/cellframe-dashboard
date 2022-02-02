@@ -333,5 +333,8 @@
         <file>screen/desktop/Plugin/Elements/DapPluginMainScreen.qml</file>
         <file>screen/desktop/Plugin/Elements/DapPluginsBlock.qml</file>
         <file>screen/desktop/Plugin/DapApp.qml</file>
+        <file>resources/icons/switch_off.png</file>
+        <file>resources/icons/switch_on.png</file>
+        <file>../../Desktop/Снимок экрана 2022-02-02 в 17.23.49.png</file>
     </qresource>
 </RCC>
