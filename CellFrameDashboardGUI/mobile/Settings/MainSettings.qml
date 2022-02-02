@@ -2,12 +2,17 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
+import qmlclipboard 1.0
 import "qrc:/widgets/"
 import "../"
 
 Page {
     title: qsTr("Settings")
     background: Rectangle {color: currTheme.backgroundMainScreen }
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     ColumnLayout
     {
@@ -23,7 +28,7 @@ Page {
             clip: true
 
 //            model: tokensModelTest
-            model: walletModel
+            model: mainWalletModel
 
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -124,13 +129,9 @@ Page {
                             if(index !== currentWallet)
                                 controlList.setSelected(index)
                         }else
-                            controlList.copyStringToClipboard(model.get(index).networks.get(currentNetwork).address)
+                            clipboard.setText(mainWalletModel.get(index).networks.get(currentNetwork).address)
                     }
                 }
-            }
-            TextEdit {
-                id: textEdit
-                visible: false
             }
 
             function setSelected(index)
@@ -141,13 +142,6 @@ Page {
                 updateNetworkModel()
 
                 updateTokenModel()
-            }
-
-            function copyStringToClipboard(address)
-            {
-                textEdit.text = address
-                textEdit.selectAll()
-                textEdit.copy()
             }
         }
         DapButton

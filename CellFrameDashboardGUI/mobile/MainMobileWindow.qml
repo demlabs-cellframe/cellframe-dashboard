@@ -333,21 +333,21 @@ ApplicationWindow {
                       "tokens" : []})
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "KELVIN-TESTNET",
-                      "address" : "RvHrfKqLPYy2uCKx1YtaiYvu62qBAPuPEaA32noX6pMnpwxovghxKiHjToD2PvovVsQCu9sQWX6d5HmpXrxSv46Pmbdvc1v7huo8Q5yM",
-                      "curr_state" : "ONLINE",
-                      "target_state" : "ONLINE",
-                      "active_links" : 2,
-                      "tokens" : []})
-        walletModel.get(walletModel.count-1).networks.append(
-                    { "name" : "PRIVATE",
                       "address" : "RpiDC8c1T1Phj39nYaFWBGDxHaPPWb1TR7qEFK5eQPFfjahknJuP9bd5B5a88JaRSaCBy6M2nv6fV1bbCai1Pt6hPhmaq1j9sPDc5mHr",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
                       "tokens" : []})
         walletModel.get(walletModel.count-1).networks.append(
+                    { "name" : "PRIVATE",
+                      "address" : "RvHrfKqLPYy2uCKx1YtaiYvu62qBAPuPEaA32noX6pMnpwxovghxKiHjToD2PvovVsQCu9sQWX6d5HmpXrxSv46Pmbdvc1v7huo8Q5yM",
+                      "curr_state" : "ONLINE",
+                      "target_state" : "ONLINE",
+                      "active_links" : 2,
+                      "tokens" : []})
+        walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "SUBZERO",
-                      "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "address" : "RpiDC8c1T1Phj39nZxX36V9bzq1XtZYVsGW6FwfsF3zxdGWdaBgRLRUr53pWDYxGWpBS9E1zza1wfNAJVkaSEsXvqS6C7fvgB8SutDyz",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,

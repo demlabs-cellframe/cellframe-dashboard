@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import qmlclipboard 1.0
 import "qrc:/widgets/"
 
 Item {
@@ -8,6 +9,10 @@ Item {
 //    width: 231 * pt
     width: parent.width
     height: 140 * pt
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -155,6 +160,10 @@ Item {
                 heightImageButton: 20 * pt
                 indentImageLeftButton: 0 * pt
                 transColor: true
+                onClicked:
+                {
+                    clipboard.setText(address)
+                }
             }
         }
     }
