@@ -5,7 +5,8 @@ import "qrc:/widgets/"
 
 Item {
     id: deleagte
-    width: 231 * pt
+//    width: 231 * pt
+    width: parent.width
     height: 140 * pt
 
     ColumnLayout {
@@ -18,16 +19,16 @@ Item {
             Layout.fillWidth: true
 
             Image {
-                source: modelData.icon
+                source: "qrc:/mobile/Icons/indicator_online.png"
                 Layout.preferredWidth: 10
                 Layout.preferredHeight: 10
                 Layout.alignment: Qt.AlignHCenter
             }
 
             Text {
-                Layout.leftMargin: 10 * pt
+                Layout.leftMargin: 5 * pt
                 Layout.fillWidth: true
-                text: modelData.nameNet
+                text: name
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
@@ -76,7 +77,7 @@ Item {
             Text {
                 Layout.fillWidth: true
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                text: modelData.stateNet
+                text: curr_state
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -95,7 +96,7 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                text: modelData.targetState
+                text: target_state
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
@@ -115,7 +116,7 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                text: modelData.activeLinks
+                text: active_links + " from 2"
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
@@ -134,10 +135,12 @@ Item {
             }
 
             Text {
-                text: modelData.addressNet
+                text: address
+                Layout.maximumWidth: deleagte.width/2.5
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
+                elide: Text.ElideMiddle
             }
 
             DapButton
