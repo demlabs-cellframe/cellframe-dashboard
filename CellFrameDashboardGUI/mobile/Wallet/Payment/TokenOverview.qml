@@ -163,7 +163,7 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
-                    mainStackView.push("qrc:/mobile/Wallet/Payment/TransactionOverview.qml")
+                    mainStackView.push("qrc:/mobile/Wallet/Payment/TokenAmount.qml")
                 }
 
             }

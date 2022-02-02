@@ -375,5 +375,7 @@
         <file>mobile/Wallet/Payment/TokenOverview.qml</file>
         <file>mobile/Wallet/Payment/TransactionOverview.qml</file>
         <file>mobile/Wallet/Payment/TransactionSuccessfully.qml</file>
+        <file>mobile/Wallet/Payment/TokenAmount.qml</file>
+        <file>mobile/Wallet/Payment/TokenAddress.qml</file>
     </qresource>
 </RCC>
