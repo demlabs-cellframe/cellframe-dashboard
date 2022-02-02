@@ -47,6 +47,8 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
+                walletNameLabel.visible = true
+                window.createWallet(newWalletName);
                 mainStackView.clearAll()
             }
 

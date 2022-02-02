@@ -50,6 +50,7 @@ Page {
             colorTextButton: "#FFFFFF"
             onClicked:
             {
+                walletNameLabel.visible = false
                 mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
             }
 

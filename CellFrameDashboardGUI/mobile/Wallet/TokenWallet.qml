@@ -48,7 +48,7 @@ Page {
             Layout.fillWidth: true
             height: 50 * pt
 
-            model: mainNetworkModel
+            model: networksModel
 
             ScrollBar.horizontal: ScrollBar {
                 active: true
@@ -77,8 +77,6 @@ Page {
                     color: index === currentNetwork ? currTheme.buttonColorHover : currTheme.textColor
                 }
             }
-
-
         }
 
         ListView {
@@ -88,7 +86,7 @@ Page {
 
             clip: true
 
-            model: tokensModel
+            model: walletsModel.get(currentWallet).networks.get(currentNetwork).tokens
 
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -160,6 +158,7 @@ Page {
                     anchors.fill: parent
                     hoverEnabled: true
                     onClicked:{
+                        currentToken = index
                         mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
                     }
                 }

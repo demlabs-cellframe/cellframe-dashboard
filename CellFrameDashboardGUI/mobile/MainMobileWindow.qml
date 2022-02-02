@@ -9,8 +9,8 @@ import "qrc:/resources/QML"
 ApplicationWindow {
     id: window
     visible: true
-    width: 320
-    height: 480
+    width: 400
+    height: 500
 
     property alias dapQuicksandFonts: quicksandFonts
     DapFontQuicksand {
@@ -42,15 +42,20 @@ ApplicationWindow {
 
     property alias mainNetworkModel: networksModel
 
+    property string newWalletName: ""
+
     Component.onCompleted:
     {
         initModel()
 
         updateNetworksModel()
         nameWallet.text = walletsModel.get(currentWallet).name
+        stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
     }
 
     property alias mainStackView: stackView
+
+    property alias walletNameLabel: nameWallet
 
     title: qsTr("Cellframe Dashboard")
     background: Rectangle {color: currTheme.backgroundMainScreen }
@@ -115,6 +120,7 @@ ApplicationWindow {
                     if (stackView.depth > 1) {
 //                        stackView.pop()
                         stackView.clearAll()
+                        walletNameLabel.visible = true
                     } else {
                         mainDrawer.open()
                     }
@@ -191,7 +197,7 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
 //        initialItem: "qrc:/mobile/Wallet/MainWallet.qml"
-        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
+//        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
     }
 
     function initModel()
