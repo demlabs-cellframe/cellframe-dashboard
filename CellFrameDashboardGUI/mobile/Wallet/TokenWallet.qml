@@ -159,7 +159,7 @@ Page {
                     hoverEnabled: true
                     onClicked:{
                         currentToken = index
-                        mainStackView.push("qrc:/mobile/Wallet/WalletName.qml")
+                        mainStackView.push("qrc:/mobile/Wallet/Payment/TokenOverview.qml")
                     }
                 }
             }
