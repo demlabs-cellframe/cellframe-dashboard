@@ -81,12 +81,12 @@ Drawer {
             Layout.fillWidth: true
             clip: true
             spacing: 20 * pt
-            model: mainNetworksModel
+            model: mainNetworkModel
             delegate:NetworkDelegate{}
         }
     }
 
-    property var mainNetworksModel: [
+/*    property var mainNetworksModel: [
         {
             "icon": "qrc:/mobile/Icons/indicator_online.png",
             "nameNet": qsTr("CELLNET"),
@@ -120,7 +120,7 @@ Drawer {
             "activeLinks" : "1 from 3",
             "addressNet" : "1128::00FQ::N2CA::N2CA"
         }
-    ]
+    ]*/
 
 //    ScrollView {
 //        anchors.fill: parent

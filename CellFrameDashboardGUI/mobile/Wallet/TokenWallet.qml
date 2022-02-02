@@ -8,34 +8,6 @@ Page {
     title: qsTr("Wallet")
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
-//    ListModel {
-//        id: networksModel
-//    }
-
-    ListModel {
-        id: tokensModel
-
-        ListElement {
-            name: "CELL"
-            balance: 12345.678
-        }
-
-        ListElement {
-            name: "CELL"
-            balance: 12345.678
-        }
-
-        ListElement {
-            name: "CELL"
-            balance: 12345.678
-        }
-
-        ListElement {
-            name: "CELL"
-            balance: 12345.678
-        }
-    }
-
     ColumnLayout
     {
         anchors.fill: parent
@@ -48,7 +20,7 @@ Page {
             Layout.fillWidth: true
             height: 50 * pt
 
-            model: networksModel
+            model: mainNetworkModel
 
             ScrollBar.horizontal: ScrollBar {
                 active: true
@@ -76,6 +48,17 @@ Page {
                     height: 3 * pt
                     color: index === currentNetwork ? currTheme.buttonColorHover : currTheme.textColor
                 }
+
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        print("index", index)
+                        currentNetwork = index
+                        window.updateTokenModel()
+                    }
+                }
             }
         }
 
@@ -86,7 +69,7 @@ Page {
 
             clip: true
 
-            model: walletsModel.get(currentWallet).networks.get(currentNetwork).tokens
+            model: mainTokenModel
 
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -146,7 +129,7 @@ Page {
                     }
 
                     Label {
-                        text: balance
+                        text: balance_text
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                         color: currTheme.textColor
                     }

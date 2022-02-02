@@ -35,6 +35,8 @@
 
 #include "WalletRestore/wallethashmanager.h"
 
+#include "mobile/QMLClipboard.h"
+
 bool SingleApplicationTest(const QString &appName)
 {
     static QSystemSemaphore semaphore("<"+appName+" uniq semaphore id>", 1);
@@ -163,6 +165,8 @@ int main(int argc, char *argv[])
     //For plugins
     DapPluginsController pluginsManager(filePluginConfig,pluginPath);
     context->setContextProperty("pluginsManager", &pluginsManager);
+
+    qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
 
 //    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
     app.qmlEngine()->load(QUrl("qrc:/mobile/MainMobileWindow.qml"));
