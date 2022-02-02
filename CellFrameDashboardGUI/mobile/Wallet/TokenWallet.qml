@@ -126,7 +126,7 @@ Page {
                     }
 
                     Label {
-                        text: balance_text
+                        text: balance
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                         color: currTheme.textColor
                     }
