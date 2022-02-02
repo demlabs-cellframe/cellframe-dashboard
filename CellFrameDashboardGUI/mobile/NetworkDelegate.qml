@@ -1,14 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import "qrc:/widgets/"
 
 Item {
     id: deleagte
     width: 231 * pt
     height: 140 * pt
-//    property string networkName: "name"
 
-//    contentItem:
     ColumnLayout {
         anchors.fill: parent
         anchors.leftMargin: 15
@@ -26,7 +25,7 @@ Item {
             }
 
             Text {
-                Layout.leftMargin: 12 * pt
+                Layout.leftMargin: 10 * pt
                 Layout.fillWidth: true
                 text: modelData.nameNet
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
@@ -34,28 +33,32 @@ Item {
                 color: currTheme.textColor
             }
 
-            Button {
-                Layout.preferredWidth: 25
-                Layout.preferredHeight: 25
+            DapButton
+            {
+                Layout.preferredWidth: 25 * pt
+                Layout.preferredHeight: 25 * pt
                 Layout.alignment: Qt.AlignHCenter
 
-                contentItem:
-                    Image {
-                        anchors.fill: parent
-                        source: "qrc:/mobile/Icons/Reload.png"
-                        fillMode: Image.PreserveAspectFit
-                    }
+                normalImageButton: "qrc:/resources/icons/Icon_sync_net_hover.svg"
+                hoverImageButton: "qrc:/resources/icons/Icon_sync_net_hover.svg"
+                widthImageButton: 25 * pt
+                heightImageButton: 25 * pt
+                indentImageLeftButton: 0 * pt
+                enabled: false
             }
-            Button {
-                Layout.preferredWidth: 25
-                Layout.preferredHeight: 25
 
-                contentItem:
-                    Image {
-                        anchors.fill: parent
-                        source: "qrc:/mobile/Icons/Reload.png"
-                        fillMode: Image.PreserveAspectFit
-                    }
+            DapButton
+            {
+                Layout.preferredWidth: 25 * pt
+                Layout.preferredHeight: 25 * pt
+                Layout.alignment: Qt.AlignHCenter
+
+                normalImageButton: "qrc:/resources/icons/icon_on_off_net_hover.svg"
+                hoverImageButton: "qrc:/resources/icons/icon_on_off_net_hover.svg"
+                widthImageButton: 25 * pt
+                heightImageButton: 25 * pt
+                indentImageLeftButton: 0 * pt
+                enabled: false
             }
         }
 
@@ -66,7 +69,6 @@ Item {
             Text {
                 text: "State:"
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
-//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -87,7 +89,6 @@ Item {
             Text {
                 text: "Target state:"
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
-//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -108,7 +109,6 @@ Item {
             Text {
                 text: "Active links:"
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
-//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -129,7 +129,6 @@ Item {
             Text {
                 text: "Address:"
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
-//                font.bold: true
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -141,19 +140,19 @@ Item {
                 color: currTheme.textColor
             }
 
-            Button {
-                Layout.preferredWidth: 20
-                Layout.preferredHeight: 20
+            DapButton
+            {
+                Layout.preferredWidth: 20 * pt
+                Layout.preferredHeight: 20 * pt
+                Layout.alignment: Qt.AlignHCenter
 
-                contentItem:
-                    Image {
-                        anchors.fill: parent
-                        source: "qrc:/mobile/Icons/Copy.png"
-                        fillMode: Image.PreserveAspectFit
-                    }
+                normalImageButton: "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+                hoverImageButton: "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png"
+                widthImageButton: 20 * pt
+                heightImageButton: 20 * pt
+                indentImageLeftButton: 0 * pt
+                transColor: true
             }
         }
-
     }
-
 }
