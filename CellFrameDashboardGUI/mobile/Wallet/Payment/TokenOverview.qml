@@ -60,7 +60,7 @@ Page {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                text: qsTr("994 445 789 076.000654")
+                text: qsTr("994445789076.000654")
             }
         }
         Rectangle
@@ -86,7 +86,7 @@ Page {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                text: qsTr("546 654")
+                text: qsTr("546654")
             }
         }
         Rectangle

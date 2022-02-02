@@ -79,7 +79,7 @@ Page {
 
                 color: currTheme.textColor
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).address)
+                text: sendAddress
 
             }
         }
