@@ -57,7 +57,7 @@ Page {
 
             implicitWidth: 132 * pt
             implicitHeight: 36 * pt
-            radius: currTheme.radiusButton
+            radius: buttonRadius
 
             textButton: qsTr("Copy")
 

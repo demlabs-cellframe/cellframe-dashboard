@@ -41,7 +41,7 @@ Page {
 
             implicitWidth: 165 * pt
             implicitHeight: 36 * pt
-            radius: currTheme.radiusButton
+            radius: buttonRadius
 
             textButton: qsTr("Get started")
 

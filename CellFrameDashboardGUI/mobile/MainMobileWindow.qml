@@ -53,6 +53,8 @@ ApplicationWindow {
     property real sendAmount: 123.456
     property string sendAddress: ""
 
+    property int buttonRadius: currTheme.radiusButton
+
     Component.onCompleted:
     {
         initModel()
