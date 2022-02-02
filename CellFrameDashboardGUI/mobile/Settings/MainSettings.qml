@@ -102,6 +102,7 @@ Page {
                         implicitWidth: 50 * pt
                         implicitHeight: 20 * pt
                         radius: 5 * pt
+                        z: 1
 
                         textButton: qsTr("Copy")
 
@@ -117,6 +118,7 @@ Page {
                         gradientNoActive:"gray"
 
                         MouseArea {
+                            z: 2
                             id:controlCopy
                             anchors.fill: parent
                             hoverEnabled: true
@@ -129,6 +131,7 @@ Page {
 
                 MouseArea
                 {
+                    z: 1
                     anchors.fill: parent
                     onClicked:
                     {
@@ -136,8 +139,11 @@ Page {
                         {
                             if(index !== currentWallet)
                                 controlList.setSelected(index)
-                        }else
+                        }
+                        else
+                        {
                             clipboard.setText(mainWalletModel.get(index).networks.get(currentNetwork).address)
+                        }
                     }
                 }
             }

@@ -12,7 +12,8 @@ Page {
         anchors.fill: parent
         anchors.margins: 30
         width: parent.width
-        spacing: 16
+//        spacing: 16
+        spacing: 0
 
         Item {
             Layout.fillHeight: true
@@ -33,12 +34,14 @@ Page {
 
         Rectangle
         {
+            Layout.topMargin: 5
             Layout.fillWidth: true
             height: 1
             color: "#6B6979"
         }
 
         CustomRadioButton {
+            Layout.topMargin: 14 * pt
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Use on existing wallet")
         }
