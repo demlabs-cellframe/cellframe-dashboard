@@ -1,11 +1,16 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import qmlclipboard 1.0
 import "qrc:/widgets/"
 
 Page {
     title: qsTr("24 words")
     background: Rectangle {color: currTheme.backgroundMainScreen }
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     ColumnLayout
     {
@@ -31,6 +36,7 @@ Page {
         }
 
         Text {
+            id: words24
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
@@ -79,6 +85,8 @@ Page {
                 {
                     next.enabled = true
                     copiedText.visible = true
+
+                    clipboard.setText(words24.text)
                 }
 
             }
