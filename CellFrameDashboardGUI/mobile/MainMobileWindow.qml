@@ -59,6 +59,7 @@ ApplicationWindow {
         updateTokenModel()
 
         nameWallet.text = walletModel.get(currentWallet).name
+        stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
     }
 
     property alias mainStackView: stackView
@@ -205,7 +206,7 @@ ApplicationWindow {
         id: stackView
         anchors.fill: parent
 //        initialItem: "qrc:/mobile/Wallet/MainWallet.qml"
-        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
+//        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
     }
 
     function initModel()
@@ -348,42 +349,42 @@ ApplicationWindow {
                       "active_links" : 1,
                       "tokens" : []})
         // TOKENS 0
-        walletModel.get(0).networks.get(0).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(0).tokens.append(
                     { "name" : "CELL-core",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
-        walletModel.get(0).networks.get(0).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(0).tokens.append(
                     { "name" : "TOKENL-core",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
 
         // TOKENS 1
-        walletModel.get(0).networks.get(1).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(1).tokens.append(
                     { "name" : "CELL-kelvin",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
-        walletModel.get(0).networks.get(1).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(1).tokens.append(
                     { "name" : "KEL-kelvin",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
-        walletModel.get(0).networks.get(1).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(1).tokens.append(
                     { "name" : "TOKEN-kelvin",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
 
         // TOKENS 2
-        walletModel.get(0).networks.get(2).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(2).tokens.append(
                     { "name" : "TEST",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
 
 
         // TOKENS 3
-        walletModel.get(0).networks.get(3).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(3).tokens.append(
                     { "name" : "CELL-subzero",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})
-        walletModel.get(0).networks.get(3).tokens.append(
+        walletModel.get(walletModel.count-1).networks.get(3).tokens.append(
                     { "name" : "KEL-subzero",
                         "balance" : 0.0,
                         "balance_text" : "0.0"})

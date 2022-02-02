@@ -23,7 +23,7 @@ Page {
             clip: true
 
 //            model: tokensModelTest
-            model: walletsModel
+            model: walletModel
 
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -136,7 +136,11 @@ Page {
             function setSelected(index)
             {
                 currentWallet = index;
-                nameWallet.text = walletsModel.get(currentWallet).name
+                nameWallet.text = walletModel.get(currentWallet).name
+
+                updateNetworkModel()
+
+                updateTokenModel()
             }
 
             function copyStringToClipboard(address)
