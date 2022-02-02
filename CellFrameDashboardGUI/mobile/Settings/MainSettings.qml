@@ -73,6 +73,16 @@ Page {
                     source: id1
                 }
 
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked:
+                    {
+                        if(index !== currentWallet)
+                            controlList.setSelected(index)
+                    }
+                }
+
                 RowLayout
                 {
                     anchors.fill: parent
@@ -120,24 +130,8 @@ Page {
                             id:controlCopy
                             anchors.fill: parent
                             hoverEnabled: true
+                            onClicked: clipboard.setText(networks.get(currentNetwork).address)
                         }
-
-                    }
-
-
-                }
-
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
-                    {
-                        if(!controlCopy.containsMouse)
-                        {
-                            if(index !== currentWallet)
-                                controlList.setSelected(index)
-                        }else
-                            clipboard.setText(mainWalletModel.get(index).networks.get(currentNetwork).address)
                     }
                 }
             }
