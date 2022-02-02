@@ -1,19 +1,23 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import qmlclipboard 1.0
 import "qrc:/widgets/"
 
 Page {
-    title: qsTr("Send " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+    title: qsTr("Receive " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
+    QMLClipboard{
+        id: clipboard
+    }
 
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.margins: 30
+        anchors.margins: 50
         width: parent.width
-
+        spacing: 0
 
         Item {
             Layout.fillHeight: true
@@ -24,66 +28,51 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium28
-            color: currTheme.textColor
-            text: qsTr("Placed to mempool")
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            color: "#ffffff"
+
+            text: qsTr("Your wallet address is")
         }
 
-        Text
-        {
-            Layout.topMargin: 36 * pt
+        Text {
+            id:addrText
+            Layout.topMargin: 20 * pt
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
 
-            text: qsTr("Status")
-            color: "#A4A3C0"
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+            color: "#ffffff"
+
+            text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).address)
+            wrapMode: Text.Wrap
         }
 
-        Text
-        {
-            Layout.fillWidth: true
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-
-            text: qsTr("Pending")
-            color: currTheme.textColor
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
-        }
-        Item {
-            Layout.fillHeight: true
-        }
 
         DapButton
         {
             Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: 78 * pt
 
             implicitWidth: 132 * pt
             implicitHeight: 36 * pt
             radius: currTheme.radiusButton
 
-            textButton: qsTr("Done")
+            textButton: qsTr("Copy")
 
             fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:
             {
-
-                window.createWallet(newWalletName);
+                clipboard.setText(addrText.text)
                 mainStackView.clearAll()
             }
-
         }
-
-
         Item {
             Layout.fillHeight: true
         }
 
     }
-
-
 }

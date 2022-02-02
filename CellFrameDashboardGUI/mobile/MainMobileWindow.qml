@@ -73,6 +73,7 @@ ApplicationWindow {
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
     header: ToolBar {
+        id:headerWindow
 //        contentHeight: 56 * pt
 
         background:
@@ -99,6 +100,7 @@ ApplicationWindow {
                     verticalOffset: -1
                     color: "#858585"
                     source: headerRect
+                    visible: parent.visible
                 }
         }
 

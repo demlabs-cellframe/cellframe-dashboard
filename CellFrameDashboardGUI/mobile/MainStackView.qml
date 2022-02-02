@@ -9,6 +9,8 @@ StackView {
     {
         stackView.clear()
         stackView.push(initialItem)
+        headerWindow.background.visible = true
+        walletNameLabel.visible = true
     }
 
     function setInitialItem(item)

@@ -143,9 +143,8 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
-                    mainStackView.push("qrc:/mobile/Wallet/WalletSignature.qml")
+                    mainStackView.push("qrc:/mobile/Wallet/Payment/ReceiveToken.qml")
                 }
-
             }
 
             DapButton
