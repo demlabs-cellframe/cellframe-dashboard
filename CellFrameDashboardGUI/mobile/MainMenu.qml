@@ -53,14 +53,9 @@ Drawer {
                     source: "qrc:/mobile/Icons/MenuIconLight.png"
                 }
                 Text {
-//<<<<<<< HEAD
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
                     Layout.leftMargin: 5 * pt
-//=======
-//                    Layout.alignment: Qt.AlignVCenter
-//                    Layout.leftMargin: 10 * pt
-//                    Layout.fillWidth: true
-//>>>>>>> a5ba176aa92549cb6e6f0622eaf68269744d0b08
+                    Layout.fillWidth: true
                     text: qsTr("Cellframe Dashboard")
                     color: currTheme.textColor
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
