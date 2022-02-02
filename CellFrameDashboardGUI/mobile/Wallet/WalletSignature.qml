@@ -78,7 +78,7 @@ Page {
 
                 implicitWidth: 132 * pt
                 implicitHeight: 36 * pt
-                radius: buttonRadius
+                radius: currTheme.radiusButton
 
                 textButton: qsTr("Back")
 
@@ -98,7 +98,7 @@ Page {
 
                 implicitWidth: 132 * pt
                 implicitHeight: 36 * pt
-                radius: buttonRadius
+                radius: currTheme.radiusButton
 
                 textButton: qsTr("Next")
 

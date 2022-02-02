@@ -150,7 +150,7 @@ Page {
 
             implicitWidth: 200 * pt
             implicitHeight: 36 * pt
-            radius: buttonRadius
+            radius: currTheme.radiusButton
 
             textButton: qsTr("Create new wallet")
 
@@ -174,7 +174,7 @@ Page {
 
             implicitWidth: 200 * pt
             implicitHeight: 36 * pt
-            radius: buttonRadius
+            radius: currTheme.radiusButton
 
             textButton: qsTr("Import an existing wallet")
 
