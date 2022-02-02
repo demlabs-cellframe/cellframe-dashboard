@@ -14,13 +14,15 @@ Page {
         width: parent.width
         spacing: 10 * pt
 
+        Item {
+            Layout.fillHeight: true
+        }
+
         RowLayout
         {
-//            Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             Text {
                 color: currTheme.textColor
-//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 font.family: "Quicksand"
                 font.pixelSize: 16 * pt
                 font.bold: true
@@ -37,11 +39,9 @@ Page {
 
         RowLayout
         {
-//            Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             Text {
                 color: currTheme.textColor
-//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 font.family: "Quicksand"
                 font.pixelSize: 16 * pt
                 font.bold: true
@@ -58,13 +58,10 @@ Page {
 
         RowLayout
         {
-//            Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
-//            Layout.maximumWidth: Qt
             Text {
                 Layout.alignment: Qt.AlignTop
                 color: currTheme.textColor
-//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 font.family: "Quicksand"
                 font.pixelSize: 16 * pt
                 font.bold: true
@@ -133,7 +130,6 @@ Page {
                 {
                     mainStackView.push("qrc:/mobile/Wallet/Payment/TransactionSuccessfully.qml")
                 }
-
             }
         }
 
