@@ -24,7 +24,6 @@ Page {
     //property string title: qsTr("Main window")
 
     header: GridLayout {
-        //height: 100
         rows: 2
         columns: 3
 
@@ -127,4 +126,12 @@ Page {
     DapMainButtonsMenu {
         id: mainButtonsMenu
     }
+
+//    Component.onCompleted: {
+//        console.log("Форма '" + title + "'" + " открыта")
+//    }
+
+//    Component.onDestruction: {
+//        console.log("Форма '" + title + "'" + " закрыта")
+//    }
 }

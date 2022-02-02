@@ -7,7 +7,7 @@ ItemDelegate
 {
     id: buttonDelegate
 
-    width: 18 * pt
+    width: 180 * pt
     height: 40 * pt
 
     property bool isPushed: mainButtonsList.currentIndex === index
