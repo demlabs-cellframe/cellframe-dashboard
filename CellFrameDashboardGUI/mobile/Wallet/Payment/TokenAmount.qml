@@ -5,7 +5,7 @@ import qmlclipboard 1.0
 import "qrc:/widgets/"
 
 Page {
-    title: qsTr("Amount")
+    title: qsTr("Send " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
     QMLClipboard{
@@ -17,39 +17,75 @@ Page {
         anchors.fill: parent
         anchors.margins: 30
         width: parent.width
-        spacing: 30
+        spacing: 0
 
-        Item {
-            Layout.fillHeight: true
+//        Item {
+//            Layout.fillHeight: true
+//        }
+
+        RowLayout
+        {
+            Layout.topMargin: 30
+//            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Text {
+                color: currTheme.textColor
+//                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font.family: "Quicksand"
+                font.pixelSize: 16 * pt
+                font.bold: true
+                text: qsTr("Network: ")
+            }
+
+            Text {
+
+                color: currTheme.textColor
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).name)
+            }
         }
 
         Text {
+            Layout.topMargin: 30
+            id: warningText
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-            color: "#79FFFA"
+            color: "#B3FF00"
 
-            text: qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
+            text: qsTr("Not enough available tokens. Enter a lower value.")
             wrapMode: Text.WordWrap
+            visible: false
         }
 
         TextField {
-            id: nameWallet
+            id: textAmount
+            Layout.topMargin: 30
             Layout.alignment: Qt.AlignHCenter
             horizontalAlignment: Text.AlignHCenter
             width: parent.width
 
-            placeholderText: qsTr("0.0")
+            placeholderText: "0.0"
+            validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
             color: "#ffffff"
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
 
             background: Rectangle{color:"transparent"}
         }
 
+        Rectangle
+        {
+            Layout.topMargin: 5
+            Layout.fillWidth: true
+            height: 1
+            color: "#6B6979"
+        }
+
         RowLayout
         {
+            Layout.topMargin: 30
             Layout.fillWidth: true
             spacing: 17 * pt
 
@@ -89,7 +125,36 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
-                    mainStackView.push("qrc:/mobile/Wallet/Payment/TokenAddress.qml")
+                    var balance = walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance
+
+                    print("balance",
+                          balance)
+                    print("textAmount",
+                          textAmount.text)
+
+                    if (textAmount.text == "")
+                    {
+                        warningText.text = "Zero value."
+                        warningText.visible = true
+                    }
+                    else
+                    if (balance < textAmount.text)
+                    {
+                        warningText.text =
+                            qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value.").
+                            arg(balance)
+                        warningText.visible = true
+                    }
+                    else
+                    {
+                        sendAmount = textAmount.text
+
+                        print("sendAmount", sendAmount)
+
+                        warningText.visible = false
+                        mainStackView.push("qrc:/mobile/Wallet/Payment/TokenAddress.qml")
+                    }
+
                 }
 
             }

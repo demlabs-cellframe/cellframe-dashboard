@@ -51,6 +51,7 @@ ApplicationWindow {
     property string newWalletName: ""
 
     property real sendAmount: 123.456
+    property string sendAddress: ""
 
     Component.onCompleted:
     {
@@ -341,28 +342,28 @@ ApplicationWindow {
 
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "CORE-T",
-                      "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
+                      "address" : "RpiDC8c1SxrTF3aStz2MaMxqb1JKP26oSFx3tycvLWZ1BQxYyF7G2ASNewNJvzobmi3qfbhpQDVq8HxyNGax8DYediXUxtrZ3GgsJyEa",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
                       "tokens" : []})
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "KELVIN-TESTNET",
-                      "address" : "RpiDC8c1T1Phj39nYaFWBGDxHaPPWb1TR7qEFK5eQPFfjahknJuP9bd5B5a88JaRSaCBy6M2nv6fV1bbCai1Pt6hPhmaq1j9sPDc5mHr",
+                      "address" : "RvHrfKqLPYy2uCKwzAd3oL1FNnD2nRNLnRVB2ADJG9cVwG9w8ovv8tRxZpxeNZFZjsj5U2WZfdtygEnqfuzhqBUjo2XzeU6oeLu6B2TP",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
                       "tokens" : []})
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "PRIVATE",
-                      "address" : "RvHrfKqLPYy2uCKx1YtaiYvu62qBAPuPEaA32noX6pMnpwxovghxKiHjToD2PvovVsQCu9sQWX6d5HmpXrxSv46Pmbdvc1v7huo8Q5yM",
+                      "address" : "rTDbDdeStfpodpLUcfpwxuto4VVuqySxypZQAP3jFLPfKZHC94kR3ZqsVZWL1Qo8sZnT65746a18ijq2ZZr2SjrBszdot72kNH4YSnKN",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,
                       "tokens" : []})
         walletModel.get(walletModel.count-1).networks.append(
                     { "name" : "SUBZERO",
-                      "address" : "RpiDC8c1T1Phj39nZxX36V9bzq1XtZYVsGW6FwfsF3zxdGWdaBgRLRUr53pWDYxGWpBS9E1zza1wfNAJVkaSEsXvqS6C7fvgB8SutDyz",
+                      "address" : "rTDbDdeStfpodpLUe46Ut8pSmk84Dwz1RyEGB1dx618xDF64vwXTEPhePXkiHgrkzvKQRdu2FJJE2fXBYtDDFPqGHgNQUzWZr5yd9YGQ",
                       "curr_state" : "ONLINE",
                       "target_state" : "ONLINE",
                       "active_links" : 2,

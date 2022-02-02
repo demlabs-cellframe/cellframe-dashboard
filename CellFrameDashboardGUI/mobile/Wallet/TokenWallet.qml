@@ -51,10 +51,11 @@ Page {
 
                 MouseArea
                 {
-                    anchors.fill: parent
+                    width: parent.width
+                    height: parent.height
+
                     onClicked:
                     {
-                        print("index", index)
                         currentNetwork = index
                         window.updateTokenModel()
                     }
@@ -63,6 +64,7 @@ Page {
         }
 
         ListView {
+            id: tokenView
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 20
@@ -77,41 +79,36 @@ Page {
 
             delegate:
             Item {
-//                width: parent.width
-                height: 40
-//                anchors.margins: 10
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 15 * pt
-                anchors.rightMargin: 15 * pt
+                width: tokenView.width - 30 * pt
+                x: 15 * pt
+                height: 40 * pt
 
-//                anchors.fill: parent
                 Rectangle {
-                    id: headerRect
+                    id: itemRect
                     anchors.fill: parent
                     color: mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :"#32363D"
                     radius: 10
                 }
                 InnerShadow {
-                    id: id1
-                    anchors.fill: headerRect
+                    id: shadow
+                    anchors.fill: itemRect
                     radius: 10.0
                     samples: 10
                     cached: true
                     horizontalOffset: 2
                     verticalOffset: 2
                     color: "#505050"
-                    source: headerRect
+                    source: itemRect
                 }
                 DropShadow {
-                    anchors.fill: headerRect
+                    anchors.fill: itemRect
                     radius: 10.0
                     samples: 10
                     cached: true
                     horizontalOffset: 2
                     verticalOffset: 2
                     color: "#252525"
-                    source: id1
+                    source: shadow
                 }
 
                 RowLayout
@@ -129,7 +126,7 @@ Page {
                     }
 
                     Label {
-                        text: balance_text
+                        text: balance
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                         color: currTheme.textColor
                     }
