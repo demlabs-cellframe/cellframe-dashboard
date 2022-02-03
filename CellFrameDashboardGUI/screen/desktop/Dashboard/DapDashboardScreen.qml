@@ -45,6 +45,8 @@ DapAbstractScreen
         color: "transparent"
         Column
         {
+            y: 50 * pt
+            x: 40 * pt
 //            anchors.top: parent.top
 //            anchors.fill: parent
 //            anchors.horizontalCenter: parent.horizontalCenter
@@ -56,20 +58,21 @@ DapAbstractScreen
 //            }
             Item
             {
-//                width: 450 * pt
-//                height: 450 * pt
+                //width: 450 * pt
+                //height: 450 * pt
                 width: iconCreateWallet.implicitWidth
                 height: iconCreateWallet.implicitHeight
+
+                //anchors.centerIn: parent
 
                 Image
                 {
                     anchors.fill: parent
                     id: iconCreateWallet
                     source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                    sourceSize.width: 450 * pt
-                    sourceSize.height: 450 * pt
+                    sourceSize.width: 250 * pt
+                    sourceSize.height: 250 * pt
                     fillMode: Image.PreserveAspectFit
-
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -79,6 +82,13 @@ DapAbstractScreen
 //                width: parent.width
 //                color: "transparent"
 //            }
+
+            Item
+            {
+                height: 45 * pt
+                width: parent.width
+            }
+
             Text
             {
                 id: titleTextWalletCreate
