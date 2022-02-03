@@ -145,7 +145,7 @@ ListView {
                     right: infoButton.right
                     rightMargin: 14 * pt
                 }
-                image.source: "qrc:/resources/icons/Certificates/ic_info.svg"
+                image.source: "qrc:/resources/icons/Certificates/ic_info.png"
                 image.width: 30 * pt
                 image.height: 30 * pt
 
