@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.5
 import "parts"
+import "qrc:/widgets"
 
 
 
@@ -141,13 +142,13 @@ ListView {
                 height: parent.height
                 visible: model.selected
 
-                image.anchors {
-                    right: infoButton.right
-                    rightMargin: 14 * pt
+                DapImageLoader{
+                    anchors.right: infoButton.right
+                    anchors.rightMargin: 14 * pt
+                    innerWidth: 30 * pt
+                    innerHeight: 30 * pt
+                    source: "qrc:/resources/icons/Certificates/ic_info.png"
                 }
-                image.source: "qrc:/resources/icons/Certificates/ic_info.png"
-                image.width: 30 * pt
-                image.height: 30 * pt
 
                 onClicked: {
                     root.infoClicked(model.index)

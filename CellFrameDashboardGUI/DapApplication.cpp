@@ -16,6 +16,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
+
+
     qDebug()<<QString(DAP_SERVICE_NAME);
 
     m_serviceController->init(&m_serviceClient);
