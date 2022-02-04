@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 import "qrc:/resources/QML"
+import "qrc:/widgets"
 
 Drawer {
     id: drawer
@@ -45,12 +46,12 @@ Drawer {
                 anchors.fill: parent
                 anchors.leftMargin: 10 * pt
 
-                Image {
+                DapImageLoader {
                     Layout.alignment: Qt.AlignVCenter
-                    sourceSize.width: 24 * pt
-                    sourceSize.height: 24 * pt
-                    fillMode: Image.PreserveAspectFit
-                    source: "qrc:/mobile/Icons/MenuIconLight.png"
+                    innerWidth: 24 * pt
+                    innerHeight: 24 * pt
+//                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/mobile/Icons/MenuIconLightGreen.png"
                 }
                 Text {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
@@ -103,11 +104,10 @@ Drawer {
                             anchors.fill: parent
                             anchors.leftMargin: 15 * pt
                             spacing: 0
-                            Image {
+                            DapImageLoader {
 //                                    anchors.left: parent.left
-                                sourceSize.width: 16 * pt
-                                sourceSize.height: 16 * pt
-                                fillMode: Image.PreserveAspectFit
+                                innerWidth: 16 * pt
+                                innerHeight: 16 * pt
                                 source: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/" + modelData.bttnIco
                             }
                             Text {

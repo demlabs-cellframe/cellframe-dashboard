@@ -378,5 +378,7 @@
         <file>mobile/Wallet/Payment/TokenAmount.qml</file>
         <file>mobile/Wallet/Payment/TokenAddress.qml</file>
         <file>mobile/Wallet/Payment/ReceiveToken.qml</file>
+        <file>mobile/Icons/NetIconLightGreen.png</file>
+        <file>mobile/Icons/MenuIconLightGreen.png</file>
     </qresource>
 </RCC>

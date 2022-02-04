@@ -164,9 +164,16 @@ android {
 
 DISTFILES += \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/AndroidManifest.xml \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/AndroidManifest.xml \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/build.gradle \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/build.gradle \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradle/wrapper/gradle-wrapper.jar \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradle/wrapper/gradle-wrapper.jar \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradle/wrapper/gradle-wrapper.properties \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradle/wrapper/gradle-wrapper.properties \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradlew \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradlew \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradlew.bat \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/gradlew.bat \
+    ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/res/values/libs.xml \
     ../../../../../Projects/mobile/cellframe-dashboard/CellFrameDashboardGUI/android/res/values/libs.xml

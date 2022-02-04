@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "qrc:/resources/QML"
+import "qrc:/widgets"
 
 Drawer {
     id: drawer
@@ -57,12 +58,12 @@ Drawer {
                     color: currTheme.textColor
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
                 }
-                Image {
+                DapImageLoader {
                     Layout.alignment: Qt.AlignVCenter
-                    sourceSize.width: 24 * pt
-                    sourceSize.height: 24 * pt
-                    fillMode: Image.PreserveAspectFit
-                    source: "qrc:/mobile/Icons/NetIconLight.png"
+                    innerWidth: 24 * pt
+                    innerHeight: 24 * pt
+//                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/mobile/Icons/NetIconLightGreen.png"
                 }
 
             }

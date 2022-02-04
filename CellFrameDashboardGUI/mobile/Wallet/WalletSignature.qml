@@ -51,17 +51,6 @@ Page {
                 text: qsTr("Bliss")
             }
 
-            Rectangle
-            {
-                Layout.fillWidth: true
-                height: 1
-                color: "#6B6979"
-            }
-
-            CustomRadioButton {
-                Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Tesla")
-            }
         }
         Item {
             Layout.fillHeight: true
