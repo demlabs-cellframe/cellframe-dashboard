@@ -10,7 +10,7 @@ include(../config.pri)
 TARGET = $$BRAND
 
 win32 {
-    RC_ICONS = $$PWD/resources/icons/icon_win32.ico
+    RC_ICONS = $$PWD/resources/icons/icon.ico
 }
 
 # The following define makes your compiler emit warnings if you use
