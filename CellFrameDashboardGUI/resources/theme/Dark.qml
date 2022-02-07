@@ -48,4 +48,6 @@ QtObject {
     readonly property double radiusShadowSmall     : 3.0
     readonly property int hOffset                  : 5
     readonly property int vOffset                  : 5
+    readonly property color buttonInnerShadow      : "#E7D6FF"
+    readonly property color buttonShadow           : "#2A2C33"
 }
