@@ -126,7 +126,7 @@ Rectangle {
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
-                    hilightColor: currTheme.buttonColorNormal
+//                    hilightColor: currTheme.buttonColorNormal
 
                     topEffect: false
                     colorTopNormalDropShadow: "#00000000"
@@ -134,7 +134,7 @@ Rectangle {
 
                     fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+//                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 }
 
 

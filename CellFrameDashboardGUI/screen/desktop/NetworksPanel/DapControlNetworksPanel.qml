@@ -36,6 +36,33 @@ DapNetworksPanel
         onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
+    Rectangle
+    {
+        id: animationController
+        visible: false
+
+        SequentialAnimation {
+            NumberAnimation {
+                target: animationController
+                properties: "opacity"
+                from: 1.0
+                to: 0.1
+                duration: 700
+            }
+
+            NumberAnimation {
+                target: animationController
+                properties: "opacity"
+                from: 0.1
+                to: 1.0
+                duration: 700
+            }
+            loops:Animation.Infinite
+            running: true
+        }
+    }
+
+
     Component {
         id: dapNetworkItem
 
@@ -45,6 +72,7 @@ DapNetworksPanel
             height: 40
             objectName: "delegateList"
             property int list_index:index
+
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -58,6 +86,7 @@ DapNetworksPanel
                 }
 
                 DapImageLoader{
+                    id:img
                     Layout.alignment: Qt.AlignVCenter
                     Layout.preferredHeight: 8 * pt
                     Layout.preferredWidth: 8 * pt
@@ -67,7 +96,21 @@ DapNetworksPanel
                     source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
                             networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
                                                          "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
-                }                
+
+                    opacity: networkState !== targetState? animationController.opacity : 1
+                }
+            }
+
+            NetworkInfoPopup
+            {
+                id:popup_
+                width: item_width
+                parentWidth: controlDelegate.width
+                isOpen: false
+                y: -150
+                x: controlDelegate.width/2 - popup_.width/2
+
+                imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
             }
 
             MouseArea {
@@ -84,15 +127,7 @@ DapNetworksPanel
                 }
             }
 
-            NetworkInfoPopup
-            {
-                id:popup_
-                width: item_width
-                parentWidth: controlDelegate.width
-                isOpen: false
-                y: -150
-                x: controlDelegate.width/2 - popup_.width/2
-            }
+
             Connections
             {
                 target: networkList
@@ -299,7 +334,7 @@ DapNetworksPanel
 
     function getCountVisiblePopups()
     {
-        var count = (control.parent.parent.width - 114 * pt)/item_width
-        return Math.round(count)
+        var count = (control.parent.parent.width - 27 * pt/* - 114 * pt*/)/item_width
+        return Math.floor(count)
     }
 }
