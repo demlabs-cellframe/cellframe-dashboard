@@ -5,6 +5,7 @@
 #include <QClipboard>
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
+#include "WalletRestore/commandcmdcontroller.h"
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -149,6 +150,8 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
     qRegisterMetaType<DapVpnOrder>();
+
+    qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
 
 }
 

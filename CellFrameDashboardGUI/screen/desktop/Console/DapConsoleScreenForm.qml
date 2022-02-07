@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
+import CommandCmdController 1.0
+import "qrc:/"
 
 DapAbstractScreen
 {
@@ -21,6 +23,8 @@ DapAbstractScreen
     property alias consoleInput: consoleCmd
     property alias dapInputCommand: inputCommand
 
+    property var _commandCmdController: commandCmdController
+
     anchors
     {
         fill: parent
@@ -29,6 +33,11 @@ DapAbstractScreen
         leftMargin: 24 * pt
         bottomMargin: 20 * pt
 
+    }
+
+    CommandCmdController
+    {
+        id: commandCmdController
     }
 
     DapRectangleLitAndShaded

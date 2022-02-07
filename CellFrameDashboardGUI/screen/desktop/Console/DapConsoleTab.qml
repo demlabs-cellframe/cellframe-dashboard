@@ -4,10 +4,14 @@ import "qrc:/"
 DapConsoleTabForm
 {
     color: currTheme.backgroundMainScreen
+    _dapServiceController: dapServiceController
+
+    property bool isConsoleRequest: false
 
     dapConsoleScreen.onRunCommand:
     {
         dapServiceController.requestToService("DapRunCmdCommand", command);
+        isConsoleRequest = true
         dapServiceController.notifyService("DapSaveHistoryExecutedCmdCommand", command);
     }
 
@@ -16,7 +20,11 @@ DapConsoleTabForm
         target: dapServiceController
         onCmdRunned:
         {
-            dapConsoleScreen.dapModelConsoleCommand.append({query: asAnswer[0], response: asAnswer[1]});
+            if (isConsoleRequest)
+            {
+                dapConsoleScreen.dapModelConsoleCommand.append({query: asAnswer[0], response: asAnswer[1]});
+                isConsoleRequest = false
+            }
         }
         onHistoryExecutedCmdReceived:
         {
