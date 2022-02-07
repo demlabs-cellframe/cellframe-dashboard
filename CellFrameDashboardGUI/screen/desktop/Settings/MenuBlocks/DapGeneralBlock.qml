@@ -120,7 +120,7 @@ ColumnLayout
                             height: 26*pt
                             Layout.fillWidth: true
 
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name

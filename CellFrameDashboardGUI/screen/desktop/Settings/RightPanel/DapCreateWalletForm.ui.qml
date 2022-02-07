@@ -187,7 +187,7 @@ DapRightPanel
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 10 * pt
                 sidePaddingActive: 10 * pt
-                hilightColor: currTheme.buttonColorNormal
+//                hilightColor: currTheme.buttonColorNormal
 
                 widthPopupComboBoxNormal: 318 * pt
                 widthPopupComboBoxActive: 318 * pt
@@ -209,7 +209,7 @@ DapRightPanel
 
                 fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+//                colorTextComboBox: [[currTheme.hilightTextColorComboBox, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
             }
         }

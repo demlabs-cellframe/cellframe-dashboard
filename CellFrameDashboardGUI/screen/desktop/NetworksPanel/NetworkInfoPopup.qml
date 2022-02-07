@@ -18,6 +18,7 @@ Popup {
     property int parentWidth
     property bool isOpen : false
     property int curWidth : 295
+    property alias imgStatus:nameStatus
 
     MouseArea {
         width: parent.width

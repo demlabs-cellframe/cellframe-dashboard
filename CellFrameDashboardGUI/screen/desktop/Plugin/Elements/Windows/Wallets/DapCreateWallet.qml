@@ -87,8 +87,8 @@ Item {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignCenter
 
-                Layout.maximumHeight: 100
-                Layout.maximumWidth: 200
+                Layout.maximumHeight: 50
+                Layout.maximumWidth: 120
                 radius: 16
 
                 textButton: "Create"

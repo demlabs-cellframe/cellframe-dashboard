@@ -314,7 +314,7 @@ DapRectangleLitAndShaded {
 
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
-                radius: currTheme.radiusRectangle
+//                radius: currTheme.radiusRectangle
 
                 id:reloadDownload
                 textButton: "Reload"
@@ -329,7 +329,7 @@ DapRectangleLitAndShaded {
 
                 implicitHeight: 36 * pt
                 implicitWidth: 132 * pt
-                radius: currTheme.radiusRectangle
+//                radius: currTheme.radiusRectangle
 
                 id: canceledDownload
                 textButton: "Cancel"
