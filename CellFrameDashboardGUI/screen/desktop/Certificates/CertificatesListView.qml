@@ -111,7 +111,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 text: model.completeBaseName   //model.fileName
-                color: model.selected ? currTheme.hilightColorComboBox : currTheme.textColor
+                color: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
                 elide: Text.ElideRight
                 maximumLineCount: 1
             }
@@ -121,7 +121,20 @@ ListView {
                 id: delegateClicked
                 width: parent.width
                 height: parent.height
-                onClicked: {
+                hoverEnabled: true
+                property bool _entered: false
+                onEntered: //onClicked: {
+                {
+                    _entered = true
+                }
+
+                onExited:
+                {
+                    _entered = false
+                }
+
+                onClicked:
+                {
                     root.selectedIndex(model.index)
                     models.selectedAccessKeyType = model.accessKeyType
                 }
@@ -140,7 +153,7 @@ ListView {
                     right: parent.right
                 }
                 height: parent.height
-                visible: model.selected
+                visible: model.selected || delegateClicked._entered
 
                 DapImageLoader{
                     anchors.right: infoButton.right

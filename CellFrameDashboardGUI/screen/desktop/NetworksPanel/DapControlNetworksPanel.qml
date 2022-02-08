@@ -36,6 +36,33 @@ DapNetworksPanel
         onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
+    Rectangle
+    {
+        id: animationController
+        visible: false
+
+        SequentialAnimation {
+            NumberAnimation {
+                target: animationController
+                properties: "opacity"
+                from: 1.0
+                to: 0.1
+                duration: 700
+            }
+
+            NumberAnimation {
+                target: animationController
+                properties: "opacity"
+                from: 0.1
+                to: 1.0
+                duration: 700
+            }
+            loops:Animation.Infinite
+            running: true
+        }
+    }
+
+
     Component {
         id: dapNetworkItem
 
@@ -69,30 +96,8 @@ DapNetworksPanel
                     source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
                             networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
                                                          "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
-                }
-                SequentialAnimation {
-                    NumberAnimation {
-                        target: img
-                        properties: "opacity"
-                        from: 1.0
-                        to: 0.1
-                        duration: 1000
-                    }
 
-                    NumberAnimation {
-                        target: img
-                        properties: "opacity"
-                        from: 0.1
-                        to: 1.0
-                        duration: 1000
-                    }
-                    loops:Animation.Infinite
-                    running: networkState !== targetState? true : false
-                    onRunningChanged:
-                    {
-                        if(!running)
-                            img.opacity = 1;
-                    }
+                    opacity: networkState !== targetState? animationController.opacity : 1
                 }
             }
 
@@ -105,31 +110,7 @@ DapNetworksPanel
                 y: -150
                 x: controlDelegate.width/2 - popup_.width/2
 
-                SequentialAnimation {
-                    NumberAnimation {
-                        target: popup_.imgStatus
-                        properties: "opacity"
-                        from: 1.0
-                        to: 0.1
-                        duration: 1000
-                    }
-
-                    NumberAnimation {
-                        target: popup_.imgStatus
-                        properties: "opacity"
-                        from: 0.1
-                        to: 1.0
-                        duration: 1000
-                    }
-
-                    loops:Animation.Infinite
-                    running: networkState !== targetState? true : false
-                    onRunningChanged:
-                    {
-                        if(!running)
-                            popup_.imgStatus.opacity = 1;
-                    }
-                }
+                imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
             }
 
             MouseArea {
@@ -353,7 +334,7 @@ DapNetworksPanel
 
     function getCountVisiblePopups()
     {
-        var count = (control.parent.parent.width - 114 * pt)/item_width
-        return Math.round(count)
+        var count = (control.parent.parent.width - 27 * pt/* - 114 * pt*/)/item_width
+        return Math.floor(count)
     }
 }
