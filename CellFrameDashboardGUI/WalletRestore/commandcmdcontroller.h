@@ -10,6 +10,8 @@ class CommandCmdController : public QObject
 
     Q_PROPERTY(DapServiceController *dapServiceController MEMBER dapServiceController)
 
+    QStringList commands;
+
     DapServiceController *dapServiceController;
 public:
     explicit CommandCmdController(QObject *parent = nullptr);
@@ -17,6 +19,8 @@ public:
 public slots:
     void dapServiceControllerInit(DapServiceController *_dapServiceController);
     void parseAllCommands(const QVariant& asAnswer);
+
+    QString getCommandByValue(const QString &value);
 
 signals:
 

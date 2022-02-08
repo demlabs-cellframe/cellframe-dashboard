@@ -135,6 +135,8 @@ DapAbstractScreen
                                                 consoleHistoryIndex -= 1 :
                                                 null
 
+                        Keys.onTabPressed: consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
+
                         onTextChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
                     }
                 }
