@@ -14,11 +14,21 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
+    width: 1280
+    height: 800
+    minimumWidth: 1280
+    minimumHeight: 600
+
+    property int lastX: 0
+    property int lastY: 0
+    property int lastWidth: 0
+    property int lastHeight: 0
+
     Settings {
         property alias x: window.x
         property alias y: window.y
-//        property alias width: window.width
-//        property alias height: window.height
+        property alias width: window.width
+        property alias height: window.height
     }
 
     //Main window
@@ -62,13 +72,11 @@ ApplicationWindow
         {
             if(window.visibility === Window.Hidden)
             {
-                window.show()
-                window.raise()
-                window.requestActivate()
+                restoreWindow()
             }
             else
             {
-                window.hide()
+                hideWindow()
             }
         }
     }
@@ -76,9 +84,8 @@ ApplicationWindow
     Connections {
         target: systemTray
         onSignalShow: {
-            window.show()
-            window.raise()
-            window.requestActivate()
+            restoreWindow()
+
         }
 
         onSignalQuit: {
@@ -89,13 +96,12 @@ ApplicationWindow
         onSignalIconActivated: {
              if(window.visibility === Window.Hidden)
              {
-                 window.show()
-                 window.raise()
-                 window.requestActivate()
+                 restoreWindow()
+
              }
              else
              {
-                 window.hide()
+                 hideWindow()
              }
         }
     }
@@ -105,40 +111,42 @@ ApplicationWindow
             window.minimumWidth = 0
             window.minimumHeight = 0
         }
-        else
-            sizeUpdate()
 
+        print("window size", window.width, window.height)
+        print("window position", window.x, window.y)
     }
 
     onClosing: {
         close.accepted = false
-        window.hide()
+
+        hideWindow()
     }
 
-    function sizeUpdate()
+    function restoreWindow()
     {
-        if(Screen.width > 1280 && Screen.height > 800)
-        {
-            width = 1280
-            height = 800
-        }
-        else if(Screen.width < 1280 && Screen.height > 800)
-        {
-            width = Screen.width - 60
-            height = 800
-        }
-        else if(Screen.height < 800 && Screen.width > 1280)
-        {
-            width = 1280
-            height = Screen.height
-        }
-        else
-        {
-            width = Screen.width - 60
-            height = Screen.height
+        window.show()
 
-        }
-        minimumWidth = width
-        minimumHeight = height
+        window.width = lastWidth
+        window.height = lastHeight
+        window.x = lastX
+        window.y = lastY
+
+        window.raise()
+
+        window.requestActivate()
+
+        print("restoreWindow size", window.width, window.height, "position", window.x, window.y)
+    }
+
+    function hideWindow()
+    {
+        print("hideWindow size", window.width, window.height, "position", window.x, window.y)
+
+        lastWidth = window.width
+        lastHeight = window.height
+        lastX = window.x
+        lastY = window.y
+
+        window.hide()
     }
 }

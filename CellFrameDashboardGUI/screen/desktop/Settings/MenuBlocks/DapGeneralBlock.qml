@@ -32,6 +32,64 @@ ColumnLayout
             text: qsTr("General settings")
         }
     }
+
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30 * pt
+        color: currTheme.backgroundMainScreen
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.topMargin: 8 * pt
+            anchors.bottomMargin: 8 * pt
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            color: currTheme.textColor
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Window scale")
+        }
+    }
+
+    Item {
+        height: 50 * pt
+        Layout.fillWidth: true
+
+        RowLayout
+        {
+            anchors.fill: parent
+            anchors.topMargin: 13 * pt
+            anchors.bottomMargin: 16 * pt
+
+            Text
+            {
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                Layout.preferredHeight: 25 * pt
+                Layout.fillWidth: true
+                Layout.leftMargin: 13 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                color: currTheme.textColor
+                verticalAlignment: Qt.AlignVCenter
+                text: "Scale value"
+            }
+
+            SpinBox {
+                id: spinbox
+                from: 10
+                to: 500
+                value: 110
+                stepSize: 5
+                editable: true
+
+//                textFromValue: function(value, locale) {
+//                                        return qsTr("%1 %").arg(value);
+//                               }
+            }
+        }
+    }
+
     Rectangle
     {
         Layout.fillWidth: true
