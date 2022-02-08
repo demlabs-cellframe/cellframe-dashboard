@@ -96,6 +96,7 @@ DapNetworksPanel
                     source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
                             networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
                                                          "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
+
                     opacity: networkState !== targetState? animationController.opacity : 1
                 }
             }
@@ -108,6 +109,7 @@ DapNetworksPanel
                 isOpen: false
                 y: -150
                 x: controlDelegate.width/2 - popup_.width/2
+
                 imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
             }
 
