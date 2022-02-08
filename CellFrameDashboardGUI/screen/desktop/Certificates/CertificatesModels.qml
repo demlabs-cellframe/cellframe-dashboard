@@ -27,13 +27,13 @@ Item {
 
 
     readonly property var metadataKeyToViewKey: ({
-                                               "creation_date": qsTr("Date of creation"),
-                                               "expiration_date": qsTr("Expiration date"),
-                                               "domain": qsTr("Domain"),
-                                               "organization": qsTr("Organization"),
-                                               "fullname": qsTr("Full name"),
-                                               "email": qsTr("Email"),
-                                               "description": qsTr("Description")
+                                               "a0_creation_date": qsTr("Date of creation"),
+                                               "a1_expiration_date": qsTr("Expiration date"),
+                                               "a2_domain": qsTr("Domain"),
+                                               "a3_organization": qsTr("Organization"),
+                                               "a4_fullname": qsTr("Full name"),
+                                               "a5_email": qsTr("Email"),
+                                               "a6_description": qsTr("Description")
                                            })
 
 
@@ -68,12 +68,12 @@ Item {
         id: createCertificateOptional
         //вообще эти ключи нужно вынести в общее перечисление
         //creation_date default key
-        ListElement { placeHolderText: qsTr("Domain"); key: "domain"; data: ""; inputFieldMask: "";  }
-        ListElement { placeHolderText: qsTr("Expiration date"); key: "expiration_date"; data: ""; inputFieldMask: "99.99.9999"; }
-        ListElement { placeHolderText: qsTr("Organization"); key: "organization"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Full name"); key: "fullname"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Email"); key: "email"; data: ""; inputFieldMask: ""; }
-        ListElement { placeHolderText: qsTr("Description"); key: "description"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Domain"); key: "a2_domain"; data: ""; inputFieldMask: "";  }
+        ListElement { placeHolderText: qsTr("Expiration date"); key: "a1_expiration_date"; data: ""; inputFieldMask: "99.99.9999"; }
+        ListElement { placeHolderText: qsTr("Organization"); key: "a3_organization"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Full name"); key: "a4_fullname"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Email"); key: "a5_email"; data: ""; inputFieldMask: ""; }
+        ListElement { placeHolderText: qsTr("Description"); key: "a6_description"; data: ""; inputFieldMask: ""; }
 
         function dataClear(){
             for (var i = 0; i < count; ++i)
@@ -81,7 +81,7 @@ Item {
         }
 
         function getDataToJson(){
-            var result = { creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
+            var result = { a0_creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
             for (var i = 0; i < count; ++i) {
                 var item = get(i)
                 if (item.data !== "") {
@@ -97,7 +97,7 @@ Item {
 
     ListModel {        //this common model
         id: signatureType
-        ListElement {  name: "Crystal-Dylithium  (Recomended)"; signature: "sig_dil"; isRecomended: true  }
+        ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; isRecomended: true  }
         ListElement {  name: "Bliss"; signature: "sig_bliss"; isRecomended: false  }
         ListElement {  name: "Picnic"; signature: "sig_picnic"; isRecomended: false  }
 //        ListElement {  name: "Tesla"; signature: "sig_tesla"; isRecomended: false  }
