@@ -19,5 +19,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
 
 void CommandCmdController::parseAllCommands(const QVariant &asAnswer)
 {
-    qDebug() << "aaaaaaaaaaaaaaaaaaaaaaa" << asAnswer;
+    QString str = asAnswer.toList()[1].toString();
+    str = str.right(str.size() - 21);
+    qDebug() << "aaaaaaaaaaaaaaaaaaa" << str;
 }
