@@ -335,5 +335,9 @@
         <file>screen/desktop/Plugin/DapApp.qml</file>
         <file>resources/icons/switch_off.png</file>
         <file>resources/icons/switch_on.png</file>
+        <file>resources/icons/CellframeDashboard.icns</file>
+        <file>resources/icons/Certificates/ic_info.png</file>
+        <file>resources/icons/icon_win32.ico</file>
+        <file>resources/icons/CellframeDashboard.ico</file>
     </qresource>
 </RCC>

@@ -7,13 +7,12 @@
 }
 
 VER_MAJ = 2
-VER_MIN = 2
-VER_PAT = 4
+VER_MIN = 3
+VER_PAT = 0
 
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 DEFINES += DAP_BRAND_BASE_LO=\\\"$$BRAND_BASE_LO\\\"
 DEFINES += DAP_BRAND_LO=\\\"$$BRAND_LO\\\"
-DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
 #BUILD_TYPE = static
 
@@ -45,3 +44,5 @@ else: !win32 {
     DEFINES += DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\"
     DEFINES += LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\"
 }
+
+DEFINES += DAP_VERSION=\\\"$$VERSION\\\"

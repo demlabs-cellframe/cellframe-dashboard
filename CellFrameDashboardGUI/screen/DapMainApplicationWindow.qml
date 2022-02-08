@@ -247,15 +247,18 @@ Rectangle {
                     color:currTheme.backgroundPanel
 
                     DapImageLoader{
-                        innerWidth: 111 * pt
-                        innerHeight: 30 * pt
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+                        innerWidth: 114 * pt
+                        innerHeight: 24 * pt
+                        source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
 
+//                        anchors.fill: parent
                         anchors.left: parent.left
-                        anchors.leftMargin: 26*pt
-                        anchors.bottom: parent.bottom
-                        //anchors.bottomMargin: 18*pt
+                        anchors.leftMargin: 23*pt
+//                        anchors.bottom: parent.bottom
+//                        anchors.bottomMargin: 18.91*pt
                         anchors.top: parent.top
+                        anchors.topMargin: 19.86 * pt
+//                        anchors.rightMargin: 48 * pt
                         //anchors.topMargin: 18 * pt
                         //visible: false
                     }
@@ -394,7 +397,7 @@ Rectangle {
             })
     
             append ({
-                name: qsTr("TX Explorer"),
+                name: qsTr("TX explorer"),
                 tag: "TX Explorer",
                 page: historyScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
