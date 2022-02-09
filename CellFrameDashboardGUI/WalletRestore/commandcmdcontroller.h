@@ -11,6 +11,7 @@ class CommandCmdController : public QObject
     Q_PROPERTY(DapServiceController *dapServiceController MEMBER dapServiceController)
 
     QStringList commands;
+    QVariantMap commandsParams;
 
     DapServiceController *dapServiceController;
 public:
@@ -19,8 +20,10 @@ public:
 public slots:
     void dapServiceControllerInit(DapServiceController *_dapServiceController);
     void parseAllCommands(const QVariant& asAnswer);
+    void parseAllCommandsParams(const QVariant& asAnswer);
 
     QString getCommandByValue(const QString &value);
+    QString getCommandParams(const QString &value, int count);
 
 signals:
 
