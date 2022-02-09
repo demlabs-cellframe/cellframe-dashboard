@@ -109,6 +109,11 @@ DapAbstractScreen
                         selectByMouse: true
                         background: Rectangle{color: currTheme.backgroundElements}
 
+                        property int autocomleteStatus: 0
+                        // 0 - самое начало ввода, 1 - нажат таб и автодополнение срабатывает,
+                        // 2 - после 1 введен пробел и можно продолжить автодополнение параметрами
+                        // (тут по нажатию таба будут по очереди перебираться варианты параметров, а по ентеру будет выбран нужный)
+
                         color: currTheme.textColor
                         focus: true
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
@@ -126,9 +131,57 @@ DapAbstractScreen
                                                 consoleHistoryIndex -= 1 :
                                                 null
 
-                        Keys.onTabPressed: consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
+                        Keys.onBackPressed:
+                        {
+                            autocompleteParamsCount = 0
+                            autocomleteStatus = 0
+                        }
 
-                        onTextChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+                        property int autocompleteParamsCount: 0
+
+                        Keys.onTabPressed:
+                        {
+                            if (autocomleteStatus == 0)
+                            {
+                                autocomleteStatus = 1
+                                consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
+                            }
+                            else
+                                if (autocomleteStatus == 2)
+                                {
+                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                    ++autocompleteParamsCount
+                                }
+                        }
+
+                        Text
+                        {
+                            id: autocompleteText
+                            width: parent.width - x
+                            height: parent.height
+                            x: 10 * pt
+                            y: 6 * pt
+                            wrapMode: TextArea.Wrap
+                            color: currTheme.textColor
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                            opacity: 0.5
+                        }
+
+                        onTextChanged:
+                        {
+                            inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+
+                            if (autocomleteStatus == 1 && text == autocompleteText + " ")
+                            {
+                                autocomleteStatus = 2
+                                autocompleteParamsCount = 0
+                            }
+                            else
+                            if (text != "")
+                                autocompleteText.text = commandCmdController.getCommandByValue(consoleCmd.text)
+                            else
+                                autocompleteText.text = ""
+                        }
                     }
                 }
             }
