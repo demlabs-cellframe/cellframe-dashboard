@@ -14,7 +14,6 @@ DapHistoryTabForm
     {
         id: modelHistory
     }
-
     ListModel
     {
         id: temporaryModel

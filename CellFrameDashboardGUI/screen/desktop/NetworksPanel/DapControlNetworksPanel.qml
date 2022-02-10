@@ -107,10 +107,18 @@ DapNetworksPanel
                 width: item_width
                 parentWidth: controlDelegate.width
                 isOpen: false
-                y: -150
-                x: controlDelegate.width/2 - popup_.width/2
+//                y: -height/mainWindowScale + controlDelegate.height
+//                y: -height/mainWindowScale + controlDelegate.height/mainWindowScale
+//                y: -215
+//                y: -120
+//                y: -height/mainWindowScale
+//                y: -173.75
+                y: -height*(1 + 1/mainWindowScale)*0.5 + controlDelegate.height
+                x: controlDelegate.width/2 - width/2/mainWindowScale
 
                 imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
+
+                scale: mainWindowScale
             }
 
             MouseArea {

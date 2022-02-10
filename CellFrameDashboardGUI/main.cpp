@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
+    qputenv("QT_SCALE_FACTOR", "0.75");
+
     DapApplication app(argc, argv);
 
     if (!SingleApplicationTest(app.applicationName()))
