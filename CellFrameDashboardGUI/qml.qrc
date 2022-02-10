@@ -69,7 +69,6 @@
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
         <file>screen/desktop/Logs/DapLogsScreen.qml</file>
-        <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>resources/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
@@ -341,5 +340,7 @@
         <file>screen/desktop/Plugins/Plugin/DapApp.qml</file>
         <file>screen/desktop/Plugins/MiniGame/MiniGame.qml</file>
         <file>screen/desktop/Plugins/MiniGame/Elements/GameMainScreen.qml</file>
+        <file>screen/desktop/Plugins/MiniGame/Elements/GameTopPanel.qml</file>
+        <file>screen/desktop/Plugins/MiniGame/Elements/GamePlayer.qml</file>
     </qresource>
 </RCC>

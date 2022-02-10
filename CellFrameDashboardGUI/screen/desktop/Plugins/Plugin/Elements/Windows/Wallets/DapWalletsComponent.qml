@@ -68,7 +68,7 @@ Component {
 
             }
             clip: true
-            focus: true
+//            focus: true
 
             model:modelNetworks
             delegate: delegateTokenView

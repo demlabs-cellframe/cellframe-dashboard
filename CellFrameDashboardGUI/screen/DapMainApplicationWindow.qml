@@ -349,6 +349,9 @@ Rectangle {
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
 
+    signal keyPressed(var event)
+    Keys.onPressed: keyPressed(event)
+
 
     //open in module visible root context, only for work
     Component{
