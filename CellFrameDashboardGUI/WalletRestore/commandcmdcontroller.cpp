@@ -90,6 +90,25 @@ QString CommandCmdController::getCommandByValue(const QString &value)
 
 QString CommandCmdController::getCommandParams(const QString &value, int count)
 {
-    QStringList list = commandsParams[value].toStringList();
-    return list[count % list.length()];
+    QStringList splitList = value.split(" ");
+    QString val = splitList[0];
+    QStringList list = commandsParams[val].toStringList();
+    QStringList resList;
+    for (int i = 0; i < list.length(); ++i)
+        if (list[i].startsWith(value))
+        {
+            resList.append(list[i]);
+        }
+
+    if (count < 0)
+        count = resList.length() - ((count * -1) % resList.length());
+
+    if (!resList.isEmpty())
+        return resList[count % (resList.length())];
+    return value;
+}
+
+bool CommandCmdController::isOneWord(const QString &value)
+{
+    return !value.contains(" ");
 }

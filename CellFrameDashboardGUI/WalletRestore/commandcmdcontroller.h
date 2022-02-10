@@ -24,6 +24,7 @@ public slots:
 
     QString getCommandByValue(const QString &value);
     QString getCommandParams(const QString &value, int count);
+    bool isOneWord(const QString &value);
 
 signals:
 
