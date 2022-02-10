@@ -9,7 +9,7 @@ import "qrc:/resources/QML"
 import "qrc:/screen/desktop/Dashboard"
 import "qrc:/screen/desktop/Exchange"
 import "qrc:/screen/desktop/Certificates"
-import "qrc:/screen/desktop/NetworksPanel"
+//import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/screen/desktop/RightPanel"
 import "qrc:/screen/desktop/Settings"
 import "desktop/SettingsWallet.js" as SettingsWallet
@@ -222,7 +222,7 @@ Rectangle {
             left: parent.left;
             top: parent.top;
             right: parent.right;
-            bottom: networksPanel.top
+            bottom: footer.top
             bottomMargin: 6 * pt
         }
 
@@ -247,16 +247,21 @@ Rectangle {
                     color:currTheme.backgroundPanel
 
                     DapImageLoader{
-                        innerWidth: 111 * pt
+                        innerWidth: 114 * pt
                         innerHeight: 24 * pt
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+                        source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
 
+//                        anchors.fill: parent
                         anchors.left: parent.left
-                        anchors.leftMargin: 26*pt
-                        anchors.bottom: parent.bottom
-                        anchors.bottomMargin: 18*pt
+                        anchors.leftMargin: 23*pt
+//                        anchors.bottom: parent.bottom
+//                        anchors.bottomMargin: 18.91*pt
                         anchors.top: parent.top
-                        anchors.topMargin: 18 * pt
+                        anchors.topMargin: 19.86 * pt
+//                        anchors.rightMargin: 48 * pt
+
+                        //anchors.topMargin: 18 * pt
+                        //visible: false
                     }
                 }
             }
@@ -329,20 +334,6 @@ Rectangle {
         }
     }
 
-    DapControlNetworksPanel
-    {
-        id: networksPanel
-    }
-
-    ListModel
-    {
-        id:networkListPopups
-    }
-
-    ListModel {
-        id: networksModel
-    }
-
 //    DapNetworkPopup
 //    {
 //        id: networkPanelPopup
@@ -407,7 +398,7 @@ Rectangle {
             })
     
             append ({
-                name: qsTr("TX Explorer"),
+                name: qsTr("TX explorer"),
                 tag: "TX Explorer",
                 page: historyScreenPath,
                 normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
@@ -553,15 +544,6 @@ Rectangle {
             spread: 0.1
             smooth: true
         }
-    //NetworkPanel shadow
-    DropShadow {
-            anchors.fill: networksPanel
-            radius: currTheme.radiusShadowSmall
-            color: currTheme.reflectionLight
-            source: networksPanel
-            spread: 0.7
-        }
-
 
     Component.onCompleted:
     {
@@ -780,16 +762,6 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
-        }
-        onNetworksStatesReceived:
-        {
-            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
-                networksPanel.closeAllPopups(networkListPopups, networksModel.count)
-            }
-
-            networksPanel.modelUpdate(networksStatesList)
-            networksPanel.recreatePopups(networksPanel.dapNetworkList.model, networkListPopups)
-            networksPanel.updateContentInAllOpenedPopups(networkListPopups, networksModel)
         }
     }
 

@@ -98,5 +98,15 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
     // Save cmd command in file
     m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
+
+    QTcpSocket* tcp = new QTcpSocket();
+
+    tcp->connectToHost(QHostAddress("0.0.0.0"),8088);
+    connect(tcp,SIGNAL(readyRead()), this, SLOT(rcvNotifySocket()));
+
 }
 
+void DapServiceController::rcvNotifySocket()
+{
+    qDebug()<<"";
+}

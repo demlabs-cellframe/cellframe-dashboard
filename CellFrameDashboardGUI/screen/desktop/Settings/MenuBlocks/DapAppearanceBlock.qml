@@ -102,6 +102,7 @@ ColumnLayout
             }
         }
     }
+
 //    Rectangle
 //    {
 //        Layout.fillWidth: true

@@ -78,23 +78,22 @@ Item {
     InnerShadow {
         id: topLeftSadow
         anchors.fill: viewCertificates
+        horizontalOffset: 2
+        verticalOffset: 2
+        radius: 10
+        samples: 10
         cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
         color: "#2A2C33"
-        smooth: true
         source: viewCertificates
         visible: viewCertificates.visible
     }
     InnerShadow {
         anchors.fill: viewCertificates
-        cached: true
         horizontalOffset: -1
         verticalOffset: -1
-        radius: 1
-        samples: 32
+        radius: 0
+        samples: 10
+        cached: true
         color: "#4C4B5A"
         source: topLeftSadow
         visible: viewCertificates.visible

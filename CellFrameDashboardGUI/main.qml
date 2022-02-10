@@ -5,19 +5,23 @@ import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
 import "screen"
 
+import "qrc:/screen/desktop/NetworksPanel"
+
 ApplicationWindow
 {
     id: window
     visible: true
 
-    //    property variant networkListPopups : []
-
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+
+    property real mainWindowScale: mainWindow.scale
+    readonly property real minWindowScale: 0.5
+    readonly property real maxWindowScale: 4.0
 
     width: 1280
     height: 800
-    minimumWidth: 1280
-    minimumHeight: 600
+    minimumWidth: 1280 * mainWindow.scale
+    minimumHeight: 600 * mainWindow.scale
 
     property int lastX: 0
     property int lastY: 0
@@ -36,15 +40,31 @@ ApplicationWindow
     {
         id: mainWindow
         property alias device: dapDevice.device
+        property alias footer: networksPanel
 
-        anchors.fill: parent
+//        anchors.fill: parent
+        width: parent.width / scale
+        height: parent.height / scale
+        x: (parent.width - width)*0.5
+        y: (parent.height - height)*0.5
 
         Device
         {
             id: dapDevice
         }
-    }
 
+        DapControlNetworksPanel
+        {
+            id: networksPanel
+            property alias pathTheme: mainWindow.pathTheme
+            property alias currTheme: mainWindow.currTheme
+            property alias dapQuicksandFonts: mainWindow.dapQuicksandFonts
+            property alias dapMainWindow: mainWindow
+            height: 40 * pt
+        }
+
+        scale: 1
+    }
 
     ///The image with the effect fast blur
     Image
@@ -112,6 +132,8 @@ ApplicationWindow
             window.minimumHeight = 0
         }
 
+        checkSizeAndPosition()
+
         print("window size", window.width, window.height)
         print("window position", window.x, window.y)
     }
@@ -131,6 +153,8 @@ ApplicationWindow
         window.x = lastX
         window.y = lastY
 
+        checkSizeAndPosition()
+
         window.raise()
 
         window.requestActivate()
@@ -148,5 +172,38 @@ ApplicationWindow
         lastY = window.y
 
         window.hide()
+    }
+
+    function checkSizeAndPosition()
+    {
+        if (window.height > Screen.desktopAvailableHeight)
+            window.height = Screen.desktopAvailableHeight
+        if (window.width > Screen.desktopAvailableWidth)
+            window.width = Screen.desktopAvailableWidth
+
+        if (window.y > Screen.desktopAvailableHeight)
+            window.y = Screen.desktopAvailableHeight - height
+        if (window.x > Screen.desktopAvailableWidth)
+            window.x = Screen.desktopAvailableWidth - width
+
+        if (window.y < -height)
+            window.y = 0
+        if (window.x < -width)
+            window.x = 0
+    }
+
+    function setNewScale(newScale)
+    {
+        print("setNewScale", newScale)
+
+        window.minimumWidth = 1280 * newScale
+        window.minimumHeight = 600 * newScale
+
+        mainWindow.scale = newScale
+
+        if (window.minimumWidth > window.width)
+            window.width = window.minimumWidth
+        if (window.minimumHeight > window.height)
+            window.height = window.minimumHeight
     }
 }

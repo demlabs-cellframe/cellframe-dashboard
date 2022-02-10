@@ -40,7 +40,7 @@ DapTopPanel
     DapButton
     {
         id: newPaymentButton
-        textButton: "New payment"
+        textButton: "Send"
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
         anchors.top: parent.top

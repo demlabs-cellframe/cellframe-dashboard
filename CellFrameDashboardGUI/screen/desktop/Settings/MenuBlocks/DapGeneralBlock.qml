@@ -61,6 +61,8 @@ ColumnLayout
             anchors.fill: parent
             anchors.topMargin: 13 * pt
             anchors.bottomMargin: 16 * pt
+            anchors.leftMargin: 10 * pt
+            anchors.rightMargin: 10 * pt
 
             Text
             {
@@ -72,23 +74,89 @@ ColumnLayout
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 color: currTheme.textColor
                 verticalAlignment: Qt.AlignVCenter
-                text: "Scale value"
+                text: qsTr("Scale value")
             }
 
-            SpinBox {
-                id: spinbox
-                from: 10
-                to: 500
-                value: 110
-                stepSize: 5
-                editable: true
+            DapDoubleSpinBox
+            {
+                id: scaleSpinbox
 
-//                textFromValue: function(value, locale) {
-//                                        return qsTr("%1 %").arg(value);
-//                               }
+                width: 140 * pt
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+
+                realFrom: minWindowScale
+                realTo: maxWindowScale
+                realStep: 0.05
+                decimals: 2
+
+                defaultValue: mainWindowScale
             }
         }
     }
+
+    Item {
+        height: 60 * pt
+        Layout.fillWidth: true
+
+        RowLayout
+        {
+            anchors.fill: parent
+            anchors.topMargin: 13 * pt
+            anchors.bottomMargin: 16 * pt
+            anchors.leftMargin: 10 * pt
+            anchors.rightMargin: 10 * pt
+            spacing: 10 * pt
+
+            DapButton
+            {
+                id: resetScale
+
+                Layout.fillWidth: true
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                textButton: qsTr("Reset scale")
+
+                implicitHeight: 36 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked: {
+                    print("Reset scale")
+
+                    window.setNewScale(1.0)
+                }
+            }
+
+            DapButton
+            {
+                id: applyScale
+
+                Layout.fillWidth: true
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                textButton: qsTr("Apply scale")
+
+                implicitHeight: 36 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked: {
+                    print("Apply scale")
+
+                    window.setNewScale(scaleSpinbox.realValue)
+                }
+            }
+        }
+    }
+
 
     Rectangle
     {
@@ -178,7 +246,7 @@ ColumnLayout
                             height: 26*pt
                             Layout.fillWidth: true
 
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name

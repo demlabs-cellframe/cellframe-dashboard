@@ -3,6 +3,7 @@ import QtQuick 2.7
 
 Item {
     id: control
+    property alias testList :listView
 
     property bool hasLeft: listView.leftIndex - 1 >= 0
     property bool hasRight: listView.leftIndex + listView.visibleItems < listView.count
