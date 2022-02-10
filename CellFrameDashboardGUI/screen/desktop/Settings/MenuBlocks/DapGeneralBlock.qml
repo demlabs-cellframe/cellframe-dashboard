@@ -32,6 +32,132 @@ ColumnLayout
             text: qsTr("General settings")
         }
     }
+
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30 * pt
+        color: currTheme.backgroundMainScreen
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.topMargin: 8 * pt
+            anchors.bottomMargin: 8 * pt
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            color: currTheme.textColor
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Window scale")
+        }
+    }
+
+    Item {
+        height: 50 * pt
+        Layout.fillWidth: true
+
+        RowLayout
+        {
+            anchors.fill: parent
+            anchors.topMargin: 13 * pt
+            anchors.bottomMargin: 16 * pt
+            anchors.leftMargin: 10 * pt
+            anchors.rightMargin: 10 * pt
+
+            Text
+            {
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
+                Layout.preferredHeight: 25 * pt
+                Layout.fillWidth: true
+                Layout.leftMargin: 13 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                color: currTheme.textColor
+                verticalAlignment: Qt.AlignVCenter
+                text: qsTr("Scale value")
+            }
+
+            DapDoubleSpinBox
+            {
+                id: scaleSpinbox
+
+                width: 140 * pt
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+
+                realFrom: minWindowScale
+                realTo: maxWindowScale
+                realStep: 0.05
+                decimals: 2
+
+                defaultValue: mainWindowScale
+            }
+        }
+    }
+
+    Item {
+        height: 60 * pt
+        Layout.fillWidth: true
+
+        RowLayout
+        {
+            anchors.fill: parent
+            anchors.topMargin: 13 * pt
+            anchors.bottomMargin: 16 * pt
+            anchors.leftMargin: 10 * pt
+            anchors.rightMargin: 10 * pt
+            spacing: 10 * pt
+
+            DapButton
+            {
+                id: resetScale
+
+                Layout.fillWidth: true
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                textButton: qsTr("Reset scale")
+
+                implicitHeight: 36 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked: {
+                    print("Reset scale")
+
+                    window.setNewScale(1.0)
+                }
+            }
+
+            DapButton
+            {
+                id: applyScale
+
+                Layout.fillWidth: true
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                textButton: qsTr("Apply scale")
+
+                implicitHeight: 36 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked: {
+                    print("Apply scale")
+
+                    window.setNewScale(scaleSpinbox.realValue)
+                }
+            }
+        }
+    }
+
+
     Rectangle
     {
         Layout.fillWidth: true

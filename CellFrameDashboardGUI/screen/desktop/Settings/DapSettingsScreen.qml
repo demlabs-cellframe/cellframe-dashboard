@@ -62,6 +62,8 @@ DapAbstractScreen
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
+                    Layout.minimumHeight: 200
+
                     contentData: DapGeneralBlock{id:content}
                 }
 
@@ -77,7 +79,7 @@ DapAbstractScreen
                     Layout.topMargin: 20 * pt
                     Layout.alignment: Qt.AlignHCenter
 
-                    textButton: "Create a new wallet"
+                    textButton: qsTr("Create a new wallet")
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
@@ -98,7 +100,7 @@ DapAbstractScreen
                     Layout.topMargin: 9 * pt
                     Layout.alignment: Qt.AlignHCenter
 
-                    textButton: "Import an existing wallet"
+                    textButton: qsTr("Import an existing wallet")
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
