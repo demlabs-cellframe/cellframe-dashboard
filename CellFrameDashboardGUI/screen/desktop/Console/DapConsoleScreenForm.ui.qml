@@ -118,23 +118,69 @@ DapAbstractScreen
                         focus: true
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
 
-                        Keys.onReturnPressed: text.length > 0 ?
-                                                  sendedCommand = text :
-                                                  sendedCommand = ""
-                        Keys.onEnterPressed: text.length > 0 ?
-                                                 sendedCommand = text :
-                                                 sendedCommand = ""
-                        Keys.onUpPressed: (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-                                              consoleHistoryIndex += 1 :
-                                              null
-                        Keys.onDownPressed: (consoleHistoryIndex > -1) ?
-                                                consoleHistoryIndex -= 1 :
-                                                null
-
-                        Keys.onBackPressed:
+                        Keys.onRightPressed:
                         {
+                            if (autocomleteStatus == 2)
+                            {
+                                consoleCmd.text = autocompleteText.text
+                                autocomleteStatus = 0
+                                autocompleteParamsCount = 0
+                            }
+                        }
+
+                        Keys.onReturnPressed:
+                        {
+                            text.length > 0 ?
+                                 sendedCommand = text :
+                                 sendedCommand = ""
                             autocompleteParamsCount = 0
                             autocomleteStatus = 0
+                        }
+                        Keys.onEnterPressed:
+                        {
+                            text.length > 0 ?
+                                 sendedCommand = text :
+                                 sendedCommand = ""
+                        }
+                        Keys.onUpPressed:
+                        {
+                                if (autocomleteStatus == 2)
+                                {
+                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                    ++autocompleteParamsCount
+                                }
+                                else
+                                {
+                            (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
+                            consoleHistoryIndex += 1 :
+                            null
+                            autocompleteParamsCount = 0
+                            autocomleteStatus = 0
+                                }
+                        }
+                        Keys.onDownPressed:
+                        {if (autocomleteStatus == 2)
+                            {
+                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                --autocompleteParamsCount
+                            }
+                            else
+                            {
+                            (consoleHistoryIndex > -1) ?
+                            consoleHistoryIndex -= 1 :
+                            null
+                            autocompleteParamsCount = 0
+                            autocomleteStatus = 0
+                            }
+                        }
+
+                        Keys.onDeletePressed:
+                        {
+                            if (autocomleteStatus == 1)
+                            {
+                                autocompleteParamsCount = 0
+                                autocomleteStatus = 0
+                            }
                         }
 
                         property int autocompleteParamsCount: 0
@@ -145,13 +191,8 @@ DapAbstractScreen
                             {
                                 autocomleteStatus = 1
                                 consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
+                                autocompleteText.text = consoleCmd.text
                             }
-                            else
-                                if (autocomleteStatus == 2)
-                                {
-                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                    ++autocompleteParamsCount
-                                }
                         }
 
                         Text
@@ -171,14 +212,30 @@ DapAbstractScreen
                         {
                             inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
 
-                            if (autocomleteStatus == 1 && text == autocompleteText + " ")
+                            if (autocomleteStatus == 2)
+                            {
+                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                if (commandCmdController.isOneWord(consoleCmd.text))
+                                    autocomleteStatus = 0
+                            }
+                            else
+                            if (autocomleteStatus == 1 && text == autocompleteText.text + " ")
                             {
                                 autocomleteStatus = 2
                                 autocompleteParamsCount = 0
+                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                             }
                             else
-                            if (text != "")
+                            if (text != "" && autocomleteStatus == 0)
+                            {
                                 autocompleteText.text = commandCmdController.getCommandByValue(consoleCmd.text)
+                                if (text[text.length - 1] == " ")
+                                {
+                                    autocomleteStatus = 2
+                                    autocompleteParamsCount = 0
+                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                }
+                            }
                             else
                                 autocompleteText.text = ""
                         }
