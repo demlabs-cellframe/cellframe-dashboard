@@ -14,7 +14,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
         connect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommands);
     }
     else
-        qDebug() << "NOOOOOOOOOOOOOO!!!";
+        qDebug() << "dapServiceController not connected";
 }
 
 void CommandCmdController::parseAllCommands(const QVariant &asAnswer)
@@ -37,24 +37,6 @@ void CommandCmdController::parseAllCommands(const QVariant &asAnswer)
     }
 }
 
-/*
-Private token update"
-aaaaaaaaaaaaaaaaaaaaaa "==Params=="
-aaaaaaaaaaaaaaaaaaaaaa "General:"
-aaaaaaaaaaaaaaaaaaaaaa "Datum type allowed/blocked updates:"
-aaaaaaaaaaaaaaaaaaaaaa "Tx receiver addresses allowed/blocked updates:"
-aaaaaaaaaaaaaaaaaaaaaa "Tx sender addresses allowed/blocked updates:"
-aaaaaaaaaaaaaaaaaaaaaa "==Flags==\t ALL_BLOCKED:\t Blocked all permissions, usefull add it first and then add allows what you want to allow"
-aaaaaaaaaaaaaaaaaaaaaa "Simple token declaration:"
-aaaaaaaaaaaaaaaaaaaaaa "Extended private token declaration"
-aaaaaaaaaaaaaaaaaaaaaa "==Flags==\t ALL_BLOCKED:\t Blocked all permissions, usefull add it first and then add allows what you want to allow"
-aaaaaaaaaaaaaaaaaaaaaa "==Params=="
-aaaaaaaaaaaaaaaaaaaaaa "General:"
-aaaaaaaaaaaaaaaaaaaaaa "Datum type allowed/blocked:"
-aaaaaaaaaaaaaaaaaaaaaa "Tx receiver addresses allowed/blocked:"
-aaaaaaaaaaaaaaaaaaaaaa "Tx sender addresses allowed/blocked:"
- */
-
 void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 {
     QString command = asAnswer.toList()[0].toString();
@@ -70,7 +52,6 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     {
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower())
         {
-            qDebug() << "aaaaaaaaaaaaaaaaaaaaaa" << _commands[i];
             commandParams.append(_commands[i]);
         }
     }
