@@ -75,6 +75,7 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
     QString val = splitList[0];
     QStringList list = commandsParams[val].toStringList();
     QStringList resList;
+
     for (int i = 0; i < list.length(); ++i)
         if (list[i].startsWith(value))
         {
