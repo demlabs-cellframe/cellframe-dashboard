@@ -90,8 +90,6 @@
         <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Console/DapConsoleScreen.qml</file>
-        <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>resources/icons/icon.ico</file>
         <file>resources/icons/ic_flag.png</file>
@@ -342,5 +340,7 @@
         <file>screen/desktop/Plugins/MiniGame/Elements/GameMainScreen.qml</file>
         <file>screen/desktop/Plugins/MiniGame/Elements/GameTopPanel.qml</file>
         <file>screen/desktop/Plugins/MiniGame/Elements/GamePlayer.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreenForm.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreen.qml</file>
     </qresource>
 </RCC>
