@@ -265,6 +265,32 @@ Rectangle {
                         //anchors.topMargin: 18 * pt
                         //visible: false
                     }
+                    ToolTip
+                    {
+                        id:toolTip
+                        visible: area.containsMouse? true : false
+                        text: "https://cellframe.net"
+
+                        contentItem: Text {
+                                text: toolTip.text
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                color: currTheme.textColor
+                            }
+
+                        background: Rectangle{color:currTheme.backgroundPanel}
+                    }
+                    MouseArea
+                    {
+                        id:area
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked:
+                        {
+                            Qt.openUrlExternally(toolTip.text);
+
+                        }
+                    }
                 }
             }
             // Menu bar widget
