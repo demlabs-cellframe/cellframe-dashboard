@@ -70,8 +70,8 @@ DapAbstractScreen
                     anchors.fill: parent
                     id: iconCreateWallet
                     source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                    sourceSize.width: 250 * pt
-                    sourceSize.height: 250 * pt
+                    sourceSize.width: 200 * pt
+                    sourceSize.height: 200 * pt
                     fillMode: Image.PreserveAspectFit
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -85,7 +85,7 @@ DapAbstractScreen
 
             Item
             {
-                height: 45 * pt
+                height: 30 * pt
                 width: parent.width
             }
 

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
@@ -12,28 +12,40 @@ ApplicationWindow
     id: window
     visible: true
 
+    Settings {
+        id: settings
+        property alias x: window.x
+        property alias y: window.y
+        property alias width: window.width
+        property alias height: window.height
+        property real window_scale: 1.0
+    }
+
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
 
-    property real mainWindowScale: mainWindow.scale
-    readonly property real minWindowScale: 0.5
+    readonly property real minWindowScale: 0.25
     readonly property real maxWindowScale: 4.0
+
+    readonly property real maxCorrectScale: 1.25
+
+    readonly property int defaultMinWidth: 1280
+    readonly property int defaultMinHeight: 600
+
+    property real mainWindowScale: settings.window_scale
 
     width: 1280
     height: 800
-    minimumWidth: 1280 * mainWindow.scale
-    minimumHeight: 600 * mainWindow.scale
+    minimumWidth: settings.window_scale < 1.0 ?
+                      defaultMinWidth * settings.window_scale :
+                      defaultMinWidth
+    minimumHeight: settings.window_scale < 1.0 ?
+                       defaultMinHeight * settings.window_scale :
+                       defaultMinHeight
 
     property int lastX: 0
     property int lastY: 0
     property int lastWidth: 0
     property int lastHeight: 0
-
-    Settings {
-        property alias x: window.x
-        property alias y: window.y
-        property alias width: window.width
-        property alias height: window.height
-    }
 
     //Main window
     DapMainApplicationWindow
@@ -42,11 +54,11 @@ ApplicationWindow
         property alias device: dapDevice.device
         property alias footer: networksPanel
 
-//        anchors.fill: parent
+        anchors.centerIn: parent
         width: parent.width / scale
         height: parent.height / scale
-        x: (parent.width - width)*0.5
-        y: (parent.height - height)*0.5
+//        x: (parent.width - width)*0.5
+//        y: (parent.height - height)*0.5
 
         Device
         {
@@ -63,7 +75,7 @@ ApplicationWindow
             height: 40 * pt
         }
 
-        scale: 1
+        scale: 1.0
     }
 
     ///The image with the effect fast blur
@@ -132,6 +144,27 @@ ApplicationWindow
             window.minimumHeight = 0
         }
 
+        print("desktopAvailableWidth", Screen.desktopAvailableWidth,
+              "desktopAvailableHeight", Screen.desktopAvailableHeight)
+
+        if (settings.window_scale < 1.0)
+        {
+            mainWindow.scale = checkNewScale(settings.window_scale)
+
+            window.minimumWidth = defaultMinWidth * settings.window_scale
+            window.minimumHeight = defaultMinHeight * settings.window_scale
+        }
+        else
+        {
+            window.minimumWidth = defaultMinWidth
+            window.minimumHeight = defaultMinHeight
+        }
+
+        if (window.minimumWidth > window.width)
+            window.width = window.minimumWidth
+        if (window.minimumHeight > window.height)
+            window.height = window.minimumHeight
+
         checkSizeAndPosition()
 
         print("window size", window.width, window.height)
@@ -159,12 +192,14 @@ ApplicationWindow
 
         window.requestActivate()
 
-        print("restoreWindow size", window.width, window.height, "position", window.x, window.y)
+        print("restoreWindow size", window.width, window.height,
+              "position", window.x, window.y)
     }
 
     function hideWindow()
     {
-        print("hideWindow size", window.width, window.height, "position", window.x, window.y)
+        print("hideWindow size", window.width, window.height,
+              "position", window.x, window.y)
 
         lastWidth = window.width
         lastHeight = window.height
@@ -196,14 +231,57 @@ ApplicationWindow
     {
         print("setNewScale", newScale)
 
-        window.minimumWidth = 1280 * newScale
-        window.minimumHeight = 600 * newScale
+        print("window.width", window.width,
+              "window.height", window.height)
+        print("window.minimumWidth", window.minimumWidth,
+              "window.minimumHeight", window.minimumHeight)
 
-        mainWindow.scale = newScale
+        window.minimumWidth = 0
+        window.minimumHeight = 0
 
-        if (window.minimumWidth > window.width)
-            window.width = window.minimumWidth
-        if (window.minimumHeight > window.height)
-            window.height = window.minimumHeight
+        if (newScale < 1.0)
+        {
+            if (settings.window_scale < 1.0)
+            {
+                window.width *= newScale / settings.window_scale
+                window.height *= newScale / settings.window_scale
+            }
+            else
+            {
+                window.width *= newScale
+                window.height *= newScale
+            }
+        }
+        else
+        {
+            if (settings.window_scale < 1.0)
+            {
+                window.width *= 1 / settings.window_scale
+                window.height *= 1 / settings.window_scale
+            }
+        }
+
+        print("NEW window.width", window.width,
+              "window.height", window.height)
+        print("NEW window.minimumWidth", window.minimumWidth,
+              "window.minimumHeight", window.minimumHeight)
+
+        settings.window_scale = newScale
+        settings.setValue("window_scale", newScale)
+
+        systemTray.hideIconTray()
+        Qt.exit(RESTART_CODE)
+    }
+
+    function checkNewScale(newScale)
+    {
+        if (defaultMinWidth * newScale > Screen.desktopAvailableWidth*maxCorrectScale)
+        {
+            print("Big scale", newScale,
+                  "CORRECT SCALE", Screen.desktopAvailableWidth*maxCorrectScale / defaultMinWidth)
+            return Screen.desktopAvailableWidth*maxCorrectScale / defaultMinWidth
+        }
+        else
+            return newScale
     }
 }

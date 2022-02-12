@@ -289,6 +289,8 @@ DapAbstractTab
         y: (parent.height - height) / 2
         modal: true
 
+        scale: mainWindow.scale
+
         function smartOpen(title, contentText) {
             dapMessageBox.dapTitleText.text = title
             dapMessageBox.dapContentText.text = contentText
@@ -327,6 +329,8 @@ DapAbstractTab
                 x: (blockBusyIndicatorLoader.width - width) / 2
                 y: (blockBusyIndicatorLoader.height - height) / 2
                 modal: true
+
+                scale: mainWindow.scale
 
                 BusyIndicator {
                     anchors.centerIn: parent
