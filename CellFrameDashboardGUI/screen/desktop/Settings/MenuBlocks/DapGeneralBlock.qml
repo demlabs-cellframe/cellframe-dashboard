@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -93,9 +93,115 @@ ColumnLayout
                 realStep: 0.05
                 decimals: 2
 
-                defaultValue: mainWindowScale
+                //defaultValue: mainWindowScale
+
+                value: Math.round(mainWindowScale*100)
             }
         }
+    }
+
+    property real newScale: 1.0
+
+    Popup {
+        id: restartDialog
+
+        width: 300 * pt
+        height: 180 * pt
+
+        parent: Overlay.overlay
+
+//        anchors.centerIn: parent
+        x: (parent.width - width) * 0.5
+        y: (parent.height - height) * 0.5
+
+        modal: true
+
+        scale: mainWindow.scale
+
+        background: Rectangle
+        {
+            border.width: 0
+            color: currTheme.backgroundElements
+        }
+
+        ColumnLayout
+        {
+            anchors.fill: parent
+            anchors.margins: 10 * pt
+
+            Text {
+                Layout.fillWidth: true
+                Layout.margins: 10 * pt
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                color: currTheme.textColor
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                text: qsTr("You must restart the application to apply the new scale. Do you want to restart now? ")
+            }
+
+            RowLayout
+            {
+                Layout.margins: 10 * pt
+                Layout.bottomMargin: 20 * pt
+//                Layout.leftMargin: 10 * pt
+//                Layout.rightMargin: 10 * pt
+                spacing: 10 * pt
+
+                DapButton
+                {
+                    id: restartButton
+                    Layout.fillWidth: true
+
+                    Layout.minimumHeight: 36 * pt
+                    Layout.maximumHeight: 36 * pt
+
+                    textButton: qsTr("Restart")
+
+                    implicitHeight: 36 * pt
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    horizontalAligmentText: Text.AlignHCenter
+
+                    onClicked: {
+                        print("Restart")
+
+                        restartDialog.close()
+
+                        window.setNewScale(newScale)
+                    }
+                }
+
+                DapButton
+                {
+                    Layout.fillWidth: true
+
+                    Layout.minimumHeight: 36 * pt
+                    Layout.maximumHeight: 36 * pt
+
+                    textButton: qsTr("Cancel")
+
+                    implicitHeight: 36 * pt
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    horizontalAligmentText: Text.AlignHCenter
+
+                    onClicked: {
+                        print("Cancel")
+
+                        restartDialog.close()
+                    }
+                }
+            }
+        }
+
+
+//        onAccepted:
+//        {
+//            restartButton.clicked()
+//        }
+//        onRejected:
+//        {
+//            print("Cancel")
+//        }
     }
 
     Item {
@@ -115,6 +221,8 @@ ColumnLayout
             {
                 id: resetScale
 
+                focus: false
+
                 Layout.fillWidth: true
 
                 Layout.minimumHeight: 36 * pt
@@ -129,13 +237,17 @@ ColumnLayout
                 onClicked: {
                     print("Reset scale")
 
-                    window.setNewScale(1.0)
+                    newScale = 1.0
+
+                    restartDialog.open()
                 }
             }
 
             DapButton
             {
                 id: applyScale
+
+                focus: false
 
                 Layout.fillWidth: true
 
@@ -151,7 +263,9 @@ ColumnLayout
                 onClicked: {
                     print("Apply scale")
 
-                    window.setNewScale(scaleSpinbox.realValue)
+                    newScale = scaleSpinbox.realValue
+
+                    restartDialog.open()
                 }
             }
         }
