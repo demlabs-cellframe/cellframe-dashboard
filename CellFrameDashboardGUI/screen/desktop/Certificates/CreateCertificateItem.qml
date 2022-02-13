@@ -126,7 +126,7 @@ Rectangle {
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
-//                    hilightColor: currTheme.buttonColorNormal
+                    recomendedText: "Crystal-Dylithium"
 
                     topEffect: false
                     colorTopNormalDropShadow: "#00000000"
