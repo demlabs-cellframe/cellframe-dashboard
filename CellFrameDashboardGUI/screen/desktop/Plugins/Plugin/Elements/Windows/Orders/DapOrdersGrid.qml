@@ -16,7 +16,7 @@ GridView {
 
     clip: true
     currentIndex: -1
-    focus: true
+//    focus: true
 
     delegate: Item {
         id: cell
@@ -42,7 +42,7 @@ GridView {
             border.width: pt
             border.color: "#292929"
             radius: 20 * pt
-            focus: true
+//            focus: true
 
             Rectangle {
                 id: headerFrame

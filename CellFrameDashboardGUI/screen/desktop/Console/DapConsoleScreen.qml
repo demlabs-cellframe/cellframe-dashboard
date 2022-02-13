@@ -12,6 +12,8 @@ DapConsoleScreenForm
     ///@detalis receivedAnswer Answer for the sended command
     property string receivedAnswer
 
+    property var dapServiceController
+
     signal runCommand(string command)
 
     Component.onCompleted:
@@ -20,6 +22,7 @@ DapConsoleScreenForm
         consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
+        _commandCmdController.dapServiceControllerInit(dapServiceController)
     }
 
     ListModel

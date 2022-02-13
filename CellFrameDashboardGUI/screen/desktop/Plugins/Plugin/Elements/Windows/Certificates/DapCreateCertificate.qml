@@ -110,7 +110,7 @@ Item {
                 }
 
                 function getDataToJson(){
-                    var result = { a0_creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
+                    var result = { creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
 
 
                     return result
