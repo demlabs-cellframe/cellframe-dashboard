@@ -92,10 +92,11 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication testapp(argc, argv);
+    QGuiApplication *testapp = new QGuiApplication(argc, argv);
     qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
     int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
-    testapp.quit();
+    testapp->quit();
+    delete testapp;
 
     int result = RESTART_CODE;
 
