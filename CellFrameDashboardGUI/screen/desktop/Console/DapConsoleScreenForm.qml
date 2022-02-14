@@ -150,6 +150,7 @@ DapAbstractScreen
                         }
                         Keys.onEnterPressed:
                         {
+                            autocompleteText.text = ""
                             text.length > 0 ?
                                  sendedCommand = text :
                                  sendedCommand = ""

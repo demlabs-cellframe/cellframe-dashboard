@@ -82,7 +82,7 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
             resList.append(list[i]);
         }
 
-    if (count < 0)
+    if (count < 0 && !resList.isEmpty())
         count = resList.length() - ((count * -1) % resList.length());
 
     if (!resList.isEmpty())
