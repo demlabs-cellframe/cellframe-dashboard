@@ -183,20 +183,11 @@ DapAbstractScreen
                             }
                         }
 
-                        Keys.onDeletePressed:
-                        {
-                            if (autocomleteStatus == 1)
-                            {
-                                autocompleteParamsCount = 0
-                                autocomleteStatus = 0
-                            }
-                        }
-
                         property int autocompleteParamsCount: 0
 
                         Keys.onTabPressed:
                         {
-                            if (autocomleteStatus == 0)
+                            if (autocomleteStatus == 0 && consoleCmd.text != "")
                             {
                                 autocomleteStatus = 1
                                 consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
@@ -227,6 +218,13 @@ DapAbstractScreen
                                 if (commandCmdController.isOneWord(consoleCmd.text))
                                     autocomleteStatus = 0
                             }
+                            else
+                                if (commandCmdController.isOneWord(consoleCmd.text) && autocomleteStatus == 1)
+                                {
+                                    autocompleteParamsCount = 0
+                                    autocomleteStatus = 0
+                                }
+
                             else
                             if (autocomleteStatus == 1 && text == autocompleteText.text + " ")
                             {
