@@ -131,7 +131,6 @@ DapAbstractScreen
                         {
                             if (autocomleteStatus == 2 && consoleCmd.cursorPosition == consoleCmd.text.length)
                             {
-                                console.log("xxxxxxxxxxxxxxxxx")
                                 consoleCmd.text = autocompleteText.text
                                 autocomleteStatus = 0
                                 autocompleteParamsCount = 0
