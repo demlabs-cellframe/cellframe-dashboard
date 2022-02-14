@@ -198,7 +198,7 @@ DapAbstractScreen
                         Text
                         {
                             id: autocompleteText
-                            width: parent.width - x
+                            width: parent.width - x * 2
                             height: parent.height
                             x: 10 * pt
                             y: 6 * pt
