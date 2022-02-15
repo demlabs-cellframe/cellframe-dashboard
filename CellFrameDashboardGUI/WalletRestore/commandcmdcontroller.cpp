@@ -61,6 +61,11 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 
 QString CommandCmdController::getCommandByValue(const QString &value)
 {
+    if (!isDisconnect)
+    {
+        disconnect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommandsParams);
+        isDisconnect = true;
+    }
     for (int i = 0; i < commands.length(); ++i)
     {
         if (commands[i].startsWith(value))
@@ -82,7 +87,7 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
             resList.append(list[i]);
         }
 
-    if (count < 0)
+    if (count < 0 && !resList.isEmpty())
         count = resList.length() - ((count * -1) % resList.length());
 
     if (!resList.isEmpty())
