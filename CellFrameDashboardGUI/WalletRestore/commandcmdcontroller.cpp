@@ -52,6 +52,8 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     {
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower())
         {
+            if (_commands[i].contains("\t"))
+                _commands[i] = _commands[i].left(_commands[i].indexOf('\t'));
             commandParams.append(_commands[i]);
         }
     }
