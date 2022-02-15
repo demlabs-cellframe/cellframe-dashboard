@@ -151,6 +151,8 @@ DapAbstractScreen
                         Keys.onEnterPressed:
                         {
                             autocompleteText.text = ""
+                            autocompleteParamsCount = 0
+                            autocomleteStatus = 0
                             text.length > 0 ?
                                  sendedCommand = text :
                                  sendedCommand = ""
@@ -164,11 +166,21 @@ DapAbstractScreen
                                 }
                                 else
                                 {
+
                             (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
                             consoleHistoryIndex += 1 :
                             null
+                                    if (!commandCmdController.isOneWord(consoleCmd.text))
+                                    {
+                                        autocomleteStatus = 2
+                                        autocompleteParamsCount = 0
+                                        autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                    }
+                                    else
+                                    {
                             autocompleteParamsCount = 0
                             autocomleteStatus = 0
+                                    }
                                 }
                         }
                         Keys.onDownPressed:
@@ -182,8 +194,18 @@ DapAbstractScreen
                             (consoleHistoryIndex > -1) ?
                             consoleHistoryIndex -= 1 :
                             null
-                            autocompleteParamsCount = 0
-                            autocomleteStatus = 0
+
+                                if (!commandCmdController.isOneWord(consoleCmd.text))
+                                {
+                                    autocomleteStatus = 2
+                                    autocompleteParamsCount = 0
+                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                }
+                                else
+                                {
+                        autocompleteParamsCount = 0
+                        autocomleteStatus = 0
+                                }
                             }
                         }
 
