@@ -98,6 +98,41 @@ int main(int argc, char *argv[])
     testapp->quit();
     delete testapp;
 
+    DapLogger dapLogger;
+    dapLogger.createChangerLogFiles();
+
+    DapConfigReader configReader;
+    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
+
+    qDebug() << "debug_dashboard_mode" << debug_mode;
+
+    if (debug_mode)
+        dapLogger.setLogLevel(L_DEBUG);
+    else
+        dapLogger.setLogLevel(L_INFO);
+
+    //dApps config file
+        QString filePluginConfig;
+        QString pluginPath;
+    #ifdef Q_OS_LINUX
+        filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
+        pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
+    #elif defined Q_OS_MACOS
+        mkdir("/tmp/cellframe-dashboard_dapps",0777);
+        filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
+    #elif defined Q_OS_WIN
+        filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
+        pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
+    #endif
+
+    QFile filePlugin(filePluginConfig);
+    if(!filePlugin.exists())
+    {
+        if(filePlugin.open(QIODevice::WriteOnly))
+            filePlugin.close();
+    }
+
     int result = RESTART_CODE;
 
     while (result == RESTART_CODE)
@@ -130,41 +165,6 @@ int main(int argc, char *argv[])
 
         if (!SingleApplicationTest(app.applicationName()))
             return 1;
-
-        DapLogger dapLogger;
-        dapLogger.createChangerLogFiles();
-
-        DapConfigReader configReader;
-        bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-
-        qDebug() << "debug_dashboard_mode" << debug_mode;
-
-        if (debug_mode)
-            dapLogger.setLogLevel(L_DEBUG);
-        else
-            dapLogger.setLogLevel(L_INFO);
-
-        //dApps config file
-            QString filePluginConfig;
-            QString pluginPath;
-        #ifdef Q_OS_LINUX
-            filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
-            pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
-        #elif defined Q_OS_MACOS
-            mkdir("/tmp/cellframe-dashboard_dapps",0777);
-            filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
-            pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
-        #elif defined Q_OS_WIN
-            filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-            pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
-        #endif
-
-        QFile filePlugin(filePluginConfig);
-        if(!filePlugin.exists())
-        {
-            if(filePlugin.open(QIODevice::WriteOnly))
-                filePlugin.close();
-        }
 
         SystemTray * systemTray = new SystemTray();
         QQmlContext * context = app.qmlEngine()->rootContext();
