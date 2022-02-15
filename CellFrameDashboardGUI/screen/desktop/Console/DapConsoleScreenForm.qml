@@ -129,12 +129,15 @@ DapAbstractScreen
 
                         Keys.onRightPressed:
                         {
-                            if (autocomleteStatus == 2)
+                            if (autocomleteStatus == 2 && consoleCmd.cursorPosition == consoleCmd.text.length)
                             {
                                 consoleCmd.text = autocompleteText.text
                                 autocomleteStatus = 0
                                 autocompleteParamsCount = 0
                             }
+                            else
+                                if (consoleCmd.cursorPosition != consoleCmd.text.length)
+                                    ++consoleCmd.cursorPosition
                         }
 
                         Keys.onReturnPressed:
@@ -147,6 +150,9 @@ DapAbstractScreen
                         }
                         Keys.onEnterPressed:
                         {
+                            autocompleteText.text = ""
+                            autocompleteParamsCount = 0
+                            autocomleteStatus = 0
                             text.length > 0 ?
                                  sendedCommand = text :
                                  sendedCommand = ""
@@ -160,11 +166,21 @@ DapAbstractScreen
                                 }
                                 else
                                 {
+
                             (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
                             consoleHistoryIndex += 1 :
                             null
+                                    if (!commandCmdController.isOneWord(consoleCmd.text))
+                                    {
+                                        autocomleteStatus = 2
+                                        autocompleteParamsCount = 0
+                                        autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                    }
+                                    else
+                                    {
                             autocompleteParamsCount = 0
                             autocomleteStatus = 0
+                                    }
                                 }
                         }
                         Keys.onDownPressed:
@@ -178,17 +194,18 @@ DapAbstractScreen
                             (consoleHistoryIndex > -1) ?
                             consoleHistoryIndex -= 1 :
                             null
-                            autocompleteParamsCount = 0
-                            autocomleteStatus = 0
-                            }
-                        }
 
-                        Keys.onDeletePressed:
-                        {
-                            if (autocomleteStatus == 1)
-                            {
-                                autocompleteParamsCount = 0
-                                autocomleteStatus = 0
+                                if (!commandCmdController.isOneWord(consoleCmd.text))
+                                {
+                                    autocomleteStatus = 2
+                                    autocompleteParamsCount = 0
+                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                }
+                                else
+                                {
+                        autocompleteParamsCount = 0
+                        autocomleteStatus = 0
+                                }
                             }
                         }
 
@@ -196,7 +213,7 @@ DapAbstractScreen
 
                         Keys.onTabPressed:
                         {
-                            if (autocomleteStatus == 0)
+                            if (autocomleteStatus == 0 && consoleCmd.text != "")
                             {
                                 autocomleteStatus = 1
                                 consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
@@ -207,7 +224,7 @@ DapAbstractScreen
                         Text
                         {
                             id: autocompleteText
-                            width: parent.width - x
+                            width: parent.width - x * 1.7
                             height: parent.height
                             x: 10 * pt
                             y: 6 * pt
@@ -227,6 +244,13 @@ DapAbstractScreen
                                 if (commandCmdController.isOneWord(consoleCmd.text))
                                     autocomleteStatus = 0
                             }
+                            else
+                                if (commandCmdController.isOneWord(consoleCmd.text) && autocomleteStatus == 1)
+                                {
+                                    autocompleteParamsCount = 0
+                                    autocomleteStatus = 0
+                                }
+
                             else
                             if (autocomleteStatus == 1 && text == autocompleteText.text + " ")
                             {

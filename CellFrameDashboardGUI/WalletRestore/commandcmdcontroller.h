@@ -13,6 +13,8 @@ class CommandCmdController : public QObject
     QStringList commands;
     QVariantMap commandsParams;
 
+    bool isDisconnect = false;
+
     DapServiceController *dapServiceController;
 public:
     explicit CommandCmdController(QObject *parent = nullptr);
