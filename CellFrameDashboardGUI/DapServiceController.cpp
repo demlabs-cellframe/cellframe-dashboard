@@ -121,6 +121,12 @@ DapServiceController &DapServiceController::getInstance()
     return instance;
 }
 
+/// Disconnect all signals
+void DapServiceController::disconnectAll()
+{
+    disconnect(this, 0, 0, 0);
+}
+
 /// Send request to service.
 /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
 /// @param asServiceName Service name.
@@ -132,10 +138,10 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
 {
 
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
-    qDebug() << "DapServiceController::requestToService, asServiceName:"
-             << asServiceName << arg1.toString() << arg2.toString()
-             << arg3.toString() << arg4.toString() << arg5.toString()
-             << "transceiver:" << transceiver;
+//    qDebug() << "DapServiceController::requestToService, asServiceName:"
+//             << asServiceName << arg1.toString() << arg2.toString()
+//             << arg3.toString() << arg4.toString() << arg5.toString()
+//             << "transceiver:" << transceiver;
     Q_ASSERT(transceiver);
     disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
@@ -250,6 +256,9 @@ void DapServiceController::registerCommand()
             wallethistoryEvent = new DapWalletHistoryEvent(*begin);
             walletHistory.append(wallethistoryEvent);
         }
+
+        qDebug() << "DapServiceController::registerCommand"
+                 << "DapServiceController::historyReceived" << walletHistory.size();
 
         emit walletHistoryReceived(walletHistory);
     });

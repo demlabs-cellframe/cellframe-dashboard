@@ -16,6 +16,8 @@ class DapApplication : public QApplication
 public:
     DapApplication(int &argc, char **argv);
 
+    ~DapApplication();
+
     DapNetworksList *networks();
 
     QQmlApplicationEngine *qmlEngine();
