@@ -380,5 +380,6 @@
         <file>mobile/Wallet/Payment/ReceiveToken.qml</file>
         <file>mobile/Icons/NetIconLightGreen.png</file>
         <file>mobile/Icons/MenuIconLightGreen.png</file>
+        <file>mobile/History/History.qml</file>
     </qresource>
 </RCC>

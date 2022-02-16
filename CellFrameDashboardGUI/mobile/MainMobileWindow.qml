@@ -41,12 +41,17 @@ ApplicationWindow {
         id: tokenModel
     }
 
+    ListModel {
+        id: hisoryModel
+    }
 
     property alias mainWalletModel: walletModel
 
     property alias mainNetworkModel: networkModel
 
     property alias mainTokenModel: tokenModel
+
+    property alias mainHistoryModel: hisoryModel
 
     property string newWalletName: ""
 
@@ -56,14 +61,17 @@ ApplicationWindow {
 
     Component.onCompleted:
     {
-        initModel()
+        initWalletModel()
 
         updateNetworkModel()
 
         updateTokenModel()
 
+        initHistoryModel()
+
         nameWallet.text = walletModel.get(currentWallet).name
-        stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
+//        stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
+        stackView.setInitialItem("qrc:/mobile/History/History.qml")
     }
 
     property alias mainStackView: stackView
@@ -215,7 +223,7 @@ ApplicationWindow {
 //        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
     }
 
-    function initModel()
+    function initWalletModel()
     {
         walletModel.append(
                     { "name" : "DapWallet",
@@ -425,6 +433,70 @@ ApplicationWindow {
                         "balance" : 0.0})
 
 
+    }
+
+    function initHistoryModel()
+    {
+        hisoryModel.append(
+                    { "date" : "July, 22",
+                      "network" : "CORE-T",
+                      "status" : "Received",
+                      "amount" : "+1234.567",
+                      "token_name" : "CELL-core"})
+        hisoryModel.append(
+                    { "date" : "July, 22",
+                      "network" : "KELVIN-TESTNET",
+                      "status" : "Sent",
+                      "amount" : "-123.56",
+                      "token_name" : "KEL-kelvin"})
+        hisoryModel.append(
+                    { "date" : "July, 22",
+                      "network" : "CORE-T",
+                      "status" : "Error",
+                      "amount" : "-34.4234",
+                      "token_name" : "CELL-core"})
+        hisoryModel.append(
+                    { "date" : "July, 21",
+                      "network" : "CORE-T",
+                      "status" : "Received",
+                      "amount" : "+1234.567",
+                      "token_name" : "CELL-core"})
+        hisoryModel.append(
+                    { "date" : "July, 21",
+                      "network" : "KELVIN-TESTNET",
+                      "status" : "Sent",
+                      "amount" : "-123.56",
+                      "token_name" : "KEL-kelvin"})
+        hisoryModel.append(
+                    { "date" : "July, 20",
+                      "network" : "CORE-T",
+                      "status" : "Error",
+                      "amount" : "-34.4234",
+                      "token_name" : "CELL-core"})
+        hisoryModel.append(
+                    { "date" : "July, 20",
+                      "network" : "KELVIN-TESTNET",
+                      "status" : "Received",
+                      "amount" : "+1234.567",
+                      "token_name" : "KEL-kelvin"})
+        hisoryModel.append(
+                    { "date" : "July, 20",
+                      "network" : "CORE-T",
+                      "status" : "Received",
+                      "amount" : "+1234.567",
+                      "token_name" : "CELL-core"})
+        hisoryModel.append(
+                    { "date" : "July, 19",
+                      "network" : "KELVIN-TESTNET",
+                      "status" : "Sent",
+                      "amount" : "-123.56",
+                      "token_name" : "KEL-kelvin"})
+        hisoryModel.append(
+                    { "date" : "July, 18",
+                      "network" : "CORE-T",
+                      "status" : "Error",
+                      "amount" : "-34.4234",
+                      "token_name" : "CELL-core"})
     }
 
 }

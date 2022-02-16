@@ -148,7 +148,7 @@ Drawer {
         {
             "name": qsTr("TX Explorer"),
             "bttnIco": "icon_history.png",
-            "url": "qrc:/mobile/PageComingSoon.qml"
+            "url": "qrc:/mobile/History/History.qml"
         },
         {
             "name": qsTr("Certificates"),

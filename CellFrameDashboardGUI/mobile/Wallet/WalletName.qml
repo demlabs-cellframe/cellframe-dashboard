@@ -40,11 +40,11 @@ Page {
             color: "#6B6979"
         }
 
-        CustomRadioButton {
+/*        CustomRadioButton {
             Layout.topMargin: 14 * pt
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Use on existing wallet")
-        }
+        }*/
 
         DapButton
         {

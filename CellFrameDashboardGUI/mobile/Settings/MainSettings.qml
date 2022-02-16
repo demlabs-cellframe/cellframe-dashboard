@@ -163,7 +163,7 @@ Page {
         {
             Layout.alignment: Qt.AlignHCenter
 
-            implicitWidth: 200 * pt
+            implicitWidth: 210 * pt
             implicitHeight: 36 * pt
             radius: currTheme.radiusButton
 
@@ -183,11 +183,11 @@ Page {
 
         DapButton
         {
-            visible: false
+            visible: true
             Layout.alignment: Qt.AlignHCenter
             Layout.topMargin: 10 * pt
 
-            implicitWidth: 200 * pt
+            implicitWidth: 210 * pt
             implicitHeight: 36 * pt
             radius: currTheme.radiusButton
 

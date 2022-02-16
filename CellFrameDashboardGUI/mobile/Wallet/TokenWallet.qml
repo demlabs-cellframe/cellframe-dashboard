@@ -2,16 +2,16 @@ import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import qmlclipboard 1.0
+//import qmlclipboard 1.0
 import "qrc:/widgets/"
 
 Page {
     title: qsTr("Wallet")
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
-    QMLClipboard{
+/*    QMLClipboard{
         id: clipboard
-    }
+    }*/
 
     ColumnLayout
     {
@@ -65,7 +65,7 @@ Page {
             }
         }
 
-        RowLayout
+        /*RowLayout
         {
             Layout.alignment: Qt.AlignHCenter
             Layout.leftMargin: 30 * pt
@@ -115,7 +115,7 @@ Page {
                 onClicked: clipboard.setText(textAddr.text)
 
             }
-        }
+        }*/
 
 
 
