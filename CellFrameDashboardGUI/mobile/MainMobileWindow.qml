@@ -70,8 +70,8 @@ ApplicationWindow {
         initHistoryModel()
 
         nameWallet.text = walletModel.get(currentWallet).name
-//        stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
-        stackView.setInitialItem("qrc:/mobile/History/History.qml")
+        stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
+//        stackView.setInitialItem("qrc:/mobile/History/History.qml")
     }
 
     property alias mainStackView: stackView
@@ -83,6 +83,7 @@ ApplicationWindow {
 
     header: ToolBar {
         id:headerWindow
+        height: 73
 //        contentHeight: 56 * pt
 
         background:
@@ -98,16 +99,16 @@ ApplicationWindow {
                     }
                     anchors.fill: parent
                     color: "#282A33"
-                    radius: 20
+                    radius: 30
                 }
-                InnerShadow {
+                DropShadow {
                     anchors.fill: headerRect
-                    radius: 3.0
+                    radius: 5.0
                     samples: 10
                     cached: true
-                    horizontalOffset: 0
-                    verticalOffset: -1
-                    color: "#858585"
+                    horizontalOffset: 1
+                    verticalOffset: 1
+                    color: "#6B667E"
                     source: headerRect
                     visible: parent.visible
                 }
@@ -124,7 +125,7 @@ ApplicationWindow {
             DapButton
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 10 * pt
+                Layout.topMargin: 12 * pt
                 Layout.bottomMargin: 15 * pt
 
                 Layout.preferredHeight: 24 * pt
@@ -153,9 +154,11 @@ ApplicationWindow {
             ColumnLayout
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 10 * pt
-                Layout.bottomMargin: 5 * pt
+                Layout.topMargin: 12 * pt
+//                Layout.t: 10 * pt
+
                 Layout.fillWidth: true
+                spacing: 9
 
                 Label {
                     Layout.fillWidth: true
@@ -168,9 +171,11 @@ ApplicationWindow {
                 Label {
                     id:nameWallet
                     visible: true
+//                    Layout.alignment: Qt.AlignBottom
                     Layout.fillWidth: true
+//                    Layout.bottomMargin: 7 * pt
                     text: walletModel.get(currentWallet).name
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     horizontalAlignment: Text.AlignHCenter
                     color: currTheme.textColor
                 }
@@ -179,7 +184,7 @@ ApplicationWindow {
             DapButton
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 10 * pt
+                Layout.topMargin: 12 * pt
                 Layout.bottomMargin: 15 * pt
 
                 Layout.preferredHeight: 24 * pt

@@ -35,119 +35,126 @@ Page {
             }
 
             delegate:
-                Item{
-    //                width: parent.width
-                height: 40
-    //                anchors.margins: 10
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.leftMargin: 15 * pt
-                anchors.rightMargin: 15 * pt
+                Item {
+                    width: parent.width
+                    height: 86 * pt
 
-    //                anchors.fill: parent
-                Rectangle {
-                    id: headerRect
-                    anchors.fill: parent
-                    color: index === currentWallet? currTheme.buttonColorNormalPosition0 : "#32363D"
-                    radius: 10
-                }
-                InnerShadow {
-                    id: id1
-                    anchors.fill: headerRect
-                    radius: 10.0
-                    samples: 10
-                    cached: true
-                    horizontalOffset: 2
-                    verticalOffset: 2
-                    color: "#505050"
-                    source: headerRect
-                }
-                DropShadow {
-                    anchors.fill: headerRect
-                    radius: 10.0
-                    samples: 10
-                    cached: true
-                    horizontalOffset: 2
-                    verticalOffset: 2
-                    color: "#252525"
-                    source: id1
-                }
-
-                RowLayout
-                {
-                    anchors.fill: parent
-                    anchors.leftMargin: 15 * pt
-                    anchors.rightMargin: 15 * pt
-
-                    Label {
-                        id: nameWall
-                        Layout.fillWidth: true
-
-                        text: name
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
-                        color: currTheme.textColor
-                    }
-
-                    Label {
-                        Layout.fillWidth: true
-                        Layout.maximumWidth: controlList.width/2.5
-                        text: networks.get(currentNetwork).address
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
-                        color: currTheme.textColor
-                        elide: Text.ElideMiddle
-                    }
-
-                    DapButton
+                    Item
                     {
-                        implicitWidth: 50 * pt
-                        implicitHeight: 20 * pt
-                        radius: 5 * pt
-                        z: 1
 
-                        textButton: qsTr("Copy")
+                        anchors.fill: parent
+                        anchors.topMargin: 13
+                        anchors.bottomMargin: 13
+                        anchors.leftMargin: 18
+                        anchors.rightMargin: 17
 
-                        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                        horizontalAligmentText: Text.AlignHCenter
-                        colorTextButton: "#FFFFFF"
 
-                        customColors: true
-                        gradientHover0:"#B9B8D9"
-                        gradientNormal0:"#A4A3C0"
-                        gradientHover1:"#9392B0"
-                        gradientNormal1:"#7D7C96"
-                        gradientNoActive:"gray"
-
-                        MouseArea {
-                            z: 2
-                            id:controlCopy
+                        Rectangle
+                        {
+                            id: itemRect
                             anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: clipboard.setText(networks.get(currentNetwork).address)
+                            color: mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :"#32363D"
+                            radius: 12
                         }
 
+                        InnerShadow {
+                            id: shadow
+                            anchors.fill: itemRect
+                            radius: 5
+                            samples: 32
+                            cached: true
+                            horizontalOffset: 1
+                            verticalOffset: 1
+                            color: "#515763"
+                            source: itemRect
+                        }
+                        DropShadow {
+                            anchors.fill: itemRect
+                            radius: 10.0
+                            samples: 32
+                            cached: true
+                            horizontalOffset: 4
+                            verticalOffset: 4
+                            color: "#252530"
+                            source: shadow
+                        }
+
+                        RowLayout
+                        {
+                            anchors.fill: parent
+                            anchors.leftMargin: 15 * pt
+                            anchors.rightMargin: 15 * pt
+
+                            Label {
+                                id: nameWall
+                                Layout.fillWidth: true
+
+                                text: name
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                                color: currTheme.textColor
+                            }
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.maximumWidth: controlList.width/2.5
+                                text: networks.get(currentNetwork).address
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                                color: currTheme.textColor
+                                elide: Text.ElideMiddle
+                            }
+
+                            DapButton
+                            {
+                                implicitWidth: 50 * pt
+                                implicitHeight: 20 * pt
+                                radius: 5 * pt
+                                z: 1
+
+                                textButton: qsTr("Copy")
+
+                                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                                horizontalAligmentText: Text.AlignHCenter
+                                colorTextButton: "#FFFFFF"
+
+                                customColors: true
+                                gradientHover0:"#B9B8D9"
+                                gradientNormal0:"#A4A3C0"
+                                gradientHover1:"#9392B0"
+                                gradientNormal1:"#7D7C96"
+                                gradientNoActive:"gray"
+
+                                MouseArea {
+                                    z: 2
+                                    id:controlCopy
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    onClicked: clipboard.setText(networks.get(currentNetwork).address)
+                                }
+
+                            }
+                        }
                     }
 
-
-                }
-
-                MouseArea
-                {
-                    z: 1
-                    anchors.fill: parent
-                    onClicked:
+                    MouseArea
                     {
-                        if(!controlCopy.containsMouse)
+                        id:mouseArea
+                        z: 1
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked:
                         {
-                            if(index !== currentWallet)
-                                controlList.setSelected(index)
-                        }
-                        else
-                        {
-                            clipboard.setText(mainWalletModel.get(index).networks.get(currentNetwork).address)
+                            if(!controlCopy.containsMouse)
+                            {
+                                if(index !== currentWallet)
+                                    controlList.setSelected(index)
+                            }
+                            else
+                            {
+                                clipboard.setText(mainWalletModel.get(index).networks.get(currentNetwork).address)
+                            }
                         }
                     }
                 }
-            }
 
             function setSelected(index)
             {

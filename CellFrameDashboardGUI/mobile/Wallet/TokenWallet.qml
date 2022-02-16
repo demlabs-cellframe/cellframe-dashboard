@@ -16,39 +16,45 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
+        anchors.topMargin: 23
+//        anchors.leftMargin: 17
 
-        spacing: 10
+        spacing: 0
 
         ListView {
             clip: true
             orientation: ListView.Horizontal
             Layout.fillWidth: true
-            height: 50 * pt
+            Layout.leftMargin: 17
+            height: 31 * pt
 
             model: mainNetworkModel
+            spacing: 39
 
 
             delegate:
             ColumnLayout
             {
-                spacing: 5 * pt
+                spacing: 0
 
                 Label {
-                    Layout.topMargin: 5 * pt
-                    Layout.leftMargin: 15 * pt
-                    Layout.rightMargin: 15 * pt
+//                    Layout.topMargin: 5 * pt
+//                    Layout.leftMargin: 15 * pt
+//                    Layout.rightMargin: 15 * pt
                     text: name
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium13
                     horizontalAlignment: Text.AlignHCenter
-                    color: index === currentNetwork ? currTheme.buttonColorHover : currTheme.textColor
+                    color: index === currentNetwork ? currTheme.hilightColorComboBox : currTheme.textColor
                 }
 
                 Rectangle
                 {
+                    Layout.topMargin: 12 * pt
                     Layout.alignment: Qt.AlignCenter
                     width: 20 * pt
                     height: 3 * pt
-                    color: index === currentNetwork ? currTheme.buttonColorHover : currTheme.textColor
+                    radius: 100
+                    color: index === currentNetwork ? currTheme.hilightColorComboBox : currTheme.textColor
                 }
 
                 MouseArea
@@ -58,8 +64,12 @@ Page {
 
                     onClicked:
                     {
-                        currentNetwork = index
-                        window.updateTokenModel()
+                        if(currentNetwork != index)
+                        {
+                            currentNetwork = index
+                            window.updateTokenModel()
+
+                        }
                     }
                 }
             }
@@ -123,8 +133,8 @@ Page {
             id: tokenView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: 5 * pt
-            spacing: 20
+            Layout.topMargin: 21 * pt
+            spacing: 0
 
             clip: true
 
@@ -136,69 +146,81 @@ Page {
 
             delegate:
             Item {
-                width: tokenView.width - 30 * pt
-                x: 15 * pt
-                height: 40 * pt
+                width: parent.width
+                height: 86 * pt
 
-                Rectangle {
-                    id: itemRect
-                    anchors.fill: parent
-                    color: mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :"#32363D"
-                    radius: 10
-                }
-                InnerShadow {
-                    id: shadow
-                    anchors.fill: itemRect
-                    radius: 10.0
-                    samples: 10
-                    cached: true
-                    horizontalOffset: 2
-                    verticalOffset: 2
-                    color: "#505050"
-                    source: itemRect
-                }
-                DropShadow {
-                    anchors.fill: itemRect
-                    radius: 10.0
-                    samples: 10
-                    cached: true
-                    horizontalOffset: 2
-                    verticalOffset: 2
-                    color: "#252525"
-                    source: shadow
-                }
-
-                RowLayout
+                Item
                 {
+
                     anchors.fill: parent
-                    anchors.leftMargin: 15 * pt
-                    anchors.rightMargin: 15 * pt
+                    anchors.topMargin: 13
+                    anchors.bottomMargin: 13
+                    anchors.leftMargin: 18
+                    anchors.rightMargin: 17
 
-                    Label {
-                        Layout.fillWidth: true
 
-                        text: name
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
-                        color: currTheme.textColor
+                    Rectangle
+                    {
+                        id: itemRect
+                        anchors.fill: parent
+                        color: mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :"#32363D"
+                        radius: 12
                     }
 
-                    Label {
-                        text: balance
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
-                        color: currTheme.textColor
+                    InnerShadow {
+                        id: shadow
+                        anchors.fill: itemRect
+                        radius: 5
+                        samples: 10
+                        cached: true
+                        horizontalOffset: 1
+                        verticalOffset: 1
+                        color: "#515763"
+                        source: itemRect
                     }
-                }
+                    DropShadow {
+                        anchors.fill: itemRect
+                        radius: 10.0
+                        samples: 10
+                        cached: true
+                        horizontalOffset: 4
+                        verticalOffset: 4
+                        color: "#252530"
+                        source: shadow
+                    }
 
-                MouseArea
-                {
-                    id: mouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked:{
-                        currentToken = index
-                        mainStackView.push("qrc:/mobile/Wallet/Payment/TokenOverview.qml")
-                        headerWindow.background.visible = false
-                        walletNameLabel.visible = false
+                    RowLayout
+                    {
+                        anchors.fill: parent
+                        anchors.leftMargin: 22 * pt
+                        anchors.rightMargin: 22 * pt
+
+                        Text {
+                            Layout.fillWidth: true
+
+                            text: name
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                            color: currTheme.textColor
+                        }
+
+                        Text {
+                            text: balance
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                            color: currTheme.textColor
+                        }
+                    }
+
+                    MouseArea
+                    {
+                        id: mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked:{
+                            currentToken = index
+                            mainStackView.push("qrc:/mobile/Wallet/Payment/TokenOverview.qml")
+                            headerWindow.background.visible = false
+                            walletNameLabel.visible = false
+                        }
                     }
                 }
             }
