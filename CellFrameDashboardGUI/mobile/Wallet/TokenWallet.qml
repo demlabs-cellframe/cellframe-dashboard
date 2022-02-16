@@ -26,7 +26,7 @@ Page {
             orientation: ListView.Horizontal
             Layout.fillWidth: true
             Layout.leftMargin: 17
-            height: 31 * pt
+            height: 33 * pt
 
             model: mainNetworkModel
             spacing: 39
@@ -49,11 +49,12 @@ Page {
 
                 Rectangle
                 {
-                    Layout.topMargin: 12 * pt
+                    Layout.topMargin: 11 * pt
                     Layout.alignment: Qt.AlignCenter
+                    Layout.minimumHeight: 3 * pt
                     width: 20 * pt
-                    height: 3 * pt
-                    radius: 100
+//                    height: 4 * pt
+                    radius: 2
                     color: index === currentNetwork ? currTheme.hilightColorComboBox : currTheme.textColor
                 }
 

@@ -40,7 +40,7 @@ Drawer {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: 44 * pt
+            Layout.preferredHeight: 47 * pt
 
             RowLayout
             {
@@ -53,18 +53,26 @@ Drawer {
 
                 Text {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                    Layout.rightMargin: 103 * pt
+                    Layout.rightMargin: 100 * pt
                     text: qsTr("Networks")
                     color: currTheme.textColor
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
                 }
-                DapImageLoader {
-                    Layout.alignment: Qt.AlignVCenter
-                    innerWidth: 24 * pt
-                    innerHeight: 24 * pt
-//                    fillMode: Image.PreserveAspectFit
+                Image {
+                    smooth: true
+                    Layout.maximumWidth: 30 * pt
+                    Layout.maximumHeight: 30 * pt
+                    fillMode: Image.PreserveAspectFit
                     source: "qrc:/mobile/Icons/NetIconLightGreen.png"
                 }
+
+/*                DapImageLoader {
+                    Layout.alignment: Qt.AlignVCenter
+                    innerWidth: 30 * pt
+                    innerHeight: 30 * pt
+//                    fillMode: Image.PreserveAspectFit
+                    source: "qrc:/mobile/Icons/NetIconLightGreen.png"
+                }*/
 
             }
 

@@ -10,7 +10,7 @@ ApplicationWindow {
     id: window
     visible: true
     width: 400
-    height: 500
+    height: 600
 
     property alias dapQuicksandFonts: quicksandFonts
     DapFontQuicksand {
@@ -125,18 +125,18 @@ ApplicationWindow {
             DapButton
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 12 * pt
+                Layout.topMargin: 9 * pt
                 Layout.bottomMargin: 15 * pt
 
-                Layout.preferredHeight: 24 * pt
-                Layout.preferredWidth: 24 * pt
+                Layout.preferredHeight: 30 * pt
+                Layout.preferredWidth: 30 * pt
                 id: toolButton
                 normalImageButton: stackView.depth > 1 ? "qrc:/mobile/Icons/Close.png" : "qrc:/mobile/Icons/MenuIcon.png"
                 hoverImageButton: stackView.depth > 1 ? "qrc:/mobile/Icons/Close.png" : "qrc:/mobile/Icons/MenuIcon.png"
 //                height: 40 * pt
 //                width: 40 * pt
-                widthImageButton: 24 * pt
-                heightImageButton: 24 * pt
+                widthImageButton: 30 * pt
+                heightImageButton: 30 * pt
                 indentImageLeftButton: 0 * pt
                 transColor: true
 
@@ -184,18 +184,18 @@ ApplicationWindow {
             DapButton
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 12 * pt
+                Layout.topMargin: 9 * pt
                 Layout.bottomMargin: 15 * pt
 
-                Layout.preferredHeight: 24 * pt
-                Layout.preferredWidth: 24 * pt
+                Layout.preferredHeight: 30 * pt
+                Layout.preferredWidth: 30 * pt
                 id: toolButton1
                 normalImageButton: stackView.depth > 1 ?  "" : "qrc:/mobile/Icons/NetIcon.png"
                 hoverImageButton: stackView.depth > 1 ?  "" : "qrc:/mobile/Icons/NetIcon.png"
 //                height: 40 * pt
 //                width: 40 * pt
-                widthImageButton: 24 * pt
-                heightImageButton: 24 * pt
+                widthImageButton: 30 * pt
+                heightImageButton: 30 * pt
                 indentImageLeftButton: 0 * pt
                 transColor: true
                 enabled: stackView.depth <= 1
