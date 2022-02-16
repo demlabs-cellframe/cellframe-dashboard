@@ -126,7 +126,7 @@ Rectangle {
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
-                    hilightColor: currTheme.buttonColorNormal
+                    recomendedText: "Crystal-Dylithium"
 
                     topEffect: false
                     colorTopNormalDropShadow: "#00000000"
@@ -134,7 +134,7 @@ Rectangle {
 
                     fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+//                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 }
 
 
@@ -146,6 +146,7 @@ Rectangle {
                     width: 280 * pt
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
@@ -230,7 +231,6 @@ Rectangle {
                             leftPadding: 0
                             smartPlaceHolderText: model.placeHolderText
                             textAndLineSpacing: 3 * pt
-
         //                    color: focus ? currTheme.textColor : "#C7C6CE"
                             //inputMask: model.inputFieldMask
 

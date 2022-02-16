@@ -110,6 +110,7 @@ DapRecoveryWalletRightPanelForm
         {
             if (!restoreWalletMode)
             {
+                dapTextTopMessage.color = "#FFFF00"
                 dapTextTopMessage.text =
                     qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
                 walletHashManager.generateNewWords()

@@ -2,6 +2,7 @@ import QtQuick 2.7
 
 Rectangle {
     id: control
+    property alias test: networksListView
 
 //    implicitHeight: Math.max(btnPrevious.implicitHeight, networksListView.implicitHeight, btnNext.implicitHeight)
     height: 40 * pt

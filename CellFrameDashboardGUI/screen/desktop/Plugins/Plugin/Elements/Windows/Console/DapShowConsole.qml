@@ -100,40 +100,52 @@ Item {
                 height: contentHeight < 100 * pt ? contentHeight : 100 * pt
                 contentHeight: consoleCmd.height
                 ScrollBar.vertical: ScrollBar {}
-                Text
+
+                Rectangle
                 {
-                    Layout.fillHeight: true
-                    id: promt
-                    x: 20 * pt
-                    y: 5 * pt
+                    color: currTheme.backgroundElements
+                    anchors.fill: parent
 
-                    text: ">"
-                    font.family: "Quicksand"
-                    font.pixelSize: 18
-                    color: "#ffffff"
-                }
+                    Text
+                    {
+                        Layout.fillHeight: true
+                        id: promt
+                        x: 20 * pt
+                        y: 5 * pt
 
-                TextArea
-                {
-                    id: consoleCmd
-                    width: parent.width - x
-                    anchors.bottom: parent.bottom
-                    x: promt.x + promt.width + 5 * pt
-                    wrapMode: TextArea.Wrap
-                    placeholderText: qsTr("Type here...")
-                    selectByMouse: true
-                    font.family: "Quicksand"
-                    font.pixelSize: 18
-                    color: "#ffffff"
-                    focus: true
+                        text: ">"
+                        font.family: "Quicksand"
+                        font.pixelSize: 18
+                        color: "#ffffff"
+                    }
 
-                    Keys.onReturnPressed: text.length > 0 ?
-                                              sendedCommand = text :
-                                              sendedCommand = ""
-                    Keys.onEnterPressed: text.length > 0 ?
-                                             sendedCommand = text :
-                                             sendedCommand = ""
-                    onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+                    TextField
+                    {
+                        id: consoleCmd
+                        width: parent.width - x
+                        anchors.bottom: parent.bottom
+                        x: promt.x + promt.width + 5 * pt
+                        wrapMode: TextArea.Wrap
+                        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\s*]+/ }
+                        placeholderText: qsTr("Type here...")
+                        selectByMouse: true
+                        background: Rectangle{color: "#363A42"}
+
+
+                        font.family: "Quicksand"
+                        font.pixelSize: 18
+                        color: "#ffffff"
+//                        focus: true
+
+                        Keys.onReturnPressed: text.length > 0 ?
+                                                  sendedCommand = text :
+                                                  sendedCommand = ""
+                        Keys.onEnterPressed: text.length > 0 ?
+                                                 sendedCommand = text :
+                                                 sendedCommand = ""
+                        onTextChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+//                        onLineCountChanged: inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
+                    }
                 }
             }
         }
@@ -165,23 +177,22 @@ Item {
     InnerShadow {
         id: topLeftSadow
         anchors.fill: viewConsole
+        horizontalOffset: 2
+        verticalOffset: 2
+        radius: 10
+        samples: 10
         cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
         color: "#2A2C33"
-        smooth: true
         source: viewConsole
         visible: viewConsole.visible
     }
     InnerShadow {
         anchors.fill: viewConsole
-        cached: true
         horizontalOffset: -1
         verticalOffset: -1
-        radius: 1
-        samples: 32
+        radius: 0
+        samples: 10
+        cached: true
         color: "#4C4B5A"
         source: topLeftSadow
         visible: viewConsole.visible
