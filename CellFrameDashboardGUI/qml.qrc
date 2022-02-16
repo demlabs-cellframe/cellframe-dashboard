@@ -69,7 +69,6 @@
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
         <file>screen/desktop/Logs/DapLogsScreen.qml</file>
-        <file>screen/desktop/Logs/DapLogsScreenForm.ui.qml</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>resources/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
@@ -91,8 +90,6 @@
         <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Console/DapConsoleScreen.qml</file>
-        <file>screen/desktop/Console/DapConsoleScreenForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>resources/icons/icon.ico</file>
         <file>resources/icons/ic_flag.png</file>
@@ -313,25 +310,37 @@
         <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
         <file>resources/icons/BlackTheme/check_icon.png</file>
         <file>resources/icons/BlackTheme/no_icon.png</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Console/DapConsoleComponent.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Console/DapShowConsole.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/LastActions/DapDelegateLastActions.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/LastActions/DapShowLastActions.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersGrid.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapOrdersInfo.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Orders/DapShowOrders.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapShowWallets.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/Wallets/DapWalletsInfo.qml</file>
-        <file>screen/desktop/Plugin/Elements/Windows/DapWindowLoader.qml</file>
-        <file>screen/desktop/Plugin/Elements/DapPluginButton.qml</file>
-        <file>screen/desktop/Plugin/Elements/DapPluginMainScreen.qml</file>
-        <file>screen/desktop/Plugin/Elements/DapPluginsBlock.qml</file>
-        <file>screen/desktop/Plugin/DapApp.qml</file>
+        <file>resources/icons/switch_off.png</file>
+        <file>resources/icons/switch_on.png</file>
+        <file>resources/icons/CellframeDashboard.icns</file>
+        <file>resources/icons/Certificates/ic_info.png</file>
+        <file>resources/icons/icon_win32.ico</file>
+        <file>resources/icons/CellframeDashboard.ico</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Console/DapConsoleComponent.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Console/DapShowConsole.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/LastActions/DapDelegateLastActions.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/LastActions/DapShowLastActions.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersGrid.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersInfo.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Orders/DapShowOrders.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapShowWallets.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsInfo.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/Windows/DapWindowLoader.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginButton.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginMainScreen.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginsBlock.qml</file>
+        <file>screen/desktop/Plugins/Plugin/DapApp.qml</file>
+        <file>screen/desktop/Plugins/MiniGame/MiniGame.qml</file>
+        <file>screen/desktop/Plugins/MiniGame/Elements/GameMainScreen.qml</file>
+        <file>screen/desktop/Plugins/MiniGame/Elements/GameTopPanel.qml</file>
+        <file>screen/desktop/Plugins/MiniGame/Elements/GamePlayer.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreenForm.qml</file>
+        <file>screen/desktop/Console/DapConsoleScreen.qml</file>
     </qresource>
 </RCC>

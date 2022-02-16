@@ -194,14 +194,14 @@ DapAbstractTab
                     var optionalField = models.createCertificateOptional.get(i)
                     var data = optionalField.data
                     switch (optionalField.key) {
-                        case "domain":
+                        case "a2_domain":
                             if (data !== "" && !utils.validDomain(optionalField.data)) {
                                 messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                        , "Please fill field correctly.")
                                 return false;
                             }
                             break;
-                        case "expiration_date":
+                        case "a1_expiration_date":
                         {
                             var locale = Qt.locale()
                             var dataDate = Date.fromLocaleDateString(locale, data, "dd.MM.yyyy")
@@ -216,7 +216,7 @@ DapAbstractTab
                             }
                         }
                             break;
-                        case "email":
+                        case "a5_email":
                             if (data !== "" && !utils.validEmail(optionalField.data)) {
                                 messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                                                        , "Please fill field correctly.")
