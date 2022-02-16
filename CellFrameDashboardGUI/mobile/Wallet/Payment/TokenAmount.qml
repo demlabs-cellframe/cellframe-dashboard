@@ -70,7 +70,7 @@ Page {
             placeholderText: "0.0"
             validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
             color: "#ffffff"
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium36
 
             background: Rectangle{color:"transparent"}
         }
@@ -85,7 +85,7 @@ Page {
 
         RowLayout
         {
-            Layout.topMargin: 30
+            Layout.topMargin: 60
             Layout.fillWidth: true
             spacing: 17 * pt
 
