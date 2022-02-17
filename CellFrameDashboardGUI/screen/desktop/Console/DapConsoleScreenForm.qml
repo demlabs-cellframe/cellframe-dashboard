@@ -67,6 +67,7 @@ DapAbstractScreen
                 clip: true
                 model: modelConsoleCommand
                 delegate: delegateConsoleCommand
+                cacheBuffer: 5000
 
                 currentIndex: count - 1
                 highlightFollowsCurrentItem: true

@@ -35,7 +35,25 @@ DapTopPanel
 //            text: qsTr("Name of my wallet")
         }
     }
-
+    // Payment button
+    DapButton
+    {
+        textButton: "Open transaction browser"
+        anchors.right: newPaymentButton.left
+        anchors.rightMargin: 24 * pt
+        anchors.top: parent.top
+        anchors.topMargin: 14 * pt
+        anchors.verticalCenter: parent.verticalCenter
+        implicitHeight: 38 * pt
+        implicitWidth: 223 * pt
+        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+        horizontalAligmentText: Text.AlignHCenter
+        onClicked:
+        {
+            Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction");
+        }
+//        visible: frameTitleCreateWallet.text === "" ? false : true
+    }
     // Payment button
     DapButton
     {
@@ -51,5 +69,6 @@ DapTopPanel
         fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
         horizontalAligmentText: Text.AlignHCenter
         visible: frameTitleCreateWallet.text === "" ? false : true
+//        visible: false
     }
 }

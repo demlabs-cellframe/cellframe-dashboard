@@ -122,7 +122,8 @@ ApplicationWindow
 
     onClosing: {
         close.accepted = false
-        window.hide()
+        Qt.quit()
+//        window.hide()
     }
 
     function sizeUpdate()
