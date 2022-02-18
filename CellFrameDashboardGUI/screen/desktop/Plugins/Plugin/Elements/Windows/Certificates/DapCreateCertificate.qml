@@ -36,11 +36,6 @@ Item {
                 name: "Picnic"
                 sign: " sig_picnic"
             }
-            ListElement
-            {
-                name: "Tesla"
-                sign: " sig_tesla"
-            }
         }
 
         ColumnLayout
@@ -110,7 +105,7 @@ Item {
                 }
 
                 function getDataToJson(){
-                    var result = { creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
+                    var result = { a0_creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
 
 
                     return result

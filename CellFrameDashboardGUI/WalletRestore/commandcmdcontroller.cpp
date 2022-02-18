@@ -71,7 +71,7 @@ QString CommandCmdController::getCommandByValue(const QString &value)
         if (commands[i].startsWith(value))
             return commands[i];
     }
-    return value;
+    return "";
 }
 
 QString CommandCmdController::getCommandParams(const QString &value, int count)
@@ -92,7 +92,7 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
 
     if (!resList.isEmpty())
         return resList[count % (resList.length())];
-    return value;
+    return "";
 }
 
 bool CommandCmdController::isOneWord(const QString &value)
