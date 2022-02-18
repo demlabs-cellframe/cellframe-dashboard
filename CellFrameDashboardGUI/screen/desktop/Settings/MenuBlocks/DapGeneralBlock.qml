@@ -53,7 +53,7 @@ ColumnLayout
     }
 
     Item {
-        height: 50 * pt
+        height: 40 * pt
         Layout.fillWidth: true
 
         RowLayout
@@ -81,10 +81,10 @@ ColumnLayout
             {
                 id: scaleSpinbox
 
-                width: 140 * pt
+                width: 110 * pt
 
-                Layout.minimumHeight: 36 * pt
-                Layout.maximumHeight: 36 * pt
+                Layout.minimumHeight: 26 * pt
+                Layout.maximumHeight: 26 * pt
 
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
 
@@ -192,16 +192,6 @@ ColumnLayout
                 }
             }
         }
-
-
-//        onAccepted:
-//        {
-//            restartButton.clicked()
-//        }
-//        onRejected:
-//        {
-//            print("Cancel")
-//        }
     }
 
     Item {

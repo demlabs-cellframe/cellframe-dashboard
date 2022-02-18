@@ -107,12 +107,21 @@ DapNetworksPanel
                 width: item_width
                 parentWidth: controlDelegate.width
                 isOpen: false
-                y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
-                x: controlDelegate.width/2 - width/2/mainWindow.scale
+                x: controlDelegate.width/2 - width/2/mainWindow.scale + 0.5
+                y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height -1
 
                 imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
 
                 scale: mainWindow.scale
+
+                Component.onCompleted:
+                {
+                    if (mainWindowScale > 1.0)
+                    {
+                        x = controlDelegate.width/2 - width/2/mainWindow.scale
+                        y = -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
+                    }
+                }
             }
 
             MouseArea {

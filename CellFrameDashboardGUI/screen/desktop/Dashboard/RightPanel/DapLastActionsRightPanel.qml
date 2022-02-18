@@ -60,7 +60,7 @@ DapLastActionsRightPanelForm
             if (requestCounter <= 0)
                 return
 
-            console.log("onWalletHistoryReceived")
+            console.log("onWalletHistoryReceived", walletHistory.length)
 
             --requestCounter
 
