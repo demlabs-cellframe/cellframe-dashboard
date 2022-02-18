@@ -159,7 +159,7 @@ DapAbstractScreen
                         }
                         Keys.onUpPressed:
                         {
-                                if (autocomleteStatus == 2 && autocompleteText.text != consoleCmd.text)
+                                if (autocomleteStatus == 2 && autocompleteText.text.length > consoleCmd.text.length)
                                 {
                                     autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                     ++autocompleteParamsCount
@@ -185,7 +185,7 @@ DapAbstractScreen
                         }
                         Keys.onDownPressed:
                         {
-                            if (autocomleteStatus == 2 && autocompleteText.text != consoleCmd.text)
+                            if (autocomleteStatus == 2 && autocompleteText.text.length > consoleCmd.text.length)
                             {
                                 autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                 --autocompleteParamsCount
