@@ -10,7 +10,7 @@ DapConsoleTabForm
     dapConsoleScreen.onRunCommand:
     {
         isConsoleRequest = true
-        dapServiceController.requestToService("DapRunCmdCommand", command);
+        dapServiceController.requestToService("DapRunCmdCommand", command, true);
         dapServiceController.notifyService("DapSaveHistoryExecutedCmdCommand", command);
     }
 
