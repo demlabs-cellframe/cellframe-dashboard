@@ -161,7 +161,7 @@ DapAbstractScreen
                         }
                         Keys.onUpPressed:
                         {
-                                if (autocomleteStatus == 2)
+                                if (autocomleteStatus == 2 && autocompleteText.text.length > consoleCmd.text.length)
                                 {
                                     autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                     ++autocompleteParamsCount
@@ -186,7 +186,8 @@ DapAbstractScreen
                                 }
                         }
                         Keys.onDownPressed:
-                        {if (autocomleteStatus == 2)
+                        {
+                            if (autocomleteStatus == 2 && autocompleteText.text.length > consoleCmd.text.length)
                             {
                                 autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                 --autocompleteParamsCount
@@ -221,19 +222,6 @@ DapAbstractScreen
                                 consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
                                 autocompleteText.text = consoleCmd.text
                             }
-                        }
-
-                        Text
-                        {
-                            id: autocompleteText
-                            width: parent.width - x * 1.7
-                            height: parent.height
-                            x: 10 * pt
-                            y: 6 * pt
-                            wrapMode: TextArea.Wrap
-                            color: currTheme.textColor
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
-                            opacity: 0.5
                         }
 
                         onTextChanged:
@@ -274,7 +262,26 @@ DapAbstractScreen
                             else
                                 autocompleteText.text = ""
                         }
+
+
+
+                        Text
+                        {
+                            id: autocompleteText
+                            width: parent.width - x * 1.7
+                            height: parent.height
+                            x: 10 * pt
+                            y: 6 * pt
+                            wrapMode: TextArea.Wrap
+                            color: currTheme.textColor
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                            opacity: 0.5
+
+                        }
+
                     }
+
+
                 }
             }
         }
