@@ -22,6 +22,7 @@ DapAbstractScreen
     ///@detalis consoleInput Reference to console input area
     property alias consoleInput: consoleCmd
     property alias dapInputCommand: inputCommand
+    property alias listView: listViewConsoleCommand
 
     property var _commandCmdController: commandCmdController
 
