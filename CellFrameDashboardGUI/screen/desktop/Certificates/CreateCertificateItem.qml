@@ -146,6 +146,7 @@ Rectangle {
                     width: 280 * pt
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
+                    validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
@@ -230,7 +231,6 @@ Rectangle {
                             leftPadding: 0
                             smartPlaceHolderText: model.placeHolderText
                             textAndLineSpacing: 3 * pt
-
         //                    color: focus ? currTheme.textColor : "#C7C6CE"
                             //inputMask: model.inputFieldMask
 
@@ -284,6 +284,3 @@ Rectangle {
     } //frameRightPanel
 
 }   //root
-
-
-

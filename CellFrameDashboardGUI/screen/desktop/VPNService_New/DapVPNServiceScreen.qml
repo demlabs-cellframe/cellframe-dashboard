@@ -82,7 +82,7 @@ DapAbstractScreen {
                 radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
                 textButton: "New VPN order"
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText:Qt.AlignCenter
                 colorTextButton: "#FFFFFF"
 
@@ -127,7 +127,7 @@ DapAbstractScreen {
             id: textMyVPNOrders
             x: gridViewOrder.halfMargin
             y: gridViewOrder.halfMargin
-            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
+            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
             color: currTheme.textColor
         }
 

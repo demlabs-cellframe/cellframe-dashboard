@@ -3,7 +3,6 @@ QT += core network
 CONFIG += c++11 console #nsis_build
 CONFIG -= app_bundle
 
-
 LIBS += -ldl
 #LIBS+=-lz #-lz -lrt -lm -lpthread   -lrt -lm -lpthread
 #+LIBS+=-lrt
@@ -13,6 +12,13 @@ TARGET = $${BRAND}Service
 
 !win32 {
     CONFIG += console
+}
+
+android: {
+    QT += core androidextras
+    TEMPLATE = lib
+    CONFIG += dll
+    TARGET = DashboardService
 }
 
 # The following define makes your compiler emit warnings if you use

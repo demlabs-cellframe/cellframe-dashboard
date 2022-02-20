@@ -64,7 +64,7 @@ Rectangle {
             Text {
                 id: filterTitleText
                 x: 15 * pt
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
                 text: qsTr("Filter")
             }
@@ -87,6 +87,7 @@ Rectangle {
                         implicitHeight: indicatorInnerSize
                         indicatorSize: 16 * pt
                         indicatorInnerSize: 46 * pt
+
                         //spaceIndicatorText: 18 * pt
                         fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         ButtonGroup.group: buttonGroup
@@ -105,7 +106,7 @@ Rectangle {
             id: actionsTitleText
             x: 16 * pt
             y: radioButtonFrame.y + radioButtonFrame.height + 44 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             text: qsTr("Actions")
         }
@@ -129,7 +130,7 @@ Rectangle {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
             DapButton {
@@ -145,7 +146,7 @@ Rectangle {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
 
@@ -162,7 +163,7 @@ Rectangle {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
 
@@ -179,7 +180,7 @@ Rectangle {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
 
@@ -197,7 +198,7 @@ Rectangle {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
             DapButton {
@@ -214,7 +215,7 @@ Rectangle {
                 horizontalAligmentText: Text.AlignHCenter
 
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
 

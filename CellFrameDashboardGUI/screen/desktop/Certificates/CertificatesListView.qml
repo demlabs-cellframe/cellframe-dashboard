@@ -46,7 +46,7 @@ ListView {
                 x: 3 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
                 text: qsTr("Certificates")
             }
@@ -65,7 +65,7 @@ ListView {
                 x: 15 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: root.seletedCertificateAccessType
                 color: currTheme.textColor
             }
@@ -79,7 +79,7 @@ ListView {
                 }
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                 text: qsTr("Info")
                 visible: root.infoTitleTextVisible
                 color: currTheme.textColor
@@ -108,7 +108,7 @@ ListView {
                 width: 597 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 text: model.completeBaseName   //model.fileName
                 color: model.selected ? "#FF0080" : currTheme.textColor
                 elide: Text.ElideRight

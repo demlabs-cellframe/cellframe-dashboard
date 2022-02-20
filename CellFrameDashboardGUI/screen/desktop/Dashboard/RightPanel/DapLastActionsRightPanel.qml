@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
@@ -34,20 +34,22 @@ DapLastActionsRightPanelForm
         {
             height: 30 * pt
             width: parent.width
+
             color: currTheme.backgroundMainScreen
 
             property date payDate: new Date(Date.parse(section))
 
             Text
             {
+                property date payDate: new Date(Date.parse(section))
                 anchors.fill: parent
                 anchors.leftMargin: 16 * pt
                 anchors.rightMargin: 16 * pt
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: currTheme.textColor
+                color: "#FFFFFF"
                 text: getDateString(payDate)
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             }
         }
     }
@@ -180,12 +182,36 @@ DapLastActionsRightPanelForm
     ////@ Checks if dates are same
     function isSameDay(date1, date2)
     {
-        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+       return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
     }
 
     ////@ Checks if dates have same year
     function isSameYear(date1, date2)
     {
         return (date1.getFullYear() === date2.getFullYear()) ? true : false
+    }
+
+    function getWalletHistory()
+    {
+        var index = SettingsWallet.currentIndex
+
+        if (index < 0)
+            return;
+
+        var model = dapModelWallets.get(index).networks
+        var name = dapModelWallets.get(index).name
+
+        modelLastActions.clear()
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            var network = model.get(i).name
+            var address = model.get(i).address
+            var chain = "zero"
+            if (network === "core-t")
+                chain = "zerochain"
+            dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                network, chain, address, name);
+        }
     }
 }

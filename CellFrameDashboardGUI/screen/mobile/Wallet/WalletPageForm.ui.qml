@@ -9,7 +9,6 @@ Page {
     background: Rectangle {
 
     }
-
     property alias startServiceButton: startServiceButton
 
     Button {

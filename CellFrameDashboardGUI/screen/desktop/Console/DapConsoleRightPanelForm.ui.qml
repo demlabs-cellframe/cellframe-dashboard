@@ -7,17 +7,21 @@ DapRightPanel
     dapHeaderData:
         Rectangle
         {
+            anchors.fill: parent
             color: "transparent"
-            height: 38 * pt
-            width: 348*pt
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 24 * pt
                 text: qsTr("Last actions")
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 24 * pt
+
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }

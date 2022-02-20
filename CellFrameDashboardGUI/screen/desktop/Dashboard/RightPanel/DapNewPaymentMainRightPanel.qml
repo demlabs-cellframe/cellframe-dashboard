@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -15,6 +14,7 @@ DapNewPaymentMainRightPanelForm
             dapChainGroup.visible = false
 
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+
         dapTextNotEnoughTokensWarning.text = ""
 
         dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
@@ -31,7 +31,7 @@ DapNewPaymentMainRightPanelForm
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
-        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+        print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
         dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
@@ -68,8 +68,7 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
-        //DmitriyT Removed this code below. Will see reaction of app.
-        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonSend.onClicked:

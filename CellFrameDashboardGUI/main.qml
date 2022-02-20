@@ -1,8 +1,10 @@
 import QtQuick 2.0
+import QtQml 2.12
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
+
 import "screen"
 
 ApplicationWindow
@@ -10,20 +12,11 @@ ApplicationWindow
     id: window
     visible: true
 
-    //    property variant networkListPopups : []
-
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
-
-    width: 1280
-    height: 800
-    minimumWidth: 1280
-    minimumHeight: 800
 
     Settings {
         property alias x: window.x
         property alias y: window.y
-        property alias width: window.width
-        property alias height: window.height
     }
 
     Component {
@@ -77,7 +70,7 @@ ApplicationWindow
             {
                 window.hide()
             }
-        }
+        }        
     }
 
     Connections {
@@ -107,15 +100,61 @@ ApplicationWindow
         }
     }
 
+    footer: Rectangle {
+        id: networkPanel
+        height: 40
+        color: "#2D3037"
+    }
+
+    DropShadow {
+        anchors.fill: networkPanel
+        horizontalOffset: -5
+        verticalOffset: 0
+        radius: 2.0
+        samples: 17
+        color: "white"
+        source: networkPanel
+    }
+
     Component.onCompleted: {
         if(isMobile) {
             window.minimumWidth = 0
             window.minimumHeight = 0
         }
+        else
+            sizeUpdate()
+
     }
 
     onClosing: {
         close.accepted = false
         window.hide()
+    }
+
+    function sizeUpdate()
+    {
+        if(Screen.width > 1280 && Screen.height > 800)
+        {
+            width = 1280
+            height = 800
+        }
+        else if(Screen.width < 1280 && Screen.height > 800)
+        {
+            width = Screen.width - 60
+            height = 800
+        }
+        else if(Screen.height < 800 && Screen.width > 1280)
+        {
+            width = 1280
+            height = Screen.height
+        }
+        else
+        {
+            width = Screen.width - 60
+            height = Screen.height
+
+        }
+        minimumWidth = width
+        minimumHeight = height
     }
 }

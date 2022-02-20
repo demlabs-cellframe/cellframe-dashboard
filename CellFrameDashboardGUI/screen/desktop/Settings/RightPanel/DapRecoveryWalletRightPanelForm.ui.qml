@@ -56,7 +56,7 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
@@ -159,7 +159,7 @@ DapRightPanel
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             }
 
 
@@ -177,7 +177,7 @@ DapRightPanel
                     checkable: true
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 }
 
                 DapButton

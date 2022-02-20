@@ -8,6 +8,17 @@ WalletPageForm {
     property bool active: false
     property string title: qsTr("Wallet")
 
+
+//    Timer {
+//        interval: 100
+//        running: true
+//        repeat: false
+//        onTriggered: {
+//            app.startService()
+//        }
+//    }
+
+
     Component.onCompleted: {
         console.log("Форма '" + title + "'" + " открыта")
     }

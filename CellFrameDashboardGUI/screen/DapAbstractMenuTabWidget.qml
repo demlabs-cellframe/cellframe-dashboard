@@ -18,8 +18,8 @@ DapAbstractMenuTabWidgetForm
     property string selectColorItemMenu: "#D51F5D"
 //    property string normalFont: dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom
 //    property string selectedFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-    property string normalFont: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandLightCustom
-    property string selectedFont: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
+    property string normalFont: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandLightCustom
+    property string selectedFont: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
 
     // Widget of the main menu bar item
     Component

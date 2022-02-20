@@ -169,8 +169,6 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
-        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
         <file>screen/desktop/DapTokensListView.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
@@ -263,6 +261,14 @@
         <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
         <file>resources/icons/BlackTheme/icon_certificates.png</file>
         <file>screen/desktop/UnderConstructions.qml</file>
+        <file>screen/DapMainWindow.qml</file>
+        <file>screen/controls/DapMenuButton.qml</file>
+        <file>screen/controls/DapPage.qml</file>
+        <file>screen/desktop/TestPageForRightPannel.qml</file>
+        <file>screen/desktop/TestPageForRightPannel2.qml</file>
+        <file>screen/controls/DapScreenPage.qml</file>
+        <file>screen/controls/DapButton.qml</file>
+        <file>screen/desktop/TestPageForTopPanel.qml</file>
         <file>screen/desktop/SettingsWallet.js</file>
         <file>resources/icons/BlackTheme/ic_copy.png</file>
         <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
@@ -277,6 +283,15 @@
         <file>screen/desktop/Test/TestPage.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActionsRightPanel.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActions.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapLastActionsForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapNewPayment.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapNewPaymentForm.ui.qml</file>
+        <file>screen/controls/DapTopPanel.qml</file>
+        <file>screen/controls/DapComboBox.qml</file>
+        <file>screen/controls/DapTextField.qml</file>
         <file>WalletRestore/english_words.txt</file>
         <file>screen/desktop/VPNClient/DapVpnClientScreen.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTab.qml</file>
@@ -286,6 +301,21 @@
         <file>screen/desktop/Tokens/DapTokensTopPanel.qml</file>
         <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapRecoveryWallet.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/DapRecoveryWalletForm.ui.qml</file>
+        <file>screen/desktop/Settings/DapSettingsPage.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientPage.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientTopPanel.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientScreen.qml</file>
+        <file>screen/desktop/VPNClient/VPNClientScreenForm.ui.qml</file>
+        <file>screen/desktop/VPNClient/VPNOrders.qml</file>
+        <file>screen/desktop/VPNClient/VPNOrdersForm.ui.qml</file>
+        <file>screen/desktop/Wallet/WalletPage.qml</file>
+        <file>screen/desktop/Wallet/WalletTopPanel.qml</file>
+        <file>screen/desktop/Wallet/WalletScreen.qml</file>
+        <file>screen/desktop/Wallet/WalletScreenForm.ui.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/LastActions.qml</file>
+        <file>screen/desktop/Wallet/RightPanel/LastActionsForm.ui.qml</file>
         <file>screen/desktop/dApps/DapAppsScreen.qml</file>
         <file>screen/desktop/dApps/DapAppsTab.qml</file>
         <file>screen/desktop/dApps/DapAppsTopPanel.qml</file>
@@ -313,6 +343,8 @@
         <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
         <file>resources/icons/BlackTheme/check_icon.png</file>
         <file>resources/icons/BlackTheme/no_icon.png</file>
+        <file>screen/controls/DapPageElement.qml</file>
+        <file>screen/controls/DapPageClean.qml</file>
         <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
         <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
         <file>screen/desktop/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>

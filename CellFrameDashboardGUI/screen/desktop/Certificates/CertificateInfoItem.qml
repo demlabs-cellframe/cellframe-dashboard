@@ -3,9 +3,6 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
 
-
-
-
 Rectangle {
     id: root
     property alias closeButton: closeButton
@@ -79,6 +76,7 @@ Rectangle {
                     content.text: model.value
                     title.color: currTheme.textColorGray
                 }
+
             }
         }
     } //frameRightPanel

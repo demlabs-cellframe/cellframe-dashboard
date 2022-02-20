@@ -89,6 +89,3 @@ Rectangle {
     } //frameRightPanel
 
 }   //root
-
-
-

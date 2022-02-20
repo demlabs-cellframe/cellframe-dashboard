@@ -19,10 +19,8 @@ DapRightPanel
     property alias dapComboboxNetwork: comboboxNetwork
     property alias dapComboboxChain: comboboxChain
 
-    property alias dapChainGroup: chainGroup
-
     property alias dapCmboBoxNetworkModel: comboboxNetwork.model
-    property alias dapCmboBoxChainModel: comboboxChain.model
+    property alias dapCmboBoxCnainModel: comboboxChain.model
 
     property alias dapCmboBoxToken: comboboxToken
 
@@ -181,8 +179,6 @@ DapRightPanel
 
                 RowLayout
                 {
-                    id: chainGroup
-
                     Layout.fillWidth: true
                     Layout.minimumHeight: 40 * pt
                     Layout.maximumHeight: 40 * pt

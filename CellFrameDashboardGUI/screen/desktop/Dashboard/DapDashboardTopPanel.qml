@@ -1,36 +1,43 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
 import Demlabs 1.0
 import "../../"
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
-
-DapTopPanel
-{
+Page {
     property alias dapNewPayment: newPaymentButton
     property alias dapFrameTitle: frameTitleCreateWallet
 
-    anchors.leftMargin: 4*pt
-    radius: currTheme.radiusRectangle
-
-
-    Item
+    Text
     {
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: 34 * pt
-        anchors.topMargin: 19 * pt
-        anchors.bottomMargin: 18
-        anchors.right: newPaymentButton.left
-        anchors.rightMargin: 100 * pt
+        id: textHeaderWallet
+        text: qsTr("Wallet")
+        Layout.leftMargin: 20
+    }
+
+    // Wallet selection combo box
+    RowLayout
+    {
+        id: frameComboBoxWallet
+
+        anchors.left: textHeaderWallet.right
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: 30 * pt
+        width: 148 * pt
+
+//        DapComboBoxNew {
+//            id: comboboxWallet
+//            model: walletsNames
+//        }
+
         Text
         {
             id: frameTitleCreateWallet
             anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
-            font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+            font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             color: currTheme.textColor
 //            text: qsTr("Name of my wallet")
         }
@@ -40,7 +47,7 @@ DapTopPanel
     DapButton
     {
         id: newPaymentButton
-        textButton: "New payment"
+        textButton: qsTr("New payment")
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
         anchors.top: parent.top
@@ -48,7 +55,7 @@ DapTopPanel
         anchors.verticalCenter: parent.verticalCenter
         implicitHeight: 38 * pt
         implicitWidth: 163 * pt
-        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+        fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
         horizontalAligmentText: Text.AlignHCenter
         visible: frameTitleCreateWallet.text === "" ? false : true
     }

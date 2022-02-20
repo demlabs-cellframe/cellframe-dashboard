@@ -55,7 +55,7 @@ DapTopPanel {
         height: 28 * pt
 //        width: Math.max(Math.min(leftPadding + contentWidth, root.width - searchBox.x * 2), 228 * pt)
 //        color: currTheme.textColor
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
 //        textColor: currTheme.textColorGray
 
 

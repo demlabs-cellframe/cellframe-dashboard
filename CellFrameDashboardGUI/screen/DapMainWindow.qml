@@ -24,7 +24,6 @@ FocusScope {
     readonly property string certificatesScreen: "qrc:/screen/desktop/Certificates/DapCertificatesMainPage.qml"
     readonly property string underConstructionsScreen: "qrc:/screen/desktop/UnderConstructions.qml"
     readonly property string testScreen: "qrc:/screen/desktop/Test/TestPage.qml"
-
     readonly property QtObject dapMainFonts: DapFontRoboto {}
     property alias _dapQuicksandFonts: quicksandFonts
 
@@ -168,7 +167,6 @@ FocusScope {
                 id: mainScreenStack
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
-
                 StackView { id: dapWalletPage; initialItem: walletScreen}
                 StackView { id: exchangePage; initialItem: underConstructionsScreen}
                 StackView { id: daphistoryPage; initialItem: underConstructionsScreen}

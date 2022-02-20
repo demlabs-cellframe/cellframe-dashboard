@@ -18,7 +18,7 @@ Item {
 
                 implicitWidth: parent.width
 
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                 color: "#070023"
                 selectByMouse: true
                 placeholderText: qsTr("Tittle, only you can see")
@@ -73,7 +73,7 @@ Item {
                     indicatorLeftInterval: 20 * pt
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: "#40ABABAB"
-                    fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
+                    fontComboBox: [ _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
                     colorMainTextComboBox: [["#070023", "#070023"]]
                     colorTextComboBox: [["#070023", "#FFFFFF"]]
 
@@ -140,7 +140,7 @@ Item {
                         indicatorLeftInterval: 20 * pt
                         colorTopNormalDropShadow: "#00000000"
                         colorDropShadow: "#40ABABAB"
-                        fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
+                        fontComboBox: [ _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
                         colorMainTextComboBox: [["#070023", "#070023"]]
                         colorTextComboBox: [["#070023", "#FFFFFF"]]
 
@@ -209,7 +209,7 @@ Item {
                         indicatorLeftInterval: 20 * pt
                         colorTopNormalDropShadow: "#00000000"
                         colorDropShadow: "#40ABABAB"
-                        fontComboBox: [ dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
+                        fontComboBox: [ _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18]
                         colorMainTextComboBox: [["#070023", "#070023"]]
                         colorTextComboBox: [["#070023", "#FFFFFF"]]
 
