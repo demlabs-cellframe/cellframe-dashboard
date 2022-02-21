@@ -5,18 +5,51 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets/"
 
 Page {
+    id: hisoryPage
     title: qsTr("TX Explorer")
     background: Rectangle {color: currTheme.backgroundMainScreen }
+
+    property alias mainHisoryPage: hisoryPage
+
+    ////@ Variables to calculate Today, Yesterdat etc.
+    property date today: new Date()
+    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
+
+    ListModel
+    {
+        id: modelHistory
+    }
+
+    Component.onCompleted: {
+        today = new Date()
+        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+        dapTestController.requestToService("DapGetWalletHistoryCommand");
+    }
+
+    Connections
+    {
+        target: dapTestController
+        onWalletHistoryReceived:
+        {
+            print("onWalletHistoryReceived")
+            updateModel()
+        }
+    }
+
+    property int outerMargin: 20 * pt
+    property int innerMargin: 15 * pt
 
     ListView {
         id: historyView
         anchors.fill: parent
         anchors.topMargin: 10 * pt
-        spacing: 5 * pt
+        anchors.bottomMargin: 10 * pt
+//        spacing: 5 * pt
 
         clip: true
 
-        model: mainHistoryModel
+        model: modelHistory
 
         section.property: "date"
         section.criteria: ViewSection.FullString
@@ -29,15 +62,15 @@ Page {
         delegate:
         Item {
             id: delegateItem
-            width: historyView.width - 30 * pt
-            height: 50 * pt
+            width: historyView.width - outerMargin*2
+            height: last_in_day ? 35 * pt : 50 * pt
             anchors.margins: 0
-            x: 15 * pt
+            x: outerMargin
 
             ColumnLayout {
                 anchors.fill: parent
-                anchors.leftMargin: 10 * pt
-                anchors.rightMargin: 10 * pt
+                anchors.leftMargin: innerMargin
+                anchors.rightMargin: innerMargin
 
                 RowLayout {
                     Layout.fillWidth: true
@@ -53,7 +86,7 @@ Page {
                             verticalAlignment: Qt.AlignVCenter
 
                             text: network
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                             color: currTheme.textColor
                         }
 
@@ -76,19 +109,20 @@ Page {
                         horizontalAlignment: Qt.AlignRight
                         verticalAlignment: Qt.AlignVCenter
 
-                        text: amount + " " + token_name
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                        property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
+                        text: sign + amount + " " + token_name
+                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                         color: currTheme.textColor
                     }
 
                 }
 
-
                 Rectangle
                 {
+                    visible: !last_in_day
                     Layout.fillWidth: true
                     Layout.topMargin: 5 * pt
-                    Layout.bottomMargin: 5 * pt
+                    Layout.bottomMargin: 10 * pt
                     height: 1
                     color: "#6B6979"
                 }
@@ -105,9 +139,11 @@ Page {
         Item {
             id: header
 
-            width: parent.width - 30 * pt
+            width: parent.width - outerMargin*2
             height: 60 * pt
-            x: 15 * pt
+            x: outerMargin
+
+            property date payDate: new Date(Date.parse(section))
 
             Rectangle {
                 id: itemRect
@@ -121,13 +157,14 @@ Page {
 
                 Text {
                     anchors.fill: parent
-                    anchors.leftMargin: 10 * pt
+                    anchors.leftMargin: innerMargin
 
                     horizontalAlignment: Qt.AlignLeft
                     verticalAlignment: Qt.AlignVCenter
 
-                    text: section
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+//                    text: section
+                    text: getDateString(payDate)
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     color: currTheme.textColor
                 }
             }
@@ -153,5 +190,97 @@ Page {
                 source: light
             }
         }
+    }
+
+    function updateModel()
+    {
+        modelHistory.clear()
+
+        print("updateModel", "mainHistoryModel.length", mainHistoryModel.count)
+
+        for (var q = 0; q < mainHistoryModel.count; ++q)
+        {
+            if (modelHistory.count === 0)
+                modelHistory.append({ "network" : mainHistoryModel.get(q).Network,
+                                      "token_name" : mainHistoryModel.get(q).Name,
+                                      "status" : mainHistoryModel.get(q).Status,
+                                      "amount" : mainHistoryModel.get(q).AmountWithoutZeros,
+                                      "date" : mainHistoryModel.get(q).Date,
+                                      "SecsSinceEpoch" : mainHistoryModel.get(q).SecsSinceEpoch,
+                                      "last_in_day" : false})
+//            modelHistory.append({ "network" : mainHistoryModel[q].Network,
+//                                  "token_name" : mainHistoryModel[q].Name,
+//                                  "status" : mainHistoryModel[q].Status,
+//                                  "amount" : mainHistoryModel[q].AmountWithoutZeros,
+//                                  "date" : mainHistoryModel[q].Date,
+//                                  "SecsSinceEpoch" : mainHistoryModel[q].SecsSinceEpoch})
+            else
+            {
+                var j = 0;
+                while (modelHistory.get(j).SecsSinceEpoch > mainHistoryModel.get(q).SecsSinceEpoch)
+//                    while (modelHistory.get(j).SecsSinceEpoch > mainHistoryModel[q].SecsSinceEpoch)
+                {
+                    ++j;
+                    if (j >= modelHistory.count)
+                        break;
+                }
+                modelHistory.insert(j, {"network" : mainHistoryModel.get(q).Network,
+                                      "token_name" : mainHistoryModel.get(q).Name,
+                                      "status" : mainHistoryModel.get(q).Status,
+                                      "amount" : mainHistoryModel.get(q).AmountWithoutZeros,
+                                      "date" : mainHistoryModel.get(q).Date,
+                                      "SecsSinceEpoch" : mainHistoryModel.get(q).SecsSinceEpoch,
+                                      "last_in_day" : false})
+//                modelHistory.insert(j, {"network" : mainHistoryModel[q].Network,
+//                                      "token_name" : mainHistoryModel[q].Name,
+//                                      "status" : mainHistoryModel[q].Status,
+//                                      "amount" : mainHistoryModel[q].AmountWithoutZeros,
+//                                      "date" : mainHistoryModel[q].Date,
+//                                      "SecsSinceEpoch" : mainHistoryModel[q].SecsSinceEpoch})
+            }
+        }
+
+        for (var k = 1; k < modelHistory.count; ++k)
+        {
+            if (modelHistory.get(k-1).date !== modelHistory.get(k).date)
+                modelHistory.get(k-1).last_in_day = true
+            if (k === modelHistory.count-1)
+                modelHistory.get(k).last_in_day = true
+        }
+    }
+
+    ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
+    function getDateString(date)
+    {
+//        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
+
+        if (isSameDay(today, date))
+        {
+            return qsTr("Today")
+        }
+        else if (isSameDay(yesterday, date))
+        {
+            return qsTr("Yesterday")
+        }
+        else if (!isSameYear(today, date))
+        {
+            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy")
+        }
+        else
+        {
+            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d") // Does locale should be changed?
+        }
+    }
+
+    ////@ Checks if dates are same
+    function isSameDay(date1, date2)
+    {
+        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
+    }
+
+    ////@ Checks if dates have same year
+    function isSameYear(date1, date2)
+    {
+        return (date1.getFullYear() === date2.getFullYear()) ? true : false
     }
 }

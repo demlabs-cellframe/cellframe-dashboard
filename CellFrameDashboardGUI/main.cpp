@@ -37,6 +37,9 @@
 
 #include "mobile/QMLClipboard.h"
 
+
+#include "mobile/testcontroller.h"
+
 bool SingleApplicationTest(const QString &appName)
 {
     static QSystemSemaphore semaphore("<"+appName+" uniq semaphore id>", 1);
@@ -91,6 +94,8 @@ bool SingleApplicationTest(const QString &appName)
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+//    qputenv("QT_SCALE_FACTOR", "0.8");
 
     DapApplication app(argc, argv);
 
@@ -167,6 +172,12 @@ int main(int argc, char *argv[])
     context->setContextProperty("pluginsManager", &pluginsManager);
 
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
+
+
+    TestController testController;
+
+    context->setContextProperty("dapTestController", &testController);
+
 
 //    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
     app.qmlEngine()->load(QUrl("qrc:/mobile/MainMobileWindow.qml"));

@@ -110,7 +110,7 @@ Drawer {
                     contentItem:
                         RowLayout
                         {
-                            anchors.verticalCenter: parent
+//                            anchors.verticalCenter: parent
                             spacing: 0
                             Image {
                                 smooth: true

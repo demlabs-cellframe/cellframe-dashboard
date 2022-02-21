@@ -12,6 +12,8 @@ ApplicationWindow {
     width: 400
     height: 600
 
+    property alias dapMainWindow: window
+
     property alias dapQuicksandFonts: quicksandFonts
     DapFontQuicksand {
         id: quicksandFonts
@@ -42,7 +44,7 @@ ApplicationWindow {
     }
 
     ListModel {
-        id: hisoryModel
+        id: historyModel
     }
 
     property alias mainWalletModel: walletModel
@@ -51,7 +53,7 @@ ApplicationWindow {
 
     property alias mainTokenModel: tokenModel
 
-    property alias mainHistoryModel: hisoryModel
+    property alias mainHistoryModel: historyModel
 
     property string newWalletName: ""
 
@@ -70,6 +72,7 @@ ApplicationWindow {
         initHistoryModel()
 
         nameWallet.text = walletModel.get(currentWallet).name
+
         stackView.setInitialItem("qrc:/mobile/Wallet/TokenWallet.qml")
 //        stackView.setInitialItem("qrc:/mobile/History/History.qml")
     }
@@ -224,8 +227,6 @@ ApplicationWindow {
     MainStackView {
         id: stackView
         anchors.fill: parent
-//        initialItem: "qrc:/mobile/Wallet/MainWallet.qml"
-//        initialItem: "qrc:/mobile/Wallet/TokenWallet.qml"
     }
 
     function initWalletModel()
@@ -442,6 +443,155 @@ ApplicationWindow {
 
     function initHistoryModel()
     {
+        historyModel.append(
+                    { "Date" : "2021-12-09",
+                      "Network" : "CORE-T",
+                      "Status" : "Sent",
+                      "AmountWithoutZeros" : "0.0777",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1639013540
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-09",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "0.00000321",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1639013790
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-11",
+                      "Network" : "CORE-T",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "0.0004444",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1639175152
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-11",
+                      "Network" : "CORE-T",
+                      "Status" : "Sent",
+                      "AmountWithoutZeros" : "0.0000321",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1639255662
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-11",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "0.0555",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1639255702
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-12",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Sent",
+                      "AmountWithoutZeros" : "0.0000333",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1639257830
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-12",
+                      "Network" : "CORE-T",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "0.000007777",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1639257867
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-15",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Sent",
+                      "AmountWithoutZeros" : "0.002345",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1639531495
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-15",
+                      "Network" : "CORE-T",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "0.681",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1639531611
+                    })
+        historyModel.append(
+                    { "Date" : "2021-12-30",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640816857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-01-15",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640826857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-01-31",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640836857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-02-15",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640846857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-02-19",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640856857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-02-20",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640866857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-02-21",
+                      "Network" : "KELVIN-TESTNET",
+                      "Status" : "Received",
+                      "AmountWithoutZeros" : "123456.23456",
+                      "Name" : "KEL-kelvin",
+                      "SecsSinceEpoch" : 1640876857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-02-21",
+                      "Network" : "CORE-T",
+                      "Status" : "Sent",
+                      "AmountWithoutZeros" : "0.0000321",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1640886857
+                    })
+        historyModel.append(
+                    { "Date" : "2022-02-21",
+                      "Network" : "CORE-T",
+                      "Status" : "Sent",
+                      "AmountWithoutZeros" : "0.0000321",
+                      "Name" : "CELL-core",
+                      "SecsSinceEpoch" : 1640896857
+                    })
+
+    }
+
+    /*function initHistoryModel()
+    {
         hisoryModel.append(
                     { "date" : "July, 22",
                       "network" : "CORE-T",
@@ -502,6 +652,6 @@ ApplicationWindow {
                       "status" : "Error",
                       "amount" : "-34.4234",
                       "token_name" : "CELL-core"})
-    }
+    }*/
 
 }
