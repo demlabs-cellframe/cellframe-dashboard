@@ -27,13 +27,13 @@ Item {
 
 
     readonly property var metadataKeyToViewKey: ({
-                                               "a0_creation_date": qsTr("Date of creation"),
-                                               "a1_expiration_date": qsTr("Expiration date"),
-                                               "a2_domain": qsTr("Domain"),
-                                               "a3_organization": qsTr("Organization"),
-                                               "a4_fullname": qsTr("Full name"),
-                                               "a5_email": qsTr("Email"),
-                                               "a6_description": qsTr("Description")
+                                             "a0_creation_date": qsTr("Date of creation"),
+                                             "a1_expiration_date": qsTr("Expiration date"),
+                                             "a2_domain": qsTr("Domain"),
+                                             "a3_organization": qsTr("Organization"),
+                                             "a4_fullname": qsTr("Full name"),
+                                             "a5_email": qsTr("Email"),
+                                             "a6_description": qsTr("Description")
                                            })
 
 

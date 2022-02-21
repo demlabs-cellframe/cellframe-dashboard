@@ -44,7 +44,9 @@ Rectangle {
     ///@detalis Path to the tokens tab.
     readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
      ///@detalis Path to the plugins tab.
-    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugin/DapApp.qml"
+    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/Plugin/DapApp.qml"
+    ///@detalis Path to the plugins tab.
+   readonly property string miniGameScreen: "qrc:/screen/" + device + "/Plugins/MiniGame/MiniGame.qml"
     ///@detalis Path to the dApps tab.
     readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
 
@@ -263,6 +265,32 @@ Rectangle {
                         //anchors.topMargin: 18 * pt
                         //visible: false
                     }
+                    ToolTip
+                    {
+                        id:toolTip
+                        visible: area.containsMouse? true : false
+                        text: "https://cellframe.net"
+
+                        contentItem: Text {
+                                text: toolTip.text
+                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                color: currTheme.textColor
+                            }
+
+                        background: Rectangle{color:currTheme.backgroundPanel}
+                    }
+                    MouseArea
+                    {
+                        id:area
+                        anchors.fill: parent
+                        hoverEnabled: true
+
+                        onClicked:
+                        {
+                            Qt.openUrlExternally(toolTip.text);
+
+                        }
+                    }
                 }
             }
             // Menu bar widget
@@ -346,6 +374,9 @@ Rectangle {
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
+
+    signal keyPressed(var event)
+    Keys.onPressed: keyPressed(event)
 
 
     //open in module visible root context, only for work
@@ -482,6 +513,15 @@ Rectangle {
 //                name: qsTr("Plugin"),
 //                tag: "Plugins",
 //                page: pluginsScreen,
+//                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+//                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+//                showTab: true
+//            })
+
+//            append ({
+//                name: qsTr("MiniGame"),
+//                tag: "Plugins",
+//                page: miniGameScreen,
 //                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
 //                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
 //                showTab: true

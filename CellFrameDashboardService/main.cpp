@@ -1,4 +1,9 @@
+#ifdef ANDROID
+#include <QAndroidService>
+#include <android/log.h>
+#else
 #include <QCoreApplication>
+#endif
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QCommandLineParser>
@@ -36,8 +41,12 @@ int main(int argc, char *argv[])
     {
         return 1;
     }
-
+#ifdef Q_OS_ANDROID
+    QAndroidService a(argc, argv);
+#else
     QCoreApplication a(argc, argv);
+#endif
+
     a.setOrganizationName("Cellframe Network");
     a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     a.setApplicationName(DAP_BRAND "Service");
@@ -79,7 +88,6 @@ int main(int argc, char *argv[])
         QString str = "chmod 777 " + dapPlugins.getPathToPluginsDownload();
         system(str.toUtf8().data());
     }
-
     // Creating the main application object
     processArgs();
     DapServiceController serviceController;
