@@ -43,6 +43,7 @@ DapHistoryScreenForm
         }
     }
 
+//    https://test-explorer.cellframe.net/transaction/0xC6332B152973346155E4ECC792327E31C2FB0CAB0BC35F352D2630F737930B12
 
     Component
     {
