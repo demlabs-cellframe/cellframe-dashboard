@@ -274,7 +274,7 @@ Rectangle {
 
                         contentItem: Text {
                                 text: toolTip.text
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                 color: currTheme.textColor
                             }
 

@@ -103,7 +103,7 @@ DapAbstractScreen
                         x: 20 * pt
                         y: 5 * pt
 
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                     }
 
                     TextField
@@ -125,7 +125,7 @@ DapAbstractScreen
 
                         color: currTheme.textColor
                         focus: true
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
 
                         Keys.onRightPressed:
                         {
@@ -230,7 +230,7 @@ DapAbstractScreen
                             y: 6 * pt
                             wrapMode: TextArea.Wrap
                             color: currTheme.textColor
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                             opacity: 0.5
                         }
 

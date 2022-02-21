@@ -19,7 +19,7 @@ DapTopPanel
         }
 
         text: qsTr( "Vesion " + dapServiceController.Version)
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: currTheme.textColor
 
     }

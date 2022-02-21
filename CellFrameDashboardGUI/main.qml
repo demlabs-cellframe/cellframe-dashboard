@@ -4,6 +4,8 @@ import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
+import "resources/theme"
+import "qrc:/resources/QML"
 
 import "screen"
 
@@ -33,6 +35,22 @@ ApplicationWindow
         DapMainWindowMobile {
             id: mainWindowMobile
         }
+    }
+    //Themes and fonts
+    Dark { id: darkTheme }
+    Light { id: lightTheme }
+    property string pathTheme: "BlackTheme"
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
+    DapFontQuicksand { id: quicksandFonts }
+    property alias _dapQuicksandFonts: quicksandFonts
+    //
+
+
+    footer: DapControlNetworksPanel
+    {
+        id: networkPanel
+        height: 40 * pt
     }
 
     //Main window
@@ -104,12 +122,6 @@ ApplicationWindow
                 window.hide()
             }
         }
-    }
-
-    footer: DapControlNetworksPanel
-    {
-        id: networksPanel
-        height: 40 * pt
     }
 
     DropShadow {

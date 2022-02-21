@@ -81,7 +81,7 @@ DapAbstractScreen
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(false)
                 }
@@ -102,7 +102,7 @@ DapAbstractScreen
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(true)
                 }

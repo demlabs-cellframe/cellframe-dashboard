@@ -27,7 +27,7 @@ Item {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         height: Math.max(implicitHeight, parent.height)
-        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         elide: Text.ElideRight
         horizontalAlignment: Qt.AlignRight
         color: currTheme.textColor

@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 import "../screen"
 import "qrc:/resources/QML"
 import "../screen/controls"
-import "../resources/theme"
+
 
 FocusScope {
     id: dapMainPage
@@ -25,14 +25,12 @@ FocusScope {
     readonly property string underConstructionsScreen: "qrc:/screen/desktop/UnderConstructions.qml"
     readonly property string testScreen: "qrc:/screen/desktop/Test/TestPage.qml"
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-    property alias _dapQuicksandFonts: quicksandFonts
+
 
     property var _dapWallets: []
 
     property ListModel _tokensModel
 
-    Dark { id: darkTheme }
-    Light { id: lightTheme }
 
     ListModel {
         id: themes
@@ -45,10 +43,7 @@ FocusScope {
         }
     }
 
-    property string pathTheme: "BlackTheme"
 
-    property bool currThemeVal: true
-    property var currTheme: currThemeVal ? darkTheme : lightTheme
 
     property var _dapWalletsModel: []
     property var _dapNetworksModel: []
@@ -97,9 +92,7 @@ FocusScope {
         }
     ]
 
-    DapFontQuicksand {
-        id: quicksandFonts
-    }
+
 
     Rectangle {
         anchors.fill: parent

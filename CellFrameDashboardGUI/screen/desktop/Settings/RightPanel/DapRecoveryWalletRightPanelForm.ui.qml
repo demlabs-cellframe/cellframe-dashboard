@@ -77,7 +77,7 @@ DapRightPanel
                     id: textMethod
                     color: currTheme.textColor
                     text: qsTr("Recovery method: 24 words")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -103,7 +103,7 @@ DapRightPanel
                     horizontalAlignment: Text.AlignHCenter
                     color: "#79FFFA"
                     wrapMode: Text.WordWrap
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 }
             }
 
@@ -128,7 +128,7 @@ DapRightPanel
                         text: modelData
 //                        font { bold: true; pixelSize: 12 }
                         color: currTheme.textColor
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
 
                     }
                     model: wordsModel
@@ -177,7 +177,7 @@ DapRightPanel
                     textButton: qsTr("Next")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     visible: false
                 }
 
@@ -190,7 +190,7 @@ DapRightPanel
                     checkable: true
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 }
 
             }

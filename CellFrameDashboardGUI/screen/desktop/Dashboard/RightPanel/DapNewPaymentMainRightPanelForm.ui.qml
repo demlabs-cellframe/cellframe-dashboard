@@ -70,7 +70,7 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
@@ -94,7 +94,7 @@ DapRightPanel
                     id: textFrameSenderWallet
                     color: currTheme.textColor
                     text: qsTr("From")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -165,7 +165,7 @@ DapRightPanel
                         roleInterval: 15
                         endRowPadding: 37
 
-                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                        fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -184,7 +184,7 @@ DapRightPanel
 //                        Layout.fillWidth: true
 //                        color: currTheme.textColor
 //                        text: qsTr("Network: ")
-//                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+//                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
 //                        horizontalAlignment: Text.AlignLeft
 //                    }
 
@@ -227,7 +227,7 @@ DapRightPanel
 //                            roleInterval: 15
 //                            endRowPadding: 37
 
-//                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+//                            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
 //                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 ////                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
 //                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -247,7 +247,7 @@ DapRightPanel
                         Layout.fillWidth: true
                         color: currTheme.textColor
                         text: qsTr("Chain:")
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         horizontalAlignment: Text.AlignLeft
                     }
 
@@ -290,7 +290,7 @@ DapRightPanel
                             roleInterval: 15
                             endRowPadding: 37
 
-                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -312,7 +312,7 @@ DapRightPanel
                     id: textFrameamountPayment
                     color: currTheme.textColor
                     text: qsTr("Amount")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     anchors.left: parent.left
                     anchors.leftMargin: 17 * pt
                     anchors.topMargin: 20 * pt
@@ -346,7 +346,7 @@ DapRightPanel
                         placeholderText: "0"
 //                        placeholderText: "0.0"
                         validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAlignment: Text.AlignRight
 
                         style:
@@ -400,7 +400,7 @@ DapRightPanel
                             colorDropShadow: currTheme.shadowColor
                             roleInterval: 15
                             endRowPadding: 37
-                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -423,7 +423,7 @@ DapRightPanel
                     id: textRecipientWallet
                     color: currTheme.textColor
                     text: qsTr("To")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -449,7 +449,7 @@ DapRightPanel
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Paste here")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.fill: parent
                     anchors.topMargin: 26 * pt
@@ -499,7 +499,7 @@ DapRightPanel
                     anchors.rightMargin: 36 * pt
                     color: "#79FFFA"
                     text: qsTr("Not enough available tokens. Enter a lower value.")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap
@@ -519,7 +519,7 @@ DapRightPanel
                 textButton: qsTr("Send")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 shadowColor:"#2A2C33"
             }
 

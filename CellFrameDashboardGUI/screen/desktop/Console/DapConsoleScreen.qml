@@ -45,7 +45,7 @@ DapConsoleScreenForm
                 id: textQuery
                 text: "> " + query
                 wrapMode: TextEdit.Wrap
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
 
             }
@@ -57,7 +57,7 @@ DapConsoleScreenForm
                 text: response
                 width: parent.width
                 wrapMode: TextEdit.Wrap
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 color: currTheme.textColor
             }
         }

@@ -19,7 +19,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Appearance")
@@ -38,7 +38,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Edit menu")
@@ -66,7 +66,7 @@ ColumnLayout
                     Layout.fillWidth: true
                     Layout.leftMargin: 13 * pt
 
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     color: currTheme.textColor
                     verticalAlignment: Qt.AlignVCenter
                     text: modelMenuTabStates.get(index).name
@@ -113,7 +113,7 @@ ColumnLayout
 //            anchors.left: parent.left
 //            anchors.leftMargin: 17 * pt
 //            anchors.verticalCenter: parent.verticalCenter
-//            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+//            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
 //            color: currTheme.textColor
 //            verticalAlignment: Qt.AlignVCenter
 //            text: qsTr("Colours")
@@ -136,7 +136,7 @@ ColumnLayout
 //                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 //                    Layout.leftMargin: 15 * pt
 
-//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+//                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
 //                    color: currTheme.textColor
 //                    verticalAlignment: Qt.AlignVCenter
 //                    text: themes.get(index).name

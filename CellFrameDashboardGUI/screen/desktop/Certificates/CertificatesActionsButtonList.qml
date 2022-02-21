@@ -89,7 +89,7 @@ Rectangle {
                         indicatorInnerSize: 46 * pt
 
                         //spaceIndicatorText: 18 * pt
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         ButtonGroup.group: buttonGroup
                         checked: model.selected
 

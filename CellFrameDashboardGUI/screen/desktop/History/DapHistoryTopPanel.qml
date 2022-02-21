@@ -58,7 +58,7 @@ DapTopPanel
                 id: textFieldSearch
                 Layout.minimumHeight: 28 * pt
                 placeholderText: qsTr("Search")
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 style:
                     TextFieldStyle
                     {

@@ -33,7 +33,7 @@ Button {
                 id: button_caption
                 Layout.alignment: Qt.AlignVCenter
                 Layout.rightMargin: isSynch ? 22 * pt : 28 * pt
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                 color: currTheme.textColor
                 text: isSynch ? qsTr("Sync Network") : qsTr("On network")
             }

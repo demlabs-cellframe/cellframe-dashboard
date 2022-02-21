@@ -26,7 +26,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("General settings")
@@ -46,7 +46,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Choose a wallet")
@@ -120,7 +120,7 @@ ColumnLayout
                             height: 26*pt
                             Layout.fillWidth: true
 
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name
@@ -135,7 +135,7 @@ ColumnLayout
                                id: textMetworkAddress
                                Layout.preferredWidth: 101 * pt
 
-                               fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                               fontDapText: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                color: currTheme.textColorGrayTwo
                                fullText: networksModelGenegal.get(index).address
                                textElide: Text.ElideMiddle
@@ -179,7 +179,7 @@ ColumnLayout
                         nameRadioButton: qsTr("")
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         implicitHeight: indicatorInnerSize
                         checked: index === SettingsWallet.currentIndex? true:false
 

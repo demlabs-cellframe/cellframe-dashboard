@@ -72,7 +72,7 @@ DapRightPanel
                         Layout.fillWidth: true
                         text: network
                         color: currTheme.textColor
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
                         elide: Text.ElideRight
                     }
 
@@ -81,7 +81,7 @@ DapRightPanel
                         Layout.fillWidth: true
                         text: status
                         color: currTheme.textColorGrayTwo
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                     }
                 }
 
@@ -94,7 +94,7 @@ DapRightPanel
                     verticalAlignment: Qt.AlignVCenter
                     color: currTheme.textColor
                     text: sign + amount + " " + name
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 }
             }
 

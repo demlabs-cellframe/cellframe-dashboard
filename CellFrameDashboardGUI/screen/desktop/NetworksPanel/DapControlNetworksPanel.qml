@@ -11,9 +11,9 @@ DapNetworksPanel
 {    
     property alias dapNetworkList: networkList
 
-    property string pathTheme: mainWindow.pathTheme
-    property var currTheme: mainWindow.currTheme
-    property var dapQuicksandFonts: mainWindow.dapQuicksandFonts
+//    property string pathTheme: mainWindow.pathTheme
+//    property var currTheme: mainWindow.currTheme
+//    property var _dapQuicksandFonts: mainWindow._dapQuicksandFonts
     //property alias dapMainWindow: mainWindow
 
     property int cur_index: 0
@@ -85,7 +85,7 @@ DapNetworksPanel
                 Text {
                     id: txt_left
                     Layout.fillWidth: true
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                     color: currTheme.textColor
                     text: name
                 }
@@ -233,11 +233,11 @@ DapNetworksPanel
 
         onNetworksStatesReceived:
         {
-            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+            if (!networkPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
                 networkList.closePopups()
             }
-            networksPanel.modelUpdate(networksStatesList)
-            networksPanel.updateContentInAllOpenedPopups(networksModel)
+            networkPanel.modelUpdate(networksStatesList)
+            networkPanel.updateContentInAllOpenedPopups(networksModel)
         }
     }
 
