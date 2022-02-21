@@ -34,6 +34,17 @@ FocusScope {
     Dark { id: darkTheme }
     Light { id: lightTheme }
 
+    ListModel {
+        id: themes
+        Component.onCompleted:
+        {
+            append({
+                       name: qsTr("Dark theme"),
+                       source: darkTheme
+                   })
+        }
+    }
+
     property string pathTheme: "BlackTheme"
 
     property bool currThemeVal: true

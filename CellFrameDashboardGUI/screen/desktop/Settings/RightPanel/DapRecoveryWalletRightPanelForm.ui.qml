@@ -170,18 +170,6 @@ DapRightPanel
 
                 DapButton
                 {
-                    id: actionButton
-                    implicitHeight: 36 * pt
-                    implicitWidth: 132 * pt
-                    Layout.alignment: Qt.AlignCenter
-                    checkable: true
-                    horizontalAligmentText: Text.AlignHCenter
-                    indentTextRight: 0
-                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                }
-
-                DapButton
-                {
                     id: nextButton
                     implicitHeight: 36 * pt
                     implicitWidth: 132 * pt
@@ -191,6 +179,18 @@ DapRightPanel
                     indentTextRight: 0
                     fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     visible: false
+                }
+
+                DapButton
+                {
+                    id: actionButton
+                    implicitHeight: 36 * pt
+                    implicitWidth: 132 * pt
+                    Layout.alignment: Qt.AlignCenter
+                    checkable: true
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 }
 
             }

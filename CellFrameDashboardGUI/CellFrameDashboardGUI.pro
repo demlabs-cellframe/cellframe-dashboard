@@ -59,6 +59,7 @@ SOURCES += \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
+    WalletRestore/commandcmdcontroller.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     DapApplication.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
+    WalletRestore/commandcmdcontroller.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \

@@ -47,7 +47,7 @@ Page {
     DapButton
     {
         id: newPaymentButton
-        textButton: qsTr("New payment")
+        textButton: "Send"
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
         anchors.top: parent.top

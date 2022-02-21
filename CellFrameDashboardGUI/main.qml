@@ -7,6 +7,8 @@ import Qt.labs.settings 1.0
 
 import "screen"
 
+import "qrc:/screen/desktop/NetworksPanel"
+
 ApplicationWindow
 {
     id: window
@@ -20,20 +22,24 @@ ApplicationWindow
     }
 
     Component {
-        id: mainWindow
-        DapMainWindow {}
+        id: mainWindowComponent
+        DapMainWindow {
+            id: mainWindow
+        }
     }
 
     Component {
-        id: mainWindowMobile
-        DapMainWindowMobile {}
+        id: mainWindowMobileComponent
+        DapMainWindowMobile {
+            id: mainWindowMobile
+        }
     }
 
     //Main window
     StackView {
         id: mainWindowStack
         anchors.fill: parent
-        initialItem: isMobile ? mainWindowMobile : mainWindow
+        initialItem: isMobile ? mainWindowMobileComponent : mainWindowComponent
     }
 
     ///The image with the effect fast blur
@@ -100,10 +106,10 @@ ApplicationWindow
         }
     }
 
-    footer: Rectangle {
-        id: networkPanel
-        height: 40
-        color: "#2D3037"
+    footer: DapControlNetworksPanel
+    {
+        id: networksPanel
+        height: 40 * pt
     }
 
     DropShadow {
@@ -140,18 +146,18 @@ ApplicationWindow
         }
         else if(Screen.width < 1280 && Screen.height > 800)
         {
-            width = Screen.width - 60
+            width = Screen.width
             height = 800
         }
         else if(Screen.height < 800 && Screen.width > 1280)
         {
             width = 1280
-            height = Screen.height
+            height = Screen.height - 60
         }
         else
         {
-            width = Screen.width - 60
-            height = Screen.height
+            width = Screen.width
+            height = Screen.height - 60
 
         }
         minimumWidth = width

@@ -9,18 +9,21 @@ QtObject {
     readonly property color backgroundPanel        : "#2D3037" // OK
     readonly property color backgroundElements     : "#363A42" // OK
 
-    readonly property color buttonColorNormal      : "#D01E67" // OK
-    readonly property color buttonColorHover       : "#E62172"
+    readonly property color buttonColorNormal      : "#7930DE" // OK
+    readonly property color buttonColorHover       : "#7F65FF"
     readonly property color buttonColorNoActive    : "#373A42"
+
+    readonly property color hilightColorComboBox     : "#DBFF71"
+    readonly property color hilightTextColorComboBox : "#2D3037"
 
     //network buttons
     readonly property color buttonNetworkColorNoActive    : "#2D3037"
 
     //Gradient colors
-    readonly property color buttonColorHoverPosition0   : "#E62083" // OK
-    readonly property color buttonColorHoverPosition1   : "#E62263" // OK
-    readonly property color buttonColorNormalPosition0    : "#C91D73"
-    readonly property color buttonColorNormalPosition1    : "#D51F5D"
+    readonly property color buttonColorHoverPosition0   : "#7930DE" // OK
+    readonly property color buttonColorHoverPosition1   : "#7F65FF" // OK
+    readonly property color buttonColorNormalPosition0    : "#A361FF"
+    readonly property color buttonColorNormalPosition1    : "#9580FF"
 
     readonly property color lineSeparatorColor     : "#292929"
 
@@ -45,4 +48,6 @@ QtObject {
     readonly property double radiusShadowSmall     : 3.0
     readonly property int hOffset                  : 5
     readonly property int vOffset                  : 5
+    readonly property color buttonInnerShadow      : "#E7D6FF"
+    readonly property color buttonShadow           : "#2A2C33"
 }
