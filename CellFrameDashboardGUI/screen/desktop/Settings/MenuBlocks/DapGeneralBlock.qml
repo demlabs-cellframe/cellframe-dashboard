@@ -81,12 +81,12 @@ ColumnLayout
             {
                 id: scaleSpinbox
 
-                width: 110 * pt
+                width: 80 * pt
 
-                Layout.minimumHeight: 26 * pt
-                Layout.maximumHeight: 26 * pt
+                Layout.minimumHeight: 18 * pt
+                Layout.maximumHeight: 18 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
 
                 realFrom: minWindowScale
                 realTo: maxWindowScale
