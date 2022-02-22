@@ -142,7 +142,7 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
-                if(dapModelOrders.count === 0)
+                if(_dapModelOrders.count === 0)
                     state = "ORDERDEFAULT"
                 vpnServiceScreen.dapGridViewFrame.currentIndex = -1
 //                console.log("DapGetListOrdersCommand")
@@ -156,7 +156,7 @@ DapAbstractTab {
             currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === earnedFundsOrder)
             {
-                if(dapModelOrders.count === 0)
+                if(_dapModelOrders.count === 0)
                     state = "ORDERDEFAULT"
                 vpnServiceScreen.dapGridViewFrame.currentIndex = -1
 //                console.log("DapGetListOrdersCommand")
@@ -167,12 +167,12 @@ DapAbstractTab {
 
     Connections
     {
-        target: dapMainWindow
+        target: dapMainPage
         onModelOrdersUpdated:
         {
-            console.log(dapModelOrders.count)
+            console.log(_dapModelOrders.count)
 
-            if(dapModelOrders.count > 0)
+            if(_dapModelOrders.count > 0)
                 state = "ORDERSHOW"
             else
                 state = "ORDERDEFAULT"
@@ -204,7 +204,7 @@ DapAbstractTab {
     {
         dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
         dapOrders.length = 0
-        dapModelOrders.clear()
+        _dapModelOrders.clear()
         dapServiceController.requestToService("DapGetListOrdersCommand");
 
     }
@@ -226,7 +226,7 @@ DapAbstractTab {
 
     Component.onCompleted:
     {
-        if(dapModelOrders.count > 0)
+        if(_dapModelOrders.count > 0)
             state = "ORDERSHOW"
         else
             state = "ORDERDEFAULT"

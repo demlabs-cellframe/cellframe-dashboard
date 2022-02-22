@@ -12,7 +12,7 @@ GridView {
 
     signal orderDetailsShow(var index)
 
-    model: dapModelOrders
+    model: _dapModelOrders
 
     cellWidth: delegateMargin * 2 + delegateWidth
     cellHeight: delegateMargin * 2 + delegateHeight

@@ -33,6 +33,7 @@ FocusScope {
 
     property ListModel _tokensModel
     property ListModel _dapModelPlugins
+    property ListModel _dapModelOrders
 
     property var _dapWallets: []
     property var _dapWalletsModel: []
@@ -304,6 +305,11 @@ FocusScope {
         onWalletsReceived: {
             console.info("WALLETS -> ", JSON.stringify(walletList))
             getWallets(walletList)
+        }
+        onOrdersReceived:
+        {
+            _dapModelOrders = Logic.rcvOrderList(orderList, parent)
+            modelOrdersUpdated();
         }
     }
 
