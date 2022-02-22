@@ -2,15 +2,16 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
+import "qrc:/screen/controls"
 
-DapAbstractTab {
+DapPage {
 
     property alias dapAppsModel:listModelApps
 
     id: dapAppsTab
     signal updateButtons();
 
-    color: currTheme.backgroundMainScreen
+//    color: currTheme.backgroundMainScreen
 
     ListModel{
         id: listModelApps
@@ -20,13 +21,11 @@ DapAbstractTab {
         id: temporaryModel
     }
 
-    dapTopPanel: DapAppsTopPanel{
+    dapHeader.initialItem: DapAppsTopPanel{
         color: currTheme.backgroundPanel
-
         onFindHandler: dapAppsTab.searchElement(text)
     }
-
-    dapScreen: DapAppsScreen{
+    dapScreen.initialItem: DapAppsScreen{
         id: dAppsScreen
         onUpdateFiltr: updateFiltrApps(status);
 
@@ -44,11 +43,12 @@ DapAbstractTab {
             pluginsManager.cancelDownload();
         }
     }
+    onRightPanel: false
 
-    dapRightPanel: Item{}
+//    dapRightPanel.initialItem: Item{}
 
     Connections{
-        target: dapMainWindow
+        target: dapMainPage
         onModelPluginsUpdated:
         {
             updateFiltrApps(dAppsScreen.currentFiltr)
@@ -124,24 +124,24 @@ DapAbstractTab {
 
         if(status === "Verified")
         {
-            for(var i = 0; i < dapModelPlugins.count; i++ )
+            for(var i = 0; i < _dapModelPlugins.count; i++ )
             {
-                if(dapModelPlugins.get(i).verifed === "1")
-                    temporaryModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
+                if(_dapModelPlugins.get(i).verifed === "1")
+                    temporaryModel.append({name:_dapModelPlugins.get(i).name, urlPath: _dapModelPlugins.get(i).path, status:_dapModelPlugins.get(i).status, verifed:_dapModelPlugins.get(i).verifed})
             }
         }
         else if(status === "Unverified")
         {
-            for(var i = 0; i < dapModelPlugins.count; i++ )
+            for(var i = 0; i < _dapModelPlugins.count; i++ )
             {
-                if(dapModelPlugins.get(i).verifed === "0")
-                    temporaryModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
+                if(_dapModelPlugins.get(i).verifed === "0")
+                    temporaryModel.append({name:_dapModelPlugins.get(i).name, urlPath: _dapModelPlugins.get(i).path, status:_dapModelPlugins.get(i).status, verifed:_dapModelPlugins.get(i).verifed})
             }
         }
         else
         {
-            for(var i = 0; i < dapModelPlugins.count; i++ )
-                temporaryModel.append({name:dapModelPlugins.get(i).name, urlPath: dapModelPlugins.get(i).path, status:dapModelPlugins.get(i).status, verifed:dapModelPlugins.get(i).verifed})
+            for(var i = 0; i < _dapModelPlugins.count; i++ )
+                temporaryModel.append({name:_dapModelPlugins.get(i).name, urlPath: _dapModelPlugins.get(i).path, status:_dapModelPlugins.get(i).status, verifed:_dapModelPlugins.get(i).verifed})
         }
 
         listModelApps.clear();

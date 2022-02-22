@@ -391,5 +391,7 @@
         <file>screen/desktop/Plugins/MiniGame/Elements/GamePlayer.qml</file>
         <file>screen/desktop/Console/DapConsoleScreenForm.qml</file>
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
+        <file>screen/Logic/Logic.js</file>
+        <file>resources/icons/BlackTheme/icon_daaps.png</file>
     </qresource>
 </RCC>

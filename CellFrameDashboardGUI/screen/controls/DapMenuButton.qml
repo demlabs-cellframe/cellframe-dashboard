@@ -2,40 +2,43 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
+
 
 ItemDelegate
 {
     id: buttonDelegate
 
-    width: 180 * pt
-    height: 60 * pt
+    width: 173 * pt
+    height: 52 * pt
 
     property bool isPushed: mainButtonsList.currentIndex === index
 
-    background: Rectangle {
-        color: currTheme.backgroundPanel
-        radius: 20
-        anchors.leftMargin: -10
+    background: Item {
+//        color: currTheme.backgroundPanel
+//        radius: 16
+        anchors.leftMargin: -3
     }
 
-    Image {
+    DapImageLoader {
         id: backgroundImage
-        width: buttonDelegate.width
-        height: buttonDelegate.height
+        innerWidth: buttonDelegate.width
+        innerHeight: buttonDelegate.height
         visible: false
         source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
     }
 
     RowLayout {
         anchors.fill: parent
-        anchors.leftMargin: 20
+        anchors.leftMargin: 26
         Item {
             id: ico
-            width: 18 * pt
-            height: 18 * pt
+            width: 16 * pt
+            height: 16 * pt
             Layout.alignment: Qt.AlignLeft
-            Image {
-                anchors.fill: parent
+            DapImageLoader {
+                innerWidth: parent.width
+                innerHeight: parent.height
                 source: "qrc:/resources/icons/" + pathTheme + "/" + modelData.bttnIco
             }
         }
@@ -43,9 +46,10 @@ ItemDelegate
         Text {
             id: buttonText
             anchors.left: ico.right
-            anchors.leftMargin: 15
+            anchors.leftMargin: 16
             text: modelData.name
             color: currTheme.textColor
+            font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular13
         }
     }
 

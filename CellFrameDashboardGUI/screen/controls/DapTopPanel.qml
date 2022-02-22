@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 Page
 {
     id: control
-    height: 55
+    height: 60
     background: Rectangle {
         color: "transparent"
     }
@@ -14,6 +14,7 @@ Page
     Rectangle {
         id: beckgrndRect
         anchors.fill: parent
+        anchors.leftMargin: 3
         radius: 20
         color: currTheme.backgroundPanel
 

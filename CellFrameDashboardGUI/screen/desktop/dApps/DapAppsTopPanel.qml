@@ -8,7 +8,7 @@ import "../Certificates/parts"
 DapTopPanel
 {
     id: control
-    anchors.leftMargin: 4*pt
+//    anchors.leftMargin: 4*pt
     radius: currTheme.radiusRectangle
 
     signal findHandler(string text)

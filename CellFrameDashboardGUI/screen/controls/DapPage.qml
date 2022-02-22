@@ -13,13 +13,15 @@ Page {
         StackView {
             id: headerStack
             anchors.fill: parent
-            anchors.leftMargin: 20
+//            anchors.leftMargin: 20
         }
     }
 
     property alias dapHeader: headerStack
     property alias dapScreen: mainScreenStack
     property alias dapRightPanel: rightPanelStack
+
+    property bool onRightPanel: true
 
     background: Rectangle {
         color: currTheme.backgroundMainScreen
@@ -31,7 +33,7 @@ Page {
 
         DapScreenPage {
             Layout.fillHeight: true
-            Layout.preferredWidth: rootPageRow.width * 0.7
+            Layout.preferredWidth: onRightPanel? rootPageRow.width * 0.7: rootPageRow.width
 
             StackView {
                 id: mainScreenStack
@@ -44,6 +46,7 @@ Page {
         }
 
         DapScreenPage {
+            visible: onRightPanel
             Layout.fillWidth: true
             Layout.fillHeight: true
             StackView {

@@ -810,6 +810,9 @@ Rectangle {
         target: pluginsManager
         onRcvListPlugins:
         {
+
+//            logic.rcvPluginList(dapPlugins, m_pluginsList, dapModelPlugins )
+
             dapPlugins.splice(0,dapPlugins.length)
             dapModelPlugins.clear()
 

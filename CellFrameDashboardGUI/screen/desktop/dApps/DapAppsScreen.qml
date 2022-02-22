@@ -7,7 +7,7 @@ import "qrc:/widgets"
 import "../../"
 import "RightPanel"
 
-DapAbstractScreen
+Page
 {
     property alias dapFrameApps: frameApps
     property alias dapListViewApps: listViewApps
@@ -21,15 +21,20 @@ DapAbstractScreen
 
     anchors.fill: parent
 
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
+    }
+
     RowLayout
     {
         id:frameApps
         anchors
         {
             fill: parent
-            margins: 24 * pt
-            rightMargin: 22 * pt
-            bottomMargin: 20 * pt
+//            margins: 12 * pt
+//            rightMargin: 8 * pt
+//            bottomMargin: 8 * pt
         }
 
         spacing: 24 * pt

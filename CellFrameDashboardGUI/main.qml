@@ -6,9 +6,7 @@ import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
 import "resources/theme"
 import "qrc:/resources/QML"
-
 import "screen"
-
 import "qrc:/screen/desktop/NetworksPanel"
 
 ApplicationWindow
@@ -25,7 +23,8 @@ ApplicationWindow
 
     Component {
         id: mainWindowComponent
-        DapMainWindow {
+        DapMainWindow
+        {
             id: mainWindow
         }
     }

@@ -3,9 +3,11 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 
+import "qrc:/widgets"
 import "../screen"
 import "qrc:/resources/QML"
 import "../screen/controls"
+import "../screen/Logic/Logic.js" as Logic
 
 
 FocusScope {
@@ -16,21 +18,29 @@ FocusScope {
     readonly property string walletScreen: "qrc:/screen//Wallet/WalletPage.qml"
     readonly property string exchangeScreen: "qrc:/screen/desktop/Exchange/DapExchangeTab.qml"
     readonly property string historyScreen: "qrc:/screen/desktop/History/DapHistoryTab.qml"
-    readonly property string vpnServiceScreen: "qrc:/screen/desktop/VPNService_New/DapVPNServiceTab.qml"
-    readonly property string vpnClientScreen: "qrc:/screen/desktop/VPNClient/VPNClientPage.qml"
-    readonly property string settingsScreen: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"
-    readonly property string logsScreen: "qrc:/screen/desktop/Logs/DapLogsTab.qml"
-    readonly property string consoleScreen: "qrc:/screen/desktop/Console/DapConsoleTab.qml"
     readonly property string certificatesScreen: "qrc:/screen/desktop/Certificates/DapCertificatesMainPage.qml"
+    readonly property string tokensScreen: "qrc:/screen/desktop/Tokens/DapTokensTab.qml"
+    readonly property string vpnClientScreen: "qrc:/screen/desktop/VPNClient/VPNClientPage.qml"
+    readonly property string vpnServiceScreen: "qrc:/screen/desktop/VPNService_New/DapVPNServiceTab.qml"
+    readonly property string consoleScreen: "qrc:/screen/desktop/Console/DapConsoleTab.qml"
+    readonly property string logsScreen: "qrc:/screen/desktop/Logs/DapLogsTab.qml"
+    readonly property string appsScreen: "qrc:/screen/desktop/dApps/DapAppsTab.qml"
+    readonly property string settingsScreen: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"
     readonly property string underConstructionsScreen: "qrc:/screen/desktop/UnderConstructions.qml"
     readonly property string testScreen: "qrc:/screen/desktop/Test/TestPage.qml"
     readonly property QtObject dapMainFonts: DapFontRoboto {}
 
 
-    property var _dapWallets: []
-
     property ListModel _tokensModel
+    property ListModel _dapModelPlugins
 
+    property var _dapWallets: []
+    property var _dapWalletsModel: []
+    property var _dapNetworksModel: []
+
+    signal modelWalletsUpdated()
+    signal modelOrdersUpdated()
+    signal modelPluginsUpdated()
 
     ListModel {
         id: themes
@@ -42,12 +52,6 @@ FocusScope {
                    })
         }
     }
-
-
-
-    property var _dapWalletsModel: []
-    property var _dapNetworksModel: []
-    property var _dapPluggins: []
 
     property var mainButtonsModel: [
         {
@@ -83,6 +87,14 @@ FocusScope {
             "bttnIco": "icon_console.png"
         },
         {
+            "name": qsTr("Logs"),
+            "bttnIco": "icon_logs.png"
+        },
+        {
+            "name": qsTr("dApps"),
+            "bttnIco": "icon_daaps.png"
+        },
+        {
             "name": qsTr("Settings"),
             "bttnIco": "icon_settings.png"
         },
@@ -102,47 +114,82 @@ FocusScope {
     RowLayout {
         id: mainRowLayout
         anchors.fill: parent
+        spacing: 0
 
         Rectangle {
             id: leftMenuBackGrnd
             Layout.fillHeight: true
             Layout.bottomMargin: 7
-            width: 200
+            width: 180
             radius: 20
-            color: currTheme.backgroundMainScreen
+            color: currTheme.backgroundPanel
 
-            Rectangle {
-                width: 30
-                height: 30
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                }
-                color: currTheme.backgroundMainScreen
+            //hide bottom radius element
+            Rectangle
+            {
+                z:0
+                width: leftMenuBackGrnd.radius
+                color: currTheme.backgroundPanel
+                anchors.bottom: leftMenuBackGrnd.bottom
+                anchors.left: leftMenuBackGrnd.left
+                anchors.top: leftMenuBackGrnd.top
             }
-            Rectangle {
-                width: 30
-                height: 30
-                anchors {
-                    bottom: parent.bottom
-                    left: parent.left
-                }
-                color: currTheme.backgroundMainScreen
+            //hide top radius element
+            Rectangle{
+                z:0
+                height: currTheme.radiusRectangle
+                anchors.top:leftMenuBackGrnd.top
+                anchors.right: leftMenuBackGrnd.right
+                anchors.left: leftMenuBackGrnd.left
+                color: currTheme.backgroundPanel
             }
 
             ColumnLayout {
                 id: mainButtonsColumn
                 anchors.fill: parent
+                spacing: 0
 
                 Item {
                     id: logo
-                    Layout.margins: 10
-                    width: 111 * pt
-                    height: 24 * pt
-                    Image {
-                        id: logoImg
+//                    Layout.margins: 10
+                    width: parent.width * pt
+                    height: 60 * pt
+
+                    DapImageLoader{
+                        innerWidth: 114 * pt
+                        innerHeight: 24 * pt
+                        source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
+
+                        anchors.left: parent.left
+                        anchors.leftMargin: 23*pt
+                        anchors.top: parent.top
+                        anchors.topMargin: 19.86 * pt
+                    }
+                    ToolTip
+                    {
+                        id:toolTip
+                        visible: area.containsMouse? true : false
+                        text: "https://cellframe.net"
+
+                        contentItem: Text {
+                                text: toolTip.text
+                                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                color: currTheme.textColor
+                            }
+
+                        background: Rectangle{color:currTheme.backgroundPanel}
+                    }
+                    MouseArea
+                    {
+                        id:area
                         anchors.fill: parent
-                        source: "qrc:/resources/icons/BlackTheme/cellframe-logo-dashboard.png"
+                        hoverEnabled: true
+
+                        onClicked:
+                        {
+                            Qt.openUrlExternally(toolTip.text);
+
+                        }
                     }
                 }
 
@@ -150,7 +197,7 @@ FocusScope {
                     id: mainButtonsList
                     Layout.fillHeight: true
                     Layout.fillWidth: true
-                    spacing: 5
+                    spacing: 0
                     clip: true
                     //interactive: false
                     model: mainButtonsModel
@@ -173,13 +220,14 @@ FocusScope {
                 anchors.fill: parent
                 StackView { id: dapWalletPage; initialItem: walletScreen}
                 StackView { id: exchangePage; initialItem: underConstructionsScreen}
-                StackView { id: daphistoryPage; initialItem: underConstructionsScreen}
+                StackView { id: daphistoryPage; initialItem: historyScreen}
                 StackView { id: dapCertificatesPage; initialItem: certificatesScreen}
                 StackView { id: dapTokensPage; initialItem: underConstructionsScreen}
                 StackView { id: dapVPNClientPage; initialItem: vpnClientScreen}
                 StackView { id: dapVPNServicePage; initialItem: vpnServiceScreen}
                 StackView { id: dapConsolePage; initialItem: consoleScreen}
-                //StackView { id: dapLogsPage; initialItem: underConstructionsScreen}
+                StackView { id: dapLogsPage; initialItem: logsScreen}
+                StackView { id: dapApps; initialItem: appsScreen}
                 StackView { id: dapSettingsPage; initialItem: settingsScreen}
 
                 StackView { id: dapTestPage; initialItem: testScreen}
@@ -239,6 +287,7 @@ FocusScope {
     Component.onCompleted: {
         dapServiceController.requestToService("DapGetListNetworksCommand")
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
+        dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
     Connections {
@@ -255,6 +304,17 @@ FocusScope {
         onWalletsReceived: {
             console.info("WALLETS -> ", JSON.stringify(walletList))
             getWallets(walletList)
+        }
+    }
+
+    Connections{
+        target: pluginsManager
+        onRcvListPlugins:
+        {
+            _dapModelPlugins = Logic.rcvPluginList(m_pluginsList, parent)
+
+            modelPluginsUpdated()
+            updateModelAppsTab() // TODO
         }
     }
 }
