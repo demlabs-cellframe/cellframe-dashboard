@@ -29,11 +29,19 @@ Page {
 
     RowLayout {
         id: rootPageRow
-        anchors.fill: parent
+        anchors
+        {
+            fill: parent
+            margins: 24 * pt
+            bottomMargin: 23 * pt
+        }
+
+        spacing: 24 * pt
 
         DapScreenPage {
             Layout.fillHeight: true
-            Layout.preferredWidth: onRightPanel? rootPageRow.width * 0.7: rootPageRow.width
+            Layout.fillWidth: true
+//            Layout.preferredWidth: onRightPanel? rootPageRow.width * 0.7: rootPageRow.width
 
             StackView {
                 id: mainScreenStack
@@ -47,7 +55,9 @@ Page {
 
         DapScreenPage {
             visible: onRightPanel
-            Layout.fillWidth: true
+//            Layout.fillWidth: true
+            Layout.maximumWidth: 350
+            Layout.minimumWidth: 350
             Layout.fillHeight: true
             StackView {
                 id: rightPanelStack

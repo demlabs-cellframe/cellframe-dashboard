@@ -3,7 +3,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
-import "../../"
+//import "../../"
+import "../Parts"
 
 DapRightPanel {
 

@@ -1,11 +1,14 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
+import Qt.labs.platform 1.0
+import QtQuick.Controls 2.2
 import "qrc:/widgets"
 import "../../"
-import "../../desktop/VPNService_New"
+import "Parts"
+//import "../../desktop/VPNService_New"
 
-DapAbstractScreen {
+Page {
     id:dapVPNCientScreen
 
 
@@ -15,24 +18,41 @@ DapAbstractScreen {
     property alias dapFrameTitleCreateOrder: frameTitleCreateOrder
     property alias dapGridViewFrame: vpnOrdersView
 
-    anchors
+//    anchors
+//    {
+//        top: parent.top
+//        topMargin: 24 * pt
+//        right: parent.right
+//        rightMargin: 44 * pt
+//        left: parent.left
+//        leftMargin: 24 * pt
+//        bottom: parent.bottom
+//        bottomMargin: 20 * pt
+//    }
+    background: Rectangle
     {
-        top: parent.top
-        topMargin: 24 * pt
-        right: parent.right
-        rightMargin: 44 * pt
-        left: parent.left
-        leftMargin: 24 * pt
-        bottom: parent.bottom
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
-    Rectangle
+//    Rectangle
+//    {
+//        id: orderCreateFrame
+//        anchors.fill: parent
+//        anchors.horizontalCenter: parent.horizontalCenter
+//        color: "transparent"
+    DapRectangleLitAndShaded
     {
         id: orderCreateFrame
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
-        color: "transparent"
+
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
+
+        contentData:
+
         Column
         {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -94,13 +114,20 @@ DapAbstractScreen {
             }
         }
     }
-    Rectangle
+
+    DapRectangleLitAndShaded
     {
         id: frameTitleCreateOrder
         anchors.fill: parent
         anchors.horizontalCenter: parent.horizontalCenter
-        color: "transparent"
-//        anchors.verticalCenter: parent.verticalCenter
+
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
+        visible: false
+
+        contentData:
         Text
         {
 //            anchors.fill: parent
@@ -113,55 +140,42 @@ DapAbstractScreen {
         }
     }
 
-    Rectangle
+
+
+    DapRectangleLitAndShaded
     {
-        id: gridViewOrder
         property int halfMargin: margin * 0.5
         property int margin: 14 * pt
+
+        id: gridViewOrder
         anchors.fill: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+
         color: currTheme.backgroundElements
-        radius: 16*pt
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
         visible: false
 
-        Text {
-            id: textMyVPNOrders
-            x: gridViewOrder.halfMargin
-            y: gridViewOrder.halfMargin
-            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
-            color: currTheme.textColor
+        contentData:
+        Item {
+            anchors.fill: parent
+
+            Text {
+                id: textMyVPNOrders
+                x: gridViewOrder.halfMargin
+                y: gridViewOrder.halfMargin
+                font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
+                color: currTheme.textColor
+            }
+
+            DapVPNOrdersGridView {
+                id: vpnOrdersView
+
+                anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
+                anchors.leftMargin: 27 * pt
+                delegateMargin: gridViewOrder.halfMargin
+            }
         }
-
-        DapVPNOrdersGridView {
-            id: vpnOrdersView
-
-            anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
-            anchors.leftMargin: 27 * pt
-            delegateMargin: gridViewOrder.halfMargin
-        }
-    }
-
-    InnerShadow {
-        id: topLeftSadow
-        anchors.fill: gridViewOrder
-        cached: true
-        horizontalOffset: 5
-        verticalOffset: 5
-        radius: 4
-        samples: 32
-        color: "#2A2C33"
-        smooth: true
-        source: gridViewOrder
-        visible: gridViewOrder.visible
-    }
-    InnerShadow {
-        anchors.fill: gridViewOrder
-        cached: true
-        horizontalOffset: -1
-        verticalOffset: -1
-        radius: 1
-        samples: 32
-        color: "#4C4B5A"
-        source: topLeftSadow
-        visible: gridViewOrder.visible
     }
 }

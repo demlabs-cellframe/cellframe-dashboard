@@ -21,7 +21,7 @@ FocusScope {
     readonly property string certificatesScreen: "qrc:/screen/desktop/Certificates/DapCertificatesMainPage.qml"
     readonly property string tokensScreen: "qrc:/screen/desktop/Tokens/DapTokensTab.qml"
     readonly property string vpnClientScreen: "qrc:/screen/desktop/VPNClient/VPNClientPage.qml"
-    readonly property string vpnServiceScreen: "qrc:/screen/desktop/VPNService_New/DapVPNServiceTab.qml"
+    readonly property string vpnServiceScreen: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"
     readonly property string consoleScreen: "qrc:/screen/desktop/Console/DapConsoleTab.qml"
     readonly property string logsScreen: "qrc:/screen/desktop/Logs/DapLogsTab.qml"
     readonly property string appsScreen: "qrc:/screen/desktop/dApps/DapAppsTab.qml"

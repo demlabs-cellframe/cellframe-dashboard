@@ -185,37 +185,12 @@
         <file>screen/desktop/RightPanel/DapRightPanel_New.qml</file>
         <file>screen/desktop/RightPanel/DapRightPanelPage.qml</file>
         <file>screen/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
-        <file>screen/desktop/VPNService/DapVPNServiceTab.qml</file>
-        <file>screen/desktop/VPNService/DapVPNServiceTopPanel.qml</file>
-        <file>screen/desktop/VPNService/DapNoOrdersPanel.qml</file>
-        <file>screen/desktop/VPNService/DapTextButton.qml</file>
-        <file>screen/desktop/VPNService/DapCreateVPNOrderPanel.qml</file>
         <file>resources/illustrations/illustration_vpn-service.svg</file>
-        <file>screen/desktop/VPNService/DapRightPanelElement.qml</file>
-        <file>screen/desktop/VPNService/DapSpinBox.qml</file>
-        <file>screen/desktop/VPNService/DapDoubleSpinBox.qml</file>
-        <file>screen/desktop/VPNService/DapVPNOrdersGridView.qml</file>
         <file>resources/icons/ic_info_order.svg</file>
-        <file>screen/desktop/VPNService/DapVPNOrderInfoLine.qml</file>
         <file>resources/icons/under construction.svg</file>
         <file>resources/icons/illustration_new-wallet.png</file>
-        <file>screen/desktop/VPNService_New/DapVPNServiceTab.qml</file>
-        <file>screen/desktop/VPNService_New/DapVPNServiceTopPanel.qml</file>
-        <file>screen/desktop/VPNService_New/DapVPNServiceScreen.qml</file>
-        <file>screen/desktop/VPNService_New/DapVPNOrderInfoLine.qml</file>
-        <file>screen/desktop/VPNService_New/DapCreateOrder.qml</file>
-        <file>screen/desktop/VPNService_New/DapSpinBox.qml</file>
-        <file>screen/desktop/VPNService_New/DapTextButton.qml</file>
-        <file>screen/desktop/VPNService_New/DapDoubleSpinBox.qml</file>
-        <file>screen/desktop/VPNService_New/DapEarnedFunds.qml</file>
-        <file>screen/desktop/VPNService_New/DapEarnedFundsRightPanelForm.ui.qml</file>
-        <file>screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml</file>
-        <file>screen/desktop/VPNService_New/DapVPNOrdersGridView.qml</file>
         <file>resources/theme/Light.qml</file>
         <file>resources/theme/Dark.qml</file>
-        <file>screen/desktop/VPNService_New/DapOrderDetails.qml</file>
-        <file>screen/desktop/VPNService_New/DapOrderDetailsForm.ui.qml</file>
-        <file>screen/desktop/VPNService_New/DapOrderPanelButton.qml</file>
         <file>resources/icons/arrow-right_icon.svg</file>
         <file>resources/icons/BlackTheme/bg-menuitem_active.png</file>
         <file>resources/icons/BlackTheme/bg-menuitem_hover.png</file>
@@ -393,5 +368,20 @@
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
         <file>screen/Logic/Logic.js</file>
         <file>resources/icons/BlackTheme/icon_daaps.png</file>
+        <file>screen/desktop/VPNService/DapVPNServiceScreen.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTab.qml</file>
+        <file>screen/desktop/VPNService/DapVPNServiceTopPanel.qml</file>
+        <file>screen/desktop/VPNService/Parts/DapDoubleSpinBox.qml</file>
+        <file>screen/desktop/VPNService/Parts/DapOrderPanelButton.qml</file>
+        <file>screen/desktop/VPNService/Parts/DapSpinBox.qml</file>
+        <file>screen/desktop/VPNService/Parts/DapTextButton.qml</file>
+        <file>screen/desktop/VPNService/Parts/DapVPNOrderInfoLine.qml</file>
+        <file>screen/desktop/VPNService/Parts/DapVPNOrdersGridView.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapCreateOrder.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapCreateOrderForm.ui.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapEarnedFunds.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapEarnedFundsRightPanelForm.ui.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapOrderDetails.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapOrderDetailsForm.ui.qml</file>
     </qresource>
 </RCC>

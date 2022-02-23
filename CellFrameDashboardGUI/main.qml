@@ -15,6 +15,7 @@ ApplicationWindow
     visible: true
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+    readonly property string device: isMobile? "mobile" : "desktop"
 
     Settings {
         property alias x: window.x

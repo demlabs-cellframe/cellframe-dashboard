@@ -3,7 +3,8 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
-import "../../"
+//import "../../"
+import "../Parts"
 
 DapRightPanel {
 
@@ -177,7 +178,7 @@ DapRightPanel {
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                     sidePaddingNormal: 19 * pt
                     sidePaddingActive: 19 * pt
-                    hilightColor: currTheme.buttonColorNormal
+//                    hilightColor: currTheme.buttonColorNormal
 
                     widthPopupComboBoxNormal: 318 * pt
                     widthPopupComboBoxActive: 318 * pt
@@ -271,7 +272,7 @@ DapRightPanel {
                         normalColor: currTheme.backgroundMainScreen
                         normalTopColor: currTheme.backgroundElements
                         hilightTopColor: currTheme.backgroundMainScreen
-                        hilightColor: currTheme.buttonColorNormal
+//                        hilightColor: currTheme.buttonColorNormal
 
                         paddingTopItemDelegate: 8 * pt
                         heightListElement: 42 * pt
@@ -367,7 +368,7 @@ DapRightPanel {
                         normalColor: currTheme.backgroundMainScreen
                         normalTopColor: currTheme.backgroundElements
                         hilightTopColor: currTheme.backgroundMainScreen
-                        hilightColor: currTheme.buttonColorNormal
+//                        hilightColor: currTheme.buttonColorNormal
 
                         paddingTopItemDelegate: 8 * pt
                         heightListElement: 42 * pt
@@ -392,7 +393,7 @@ DapRightPanel {
                     anchors.left: parent.left
                     anchors.margins: 25 * pt
                     from: 0
-                    to: 9999999999
+                    to: 65535.0
                     decimals: unitsModel.get(comboBoxPrice.currentIndex).decimals
                 }
             }

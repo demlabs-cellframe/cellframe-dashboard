@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import "../Certificates/parts/"
+import "../../Certificates/parts/"
 
 Item {
     property alias text:orderText.text
