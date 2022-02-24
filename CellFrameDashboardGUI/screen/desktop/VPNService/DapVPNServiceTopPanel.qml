@@ -1,14 +1,15 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 import "../../"
-import "qrc:/widgets"
+import "qrc:/widgets" as Widgets
+import "../../controls" as Controls
 
-DapTopPanel {
+Controls.DapTopPanel {
     property alias dapAddOrderButton: addOrderButton
-    anchors.leftMargin: 4*pt
-    radius: currTheme.radiusRectangle
+//    anchors.leftMargin: 4*pt
+//    radius: currTheme.radiusRectangle
 
-    DapButton
+    Widgets.DapButton
     {
         id: addOrderButton
         textButton: "New VPN order"

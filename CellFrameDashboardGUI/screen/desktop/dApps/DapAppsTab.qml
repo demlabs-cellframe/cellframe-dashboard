@@ -22,7 +22,7 @@ DapPage {
     }
 
     dapHeader.initialItem: DapAppsTopPanel{
-        color: currTheme.backgroundPanel
+//        color: currTheme.backgroundPanel
         onFindHandler: dapAppsTab.searchElement(text)
     }
     dapScreen.initialItem: DapAppsScreen{

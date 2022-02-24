@@ -378,10 +378,8 @@
         <file>screen/desktop/VPNService/Parts/DapVPNOrderInfoLine.qml</file>
         <file>screen/desktop/VPNService/Parts/DapVPNOrdersGridView.qml</file>
         <file>screen/desktop/VPNService/RightPanel/DapCreateOrder.qml</file>
-        <file>screen/desktop/VPNService/RightPanel/DapCreateOrderForm.ui.qml</file>
         <file>screen/desktop/VPNService/RightPanel/DapEarnedFunds.qml</file>
         <file>screen/desktop/VPNService/RightPanel/DapEarnedFundsRightPanelForm.ui.qml</file>
         <file>screen/desktop/VPNService/RightPanel/DapOrderDetails.qml</file>
-        <file>screen/desktop/VPNService/RightPanel/DapOrderDetailsForm.ui.qml</file>
     </qresource>
 </RCC>
