@@ -175,6 +175,7 @@ GridView {
                 anchors.fill: parent
 
                 onClicked: {
+                    dapRightPanel.pop()
                     cell.forceActiveFocus();
                     control.currentIndex = index-1;
                     orderDetailsShow(model.index)

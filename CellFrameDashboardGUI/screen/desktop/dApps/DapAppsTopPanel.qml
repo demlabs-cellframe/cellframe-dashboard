@@ -2,14 +2,15 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import Demlabs 1.0
 import "../../"
-import "qrc:/widgets"
+//import "qrc:/widgets"
+import "../../controls"
 import "../Certificates/parts"
 
 DapTopPanel
 {
     id: control
 //    anchors.leftMargin: 4*pt
-    radius: currTheme.radiusRectangle
+//    radius: currTheme.radiusRectangle
 
     signal findHandler(string text)
 

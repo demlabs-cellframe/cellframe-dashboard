@@ -56,7 +56,7 @@ DapPage {
     dapHeader.initialItem:
         DapVPNServiceTopPanel
         {
-            color: currTheme.backgroundPanel
+//            color: currTheme.backgroundPanel
             id: vpnServicetTopPanel
             dapAddOrderButton.onClicked: {
                 navigator.createOrderFunc()
@@ -144,38 +144,40 @@ DapPage {
             }
         ]
     // Signal-slot connection realizing panel switching depending on predefined rules
-    Connections
-    {
-        target: currentRightPanel
-        onNextActivated:
-        {
-            if(parametrsRightPanel !== createOrder)
-                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
-            currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
-            if(parametrsRightPanel === earnedFundsOrder)
-            {
-                if(_dapModelOrders.count === 0)
-                    state = "ORDERDEFAULT"
-                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
-//                console.log("DapGetListOrdersCommand")
-//                dapServiceController.requestToService("DapGetListOrdersCommand");
-            }
-        }
-        onPreviousActivated:
-        {
-            if(parametrsRightPanel !== createOrder)
-                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
-            currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-            if(parametrsRightPanel === earnedFundsOrder)
-            {
-                if(_dapModelOrders.count === 0)
-                    state = "ORDERDEFAULT"
-                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
-//                console.log("DapGetListOrdersCommand")
-//                dapServiceController.requestToService("DapGetListOrdersCommand");
-            }
-        }
-    }
+//    Connections
+//    {
+//        target: dapRightPanel
+//        onNextActivated:
+//        {
+//            if(parametrsRightPanel !== createOrder)
+//                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
+//            currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
+//            if(parametrsRightPanel === earnedFundsOrder)
+//            {
+//                if(_dapModelOrders.count === 0)
+//                    state = "ORDERDEFAULT"
+//                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
+////                console.log("DapGetListOrdersCommand")
+////                dapServiceController.requestToService("DapGetListOrdersCommand");
+//            }
+//        }
+//        onPreviousActivated:
+//        {
+//            dapRightPanel.pop(null)
+
+//            if(parametrsRightPanel !== createOrder)
+//                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
+//            currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+//            if(parametrsRightPanel === earnedFundsOrder)
+//            {
+//                if(_dapModelOrders.count === 0)
+//                    state = "ORDERDEFAULT"
+//                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
+////                console.log("DapGetListOrdersCommand")
+////                dapServiceController.requestToService("DapGetListOrdersCommand");
+//            }
+//        }
+//    }
 
     Connections
     {
