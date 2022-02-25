@@ -135,7 +135,7 @@ Item {
                         font.family: "Quicksand"
                         font.pixelSize: 18
                         color: "#ffffff"
-                        focus: true
+//                        focus: true
 
                         Keys.onReturnPressed: text.length > 0 ?
                                                   sendedCommand = text :

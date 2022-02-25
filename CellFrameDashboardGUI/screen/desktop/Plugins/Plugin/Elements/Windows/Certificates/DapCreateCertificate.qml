@@ -36,11 +36,6 @@ Item {
                 name: "Picnic"
                 sign: " sig_picnic"
             }
-            ListElement
-            {
-                name: "Tesla"
-                sign: " sig_tesla"
-            }
         }
 
         ColumnLayout

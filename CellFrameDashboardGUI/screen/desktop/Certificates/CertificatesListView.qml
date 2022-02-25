@@ -132,9 +132,7 @@ ListView {
                 {
                     _entered = false
                 }
-
-                onClicked:
-                {
+                onClicked: {
                     root.selectedIndex(model.index)
                     models.selectedAccessKeyType = model.accessKeyType
                 }
