@@ -17,9 +17,16 @@ DapLastActionsRightPanelForm
 
     property int requestCounter: 0
 
+    property int lastHistoryLength: 0
+
     ListModel
     {
         id: modelLastActions
+    }
+
+    ListModel
+    {
+        id: newModelLastActions
     }
 
     ListModel
@@ -52,7 +59,7 @@ DapLastActionsRightPanelForm
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
                 text: getDateString(payDate)
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
             }
         }
     }
@@ -134,6 +141,41 @@ DapLastActionsRightPanelForm
                     today = new Date()
                     yesterday = new Date(new Date().setDate(new Date().getDate()-1))
 
+/*                    newModelLastActions.clear()
+
+                    for (var m = 0; m < temporaryModel.count; ++m)
+                    {
+                        var payDate = new Date(Date.parse(temporaryModel.get(m).date))
+
+                        if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
+                            newModelLastActions.append(temporaryModel.get(m))
+                    }
+
+                    var p = modelLastActions.count-1;
+
+                    print("newModelLastActions.count", newModelLastActions.count)
+
+                    for (var n = newModelLastActions.count-1; n >= 0; --n)
+                    {
+                        if (p >= 0 &&
+                            compareHistoryElements(newModelLastActions.get(n), modelLastActions.get(p)))
+                        {
+                            --p;
+                            continue;
+                        }
+
+                        if (p >= 0 &&
+                            !compareHistoryElements(newModelLastActions.get(n), modelLastActions.get(p)))
+                        {
+                            for (var q = p; q >= 0; --q)
+                                modelLastActions.remove(q)
+                            p = -1
+                        }
+
+                        if (p < 0)
+                            modelLastActions.insert(0, newModelLastActions.get(n))
+                    }*/
+
                     modelLastActions.clear()
 
                     for (var m = 0; m < temporaryModel.count; ++m)
@@ -144,11 +186,115 @@ DapLastActionsRightPanelForm
                             modelLastActions.append(temporaryModel.get(m))
                     }
 
+                    print("modelLastActions.count", modelLastActions.count)
+
                     print("Reset position")
                     dapLastActionsView.positionViewAtBeginning()
                 }
             }
         }
+
+        onAllWalletHistoryReceived:
+        {
+            if (walletHistory.length !== lastHistoryLength)
+            {
+                print("onAllWalletHistoryReceived",
+                      "walletHistory.length", walletHistory.length,
+                      "lastHistoryLength", lastHistoryLength)
+
+                if (walletHistory.length < lastHistoryLength)
+                {
+                    print("ERROR! walletHistory.length < lastHistoryLength",
+                          walletHistory.length, lastHistoryLength)
+                }
+                else
+                {
+                    lastHistoryLength = walletHistory.length
+
+                    for (var i = 0; i < walletHistory.length; ++i)
+                    {
+                        if (temporaryModel.count === 0)
+                            temporaryModel.append({ "network" : walletHistory[i].Network,
+                                "name" : walletHistory[i].Name,
+                                "amount" : walletHistory[i].AmountWithoutZeros,
+                                "status" : walletHistory[i].Status,
+                                "date" : walletHistory[i].Date,
+                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                        else
+                        {
+                            var j = 0;
+                            while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[i].SecsSinceEpoch)
+                            {
+                                ++j;
+                                if (j >= temporaryModel.count)
+                                    break;
+                            }
+                            temporaryModel.insert(j, { "network" : walletHistory[i].Network,
+                                "name" : walletHistory[i].Name,
+                                "amount" : walletHistory[i].AmountWithoutZeros,
+                                "status" : walletHistory[i].Status,
+                                "date" : walletHistory[i].Date,
+                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                        }
+
+                        var currDate = new Date(Date.parse(walletHistory[i].Date))
+
+                        if (lastDate === new Date(0))
+                        {
+                            lastDate = currDate
+                            prevDate = currDate
+                        }
+                        if (lastDate < currDate)
+                        {
+                            prevDate = lastDate
+                            lastDate = currDate
+                        }
+                    }
+
+                    var test = true
+
+                    if (previousModel.count !== temporaryModel.count)
+                        test = false
+                    else
+                    {
+                        for (var k = 0; k < previousModel.count; ++k)
+                            if (!compareHistoryElements(temporaryModel.get(k), previousModel.get(k)))
+                            {
+                                test = false
+                                break
+                            }
+                    }
+
+                    previousModel.clear()
+                    for (var l = 0; l < temporaryModel.count; ++l)
+                        previousModel.append(temporaryModel.get(l))
+
+                    if (!test)
+                    {
+                        print("New model != Previous model")
+
+                        today = new Date()
+                        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+                        modelLastActions.clear()
+
+                        for (var m = 0; m < temporaryModel.count; ++m)
+                        {
+                            var payDate = new Date(Date.parse(temporaryModel.get(m).date))
+
+                            if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
+                                modelLastActions.append(temporaryModel.get(m))
+                        }
+
+                        print("modelLastActions.count", modelLastActions.count)
+
+                        print("Reset position")
+                        dapLastActionsView.positionViewAtBeginning()
+                    }
+                }
+            }
+        }
+
     }
 
     Connections
@@ -156,6 +302,8 @@ DapLastActionsRightPanelForm
         target: dapMainWindow
         onModelWalletsUpdated:
         {
+            lastHistoryLength = 0
+
             updateWalletHisory()
         }
     }
@@ -175,6 +323,8 @@ DapLastActionsRightPanelForm
     {
         print("DapLastActionsRightPanel onCompleted", updateTimer.running)
 
+        lastHistoryLength = 0
+
         updateWalletHisory()
 
         if (!updateTimer.running)
@@ -190,16 +340,25 @@ DapLastActionsRightPanelForm
 
     function updateWalletHisory()
     {
-        if (SettingsWallet.currentIndex >= 0 &&
-            requestCounter === 0)
+        if (SettingsWallet.currentIndex >= 0)
         {
             lastDate = new Date(0)
             prevDate = new Date(0)
 
             temporaryModel.clear()
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            getAllWalletHistory(SettingsWallet.currentIndex)
         }
+//        if (SettingsWallet.currentIndex >= 0 &&
+//            requestCounter === 0)
+//        {
+//            lastDate = new Date(0)
+//            prevDate = new Date(0)
+
+//            temporaryModel.clear()
+
+//            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+//        }
     }
 
     function compareHistoryElements(elem1, elem2)

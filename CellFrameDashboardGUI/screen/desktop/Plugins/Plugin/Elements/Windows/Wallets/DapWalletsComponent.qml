@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 
 
 Component {
@@ -22,7 +23,28 @@ Component {
             anchors.right: parent.right
             anchors.top: parent.top
             height: 40 * pt
-            color: "#D01E67"
+//            color: "#7930DE"
+
+            LinearGradient
+            {
+                anchors.fill: parent
+                source: parent
+                start: Qt.point(0,parent.height/2)
+                end: Qt.point(parent.width,parent.height/2)
+                gradient:
+                    Gradient {
+                        GradientStop
+                        {
+                            position: 0;
+                            color: "#7930DE"
+                        }
+                        GradientStop
+                        {
+                            position: 1;
+                            color: "#7F65FF"
+                        }
+                    }
+            }
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -46,7 +68,7 @@ Component {
 
             }
             clip: true
-            focus: true
+//            focus: true
 
             model:modelNetworks
             delegate: delegateTokenView
@@ -80,7 +102,7 @@ Component {
                             name: model.name
                             value: model.address
                             color: "#2D3037"
-                            valueObject.color: area.containsMouse? "#D01E67":"#ffffff"
+                            valueObject.color: area.containsMouse? "#DBFF71":"#ffffff"
 
                             ToolTip
                             {

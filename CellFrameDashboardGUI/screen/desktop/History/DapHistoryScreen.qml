@@ -49,7 +49,7 @@ DapHistoryScreenForm
         id: delegateToken
         Rectangle
         {
-            width:  parent.width
+            width:  dapListViewHistory.width
             height: 50 * pt
             color: currTheme.backgroundElements
 

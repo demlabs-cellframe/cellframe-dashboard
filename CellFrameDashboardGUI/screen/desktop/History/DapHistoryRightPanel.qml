@@ -146,10 +146,10 @@ Item
                 dapSidePaddingNormal: 10 * pt
                 dapSidePaddingActive: 10 * pt
                 dapNormalColorText: currTheme.textColor
-                dapHilightColorText: currTheme.textColor
+                dapHilightColorText: currTheme.hilightTextColorComboBox
                 dapNormalColorTopText: currTheme.textColor
                 dapHilightColorTopText: currTheme.textColor
-                dapHilightColor: currTheme.buttonColorNormal
+                dapHilightColor: currTheme.hilightColorComboBox
                 dapHilightTopColor: currTheme.backgroundElements //"blue" //currTheme.backgroundMainScreen
                 dapNormalColor: currTheme.backgroundElements
                 dapNormalTopColor: currTheme.backgroundElements //"blue" //currTheme.backgroundMainScreen

@@ -10,6 +10,8 @@ DapHistoryTabForm
 
     property int requestCounter: 0
 
+    property int lastHistoryLength: 0
+
     ListModel
     {
         id: modelHistory
@@ -118,6 +120,82 @@ DapHistoryTabForm
             }
 
         }
+
+        onAllWalletHistoryReceived:
+        {
+            if (walletHistory.length !== lastHistoryLength)
+            {
+                print("onAllWalletHistoryReceived",
+                      "walletHistory.length", walletHistory.length,
+                      "lastHistoryLength", lastHistoryLength)
+
+                if (walletHistory.length < lastHistoryLength)
+                {
+                    print("ERROR! walletHistory.length < lastHistoryLength",
+                          walletHistory.length, lastHistoryLength)
+                }
+                else
+                {
+                    lastHistoryLength = walletHistory.length
+
+                    for (var q = 0; q < walletHistory.length; ++q)
+                    {
+                        if (temporaryModel.count === 0)
+                            temporaryModel.append({"wallet" : walletHistory[q].Wallet,
+                                                  "network" : walletHistory[q].Network,
+                                                  "name" : walletHistory[q].Name,
+                                                  "status" : walletHistory[q].Status,
+                                                  "amount" : walletHistory[q].AmountWithoutZeros,
+                                                  "date" : walletHistory[q].Date,
+                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                        else
+                        {
+                            var j = 0;
+                            while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                            {
+                                ++j;
+                                if (j >= temporaryModel.count)
+                                    break;
+                            }
+                            temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
+                                                  "network" : walletHistory[q].Network,
+                                                  "name" : walletHistory[q].Name,
+                                                  "status" : walletHistory[q].Status,
+                                                  "amount" : walletHistory[q].AmountWithoutZeros,
+                                                  "date" : walletHistory[q].Date,
+                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                        }
+                    }
+
+                    if (requestCounter <= 0)
+                    {
+                        var test = true
+
+                        if (previousModel.count !== temporaryModel.count)
+                            test = false
+                        else
+                        {
+                            for (var i = 0; i < previousModel.count; ++i)
+                                if (!compareHistoryElements(temporaryModel.get(i), previousModel.get(i)))
+                                {
+                                    test = false
+                                    break
+                                }
+                        }
+
+                        previousModel.clear()
+                        for (var k = 0; k < temporaryModel.count; ++k)
+                            previousModel.append(temporaryModel.get(k))
+
+                        if (!test)
+                        {
+                            print("New model != Previous model")
+                            outNewModel()
+                        }
+                    }
+                }
+            }
+        }
     }
 
     dapHistoryTopPanel.onCurrentSearchString: {
@@ -152,13 +230,21 @@ DapHistoryTabForm
 
     function updateWalletHisory()
     {
-        if (SettingsWallet.currentIndex >= 0 &&
+        print("function updateWalletHisory")
+
+        if (SettingsWallet.currentIndex >= 0)
+        {
+            temporaryModel.clear()
+
+            getAllWalletHistory(SettingsWallet.currentIndex)
+        }
+/*        if (SettingsWallet.currentIndex >= 0 &&
             requestCounter === 0)
         {
             temporaryModel.clear()
 
             requestCounter = getWalletHistory(SettingsWallet.currentIndex)
-        }
+        }*/
     }
 
     function compareHistoryElements(elem1, elem2)

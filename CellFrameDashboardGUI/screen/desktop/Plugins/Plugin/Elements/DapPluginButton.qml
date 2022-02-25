@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 
 Button
 {
+    hoverEnabled: true
     ///@detalis heightButton Button height.
     property int heightButton
     ///@detalis widthButton Button width.
@@ -41,17 +42,17 @@ Button
                         {
                             position: 0;
                             color: dapButton.enabled ?
-                                   dapButton.hovered ? "#E62083" :
-                                                       "#C91D73" :
-                                                       "#2E3138"
+                                   dapButton.hovered ? "#7930DE" :
+                                                       "#A361FF" :
+                                                       "#373A42"
                         }
                         GradientStop
                         {
                             position: 1;
                             color:  dapButton.enabled ?
-                                    dapButton.hovered ? "#E62263" :
-                                                        "#D51F5D" :
-                                                        "#2E3138"
+                                    dapButton.hovered ? "#7F65FF" :
+                                                        "#9580FF" :
+                                                        "#373A42"
                         }
                     }
             }

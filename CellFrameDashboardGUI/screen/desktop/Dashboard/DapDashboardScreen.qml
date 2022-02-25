@@ -45,6 +45,8 @@ DapAbstractScreen
         color: "transparent"
         Column
         {
+            y: 50 * pt
+            x: 40 * pt
 //            anchors.top: parent.top
 //            anchors.fill: parent
 //            anchors.horizontalCenter: parent.horizontalCenter
@@ -56,20 +58,21 @@ DapAbstractScreen
 //            }
             Item
             {
-//                width: 450 * pt
-//                height: 450 * pt
+                //width: 450 * pt
+                //height: 450 * pt
                 width: iconCreateWallet.implicitWidth
                 height: iconCreateWallet.implicitHeight
+
+                //anchors.centerIn: parent
 
                 Image
                 {
                     anchors.fill: parent
                     id: iconCreateWallet
                     source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                    sourceSize.width: 450 * pt
-                    sourceSize.height: 450 * pt
+                    sourceSize.width: 250 * pt
+                    sourceSize.height: 250 * pt
                     fillMode: Image.PreserveAspectFit
-
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -79,6 +82,13 @@ DapAbstractScreen
 //                width: parent.width
 //                color: "transparent"
 //            }
+
+            Item
+            {
+                height: 45 * pt
+                width: parent.width
+            }
+
             Text
             {
                 id: titleTextWalletCreate
@@ -99,16 +109,16 @@ DapAbstractScreen
 
                 implicitWidth: 165 * pt
                 implicitHeight: 36 * pt
-                radius: currTheme.radiusButton
+//                radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
-                textButton: "Get started"
-                colorBackgroundNormal: currTheme.buttonColorNormal
-                colorBackgroundHover: currTheme.buttonColorHover
-                colorButtonTextNormal: currTheme.textColor
-                colorButtonTextHover: currTheme.textColor
+                textButton: qsTr("Get started")
+//                colorBackgroundNormal: currTheme.buttonColorNormal
+//                colorBackgroundHover: currTheme.buttonColorHover
+//                colorButtonTextNormal: currTheme.textColor
+//                colorButtonTextHover: currTheme.textColor
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText:Qt.AlignCenter
-                colorTextButton: "#FFFFFF"
+//                colorTextButton: "#FFFFFF"
 
             }
             Item
@@ -279,7 +289,7 @@ DapAbstractScreen
                                     Text
                                     {
                                         id: currencyName
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                                         color: currTheme.textColor
                                         text: name
                                         width: 172 * pt
@@ -290,7 +300,7 @@ DapAbstractScreen
                                     {
                                         id: currencySum
                                         Layout.fillWidth: true
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                         color: currTheme.textColor
                                         text: balance_without_zeros
 //                                        text: full_balance
@@ -301,7 +311,7 @@ DapAbstractScreen
                                     Text
                                     {
                                         id: currencyCode
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                         color: currTheme.textColor
                                         text: name
                                         horizontalAlignment: Text.AlignRight

@@ -204,6 +204,8 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand",m_DAPRpcSocket))), QString("mempoolProcessed")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand",m_DAPRpcSocket))), QString("historyReceived")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand",m_DAPRpcSocket))), QString("allHistoryReceived")));
     // Run cli command
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRunCmdCommand("DapRunCmdCommand",m_DAPRpcSocket))), QString("cmdRunned")));
     // Get history of commands executed by cli handler
@@ -252,6 +254,27 @@ void DapServiceController::registerCommand()
         }
 
         emit walletHistoryReceived(walletHistory);
+    });
+
+    connect(this, &DapServiceController::allHistoryReceived, [=] (const QVariant& wallethistory)
+    {
+        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
+        QList<DapWalletHistoryEvent> tempWalletHistory;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWalletHistory;
+
+        QList<QObject*> walletHistory;
+        auto begin = tempWalletHistory.begin();
+        auto end = tempWalletHistory.end();
+        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
+        for(;begin != end; ++begin)
+        {
+            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
+            walletHistory.append(wallethistoryEvent);
+        }
+
+        emit allWalletHistoryReceived(walletHistory);
     });
 
     connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)

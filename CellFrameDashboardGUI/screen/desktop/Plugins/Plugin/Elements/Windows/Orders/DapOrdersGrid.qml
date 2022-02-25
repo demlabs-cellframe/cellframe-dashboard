@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import QtGraphicalEffects 1.0
 
 GridView {
     id: control
@@ -15,7 +16,7 @@ GridView {
 
     clip: true
     currentIndex: -1
-    focus: true
+//    focus: true
 
     delegate: Item {
         id: cell
@@ -41,21 +42,61 @@ GridView {
             border.width: pt
             border.color: "#292929"
             radius: 20 * pt
-            focus: true
+//            focus: true
 
             Rectangle {
                 id: headerFrame
 
                 width: parent.width
                 height: 30 * pt
-                color: cell.GridView.isCurrentItem ? "#D01E67" : "#2D3037"
+//                color: cell.GridView.isCurrentItem ? "#D01E67" : "#2D3037"
                 radius: parent.radius
+                LinearGradient
+                {
+                    anchors.fill: parent
+                    source: parent
+                    start: Qt.point(0,parent.height/2)
+                    end: Qt.point(parent.width,parent.height/2)
+                    gradient:
+                        Gradient {
+                            GradientStop
+                            {
+                                position: 0;
+                                color: cell.GridView.isCurrentItem ? "#7930DE" : "#2D3037"
+                            }
+                            GradientStop
+                            {
+                                position: 1;
+                                color: cell.GridView.isCurrentItem ? "#7F65FF" : "#2D3037"
+                            }
+                        }
+                }
 
                 Rectangle {
                     y: parent.height - height
                     width: parent.width
                     height: parent.radius - 2 * pt
                     color: parent.color
+                    LinearGradient
+                    {
+                        anchors.fill: parent
+                        source: parent
+                        start: Qt.point(0,parent.height/2)
+                        end: Qt.point(parent.width,parent.height/2)
+                        gradient:
+                            Gradient {
+                                GradientStop
+                                {
+                                    position: 0;
+                                    color: cell.GridView.isCurrentItem ? "#7930DE" : "#2D3037"
+                                }
+                                GradientStop
+                                {
+                                    position: 1;
+                                    color: cell.GridView.isCurrentItem ? "#7F65FF" : "#2D3037"
+                                }
+                            }
+                    }
                 }
 
                 Text {

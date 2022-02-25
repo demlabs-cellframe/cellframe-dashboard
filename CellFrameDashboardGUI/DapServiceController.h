@@ -30,6 +30,7 @@
 #include "handlers/DapCreateTransactionCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
+#include "handlers/DapGetAllWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
@@ -179,7 +180,11 @@ signals:
 
     void historyReceived(const QVariant& walletHistory);
 
+    void allHistoryReceived(const QVariant& walletHistory);
+
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
+
+    void allWalletHistoryReceived(const QList<QObject*>& walletHistory);
     /// The signal is emitted when the command is executed by the cli node command handler.
     /// @param asAnswer The response of the cli node command handler.
     void cmdRunned(const QVariant& asAnswer);

@@ -92,11 +92,23 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand", m_pServer, CLI_PATH));
     // Run cli command
     m_pServer->addService(new DapRunCmdCommand("DapRunCmdCommand", m_pServer, CLI_PATH));
     // Get history of commands executed by cli handler
     m_pServer->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
     // Save cmd command in file
     m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
+
+    QTcpSocket* tcp = new QTcpSocket();
+
+    tcp->connectToHost(QHostAddress("0.0.0.0"),8088);
+    connect(tcp,SIGNAL(readyRead()), this, SLOT(rcvNotifySocket()));
+
 }
 
+void DapServiceController::rcvNotifySocket()
+{
+    qDebug()<<"";
+}

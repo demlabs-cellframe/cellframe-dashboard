@@ -37,6 +37,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapCreateTransactionCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
+#include "handlers/DapGetAllWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
@@ -76,6 +77,7 @@ private slots:
     /// Register command.
     void registerCommand();
     /// Initialize system tray.
+    void rcvNotifySocket();
 };
 
 #endif // DAPSERVICECONTROLLER_H
