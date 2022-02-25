@@ -386,5 +386,7 @@
         <file>screen/desktop/History/TXHistoryScreenForm.ui.qml</file>
         <file>screen/desktop/History/TXHistoryRightPanel.qml</file>
         <file>screen/desktop/History/TXHistoryTopPanel.qml</file>
+        <file>logic/Logic1.qml</file>
+        <file>logic/Logic.qml</file>
     </qresource>
 </RCC>
