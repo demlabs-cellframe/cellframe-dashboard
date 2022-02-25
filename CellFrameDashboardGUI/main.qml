@@ -25,6 +25,7 @@ ApplicationWindow
     Component {
         id: mainWindowComponent
         DapMainWindow
+        //DapMainApplicationWindow
         {
             id: mainWindow
         }

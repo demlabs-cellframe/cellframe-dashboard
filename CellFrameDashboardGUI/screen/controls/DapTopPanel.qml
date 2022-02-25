@@ -38,6 +38,14 @@ Page
                 left: parent.left
             }
         }
+        InnerShadow {
+            anchors.fill: leftRect
+            radius: 0
+            samples: 16
+            horizontalOffset: 1
+            color: "#4C4B5A"
+            source: leftRect
+        }
     }
 
     DropShadow {
@@ -56,14 +64,5 @@ Page
         horizontalOffset: 1
         color: "#4C4B5A"
         source: beckgrndRect
-    }
-
-    InnerShadow {
-        anchors.fill: leftRect
-        radius: 0
-        samples: 16
-        horizontalOffset: 1
-        color: "#4C4B5A"
-        source: leftRect
     }
 }

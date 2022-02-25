@@ -10,7 +10,7 @@ import "../../"
 import "qrc:/widgets"
 import "../SettingsWallet.js" as SettingsWallet
 
-import net.demlabs.plug 1.0
+//import net.demlabs.plug 1.0
 
 DapAbstractScreen {
 
