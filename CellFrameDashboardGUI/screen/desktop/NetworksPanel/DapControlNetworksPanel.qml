@@ -68,7 +68,7 @@ DapNetworksPanel
 
         Item {
             id:controlDelegate
-            width: networksModel.count > visible_count -1 ? item_width : parent.parent.width/networksModel.count
+            width: networksModel.count > visible_count -1 ? item_width : control.width/networksModel.count
             height: 40
             objectName: "delegateList"
             property int list_index:index
@@ -276,6 +276,11 @@ DapNetworksPanel
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
         }
+
+        print("modelUpdate",
+              "networksModel.count", networksModel.count,
+              "visible_count", visible_count,
+              "networkList.count > visible_count", networkList.count > visible_count)
     }
 
     function updateContentForExistingModel(curModel, newData)
@@ -345,7 +350,7 @@ DapNetworksPanel
 
     function getCountVisiblePopups()
     {
-        var count = (control.parent.parent.width - 27 * pt/* - 114 * pt*/)/item_width
+        var count = (control.width - 27 * pt/* - 114 * pt*/)/item_width
         return Math.floor(count)
     }
 }
