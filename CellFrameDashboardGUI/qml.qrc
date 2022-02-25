@@ -381,5 +381,10 @@
         <file>screen/desktop/VPNService/RightPanel/DapEarnedFunds.qml</file>
         <file>screen/desktop/VPNService/RightPanel/DapEarnedFundsRightPanelForm.ui.qml</file>
         <file>screen/desktop/VPNService/RightPanel/DapOrderDetails.qml</file>
+        <file>screen/desktop/History/TXHistoryPage.qml</file>
+        <file>screen/desktop/History/TXHistoryScreen.qml</file>
+        <file>screen/desktop/History/TXHistoryScreenForm.ui.qml</file>
+        <file>screen/desktop/History/TXHistoryRightPanel.qml</file>
+        <file>screen/desktop/History/TXHistoryTopPanel.qml</file>
     </qresource>
 </RCC>

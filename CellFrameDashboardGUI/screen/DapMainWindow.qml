@@ -17,7 +17,7 @@ FocusScope {
     readonly property string dashboardScreen: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"
     readonly property string walletScreen: "qrc:/screen//Wallet/WalletPage.qml"
     readonly property string exchangeScreen: "qrc:/screen/desktop/Exchange/DapExchangeTab.qml"
-    readonly property string historyScreen: "qrc:/screen/desktop/History/DapHistoryTab.qml"
+    readonly property string historyScreen: "qrc:/screen/desktop/History/TXHistoryPage.qml"
     readonly property string certificatesScreen: "qrc:/screen/desktop/Certificates/DapCertificatesMainPage.qml"
     readonly property string tokensScreen: "qrc:/screen/desktop/Tokens/DapTokensTab.qml"
     readonly property string vpnClientScreen: "qrc:/screen/desktop/VPNClient/VPNClientPage.qml"
