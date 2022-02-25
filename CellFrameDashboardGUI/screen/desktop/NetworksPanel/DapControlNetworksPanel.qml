@@ -68,10 +68,29 @@ DapNetworksPanel
 
         Item {
             id:controlDelegate
-            width: networksModel.count > visible_count -1 ? item_width : control.width/networksModel.count
+//            width: networksModel.count > visible_count -1 ? item_width : control.width/networksModel.count
+//            width: 500
+            width: networksModel.count >= visible_count ?
+                       (control.width - left_button.width * 2 * pt) / visible_count :
+                       control.width/networksModel.count
             height: 40
             objectName: "delegateList"
             property int list_index:index
+
+            onWidthChanged:
+            {
+                print("dapNetworkItem",
+                      "width", width,
+                      "control.width", control.width,
+                      "networksModel.count", networksModel.count)
+            }
+
+            onVisibleChanged:
+            {
+                print("dapNetworkItem",
+                      list_index,
+                      visible)
+            }
 
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
@@ -277,10 +296,10 @@ DapNetworksPanel
             updateContentForExistingModel(networksModel, networksStatesList)
         }
 
-        print("modelUpdate",
-              "networksModel.count", networksModel.count,
-              "visible_count", visible_count,
-              "networkList.count > visible_count", networkList.count > visible_count)
+//        print("modelUpdate",
+//              "networksModel.count", networksModel.count,
+//              "visible_count", visible_count,
+//              "networkList.count > visible_count", networkList.count > visible_count)
     }
 
     function updateContentForExistingModel(curModel, newData)
@@ -350,7 +369,7 @@ DapNetworksPanel
 
     function getCountVisiblePopups()
     {
-        var count = (control.width - 27 * pt/* - 114 * pt*/)/item_width
+        var count = (control.width - left_button.width * 2 * pt/* - 114 * pt*/)/item_width
         return Math.floor(count)
     }
 }
