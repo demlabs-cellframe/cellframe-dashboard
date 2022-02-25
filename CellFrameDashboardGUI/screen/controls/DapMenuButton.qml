@@ -4,21 +4,21 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 
-
-ItemDelegate
+Item
 {
     id: buttonDelegate
 
     width: 173 * pt
-    height: 52 * pt
+    height: modelData.showTab ? 52 * pt : 0
+    visible: modelData.showTab
 
     property bool isPushed: mainButtonsList.currentIndex === index
 
-    background: Item {
-//        color: currTheme.backgroundPanel
-//        radius: 16
-        anchors.leftMargin: -3
-    }
+//    background: Item {
+////        color: currTheme.backgroundPanel
+////        radius: 16
+//        anchors.leftMargin: -3
+//    }
 
     DapImageLoader {
         id: backgroundImage
@@ -31,6 +31,7 @@ ItemDelegate
     RowLayout {
         anchors.fill: parent
         anchors.leftMargin: 26
+        spacing: 0
         Item {
             id: ico
             width: 16 * pt
@@ -45,6 +46,8 @@ ItemDelegate
 
         Text {
             id: buttonText
+//            Layout.alignment: Qt.AlignLeft
+//            Layout.leftMargin: 16
             anchors.left: ico.right
             anchors.leftMargin: 16
             text: modelData.name
@@ -88,5 +91,23 @@ ItemDelegate
     onIsPushedChanged:
     {
         backgroundImage.visible = isPushed ? true : false
+    }
+
+    Connections
+    {
+        target:dapMainPage
+        onTabUpdate:
+        {
+            console.log("TAG = ", tag)
+            console.log("MODEL TAG = ", modelData.tag)
+            if(tag === modelData.tag)
+            {
+                buttonDelegate.visible = status
+                if(status)
+                    buttonDelegate.height = 52
+                else
+                    buttonDelegate.height = 0
+            }
+        }
     }
 }

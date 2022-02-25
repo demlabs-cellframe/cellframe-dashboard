@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
+import Qt.labs.settings 1.1
 
 import "qrc:/widgets"
 import "../screen"
@@ -30,10 +31,20 @@ FocusScope {
     readonly property string testScreen: "qrc:/screen/desktop/Test/TestPage.qml"
     readonly property QtObject dapMainFonts: DapFontRoboto {}
 
+    //Tabs
+
+    property string menuTabStates: ""
+    Settings { property alias menuTabStates: dapMainPage.menuTabStates }
+    signal menuTabChanged()
+    signal tabUpdate(var tag, var status)
+    signal pluginsTabChanged(var auto, var removed, var name)
+    //
 
     property ListModel _tokensModel
     property ListModel _dapModelPlugins
     property ListModel _dapModelOrders
+    property ListModel _dapModelNetworks
+    property ListModel _dapModelWallets
 
     property var _dapWallets: []
     property var _dapWalletsModel: []
@@ -54,54 +65,112 @@ FocusScope {
         }
     }
 
+    ListModel{
+        id:modelAppsTabStates
+
+        ListElement { tag: "Plugin"
+            name: qsTr("Plugin")
+            show: true }
+    }
+
+    // Menu bar tab model
+    ListModel
+    {
+        id: modelMenuTabStates
+        ListElement { tag: "Tokens"
+            name: qsTr("Tokens")
+            show: true }
+        ListElement { tag: "Certificates"
+            name: qsTr("Certificates")
+            show: true }
+        ListElement { tag: "VPN service"
+            name: qsTr("VPN service")
+            show: true }
+        ListElement { tag: "Console"
+            name: qsTr("Console")
+            show: true }
+        ListElement { tag: "Logs"
+            name: qsTr("Logs")
+            show: true }
+        ListElement { tag: "dApps"
+            name: qsTr("dApps")
+            show: true }
+
+        Component.onCompleted:
+        {
+            mainButtonsModel = Logic.initButtonsModel(mainButtonsModel, modelMenuTabStates)
+            mainButtonsModel = Logic.initButtonsModel(mainButtonsModel, modelAppsTabStates)
+            pluginsTabChanged(true,false,"")
+        }
+    }
+
+
     property var mainButtonsModel: [
         {
             "name": qsTr("Wallet"),
-            "bttnIco": "icon_wallet.png"
+            "tag": "Wallet",
+            "bttnIco": "icon_wallet.png",
+            "showTab": true
         },
         {
             "name": qsTr("Exchange"),
-            "bttnIco": "icon_exchange.png"
+            "tag": "Exchange",
+            "bttnIco": "icon_exchange.png",
+            "showTab": true
         },
         {
             "name": qsTr("TX Explorer"),
-            "bttnIco": "icon_history.png"
+            "tag": "TX Explorer",
+            "bttnIco": "icon_history.png",
+            "showTab": true
         },
         {
             "name": qsTr("Certificates"),
-            "bttnIco": "icon_certificates.png"
+            "tag": "Certificates",
+            "bttnIco": "icon_certificates.png",
+            "showTab": true
         },
         {
             "name": qsTr("Tokens"),
-            "bttnIco": "icon_tokens.png"
+            "tag": "Tokens",
+            "bttnIco": "icon_tokens.png",
+            "showTab": true
         },
         {
             "name": qsTr("VPN client"),
-            "bttnIco": "vpn-client_icon.png"
+            "tag": "VPN client",
+            "bttnIco": "vpn-client_icon.png",
+            "showTab": true
         },
         {
             "name": qsTr("VPN service"),
-            "bttnIco": "icon_vpn.png"
+            "tag": "VPN service",
+            "bttnIco": "icon_vpn.png",
+            "showTab": true
         },
         {
             "name": qsTr("Console"),
-            "bttnIco": "icon_console.png"
+            "tag": "Console",
+            "bttnIco": "icon_console.png",
+            "showTab": true
         },
         {
             "name": qsTr("Logs"),
-            "bttnIco": "icon_logs.png"
+            "tag": "Logs",
+            "bttnIco": "icon_logs.png",
+            "showTab": true
         },
         {
             "name": qsTr("dApps"),
-            "bttnIco": "icon_daaps.png"
+            "tag": "dApps",
+            "bttnIco": "icon_daaps.png",
+            "showTab": true
         },
         {
             "name": qsTr("Settings"),
-            "bttnIco": "icon_settings.png"
-        },
-        {
-            "name": qsTr("Test"),
-            "bttnIco": "icon_settings.png"
+            "tag": "Settings",
+            "bttnIco": "icon_settings.png",
+            "showTab": true
         }
     ]
 
@@ -203,7 +272,7 @@ FocusScope {
                     //interactive: false
                     model: mainButtonsModel
 
-                    delegate: DapMenuButton { }
+                    delegate: DapMenuButton {}
                 }
 
             }
@@ -219,7 +288,7 @@ FocusScope {
                 id: mainScreenStack
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
-                StackView { id: dapWalletPage; initialItem: walletScreen}
+                StackView { id: dapWalletPage; initialItem: dashboardScreen}
                 StackView { id: exchangePage; initialItem: underConstructionsScreen}
                 StackView { id: daphistoryPage; initialItem: historyScreen}
                 StackView { id: dapCertificatesPage; initialItem: certificatesScreen}
@@ -231,7 +300,7 @@ FocusScope {
                 StackView { id: dapApps; initialItem: appsScreen}
                 StackView { id: dapSettingsPage; initialItem: settingsScreen}
 
-                StackView { id: dapTestPage; initialItem: testScreen}
+//                StackView { id: dapTestPage; initialItem: testScreen}
             }
         }
     }
@@ -247,67 +316,64 @@ FocusScope {
         smooth: true
     }
 
-    // JS functions
-    function getWallets(tempWallets) {
 
-        for (let i = 0; i < tempWallets.length; i++) {
-            _dapWallets.push(tempWallets[i])
+
+    onMenuTabChanged:
+    {
+        updateMenuTabStatus()
+    }
+    function updateMenuTabStatus()
+    {
+        var datamodel = []
+        for (var i = 0; i < modelMenuTabStates.count; ++i)
+        {
+            datamodel.push(modelMenuTabStates.get(i))
+            console.log(modelMenuTabStates.get(i).tag,
+                            "show", modelMenuTabStates.get(i).show)
         }
 
-        for (let j = 0; j < _dapWallets.length; j++) {
-            _dapWalletsModel.push({
-                                      "name": _dapWallets[j].Name,
-                                      "balance": _dapWallets[j].Balance,
-                                      "icon" : _dapWallets[j].Icon,
-                                      "address" : _dapWallets[j].Address,
-                                      "networks": [],
-                                      "tokens": []
-                                  })
+//        for (var i = 0; i < modelAppsTabStates.count; ++i)
+//        {
+//            datamodel.push(modelAppsTabStates.get(i))
+//            console.log(modelAppsTabStates.get(i).tag,
+//                            "show", modelAppsTabStates.get(i).show)
+//        }
 
-            for (let k = 0; k < _dapWallets[j].Networks.length; k++) {
-                _dapWalletsModel[j].networks.push(_dapWallets[j].Networks[k])
-            }
+        menuTabStates = JSON.stringify(datamodel)
+    }
+    onPluginsTabChanged:
+    {
 
-            for (let l = 0; _dapWallets[j].Tokens.length; l++) {
-                _dapWalletsModel[j].tokens.push({
-                                                       "name": _dapWallets[j].Tokens[l].Name,
-                                                       "balance": _dapWallets[j].Tokens[l].Balance,
-                                                       "emission": _dapWallets[j].Tokens[l].Emission,
-                                                       "network": _dapWallets[j].Tokens[l].Network
-                                                   })
-                _tokensModel.append({
-                                        name: _dapWallets[j].Tokens[l].Name,
-                                        balance: _dapWallets[j].Tokens[l].Balance,
-                                        emission: _dapWallets[j].Tokens[l].Emission,
-                                        network: _dapWallets[j].Tokens[l].Network
-                                    })
-            }
-        }
     }
 
     Component.onCompleted: {
         dapServiceController.requestToService("DapGetListNetworksCommand")
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
+
+        if (menuTabStates)
+        {
+            console.log("loading menuTabStates", menuTabStates)
+            var dataModel = JSON.parse(menuTabStates)
+            Logic.loadSettingsInTabs(modelMenuTabStates, dataModel)
+            modelAppsTabStates = Logic.loadSettingsInTabs(modelAppsTabStates, dataModel)
+        }
+        console.log()
     }
 
     Connections {
         target: dapServiceController
 
         onNetworksListReceived: {
-            console.info("NETWORKS -> ", JSON.stringify(networkList))
-            for (let i = 0; i < networkList.length; i++) {
-                _dapNetworksModel.push(networkList[i])
-                console.warn("_dapNetworksModel[i] ->",_dapNetworksModel[i])
-            }
+            dapServiceController.setCurrentNetwork(Logic.returnCurrentNetwork(networksList))
+            _dapModelNetworks = Logic.rcvNetworksList(networksList, parent)
         }
 
         onWalletsReceived: {
-            console.info("WALLETS -> ", JSON.stringify(walletList))
-            getWallets(walletList)
+            _dapModelWallets = Logic.rcvWalletList(walletList, parent)
+            modelWalletsUpdated();
         }
-        onOrdersReceived:
-        {
+        onOrdersReceived:{
             _dapModelOrders = Logic.rcvOrderList(orderList, parent)
             modelOrdersUpdated();
         }

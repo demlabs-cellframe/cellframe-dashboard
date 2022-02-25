@@ -6,6 +6,7 @@ import QtGraphicalEffects 1.0
 
 import "qrc:/widgets"
 import "../../../"
+import "../../../Logic/Logic.js" as Logic
 
 DapRightPanel
 {

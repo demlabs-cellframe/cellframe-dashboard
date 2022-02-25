@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
-import "../../SettingsWallet.js" as SettingsWallet
+import "../../../Logic/Logic.js" as Logic
 
 DapLastActionsRightPanelForm
 {
@@ -126,10 +126,10 @@ DapLastActionsRightPanelForm
 
     Connections
     {
-        target: dapMainWindow
+        target: dapMainPage
         onModelWalletsUpdated:
         {
-            if (SettingsWallet.currentIndex >= 0 &&
+            if (Logic.currentIndex >= 0 &&
                 requestCounter === 0)
             {
                 lastDate = new Date(0)
@@ -137,14 +137,14 @@ DapLastActionsRightPanelForm
 
                 modelLastActions.clear()
 
-                requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+                requestCounter = getWalletHistory(Logic.currentIndex)
             }
         }
     }
 
     Component.onCompleted:
     {
-        if (SettingsWallet.currentIndex >= 0 &&
+        if (Logic.currentIndex >= 0 &&
             requestCounter === 0)
         {
             lastDate = new Date(0)
@@ -152,7 +152,7 @@ DapLastActionsRightPanelForm
 
             modelLastActions.clear()
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            requestCounter = getWalletHistory(Logic.currentIndex)
         }
     }
 
@@ -193,13 +193,13 @@ DapLastActionsRightPanelForm
 
     function getWalletHistory()
     {
-        var index = SettingsWallet.currentIndex
+        var index = Logic.currentIndex
 
         if (index < 0)
             return;
 
-        var model = dapModelWallets.get(index).networks
-        var name = dapModelWallets.get(index).name
+        var model = _dapModelWallets.get(index).networks
+        var name = _dapModelWallets.get(index).name
 
         modelLastActions.clear()
 

@@ -3,7 +3,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../SettingsWallet.js" as SettingsWallet
+import "../../../Logic/Logic.js" as Logic
 
 ColumnLayout
 {
@@ -11,7 +11,7 @@ ColumnLayout
     anchors.fill: parent
 
     property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: SettingsWallet.currentIndex
+    property int dapCurrentWallet: Logic.currentIndex
 
     spacing: 0
 
@@ -63,12 +63,12 @@ ColumnLayout
 
         function createModelNetworks()
         {
-            for(var i = 0; i < dapModelWallets.count; i++)
+            for(var i = 0; i < _dapModelWallets.count; i++)
             {
-                for(var j = 0; j < dapModelWallets.get(i).networks.count; j++)
+                for(var j = 0; j < _dapModelWallets.get(i).networks.count; j++)
                 {
-                    if(dapModelWallets.get(i).networks.get(j).name === "subzero")
-                        networksModelGenegal.append({address:dapModelWallets.get(i).networks.get(j).address})
+                    if(_dapModelWallets.get(i).networks.get(j).name === "subzero")
+                        networksModelGenegal.append({address:_dapModelWallets.get(i).networks.get(j).address})
                 }
             }
         }
@@ -81,7 +81,7 @@ ColumnLayout
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: contentHeight
-        model:{networksModelGenegal.createModelNetworks(); return dapModelWallets}
+        model:{networksModelGenegal.createModelNetworks(); return _dapModelWallets}
         clip: true
         delegate: delegateList
 
@@ -102,10 +102,16 @@ ColumnLayout
 //                height: 50 * pt
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: radioBut.checked = true
+                }
 
                 RowLayout
                 {
                     anchors.fill: parent
+
                     ColumnLayout
                     {
                         Layout.alignment: Qt.AlignLeft
@@ -181,14 +187,14 @@ ColumnLayout
                         spaceIndicatorText: 3 * pt
                         fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         implicitHeight: indicatorInnerSize
-                        checked: index === SettingsWallet.currentIndex? true:false
+                        checked: index === Logic.currentIndex? true:false
 
                         onClicked:
                         {
 //                            if(!checked)
 //                                checked = true
                             dapCurrentWallet = index
-                            SettingsWallet.currentIndex = index
+                            Logic.currentIndex = index
                         }
                     }
                 }
@@ -202,11 +208,6 @@ ColumnLayout
                     color: currTheme.lineSeparatorColor
 
                 }
-//                MouseArea
-//                {
-//                    anchors.fill: parent
-//                    onClicked: radioBut.clicked();
-//                }
             }
         }
     }

@@ -15,7 +15,7 @@ Page {
         anchors.fill: parent
 
         GridLayout {
-            Layout.fillWidth: rtue
+            Layout.fillWidth: true
             Layout.fillHeight: true
             rows: 2
             columns: 3

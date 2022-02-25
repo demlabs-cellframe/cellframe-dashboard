@@ -3,7 +3,6 @@ import QtQuick.Controls 1.4
 
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractTab
 {
@@ -95,24 +94,25 @@ DapAbstractTab
         {
             console.log("onSwitchMenuTab", tag, state)
 
-            for (var i = 0; i < modelMenuTab.count; ++i)
-                if (modelMenuTab.get(i).tag === tag)
+            for (var i = 0; i < mainButtonsModel.length; ++i)
+                if (mainButtonsModel[i].tag === tag)
                 {
-                    modelMenuTab.setProperty(i, "showTab", state)
+                    mainButtonsModel[i].showTab = state
                     break
                 }
 
             menuTabChanged()
+            tabUpdate(tag, state)
         }
 
         onSwitchAppsTab:
         {
             console.log("onSwitchMenuTab", tag, name, state)
 
-            for (var i = 0; i < modelMenuTab.count; ++i)
-                if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
+            for (var i = 0; i < mainButtonsModel.count; ++i)
+                if (mainButtonsModel.get(i).tag === tag && mainButtonsModel.get(i).name === name)
                 {
-                    modelMenuTab.setProperty(i, "showTab", state)
+                    mainButtonsModel.setProperty(i, "showTab", state)
                     break
                 }
 

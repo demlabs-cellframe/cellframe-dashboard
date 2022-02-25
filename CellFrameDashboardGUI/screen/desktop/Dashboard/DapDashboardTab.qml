@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
+import "../../Logic/Logic.js" as Logic
 
 
 DapAbstractTab
@@ -45,14 +45,14 @@ DapAbstractTab
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
-                walletInfo.name = dapModelWallets.get(SettingsWallet.currentIndex).name
+                walletInfo.name = _dapModelWallets.get(Logic.currentIndex).name
 
                 console.log("New payment")
                 console.log("wallet from: " + walletInfo.name)
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
                         properties: {
-                            dapCmboBoxNetworkModel: dapModelWallets.get(SettingsWallet.currentIndex).networks,
-                            dapCmboBoxTokenModel: dapModelWallets.get(SettingsWallet.currentIndex).networks.get(0).tokens
+                            dapCmboBoxNetworkModel: _dapModelWallets.get(Logic.currentIndex).networks,
+                            dapCmboBoxTokenModel: _dapModelWallets.get(Logic.currentIndex).networks.get(0).tokens
                         }
                        });
             }
@@ -190,7 +190,7 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
-                if(dapModelWallets.count === 0)
+                if(_dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
             }
             else if(parametrsRightPanel === createNewWallet)
@@ -203,7 +203,7 @@ DapAbstractTab
             currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
-                if(dapModelWallets.count === 0)
+                if(_dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
             }
             else if(parametrsRightPanel === createNewWallet)
@@ -216,7 +216,7 @@ DapAbstractTab
 
     Connections
     {
-        target: dapMainWindow
+        target: dapMainPage
         onModelWalletsUpdated:
         {
             updateComboBox()
@@ -241,7 +241,7 @@ DapAbstractTab
     function update()
     {
         dapWallets.length = 0
-        dapModelWallets.clear()
+        _dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
@@ -254,10 +254,10 @@ DapAbstractTab
 
     function updateComboBox()
     {
-        if(SettingsWallet.currentIndex !== -1)
+        if(Logic.currentIndex !== -1)
         {
-            dashboardScreen.dapListViewWallet.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
-            dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(SettingsWallet.currentIndex).name
+            dashboardScreen.dapListViewWallet.model = _dapModelWallets.get(Logic.currentIndex).networks
+            dashboardTopPanel.dapFrameTitle.text = _dapModelWallets.get(Logic.currentIndex).name
 
             console.log("dapComboboxWallet.onCurrentIndexChanged")
 

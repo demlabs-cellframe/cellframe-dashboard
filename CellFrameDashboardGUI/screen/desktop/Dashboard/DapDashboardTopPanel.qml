@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 import Demlabs 1.0
 import "../../"
 import "qrc:/widgets"
-import "../SettingsWallet.js" as SettingsWallet
+import "../../Logic/Logic.js" as Logic
 
 Page {
     property alias dapNewPayment: newPaymentButton

@@ -54,8 +54,8 @@ ColumnLayout
         {
             for(var i = 0; i < dapModelPlugins.count; i++)
             {
-                if(dapModelPlugins.get(i).status === "1")
-                    modelApps.append({name:dapModelPlugins.get(i).name, status:dapModelPlugins.get(i).status})
+                if(_dapModelPlugins.get(i).status === "1")
+                    modelApps.append({name:_dapModelPlugins.get(i).name, status:_dapModelPlugins.get(i).status})
 
             }
         }

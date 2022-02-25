@@ -215,7 +215,7 @@ DapPage {
 
     Component.onCompleted:
     {
-        if(_dapModelOrders.count > 0)
+        if(_dapModelOrders && _dapModelOrders.count > 0)
             state = "ORDERSHOW"
         else
             state = "ORDERDEFAULT"
