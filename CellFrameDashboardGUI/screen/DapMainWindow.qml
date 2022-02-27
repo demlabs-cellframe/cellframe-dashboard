@@ -105,8 +105,6 @@ FocusScope {
         }
     ]
 
-
-
     Rectangle {
         anchors.fill: parent
         color: currTheme.backgroundPanel
@@ -231,7 +229,7 @@ FocusScope {
                 StackView { id: dapApps; initialItem: appsScreen}
                 StackView { id: dapSettingsPage; initialItem: settingsScreen}
 
-                StackView { id: dapTestPage; initialItem: testScreen}
+                //StackView { id: dapTestPage; initialItem: testScreen}
             }
         }
     }
@@ -284,6 +282,46 @@ FocusScope {
             }
         }
     }
+
+    function getWalletHistory(index)
+    {
+        var counter = 0
+
+        if (index < 0 || index >= _dapWalletsModel.count)
+            return counter
+
+        var model = _dapWalletsModel[index].networks
+        var name = _dapWalletsModel[index].name
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            var network = model[i].name
+            var address = model[i].address
+
+            if (model[i].chains.count > 0)
+            {
+                for (var j = 0; j < model[i].chains.count; ++j)
+                {
+                    var chain = model[i].chains[i].name
+
+                    dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                        network, chain, address, name);
+
+                    ++counter
+                }
+            }
+            else
+            {
+                dapServiceController.requestToService("DapGetWalletHistoryCommand",
+                    network, "zero", address, name);
+
+                ++counter
+            }
+        }
+
+        return counter
+    }
+
 
     Component.onCompleted: {
         dapServiceController.requestToService("DapGetListNetworksCommand")

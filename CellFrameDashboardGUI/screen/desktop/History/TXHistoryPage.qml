@@ -32,52 +32,6 @@ DapPage {
         id: temporaryModel
     }
 
-
-    function filterResults()
-    {
-        modelHistory.clear()
-
-        var today = new Date()
-        var yesterday = new Date(new Date().setDate(new Date().getDate()-1))
-        var week = new Date(new Date().setDate(new Date().getDate()-7))
-
-        var begin
-        var end
-
-        if (isCurrentRange)
-        {
-            var index = currentPeriod.indexOf('-')
-
-            begin = getDate(currentPeriod.slice(0, index))
-            end = getDate(currentPeriod.slice(index+1))
-        }
-
-        for (var i = 0; i < temporaryModel.count; ++i)
-        {
-            if (currentString === "" || checkText(temporaryModel.get(i), currentString))
-            {
-                if (currentStatus === "All statuses" || temporaryModel.get(i).status === currentStatus)
-                {
-                    var payDate = new Date(Date.parse(temporaryModel.get(i).date))
-
-                    if (isCurrentRange)
-                    {
-                        if ((payDate > begin && payDate < end) ||
-                                isSameDay(payDate, begin) || isSameDay(payDate, end))
-                            modelHistory.append(temporaryModel.get(i))
-                    }
-                    else
-                    {
-                        if (checkDate(payDate, currentPeriod, today, yesterday, week))
-                            modelHistory.append(temporaryModel.get(i))
-                    }
-                }
-
-            }
-        }
-
-    }
-
     function checkText(item, line)
     {
         if (item.network.includes(line))
@@ -141,6 +95,51 @@ DapPage {
         return new Date(parseInt(parts[2], 10),
                         parseInt(parts[1], 10) - 1,
                         parseInt(parts[0], 10));
+    }
+
+    function filterResults()
+    {
+        modelHistory.clear()
+
+        var today = new Date()
+        var yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+        var week = new Date(new Date().setDate(new Date().getDate()-7))
+
+        var begin
+        var end
+
+        if (isCurrentRange)
+        {
+            var index = currentPeriod.indexOf('-')
+
+            begin = getDate(currentPeriod.slice(0, index))
+            end = getDate(currentPeriod.slice(index+1))
+        }
+
+        for (var i = 0; i < temporaryModel.count; ++i)
+        {
+            if (currentString === "" || checkText(temporaryModel.get(i), currentString))
+            {
+                if (currentStatus === "All statuses" || temporaryModel.get(i).status === currentStatus)
+                {
+                    var payDate = new Date(Date.parse(temporaryModel.get(i).date))
+
+                    if (isCurrentRange)
+                    {
+                        if ((payDate > begin && payDate < end) ||
+                            isSameDay(payDate, begin) || isSameDay(payDate, end))
+                            modelHistory.append(temporaryModel.get(i))
+                    }
+                    else
+                    {
+                        if (checkDate(payDate, currentPeriod, today, yesterday, week))
+                            modelHistory.append(temporaryModel.get(i))
+                    }
+                }
+
+            }
+        }
+
     }
 
     dapHeader.initialItem: TXHistoryTopPanel {
@@ -256,7 +255,7 @@ DapPage {
         {
             modelHistory.clear()
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            requestCounter = getWalletHistory(0)
         }
     }
 }
