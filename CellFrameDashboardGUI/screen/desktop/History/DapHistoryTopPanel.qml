@@ -32,6 +32,7 @@ DapTopPanel
             fillMode: Image.PreserveAspectFit
             verticalAlignment: Image.AlignVCenter
             horizontalAlignment: Image.AlignHCenter
+            mipmap: true
 
             source: "qrc:/resources/icons/ic_search.png"
         }

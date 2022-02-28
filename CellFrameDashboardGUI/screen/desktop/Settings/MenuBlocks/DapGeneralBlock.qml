@@ -382,10 +382,11 @@ ColumnLayout
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-                                DapImageLoader{
+                                Image{
                                     id:networkAddressCopyButtonImage
-                                    innerWidth: parent.width
-                                    innerHeight: parent.height
+                                    width: parent.width
+                                    height: parent.height
+                                    mipmap: true
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
                             }

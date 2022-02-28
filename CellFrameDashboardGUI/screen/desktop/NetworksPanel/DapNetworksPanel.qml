@@ -2,15 +2,15 @@ import QtQuick 2.7
 
 Rectangle {
     id: control
-    property alias test: networksListView
+//    property alias test: networksListView
 
 //    implicitHeight: Math.max(btnPrevious.implicitHeight, networksListView.implicitHeight, btnNext.implicitHeight)
     height: 40 * pt
-    implicitWidth: btnPrevious.implicitWidth + btnNext.implicitWidth + 180 * pt
+//    implicitWidth: btnPrevious.implicitWidth + btnNext.implicitWidth + 180 * pt
 
     color: currTheme.backgroundPanel
 
-    DapNetworkPanelButton {
+/*    DapNetworkPanelButton {
         id: btnPrevious
 
         visible: networksListView.hasLeft
@@ -19,17 +19,18 @@ Rectangle {
         normalIcon: "qrc:/resources/icons/next-page.svg"
         hoverIcon: "qrc:/resources/icons/next-page_hover.svg"
         onClicked: networksListView.scrollToLeft()
-    }
+    }*/
 
-    DapNetworksList {
+/*    DapNetworksList {
         id: networksListView
 
-        anchors.left: btnPrevious.right
-        anchors.right: btnNext.left
+        width: parent.width
+//        anchors.left: btnPrevious.right
+//        anchors.right: btnNext.left
         height: parent.height
-    }
+    }*/
 
-    DapNetworkPanelButton {
+/*    DapNetworkPanelButton {
         id: btnNext
 
         visible: networksListView.hasRight
@@ -38,5 +39,5 @@ Rectangle {
         normalIcon: "qrc:/resources/icons/next-page.svg"
         hoverIcon: "qrc:/resources/icons/next-page_hover.svg"
         onClicked: networksListView.scrollToRight()
-    }
+    }*/
 }

@@ -38,7 +38,11 @@ void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void SystemTray::hideIconTray()
 {
-    trayIcon->hide();
-    delete trayIcon;
-    this->deleteLater();
+    if (trayIcon != nullptr)
+    {
+        trayIcon->hide();
+        delete trayIcon;
+        trayIcon = nullptr;
+    }
+//    this->deleteLater();
 }
