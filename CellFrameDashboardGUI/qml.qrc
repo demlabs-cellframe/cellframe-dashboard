@@ -387,5 +387,9 @@
         <file>screen/desktop/History/TXHistoryRightPanel.qml</file>
         <file>screen/desktop/History/TXHistoryTopPanel.qml</file>
         <file>logic/Logic.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/OrderDetails.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/EarnedFunds.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/EarnedFundsForm.ui.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/CreateOrder.qml</file>
     </qresource>
 </RCC>

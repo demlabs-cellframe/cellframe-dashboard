@@ -346,7 +346,8 @@ FocusScope {
         }
         onOrdersReceived:
         {
-            _dapModelOrders = Logic.rcvOrderList(orderList, parent)
+            //_dapModelOrders = Logic.rcvOrderList(orderList, parent)
+            _dapModelOrders = globalLogic.rcvOrderList(orderList, parent)
             modelOrdersUpdated();
         }
     }

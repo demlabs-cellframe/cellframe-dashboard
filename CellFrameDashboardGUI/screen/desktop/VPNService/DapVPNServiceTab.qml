@@ -10,10 +10,11 @@ import "RightPanel"
 DapPage {
 
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string createOrder: "qrc:/screen/" + device + "/VPNService/RightPanel/DapCreateOrder.qml"
-    readonly property string orderDetails: "qrc:/screen/" + device + "/VPNService/RightPanel/DapOrderDetails.qml"
-    readonly property string earnedFundsOrder: "qrc:/screen/" + device + "/VPNService/RightPanel/DapEarnedFunds.qml"
-    readonly property string doneOrder: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
+    readonly property string createOrder: "qrc:/screen/desktop/VPNService/RightPanel/CreateOrder.qml"
+    readonly property string earnedFundsOrder: "qrc:/screen/desktop/VPNService/RightPanel/EarnedFunds.qml"
+    readonly property string doneOrder: "qrc:/screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
+
+    readonly property string orderDetails: "qrc:/screen/desktop/VPNService/RightPanel/OrderDetails.qml"
     id: vpnServiceTab
 
     QtObject {
@@ -35,6 +36,10 @@ DapPage {
 
         function earnedFundsFunc(){
             dapRightPanel.push(earnedFundsOrder)
+        }
+
+        function popPage() {
+            dapRightPanel.pop()
         }
     }
 
@@ -64,7 +69,7 @@ DapPage {
 
         }
 
-    dapRightPanel.initialItem: DapEarnedFunds{}
+    dapRightPanel.initialItem: EarnedFunds{}
 
     state: "ORDERDEFAULT"
 
