@@ -32,6 +32,70 @@ DapPage {
         id: temporaryModel
     }
 
+    function checkText(item, line)
+    {
+        if (item.network.includes(line))
+            return true
+
+        if (item.name.includes(line))
+            return true
+
+        if (item.status.includes(line))
+            return true
+
+        if (item.amount.toString().includes(line))
+            return true
+
+        return false
+    }
+
+    function checkDate(date, period, today, yesterday, week)
+    {
+        if (period === "all time")
+            return true
+
+        if (period === "today" && isSameDay(today, date))
+            return true
+
+        if (period === "yesterday" && isSameDay(yesterday, date))
+            return true
+
+        if (period === "last week" && ((date > week && date < today) ||
+                                       isSameDay(week, date) || isSameDay(today, date)))
+            return true
+
+        if (period === "this month" && date.getMonth() === today.getMonth())
+            return true
+
+        return false
+    }
+
+    function isSameDay(date1, date2)
+    {
+        console.log(date1.getFullYear(),
+                    date1.getMonth(),
+                    date1.getDate(),
+
+                    date2.getFullYear(),
+                    date2.getMonth(),
+                    date2.getDate(),
+
+                    (date1.getFullYear() === date2.getFullYear()
+                     && date1.getMonth() === date2.getMonth()
+                     && date1.getDate() === date2.getDate()))
+
+        return (date1.getFullYear() === date2.getFullYear()
+                && date1.getMonth() === date2.getMonth()
+                && date1.getDate() === date2.getDate()) ? true : false
+    }
+
+    function getDate(date)
+    {
+        var parts = date.split(".");
+        return new Date(parseInt(parts[2], 10),
+                        parseInt(parts[1], 10) - 1,
+                        parseInt(parts[0], 10));
+    }
 
     function filterResults()
     {
@@ -78,103 +142,60 @@ DapPage {
 
     }
 
-    function checkText(item, line)
-    {
-        if (item.network.includes(line))
-            return true
+    dapHeader.initialItem: TXHistoryTopPanel {
+        onCurrentSearchString: {
+            console.log("currentSearchString", text)
 
-        if (item.name.includes(line))
-            return true
+            currentString = text
 
-        if (item.status.includes(line))
-            return true
-
-        if (item.amount.toString().includes(line))
-            return true
-
-        return false
+            filterResults()
+        }
     }
-
-    function checkDate(date, period, today, yesterday, week)
-    {
-        if (period === "all time")
-            return true
-
-        if (period === "today" && isSameDay(today, date))
-            return true
-
-        if (period === "yesterday" && isSameDay(yesterday, date))
-            return true
-
-        if (period === "last week" && ((date > week && date < today) ||
-                 isSameDay(week, date) || isSameDay(today, date)))
-            return true
-
-        if (period === "this month" && date.getMonth() === today.getMonth())
-            return true
-
-        return false
-    }
-
-    function isSameDay(date1, date2)
-    {
-        console.log(date1.getFullYear(),
-                    date1.getMonth(),
-                    date1.getDate(),
-
-                    date2.getFullYear(),
-                    date2.getMonth(),
-                    date2.getDate(),
-
-                    (date1.getFullYear() === date2.getFullYear()
-                    && date1.getMonth() === date2.getMonth()
-                    && date1.getDate() === date2.getDate()))
-
-        return (date1.getFullYear() === date2.getFullYear()
-                && date1.getMonth() === date2.getMonth()
-                && date1.getDate() === date2.getDate()) ? true : false
-    }
-
-    function getDate(date)
-    {
-        var parts = date.split(".");
-        return new Date(parseInt(parts[2], 10),
-                          parseInt(parts[1], 10) - 1,
-                          parseInt(parts[0], 10));
-    }
-
-    dapHeader.initialItem: TXHistoryTopPanel { }
 
     dapScreen.initialItem: TXHistoryScreen { }
 
     dapRightPanel.initialItem: TXHistoryRightPanel {
-        id: historyRightPanel
+        onCurrentStatusSelected: {
+            console.log("currentStatusSelected", status)
+
+            currentStatus = status
+
+            filterResults()
+        }
+        onCurrentPeriodSelected: {
+            console.log("currentPeriodSelected", period, isRange)
+
+            currentPeriod = period
+            isCurrentRange = isRange
+
+            filterResults()
+        }
     }
 
-//    dapHistoryTopPanel.onCurrentSearchString: {
-//        console.log("currentSearchString", text)
+    //    dapHistoryTopPanel.onCurrentSearchString: {
+    //        console.log("currentSearchString", text)
 
-//        currentString = text
+    //        currentString = text
 
-//        filterResults()
-//    }
+    //        filterResults()
+    //    }
 
-//    dapHistoryScreen.dapHistoryRightPanel.onCurrentStatusSelected: {
-//        console.log("currentStatusSelected", status)
+    //    dapHistoryScreen.dapHistoryRightPanel.onCurrentStatusSelected: {
+    //        console.log("currentStatusSelected", status)
 
-//        currentStatus = status
+    //        currentStatus = status
 
-//        filterResults()
-//    }
+    //        filterResults()
+    //    }
 
-//    dapHistoryScreen.dapHistoryRightPanel.onCurrentPeriodSelected: {
-//        console.log("currentPeriodSelected", period, isRange)
+    //    dapHistoryScreen.dapHistoryRightPanel.onCurrentPeriodSelected: {
+    //        console.log("currentPeriodSelected", period, isRange)
 
-//        currentPeriod = period
-//        isCurrentRange = isRange
+    //        currentPeriod = period
+    //        isCurrentRange = isRange
 
-//        filterResults()
-//    }
+    //        filterResults()
+    //    }
 
     Connections
     {
@@ -190,12 +211,12 @@ DapPage {
             {
                 if (temporaryModel.count === 0)
                     temporaryModel.append({"wallet" : walletHistory[q].Wallet,
-                                          "network" : walletHistory[q].Network,
-                                          "name" : walletHistory[q].Name,
-                                          "status" : walletHistory[q].Status,
-                                          "amount" : walletHistory[q].AmountWithoutZeros,
-                                          "date" : walletHistory[q].Date,
-                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                                              "network" : walletHistory[q].Network,
+                                              "name" : walletHistory[q].Name,
+                                              "status" : walletHistory[q].Status,
+                                              "amount" : walletHistory[q].AmountWithoutZeros,
+                                              "date" : walletHistory[q].Date,
+                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
                 else
                 {
                     var j = 0;
@@ -206,12 +227,12 @@ DapPage {
                             break;
                     }
                     temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
-                                          "network" : walletHistory[q].Network,
-                                          "name" : walletHistory[q].Name,
-                                          "status" : walletHistory[q].Status,
-                                          "amount" : walletHistory[q].AmountWithoutZeros,
-                                          "date" : walletHistory[q].Date,
-                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                                              "network" : walletHistory[q].Network,
+                                              "name" : walletHistory[q].Name,
+                                              "status" : walletHistory[q].Status,
+                                              "amount" : walletHistory[q].AmountWithoutZeros,
+                                              "date" : walletHistory[q].Date,
+                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
                 }
             }
 
@@ -230,11 +251,11 @@ DapPage {
     {
         console.log("CREATED")
         if (SettingsWallet.currentIndex >= 0 &&
-            requestCounter === 0)
+                requestCounter === 0)
         {
             modelHistory.clear()
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            requestCounter = getWalletHistory(0)
         }
     }
 }

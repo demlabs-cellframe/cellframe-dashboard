@@ -4,6 +4,8 @@ import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
+
+import "logic"
 import "resources/theme"
 import "qrc:/resources/QML"
 import "screen"
@@ -16,6 +18,10 @@ ApplicationWindow
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
     readonly property string device: isMobile? "mobile" : "desktop"
+
+    Logic {
+        id: globalLogic
+    }
 
     Settings {
         property alias x: window.x
