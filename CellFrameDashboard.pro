@@ -1,9 +1,9 @@
 TEMPLATE = subdirs
 SUBDIRS = CellFrameDashboardGUI CellFrameDashboardService
 
-CellFrameDashboardGUI.subdir = CellFrameDashboardGUI
-CellFrameDashboardService.subdir = CellFrameDashboardService
-CellFrameDashboardGUI.depends = CellFrameDashboardService
+#CellFrameDashboardGUI.subdir = CellFrameDashboardGUI
+#CellFrameDashboardService.subdir = CellFrameDashboardService
+#CellFrameDashboardGUI.depends = CellFrameDashboardService
 
 unix: !mac : !android {
     share_target.files = debian/share/*

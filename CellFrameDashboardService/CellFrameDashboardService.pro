@@ -11,8 +11,8 @@ include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-win32 {
-    CONFIG -= console
+!win32 {
+    CONFIG += console
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -21,7 +21,7 @@ win32 {
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
+#DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -65,4 +65,11 @@ DISTFILES += \
 
 win32: nsis_build {
     DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
+}
+
+android {
+    TEMPLATE = lib
+    CONFIG += dll
+    QT += androidextras
+    TARGET = DashboardService
 }

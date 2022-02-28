@@ -106,8 +106,8 @@ DapAbstractScreen
             busyIndicatorWidth: 40
             busyIndicatorHeight: 40
             busyIndicatorDelay: 125
-            busyIndicatorDarkColor: "#d51f5d"
-            busyIndicatorLightColor: "#FFFFFF"
+            busyIndicatorDarkColor: currTheme.hilightColorComboBox
+            busyIndicatorLightColor: currTheme.backgroundElements
             running: !isModelLoaded
         }
     }

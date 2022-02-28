@@ -13,6 +13,7 @@ DapAbstractTab
     property alias dapConsoleRigthPanel: consoleRigthPanel
     ///@detalis rAnswer Answer for the sended command
     property string rAnswer
+    property var _dapServiceController
 
     dapTopPanel: DapConsoleTopPanel { }
 
@@ -24,6 +25,7 @@ DapAbstractTab
             receivedAnswer: rAnswer
             //Assign historyCommand of dapScreen with dapRightPanel.historyQuery for ability to use right history panel to send command to the console
             historyCommand: consoleRigthPanel.historyQuery
+            dapServiceController: _dapServiceController
         }
 
 //    dapRightPanel:

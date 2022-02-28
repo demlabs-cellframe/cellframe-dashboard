@@ -9,6 +9,13 @@
 #define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
 #endif
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#include <QAndroidIntent>
+#include <QAndroidJniObject>
+#include <QAndroidJniEnvironment>
+#endif
+
 /// Standard constructor.
 /// @param parent Parent.
 DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
@@ -29,8 +36,14 @@ DapServiceController::~DapServiceController()
 bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
-    
     m_pServer = new DapUiService(this);
+#ifdef Q_OS_ANDROID
+    if (m_pServer->listen("127.0.0.1", 22150)) {
+        qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
+        connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
+        registerCommand();
+    }
+#else
     m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     if(m_pServer->listen(DAP_BRAND)) 
     {
@@ -38,6 +51,7 @@ bool DapServiceController::start()
         // Register command
         registerCommand();
     }
+#endif
     else
     {
         qCritical() << QString("Can't listen on %1").arg(DAP_BRAND);
@@ -98,5 +112,15 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
     // Save cmd command in file
     m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
+
+    QTcpSocket* tcp = new QTcpSocket();
+
+    tcp->connectToHost(QHostAddress("0.0.0.0"),8088);
+    connect(tcp,SIGNAL(readyRead()), this, SLOT(rcvNotifySocket()));
+
 }
 
+void DapServiceController::rcvNotifySocket()
+{
+    qDebug()<<"";
+}

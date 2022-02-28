@@ -5,6 +5,14 @@
 #include <QClipboard>
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
+#include "WalletRestore/commandcmdcontroller.h"
+
+#ifdef ANDROID
+#include <QtAndroid>
+#include <QAndroidJniEnvironment>
+#include <QAndroidJniObject>
+#include <QAndroidIntent>
+#endif
 
 DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
@@ -16,7 +24,18 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
+
+
     qDebug()<<QString(DAP_SERVICE_NAME);
+
+#ifdef Q_OS_ANDROID
+    QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
+                                        "com/Cellframe/Dashboard/DashboardService");
+    QAndroidJniObject result = QtAndroid::androidActivity().callObjectMethod(
+                "startForegroundService",
+                "(Landroid/content/Intent;)Landroid/content/ComponentName;",
+                serviceIntent.handle().object());
+#endif
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
@@ -147,6 +166,8 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<DapVpnOrder>("Demlabs", 1, 0, "DapVpnOrder");
     qRegisterMetaType<DapVpnOrder>();
+
+    qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
 
 }
 

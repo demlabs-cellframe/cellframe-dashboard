@@ -96,17 +96,9 @@ int main(int argc, char *argv[])
         return 1;
 
     DapLogger dapLogger;
-
-    dapLogger.setPathToLog(DapLogger::defaultLogPath(DAP_BRAND_LO));
-
-    QDir dir(dapLogger.getPathToLog());
-    if (!dir.exists()) {
-        qDebug() << "No folder:" << dapLogger.getPathToLog();
-        dir.mkpath(".");
-    }
+    dapLogger.createChangerLogFiles();
 
     DapConfigReader configReader;
-
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
 
     qDebug() << "debug_dashboard_mode" << debug_mode;
@@ -116,17 +108,7 @@ int main(int argc, char *argv[])
     else
         dapLogger.setLogLevel(L_INFO);
 
-    /// TODO: The code is commented out at the time of developing the logging strategy in the project
-//#ifndef QT_DEBUG
-    #ifdef Q_OS_LINUX
-        dapLogger.setLogFile(QString("/opt/%1/log/%2Gui.log").arg(DAP_BRAND_LO).arg(DAP_BRAND));
-    #elif defined Q_OS_MACOS
-	mkdir("/tmp/cellframe-dashboard_log",0777);
-	dapLogger.setLogFile(QString("/tmp/cellframe-dashboard_log/%1Gui.log").arg(DAP_BRAND));
-    #elif defined Q_OS_WIN
-    dapLogger.setLogFile(QString("%1/%2/log/%2GUI.log").arg(regGetUsrPath()).arg(DAP_BRAND));
-    #endif
-//#endif
+
 
     //dApps config file
         QString filePluginConfig;
@@ -137,7 +119,7 @@ int main(int argc, char *argv[])
     #elif defined Q_OS_MACOS
         mkdir("/tmp/cellframe-dashboard_dapps",0777);
         filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps");
     #elif defined Q_OS_WIN
         filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
         pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
