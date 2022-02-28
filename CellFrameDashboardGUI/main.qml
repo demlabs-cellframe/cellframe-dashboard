@@ -65,15 +65,77 @@ ApplicationWindow
             id: dapDevice
         }
 
+//        Rectangle {
+//            id: networksPanel
+//            y: parent.height - height
+//            width: parent.width
+//            height: 40
+//            color: "yellow"
+//        }
+
         DapControlNetworksPanel
         {
             id: networksPanel
+            z: 2
             property alias pathTheme: mainWindow.pathTheme
             property alias currTheme: mainWindow.currTheme
             property alias dapQuicksandFonts: mainWindow.dapQuicksandFonts
             property alias dapMainWindow: mainWindow
             height: 40 * pt
         }
+
+/*        DropShadow {
+                anchors.fill: networksPanel
+                radius: mainWindow.currTheme.radiusShadowSmall
+                color: mainWindow.currTheme.reflectionLight
+                source: networksPanel
+                spread: 0.7
+            }*/
+        Rectangle {
+            anchors.left: networksPanel.left
+            anchors.right: networksPanel.right
+            anchors.bottom: networksPanel.top
+            height: 5
+//            color: "green"
+
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: mainWindow.currTheme.backgroundPanel }
+                GradientStop { position: 1.0; color: mainWindow.currTheme.reflectionLight }
+            }
+        }
+
+/*        DropShadow {
+            id: shadowLeft
+//                anchors.fill: networksPanel
+            anchors.left: networksPanel.left
+            anchors.top: networksPanel.top
+            anchors.bottom: networksPanel.bottom
+            width: networksPanel.width*0.5
+//                radius: mainWindow.currTheme.radiusShadowSmall
+            color: mainWindow.currTheme.reflectionLight
+            source: networksPanel
+            samples: 5
+            verticalOffset: -2
+            radius: 5
+            cached: true
+//                spread: 0.7
+        }
+        DropShadow {
+            id: shadowRigth
+//                anchors.fill: networksPanel
+            anchors.right: networksPanel.right
+            anchors.top: networksPanel.top
+            anchors.bottom: networksPanel.bottom
+            width: networksPanel.width*0.5
+//                radius: mainWindow.currTheme.radiusShadowSmall
+            color: mainWindow.currTheme.reflectionLight
+            source: shadowLeft
+            samples: 5
+            verticalOffset: -2
+            radius: 5
+            cached: true
+//                spread: 0.7
+        }*/
 
         scale: 1.0
     }
@@ -169,6 +231,18 @@ ApplicationWindow
 
         print("window size", window.width, window.height)
         print("window position", window.x, window.y)
+    }
+
+    onWidthChanged:
+    {
+        print("ApplicationWindow", "width", width)
+        print("mainWindow", "width", mainWindow.width)
+    }
+
+    onHeightChanged:
+    {
+        print("ApplicationWindow", "height", height)
+        print("mainWindow", "height", mainWindow.height)
     }
 
     onClosing: {

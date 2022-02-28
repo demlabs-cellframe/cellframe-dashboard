@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
@@ -232,7 +232,8 @@ Rectangle {
         Column
         {
             id: columnMenuTab
-            height: rowMainWindow.height
+            z: 1
+            height: rowMainWindow.height - 3 * pt
             width: 183 * pt
             spacing: 0
             // Logotype widget
@@ -248,9 +249,10 @@ Rectangle {
                     anchors.fill: parent
                     color:currTheme.backgroundPanel
 
-                    DapImageLoader{
-                        innerWidth: 114 * pt
-                        innerHeight: 24 * pt
+                    Image{
+                        width: 114 * pt
+                        height: 24 * pt
+                        mipmap: true
                         source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
 
 //                        anchors.fill: parent
@@ -270,6 +272,13 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
+
+                        parent: Overlay.overlay
+
+                        x: width*0.5 * mainWindow.scale
+                        y: height*0.5 * mainWindow.scale
+
+                        scale: mainWindow.scale
 
                         contentItem: Text {
                                 text: toolTip.text
@@ -345,11 +354,24 @@ Rectangle {
             }
         }
 
+        DropShadow {
+            z: 1
+            anchors.fill: columnMenuTab
+            horizontalOffset: currTheme.hOffset
+            verticalOffset: currTheme.vOffset
+            radius: currTheme.radiusShadow
+            color: currTheme.shadowColor
+            source: columnMenuTab
+            spread: 0.1
+            smooth: true
+        }
+
         // Screen downloader widget
         Item
         {
             id: screens
 //                data: dabScreensWidget
+            x: columnMenuTab.width
             height: rowMainWindow.height
             width: rowMainWindow.width - columnMenuTab.width
             Loader
@@ -574,16 +596,28 @@ Rectangle {
         }
     }
 //    //Main Shadow
-    DropShadow {
-            anchors.fill: parent
-            horizontalOffset: currTheme.hOffset
-            verticalOffset: currTheme.vOffset
-            radius: currTheme.radiusShadow
-            color: currTheme.shadowColor
-            source: columnMenuTab
-            spread: 0.1
-            smooth: true
-        }
+//    DropShadow {
+//        z: 1
+//        anchors.fill: columnMenuTab
+//        horizontalOffset: currTheme.hOffset
+//        verticalOffset: currTheme.vOffset
+//        radius: currTheme.radiusShadow
+//        color: currTheme.shadowColor
+//        source: columnMenuTab
+//        spread: 0.1
+//        smooth: true
+//    }
+
+/*    DropShadow {
+        anchors.fill: columnMenuTab
+        horizontalOffset: currTheme.hOffset
+        verticalOffset: currTheme.vOffset
+        radius: currTheme.radiusShadow
+        color: currTheme.shadowColor
+        source: topPanel
+        spread: 0.1
+    }*/
+
 
     Component.onCompleted:
     {

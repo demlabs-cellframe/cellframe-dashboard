@@ -49,7 +49,7 @@ DapAbstractScreen
             x: 40 * pt
 //            anchors.top: parent.top
 //            anchors.fill: parent
-//            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
 //            Rectangle
 //            {
 //                height: 82.79 * pt
@@ -258,10 +258,11 @@ DapAbstractScreen
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-                                DapImageLoader{
+                                Image{
                                     id:networkAddressCopyButtonImage
-                                    innerWidth: parent.width
-                                    innerHeight: parent.height
+                                    width: parent.width
+                                    height: parent.height
+                                    mipmap: true
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
                             }

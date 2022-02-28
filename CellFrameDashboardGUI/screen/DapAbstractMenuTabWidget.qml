@@ -39,10 +39,12 @@ DapAbstractMenuTabWidgetForm
 
             visible: showTab
 
-            DapImageLoader{
+            Image{
                 id:menuItemImg
-                innerWidth: widthItemMenu
-                innerHeight: heightItemMenu
+                width: widthItemMenu
+                height: heightItemMenu
+                mipmap: true
+
                 source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
 
                 anchors.left: parent.left
@@ -53,11 +55,12 @@ DapAbstractMenuTabWidgetForm
             }
 
 
-            DapImageLoader{
+            Image{
                 id:iconItem
-                innerWidth: widthIconItemMenu
-                innerHeight: heightIconItemMenu
+                width: widthIconItemMenu
+                height: heightIconItemMenu
                 source: normalIcon
+                mipmap: true
 
                 anchors.left: parent.left
                 anchors.leftMargin: 26 * pt

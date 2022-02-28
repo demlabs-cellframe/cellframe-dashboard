@@ -17,7 +17,7 @@ Popup {
 
     property int parentWidth
     property bool isOpen : false
-    property int curWidth : 295
+    property int curWidth : 290
     property alias imgStatus:nameStatus
 
     MouseArea {
@@ -68,7 +68,7 @@ Popup {
         spacing: 1
 
         Item {
-            Layout.preferredWidth: 147
+            Layout.preferredWidth: networkInfoPupup.width*0.5
             Layout.preferredHeight: 24
 
             DapNetworkButton {
@@ -106,7 +106,7 @@ Popup {
             }
         }
         Item {
-            Layout.preferredWidth: 147
+            Layout.preferredWidth: networkInfoPupup.width*0.5
             Layout.preferredHeight: 24
 
             DapNetworkButton {
@@ -296,11 +296,14 @@ Popup {
 
                 onClicked: copyStringToClipboard()
 
-                DapImageLoader {
+                Image {
                     id: networkAddrCopyButtonImage
 
-                    innerWidth: parent.width
-                    innerHeight: parent.height
+                    width: parent.width
+                    height: parent.height
+
+                    mipmap: true
+
                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                 }
             }
@@ -325,13 +328,14 @@ Popup {
             text: name
         }
 
-        DapImageLoader {
+        Image {
             id: nameStatus
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: 8 * pt
             Layout.preferredWidth: 8 * pt
-            innerWidth: 8 * pt
-            innerHeight: 8 * pt
+            width: 8 * pt
+            height: 8 * pt
+            mipmap: true
 
             source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
                     networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":

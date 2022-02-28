@@ -187,6 +187,10 @@ int main(int argc, char *argv[])
         context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
 
         result = app.exec();
+
+        systemTray->hideIconTray();
+
+        delete systemTray;
     }
 
     return result;

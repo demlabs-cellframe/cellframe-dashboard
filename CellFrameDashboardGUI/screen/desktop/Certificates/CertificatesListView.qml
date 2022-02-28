@@ -153,11 +153,12 @@ ListView {
                 height: parent.height
                 visible: model.selected || delegateClicked._entered
 
-                DapImageLoader{
+                Image{
                     anchors.right: infoButton.right
                     anchors.rightMargin: 14 * pt
-                    innerWidth: 30 * pt
-                    innerHeight: 30 * pt
+                    width: 30 * pt
+                    height: 30 * pt
+                    mipmap: true
                     source: "qrc:/resources/icons/Certificates/ic_info.png"
                 }
 
