@@ -107,6 +107,24 @@ DapHistoryScreenForm
                     horizontalAlignment: Text.AlignRight
                 }
 
+                Image
+                {
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+//                    innerWidth: 20
+//                    innerHeight: 20
+
+                    source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+
+                    MouseArea
+                    {
+                        id: mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                    }
+                }
+
             }
 
             //  Underline
