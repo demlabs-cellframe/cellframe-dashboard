@@ -20,16 +20,6 @@ Rectangle
     width: parent.width
     height: 40
     color: currTheme.backgroundPanel
-//    color: "green"
-
-/*    layer.enabled: true
-    layer.effect: DropShadow {
-        anchors.fill: control
-        radius: currTheme.radiusShadowSmall
-        color: currTheme.reflectionLight
-        source: control
-        spread: 0.7
-    }*/
 
     Timer {
         id: idNetworkPanelTimer
@@ -69,39 +59,12 @@ Rectangle
 
         Item {
             id:controlDelegate
-//            width: networksModel.count > visible_count -1 ? item_width : control.width/networksModel.count
-//            width: 500
-//            width: networksModel.count >= visible_count ?
-//                       (control.width - left_button.width * 2 * pt) / visible_count :
-//                       control.width/networksModel.count
             width: networksModel.count >= visible_count ?
                        networkList.width / visible_count :
                        networkList.width / networksModel.count
             height: 40
             objectName: "delegateList"
             property int list_index:index
-
-//            color: index % 2 ? "red" : "blue"
-
-//            onWidthChanged:
-//            {
-//                print("dapNetworkItem",
-//                      "width", width,
-//                      "control.width", control.width,
-//                      "networksModel.count", networksModel.count)
-////                print("dapNetworkItem",
-////                      "left_button.visible", left_button.visible,
-////                      "right_button.visible", right_button.visible)
-
-//            }
-
-//            onVisibleChanged:
-//            {
-//                print("dapNetworkItem",
-//                      list_index,
-//                      visible)
-////                popup_.close()
-//            }
 
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
@@ -115,7 +78,6 @@ Rectangle
 
                 Text {
                     id: txt_left
-//                    Layout.fillWidth: true
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                     color: currTheme.textColor
                     text: name
@@ -148,8 +110,6 @@ Rectangle
                 width: item_width
                 parentWidth: controlDelegate.width
                 isOpen: false
-//                x: controlDelegate.width/2 - width/2/mainWindow.scale + 0.5
-//                y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height -1
                 x: controlDelegate.width/2 - width/2/mainWindow.scale - 0.5
                 y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
 
@@ -321,10 +281,6 @@ Rectangle
             updateContentForExistingModel(networksModel, networksStatesList)
         }
 
-//        print("modelUpdate",
-//              "networksModel.count", networksModel.count,
-//              "visible_count", visible_count,
-//              "networkList.count > visible_count", networkList.count > visible_count)
     }
 
     function updateContentForExistingModel(curModel, newData)

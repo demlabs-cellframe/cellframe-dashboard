@@ -384,11 +384,6 @@ Rectangle {
         }
     }
 
-//    DapNetworkPopup
-//    {
-//        id: networkPanelPopup
-//    }
-
     property var dapWallets: []
     property var dapOrders: []
     property var dapPlugins: []
@@ -595,29 +590,6 @@ Rectangle {
             pluginsTabChanged(true,false,"")
         }
     }
-//    //Main Shadow
-//    DropShadow {
-//        z: 1
-//        anchors.fill: columnMenuTab
-//        horizontalOffset: currTheme.hOffset
-//        verticalOffset: currTheme.vOffset
-//        radius: currTheme.radiusShadow
-//        color: currTheme.shadowColor
-//        source: columnMenuTab
-//        spread: 0.1
-//        smooth: true
-//    }
-
-/*    DropShadow {
-        anchors.fill: columnMenuTab
-        horizontalOffset: currTheme.hOffset
-        verticalOffset: currTheme.vOffset
-        radius: currTheme.radiusShadow
-        color: currTheme.shadowColor
-        source: topPanel
-        spread: 0.1
-    }*/
-
 
     Component.onCompleted:
     {

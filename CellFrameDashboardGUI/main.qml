@@ -57,21 +57,11 @@ ApplicationWindow
         anchors.centerIn: parent
         width: parent.width / scale
         height: parent.height / scale
-//        x: (parent.width - width)*0.5
-//        y: (parent.height - height)*0.5
 
         Device
         {
             id: dapDevice
         }
-
-//        Rectangle {
-//            id: networksPanel
-//            y: parent.height - height
-//            width: parent.width
-//            height: 40
-//            color: "yellow"
-//        }
 
         DapControlNetworksPanel
         {
@@ -84,58 +74,17 @@ ApplicationWindow
             height: 40 * pt
         }
 
-/*        DropShadow {
-                anchors.fill: networksPanel
-                radius: mainWindow.currTheme.radiusShadowSmall
-                color: mainWindow.currTheme.reflectionLight
-                source: networksPanel
-                spread: 0.7
-            }*/
         Rectangle {
             anchors.left: networksPanel.left
             anchors.right: networksPanel.right
             anchors.bottom: networksPanel.top
-            height: 5
-//            color: "green"
+            height: 3
 
             gradient: Gradient {
                 GradientStop { position: 0.0; color: mainWindow.currTheme.backgroundPanel }
                 GradientStop { position: 1.0; color: mainWindow.currTheme.reflectionLight }
             }
         }
-
-/*        DropShadow {
-            id: shadowLeft
-//                anchors.fill: networksPanel
-            anchors.left: networksPanel.left
-            anchors.top: networksPanel.top
-            anchors.bottom: networksPanel.bottom
-            width: networksPanel.width*0.5
-//                radius: mainWindow.currTheme.radiusShadowSmall
-            color: mainWindow.currTheme.reflectionLight
-            source: networksPanel
-            samples: 5
-            verticalOffset: -2
-            radius: 5
-            cached: true
-//                spread: 0.7
-        }
-        DropShadow {
-            id: shadowRigth
-//                anchors.fill: networksPanel
-            anchors.right: networksPanel.right
-            anchors.top: networksPanel.top
-            anchors.bottom: networksPanel.bottom
-            width: networksPanel.width*0.5
-//                radius: mainWindow.currTheme.radiusShadowSmall
-            color: mainWindow.currTheme.reflectionLight
-            source: shadowLeft
-            samples: 5
-            verticalOffset: -2
-            radius: 5
-            cached: true
-//                spread: 0.7
-        }*/
 
         scale: 1.0
     }
@@ -206,9 +155,6 @@ ApplicationWindow
             window.minimumHeight = 0
         }
 
-        print("desktopAvailableWidth", Screen.desktopAvailableWidth,
-              "desktopAvailableHeight", Screen.desktopAvailableHeight)
-
         if (settings.window_scale < 1.0)
         {
             mainWindow.scale = checkNewScale(settings.window_scale)
@@ -229,20 +175,11 @@ ApplicationWindow
 
         checkSizeAndPosition()
 
+        print("desktopAvailableWidth", Screen.desktopAvailableWidth,
+              "desktopAvailableHeight", Screen.desktopAvailableHeight)
         print("window size", window.width, window.height)
         print("window position", window.x, window.y)
-    }
-
-    onWidthChanged:
-    {
-        print("ApplicationWindow", "width", width)
-        print("mainWindow", "width", mainWindow.width)
-    }
-
-    onHeightChanged:
-    {
-        print("ApplicationWindow", "height", height)
-        print("mainWindow", "height", mainWindow.height)
+        print("mainWindow size", mainWindow.width, mainWindow.height)
     }
 
     onClosing: {
@@ -265,16 +202,10 @@ ApplicationWindow
         window.raise()
 
         window.requestActivate()
-
-        print("restoreWindow size", window.width, window.height,
-              "position", window.x, window.y)
     }
 
     function hideWindow()
     {
-        print("hideWindow size", window.width, window.height,
-              "position", window.x, window.y)
-
         lastWidth = window.width
         lastHeight = window.height
         lastX = window.x
@@ -305,11 +236,6 @@ ApplicationWindow
     {
         print("setNewScale", newScale)
 
-        print("window.width", window.width,
-              "window.height", window.height)
-        print("window.minimumWidth", window.minimumWidth,
-              "window.minimumHeight", window.minimumHeight)
-
         window.minimumWidth = 0
         window.minimumHeight = 0
 
@@ -334,11 +260,6 @@ ApplicationWindow
                 window.height *= 1 / settings.window_scale
             }
         }
-
-        print("NEW window.width", window.width,
-              "window.height", window.height)
-        print("NEW window.minimumWidth", window.minimumWidth,
-              "window.minimumHeight", window.minimumHeight)
 
         settings.window_scale = newScale
         settings.setValue("window_scale", newScale)
