@@ -43,6 +43,7 @@ DapHistoryScreenForm
         }
     }
 
+//    https://test-explorer.cellframe.net/transaction/0xC6332B152973346155E4ECC792327E31C2FB0CAB0BC35F352D2630F737930B12
 
     Component
     {
@@ -104,6 +105,26 @@ DapHistoryScreenForm
                     color: currTheme.textColor
                     font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     horizontalAlignment: Text.AlignRight
+                }
+
+                Image
+                {
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+//                    innerWidth: 20
+//                    innerHeight: 20
+
+                    visible: network === "subzero" ? true : false
+
+                    source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+
+                    MouseArea
+                    {
+                        id: mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                    }
                 }
 
             }
