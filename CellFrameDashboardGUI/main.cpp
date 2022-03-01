@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
     #elif defined Q_OS_MACOS
         mkdir("/tmp/cellframe-dashboard_dapps",0777);
         filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps");
     #elif defined Q_OS_WIN
         filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
         pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
