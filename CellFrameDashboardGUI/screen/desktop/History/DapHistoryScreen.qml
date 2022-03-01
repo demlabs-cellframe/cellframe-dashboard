@@ -114,6 +114,8 @@ DapHistoryScreenForm
 //                    innerWidth: 20
 //                    innerHeight: 20
 
+                    visible: network === "subzero" ? true : false
+
                     source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
 
                     MouseArea
