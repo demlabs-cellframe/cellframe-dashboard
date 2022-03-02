@@ -159,18 +159,12 @@ int main(int argc, char *argv[])
     a.setApplicationName(DAP_BRAND "Service");
 
     DapLogger dapLogger(QCoreApplication::instance(), "Service");
+    DapPluginsPathControll dapPlugins;
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-
     qDebug() << "debug_dashboard_mode" << debug_mode;
-
-    if (debug_mode)
-        dapLogger.setLogLevel(L_DEBUG);
-    else
-        dapLogger.setLogLevel(L_INFO);
-
-    DapPluginsPathControll dapPlugins;
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
 
     //plugins path
     dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
@@ -191,10 +185,7 @@ int main(int argc, char *argv[])
         system(str.toUtf8().data());
     }
 
-    DapConfigReader configReader;
-    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-    qDebug() << "debug_dashboard_mode" << debug_mode;
-    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+
 
     // Creating the main application object
     processArgs();
