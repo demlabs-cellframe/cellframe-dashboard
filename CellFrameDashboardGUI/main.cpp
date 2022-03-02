@@ -89,18 +89,16 @@ bool SingleApplicationTest(const QString &appName)
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    DapLogger dapLogger(QCoreApplication::instance(), "GUI");
 
     DapApplication app(argc, argv);
 
     if (!SingleApplicationTest(app.applicationName()))
         return 1;
 
-    DapLogger dapLogger;
-    dapLogger.createChangerLogFiles();
-
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
     if (debug_mode)
@@ -108,11 +106,9 @@ int main(int argc, char *argv[])
     else
         dapLogger.setLogLevel(L_INFO);
 
-
-
     //dApps config file
-        QString filePluginConfig;
-        QString pluginPath;
+    QString filePluginConfig;
+    QString pluginPath;
     #ifdef Q_OS_LINUX
         filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
         pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
