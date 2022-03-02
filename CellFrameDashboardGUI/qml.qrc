@@ -91,7 +91,6 @@
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanelForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
-        <file>resources/icons/icon.ico</file>
         <file>resources/icons/ic_flag.png</file>
         <file>resources/icons/buy_icon.png</file>
         <file>resources/icons/ic_arrow_drop_down_dark_blue.png</file>
@@ -315,7 +314,6 @@
         <file>resources/icons/CellframeDashboard.icns</file>
         <file>resources/icons/Certificates/ic_info.png</file>
         <file>resources/icons/icon_win32.ico</file>
-        <file>resources/icons/CellframeDashboard.ico</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
@@ -343,5 +341,7 @@
         <file>screen/desktop/Console/DapConsoleScreenForm.qml</file>
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
         <file>resources/icons/icon_export_hover.png</file>
+        <file>resources/icons/icon.png</file>
+        <file>resources/icons/icon.ico</file>
     </qresource>
 </RCC>
