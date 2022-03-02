@@ -211,7 +211,7 @@ Item
                         SettingsWallet.activePlugin = ""
                     }
     //                    listModel.remove(listViewPlug.currentIndex)
-                    pluginsManager.deletePlugin(dapListViewApps.currentIndex)
+                    pluginsManager.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).urlPath)
                     SettingsWallet.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()

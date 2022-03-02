@@ -11,8 +11,8 @@ include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-!win32 {
-    CONFIG += console
+win32 {
+    CONFIG -= console
 }
 
 # The following define makes your compiler emit warnings if you use
