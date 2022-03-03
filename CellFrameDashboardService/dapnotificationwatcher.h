@@ -7,13 +7,25 @@
 
 class DapNotificationWatcher :public QThread
 {
-    //QIODevice *socket;
-    QLocalSocket *socket;
+    QIODevice *socket;
+
+    QString address;
+    uint16_t port;
+
+    enum SocketType
+    {
+        TCP,
+        Local
+    };
+
+    SocketType socketType;
+
+    bool isConnected();
+    void processData();
+
 public:
     DapNotificationWatcher();
-public slots:
-    void slotError();
-
+    void run() override;
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H

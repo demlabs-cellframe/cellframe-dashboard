@@ -32,6 +32,7 @@ int main(int argc, char *argv[])
 {
 
     DapNotificationWatcher *watcher = new DapNotificationWatcher();
+    watcher->start();
 
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
