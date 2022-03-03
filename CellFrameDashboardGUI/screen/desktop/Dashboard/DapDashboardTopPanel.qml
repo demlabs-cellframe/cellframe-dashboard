@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 import Demlabs 1.0
 import "../../"
 import "qrc:/widgets"
-import "../../Logic/Logic.js" as Logic
 
 Page {
     property alias dapNewPayment: newPaymentButton
@@ -18,49 +17,26 @@ Page {
     }
 
     // Wallet selection combo box
-    RowLayout
+    Item
     {
-        id: frameComboBoxWallet
-
-        anchors.left: textHeaderWallet.right
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: 30 * pt
-        width: 148 * pt
-
-//        DapComboBoxNew {
-//            id: comboboxWallet
-//            model: walletsNames
-//        }
-
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.leftMargin: 34 * pt
+        anchors.topMargin: 19 * pt
+        anchors.bottomMargin: 18
+        anchors.right: newPaymentButton.left
+        anchors.rightMargin: 100 * pt
         Text
         {
             id: frameTitleCreateWallet
             anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
-            font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             color: currTheme.textColor
 //            text: qsTr("Name of my wallet")
         }
     }
-//    // Payment button
-//    DapButton
-//    {
-//        textButton: "Open transaction browser"
-//        anchors.right: newPaymentButton.left
-//        anchors.rightMargin: 24 * pt
-//        anchors.top: parent.top
-//        anchors.topMargin: 14 * pt
-//        anchors.verticalCenter: parent.verticalCenter
-//        implicitHeight: 38 * pt
-//        implicitWidth: 223 * pt
-//        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-//        horizontalAligmentText: Text.AlignHCenter
-//        onClicked:
-//        {
-//            Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction");
-//        }
-////        visible: frameTitleCreateWallet.text === "" ? false : true
-//    }
     // Payment button
     DapButton
     {

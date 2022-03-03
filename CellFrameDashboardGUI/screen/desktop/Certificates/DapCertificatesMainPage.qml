@@ -11,6 +11,7 @@ DapAbstractTab
 {
     id: dapCertificatesMainPage
     color: currTheme.backgroundMainScreen
+    readonly property var currentIndex: 4
 
     Utils {
         id: utils

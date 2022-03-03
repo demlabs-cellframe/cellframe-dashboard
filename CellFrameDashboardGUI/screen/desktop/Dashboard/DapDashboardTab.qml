@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
-import "../../Logic/Logic.js" as Logic
 
 
 DapAbstractTab
@@ -27,6 +26,7 @@ DapAbstractTab
 
     property alias dapDashboardRightPanel: stackViewRightPanel
     property alias dapDashboardScreen: dashboardScreen
+    readonly property var currentIndex: 1
 
     property var walletInfo:
     {
@@ -45,14 +45,14 @@ DapAbstractTab
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
-                walletInfo.name = _dapModelWallets.get(Logic.currentIndex).name
+                walletInfo.name = _dapModelWallets.get(globalLogic.currentIndex).name
 
                 console.log("New payment")
                 console.log("wallet from: " + walletInfo.name)
                 currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
                         properties: {
-                            dapCmboBoxNetworkModel: _dapModelWallets.get(Logic.currentIndex).networks,
-                            dapCmboBoxTokenModel: _dapModelWallets.get(Logic.currentIndex).networks.get(0).tokens
+                            dapCmboBoxNetworkModel: _dapModelWallets.get(globalLogic.currentIndex).networks,
+                            dapCmboBoxTokenModel: _dapModelWallets.get(globalLogic.currentIndex).networks.get(0).tokens
                         }
                        });
             }
@@ -232,15 +232,22 @@ DapAbstractTab
         }
     }
 
-    Component.onCompleted:
+    Connections
     {
-        update()
-        updateComboBox()
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                update()
+                updateComboBox()
+            }
+        }
     }
 
     function update()
     {
-        dapWallets.length = 0
+        _dapWallets.length = 0
         _dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
@@ -254,10 +261,10 @@ DapAbstractTab
 
     function updateComboBox()
     {
-        if(Logic.currentIndex !== -1)
+        if(globalLogic.currentIndex !== -1)
         {
-            dashboardScreen.dapListViewWallet.model = _dapModelWallets.get(Logic.currentIndex).networks
-            dashboardTopPanel.dapFrameTitle.text = _dapModelWallets.get(Logic.currentIndex).name
+            dashboardScreen.dapListViewWallet.model = _dapModelWallets.get(globalLogic.currentIndex).networks
+            dashboardTopPanel.dapFrameTitle.text = _dapModelWallets.get(globalLogic.currentIndex).name
 
             console.log("dapComboboxWallet.onCurrentIndexChanged")
 

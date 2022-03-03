@@ -15,6 +15,8 @@ DapPage {
     readonly property string doneOrder: "qrc:/screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
 
     readonly property string orderDetails: "qrc:/screen/desktop/VPNService/RightPanel/OrderDetails.qml"
+
+    readonly property var currentIndex: 7
     id: vpnServiceTab
 
     QtObject {

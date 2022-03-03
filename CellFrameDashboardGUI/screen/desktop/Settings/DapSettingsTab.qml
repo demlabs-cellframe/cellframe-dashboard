@@ -17,6 +17,7 @@ DapAbstractTab
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
+    readonly property var currentIndex: 11
     color: currTheme.backgroundMainScreen
 
     property alias dapSettingsRightPanel: stackViewRightPanel

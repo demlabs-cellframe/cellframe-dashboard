@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import "../SettingsWallet.js" as SettingsWallet
 
 DapHistoryTabForm
 {
@@ -22,12 +21,12 @@ DapHistoryTabForm
 
     Component.onCompleted:
     {
-        if (SettingsWallet.currentIndex >= 0 &&
+        if (globalLogic.currentIndex >= 0 &&
             requestCounter === 0)
         {
             modelHistory.clear()
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
+            requestCounter = getWalletHistory(globalLogic.currentIndex)
         }
     }
 

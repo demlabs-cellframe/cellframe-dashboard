@@ -11,6 +11,7 @@ DapPage {
     property string currentStatus: "All statuses"
     property string currentPeriod: "all time"
     property bool isCurrentRange: false
+    readonly property var currentIndex: 3
 
     property int requestCounter: 0
 
@@ -247,15 +248,22 @@ DapPage {
         }
     }
 
-    Component.onCompleted:
+    Connections
     {
-        console.log("CREATED")
-        if (SettingsWallet.currentIndex >= 0 &&
-                requestCounter === 0)
+        target: dapMainPage
+        onUpdatePage:
         {
-            modelHistory.clear()
+            if(index === currentIndex)
+            {
+                console.log("CREATED")
+                if (globalLogic.currentIndex >= 0 &&
+                        requestCounter === 0)
+                {
+                    modelHistory.clear()
 
-            requestCounter = getWalletHistory(0)
+                    requestCounter = globalLogic.getWalletHistory(globalLogic.currentIndex, _dapModelWallets)
+                }
+            }
         }
     }
 }

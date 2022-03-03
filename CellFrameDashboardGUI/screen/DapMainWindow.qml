@@ -31,6 +31,8 @@ FocusScope {
     readonly property string testScreen: "qrc:/screen/desktop/Test/TestPage.qml"
     readonly property QtObject dapMainFonts: DapFontRoboto {}
 
+    signal updatePage(var index)
+
     //Tabs
 
     property string menuTabStates: ""
@@ -98,8 +100,8 @@ FocusScope {
 
         Component.onCompleted:
         {
-            mainButtonsModel = Logic.initButtonsModel(mainButtonsModel, modelMenuTabStates)
-            mainButtonsModel = Logic.initButtonsModel(mainButtonsModel, modelAppsTabStates)
+            mainButtonsModel = globalLogic.initButtonsModel(mainButtonsModel, modelMenuTabStates)
+            mainButtonsModel = globalLogic.initButtonsModel(mainButtonsModel, modelAppsTabStates)
             pluginsTabChanged(true,false,"")
         }
     }
@@ -297,6 +299,8 @@ FocusScope {
                 StackView { id: dapLogsPage; initialItem: logsScreen}
                 StackView { id: dapApps; initialItem: appsScreen}
                 StackView { id: dapSettingsPage; initialItem: settingsScreen}
+
+                onCurrentIndexChanged: {updatePage(currentIndex+1)}
             }
         }
     }
@@ -391,8 +395,8 @@ FocusScope {
         {
             console.log("loading menuTabStates", menuTabStates)
             var dataModel = JSON.parse(menuTabStates)
-            Logic.loadSettingsInTabs(modelMenuTabStates, dataModel)
-            modelAppsTabStates = Logic.loadSettingsInTabs(modelAppsTabStates, dataModel)
+            globalLogic.loadSettingsInTabs(modelMenuTabStates, dataModel)
+            globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
         }
         console.log()
     }
@@ -401,12 +405,12 @@ FocusScope {
         target: dapServiceController
 
         onNetworksListReceived: {
-            dapServiceController.setCurrentNetwork(Logic.returnCurrentNetwork(networksList))
-            _dapModelNetworks = Logic.rcvNetworksList(networksList, parent)
+            dapServiceController.setCurrentNetwork(globalLogic.returnCurrentNetwork(networksList))
+            _dapModelNetworks = globalLogic.rcvNetworksList(networksList, parent)
         }
 
         onWalletsReceived: {
-            _dapModelWallets = Logic.rcvWalletList(walletList, parent)
+            _dapModelWallets = globalLogic.rcvWalletList(walletList, parent)
             modelWalletsUpdated();
         }
         onOrdersReceived:
@@ -421,7 +425,7 @@ FocusScope {
         target: pluginsManager
         onRcvListPlugins:
         {
-            _dapModelPlugins = Logic.rcvPluginList(m_pluginsList, parent)
+            _dapModelPlugins = globalLogic.rcvPluginList(m_pluginsList, parent)
 
             modelPluginsUpdated()
             updateModelAppsTab() // TODO

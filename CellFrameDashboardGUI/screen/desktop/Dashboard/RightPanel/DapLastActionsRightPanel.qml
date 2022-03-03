@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
-import "../../../Logic/Logic.js" as Logic
 
 DapLastActionsRightPanelForm
 {
@@ -129,7 +128,7 @@ DapLastActionsRightPanelForm
         target: dapMainPage
         onModelWalletsUpdated:
         {
-            if (Logic.currentIndex >= 0 &&
+            if (globalLogic.currentIndex >= 0 &&
                 requestCounter === 0)
             {
                 lastDate = new Date(0)
@@ -137,14 +136,14 @@ DapLastActionsRightPanelForm
 
                 modelLastActions.clear()
 
-                requestCounter = getWalletHistory(Logic.currentIndex)
+                requestCounter = getWalletHistory(globalLogic.currentIndex)
             }
         }
     }
 
     Component.onCompleted:
     {
-        if (Logic.currentIndex >= 0 &&
+        if (globalLogic.currentIndex >= 0 &&
             requestCounter === 0)
         {
             lastDate = new Date(0)
@@ -152,7 +151,7 @@ DapLastActionsRightPanelForm
 
             modelLastActions.clear()
 
-            requestCounter = getWalletHistory(Logic.currentIndex)
+            requestCounter = getWalletHistory(globalLogic.currentIndex)
         }
     }
 
@@ -193,7 +192,7 @@ DapLastActionsRightPanelForm
 
     function getWalletHistory()
     {
-        var index = Logic.currentIndex
+        var index = globalLogic.currentIndex
 
         if (index < 0)
             return;

@@ -4,6 +4,8 @@ import "../../"
 
 DapAbstractTab
 {
+    readonly property var currentIndex: 9
+
     id: logsTab
     color: currTheme.backgroundMainScreen
     ///Log window model.
@@ -18,15 +20,33 @@ DapAbstractTab
 
     dapRightPanel: DapLogsRightPanel { }
 
-    Component.onCompleted:
+    Connections
     {
-        console.log("Log tab open")
-        dapServiceController.notifyService("DapUpdateLogsCommand","start", 100);
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                update()
+                updateComboBox()
+            }
+        }
     }
-
-    Component.onDestruction:
+    Connections
     {
-        console.log("Log tab close")
-        dapServiceController.notifyService("DapUpdateLogsCommand","stop");
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                console.log("Log tab open")
+                dapServiceController.notifyService("DapUpdateLogsCommand","start", 100);
+            }
+            else
+            {
+                console.log("Log tab close")
+                dapServiceController.notifyService("DapUpdateLogsCommand","stop");
+            }
+        }
     }
 }

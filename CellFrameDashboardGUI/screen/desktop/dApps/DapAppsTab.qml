@@ -7,6 +7,7 @@ import "qrc:/screen/controls"
 DapPage {
 
     property alias dapAppsModel:listModelApps
+    readonly property var currentIndex: 10
 
     id: dapAppsTab
     signal updateButtons();
@@ -112,11 +113,16 @@ DapPage {
         }
 
     }
-
-    Component.onCompleted:{
-        pluginsManager.updatePluginsRepository()
-        updateFiltrApps(dAppsScreen.currentFiltr)
+    Connections
+    {
+        target: dapMainPage
+        onUpdatePage:
+        {
+            pluginsManager.updatePluginsRepository()
+            updateFiltrApps(dAppsScreen.currentFiltr)
+        }
     }
+
 
     function updateFiltrApps(status)
     {

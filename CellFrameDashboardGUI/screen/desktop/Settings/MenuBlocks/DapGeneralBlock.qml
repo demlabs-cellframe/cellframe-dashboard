@@ -3,7 +3,6 @@ import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../../Logic/Logic.js" as Logic
 
 ColumnLayout
 {
@@ -11,7 +10,7 @@ ColumnLayout
     anchors.fill: parent
 
     property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: Logic.currentIndex
+    property int dapCurrentWallet: globalLogic.currentIndex
 
     spacing: 0
 
@@ -187,14 +186,14 @@ ColumnLayout
                         spaceIndicatorText: 3 * pt
                         fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         implicitHeight: indicatorInnerSize
-                        checked: index === Logic.currentIndex? true:false
+                        checked: index === globalLogic.currentIndex? true:false
 
                         onClicked:
                         {
 //                            if(!checked)
 //                                checked = true
                             dapCurrentWallet = index
-                            Logic.currentIndex = index
+                            globalLogic.currentIndex = index
                         }
                     }
                 }

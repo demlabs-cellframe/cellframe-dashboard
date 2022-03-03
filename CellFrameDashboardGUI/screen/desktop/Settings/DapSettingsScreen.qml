@@ -7,7 +7,6 @@ import "qrc:/"
 import "../../"
 import "MenuBlocks"
 import "qrc:/widgets"
-import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractScreen
 {

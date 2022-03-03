@@ -28,15 +28,17 @@ Item
         source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
     }
 
-    RowLayout {
+    Item {
         anchors.fill: parent
         anchors.leftMargin: 26
-        spacing: 0
+
         Item {
             id: ico
             width: 16 * pt
             height: 16 * pt
-            Layout.alignment: Qt.AlignLeft
+            anchors.left: parent.left
+            anchors.verticalCenter: parent.verticalCenter
+//            Layout.alignment: Qt.AlignLeft
             DapImageLoader {
                 innerWidth: parent.width
                 innerHeight: parent.height
@@ -50,6 +52,7 @@ Item
 //            Layout.leftMargin: 16
             anchors.left: ico.right
             anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
             text: modelData.name
             color: currTheme.textColor
             font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular13

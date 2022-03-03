@@ -13,11 +13,11 @@ DapNewPaymentMainRightPanelForm
         else
             dapChainGroup.visible = false
 
-        dapCmboBoxTokenModel = dapModelWallets.get(Logic.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(globalLogic.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         dapTextNotEnoughTokensWarning.text = ""
 
-        dapCmboBoxChainModel = dapModelWallets.get(Logic.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(globalLogic.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
@@ -33,10 +33,10 @@ DapNewPaymentMainRightPanelForm
         print("dapComboboxNetwork.onCurrentIndexChanged")
         print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxChainModel = dapModelWallets.get(Logic.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(globalLogic.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
 
-        dapCmboBoxTokenModel = dapModelWallets.get(Logic.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(globalLogic.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
 
@@ -109,13 +109,13 @@ DapNewPaymentMainRightPanelForm
             console.log("DapCreateTransactionCommand:")
             console.log("   network:", dapComboboxNetwork.mainLineText)
             console.log("   chain:", dapComboboxChain.mainLineText)
-            console.log("   wallet from:", dapModelWallets.get(Logic.currentIndex).name)
+            console.log("   wallet from:", dapModelWallets.get(globalLogic.currentIndex).name)
             console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
             console.log("   token:", dapCmboBoxToken.mainLineText)
             console.log("   amount:", amount)
             dapServiceController.requestToService("DapCreateTransactionCommand",
                 dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
-                dapModelWallets.get(Logic.currentIndex).name,
+                dapModelWallets.get(globalLogic.currentIndex).name,
                 dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, amount)
 

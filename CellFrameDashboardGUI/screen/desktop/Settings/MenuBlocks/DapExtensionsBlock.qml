@@ -52,7 +52,7 @@ ColumnLayout
         id: modelApps
         Component.onCompleted:
         {
-            for(var i = 0; i < dapModelPlugins.count; i++)
+            for(var i = 0; i < _dapModelPlugins.count; i++)
             {
                 if(_dapModelPlugins.get(i).status === "1")
                     modelApps.append({name:_dapModelPlugins.get(i).name, status:_dapModelPlugins.get(i).status})
