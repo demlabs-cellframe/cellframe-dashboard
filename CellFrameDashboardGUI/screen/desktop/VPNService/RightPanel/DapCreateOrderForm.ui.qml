@@ -392,9 +392,16 @@ DapRightPanel {
                     anchors.right: boxPrice.left
                     anchors.left: parent.left
                     anchors.margins: 25 * pt
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     from: 0
+<<<<<<< HEAD:CellFrameDashboardGUI/screen/desktop/VPNService/RightPanel/DapCreateOrderForm.ui.qml
                     to: 65535.0
                     decimals: unitsModel.get(comboBoxPrice.currentIndex).decimals
+=======
+                    to: 99999999.0
+//                    value: 0.0
+                    decimals: unitsModel.get(comboBoxPrice.currentIndex)
+>>>>>>> develop-2:CellFrameDashboardGUI/screen/desktop/VPNService_New/DapCreateOrderForm.ui.qml
                 }
             }
 

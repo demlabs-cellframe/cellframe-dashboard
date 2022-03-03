@@ -89,6 +89,7 @@ Page {
         {
             id: textInputNameOrder
             Layout.fillWidth: true
+            Layout.leftMargin: 10
             placeholderText: qsTr("Title, only you can see")
             font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
 
@@ -132,49 +133,56 @@ Page {
             }
         }
 
-        DapComboBox {
-            id: comboBoxRegion
-            model: regionOrder
-
+        DapComboBoxNew {
             Layout.fillWidth: true
-
-            comboBoxTextRole: ["region"]
-            mainLineText: "all signature"
-
-            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-            sidePaddingNormal: 19 * pt
-            sidePaddingActive: 19 * pt
-//                    hilightColor: currTheme.buttonColorNormal
-
-            widthPopupComboBoxNormal: 318 * pt
-            widthPopupComboBoxActive: 318 * pt
-            heightComboBoxNormal: 24 * pt
-            heightComboBoxActive: 42 * pt
-            topEffect: false
-
-            normalColor: currTheme.backgroundMainScreen
-            normalTopColor: currTheme.backgroundElements
-            hilightTopColor: currTheme.backgroundMainScreen
-
-            paddingTopItemDelegate: 8 * pt
-            heightListElement: 42 * pt
-            indicatorWidth: 24 * pt
-            indicatorHeight: indicatorWidth
-            colorDropShadow: currTheme.shadowColor
-            roleInterval: 15
-            endRowPadding: 37
-
-            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
-            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-//                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-
-            onCurrentIndexChanged:
-            {
-                dapRegionOrder = dapComboBoxRegion.currentIndex.toString()
-            }
+            Layout.leftMargin: 15
+            Layout.rightMargin: 15
+            model: regionOrder
         }
+
+//        DapComboBox {
+//            id: comboBoxRegion
+//            model: regionOrder
+
+//            Layout.fillWidth: true
+
+//            comboBoxTextRole: ["region"]
+//            mainLineText: "all signature"
+
+//            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+//            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+//            sidePaddingNormal: 19 * pt
+//            sidePaddingActive: 19 * pt
+////                    hilightColor: currTheme.buttonColorNormal
+
+//            widthPopupComboBoxNormal: 318 * pt
+//            widthPopupComboBoxActive: 318 * pt
+//            heightComboBoxNormal: 24 * pt
+//            heightComboBoxActive: 42 * pt
+//            topEffect: false
+
+//            normalColor: currTheme.backgroundMainScreen
+//            normalTopColor: currTheme.backgroundElements
+//            hilightTopColor: currTheme.backgroundMainScreen
+
+//            paddingTopItemDelegate: 8 * pt
+//            heightListElement: 42 * pt
+//            indicatorWidth: 24 * pt
+//            indicatorHeight: indicatorWidth
+//            colorDropShadow: currTheme.shadowColor
+//            roleInterval: 15
+//            endRowPadding: 37
+
+//            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
+//            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+////                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+////                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+
+//            onCurrentIndexChanged:
+//            {
+//                dapRegionOrder = dapComboBoxRegion.currentIndex.toString()
+//            }
+//        }
 
         ItemDelegate {
             Layout.fillWidth: true
@@ -209,47 +217,62 @@ Page {
                 from: 0
                 to: 2147483647
             }
-            DapComboBox {
+
+            DapComboBoxNew {
                 id: comboBoxUnit
                 Layout.fillWidth: true
-
                 // TODO откуда брать список
                 model: ListModel {
                     ListElement { unit: qsTr("hours") }
                     ListElement { unit: qsTr("days") }
                     ListElement { unit: qsTr("seconds") }
                 }
-
-                comboBoxTextRole: ["unit"]
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
-                widthPopupComboBoxNormal: 119 * pt
-                widthPopupComboBoxActive: 119 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-                x: sidePaddingNormal
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-//                        hilightColor: currTheme.buttonColorNormal
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                onCurrentIndexChanged:
-                {
+                onCurrentIndexChanged: {
                     dapUnitOrder = dapComboBoxUnit.currentIndex.toString()
                 }
             }
+
+//            DapComboBox {
+//                id: comboBoxUnit
+//                Layout.fillWidth: true
+
+//                // TODO откуда брать список
+//                model: ListModel {
+//                    ListElement { unit: qsTr("hours") }
+//                    ListElement { unit: qsTr("days") }
+//                    ListElement { unit: qsTr("seconds") }
+//                }
+
+//                comboBoxTextRole: ["unit"]
+//                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+//                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+//                sidePaddingNormal: 19 * pt
+//                sidePaddingActive: 19 * pt
+//                widthPopupComboBoxNormal: 119 * pt
+//                widthPopupComboBoxActive: 119 * pt
+//                heightComboBoxNormal: 24 * pt
+//                heightComboBoxActive: 42 * pt
+//                topEffect: false
+//                x: sidePaddingNormal
+//                normalColor: currTheme.backgroundMainScreen
+//                normalTopColor: currTheme.backgroundElements
+//                hilightTopColor: currTheme.backgroundMainScreen
+////                        hilightColor: currTheme.buttonColorNormal
+
+//                paddingTopItemDelegate: 8 * pt
+//                heightListElement: 42 * pt
+//                indicatorWidth: 24 * pt
+//                indicatorHeight: indicatorWidth
+//                colorDropShadow: currTheme.shadowColor
+//                roleInterval: 15
+//                endRowPadding: 37
+//                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
+//                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+//                onCurrentIndexChanged:
+//                {
+//                    dapUnitOrder = dapComboBoxUnit.currentIndex.toString()
+//                }
+//            }
         }
 
         ItemDelegate {
@@ -279,6 +302,7 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true
+            spacing: 5
             DapDoubleSpinBox {
                 id: spinBoxPrice
 
@@ -288,11 +312,10 @@ Page {
                 to: 65535.0
                 decimals: unitsModel.get(comboBoxPrice.currentIndex).decimals
             }
-            DapComboBox {
+
+            DapComboBoxNew {
                 id: comboBoxPrice
-
                 Layout.fillWidth: true
-
                 // TODO откуда брать список
                 model: ListModel {
                     id: unitsModel
@@ -302,70 +325,103 @@ Page {
                     ListElement { token: "ETH"; decimals: 4 }
                 }
 
-                comboBoxTextRole: ["token"]
-                anchors.centerIn: parent
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
-                widthPopupComboBoxNormal: 119 * pt
-                widthPopupComboBoxActive: 119 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-                x: sidePaddingNormal
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-//                        hilightColor: currTheme.buttonColorNormal
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-
                 onCurrentIndexChanged:
                 {
                     dapPriceOrder = dapComboBoxPrice.currentIndex.toString()
                 }
-
-
             }
+
+//            DapComboBox {
+//                id: comboBoxPrice
+
+//                Layout.fillWidth: true
+
+//                // TODO откуда брать список
+//                model: ListModel {
+//                    id: unitsModel
+
+//                    ListElement { token: "KLVN"; decimals: 7 }
+//                    ListElement { token: "BTC"; decimals: 2 }
+//                    ListElement { token: "ETH"; decimals: 4 }
+//                }
+
+//                comboBoxTextRole: ["token"]
+//                anchors.centerIn: parent
+//                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+//                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+//                sidePaddingNormal: 19 * pt
+//                sidePaddingActive: 19 * pt
+//                widthPopupComboBoxNormal: 119 * pt
+//                widthPopupComboBoxActive: 119 * pt
+//                heightComboBoxNormal: 24 * pt
+//                heightComboBoxActive: 42 * pt
+//                topEffect: false
+//                x: sidePaddingNormal
+//                normalColor: currTheme.backgroundMainScreen
+//                normalTopColor: currTheme.backgroundElements
+//                hilightTopColor: currTheme.backgroundMainScreen
+////                        hilightColor: currTheme.buttonColorNormal
+
+//                paddingTopItemDelegate: 8 * pt
+//                heightListElement: 42 * pt
+//                indicatorWidth: 24 * pt
+//                indicatorHeight: indicatorWidth
+//                colorDropShadow: currTheme.shadowColor
+//                roleInterval: 15
+//                endRowPadding: 37
+//                fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
+//                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+
+//                onCurrentIndexChanged:
+//                {
+//                    dapPriceOrder = dapComboBoxPrice.currentIndex.toString()
+//                }
+
+
+//            }
         }
 
-        DapButton
-        {
-            id: buttonCreate
-            implicitHeight: 36 * pt
-            implicitWidth: 132 * pt
+        RowLayout {
+            Layout.fillWidth: true
+            spacing: 5
 
-            textButton: qsTr("Create")
-            horizontalAligmentText: Text.AlignHCenter
-            indentTextRight: 0
-            fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+            Item {
+                Layout.fillWidth: true
+            }
 
-            onClicked:
+            DapButton
             {
-                if (dapTextInputNameOrder.text == "")
+                id: buttonCreate
+                Layout.preferredHeight: 36 * pt
+                Layout.preferredWidth: 132 * pt
+
+                textButton: qsTr("Create")
+                horizontalAligmentText: Text.AlignHCenter
+                indentTextRight: 0
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+
+                onClicked:
                 {
-                    dapOrderNameWarning.visible = true
-                    console.warn("Empty order name")
+                    if (dapTextInputNameOrder.text == "")
+                    {
+                        dapOrderNameWarning.visible = true
+                        console.warn("Empty order name")
+                    }
+                    else
+                    {
+                        dapOrderNameWarning.visible = false
+                        console.log("Create new order "+dapTextInputNameOrder.text);
+                        console.log("Region "+dapRegionOrder);
+                        console.log("Unit "+dapUnitOrder);
+                        console.log("Price "+dapPriceOrder);
+                        console.log("Network "+dapServiceController.CurrentNetwork)
+                        dapServiceController.requestToService();
+                    }
                 }
-                else
-                {
-                    dapOrderNameWarning.visible = false
-                    console.log("Create new order "+dapTextInputNameOrder.text);
-                    console.log("Region "+dapRegionOrder);
-                    console.log("Unit "+dapUnitOrder);
-                    console.log("Price "+dapPriceOrder);
-                    console.log("Network "+dapServiceController.CurrentNetwork)
-                    dapServiceController.requestToService();
-                }
+            }
+
+            Item {
+                Layout.fillWidth: true
             }
         }
 
@@ -381,6 +437,11 @@ Page {
             wrapMode: Text.WordWrap
             visible: false
             anchors.bottomMargin: 10 * pt
+        }
+
+        Item {
+            id: spacer
+            Layout.fillHeight: true
         }
 
     }

@@ -10,8 +10,8 @@ include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-!win32 {
-    CONFIG += console
+win32 {
+    CONFIG -= console
 }
 
 android: {
