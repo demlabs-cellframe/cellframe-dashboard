@@ -51,6 +51,12 @@ unix: !mac : !android {
     BUILD_FLAG = static
 }
 
+win32 {
+    INCLUDEPATH += $$PWD/platforms/win32/service/
+    HEADERS += platforms/win32/service/Service.h
+    SOURCES += platforms/win32/service/Service.cpp
+}
+
 defined(BUILD_FLAG,var){
     LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
 }
@@ -63,4 +69,11 @@ DISTFILES += \
 
 win32: nsis_build {
     DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32/)
+}
+
+android {
+    TEMPLATE = lib
+    CONFIG += dll
+    QT += androidextras
+    TARGET = DashboardService
 }

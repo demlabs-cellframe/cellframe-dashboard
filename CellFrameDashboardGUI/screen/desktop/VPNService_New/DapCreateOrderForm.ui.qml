@@ -177,7 +177,7 @@ DapRightPanel {
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                     sidePaddingNormal: 19 * pt
                     sidePaddingActive: 19 * pt
-                    hilightColor: currTheme.buttonColorNormal
+//                    hilightColor: currTheme.buttonColorNormal
 
                     widthPopupComboBoxNormal: 318 * pt
                     widthPopupComboBoxActive: 318 * pt
@@ -271,7 +271,7 @@ DapRightPanel {
                         normalColor: currTheme.backgroundMainScreen
                         normalTopColor: currTheme.backgroundElements
                         hilightTopColor: currTheme.backgroundMainScreen
-                        hilightColor: currTheme.buttonColorNormal
+//                        hilightColor: currTheme.buttonColorNormal
 
                         paddingTopItemDelegate: 8 * pt
                         heightListElement: 42 * pt
@@ -367,7 +367,7 @@ DapRightPanel {
                         normalColor: currTheme.backgroundMainScreen
                         normalTopColor: currTheme.backgroundElements
                         hilightTopColor: currTheme.backgroundMainScreen
-                        hilightColor: currTheme.buttonColorNormal
+//                        hilightColor: currTheme.buttonColorNormal
 
                         paddingTopItemDelegate: 8 * pt
                         heightListElement: 42 * pt
@@ -391,9 +391,11 @@ DapRightPanel {
                     anchors.right: boxPrice.left
                     anchors.left: parent.left
                     anchors.margins: 25 * pt
+                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
                     from: 0
-                    to: 9999999999
-                    decimals: unitsModel.get(comboBoxPrice.currentIndex).decimals
+                    to: 99999999.0
+//                    value: 0.0
+                    decimals: unitsModel.get(comboBoxPrice.currentIndex)
                 }
             }
 
