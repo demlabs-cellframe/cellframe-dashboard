@@ -337,7 +337,7 @@
         <file>resources/icons/switch_on.png</file>
         <file>resources/icons/CellframeDashboard.icns</file>
         <file>resources/icons/Certificates/ic_info.png</file>
-        <file>resources/icons/icon_win32.ico</file>        
+        <file>resources/icons/icon_win32.ico</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
@@ -390,5 +390,6 @@
         <file>screen/desktop/VPNService/RightPanel/EarnedFundsForm.ui.qml</file>
         <file>screen/desktop/VPNService/RightPanel/CreateOrder.qml</file>
         <file>resources/icons/icon_export_hover.png</file>
+        <file>screen/controls/DapStackView.qml</file>
     </qresource>
 </RCC>

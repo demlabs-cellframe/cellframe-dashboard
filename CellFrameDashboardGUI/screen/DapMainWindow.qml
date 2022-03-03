@@ -279,6 +279,7 @@ FocusScope {
         }
 
         Rectangle {
+            property bool isInit:false
             id: mainScreen
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -288,19 +289,19 @@ FocusScope {
                 id: mainScreenStack
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
-                StackView { id: dapWalletPage; initialItem: dashboardScreen}
-                StackView { id: exchangePage; initialItem: underConstructionsScreen}
-                StackView { id: daphistoryPage; initialItem: historyScreen}
-                StackView { id: dapCertificatesPage; initialItem: certificatesScreen}
-                StackView { id: dapTokensPage; initialItem: underConstructionsScreen}
-                StackView { id: dapVPNClientPage; initialItem: vpnClientScreen}
-                StackView { id: dapVPNServicePage; initialItem: vpnServiceScreen}
-                StackView { id: dapConsolePage; initialItem: consoleScreen}
-                StackView { id: dapLogsPage; initialItem: logsScreen}
-                StackView { id: dapApps; initialItem: appsScreen}
-                StackView { id: dapSettingsPage; initialItem: settingsScreen}
+                DapStackView { id: dapWalletPage;       }
+                DapStackView { id: exchangePage;        }
+                DapStackView { id: daphistoryPage;      }
+                DapStackView { id: dapCertificatesPage; }
+                DapStackView { id: dapTokensPage;       }
+                DapStackView { id: dapVPNClientPage;    }
+                DapStackView { id: dapVPNServicePage;   }
+                DapStackView { id: dapConsolePage;      }
+                DapStackView { id: dapLogsPage;         }
+                DapStackView { id: dapApps;             }
+                DapStackView { id: dapSettingsPage;     }
 
-                onCurrentIndexChanged: {updatePage(currentIndex+1)}
+                onCurrentIndexChanged: {if(mainScreen.isInit) updatePage(currentIndex+1)}
             }
         }
     }
@@ -399,6 +400,8 @@ FocusScope {
             globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
         }
         console.log()
+
+        initPages()
     }
 
     Connections {
@@ -430,5 +433,21 @@ FocusScope {
             modelPluginsUpdated()
             updateModelAppsTab() // TODO
         }
+    }
+
+    function initPages()
+    {
+        dapWalletPage.setInitialItem(dashboardScreen)
+        exchangePage.setInitialItem(underConstructionsScreen)
+        daphistoryPage.setInitialItem(historyScreen)
+        dapCertificatesPage.setInitialItem(certificatesScreen)
+        dapTokensPage.setInitialItem(underConstructionsScreen)
+        dapVPNClientPage.setInitialItem(vpnClientScreen)
+        dapVPNServicePage.setInitialItem(vpnServiceScreen)
+        dapConsolePage.setInitialItem(consoleScreen)
+        dapLogsPage.setInitialItem(logsScreen)
+        dapApps.setInitialItem(appsScreen)
+        dapSettingsPage.setInitialItem(settingsScreen)
+        mainScreen.isInit = true
     }
 }
