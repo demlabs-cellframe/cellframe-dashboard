@@ -227,25 +227,38 @@ void DapPluginsController::installPlugin(int number, QString status, QString ver
     } 
 }
 
-void DapPluginsController::deletePlugin(int number)
+void DapPluginsController::deletePlugin(QVariant url)
 {
-    QStringList str = m_pluginsList.value(number).toStringList();
-    str[1].remove(QString("/" + str[0] + ".qml"));
-    str[1].remove(m_filePrefix);
+    int number;
+    bool ok = false;
+    for(number = 0; number < m_pluginsList.length(); number++)
+    {
+        if(m_pluginsList.value(number).toStringList()[1] == url.toString())
+        {
+            ok = true;
+            break;
+        }
+    }
+    if(ok)
+    {
+        QStringList str = m_pluginsList.value(number).toStringList();
+        str[1].remove(QString("/" + str[0] + ".qml"));
+        str[1].remove(m_filePrefix);
 
-    QFile file(QString(m_pathPlugins + "/download/" + str[0] + ".zip"));
+        QFile file(QString(m_pathPlugins + "/download/" + str[0] + ".zip"));
 
-    if(file.exists())
-        file.remove();
+        if(file.exists())
+            file.remove();
 
 
-    QDir dir(str[1]);
-    dir.removeRecursively();
+        QDir dir(str[1]);
+        dir.removeRecursively();
 
-    m_pluginsList.removeAt(number);
+        m_pluginsList.removeAt(number);
 
-    updateFileConfig();
-    m_dapNetworkManager->getFiles();
+        updateFileConfig();
+        m_dapNetworkManager->getFiles();
+    }
 }
 
 bool DapPluginsController::zipManage(QString &path)
