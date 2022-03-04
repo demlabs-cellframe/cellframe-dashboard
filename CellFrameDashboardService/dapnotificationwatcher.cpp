@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QTimer>
 #include <dapconfigreader.h>
+#include <QJsonDocument>
 
 
 DapNotificationWatcher::DapNotificationWatcher()
@@ -78,7 +79,17 @@ void DapNotificationWatcher::socketStateChanged(QLocalSocket::LocalSocketState s
 
 void DapNotificationWatcher::socketReadyRead()
 {
-    qDebug() << "Ready Read" << socket->readAll();
+    qDebug() << "Ready Read";
+    QByteArray data = socket->readAll();
+    if (data[data.length() - 1] != '}')
+        data = data.left(data.length() - 1);
+
+    if (data[0] != '{')
+        data = data.right(data.length() - 1);
+
+    QJsonDocument doc = QJsonDocument::fromJson(data);
+    qDebug() << data << doc;
+
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)
