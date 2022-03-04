@@ -5,27 +5,23 @@
 #include <QLocalSocket>
 
 
-class DapNotificationWatcher :public QThread
+class DapNotificationWatcher :public QObject
 {
+    Q_OBJECT
     QIODevice *socket;
-
-    QString address;
-    uint16_t port;
-
-    enum SocketType
-    {
-        TCP,
-        Local
-    };
-
-    SocketType socketType;
-
-    bool isConnected();
-    void processData();
 
 public:
     DapNotificationWatcher();
-    void run() override;
+public slots:
+    void slotError();
+    void socketConnected();
+    void socketDisconnected();
+    void socketStateChanged(QLocalSocket::LocalSocketState socketState);
+
+    void socketReadyRead();
+
+    void tcpSocketStateChanged(QAbstractSocket::SocketState socketState);
+
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H
