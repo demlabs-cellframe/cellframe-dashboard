@@ -123,7 +123,7 @@ ListView {
                 height: parent.height
                 hoverEnabled: true
                 property bool _entered: false
-                onEntered: //onClicked: {
+                onEntered:
                 {
                     _entered = true
                 }
@@ -146,7 +146,7 @@ ListView {
             }
 
 
-            ToolButton {
+            Item {
                 id: infoButton
                 anchors {
                     left: certificateNameText.right
@@ -161,10 +161,14 @@ ListView {
                     innerWidth: 30 * pt
                     innerHeight: 30 * pt
                     source: "qrc:/resources/icons/Certificates/ic_info.png"
-                }
 
-                onClicked: {
-                    root.infoClicked(model.index)
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked: {
+                            root.infoClicked(model.index)
+                        }
+                    }
                 }
 
             }  //
