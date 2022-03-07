@@ -126,8 +126,6 @@ ApplicationWindow
 
     }
 
-
-
     function sizeUpdate()
     {
         if(Screen.width > 1280 && Screen.height > 800)
