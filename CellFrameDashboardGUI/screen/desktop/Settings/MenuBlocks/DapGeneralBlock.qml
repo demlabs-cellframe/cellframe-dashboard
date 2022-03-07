@@ -67,7 +67,10 @@ ColumnLayout
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-            mainLineText: dapNetworkModel.get(SettingsWallet.currentNetwork)
+            mainLineText: {
+                console.log("NETWORK IN COMBO BOX" + dapNetworkModel.get(SettingsWallet.currentNetwork));
+                return dapNetworkModel.get(SettingsWallet.currentNetwork)
+            }
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 10 * pt
@@ -195,7 +198,10 @@ ColumnLayout
 
                                fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                color: currTheme.textColorGrayTwo
-                               fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
+                               fullText: {
+                                   console.log("NETWORK NAME " + networks.get(dapServiceController.IndexCurrentNetwork).name + " NETWORK ADDRESS " + networks.get(dapServiceController.IndexCurrentNetwork).address);
+                                   return networks.get(dapServiceController.IndexCurrentNetwork).address
+                               }
                                textElide: Text.ElideMiddle
                                horizontalAlignment: Qt.Alignleft
 
