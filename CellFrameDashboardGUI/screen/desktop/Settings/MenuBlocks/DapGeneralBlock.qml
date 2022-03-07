@@ -68,7 +68,7 @@ ColumnLayout
 
             comboBoxTextRole: ["name"]
             mainLineText: {
-                console.log("NETWORK IN COMBO BOX" + dapNetworkModel.get(SettingsWallet.currentNetwork).name);
+                console.info("NETWORK IN COMBO BOX " + dapNetworkModel.get(SettingsWallet.currentNetwork).name);
                 return dapNetworkModel.get(SettingsWallet.currentNetwork).name
             }
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -104,6 +104,13 @@ ColumnLayout
                 dapServiceController.setCurrentNetwork(dapNetworkModel.get(currentIndex).name);
                 dapServiceController.setIndexCurrentNetwork(currentIndex);
                 SettingsWallet.currentNetwork = currentIndex
+            }
+
+            Component.onCompleted:
+            {
+                console.info("COUNT " + dapNetworkModel.count)
+                console.info("NAME " + dapNetworkModel.get(SettingsWallet.currentNetwork).name)
+                console.info("CURRENT INDEX " + SettingsWallet.currentNetwork)
             }
         }
 

@@ -588,7 +588,7 @@ Rectangle {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
+//        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
@@ -660,6 +660,7 @@ Rectangle {
                 for (var i = 0; i < networksList.length; ++i)
                 {
                     dapNetworkModel.append({ "name" : networksList[i]})
+                    console.info("Name net: " + dapNetworkModel.get(i).name)
                 }
             }
             console.info("networksList is received")

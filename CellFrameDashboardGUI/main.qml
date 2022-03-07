@@ -110,6 +110,12 @@ ApplicationWindow
         }
     }
 
+    onClosing: {
+        close.accepted = false
+        Qt.quit()
+//        window.hide()
+    }
+
     Component.onCompleted: {
         if(isMobile) {
             window.minimumWidth = 0
@@ -120,11 +126,7 @@ ApplicationWindow
 
     }
 
-    onClosing: {
-        close.accepted = false
-        Qt.quit()
-//        window.hide()
-    }
+
 
     function sizeUpdate()
     {
