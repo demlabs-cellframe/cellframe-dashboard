@@ -68,8 +68,8 @@ ColumnLayout
 
             comboBoxTextRole: ["name"]
             mainLineText: {
-                console.log("NETWORK IN COMBO BOX" + dapNetworkModel.get(SettingsWallet.currentNetwork));
-                return dapNetworkModel.get(SettingsWallet.currentNetwork)
+                console.log("NETWORK IN COMBO BOX" + dapNetworkModel.get(SettingsWallet.currentNetwork).name);
+                return dapNetworkModel.get(SettingsWallet.currentNetwork).name
             }
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
