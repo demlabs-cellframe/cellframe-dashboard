@@ -47,6 +47,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetListOdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
+#include "dapnotificationwatcher.h"
 
 /**
  * @brief The DapServiceController class
@@ -60,6 +61,8 @@ class DapServiceController : public QObject
 
     /// Service core.
     DapUiService        * m_pServer {nullptr};
+
+    DapNotificationWatcher *watcher;
   
 public:
     /// Standard constructor.

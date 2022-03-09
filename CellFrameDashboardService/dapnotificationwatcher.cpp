@@ -13,7 +13,7 @@ QByteArrayList DapNotificationWatcher::jsonListFromData(QByteArray data)
     return data.split('\x00');
 }
 
-DapNotificationWatcher::DapNotificationWatcher()
+DapNotificationWatcher::DapNotificationWatcher(QObject *parent)
 {
     DapConfigReader configReader;
 
@@ -101,8 +101,8 @@ void DapNotificationWatcher::socketReadyRead()
         QJsonDocument doc = QJsonDocument::fromJson(data);
         QVariantMap var = doc.toVariant().toMap();
         qDebug() << data << var;
+        emit networksStatesReceived(var);
     }
-
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)

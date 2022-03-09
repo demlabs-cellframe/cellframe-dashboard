@@ -96,9 +96,6 @@ int main(int argc, char *argv[])
     processArgs();
     DapServiceController serviceController;
     serviceController.start();
-
-
-    DapNotificationWatcher watcher;
     
     return a.exec();
 }

@@ -5,7 +5,7 @@
 #include <QLocalSocket>
 
 
-class DapNotificationWatcher :public QObject
+class DapNotificationWatcher : public QObject
 {
     Q_OBJECT
     QIODevice *socket;
@@ -13,7 +13,7 @@ class DapNotificationWatcher :public QObject
     QByteArrayList jsonListFromData(QByteArray data);
 
 public:
-    DapNotificationWatcher();
+    DapNotificationWatcher(QObject *parent = 0);
 public slots:
     void slotError();
     void socketConnected();
@@ -23,6 +23,9 @@ public slots:
     void socketReadyRead();
 
     void tcpSocketStateChanged(QAbstractSocket::SocketState socketState);
+
+signals:
+    void networksStatesReceived(QVariantMap map);
 
 };
 

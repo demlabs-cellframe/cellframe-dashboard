@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "qrc:/"
 import "../../"
+import DapNotificationWatcher 1.0
 
 DapNetworksPanel
 {    
@@ -222,16 +223,23 @@ DapNetworksPanel
         control.visible_count = getCountVisiblePopups()
         networkList.currentIndex = cur_index
     }
+
+
+    DapNotificationWatcher
+    {
+        id: notificationWatcher
+    }
+
     Connections
     {
-        target: dapServiceController
+        target: notificationWatcher
 
         onNetworksStatesReceived:
         {
             if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
                 networkList.closePopups()
             }
-            networksPanel.modelUpdate(networksStatesList)
+            networksPanel.modelUpdate(map)
             networksPanel.updateContentInAllOpenedPopups(networksModel)
         }
     }
@@ -246,13 +254,23 @@ DapNetworksPanel
         }
     }
 
-    function modelUpdate(networksStatesList)
+    function modelUpdate(map)
     {
-        if (!isNetworkListsEqual(networksModel, networksStatesList)) {
+
+        console.log("LLLLLLLLLLL", map.net_id)
+
+
+        /*if (!isNetworkListsEqual(networksModel, networksStatesList)) {
 
             networksModel.clear()
             for (var i = 0; i < networksStatesList.length; ++i)
             {
+                console.log("momomodededelllll", networksStatesList[i].name, networksStatesList[i].networkState,
+                            networksStatesList[i].targetState, networksStatesList[i].stateColor,
+                            networksStatesList[i].errorMessage, networksStatesList[i].linksCount,
+                            networksStatesList[i].activeLinksCount, networksStatesList[i].nodeAddress)
+
+
                 networksModel.append({ "name" : networksStatesList[i].name,
                                                 "networkState" : networksStatesList[i].networkState,
                                                 "targetState" : networksStatesList[i].targetState,
@@ -264,7 +282,7 @@ DapNetworksPanel
             }
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
-        }
+        }*/
     }
 
     function updateContentForExistingModel(curModel, newData)
