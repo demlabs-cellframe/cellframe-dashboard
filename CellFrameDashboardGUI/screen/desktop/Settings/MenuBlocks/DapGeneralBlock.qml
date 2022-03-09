@@ -67,10 +67,8 @@ ColumnLayout
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-            mainLineText: {
-                console.info("NETWORK IN COMBO BOX " + dapNetworkModel.get(SettingsWallet.currentNetwork).name);
-                return dapNetworkModel.get(SettingsWallet.currentNetwork).name
-            }
+            mainLineText: dapNetworkModel.get(SettingsWallet.currentNetwork).name
+
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 10 * pt
@@ -104,13 +102,6 @@ ColumnLayout
                 dapServiceController.setCurrentNetwork(dapNetworkModel.get(currentIndex).name);
                 dapServiceController.setIndexCurrentNetwork(currentIndex);
                 SettingsWallet.currentNetwork = currentIndex
-            }
-
-            Component.onCompleted:
-            {
-                console.info("COUNT " + dapNetworkModel.count)
-                console.info("NAME " + dapNetworkModel.get(SettingsWallet.currentNetwork).name)
-                console.info("CURRENT INDEX " + SettingsWallet.currentNetwork)
             }
         }
 
@@ -205,10 +196,8 @@ ColumnLayout
 
                                fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                color: currTheme.textColorGrayTwo
-                               fullText: {
-                                   console.log("NETWORK NAME " + networks.get(dapServiceController.IndexCurrentNetwork).name + " NETWORK ADDRESS " + networks.get(dapServiceController.IndexCurrentNetwork).address);
-                                   return networks.get(dapServiceController.IndexCurrentNetwork).address
-                               }
+                               fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
+
                                textElide: Text.ElideMiddle
                                horizontalAlignment: Qt.Alignleft
 
@@ -219,6 +208,7 @@ ColumnLayout
                                    {
                                        textMetworkAddress.fullText = networks.get(dapServiceController.IndexCurrentNetwork).address
                                        textMetworkAddress.checkTextElide()
+                                       textMetworkAddress.update()
                                    }
                                }
 

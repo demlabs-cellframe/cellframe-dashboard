@@ -654,16 +654,17 @@ Rectangle {
                     dapServiceController.setIndexCurrentNetwork(SettingsWallet.currentNetwork);
                 }
 
-                console.info("Current network: "+dapServiceController.CurrentNetwork)
 
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                 {
                     dapNetworkModel.append({ "name" : networksList[i]})
-                    console.info("Name net: " + dapNetworkModel.get(i).name)
+//                    console.info("Name net: " + dapNetworkModel.get(i).name)
                 }
             }
-            console.info("networksList is received")
+            console.info("Current network: "+dapServiceController.CurrentNetwork)
+
+//            console.info("networksList is received")
 
 //            var i = 0
 //            var net = -1

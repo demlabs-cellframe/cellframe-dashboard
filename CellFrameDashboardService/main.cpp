@@ -185,8 +185,6 @@ int main(int argc, char *argv[])
         system(str.toUtf8().data());
     }
 
-
-
     // Creating the main application object
     processArgs();
     DapServiceController serviceController;
