@@ -10,6 +10,8 @@ class DapNotificationWatcher :public QObject
     Q_OBJECT
     QIODevice *socket;
 
+    QByteArrayList jsonListFromData(QByteArray data);
+
 public:
     DapNotificationWatcher();
 public slots:

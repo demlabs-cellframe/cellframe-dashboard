@@ -8,13 +8,20 @@
 #include <QJsonDocument>
 
 
+QByteArrayList DapNotificationWatcher::jsonListFromData(QByteArray data)
+{
+    return data.split('\x00');
+}
+
 DapNotificationWatcher::DapNotificationWatcher()
 {
     DapConfigReader configReader;
 
     QString listen_path = configReader.getItemString("notify_server", "listen_path", "");
-    QString listen_address = configReader.getItemString("notify_server", "listen_addr", "");
+    QString listen_address = configReader.getItemString("notify_server", "listen_address", "");
     uint16_t listen_port = configReader.getItemInt("notify_server", "listen_port", 0);
+
+    qDebug() << "Tcp config: " << listen_address << listen_port;
 
     if (!listen_path.isEmpty())
     {
@@ -80,15 +87,21 @@ void DapNotificationWatcher::socketStateChanged(QLocalSocket::LocalSocketState s
 void DapNotificationWatcher::socketReadyRead()
 {
     qDebug() << "Ready Read";
-    QByteArray data = socket->readAll();
+    QByteArray data = socket->readLine();
     if (data[data.length() - 1] != '}')
         data = data.left(data.length() - 1);
 
     if (data[0] != '{')
         data = data.right(data.length() - 1);
 
-    QJsonDocument doc = QJsonDocument::fromJson(data);
-    qDebug() << data << doc;
+    QByteArrayList list = jsonListFromData(data);
+
+    for (int i = 0; i < list.length(); ++i)
+    {
+        QJsonDocument doc = QJsonDocument::fromJson(data);
+        QVariantMap var = doc.toVariant().toMap();
+        qDebug() << data << var;
+    }
 
 }
 
