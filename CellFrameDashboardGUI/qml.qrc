@@ -30,12 +30,6 @@
         <file>screen/desktop/Exchange/DapExchangeTabForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
-        <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
-        <file>screen/desktop/History/DapHistoryScreen.qml</file>
-        <file>screen/desktop/History/DapHistoryScreenForm.ui.qml</file>
-        <file>screen/desktop/History/DapHistoryTab.qml</file>
-        <file>screen/desktop/History/DapHistoryTabForm.ui.qml</file>
-        <file>screen/desktop/History/DapHistoryTopPanel.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanel.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardRightPanelForm.ui.qml</file>
         <file>screen/mobile/Dashboard/DapDashboardScreen.qml</file>
@@ -391,5 +385,7 @@
         <file>screen/desktop/VPNService/RightPanel/CreateOrder.qml</file>
         <file>resources/icons/icon_export_hover.png</file>
         <file>screen/controls/DapStackView.qml</file>
+        <file>resources/icons/icon.png</file>
+        <file>resources/icons/icon.ico</file>
     </qresource>
 </RCC>

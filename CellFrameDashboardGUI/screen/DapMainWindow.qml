@@ -388,7 +388,7 @@ FocusScope {
 
 
     Component.onCompleted: {
-        dapServiceController.requestToService("DapGetListNetworksCommand")
+//        dapServiceController.requestToService("DapGetListNetworksCommand")
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
 
@@ -399,7 +399,6 @@ FocusScope {
             globalLogic.loadSettingsInTabs(modelMenuTabStates, dataModel)
             globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
         }
-        console.log()
 
         initPages()
     }
@@ -408,7 +407,7 @@ FocusScope {
         target: dapServiceController
 
         onNetworksListReceived: {
-            dapServiceController.setCurrentNetwork(globalLogic.returnCurrentNetwork(networksList))
+//            dapServiceController.setCurrentNetwork(globalLogic.returnCurrentNetwork(networksList))
             _dapModelNetworks = globalLogic.rcvNetworksList(networksList, parent)
         }
 
@@ -418,7 +417,6 @@ FocusScope {
         }
         onOrdersReceived:
         {
-            //_dapModelOrders = Logic.rcvOrderList(orderList, parent)
             _dapModelOrders = globalLogic.rcvOrderList(orderList, parent)
             modelOrdersUpdated();
         }

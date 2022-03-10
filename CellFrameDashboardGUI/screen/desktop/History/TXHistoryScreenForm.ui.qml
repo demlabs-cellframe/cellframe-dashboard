@@ -9,28 +9,57 @@ import "../../"
 
 Page
 {
+    property alias dapHistoryRightPanel: historyRightPanel
+
     anchors.fill: parent
 
-    background: Rectangle {
-        color: "transparent"
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
     }
 
-    ListView
+    RowLayout
     {
-        id: dapListViewHistory
         anchors.fill: parent
-        model: modelHistory
-        clip: true
+        spacing: 24 * pt
 
-        delegate: delegateToken
+        DapRectangleLitAndShaded
+        {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+//            anchors.fill: parent
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
 
-        section.property: "date"
-        section.criteria: ViewSection.FullString
-        section.delegate: delegateDate
+            contentData:
+            ListView
+            {
+                id: dapListViewHistory
+                anchors.fill: parent
+                model: modelHistory
+                clip: true
 
-        ScrollBar.vertical: ScrollBar {
-            active: true
+                delegate: delegateToken
+
+                section.property: "date"
+                section.criteria: ViewSection.FullString
+                section.delegate: delegateDate
+
+                ScrollBar.vertical: ScrollBar {
+                    active: true
+                }
+            }
+
+        }
+
+        TXHistoryRightPanel
+        {
+            id: historyRightPanel
+
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
         }
     }
-
 }
