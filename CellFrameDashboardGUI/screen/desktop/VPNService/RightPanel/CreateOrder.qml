@@ -211,6 +211,7 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true
+            Layout.margins: 10
             DapSpinBox {
                 id: spinBoxUnit
                 Layout.fillWidth: true
@@ -302,6 +303,7 @@ Page {
 
         RowLayout {
             Layout.fillWidth: true
+            Layout.margins: 10
             spacing: 5
             DapDoubleSpinBox {
                 id: spinBoxPrice
@@ -428,7 +430,8 @@ Page {
         Text
         {
             id: textOrderNameWarning
-
+            Layout.fillWidth: true
+            Layout.margins: 20
             color: "#79FFFA"
             text: qsTr("Enter the order name using Latin letters, dotes, dashes and / or numbers.")
             font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
