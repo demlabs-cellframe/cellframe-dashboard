@@ -210,10 +210,17 @@ ColumnLayout
                                        textMetworkAddress.checkTextElide()
 //                                       textMetworkAddress.update()
                                        textMetworkAddress.copyFullText()
+                                       emptyText.copyFullText()
+
                                    }
                                }
 
-
+                               DapText
+                               {
+                                   id: emptyText
+                                   visible: false
+                                   fullText: " "
+                               }
                             }
                             MouseArea
                             {
