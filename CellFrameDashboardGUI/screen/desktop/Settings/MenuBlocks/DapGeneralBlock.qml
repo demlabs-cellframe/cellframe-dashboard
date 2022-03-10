@@ -261,6 +261,9 @@ ColumnLayout
 //                                checked = true
                             dapCurrentWallet = index
                             SettingsWallet.currentIndex = index
+
+                            textMetworkAddress.checkTextElide()
+                            textMetworkAddress.update()
                         }
                     }
                 }
