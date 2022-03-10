@@ -111,9 +111,10 @@ void DapNotificationWatcher::socketReadyRead()
     for (int i = 0; i < list.length(); ++i)
     {
         QJsonDocument doc = QJsonDocument::fromJson(data);
-        QVariantMap var = doc.toVariant().toMap();
+        QVariant var = doc.toVariant().toMap();
         qDebug() << data << var;
-        emit networksStatesReceived(var);
+        emit rcvNotify(var);
+//        emit networksStatesReceived(var);
     }
 }
 

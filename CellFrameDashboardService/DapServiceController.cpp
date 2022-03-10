@@ -50,6 +50,8 @@ bool DapServiceController::start()
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
         // Register command
         registerCommand();
+        watcher = new DapNotificationWatcher(this);
+        connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
     }
 #endif
     else
@@ -59,6 +61,13 @@ bool DapServiceController::start()
         return false;
     }
     return true;
+}
+
+void DapServiceController::sendNotifyDataToGui(QVariant data)
+{
+    qDebug()<< data;
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
+    transceiver->notifedFromClient(data);
 }
 
 /// Register command.
@@ -113,6 +122,5 @@ void DapServiceController::registerCommand()
     // Save cmd command in file
     m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
 
-    watcher = new DapNotificationWatcher(this);
-
+    m_pServer->addService(new DapRcvNotify("DapRcvNotify", m_pServer));
 }

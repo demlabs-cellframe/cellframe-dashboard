@@ -29,6 +29,7 @@ public slots:
 
 signals:
     void networksStatesReceived(QVariantMap map);
+    void rcvNotify(QVariant);
 
 private:
     QString m_listenPath;
