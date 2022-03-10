@@ -5,6 +5,7 @@ QtObject {
     property var  currentIndex: -1
     property var  prevIndex: -1
     property var  activePlugin: ""
+    property var currentNetwork: -1
 
 
     function createDapData(buffer)
@@ -145,48 +146,74 @@ QtObject {
         var dapModel = Qt.createQmlObject('import QtQuick 2.2; \
                 ListModel {}',parent);
 
-        var dapData = createDapData(buffer)
+//        var dapData = createDapData(buffer)
 
-        var i = 0
-        var net = -1
-
-        while (i < Object.keys(buffer).length)
+        if (!buffer.length)
+            console.error("networksList is empty")
+        else
         {
-            if (buffer[i] === "[net]")
+            if(currentNetwork === -1)
             {
-                ++i
-                if (i >= Object.keys(buffer).length)
-                    break
-
-                ++net
-                dapModel.append({ "name" : buffer[i],
-                                      "chains" : []})
-
-                print("[net]", buffer[i])
-
-                ++i
-                if (i >= Object.keys(buffer).length)
-                    break
-
-                while (i < Object.keys(buffer).length
-                       && buffer[i] === "[chain]")
-                {
-                    ++i
-                    if (i >= Object.keys(buffer).length)
-                        break
-
-                    dapModel.get(net).chains.append({"name": buffer[i]})
-
-                    print("[chain]", buffer[i])
-
-                    ++i
-                    if (i >= Object.keys(buffer).length)
-                        break
-                }
+                dapServiceController.setCurrentNetwork(buffer[0]);
+                dapServiceController.setIndexCurrentNetwork(0);
+                currentNetwork = dapServiceController.IndexCurrentNetwork
             }
             else
-                ++i
+            {
+                dapServiceController.setCurrentNetwork(networksList[currentNetwork]);
+                dapServiceController.setIndexCurrentNetwork(currentNetwork);
+            }
+
+
+            dapModel.clear()
+            for (var i = 0; i < buffer.length; ++i)
+            {
+                dapModel.append({ "name" : buffer[i]})
+//                    console.info("Name net: " + dapNetworkModel.get(i).name)
+            }
         }
+        console.info("Current network: "+dapServiceController.CurrentNetwork)
+
+//        var i = 0
+//        var net = -1
+
+//        while (i < Object.keys(buffer).length)
+//        {
+//            if (buffer[i] === "[net]")
+//            {
+//                ++i
+//                if (i >= Object.keys(buffer).length)
+//                    break
+
+//                ++net
+//                dapModel.append({ "name" : buffer[i],
+//                                      "chains" : []})
+
+//                print("[net]", buffer[i])
+
+//                ++i
+//                if (i >= Object.keys(buffer).length)
+//                    break
+
+//                while (i < Object.keys(buffer).length
+//                       && buffer[i] === "[chain]")
+//                {
+//                    ++i
+//                    if (i >= Object.keys(buffer).length)
+//                        break
+
+//                    dapModel.get(net).chains.append({"name": buffer[i]})
+
+//                    print("[chain]", buffer[i])
+
+//                    ++i
+//                    if (i >= Object.keys(buffer).length)
+//                        break
+//                }
+//            }
+//            else
+//                ++i
+//        }
         return dapModel
     }
 

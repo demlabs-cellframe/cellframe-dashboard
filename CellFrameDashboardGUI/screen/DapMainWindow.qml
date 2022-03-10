@@ -388,7 +388,7 @@ FocusScope {
 
 
     Component.onCompleted: {
-        dapServiceController.requestToService("DapGetListNetworksCommand")
+//        dapServiceController.requestToService("DapGetListNetworksCommand")
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
 
@@ -407,7 +407,7 @@ FocusScope {
         target: dapServiceController
 
         onNetworksListReceived: {
-            dapServiceController.setCurrentNetwork(globalLogic.returnCurrentNetwork(networksList))
+//            dapServiceController.setCurrentNetwork(globalLogic.returnCurrentNetwork(networksList))
             _dapModelNetworks = globalLogic.rcvNetworksList(networksList, parent)
         }
 

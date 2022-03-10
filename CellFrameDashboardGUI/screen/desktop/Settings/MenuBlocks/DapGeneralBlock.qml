@@ -31,6 +31,82 @@ ColumnLayout
             text: qsTr("General settings")
         }
     }
+
+    Rectangle
+    {
+        Layout.fillWidth: true
+        height: 30 * pt
+        color: currTheme.backgroundMainScreen
+
+        Text
+        {
+            anchors.fill: parent
+            anchors.leftMargin: 16 * pt
+            anchors.topMargin: 8 * pt
+            anchors.bottomMargin: 8 * pt
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            color: currTheme.textColor
+            verticalAlignment: Qt.AlignVCenter
+            text: qsTr("Networks")
+        }
+    }
+
+    Item {
+        height: 60 * pt
+        Layout.fillWidth: true
+
+        DapComboBox
+        {
+            id: comboBoxCurrentNetwork
+            model: _dapModelNetworks
+
+            anchors.centerIn: parent
+            anchors.fill: parent
+            anchors.margins: 10 * pt
+            anchors.leftMargin: 15 * pt
+
+            comboBoxTextRole: ["name"]
+            mainLineText: _dapModelNetworks.get(globalLogic.currentNetwork).name
+
+            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+            sidePaddingNormal: 10 * pt
+            sidePaddingActive: 10 * pt
+
+            widthPopupComboBoxNormal: 318 * pt
+            widthPopupComboBoxActive: 318 * pt
+            heightComboBoxNormal: 24 * pt
+            heightComboBoxActive: 42 * pt
+            topEffect: false
+
+            normalColor: currTheme.backgroundMainScreen
+            normalTopColor: currTheme.backgroundElements
+            hilightTopColor: currTheme.backgroundMainScreen
+
+            paddingTopItemDelegate: 8 * pt
+            heightListElement: 42 * pt
+            indicatorWidth: 24 * pt
+            indicatorHeight: indicatorWidth
+            roleInterval: 15
+            endRowPadding: 37
+
+            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+
+            currentIndex: globalLogic.currentNetwork
+
+            onCurrentIndexChanged:
+            {
+                dapServiceController.setCurrentNetwork(_dapModelNetworks.get(currentIndex).name);
+                dapServiceController.setIndexCurrentNetwork(currentIndex);
+                globalLogic.currentNetwork = currentIndex
+            }
+        }
+
+    }
+
+
     Rectangle
     {
         Layout.fillWidth: true
@@ -57,30 +133,13 @@ ColumnLayout
         id: buttonGroup
     }
 
-    ListModel{
-        id:networksModelGenegal
-
-        function createModelNetworks()
-        {
-            for(var i = 0; i < _dapModelWallets.count; i++)
-            {
-                for(var j = 0; j < _dapModelWallets.get(i).networks.count; j++)
-                {
-                    if(_dapModelWallets.get(i).networks.get(j).name === "subzero")
-                        networksModelGenegal.append({address:_dapModelWallets.get(i).networks.get(j).address})
-                }
-            }
-        }
-    }
-
-
     ListView
     {
         id:listWallet
         Layout.fillWidth: true
         Layout.fillHeight: true
         Layout.preferredHeight: contentHeight
-        model:{networksModelGenegal.createModelNetworks(); return _dapModelWallets}
+        model: _dapModelWallets
         clip: true
         delegate: delegateList
 
@@ -142,10 +201,31 @@ ColumnLayout
 
                                fontDapText: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                color: currTheme.textColorGrayTwo
-                               fullText: networksModelGenegal.get(index).address
+                               fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
+
                                textElide: Text.ElideMiddle
                                horizontalAlignment: Qt.Alignleft
 
+                               Connections
+                               {
+                                   target:dapServiceController
+                                   onIndexCurrentNetworkChanged:
+                                   {
+                                       textMetworkAddress.fullText = networks.get(dapServiceController.IndexCurrentNetwork).address
+                                       textMetworkAddress.checkTextElide()
+//                                       textMetworkAddress.update()
+                                       textMetworkAddress.updateText()
+//                                       emptyText.copyFullText()
+
+                                   }
+                               }
+
+//                               DapText
+//                               {
+//                                   id: emptyText
+//                                   visible: false
+//                                   fullText: " "
+//                               }
                             }
                             MouseArea
                             {
