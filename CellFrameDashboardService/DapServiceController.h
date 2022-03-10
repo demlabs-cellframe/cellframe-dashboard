@@ -92,7 +92,7 @@ private slots:
     void sendNotifyDataToGui(QVariant);
 
     //testSlot
-    void test();
+    //void test();
 };
 
 #endif // DAPSERVICECONTROLLER_H

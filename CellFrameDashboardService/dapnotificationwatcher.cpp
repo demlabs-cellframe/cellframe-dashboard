@@ -112,7 +112,7 @@ void DapNotificationWatcher::socketReadyRead()
     {
         QJsonDocument doc = QJsonDocument::fromJson(data);
         QVariant var = doc.toVariant().toMap();
-        qDebug() << data << var;
+        //qDebug() << data << var;
         emit rcvNotify(var);
     }
 }
