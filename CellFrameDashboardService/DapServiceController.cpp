@@ -67,7 +67,7 @@ void DapServiceController::sendNotifyDataToGui(QVariant data)
 {
     qDebug()<< data;
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
-    transceiver->notifedFromClient(data);
+    transceiver->notifyToClient(data);
 }
 
 /// Register command.
