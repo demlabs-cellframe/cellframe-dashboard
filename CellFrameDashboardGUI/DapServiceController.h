@@ -200,6 +200,7 @@ signals:
     void networksReceived(QList<QObject*> networksList);
 
     void dapRcvNotify(const QVariant& rcvData);
+    void notifyReceived(const QVariant& rcvData);
 
 private slots:
     /// Register command.

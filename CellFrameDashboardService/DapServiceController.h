@@ -90,9 +90,6 @@ private slots:
     /// Register command.
     void registerCommand();
     void sendNotifyDataToGui(QVariant);
-
-    //testSlot
-    //void test();
 };
 
 #endif // DAPSERVICECONTROLLER_H

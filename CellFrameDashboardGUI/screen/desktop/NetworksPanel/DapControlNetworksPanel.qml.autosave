@@ -275,9 +275,10 @@ DapNetworksPanel
     function modelUpdate(map)
     {
 
-        console.log("LLLLLLLLLLL", map.net_ip)
-
-        networksModel.append({ "name" : networksStatesList[i].name,
+        console.log("LLLLLLLLLLL", map.net_id)
+        
+        
+        networksModel.append({ "name" : map.net_id,
                                         "networkState" : networksStatesList[i].networkState,
                                         "targetState" : networksStatesList[i].targetState,
                                         "stateColor" : networksStatesList[i].stateColor,

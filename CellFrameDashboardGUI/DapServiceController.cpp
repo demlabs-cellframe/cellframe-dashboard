@@ -322,6 +322,7 @@ void DapServiceController::registerCommand()
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
         qDebug() << "dapRcvNotify data: " << rcvData;
+        emit notifyReceived(rcvData);
     });
 
 
