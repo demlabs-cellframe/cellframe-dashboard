@@ -322,7 +322,7 @@ Popup {
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumWidth: item_width/2
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
             color: currTheme.textColor
             text: name
             elide: Text.ElideMiddle

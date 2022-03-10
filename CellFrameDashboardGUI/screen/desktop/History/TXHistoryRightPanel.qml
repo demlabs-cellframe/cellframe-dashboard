@@ -8,8 +8,6 @@ Page
 {
     id: historyRightPanel
 
-    anchors.fill: parent
-
     background: Rectangle {
         color: "transparent"
     }

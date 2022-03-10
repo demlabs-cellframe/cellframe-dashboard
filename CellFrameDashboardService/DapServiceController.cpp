@@ -115,7 +115,7 @@ void DapServiceController::registerCommand()
 
     QTcpSocket* tcp = new QTcpSocket();
 
-    tcp->connectToHost(QHostAddress("0.0.0.0"),8088);
+    tcp->connectToHost(QHostAddress("0.0.0.0"),18888);
     connect(tcp,SIGNAL(readyRead()), this, SLOT(rcvNotifySocket()));
 
 }

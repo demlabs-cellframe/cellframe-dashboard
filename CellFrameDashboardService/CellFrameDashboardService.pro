@@ -57,6 +57,12 @@ unix: !mac : !android {
     BUILD_FLAG = static
 }
 
+win32 {
+    INCLUDEPATH += $$PWD/platforms/win32/service/
+    HEADERS += platforms/win32/service/Service.h
+    SOURCES += platforms/win32/service/Service.cpp
+}
+
 defined(BUILD_FLAG,var){
     LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
 }

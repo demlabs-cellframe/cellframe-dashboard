@@ -15,13 +15,8 @@ DapPage {
 
     property int requestCounter: 0
 
-    QtObject {
-        id: navigator
-
-        function clearRightPanel() {
-            dapRightPanel.pop(null)
-        }
-    }
+    property alias dapHistoryTopPanel: historyTopPanel
+    property alias dapHistoryScreen: historyScreen
 
     ListModel
     {
@@ -144,6 +139,7 @@ DapPage {
     }
 
     dapHeader.initialItem: TXHistoryTopPanel {
+        id:historyTopPanel
         onCurrentSearchString: {
             console.log("currentSearchString", text)
 
@@ -153,50 +149,28 @@ DapPage {
         }
     }
 
-    dapScreen.initialItem: TXHistoryScreen { }
+    dapScreen.initialItem:
+        TXHistoryScreen
+        {
+            id:historyScreen
 
-    dapRightPanel.initialItem: TXHistoryRightPanel {
-        onCurrentStatusSelected: {
-            console.log("currentStatusSelected", status)
+            dapHistoryRightPanel.onCurrentStatusSelected: {
+                console.log("currentStatusSelected", status)
+                currentStatus = status
+                filterResults()
+            }
 
-            currentStatus = status
+            dapHistoryRightPanel.onCurrentPeriodSelected: {
+                console.log("currentPeriodSelected", period, isRange)
 
-            filterResults()
+                currentPeriod = period
+                isCurrentRange = isRange
+
+                filterResults()
+            }
         }
-        onCurrentPeriodSelected: {
-            console.log("currentPeriodSelected", period, isRange)
 
-            currentPeriod = period
-            isCurrentRange = isRange
-
-            filterResults()
-        }
-    }
-
-    //    dapHistoryTopPanel.onCurrentSearchString: {
-    //        console.log("currentSearchString", text)
-
-    //        currentString = text
-
-    //        filterResults()
-    //    }
-
-    //    dapHistoryScreen.dapHistoryRightPanel.onCurrentStatusSelected: {
-    //        console.log("currentStatusSelected", status)
-
-    //        currentStatus = status
-
-    //        filterResults()
-    //    }
-
-    //    dapHistoryScreen.dapHistoryRightPanel.onCurrentPeriodSelected: {
-    //        console.log("currentPeriodSelected", period, isRange)
-
-    //        currentPeriod = period
-    //        isCurrentRange = isRange
-
-    //        filterResults()
-    //    }
+    onRightPanel: false
 
     Connections
     {
@@ -207,7 +181,6 @@ DapPage {
                 return
 
             --requestCounter
-
             for (var q = 0; q < walletHistory.length; ++q)
             {
                 if (temporaryModel.count === 0)
@@ -244,7 +217,6 @@ DapPage {
                 for (var i = 0; i < temporaryModel.count; ++i)
                     modelHistory.append(temporaryModel.get(i))
             }
-
         }
     }
 
@@ -255,10 +227,10 @@ DapPage {
         {
             if(index === currentIndex)
             {
-                console.log("CREATED")
                 if (globalLogic.currentIndex >= 0 &&
                         requestCounter === 0)
                 {
+                    temporaryModel.clear()
                     modelHistory.clear()
 
                     requestCounter = globalLogic.getWalletHistory(globalLogic.currentIndex, _dapModelWallets)
