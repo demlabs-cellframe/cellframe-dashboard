@@ -81,8 +81,6 @@ signals:
 private slots:
     /// Register command.
     void registerCommand();
-    /// Initialize system tray.
-    void rcvNotifySocket();
 };
 
 #endif // DAPSERVICECONTROLLER_H

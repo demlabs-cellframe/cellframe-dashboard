@@ -3,6 +3,7 @@
 #include <QThread>
 #include <QIODevice>
 #include <QLocalSocket>
+#include <QTimer>
 
 
 class DapNotificationWatcher : public QObject
@@ -24,9 +25,19 @@ public slots:
 
     void tcpSocketStateChanged(QAbstractSocket::SocketState socketState);
 
+    void slotReconnect();
+
 signals:
     void networksStatesReceived(QVariantMap map);
 
+private:
+    QString m_listenPath;
+    QString m_listenAddr;
+    uint16_t m_listenPort;
+
+    QString m_socketState;
+
+    QTimer * m_reconnectTimer;
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H
