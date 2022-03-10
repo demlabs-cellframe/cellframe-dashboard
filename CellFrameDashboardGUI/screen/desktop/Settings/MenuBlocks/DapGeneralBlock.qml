@@ -209,18 +209,18 @@ ColumnLayout
                                        textMetworkAddress.fullText = networks.get(dapServiceController.IndexCurrentNetwork).address
                                        textMetworkAddress.checkTextElide()
 //                                       textMetworkAddress.update()
-                                       textMetworkAddress.copyFullText()
-                                       emptyText.copyFullText()
+                                       textMetworkAddress.updateText()
+//                                       emptyText.copyFullText()
 
                                    }
                                }
 
-                               DapText
-                               {
-                                   id: emptyText
-                                   visible: false
-                                   fullText: " "
-                               }
+//                               DapText
+//                               {
+//                                   id: emptyText
+//                                   visible: false
+//                                   fullText: " "
+//                               }
                             }
                             MouseArea
                             {
