@@ -208,7 +208,8 @@ ColumnLayout
                                    {
                                        textMetworkAddress.fullText = networks.get(dapServiceController.IndexCurrentNetwork).address
                                        textMetworkAddress.checkTextElide()
-                                       textMetworkAddress.update()
+//                                       textMetworkAddress.update()
+                                       textMetworkAddress.copyFullText()
                                    }
                                }
 
@@ -261,9 +262,6 @@ ColumnLayout
 //                                checked = true
                             dapCurrentWallet = index
                             SettingsWallet.currentIndex = index
-
-                            textMetworkAddress.checkTextElide()
-                            textMetworkAddress.update()
                         }
                     }
                 }
