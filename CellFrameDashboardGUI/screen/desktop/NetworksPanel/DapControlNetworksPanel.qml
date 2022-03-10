@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "qrc:/"
 import "../../"
-import DapNotificationWatcher 1.0
+//import DapNotificationWatcher 1.0
 
 DapNetworksPanel
 {    
@@ -249,10 +249,10 @@ DapNetworksPanel
     }
 
 
-    DapNotificationWatcher
-    {
-        id: notificationWatcher
-    }
+//    DapNotificationWatcher
+//    {
+//        id: notificationWatcher
+//    }
 
     Connections
     {

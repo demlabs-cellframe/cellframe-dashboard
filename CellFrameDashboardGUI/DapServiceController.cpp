@@ -211,6 +211,8 @@ void DapServiceController::registerCommand()
     // Save cmd command in file
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRcvNotify("DapRcvNotify",m_DAPRpcSocket))), QString("dapRcvNotify")));
+
 
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
@@ -316,6 +318,13 @@ void DapServiceController::registerCommand()
 
         emit networksReceived(networks);
     });
+
+    connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
+    {
+        qDebug()<<rcvData.toString();
+    });
+
+
 
     registerEmmitedSignal();
 }

@@ -36,6 +36,7 @@
 #include "handlers/DapGetListOdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
+#include "handlers/DapRcvNotify.h"
 
 class DapServiceController : public QObject
 {
@@ -197,6 +198,8 @@ signals:
     void networksStatesReceived(QList<QObject*> networksStatesList);
 
     void networksReceived(QList<QObject*> networksList);
+
+    void dapRcvNotify(const QVariant& rcvData);
 
 private slots:
     /// Register command.

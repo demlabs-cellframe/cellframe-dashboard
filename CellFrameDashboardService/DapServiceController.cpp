@@ -37,6 +37,9 @@ bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
+    //for test
+    m_testTimer = new QTimer(this);
+    connect(m_testTimer, SIGNAL(timeout()), this, SLOT(test()));
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
@@ -52,6 +55,7 @@ bool DapServiceController::start()
         registerCommand();
         watcher = new DapNotificationWatcher(this);
         connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
+        m_testTimer->start(5000);
     }
 #endif
     else
@@ -68,6 +72,15 @@ void DapServiceController::sendNotifyDataToGui(QVariant data)
     qDebug()<< data;
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
     transceiver->notifyToClient(data);
+}
+
+void DapServiceController::test()
+{
+    QString resultObj("Hello");
+
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
+    transceiver->notifyToClient(resultObj);
+    qDebug()<<"SendData";
 }
 
 /// Register command.

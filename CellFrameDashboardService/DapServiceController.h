@@ -50,6 +50,8 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapRcvNotify.h"
 #include "dapnotificationwatcher.h"
 
+#include "QTimer"
+
 /**
  * @brief The DapServiceController class
  * Service class which provide handle operations with dashboard.
@@ -74,6 +76,11 @@ public:
     /// Start service: creating server and socket.
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
+
+
+
+    ///TEST
+    QTimer * m_testTimer;
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
@@ -83,6 +90,9 @@ private slots:
     /// Register command.
     void registerCommand();
     void sendNotifyDataToGui(QVariant);
+
+    //testSlot
+    void test();
 };
 
 #endif // DAPSERVICECONTROLLER_H
