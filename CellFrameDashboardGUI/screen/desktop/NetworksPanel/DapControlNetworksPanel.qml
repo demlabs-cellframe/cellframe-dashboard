@@ -81,8 +81,11 @@ DapNetworksPanel
                 Text {
                     id: txt_left
                     Layout.fillWidth: true
+                    Layout.maximumWidth: item_width/2
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                     color: currTheme.textColor
+                    elide: Text.ElideMiddle
+
                     text: name
                 }
 
@@ -152,11 +155,19 @@ DapNetworksPanel
 
         onClicked:
         {
+            if(networkList.currentIndex === networkList.count -1)
+            {
+                networkList.currentIndex = networkList.currentIndex - (visible_count - 1)
+                networkList.isRight = false
+            }
+
             if (networkList.currentIndex > 0) {
+                if(networkList.isRight)
+                    networkList.currentIndex = networkList.currentIndex - (visible_count - 1)
 
                 var zero = 0;
 
-                for(var i = visible_count; i > 0; i--)
+                for(var i = visible_count-1; i > 0; i--)
                 {
                     if(networkList.currentIndex - i >= zero )
                     {
@@ -166,6 +177,7 @@ DapNetworksPanel
                 }
                 networkList.closePopups()
             }
+            networkList.isRight = false
         }
     }
 
@@ -180,9 +192,19 @@ DapNetworksPanel
 
 
         onClicked: {
+            if(!networkList.currentIndex)
+            {
+                networkList.currentIndex = visible_count - 1
+                networkList.isRight = true
+            }
+
             if (networkList.currentIndex < networkList.count-1) {
 
-                for(var i = visible_count; i > 0; i--)
+                if(!networkList.isRight)
+                    networkList.currentIndex = networkList.currentIndex + (visible_count - 1)
+
+
+                for(var i = visible_count-1; i > 0; i--)
                 {
                     if(networkList.currentIndex + i <= networkList.count -1)
                     {
@@ -192,11 +214,13 @@ DapNetworksPanel
                 }
                 networkList.closePopups()
             }
+            networkList.isRight = true
         }
     }
 
     ListView {
         signal closePopups()
+        property bool isRight:true
         id: networkList
         model: networksModel
         highlightMoveDuration : 200

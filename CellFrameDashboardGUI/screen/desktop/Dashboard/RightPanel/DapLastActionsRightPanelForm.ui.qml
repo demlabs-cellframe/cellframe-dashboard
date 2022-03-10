@@ -96,6 +96,25 @@ DapRightPanel
                     text: sign + amount + " " + name
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                 }
+                Image
+                {
+                    Layout.preferredHeight: 30
+                    Layout.preferredWidth: 30
+//                    innerWidth: 20
+//                    innerHeight: 20
+
+                    visible: network === "subzero" ? true : false
+
+                    source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+
+                    MouseArea
+                    {
+                        id: mouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                    }
+                }
             }
 
             Rectangle

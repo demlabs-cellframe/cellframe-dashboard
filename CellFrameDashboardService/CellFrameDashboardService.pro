@@ -11,8 +11,8 @@ include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-!win32 {
-    CONFIG += console
+win32 {
+    CONFIG -= console
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -51,6 +51,12 @@ unix: !mac : !android {
     service_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += service_target
     BUILD_FLAG = static
+}
+
+win32 {
+    INCLUDEPATH += $$PWD/platforms/win32/service/
+    HEADERS += platforms/win32/service/Service.h
+    SOURCES += platforms/win32/service/Service.cpp
 }
 
 defined(BUILD_FLAG,var){
