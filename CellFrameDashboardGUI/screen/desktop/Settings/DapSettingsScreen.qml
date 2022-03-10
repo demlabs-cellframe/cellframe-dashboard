@@ -32,6 +32,11 @@ DapAbstractScreen
         bottomMargin: 20 * pt
     }
 
+    Component.onCompleted:{
+        if(!dapNetworkModel.count)
+            dapServiceController.requestToService("DapGetListNetworksCommand")
+    }
+
     Item
     {
         id: control

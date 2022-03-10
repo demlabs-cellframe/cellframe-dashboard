@@ -131,6 +131,7 @@ DapAbstractScreen
     Rectangle
     {
         FontLoader{id: font; source: "qrc:/resources/fonts/Quicksand/Quicksand-Medium.ttf"}
+        property alias text: textTitle.text
 
 
         id: frameTitleCreateWallet
@@ -142,6 +143,7 @@ DapAbstractScreen
 //        anchors.verticalCenter: parent.verticalCenter
         Text
         {
+            id:textTitle
 //            anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
