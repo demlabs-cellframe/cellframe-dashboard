@@ -18,7 +18,7 @@ DapNotificationWatcher::DapNotificationWatcher(QObject *parent)
     DapConfigReader configReader;
 
     m_listenPath = configReader.getItemString("notify_server", "listen_path", "");
-    m_listenAddr = configReader.getItemString("notify_server", "listen_addr", "");
+    m_listenAddr = configReader.getItemString("notify_server", "listen_address", "");
     m_listenPort = configReader.getItemInt("notify_server", "listen_port", 0);
 
     qDebug() << "Tcp config: " << m_listenAddr << m_listenPort;
@@ -114,7 +114,6 @@ void DapNotificationWatcher::socketReadyRead()
         QVariant var = doc.toVariant().toMap();
         qDebug() << data << var;
         emit rcvNotify(var);
-//        emit networksStatesReceived(var);
     }
 }
 

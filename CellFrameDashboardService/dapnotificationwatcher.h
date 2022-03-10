@@ -28,7 +28,6 @@ public slots:
     void slotReconnect();
 
 signals:
-    void networksStatesReceived(QVariantMap map);
     void rcvNotify(QVariant);
 
 private:
