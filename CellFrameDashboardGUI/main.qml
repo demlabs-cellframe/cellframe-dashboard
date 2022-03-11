@@ -184,7 +184,7 @@ ApplicationWindow
 
     onClosing: {
         close.accepted = false
-        hideWindow()
+        Qt.quit()
     }
 
     function restoreWindow()
@@ -209,8 +209,7 @@ ApplicationWindow
         lastHeight = window.height
         lastX = window.x
         lastY = window.y
-//        window.hide()
-        Qt.quit()
+        window.hide()
     }
 
     function checkSizeAndPosition()
