@@ -38,7 +38,7 @@ FocusScope {
     property string menuTabStates: ""
     Settings { property alias menuTabStates: dapMainPage.menuTabStates }
     signal menuTabChanged()
-    signal tabUpdate(var tag, var status)
+//    signal tabUpdate(var Tag, var status)
     signal pluginsTabChanged(var auto, var removed, var name)
     //
 
@@ -69,10 +69,6 @@ FocusScope {
 
     ListModel{
         id:modelAppsTabStates
-
-        ListElement { tag: "Plugin"
-            name: qsTr("Plugin")
-            show: true }
     }
 
     // Menu bar tab model
@@ -98,83 +94,82 @@ FocusScope {
             name: qsTr("dApps")
             show: true }
 
-        Component.onCompleted:
-        {
-            mainButtonsModel = globalLogic.initButtonsModel(mainButtonsModel, modelMenuTabStates)
-            mainButtonsModel = globalLogic.initButtonsModel(mainButtonsModel, modelAppsTabStates)
-            pluginsTabChanged(true,false,"")
-        }
+
     }
 
+    ListModel
+    {
+        id: modelMenuTab
 
-    property var mainButtonsModel: [
-        {
-            "name": qsTr("Wallet"),
-            "tag": "Wallet",
-            "bttnIco": "icon_wallet.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("Exchange"),
-            "tag": "Exchange",
-            "bttnIco": "icon_exchange.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("TX Explorer"),
-            "tag": "TX Explorer",
-            "bttnIco": "icon_history.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("Certificates"),
-            "tag": "Certificates",
-            "bttnIco": "icon_certificates.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("Tokens"),
-            "tag": "Tokens",
-            "bttnIco": "icon_tokens.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("VPN client"),
-            "tag": "VPN client",
-            "bttnIco": "vpn-client_icon.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("VPN service"),
-            "tag": "VPN service",
-            "bttnIco": "icon_vpn.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("Console"),
-            "tag": "Console",
-            "bttnIco": "icon_console.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("Logs"),
-            "tag": "Logs",
-            "bttnIco": "icon_logs.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("dApps"),
-            "tag": "dApps",
-            "bttnIco": "icon_daaps.png",
-            "showTab": true
-        },
-        {
-            "name": qsTr("Settings"),
-            "tag": "Settings",
-            "bttnIco": "icon_settings.png",
-            "showTab": true
+        ListElement {
+            tag: "Wallet"
+            name: qsTr("Wallet")
+            bttnIco: "icon_wallet.png"
+            showTab: true
         }
-    ]
+        ListElement {
+            tag: "Exchange"
+            name: qsTr("Exchange")
+            bttnIco: "icon_exchange.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "TX Explorer"
+            name: qsTr("TX Explorer")
+            bttnIco: "icon_history.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "Certificates"
+            name: qsTr("Certificates")
+            bttnIco: "icon_certificates.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "Tokens"
+            name: qsTr("Tokens")
+            bttnIco: "icon_tokens.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "VPN client"
+            name: qsTr("VPN client")
+            bttnIco: "vpn-client_icon.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "VPN service"
+            name: qsTr("VPN service")
+            bttnIco: "icon_vpn.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "Console"
+            name: qsTr("Console")
+            bttnIco: "icon_console.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "Logs"
+            name: qsTr("Logs")
+            bttnIco: "icon_logs.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "dApps"
+            name: qsTr("dApps")
+            bttnIco: "icon_daaps.png"
+            showTab: true
+        }
+        ListElement {
+            tag: "Settings"
+            name: qsTr("Settings")
+            bttnIco: "icon_settings.png"
+            showTab: true
+        }
+        Component.onCompleted:
+            globalLogic.initButtonsModel(modelMenuTab, modelMenuTabStates)
+    }
 
     Rectangle {
         anchors.fill: parent
@@ -270,7 +265,7 @@ FocusScope {
                     spacing: 0
                     clip: true
                     //interactive: false
-                    model: mainButtonsModel
+                    model: modelMenuTab
 
                     delegate: DapMenuButton {}
                 }
@@ -289,6 +284,7 @@ FocusScope {
                 id: mainScreenStack
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
+
                 DapStackView { id: dapWalletPage;       }
                 DapStackView { id: exchangePage;        }
                 DapStackView { id: daphistoryPage;      }
@@ -323,72 +319,55 @@ FocusScope {
     {
         updateMenuTabStatus()
     }
-    function updateMenuTabStatus()
-    {
-        var datamodel = []
-        for (var i = 0; i < modelMenuTabStates.count; ++i)
-        {
-            datamodel.push(modelMenuTabStates.get(i))
-            console.log(modelMenuTabStates.get(i).tag,
-                            "show", modelMenuTabStates.get(i).show)
-        }
 
-//        for (var i = 0; i < modelAppsTabStates.count; ++i)
-//        {
-//            datamodel.push(modelAppsTabStates.get(i))
-//            console.log(modelAppsTabStates.get(i).tag,
-//                            "show", modelAppsTabStates.get(i).show)
-//        }
-
-        menuTabStates = JSON.stringify(datamodel)
-    }
     onPluginsTabChanged:
     {
-
-    }
-
-    function getWalletHistory(index)
-    {
-        var counter = 0
-
-        if (index < 0 || index >= _dapWalletsModel.count)
-            return counter
-
-        var model = _dapWalletsModel[index].networks
-        var name = _dapWalletsModel[index].name
-
-        for (var i = 0; i < model.count; ++i)
+        if(auto)
         {
-            var network = model[i].name
-            var address = model[i].address
-
-            if (model[i].chains.count > 0)
+            for(var i = 0; i < modelAppsTabStates.count; i++)
             {
-                for (var j = 0; j < model[i].chains.count; ++j)
+                modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
+                                    tag: modelAppsTabStates.get(i).tag,
+                                    page: modelAppsTabStates.get(i).path,
+                                    bttnIco: "icon_certificates.png",
+                                    showTab: modelAppsTabStates.get(i).show})
+            }
+        }
+        else
+        {
+            var index;
+            if(removed)
+            {
+                for(var i = 0; i < modelMenuTab.count; i++)
                 {
-                    var chain = model[i].chains[i].name
 
-                    dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                        network, chain, address, name);
-
-                    ++counter
+                    if(modelMenuTab.get(i).name === name)
+                    {
+                        modelMenuTab.remove(i);
+                        break;
+                    }
                 }
             }
             else
             {
-                dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                    network, "zero", address, name);
-
-                ++counter
+                for(var i = 0; i < modelAppsTabStates.count; i++)
+                {
+                    if(modelAppsTabStates.get(i).name === name)
+                    {
+                        modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
+                                            tag: modelAppsTabStates.get(i).tag,
+                                            page: modelAppsTabStates.get(i).path,
+                                            bttnIco: "icon_certificates.png",
+                                            showTab: modelAppsTabStates.get(i).show})
+                        break;
+                    }
+                }
             }
         }
-
-        return counter
+        updateMenuTabStatus()
     }
 
-
     Component.onCompleted: {
-//        dapServiceController.requestToService("DapGetListNetworksCommand")
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
 
@@ -397,7 +376,7 @@ FocusScope {
             console.log("loading menuTabStates", menuTabStates)
             var dataModel = JSON.parse(menuTabStates)
             globalLogic.loadSettingsInTabs(modelMenuTabStates, dataModel)
-            globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
+//            globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
         }
 
         initPages()
@@ -407,7 +386,6 @@ FocusScope {
         target: dapServiceController
 
         onNetworksListReceived: {
-//            dapServiceController.setCurrentNetwork(globalLogic.returnCurrentNetwork(networksList))
             _dapModelNetworks = globalLogic.rcvNetworksList(networksList, parent)
         }
 
@@ -427,9 +405,8 @@ FocusScope {
         onRcvListPlugins:
         {
             _dapModelPlugins = globalLogic.rcvPluginList(m_pluginsList, parent)
-
             modelPluginsUpdated()
-            updateModelAppsTab() // TODO
+            updateModelAppsTab()
         }
     }
 
@@ -447,5 +424,94 @@ FocusScope {
         dapApps.setInitialItem(appsScreen)
         dapSettingsPage.setInitialItem(settingsScreen)
         mainScreen.isInit = true
+    }
+
+    function updateMenuTabStatus()
+    {
+        var datamodel = []
+        for (var i = 0; i < modelMenuTabStates.count; ++i)
+        {
+            datamodel.push(modelMenuTabStates.get(i))
+            console.log(modelMenuTabStates.get(i).tag,
+                            "show", modelMenuTabStates.get(i).show)
+        }
+
+        for (var i = 0; i < modelAppsTabStates.count; ++i)
+        {
+            datamodel.push(modelAppsTabStates.get(i))
+            console.log(modelAppsTabStates.get(i).tag,
+                            "show", modelAppsTabStates.get(i).show)
+
+        }
+
+        menuTabStates = JSON.stringify(datamodel)
+    }
+
+    function updateModelAppsTab() //create model apps from left menu tab
+    {
+        if(modelAppsTabStates.count)
+        {
+            for(var i = 0; i < _dapModelPlugins.count; i++)
+            {
+                var indexCreate;
+                for(var j = 0; j < modelAppsTabStates.count; j++)
+                {
+                    if(_dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name && _dapModelPlugins.get(i).status !== "1")
+                    {
+
+                        pluginsTabChanged(false, true, modelAppsTabStates.get(j).name)
+                        modelAppsTabStates.remove(j);
+                        j--;
+                    }
+                    else if(_dapModelPlugins.get(i).status === "1" && _dapModelPlugins.get(i).name !== modelAppsTabStates.get(j).name)
+                    {
+                        indexCreate = i;
+                    }
+                    else if(_dapModelPlugins.get(i).status === "1" && _dapModelPlugins.get(i).name === modelAppsTabStates.get(j).name)
+                    {
+                        indexCreate = -1;
+                        break
+                    }
+                }
+
+                if(indexCreate >= 0)
+                {
+                    modelAppsTabStates.append({tag: "Plugin",
+                                               name:_dapModelPlugins.get(indexCreate).name,
+                                               path: _dapModelPlugins.get(indexCreate).path,
+                                               verified:_dapModelPlugins.get(indexCreate).verifed,
+                                               show:true})
+
+                    pluginsTabChanged(false, false, _dapModelPlugins.get(indexCreate).name)
+                    break
+                }
+            }
+
+        }
+        else
+        {
+            var first = false
+            if (menuTabStates && !modelAppsTabStates.count)
+                first = true
+
+            for(var i = 0; i < _dapModelPlugins.count; i++)
+            {
+                if(_dapModelPlugins.get(i).status === "1")
+                {
+                    modelAppsTabStates.append({tag: "Plugin",
+                                               name:_dapModelPlugins.get(i).name,
+                                               path: _dapModelPlugins.get(i).path,
+                                               verified:_dapModelPlugins.get(i).verifed,
+                                               show:true})
+                }
+            }
+            if(first)
+            {
+                var dataModel = JSON.parse(menuTabStates)
+                globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
+            }
+            if(modelMenuTab.count)
+                pluginsTabChanged(true,false,"")
+        }
     }
 }

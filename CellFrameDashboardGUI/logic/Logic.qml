@@ -20,6 +20,7 @@ QtObject {
         return dapData
     }
 
+    /////////////PLUGINS
     function rcvPluginList(buffer, parent)
     {
 
@@ -39,6 +40,7 @@ QtObject {
         return dapModel
     }
 
+    /////////////ORDERS
     function rcvOrderList(buffer, parent)
     {
         var dapModel = Qt.createQmlObject('import QtQuick 2.2; \
@@ -59,6 +61,7 @@ QtObject {
         return dapModel
     }
 
+    /////////////WALLETS
     function rcvWalletList(buffer, parent)
     {
         var dapModel = Qt.createQmlObject('import QtQuick 2.2; \
@@ -122,31 +125,11 @@ QtObject {
         return dapModel
     }
 
-    function returnCurrentNetwork(buffer)
-    {
-        if (!buffer)
-            console.error("networksList is empty")
-        else
-        {
-            if (buffer[0] === "[net]")
-            {
-                console.log("Current network: "+buffer[1])
-                return buffer[1]
-            }
-            else
-            {
-                console.log("Current network: "+buffer[0])
-                return buffer[0]
-            }
-        }
-    }
-
+    /////////////NETWORKS
     function rcvNetworksList(buffer, parent)
     {
         var dapModel = Qt.createQmlObject('import QtQuick 2.2; \
                 ListModel {}',parent);
-
-//        var dapData = createDapData(buffer)
 
         if (!buffer.length)
             console.error("networksList is empty")
@@ -160,63 +143,21 @@ QtObject {
             }
             else
             {
-                dapServiceController.setCurrentNetwork(networksList[currentNetwork]);
+                dapServiceController.setCurrentNetwork(buffer[currentNetwork]);
                 dapServiceController.setIndexCurrentNetwork(currentNetwork);
             }
 
-
             dapModel.clear()
             for (var i = 0; i < buffer.length; ++i)
-            {
                 dapModel.append({ "name" : buffer[i]})
-//                    console.info("Name net: " + dapNetworkModel.get(i).name)
-            }
+
         }
         console.info("Current network: "+dapServiceController.CurrentNetwork)
 
-//        var i = 0
-//        var net = -1
-
-//        while (i < Object.keys(buffer).length)
-//        {
-//            if (buffer[i] === "[net]")
-//            {
-//                ++i
-//                if (i >= Object.keys(buffer).length)
-//                    break
-
-//                ++net
-//                dapModel.append({ "name" : buffer[i],
-//                                      "chains" : []})
-
-//                print("[net]", buffer[i])
-
-//                ++i
-//                if (i >= Object.keys(buffer).length)
-//                    break
-
-//                while (i < Object.keys(buffer).length
-//                       && buffer[i] === "[chain]")
-//                {
-//                    ++i
-//                    if (i >= Object.keys(buffer).length)
-//                        break
-
-//                    dapModel.get(net).chains.append({"name": buffer[i]})
-
-//                    print("[chain]", buffer[i])
-
-//                    ++i
-//                    if (i >= Object.keys(buffer).length)
-//                        break
-//                }
-//            }
-//            else
-//                ++i
-//        }
         return dapModel
     }
 
+    /////////////HISTORY
     function getWalletHistory(index, modelWalelts)
     {
         var counter = 0
@@ -256,23 +197,24 @@ QtObject {
         return counter
     }
 
+    /////////////TABS
     function initButtonsModel(buttonsModel, tabModel)
     {
         if(tabModel)
         {
             for (var j = 0; j < tabModel.count; ++j)
             {
-                for (var k = 0; k < buttonsModel.length; ++k)
+                for (var k = 0; k < buttonsModel.count; ++k)
                 {
                     if (tabModel.get(j).tag ===
-                        buttonsModel[k].tag &&
+                        buttonsModel.get(k).tag &&
                         tabModel.get(j).name ===
-                        buttonsModel[k].name)
+                        buttonsModel.get(k).name)
                     {
                         console.log(tabModel.get(j).tag,
                                     "show", tabModel.get(j).show)
 
-                        buttonsModel[k].showTab = tabModel.get(j).show
+                        buttonsModel.get(k).showTab = tabModel.get(j).show
                         break
                     }
                 }
@@ -302,5 +244,4 @@ QtObject {
         }
         return tabModel
     }
-
 }

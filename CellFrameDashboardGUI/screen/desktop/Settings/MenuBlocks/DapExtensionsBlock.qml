@@ -47,18 +47,10 @@ ColumnLayout
         }
     }
 
+
     ListModel
     {
         id: modelApps
-        Component.onCompleted:
-        {
-            for(var i = 0; i < _dapModelPlugins.count; i++)
-            {
-                if(_dapModelPlugins.get(i).status === "1")
-                    modelApps.append({name:_dapModelPlugins.get(i).name, status:_dapModelPlugins.get(i).status})
-
-            }
-        }
     }
 
     ListView
@@ -133,6 +125,24 @@ ColumnLayout
                     anchors.bottom: parent.bottom
                     height: 1 * pt
                     color: currTheme.lineSeparatorColor
+
+                }
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                modelApps.clear()
+                for(var i = 0; i < _dapModelPlugins.count; i++)
+                {
+                    if(_dapModelPlugins.get(i).status === "1")
+                        modelApps.append({name:_dapModelPlugins.get(i).name, status:_dapModelPlugins.get(i).status})
 
                 }
             }

@@ -273,7 +273,7 @@ DapAbstractScreen
                             y: 6 * pt
                             wrapMode: TextArea.Wrap
                             color: currTheme.textColor
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                             opacity: 0.5
 
                         }

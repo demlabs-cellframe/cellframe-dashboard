@@ -95,25 +95,25 @@ DapAbstractTab
         {
             console.log("onSwitchMenuTab", tag, state)
 
-            for (var i = 0; i < mainButtonsModel.length; ++i)
-                if (mainButtonsModel[i].tag === tag)
+            for (var i = 0; i < modelMenuTab.count; ++i)
+                if (modelMenuTab.get(i).tag === tag)
                 {
-                    mainButtonsModel[i].showTab = state
+                    modelMenuTab.get(i).showTab = state
                     break
                 }
 
             menuTabChanged()
-            tabUpdate(tag, state)
+//            tabUpdate(tag, state)
         }
 
         onSwitchAppsTab:
         {
             console.log("onSwitchMenuTab", tag, name, state)
 
-            for (var i = 0; i < mainButtonsModel.count; ++i)
-                if (mainButtonsModel.get(i).tag === tag && mainButtonsModel.get(i).name === name)
+            for (var i = 0; i < modelMenuTab.count; ++i)
+                if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
                 {
-                    mainButtonsModel.setProperty(i, "showTab", state)
+                    modelMenuTab.get(i).showTab = state
                     break
                 }
 

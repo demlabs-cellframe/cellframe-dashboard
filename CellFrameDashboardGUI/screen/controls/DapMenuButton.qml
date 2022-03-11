@@ -9,8 +9,8 @@ Item
     id: buttonDelegate
 
     width: 173 * pt
-    height: modelData.showTab ? 52 * pt : 0
-    visible: modelData.showTab
+    height: showTab ? 52 * pt : 0
+    visible: showTab
 
     property bool isPushed: mainButtonsList.currentIndex === index
 
@@ -42,7 +42,7 @@ Item
             DapImageLoader {
                 innerWidth: parent.width
                 innerHeight: parent.height
-                source: "qrc:/resources/icons/" + pathTheme + "/" + modelData.bttnIco
+                source: "qrc:/resources/icons/" + pathTheme + "/" + bttnIco
             }
         }
 
@@ -53,7 +53,7 @@ Item
             anchors.left: ico.right
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
-            text: modelData.name
+            text: name
             color: currTheme.textColor
             font:_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular13
         }
@@ -94,23 +94,5 @@ Item
     onIsPushedChanged:
     {
         backgroundImage.visible = isPushed ? true : false
-    }
-
-    Connections
-    {
-        target:dapMainPage
-        onTabUpdate:
-        {
-            console.log("TAG = ", tag)
-            console.log("MODEL TAG = ", modelData.tag)
-            if(tag === modelData.tag)
-            {
-                buttonDelegate.visible = status
-                if(status)
-                    buttonDelegate.height = 52
-                else
-                    buttonDelegate.height = 0
-            }
-        }
     }
 }

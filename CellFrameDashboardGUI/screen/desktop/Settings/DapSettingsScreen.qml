@@ -31,9 +31,17 @@ DapAbstractScreen
         bottomMargin: 20 * pt
     }
 
-    Component.onCompleted:{
-        if(!dapNetworkModel.count)
-            dapServiceController.requestToService("DapGetListNetworksCommand")
+    Connections
+    {
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                if(!_dapModelNetworks.count)
+                    dapServiceController.requestToService("DapGetListNetworksCommand")
+            }
+        }
     }
 
     Item

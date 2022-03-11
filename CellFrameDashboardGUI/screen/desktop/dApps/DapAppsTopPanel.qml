@@ -69,7 +69,7 @@ DapTopPanel
 
     //right Rectangle
     Rectangle {
-        color: parent.color
+//        color: parent.color
         height: parent.height
         width: parent.radius
         x: parent.width - width
