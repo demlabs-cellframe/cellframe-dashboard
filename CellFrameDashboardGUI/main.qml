@@ -43,6 +43,7 @@ ApplicationWindow
             id: mainWindowMobile
         }
     }
+
     //Themes and fonts
     Dark { id: darkTheme }
     Light { id: lightTheme }
