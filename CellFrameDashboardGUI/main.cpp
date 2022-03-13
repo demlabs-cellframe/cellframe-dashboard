@@ -21,6 +21,8 @@
 
 #include "systemtray.h"
 
+#include "resizeimageprovider.h"
+
 #include "models/VpnOrdersModel.h"
 
 #include <sys/stat.h>
@@ -179,6 +181,8 @@ int main(int argc, char *argv[])
         //For plugins
         DapPluginsController pluginsManager(filePluginConfig,pluginPath);
         context->setContextProperty("pluginsManager", &pluginsManager);
+
+        app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
 
         app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 

@@ -345,8 +345,8 @@ Rectangle {
                     heightItemMenu: 52 * pt
                     normalColorItemMenu: currTheme.backgroundPanel
                     selectColorItemMenu: "transparent"
-                    widthIconItemMenu: 16 * pt
-                    heightIconItemMenu: 16 * pt
+                    widthIconItemMenu: 18 * pt
+                    heightIconItemMenu: 18 * pt
                     dapMenuWidget.model: modelMenuTab
                     normalFont: "Quicksand"
                     selectedFont: "Quicksand"

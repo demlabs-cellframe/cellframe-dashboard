@@ -59,7 +59,8 @@ DapAbstractMenuTabWidgetForm
                 id:iconItem
                 width: widthIconItemMenu
                 height: heightIconItemMenu
-                source: normalIcon
+//                source: normalIcon
+                source: "image://resize/" + normalIcon
                 mipmap: true
 
                 anchors.left: parent.left
@@ -89,7 +90,7 @@ DapAbstractMenuTabWidgetForm
                 {
                     if(!frameItemMenu.isPushed)
                     {
-                        iconItem.source = hoverIcon;
+                        iconItem.source = "image://resize/" + hoverIcon;
                         textItem.font.family = selectedFont;
                         menuItemImg.visible = true
                         menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_hover.png"
@@ -100,7 +101,7 @@ DapAbstractMenuTabWidgetForm
                 {
                     if(!frameItemMenu.isPushed)
                     {
-                        iconItem.source = normalIcon
+                        iconItem.source = "image://resize/" + normalIcon
                         textItem.font.family = normalFont;
                         menuItemImg.visible = false
                         menuItemImg.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
@@ -119,7 +120,7 @@ DapAbstractMenuTabWidgetForm
             onIsPushedChanged:
             {
 //                frameItemMenu.color = (isPushed ?  selectColorItemMenu : normalColorItemMenu);
-                iconItem.source = isPushed ? model.hoverIcon : model.normalIcon;
+                iconItem.source = isPushed ? "image://resize/" + model.hoverIcon : "image://resize/" + model.normalIcon;
                 textItem.font.family = (isPushed ? selectedFont : normalFont);
                 menuItemImg.visible = isPushed ? true : false
             }
