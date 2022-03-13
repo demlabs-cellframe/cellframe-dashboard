@@ -286,6 +286,7 @@ FocusScope {
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
 
+                //To add item to mainModel use mainModel.insert(<index>, <Item>) to know last position use mainModel.count
                 Repeater {
                     model: ObjectModel {
                         id: mainModel
