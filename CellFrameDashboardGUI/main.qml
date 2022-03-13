@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
 import "screen"
+import "resources/theme" as Theme
 
 import "qrc:/screen/desktop/NetworksPanel"
 
@@ -46,6 +47,11 @@ ApplicationWindow
     property int lastY: 0
     property int lastWidth: 0
     property int lastHeight: 0
+
+    Theme.Dark {id: darkTheme}
+    Theme.Light {id: lightTheme}
+
+    color: darkTheme.backgroundPanel
 
     //Main window
     DapMainApplicationWindow
