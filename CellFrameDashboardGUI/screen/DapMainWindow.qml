@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQml.Models 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
@@ -285,17 +286,22 @@ FocusScope {
                 currentIndex: mainButtonsList.currentIndex
                 anchors.fill: parent
 
-                DapStackView { id: dapWalletPage;       }
-                DapStackView { id: exchangePage;        }
-                DapStackView { id: daphistoryPage;      }
-                DapStackView { id: dapCertificatesPage; }
-                DapStackView { id: dapTokensPage;       }
-                DapStackView { id: dapVPNClientPage;    }
-                DapStackView { id: dapVPNServicePage;   }
-                DapStackView { id: dapConsolePage;      }
-                DapStackView { id: dapLogsPage;         }
-                DapStackView { id: dapApps;             }
-                DapStackView { id: dapSettingsPage;     }
+                Repeater {
+                    model: ObjectModel {
+                        id: mainModel
+                        DapStackView { id: dapWalletPage;       }
+                        DapStackView { id: exchangePage;        }
+                        DapStackView { id: daphistoryPage;      }
+                        DapStackView { id: dapCertificatesPage; }
+                        DapStackView { id: dapTokensPage;       }
+                        DapStackView { id: dapVPNClientPage;    }
+                        DapStackView { id: dapVPNServicePage;   }
+                        DapStackView { id: dapConsolePage;      }
+                        DapStackView { id: dapLogsPage;         }
+                        DapStackView { id: dapApps;             }
+                        DapStackView { id: dapSettingsPage;     }
+                    }
+                }
 
                 onCurrentIndexChanged: {if(mainScreen.isInit) updatePage(currentIndex+1)}
             }
