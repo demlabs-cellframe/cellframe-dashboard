@@ -48,7 +48,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
-#include "dapnotificationwatcher.h"
+#include "DapNotificationWatcher.h"
 
 #include "QTimer"
 

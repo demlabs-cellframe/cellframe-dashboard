@@ -4,6 +4,9 @@
 #include <QIODevice>
 #include <QLocalSocket>
 #include <QTimer>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 
 
 class DapNotificationWatcher : public QObject
@@ -18,26 +21,27 @@ public:
 public slots:
     void slotError();
     void socketConnected();
+    void slotReconnect();
     void socketDisconnected();
-    void socketStateChanged(QLocalSocket::LocalSocketState socketState);
 
     void socketReadyRead();
 
     void tcpSocketStateChanged(QAbstractSocket::SocketState socketState);
-
-    void slotReconnect();
+    void socketStateChanged(QLocalSocket::LocalSocketState socketState);
 
 signals:
     void rcvNotify(QVariant);
 
 private:
+    void reconnectFunc();
+
+private:
     QString m_listenPath;
     QString m_listenAddr;
     uint16_t m_listenPort;
-
     QString m_socketState;
-
     QTimer * m_reconnectTimer;
+
 };
 
 #endif // DAPNOTIFICATIONWATCHER_H

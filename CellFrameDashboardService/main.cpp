@@ -18,7 +18,7 @@
 #include "dapconfigreader.h"
 #include <sys/stat.h>
 
-#include <dapnotificationwatcher.h>
+#include <DapNotificationWatcher.h>
 void processArgs();
 
 #ifdef Q_OS_WIN

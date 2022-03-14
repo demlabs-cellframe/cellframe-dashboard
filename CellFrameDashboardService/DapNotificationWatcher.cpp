@@ -1,4 +1,4 @@
-#include "dapnotificationwatcher.h"
+#include "DapNotificationWatcher.h"
 #include <QLocalSocket>
 #include <QDebug>
 #include <dap_config.h>
@@ -68,27 +68,32 @@ DapNotificationWatcher::DapNotificationWatcher(QObject *parent)
 
 void DapNotificationWatcher::slotError()
 {
-    m_reconnectTimer->stop();
-    qDebug() << "Socket error" << socket->errorString() << "Reconnecting...";
-    m_reconnectTimer->start(5000);
+    qWarning() << "Notify socket error" << socket->errorString();
+    reconnectFunc();
 }
 
 void DapNotificationWatcher::slotReconnect()
 {
     ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)socket)->waitForConnected(5000);
+
+    QVariant errMsg = "Notify socket error";
+    QVariantMap msg = errMsg.toMap();
+    msg["connect_state"] = QVariant::fromValue(m_socketState);
+    emit rcvNotify(msg);
 }
 
 void DapNotificationWatcher::socketConnected()
 {
-    qDebug() << "Socket connected";
+    qInfo() << "Notify socket connected";
     m_reconnectTimer->stop();
     socket->waitForReadyRead(10000);
 }
 
 void DapNotificationWatcher::socketDisconnected()
 {
-    qDebug() << "Socket disconnected";
+    qWarning() << "Notify socket disconnected";
+    reconnectFunc();
 }
 
 void DapNotificationWatcher::socketStateChanged(QLocalSocket::LocalSocketState socketState)
@@ -110,15 +115,31 @@ void DapNotificationWatcher::socketReadyRead()
 
     for (int i = 0; i < list.length(); ++i)
     {
-        QJsonDocument doc = QJsonDocument::fromJson(data);
+        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
         QVariant var = doc.toVariant();
-        qDebug() << data << var;
-        emit rcvNotify(var);
+        QVariantMap map = var.toMap();
+        map["connect_state"] = QVariant::fromValue(m_socketState);
+        qDebug() << list[i] << map;
+
+        if(var.isValid())
+            emit rcvNotify(map);
     }
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)
 {
-    qDebug() << "Tcp socket state changed" << socketState;
+    qDebug() << "Notify socket state changed" << socketState;
     m_socketState = socketState;
+}
+
+void DapNotificationWatcher::reconnectFunc()
+{
+    m_reconnectTimer->stop();
+
+    if(m_socketState != QAbstractSocket::SocketState::ConnectedState &&
+       m_socketState != QAbstractSocket::SocketState::ConnectingState)
+    {
+        m_reconnectTimer->start(5000);
+        qWarning()<< "Notify socket reconnecting...";
+    }
 }
