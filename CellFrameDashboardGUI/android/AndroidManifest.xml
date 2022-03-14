@@ -13,7 +13,7 @@
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
         <uses-permission android:name="android.permission.FOREGROUND_SERVICE" android:minSdkVersion="28"/>
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="-- %%INSERT_APP_NAME%% --" android:extractNativeLibs="true" android:icon="@drawable/icon" android:allowBackup="true" android:hasFragileUserData="true" android:requestLegacyExternalStorage="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="com.Cellframe.Dashboard.DashboardActivity" android:label="Cellframe-Dashboard" android:screenOrientation="portrait" android:launchMode="singleTop">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="Cellframe-Dashboard" android:screenOrientation="portrait" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -72,20 +72,7 @@
             <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
             <!-- extract android style -->
         </activity>
-        <service android:name="com.Cellframe.Dashboard.DashboardService" android:process=":cellframe">
-            <!-- meta-data android:name="android.app.arguments" android:value="-service"/ -->
-            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
-            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
-            <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
-            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
-            <meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/>
-            <meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/>
-            <meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/>
-            <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
-            <meta-data android:value="@string/unsupported_android_version" android:name="android.app.unsupported_android_version"/>
-            <meta-data android:name="android.app.background_running" android:value="true"/>
-            <meta-data android:name="android.app.lib_name" android:value="DashboardService"/>
-        </service>
+
         <!-- service android:process=":cellframe" android:name="com.Cellframe.Dashboard.Node" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_VPN_SERVICE">
             <meta-data android:name="android.app.background_running" android:value="true"/>
         </service> -->

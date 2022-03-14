@@ -63,6 +63,7 @@ SOURCES += \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    jni/jniconnector.cpp \
     quickcontrols/qrcodequickitem.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
@@ -87,6 +88,7 @@ HEADERS += \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    jni/jniconnector.h \
     quickcontrols/qrcodequickitem.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h

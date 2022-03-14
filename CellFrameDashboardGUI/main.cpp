@@ -29,6 +29,8 @@
 
 #include "models/VpnOrdersModel.h"
 
+#include "jni/jniconnector.h"
+
 #include <sys/stat.h>
 
 #ifdef Q_OS_WIN
@@ -147,6 +149,10 @@ int main(int argc, char *argv[])
     //For plugins
     DapPluginsController pluginsManager(filePluginConfig,pluginPath);
     context->setContextProperty("pluginsManager", &pluginsManager);
+
+    //For connection with Java code
+    JNIConnector connector;
+    context->setContextProperty("jniConnector", &connector);
 
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
