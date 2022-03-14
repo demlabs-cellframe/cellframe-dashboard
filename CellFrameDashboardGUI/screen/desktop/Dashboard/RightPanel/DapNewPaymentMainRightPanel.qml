@@ -115,7 +115,8 @@ DapNewPaymentMainRightPanelForm
             console.log("   token:", dapCmboBoxToken.mainLineText)
             console.log("   amount:", amount)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
+//                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
+                dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(0),
                 dapModelWallets.get(SettingsWallet.currentIndex).name,
                 dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, amount)
