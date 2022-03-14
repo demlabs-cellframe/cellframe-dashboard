@@ -109,14 +109,14 @@ DapNewPaymentMainRightPanelForm
 
             console.log("DapCreateTransactionCommand:")
             console.log("   network:", dapComboboxNetwork.mainLineText)
-            console.log("   chain:", dapComboboxChain.mainLineText)
+            console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
             console.log("   wallet from:", dapModelWallets.get(SettingsWallet.currentIndex).name)
             console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
             console.log("   token:", dapCmboBoxToken.mainLineText)
             console.log("   amount:", amount)
             dapServiceController.requestToService("DapCreateTransactionCommand",
 //                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
-                dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(0),
+                dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
                 dapModelWallets.get(SettingsWallet.currentIndex).name,
                 dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, amount)
