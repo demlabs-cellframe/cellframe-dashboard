@@ -10,6 +10,8 @@ DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
     DapConfigReader configReader;
+    m_DapNotifyController = new DapNotifyController();
+    notifySignalsAttach();
 
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 }
@@ -322,7 +324,8 @@ void DapServiceController::registerCommand()
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
         qDebug() << "dapRcvNotify data: " << rcvData;
-        emit notifyReceived(rcvData);
+        m_DapNotifyController->rcvData(rcvData);
+//        emit notifyReceived(rcvData);
     });
 
 
@@ -361,6 +364,15 @@ void DapServiceController::registerEmmitedSignal()
     }
 }
 
+void DapServiceController::notifySignalsAttach()
+{
+    connect(m_DapNotifyController, SIGNAL(socketError()), this, SLOT(slotErrorSocket()));
+}
+
+void DapServiceController::notifySignalsDetach()
+{
+    disconnect(m_DapNotifyController, SIGNAL(socketError()), this, SLOT(slotErrorSocket()));
+}
 
 
 

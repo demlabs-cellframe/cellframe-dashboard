@@ -817,6 +817,11 @@ Rectangle {
             }
             modelOrdersUpdated();
         }
+
+        onSignalErrorSocket:
+        {
+            console.warn("ERROR SOCKET")
+        }
     }
 
     Connections{

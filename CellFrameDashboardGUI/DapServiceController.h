@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <QDataStream>
 
+#include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
 #include "DapWallet.h"
@@ -52,6 +53,8 @@ class DapServiceController : public QObject
     int m_iIndexCurrentNetwork;
 
     bool m_bReadingChains;
+
+    DapNotifyController *m_DapNotifyController;
 
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
@@ -210,6 +213,16 @@ private slots:
     void findEmittedSignal(const QVariant& aValue);
     /// Register a signal handler for notification results.
     void registerEmmitedSignal();
+
+private:
+    void notifySignalsAttach();
+    void notifySignalsDetach();
+
+private slots:
+    void slotErrorSocket(){emit signalErrorSocket();}
+
+signals:
+    void signalErrorSocket();
 };
 
 #endif // DAPSERVICECONTROLLER_H
