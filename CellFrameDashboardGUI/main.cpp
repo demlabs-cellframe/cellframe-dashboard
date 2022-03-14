@@ -16,6 +16,7 @@
 #include "DapWallet.h"
 #include "DapApplication.h"
 #include "PluginsController/DapPluginsController.h"
+#include "ImportCertificate/ImportCertificate.h"
 
 #include "dapconfigreader.h"
 
@@ -89,18 +90,16 @@ bool SingleApplicationTest(const QString &appName)
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    DapLogger dapLogger(QCoreApplication::instance(), "GUI");
 
     DapApplication app(argc, argv);
 
     if (!SingleApplicationTest(app.applicationName()))
         return 1;
 
-    DapLogger dapLogger;
-    dapLogger.createChangerLogFiles();
-
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
     if (debug_mode)
@@ -108,18 +107,16 @@ int main(int argc, char *argv[])
     else
         dapLogger.setLogLevel(L_INFO);
 
-
-
     //dApps config file
-        QString filePluginConfig;
-        QString pluginPath;
+    QString filePluginConfig;
+    QString pluginPath;
     #ifdef Q_OS_LINUX
         filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
         pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
     #elif defined Q_OS_MACOS
         mkdir("/tmp/cellframe-dashboard_dapps",0777);
         filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_dapps/");
+        pluginPath = QString("/tmp/cellframe-dashboard_dapps");
     #elif defined Q_OS_WIN
         filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
         pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
@@ -138,13 +135,17 @@ int main(int argc, char *argv[])
 
     // For wallet restore
     WalletHashManager walletHashManager;
-
     context->setContextProperty("walletHashManager", &walletHashManager);
     walletHashManager.setContext(context);
 
     //For plugins
     DapPluginsController pluginsManager(filePluginConfig,pluginPath);
     context->setContextProperty("pluginsManager", &pluginsManager);
+
+    //For cert
+    ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
+    context->setContextProperty("importCertificate", &importCertifiacte);
+
 
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 

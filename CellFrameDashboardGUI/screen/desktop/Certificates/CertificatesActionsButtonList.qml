@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
+import Qt.labs.platform 1.0
 import "qrc:/widgets"
 
 
@@ -146,6 +147,24 @@ Rectangle {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+
+                onClicked:
+                {
+                    importFileDialog.open()
+                }
+            }
+            FileDialog {
+                visible: false
+                id: importFileDialog
+                title: qsTr("Import certificate...")
+                folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+                nameFilters: qsTr("Certificate (*.dcert)")
+                defaultSuffix: "dcert"
+                onAccepted:
+                {
+                    var ind = 0;
+                    importCertificate.import(importFileDialog.files[ind])
+                }
             }
 
 
@@ -168,7 +187,7 @@ Rectangle {
 
             DapButton {
                 id: exportPublicCertificateToMempoolButton
-                textButton: qsTr("Export public certificate to mempool")
+                textButton: qsTr("Export certificate to mempool") // qsTr("Export public certificate to mempool")
     //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
 
@@ -188,7 +207,7 @@ Rectangle {
                 textButton: qsTr("Add signature to certificate")
     //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
-                visible: true   //TODO need clarification of the requirements
+                visible: false
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter

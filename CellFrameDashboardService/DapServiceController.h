@@ -15,11 +15,14 @@
 #include <QObject>
 #include <QCoreApplication>
 
+
+#ifdef Q_OS_ANDROID
+#include "DapRpcTCPServer.h"
+typedef class DapRpcTCPServer DapUiService;
+#else
 #include "DapRpcLocalServer.h"
-
-#include <QLocalServer>
 typedef class DapRpcLocalServer DapUiService;
-
+#endif
 
 #include "handlers/DapAbstractCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
