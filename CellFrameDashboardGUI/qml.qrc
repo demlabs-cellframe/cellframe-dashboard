@@ -343,5 +343,6 @@
         <file>resources/icons/icon_export_hover.png</file>
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
+        <file>screen/DapMessagePopup.qml</file>
     </qresource>
 </RCC>
