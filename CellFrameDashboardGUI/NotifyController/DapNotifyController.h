@@ -15,10 +15,13 @@ public:
     explicit DapNotifyController(QObject *parent = nullptr);
 
 signals:
-    void socketError();
+    void socketState(QString state, int isFirst, int isError);
 
 public:
     void rcvData(QVariant);
+
+private:
+    QString m_connectState;
 };
 
 #endif // DAPNOTIFYCONTROLLER_H

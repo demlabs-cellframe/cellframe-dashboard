@@ -219,10 +219,10 @@ private:
     void notifySignalsDetach();
 
 private slots:
-    void slotErrorSocket(){emit signalErrorSocket();}
+    void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
 
 signals:
-    void signalErrorSocket();
+    void signalStateSocket(QString state, int isFirst, int isError);
 };
 
 #endif // DAPSERVICECONTROLLER_H

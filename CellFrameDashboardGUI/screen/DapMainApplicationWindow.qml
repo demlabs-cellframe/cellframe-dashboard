@@ -385,6 +385,9 @@ Rectangle {
         DapCertificatesMainPage { }
     }
 
+    DapMessagePopup{id: messagePopup}
+    property bool stateNotify: true
+
     ListModel
     {
         id: dapNetworkModel
@@ -818,9 +821,21 @@ Rectangle {
             modelOrdersUpdated();
         }
 
-        onSignalErrorSocket:
+        onSignalStateSocket:
         {
-            console.warn("ERROR SOCKET")
+            if(isError)
+            {
+                if(isFirst)
+                    messagePopup.open()
+                console.warn("ERROR SOCKET")
+                stateNotify = false
+            }
+            else
+            {
+                messagePopup.close()
+                console.info("CONNECT SOCKET")
+                stateNotify = true
+            }
         }
     }
 

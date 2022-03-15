@@ -248,19 +248,34 @@ DapNetworksPanel
         networkList.currentIndex = cur_index
     }
 
+//    Connections
+//    {
+//        target: dapServiceController
+
+//        onNotifyReceived:
+//        {
+//            //if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+//              //  networkList.closePopups()
+//            //}
+//            networksPanel.modelUpdate(rcvData)
+//            networksPanel.updateContentInAllOpenedPopups(networksModel)
+//        }
+//    }
+
     Connections
     {
         target: dapServiceController
 
-        onNotifyReceived:
+        onNetworksStatesReceived:
         {
-            //if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
-              //  networkList.closePopups()
-            //}
-            networksPanel.modelUpdate(rcvData)
+            if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+                networkList.closePopups()
+            }
+            networksPanel.modelUpdate(networksStatesList)
             networksPanel.updateContentInAllOpenedPopups(networksModel)
         }
     }
+
 
     function closeAllPopups(popups, count)
     {
@@ -272,32 +287,13 @@ DapNetworksPanel
         }
     }
 
-    function modelUpdate(map)
+    function modelUpdate(networksStatesList)
     {
-
-        console.log("LLLLLLLLLLL", map.net_ip)
-
-        networksModel.append({ "name" : networksStatesList[i].name,
-                                        "networkState" : networksStatesList[i].networkState,
-                                        "targetState" : networksStatesList[i].targetState,
-                                        "stateColor" : networksStatesList[i].stateColor,
-                                        "errorMessage" : networksStatesList[i].errorMessage,
-                                        "linksCount" : networksStatesList[i].linksCount,
-                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
-                                        "nodeAddress" : networksStatesList[i].nodeAddress})
-
-
-        /*if (!isNetworkListsEqual(networksModel, networksStatesList)) {
+        if (!isNetworkListsEqual(networksModel, networksStatesList)) {
 
             networksModel.clear()
             for (var i = 0; i < networksStatesList.length; ++i)
             {
-                console.log("momomodededelllll", networksStatesList[i].name, networksStatesList[i].networkState,
-                            networksStatesList[i].targetState, networksStatesList[i].stateColor,
-                            networksStatesList[i].errorMessage, networksStatesList[i].linksCount,
-                            networksStatesList[i].activeLinksCount, networksStatesList[i].nodeAddress)
-
-
                 networksModel.append({ "name" : networksStatesList[i].name,
                                                 "networkState" : networksStatesList[i].networkState,
                                                 "targetState" : networksStatesList[i].targetState,
@@ -309,8 +305,26 @@ DapNetworksPanel
             }
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
-        }*/
+        }
+
     }
+
+
+//    function modelUpdate(map)
+//    {
+
+//        console.log("LLLLLLLLLLL", map.net_ip)
+
+//        networksModel.append({ "name" : networksStatesList[i].name,
+//                                        "networkState" : networksStatesList[i].networkState,
+//                                        "targetState" : networksStatesList[i].targetState,
+//                                        "stateColor" : networksStatesList[i].stateColor,
+//                                        "errorMessage" : networksStatesList[i].errorMessage,
+//                                        "linksCount" : networksStatesList[i].linksCount,
+//                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
+//                                        "nodeAddress" : networksStatesList[i].nodeAddress})
+
+//    }
 
     function updateContentForExistingModel(curModel, newData)
     {

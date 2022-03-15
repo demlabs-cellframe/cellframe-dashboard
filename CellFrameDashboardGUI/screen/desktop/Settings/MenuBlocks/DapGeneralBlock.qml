@@ -67,7 +67,9 @@ ColumnLayout
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-            mainLineText: dapNetworkModel.get(SettingsWallet.currentNetwork).name
+            mainLineText: {
+             return   dapNetworkModel.get(SettingsWallet.currentNetwork).name
+            }
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"

@@ -88,6 +88,11 @@ void DapNotificationWatcher::socketConnected()
     qInfo() << "Notify socket connected";
     m_reconnectTimer->stop();
     socket->waitForReadyRead(10000);
+
+    QVariant errMsg = "Notify socket connected";
+    QVariantMap msg = errMsg.toMap();
+    msg["connect_state"] = QVariant::fromValue(m_socketState);
+    emit rcvNotify(msg);
 }
 
 void DapNotificationWatcher::socketDisconnected()

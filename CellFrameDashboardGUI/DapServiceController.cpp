@@ -366,12 +366,12 @@ void DapServiceController::registerEmmitedSignal()
 
 void DapServiceController::notifySignalsAttach()
 {
-    connect(m_DapNotifyController, SIGNAL(socketError()), this, SLOT(slotErrorSocket()));
+    connect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
 }
 
 void DapServiceController::notifySignalsDetach()
 {
-    disconnect(m_DapNotifyController, SIGNAL(socketError()), this, SLOT(slotErrorSocket()));
+    disconnect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
 }
 
 

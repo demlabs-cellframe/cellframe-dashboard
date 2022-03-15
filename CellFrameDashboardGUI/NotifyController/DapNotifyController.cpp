@@ -16,12 +16,22 @@ void DapNotifyController::rcvData(QVariant data)
     {
         if(it.key()=="connect_state")
         {
-            if(it.value().toInt() != QAbstractSocket::SocketState::ConnectedState &&
-               it.value().toInt() != QAbstractSocket::SocketState::ConnectingState)
+            if(it.value().toString() != QAbstractSocket::SocketState::ConnectedState &&
+               it.value().toString() != QAbstractSocket::SocketState::ConnectingState)
 
             {
-                qWarning()<<"Connect Error" << it.value();
-                socketError();
+                bool isFirst = false;
+                if(it.value().toString() != m_connectState)
+                    isFirst = true;
+
+                m_connectState = it.value().toInt();
+                qWarning()<<"Connect Error";
+                emit socketState(m_connectState, isFirst, true);
+            }
+            else
+            {
+                m_connectState = it.value().toString();
+                emit socketState(m_connectState, false, false);
             }
         }
         if(it.key()=="class")
