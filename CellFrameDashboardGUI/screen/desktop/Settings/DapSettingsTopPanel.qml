@@ -42,7 +42,7 @@ DapTopPanel
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
 
-            text: qsTr( "State connect to Node: " )
+            text: qsTr( "Node connection status " )
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
             color: currTheme.textColor
             elide: Text.ElideMiddle

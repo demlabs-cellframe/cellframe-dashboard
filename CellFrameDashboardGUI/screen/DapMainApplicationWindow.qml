@@ -270,6 +270,10 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
+                        parent: Overlay.overlay
+
+                        x: width*0.5
+                        y: height*0.5
 
                         contentItem: Text {
                                 text: toolTip.text
