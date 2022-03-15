@@ -39,7 +39,6 @@ FocusScope {
     property string menuTabStates: ""
     Settings { property alias menuTabStates: dapMainPage.menuTabStates }
     signal menuTabChanged()
-//    signal tabUpdate(var Tag, var status)
     signal pluginsTabChanged(var auto, var removed, var name)
     //
 
@@ -59,13 +58,9 @@ FocusScope {
 
     ListModel {
         id: themes
-        Component.onCompleted:
-        {
-            append({
-                       name: qsTr("Dark theme"),
-                       source: darkTheme
-                   })
-        }
+        ListElement{
+            name: "Dark theme"
+            /*source: darkTheme*/}
     }
 
     ListModel{
@@ -94,80 +89,56 @@ FocusScope {
         ListElement { tag: "dApps"
             name: qsTr("dApps")
             show: true }
-
-
     }
 
     ListModel
     {
         id: modelMenuTab
-
-        ListElement {
-            tag: "Wallet"
+        ListElement { tag: "Wallet"
             name: qsTr("Wallet")
             bttnIco: "icon_wallet.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "Exchange"
+            showTab: true}
+        ListElement { tag: "Exchange"
             name: qsTr("Exchange")
             bttnIco: "icon_exchange.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "TX Explorer"
+            showTab: true}
+        ListElement { tag: "TX Explorer"
             name: qsTr("TX Explorer")
             bttnIco: "icon_history.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "Certificates"
+            showTab: true}
+        ListElement { tag: "Certificates"
             name: qsTr("Certificates")
             bttnIco: "icon_certificates.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "Tokens"
+            showTab: true}
+        ListElement { tag: "Tokens"
             name: qsTr("Tokens")
             bttnIco: "icon_tokens.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "VPN client"
+            showTab: true}
+        ListElement { tag: "VPN client"
             name: qsTr("VPN client")
             bttnIco: "vpn-client_icon.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "VPN service"
+            showTab: true}
+        ListElement { tag: "VPN service"
             name: qsTr("VPN service")
             bttnIco: "icon_vpn.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "Console"
+            showTab: true}
+        ListElement { tag: "Console"
             name: qsTr("Console")
             bttnIco: "icon_console.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "Logs"
+            showTab: true}
+        ListElement { tag: "Logs"
             name: qsTr("Logs")
             bttnIco: "icon_logs.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "dApps"
+            showTab: true}
+        ListElement { tag: "dApps"
             name: qsTr("dApps")
             bttnIco: "icon_daaps.png"
-            showTab: true
-        }
-        ListElement {
-            tag: "Settings"
+            showTab: true}
+        ListElement { tag: "Settings"
             name: qsTr("Settings")
             bttnIco: "icon_settings.png"
-            showTab: true
-        }
+            showTab: true}
+
         Component.onCompleted:
             globalLogic.initButtonsModel(modelMenuTab, modelMenuTabStates)
     }
@@ -237,12 +208,15 @@ FocusScope {
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
 
+                        parent: Overlay.overlay
+                        x: width*0.5
+                        y: height*0.5
+
                         contentItem: Text {
                                 text: toolTip.text
                                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                 color: currTheme.textColor
                             }
-
                         background: Rectangle{color:currTheme.backgroundPanel}
                     }
                     MouseArea
@@ -252,10 +226,7 @@ FocusScope {
                         hoverEnabled: true
 
                         onClicked:
-                        {
                             Qt.openUrlExternally(toolTip.text);
-
-                        }
                     }
                 }
 
@@ -320,72 +291,61 @@ FocusScope {
         smooth: true
     }
 
-
-
     onMenuTabChanged:
-    {
-        updateMenuTabStatus()
-    }
+        menuTabStates = globalLogic.updateMenuTabStatus(modelMenuTabStates, modelAppsTabStates)
 
     onPluginsTabChanged:
     {
-        if(auto)
-        {
-            for(var i = 0; i < modelAppsTabStates.count; i++)
-            {
+        if(auto){
+            for(var i = 0; i < modelAppsTabStates.count; i++){
                 modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
                                     tag: modelAppsTabStates.get(i).tag,
                                     page: modelAppsTabStates.get(i).path,
                                     bttnIco: "icon_certificates.png",
                                     showTab: modelAppsTabStates.get(i).show})
-            }
-        }
-        else
-        {
-            var index;
-            if(removed)
-            {
-                for(var i = 0; i < modelMenuTab.count; i++)
-                {
 
-                    if(modelMenuTab.get(i).name === name)
-                    {
+                var component = Qt.createComponent(modelAppsTabStates.get(i).path);
+                var obj = component.createObject(mainModel);
+                mainModel.append(obj)
+            }
+        }else{
+            var index;
+            if(removed){
+                for(var i = 0; i < modelMenuTab.count; i++){
+                    if(modelMenuTab.get(i).name === name){
                         modelMenuTab.remove(i);
+                        mainModel.remove(i);
                         break;
                     }
                 }
-            }
-            else
-            {
-                for(var i = 0; i < modelAppsTabStates.count; i++)
-                {
-                    if(modelAppsTabStates.get(i).name === name)
-                    {
+            }else{
+                for(var i = 0; i < modelAppsTabStates.count; i++){
+                    if(modelAppsTabStates.get(i).name === name){
                         modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
                                             tag: modelAppsTabStates.get(i).tag,
                                             page: modelAppsTabStates.get(i).path,
                                             bttnIco: "icon_certificates.png",
                                             showTab: modelAppsTabStates.get(i).show})
+
+                        var component = Qt.createComponent(modelAppsTabStates.get(i).path);
+                        var obj = component.createObject(mainModel);
+                        mainModel.append(obj)
                         break;
                     }
                 }
             }
         }
-        updateMenuTabStatus()
+        menuTabStates = globalLogic.updateMenuTabStatus(modelMenuTabStates, modelAppsTabStates)
     }
 
     Component.onCompleted: {
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
 
-        if (menuTabStates)
-        {
-            console.log("loading menuTabStates", menuTabStates)
+        if (menuTabStates){
             var dataModel = JSON.parse(menuTabStates)
             globalLogic.loadSettingsInTabs(modelMenuTabStates, dataModel)
-//            globalLogic.loadSettingsInTabs(modelAppsTabStates, dataModel)
         }
-
         initPages()
     }
 
@@ -433,27 +393,6 @@ FocusScope {
         mainScreen.isInit = true
     }
 
-    function updateMenuTabStatus()
-    {
-        var datamodel = []
-        for (var i = 0; i < modelMenuTabStates.count; ++i)
-        {
-            datamodel.push(modelMenuTabStates.get(i))
-            console.log(modelMenuTabStates.get(i).tag,
-                            "show", modelMenuTabStates.get(i).show)
-        }
-
-        for (var i = 0; i < modelAppsTabStates.count; ++i)
-        {
-            datamodel.push(modelAppsTabStates.get(i))
-            console.log(modelAppsTabStates.get(i).tag,
-                            "show", modelAppsTabStates.get(i).show)
-
-        }
-
-        menuTabStates = JSON.stringify(datamodel)
-    }
-
     function updateModelAppsTab() //create model apps from left menu tab
     {
         if(modelAppsTabStates.count)
@@ -493,7 +432,6 @@ FocusScope {
                     break
                 }
             }
-
         }
         else
         {

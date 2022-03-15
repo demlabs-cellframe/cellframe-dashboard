@@ -244,4 +244,16 @@ QtObject {
         }
         return tabModel
     }
+
+    function updateMenuTabStatus(modelMenu, modelApps)
+    {
+        var datamodel = []
+        for (var i = 0; i < modelMenu.count; ++i)
+            datamodel.push(modelMenu.get(i))
+
+        for (var i = 0; i < modelApps.count; ++i)
+            datamodel.push(modelApps.get(i))
+
+        return JSON.stringify(datamodel)
+    }
 }
