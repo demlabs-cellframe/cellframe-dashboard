@@ -175,6 +175,17 @@ DapAbstractTab
         }
     ]
 
+    Timer {
+        id: updateTimer
+        interval: 1000; running: false; repeat: true
+        onTriggered:
+        {
+            print("DapDashboardTab updateTimer", updateTimer.running)
+
+            updateCurrentWallet()
+        }
+    }
+
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
     {
@@ -216,6 +227,9 @@ DapAbstractTab
         onModelWalletsUpdated:
         {
             updateComboBox()
+
+            // FOR DEBUG
+//            updateCurrentWallet()
         }
     }
 
@@ -224,7 +238,7 @@ DapAbstractTab
         target: dapServiceController
         onWalletCreated:
         {
-            update()
+            updateAllWallets()
         }
     }
 
@@ -232,6 +246,9 @@ DapAbstractTab
     {
         print("DapDashboardTab onCompleted")
         updateComboBox()
+
+        if (!updateTimer.running)
+            updateTimer.start()
     }
 
     Component.onDestruction:
@@ -239,11 +256,21 @@ DapAbstractTab
         print("DapDashboardTab onDestruction")
     }
 
-    function update()
+    function updateAllWallets()
     {
         dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
+    }
+
+    function updateCurrentWallet()
+    {
+        print("updateCurrentWallet", "networkArray", networkArray)
+
+        if (SettingsWallet.currentIndex !== -1 && networkArray !== "")
+            dapServiceController.requestToService("DapGetWalletInfoCommand",
+                dapModelWallets.get(SettingsWallet.currentIndex).name,
+                networkArray);
     }
 
     function createWallet()

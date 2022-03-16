@@ -82,10 +82,10 @@ void DapServiceController::requestWalletList()
     this->requestToService("DapGetWalletsInfoCommand");
 }
 
-void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
+/*void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
 {
     this->requestToService("DapGetWalletInfoCommand", a_walletName, a_networks);
-}
+}*/
 
 void DapServiceController::requestNetworkStatus(QString a_networkName)
 {
@@ -233,6 +233,21 @@ void DapServiceController::registerCommand()
         }
 
         emit walletsReceived(wallets);
+    });
+
+    connect(this, &DapServiceController::walletInfoReceived, [=] (const QVariant& wallet_arg)
+    {
+        QByteArray  array = QByteArray::fromHex(wallet_arg.toByteArray());
+        DapWallet wallet;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> wallet;
+
+        qDebug() << "walletInfoReceived" << wallet.getName();
+
+        DapWallet * outWallet = new DapWallet(wallet);
+
+        emit walletReceived(outWallet);
     });
 
     connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)

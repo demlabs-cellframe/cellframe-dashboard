@@ -125,7 +125,7 @@ public:
 
 public slots:
     void requestWalletList();
-    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
+//    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
     void requestNetworkStatus(QString a_networkName);
     void changeNetworkStateToOnline(QString a_networkName);
     void changeNetworkStateToOffline(QString a_networkName);
@@ -163,6 +163,8 @@ signals:
     void walletsInfoReceived(const QVariant& walletList);
 
     void walletsReceived(QList<QObject*> walletList);
+
+    void walletReceived(QObject* wallet);
 
     void networksListReceived(const QVariant& networksList);
 
