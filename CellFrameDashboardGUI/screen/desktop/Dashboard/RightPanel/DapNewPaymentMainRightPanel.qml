@@ -9,12 +9,13 @@ DapNewPaymentMainRightPanelForm
 
     Component.onCompleted:
     {
+        updateTimer.stop()
         if (dapServiceController.ReadingChains)
             dapChainGroup.visible = true
         else
             dapChainGroup.visible = false
 
-        dapCmboBoxNetworkModel = dapModelWallets.get(SettingsWallet.currentIndex).networks
+        dapCmboBoxNetworkModel = dapNetworkModel
 
         dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
@@ -29,11 +30,10 @@ DapNewPaymentMainRightPanelForm
         else
             dapComboboxNetwork.mainLineText = "Networks"
     }
-
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
-        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+        print("networkName", dapCmboBoxNetworkModel.get(dapComboboxNetwork.currentIndex).name)
 
         dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
@@ -70,6 +70,7 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
+        updateTimer.start()
         //DmitriyT Removed this code below. Will see reaction of app.
         //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
@@ -125,6 +126,7 @@ DapNewPaymentMainRightPanelForm
 
             nextActivated("transaction created")
         }
+        updateTimer.start()
 
     }
 

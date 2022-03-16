@@ -57,6 +57,7 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     DapApplication.cpp \
     ImportCertificate/ImportCertificate.cpp \
+    NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
@@ -83,6 +84,7 @@ HEADERS += \
     $$PWD/DapServiceController.h \
     DapApplication.h \
     ImportCertificate/ImportCertificate.h \
+    NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
     WalletRestore/commandcmdcontroller.h \

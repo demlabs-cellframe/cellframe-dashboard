@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <QDataStream>
 
+#include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceClientMessage.h"
 #include "DapWallet.h"
@@ -37,6 +38,7 @@
 #include "handlers/DapGetListOdersCommand.h"
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
+#include "handlers/DapRcvNotify.h"
 
 class DapServiceController : public QObject
 {
@@ -52,6 +54,8 @@ class DapServiceController : public QObject
     int m_iIndexCurrentNetwork;
 
     bool m_bReadingChains;
+
+    DapNotifyController *m_DapNotifyController;
 
     /// Service connection management service.
     DapServiceClient *m_pDapServiceClient {nullptr};
@@ -205,6 +209,9 @@ signals:
 
     void networksReceived(QList<QObject*> networksList);
 
+    void dapRcvNotify(const QVariant& rcvData);
+    void notifyReceived(const QVariant& rcvData);
+
 private slots:
     /// Register command.
     void registerCommand();
@@ -213,6 +220,16 @@ private slots:
     void findEmittedSignal(const QVariant& aValue);
     /// Register a signal handler for notification results.
     void registerEmmitedSignal();
+
+private:
+    void notifySignalsAttach();
+    void notifySignalsDetach();
+
+private slots:
+    void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
+
+signals:
+    void signalStateSocket(QString state, int isFirst, int isError);
 };
 
 #endif // DAPSERVICECONTROLLER_H
