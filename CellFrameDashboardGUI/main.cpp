@@ -22,6 +22,7 @@
 #include "DapWallet.h"
 #include "DapApplication.h"
 #include "PluginsController/DapPluginsController.h"
+#include "ImportCertificate/ImportCertificate.h"
 
 #include "dapconfigreader.h"
 
@@ -142,7 +143,6 @@ int main(int argc, char *argv[])
 
     // For wallet restore
     WalletHashManager walletHashManager;
-
     context->setContextProperty("walletHashManager", &walletHashManager);
     walletHashManager.setContext(context);
 
@@ -155,6 +155,10 @@ int main(int argc, char *argv[])
     JNIConnector connector;
     context->setContextProperty("jniConnector", &connector);
     #endif
+    //For cert
+    ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
+    context->setContextProperty("importCertificate", &importCertifiacte);
+
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());

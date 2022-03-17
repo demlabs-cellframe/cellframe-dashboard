@@ -387,5 +387,6 @@
         <file>screen/controls/DapStackView.qml</file>
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
+        <file>screen/DapMessagePopup.qml</file>
     </qresource>
 </RCC>

@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -13,11 +14,10 @@ DapNewPaymentMainRightPanelForm
         else
             dapChainGroup.visible = false
 
-        dapCmboBoxTokenModel = dapModelWallets.get(globalLogic.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
-
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
         dapTextNotEnoughTokensWarning.text = ""
 
-        dapCmboBoxChainModel = dapModelWallets.get(globalLogic.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = dapTextInputAmountPayment.placeholderText
@@ -31,12 +31,12 @@ DapNewPaymentMainRightPanelForm
     dapComboboxNetwork.onCurrentIndexChanged:
     {
         print("dapComboboxNetwork.onCurrentIndexChanged")
-        print("networkName", dapModelWallets.get(dashboardTopPanel.dapComboboxWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
+        print("networkName", dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).name)
 
-        dapCmboBoxChainModel = dapModelWallets.get(globalLogic.currentIndex).networks.
+        dapCmboBoxChainModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.
             get(dapComboboxNetwork.currentIndex).chains
 
-        dapCmboBoxTokenModel = dapModelWallets.get(globalLogic.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
+        dapCmboBoxTokenModel = dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapComboboxNetwork.currentIndex).tokens
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
 
@@ -68,7 +68,8 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
         previousActivated(lastActionsWallet)
-        dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
+        //DmitriyT Removed this code below. Will see reaction of app.
+        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonSend.onClicked:
@@ -108,14 +109,15 @@ DapNewPaymentMainRightPanelForm
 
             console.log("DapCreateTransactionCommand:")
             console.log("   network:", dapComboboxNetwork.mainLineText)
-            console.log("   chain:", dapComboboxChain.mainLineText)
-            console.log("   wallet from:", dapModelWallets.get(globalLogic.currentIndex).name)
+            console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
+            console.log("   wallet from:", dapModelWallets.get(SettingsWallet.currentIndex).name)
             console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
             console.log("   token:", dapCmboBoxToken.mainLineText)
             console.log("   amount:", amount)
             dapServiceController.requestToService("DapCreateTransactionCommand",
-                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
-                dapModelWallets.get(globalLogic.currentIndex).name,
+//                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
+                dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
+                dapModelWallets.get(SettingsWallet.currentIndex).name,
                 dapTextInputRecipientWalletAddress.text,
                 dapCmboBoxToken.mainLineText, amount)
 
