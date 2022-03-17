@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "qrc:/"
 import "../../"
+//import DapNotificationWatcher 1.0
 
 DapNetworksPanel
 {    
@@ -246,6 +247,21 @@ DapNetworksPanel
         control.visible_count = getCountVisiblePopups()
         networkList.currentIndex = cur_index
     }
+
+//    Connections
+//    {
+//        target: dapServiceController
+
+//        onNotifyReceived:
+//        {
+//            //if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+//              //  networkList.closePopups()
+//            //}
+//            networksPanel.modelUpdate(rcvData)
+//            networksPanel.updateContentInAllOpenedPopups(networksModel)
+//        }
+//    }
+
     Connections
     {
         target: dapServiceController
@@ -259,6 +275,7 @@ DapNetworksPanel
             networksPanel.updateContentInAllOpenedPopups(networksModel)
         }
     }
+
 
     function closeAllPopups(popups, count)
     {
@@ -289,7 +306,25 @@ DapNetworksPanel
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
         }
+
     }
+
+
+//    function modelUpdate(map)
+//    {
+
+//        console.log("LLLLLLLLLLL", map.net_ip)
+
+//        networksModel.append({ "name" : networksStatesList[i].name,
+//                                        "networkState" : networksStatesList[i].networkState,
+//                                        "targetState" : networksStatesList[i].targetState,
+//                                        "stateColor" : networksStatesList[i].stateColor,
+//                                        "errorMessage" : networksStatesList[i].errorMessage,
+//                                        "linksCount" : networksStatesList[i].linksCount,
+//                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
+//                                        "nodeAddress" : networksStatesList[i].nodeAddress})
+
+//    }
 
     function updateContentForExistingModel(curModel, newData)
     {
