@@ -72,7 +72,6 @@
             <meta-data android:name="android.app.extract_android_style" android:value="minimal"/>
             <!-- extract android style -->
         </activity>
-
         <!-- service android:process=":cellframe" android:name="com.Cellframe.Dashboard.Node" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_VPN_SERVICE">
             <meta-data android:name="android.app.background_running" android:value="true"/>
         </service> -->

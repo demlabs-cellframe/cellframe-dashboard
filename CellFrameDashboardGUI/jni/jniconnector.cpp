@@ -7,6 +7,8 @@
 #include <QAndroidIntent>
 #endif
 
+#ifdef Q_OS_ANDROID
+
 JNIConnector *JNIConnector::m_instance = nullptr;
 
 static void callFromJava(JNIEnv *env, jobject /*thiz*/, jstring value)
@@ -38,3 +40,4 @@ void JNIConnector::printFromJava(const QString &message)
                                        "(Ljava/lang/String;)V",
                                         javaMessage.object<jstring>());
 }
+#endif

@@ -150,10 +150,11 @@ int main(int argc, char *argv[])
     DapPluginsController pluginsManager(filePluginConfig,pluginPath);
     context->setContextProperty("pluginsManager", &pluginsManager);
 
+    #ifdef Q_OS_ANDROID
     //For connection with Java code
     JNIConnector connector;
     context->setContextProperty("jniConnector", &connector);
-
+    #endif
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());

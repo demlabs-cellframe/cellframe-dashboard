@@ -6,7 +6,7 @@
 class JNIConnector : public QObject
 {    
     Q_OBJECT
-
+#ifdef Q_OS_ANDROID
 public:
     explicit JNIConnector(QObject *parent = nullptr);
     static JNIConnector *instance() { return m_instance; }
@@ -19,6 +19,7 @@ public slots:
 
 private:
     static JNIConnector *m_instance;
+#endif
 
 };
 
