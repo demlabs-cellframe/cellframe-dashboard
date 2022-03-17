@@ -18,6 +18,7 @@
 #include "dapconfigreader.h"
 #include <sys/stat.h>
 
+#include <DapNotificationWatcher.h>
 void processArgs();
 
 #ifdef Q_OS_WIN
@@ -135,6 +136,8 @@ int main(int argc, char *argv[]) {
 #else
 int main(int argc, char *argv[])
 {
+
+
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
 
@@ -184,8 +187,6 @@ int main(int argc, char *argv[])
         QString str = "chmod 777 " + dapPlugins.getPathToPluginsDownload();
         system(str.toUtf8().data());
     }
-
-
 
     // Creating the main application object
     processArgs();

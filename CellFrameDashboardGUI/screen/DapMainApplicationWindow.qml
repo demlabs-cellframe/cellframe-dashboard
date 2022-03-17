@@ -270,6 +270,10 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
+                        parent: Overlay.overlay
+
+                        x: width*0.5
+                        y: height*0.5
 
                         contentItem: Text {
                                 text: toolTip.text
@@ -370,6 +374,7 @@ Rectangle {
     property var dapWallets: []
     property var dapOrders: []
     property var dapPlugins: []
+    property var dapNetworks: []
 
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
@@ -383,6 +388,9 @@ Rectangle {
     Component{
         DapCertificatesMainPage { }
     }
+
+    DapMessagePopup{id: messagePopup}
+    property bool stateNotify: true
 
     ListModel
     {
@@ -587,7 +595,7 @@ Rectangle {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
+//        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
@@ -635,63 +643,76 @@ Rectangle {
 
         onNetworksListReceived:
         {
-            console.log("Networks list received")
+//            console.log("Networks list received")
 
-            if (!networksList)
+            if (!networksList.length)
                 console.error("networksList is empty")
             else
             {
-                dapServiceController.CurrentNetwork = networksList[0];
-
-                if (networksList[0] === "[net]")
-                    dapServiceController.CurrentNetwork = networksList[1];
-                else
-                    dapServiceController.CurrentNetwork = networksList[0];
-                dapServiceController.IndexCurrentNetwork = 0;
-
-                console.log("Current network: "+dapServiceController.CurrentNetwork)
-            }
-
-            var i = 0
-            var net = -1
-
-            while (i < Object.keys(networksList).length)
-            {
-                if (networksList[i] === "[net]")
+                if(SettingsWallet.currentNetwork === -1)
                 {
-                    ++i
-                    if (i >= Object.keys(networksList).length)
-                        break
-
-                    ++net
-                    dapNetworkModel.append({ "name" : networksList[i],
-                                          "chains" : []})
-
-                    print("[net]", networksList[i])
-
-                    ++i
-                    if (i >= Object.keys(networksList).length)
-                        break
-
-                    while (i < Object.keys(networksList).length
-                           && networksList[i] === "[chain]")
-                    {
-                        ++i
-                        if (i >= Object.keys(networksList).length)
-                            break
-
-                        dapNetworkModel.get(net).chains.append({"name": networksList[i]})
-
-                        print("[chain]", networksList[i])
-
-                        ++i
-                        if (i >= Object.keys(networksList).length)
-                            break
-                    }
+                    dapServiceController.setCurrentNetwork(networksList[0]);
+                    dapServiceController.setIndexCurrentNetwork(0);
+                    SettingsWallet.currentNetwork = dapServiceController.IndexCurrentNetwork
                 }
                 else
-                    ++i
+                {
+                    dapServiceController.setCurrentNetwork(networksList[SettingsWallet.currentNetwork]);
+                    dapServiceController.setIndexCurrentNetwork(SettingsWallet.currentNetwork);
+                }
+
+
+                dapNetworkModel.clear()
+                for (var i = 0; i < networksList.length; ++i)
+                {
+                    dapNetworkModel.append({ "name" : networksList[i]})
+//                    console.info("Name net: " + dapNetworkModel.get(i).name)
+                }
             }
+            console.info("Current network: "+dapServiceController.CurrentNetwork)
+
+//            console.info("networksList is received")
+
+//            var i = 0
+//            var net = -1
+
+//            while (i < Object.keys(networksList).length)
+//            {
+//                if (networksList[i] === "[net]")
+//                {
+//                    ++i
+//                    if (i >= Object.keys(networksList).length)
+//                        break
+
+//                    ++net
+//                    dapNetworkModel.append({ "name" : networksList[i],
+//                                          "chains" : []})
+
+//                    print("[net]", networksList[i])
+
+//                    ++i
+//                    if (i >= Object.keys(networksList).length)
+//                        break
+
+//                    while (i < Object.keys(networksList).length
+//                           && networksList[i] === "[chain]")
+//                    {
+//                        ++i
+//                        if (i >= Object.keys(networksList).length)
+//                            break
+
+//                        dapNetworkModel.get(net).chains.append({"name": networksList[i]})
+
+//                        print("[chain]", networksList[i])
+
+//                        ++i
+//                        if (i >= Object.keys(networksList).length)
+//                            break
+//                    }
+//                }
+//                else
+//                    ++i
+//            }
 
 //            for(var n=0; n < Object.keys(networksList).length; ++n)
 //            {
@@ -802,6 +823,23 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+
+        onSignalStateSocket:
+        {
+            if(isError)
+            {
+                if(isFirst)
+                    messagePopup.open()
+                console.warn("ERROR SOCKET")
+                stateNotify = false
+            }
+            else
+            {
+                messagePopup.close()
+                console.info("CONNECT SOCKET")
+                stateNotify = true
+            }
         }
     }
 
