@@ -18,10 +18,19 @@ DapAbstractTab
 
     dapRightPanel: DapLogsRightPanel { }
 
+    Timer
+    {
+           id: updLogTimer
+           interval: 5000
+           repeat: true
+           onTriggered: dapServiceController.notifyService("DapUpdateLogsCommand","start", 100);
+    }
+
     Component.onCompleted:
     {
         console.log("Log tab open")
         dapServiceController.notifyService("DapUpdateLogsCommand","start", 100);
+        updLogTimer.running = true
     }
 
     Component.onDestruction:
