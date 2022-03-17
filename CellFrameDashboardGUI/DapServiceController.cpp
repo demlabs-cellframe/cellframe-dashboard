@@ -10,6 +10,8 @@ DapServiceController::DapServiceController(QObject *apParent)
     : QObject(apParent)
 {
     DapConfigReader configReader;
+    m_DapNotifyController = new DapNotifyController();
+    notifySignalsAttach();
 
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 }
@@ -217,6 +219,8 @@ void DapServiceController::registerCommand()
     // Save cmd command in file
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRcvNotify("DapRcvNotify",m_DAPRpcSocket))), QString("dapRcvNotify")));
+
 
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
@@ -326,6 +330,15 @@ void DapServiceController::registerCommand()
         emit networksReceived(networks);
     });
 
+    connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
+    {
+        qDebug() << "dapRcvNotify data: " << rcvData;
+        m_DapNotifyController->rcvData(rcvData);
+//        emit notifyReceived(rcvData);
+    });
+
+
+
     registerEmmitedSignal();
 }
 
@@ -334,7 +347,7 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-    //qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
+    qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {
@@ -360,6 +373,15 @@ void DapServiceController::registerEmmitedSignal()
     }
 }
 
+void DapServiceController::notifySignalsAttach()
+{
+    connect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
+}
+
+void DapServiceController::notifySignalsDetach()
+{
+    disconnect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
+}
 
 
 

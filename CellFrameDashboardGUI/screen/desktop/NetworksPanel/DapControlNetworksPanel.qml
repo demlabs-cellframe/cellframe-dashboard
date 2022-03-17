@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "qrc:/"
 import "../../"
+//import DapNotificationWatcher 1.0
 
 Rectangle
 {    
@@ -78,8 +79,12 @@ Rectangle
 
                 Text {
                     id: txt_left
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: item_width/2
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                     color: currTheme.textColor
+                    elide: Text.ElideMiddle
+
                     text: name
                 }
 
@@ -166,11 +171,19 @@ Rectangle
 
         onClicked:
         {
+            if(networkList.currentIndex === networkList.count -1)
+            {
+                networkList.currentIndex = networkList.currentIndex - (visible_count - 1)
+                networkList.isRight = false
+            }
+
             if (networkList.currentIndex > 0) {
+                if(networkList.isRight)
+                    networkList.currentIndex = networkList.currentIndex - (visible_count - 1)
 
                 var zero = 0;
 
-                for(var i = visible_count; i > 0; i--)
+                for(var i = visible_count-1; i > 0; i--)
                 {
                     if(networkList.currentIndex - i >= zero )
                     {
@@ -180,6 +193,7 @@ Rectangle
                 }
                 networkList.closePopups()
             }
+            networkList.isRight = false
         }
     }
 
@@ -193,9 +207,19 @@ Rectangle
         visible: networkList.count > visible_count && networkList.currentIndex != networkList.count -1 ? true : false
 
         onClicked: {
+            if(!networkList.currentIndex)
+            {
+                networkList.currentIndex = visible_count - 1
+                networkList.isRight = true
+            }
+
             if (networkList.currentIndex < networkList.count-1) {
 
-                for(var i = visible_count; i > 0; i--)
+                if(!networkList.isRight)
+                    networkList.currentIndex = networkList.currentIndex + (visible_count - 1)
+
+
+                for(var i = visible_count-1; i > 0; i--)
                 {
                     if(networkList.currentIndex + i <= networkList.count -1)
                     {
@@ -205,11 +229,13 @@ Rectangle
                 }
                 networkList.closePopups()
             }
+            networkList.isRight = true
         }
     }
 
     ListView {
         signal closePopups()
+        property bool isRight:true
         id: networkList
         model: networksModel
         highlightMoveDuration : 200
@@ -237,6 +263,21 @@ Rectangle
         networkList.currentIndex = cur_index
         networkList.closePopups()
     }
+
+//    Connections
+//    {
+//        target: dapServiceController
+
+//        onNotifyReceived:
+//        {
+//            //if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
+//              //  networkList.closePopups()
+//            //}
+//            networksPanel.modelUpdate(rcvData)
+//            networksPanel.updateContentInAllOpenedPopups(networksModel)
+//        }
+//    }
+
     Connections
     {
         target: dapServiceController
@@ -250,6 +291,7 @@ Rectangle
             networksPanel.updateContentInAllOpenedPopups(networksModel)
         }
     }
+
 
     function closeAllPopups(popups, count)
     {
@@ -282,6 +324,23 @@ Rectangle
         }
 
     }
+
+
+//    function modelUpdate(map)
+//    {
+
+//        console.log("LLLLLLLLLLL", map.net_ip)
+
+//        networksModel.append({ "name" : networksStatesList[i].name,
+//                                        "networkState" : networksStatesList[i].networkState,
+//                                        "targetState" : networksStatesList[i].targetState,
+//                                        "stateColor" : networksStatesList[i].stateColor,
+//                                        "errorMessage" : networksStatesList[i].errorMessage,
+//                                        "linksCount" : networksStatesList[i].linksCount,
+//                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
+//                                        "nodeAddress" : networksStatesList[i].nodeAddress})
+
+//    }
 
     function updateContentForExistingModel(curModel, newData)
     {

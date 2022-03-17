@@ -155,6 +155,11 @@ ApplicationWindow
         }
     }
 
+    onClosing: {
+        close.accepted = false
+        Qt.quit()
+    }
+
     Component.onCompleted: {
         if(isMobile) {
             window.minimumWidth = 0
@@ -186,11 +191,6 @@ ApplicationWindow
         print("window size", window.width, window.height)
         print("window position", window.x, window.y)
         print("mainWindow size", mainWindow.width, mainWindow.height)
-    }
-
-    onClosing: {
-        close.accepted = false
-        Qt.quit()
     }
 
     function restoreWindow()

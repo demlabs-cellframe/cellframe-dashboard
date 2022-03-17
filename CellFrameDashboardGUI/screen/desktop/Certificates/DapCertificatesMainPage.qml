@@ -42,6 +42,17 @@ DapAbstractTab
         id: name2
     }
 
+    Connections{
+        target:importCertificate
+        onSignalImportFinished:
+        {
+            if(status)
+                dapServiceController.requestToService(DapCertificateCommands.serviceName
+                                                      , DapCertificateCommands.GetSertificateList
+                                                      );
+        }
+    }
+
 
     RowLayout
     {

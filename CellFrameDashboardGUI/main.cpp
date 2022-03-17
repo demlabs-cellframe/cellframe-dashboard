@@ -16,6 +16,7 @@
 #include "DapWallet.h"
 #include "DapApplication.h"
 #include "PluginsController/DapPluginsController.h"
+#include "ImportCertificate/ImportCertificate.h"
 
 #include "dapconfigreader.h"
 
@@ -93,6 +94,7 @@ const int RESTART_CODE = 12345;
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    DapLogger dapLogger(QCoreApplication::instance(), "GUI");
 
     QGuiApplication *testapp = new QGuiApplication(argc, argv);
     qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
@@ -100,12 +102,9 @@ int main(int argc, char *argv[])
     testapp->quit();
     delete testapp;
 
-    DapLogger dapLogger;
-    dapLogger.createChangerLogFiles();
-
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
     if (debug_mode)
@@ -114,8 +113,8 @@ int main(int argc, char *argv[])
         dapLogger.setLogLevel(L_INFO);
 
     //dApps config file
-        QString filePluginConfig;
-        QString pluginPath;
+    QString filePluginConfig;
+    QString pluginPath;
     #ifdef Q_OS_LINUX
         filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
         pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
@@ -181,6 +180,10 @@ int main(int argc, char *argv[])
         //For plugins
         DapPluginsController pluginsManager(filePluginConfig,pluginPath);
         context->setContextProperty("pluginsManager", &pluginsManager);
+
+        //For cert
+        ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
+        context->setContextProperty("importCertificate", &importCertifiacte);
 
         app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
 

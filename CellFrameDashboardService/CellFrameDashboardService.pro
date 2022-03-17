@@ -11,8 +11,8 @@ include(../config.pri)
 
 TARGET = $${BRAND}Service
 
-!win32 {
-    CONFIG += console
+win32 {
+    CONFIG -= console
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -30,10 +30,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
-    $$PWD/main.cpp
+    $$PWD/main.cpp \
+    DapNotificationWatcher.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
+    DapNotificationWatcher.h
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
@@ -49,6 +51,12 @@ unix: !mac : !android {
     service_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += service_target
     BUILD_FLAG = static
+}
+
+win32 {
+    INCLUDEPATH += $$PWD/platforms/win32/service/
+    HEADERS += platforms/win32/service/Service.h
+    SOURCES += platforms/win32/service/Service.cpp
 }
 
 defined(BUILD_FLAG,var){
