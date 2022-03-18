@@ -96,12 +96,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     DapLogger dapLogger(QCoreApplication::instance(), "GUI");
 
-    QGuiApplication *testapp = new QGuiApplication(argc, argv);
-    qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
-    int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
-    testapp->quit();
-    delete testapp;
-
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
     dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
@@ -138,6 +132,14 @@ int main(int argc, char *argv[])
 
     while (result == RESTART_CODE)
     {
+        qputenv("QT_SCALE_FACTOR", "1.0");
+
+        QGuiApplication *testapp = new QGuiApplication(argc, argv);
+        qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
+        int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
+        testapp->quit();
+        delete testapp;
+
         QCoreApplication::setOrganizationName("Cellframe Network");
         QCoreApplication::setApplicationName(DAP_BRAND);
 
