@@ -140,11 +140,8 @@ DapPage {
 
     dapHeader.initialItem: TXHistoryTopPanel {
         id:historyTopPanel
-        onCurrentSearchString: {
-            console.log("currentSearchString", text)
-
+        onFindHandler: {
             currentString = text
-
             filterResults()
         }
     }

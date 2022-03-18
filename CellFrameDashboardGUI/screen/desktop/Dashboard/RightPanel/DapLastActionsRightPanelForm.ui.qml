@@ -5,124 +5,155 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 
-DapRightPanel
+Page
 {
     id:control
 
-    dapHeaderData:
-        Rectangle
-    {
+    background: Rectangle {
         color: "transparent"
-        height: 38 * pt
-        width: 348*pt
-
-        Text
-        {
-            anchors.fill: parent
-            anchors.leftMargin: 24 * pt
-            text: qsTr("Last actions")
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
-            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            color: currTheme.textColor
-
-        }
-
     }
 
-    dapContentItemData:
-    ListView
+    ColumnLayout
     {
-
-        id: lastActionsView
         anchors.fill: parent
-        clip: true
-        model: modelLastActions
-        ScrollBar.vertical: ScrollBar {
-            active: true
-        }
+        spacing: 0
 
-        section.property: "date"
-        section.criteria: ViewSection.FullString
-        section.delegate: delegateSection
+        Item
+        {
+            Layout.fillWidth: true
+            height: 38 * pt
 
-        delegate: Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.leftMargin: 5 * pt
-            anchors.rightMargin: 5 * pt
-//            width: control.width
-            color: currTheme.backgroundElements
-            height: 50 * pt
-
-            RowLayout
+            Text
             {
                 anchors.fill: parent
-                anchors.rightMargin: 20 * pt
-                anchors.leftMargin: 16 * pt
+                anchors.leftMargin: 14 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 10 * pt
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                color: currTheme.textColor
+                verticalAlignment: Qt.AlignVCenter
+                text: qsTr("Last actions")
+            }
+        }
 
-                ColumnLayout
-                {
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    spacing: 2 * pt
 
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        text: network
-                        color: currTheme.textColor
-                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
-                        elide: Text.ElideRight
-                    }
 
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        text: status
-                        color: currTheme.textColorGrayTwo
-                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                    }
-                }
+//    dapHeaderData:
+//        Rectangle
+//    {
+//        color: "transparent"
+//        height: 38 * pt
+//        width: 348*pt
 
-                Text
-                {
-                    property string sign: (status === "Sent") ? "- " : "+ "
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    horizontalAlignment: Qt.AlignRight
-                    verticalAlignment: Qt.AlignVCenter
-                    color: currTheme.textColor
-                    text: sign + amount + " " + name
-                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                }
-                Image
-                {
-                    Layout.preferredHeight: 30
-                    Layout.preferredWidth: 30
-//                    innerWidth: 20
-//                    innerHeight: 20
+//        Text
+//        {
+//            anchors.fill: parent
+//            anchors.leftMargin: 24 * pt
+//            text: qsTr("Last actions")
+//            verticalAlignment: Qt.AlignVCenter
+//            horizontalAlignment: Text.AlignLeft
+//            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+//            color: currTheme.textColor
 
-                    visible: network === "subzero" ? true : false
+//        }
 
-                    source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+//    }
 
-                    MouseArea
-                    {
-                        id: mouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
-                    }
-                }
+//    dapContentItemData:
+        ListView
+        {
+
+            id: lastActionsView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            model: modelLastActions
+            ScrollBar.vertical: ScrollBar {
+                active: true
             }
 
-            Rectangle
-            {
-                width: parent.width
-                height: 1 * pt
-                color: currTheme.lineSeparatorColor
-                anchors.bottom: parent.bottom
+            section.property: "date"
+            section.criteria: ViewSection.FullString
+            section.delegate: delegateSection
+
+            delegate: Rectangle {
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 5 * pt
+                anchors.rightMargin: 5 * pt
+    //            width: control.width
+                color: currTheme.backgroundElements
+                height: 50 * pt
+
+                RowLayout
+                {
+                    anchors.fill: parent
+                    anchors.rightMargin: 20 * pt
+                    anchors.leftMargin: 16 * pt
+
+                    ColumnLayout
+                    {
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        spacing: 2 * pt
+
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            text: network
+                            color: currTheme.textColor
+                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                            elide: Text.ElideRight
+                        }
+
+                        Text
+                        {
+                            Layout.fillWidth: true
+                            text: status
+                            color: currTheme.textColorGrayTwo
+                            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                        }
+                    }
+
+                    Text
+                    {
+                        property string sign: (status === "Sent") ? "- " : "+ "
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        verticalAlignment: Qt.AlignVCenter
+                        color: currTheme.textColor
+                        text: sign + amount + " " + name
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    }
+                    Image
+                    {
+                        Layout.preferredHeight: 30
+                        Layout.preferredWidth: 30
+    //                    innerWidth: 20
+    //                    innerHeight: 20
+
+                        visible: network === "subzero" ? true : false
+
+                        source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+
+                        MouseArea
+                        {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                        }
+                    }
+                }
+
+                Rectangle
+                {
+                    width: parent.width
+                    height: 1 * pt
+                    color: currTheme.lineSeparatorColor
+                    anchors.bottom: parent.bottom
+                }
             }
         }
     }

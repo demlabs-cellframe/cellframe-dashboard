@@ -3,18 +3,12 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import Demlabs 1.0
 import "../../"
-import "qrc:/widgets"
+import "../../controls" as Controls
+import "qrc:/widgets" as Widgets
 
-Page {
+Controls.DapTopPanel {
     property alias dapNewPayment: newPaymentButton
     property alias dapFrameTitle: frameTitleCreateWallet
-
-    Text
-    {
-        id: textHeaderWallet
-        text: qsTr("Wallet")
-        Layout.leftMargin: 20
-    }
 
     // Wallet selection combo box
     Item
@@ -38,7 +32,7 @@ Page {
         }
     }
     // Payment button
-    DapButton
+    Widgets.DapButton
     {
         id: newPaymentButton
         textButton: "Send"

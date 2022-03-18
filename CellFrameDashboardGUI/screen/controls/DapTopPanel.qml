@@ -53,7 +53,7 @@ Page
         verticalOffset: 3
         radius: 8.0
         samples: 17
-        color: "#80000000"
+        color: currTheme.shadowColor
         source: beckgrndRect
     }
 

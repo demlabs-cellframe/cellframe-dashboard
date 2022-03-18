@@ -81,6 +81,7 @@ DapCreateWalletForm
         target: dapServiceController
         onWalletCreated:
         {
+
             nextActivated("doneWallet");
         }
     }

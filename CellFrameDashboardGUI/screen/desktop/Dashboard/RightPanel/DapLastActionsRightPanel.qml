@@ -130,20 +130,11 @@ DapLastActionsRightPanelForm
         target: dapMainPage
         onModelWalletsUpdated:
         {
-            if (globalLogic.currentIndex >= 0 &&
-                requestCounter === 0)
-            {
-                lastDate = new Date(0)
-                prevDate = new Date(0)
-
-                modelLastActions.clear()
-
-                requestCounter = getWalletHistory(globalLogic.currentIndex)
-            }
+            updateComponent()
         }
     }
 
-    Component.onCompleted:
+    function updateComponent()
     {
         if (globalLogic.currentIndex >= 0 &&
             requestCounter === 0)
@@ -152,8 +143,9 @@ DapLastActionsRightPanelForm
             prevDate = new Date(0)
 
             modelLastActions.clear()
+            temporaryModel.clear()
 
-            requestCounter = getWalletHistory(globalLogic.currentIndex)
+            requestCounter = globalLogic.getWalletHistory(globalLogic.currentIndex, _dapModelWallets)
         }
     }
 

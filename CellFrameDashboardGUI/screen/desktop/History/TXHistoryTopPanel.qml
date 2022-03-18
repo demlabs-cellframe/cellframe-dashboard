@@ -1,82 +1,78 @@
-import QtQuick 2.12
-import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Styles 1.4
-
+import QtQuick 2.4
+import QtQuick.Controls 2.0
+import Demlabs 1.0
 import "../../"
-import "qrc:/widgets"
-import "../../controls" as Controls
+//import "qrc:/widgets"
+import "../../controls"
+import "../Certificates/parts"
 
-Controls.DapTopPanel {
-    signal currentSearchString(string text)
+DapTopPanel
+{
+    id: control
+//    anchors.leftMargin: 4*pt
+//    radius: currTheme.radiusRectangle
 
-    // Frame icon search
-    Rectangle
+    signal findHandler(string text)
+
+    Image
     {
         id: frameIconSearch
         anchors.left: parent.left
-        anchors.leftMargin: 37 * pt
+        anchors.leftMargin: 34 * pt
         anchors.verticalCenter: parent.verticalCenter
         height: 20 * pt
         width: 20 * pt
-        color: "transparent"
-        Image
-        {
-            id: iconSearch
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectFit
-            verticalAlignment: Image.AlignVCenter
-            horizontalAlignment: Image.AlignHCenter
+        //color: "transparent"
+        //id: iconSearch
+        //anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+        verticalAlignment: Image.AlignVCenter
+        horizontalAlignment: Image.AlignHCenter
 
-            source: "qrc:/resources/icons/ic_search.png"
-        }
+        source: "qrc:/resources/icons/ic_search.png"
     }
 
-    Rectangle
-    {
-        id: frameTextFieldSearch
-        anchors.left: frameIconSearch.right
+    SearchInputBox {
+        id: searchBox
+
         anchors.verticalCenter: parent.verticalCenter
-        anchors.leftMargin: 10 * pt
-        width: 230 * pt
-        height: layoutSearch.height
-        color: "transparent"
-        ColumnLayout
-        {
-            id: layoutSearch
-            width: parent.width
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: 0 * pt
+        anchors.left: frameIconSearch.right
+        anchors.leftMargin: 7 * pt
 
-            TextField
-            {
-                id: textFieldSearch
-                Layout.minimumHeight: 28 * pt
-                placeholderText: qsTr("Search")
-                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                style:
-                    TextFieldStyle
-                    {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.textColorGray
-                        background:
-                            Rectangle
-                            {
-                                border.width: 0
-                                color: currTheme.backgroundPanel
-                            }
-                    }
-                onTextChanged: {
-                    currentSearchString(text)
-                }
+        bottomLineVisible: false
 
-            }
-            Rectangle
-            {
-                width: parent.width
-                height: 1 * pt
-                color: currTheme.borderColor
-            }
+        placeholderText: qsTr("Search")
+        height: 28 * pt
+        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+
+        onEditingFinished: {
+            filtering.clear()
+            control.findHandler(text)
+        }
+
+        filtering.waitInputInterval: 100
+        filtering.minimumSymbol: 0
+        filtering.onAwaitingFinished: {
+            control.findHandler(text)
         }
     }
+
+    Rectangle {
+        width: 227 * pt
+        height: 1 * pt
+        anchors.top: searchBox.bottom
+        anchors.left: frameIconSearch.left
+        anchors.topMargin: 4 * pt
+        color: "#393B41" //currTheme.borderColor
+    }
+
+
+    //right Rectangle
+    Rectangle {
+//        color: parent.color
+        height: parent.height
+        width: parent.radius
+        x: parent.width - width
+    }
+
 }
