@@ -131,21 +131,10 @@ ApplicationWindow
         }
     }
 
-    DropShadow {
-        anchors.fill: networkPanel
-        horizontalOffset: -5
-        verticalOffset: 0
-        radius: 2.0
-        samples: 17
-        color: "white"
-        source: networkPanel
-    }
-
     onClosing: {
         close.accepted = false
         Qt.quit()
 //        window.hide()
-
     }
 
     Component.onCompleted: {

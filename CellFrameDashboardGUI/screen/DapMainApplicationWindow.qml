@@ -271,6 +271,10 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
+                        parent: Overlay.overlay
+
+                        x: width*0.5
+                        y: height*0.5
 
                         contentItem: Text {
                                 text: toolTip.text
@@ -385,6 +389,9 @@ Rectangle {
     Component{
         DapCertificatesMainPage { }
     }
+
+    DapMessagePopup{id: messagePopup}
+    property bool stateNotify: true
 
     ListModel
     {
@@ -817,6 +824,23 @@ Rectangle {
 //                console.log("Network : "+ dapOrders[i].Network)
             }
             modelOrdersUpdated();
+        }
+
+        onSignalStateSocket:
+        {
+            if(isError)
+            {
+                if(isFirst)
+                    messagePopup.open()
+                console.warn("ERROR SOCKET")
+                stateNotify = false
+            }
+            else
+            {
+                messagePopup.close()
+                console.info("CONNECT SOCKET")
+                stateNotify = true
+            }
         }
     }
 

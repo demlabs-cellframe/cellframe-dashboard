@@ -56,13 +56,6 @@ DapPage
 
         function newPayment()
         {
-//            walletInfo.name = _dapModelWallets.get(globalLogic.currentIndex).name
-//            dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
-//                               properties: {
-//                                   dapCmboBoxNetworkModel: _dapModelWallets.get(globalLogic.currentIndex).networks,
-//                                   dapCmboBoxTokenModel: _dapModelWallets.get(globalLogic.currentIndex).networks.get(0).tokens
-//                               }
-//                              });
             dapRightPanel.push(newPaymentMain)
         }
 
@@ -80,7 +73,8 @@ DapPage
         }
 
         function popPage() {
-            dapRightPanel.pop()
+            dapRightPanel.clear()
+            dapRightPanel.push(lastActionsWallet)
         }
     }
 
@@ -153,12 +147,12 @@ DapPage
             }
             PropertyChanges
             {
-                target: dapRightPanel;
+                target: dapRightPanelFrame
                 visible: false
             }
             PropertyChanges
             {
-                target: dashboardTopPanel
+                target: dapHeaderFrame
                 visible: false
             }
             PropertyChanges
@@ -182,12 +176,12 @@ DapPage
             }
             PropertyChanges
             {
-                target: dapRightPanel;
+                target: dapRightPanelFrame;
                 visible: true
             }
             PropertyChanges
             {
-                target: dashboardTopPanel
+                target: dapHeaderFrame
                 visible: true
             }
             PropertyChanges
@@ -211,12 +205,12 @@ DapPage
             }
             PropertyChanges
             {
-                target: dapRightPanel;
+                target: dapRightPanelFrame
                 visible: true
             }
             PropertyChanges
             {
-                target: dashboardTopPanel
+                target: dapHeaderFrame
                 visible: true
             }
             PropertyChanges
@@ -295,7 +289,8 @@ DapPage
     function update()
     {
         _dapWallets.length = 0
-        _dapModelWallets.clear()
+        if(_dapModelWallets)
+            _dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 

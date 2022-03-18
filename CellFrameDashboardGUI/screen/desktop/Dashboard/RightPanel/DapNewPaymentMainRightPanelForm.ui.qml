@@ -53,18 +53,6 @@ Controls.Page
         {
             Layout.fillWidth: true
             height: 38 * pt
-//            Layout.fillWidth: true
-//            Item
-//            {
-//                data: dapButtonClose
-//                height: dapButtonClose.height
-//                width: dapButtonClose.width
-
-//                MouseArea{
-//                    anchors.fill: parent
-//                    hoverEnabled: true
-//                }
-//            }
             DapButton
             {
                 anchors.left: parent.left

@@ -38,7 +38,12 @@ DapAbstractScreen
         {
             if(index === currentIndex)
             {
-                if(!_dapModelNetworks.count)
+                if(_dapModelNetworks)
+                {
+                    if(!_dapModelNetworks.count)
+                        dapServiceController.requestToService("DapGetListNetworksCommand")
+                }
+                else
                     dapServiceController.requestToService("DapGetListNetworksCommand")
             }
         }

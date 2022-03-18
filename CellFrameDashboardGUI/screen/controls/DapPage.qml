@@ -10,6 +10,7 @@ Page {
     id: root
 
     header: Controls.DapTopPanel {
+        id: frameHeader
         StackView {
             id: headerStack
             anchors.fill: parent
@@ -18,8 +19,10 @@ Page {
     }
 
     property alias dapHeader: headerStack
+    property alias dapHeaderFrame: frameHeader
     property alias dapScreen: mainScreenStack
     property alias dapRightPanel: rightPanelStack
+    property alias dapRightPanelFrame: frameRightPanel
 
     property bool onRightPanel: true
 
@@ -54,6 +57,7 @@ Page {
         }
 
         DapScreenPage {
+            id: frameRightPanel
             visible: onRightPanel
 //            Layout.fillWidth: true
             Layout.maximumWidth: 350

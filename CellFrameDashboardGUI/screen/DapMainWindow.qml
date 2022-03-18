@@ -33,9 +33,9 @@ FocusScope {
     readonly property QtObject dapMainFonts: DapFontRoboto {}
 
     signal updatePage(var index)
+    property bool stateNotify: true
 
     //Tabs
-
     property string menuTabStates: ""
     Settings { property alias menuTabStates: dapMainPage.menuTabStates }
     signal menuTabChanged()
@@ -142,6 +142,7 @@ FocusScope {
         Component.onCompleted:
             globalLogic.initButtonsModel(modelMenuTab, modelMenuTabStates)
     }
+    DapMessagePopup{id: messagePopup}
 
     Rectangle {
         anchors.fill: parent
@@ -364,6 +365,22 @@ FocusScope {
         {
             _dapModelOrders = globalLogic.rcvOrderList(orderList, parent)
             modelOrdersUpdated();
+        }
+        onSignalStateSocket:
+        {
+            if(isError)
+            {
+                if(isFirst)
+                    messagePopup.open()
+                console.warn("ERROR SOCKET")
+                stateNotify = false
+            }
+            else
+            {
+                messagePopup.close()
+                console.info("CONNECT SOCKET")
+                stateNotify = true
+            }
         }
     }
 

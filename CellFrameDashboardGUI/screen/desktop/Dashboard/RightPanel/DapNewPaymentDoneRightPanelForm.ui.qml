@@ -2,21 +2,28 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.4
+import QtQuick.Controls 2.5 as Controls
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+Controls.Page
 {
     /// @param dapButtonSend Send button.
     property alias dapButtonSend: buttonSend
 
-    dapNextRightPanel: lastActionsWallet
-    dapPreviousRightPanel: lastActionsWallet
+    background: Rectangle {
+        color: "transparent"
+    }
 
-    dapContentItemData:
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
         Item
         {
-            anchors.fill: parent
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Text
             {
@@ -84,4 +91,5 @@ DapAbstractRightPanel
                 color: "transparent"
             }
         }
+    }
 }

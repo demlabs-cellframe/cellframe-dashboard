@@ -16,13 +16,20 @@ DapConsoleScreenForm
 
     signal runCommand(string command)
 
-    Component.onCompleted:
+    Connections
     {
-        //The start point for using history
-        consoleHistoryIndex = -1
-        //Set focus to console input
-        consoleInput.forceActiveFocus()
-        _commandCmdController.dapServiceControllerInit(dapServiceController)
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                //The start point for using history
+                consoleHistoryIndex = -1
+                //Set focus to console input
+                consoleInput.forceActiveFocus()
+                _commandCmdController.dapServiceControllerInit(dapServiceController)
+            }
+        }
     }
 
     ListModel
