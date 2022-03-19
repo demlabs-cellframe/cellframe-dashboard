@@ -2,19 +2,19 @@ import QtQuick 2.4
 
 DapCreateWalletForm
 {
-    dapNextRightPanel: recoveryWallet
-    dapPreviousRightPanel: ""
+//    dapNextRightPanel: recoveryWallet
+//    dapPreviousRightPanel: ""
 
     property string dapSignatureTypeWallet
 
     Component.onCompleted:
     {
-        if (currentTab === dashboardScreenPath)
-          dapPreviousRightPanel = lastActionsWallet
-        if (currentTab === settingsScreenPath)
-          dapPreviousRightPanel = emptyRightPanel
+//        if (globalLogic.currentTab === "Wallet")
+//          dapPreviousRightPanel = lastActionsWallet
+//        if (globalLogic.currentTab === settingsScreenPath)
+//          dapPreviousRightPanel = emptyRightPanel
 
-        if (!restoreWalletMode)
+        if (!globalLogic.restoreWalletMode)
             dapTextHeader.text = qsTr("New wallet")
         else
             dapTextHeader.text = qsTr("Restore a wallet")
@@ -40,16 +40,17 @@ DapCreateWalletForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (walletRecoveryType !== "Nothing")
+            if (globalLogic.walletRecoveryType !== "Nothing")
             {
-                print("walletRecoveryType", walletRecoveryType)
+                print("walletRecoveryType", globalLogic.walletRecoveryType)
+                navigator.recoveryWalletFunc()
 
-                dapNextRightPanel = recoveryWallet
-                nextActivated("recoveryWallet");
+//                dapNextRightPanel = recoveryWallet
+//                nextActivated("recoveryWallet");
             }
             else
             {
-                dapNextRightPanel = doneWallet
+//                dapNextRightPanel = doneWallet
 
                 console.log("Create new wallet " + walletInfo.name);
                 console.log(walletInfo.signature_type);
@@ -65,14 +66,12 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-        if (currentTab === dashboardScreenPath)
-            previousActivated(lastActionsWallet)
-        if (currentTab === settingsScreenPath)
+        if (globalLogic.currentTab === "Wallet")
+            pop()
+        if (globalLogic.currentTab === "Settings")
         {
-            previousActivated(emptyRightPanel)
-            dapSettingsRightPanel.visible = false
-            dapSettingsRightPanel.width = 0
-            dapSettingsScreen.dapExtensionsBlock.visible = true
+//            pop()
+            navigator.popPage()
         }
     }
 
@@ -81,8 +80,8 @@ DapCreateWalletForm
         target: dapServiceController
         onWalletCreated:
         {
-
-            nextActivated("doneWallet");
+//            nextActivated("doneWallet");
+            navigator.doneWalletFunc()
         }
     }
 }

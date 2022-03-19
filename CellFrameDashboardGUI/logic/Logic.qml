@@ -7,6 +7,12 @@ QtObject {
     property var  activePlugin: ""
     property var currentNetwork: -1
 
+    //wallets create param
+    property bool restoreWalletMode: false
+    property string currentTab
+    property string walletRecoveryType: "Nothing"
+    //
+
 
     function createDapData(buffer)
     {

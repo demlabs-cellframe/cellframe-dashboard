@@ -7,7 +7,7 @@ import "../Parts"
 
 Page {
 
-    property alias buttonClose: buttonClose
+    property alias buttonClose: itemButtonClose
     property alias textHeader: textHeader
 
     background: Rectangle {
@@ -16,14 +16,24 @@ Page {
 
     ColumnLayout {
         anchors.fill: parent
+        spacing: 0
 
-        RowLayout {
+        Item
+        {
             Layout.fillWidth: true
-            Layout.topMargin: 10
-            Layout.leftMargin: 10
+            height: 38 * pt
             DapButton
             {
-                id: buttonClose
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 9 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 24 * pt
+                anchors.rightMargin: 13 * pt
+
+                id: itemButtonClose
                 height: 20 * pt
                 width: 20 * pt
                 heightImageButton: 10 * pt
@@ -31,22 +41,28 @@ Page {
                 activeFrame: false
                 normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
                 hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
-
                 onClicked: {
                     navigator.popPage()
                 }
             }
+
             Text
             {
                 id: textHeader
                 text: qsTr("Order details")
-                Layout.fillWidth: true
                 verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 52 * pt
 
                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
+
 
         ItemDelegate {
             Layout.fillWidth: true

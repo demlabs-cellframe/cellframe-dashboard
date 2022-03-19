@@ -36,30 +36,6 @@ Page
             }
         }
 
-
-
-//    dapHeaderData:
-//        Rectangle
-//    {
-//        color: "transparent"
-//        height: 38 * pt
-//        width: 348*pt
-
-//        Text
-//        {
-//            anchors.fill: parent
-//            anchors.leftMargin: 24 * pt
-//            text: qsTr("Last actions")
-//            verticalAlignment: Qt.AlignVCenter
-//            horizontalAlignment: Text.AlignLeft
-//            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-//            color: currTheme.textColor
-
-//        }
-
-//    }
-
-//    dapContentItemData:
         ListView
         {
 

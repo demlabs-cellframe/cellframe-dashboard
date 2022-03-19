@@ -8,7 +8,7 @@ import "../../"
 import "MenuBlocks"
 import "qrc:/widgets"
 
-DapAbstractScreen
+Page
 {
     id: settingScreen
 
@@ -22,13 +22,17 @@ DapAbstractScreen
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
-    anchors
+//    anchors
+//    {
+//        fill: parent
+//        topMargin: 24 * pt
+//        rightMargin: 24 * pt
+//        leftMargin: 24 * pt
+//        bottomMargin: 20 * pt
+//    }
+    background: Rectangle
     {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 24 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
     Connections

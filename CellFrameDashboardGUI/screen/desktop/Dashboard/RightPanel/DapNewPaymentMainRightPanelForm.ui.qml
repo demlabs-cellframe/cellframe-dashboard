@@ -91,54 +91,6 @@ Controls.Page
             }
         }
 
-
-//    dapHeaderData:
-//        Item
-//        {
-//            anchors.fill: parent
-////            Layout.fillWidth: true
-//            Item
-//            {
-//                id: itemButtonClose
-//                data: dapButtonClose
-//                height: dapButtonClose.height
-//                width: dapButtonClose.width
-//                anchors.left: parent.left
-//                anchors.right: textHeader.left
-//                anchors.top: parent.top
-//                anchors.bottom: parent.bottom
-//                anchors.topMargin: 9 * pt
-//                anchors.bottomMargin: 8 * pt
-//                anchors.leftMargin: 24 * pt
-//                anchors.rightMargin: 13 * pt
-
-//            }
-
-//            Text
-//            {
-//                id: textHeader
-//                text: qsTr("New payment")
-//                verticalAlignment: Qt.AlignLeft
-//                anchors.left: parent.left
-//                anchors.top: parent.top
-//                anchors.bottom: parent.bottom
-//                anchors.topMargin: 12 * pt
-//                anchors.bottomMargin: 8 * pt
-//                anchors.leftMargin: 52 * pt
-
-//                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-//                color: currTheme.textColor
-//            }
-//        }
-
-//    dapContentItemData:
-//        ColumnLayout
-//        {
-//            anchors.fill: parent
-//            anchors.margins: 0
-//            spacing: 0
-
-            // Sender wallet
         // Sender wallet
         Rectangle
         {
@@ -184,13 +136,6 @@ Controls.Page
                 {
                     id: comboboxNetwork
 
-//                        anchors.centerIn: parent
-//                        anchors.fill: parent
-//                        anchors.leftMargin: 35 * pt
-//                        anchors.rightMargin: 37 * pt
-//                        anchors.topMargin: 11 * pt
-//                        anchors.bottomMargin: 17 * pt
-
                     anchors.centerIn: parent
                     anchors.fill: parent
                     anchors.margins: 10 * pt
@@ -229,68 +174,6 @@ Controls.Page
                 }
 
             }
-
-//                RowLayout
-//                {
-//                    Layout.fillWidth: true
-//                    Layout.minimumHeight: 40 * pt
-//                    Layout.maximumHeight: 40 * pt
-
-//                    Text
-//                    {
-//                        Layout.fillWidth: true
-//                        color: currTheme.textColor
-//                        text: qsTr("Network: ")
-//                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-//                        horizontalAlignment: Text.AlignLeft
-//                    }
-
-//                    Rectangle
-//                    {
-//                        width: 200 * pt
-//                        height: 40 * pt
-//                        color: "transparent"
-
-//                        DapComboBox
-//                        {
-//                            id: comboboxNetwork
-
-//                            anchors.centerIn: parent
-//                            anchors.fill: parent
-
-//                            comboBoxTextRole: ["name"]
-//                            mainLineText: "private"
-//                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-//                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-//                            sidePaddingNormal: 10 * pt
-//                            sidePaddingActive: 10 * pt
-////                            hilightColor: currTheme.buttonColorNormal
-
-//                            widthPopupComboBoxNormal: 318 * pt
-//                            widthPopupComboBoxActive: 318 * pt
-//                            heightComboBoxNormal: 24 * pt
-//                            heightComboBoxActive: 42 * pt
-//                            topEffect: false
-
-//                            normalColor: currTheme.backgroundMainScreen
-//                            normalTopColor: currTheme.backgroundElements
-//                            hilightTopColor: currTheme.backgroundMainScreen
-
-//                            paddingTopItemDelegate: 8 * pt
-//                            heightListElement: 42 * pt
-//                            indicatorWidth: 24 * pt
-//                            indicatorHeight: indicatorWidth
-//                            colorDropShadow: currTheme.shadowColor
-//                            roleInterval: 15
-//                            endRowPadding: 37
-
-//                            fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-//                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-////                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-//                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-//                        }
-//                    }
-//                }
 
             RowLayout
             {
@@ -589,8 +472,5 @@ Controls.Page
             Layout.fillHeight: true
             color: "transparent"
         }
-
     }
-//    }
-
 }

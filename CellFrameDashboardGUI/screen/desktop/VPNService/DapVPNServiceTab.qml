@@ -151,40 +151,6 @@ DapPage {
             }
         ]
     // Signal-slot connection realizing panel switching depending on predefined rules
-//    Connections
-//    {
-//        target: dapRightPanel
-//        onNextActivated:
-//        {
-//            if(parametrsRightPanel !== createOrder)
-//                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
-//            currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapNextRightPanel);
-//            if(parametrsRightPanel === earnedFundsOrder)
-//            {
-//                if(_dapModelOrders.count === 0)
-//                    state = "ORDERDEFAULT"
-//                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
-////                console.log("DapGetListOrdersCommand")
-////                dapServiceController.requestToService("DapGetListOrdersCommand");
-//            }
-//        }
-//        onPreviousActivated:
-//        {
-//            dapRightPanel.pop(null)
-
-//            if(parametrsRightPanel !== createOrder)
-//                vpnServiceScreen.dapFrameTitleCreateOrder.visible = false;
-//            currentRightPanel = dapVPNServiceRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-//            if(parametrsRightPanel === earnedFundsOrder)
-//            {
-//                if(_dapModelOrders.count === 0)
-//                    state = "ORDERDEFAULT"
-//                vpnServiceScreen.dapGridViewFrame.currentIndex = -1
-////                console.log("DapGetListOrdersCommand")
-////                dapServiceController.requestToService("DapGetListOrdersCommand");
-//            }
-//        }
-//    }
 
     Connections
     {
@@ -205,16 +171,15 @@ DapPage {
         {
             update()
         }
-        onWalletCreated:
-        {
-            update()
-        }
+//        onWalletCreated:
+//        {
+//            update()
+//        }
     }
 
     function update()
     {
-        dapIndexCurrentWallet = dashboardTopPanel.dapComboboxWallet.currentIndex
-        dapOrders.length = 0
+//        dapOrders.length = 0
         _dapModelOrders.clear()
         dapServiceController.requestToService("DapGetListOrdersCommand");
 

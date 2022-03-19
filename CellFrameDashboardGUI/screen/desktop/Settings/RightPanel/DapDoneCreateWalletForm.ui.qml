@@ -1,15 +1,26 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.4
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+Page
 {
     property alias dapButtonDone: buttonDone
 
-    dapContentItemData:
+    background: Rectangle {
+        color: "transparent"
+    }
+
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
         Item
         {
-            anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             Text
             {
@@ -29,8 +40,7 @@ DapAbstractRightPanel
             {
                 anchors.top: textMessage.bottom
                 anchors.topMargin:  24 * pt
-                anchors.leftMargin: 43 * pt
-                anchors.rightMargin: 32 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 id: textMessageBottom
                 text: qsTr("Now you can manage your\nwallets in Settings")
@@ -54,4 +64,5 @@ DapAbstractRightPanel
                 fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
             }
         }
+    }
 }

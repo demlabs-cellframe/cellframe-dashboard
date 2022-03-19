@@ -1,18 +1,25 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.5 as Controls
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 
-DapRightPanel
+Controls.Page
 {
+    property alias dapButtonClose: itemButtonClose
     property alias dapTextHeader: textHeader
     property alias dapTextInputNameWallet: textInputNameWallet
     property alias dapComboBoxSignatureTypeWallet: comboBoxSignatureTypeWallet
     property alias dapButtonNext: buttonNext
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
+
+
+    background: Rectangle {
+        color: "transparent"
+    }
 
     ListModel
     {
@@ -39,16 +46,17 @@ DapRightPanel
 //        }
     }
 
-    dapHeaderData:
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
         Item
         {
-            anchors.fill: parent
-            Item
+            Layout.fillWidth: true
+            height: 38 * pt
+            DapButton
             {
-                id: itemButtonClose
-                data: dapButtonClose
-                height: dapButtonClose.height
-                width: dapButtonClose.width
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
@@ -57,11 +65,19 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
+
+                id: itemButtonClose
+                height: 20 * pt
+                width: 20 * pt
+                heightImageButton: 10 * pt
+                widthImageButton: 10 * pt
+                activeFrame: false
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
             }
 
             Text
             {
-
                 id: textHeader
                 text: qsTr("Create new wallet")
                 verticalAlignment: Qt.AlignLeft
@@ -76,12 +92,6 @@ DapRightPanel
                 color: currTheme.textColor
             }
         }
-
-    dapContentItemData:
-    ColumnLayout
-    {
-        anchors.fill: parent
-        spacing: 0 * pt
 
         Rectangle
         {
@@ -258,7 +268,7 @@ DapRightPanel
                     spaceIndicatorText: 3 * pt
                     fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                     implicitHeight: indicatorInnerSize
-                    onClicked: walletRecoveryType = "Words"
+                    onClicked: globalLogic.walletRecoveryType = "Words"
                 }
 
 //                    DapRadioButton
@@ -279,18 +289,19 @@ DapRightPanel
                     spaceIndicatorText: 3 * pt
                     implicitHeight: indicatorInnerSize
                     fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                    onClicked: walletRecoveryType = "File"
+                    onClicked: globalLogic.walletRecoveryType = "File"
                 }
 
                 DapRadioButton
                 {
                     id: buttonSelectionNothing
+                    visible: !globalLogic.restoreWalletMode
                     nameRadioButton: qsTr("Nothing")
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 3 * pt
                     implicitHeight: indicatorInnerSize
                     fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                    onClicked: walletRecoveryType = "Nothing"
+                    onClicked: globalLogic.walletRecoveryType = "Nothing"
                 }
             }
         }
@@ -335,6 +346,6 @@ DapRightPanel
             color: "transparent"
         }
         Component.onCompleted:
-            walletRecoveryType = "Words"
+            globalLogic.walletRecoveryType = "Words"
     }
 }

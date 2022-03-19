@@ -276,7 +276,10 @@ FocusScope {
                     }
                 }
 
-                onCurrentIndexChanged: {if(mainScreen.isInit) updatePage(currentIndex+1)}
+                onCurrentIndexChanged: {
+                    if(mainScreen.isInit) updatePage(currentIndex+1)
+                    globalLogic.currentTab = modelMenuTab.get(currentIndex).name
+                }
             }
         }
     }

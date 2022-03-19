@@ -32,7 +32,7 @@ Popup {
         Text {
             Layout.fillWidth: true
             Layout.margins: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

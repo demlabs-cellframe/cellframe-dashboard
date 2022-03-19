@@ -46,12 +46,15 @@ DapPage
             if(state !== "WALLETSHOW")
                 state = "WALLETCREATE"
             dapRightPanel.push(createNewWallet)
-            //TODO
         }
 
-        function doneCreateWalletFunc(){
+        function doneWalletFunc(){
             dapRightPanel.push(doneWallet)
-            //TODO
+        }
+
+        function recoveryWalletFunc()
+        {
+            dapRightPanel.push(recoveryWallet)
         }
 
         function newPayment()
@@ -62,14 +65,6 @@ DapPage
         function doneNewPayment()
         {
            dapRightPanel.push(newPaymentDone)
-        }
-
-        function orderDetailsFunc() {
-            dapRightPanel.push(orderDetails)
-        }
-
-        function earnedFundsFunc(){
-            dapRightPanel.push(earnedFundsOrder)
         }
 
         function popPage() {
@@ -108,7 +103,7 @@ DapPage
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
-                restoreWalletMode = false
+                globalLogic.restoreWalletMode = false
                 navigator.createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
@@ -313,5 +308,4 @@ DapPage
             dashboardTab.state = "WALLETSHOW"
         }
     }
-
 }
