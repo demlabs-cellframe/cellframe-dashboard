@@ -2,13 +2,14 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
-import "qrc:/widgets"
+import "../../controls"
+import "qrc:/widgets" as Widgets
 
 DapTopPanel
 {
-    anchors.leftMargin: 4*pt
-    radius: currTheme.radiusRectangle
-    color: currTheme.backgroundPanel
+//    anchors.leftMargin: 4*pt
+//    radius: currTheme.radiusRectangle
+//    color: currTheme.backgroundPanel
 
     Text {
         id: vesion
@@ -48,7 +49,7 @@ DapTopPanel
             elide: Text.ElideMiddle
         }
 
-        DapImageLoader {
+        Widgets.DapImageLoader {
             id: notifyState
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: 8 * pt

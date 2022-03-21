@@ -169,6 +169,8 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
 
+    qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
+
 }
 
 DapWallet *DapApplication::currentWallet() const
@@ -201,4 +203,9 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
+
+//    //TODO
+//    TestController * testController = new TestController(this);
+//    m_engine.rootContext()->setContextProperty("dapTestController", testController);
+
 }

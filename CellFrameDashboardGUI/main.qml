@@ -10,6 +10,7 @@ import "resources/theme"
 import "qrc:/resources/QML"
 import "screen"
 import "qrc:/screen/desktop/NetworksPanel"
+import "screen/mobile_new/android"
 
 ApplicationWindow
 {
@@ -17,6 +18,7 @@ ApplicationWindow
     visible: true
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+//    readonly property bool isMobile: true
     readonly property string device: isMobile? "mobile" : "desktop"
 
     Logic {
@@ -31,7 +33,6 @@ ApplicationWindow
     Component {
         id: mainWindowComponent
         DapMainWindow
-        //DapMainApplicationWindow
         {
             id: mainWindow
         }
@@ -39,9 +40,11 @@ ApplicationWindow
 
     Component {
         id: mainWindowMobileComponent
-        DapMainWindowMobile {
-            id: mainWindowMobile
+        MainMobileWindow
+        {
+            id:mainWindowMobile
         }
+
     }
     //Themes and fonts
     Dark { id: darkTheme }
@@ -58,6 +61,7 @@ ApplicationWindow
     {
         id: networkPanel
         height: 40 * pt
+        visible: !isMobile
     }
 
     //Main window
@@ -139,8 +143,8 @@ ApplicationWindow
 
     Component.onCompleted: {
         if(isMobile) {
-            window.minimumWidth = 0
-            window.minimumHeight = 0
+            window.minimumWidth = 400
+            window.minimumHeight = 600
         }
         else
             sizeUpdate()
