@@ -388,5 +388,8 @@
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
         <file>screen/DapMessagePopup.qml</file>
+        <file>screen/desktop/Certificates/CertificateTopPanel.qml</file>
+        <file>screen/desktop/Certificates/CertificateScreen.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CertificateActions.qml</file>
     </qresource>
 </RCC>

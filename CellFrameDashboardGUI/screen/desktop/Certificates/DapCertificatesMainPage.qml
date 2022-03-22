@@ -6,7 +6,36 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
 import "../../"
+import "qrc:/screen/controls"
+import "RightPanel"
 
+///*
+DapPage
+{
+    Utils {
+        id: utils
+    }
+
+    CertificatesModels {
+        id: models
+    }
+
+    CertificatesLogic{
+        id: logics
+    }
+
+    dapHeader.initialItem: CertificateTopPanel {}
+
+    dapScreen.initialItem: CertificateScreen {}
+
+    dapRightPanel.initialItem: CertificateActions {}
+}//*/
+
+
+
+
+
+/*
 DapAbstractTab
 {
     id: dapCertificatesMainPage
@@ -86,19 +115,13 @@ DapAbstractTab
 
                 infoTitleTextVisible: models.certificates.isSelected
                 Component.onCompleted: {
-                    //need bind delegate with delegateModel
                     models.certificatesFind.delegate = delegateComponent
                     models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
                     models.certificatesFind.update()
                     model = models.certificatesFind  //original
-        //            delegate = delegateComponent
-        //            model = models.certificates
                 }
 
-                onSelectedIndex: {   //index
-        //            if (models.certificates.selectedIndex === index)       //clear selected with repeat click
-        //                models.certificates.clearSelected()
-        //            else
+                onSelectedIndex: {
                       models.certificates.setSelectedIndex(index)
                 }
 
@@ -355,3 +378,4 @@ DapAbstractTab
         }
     }   //
 }   //dapCertificatesMainPage
+*/
