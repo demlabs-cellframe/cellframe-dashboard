@@ -43,5 +43,21 @@ CertificatesActionsButtonList
             break;
         }
     }
+
+    createCertificateButton.onClicked: {
+        dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CreateCertificateItem.qml")
+    }
+
+    exportPublicCertificateToFileButton.onClicked: {
+        logics.exportPublicCertificateToFile(models.certificates.selectedIndex)
+    }
+
+    exportPublicCertificateToMempoolButton.onClicked: {
+        logics.exportPublicCertificateToMempool(models.certificates.selectedIndex)
+    }
+
+    deleteCertificateButton.onClicked: {
+         logics.deleteCertificate(models.certificates.selectedIndex)
+    }
 }
 

@@ -138,9 +138,7 @@
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
         <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
         <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
-        <file>screen/desktop/Certificates/CreateCertificateItem.qml</file>
         <file>screen/desktop/Certificates/CertificateInfoItem.qml</file>
-        <file>screen/desktop/Certificates/CreateFinishedItem.qml</file>
         <file>screen/desktop/Certificates/parts/ToolButton.qml</file>
         <file>screen/desktop/Certificates/parts/CloseButton.qml</file>
         <file>screen/desktop/Certificates/parts/InputField.qml</file>
@@ -391,5 +389,7 @@
         <file>screen/desktop/Certificates/CertificateTopPanel.qml</file>
         <file>screen/desktop/Certificates/CertificateScreen.qml</file>
         <file>screen/desktop/Certificates/RightPanel/CertificateActions.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CreateCertificateItem.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CreateFinishedItem.qml</file>
     </qresource>
 </RCC>

@@ -84,6 +84,8 @@ Rectangle {
                 width: 132 * pt
                 fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Qt.AlignHCenter
+
+                onClicked: dapRightPanel.clear()
             }
         }
     } //frameRightPanel
