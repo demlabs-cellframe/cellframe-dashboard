@@ -45,7 +45,7 @@ CertificatesActionsButtonList
     }
 
     createCertificateButton.onClicked: {
-        dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CreateCertificateItem.qml")
+        certificateNavigator.openCreateCertificateItem()
     }
 
     exportPublicCertificateToFileButton.onClicked: {

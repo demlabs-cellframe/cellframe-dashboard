@@ -76,7 +76,7 @@ Item {
                     if (result.status === DapCertificateCommands.statusOK) {
                         models.certificates.prependFromObject(result.data)
                         models.certificates.clearSelected()
-                        dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CreateFinishedItem.qml")
+                        certificateNavigator.openCreateFinishedItem()
                     }
                     break;
                 case DapCertificateCommands.DumpCertifiacate:

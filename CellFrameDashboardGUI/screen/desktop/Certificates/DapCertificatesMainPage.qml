@@ -24,6 +24,22 @@ DapPage
         id: logics
     }
 
+    QtObject {
+        id: certificateNavigator
+
+        function openCreateCertificateItem() {
+            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CreateCertificateItem.qml")
+        }
+
+        function openCreateFinishedItem() {
+            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CreateFinishedItem.qml")
+        }
+
+        function clearRightPanel() {
+            dapRightPanel.pop(null)
+        }
+    }
+
     dapHeader.initialItem: CertificateTopPanel {}
 
     dapScreen.initialItem: CertificateScreen {}
