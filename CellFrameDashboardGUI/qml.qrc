@@ -391,5 +391,51 @@
         <file>screen/desktop/Certificates/RightPanel/CertificateActions.qml</file>
         <file>screen/desktop/Certificates/RightPanel/CreateCertificateItem.qml</file>
         <file>screen/desktop/Certificates/RightPanel/CreateFinishedItem.qml</file>
+        <file>screen/mobile_new/android/History/History.qml</file>
+        <file>screen/mobile_new/android/Icons/Close.png</file>
+        <file>screen/mobile_new/android/Icons/ComingSoon.png</file>
+        <file>screen/mobile_new/android/Icons/Copy.png</file>
+        <file>screen/mobile_new/android/Icons/IconCertificates.png</file>
+        <file>screen/mobile_new/android/Icons/IconExchange.png</file>
+        <file>screen/mobile_new/android/Icons/IconHistory.png</file>
+        <file>screen/mobile_new/android/Icons/IconLogs.png</file>
+        <file>screen/mobile_new/android/Icons/IconSettings.png</file>
+        <file>screen/mobile_new/android/Icons/IconTokens.png</file>
+        <file>screen/mobile_new/android/Icons/IconVPNclient.png</file>
+        <file>screen/mobile_new/android/Icons/IconVPNservice.png</file>
+        <file>screen/mobile_new/android/Icons/IconWallet.png</file>
+        <file>screen/mobile_new/android/Icons/indicator_error.png</file>
+        <file>screen/mobile_new/android/Icons/indicator_offline.png</file>
+        <file>screen/mobile_new/android/Icons/indicator_online.png</file>
+        <file>screen/mobile_new/android/Icons/MenuIcon.png</file>
+        <file>screen/mobile_new/android/Icons/MenuIconLight.png</file>
+        <file>screen/mobile_new/android/Icons/MenuIconLightGreen.png</file>
+        <file>screen/mobile_new/android/Icons/NetIcon.png</file>
+        <file>screen/mobile_new/android/Icons/NetIconLight.png</file>
+        <file>screen/mobile_new/android/Icons/NetIconLightGreen.png</file>
+        <file>screen/mobile_new/android/Icons/Power.png</file>
+        <file>screen/mobile_new/android/Icons/Reload.png</file>
+        <file>screen/mobile_new/android/Icons/Wallet.png</file>
+        <file>screen/mobile_new/android/Settings/MainSettings.qml</file>
+        <file>screen/mobile_new/android/Wallet/Payment/ReceiveToken.qml</file>
+        <file>screen/mobile_new/android/Wallet/Payment/TokenAddress.qml</file>
+        <file>screen/mobile_new/android/Wallet/Payment/TokenAmount.qml</file>
+        <file>screen/mobile_new/android/Wallet/Payment/TokenOverview.qml</file>
+        <file>screen/mobile_new/android/Wallet/Payment/TransactionOverview.qml</file>
+        <file>screen/mobile_new/android/Wallet/Payment/TransactionSuccessfully.qml</file>
+        <file>screen/mobile_new/android/Wallet/CustomRadioButton.qml</file>
+        <file>screen/mobile_new/android/Wallet/MainWallet.qml</file>
+        <file>screen/mobile_new/android/Wallet/TokenWallet.qml</file>
+        <file>screen/mobile_new/android/Wallet/Wallet24Words.qml</file>
+        <file>screen/mobile_new/android/Wallet/WalletName.qml</file>
+        <file>screen/mobile_new/android/Wallet/WalletRecovery.qml</file>
+        <file>screen/mobile_new/android/Wallet/WalletSignature.qml</file>
+        <file>screen/mobile_new/android/Wallet/WalletSuccessfully.qml</file>
+        <file>screen/mobile_new/android/MainMenu.qml</file>
+        <file>screen/mobile_new/android/MainMobileWindow.qml</file>
+        <file>screen/mobile_new/android/MainStackView.qml</file>
+        <file>screen/mobile_new/android/NetworkDelegate.qml</file>
+        <file>screen/mobile_new/android/NetworkMenu.qml</file>
+        <file>screen/mobile_new/android/PageComingSoon.qml</file>
     </qresource>
 </RCC>

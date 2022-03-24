@@ -7,6 +7,8 @@
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
 #include "DapVpnOrdersModel.h"
+#include "mobile/QMLClipboard.h"
+#include "mobile/testcontroller.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
