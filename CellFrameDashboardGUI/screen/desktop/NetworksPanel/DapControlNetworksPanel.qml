@@ -30,12 +30,16 @@ DapNetworksPanel
         source: control
         spread: 0.7
     }
-
-    Timer {
-        id: idNetworkPanelTimer
-        interval: 5000; running: true; repeat: true
-        onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
+    Component.onCompleted:
+    {
+        dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
+
+//    Timer {
+//        id: idNetworkPanelTimer
+//        interval: 5000; running: true; repeat: true
+//        onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
+//    }
 
     Rectangle
     {
@@ -248,6 +252,16 @@ DapNetworksPanel
         networkList.currentIndex = cur_index
     }
 
+    Connections
+    {
+        target: dapServiceController
+
+        onSignalNetState:
+        {
+            notifyModelUpdate(netState)
+        }
+    }
+
 //    Connections
 //    {
 //        target: dapServiceController
@@ -306,7 +320,6 @@ DapNetworksPanel
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
         }
-
     }
 
 
@@ -395,5 +408,35 @@ DapNetworksPanel
     {
         var count = (control.parent.parent.width - 27 * pt/* - 114 * pt*/)/item_width
         return Math.floor(count)
+    }
+
+    function notifyModelUpdate(data)
+    {
+        console.log(data.networkState.substr(10));
+        if(networksModel.count)
+        {
+            for(var i = 0; i < networksModel.count; i++)
+            {
+                if(networksModel.get(i).name === data.name)
+                {
+                    networksModel.get(i).networkState = data.networkState.substr(10)
+                    networksModel.get(i).targetState = data.targetState.substr(10)
+                    networksModel.get(i).errorMessage = data.errorMessage
+                    networksModel.get(i).linksCount = data.linksCount
+                    networksModel.get(i).activeLinksCount = data.activeLinksCount
+                    networksModel.get(i).nodeAddress = data.nodeAddress
+                }
+            }
+        }
+        else
+        {
+            networksModel.append({ "name" : data.name,
+                                   "networkState" : data.networkState,
+                                   "targetState" : data.targetState,
+                                   "errorMessage" : data.errorMessage,
+                                   "linksCount" : data.linksCount,
+                                   "activeLinksCount" : data.activeLinksCount,
+                                   "nodeAddress" : data.nodeAddress})
+        }
     }
 }

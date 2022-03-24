@@ -22,6 +22,7 @@ DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
 {
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
+        watcher->frontendConnected();
     });
 }
 

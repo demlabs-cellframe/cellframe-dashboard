@@ -29,11 +29,14 @@ public slots:
     void tcpSocketStateChanged(QAbstractSocket::SocketState socketState);
     void socketStateChanged(QLocalSocket::LocalSocketState socketState);
 
+    void frontendConnected();
+
 signals:
     void rcvNotify(QVariant);
 
 private:
     void reconnectFunc();
+    void sendNotifyState(QVariant);
 
 private:
     QString m_listenPath;

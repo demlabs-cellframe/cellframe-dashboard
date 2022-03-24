@@ -203,16 +203,19 @@ Popup {
         Item
         {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: errorNetwork.implicitWidth
+            Layout.preferredWidth: item_width/2
             Layout.preferredHeight: 15 * pt
-            visible: errorNetwork.text === "" ? false : true
+//            visible: errorNetwork.text === "" || errorNetwork.text === " "  ? false : true
+            visible: false
 
             Text {
                 id: errorNetwork
                 anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                 text: errorMessage
                 color: "#FF0000"
+                elide: Text.ElideMiddle
             }
         }
 

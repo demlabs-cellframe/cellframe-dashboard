@@ -367,11 +367,13 @@ void DapServiceController::registerEmmitedSignal()
 void DapServiceController::notifySignalsAttach()
 {
     connect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
+    connect(m_DapNotifyController, SIGNAL(netStates(QVariantMap)), this, SLOT(slotNetState(QVariantMap)));
 }
 
 void DapServiceController::notifySignalsDetach()
 {
     disconnect(m_DapNotifyController, SIGNAL(socketState(QString,int,int)), this, SLOT(slotStateSocket(QString,int,int)));
+    disconnect(m_DapNotifyController, SIGNAL(netStates(QVariantMap)), this, SLOT(slotNetState(QVariantMap)));
 }
 
 

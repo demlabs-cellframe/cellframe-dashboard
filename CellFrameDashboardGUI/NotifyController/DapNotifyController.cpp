@@ -25,7 +25,6 @@ void DapNotifyController::rcvData(QVariant data)
                     isFirst = true;
 
                 m_connectState = it.value().toInt();
-                qWarning()<<"Connect Error";
                 emit socketState(m_connectState, isFirst, true);
             }
             else
@@ -36,6 +35,12 @@ void DapNotifyController::rcvData(QVariant data)
         }
         if(it.key()=="class")
         {
+            if(it.value().toString() == "Wallet")
+                qDebug()<<"";
+            else if(it.value().toString() == "NetStates")
+            {
+                emit netStates(map);
+            }
             //TODO
         }
     }
