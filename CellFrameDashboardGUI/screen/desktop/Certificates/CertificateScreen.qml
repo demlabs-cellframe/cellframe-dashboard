@@ -47,7 +47,7 @@ RowLayout
 
                 onInfoClicked: {     //index
                     logics.dumpCertificate(index)
-                    rightPanel.sourceComponent = certificateInfoComponent
+                    certificateNavigator.openInfoItem()
                 }
 
             }   //certificatesListView

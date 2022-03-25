@@ -48,7 +48,7 @@ Item {
             if (result.status !== DapCertificateCommands.statusOK) {
                 console.error("execute command %1, message %2"
                               .arg(DapCertificateCommands.commandToString(result.command)).arg(result.errorMessage))
-                messagePopup.smartOpen(qsTr("Certificate"), result.errorMessage)
+                messagePopup.smartOpen("Certificate", result.errorMessage)
             }
 
 
@@ -123,7 +123,7 @@ Item {
                     if (result.status === DapCertificateCommands.statusOK) {
                         models.certificates.clearSelected()
                         models.certificates.prependFromObject(result.data)
-                        messagePopup.smartOpen(qsTr("Certificate"), "Public certificate created, file path:\n%1".arg(result.data.filePath))
+                        messagePopup.smartOpen("Certificate", "Public certificate created, file path:\n%1".arg(result.data.filePath))
                     }
 
                     break;
@@ -136,7 +136,7 @@ Item {
                     }
 
                     if (result.status === DapCertificateCommands.statusOK) {
-                        messagePopup.smartOpen(qsTr("Certificate"), "Success export to mempool\ncertificate: %1\nnetwork: %2"
+                        messagePopup.smartOpen("Certificate", "Success export to mempool\ncertificate: %1\nnetwork: %2"
                                                .arg(result.data.certName).arg(result.data.network))
                     }
 
@@ -147,7 +147,7 @@ Item {
                 case DapCertificateCommands.DeleteCertificate:
                     //utils.beatifulerJSON(result.data, "DapCertificateCommands.DeleteCertificate");    //for test                   
                     if (result.status === DapCertificateCommands.statusOK) {
-                        messagePopup.smartOpen(qsTr("Certificate"), qsTr("Certificate deleted\n%1").arg(result.data.deletedFilePath))
+                        messagePopup.smartOpen("Certificate", qsTr("Certificate deleted\n%1").arg(result.data.deletedFilePath))
                         models.certificates.removeByProperty("filePath", result.data.deletedFilePath)
                         models.certificates.clearSelected()
                         return

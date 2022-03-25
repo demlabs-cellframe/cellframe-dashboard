@@ -138,7 +138,6 @@
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
         <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
         <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
-        <file>screen/desktop/Certificates/CertificateInfoItem.qml</file>
         <file>screen/desktop/Certificates/parts/ToolButton.qml</file>
         <file>screen/desktop/Certificates/parts/CloseButton.qml</file>
         <file>screen/desktop/Certificates/parts/InputField.qml</file>
@@ -437,5 +436,6 @@
         <file>screen/mobile_new/android/NetworkDelegate.qml</file>
         <file>screen/mobile_new/android/NetworkMenu.qml</file>
         <file>screen/mobile_new/android/PageComingSoon.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CertificateInfoItem.qml</file>
     </qresource>
 </RCC>

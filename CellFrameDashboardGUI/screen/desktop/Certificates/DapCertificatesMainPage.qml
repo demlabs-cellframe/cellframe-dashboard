@@ -38,6 +38,10 @@ DapPage
         function clearRightPanel() {
             dapRightPanel.pop(null)
         }
+
+        function openInfoItem() {
+            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CertificateInfoItem.qml")
+        }
     }
 
     dapHeader.initialItem: CertificateTopPanel {}
