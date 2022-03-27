@@ -32,7 +32,7 @@ Popup {
         Text {
             Layout.fillWidth: true
             Layout.margins: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -56,7 +56,7 @@ Popup {
                 textButton: qsTr("Ok")
 
                 implicitHeight: 36 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:

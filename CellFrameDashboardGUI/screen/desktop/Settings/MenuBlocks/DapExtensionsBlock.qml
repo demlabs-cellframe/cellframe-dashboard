@@ -22,7 +22,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Extensions")
@@ -40,25 +40,17 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Manage dApps")
         }
     }
 
+
     ListModel
     {
         id: modelApps
-        Component.onCompleted:
-        {
-            for(var i = 0; i < dapModelPlugins.count; i++)
-            {
-                if(dapModelPlugins.get(i).status === "1")
-                    modelApps.append({name:dapModelPlugins.get(i).name, status:dapModelPlugins.get(i).status})
-
-            }
-        }
     }
 
     ListView
@@ -100,7 +92,7 @@ ColumnLayout
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         Layout.leftMargin: 15 * pt
 
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: name
@@ -133,6 +125,24 @@ ColumnLayout
                     anchors.bottom: parent.bottom
                     height: 1 * pt
                     color: currTheme.lineSeparatorColor
+
+                }
+            }
+        }
+    }
+
+    Connections
+    {
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                modelApps.clear()
+                for(var i = 0; i < _dapModelPlugins.count; i++)
+                {
+                    if(_dapModelPlugins.get(i).status === "1")
+                        modelApps.append({name:_dapModelPlugins.get(i).name, status:_dapModelPlugins.get(i).status})
 
                 }
             }

@@ -7,18 +7,22 @@ DapRightPanel
     dapHeaderData:
         Rectangle
         {
+            anchors.fill: parent
             color: "transparent"
-            height: 38 * pt
-            width: 348*pt
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 24 * pt
                 text: qsTr("Last actions")
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 24 * pt
+
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
@@ -45,7 +49,7 @@ DapRightPanel
                         color: currTheme.textColor
                         width: parent.width
                         wrapMode: Text.Wrap
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                         //For the automatic sending selected command from history
                         MouseArea
                         {

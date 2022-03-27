@@ -8,6 +8,12 @@
 #include <QSharedMemory>
 #include <QScreen>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#include <QAndroidJniObject>
+#include <QAndroidIntent>
+#endif
+
 #include "DapHelper.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceController.h"
@@ -150,7 +156,6 @@ int main(int argc, char *argv[])
     app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
-
 
     return app.exec();
 }

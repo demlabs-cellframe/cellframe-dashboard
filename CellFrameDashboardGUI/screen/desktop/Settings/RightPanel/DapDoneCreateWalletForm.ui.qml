@@ -1,15 +1,26 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.4
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+Page
 {
     property alias dapButtonDone: buttonDone
 
-    dapContentItemData:
+    background: Rectangle {
+        color: "transparent"
+    }
+
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
         Item
         {
-            anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             Text
             {
@@ -22,22 +33,21 @@ DapAbstractRightPanel
                 anchors.leftMargin: 47 * pt
                 anchors.rightMargin: 49 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium28
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium28
             }
 
             Text
             {
                 anchors.top: textMessage.bottom
                 anchors.topMargin:  24 * pt
-                anchors.leftMargin: 43 * pt
-                anchors.rightMargin: 32 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
 
                 id: textMessageBottom
                 text: qsTr("Now you can manage your\nwallets in Settings")
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
                 color: currTheme.placeHolderTextColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             }
 
             DapButton
@@ -51,7 +61,8 @@ DapAbstractRightPanel
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
             }
         }
+    }
 }

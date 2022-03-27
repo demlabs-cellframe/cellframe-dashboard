@@ -1,185 +1,195 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.2
-import ".."
-import "qrc:/widgets"
-import "../RightPanel"
+import QtQuick 2.4
+import QtQuick.Controls 1.4
+import "qrc:/"
+import "../../"
+//import "../../desktop/VPNService/"
+import "qrc:/screen/controls"
+import "Parts"
+import "RightPanel"
 
-Item {
-    id: tab
-    // TODO только для теста
-    Item {
-        id: vpnTest
+DapPage {
 
-        property alias ordersModel: ordersModel
+    ///@detalis Path to the right panel of input name wallet.
+    readonly property string createOrder: "qrc:/screen/desktop/VPNService/RightPanel/CreateOrder.qml"
+    readonly property string earnedFundsOrder: "qrc:/screen/desktop/VPNService/RightPanel/EarnedFunds.qml"
+    readonly property string doneOrder: "qrc:/screen/desktop/Dashboard/RightPanel/DapDoneWalletRightPanel.qml"
 
-//        Component.onCompleted: {
-//            for (var i = 0; i < 10; ++ i) {
-//                ordersModel.append({
-//                                       name: "order " + i,
-//                                       dateCreated: "April 22, 2020",
-//                                       units: 3600,
-//                                       unitsType: "seconds",
-//                                       value: 0.1,
-//                                       token: "KELT"
-//                                   });
-//            }
-//        }
+    readonly property string orderDetails: "qrc:/screen/desktop/VPNService/RightPanel/OrderDetails.qml"
 
-        ListModel {
-            id: ordersModel
+    readonly property var currentIndex: 7
+    id: vpnServiceTab
 
-            onCountChanged: console.log("VPN TEST ORDERS COUNT CHANGED: " + count);
+    QtObject {
+        id: navigator
 
-            /*ListElement {
-                name: ""
-                dateCreated: "April 22, 2020"
-                units: 3600
-                unitsType: "seconds"
-                value: 0.1
-                token: "KELT"
-            }*/
+        function createOrderFunc() {
+            if(state !== "ORDERSHOW")
+                state = "ORDERCREATE"
+            dapRightPanel.push(createOrder)
+        }
+
+        function doneCreateOrderFunc(){
+            dapRightPanel.push(doneOrder)
+        }
+
+        function orderDetailsFunc() {
+            dapRightPanel.push(orderDetails)
+        }
+
+        function earnedFundsFunc(){
+            dapRightPanel.push(earnedFundsOrder)
+        }
+
+        function popPage() {
+            dapRightPanel.pop()
         }
     }
 
-    // TODO как узнать?
-    property bool ordersExists: vpnTest.ordersModel.count > 0
 
-    function newVPNOrder()
+    dapScreen.initialItem:
+        DapVPNServiceScreen
+        {
+            id: vpnServiceScreen
+            dapAddOrderButton.onClicked: {
+                navigator.createOrderFunc()
+            }
+            dapGridViewFrame.onOrderDetailsShow:
+            {
+                //TODO: no backend
+                navigator.orderDetailsFunc()
+            }
+        }
+
+    dapHeader.initialItem:
+        DapVPNServiceTopPanel
+        {
+//            color: currTheme.backgroundPanel
+            id: vpnServicetTopPanel
+            dapAddOrderButton.onClicked: {
+                navigator.createOrderFunc()
+            }
+
+        }
+
+    dapRightPanel.initialItem: EarnedFunds{}
+
+    state: "ORDERDEFAULT"
+
+    states:
+        [
+            State
+            {
+                name: "ORDERDEFAULT"
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapOrderCreateFrame;
+                    visible: true
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapFrameTitleCreateOrder;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapGridViewOrder;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: dapRightPanel;
+                    visible: false
+                }
+            },
+            State
+            {
+                name: "ORDERSHOW"
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapOrderCreateFrame;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapFrameTitleCreateOrder;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapGridViewOrder;
+                    visible: true
+                }
+                PropertyChanges
+                {
+                    target: dapRightPanel;
+                    visible: true
+                }
+            },
+            State
+            {
+                name: "ORDERCREATE"
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapOrderCreateFrame;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapFrameTitleCreateOrder;
+                    visible: true
+                }
+                PropertyChanges
+                {
+                    target: vpnServiceScreen.dapGridViewOrder;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: dapRightPanel;
+                    visible: true
+                }
+            }
+        ]
+    // Signal-slot connection realizing panel switching depending on predefined rules
+
+    Connections
     {
-//        rightPanel.captionText = qsTr("Create VPN order");
-        rightPanel.stackView_.clear();
-
-        rightPanel.stackView_.push(createVPNOrderPanel);
-        rightPanel.visible = true;
-    }
-
-    state: {
-        if (ordersExists) {
-            return "showOrders";
-        } else if (rightPanel.visible) {
-            return "creatingFirstOrder";
-        } else {
-            return "noOrders";
+        target: dapMainPage
+        onModelOrdersUpdated:
+        {
+            if(_dapModelOrders.count > 0)
+                state = "ORDERSHOW"
+            else
+                state = "ORDERDEFAULT"
         }
     }
 
-    Column {
-        anchors.fill: parent
-
-        DapVPNServiceTopPanel {
-            id: topPanel
-
-            onNewVPNOrder: tab.newVPNOrder()
+    Connections
+    {
+        target: dapServiceController
+        onMempoolProcessed:
+        {
+            update()
         }
-
-        Item {
-            height: parent.height - topPanel.height
-            width: parent.width
-
-            // for DapVPNOrdersGridView
-            clip: true
-
-            Item {
-                id: mainPanel
-
-                property int margin: 24 * pt
-//                property int margin: 0
-                property int halfMargin: margin * 0.5
-
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: rightPanel.left
-                anchors.bottom: parent.bottom
-
-                DapNoOrdersPanel {
-                    id: createYourFirstVPNOrderPanel
-
-                    anchors.fill: parent
-                    anchors.margins: mainPanel.margin
-                    visible: false
-
-                    onNewVPNOrder: tab.newVPNOrder()
-                }
-
-                Text {
-                    id: textCreatingVPNOrder
-
-                    anchors.centerIn: parent
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
-                    elide: Text.ElideRight
-                    color: "#070023"
-                    text: qsTr("Creating VPN order in process…")
-                    visible: false
-                }
-
-                Item {
-                    id: vpnOrders
-
-                    anchors.fill: parent
-                    anchors.margins: mainPanel.halfMargin
-                    visible: false
-
-                    Text {
-                        id: textMyVPNOrders
-                        x: mainPanel.halfMargin
-                        y: mainPanel.halfMargin
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
-                        color: "#3E3853"
-                        text: qsTr("My VPN orders")
-                    }
-
-                    DapVPNOrdersGridView {
-                        id: vpnOrdersView
-
-                        anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
-                        delegateMargin: mainPanel.halfMargin
-                    }
-                }
-            }
-
-            DapRightPanel_New{
-                id: rightPanel
-                visible: false
-            }
-        }
+//        onWalletCreated:
+//        {
+//            update()
+//        }
     }
 
-    Component {
-        id: createVPNOrderPanel
+    function update()
+    {
+//        dapOrders.length = 0
+        _dapModelOrders.clear()
+        dapServiceController.requestToService("DapGetListOrdersCommand");
 
-        DapCreateVPNOrderPanel {
-            onOrderCreated: {
-                rightPanel.stackView_.clear();
-                rightPanel.visible = false;
-            }
-        }
     }
 
-    states: [
-        State {
-            name: "noOrders"
-            PropertyChanges {
-                target: createYourFirstVPNOrderPanel
-                visible: true
-            }
-            PropertyChanges {
-                target: topPanel
-                btnNewVPNOrderVisible: false
-            }
-        },
-        State {
-            name: "creatingFirstOrder"
-            PropertyChanges {
-                target: textCreatingVPNOrder
-                visible: true
-            }
-        },
-        State {
-            name: "showOrders"
-            PropertyChanges {
-                target: vpnOrders
-                visible: true
-            }
-        }
-    ]
+    Component.onCompleted:
+    {
+        if(_dapModelOrders && _dapModelOrders.count > 0)
+            state = "ORDERSHOW"
+        else
+            state = "ORDERDEFAULT"
+    }
 }

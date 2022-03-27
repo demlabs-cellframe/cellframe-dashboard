@@ -169,11 +169,21 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
 
+    qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
+
 }
 
 DapWallet *DapApplication::currentWallet() const
 {
     return m_currentWallet;
+}
+
+void DapApplication::startService()
+{
+    qInfo()<<"C++ -> < Go run Dashboard Service >";
+#ifdef Q_OS_ANDROID
+    QtAndroid::androidContext().callMethod<void>("startService", "()V");
+#endif
 }
 
 void DapApplication::setCurrentWallet(DapWallet *a_currentWallet)
@@ -193,4 +203,9 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
+
+//    //TODO
+//    TestController * testController = new TestController(this);
+//    m_engine.rootContext()->setContextProperty("dapTestController", testController);
+
 }

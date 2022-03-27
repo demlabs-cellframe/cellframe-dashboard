@@ -7,7 +7,7 @@ import "qrc:/widgets"
 import "../../"
 import "RightPanel"
 
-DapAbstractScreen
+Page
 {
     property alias dapFrameApps: frameApps
     property alias dapListViewApps: listViewApps
@@ -21,15 +21,20 @@ DapAbstractScreen
 
     anchors.fill: parent
 
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
+    }
+
     RowLayout
     {
         id:frameApps
         anchors
         {
             fill: parent
-            margins: 24 * pt
-            rightMargin: 22 * pt
-            bottomMargin: 20 * pt
+//            margins: 12 * pt
+//            rightMargin: 8 * pt
+//            bottomMargin: 8 * pt
         }
 
         spacing: 24 * pt
@@ -66,7 +71,7 @@ DapAbstractScreen
 
                             verticalAlignment: Qt.AlignVCenter
                             text: qsTr("Available apps")
-                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                             color: currTheme.textColor
                         }
                     }
@@ -130,7 +135,7 @@ DapAbstractScreen
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Name")
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                                         color: currTheme.textColor
                                     }
                                 }
@@ -146,7 +151,7 @@ DapAbstractScreen
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Verified")
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                                         color: currTheme.textColor
                                     }
                                 }
@@ -161,7 +166,7 @@ DapAbstractScreen
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Status")
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                                         color: currTheme.textColor
                                     }
 
@@ -205,7 +210,7 @@ DapAbstractScreen
 
                                             text: name
                                             color: currTheme.textColor
-                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                                            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
     //                                        wrapMode: Text.WordWrap
                                             elide: Text.ElideMiddle
                                         }
@@ -223,7 +228,7 @@ DapAbstractScreen
                                             elide: Text.ElideMiddle
                                             text: urlPath
                                             color: "#B2B2B2"
-                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandLight12
+                                            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandLight12
     //                                        wrapMode: Text.WordWrap
                                             verticalAlignment: Qt.AlignVCenter
 
@@ -233,7 +238,7 @@ DapAbstractScreen
                                                 contentItem: Text{
                                                     color: currTheme.textColor
                                                     text: urlPath
-                                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                                 }
                                                 background: Rectangle {
                                                     border.color: currTheme.lineSeparatorColor
@@ -315,7 +320,7 @@ DapAbstractScreen
 
                                             text: status === "1" ? "Activated":"Unactivated"
                                             color: currTheme.textColor
-                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                            font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                                         }
                                     }
                             }

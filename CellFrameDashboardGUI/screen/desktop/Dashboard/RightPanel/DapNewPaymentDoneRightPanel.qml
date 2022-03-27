@@ -8,12 +8,7 @@ DapNewPaymentDoneRightPanelForm
 
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
-        nextActivated("transaction done")
-    }
-
-    dapButtonClose.onClicked:
-    {
-        previousActivated(lastActionsWallet)
+        navigator.popPage()
     }
 
     Component.onCompleted:

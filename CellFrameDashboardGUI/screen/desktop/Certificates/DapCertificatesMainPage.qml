@@ -11,6 +11,7 @@ DapAbstractTab
 {
     id: dapCertificatesMainPage
     color: currTheme.backgroundMainScreen
+    readonly property var currentIndex: 4
 
     Utils {
         id: utils
@@ -310,8 +311,8 @@ DapAbstractTab
             id: dapMessageBox
             width: 300 * pt
             height: 240 * pt
-            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            fontButtonText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            fontMessage: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            fontButtonText: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
             dapButtonOk.onClicked: {
                 messagePopup.close()
             }

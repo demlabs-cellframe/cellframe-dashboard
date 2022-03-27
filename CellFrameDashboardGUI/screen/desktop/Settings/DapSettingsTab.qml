@@ -3,9 +3,10 @@ import QtQuick.Controls 1.4
 
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
+import "qrc:/screen/controls"
+import "RightPanel"
 
-DapAbstractTab
+DapPage
 {
     ///@detalis Path to the right panel of input name wallet.
     readonly property string inputNameWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapCreateWallet.qml"
@@ -18,9 +19,10 @@ DapAbstractTab
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
-    color: currTheme.backgroundMainScreen
+    readonly property var currentIndex: 11
+//    color: currTheme.backgroundMainScreen
 
-    property alias dapSettingsRightPanel: stackViewRightPanel
+//    property alias dapSettingsRightPanel: stackViewRightPanel
     property alias dapSettingsScreen: settingsScreen
 
     property var walletInfo:
@@ -32,38 +34,52 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-    dapTopPanel: DapSettingsTopPanel { }
+    QtObject {
+        id: navigator
 
-    dapScreen: DapSettingsScreen {
+        function createWallet() {
+            dapRightPanel.push(inputNameWallet)
+        }
+
+        function doneWalletFunc(){
+            dapRightPanel.push(doneWallet)
+        }
+
+        function recoveryWalletFunc()
+        {
+            dapRightPanel.push(recoveryWallet)
+        }
+
+        function popPage() {
+            dapRightPanel.clear()
+            dapRightPanelFrame.visible = false
+            dapRightPanelFrame.width = 0
+            dapSettingsScreen.dapExtensionsBlock.visible = true
+            dapRightPanel.push(emptyRightPanel)
+        }
+    }
+
+    dapHeader.initialItem: DapSettingsTopPanel { }
+
+    dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
     }
 
-    dapRightPanel: StackView
-    {
-        id: stackViewRightPanel
-        initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: visible ? 350 * pt : 0
-        anchors.fill: parent
-        visible:false
-        delegate:
-            StackViewDelegate
-            {
-                pushTransition: StackViewTransition { }
-            }
-    }
+    dapRightPanel.initialItem: DapEmptyRightPanel{id: rightPanel; visible:false}
+    dapRightPanelFrame.visible: false
 
-    Connections
-    {
-        target: currentRightPanel
-        onNextActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapNextRightPanel);
-        }
-        onPreviousActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-        }
-    }
+//    Connections
+//    {
+//        target: currentRightPanel
+//        onNextActivated:
+//        {
+//            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapNextRightPanel);
+//        }
+//        onPreviousActivated:
+//        {
+//            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+//        }
+//    }
 
     Connections
     {
@@ -72,8 +88,8 @@ DapAbstractTab
         onWalletCreated:
         {
             dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
-            dapWallets.length = 0
-            dapModelWallets.clear()
+            if(_dapModelWallets)
+                _dapModelWallets.clear()
             dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
         }
@@ -85,10 +101,11 @@ DapAbstractTab
 
         onCreateWalletSignal:
         {
-            restoreWalletMode = restoreMode
-            dapSettingsRightPanel.visible = true
+            globalLogic.restoreWalletMode = restoreMode
+            dapRightPanelFrame.visible = true
             settingsScreen.dapExtensionsBlock.visible = false
-            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+            navigator.createWallet()
+//            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
         }
 
         onSwitchMenuTab:
@@ -98,11 +115,12 @@ DapAbstractTab
             for (var i = 0; i < modelMenuTab.count; ++i)
                 if (modelMenuTab.get(i).tag === tag)
                 {
-                    modelMenuTab.setProperty(i, "showTab", state)
+                    modelMenuTab.get(i).showTab = state
                     break
                 }
 
             menuTabChanged()
+//            tabUpdate(tag, state)
         }
 
         onSwitchAppsTab:
@@ -112,7 +130,7 @@ DapAbstractTab
             for (var i = 0; i < modelMenuTab.count; ++i)
                 if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
                 {
-                    modelMenuTab.setProperty(i, "showTab", state)
+                    modelMenuTab.get(i).showTab = state
                     break
                 }
 

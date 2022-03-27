@@ -1,8 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
-import Qt.labs.settings 1.0
-import QtQuick.Layouts 1.3
+import Qt.labs.settings 1.1
+import QtQuick.Layouts 1.12
 
 import "qrc:/screen"
 import "qrc:/resources/QML"
@@ -57,21 +57,22 @@ Rectangle {
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-//    readonly property QtObject dapQuicksandFonts: DapFontQuicksand {}
-    property alias dapQuicksandFonts: quicksandFonts
+//    readonly property QtObject _dapQuicksandFonts: DapFontQuicksand {}
+    property alias _dapQuicksandFonts: quicksandFonts
     DapFontQuicksand {
         id: quicksandFonts
     }
 
-    Theme.Dark {id: darkTheme}
-    Theme.Light {id: lightTheme}
+    Theme.Dark { id: darkTheme }
+    Theme.Light { id: lightTheme }
 
-    ListModel{
-        id:themes
+    ListModel {
+        id: themes
         Component.onCompleted:
         {
-            append({name:qsTr("Dark theme"),
-                    source:darkTheme
+            append({
+                       name: qsTr("Dark theme"),
+                       source: darkTheme
                    })
         }
     }
@@ -277,7 +278,7 @@ Rectangle {
 
                         contentItem: Text {
                                 text: toolTip.text
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                 color: currTheme.textColor
                             }
 
@@ -410,10 +411,10 @@ Rectangle {
         id: dapModelPlugins
     }
 
+
     ListModel 
     {
         id: modelMenuTab
-
         Component.onCompleted:
         {
             append({
@@ -435,7 +436,7 @@ Rectangle {
                 hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
                 showTab: true
             })
-    
+
             append ({
                 name: qsTr("TX explorer"),
                 tag: "TX Explorer",
@@ -847,6 +848,9 @@ Rectangle {
         target: pluginsManager
         onRcvListPlugins:
         {
+
+//            logic.rcvPluginList(dapPlugins, m_pluginsList, dapModelPlugins )
+
             dapPlugins.splice(0,dapPlugins.length)
             dapModelPlugins.clear()
 

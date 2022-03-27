@@ -1,11 +1,16 @@
 import QtQuick 2.0
+import QtQml 2.12
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
-import "screen"
 
+import "logic"
+import "resources/theme"
+import "qrc:/resources/QML"
+import "screen"
 import "qrc:/screen/desktop/NetworksPanel"
+import "screen/mobile_new/android"
 
 ApplicationWindow
 {
@@ -13,37 +18,57 @@ ApplicationWindow
     visible: true
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+//    readonly property bool isMobile: true
+    readonly property string device: isMobile? "mobile" : "desktop"
+
+    Logic {
+        id: globalLogic
+    }
 
     Settings {
         property alias x: window.x
         property alias y: window.y
-//        property alias width: window.width
-//        property alias height: window.height
+    }
+
+    Component {
+        id: mainWindowComponent
+        DapMainWindow
+        {
+            id: mainWindow
+        }
+    }
+
+    Component {
+        id: mainWindowMobileComponent
+        MainMobileWindow
+        {
+            id:mainWindowMobile
+        }
+
+    }
+    //Themes and fonts
+    Dark { id: darkTheme }
+    Light { id: lightTheme }
+    property string pathTheme: "BlackTheme"
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
+    DapFontQuicksand { id: quicksandFonts }
+    property alias _dapQuicksandFonts: quicksandFonts
+    //
+
+
+    footer: DapControlNetworksPanel
+    {
+        id: networkPanel
+        height: 40 * pt
+        visible: !isMobile
     }
 
     //Main window
-    DapMainApplicationWindow
-    {
-        id: mainWindow
-        property alias device: dapDevice.device
-        property alias footer: networksPanel
-
+    StackView {
+        id: mainWindowStack
         anchors.fill: parent
-
-        Device
-        {
-            id: dapDevice
-        }
-
-        DapControlNetworksPanel
-        {
-            id: networksPanel
-            property alias pathTheme: mainWindow.pathTheme
-            property alias currTheme: mainWindow.currTheme
-            property alias dapQuicksandFonts: mainWindow.dapQuicksandFonts
-            property alias dapMainWindow: mainWindow
-            height: 40 * pt
-        }
+        initialItem: isMobile ? mainWindowMobileComponent : mainWindowComponent
     }
 
     ///The image with the effect fast blur
@@ -80,7 +105,7 @@ ApplicationWindow
             {
                 window.hide()
             }
-        }
+        }        
     }
 
     Connections {
@@ -97,16 +122,16 @@ ApplicationWindow
         }
 
         onSignalIconActivated: {
-             if(window.visibility === Window.Hidden)
-             {
-                 window.show()
-                 window.raise()
-                 window.requestActivate()
-             }
-             else
-             {
-                 window.hide()
-             }
+            if(window.visibility === Window.Hidden)
+            {
+                window.show()
+                window.raise()
+                window.requestActivate()
+            }
+            else
+            {
+                window.hide()
+            }
         }
     }
 
@@ -118,8 +143,8 @@ ApplicationWindow
 
     Component.onCompleted: {
         if(isMobile) {
-            window.minimumWidth = 0
-            window.minimumHeight = 0
+            window.minimumWidth = 400
+            window.minimumHeight = 600
         }
         else
             sizeUpdate()

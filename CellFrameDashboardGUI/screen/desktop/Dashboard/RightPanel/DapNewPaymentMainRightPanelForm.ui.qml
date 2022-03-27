@@ -1,14 +1,17 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.5 as Controls
 import QtQuick.Layouts 1.4
 import QtGraphicalEffects 1.0
 
 import "qrc:/widgets"
 import "../../../"
 
-DapRightPanel
+Controls.Page
 {
+    property alias dapButtonClose: itemButtonClose
+
     /// @param dapButtonSend Send funds button.
     property alias dapButtonSend: buttonSend
     /// @param dapTextInputAmountPayment Input field for transfer amount.
@@ -37,18 +40,21 @@ DapRightPanel
 
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
+    background: Rectangle {
+        color: "transparent"
+    }
 
-    dapHeaderData:
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
         Item
         {
-            anchors.fill: parent
-//            Layout.fillWidth: true
-            Item
+            Layout.fillWidth: true
+            height: 38 * pt
+            DapButton
             {
-                id: itemButtonClose
-                data: dapButtonClose
-                height: dapButtonClose.height
-                width: dapButtonClose.width
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
@@ -58,6 +64,14 @@ DapRightPanel
                 anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
 
+                id: itemButtonClose
+                height: 20 * pt
+                width: 20 * pt
+                heightImageButton: 10 * pt
+                widthImageButton: 10 * pt
+                activeFrame: false
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
             }
 
             Text
@@ -72,74 +86,125 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                 color: currTheme.textColor
             }
         }
 
-    dapContentItemData:
+        // Sender wallet
+        Rectangle
+        {
+            id: frameSenderWallet
+            Layout.fillWidth: true
+            color: currTheme.backgroundMainScreen
+            height: 30 * pt
+            Text
+            {
+                id: textFrameSenderWallet
+                color: currTheme.textColor
+                text: qsTr("From")
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
         ColumnLayout
         {
-            anchors.fill: parent
-            anchors.margins: 0
-            spacing: 0
+            id: frameSenderWalletAddress
 
-            // Sender wallet
+            Layout.fillWidth: true
+            spacing: 10 * pt
+            Layout.topMargin: 10 * pt
+            Layout.bottomMargin: 10 * pt
+            Layout.leftMargin: 25 * pt
+            Layout.rightMargin: 10 * pt
+
             Rectangle
             {
-                id: frameSenderWallet
+                id: frameSignatureType
+                height: 60 * pt
+    //            width: 350 * pt
+                color: "transparent"
                 Layout.fillWidth: true
-                color: currTheme.backgroundMainScreen
-                height: 30 * pt
-                Text
+
+                DapComboBox
                 {
-                    id: textFrameSenderWallet
-                    color: currTheme.textColor
-                    text: qsTr("From")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                    horizontalAlignment: Text.AlignLeft
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 17 * pt
-                    anchors.topMargin: 20 * pt
-                    anchors.bottomMargin: 5 * pt
+                    id: comboboxNetwork
+
+                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    anchors.margins: 10 * pt
+                    anchors.leftMargin: 15 * pt
+
+                    comboBoxTextRole: ["name"]
+                    mainLineText: "private"
+                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                    sidePaddingNormal: 10 * pt
+                    sidePaddingActive: 10 * pt
+//                            hilightColor: currTheme.buttonColorNormal
+
+                    widthPopupComboBoxNormal: 318 * pt
+                    widthPopupComboBoxActive: 318 * pt
+                    heightComboBoxNormal: 24 * pt
+                    heightComboBoxActive: 42 * pt
+                    topEffect: false
+
+                    normalColor: currTheme.backgroundMainScreen
+                    normalTopColor: currTheme.backgroundElements
+                    hilightTopColor: currTheme.backgroundMainScreen
+
+                    paddingTopItemDelegate: 8 * pt
+                    heightListElement: 42 * pt
+                    indicatorWidth: 24 * pt
+                    indicatorHeight: indicatorWidth
+                    colorDropShadow: currTheme.shadowColor
+                    roleInterval: 15
+                    endRowPadding: 37
+
+                    fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+//                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                 }
+
             }
 
-            ColumnLayout
+            RowLayout
             {
-                id: frameSenderWalletAddress
+                id: chainGroup
 
                 Layout.fillWidth: true
-                spacing: 10 * pt
-                Layout.topMargin: 10 * pt
-                Layout.bottomMargin: 10 * pt
-                Layout.leftMargin: 25 * pt
-                Layout.rightMargin: 10 * pt
+                Layout.minimumHeight: 40 * pt
+                Layout.maximumHeight: 40 * pt
+                visible: false
+
+                Text
+                {
+                    Layout.fillWidth: true
+                    color: currTheme.textColor
+                    text: qsTr("Chain:")
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    horizontalAlignment: Text.AlignLeft
+                }
 
                 Rectangle
                 {
-                    id: frameSignatureType
-                    height: 60 * pt
-        //            width: 350 * pt
+                    width: 200 * pt
+                    height: 40 * pt
                     color: "transparent"
-                    Layout.fillWidth: true
 
                     DapComboBox
                     {
-                        id: comboboxNetwork
-
-//                        anchors.centerIn: parent
-//                        anchors.fill: parent
-//                        anchors.leftMargin: 35 * pt
-//                        anchors.rightMargin: 37 * pt
-//                        anchors.topMargin: 11 * pt
-//                        anchors.bottomMargin: 17 * pt
+                        id: comboboxChain
 
                         anchors.centerIn: parent
                         anchors.fill: parent
-                        anchors.margins: 10 * pt
-                        anchors.leftMargin: 15 * pt
 
                         comboBoxTextRole: ["name"]
                         mainLineText: "private"
@@ -167,373 +232,245 @@ DapRightPanel
                         roleInterval: 15
                         endRowPadding: 37
 
-                        fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                        fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
                     }
-
-                }
-
-//                RowLayout
-//                {
-//                    Layout.fillWidth: true
-//                    Layout.minimumHeight: 40 * pt
-//                    Layout.maximumHeight: 40 * pt
-
-//                    Text
-//                    {
-//                        Layout.fillWidth: true
-//                        color: currTheme.textColor
-//                        text: qsTr("Network: ")
-//                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-//                        horizontalAlignment: Text.AlignLeft
-//                    }
-
-//                    Rectangle
-//                    {
-//                        width: 200 * pt
-//                        height: 40 * pt
-//                        color: "transparent"
-
-//                        DapComboBox
-//                        {
-//                            id: comboboxNetwork
-
-//                            anchors.centerIn: parent
-//                            anchors.fill: parent
-
-//                            comboBoxTextRole: ["name"]
-//                            mainLineText: "private"
-//                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-//                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-//                            sidePaddingNormal: 10 * pt
-//                            sidePaddingActive: 10 * pt
-////                            hilightColor: currTheme.buttonColorNormal
-
-//                            widthPopupComboBoxNormal: 318 * pt
-//                            widthPopupComboBoxActive: 318 * pt
-//                            heightComboBoxNormal: 24 * pt
-//                            heightComboBoxActive: 42 * pt
-//                            topEffect: false
-
-//                            normalColor: currTheme.backgroundMainScreen
-//                            normalTopColor: currTheme.backgroundElements
-//                            hilightTopColor: currTheme.backgroundMainScreen
-
-//                            paddingTopItemDelegate: 8 * pt
-//                            heightListElement: 42 * pt
-//                            indicatorWidth: 24 * pt
-//                            indicatorHeight: indicatorWidth
-//                            colorDropShadow: currTheme.shadowColor
-//                            roleInterval: 15
-//                            endRowPadding: 37
-
-//                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-//                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-////                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-//                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-//                        }
-//                    }
-//                }
-
-                RowLayout
-                {
-                    id: chainGroup
-
-                    Layout.fillWidth: true
-                    Layout.minimumHeight: 40 * pt
-                    Layout.maximumHeight: 40 * pt
-                    visible: false
-
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        color: currTheme.textColor
-                        text: qsTr("Chain:")
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                        horizontalAlignment: Text.AlignLeft
-                    }
-
-                    Rectangle
-                    {
-                        width: 200 * pt
-                        height: 40 * pt
-                        color: "transparent"
-
-                        DapComboBox
-                        {
-                            id: comboboxChain
-
-                            anchors.centerIn: parent
-                            anchors.fill: parent
-
-                            comboBoxTextRole: ["name"]
-                            mainLineText: "private"
-                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                            sidePaddingNormal: 10 * pt
-                            sidePaddingActive: 10 * pt
-//                            hilightColor: currTheme.buttonColorNormal
-
-                            widthPopupComboBoxNormal: 318 * pt
-                            widthPopupComboBoxActive: 318 * pt
-                            heightComboBoxNormal: 24 * pt
-                            heightComboBoxActive: 42 * pt
-                            topEffect: false
-
-                            normalColor: currTheme.backgroundMainScreen
-                            normalTopColor: currTheme.backgroundElements
-                            hilightTopColor: currTheme.backgroundMainScreen
-
-                            paddingTopItemDelegate: 8 * pt
-                            heightListElement: 42 * pt
-                            indicatorWidth: 24 * pt
-                            indicatorHeight: indicatorWidth
-                            colorDropShadow: currTheme.shadowColor
-                            roleInterval: 15
-                            endRowPadding: 37
-
-                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                        }
-                    }
-                }
-
-            }
-
-            // Amount payment
-            Rectangle
-            {
-                id: frameAmountPayment
-                Layout.fillWidth: true
-                color: currTheme.backgroundMainScreen
-                height: 30 * pt
-                Text
-                {
-                    id: textFrameamountPayment
-                    color: currTheme.textColor
-                    text: qsTr("Amount")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                    anchors.left: parent.left
-                    anchors.leftMargin: 17 * pt
-                    anchors.topMargin: 20 * pt
-                    anchors.bottomMargin: 5 * pt
-                    horizontalAlignment: Text.AlignRight
-                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
 
-            ColumnLayout
-            {
-                id: frameInputAmountPayment
-                Layout.fillWidth: true
-                Layout.margins: 10 * pt
-                spacing: 10 * pt
+        }
 
-                RowLayout
-                {
-                    id: frameAmountField
-                    Layout.fillWidth: true
-                    Layout.margins: 0 * pt
+        // Amount payment
+        Rectangle
+        {
+            id: frameAmountPayment
+            Layout.fillWidth: true
+            color: currTheme.backgroundMainScreen
+            height: 30 * pt
+            Text
+            {
+                id: textFrameamountPayment
+                color: currTheme.textColor
+                text: qsTr("Amount")
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+                horizontalAlignment: Text.AlignRight
+                anchors.verticalCenter: parent.verticalCenter
+            }
+        }
+
+        ColumnLayout
+        {
+            id: frameInputAmountPayment
+            Layout.fillWidth: true
+            Layout.margins: 10 * pt
+            spacing: 10 * pt
+
+            RowLayout
+            {
+                id: frameAmountField
+                Layout.fillWidth: true
+                Layout.margins: 0 * pt
 //                    spacing: 28 * pt
-
-                    TextField
-                    {
-                        id: textInputAmountPayment
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 15 * pt
-                        width: 150 * pt
-                        height: 28 * pt
-                        placeholderText: "0"
-//                        placeholderText: "0.0"
-                        validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                        horizontalAlignment: Text.AlignRight
-
-                        style:
-                            TextFieldStyle
-                            {
-                                textColor: currTheme.textColor
-                                placeholderTextColor: currTheme.textColor
-                                background:
-                                    Rectangle
-                                    {
-                                        border.width: 1
-                                        radius: 4 * pt
-                                        border.color: currTheme.borderColor
-                                        color: currTheme.backgroundElements
-                                    }
-                            }
-                    }
-                    Rectangle
-                    {
-                        id: frameSenderWalletToken
-                        color: "transparent"
-                        height: 42 * pt
-                        width: 125 * pt
-                        Layout.leftMargin: 0 * pt
-                        Layout.rightMargin: 0 * pt
-                        DapComboBox
-                        {
-                            id: comboboxToken
-                            anchors.fill: parent
-                            comboBoxTextRole: ["name"]
-                            mainLineText: "tCELL"
-                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                            sidePaddingNormal: 10 * pt
-                            sidePaddingActive: 10 * pt
-                            widthPopupComboBoxNormal: 119 * pt
-                            widthPopupComboBoxActive: 119 * pt
-                            heightComboBoxNormal: 24 * pt
-                            heightComboBoxActive: 42 * pt
-                            topEffect: false
-                            x: sidePaddingNormal
-                            normalColor: currTheme.backgroundMainScreen
-                            normalTopColor: currTheme.backgroundElements
-                            hilightTopColor: currTheme.backgroundMainScreen
-//                            hilightColor: currTheme.buttonColorNormal
-
-                            paddingTopItemDelegate: 8 * pt
-                            heightListElement: 42 * pt
-                            indicatorWidth: 24 * pt
-                            indicatorHeight: indicatorWidth
-                            colorDropShadow: currTheme.shadowColor
-                            roleInterval: 15
-                            endRowPadding: 37
-                            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-                        }
-                    }
-
-                }
-
-            }
-
-            // Recipient wallet
-            Rectangle
-            {
-                id: frameRecipientWallet
-                Layout.fillWidth: true
-                color: currTheme.backgroundMainScreen
-                height: 30 * pt
-                Text
-                {
-                    id: textRecipientWallet
-                    color: currTheme.textColor
-                    text: qsTr("To")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
-                    horizontalAlignment: Text.AlignLeft
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.left: parent.left
-                    anchors.leftMargin: 17 * pt
-                    anchors.topMargin: 20 * pt
-                    anchors.bottomMargin: 5 * pt
-                }
-            }
-
-            Rectangle
-            {
-                id: frameRecipientWalletAddress
-                Layout.fillWidth: true
-                Layout.leftMargin: 20 * pt
-                Layout.rightMargin: 20 * pt
-                height: 53 * pt
-                color: "transparent"
 
                 TextField
                 {
-                    id: textInputRecipientWalletAddress
+                    id: textInputAmountPayment
                     Layout.fillWidth: true
-                    anchors.verticalCenter: parent.verticalCenter
-                    placeholderText: qsTr("Paste here")
-                    validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                    horizontalAlignment: Text.AlignLeft
-                    anchors.fill: parent
-                    anchors.topMargin: 26 * pt
+                    Layout.leftMargin: 15 * pt
+                    width: 150 * pt
+                    height: 28 * pt
+                    placeholderText: "0"
+//                        placeholderText: "0.0"
+                    validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    horizontalAlignment: Text.AlignRight
+
                     style:
                         TextFieldStyle
                         {
                             textColor: currTheme.textColor
-                            placeholderTextColor: currTheme.placeHolderTextColor
-
+                            placeholderTextColor: currTheme.textColor
                             background:
                                 Rectangle
                                 {
-                                    border.width: 0
+                                    border.width: 1
+                                    radius: 4 * pt
+                                    border.color: currTheme.borderColor
                                     color: currTheme.backgroundElements
                                 }
                         }
                 }
-
                 Rectangle
                 {
-                    id: splitLineRecipientWalletAddress
-                    height: 1 * pt
-                    width: parent.width
-                    color: currTheme.borderColor
-                    anchors.top: textInputRecipientWalletAddress.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.topMargin: 8 * pt
-//                    anchors.leftMargin: 20 * pt
-//                    anchors.rightMargin: 20 * pt
+                    id: frameSenderWalletToken
+                    color: "transparent"
+                    height: 42 * pt
+                    width: 125 * pt
+                    Layout.leftMargin: 0 * pt
+                    Layout.rightMargin: 0 * pt
+                    DapComboBox
+                    {
+                        id: comboboxToken
+                        anchors.fill: parent
+                        comboBoxTextRole: ["name"]
+                        mainLineText: "tCELL"
+                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                        sidePaddingNormal: 10 * pt
+                        sidePaddingActive: 10 * pt
+                        widthPopupComboBoxNormal: 119 * pt
+                        widthPopupComboBoxActive: 119 * pt
+                        heightComboBoxNormal: 24 * pt
+                        heightComboBoxActive: 42 * pt
+                        topEffect: false
+                        x: sidePaddingNormal
+                        normalColor: currTheme.backgroundMainScreen
+                        normalTopColor: currTheme.backgroundElements
+                        hilightTopColor: currTheme.backgroundMainScreen
+//                            hilightColor: currTheme.buttonColorNormal
+
+                        paddingTopItemDelegate: 8 * pt
+                        heightListElement: 42 * pt
+                        indicatorWidth: 24 * pt
+                        indicatorHeight: indicatorWidth
+                        colorDropShadow: currTheme.shadowColor
+                        roleInterval: 15
+                        endRowPadding: 37
+                        fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+//                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                    }
                 }
-            }
 
-            Rectangle
-            {
-                width: 278*pt
-                height: 69 * pt
-                color: "transparent"
-                Layout.topMargin: 43 * pt
-                Layout.fillWidth: true
-
-                Text
-                {
-                    id: textNotEnoughTokensWarning
-                    anchors.fill: parent
-                    anchors.leftMargin: 37 * pt
-                    anchors.rightMargin: 36 * pt
-                    color: "#79FFFA"
-                    text: qsTr("Not enough available tokens. Enter a lower value.")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                    wrapMode: Text.WordWrap
-                    visible: true
-                }
-            }
-
-            // Button "Send"
-            DapButton
-            {
-                id: buttonSend
-//                radius: currTheme.radiusButton
-                implicitHeight: 36 * pt
-                implicitWidth: 132 * pt
-                Layout.alignment: Qt.AlignCenter
-                Layout.topMargin: 35 * pt
-                textButton: qsTr("Send")
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
-                shadowColor:"#2A2C33"
-            }
-
-            Rectangle
-            {
-                id: frameBottom
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                color: "transparent"
             }
 
         }
+
+        // Recipient wallet
+        Rectangle
+        {
+            id: frameRecipientWallet
+            Layout.fillWidth: true
+            color: currTheme.backgroundMainScreen
+            height: 30 * pt
+            Text
+            {
+                id: textRecipientWallet
+                color: currTheme.textColor
+                text: qsTr("To")
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
+        Rectangle
+        {
+            id: frameRecipientWalletAddress
+            Layout.fillWidth: true
+            Layout.leftMargin: 20 * pt
+            Layout.rightMargin: 20 * pt
+            height: 53 * pt
+            color: "transparent"
+
+            TextField
+            {
+                id: textInputRecipientWalletAddress
+                Layout.fillWidth: true
+                anchors.verticalCenter: parent.verticalCenter
+                placeholderText: qsTr("Paste here")
+                validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                horizontalAlignment: Text.AlignLeft
+                anchors.fill: parent
+                anchors.topMargin: 26 * pt
+                style:
+                    TextFieldStyle
+                    {
+                        textColor: currTheme.textColor
+                        placeholderTextColor: currTheme.placeHolderTextColor
+
+                        background:
+                            Rectangle
+                            {
+                                border.width: 0
+                                color: currTheme.backgroundElements
+                            }
+                    }
+            }
+
+            Rectangle
+            {
+                id: splitLineRecipientWalletAddress
+                height: 1 * pt
+                width: parent.width
+                color: currTheme.borderColor
+                anchors.top: textInputRecipientWalletAddress.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.topMargin: 8 * pt
+//                    anchors.leftMargin: 20 * pt
+//                    anchors.rightMargin: 20 * pt
+            }
+        }
+
+        Rectangle
+        {
+            width: 278*pt
+            height: 69 * pt
+            color: "transparent"
+            Layout.topMargin: 43 * pt
+            Layout.fillWidth: true
+
+            Text
+            {
+                id: textNotEnoughTokensWarning
+                anchors.fill: parent
+                anchors.leftMargin: 37 * pt
+                anchors.rightMargin: 36 * pt
+                color: "#79FFFA"
+                text: qsTr("Not enough available tokens. Enter a lower value.")
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                visible: true
+            }
+        }
+
+        // Button "Send"
+        DapButton
+        {
+            id: buttonSend
+//                radius: currTheme.radiusButton
+            implicitHeight: 36 * pt
+            implicitWidth: 132 * pt
+            Layout.alignment: Qt.AlignCenter
+            Layout.topMargin: 35 * pt
+            textButton: qsTr("Send")
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
+            fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+            shadowColor:"#2A2C33"
+        }
+
+        Rectangle
+        {
+            id: frameBottom
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: "transparent"
+        }
+    }
 }

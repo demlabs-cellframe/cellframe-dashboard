@@ -53,7 +53,7 @@ DapAbstractScreen {
                     anchors.left: parent.left
                     text: qsTr("Conntected to:")
                     color: currTheme.textColorGray
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 }
 
                 Text {
@@ -63,7 +63,7 @@ DapAbstractScreen {
                     anchors.topMargin: 10 * pt
                     text: qsTr("42.112.14.73 (San Juan, Puerto Rico)")
                     color: currTheme.textColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
                 }
 
                 DapButton
@@ -76,7 +76,7 @@ DapAbstractScreen {
                     anchors.topMargin: 17 * pt
                     implicitHeight: 36 * pt
                     implicitWidth: 165 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
                     horizontalAligmentText: Text.AlignHCenter
                 }
             }

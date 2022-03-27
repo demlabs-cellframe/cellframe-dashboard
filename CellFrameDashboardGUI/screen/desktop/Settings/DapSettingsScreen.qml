@@ -7,9 +7,8 @@ import "qrc:/"
 import "../../"
 import "MenuBlocks"
 import "qrc:/widgets"
-import "../SettingsWallet.js" as SettingsWallet
 
-DapAbstractScreen
+Page
 {
     id: settingScreen
 
@@ -23,18 +22,35 @@ DapAbstractScreen
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
-    anchors
+//    anchors
+//    {
+//        fill: parent
+//        topMargin: 24 * pt
+//        rightMargin: 24 * pt
+//        leftMargin: 24 * pt
+//        bottomMargin: 20 * pt
+//    }
+    background: Rectangle
     {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 24 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
-    Component.onCompleted:{
-        if(!dapNetworkModel.count)
-            dapServiceController.requestToService("DapGetListNetworksCommand")
+    Connections
+    {
+        target: dapMainPage
+        onUpdatePage:
+        {
+            if(index === currentIndex)
+            {
+                if(_dapModelNetworks)
+                {
+                    if(!_dapModelNetworks.count)
+                        dapServiceController.requestToService("DapGetListNetworksCommand")
+                }
+                else
+                    dapServiceController.requestToService("DapGetListNetworksCommand")
+            }
+        }
     }
 
     Item
@@ -86,7 +102,7 @@ DapAbstractScreen
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(false)
                 }
@@ -107,7 +123,7 @@ DapAbstractScreen
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(true)
                 }

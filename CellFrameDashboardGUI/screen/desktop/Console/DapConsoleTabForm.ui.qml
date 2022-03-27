@@ -14,6 +14,7 @@ DapAbstractTab
     ///@detalis rAnswer Answer for the sended command
     property string rAnswer
     property var _dapServiceController
+    readonly property var currentIndex: 8
 
     dapTopPanel: DapConsoleTopPanel { }
 

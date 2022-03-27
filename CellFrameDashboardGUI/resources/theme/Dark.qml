@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 
 QtObject {
 
@@ -36,8 +36,8 @@ QtObject {
     readonly property color borderColor            : "#666E7D" // OK
 
 
-    readonly property int radiusRectangle          : 16*pt
-    readonly property int radiusButton             : 50*pt
+    readonly property int radiusRectangle          : 16 * pt
+    readonly property int radiusButton             : 50 * pt
 
     //Shadow options
     readonly property color shadowColor            : "#20222A"

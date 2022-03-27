@@ -3,8 +3,8 @@ import Qt.labs.platform 1.0
 
 DapRecoveryWalletRightPanelForm
 {
-    dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: ""
+//    dapNextRightPanel: doneWallet
+//    dapPreviousRightPanel: ""
 
     Connections
     {
@@ -15,7 +15,7 @@ DapRecoveryWalletRightPanelForm
             walletInfo.recovery_hash = hash
             print("hash = ", walletInfo.recovery_hash)
 
-            if (walletInfo.recovery_hash !== "" && restoreWalletMode)
+            if (walletInfo.recovery_hash !== "" && globalLogic.restoreWalletMode)
             {
                 dapTextBottomMessage.text = ""
             }
@@ -35,7 +35,7 @@ DapRecoveryWalletRightPanelForm
         onFileError:
         {
             dapTextBottomMessage.color = "#FF0300"
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
                 dapTextBottomMessage.text =
                     qsTr("File saving error.")
             else
@@ -49,7 +49,7 @@ DapRecoveryWalletRightPanelForm
 
         onSetFileName:
         {
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
                 dapBackupFileName.text = qsTr("File saved to:\n") + fileName
             else
                 dapBackupFileName.text = qsTr("File loaded from:\n") + fileName
@@ -61,30 +61,31 @@ DapRecoveryWalletRightPanelForm
         target: dapServiceController
         onWalletCreated:
         {
-            nextActivated("doneWallet");
+            navigator.doneWalletFunc()
+//            nextActivated("doneWallet");
         }
     }
 
     Component.onCompleted:
     {
-        if (currentTab === dashboardScreenPath)
-          dapPreviousRightPanel = createNewWallet
-        if (currentTab === settingsScreenPath)
-          dapPreviousRightPanel = inputNameWallet
+//        if (globalLogic.currentTab === "Wallet")
+//          dapPreviousRightPanel = createNewWallet
+//        if (globalLogic.currentTab === settingsScreenPath)
+//          dapPreviousRightPanel = inputNameWallet
 
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
-        print("restoreWalletMode", restoreWalletMode)
+        print("restoreWalletMode", globalLogic.restoreWalletMode)
 
         dapButtonAction.enabled = true
         dapButtonNext.enabled = false
         dapButtonNext.visible = false
         walletInfo.recovery_hash = ""
 
-        if (walletRecoveryType === "Words")
+        if (globalLogic.walletRecoveryType === "Words")
         {
             dapTextMethod.text = qsTr("Recovery method: 24 words")
 
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
                 dapButtonAction.textButton = qsTr("Copy")
             else
                 dapButtonAction.textButton = qsTr("Paste")
@@ -92,11 +93,11 @@ DapRecoveryWalletRightPanelForm
             dapWordsGrid.visible = true
             dapBackupFileName.visible = false
         }
-        if (walletRecoveryType === "File")
+        if (globalLogic.walletRecoveryType === "File")
         {
             dapTextMethod.text = qsTr("Recovery method: Backup file")
 
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
                 dapButtonAction.textButton = qsTr("Save")
             else
                 dapButtonAction.textButton = qsTr("Load")
@@ -106,9 +107,9 @@ DapRecoveryWalletRightPanelForm
         }
 
 
-        if (walletRecoveryType === "Words")
+        if (globalLogic.walletRecoveryType === "Words")
         {
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
             {
                 dapTextTopMessage.color = "#FFFF00"
                 dapTextTopMessage.text =
@@ -123,9 +124,9 @@ DapRecoveryWalletRightPanelForm
                 walletHashManager.clearWords()
             }
         }
-        if (walletRecoveryType === "File")
+        if (globalLogic.walletRecoveryType === "File")
         {
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
             {
                 dapTextTopMessage.text =
                     qsTr("Click the 'Save' button and keep backup file in a safe place. They will be required to restore your wallet in case of loss of access to it.")
@@ -157,9 +158,9 @@ DapRecoveryWalletRightPanelForm
         dapButtonNext.enabled = true
         dapButtonNext.visible = true
 
-        if (walletRecoveryType === "Words")
+        if (globalLogic.walletRecoveryType === "Words")
         {
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
             {
                 dapTextBottomMessage.color = "#B3FF00"
                 dapTextBottomMessage.text =
@@ -174,9 +175,9 @@ DapRecoveryWalletRightPanelForm
 
         }
 
-        if (walletRecoveryType === "File")
+        if (globalLogic.walletRecoveryType === "File")
         {
-            if (!restoreWalletMode)
+            if (!globalLogic.restoreWalletMode)
             {
                 saveFileDialog.open()
             }
@@ -237,14 +238,12 @@ DapRecoveryWalletRightPanelForm
 
     dapButtonClose.onClicked:
     {
-        if (currentTab === dashboardScreenPath)
-            previousActivated(createNewWallet)
-        if (currentTab === settingsScreenPath)
-        {
-            previousActivated(inputNameWallet)
-//            dapSettingsRightPanel.visible = false
-//            dapSettingsRightPanel.width = 0
+//        if (globalLogic.currentTab === "Settings")
+//        {
+//            dapRightPanelFrame.visible = false
+//            dapRightPanelFrame.width = 0
 //            dapSettingsScreen.dapExtensionsBlock.visible = true
-        }
+//        }
+        pop()
     }
 }

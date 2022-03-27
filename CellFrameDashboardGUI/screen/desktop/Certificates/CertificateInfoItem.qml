@@ -3,9 +3,6 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "parts"
 
-
-
-
 Rectangle {
     id: root
     property alias closeButton: closeButton
@@ -58,7 +55,7 @@ Rectangle {
                         leftMargin: 12 * pt
                         verticalCenter: closeButton.verticalCenter
                     }
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                     color: currTheme.textColor
                     text: qsTr("Info about certificate")
                 }
@@ -79,6 +76,7 @@ Rectangle {
                     content.text: model.value
                     title.color: currTheme.textColorGray
                 }
+
             }
         }
     } //frameRightPanel

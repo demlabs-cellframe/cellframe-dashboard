@@ -1,20 +1,20 @@
 import QtQuick 2.4
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
+import Qt.labs.platform 1.0
+import QtQuick.Controls 2.2
 import "qrc:/widgets"
 import "../../"
 
 
-DapAbstractScreen
+Page
 {
     id: dapDashboardScreen
-    anchors
+//    anchors.fill: parent
+
+    background: Rectangle
     {
-        fill: parent
-//        topMargin: 24 * pt
-        rightMargin: 44 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
     // Paths to currency emblems
@@ -92,7 +92,7 @@ DapAbstractScreen
             Text
             {
                 id: titleTextWalletCreate
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
+                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
                 color: currTheme.textColor
                 text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -116,7 +116,7 @@ DapAbstractScreen
 //                colorBackgroundHover: currTheme.buttonColorHover
 //                colorButtonTextNormal: currTheme.textColor
 //                colorButtonTextHover: currTheme.textColor
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
                 horizontalAligmentText:Qt.AlignCenter
 //                colorTextButton: "#FFFFFF"
 
@@ -149,7 +149,7 @@ DapAbstractScreen
             anchors.verticalCenter: parent.verticalCenter
             font.family: font.name
             font.pixelSize:26 * pt
-//            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
+//            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
             color: currTheme.textColor
             text: qsTr("Creating wallet in process...")
         }
@@ -160,7 +160,7 @@ DapAbstractScreen
     {
         id: mainFrameDashboard
         anchors.fill: parent
-        anchors.topMargin: 24 * pt
+//        anchors.topMargin: 24 * pt
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
         shadowColor: currTheme.shadowColor
@@ -188,7 +188,7 @@ DapAbstractScreen
 
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Tokens")
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                        font:  _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
                         color: currTheme.textColor
                     }
                 }
@@ -228,7 +228,7 @@ DapAbstractScreen
                                 anchors.left: parent.left
                                 anchors.leftMargin: 16 * pt
                                 anchors.verticalCenter: parent.verticalCenter
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                                 color: currTheme.textColor
                                 verticalAlignment: Qt.AlignVCenter
                                 text: name
@@ -241,7 +241,7 @@ DapAbstractScreen
                                anchors.right:  networkAddressCopyButton.left
                                anchors.rightMargin: 4 * pt
                                anchors.verticalCenter: parent.verticalCenter
-                               fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                               fontDapText: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
                                color: currTheme.textColor
                                fullText: address
                                textElide: Text.ElideMiddle
@@ -291,7 +291,7 @@ DapAbstractScreen
                                     Text
                                     {
                                         id: currencyName
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                                         color: currTheme.textColor
                                         text: name
                                         width: 172 * pt
@@ -302,7 +302,7 @@ DapAbstractScreen
                                     {
                                         id: currencySum
                                         Layout.fillWidth: true
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                         color: currTheme.textColor
                                         text: balance_without_zeros
 //                                        text: full_balance
@@ -313,7 +313,7 @@ DapAbstractScreen
                                     Text
                                     {
                                         id: currencyCode
-                                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                        font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                                         color: currTheme.textColor
                                         text: name
                                         horizontalAlignment: Text.AlignRight
