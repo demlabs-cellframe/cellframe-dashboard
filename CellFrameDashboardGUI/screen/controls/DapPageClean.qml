@@ -34,17 +34,15 @@ Page {
                     id: mainScreenStack
                     clip: true
                     Layout.fillHeight: true
-                    Layout.preferredWidth: rootPageRow.width * 0.7
-                    //            Layout.preferredWidth: rightPanelStack.depth > 0 ?
-                    //                                       rootPageRow.width * 0.7 :
-                    //                                       rootPageRow.width
+                    Layout.margins: 20
+                    Layout.preferredWidth: rootPageRow.width * 0.65
                 }
 
                 StackView {
                     id: rightPanelStack
                     clip: true
                     Layout.fillHeight: true
-                    //Layout.fillWidth: rightPanelStack.depth > 0 ? true : false
+                    Layout.margins: 20
                     Layout.fillWidth: true
                 }
     }

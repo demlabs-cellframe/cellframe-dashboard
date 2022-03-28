@@ -7,8 +7,8 @@ import "qrc:/screen/controls" as Controls
 import "qrc:/screen/desktop"
 import "qrc:/screen"
 
-Controls.DapPage {
-    readonly property var currentIndex: 6
+Controls.DapPageClean {
+    readonly property int currentIndex: 6
 
     QtObject {
         id: navigator

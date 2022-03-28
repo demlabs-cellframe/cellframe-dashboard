@@ -64,7 +64,7 @@ FocusScope {
     }
 
     ListModel{
-        id:modelAppsTabStates
+        id: modelAppsTabStates
     }
 
     // Menu bar tab model
