@@ -7,6 +7,7 @@
 
 #ifdef Q_OS_MAC
 #define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
+#define CMD_HISTORY QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/data/cmd_history.ini").arg(getenv("USER"))
 #endif
 
 #ifdef Q_OS_ANDROID
