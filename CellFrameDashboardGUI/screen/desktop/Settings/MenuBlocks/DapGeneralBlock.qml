@@ -67,15 +67,8 @@ ColumnLayout
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-<<<<<<< HEAD
-            mainLineText: {
-             return   dapNetworkModel.get(SettingsWallet.currentNetwork).name
-            }
-=======
             mainLineText: dapNetworkModel.count ? dapNetworkModel.get(SettingsWallet.currentNetwork).name :
                                                   "Networks"
-
->>>>>>> 1a99c6c25fa3f46562fba66f1c85d9ae207b7a27
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
