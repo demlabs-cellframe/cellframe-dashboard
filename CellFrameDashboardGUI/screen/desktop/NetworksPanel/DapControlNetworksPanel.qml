@@ -311,7 +311,6 @@ DapNetworksPanel
                 networksModel.append({ "name" : networksStatesList[i].name,
                                                 "networkState" : networksStatesList[i].networkState,
                                                 "targetState" : networksStatesList[i].targetState,
-                                                "stateColor" : networksStatesList[i].stateColor,
                                                 "errorMessage" : networksStatesList[i].errorMessage,
                                                 "linksCount" : networksStatesList[i].linksCount,
                                                 "activeLinksCount" : networksStatesList[i].activeLinksCount,
@@ -321,23 +320,6 @@ DapNetworksPanel
             updateContentForExistingModel(networksModel, networksStatesList)
         }
     }
-
-
-//    function modelUpdate(map)
-//    {
-
-//        console.log("LLLLLLLLLLL", map.net_ip)
-
-//        networksModel.append({ "name" : networksStatesList[i].name,
-//                                        "networkState" : networksStatesList[i].networkState,
-//                                        "targetState" : networksStatesList[i].targetState,
-//                                        "stateColor" : networksStatesList[i].stateColor,
-//                                        "errorMessage" : networksStatesList[i].errorMessage,
-//                                        "linksCount" : networksStatesList[i].linksCount,
-//                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
-//                                        "nodeAddress" : networksStatesList[i].nodeAddress})
-
-//    }
 
     function updateContentForExistingModel(curModel, newData)
     {
@@ -349,8 +331,6 @@ DapNetworksPanel
                     curModel.set(i, {"networkState": newData[i].networkState})
                 if (curModel.get(i).targetState !== newData[i].targetState)
                     curModel.set(i, {"targetState": newData[i].targetState})
-                if (curModel.get(i).stateColor !== newData[i].stateColor)
-                    curModel.set(i, {"stateColor": newData[i].stateColor})
                 if (curModel.get(i).errorMessage !== newData[i].errorMessage)
                     curModel.set(i, {"errorMessage": newData[i].errorMessage})
                 if (curModel.get(i).linksCount !== newData[i].linksCount)
@@ -369,8 +349,6 @@ DapNetworksPanel
             popup.name = curDataFromModel.name
         if (popup.networkState !== curDataFromModel.networkState)
             popup.networkState = curDataFromModel.networkState
-        if (popup.stateColor !== curDataFromModel.stateColor)
-            popup.stateColor = curDataFromModel.stateColor
         if (popup.errorMessage !== curDataFromModel.errorMessage)
             popup.errorMessage = curDataFromModel.errorMessage
         if (popup.targetState !== curDataFromModel.targetState)
@@ -422,8 +400,8 @@ DapNetworksPanel
                     networksModel.get(i).networkState = data.networkState.substr(10)
                     networksModel.get(i).targetState = data.targetState.substr(10)
                     networksModel.get(i).errorMessage = data.errorMessage
-                    networksModel.get(i).linksCount = data.linksCount
-                    networksModel.get(i).activeLinksCount = data.activeLinksCount
+                    networksModel.get(i).linksCount = data.linksCount.toString()
+                    networksModel.get(i).activeLinksCount = data.activeLinksCount.toString()
                     networksModel.get(i).nodeAddress = data.nodeAddress
                 }
             }
@@ -434,8 +412,8 @@ DapNetworksPanel
                                    "networkState" : data.networkState,
                                    "targetState" : data.targetState,
                                    "errorMessage" : data.errorMessage,
-                                   "linksCount" : data.linksCount,
-                                   "activeLinksCount" : data.activeLinksCount,
+                                   "linksCount" : data.linksCount.toString(),
+                                   "activeLinksCount" : data.activeLinksCount.toString(),
                                    "nodeAddress" : data.nodeAddress})
         }
     }

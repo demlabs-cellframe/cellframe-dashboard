@@ -361,9 +361,7 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
-        qDebug() << "dapRcvNotify data: " << rcvData;
         m_DapNotifyController->rcvData(rcvData);
-//        emit notifyReceived(rcvData);
     });
 
 
@@ -376,7 +374,6 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
-    qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {
