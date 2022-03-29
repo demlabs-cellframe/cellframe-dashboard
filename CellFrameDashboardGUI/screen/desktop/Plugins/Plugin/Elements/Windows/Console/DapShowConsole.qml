@@ -103,7 +103,7 @@ Item {
 
                 Rectangle
                 {
-                    color: currTheme.backgroundElements
+                    color: "#363A42"
                     anchors.fill: parent
 
                     Text

@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 
 Component
 {
-    id: delegateToken
     Item
     {
         width:  parent.width
