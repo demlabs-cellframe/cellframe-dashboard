@@ -39,6 +39,7 @@
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
+#include "handlers/DapGetListWalletsCommand.h"
 
 class DapServiceController : public QObject
 {
@@ -179,6 +180,8 @@ signals:
     void walletAddressesReceived(const QVariant& walletAddresses);
 
     void walletTokensReceived(const QVariant& walletTokens);
+
+    void walletsListReceived(const QVariant& walletsList);
 
     void indexCurrentNetworkChanged(int iIndexCurrentNetwork);
 
