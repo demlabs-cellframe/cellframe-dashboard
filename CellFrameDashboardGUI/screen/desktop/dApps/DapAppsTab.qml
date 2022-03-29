@@ -22,7 +22,7 @@ DapPage {
         id: temporaryModel
     }
 
-    dapHeader.initialItem: DapAppsTopPanel{
+    dapHeader.initialItem: HeaderItem{
 //        color: currTheme.backgroundPanel
         onFindHandler: dapAppsTab.searchElement(text)
     }

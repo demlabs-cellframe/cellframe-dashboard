@@ -1,8 +1,8 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
-import "qrc:/widgets"
-import "parts"
+//import "qrc:/widgets"
+//import "parts"
 
 
 
@@ -10,19 +10,6 @@ DapTopPanel {
     id: root
 
     signal findHandler(string text)
-//    anchors.left: parent.left
-
-    //anchors.leftMargin: 4 * pt
-    radius: currTheme.radiusRectangle
-//    color: currTheme.backgroundMainScreen
-    //color: "#211A3A"    //design color
-//    color: "#070023"      //original color
-//    radius: 8 * pt
-
-
-//    implicitWidth: searchBox.x + searchBox.width
-//    implicitHeight: searchBox.y + searchBox.height
-
 
     // Frame icon search
     Image
@@ -39,7 +26,6 @@ DapTopPanel {
 
         source: "qrc:/resources/icons/ic_search.png"
     }
-
 
     SearchInputBox {
         id: searchBox

@@ -138,7 +138,7 @@ DapPage {
 
     }
 
-    dapHeader.initialItem: TXHistoryTopPanel {
+    dapHeader.initialItem: HeaderItem {
         id:historyTopPanel
         onFindHandler: {
             currentString = text
