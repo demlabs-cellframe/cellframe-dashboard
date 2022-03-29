@@ -165,9 +165,6 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
-        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
-        <file>screen/desktop/DapTokensListView.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>

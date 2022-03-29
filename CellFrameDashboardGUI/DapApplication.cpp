@@ -59,20 +59,20 @@ DapApplication::DapApplication(int &argc, char **argv)
         qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 
-    connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
+/*    connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
     {
         qDebug() << "walletsReceived" << walletList;
         if (!walletList.isEmpty())
             this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
 
         this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
-    });
+    });*/
     m_serviceController->requestWalletList();
     m_serviceController->requestOrdersList();
     m_serviceController->requestNetworksList();
 //    m_serviceController->requestNetworksStateList();
 
-    connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
+/*    connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
     {
         qDebug() << "walletInfoReceived" << walletInfo;
         QVariantMap infoMap = walletInfo.toMap();
@@ -109,12 +109,12 @@ DapApplication::DapApplication(int &argc, char **argv)
         }
 
 
-    });
+    });*/
 
 
-    m_currentWallet = new DapWallet(this);
+//    m_currentWallet = new DapWallet(this);
 
-    m_currentWallet->setBalance({{}});
+//    m_currentWallet->setBalance({{}});
 
 }
 
@@ -171,19 +171,19 @@ void DapApplication::registerQmlTypes()
 
 }
 
-DapWallet *DapApplication::currentWallet() const
+/*DapWallet *DapApplication::currentWallet() const
 {
     return m_currentWallet;
-}
+}*/
 
-void DapApplication::setCurrentWallet(DapWallet *a_currentWallet)
+/*void DapApplication::setCurrentWallet(DapWallet *a_currentWallet)
 {
     if (m_currentWallet == a_currentWallet)
         return;
     m_currentWallet = a_currentWallet;
 
     emit this->currentWalletChanged(a_currentWallet);
-}
+}*/
 
 void DapApplication::setContextProperties()
 {

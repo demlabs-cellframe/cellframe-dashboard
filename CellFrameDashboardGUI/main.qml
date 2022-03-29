@@ -147,7 +147,6 @@ ApplicationWindow
         {
             width = Screen.width
             height = Screen.height - 60
-
         }
         minimumWidth = width
         minimumHeight = height

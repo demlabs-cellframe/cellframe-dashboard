@@ -22,8 +22,6 @@ Rectangle {
 
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreenPath: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
-    ///@detalis Path to the dashboard tab.
-    readonly property string walletScreenPath: "qrc:/screen/" + device + "/Wallet/DapWalletTab.qml"
     ///@detalis Path to the exchange tab.
     readonly property string exchangeScreenPath: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
@@ -77,6 +75,8 @@ Rectangle {
     }
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
+
+    property var networkArray: ""
 
     signal menuTabChanged()
     signal pluginsTabChanged(var auto, var removed, var name)
@@ -786,8 +786,31 @@ Rectangle {
             if (dapModelWallets.count < 0)
                 SettingsWallet.currentIndex = -1
 
-            modelWalletsUpdated();
+            networkArray = ""
 
+            if (SettingsWallet.currentIndex >= 0)
+            {
+                var model = dapModelWallets.get(SettingsWallet.currentIndex).networks
+
+                for (var j = 0; j < model.count; ++j)
+                {
+                    if (model.get(j).chains.count > 0)
+                    {
+                        for (var k = 0; k < model.get(j).chains.count; ++k)
+                        {
+                            networkArray += model.get(j).name + ":"
+                            networkArray += model.get(j).chains.get(k).name + "/"
+                        }
+                    }
+                    else
+                    {
+                        networkArray += model.get(j).name + ":"
+                        networkArray += "zero" + "/"
+                    }
+                }
+            }
+
+            modelWalletsUpdated();
 
             //Show orders for debug
 //            for (var e = 0; e < 10; ++e)
@@ -800,6 +823,71 @@ Rectangle {
 //            }
 //            modelOrdersUpdated();
         }
+
+        onWalletReceived:
+        {
+            print("onWalletReceived")
+            console.log("Wallet name:", wallet.Name)
+
+            for (var i = 0; i < dapModelWallets.count; ++i)
+            {
+                if (dapModelWallets.get(i).name === wallet.Name)
+                {
+                    print("index", i, dapModelWallets.get(i).name)
+
+                    print("networks count", dapModelWallets.get(i).networks.count)
+
+                    dapModelWallets.get(i).networks.clear()
+
+                    print("networks count", dapModelWallets.get(i).networks.count)
+
+
+                    console.log("Networks number: "+Object.keys(wallet.Networks).length)
+                    for (var n = 0; n < Object.keys(wallet.Networks).length; ++n)
+                    {
+                        console.log("Network name: "+wallet.Networks[n])
+                        print("address", wallet.findAddress(wallet.Networks[n]))
+                        print("chains", wallet.getChains(wallet.Networks[n]))
+
+                        dapModelWallets.get(i).networks.append({"name": wallet.Networks[n],
+                              "address": wallet.findAddress(wallet.Networks[n]),
+                              "chains": [],
+                              "tokens": []})
+
+                        var chains = wallet.getChains(wallet.Networks[n])
+
+                        console.log("chains", chains)
+
+                        for (var c = 0; c < chains.length; ++c)
+                        {
+                            print(chains[c])
+                            dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+                        }
+
+                        console.log("dapModelWallets.get(i).networks.get(n).chains.count",
+                                    dapModelWallets.get(i).networks.get(n).chains.count)
+
+                        console.log("Tokens.length:", Object.keys(wallet.Tokens).length)
+                        for (var t = 0; t < Object.keys(wallet.Tokens).length; ++t)
+                        {
+                            if(wallet.Tokens[t].Network === wallet.Networks[n])
+                            {
+                                console.log(wallet.Tokens[t].Network + " === " + wallet.Networks[n])
+                                dapModelWallets.get(i).networks.get(n).tokens.append(
+                                     {"name": wallet.Tokens[t].Name,
+                                      "full_balance": wallet.Tokens[t].FullBalance,
+                                      "balance_without_zeros": wallet.Tokens[t].BalanceWithoutZeros,
+                                      "datoshi": wallet.Tokens[t].Datoshi,
+                                      "network": wallet.Tokens[t].Network})
+                            }
+                        }
+                    }
+
+                }
+            }
+
+        }
+
         onOrdersReceived:
         {
 //            console.log("Orders len " + orderList.length)
@@ -868,7 +956,7 @@ Rectangle {
     }
 
     // function for DapLastActionsRightPanel.qml and DapHistoryTab.qml
-    function getWalletHistory(index)
+    /*function getWalletHistory(index)
     {
         var counter = 0
 
@@ -905,6 +993,42 @@ Rectangle {
         }
 
         return counter
+    }*/
+
+    // function for DapLastActionsRightPanel.qml and DapHistoryTab.qml
+    function getAllWalletHistory(index)
+    {
+        if (index < 0 || index >= dapModelWallets.count)
+            return
+
+        /// Network array. Format:
+        // "<network name 1>:<chain 1>:<address 1>/
+        //  <network name 2>:<chain 2>:<address 2>/..."
+        var network_array = ""
+
+        var model = dapModelWallets.get(index).networks
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            if (model.get(i).chains.count > 0)
+            {
+                for (var j = 0; j < model.get(i).chains.count; ++j)
+                {
+                    network_array += model.get(i).name + ":"
+                    network_array += model.get(i).chains.get(j).name + ":"
+                    network_array += model.get(i).address + "/"
+                }
+            }
+            else
+            {
+                network_array += model.get(i).name + ":"
+                network_array += "zero" + ":"
+                network_array += model.get(i).address + "/"
+            }
+        }
+
+//        print("getAllWalletHistory", network_array)
+        dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array);
     }
 
     function updateModelAppsTab() //create model apps from left menu tab
