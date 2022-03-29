@@ -8,13 +8,11 @@ DapConsoleScreenForm
     ///@detalis sendCommand Text of command from the inputCommand
     property string sendCommand
     ///@detalis historyCommand Text of command from the command history
-    property string historyCommand
+    property string historyCommand: consoleRigthPanel.historyQuery
     ///@detalis receivedAnswer Answer for the sended command
-    property string receivedAnswer
+    property string receivedAnswer: rAnswer
 
-    property var dapServiceController
-
-    signal runCommand(string command)
+    property var dapServiceController: _dapServiceController
 
     Connections
     {
@@ -77,7 +75,9 @@ DapConsoleScreenForm
         {
             sendCommand = sendedCommand;
             consoleHistoryIndex = -1;
-            runCommand(sendCommand);
+            isConsoleRequest = true
+            dapServiceController.requestToService("DapRunCmdCommand", sendCommand, "isConsole");
+            dapServiceController.notifyService("DapSaveHistoryExecutedCmdCommand", sendCommand);
             sendedCommand = "";
             currentCommand = sendedCommand;
         }
@@ -109,5 +109,4 @@ DapConsoleScreenForm
         currentCommand = dapConsoleRigthPanel.dapModelHistoryConsole.get(consoleHistoryIndex).query;
         return;
     }
-
 }
