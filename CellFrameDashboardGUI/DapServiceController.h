@@ -31,6 +31,7 @@
 #include "handlers/DapCreateTransactionCommand.h"
 #include "handlers/DapMempoolProcessCommand.h"
 #include "handlers/DapGetWalletHistoryCommand.h"
+#include "handlers/DapGetAllWalletHistoryCommand.h"
 #include "handlers/DapRunCmdCommand.h"
 #include "handlers/DapGetHistoryExecutedCmdCommand.h"
 #include "handlers/DapSaveHistoryExecutedCmdCommand.h"
@@ -128,7 +129,7 @@ public:
 
 public slots:
     void requestWalletList();
-    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
+//    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
     void requestNetworkStatus(QString a_networkName);
     void changeNetworkStateToOnline(QString a_networkName);
     void changeNetworkStateToOffline(QString a_networkName);
@@ -167,6 +168,8 @@ signals:
 
     void walletsReceived(QList<QObject*> walletList);
 
+    void walletReceived(QObject* wallet);
+
     void networksListReceived(const QVariant& networksList);
 
 
@@ -183,7 +186,11 @@ signals:
 
     void historyReceived(const QVariant& walletHistory);
 
+    void allHistoryReceived(const QVariant& walletHistory);
+
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
+
+    void allWalletHistoryReceived(const QList<QObject*>& walletHistory);
     /// The signal is emitted when the command is executed by the cli node command handler.
     /// @param asAnswer The response of the cli node command handler.
     void cmdRunned(const QVariant& asAnswer);

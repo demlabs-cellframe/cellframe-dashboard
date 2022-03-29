@@ -116,6 +116,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand", m_pServer, CLI_PATH));
     // Run cli command
     m_pServer->addService(new DapRunCmdCommand("DapRunCmdCommand", m_pServer, CLI_PATH));
     // Get history of commands executed by cli handler
