@@ -69,6 +69,7 @@ DapLastActionsRightPanelForm
         {
             if (walletHistory.length !== lastHistoryLength)
             {
+<<<<<<< HEAD
                 print("onAllWalletHistoryReceived",
                       "walletHistory.length", walletHistory.length,
                       "lastHistoryLength", lastHistoryLength)
@@ -78,6 +79,16 @@ DapLastActionsRightPanelForm
                     print("ERROR! walletHistory.length < lastHistoryLength",
                           walletHistory.length, lastHistoryLength)
                 }
+=======
+                if (temporaryModel.count === 0)
+                    temporaryModel.append({ "network" : walletHistory[i].Network,
+                        "name" : walletHistory[i].Name,
+                        "amount" : walletHistory[i].AmountWithoutZeros,
+                        "status" : walletHistory[i].Status,
+                        "date" : walletHistory[i].Date,
+                        "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch,
+                        "hash" : walletHistory[i].Hash})
+>>>>>>> 1a99c6c25fa3f46562fba66f1c85d9ae207b7a27
                 else
                 {
                     lastHistoryLength = walletHistory.length
@@ -123,6 +134,17 @@ DapLastActionsRightPanelForm
                             lastDate = currDate
                         }
                     }
+<<<<<<< HEAD
+=======
+                    temporaryModel.insert(j, { "network" : walletHistory[i].Network,
+                        "name" : walletHistory[i].Name,
+                        "amount" : walletHistory[i].AmountWithoutZeros,
+                        "status" : walletHistory[i].Status,
+                        "date" : walletHistory[i].Date,
+                        "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch,
+                        "hash" : walletHistory[i].Hash})
+                }
+>>>>>>> 1a99c6c25fa3f46562fba66f1c85d9ae207b7a27
 
                     var test = true
 
