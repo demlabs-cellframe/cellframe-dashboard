@@ -8,13 +8,10 @@ Item {
 
     property alias title: title
     property alias content: content
-
     property int verticalSpacing: 10 * pt
-
 
     implicitWidth: Math.max(title.width, content.width)
     implicitHeight: title.height + verticalSpacing + content.height
-
 
     Text {
         id: title
@@ -23,8 +20,6 @@ Item {
         elide: Text.ElideRight
         maximumLineCount: 1
     }
-
-
 
     Text {
         id: content

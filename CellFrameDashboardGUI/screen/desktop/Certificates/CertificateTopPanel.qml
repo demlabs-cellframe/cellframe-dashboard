@@ -3,7 +3,6 @@ import "qrc:/screen/controls/"
 
 HeaderItem {
         id: headerItem
-        //color: currTheme.backgroundPanel
 
         onFindHandler: {    //text
             models.certificatesFind.findString = text

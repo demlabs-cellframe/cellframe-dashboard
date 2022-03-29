@@ -35,13 +35,11 @@ DapRightPanel
             }
         }
 
-
     dapContentItemData:
         Rectangle
         {
             anchors.fill: parent
             color: "transparent"
-            //anchors.margins: 16 * pt
 
             ListView
             {

@@ -41,7 +41,6 @@ DapConsoleScreenForm
         Column
         {
             width: parent.width
-//            Layout.bottomMargin: 20 * pt
             TextEdit
             {
                 width: parent.width

@@ -14,8 +14,6 @@ ListView {
     property string seletedCertificateAccessType: qsTr("Public")
     property bool infoTitleTextVisible: false
 
-
-    //interactive: contentHeight > height
     headerPositioning: ListView.OverlayHeader
     spacing: 17 * pt
     clip: true
@@ -52,7 +50,6 @@ ListView {
                 text: qsTr("Certificates")
             }
         }
-
 
         Rectangle {
             id: tableTitle
@@ -93,7 +90,6 @@ ListView {
         id: delegateComponent
 
         Rectangle {
-            //this property need set from root
             width: root.width
             anchors.left: parent.left
             anchors.leftMargin: 14 * pt
@@ -115,7 +111,6 @@ ListView {
                 elide: Text.ElideRight
                 maximumLineCount: 1
             }
-
 
             MouseArea{
                 id: delegateClicked
@@ -139,10 +134,8 @@ ListView {
 
                 onDoubleClicked: {
                     root.infoClicked(model.index)
-                    //root.selectedIndex(model.index)
                 }
             }
-
 
             Item {
                 id: infoButton
@@ -168,40 +161,16 @@ ListView {
                         root.infoClicked(model.index)
                     }
                 }
-
-
             }  //
-
 
             Rectangle {
                 id: bottomLine
-                //x: certificateNameText.x
-//                y: parent.height
-//                width: 644 * pt
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.bottom
-                //anchors.leftMargin: 14 * pt
-                //anchors.rightMargin: 15 * pt
                 height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
-
         }  //
-
     }  //delegateComponent
-
-
-
-//    Rectangle {  //border frame
-//        width: parent.width
-//        height: parent.height
-//        border.color: currTheme.backgroundElements
-//        border.width: 1 * pt
-//        radius: 8 * pt
-//        color: "transparent"
-//        z: 1
-//    }
-
-
 }  //root
