@@ -70,7 +70,6 @@ ColumnLayout
             mainLineText: dapNetworkModel.count ? dapNetworkModel.get(SettingsWallet.currentNetwork).name :
                                                   "Networks"
 
-
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 10 * pt
