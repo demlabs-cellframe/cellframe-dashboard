@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtCharts 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
@@ -264,7 +265,37 @@ Page {
         DapScreenPage {
             Layout.fillWidth: true
             Layout.fillHeight: true
+            ChartView {
+                anchors.fill: parent
+                //antialiasing: true
 
+                animationOptions: ChartView.AllAnimations
+                backgroundColor: currTheme.backgroundElements
+
+                LineSeries {
+                    //name: "LineSeries"
+                    color: "#C91D73"
+                    XYPoint { x: 0; y: 0 }
+                    XYPoint { x: 1.1; y: 2.1 }
+                    XYPoint { x: 1.9; y: 3.3 }
+                    XYPoint { x: 2.1; y: 2.1 }
+                    XYPoint { x: 2.9; y: 6 }
+                    XYPoint { x: 3.4; y: 3.0 }
+                    XYPoint { x: 4.1; y: 3.3 }
+                }
+
+                LineSeries {
+                    //name: "LineSeries2"
+                    color: currTheme.buttonColorHoverPosition0
+                    XYPoint { x: 0; y: 0 }
+                    XYPoint { x: 1; y: 2 }
+                    XYPoint { x: 2; y: 4 }
+                    XYPoint { x: 2.5; y: 2.1 }
+                    XYPoint { x: 3; y: 5 }
+                    XYPoint { x: 4; y: 3.5 }
+                    XYPoint { x: 6; y: 6 }
+                }
+            }
 //            Layout.preferredWidth: 600
 //            Layout.preferredHeight: 300
         }
