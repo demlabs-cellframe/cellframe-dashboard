@@ -7,6 +7,7 @@
 
 #ifdef Q_OS_MAC
 #define LOG_FILE QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/cellframe-node.log").arg(getenv("USER"))
+#define CMD_HISTORY QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/data/cmd_history.txt").arg(getenv("USER"))
 #endif
 
 #ifdef Q_OS_ANDROID
@@ -108,12 +109,16 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
+
+    m_pServer->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_pServer, CLI_PATH));
     // Creating a token transfer transaction between wallets
     m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));
     // Transaction confirmation
     m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand", m_pServer, CLI_PATH));
     // Run cli command
     m_pServer->addService(new DapRunCmdCommand("DapRunCmdCommand", m_pServer, CLI_PATH));
     // Get history of commands executed by cli handler

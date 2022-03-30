@@ -112,16 +112,12 @@ DapRightPanel
 
                 Layout.fillWidth: true
                 spacing: 10 * pt
-                Layout.topMargin: 10 * pt
-                Layout.bottomMargin: 10 * pt
-                Layout.leftMargin: 25 * pt
-                Layout.rightMargin: 10 * pt
+                Layout.margins: 10 * pt
 
                 Rectangle
                 {
                     id: frameSignatureType
-                    height: 60 * pt
-        //            width: 350 * pt
+                    height: 42 * pt
                     color: "transparent"
                     Layout.fillWidth: true
 
@@ -129,20 +125,12 @@ DapRightPanel
                     {
                         id: comboboxNetwork
 
-//                        anchors.centerIn: parent
-//                        anchors.fill: parent
-//                        anchors.leftMargin: 35 * pt
-//                        anchors.rightMargin: 37 * pt
-//                        anchors.topMargin: 11 * pt
-//                        anchors.bottomMargin: 17 * pt
-
                         anchors.centerIn: parent
                         anchors.fill: parent
-                        anchors.margins: 10 * pt
-                        anchors.leftMargin: 15 * pt
+                        anchors.leftMargin: 5 * pt
 
                         comboBoxTextRole: ["name"]
-                        mainLineText: "private"
+//                        mainLineText: "private"
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                         sidePaddingNormal: 10 * pt
@@ -269,7 +257,7 @@ DapRightPanel
                             anchors.fill: parent
 
                             comboBoxTextRole: ["name"]
-                            mainLineText: "private"
+//                            mainLineText: "private"
                             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                             sidePaddingNormal: 10 * pt
@@ -347,9 +335,9 @@ DapRightPanel
                         Layout.leftMargin: 15 * pt
                         width: 150 * pt
                         height: 28 * pt
-                        placeholderText: "0"
+//                        placeholderText: "0"
 //                        placeholderText: "0.0"
-                        validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
+                        validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,9}/ }
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAlignment: Text.AlignRight
 
@@ -368,6 +356,7 @@ DapRightPanel
                                     }
                             }
                     }
+
                     Rectangle
                     {
                         id: frameSenderWalletToken
@@ -381,7 +370,7 @@ DapRightPanel
                             id: comboboxToken
                             anchors.fill: parent
                             comboBoxTextRole: ["name"]
-                            mainLineText: "tCELL"
+//                            mainLineText: "tCELL"
                             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                             sidePaddingNormal: 10 * pt

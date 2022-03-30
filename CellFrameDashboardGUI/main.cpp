@@ -169,9 +169,10 @@ int main(int argc, char *argv[])
         if (!SingleApplicationTest(app.applicationName()))
             return 1;
 
-        SystemTray * systemTray = new SystemTray();
         QQmlContext * context = app.qmlEngine()->rootContext();
-        context->setContextProperty("systemTray", systemTray);
+
+//        SystemTray * systemTray = new SystemTray();
+//        context->setContextProperty("systemTray", systemTray);
 
         // For wallet restore
         WalletHashManager walletHashManager;
@@ -197,9 +198,8 @@ int main(int argc, char *argv[])
 
         result = app.exec();
 
-        systemTray->hideIconTray();
-
-        delete systemTray;
+//        systemTray->hideIconTray();
+//        delete systemTray;
     }
 
     return result;

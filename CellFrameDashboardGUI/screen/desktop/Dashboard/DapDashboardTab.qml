@@ -25,7 +25,7 @@ DapAbstractTab
     id: dashboardTab
     color: currTheme.backgroundMainScreen
 
-    property alias dapDashboardRightPanel: stackViewRightPanel
+//    property alias dapDashboardRightPanel: stackViewRightPanel
     property alias dapDashboardScreen: dashboardScreen
 
     property var walletInfo:
@@ -49,16 +49,10 @@ DapAbstractTab
 
                 console.log("New payment")
                 console.log("wallet from: " + walletInfo.name)
-                currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain),
-                        properties: {
-                            dapCmboBoxNetworkModel: dapModelWallets.get(SettingsWallet.currentIndex).networks,
-                            dapCmboBoxTokenModel: dapModelWallets.get(SettingsWallet.currentIndex).networks.get(0).tokens
-                        }
-                       });
+                dapRightPanel.clear()
+                currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain)});
             }
         }
-
-
 
     dapScreen:
         DapDashboardScreen
@@ -181,13 +175,25 @@ DapAbstractTab
         }
     ]
 
+    Timer {
+        id: updateTimer
+        interval: 1000; running: false; repeat: true
+        onTriggered:
+        {
+            print("DapDashboardTab updateTimer", updateTimer.running)
+
+            updateCurrentWallet()
+        }
+    }
+
     // Signal-slot connection realizing panel switching depending on predefined rules
     Connections
     {
         target: currentRightPanel
         onNextActivated:
         {
-            currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapNextRightPanel);
+            dapRightPanel.clear()
+            currentRightPanel = dapRightPanel.push(currentRightPanel.dapNextRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
                 if(dapModelWallets.count === 0)
@@ -200,16 +206,17 @@ DapAbstractTab
         }
         onPreviousActivated:
         {
-            currentRightPanel = dapDashboardRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+            dapRightPanel.clear()
+            currentRightPanel = dapRightPanel.push(currentRightPanel.dapPreviousRightPanel);
             if(parametrsRightPanel === lastActionsWallet)
             {
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
             }
-            else if(parametrsRightPanel === createNewWallet)
-            {
-                dashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Creating wallet in process...")
-            }
+//            else if(parametrsRightPanel === createNewWallet)
+//            {
+//                dashboardScreen.dapFrameTitleCreateWallet.textItem.text = qsTr("Creating wallet in process...")
+//            }
         }
     }
 
@@ -220,6 +227,9 @@ DapAbstractTab
         onModelWalletsUpdated:
         {
             updateComboBox()
+
+            // FOR DEBUG
+//            updateCurrentWallet()
         }
     }
 
@@ -228,28 +238,47 @@ DapAbstractTab
         target: dapServiceController
         onWalletCreated:
         {
-            update()
+            updateAllWallets()
         }
     }
 
     Component.onCompleted:
     {
-        update()
+        print("DapDashboardTab onCompleted")
         updateComboBox()
+
+        if (!updateTimer.running)
+            updateTimer.start()
     }
 
-    function update()
+    Component.onDestruction:
+    {
+        print("DapDashboardTab onDestruction")
+    }
+
+    function updateAllWallets()
     {
         dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
 
+    function updateCurrentWallet()
+    {
+        print("updateCurrentWallet", "networkArray", networkArray)
+
+        if (SettingsWallet.currentIndex !== -1 && networkArray !== "")
+            dapServiceController.requestToService("DapGetWalletInfoCommand",
+                dapModelWallets.get(SettingsWallet.currentIndex).name,
+                networkArray);
+    }
+
     function createWallet()
     {
         if(state !== "WALLETSHOW")
             state = "WALLETCREATE"
-        currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(createNewWallet)});
+        dapRightPanel.clear()
+        currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(createNewWallet)});
     }
 
     function updateComboBox()

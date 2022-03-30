@@ -130,7 +130,7 @@ ApplicationWindow
         }
     }
 
-    Connections {
+/*    Connections {
         target: systemTray
         onSignalShow: {
             restoreWindow()
@@ -153,7 +153,7 @@ ApplicationWindow
                  hideWindow()
              }
         }
-    }
+    }*/
 
     onClosing: {
         close.accepted = false
@@ -268,8 +268,24 @@ ApplicationWindow
         settings.window_scale = newScale
         settings.setValue("window_scale", newScale)
 
-        systemTray.hideIconTray()
+//        systemTray.hideIconTray()
         Qt.exit(RESTART_CODE)
+    }
+
+    function resetSize()
+    {
+        print("resetSize")
+
+        if (settings.window_scale < 1.0)
+        {
+            window.width = 1280 * settings.window_scale
+            window.height = 800 * settings.window_scale
+        }
+        else
+        {
+            window.width = 1280
+            window.height = 800
+        }
     }
 
     function checkNewScale(newScale)

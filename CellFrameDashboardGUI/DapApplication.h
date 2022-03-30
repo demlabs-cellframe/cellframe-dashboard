@@ -12,7 +12,7 @@ class DapApplication : public QApplication
 {
     Q_OBJECT
 
-    Q_PROPERTY(DapWallet* currentWallet READ currentWallet WRITE setCurrentWallet NOTIFY currentWalletChanged)
+//    Q_PROPERTY(DapWallet* currentWallet READ currentWallet WRITE setCurrentWallet NOTIFY currentWalletChanged)
 public:
     DapApplication(int &argc, char **argv);
 
@@ -23,12 +23,12 @@ public:
     QQmlApplicationEngine *qmlEngine();
 
     Q_INVOKABLE void setClipboardText(const QString &text);
-    Q_INVOKABLE DapWallet *currentWallet() const;
+//    Q_INVOKABLE DapWallet *currentWallet() const;
     void setCurrentWallet(DapWallet *a_currentWallet);
     DapVpnOrdersModel* getVpnOrdersModel();
 
 signals:
-    void currentWalletChanged(DapWallet* a_currentWallet);
+//    void currentWalletChanged(DapWallet* a_currentWallet);
 private:
     void setContextProperties();
     void registerQmlTypes();
@@ -36,7 +36,7 @@ private:
 
     DapNetworksList m_networks;
     QQmlApplicationEngine m_engine;
-    DapWallet* m_currentWallet;
+//    DapWallet* m_currentWallet;
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
