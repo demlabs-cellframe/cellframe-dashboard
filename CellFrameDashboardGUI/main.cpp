@@ -151,6 +151,5 @@ int main(int argc, char *argv[])
 
     Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
 
-
     return app.exec();
 }

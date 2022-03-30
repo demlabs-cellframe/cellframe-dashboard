@@ -270,11 +270,8 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
-                        parent: Overlay.overlay
-
-                        x: width*0.5
-                        y: height*0.5
-
+                        y:0
+                        x:100
                         contentItem: Text {
                                 text: toolTip.text
                                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
@@ -918,7 +915,7 @@ Rectangle {
             if(isError)
             {
                 if(isFirst)
-                    messagePopup.open()
+                    messagePopup.smartOpen("Notify server", qsTr("Lost connection to the Node. Reconnecting..."))
                 console.warn("ERROR SOCKET")
                 stateNotify = false
             }

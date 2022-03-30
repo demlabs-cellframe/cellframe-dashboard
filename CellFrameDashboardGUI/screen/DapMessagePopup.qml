@@ -8,8 +8,11 @@ import "qrc:/widgets"
 Popup {
     id: dialog
 
+    signal signalAccept(var accept);
+    property alias dapButtonCancel: buttonCancel
+
     width: 300 * pt
-    height: 180 * pt
+    height: 200 * pt
 
     parent: Overlay.overlay
     x: (parent.width - width) * 0.5
@@ -30,6 +33,7 @@ Popup {
         anchors.margins: 10 * pt
 
         Text {
+            id: dapContentTitle
             Layout.fillWidth: true
             Layout.margins: 10 * pt
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
@@ -37,7 +41,17 @@ Popup {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            text: qsTr("Lost connection to the Node. Reconnecting...")
+        }
+
+        Text {
+            id: dapContentText
+            Layout.fillWidth: true
+            Layout.margins: 10 * pt
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            color: currTheme.textColor
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
         }
 
         RowLayout
@@ -48,6 +62,8 @@ Popup {
 
             DapButton
             {
+                id:buttonOk
+
                 Layout.fillWidth: true
 
                 Layout.minimumHeight: 36 * pt
@@ -60,8 +76,40 @@ Popup {
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
+                {
                     dialog.close()
+                    signalAccept(true)
+                }
+            }
+
+            DapButton
+            {
+                id:buttonCancel
+
+                visible: false
+                Layout.fillWidth: true
+
+                Layout.minimumHeight: 36 * pt
+                Layout.maximumHeight: 36 * pt
+
+                textButton: qsTr("Cancel")
+
+                implicitHeight: 36 * pt
+                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked:
+                {
+                    dialog.close()
+                    signalAccept(false)
+                }
             }
         }
+    }
+
+    function smartOpen(title, contentText) {
+        dapContentTitle.text = title
+        dapContentText.text = contentText
+        dialog.open()
     }
 }

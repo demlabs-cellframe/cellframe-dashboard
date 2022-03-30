@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
 import "../SettingsWallet.js" as SettingsWallet
+import DapCertificateManager.Commands 1.0
 
 
 DapAbstractTab
@@ -175,6 +176,12 @@ DapAbstractTab
         }
     ]
 
+    DapMessagePopup
+    {
+        id: walletMessagePopup
+        dapButtonCancel.visible: true
+    }
+
     Timer {
         id: updateTimer
         interval: 1000; running: false; repeat: true
@@ -240,6 +247,24 @@ DapAbstractTab
         {
             updateAllWallets()
         }
+        onCertificateManagerOperationResult:
+        {
+            switch (result.command) {
+                case DapCertificateCommands.GetSertificateList:
+                    if (result.status === DapCertificateCommands.statusOK) {
+                        if(!certificates.parseFromCertList(result.data))
+                            certificates.createCertificate();
+                    }
+                    break;
+                case DapCertificateCommands.CreateCertificate:
+                    if (result.status === DapCertificateCommands.statusOK) {
+                        certificates.prependFromObject(result.data)
+                    }
+                    break;
+                default:
+                    break
+            }
+        }
     }
 
     Component.onCompleted:
@@ -249,6 +274,10 @@ DapAbstractTab
 
         if (!updateTimer.running)
             updateTimer.start()
+
+        dapServiceController.requestToService(DapCertificateCommands.serviceName
+                                              , DapCertificateCommands.GetSertificateList
+                                              );
     }
 
     Component.onDestruction:
@@ -294,4 +323,39 @@ DapAbstractTab
         }
     }
 
+    ListModel
+    {
+        id:certificates
+        function parseFromCertList(certList){
+            clear()
+            for (var i = 0; i < certList.length; ++i) {
+                if(certList[i].fileName === "DAP_Private_certificate_signature.dcert"){
+                    certificates.append(certList[i])
+                    return true;
+                }
+            }
+            return false
+        }
+        function prependFromObject(obj) {
+            insert(0, obj)
+        }
+        function createCertificate()
+        {
+            dapServiceController.requestToService(DapCertificateCommands.serviceName
+                                                  , DapCertificateCommands.CreateCertificate
+                                                  , "DAP_Private_certificate_signature", "sig_dil"
+                                                  , JSON.stringify(getDataToJson()));
+        }
+        function getDataToJson(){
+            var result = { a0_creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
+            for (var i = 0; i < count; ++i) {
+                var item = get(i)
+                if (item.data !== "") {
+                    result[item.key] = item.data
+                }
+            }
+
+            return result
+        }
+    }
 }

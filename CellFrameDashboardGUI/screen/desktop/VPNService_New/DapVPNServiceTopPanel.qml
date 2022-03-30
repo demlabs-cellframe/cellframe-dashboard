@@ -11,6 +11,7 @@ DapTopPanel {
     DapButton
     {
         id: addOrderButton
+        enabled: false
         textButton: "New VPN order"
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt

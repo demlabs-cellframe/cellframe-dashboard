@@ -92,7 +92,8 @@ DapLastActionsRightPanelForm
                                 "amount" : walletHistory[i].AmountWithoutZeros,
                                 "status" : walletHistory[i].Status,
                                 "date" : walletHistory[i].Date,
-                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch,
+                                "hash": walletHistory[i].Hash})
                         else
                         {
                             var j = 0;
@@ -107,7 +108,8 @@ DapLastActionsRightPanelForm
                                 "amount" : walletHistory[i].AmountWithoutZeros,
                                 "status" : walletHistory[i].Status,
                                 "date" : walletHistory[i].Date,
-                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch})
+                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch,
+                                "hash": walletHistory[i].Hash})
                         }
 
                         var currDate = new Date(Date.parse(walletHistory[i].Date))
