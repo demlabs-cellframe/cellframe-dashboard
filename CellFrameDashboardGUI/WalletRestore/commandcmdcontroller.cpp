@@ -53,6 +53,28 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower())
         {
             commandParams.append(_commands[i]);
+            /*qDebug() << "LLLLLLLLLLLLLL" << _commands[i];
+            QString _command = _commands[i];
+            QVariantList parseList;
+            QVector<int> startPosVector;
+            for (int j = 0; j < _command.length(); ++j)
+            {
+                if (_command[j] == '[')
+                    startPosVector.push_back(j);
+
+                if (_command[j] == ']')
+                {
+                    QVariantMap map;
+                    int _start = startPosVector[startPosVector.length() - 1];
+                    startPosVector.pop_back();
+                    map["start"] = QVariant::fromValue(_start);
+                    map["end"] = QVariant::fromValue(j);
+                    QString s = _command.left(j);
+                    s = s.right(s.length() - _start - 1);
+                    map["data"] = QVariant::fromValue(s);
+                    qDebug() << "PPPPPPPPPPPPP" << s;
+                }
+            }*/
         }
     }
 
