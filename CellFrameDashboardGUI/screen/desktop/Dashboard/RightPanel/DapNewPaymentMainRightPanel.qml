@@ -102,6 +102,8 @@ DapNewPaymentMainRightPanelForm
         print("amount:", dapTextInputAmountPayment.text)
         print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
+        var amountWithCommission = (parseFloat(clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
+
         if (dapTextInputAmountPayment.text === "" ||
             testAmount("0.0", dapTextInputAmountPayment.text))
         {
@@ -111,7 +113,7 @@ DapNewPaymentMainRightPanelForm
         else
         if (!testAmount(
             dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance,
-            dapTextInputAmountPayment.text))
+            amountWithCommission))
         {
             print("Not enough tokens")
             dapTextNotEnoughTokensWarning.text =
@@ -136,6 +138,8 @@ DapNewPaymentMainRightPanelForm
         }
     }
 
+
+
     Connections
     {
         target: walletMessagePopup
@@ -155,7 +159,6 @@ DapNewPaymentMainRightPanelForm
                 console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                 console.log("   token:", dapCmboBoxToken.mainLineText)
                 console.log("   amount:", amount)
-                console.log("   node address:", amount)
 
                 var netModel = networksPanel.dapNetworkList.model
                 var nodeAddress;
@@ -302,10 +305,12 @@ DapNewPaymentMainRightPanelForm
         if (dotIndex === -1)
         {
             str += "000000000000000000"
+//            str += "000000000"
         }
         else
         {
             var shift = 19 - str.length + dotIndex
+//            var shift = 10 - str.length + dotIndex
 
             str += "0".repeat(shift)
 

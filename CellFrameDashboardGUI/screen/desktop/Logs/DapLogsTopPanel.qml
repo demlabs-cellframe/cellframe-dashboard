@@ -22,24 +22,13 @@ DapTopPanel
         textButton: "Export log"
         anchors.right: parent.right
         anchors.rightMargin: 24 * pt
+        anchors.top: parent.top
+        anchors.topMargin: 14 * pt
         anchors.verticalCenter: parent.verticalCenter
-        normalImageButton: "qrc:/resources/icons/icon_export.png"
-        hoverImageButton: "qrc:/resources/icons/icon_export.png"
-        height: 36 * pt
-        width: 120 * pt
-        widthImageButton: 28 * pt
-        heightImageButton: 28 * pt
-        indentImageLeftButton: 10 * pt
-        colorBackgroundNormal:"#070023"
-        colorBackgroundHover: "#D2145D"
-        colorButtonTextNormal: "#FFFFFF"
-        colorButtonTextHover: "#FFFFFF"
-        indentTextRight: 10 * pt
-        borderColorButton: "#000000"
-        borderWidthButton: 0
-        fontButton:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
-        horizontalAligmentText:Qt.AlignRight
-        colorTextButton: "#FFFFFF"
+        implicitHeight: 38 * pt
+        implicitWidth: 163 * pt
+        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+        horizontalAligmentText: Text.AlignHCenter
     }
 
     ///Handler for clicking the button exportLogButton
