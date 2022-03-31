@@ -3,6 +3,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
+import windowframerect 1.0
 import "screen"
 import "resources/theme" as Theme
 
@@ -13,6 +14,8 @@ ApplicationWindow
     id: window
     visible: true
 
+//    flags: Qt.FramelessWindowHint
+
     Settings {
         id: settings
         property alias x: window.x
@@ -20,6 +23,10 @@ ApplicationWindow
         property alias width: window.width
         property alias height: window.height
         property real window_scale: 1.0
+    }
+
+    WindowFrameRect{
+        id: framerect
     }
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
@@ -32,10 +39,13 @@ ApplicationWindow
     readonly property int defaultMinWidth: 1280
     readonly property int defaultMinHeight: 600
 
+    readonly property int defaultWidth: 1280
+    readonly property int defaultHeight: 800
+
     property real mainWindowScale: settings.window_scale
 
-    width: 1280
-    height: 800
+    width: defaultWidth
+    height: defaultHeight
     minimumWidth: settings.window_scale < 1.0 ?
                       defaultMinWidth * settings.window_scale :
                       defaultMinWidth
@@ -47,6 +57,11 @@ ApplicationWindow
     property int lastY: 0
     property int lastWidth: 0
     property int lastHeight: 0
+
+    property int leftBorder: 0
+    property int rightBorder: 0
+    property int topBorder: 0
+    property int bottomBorder: 0
 
     Theme.Dark {id: darkTheme}
     Theme.Light {id: lightTheme}
@@ -166,6 +181,19 @@ ApplicationWindow
             window.minimumHeight = 0
         }
 
+        var rect = framerect.getFrameRect(window);
+        print("window", window.x, window.y, window.width, window.height)
+        print("rect", rect.x, rect.y, rect.width, rect.height)
+
+        leftBorder = window.x - rect.x
+        rightBorder = rect.width - window.width - leftBorder
+
+        topBorder = window.y - rect.y
+        bottomBorder = rect.height - window.height - topBorder
+
+        print("left", leftBorder, "right", rightBorder,
+              "top", topBorder, "bottom", bottomBorder)
+
         if (settings.window_scale < 1.0)
         {
             mainWindow.scale = checkNewScale(settings.window_scale)
@@ -240,6 +268,9 @@ ApplicationWindow
     {
         print("setNewScale", newScale)
 
+        var oldWidth = window.width
+        var oldHeight = window.height
+
         window.minimumWidth = 0
         window.minimumHeight = 0
 
@@ -268,6 +299,8 @@ ApplicationWindow
         settings.window_scale = newScale
         settings.setValue("window_scale", newScale)
 
+        getNewPosition(oldWidth, oldHeight, window.width, window.height)
+
 //        systemTray.hideIconTray()
         Qt.exit(RESTART_CODE)
     }
@@ -276,16 +309,21 @@ ApplicationWindow
     {
         print("resetSize")
 
+        var oldWidth = window.width
+        var oldHeight = window.height
+
         if (settings.window_scale < 1.0)
         {
-            window.width = 1280 * settings.window_scale
-            window.height = 800 * settings.window_scale
+            window.width = defaultWidth * settings.window_scale
+            window.height = defaultHeight * settings.window_scale
         }
         else
         {
-            window.width = 1280
-            window.height = 800
+            window.width = defaultWidth
+            window.height = defaultHeight
         }
+
+        getNewPosition(oldWidth, oldHeight, window.width, window.height)
     }
 
     function checkNewScale(newScale)
@@ -299,4 +337,23 @@ ApplicationWindow
         else
             return newScale
     }
+
+    function getNewPosition(oldWidth, oldHeight, newWidth, newHeight)
+    {
+        window.x += (oldWidth - newWidth)*0.5
+        window.y += (oldHeight - newHeight)*0.5
+
+        if (window.x + newWidth > Screen.desktopAvailableWidth - rightBorder)
+            window.x = Screen.desktopAvailableWidth - rightBorder - newWidth
+        if (window.y + newHeight > Screen.desktopAvailableHeight - bottomBorder)
+            window.y = Screen.desktopAvailableHeight - bottomBorder - newHeight
+
+        if (window.x < leftBorder)
+            window.x = leftBorder
+        if (window.y < topBorder)
+            window.y = topBorder
+
+        print("getNewPosition", "x", x, "y", y)
+    }
+
 }

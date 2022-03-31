@@ -95,7 +95,8 @@ HEADERS += \
     quickcontrols/qrcodequickitem.h \
     resizeimageprovider.h \
     systemtray.h \
-    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
+    windowframerect.h
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)

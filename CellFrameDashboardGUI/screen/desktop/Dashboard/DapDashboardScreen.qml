@@ -213,7 +213,7 @@ DapAbstractScreen
                     id: delegateTokenView
                     Column
                     {
-                        width: parent.width
+                        width: listViewWallet.width
 
                         Rectangle
                         {

@@ -401,7 +401,12 @@ Rectangle {
         DapCertificatesMainPage { }
     }
 
-    DapMessagePopup{id: messagePopup}
+    DapMessagePopup
+    {
+        id: messagePopup
+        scale: mainWindow.scale
+    }
+
     property bool stateNotify: true
 
     ListModel

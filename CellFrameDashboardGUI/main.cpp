@@ -24,6 +24,8 @@
 
 #include "resizeimageprovider.h"
 
+#include "windowframerect.h"
+
 #include "models/VpnOrdersModel.h"
 
 #include <sys/stat.h>
@@ -187,6 +189,8 @@ int main(int argc, char *argv[])
         //For cert
         ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
         context->setContextProperty("importCertificate", &importCertifiacte);
+
+        qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
 
         app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
 
