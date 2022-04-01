@@ -184,6 +184,7 @@ ColumnLayout
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name
+                            elide: Text.ElideMiddle
                         }
                         RowLayout
                         {

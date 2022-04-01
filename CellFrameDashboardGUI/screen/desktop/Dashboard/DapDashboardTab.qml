@@ -329,7 +329,7 @@ DapAbstractTab
         function parseFromCertList(certList){
             clear()
             for (var i = 0; i < certList.length; ++i) {
-                if(certList[i].fileName === "DAP_Private_certificate_signature.dcert"){
+                if(certList[i].fileName === "Private_certificate_signature.dcert"){
                     certificates.append(certList[i])
                     return true;
                 }
@@ -343,7 +343,7 @@ DapAbstractTab
         {
             dapServiceController.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.CreateCertificate
-                                                  , "DAP_Private_certificate_signature", "sig_dil"
+                                                  , "Private_certificate_signature", "sig_dil"
                                                   , JSON.stringify(getDataToJson()));
         }
         function getDataToJson(){
