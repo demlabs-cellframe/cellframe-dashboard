@@ -27,7 +27,7 @@ Item {
             font.family: "Quicksand"
             font.pixelSize: 14
             elide: Text.ElideMiddle
-            color: currTheme.textColor
+            color: "#ffffff"
             text: qsTr("text")
         }
 
@@ -43,7 +43,7 @@ Item {
             font.pixelSize: 14
             elide: Text.ElideMiddle
             horizontalAlignment: Qt.AlignRight
-            color: currTheme.textColor
+            color: "#ffffff"
             text: qsTr("text")
         }
     }

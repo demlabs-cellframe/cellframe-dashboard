@@ -917,7 +917,7 @@ Rectangle {
             if(isError)
             {
                 if(isFirst)
-                    messagePopup.smartOpen("Notify server", qsTr("Lost connection to the Node. Reconnecting..."))
+                    messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
                 console.warn("ERROR SOCKET")
                 stateNotify = false
             }

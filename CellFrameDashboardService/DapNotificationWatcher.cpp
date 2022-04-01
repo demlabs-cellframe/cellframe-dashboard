@@ -77,10 +77,12 @@ void DapNotificationWatcher::slotReconnect()
     ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
     ((QTcpSocket*)socket)->waitForConnected(5000);
 
-    QVariant errMsg = "Notify socket error";
-    QVariantMap msg = errMsg.toMap();
-    msg["connect_state"] = QVariant::fromValue(m_socketState);
-    emit rcvNotify(msg);
+    sendNotifyState("Notify socket error");
+
+//    QVariant errMsg = "Notify socket error";
+//    QVariantMap msg = errMsg.toMap();
+//    msg["connect_state"] = QVariant::fromValue(m_socketState);
+//    emit rcvNotify(msg);
 }
 
 void DapNotificationWatcher::socketConnected()
@@ -88,11 +90,7 @@ void DapNotificationWatcher::socketConnected()
     qInfo() << "Notify socket connected";
     m_reconnectTimer->stop();
     socket->waitForReadyRead(10000);
-
-    QVariant errMsg = "Notify socket connected";
-    QVariantMap msg = errMsg.toMap();
-    msg["connect_state"] = QVariant::fromValue(m_socketState);
-    emit rcvNotify(msg);
+    sendNotifyState("Notify socket connected");
 }
 
 void DapNotificationWatcher::socketDisconnected()
@@ -110,6 +108,7 @@ void DapNotificationWatcher::socketReadyRead()
 {
     qDebug() << "Ready Read";
     QByteArray data = socket->readLine();
+//    QByteArray data = socket->readAll();
     if (data[data.length() - 1] != '}')
         data = data.left(data.length() - 1);
 
@@ -120,15 +119,28 @@ void DapNotificationWatcher::socketReadyRead()
 
     for (int i = 0; i < list.length(); ++i)
     {
-        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
-        QVariant var = doc.toVariant();
-        QVariantMap map = var.toMap();
-        map["connect_state"] = QVariant::fromValue(m_socketState);
-        qDebug() << list[i] << map;
-
-        if(var.isValid())
+        QJsonParseError error;
+        QJsonDocument reply = QJsonDocument::fromJson(list[i], &error);
+        if (error.error != QJsonParseError::NoError) {
+            qWarning()<<"Notify parse error. " << error.errorString();
+        }
+        else{
+            QVariantMap map = reply.object().toVariantMap();
             emit rcvNotify(map);
+        }
     }
+
+//    for (int i = 0; i < list.length(); ++i)
+//    {
+//        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
+//        QVariant var = doc.toVariant();
+//        QVariantMap map = var.toMap();
+//        map["connect_state"] = QVariant::fromValue(m_socketState);
+//        qDebug() << list[i] << map;
+
+//        if(var.isValid())
+//            emit rcvNotify(map);
+//    }
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)
@@ -147,4 +159,19 @@ void DapNotificationWatcher::reconnectFunc()
         m_reconnectTimer->start(5000);
         qWarning()<< "Notify socket reconnecting...";
     }
+}
+
+void DapNotificationWatcher::frontendConnected()
+{
+    if(m_socketState == QAbstractSocket::SocketState::ConnectedState)
+        sendNotifyState("Notify socket connected");
+    else
+        sendNotifyState("Notify socket error");
+}
+
+void DapNotificationWatcher::sendNotifyState(QVariant msg)
+{
+    QVariantMap sendMsg = msg.toMap();
+    sendMsg["connect_state"] = QVariant::fromValue(m_socketState);
+    emit rcvNotify(sendMsg);
 }

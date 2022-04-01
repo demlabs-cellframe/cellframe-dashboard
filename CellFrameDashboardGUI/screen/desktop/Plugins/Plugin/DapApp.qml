@@ -8,7 +8,7 @@ Rectangle {
     color: "#2E3138"
     radius: 16 * pt
 
-    DapPluginMainScreen
+    DapAppMainScreen
     {
         id: mainScreen
     }

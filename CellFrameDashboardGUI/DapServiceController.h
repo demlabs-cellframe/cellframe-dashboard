@@ -230,9 +230,11 @@ private:
 
 private slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}
+    void slotNetState(QVariantMap netState){emit signalNetState(netState);}
 
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
+    void signalNetState(QVariantMap netState);
 };
 
 #endif // DAPSERVICECONTROLLER_H

@@ -67,7 +67,7 @@ Button
                 anchors.fill: parent
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignRight
-                color: currTheme.textColor
+                color: "#ffffff"
                 text: qsTr(textButton)
             }
         }
