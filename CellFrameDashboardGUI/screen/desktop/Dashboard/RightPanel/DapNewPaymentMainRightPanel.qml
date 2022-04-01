@@ -7,11 +7,21 @@ DapNewPaymentMainRightPanelForm
     dapNextRightPanel: newPaymentDone
     dapPreviousRightPanel: lastActionsWallet
 
-    property var currentWallet: ""
+//    property var currentWallet: ""
+
+    property var walletName: ""
+
+    ListModel {
+        id: networkModel
+    }
 
     Component.onCompleted:
     {
-        currentWallet = dapModelWallets.get(SettingsWallet.currentIndex)
+//        currentWallet = dapModelWallets.get(SettingsWallet.currentIndex)
+
+        walletName = dapModelWallets.get(SettingsWallet.currentIndex).name
+
+        initNetworks()
 
         updateTimer.stop()
         if (dapServiceController.ReadingChains)
@@ -23,10 +33,16 @@ DapNewPaymentMainRightPanelForm
 
         dapTextNotEnoughTokensWarning.text = ""
 
-        dapCmboBoxTokenModel = currentWallet.networks.
+/*        dapCmboBoxTokenModel = currentWallet.networks.
             get(dapComboboxNetwork.currentIndex).tokens
 
         dapCmboBoxChainModel = currentWallet.networks.
+            get(dapComboboxNetwork.currentIndex).chains*/
+
+        dapCmboBoxTokenModel = networkModel.
+            get(dapComboboxNetwork.currentIndex).tokens
+
+        dapCmboBoxChainModel = networkModel.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = "0.0"
@@ -50,11 +66,17 @@ DapNewPaymentMainRightPanelForm
         print("dapModelWallets.get(SettingsWallet.currentIndex).networks.count",
               dapModelWallets.get(SettingsWallet.currentIndex).networks.count)*/
 
-        dapCmboBoxChainModel = currentWallet.networks.
+/*        dapCmboBoxChainModel = currentWallet.networks.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapCmboBoxTokenModel = currentWallet.networks.
+            get(dapComboboxNetwork.currentIndex).tokens*/
+
+        dapCmboBoxTokenModel = networkModel.
             get(dapComboboxNetwork.currentIndex).tokens
+
+        dapCmboBoxChainModel = networkModel.
+            get(dapComboboxNetwork.currentIndex).chains
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
 
@@ -155,7 +177,8 @@ DapNewPaymentMainRightPanelForm
                 console.log("DapCreateTransactionCommand:")
                 console.log("   network:", dapComboboxNetwork.mainLineText)
                 console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-                console.log("   wallet from:", currentWallet.name)
+//                console.log("   wallet from:", currentWallet.name)
+                console.log("   wallet from:", walletName)
                 console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                 console.log("   token:", dapCmboBoxToken.mainLineText)
                 console.log("   amount:", amount)
@@ -173,7 +196,8 @@ DapNewPaymentMainRightPanelForm
                 dapServiceController.requestToService("DapCreateTransactionCommand",
     //                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
                     dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
-                    currentWallet.name,
+//                    currentWallet.name,
+                    walletName,
                     dapTextInputRecipientWalletAddress.text,
                     dapCmboBoxToken.mainLineText, amount, certificates.get(0).fileName, nodeAddress, commission)
 
@@ -225,6 +249,8 @@ DapNewPaymentMainRightPanelForm
 
     function clearZeros(str)
     {
+//        print("clearZeros", str)
+
         var i = 0;
         while (i < str.length)
         {
@@ -327,5 +353,36 @@ DapNewPaymentMainRightPanelForm
         str = str.slice(i, str.length)
 
         return str
+    }
+
+    function initNetworks()
+    {
+        networkModel.clear()
+
+        var tempNetworks = dapModelWallets.
+            get(SettingsWallet.currentIndex).networks
+
+        for (var i = 0; i < tempNetworks.count; ++i)
+        {
+            networkModel.append(
+                        { "tokens" : [],
+                          "chains" : [] })
+
+            for (var j = 0; j < tempNetworks.get(i).tokens.count; ++j)
+            {
+                networkModel.get(i).tokens.append(
+                    { "name" : tempNetworks.get(i).tokens.get(j).name,
+                      "datoshi": tempNetworks.get(i).tokens.get(j).datoshi,
+                      "full_balance": tempNetworks.get(i).tokens.get(j).full_balance,
+                      "balance_without_zeros": tempNetworks.get(i).tokens.get(j).balance_without_zeros})
+            }
+
+            for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
+            {
+                networkModel.get(i).chains.append(
+                    { "name" : tempNetworks.get(i).chains.get(k).name})
+            }
+        }
+
     }
 }
