@@ -81,6 +81,8 @@ Rectangle {
     signal menuTabChanged()
     signal pluginsTabChanged(var auto, var removed, var name)
 
+    readonly property int autoUpdateInterval: 1000
+
     property alias dapModelMenuTabStates: modelMenuTabStates
 
     // Menu bar tab model
