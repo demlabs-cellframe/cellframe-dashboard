@@ -147,6 +147,7 @@ Rectangle {
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+                    maximumLength: 39
 
                     font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
