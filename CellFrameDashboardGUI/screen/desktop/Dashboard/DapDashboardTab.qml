@@ -184,7 +184,7 @@ DapAbstractTab
 
     Timer {
         id: updateTimer
-        interval: 1000; running: false; repeat: true
+        interval: autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
             print("DapDashboardTab updateTimer", updateTimer.running)
