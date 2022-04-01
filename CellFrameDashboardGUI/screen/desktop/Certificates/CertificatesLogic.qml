@@ -227,7 +227,7 @@ Item {
         console.info("FLOWPOINT exportPublicCertificateToMempool, index", index)
 
         if (cert && dapServiceController.CurrentNetwork !== "") {
-            requestRunning = true           //долгий запрос, требует индикации
+//            requestRunning = true           //долгий запрос, требует индикации
             dapServiceController.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.ExportPublicCertificateToMempool
                                                   , dapServiceController.CurrentNetwork, cert.completeBaseName);
