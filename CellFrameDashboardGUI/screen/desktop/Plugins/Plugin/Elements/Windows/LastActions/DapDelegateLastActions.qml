@@ -20,11 +20,11 @@ Component
             Text
             {
                 id: textWalletName
-                Layout.minimumWidth: 120 * pt
+                Layout.minimumWidth: 100 * pt
                 text: wallet
                 color: "#ffffff"
                 font.family: "Quicksand"
-                font.pixelSize: 16
+                font.pixelSize: 14
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -32,11 +32,11 @@ Component
             Text
             {
                 id: textNetworkName
-                Layout.minimumWidth: 120 * pt
+                Layout.minimumWidth: 80 * pt
                 text: network
                 color: "#ffffff"
                 font.family: "Quicksand"
-                font.pixelSize: 16
+                font.pixelSize: 14
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -44,11 +44,11 @@ Component
             Text
             {
                 id: textTokenName
-                Layout.minimumWidth: 100 * pt
+                Layout.minimumWidth: 60 * pt
                 text: name
                 color: "#ffffff"
                 font.family: "Quicksand"
-                font.pixelSize: 16
+                font.pixelSize: 14
                 Layout.alignment: Qt.AlignLeft
             }
 
@@ -56,11 +56,11 @@ Component
             Text
             {
                 id: textSatus
-                Layout.minimumWidth: 100 * pt
+                Layout.minimumWidth: 60 * pt
                 text: status
                 color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
                 font.family: "Quicksand"
-                font.pixelSize: 16
+                font.pixelSize: 14
             }
 
 
@@ -74,7 +74,7 @@ Component
                 text: sign + amount + " " + name
                 color: "#ffffff"
                 font.family: "Quicksand"
-                font.pixelSize: 16
+                font.pixelSize: 14
                 horizontalAlignment: Text.AlignRight
             }
 
