@@ -10,6 +10,7 @@ Rectangle {
     id:controlLastActions
 
     property var dapWallets: []
+    property string currWallet
 
     ListModel{
         id: dapModelWallets
@@ -18,6 +19,10 @@ Rectangle {
     ListModel
     {
         id: modelLastActions
+    }
+    ListModel
+    {
+        id: temporaryModel
     }
 
     Rectangle
@@ -153,6 +158,41 @@ Rectangle {
             dapWallets.splice(0,dapWallets.length)
             dapModelWallets.clear()
 
+//            for (var q = 0; q < walletList.length; ++q)
+//            {
+//                dapWallets.push(walletList[q])
+//            }
+
+//            for (var i = 0; i < dapWallets.length; ++i)
+//            {
+//                dapModelWallets.append({ "name" : dapWallets[i].Name,
+//                                      "icon" : dapWallets[i].Icon,
+//                                      "networks" : []})
+//                for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
+//                {
+//                    dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
+//                          "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
+//                          "tokens": []})
+
+//                    for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
+//                    {
+//                        if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
+//                        {
+//                            dapModelWallets.get(i).networks.get(n).tokens.append(
+//                                 {"name": dapWallets[i].Tokens[t].Name,
+//                                  "full_balance": dapWallets[i].Tokens[t].FullBalance,
+//                                  "balance_without_zeros": dapWallets[i].Tokens[t].BalanceWithoutZeros,
+//                                  "datoshi": dapWallets[i].Tokens[t].Datoshi,
+//                                  "network": dapWallets[i].Tokens[t].Network})
+//                        }
+//                    }
+//                }
+//                getWalletHistory(i)
+//            }
+
+            dapWallets.splice(0,dapWallets.length)
+            dapModelWallets.clear()
+
             for (var q = 0; q < walletList.length; ++q)
             {
                 dapWallets.push(walletList[q])
@@ -167,8 +207,15 @@ Rectangle {
                 {
                     dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
                           "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
+                          "chains": [],
                           "tokens": []})
 
+                    var chains = dapWallets[i].getChains(dapWallets[i].Networks[n])
+                    for (var c = 0; c < chains.length; ++c)
+                    {
+                        print(chains[c])
+                        dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+                    }
                     for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
                     {
                         if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
@@ -182,45 +229,75 @@ Rectangle {
                         }
                     }
                 }
-                getWalletHistory(i)
+                getWalletHistory(i, dapModelWallets.get(i).name)
             }
         }
-        onWalletHistoryReceived:
+        onAllWalletHistoryReceived:
         {
+            temporaryModel.clear()
+
             for (var q = 0; q < walletHistory.length; ++q)
             {
-                    modelLastActions.append({"wallet" : walletHistory[q].Wallet,
+                if (temporaryModel.count === 0)
+                    temporaryModel.append({"wallet" : walletHistory[q].Wallet,
                                           "network" : walletHistory[q].Network,
                                           "name" : walletHistory[q].Name,
                                           "status" : walletHistory[q].Status,
                                           "amount" : walletHistory[q].AmountWithoutZeros,
                                           "date" : walletHistory[q].Date,
-                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+                                          "hash": walletHistory[q].Hash})
+                else
+                {
+                    var j = 0;
+                    while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                    {
+                        ++j;
+                        if (j >= temporaryModel.count)
+                            break;
+                    }
+                    temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
+                                          "network" : walletHistory[q].Network,
+                                          "name" : walletHistory[q].Name,
+                                          "status" : walletHistory[q].Status,
+                                          "amount" : walletHistory[q].AmountWithoutZeros,
+                                          "date" : walletHistory[q].Date,
+                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+                                          "hash": walletHistory[q].Hash})
+                }
+            }
+
+            for (var q = 0; q < temporaryModel.count; ++q)
+            {
+                modelLastActions.append(temporaryModel.get(q))
             }
         }
     }
 
-    function getWalletHistory(index)
+    function getWalletHistory(index, name)
     {
+        var network_array = ""
         var model = dapModelWallets.get(index).networks
-        var name = dapModelWallets.get(index).name
 
         for (var i = 0; i < model.count; ++i)
         {
-            var network = model.get(i).name
-            var address = model.get(i).address
-
-            var chain = "zero"
-            if (network === "core-t")
-                chain = "zerochain"
-            else if(network === "subzero")
-                chain = "support"
-            else if(network === "kelvin-testnet")
-                chain = "plasma"
-
-
-            dapServiceController.requestToService("DapGetWalletHistoryCommand",
-                network, chain, address, name);
+            if (model.get(i).chains.count > 0)
+            {
+                for (var j = 0; j < model.get(i).chains.count; ++j)
+                {
+                    network_array += model.get(i).name + ":"
+                    network_array += model.get(i).chains.get(j).name + ":"
+                    network_array += model.get(i).address + "/"
+                }
+            }
+            else
+            {
+                network_array += model.get(i).name + ":"
+                network_array += "zero" + ":"
+                network_array += model.get(i).address + "/"
+            }
         }
+
+        dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, name);
     }
 }
