@@ -516,14 +516,14 @@ Rectangle {
                 showTab: true
             })
 
-            append ({
-                name: qsTr("Plugin"),
-                tag: "Plugins",
-                page: pluginsScreen,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                showTab: true
-            })
+//            append ({
+//                name: qsTr("Plugin"),
+//                tag: "Plugins",
+//                page: pluginsScreen,
+//                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+//                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
+//                showTab: true
+//            })
 
 //            append ({
 //                name: qsTr("MiniGame"),
