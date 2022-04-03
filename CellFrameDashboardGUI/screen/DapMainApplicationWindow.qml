@@ -925,6 +925,9 @@ Rectangle {
             {
                 messagePopup.close()
                 console.info("CONNECT SOCKET")
+
+//                if(!stateNotify) //TODO with notify
+//                    dapServiceController.requestToService("DapGetNetworksStateCommand")
                 stateNotify = true
             }
         }

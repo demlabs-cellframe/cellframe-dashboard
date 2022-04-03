@@ -183,15 +183,15 @@ DapNewPaymentMainRightPanelForm
                 console.log("   token:", dapCmboBoxToken.mainLineText)
                 console.log("   amount:", amount)
 
-                var netModel = networksPanel.dapNetworkList.model
-                var nodeAddress;
+//                var netModel = networksPanel.dapNetworkList.model
+//                var nodeAddress;
                 var commission = toDatoshi("0.1")
 
-                for(var i = 0; i < netModel.count; i++)
-                {
-                    if(netModel.get(i).name === dapComboboxNetwork.mainLineText)
-                        nodeAddress = netModel.get(i).nodeAddress
-                }
+//                for(var i = 0; i < netModel.count; i++)
+//                {
+//                    if(netModel.get(i).name === dapComboboxNetwork.mainLineText)
+//                        nodeAddress = netModel.get(i).nodeAddress
+//                }
 
                 dapServiceController.requestToService("DapCreateTransactionCommand",
     //                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
@@ -199,7 +199,7 @@ DapNewPaymentMainRightPanelForm
 //                    currentWallet.name,
                     walletName,
                     dapTextInputRecipientWalletAddress.text,
-                    dapCmboBoxToken.mainLineText, amount, certificates.get(0).fileName, nodeAddress, commission)
+                    dapCmboBoxToken.mainLineText, amount, commission)
 
                 nextActivated("transaction created")
                 updateTimer.start()
