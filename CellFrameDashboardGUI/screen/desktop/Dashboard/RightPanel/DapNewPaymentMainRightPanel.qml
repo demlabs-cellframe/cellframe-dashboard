@@ -124,8 +124,6 @@ DapNewPaymentMainRightPanelForm
         print("amount:", dapTextInputAmountPayment.text)
         print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
-        var amountWithCommission = (parseFloat(clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
-
         if (dapTextInputAmountPayment.text === "" ||
             testAmount("0.0", dapTextInputAmountPayment.text))
         {
@@ -133,27 +131,17 @@ DapNewPaymentMainRightPanelForm
             dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
         }
         else
-        if (!testAmount(
-            dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance,
-            amountWithCommission))
-        {
-            print("Not enough tokens")
-            dapTextNotEnoughTokensWarning.text =
-                qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value.").
-                arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).balance_without_zeros)
-        }
-        else
         if (dapTextInputRecipientWalletAddress.text.length != 104)
         {
             print("Wrong address length")
             dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
         }
-        else
-        if(!certificates.count)
-        {
-            print("No signature certificate")
-            dapTextNotEnoughTokensWarning.text = qsTr("No signature certificate. Reload 'Wallet' page")
-        }
+//        else
+//        if(!certificates.count)
+//        {
+//            print("No signature certificate")
+//            dapTextNotEnoughTokensWarning.text = qsTr("No signature certificate. Reload 'Wallet' page")
+//        }
         else
         {
             walletMessagePopup.smartOpen("Confirming the transaction", "Attention, the transaction fee will be 0.1 " + dapCmboBoxToken.mainLineText )
@@ -169,40 +157,53 @@ DapNewPaymentMainRightPanelForm
         {
             if(accept)
             {
-                print("Enough tokens. Correct address length.")
-                dapTextNotEnoughTokensWarning.text = ""
-
-                var amount = toDatoshi(dapTextInputAmountPayment.text)
-
-                console.log("DapCreateTransactionCommand:")
-                console.log("   network:", dapComboboxNetwork.mainLineText)
-                console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-//                console.log("   wallet from:", currentWallet.name)
-                console.log("   wallet from:", walletName)
-                console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                console.log("   token:", dapCmboBoxToken.mainLineText)
-                console.log("   amount:", amount)
-
-                var netModel = networksPanel.dapNetworkList.model
-                var nodeAddress;
-                var commission = toDatoshi("0.1")
-
-                for(var i = 0; i < netModel.count; i++)
+                var amountWithCommission = (parseFloat(clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
+                if (!testAmount(
+                    dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance,
+                    amountWithCommission))
                 {
-                    if(netModel.get(i).name === dapComboboxNetwork.mainLineText)
-                        nodeAddress = netModel.get(i).nodeAddress
+                    print("Not enough tokens")
+                    dapTextNotEnoughTokensWarning.text =
+                        qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
+                        arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
                 }
+                else
+                {
+                    print("Enough tokens. Correct address length.")
+                    dapTextNotEnoughTokensWarning.text = ""
 
-                dapServiceController.requestToService("DapCreateTransactionCommand",
-    //                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
-                    dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
-//                    currentWallet.name,
-                    walletName,
-                    dapTextInputRecipientWalletAddress.text,
-                    dapCmboBoxToken.mainLineText, amount, certificates.get(0).fileName, nodeAddress, commission)
+                    var amount = toDatoshi(dapTextInputAmountPayment.text)
 
-                nextActivated("transaction created")
-                updateTimer.start()
+                    console.log("DapCreateTransactionCommand:")
+                    console.log("   network:", dapComboboxNetwork.mainLineText)
+                    console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
+    //                console.log("   wallet from:", currentWallet.name)
+                    console.log("   wallet from:", walletName)
+                    console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
+                    console.log("   token:", dapCmboBoxToken.mainLineText)
+                    console.log("   amount:", amount)
+
+    //                var netModel = networksPanel.dapNetworkList.model
+    //                var nodeAddress;
+                    var commission = toDatoshi("0.1")
+
+    //                for(var i = 0; i < netModel.count; i++)
+    //                {
+    //                    if(netModel.get(i).name === dapComboboxNetwork.mainLineText)
+    //                        nodeAddress = netModel.get(i).nodeAddress
+    //                }
+
+                    dapServiceController.requestToService("DapCreateTransactionCommand",
+        //                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,
+                        dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
+    //                    currentWallet.name,
+                        walletName,
+                        dapTextInputRecipientWalletAddress.text,
+                        dapCmboBoxToken.mainLineText, amount, commission)
+
+                    nextActivated("transaction created")
+                    updateTimer.start()
+                }
             }
         }
     }

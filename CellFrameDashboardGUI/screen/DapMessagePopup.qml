@@ -35,7 +35,10 @@ Popup {
         Text {
             id: dapContentTitle
             Layout.fillWidth: true
-            Layout.margins: 10 * pt
+//            Layout.margins: 10 * pt
+            Layout.leftMargin: 5
+            Layout.rightMargin: 5
+            Layout.topMargin: 5
             font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
@@ -47,7 +50,7 @@ Popup {
             id: dapContentText
             Layout.fillWidth: true
             Layout.margins: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

@@ -35,11 +35,11 @@ DapNetworksPanel
         dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
-//    Timer {
-//        id: idNetworkPanelTimer
-//        interval: 5000; running: true; repeat: true
-//        onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
-//    }
+    Timer {
+        id: idNetworkPanelTimer
+        interval: 5000; running: true; repeat: true
+        onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
+    }
 
     Rectangle
     {
