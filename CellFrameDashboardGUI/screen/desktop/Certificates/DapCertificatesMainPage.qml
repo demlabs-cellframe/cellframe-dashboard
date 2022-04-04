@@ -40,7 +40,7 @@ DapPage
         }
 
         function openInfoItem() {
-            dapRightPanel.rebase("qrc:/screen/desktop/Certificates/RightPanel/CertificateInfoItem.qml")
+            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanel/CertificateInfoItem.qml")
         }
     }
 
