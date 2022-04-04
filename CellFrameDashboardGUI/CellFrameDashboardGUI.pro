@@ -171,3 +171,7 @@ android {
 
 include($$(OPENSSL_LIB)/openssl.pri)
 }
+
+DISTFILES += \
+    android/src/com/Cellframe/Dashboard/TCPClient.java \
+    android/src/com/Cellframe/Dashboard/TCPServer.java

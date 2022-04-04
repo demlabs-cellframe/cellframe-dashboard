@@ -86,6 +86,21 @@
             <meta-data android:name="android.app.background_running" android:value="true"/>
             <meta-data android:name="android.app.lib_name" android:value="DashboardService"/>
         </service>
+        <!--
+        <service android:name="com.Cellframe.Dashboard.Node" android:process=":node">
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
+            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+            <meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/>
+            <meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/>
+            <meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/>
+            <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
+            <meta-data android:value="@string/unsupported_android_version" android:name="android.app.unsupported_android_version"/>
+            <meta-data android:name="android.app.background_running" android:value="true"/>
+            <meta-data android:name="android.app.lib_name" android:value="cellframe-node"/>
+        </service>
+        -->
         <!-- service android:process=":cellframe" android:name="com.Cellframe.Dashboard.Node" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_VPN_SERVICE">
             <meta-data android:name="android.app.background_running" android:value="true"/>
         </service> -->
