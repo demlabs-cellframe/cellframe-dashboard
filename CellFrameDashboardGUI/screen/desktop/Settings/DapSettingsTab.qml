@@ -94,6 +94,8 @@ DapAbstractTab
         onTriggered:
         {
             dapServiceController.requestToService("DapGetListWalletsCommand")
+            if(!dapNetworkModel.count)
+                dapServiceController.requestToService("DapGetListNetworksCommand")
         }
     }
 
