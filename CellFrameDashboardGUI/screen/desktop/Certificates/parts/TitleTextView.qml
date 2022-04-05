@@ -10,15 +10,15 @@ Item {
     property alias content: content
     property int verticalSpacing: 10 * pt
 
-    implicitWidth: Math.max(title.width, content.width)
+    implicitWidth: parent.width - x * 2
     implicitHeight: title.height + verticalSpacing + content.height
 
     Text {
         id: title
         font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
         color: currTheme.textColor
-        elide: Text.ElideRight
-        maximumLineCount: 1
+        width: parent.width
+        wrapMode: Text.Wrap
     }
 
     Text {
@@ -26,8 +26,8 @@ Item {
         y: title.height + verticalSpacing
         font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
         color: currTheme.textColor
-        elide: Text.ElideRight
-        maximumLineCount: 1
+        width: parent.width
+        wrapMode: Text.Wrap
     }
 
 
