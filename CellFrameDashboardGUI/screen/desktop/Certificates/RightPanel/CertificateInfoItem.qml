@@ -49,7 +49,6 @@ Rectangle {
                     onClicked: certificateNavigator.clearRightPanel()
                 }  //
 
-
                 Text {
                     id: certificatesTitleText
                     anchors{
@@ -62,7 +61,6 @@ Rectangle {
                     text: qsTr("Info about certificate")
                 }
             }  //titleRectangle
-
 
             ListView {
                 id: certificateDataListView
@@ -79,7 +77,6 @@ Rectangle {
                     content.text: model.value
                     title.color: currTheme.textColorGray
                 }
-
             }
         }
     } //frameRightPanel

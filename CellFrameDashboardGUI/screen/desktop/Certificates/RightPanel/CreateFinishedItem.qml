@@ -6,7 +6,6 @@ import "../parts"
 
 Rectangle {
     id: root
-//    property alias closeButton: closeButton
     property alias doneButton: doneButton
     property alias finishedText: finishedText
 
@@ -38,36 +37,10 @@ Rectangle {
         Item
         {
             anchors.fill: parent
-//            Item {
-//                id: titleRectangle
-//                width: parent.width
-//                height: 40 * pt
-
-//                CloseButton {
-//                    id: closeButton
-//                }  //
-
-
-//                Text {
-//                    id: certificatesTitleText
-//                    anchors{
-//                        left: closeButton.right
-//                        leftMargin: 12 * pt
-//                        top: parent.top
-//                        topMargin: 9 * pt
-//                        //verticalCenter: closeButton.verticalCenter
-//                    }
-//                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-//                    color: currTheme.textColor
-//                    text: qsTr("Create certificate")
-//                }
-//            }  //titleRectangle
-
 
             Text {
                 id: finishedText
                 y: 198 * pt
-                //anchors.horizontalCenter: parent.horizontalCenter
                 x: 53 * pt
                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium28
                 color: currTheme.textColor

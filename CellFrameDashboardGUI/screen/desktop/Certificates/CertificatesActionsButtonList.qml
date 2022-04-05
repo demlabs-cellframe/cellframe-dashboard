@@ -6,8 +6,6 @@ import Qt.labs.platform 1.0
 import "qrc:/widgets"
 
 
-
-
 Rectangle {
     id: root
 
@@ -53,8 +51,6 @@ Rectangle {
     {
         id:frameRightPanel
         anchors.fill: parent
-//        color: parent.color
-//        radius: parent.radius
 
         Item {
             id: radioButtonFrame
@@ -80,7 +76,7 @@ Rectangle {
                 Repeater {
                     id: certificateAccessTypeRepeater
 
-                    DapRadioButton {    //qrc:/screen/desktop/Certificates/CertificatesActionsButtonList.qml:73:17: QML DapRadioButtonForm.ui: Binding loop detected for property "baselineOffset"
+                    DapRadioButton {
                         id: buttonSelectionNothing
                         nameRadioButton: model.name
                         Layout.preferredHeight: 20 * pt
@@ -89,7 +85,6 @@ Rectangle {
                         indicatorSize: 16 * pt
                         indicatorInnerSize: 46 * pt
 
-                        //spaceIndicatorText: 18 * pt
                         fontRadioButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         ButtonGroup.group: buttonGroup
                         checked: model.selected
@@ -100,7 +95,6 @@ Rectangle {
                     }  //
                 }  //
             }
-
         }  //radioButtonFrame
 
         Text {
@@ -111,7 +105,6 @@ Rectangle {
             color: currTheme.textColor
             text: qsTr("Actions")
         }
-
 
         ColumnLayout {
             id: actionButtonsLayout
@@ -137,7 +130,6 @@ Rectangle {
             DapButton {
                 id: importCertificateButton
                 textButton: qsTr("Import certificate")
-    //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
                 visible: true   //TODO need clarification of the requirements
 
@@ -172,7 +164,6 @@ Rectangle {
             DapButton {
                 id: exportPublicCertificateToFileButton
                 textButton: qsTr("Export private certificate to public")
-    //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
 
                 enabled: root.certificateSelected && bothAccessTypeCertificateSelected
@@ -185,11 +176,9 @@ Rectangle {
                 fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
 
-
             DapButton {
                 id: exportPublicCertificateToMempoolButton
-                textButton: qsTr("Export certificate to mempool") // qsTr("Export public certificate to mempool")
-    //            Layout.fillWidth: true
+                textButton: qsTr("Export certificate to mempool")
                 Layout.preferredHeight: 36 * pt
 
                 enabled: root.certificateSelected
@@ -204,9 +193,8 @@ Rectangle {
 
 
             DapButton {
-                id: addSignatureToCertificateButton //#373A42
+                id: addSignatureToCertificateButton
                 textButton: qsTr("Add signature to certificate")
-    //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
                 visible: false
 
@@ -223,7 +211,6 @@ Rectangle {
             DapButton {
                 id: deleteCertificateButton
                 textButton: qsTr("Delete certificate")
-    //            Layout.fillWidth: true
                 Layout.preferredHeight: 36 * pt
 
                 enabled: root.certificateSelected
@@ -236,8 +223,6 @@ Rectangle {
                 indentTextRight: 0
                 fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
             }
-
-
         }   //actionButtonsLayout
     } //frameRightPanel
 }  //root

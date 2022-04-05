@@ -1,18 +1,25 @@
 import QtQuick 2.4
 import "qrc:/"
+import "../../"
+import QtQuick.Controls 1.4
+import "qrc:/screen/controls"
 
-DapConsoleTabForm
+DapPage
 {
-    color: currTheme.backgroundMainScreen
-    _dapServiceController: dapServiceController
+    id: consoleTab
+    property string rAnswer
+    property var _dapServiceController: dapServiceController
+    readonly property var currentIndex: 8
     property bool isConsoleRequest: false
 
-    dapConsoleScreen.onRunCommand:
+    dapHeader.initialItem: DapConsoleTopPanel {}
+
+    dapScreen.initialItem: DapConsoleScreen
     {
-        isConsoleRequest = true
-        dapServiceController.requestToService("DapRunCmdCommand", command, "isConsole");
-        dapServiceController.notifyService("DapSaveHistoryExecutedCmdCommand", command);
+        id: consoleScreen
     }
+
+    dapRightPanel.initialItem: DapConsoleRightPanel {}
 
     Connections
     {
@@ -21,9 +28,9 @@ DapConsoleTabForm
         {
             if (isConsoleRequest)
             {
-                dapConsoleScreen.dapModelConsoleCommand.append({query: asAnswer[0], response: asAnswer[1]});
+                consoleScreen.dapModelConsoleCommand.append({query: asAnswer[0], response: asAnswer[1]});
                 isConsoleRequest = false
-                dapConsoleScreen.listView.positionViewAtEnd()
+                consoleScreen.listView.positionViewAtEnd()
             }
         }
         onHistoryExecutedCmdReceived:

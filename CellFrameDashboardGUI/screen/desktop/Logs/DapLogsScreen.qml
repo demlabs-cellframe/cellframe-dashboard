@@ -30,10 +30,6 @@ DapAbstractScreen
     anchors
     {
         fill: parent
-        topMargin: 24 * pt
-        rightMargin: 24 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
     }
 
     DapRectangleLitAndShaded

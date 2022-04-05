@@ -4,6 +4,14 @@ import "../../"
 
 DapRightPanel
 {
+
+    anchors.fill: parent
+    anchors {
+        topMargin: 0 * pt
+        rightMargin: 0 * pt
+        bottomMargin: 0 * pt
+    }
+
     dapHeaderData:
         Rectangle
         {
@@ -27,13 +35,11 @@ DapRightPanel
             }
         }
 
-
     dapContentItemData:
         Rectangle
         {
             anchors.fill: parent
             color: "transparent"
-            anchors.margins: 16 * pt
 
             ListView
             {
