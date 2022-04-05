@@ -22,6 +22,10 @@
 
 #include "systemtray.h"
 
+#include "resizeimageprovider.h"
+
+#include "windowframerect.h"
+
 #include "models/VpnOrdersModel.h"
 
 #include <sys/stat.h>
@@ -87,15 +91,12 @@ bool SingleApplicationTest(const QString &appName)
     return true;
 }
 
+const int RESTART_CODE = 12345;
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     DapLogger dapLogger(QCoreApplication::instance(), "GUI");
-
-    DapApplication app(argc, argv);
-
-    if (!SingleApplicationTest(app.applicationName()))
-        return 1;
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
@@ -129,28 +130,81 @@ int main(int argc, char *argv[])
             filePlugin.close();
     }
 
-    SystemTray * systemTray = new SystemTray();
-    QQmlContext * context = app.qmlEngine()->rootContext();
-    context->setContextProperty("systemTray", systemTray);
+    int result = RESTART_CODE;
 
-    // For wallet restore
-    WalletHashManager walletHashManager;
-    context->setContextProperty("walletHashManager", &walletHashManager);
-    walletHashManager.setContext(context);
+    while (result == RESTART_CODE)
+    {
+        qputenv("QT_SCALE_FACTOR", "1.0");
 
-    //For plugins
-    DapPluginsController pluginsManager(filePluginConfig,pluginPath);
-    context->setContextProperty("pluginsManager", &pluginsManager);
+        QGuiApplication *testapp = new QGuiApplication(argc, argv);
+        qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
+        int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
+        testapp->quit();
+        delete testapp;
 
-    //For cert
-    ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
-    context->setContextProperty("importCertificate", &importCertifiacte);
+        QCoreApplication::setOrganizationName("Cellframe Network");
+        QCoreApplication::setApplicationName(DAP_BRAND);
 
+        double scale = QSettings().value("window_scale", 1.0).toDouble();
 
-    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+        qDebug() << "window_scale" << scale << QString::number(scale);
 
-    Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
+        if (1280 * scale > maxWidtn*1.25)
+        {
+            scale = maxWidtn*1.25 / 1280;
+            qDebug() << "Max correct scale" << scale;
 
+            QSettings().setValue("window_scale", scale);
+        }
 
-    return app.exec();
+        if (scale < 1.0)
+        {
+            qputenv("QT_SCALE_FACTOR", "1.0");
+        }
+        else
+        {
+            qputenv("QT_SCALE_FACTOR", QString::number(scale).toLocal8Bit());
+        }
+
+        DapApplication app(argc, argv);
+
+        if (!SingleApplicationTest(app.applicationName()))
+            return 1;
+
+        QQmlContext * context = app.qmlEngine()->rootContext();
+
+//        SystemTray * systemTray = new SystemTray();
+//        context->setContextProperty("systemTray", systemTray);
+
+        // For wallet restore
+        WalletHashManager walletHashManager;
+
+        context->setContextProperty("walletHashManager", &walletHashManager);
+        walletHashManager.setContext(context);
+
+        //For plugins
+        DapPluginsController pluginsManager(filePluginConfig,pluginPath);
+        context->setContextProperty("pluginsManager", &pluginsManager);
+
+        //For cert
+        ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
+        context->setContextProperty("importCertificate", &importCertifiacte);
+
+        qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
+
+        app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
+
+        app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+
+        Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
+
+        context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
+
+        result = app.exec();
+
+//        systemTray->hideIconTray();
+//        delete systemTray;
+    }
+
+    return result;
 }

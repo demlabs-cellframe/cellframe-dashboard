@@ -67,6 +67,8 @@ DapAbstractScreen
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
+                    Layout.minimumHeight: 200
+
                     contentData: DapGeneralBlock{id:content}
                 }
 
@@ -82,7 +84,7 @@ DapAbstractScreen
                     Layout.topMargin: 20 * pt
                     Layout.alignment: Qt.AlignHCenter
 
-                    textButton: "Create a new wallet"
+                    textButton: qsTr("Create a new wallet")
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
@@ -103,7 +105,7 @@ DapAbstractScreen
                     Layout.topMargin: 9 * pt
                     Layout.alignment: Qt.AlignHCenter
 
-                    textButton: "Import an existing wallet"
+                    textButton: qsTr("Import an existing wallet")
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
@@ -114,18 +116,27 @@ DapAbstractScreen
             }
             DapRectangleLitAndShaded
             {
-                id: appearanceBlock
+                property alias dapContent:content1
+//                property int spacing: (72 + 39) * pt
+
                 Layout.fillWidth: true
+                Layout.preferredHeight: content1.implicitHeight
+                Layout.maximumHeight: control.height
+
+
+                id: appearanceBlock
+//                Layout.fillWidth: true
+//                Layout.fillHeight: true
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
-                Layout.preferredHeight: contentData.implicitHeight
+//                Layout.preferredHeight: contentData.implicitHeight
                 Layout.leftMargin: 2 * pt
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 
-                contentData: DapAppearanceBlock{}
+                contentData: DapAppearanceBlock{id:content1}
             }
             DapRectangleLitAndShaded
             {

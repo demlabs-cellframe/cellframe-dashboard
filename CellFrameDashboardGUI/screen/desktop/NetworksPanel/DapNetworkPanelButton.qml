@@ -21,13 +21,14 @@ Item {
     implicitWidth: 40 * pt
     implicitHeight: 40 * pt
 
-    DapImageLoader {
+    Image {
 //        property alias controlMirror: img.mirror
         id: controlImg
 //        rotation: isRight ? 0:180
-        innerHeight: control.implicitHeight
-        innerWidth: control.implicitWidth
+        height: control.implicitHeight
+        width: control.implicitWidth
         anchors.fill: parent
+        mipmap: true
 //        source: mouseArea.containsMouse ? control.hoverIcon : control.normalIcon
         source: control.normalIcon
     }
