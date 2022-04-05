@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
-import "parts"
+import "../parts"
 
 
 Rectangle {
@@ -84,6 +84,8 @@ Rectangle {
                 width: 132 * pt
                 fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                 horizontalAligmentText: Qt.AlignHCenter
+
+                onClicked: certificateNavigator.clearRightPanel()
             }
         }
     } //frameRightPanel

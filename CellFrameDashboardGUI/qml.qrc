@@ -115,7 +115,6 @@
         <file>resources/icons/previous_month_icon.png</file>
         <file>resources/icons/previous_year_icon.png</file>
         <file>screen/desktop/Certificates/DapCertificatesMainPage.qml</file>
-        <file>screen/desktop/Certificates/HeaderItem.qml</file>
         <file>resources/icons/Certificates/btn_actions.svg</file>
         <file>resources/icons/Certificates/btn_actions_hover.svg</file>
         <file>resources/icons/Certificates/btn_actions_no-active.svg</file>
@@ -133,14 +132,9 @@
         <file>resources/icons/Certificates/ic_search.svg</file>
         <file>resources/icons/Certificates/radio_off_dark.svg</file>
         <file>resources/icons/Certificates/radio_on_dark.svg</file>
-        <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
         <file>screen/desktop/Certificates/CertificatesModels.qml</file>
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
         <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
-        <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
-        <file>screen/desktop/Certificates/CreateCertificateItem.qml</file>
-        <file>screen/desktop/Certificates/CertificateInfoItem.qml</file>
-        <file>screen/desktop/Certificates/CreateFinishedItem.qml</file>
         <file>screen/desktop/Certificates/parts/ToolButton.qml</file>
         <file>screen/desktop/Certificates/parts/CloseButton.qml</file>
         <file>screen/desktop/Certificates/parts/InputField.qml</file>
@@ -283,7 +277,6 @@
         <file>screen/desktop/Wallet/RightPanel/LastActionsForm.ui.qml</file>
         <file>screen/desktop/dApps/DapAppsScreen.qml</file>
         <file>screen/desktop/dApps/DapAppsTab.qml</file>
-        <file>screen/desktop/dApps/DapAppsTopPanel.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml</file>
         <file>resources/icons/BlackTheme/LeftIcons/icon_certificates.png</file>
         <file>resources/icons/BlackTheme/LeftIcons/icon_console.png</file>
@@ -377,7 +370,6 @@
         <file>screen/desktop/History/TXHistoryScreen.qml</file>
         <file>screen/desktop/History/TXHistoryScreenForm.ui.qml</file>
         <file>screen/desktop/History/TXHistoryRightPanel.qml</file>
-        <file>screen/desktop/History/TXHistoryTopPanel.qml</file>
         <file>logic/Logic.qml</file>
         <file>screen/desktop/VPNService/RightPanel/OrderDetails.qml</file>
         <file>screen/desktop/VPNService/RightPanel/EarnedFunds.qml</file>
@@ -388,6 +380,11 @@
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
         <file>screen/DapMessagePopup.qml</file>
+        <file>screen/desktop/Certificates/CertificateTopPanel.qml</file>
+        <file>screen/desktop/Certificates/CertificateScreen.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CertificateActions.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CreateCertificateItem.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CreateFinishedItem.qml</file>
         <file>screen/mobile_new/android/History/History.qml</file>
         <file>screen/mobile_new/android/Icons/Close.png</file>
         <file>screen/mobile_new/android/Icons/ComingSoon.png</file>
@@ -434,5 +431,9 @@
         <file>screen/mobile_new/android/NetworkDelegate.qml</file>
         <file>screen/mobile_new/android/NetworkMenu.qml</file>
         <file>screen/mobile_new/android/PageComingSoon.qml</file>
+        <file>screen/desktop/Certificates/RightPanel/CertificateInfoItem.qml</file>
+        <file>screen/controls/HeaderItem.qml</file>
+        <file>screen/controls/SearchInputBox.qml</file>
+        <file>screen/controls/TextInputFilter.qml</file>
     </qresource>
 </RCC>

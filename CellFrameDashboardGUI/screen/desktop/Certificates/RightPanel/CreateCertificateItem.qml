@@ -4,18 +4,22 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
-import "parts"
-
-
+import "../parts"
+import "../models"
 
 
 Rectangle {
     id: root
+    //property var models
+    //property var dapRightPanel
     property alias closeButton: closeButton
     property alias createButton: createButton
     property alias optionalModel: optionalRepeater.model
     property alias signatureTypeCertificateComboBox: signatureTypeCertificateComboBox
     property alias titleCertificateTextInput: titleCertificateTextInput
+
+
+    //optionalModel: certModels.createCertificateOptional
 
     property bool requiredFieldValid: false
     color: currTheme.backgroundElements
@@ -32,6 +36,52 @@ Rectangle {
             duration: 100
             easing.type: Easing.InOutQuad
         }
+    }
+
+    function checkRequiredField(){
+        requiredFieldValid = titleCertificateTextInput.text.length > 0
+                             && signatureTypeCertificateComboBox.currentIndex >= 0
+    }
+
+
+    function checkOptionalField(){
+        for (var i = 0; i < models.createCertificateOptional.count; ++i) {
+            var optionalField = models.createCertificateOptional.get(i)
+            var data = optionalField.data
+            switch (optionalField.key) {
+                case "a2_domain":
+                    if (data !== "" && !utils.validDomain(optionalField.data)) {
+                        messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
+                                               , "Please fill field correctly.")
+                        return false;
+                    }
+                    break;
+                case "a1_expiration_date":
+                {
+                    var locale = Qt.locale()
+                    var dataDate = Date.fromLocaleDateString(locale, data, "dd.MM.yyyy")
+                    var day = new Date()
+                    var nextDay = new Date(day)
+                    nextDay.setDate(day.getDate() + 1)
+
+                    if (data !== "" && (!utils.validDate(optionalField.data) || dataDate < nextDay)) {
+                        messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
+                                               , "Please fill field correctly.")
+                        return false;
+                    }
+                }
+                    break;
+                case "a5_email":
+                    if (data !== "" && !utils.validEmail(optionalField.data)) {
+                        messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
+                                               , "Please fill field correctly.")
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return true;
     }
 
     DapRectangleLitAndShaded
@@ -54,6 +104,10 @@ Rectangle {
 
                 CloseButton {
                     id: closeButton
+
+                    onClicked: {
+                           dapRightPanel.pop()
+                        }
                 }
 
                 Text {
@@ -107,6 +161,11 @@ Rectangle {
                     widthPopupComboBoxActive: 316 * pt
                     heightComboBoxNormal: 42 * pt
                     heightComboBoxActive: 42 * pt
+                    model: models.signatureType
+
+                    onCurrentIndexChanged: {
+                            checkRequiredField()
+                        }
 
                     comboBoxTextRole: ["name"]
                     mainLineText: qsTr("Signature type")
@@ -147,6 +206,12 @@ Rectangle {
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+                    maximumLength: 39
+
+                    onTextChanged: checkRequiredField()
+                    onEditingFinished: {
+                            checkRequiredField()
+                        }
 
                     font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
@@ -223,6 +288,7 @@ Rectangle {
 
                     Repeater {
                         id: optionalRepeater
+                        model: models.createCertificateOptional
 
                         InputField {
                             Layout.leftMargin: 39 * pt
@@ -274,6 +340,15 @@ Rectangle {
 
                         fontButton: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAligmentText: Qt.AlignHCenter
+
+                        onClicked: {   //enabled when requiredFieldValid
+                                if (checkOptionalField())
+                                    logics.createCertificate(titleCertificateTextInput.text
+                                                             , models.signatureType.get(signatureTypeCertificateComboBox.currentIndex).signature
+                                                             , models.createCertificateOptional.getDataToJson())
+                                else
+                                    console.warn("not valid optional field")
+                            }
                     }
                     }
 

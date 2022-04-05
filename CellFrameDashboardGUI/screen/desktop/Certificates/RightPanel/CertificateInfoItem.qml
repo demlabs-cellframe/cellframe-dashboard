@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
-import "parts"
+import "../parts"
 
 Rectangle {
     id: root
@@ -45,6 +45,8 @@ Rectangle {
                 CloseButton {
                     id: closeButton
                     x: 16 * pt
+
+                    onClicked: certificateNavigator.clearRightPanel()
                 }  //
 
 
@@ -69,6 +71,7 @@ Rectangle {
                 height: contentHeight
                 spacing: 22 * pt
                 clip: true
+                model: models.certificateInfo
 
                 delegate: TitleTextView {
                     x: 18 * pt

@@ -9,7 +9,8 @@ Popup {
     id: dialog
 
     width: 300 * pt
-    height: 180 * pt
+    //height: 200 * pt
+    height: popupLayout.height + 40 * pt
 
     parent: Overlay.overlay
     x: (parent.width - width) * 0.5
@@ -26,10 +27,15 @@ Popup {
 
     ColumnLayout
     {
-        anchors.fill: parent
-        anchors.margins: 10 * pt
+        id: popupLayout
+        //anchors.fill: parent
+        //anchors.margins: 10 * pt
+        width: parent.width - 20 * pt
+        height: childrenRect.height
+        anchors.centerIn: parent
 
         Text {
+            id: dapContentTitle
             Layout.fillWidth: true
             Layout.margins: 10 * pt
             font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
@@ -37,7 +43,17 @@ Popup {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            text: qsTr("Lost connection to the Node. Reconnecting...")
+        }
+
+        Text {
+            id: dapContentText
+            Layout.fillWidth: true
+            Layout.margins: 10 * pt
+            font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            color: currTheme.textColor
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            wrapMode: Text.WordWrap
         }
 
         RowLayout
@@ -63,5 +79,11 @@ Popup {
                     dialog.close()
             }
         }
+    }
+
+    function smartOpen(title, contentText) {
+        dapContentTitle.text = title
+        dapContentText.text = contentText
+        dialog.open()
     }
 }

@@ -139,7 +139,6 @@ ListView {
 
                 onDoubleClicked: {
                     root.infoClicked(model.index)
-                    //root.selectedIndex(model.index)
                 }
             }
 
