@@ -36,8 +36,8 @@ Item {
 
 
     function validDomain(domain){
-        console.log("domain", domain)
-        var regExp = /^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{1,63}$/;
+        console.log("domain reg exp", domain)
+        var regExp = /^(?!\-)(?:[a-zA-Z\d\-]{0,62}[a-zA-Z\d]\.){1,126}(?!\d+)[a-zA-Z\d]{2,4}$/;
         return regExp.test(domain)
     }
 
