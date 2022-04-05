@@ -10,13 +10,11 @@ import "../"
 import "qrc:/screen/controls"
 
 
-
 CertificatesActionsButtonList
 {
     certificateSelected: models.certificates.isSelected
     bothAccessTypeCertificateSelected: models.accessKeyType.bothTypeCertificateSelected
     certificateAccessTypeRepeater.model: models.accessKeyType
-
 
     onSelectedAccessKeyType: {
         //index
@@ -24,17 +22,14 @@ CertificatesActionsButtonList
         models.certificates.clearSelected()
         switch (index) {
         case 0:      //"public"
-            //certificatesListView.seletedCertificateAccessType = qsTr("Public")
             models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public
             models.certificatesFind.update()
             break;
         case 1:      //"private"
-            //certificatesListView.seletedCertificateAccessType = qsTr("Private")
             models.certificatesFind.accessKeyTypeIndex = DapCertificateType.PublicAndPrivate
             models.certificatesFind.update()
             break;
         case 2:      //"both"
-            //certificatesListView.seletedCertificateAccessType = qsTr("Both")
             models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Both
             models.certificatesFind.update()
             break;

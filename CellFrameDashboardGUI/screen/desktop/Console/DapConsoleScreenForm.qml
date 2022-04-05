@@ -26,15 +26,7 @@ DapAbstractScreen
 
     property var _commandCmdController: commandCmdController
 
-    anchors
-    {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 44 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
-
-    }
+    anchors.fill: parent
 
     CommandCmdController
     {
@@ -277,10 +269,7 @@ DapAbstractScreen
                             opacity: 0.5
 
                         }
-
                     }
-
-
                 }
             }
         }

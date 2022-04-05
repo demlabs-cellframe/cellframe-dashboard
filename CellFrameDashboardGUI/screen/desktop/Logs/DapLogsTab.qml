@@ -1,24 +1,25 @@
 import QtQuick 2.4
 import "qrc:/"
 import "../../"
+import "qrc:/screen/controls"
 
-DapAbstractTab
+DapPage
 {
     readonly property var currentIndex: 9
 
     id: logsTab
-    color: currTheme.backgroundMainScreen
+    //color: currTheme.backgroundMainScreen
     ///Log window model.
     ListModel
     {
         id:dapLogsModel
     }
 
-    dapTopPanel: DapLogsTopPanel { }
+    dapHeader.initialItem: DapLogsTopPanel {}
 
-    dapScreen: DapLogsScreen { }
+    dapScreen.initialItem: DapLogsScreen {}
 
-    dapRightPanel: DapLogsRightPanel { }
+    dapRightPanel.initialItem: DapLogsRightPanel {}
 
     Connections
     {

@@ -14,10 +14,7 @@ import QtQml.Models 2.3
 DelegateModel {
     id: root
     items.includeByDefault: false
-
-
     property var predicate: function(obj) { return true; }
-
 
     function clear() {       //move from visible and pending group to unusable group
         console.log("FindDelegateModel.clear()", items.count, pendingItems.count)
@@ -27,17 +24,12 @@ DelegateModel {
             pendingItems.setGroups(0, pendingItems.count, "unusable")
     }
 
-
     function renew() {        //find in base model
-//        console.log("FindDelegateModel.renew(), items.count: %1, unusableItems.count: %2, pendingItems.count: %3"
-//                    .arg(items.count).arg(unusableItems.count).arg(pendingItems.count))
-
         if (items.count > 0)
             items.setGroups(0, items.count, "pending")
         if (unusableItems.count > 0)
             unusableItems.setGroups(0, unusableItems.count, "pending")
     }
-
 
     groups: [
         DelegateModelGroup {           //item wait for find
@@ -60,14 +52,7 @@ DelegateModel {
             id: unusableItems
             name: "unusable"
             includeByDefault: false
-
-//            onChanged: {
-//                console.log("unusableItems.onChanged:, unusableItems.count:", unusableItems.count)
-//            }
         }
     ]
-
-
-
 }  //root
 
