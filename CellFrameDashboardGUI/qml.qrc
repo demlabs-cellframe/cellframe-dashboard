@@ -81,9 +81,8 @@
         <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
         <file>screen/desktop/Settings/DapSettingsRightPanel.qml</file>
         <file>screen/desktop/Console/DapConsoleTab.qml</file>
-        <file>screen/desktop/Console/DapConsoleTabForm.ui.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
-        <file>screen/desktop/Console/DapConsoleRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Console/DapConsoleRightPanelForm.qml</file>
         <file>screen/desktop/Console/DapConsoleTopPanel.qml</file>
         <file>resources/icons/ic_flag.png</file>
         <file>resources/icons/buy_icon.png</file>

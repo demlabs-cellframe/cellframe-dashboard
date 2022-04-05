@@ -4,7 +4,7 @@ DapConsoleRightPanelForm
 {
     property alias dapModelHistoryConsole: modelHistoryConsole
     ///@detalis commandQuery Command for history.
-    property string commandQuery
+    property string commandQuery: dapScreen.sendCommand
     ///@detalis historyQuery Text of command from the command history.
     property string historyQuery
     ///@detalis historyQueryIndex Index of command from the command history.
