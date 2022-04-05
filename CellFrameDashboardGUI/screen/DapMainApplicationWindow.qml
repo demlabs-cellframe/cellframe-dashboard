@@ -389,7 +389,7 @@ Rectangle {
     }
 
     DapMessagePopup{id: messagePopup}
-    property bool stateNotify: true
+    property bool stateNotify: false
 
     ListModel
     {
