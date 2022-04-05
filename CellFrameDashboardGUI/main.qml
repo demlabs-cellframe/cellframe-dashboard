@@ -17,8 +17,8 @@ ApplicationWindow
     id: window
     visible: true
 
-    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
-//    readonly property bool isMobile: true
+//    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+    readonly property bool isMobile: true
     readonly property string device: isMobile? "mobile" : "desktop"
 
     Logic {

@@ -24,8 +24,8 @@ Item {
             Layout.fillWidth: true
 
             Image {
-                source: curr_state === "ONLINE" ?  "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
-                        curr_state === "ERROR"   ?  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
+                source: networkState === "ONLINE" ?  "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
+                        networkState === "ERROR"   ?  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
                                                     "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
                 Layout.preferredWidth: 10
                 Layout.preferredHeight: 10
@@ -84,7 +84,7 @@ Item {
             Text {
                 Layout.fillWidth: true
                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
-                text: curr_state
+                text: networkState
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -103,7 +103,7 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                text: target_state
+                text: targetState
                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
@@ -123,7 +123,7 @@ Item {
 
             Text {
                 Layout.fillWidth: true
-                text: active_links + " from 2"
+                text: activeLinksCount + " from " + linksCount
                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
@@ -142,7 +142,7 @@ Item {
             }
 
             Text {
-                text: net_address
+                text: nodeAddress
                 Layout.maximumWidth: deleagte.width/2.5
                 font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
                 Layout.alignment: Qt.AlignHCenter

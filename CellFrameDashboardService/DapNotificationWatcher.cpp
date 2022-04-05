@@ -108,27 +108,36 @@ void DapNotificationWatcher::socketStateChanged(QLocalSocket::LocalSocketState s
 
 void DapNotificationWatcher::socketReadyRead()
 {
-    qDebug() << "Ready Read";
-    QByteArray data = socket->readLine();
-    if (data[data.length() - 1] != '}')
-        data = data.left(data.length() - 1);
+//    qDebug() << "Ready Read";
+//    QByteArray data = socket->readLine();
+//    if (data[data.length() - 1] != '}')
+//        data = data.left(data.length() - 1);
 
-    if (data[0] != '{')
-        data = data.right(data.length() - 1);
+//    if (data[0] != '{')
+//        data = data.right(data.length() - 1);
 
-    QByteArrayList list = jsonListFromData(data);
+//    QByteArrayList list = jsonListFromData(data);
 
-    for (int i = 0; i < list.length(); ++i)
-    {
-        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
-        QVariant var = doc.toVariant();
-        QVariantMap map = var.toMap();
-        map["connect_state"] = QVariant::fromValue(m_socketState);
-        qDebug() << list[i] << map;
+//    for (int i = 0; i < list.length(); ++i)
+//    {
+//        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
+//        QVariant var = doc.toVariant();
+//        QVariantMap map = var.toMap();
+//        map["connect_state"] = QVariant::fromValue(m_socketState);
+//        qDebug() << list[i] << map;
 
-        if(var.isValid())
-            emit rcvNotify(map);
+//        if(var.isValid())
+//            emit rcvNotify(map);
+
+//    }
+    QJsonParseError error;
+    QJsonDocument reply = QJsonDocument::fromJson(socket->readAll(), &error);
+    if (error.error != QJsonParseError::NoError) {
+            // ошибка парсинга
+        qWarning()<<"Notify parse error. " << error.errorString();
     }
+    QVariantMap map = reply.object().toVariantMap();
+    emit rcvNotify(map);
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)

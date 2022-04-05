@@ -203,6 +203,81 @@ QtObject {
         return counter
     }
 
+    //////////////NETWORKS STATE
+
+    function isEqualList(currModel, data)
+    {
+        if (currModel.count === data.length) {
+            for (var i=0; i<currModel.count; ++i) {
+                if (currModel.get(i).name !== data[i].name) {
+                    return false
+                }
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function rcvNetworksStatesList(model, buffer)
+    {
+        for (var i = 0; i < buffer.length; ++i)
+        {
+            model.append({ "name" : buffer[i].name,
+                                            "networkState" : buffer[i].networkState,
+                                            "targetState" : buffer[i].targetState,
+                                            "stateColor" : buffer[i].stateColor,
+                                            "errorMessage" : buffer[i].errorMessage,
+                                            "linksCount" : buffer[i].linksCount,
+                                            "activeLinksCount" : buffer[i].activeLinksCount,
+                                            "nodeAddress" : buffer[i].nodeAddress})
+        }
+    }
+
+    function updateContent(currMdel, newData)
+    {
+        if (globalLogic.isEqualList(currMdel, newData)) {
+            for (var i=0; i<currMdel.count; ++i) {
+                if (currMdel.get(i).name !== newData[i].name)
+                    currMdel.set(i, {"name": newData[i].name})
+                if (currMdel.get(i).networkState !== newData[i].networkState)
+                    currMdel.set(i, {"networkState": newData[i].networkState})
+                if (currMdel.get(i).targetState !== newData[i].targetState)
+                    currMdel.set(i, {"targetState": newData[i].targetState})
+                if (currMdel.get(i).stateColor !== newData[i].stateColor)
+                    currMdel.set(i, {"stateColor": newData[i].stateColor})
+                if (currMdel.get(i).errorMessage !== newData[i].errorMessage)
+                    currMdel.set(i, {"errorMessage": newData[i].errorMessage})
+                if (currMdel.get(i).linksCount !== newData[i].linksCount)
+                    currMdel.set(i, {"linksCount": newData[i].linksCount})
+                if (currMdel.get(i).activeLinksCount !== newData[i].activeLinksCount)
+                    currMdel.set(i, {"activeLinksCount": newData[i].activeLinksCount})
+                if (currMdel.get(i).nodeAddress !== newData[i].nodeAddress)
+                    currMdel.set(i, {"nodeAddress": newData[i].nodeAddress})
+            }
+        }
+    }
+
+    function updateContentInSpecified(data, dataModel)
+    {
+        if (data.name !== dataModel.name)
+            data.name = dataModel.name
+        if (data.networkState !== dataModel.networkState)
+            data.networkState = dataModel.networkState
+        if (data.stateColor !== dataModel.stateColor)
+            data.stateColor = dataModel.stateColor
+        if (data.errorMessage !== dataModel.errorMessage)
+            data.errorMessage = dataModel.errorMessage
+        if (data.targetState !== dataModel.targetState)
+            data.targetState = dataModel.targetState
+        if (data.linksCount !== dataModel.linksCount)
+            data.linksCount = dataModel.linksCount
+        if (data.activeLinksCount !== dataModel.activeLinksCount)
+            data.activeLinksCount = dataModel.activeLinksCount
+        if (data.nodeAddress !== dataModel.nodeAddress)
+            data.nodeAddress = dataModel.nodeAddress
+    }
+
     /////////////TABS
     function initButtonsModel(buttonsModel, tabModel)
     {
