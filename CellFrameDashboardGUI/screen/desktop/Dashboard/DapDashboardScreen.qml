@@ -49,7 +49,7 @@ DapAbstractScreen
             x: 40 * pt
 //            anchors.top: parent.top
 //            anchors.fill: parent
-//            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
 //            Rectangle
 //            {
 //                height: 82.79 * pt
@@ -70,8 +70,8 @@ DapAbstractScreen
                     anchors.fill: parent
                     id: iconCreateWallet
                     source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                    sourceSize.width: 250 * pt
-                    sourceSize.height: 250 * pt
+                    sourceSize.width: 200 * pt
+                    sourceSize.height: 200 * pt
                     fillMode: Image.PreserveAspectFit
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -85,7 +85,7 @@ DapAbstractScreen
 
             Item
             {
-                height: 45 * pt
+                height: 30 * pt
                 width: parent.width
             }
 
@@ -213,7 +213,7 @@ DapAbstractScreen
                     id: delegateTokenView
                     Column
                     {
-                        width: parent.width
+                        width: listViewWallet.width
 
                         Rectangle
                         {
@@ -260,10 +260,11 @@ DapAbstractScreen
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-                                DapImageLoader{
+                                Image{
                                     id:networkAddressCopyButtonImage
-                                    innerWidth: parent.width
-                                    innerHeight: parent.height
+                                    width: parent.width
+                                    height: parent.height
+                                    mipmap: true
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
                             }

@@ -24,8 +24,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
-
-
     qDebug()<<QString(DAP_SERVICE_NAME);
 
 #ifdef Q_OS_ANDROID
@@ -116,6 +114,12 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 //    m_currentWallet->setBalance({{}});
 
+}
+
+DapApplication::~DapApplication()
+{
+    qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
+    m_serviceController->disconnectAll();
 }
 
 DapNetworksList *DapApplication::networks()

@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -67,8 +67,9 @@ ColumnLayout
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-            mainLineText: dapNetworkModel.count ? dapNetworkModel.get(SettingsWallet.currentNetwork).name :
-                                                  "Networks"
+            mainLineText: {
+             return   dapNetworkModel.get(SettingsWallet.currentNetwork).name
+            }
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -233,10 +234,11 @@ ColumnLayout
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-                                DapImageLoader{
+                                Image{
                                     id:networkAddressCopyButtonImage
-                                    innerWidth: parent.width
-                                    innerHeight: parent.height
+                                    width: parent.width
+                                    height: parent.height
+                                    mipmap: true
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
                             }

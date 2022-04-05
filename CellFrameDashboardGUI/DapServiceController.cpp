@@ -123,6 +123,12 @@ DapServiceController &DapServiceController::getInstance()
     return instance;
 }
 
+/// Disconnect all signals
+void DapServiceController::disconnectAll()
+{
+    disconnect(this, 0, 0, 0);
+}
+
 /// Send request to service.
 /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
 /// @param asServiceName Service name.
@@ -274,6 +280,9 @@ void DapServiceController::registerCommand()
             walletHistory.append(wallethistoryEvent);
         }
 
+        qDebug() << "DapServiceController::registerCommand"
+                 << "DapServiceController::historyReceived" << walletHistory.size();
+
         emit walletHistoryReceived(walletHistory);
     });
 
@@ -363,7 +372,9 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
+        qDebug() << "dapRcvNotify data: " << rcvData;
         m_DapNotifyController->rcvData(rcvData);
+//        emit notifyReceived(rcvData);
     });
 
 
@@ -376,6 +387,7 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
+    qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {

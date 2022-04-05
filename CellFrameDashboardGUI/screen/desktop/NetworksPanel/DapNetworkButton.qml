@@ -18,13 +18,14 @@ Button {
             anchors.fill: parent
             spacing: 0
 
-            DapImageLoader {
+            Image {
                 Layout.leftMargin: isSynch ? 23 * pt : 29 * pt
                 Layout.alignment: Qt.AlignVCenter
                 Layout.preferredHeight:  24 * pt
                 Layout.preferredWidth:  24 * pt
-                innerHeight: 24 * pt
-                innerWidth: 24 * pt
+                height: 24 * pt
+                width: 24 * pt
+                mipmap: true
 
                 source: isSynch ? "qrc:/resources/icons/Icon_sync_net_hover.svg" : "qrc:/resources/icons/icon_on_off_net_hover.svg"
             }
