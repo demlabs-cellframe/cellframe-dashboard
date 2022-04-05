@@ -177,21 +177,13 @@ DapNewPaymentMainRightPanelForm
                     console.log("DapCreateTransactionCommand:")
                     console.log("   network:", dapComboboxNetwork.mainLineText)
                     console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-    //                console.log("   wallet from:", currentWallet.name)
                     console.log("   wallet from:", walletName)
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                     console.log("   token:", dapCmboBoxToken.mainLineText)
                     console.log("   amount:", amount)
 
-    //                var netModel = networksPanel.dapNetworkList.model
-    //                var nodeAddress;
                     var commission = toDatoshi("0.1")
 
-    //                for(var i = 0; i < netModel.count; i++)
-    //                {
-    //                    if(netModel.get(i).name === dapComboboxNetwork.mainLineText)
-    //                        nodeAddress = netModel.get(i).nodeAddress
-    //                }
 
                     dapServiceController.requestToService("DapCreateTransactionCommand",
         //                dapComboboxNetwork.mainLineText, dapComboboxChain.mainLineText,

@@ -196,35 +196,50 @@ void DapPluginsController::addPlugin(QVariant path, QVariant status, QVariant ve
             qWarning() << "dApps Config not open. " << file.errorString();
 
         if(status.toInt())
-            installPlugin(m_pluginsList.length()-1,status.toString(), verifed.toString());
+            installPlugin(name_mainFilePlugin,status.toString(), verifed.toString());
 
         getListPlugins();
     }
 }
 
 
-void DapPluginsController::installPlugin(int number, QString status, QString verifed)
+void DapPluginsController::installPlugin(QString name, QString status, QString verifed)
 {
-    QStringList str = m_pluginsList.value(number).toStringList();
+    QStringList str;
+    int i;
+    bool ok = false;
 
-    if(checkHttps(str[1]))
+    for(i = 0; i < m_pluginsList.length(); i++)
     {
-        m_dapNetworkManager->downloadFile(str[0]);
-        m_timeRecord.start();
-        m_timeInterval = 0;
-        m_bytesDownload = 0;
-        m_time = "";
-        m_speed = "";
+        str = m_pluginsList.value(i).toStringList();
+        if(str[0] == name){
+            ok = true;
+            break;
+        }
     }
+    if(!ok)
+        qWarning()<< "Extension search error";
     else
     {
-        m_pluginsList.removeAt(number);
-        str[2] = status;
-        str[3] = verifed;
-        m_pluginsList.append(str);
-        updateFileConfig();
-        getListPlugins();
-    } 
+        if(checkHttps(str[1]))
+        {
+            m_dapNetworkManager->downloadFile(str[0]);
+            m_timeRecord.start();
+            m_timeInterval = 0;
+            m_bytesDownload = 0;
+            m_time = "";
+            m_speed = "";
+        }
+        else
+        {
+            m_pluginsList.removeAt(i);
+            str[2] = status;
+            str[3] = verifed;
+            m_pluginsList.append(str);
+            updateFileConfig();
+            getListPlugins();
+        }
+    }
 }
 
 void DapPluginsController::deletePlugin(QVariant url)

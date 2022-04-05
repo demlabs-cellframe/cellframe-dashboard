@@ -220,10 +220,6 @@ DapAbstractTab
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
             }
-//            else if(parametrsRightPanel === createNewWallet)
-//            {
-//                dashboardScreen.dapFrameTitleCreateWallet.textItem.text = qsTr("Creating wallet in process...")
-//            }
         }
     }
 
@@ -247,24 +243,6 @@ DapAbstractTab
         {
             updateAllWallets()
         }
-//        onCertificateManagerOperationResult:
-//        {
-//            switch (result.command) {
-//                case DapCertificateCommands.GetSertificateList:
-//                    if (result.status === DapCertificateCommands.statusOK) {
-//                        if(!certificates.parseFromCertList(result.data))
-//                            certificates.createCertificate();
-//                    }
-//                    break;
-//                case DapCertificateCommands.CreateCertificate:
-//                    if (result.status === DapCertificateCommands.statusOK) {
-//                        certificates.prependFromObject(result.data)
-//                    }
-//                    break;
-//                default:
-//                    break
-//            }
-//        }
     }
 
     Component.onCompleted:
@@ -274,10 +252,6 @@ DapAbstractTab
 
         if (!updateTimer.running)
             updateTimer.start()
-
-//        dapServiceController.requestToService(DapCertificateCommands.serviceName
-//                                              , DapCertificateCommands.GetSertificateList
-//                                              );
     }
 
     Component.onDestruction:
@@ -322,40 +296,4 @@ DapAbstractTab
             dashboardTab.state = "WALLETSHOW"
         }
     }
-
-//    ListModel
-//    {
-//        id:certificates
-//        function parseFromCertList(certList){
-//            clear()
-//            for (var i = 0; i < certList.length; ++i) {
-//                if(certList[i].fileName === "Private_certificate_signature.dcert"){
-//                    certificates.append(certList[i])
-//                    return true;
-//                }
-//            }
-//            return false
-//        }
-//        function prependFromObject(obj) {
-//            insert(0, obj)
-//        }
-//        function createCertificate()
-//        {
-//            dapServiceController.requestToService(DapCertificateCommands.serviceName
-//                                                  , DapCertificateCommands.CreateCertificate
-//                                                  , "Private_certificate_signature", "sig_dil"
-//                                                  , JSON.stringify(getDataToJson()));
-//        }
-//        function getDataToJson(){
-//            var result = { a0_creation_date: Qt.formatDateTime(new Date(), "dd.MM.yyyy") }
-//            for (var i = 0; i < count; ++i) {
-//                var item = get(i)
-//                if (item.data !== "") {
-//                    result[item.key] = item.data
-//                }
-//            }
-
-//            return result
-//        }
-//    }
 }
