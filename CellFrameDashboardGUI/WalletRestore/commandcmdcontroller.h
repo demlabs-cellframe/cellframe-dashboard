@@ -14,6 +14,7 @@ class CommandCmdController : public QObject
     QVariantMap commandsParams;
 
     bool isDisconnect = false;
+    void parseTree(QString command);
 
     DapServiceController *dapServiceController;
 public:
