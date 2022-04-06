@@ -286,11 +286,12 @@ DapAbstractScreen
                                                 width: 20 * pt
                                                 height: 20 * pt
 
-                                                DapImageLoader{
+                                                Image{
                                                     id:indicatorRadioButton
                                                     anchors.fill: parent
-                                                    innerWidth: 20 * pt
-                                                    innerHeight: 20 * pt
+                                                    width: 20 * pt
+                                                    height: 20 * pt
+                                                    mipmap: true
                                                     source: verifed === "0" ? "qrc:/resources/icons/" + pathTheme + "/no_icon.png" : "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
                                                 }
                                             }

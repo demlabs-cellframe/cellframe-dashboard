@@ -14,6 +14,7 @@ DapAbstractTab
         DapHistoryTopPanel
         {
             id: historyTopPanel
+            color: currTheme.backgroundPanel
         }
 
     dapScreen:

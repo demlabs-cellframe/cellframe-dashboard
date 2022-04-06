@@ -73,6 +73,10 @@ public:
     /// Get an instance of a class.
     /// @return Instance of a class.
     Q_INVOKABLE static DapServiceController &getInstance();
+
+    /// Disconnect all signals
+    Q_INVOKABLE void disconnectAll();
+
     /// Send request to service.
     /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
     /// @param asServiceName Service name.

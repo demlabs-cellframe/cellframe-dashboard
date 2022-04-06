@@ -8,28 +8,19 @@ import "qrc:/"
 import "../../"
 //import DapNotificationWatcher 1.0
 
-DapNetworksPanel
+Rectangle
 {    
     property alias dapNetworkList: networkList
 
     property int cur_index: 0
     property int visible_count: 4
-    readonly property int item_width: 295 * pt
+    readonly property int item_width: 290 * pt
 
     id: control
     y: parent.height - height
     width: parent.width
     height: 40
     color: currTheme.backgroundPanel
-
-    layer.enabled: true
-    layer.effect: DropShadow {
-        anchors.fill: control
-        radius: currTheme.radiusShadowSmall
-        color: currTheme.reflectionLight
-        source: control
-        spread: 0.7
-    }
 
     Timer {
         id: idNetworkPanelTimer
@@ -69,7 +60,9 @@ DapNetworksPanel
 
         Item {
             id:controlDelegate
-            width: networksModel.count > visible_count -1 ? item_width : parent.parent.width/networksModel.count
+            width: networksModel.count >= visible_count ?
+                       networkList.width / visible_count :
+                       networkList.width / networksModel.count
             height: 40
             objectName: "delegateList"
             property int list_index:index
@@ -77,7 +70,13 @@ DapNetworksPanel
             RowLayout {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+//                anchors.fill: parent
                 spacing: 5 * pt
+
+                Item {
+                    Layout.fillWidth: true
+                }
+
                 Text {
                     id: txt_left
                     Layout.fillWidth: true
@@ -89,19 +88,24 @@ DapNetworksPanel
                     text: name
                 }
 
-                DapImageLoader{
+                Image{
                     id:img
                     Layout.alignment: Qt.AlignVCenter
                     Layout.preferredHeight: 8 * pt
                     Layout.preferredWidth: 8 * pt
-                    innerWidth: 8 * pt
-                    innerHeight: 8 * pt
+                    width: 8 * pt
+                    height: 8 * pt
+                    mipmap: true
 
                     source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
                             networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
                                                          "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
 
                     opacity: networkState !== targetState? animationController.opacity : 1
+                }
+
+                Item {
+                    Layout.fillWidth: true
                 }
             }
 
@@ -111,10 +115,21 @@ DapNetworksPanel
                 width: item_width
                 parentWidth: controlDelegate.width
                 isOpen: false
-                y: -150
-                x: controlDelegate.width/2 - popup_.width/2
+                x: controlDelegate.width/2 - width/2/mainWindow.scale - 0.5
+                y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
 
                 imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
+
+                scale: mainWindow.scale
+
+                Component.onCompleted:
+                {
+                    if (mainWindowScale > 1.0)
+                    {
+                        x = controlDelegate.width/2 - width/2/mainWindow.scale
+                        y = -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
+                    }
+                }
             }
 
             MouseArea {
@@ -151,6 +166,7 @@ DapNetworksPanel
         anchors.verticalCenter: parent.verticalCenter
 
         visible: networkList.count > visible_count && networkList.currentIndex != 0 ? true : false
+
         mirror: true
 
         onClicked:
@@ -189,7 +205,6 @@ DapNetworksPanel
 
         anchors.verticalCenter: parent.verticalCenter
         visible: networkList.count > visible_count && networkList.currentIndex != networkList.count -1 ? true : false
-
 
         onClicked: {
             if(!networkList.currentIndex)
@@ -246,6 +261,7 @@ DapNetworksPanel
     {
         control.visible_count = getCountVisiblePopups()
         networkList.currentIndex = cur_index
+        networkList.closePopups()
     }
 
 //    Connections
@@ -393,7 +409,7 @@ DapNetworksPanel
 
     function getCountVisiblePopups()
     {
-        var count = (control.parent.parent.width - 27 * pt/* - 114 * pt*/)/item_width
+        var count = networkList.width/item_width
         return Math.floor(count)
     }
 }
