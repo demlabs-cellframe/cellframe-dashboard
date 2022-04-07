@@ -43,10 +43,10 @@ QString rightOrCommand(QString command, int i)
     int k = i;
     while (true)
     {
-        if (command[i] == '>' || command[i] == ']' || command[i] == '}')
+        if (command[i] == ']' || command[i] == '}')
             ++count;
 
-        if (command[i] == '<' || command[i] == '[' || command[i] == '{')
+        if (command[i] == '[' || command[i] == '{')
         {
             if (count == 0)
                 break;
@@ -64,14 +64,14 @@ QString leftOrCommand(QString command, int i)
     int k = i;
     while (true)
     {
-        if (command[i] == '>' || command[i] == ']' || command[i] == '}')
+        if (command[i] == ']' || command[i] == '}')
         {
             if (count == 0)
                 break;
             --count;
         }
 
-        if (command[i] == '<' || command[i] == '[' || command[i] == '{')
+        if (command[i] == '[' || command[i] == '{')
             ++count;
         ++i;
     }
@@ -80,14 +80,14 @@ QString leftOrCommand(QString command, int i)
     return command;
 }
 
-//bbbb { jjjj [kkk] | kkkk } hhh 18
-
-/*void CommandCmdController::parseTree(QString command)
+void CommandCmdController::parseTree(QString command)
 {
     if (!command.contains("[") && !command.contains("|"))
     {
+        command = command.remove('{');
+        command = command.remove('}');
+        parsedCommands.append(command);
         qDebug() << "command: " << command << "\n";
-        //commands.add(command);
         return;
     }
     else if (command.contains("|"))
@@ -97,8 +97,8 @@ QString leftOrCommand(QString command, int i)
         {
             if (command[i] == '|' && count == 0)
             {
-                //parseTree(left(i));
-                //parseTree(right(i));
+                parseTree(leftOrCommand(command, i));
+                parseTree(rightOrCommand(command, i));
             }
 
             if (command[i] == '[')
@@ -109,36 +109,33 @@ QString leftOrCommand(QString command, int i)
         }
     }
     else
+    {
+        int count = 0;
+        int leftIndex = 0;
+        for (int i = 0; i < command.length(); ++i)
         {
-            int count = 0;
-            int leftIndex = 0;
-            for (int i = 0; i < command.length(); ++i)
+            if (command[i] == '[' && count == 0)
+                leftIndex = i;
+
+            if (command[i] == ']' && count == 1)
             {
-                if (command[i] == '[' && count == 0)
-                    leftIndex = i;
+                QString delCommand = command.remove(leftIndex, i - leftIndex);
+                parseTree(delCommand);
 
-                if (command[i] == ']' && count == 1)
-                {
-                    //parseTree(command.delete(from leftIndex to i));
-                    //parseTree(command.delete(command[leftIndex], command[i]));
-                }
-
-                if (command[i] == '[')
-                    ++count;
-
-                if (command[i] == '[')
-                    --count;
+                QString isCommand = command.remove(i, 1);
+                isCommand = isCommand.remove(leftIndex, 1);
+                parseTree(isCommand);
             }
+
+            if (command[i] == '[')
+                ++count;
+
+            if (command[i] == ']')
+                --count;
         }
     }
-}*/
+}
 
-//"dag -net <chain net name> -chain <chain name>
-//event dump -event <event hash> -from < events | events_lasts | round.new  | round.<Round id in hex> > [-H hex|base58(default)]"
-
-//"dag_poa -net <chain net name> -chain <chain name> event sign -event <event hash> [-H hex|base58(default)]"
-
-//net -net <chain net name> link {list | add | del | info | establish}
 
 void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 {
@@ -151,36 +148,13 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     QStringList _commands = str.split("\n");
     QStringList commandParams;
 
-    qDebug() << "kkkkkkkkkkkkk\n\n\n\n\n" << leftOrCommand("bbbb { jjjj [kkk] | kkkk } hhh", 18) << "\n\n\n\n\n\n\n";
-
     for (int i = 1; i < _commands.length(); ++i)
     {
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower())
         {
             commandParams.append(_commands[i]);
-            //qDebug() << "llllllllllllllllllll " << _commands[i];
-            /*qDebug() << "LLLLLLLLLLLLLL" << _commands[i];
-            QString _command = _commands[i];
-            QVariantList parseList;
-            QVector<int> startPosVector;
-            for (int j = 0; j < _command.length(); ++j)
-            {
-                if (_command[j] == '[')
-                    startPosVector.push_back(j);
-
-                if (_command[j] == ']')
-                {
-                    QVariantMap map;
-                    int _start = startPosVector[startPosVector.length() - 1];
-                    startPosVector.pop_back();
-                    map["start"] = QVariant::fromValue(_start);
-                    map["end"] = QVariant::fromValue(j);
-                    QString s = _command.left(j);
-                    s = s.right(s.length() - _start - 1);
-                    map["data"] = QVariant::fromValue(s);
-                    qDebug() << "PPPPPPPPPPPPP" << s;
-                }
-            }*/
+            parseTree(_commands[i]);
+            qDebug() << "llllllllllllllllllll " << _commands[i];
         }
     }
 

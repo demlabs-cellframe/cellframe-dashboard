@@ -11,6 +11,7 @@ class CommandCmdController : public QObject
     Q_PROPERTY(DapServiceController *dapServiceController MEMBER dapServiceController)
 
     QStringList commands;
+    QStringList parsedCommands;
     QVariantMap commandsParams;
 
     bool isDisconnect = false;
