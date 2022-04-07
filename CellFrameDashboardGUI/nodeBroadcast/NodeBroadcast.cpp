@@ -29,3 +29,8 @@ NodeBroadcast::NodeBroadcast(QObject *parent) : QObject(parent)
         QtAndroid::androidContext().object());// ??
     QAndroidJniObject reply = request.callObjectMethod("get", "(I)Ljava/lang/Object;");
 }
+
+void NodeBroadcast::nodeRequest(const QString &request)
+{
+
+}
