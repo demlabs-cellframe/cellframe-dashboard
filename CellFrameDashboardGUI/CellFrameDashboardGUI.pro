@@ -66,6 +66,7 @@ SOURCES += \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
     mobile/testcontroller.cpp \
+    nodeBroadcast/NodeBroadcast.cpp \
     quickcontrols/qrcodequickitem.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
@@ -94,6 +95,8 @@ HEADERS += \
     WalletRestore/wallethashmanager.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
+    nodeBroadcast/NodeBroadcast.h \
+    nodeBroadcast/s.h \
     quickcontrols/qrcodequickitem.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
