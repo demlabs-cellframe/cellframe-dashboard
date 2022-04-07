@@ -28,7 +28,7 @@ Page {
             clip: true
 
 //            model: tokensModelTest
-            model: mainWalletModel
+            model: _dapModelWallets
 
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -150,7 +150,7 @@ Page {
                             }
                             else
                             {
-                                clipboard.setText(mainWalletModel.get(index).networks.get(currentNetwork).address)
+                                clipboard.setText(_dapModelWallets.get(index).networks.get(currentNetwork).address)
                             }
                         }
                     }
@@ -159,7 +159,7 @@ Page {
             function setSelected(index)
             {
                 currentWallet = index;
-                nameWallet.text = walletModel.get(currentWallet).name
+                nameWallet.text = _dapModelWallets.get(currentWallet).name
 
                 updateNetworkModel()
 

@@ -14,7 +14,6 @@ RowLayout
 
         spacing: 24 * pt
 
-
         DapRectangleLitAndShaded
         {
             id:frameListView

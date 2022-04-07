@@ -15,7 +15,6 @@ TextField {
     property alias placeholderTextView: placeholderTextView
 
     property string smartPlaceHolderText: ""
-    //placeholderTextColor: color     //5.12
     property string placeholderTextColor_: currTheme.textColor    //5.10
 
     property int borderWidth: 1 * pt
@@ -27,17 +26,14 @@ TextField {
     property color borderColor: currTheme.borderColor
     property color borderColorWhenDisabled: borderColor
 
-
     color: currTheme.textColor
     verticalAlignment: TextInput.AlignVCenter
     selectByMouse: true
-    //inputMethodHints: Qt.ImhPreferLowercase
 
     leftPadding: 12 * pt
     rightPadding: 6 * pt
     topPadding: 3 * pt
     bottomPadding: 6 * pt
-
 
     Text {
         id: placeholderTextView
@@ -58,7 +54,6 @@ TextField {
         font: root.font
     }
 
-
     Rectangle {
         id: borderLine
         z: -1
@@ -71,10 +66,6 @@ TextField {
         border.width: root.activeFocus ? borderWidthWhenFocus : borderWidth
     }
 
-
     //empty default background
     background: Item {  }
-
-
-
 }   //root

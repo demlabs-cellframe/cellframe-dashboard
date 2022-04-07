@@ -8,8 +8,9 @@ import "qrc:/resources/QML"
 Page {
     id: window
 
-    readonly property string walletPage: walletModel.count > 0 ? "Wallet/TokenWallet.qml" :
-                                                                 "Wallet/MainWallet.qml"
+//    readonly property string walletPage: _dapModelWallets.count > 0 ? "Wallet/TokenWallet.qml" :
+//                                                                 "Wallet/MainWallet.qml"
+    readonly property string walletPage: "Wallet/TokenWallet.qml"
 
     readonly property string exchangePage:     "PageComingSoon.qml"
     readonly property string txExplorerPage:   "History/History.qml"
@@ -44,17 +45,20 @@ Page {
     ListModel {id: networkModel}
     ListModel {id: tokenModel  }
     ListModel {id: historyModel}
+    property ListModel _dapModelWallets
+    property ListModel _dapModelNetworks
 
     Component.onCompleted:
     {
-        initWalletModel()
-        updateNetworkModel()
-        updateTokenModel()
+        dapServiceController.requestToService("DapGetNetworksStateCommand")
+        dapServiceController.requestToService("DapGetWalletsInfoCommand")
+
+//        initWalletModel()
+//        updateNetworkModel()
+//        updateTokenModel()
         initHistoryModel()
-        nameWallet.text = walletModel.get(currentWallet).name
         stackView.setInitialItem(walletPage)
     }
-
 
     title: qsTr("Cellframe Dashboard")
     background: Rectangle {color: currTheme.backgroundMainScreen }
@@ -154,7 +158,7 @@ Page {
 //                    Layout.alignment: Qt.AlignBottom
                     Layout.fillWidth: true
 //                    Layout.bottomMargin: 7 * pt
-                    text: walletModel.get(currentWallet).name
+                    text: _dapModelWallets.get(currentWallet).name
                     font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
                     horizontalAlignment: Text.AlignHCenter
                     color: currTheme.textColor
@@ -205,6 +209,38 @@ Page {
     MainStackView {
         id: stackView
         anchors.fill: parent
+    }
+
+    Connections {
+        target: dapServiceController
+
+        onNetworksStatesReceived:
+        {
+            networkModelUpdate(networksStatesList)
+            updateContentInAll(networkModel)
+        }
+
+        onWalletsReceived: {
+            _dapModelWallets = globalLogic.rcvWalletList(walletList, parent)
+            updateTokenModel()
+            nameWallet.text = _dapModelWallets.get(currentWallet).name
+        }
+    }
+
+    function networkModelUpdate(networksStatesList)
+    {
+        if (!globalLogic.isEqualList(networkModel, networksStatesList)) {
+            networkModel.clear()
+            globalLogic.rcvNetworksStatesList(networkModel, networksStatesList)
+        } else
+            globalLogic.updateContent(networkModel, networksStatesList)
+
+    }
+    function updateContentInAll(curModel)
+    {
+        for (var i=0; i<curModel.count; ++i) {
+            globalLogic.updateContentInSpecified(networkModel.get(i), curModel.get(i))
+        }
     }
 
     function initWalletModel()
@@ -286,7 +322,7 @@ Page {
     {
         networkModel.clear()
 
-        var tempModel = mainWalletModel.get(currentWallet).networks
+        var tempModel = _dapModelWallets.get(currentWallet).networks
 
         for (var i = 0; i < tempModel.count; ++i)
         {
@@ -303,12 +339,12 @@ Page {
     {
         tokenModel.clear()
 
-        var tempModel = mainWalletModel.get(currentWallet).networks.get(currentNetwork).tokens
+        var tempModel = _dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens
 
         for (var i = 0; i < tempModel.count; ++i)
         {
             tokenModel.append({"name" : tempModel.get(i).name,
-                               "balance" : tempModel.get(i).balance})
+                               "balance" : tempModel.get(i).balance_without_zeros})
         }
     }
 

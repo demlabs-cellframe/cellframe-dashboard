@@ -11,10 +11,7 @@ ToolButton {
     height: 20 * pt
     width: height
 
-    image.anchors.centerIn: parent //{
-        //right: root.right
-        //rightMargin: 14 * pt
-   // }
+    image.anchors.centerIn: parent
     image.source: isHovered ? "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
                             : "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
     image.width: 10 * pt

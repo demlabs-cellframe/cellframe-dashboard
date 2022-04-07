@@ -9,7 +9,8 @@ Popup {
     id: dialog
 
     width: 300 * pt
-    height: 200 * pt
+    //height: 200 * pt
+    height: popupLayout.height + 40 * pt
 
     parent: Overlay.overlay
     x: (parent.width - width) * 0.5
@@ -26,8 +27,12 @@ Popup {
 
     ColumnLayout
     {
-        anchors.fill: parent
-        anchors.margins: 10 * pt
+        id: popupLayout
+        //anchors.fill: parent
+        //anchors.margins: 10 * pt
+        width: parent.width - 20 * pt
+        height: childrenRect.height
+        anchors.centerIn: parent
 
         Text {
             id: dapContentTitle

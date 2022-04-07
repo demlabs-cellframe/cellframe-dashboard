@@ -10,16 +10,11 @@ import "../models"
 
 Rectangle {
     id: root
-    //property var models
-    //property var dapRightPanel
     property alias closeButton: closeButton
     property alias createButton: createButton
     property alias optionalModel: optionalRepeater.model
     property alias signatureTypeCertificateComboBox: signatureTypeCertificateComboBox
     property alias titleCertificateTextInput: titleCertificateTextInput
-
-
-    //optionalModel: certModels.createCertificateOptional
 
     property bool requiredFieldValid: false
     color: currTheme.backgroundElements
@@ -42,7 +37,6 @@ Rectangle {
         requiredFieldValid = titleCertificateTextInput.text.length > 0
                              && signatureTypeCertificateComboBox.currentIndex >= 0
     }
-
 
     function checkOptionalField(){
         for (var i = 0; i < models.createCertificateOptional.count; ++i) {
@@ -152,7 +146,6 @@ Rectangle {
 
                 DapComboBox {
                     id: signatureTypeCertificateComboBox
-                    // x: popup.visible ? sidePaddingActive * (-1) : sidePaddingNormal    //???
 
                     anchors.verticalCenter: undefined
                     x: (parent.width - width) / 2
@@ -175,9 +168,7 @@ Rectangle {
                     sidePaddingActive: 19 * pt
                     paddingTopItemDelegate: 11 * pt
                     currentIndex: -1
-        //            bottomIntervalListElement: 8 * pt
                     heightListElement: 42 * pt
-                    //intervalListElement: 10 * pt
                     indicatorWidth: 24 * pt
                     indicatorHeight: indicatorWidth
                     indicatorLeftInterval: 20 * pt
@@ -185,7 +176,6 @@ Rectangle {
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
-                    //recomendedText: "Crystal-Dylithium"
 
                     topEffect: false
                     colorTopNormalDropShadow: "#00000000"
@@ -193,9 +183,7 @@ Rectangle {
 
                     fontComboBox: [_dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 }
-
 
                 InputField {
                     id: titleCertificateTextInput
@@ -206,6 +194,7 @@ Rectangle {
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+                    maximumLength: 39
 
                     onTextChanged: checkRequiredField()
                     onEditingFinished: {
@@ -215,28 +204,6 @@ Rectangle {
                     font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
                 }
 
-
-/*                TextField {
-                    id: titleCertificateTextInput
-                    x: 35 * pt
-                    y: 78 * pt
-                    height: 28 * pt
-                    width: 277 * pt
-                    placeholderText: qsTr("Title")
-                    font: _dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
-                    style:
-                        TextFieldStyle
-                        {
-                            textColor: currTheme.textColor
-                            placeholderTextColor: currTheme.textColor
-                            background:
-                                Rectangle
-                                {
-                                    border.width: 0
-                                    color: currTheme.backgroundElements
-                                }
-                        }
-                }*/
                 Rectangle //bottom line
                 {
                     anchors
@@ -296,8 +263,6 @@ Rectangle {
                             leftPadding: 0
                             smartPlaceHolderText: model.placeHolderText
                             textAndLineSpacing: 3 * pt
-        //                    color: focus ? currTheme.textColor : "#C7C6CE"
-                            //inputMask: model.inputFieldMask
 
                             onFocusChanged:
                             {
@@ -327,9 +292,6 @@ Rectangle {
                     DapButton {
                         id: createButton
                         textButton: qsTr("Create")
-                        //Layout.preferredWidth: 132 * pt
-                        //Layout.preferredHeight: 36 * pt
-                        //Layout.alignment: Qt.AlignHCenter
                         width: 132 * pt
                         height: 36 * pt
                         x: parent.width * 0.5 - width * 0.5
