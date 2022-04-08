@@ -38,8 +38,8 @@ Item {
         onEntered:
         {
             if(activeBtn){
-                orderText.color = currTheme.buttonColorNormal
-                infoText.color = currTheme.buttonColorNormal
+                orderText.color = currTheme.hilightColorComboBox
+                infoText.color = currTheme.hilightColorComboBox
             }
         }
 

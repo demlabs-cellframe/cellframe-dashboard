@@ -147,6 +147,7 @@ Rectangle {
                     leftPadding: 0
                     smartPlaceHolderText: qsTr("Title")
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+                    maximumLength: 39
 
                     font: mainFont.dapFont.regular18
                 }
@@ -242,7 +243,7 @@ Rectangle {
                                     inputMask = ""
                             }
 
-
+                            onTextChanged: optionalRepeater.model.setProperty(model.index, "data", text)
                             onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", "")}
 
                             font: mainFont.dapFont.regular16

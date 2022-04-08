@@ -160,7 +160,8 @@ Item
                 onClicked:
                 {
                     currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
-                    pluginsManager.installPlugin(dapListViewApps.currentIndex, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
+                    pluginsManager.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     defaultRightPanel.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
                 }
@@ -184,7 +185,8 @@ Item
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
-                    pluginsManager.installPlugin(dapListViewApps.currentIndex, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
+                    pluginsManager.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()

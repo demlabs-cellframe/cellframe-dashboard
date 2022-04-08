@@ -101,6 +101,8 @@ Rectangle {
     signal menuTabChanged()
     signal pluginsTabChanged(var auto, var removed, var name)
 
+    readonly property int autoUpdateInterval: 3000
+
     property alias dapModelMenuTabStates: modelMenuTabStates
 
     // Menu bar tab model
@@ -294,13 +296,9 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
-                        parent: Overlay.overlay
-
-                        x: width*0.5 * mainWindow.scale
-                        y: height*0.5 * mainWindow.scale
-
+                        y:0
+                        x:100
                         scale: mainWindow.scale
-
                         contentItem: Text {
                                 text: toolTip.text
                                 font: mainFont.dapFont.regular14
@@ -430,6 +428,7 @@ Rectangle {
     }
 
     property bool stateNotify: true
+
 
     ListModel
     {
@@ -945,7 +944,7 @@ Rectangle {
             if(isError)
             {
                 if(isFirst)
-                    messagePopup.open()
+                    messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
                 console.warn("ERROR SOCKET")
                 stateNotify = false
             }
@@ -953,6 +952,9 @@ Rectangle {
             {
                 messagePopup.close()
                 console.info("CONNECT SOCKET")
+
+//                if(!stateNotify) //TODO with notify
+//                    dapServiceController.requestToService("DapGetNetworksStateCommand")
                 stateNotify = true
             }
         }

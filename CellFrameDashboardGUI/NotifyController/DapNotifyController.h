@@ -16,6 +16,7 @@ public:
 
 signals:
     void socketState(QString state, int isFirst, int isError);
+    void netStates(QVariantMap netState);
 
 public:
     void rcvData(QVariant);

@@ -77,6 +77,9 @@ Item {
                         models.certificates.prependFromObject(result.data)
                         models.certificates.clearSelected()
                         rightPanel.sourceComponent = createFinishedItemComponent
+                        dapServiceController.requestToService(DapCertificateCommands.serviceName
+                                                              , DapCertificateCommands.GetSertificateList
+                                                              );
                     }
                     break;
                 case DapCertificateCommands.DumpCertifiacate:
@@ -123,7 +126,10 @@ Item {
                     if (result.status === DapCertificateCommands.statusOK) {
                         models.certificates.clearSelected()
                         models.certificates.prependFromObject(result.data)
-                        messagePopup.smartOpen(qsTr("Certificate"), "Public certificate created, file path:\n%1".arg(result.data.filePath))
+                        dapServiceController.requestToService(DapCertificateCommands.serviceName
+                                                              , DapCertificateCommands.GetSertificateList
+                                                              );
+//                        messagePopup.smartOpen(qsTr("Certificate"), "Public certificate created, file path:\n%1".arg(result.data.filePath))
                     }
 
                     break;
@@ -136,8 +142,8 @@ Item {
                     }
 
                     if (result.status === DapCertificateCommands.statusOK) {
-                        messagePopup.smartOpen(qsTr("Certificate"), "Success export to mempool\ncertificate: %1\nnetwork: %2"
-                                               .arg(result.data.certName).arg(result.data.network))
+//                        messagePopup.smartOpen(qsTr("Certificate"), "Success export to mempool\ncertificate: %1\nnetwork: %2"
+//                                               .arg(result.data.certName).arg(result.data.network))
                     }
 
                     break;
@@ -147,7 +153,7 @@ Item {
                 case DapCertificateCommands.DeleteCertificate:
                     //utils.beatifulerJSON(result.data, "DapCertificateCommands.DeleteCertificate");    //for test                   
                     if (result.status === DapCertificateCommands.statusOK) {
-                        messagePopup.smartOpen(qsTr("Certificate"), qsTr("Certificate deleted\n%1").arg(result.data.deletedFilePath))
+//                        messagePopup.smartOpen(qsTr("Certificate"), qsTr("Certificate deleted\n%1").arg(result.data.deletedFilePath))
                         models.certificates.removeByProperty("filePath", result.data.deletedFilePath)
                         models.certificates.clearSelected()
                         return
@@ -221,7 +227,7 @@ Item {
         console.info("FLOWPOINT exportPublicCertificateToMempool, index", index)
 
         if (cert && dapServiceController.CurrentNetwork !== "") {
-            requestRunning = true           //долгий запрос, требует индикации
+//            requestRunning = true           //долгий запрос, требует индикации
             dapServiceController.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.ExportPublicCertificateToMempool
                                                   , dapServiceController.CurrentNetwork, cert.completeBaseName);

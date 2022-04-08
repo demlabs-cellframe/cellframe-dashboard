@@ -22,9 +22,25 @@ Rectangle
     height: 40
     color: currTheme.backgroundPanel
 
+//<<<<<<< HEAD
+//=======
+//    layer.enabled: true
+//    layer.effect: DropShadow {
+//        anchors.fill: control
+//        radius: currTheme.radiusShadowSmall
+//        color: currTheme.reflectionLight
+//        source: control
+//        spread: 0.7
+//    }
+//    Component.onCompleted:
+//    {
+//        dapServiceController.requestToService("DapGetNetworksStateCommand")
+//    }
+
+//>>>>>>> ad58c27b1072b9518c9ab46b926a13144720515f
     Timer {
         id: idNetworkPanelTimer
-        interval: 5000; running: true; repeat: true
+        interval: 3000; running: true; repeat: true
         onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
@@ -49,7 +65,7 @@ Rectangle
                 to: 1.0
                 duration: 700
             }
-            loops:Animation.Infinite
+            loops: Animation.Infinite
             running: true
         }
     }
@@ -59,10 +75,15 @@ Rectangle
         id: dapNetworkItem
 
         Item {
+//<<<<<<< HEAD
             id:controlDelegate
             width: networksModel.count >= visible_count ?
                        networkList.width / visible_count :
                        networkList.width / networksModel.count
+//=======
+//            id: controlDelegate
+//            width: networksModel.count > visible_count -1 ? item_width : parent.parent.width/networksModel.count
+//>>>>>>> ad58c27b1072b9518c9ab46b926a13144720515f
             height: 40
             objectName: "delegateList"
             property int list_index:index
@@ -97,9 +118,9 @@ Rectangle
                     height: 8 * pt
                     mipmap: true
 
-                    source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
+                    source: networkState === "ONLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
                             networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
-                                                         "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
+                                                         "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
 
                     opacity: networkState !== targetState? animationController.opacity : 1
                 }
@@ -264,19 +285,15 @@ Rectangle
         networkList.closePopups()
     }
 
-//    Connections
-//    {
-//        target: dapServiceController
+    Connections
+    {
+        target: dapServiceController
 
-//        onNotifyReceived:
-//        {
-//            //if (!networksPanel.isNetworkListsEqual(networksModel, networksStatesList)) {
-//              //  networkList.closePopups()
-//            //}
-//            networksPanel.modelUpdate(rcvData)
-//            networksPanel.updateContentInAllOpenedPopups(networksModel)
-//        }
-//    }
+        onSignalNetState:
+        {
+            notifyModelUpdate(netState)
+        }
+    }
 
     Connections
     {
@@ -313,7 +330,6 @@ Rectangle
                 networksModel.append({ "name" : networksStatesList[i].name,
                                                 "networkState" : networksStatesList[i].networkState,
                                                 "targetState" : networksStatesList[i].targetState,
-                                                "stateColor" : networksStatesList[i].stateColor,
                                                 "errorMessage" : networksStatesList[i].errorMessage,
                                                 "linksCount" : networksStatesList[i].linksCount,
                                                 "activeLinksCount" : networksStatesList[i].activeLinksCount,
@@ -322,25 +338,7 @@ Rectangle
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)
         }
-
     }
-
-
-//    function modelUpdate(map)
-//    {
-
-//        console.log("LLLLLLLLLLL", map.net_ip)
-
-//        networksModel.append({ "name" : networksStatesList[i].name,
-//                                        "networkState" : networksStatesList[i].networkState,
-//                                        "targetState" : networksStatesList[i].targetState,
-//                                        "stateColor" : networksStatesList[i].stateColor,
-//                                        "errorMessage" : networksStatesList[i].errorMessage,
-//                                        "linksCount" : networksStatesList[i].linksCount,
-//                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
-//                                        "nodeAddress" : networksStatesList[i].nodeAddress})
-
-//    }
 
     function updateContentForExistingModel(curModel, newData)
     {
@@ -352,8 +350,6 @@ Rectangle
                     curModel.set(i, {"networkState": newData[i].networkState})
                 if (curModel.get(i).targetState !== newData[i].targetState)
                     curModel.set(i, {"targetState": newData[i].targetState})
-                if (curModel.get(i).stateColor !== newData[i].stateColor)
-                    curModel.set(i, {"stateColor": newData[i].stateColor})
                 if (curModel.get(i).errorMessage !== newData[i].errorMessage)
                     curModel.set(i, {"errorMessage": newData[i].errorMessage})
                 if (curModel.get(i).linksCount !== newData[i].linksCount)
@@ -372,8 +368,6 @@ Rectangle
             popup.name = curDataFromModel.name
         if (popup.networkState !== curDataFromModel.networkState)
             popup.networkState = curDataFromModel.networkState
-        if (popup.stateColor !== curDataFromModel.stateColor)
-            popup.stateColor = curDataFromModel.stateColor
         if (popup.errorMessage !== curDataFromModel.errorMessage)
             popup.errorMessage = curDataFromModel.errorMessage
         if (popup.targetState !== curDataFromModel.targetState)
@@ -411,5 +405,34 @@ Rectangle
     {
         var count = networkList.width/item_width
         return Math.floor(count)
+    }
+
+    function notifyModelUpdate(data)
+    {
+        if(networksModel.count)
+        {
+            for(var i = 0; i < networksModel.count; i++)
+            {
+                if(networksModel.get(i).name === data.name)
+                {
+                    networksModel.get(i).networkState = data.networkState.substr(10)
+                    networksModel.get(i).targetState = data.targetState.substr(10)
+                    networksModel.get(i).errorMessage = data.errorMessage
+                    networksModel.get(i).linksCount = data.linksCount.toString()
+                    networksModel.get(i).activeLinksCount = data.activeLinksCount.toString()
+                    networksModel.get(i).nodeAddress = data.nodeAddress
+                }
+            }
+        }
+        else
+        {
+            networksModel.append({ "name" : data.name,
+                                   "networkState" : data.networkState,
+                                   "targetState" : data.targetState,
+                                   "errorMessage" : data.errorMessage,
+                                   "linksCount" : data.linksCount.toString(),
+                                   "activeLinksCount" : data.activeLinksCount.toString(),
+                                   "nodeAddress" : data.nodeAddress})
+        }
     }
 }

@@ -37,7 +37,7 @@ Component {
             anchors.leftMargin: 14 * pt
             anchors.rightMargin: 15 * pt
             height: 1 * pt
-            color: currTheme.lineSeparatorColor
+            color: "#292929"
         }
 
     }  //

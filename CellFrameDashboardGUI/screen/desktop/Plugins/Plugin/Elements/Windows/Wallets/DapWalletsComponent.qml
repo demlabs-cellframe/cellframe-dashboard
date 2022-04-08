@@ -90,7 +90,7 @@ Component {
                     height: 30 * pt
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    color: currTheme.backgroundMainScreen
+                    color: "#2E3138"
 
 
 
@@ -156,7 +156,7 @@ Component {
                         anchors.left: parent.left
                         anchors.right: parent.right
                         height: 50 * pt
-                        color: currTheme.backgroundElements
+                        color: "#363A42"
 
                         RowLayout
                         {
@@ -180,7 +180,7 @@ Component {
                             y: parent.height - 1 * pt
                             width: parent.width - 40 * pt
                             height: 1 * pt
-                            color: currTheme.lineSeparatorColor
+                            color: "#292929"
                         }
                     }
                 }
