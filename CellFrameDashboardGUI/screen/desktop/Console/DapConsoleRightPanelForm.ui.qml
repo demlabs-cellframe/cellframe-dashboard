@@ -18,7 +18,7 @@ DapRightPanel
                 text: qsTr("Last actions")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -45,7 +45,7 @@ DapRightPanel
                         color: currTheme.textColor
                         width: parent.width
                         wrapMode: Text.Wrap
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font: mainFont.dapFont.regular14
                         //For the automatic sending selected command from history
                         MouseArea
                         {

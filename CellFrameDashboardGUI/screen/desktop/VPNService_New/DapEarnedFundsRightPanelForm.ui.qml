@@ -18,7 +18,7 @@ DapRightPanel
                 text: qsTr("Earned funds")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -58,7 +58,7 @@ DapRightPanel
                                 Layout.fillWidth: true
                                 text: name
                                 color: currTheme.textColor
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                                font: dapMainFonts.dapFont.dapFontRobotoRegular14
                                 elide: Text.ElideRight
                             }
 
@@ -67,7 +67,7 @@ DapRightPanel
                                 Layout.fillWidth: true
                                 text: status
                                 color: currTheme.textColor
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular12
+                                font: dapMainFonts.dapFont.dapFontRobotoRegular12
                             }
                         }
 
@@ -80,7 +80,7 @@ DapRightPanel
                             verticalAlignment: Qt.AlignVCenter
                             color: currTheme.textColor
                             text: sign + amount + " " + name
-                            font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                            font: dapMainFonts.dapFont.dapFontRobotoRegular14
                         }
                     }
                     Rectangle

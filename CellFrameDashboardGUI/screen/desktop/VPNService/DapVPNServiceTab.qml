@@ -105,7 +105,7 @@ Item {
                     id: textCreatingVPNOrder
 
                     anchors.centerIn: parent
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium26
+                    font:  mainFont.dapFont.medium26
                     elide: Text.ElideRight
                     color: "#070023"
                     text: qsTr("Creating VPN order in process…")
@@ -123,7 +123,7 @@ Item {
                         id: textMyVPNOrders
                         x: mainPanel.halfMargin
                         y: mainPanel.halfMargin
-                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14;
+                        font:  mainFont.dapFont.bold14;
                         color: "#3E3853"
                         text: qsTr("My VPN orders")
                     }

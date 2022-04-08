@@ -20,7 +20,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Appearance")
@@ -40,7 +40,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Window scale")
@@ -66,7 +66,7 @@ ColumnLayout
                 Layout.fillWidth: true
                 Layout.leftMargin: 13 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: mainFont.dapFont.regular14
                 color: currTheme.textColor
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Scale value")
@@ -81,16 +81,16 @@ ColumnLayout
                 Layout.minimumHeight: 18 * pt
                 Layout.maximumHeight: 18 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: mainFont.dapFont.regular12
 
-                realFrom: minWindowScale
-                realTo: maxWindowScale
+                realFrom: params.minWindowScale
+                realTo: params.maxWindowScale
                 realStep: 0.05
                 decimals: 2
 
                 //defaultValue: mainWindowScale
 
-                value: Math.round(mainWindowScale*100)
+                value: Math.round(params.mainWindowScale*100)
             }
         }
     }
@@ -125,7 +125,7 @@ ColumnLayout
             Text {
                 Layout.fillWidth: true
                 Layout.margins: 10 * pt
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: mainFont.dapFont.regular14
                 color: currTheme.textColor
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
@@ -152,7 +152,7 @@ ColumnLayout
                     textButton: qsTr("Restart")
 
                     implicitHeight: 36 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
 
                     onClicked: {
@@ -160,7 +160,7 @@ ColumnLayout
 
                         restartDialog.close()
 
-                        window.setNewScale(newScale)
+                        params.setNewScale(newScale)
                     }
                 }
 
@@ -174,7 +174,7 @@ ColumnLayout
                     textButton: qsTr("Cancel")
 
                     implicitHeight: 36 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
 
                     onClicked: {
@@ -214,7 +214,7 @@ ColumnLayout
                 textButton: qsTr("Reset scale")
 
                 implicitHeight: 36 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked: {
@@ -240,7 +240,7 @@ ColumnLayout
                 textButton: qsTr("Apply scale")
 
                 implicitHeight: 36 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked: {
@@ -273,13 +273,13 @@ ColumnLayout
         textButton: qsTr("Reset window size")
 
         implicitHeight: 36 * pt
-        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+        fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: {
             print("Reset size")
 
-            window.resetSize()
+            params.resetSize()
         }
     }
 
@@ -296,7 +296,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Edit menu")
@@ -328,7 +328,7 @@ ColumnLayout
             anchors.left: parent.left
             anchors.right: parent.right
             height: 50 * pt
-            onHeightChanged: listWallet.contentHeight = height
+            onHeightChanged: listMenuTab.contentHeight = height
 
             Item {
 //                height: 50 * pt
@@ -349,7 +349,7 @@ ColumnLayout
                         Layout.fillWidth: true
                         Layout.leftMargin: 13 * pt
 
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                        font: mainFont.dapFont.regular14
                         color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: name
@@ -409,7 +409,7 @@ ColumnLayout
                     Layout.fillWidth: true
                     Layout.leftMargin: 13 * pt
 
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: mainFont.dapFont.regular14
                     color: currTheme.textColor
                     verticalAlignment: Qt.AlignVCenter
                     text: modelMenuTabStates.get(index).name
@@ -457,7 +457,7 @@ ColumnLayout
 //            anchors.left: parent.left
 //            anchors.leftMargin: 17 * pt
 //            anchors.verticalCenter: parent.verticalCenter
-//            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+//            font: mainFont.dapFont.medium11
 //            color: currTheme.textColor
 //            verticalAlignment: Qt.AlignVCenter
 //            text: qsTr("Colours")
@@ -480,7 +480,7 @@ ColumnLayout
 //                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 //                    Layout.leftMargin: 15 * pt
 
-//                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+//                    font: mainFont.dapFont.regular14
 //                    color: currTheme.textColor
 //                    verticalAlignment: Qt.AlignVCenter
 //                    text: themes.get(index).name

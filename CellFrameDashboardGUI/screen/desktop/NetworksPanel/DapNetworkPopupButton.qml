@@ -29,7 +29,7 @@ Rectangle {
         anchors.verticalCenter: control.verticalCenter
         x: Math.floor(icon.width + control.spacing + (control.width - (width + icon.width + control.spacing)) * 0.5)
         width: Math.min(implicitWidth, control.width - icon.width - control.spacing)
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+        font: mainFont.dapFont.medium12
         color: control.highlight ? "#FFFFFF" :  "#453F5A"
         elide: Text.ElideRight
     }

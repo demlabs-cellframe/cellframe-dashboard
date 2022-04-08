@@ -312,8 +312,8 @@ DapAbstractTab
             id: dapMessageBox
             width: 300 * pt
             height: 240 * pt
-            fontMessage: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
-            fontButtonText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            fontMessage: mainFont.dapFont.bold14
+            fontButtonText: mainFont.dapFont.bold14
             dapButtonOk.onClicked: {
                 messagePopup.close()
             }

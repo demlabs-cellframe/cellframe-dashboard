@@ -43,7 +43,7 @@ DapTopPanel
 
         placeholderText: qsTr("Search")
         height: 28 * pt
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        font: mainFont.dapFont.regular14
 
         onEditingFinished: {
             filtering.clear()

@@ -21,7 +21,7 @@ DapTopPanel
         }
 
         text: qsTr( "Vesion " + dapServiceController.Version)
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        font: mainFont.dapFont.regular12
         color: currTheme.textColor
 
     }
@@ -43,7 +43,7 @@ DapTopPanel
             Layout.fillWidth: true
 
             text: qsTr( "Node connection status " )
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+            font: mainFont.dapFont.regular12
             color: currTheme.textColor
             elide: Text.ElideMiddle
         }

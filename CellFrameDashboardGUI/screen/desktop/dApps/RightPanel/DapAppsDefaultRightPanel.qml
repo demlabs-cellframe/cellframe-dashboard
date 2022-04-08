@@ -35,7 +35,7 @@ Item
             Layout.maximumHeight: 35 * pt
             Layout.leftMargin: 15 * pt
             verticalAlignment: Text.AlignVCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Filter")
         }
@@ -53,7 +53,7 @@ Item
                 nameRadioButton: qsTr("Verified")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Verified")
@@ -67,7 +67,7 @@ Item
                 Layout.topMargin: 5 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Unverified")
@@ -81,7 +81,7 @@ Item
                 Layout.topMargin: 6 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Both")
@@ -96,7 +96,7 @@ Item
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
             verticalAlignment: Text.AlignVCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Actions")
         }
@@ -119,7 +119,7 @@ Item
                 id:loadPlug
                 textButton: "Add dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
 
@@ -154,7 +154,7 @@ Item
                 id:installPlug
                 textButton: "Activate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -175,7 +175,7 @@ Item
                 id:uninstallPlug
                 textButton: "Deactivate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -200,7 +200,7 @@ Item
                 id:deletePlug
                 textButton: "Delete dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:

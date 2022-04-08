@@ -9,7 +9,7 @@ DapAbstractTab {
     id:tokensTab
     color: currTheme.backgroundMainScreen
     ///@detalis Path to the right panel of last actions.
-    readonly property string lastActionsTokens: "qrc:/screen/" + device + "/Tokens/RightPanel/DapLastActionsRightPanel.qml"
+    readonly property string lastActionsTokens: path + "/Tokens/RightPanel/DapLastActionsRightPanel.qml"
 
     property alias dapTokensRightPanel: stackViewRightPanel
 

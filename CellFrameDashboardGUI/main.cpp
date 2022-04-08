@@ -8,6 +8,12 @@
 #include <QSharedMemory>
 #include <QScreen>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#include <QAndroidJniObject>
+#include <QAndroidIntent>
+#endif
+
 #include "DapHelper.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceController.h"

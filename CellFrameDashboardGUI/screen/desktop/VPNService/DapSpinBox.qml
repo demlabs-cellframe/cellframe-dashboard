@@ -5,7 +5,7 @@ SpinBox {
     id: control
 
     padding: 4 * pt
-    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+    font:  mainFont.dapFont.medium16
     editable: true
     inputMethodHints: Qt.ImhFormattedNumbersOnly
 

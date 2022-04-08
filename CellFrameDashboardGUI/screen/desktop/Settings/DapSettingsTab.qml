@@ -8,13 +8,13 @@ import "../SettingsWallet.js" as SettingsWallet
 DapAbstractTab
 {
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string inputNameWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapCreateWallet.qml"
+    readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapDoneCreateWallet.qml"
+    readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     //empty panel
-    readonly property string emptyRightPanel: "qrc:/screen/" + device + "/Settings/RightPanel/DapEmptyRightPanel.qml"
+    readonly property string emptyRightPanel: path + "/Settings/RightPanel/DapEmptyRightPanel.qml"
     ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
+    readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1

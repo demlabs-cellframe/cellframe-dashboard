@@ -23,7 +23,7 @@ TextField {
 
     implicitHeight: 27 * pt
     implicitWidth: 230 * pt
-    font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+    font:mainFont.dapFont.regular14
 
     style:
         TextFieldStyle

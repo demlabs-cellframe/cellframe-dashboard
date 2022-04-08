@@ -38,7 +38,7 @@ DapHistoryScreenForm
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
                 text: getDateString(payDate)
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: mainFont.dapFont.regular12
             }
         }
     }
@@ -68,7 +68,7 @@ DapHistoryScreenForm
                     Layout.minimumWidth: 120 * pt
                     text: network
                     color: currTheme.textColor
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font:  mainFont.dapFont.regular16
                     Layout.alignment: Qt.AlignLeft
                 }
 
@@ -79,7 +79,7 @@ DapHistoryScreenForm
                     Layout.minimumWidth: 100 * pt
                     text: name
                     color: currTheme.textColor
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font:  mainFont.dapFont.regular16
                     Layout.alignment: Qt.AlignLeft
                 }
 
@@ -90,7 +90,7 @@ DapHistoryScreenForm
                     Layout.minimumWidth: 100 * pt
                     text: status
                     color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font:  mainFont.dapFont.regular14
                 }
 
 
@@ -103,7 +103,7 @@ DapHistoryScreenForm
                     property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                     text: sign + amount + " " + name
                     color: currTheme.textColor
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font:  mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
                 }
 

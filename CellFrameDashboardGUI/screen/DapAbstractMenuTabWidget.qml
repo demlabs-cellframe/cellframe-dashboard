@@ -16,10 +16,10 @@ DapAbstractMenuTabWidgetForm
     property string normalColorItemMenu: "transparent"
     ///@detalis Сolor of the main menu bar item in the selected state.
     property string selectColorItemMenu: "#D51F5D"
-//    property string normalFont: dapMainFonts.dapMainFontTheme.dapFontRobotoLightCustom
-//    property string selectedFont: dapMainFonts.dapMainFontTheme.dapFontRobotoRegularCustom
-    property string normalFont: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandLightCustom
-    property string selectedFont: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
+//    property string normalFont: dapMainFonts.dapFont.dapFontRobotoLightCustom
+//    property string selectedFont: dapMainFonts.dapFont.dapFontRobotoRegularCustom
+    property string normalFont: mainFont.dapFont.lightCustom
+    property string selectedFont: mainFont.dapFont.regularCustom
 
     // Widget of the main menu bar item
     Component

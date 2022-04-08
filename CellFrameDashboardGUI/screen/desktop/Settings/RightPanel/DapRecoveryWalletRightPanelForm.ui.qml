@@ -56,7 +56,7 @@ DapRightPanel
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -77,7 +77,7 @@ DapRightPanel
                     id: textMethod
                     color: currTheme.textColor
                     text: qsTr("Recovery method: 24 words")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    font: mainFont.dapFont.medium14
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -103,7 +103,7 @@ DapRightPanel
                     horizontalAlignment: Text.AlignHCenter
                     color: "#79FFFA"
                     wrapMode: Text.WordWrap
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: mainFont.dapFont.regular14
                 }
             }
 
@@ -128,7 +128,7 @@ DapRightPanel
                         text: modelData
 //                        font { bold: true; pixelSize: 12 }
                         color: currTheme.textColor
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        font: mainFont.dapFont.regular16
 
                     }
                     model: wordsModel
@@ -145,7 +145,7 @@ DapRightPanel
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular14
+                font: dapMainFonts.dapFont.dapFontRobotoRegular14
             }
 
             Text
@@ -159,7 +159,7 @@ DapRightPanel
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: mainFont.dapFont.regular14
             }
 
 
@@ -177,7 +177,7 @@ DapRightPanel
                     textButton: qsTr("Next")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    fontButton: mainFont.dapFont.regular16
                     visible: false
                 }
 
@@ -190,7 +190,7 @@ DapRightPanel
                     checkable: true
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    fontButton: mainFont.dapFont.regular16
                 }
 
             }

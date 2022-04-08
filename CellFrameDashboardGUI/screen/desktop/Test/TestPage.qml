@@ -8,7 +8,7 @@ import "qrc:/widgets"
 
 DapTab {
 
-    readonly property string dapTestRightPanel : "qrc:/screen/" + device + "/Test/DapTestRightPanelForm.ui.qml"
+    readonly property string dapTestRightPanel : path + "/Test/DapTestRightPanelForm.ui.qml"
 
     id :testPageTab
     color: currTheme.backgroundMainScreen

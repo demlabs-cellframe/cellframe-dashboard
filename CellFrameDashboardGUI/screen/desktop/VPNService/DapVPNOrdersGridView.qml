@@ -63,7 +63,7 @@ GridView {
                     anchors.left: parent.left
                     anchors.leftMargin: control.delegateContentMargin
                     anchors.right: orderIcon.right
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font:  mainFont.dapFont.medium12
                     elide: Text.ElideRight
                     color: "#FFFFFF"
                     text: model.name

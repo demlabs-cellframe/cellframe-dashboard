@@ -7,10 +7,10 @@ import "../../desktop/VPNService_New/"
 DapAbstractTab {
 
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string createOrder: "qrc:/screen/" + device + "/VPNService_New/DapCreateOrder.qml"
-    readonly property string orderDetails: "qrc:/screen/" + device + "/VPNService_New/DapOrderDetails.qml"
-    readonly property string earnedFundsOrder: "qrc:/screen/" + device + "/VPNService_New/DapEarnedFunds.qml"
-    readonly property string doneOrder: "qrc:/screen/" + device + "/Dashboard/RightPanel/DapDoneWalletsssRightPanel.qml"
+    readonly property string createOrder: path + "/VPNService_New/DapCreateOrder.qml"
+    readonly property string orderDetails: path + "/VPNService_New/DapOrderDetails.qml"
+    readonly property string earnedFundsOrder: path + "/VPNService_New/DapEarnedFunds.qml"
+    readonly property string doneOrder: path + "/Dashboard/RightPanel/DapDoneWalletsssRightPanel.qml"
     id: vpnServiceTab
 
     property alias dapVPNServiceRightPanel: stackViewRightPanel

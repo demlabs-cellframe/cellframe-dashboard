@@ -17,7 +17,7 @@ Item {
         width: 612 * pt
         height: parent.height
         verticalAlignment: Text.AlignVCenter
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+        font: mainFont.dapFont.regular16
         color: currTheme.textColor
         elide: Text.ElideRight
         maximumLineCount: 1
@@ -61,7 +61,7 @@ Item {
         anchors.right: parent.right
         anchors.rightMargin: activeBtn? 50 * pt : 10 * pt
         color: currTheme.textColor
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+        font: mainFont.dapFont.regular16
         verticalAlignment: Text.AlignVCenter
     }
 

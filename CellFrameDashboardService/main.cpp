@@ -136,8 +136,6 @@ int main(int argc, char *argv[]) {
 #else
 int main(int argc, char *argv[])
 {
-
-
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
 
@@ -192,6 +190,7 @@ int main(int argc, char *argv[])
     processArgs();
     DapServiceController serviceController;
     serviceController.start();
+    qDebug() << "SERVICE STARTED";
     
     return a.exec();
 }

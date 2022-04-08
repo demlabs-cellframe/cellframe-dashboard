@@ -25,7 +25,7 @@ DapRightPanel
             text: qsTr("Last actions")
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Text.AlignLeft
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
 
         }
@@ -73,7 +73,7 @@ DapRightPanel
                         Layout.fillWidth: true
                         text: network
                         color: currTheme.textColor
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                        font: mainFont.dapFont.regular11
                         elide: Text.ElideRight
                     }
 
@@ -82,7 +82,7 @@ DapRightPanel
                         Layout.fillWidth: true
                         text: status
                         color: currTheme.textColorGrayTwo
-                        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                        font: mainFont.dapFont.regular12
                     }
                 }
 
@@ -95,7 +95,7 @@ DapRightPanel
                     verticalAlignment: Qt.AlignVCenter
                     color: currTheme.textColor
                     text: sign + amount + " " + name
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                    font: mainFont.dapFont.regular14
                 }
                 Image
                 {

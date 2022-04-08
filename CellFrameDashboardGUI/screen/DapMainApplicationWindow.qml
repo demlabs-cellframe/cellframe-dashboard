@@ -16,53 +16,73 @@ import "desktop/SettingsWallet.js" as SettingsWallet
 import "../resources/theme" as Theme
 import "qrc:/widgets"
 
+import "qrc:/screen/desktop/NetworksPanel"
+
 
 Rectangle {
     id: dapMainWindow
 
     ///@detalis Path to the dashboard tab.
-    readonly property string dashboardScreenPath: "qrc:/screen/" + device + "/Dashboard/DapDashboardTab.qml"
+    readonly property string dashboardScreenPath: path + "/Dashboard/DapDashboardTab.qml"
     ///@detalis Path to the exchange tab.
-    readonly property string exchangeScreenPath: "qrc:/screen/" + device + "/Exchange/DapExchangeTab.qml"
+    readonly property string exchangeScreenPath: path + "/Exchange/DapExchangeTab.qml"
     ///@detalis Path to the history tab.
-    readonly property string historyScreenPath: "qrc:/screen/" + device + "/History/DapHistoryTab.qml"
+    readonly property string historyScreenPath: path + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
 //    readonly property string vpnServiceScreenPath: "qrc:/screen/" + device + "/VPNService/DapVPNServiceTab.qml"
-    readonly property string vpnServiceScreenPath: "qrc:/screen/" + device + "/VPNService_New/DapVPNServiceTab.qml"
+    readonly property string vpnServiceScreenPath: path + "/VPNService_New/DapVPNServiceTab.qml"
     ///@detalis Path to the VPN client tab.
-    readonly property string vpnClientScreenPath: "qrc:/screen/" + device + "/VPNClient/DapVpnClientTab.qml"
+    readonly property string vpnClientScreenPath: path + "/VPNClient/DapVpnClientTab.qml"
     ///@detalis Path to the settings tab.
-    readonly property string settingsScreenPath: "qrc:/screen/" + device + "/Settings/DapSettingsTab.qml"
+    readonly property string settingsScreenPath: path + "/Settings/DapSettingsTab.qml"
     ///@detalis Path to the logs tab.
-    readonly property string logsScreenPath: "qrc:/screen/" + device + "/Logs/DapLogsTab.qml"
+    readonly property string logsScreenPath: path + "/Logs/DapLogsTab.qml"
     ///@detalis Path to the console tab.
-    readonly property string consoleScreenPath: "qrc:/screen/" + device + "/Console/DapConsoleTab.qml"
+    readonly property string consoleScreenPath: path + "/Console/DapConsoleTab.qml"
     ///@detalis Path to the certificates tab.
-    readonly property string certificatesScreenPath: "qrc:/screen/" + device + "/Certificates/DapCertificatesMainPage.qml"
+    readonly property string certificatesScreenPath: path + "/Certificates/DapCertificatesMainPage.qml"
     ///@detalis Path to the tokens tab.
-    readonly property string tokensScreenPath: "qrc:/screen/" + device + "/Tokens/DapTokensTab.qml"
+    readonly property string tokensScreenPath: path + "/Tokens/DapTokensTab.qml"
      ///@detalis Path to the plugins tab.
-    readonly property string pluginsScreen: "qrc:/screen/" + device + "/Plugins/Plugin/DapApp.qml"
+    readonly property string pluginsScreen: path + "/Plugins/Plugin/DapApp.qml"
     ///@detalis Path to the plugins tab.
-   readonly property string miniGameScreen: "qrc:/screen/" + device + "/Plugins/MiniGame/MiniGame.qml"
+   readonly property string miniGameScreen: path + "/Plugins/MiniGame/MiniGame.qml"
     ///@detalis Path to the dApps tab.
-    readonly property string dAppsScreen: "qrc:/screen/" + device + "/dApps/DapAppsTab.qml"
+    readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
 
-    readonly property string underConstructionsScreenPath: "qrc:/screen/" + device + "/UnderConstructions.qml"
+    readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
-    readonly property string testScreenPath: "qrc:/screen/" + device + "/Test/TestPage.qml"
+    readonly property string testScreenPath: path + "/Test/TestPage.qml"
 
-    ///@details dapMainFonts Project font loader
-    readonly property QtObject dapMainFonts: DapFontRoboto {}
-//    readonly property QtObject dapQuicksandFonts: DapFontQuicksand {}
-    property alias dapQuicksandFonts: quicksandFonts
-    DapFontQuicksand {
-        id: quicksandFonts
+
+
+    property alias footer: networksPanel
+
+    anchors.centerIn: parent
+    width: parent.width / scale
+    height: parent.height / scale
+
+    DapControlNetworksPanel
+    {
+        id: networksPanel
+        height: 40 * pt
     }
 
-    Theme.Dark {id: darkTheme}
-    Theme.Light {id: lightTheme}
+    Rectangle {
+        anchors.left: networksPanel.left
+        anchors.right: networksPanel.right
+        anchors.bottom: networksPanel.top
+        height: 3
+
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: currTheme.backgroundPanel }
+            GradientStop { position: 1.0; color: currTheme.reflectionLight }
+        }
+    }
+
+    scale: 1.0
+
 
     ListModel{
         id:themes
@@ -218,6 +238,8 @@ Rectangle {
     Row
     {
         id: rowMainWindow
+
+//        anchors.fill: parent
 //            height: 754
 
         anchors {
@@ -281,7 +303,7 @@ Rectangle {
 
                         contentItem: Text {
                                 text: toolTip.text
-                                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                                font: mainFont.dapFont.regular14
                                 color: currTheme.textColor
                             }
 

@@ -37,7 +37,7 @@ DapTopPanel
         indentTextRight: 10 * pt
         borderColorButton: "#000000"
         borderWidthButton: 0
-        fontButton:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+        fontButton:  mainFont.dapFont.regular14
         horizontalAligmentText:Qt.AlignRight
         colorTextButton: "#FFFFFF"
     }

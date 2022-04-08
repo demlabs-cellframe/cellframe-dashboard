@@ -81,7 +81,7 @@ Rectangle
                     id: txt_left
                     Layout.fillWidth: true
                     Layout.maximumWidth: item_width/2
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
+                    font: mainFont.dapFont.bold12
                     color: currTheme.textColor
                     elide: Text.ElideMiddle
 
@@ -124,7 +124,7 @@ Rectangle
 
                 Component.onCompleted:
                 {
-                    if (mainWindowScale > 1.0)
+                    if (params.mainWindowScale > 1.0)
                     {
                         x = controlDelegate.width/2 - width/2/mainWindow.scale
                         y = -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height

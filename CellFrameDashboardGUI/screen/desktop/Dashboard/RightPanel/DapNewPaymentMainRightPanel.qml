@@ -272,11 +272,13 @@ DapNewPaymentMainRightPanelForm
 
         if (dotIndex === -1)
         {
-            str += "000000000"
+//            str += "000000000"
+            str += "000000000000000000"
         }
         else
         {
-            var shift = 10 - str.length + dotIndex
+//            var shift = 10 - str.length + dotIndex
+            var shift = 19 - str.length + dotIndex
 
             str += "0".repeat(shift)
 
