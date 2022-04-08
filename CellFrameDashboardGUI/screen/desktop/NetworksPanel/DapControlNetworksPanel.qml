@@ -37,7 +37,7 @@ DapNetworksPanel
 
     Timer {
         id: idNetworkPanelTimer
-        interval: 5000; running: true; repeat: true
+        interval: 3000; running: true; repeat: true
         onTriggered: dapServiceController.requestToService("DapGetNetworksStateCommand")
     }
 
@@ -62,7 +62,7 @@ DapNetworksPanel
                 to: 1.0
                 duration: 700
             }
-            loops:Animation.Infinite
+            loops: Animation.Infinite
             running: true
         }
     }
@@ -72,7 +72,7 @@ DapNetworksPanel
         id: dapNetworkItem
 
         Item {
-            id:controlDelegate
+            id: controlDelegate
             width: networksModel.count > visible_count -1 ? item_width : parent.parent.width/networksModel.count
             height: 40
             objectName: "delegateList"
