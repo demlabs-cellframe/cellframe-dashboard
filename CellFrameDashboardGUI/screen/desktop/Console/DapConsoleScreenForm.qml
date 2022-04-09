@@ -131,7 +131,7 @@ DapAbstractScreen
 
                         Keys.onRightPressed:
                         {
-                            if (autocomleteStatus == 2 && consoleCmd.cursorPosition == consoleCmd.text.length)
+                            if (autocomleteStatus == 2 && consoleCmd.cursorPosition == consoleCmd.text.length && autocompleteText.text != "")
                             {
                                 consoleCmd.text = autocompleteText.text
                                 autocomleteStatus = 0

@@ -76,6 +76,7 @@ DapAbstractScreen {
             }
             DapButton
             {
+                enabled: false
                 id: addOrderButton
                 implicitWidth: 180 * pt
                 implicitHeight: 36 * pt

@@ -37,7 +37,7 @@ Item {
                 font.family: "Quicksand"
                 font.pixelSize: 14
                 font.bold: true
-                color: currTheme.textColor
+                color: "#ffffff"
                 text: qsTr("Orders")
             }
 

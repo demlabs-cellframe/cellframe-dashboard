@@ -67,9 +67,8 @@ ColumnLayout
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-            mainLineText: {
-             return   dapNetworkModel.get(SettingsWallet.currentNetwork).name
-            }
+            mainLineText: dapNetworkModel.count ? dapNetworkModel.get(SettingsWallet.currentNetwork).name :
+                                                  "Networks"
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -185,6 +184,7 @@ ColumnLayout
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name
+                            elide: Text.ElideMiddle
                         }
                         RowLayout
                         {

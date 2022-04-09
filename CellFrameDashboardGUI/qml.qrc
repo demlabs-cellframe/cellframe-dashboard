@@ -165,9 +165,6 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>screen/desktop/Wallet/DapWalletTab.qml</file>
-        <file>screen/desktop/Wallet/DapWalletTopPanel.qml</file>
-        <file>screen/desktop/DapTokensListView.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
         <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>
@@ -330,9 +327,6 @@
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsInfo.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/DapWindowLoader.qml</file>
-        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginButton.qml</file>
-        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginMainScreen.qml</file>
-        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginsBlock.qml</file>
         <file>screen/desktop/Plugins/Plugin/DapApp.qml</file>
         <file>screen/desktop/Plugins/MiniGame/MiniGame.qml</file>
         <file>screen/desktop/Plugins/MiniGame/Elements/GameMainScreen.qml</file>
@@ -344,5 +338,8 @@
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
         <file>screen/DapMessagePopup.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapAppButton.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
     </qresource>
 </RCC>

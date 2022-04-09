@@ -9,6 +9,8 @@ DapRightPanel
 {
     id:control
 
+    property alias dapLastActionsView: lastActionsView
+
     dapHeaderData:
         Rectangle
     {
@@ -33,7 +35,6 @@ DapRightPanel
     dapContentItemData:
     ListView
     {
-
         id: lastActionsView
         anchors.fill: parent
         clip: true
@@ -47,11 +48,11 @@ DapRightPanel
         section.delegate: delegateSection
 
         delegate: Rectangle {
-            anchors.left: parent.left
-            anchors.right: parent.right
+//            anchors.left: parent.left
+//            anchors.right: parent.right
             anchors.leftMargin: 5 * pt
             anchors.rightMargin: 5 * pt
-//            width: control.width
+            width: lastActionsView.width
             color: currTheme.backgroundElements
             height: 50 * pt
 

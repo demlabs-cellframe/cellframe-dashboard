@@ -36,52 +36,6 @@ DapAbstractTab
 
     dapScreen: DapSettingsScreen {
         id: settingsScreen
-    }
-
-    dapRightPanel: StackView
-    {
-        id: stackViewRightPanel
-        initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: visible ? 350 * pt : 0
-        anchors.fill: parent
-        visible:false
-        delegate:
-            StackViewDelegate
-            {
-                pushTransition: StackViewTransition { }
-            }
-    }
-
-    Connections
-    {
-        target: currentRightPanel
-        onNextActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapNextRightPanel);
-        }
-        onPreviousActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-        }
-    }
-
-    Connections
-    {
-        target: dapServiceController
-
-        onWalletCreated:
-        {
-            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
-            dapWallets.length = 0
-            dapModelWallets.clear()
-            dapServiceController.requestToService("DapGetWalletsInfoCommand");
-
-        }
-    }
-
-    Connections
-    {
-        target: settingsScreen
 
         onCreateWalletSignal:
         {
@@ -117,6 +71,72 @@ DapAbstractTab
                 }
 
             menuTabChanged()
+        }
+    }
+
+    dapRightPanel: StackView
+    {
+        id: stackViewRightPanel
+        initialItem: Qt.resolvedUrl(emptyRightPanel);
+        width: visible ? 350 * pt : 0
+        anchors.fill: parent
+        visible:false
+        delegate:
+            StackViewDelegate
+            {
+                pushTransition: StackViewTransition { }
+            }
+    }
+
+    Timer {
+        id: updateTimer
+        interval: autoUpdateInterval; running: false; repeat: true
+        onTriggered:
+        {
+            dapServiceController.requestToService("DapGetListWalletsCommand")
+            if(!dapNetworkModel.count)
+                dapServiceController.requestToService("DapGetListNetworksCommand")
+        }
+    }
+
+    Component.onCompleted:
+    {
+        updateTimer.running = true
+    }
+
+    Connections
+    {
+        target: currentRightPanel
+
+        onNextActivated:
+        {
+            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapNextRightPanel);
+        }
+        onPreviousActivated:
+        {
+            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+        }
+    }
+
+
+
+    Connections
+    {
+        target: dapServiceController
+
+        onWalletCreated:
+        {
+            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
+        }
+        onWalletsListReceived:
+        {
+            if(dapModelWallets)
+            {
+                if(walletsList.length !== dapModelWallets.count)
+                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
+            }
+            else
+                dapServiceController.requestToService("DapGetWalletsInfoCommand")
         }
     }
 }

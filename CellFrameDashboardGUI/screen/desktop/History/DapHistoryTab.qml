@@ -8,7 +8,7 @@ DapHistoryTabForm
     property string currentPeriod: "all time"
     property bool isCurrentRange: false
 
-    property int requestCounter: 0
+    property int lastHistoryLength: 0
 
     ListModel
     {
@@ -20,66 +20,115 @@ DapHistoryTabForm
         id: temporaryModel
     }
 
+    ListModel
+    {
+        id: previousModel
+    }
+
+    Timer {
+        id: updateTimer
+        interval: 1000; running: false; repeat: true
+        onTriggered:
+        {
+            updateWalletHisory()
+        }
+    }
+
     Component.onCompleted:
     {
-        if (SettingsWallet.currentIndex >= 0 &&
-            requestCounter === 0)
-        {
-            modelHistory.clear()
+        print("DapHistoryTab onCompleted", updateTimer.running)
 
-            requestCounter = getWalletHistory(SettingsWallet.currentIndex)
-        }
+        updateWalletHisory()
+
+        if (!updateTimer.running)
+            updateTimer.start()
+    }
+
+    Component.onDestruction:
+    {
+        print("DapHistoryTab onDestruction", updateTimer.running)
+
+        updateTimer.stop()
     }
 
     Connections
     {
         target: dapServiceController
-        onWalletHistoryReceived:
+        onAllWalletHistoryReceived:
         {
-            if (requestCounter <= 0)
-                return
-
-            --requestCounter
-
-            for (var q = 0; q < walletHistory.length; ++q)
+            if (walletHistory.length !== lastHistoryLength)
             {
-                if (temporaryModel.count === 0)
-                    temporaryModel.append({"wallet" : walletHistory[q].Wallet,
-                                          "network" : walletHistory[q].Network,
-                                          "name" : walletHistory[q].Name,
-                                          "status" : walletHistory[q].Status,
-                                          "amount" : walletHistory[q].AmountWithoutZeros,
-                                          "date" : walletHistory[q].Date,
-                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-                                          "hash" : walletHistory[q].Hash})
+                print("onAllWalletHistoryReceived",
+                      "walletHistory.length", walletHistory.length,
+                      "lastHistoryLength", lastHistoryLength)
+
+                if (walletHistory.length < lastHistoryLength)
+                {
+                    print("ERROR! walletHistory.length < lastHistoryLength",
+                          walletHistory.length, lastHistoryLength)
+                }
                 else
                 {
-                    var j = 0;
-                    while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                    lastHistoryLength = walletHistory.length
+
+                    temporaryModel.clear()
+
+                    for (var q = 0; q < walletHistory.length; ++q)
                     {
-                        ++j;
-                        if (j >= temporaryModel.count)
-                            break;
+                        if (temporaryModel.count === 0)
+                            temporaryModel.append({"wallet" : walletHistory[q].Wallet,
+                                                  "network" : walletHistory[q].Network,
+                                                  "name" : walletHistory[q].Name,
+                                                  "status" : walletHistory[q].Status,
+                                                  "amount" : walletHistory[q].AmountWithoutZeros,
+                                                  "date" : walletHistory[q].Date,
+                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+                                                  "hash": walletHistory[q].Hash})
+                        else
+                        {
+                            var j = 0;
+                            while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                            {
+                                ++j;
+                                if (j >= temporaryModel.count)
+                                    break;
+                            }
+                            temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
+                                                  "network" : walletHistory[q].Network,
+                                                  "name" : walletHistory[q].Name,
+                                                  "status" : walletHistory[q].Status,
+                                                  "amount" : walletHistory[q].AmountWithoutZeros,
+                                                  "date" : walletHistory[q].Date,
+                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+                                                  "hash": walletHistory[q].Hash})
+                        }
                     }
-                    temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
-                                          "network" : walletHistory[q].Network,
-                                          "name" : walletHistory[q].Name,
-                                          "status" : walletHistory[q].Status,
-                                          "amount" : walletHistory[q].AmountWithoutZeros,
-                                          "date" : walletHistory[q].Date,
-                                          "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-                                          "hash" : walletHistory[q].Hash})
+
+                    var test = true
+
+                    if (previousModel.count !== temporaryModel.count)
+                        test = false
+                    else
+                    {
+                        for (var i = 0; i < previousModel.count; ++i)
+                            if (!compareHistoryElements(temporaryModel.get(i), previousModel.get(i)))
+                            {
+                                test = false
+                                break
+                            }
+                    }
+
+                    previousModel.clear()
+                    for (var k = 0; k < temporaryModel.count; ++k)
+                        previousModel.append(temporaryModel.get(k))
+
+                    if (!test)
+                    {
+                        print("New model != Previous model")
+                        outNewModel()
+                    }
                 }
             }
-
-            if (requestCounter <= 0)
-            {
-                modelHistory.clear()
-
-                for (var i = 0; i < temporaryModel.count; ++i)
-                    modelHistory.append(temporaryModel.get(i))
-            }
-
         }
     }
 
@@ -108,7 +157,44 @@ DapHistoryTabForm
         filterResults()
     }
 
+    function updateWalletHisory()
+    {
+        print("function updateWalletHisory")
+
+        if (SettingsWallet.currentIndex >= 0)
+        {
+            getAllWalletHistory(SettingsWallet.currentIndex)
+        }
+    }
+
+    function compareHistoryElements(elem1, elem2)
+    {
+        if (elem1.wallet !== elem2.wallet)
+            return false
+        if (elem1.network !== elem2.network)
+            return false
+        if (elem1.name !== elem2.name)
+            return false
+        if (elem1.status !== elem2.status)
+            return false
+        if (elem1.amount !== elem2.amount)
+            return false
+        if (elem1.date !== elem2.date)
+            return false
+        if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
+            return false
+
+        return true
+    }
+
     function filterResults()
+    {
+        previousModel.clear()
+
+        outNewModel()
+    }
+
+    function outNewModel()
     {
         modelHistory.clear()
 
@@ -151,6 +237,8 @@ DapHistoryTabForm
             }
         }
 
+        print("Reset position")
+        dapHistoryScreen.dapListViewHistory.positionViewAtBeginning()
     }
 
     function checkText(item, line)
