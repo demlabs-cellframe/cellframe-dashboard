@@ -9,7 +9,7 @@ QtObject {
 
     //wallets create param
     property bool restoreWalletMode: false
-    property string currentTab
+    property string currentTab: stackViewTabs.source
     property string walletRecoveryType: "Nothing"
     //
 
