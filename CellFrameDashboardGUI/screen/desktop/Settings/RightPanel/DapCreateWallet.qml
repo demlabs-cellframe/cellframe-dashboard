@@ -9,12 +9,12 @@ DapCreateWalletForm
 
     Component.onCompleted:
     {
-        if (currentTab === dashboardScreenPath)
+        if (logicMainApp.currentTab === dashboardScreenPath)
           dapPreviousRightPanel = lastActionsWallet
-        if (currentTab === settingsScreenPath)
+        if (logicMainApp.currentTab === settingsScreenPath)
           dapPreviousRightPanel = emptyRightPanel
 
-        if (!restoreWalletMode)
+        if (!logicMainApp.restoreWalletMode)
             dapTextHeader.text = qsTr("New wallet")
         else
             dapTextHeader.text = qsTr("Restore a wallet")
@@ -40,9 +40,9 @@ DapCreateWalletForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (walletRecoveryType !== "Nothing")
+            if (logicMainApp.walletRecoveryType !== "Nothing")
             {
-                print("walletRecoveryType", walletRecoveryType)
+                print("walletRecoveryType", logicMainApp.walletRecoveryType)
 
                 dapNextRightPanel = recoveryWallet
                 nextActivated("recoveryWallet");
@@ -65,9 +65,9 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-        if (currentTab === dashboardScreenPath)
+        if (logicMainApp.currentTab === dashboardScreenPath)
             previousActivated(lastActionsWallet)
-        if (currentTab === settingsScreenPath)
+        if (logicMainApp.currentTab === settingsScreenPath)
         {
             previousActivated(emptyRightPanel)
             dapSettingsRightPanel.visible = false

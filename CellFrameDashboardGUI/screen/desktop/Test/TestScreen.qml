@@ -8,7 +8,6 @@ import "qrc:/"
 import "../"
 import "../../"
 import "qrc:/widgets"
-import "../SettingsWallet.js" as SettingsWallet
 
 import net.demlabs.plug 1.0
 
@@ -292,7 +291,7 @@ DapAbstractScreen {
                     Loader{
                         anchors.fill: parent
                         anchors.margins: 10 * pt
-                        source: SettingsWallet.activePlugin
+                        source: logicMainApp.activePlugin
 
                     }
                 }

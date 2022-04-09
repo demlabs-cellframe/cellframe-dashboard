@@ -2,7 +2,6 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
 import DapCertificateManager.Commands 1.0
 
 
@@ -46,7 +45,7 @@ DapAbstractTab
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
-                walletInfo.name = dapModelWallets.get(SettingsWallet.currentIndex).name
+                walletInfo.name = dapModelWallets.get(logicMainApp.currentIndex).name
 
                 console.log("New payment")
                 console.log("wallet from: " + walletInfo.name)
@@ -63,7 +62,7 @@ DapAbstractTab
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
-                restoreWalletMode = false
+                logicMainApp.restoreWalletMode = false
                 createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
@@ -261,7 +260,6 @@ DapAbstractTab
 
     function updateAllWallets()
     {
-        dapWallets.length = 0
         dapModelWallets.clear()
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
     }
@@ -270,9 +268,9 @@ DapAbstractTab
     {
         print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
 
-        if (SettingsWallet.currentIndex !== -1 && logicMainApp.networkArray !== "")
+        if (logicMainApp.currentIndex !== -1 && logicMainApp.networkArray !== "")
             dapServiceController.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(SettingsWallet.currentIndex).name,
+                dapModelWallets.get(logicMainApp.currentIndex).name,
                 logicMainApp.networkArray);
     }
 
@@ -286,10 +284,10 @@ DapAbstractTab
 
     function updateComboBox()
     {
-        if(SettingsWallet.currentIndex !== -1)
+        if(logicMainApp.currentIndex !== -1)
         {
-            dashboardScreen.dapListViewWallet.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
-            dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(SettingsWallet.currentIndex).name
+            dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentIndex).networks
+            dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(logicMainApp.currentIndex).name
 
             console.log("dapComboboxWallet.onCurrentIndexChanged")
 

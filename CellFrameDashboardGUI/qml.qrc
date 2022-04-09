@@ -604,5 +604,20 @@
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
         <file>logic/MainApplicationLogic.qml</file>
+        <file>screen/desktop/controls/DapButton.qml</file>
+        <file>screen/desktop/controls/DapComboBox.qml</file>
+        <file>screen/desktop/controls/DapMainButtonsMenu.qml</file>
+        <file>screen/desktop/controls/DapMenuButton.qml</file>
+        <file>screen/desktop/controls/DapMenuButtonMobile.qml</file>
+        <file>screen/desktop/controls/DapPage.qml</file>
+        <file>screen/desktop/controls/DapPageClean.qml</file>
+        <file>screen/desktop/controls/DapPageElement.qml</file>
+        <file>screen/desktop/controls/DapScreenPage.qml</file>
+        <file>screen/desktop/controls/DapStackView.qml</file>
+        <file>screen/desktop/controls/DapTextField.qml</file>
+        <file>screen/desktop/controls/DapTopPanel.qml</file>
+        <file>screen/desktop/controls/HeaderItem.qml</file>
+        <file>screen/desktop/controls/SearchInputBox.qml</file>
+        <file>screen/desktop/controls/TextInputFilter.qml</file>
     </qresource>
 </RCC>

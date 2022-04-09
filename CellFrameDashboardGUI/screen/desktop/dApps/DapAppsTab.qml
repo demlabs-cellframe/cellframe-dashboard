@@ -2,15 +2,16 @@ import QtQuick 2.4
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
+import "../controls"
 
-DapAbstractTab {
+DapPage {
 
     property alias dapAppsModel:listModelApps
 
     id: dapAppsTab
     signal updateButtons();
 
-    color: currTheme.backgroundMainScreen
+//    color: currTheme.backgroundMainScreen
 
     ListModel{
         id: listModelApps
@@ -20,13 +21,11 @@ DapAbstractTab {
         id: temporaryModel
     }
 
-    dapTopPanel: DapAppsTopPanel{
-        color: currTheme.backgroundPanel
-
+    dapHeader.initialItem: HeaderItem{
         onFindHandler: dapAppsTab.searchElement(text)
     }
 
-    dapScreen: DapAppsScreen{
+    dapScreen.initialItem: DapAppsScreen{
         id: dAppsScreen
         onUpdateFiltr: updateFiltrApps(status);
 
@@ -44,8 +43,7 @@ DapAbstractTab {
             pluginsManager.cancelDownload();
         }
     }
-
-    dapRightPanel: Item{}
+    onRightPanel: false
 
     Connections{
         target: dapMainWindow

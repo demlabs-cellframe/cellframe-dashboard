@@ -56,7 +56,7 @@ DapTopPanel
             innerWidth: 8 * pt
             innerHeight: 8 * pt
 
-            source: stateNotify? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png":
+            source: logicMainApp.stateNotify? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png":
                                  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png"
 
         }

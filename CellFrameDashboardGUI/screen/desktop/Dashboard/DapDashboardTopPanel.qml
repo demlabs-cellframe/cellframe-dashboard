@@ -3,7 +3,6 @@ import QtQuick.Controls 2.0
 import Demlabs 1.0
 import "../../"
 import "qrc:/widgets"
-import "../SettingsWallet.js" as SettingsWallet
 
 
 DapTopPanel

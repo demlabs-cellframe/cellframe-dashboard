@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import "../../SettingsWallet.js" as SettingsWallet
 
 DapNewPaymentMainRightPanelForm
 {
@@ -19,7 +18,7 @@ DapNewPaymentMainRightPanelForm
     {
 //        currentWallet = dapModelWallets.get(SettingsWallet.currentIndex)
 
-        walletName = dapModelWallets.get(SettingsWallet.currentIndex).name
+        walletName = dapModelWallets.get(logicMainApp.currentIndex).name
 
         initNetworks()
 
@@ -353,7 +352,7 @@ DapNewPaymentMainRightPanelForm
         networkModel.clear()
 
         var tempNetworks = dapModelWallets.
-            get(SettingsWallet.currentIndex).networks
+            get(logicMainApp.currentIndex).networks
 
         for (var i = 0; i < tempNetworks.count; ++i)
         {

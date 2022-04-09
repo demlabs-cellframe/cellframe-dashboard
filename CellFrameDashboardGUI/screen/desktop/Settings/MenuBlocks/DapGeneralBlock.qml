@@ -3,7 +3,6 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import "../../SettingsWallet.js" as SettingsWallet
 
 ColumnLayout
 {
@@ -11,7 +10,7 @@ ColumnLayout
     anchors.fill: parent
 
     property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: SettingsWallet.currentIndex
+    property int dapCurrentWallet: logicMainApp.currentIndex
 
     spacing: 0
 
@@ -68,7 +67,7 @@ ColumnLayout
 
             comboBoxTextRole: ["name"]
             mainLineText: {
-             return   dapNetworkModel.get(SettingsWallet.currentNetwork).name
+             return   dapNetworkModel.get(logicMainApp.currentNetwork).name
             }
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -97,13 +96,13 @@ ColumnLayout
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
 
-            currentIndex: SettingsWallet.currentNetwork
+            currentIndex: logicMainApp.currentNetwork
 
             onCurrentIndexChanged:
             {
                 dapServiceController.setCurrentNetwork(dapNetworkModel.get(currentIndex).name);
                 dapServiceController.setIndexCurrentNetwork(currentIndex);
-                SettingsWallet.currentNetwork = currentIndex
+                logicMainApp.currentNetwork = currentIndex
             }
         }
 
@@ -265,14 +264,14 @@ ColumnLayout
                         spaceIndicatorText: 3 * pt
                         fontRadioButton: mainFont.dapFont.regular16
                         implicitHeight: indicatorInnerSize
-                        checked: index === SettingsWallet.currentIndex? true:false
+                        checked: index === logicMainApp.currentIndex? true:false
 
                         onClicked:
                         {
 //                            if(!checked)
 //                                checked = true
                             dapCurrentWallet = index
-                            SettingsWallet.currentIndex = index
+                            logicMainApp.currentIndex = index
                         }
                     }
                 }

@@ -1,5 +1,4 @@
 import QtQuick 2.4
-import "../SettingsWallet.js" as SettingsWallet
 
 DapHistoryTabForm
 {
@@ -160,9 +159,9 @@ DapHistoryTabForm
     {
         print("function updateWalletHisory")
 
-        if (SettingsWallet.currentIndex >= 0)
+        if (logicMainApp.currentIndex >= 0)
         {
-            getAllWalletHistory(SettingsWallet.currentIndex)
+            logicMainApp.getAllWalletHistory(logicMainApp.currentIndex)
         }
     }
 

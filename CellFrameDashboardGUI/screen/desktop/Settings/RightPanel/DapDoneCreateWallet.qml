@@ -9,12 +9,12 @@ DapDoneCreateWalletForm
 
     Component.onCompleted:
     {
-        if (currentTab === dashboardScreenPath)
+        if (logicMainApp.currentTab === dashboardScreenPath)
         {
           dapNextRightPanel = lastActionsWallet
           dapPreviousRightPanel = lastActionsWallet
         }
-        if (currentTab === settingsScreenPath)
+        if (logicMainApp.currentTab === settingsScreenPath)
         {
           dapNextRightPanel = emptyRightPanel
           dapPreviousRightPanel = emptyRightPanel
@@ -23,9 +23,9 @@ DapDoneCreateWalletForm
 
     dapButtonDone.onClicked:
     {
-        if (currentTab === dashboardScreenPath)
+        if (logicMainApp.currentTab === dashboardScreenPath)
             previousActivated(lastActionsWallet)
-        if (currentTab === settingsScreenPath)
+        if (logicMainApp.currentTab === settingsScreenPath)
         {
             previousActivated(emptyRightPanel)
             dapSettingsRightPanel.visible = false
@@ -36,9 +36,9 @@ DapDoneCreateWalletForm
 
     dapButtonClose.onClicked:
     {
-        if (currentTab === dashboardScreenPath)
+        if (logicMainApp.currentTab === dashboardScreenPath)
             previousActivated(lastActionsWallet)
-        if (currentTab === settingsScreenPath)
+        if (logicMainApp.currentTab === settingsScreenPath)
         {
             previousActivated(emptyRightPanel)
             dapSettingsRightPanel.visible = false

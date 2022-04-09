@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractTab {
 
@@ -135,13 +134,13 @@ DapAbstractTab {
 //                                                  dapWallets[i].findAddress(dapServiceController.CurrentNetwork),
 //                                                  dapWallets[i].Name)
 //        }
-        if(SettingsWallet.currentIndex != -1)
+        if(logicMainApp.currentIndex != -1)
         {
 //            for (var i = 0; i < dapModelWallets(SettingsWallet.currentIndex).Tokens.count; ++i)
 //            {
 //                tokensInfo(i).
 //            }
-                tokensScreen.dapListViewTokens.model = dapModelWallets.get(SettingsWallet.currentIndex).networks
+                tokensScreen.dapListViewTokens.model = dapModelWallets.get(logicMainApp.currentIndex).networks
         }
     }
 

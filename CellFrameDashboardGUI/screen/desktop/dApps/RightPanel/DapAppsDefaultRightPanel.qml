@@ -3,7 +3,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
 import Qt.labs.platform 1.0
 import "qrc:/widgets"
-import "../../SettingsWallet.js" as SettingsWallet
 
 Item
 {
@@ -163,7 +162,7 @@ Item
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
                     pluginsManager.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     defaultRightPanel.setEnableButtons()
-                    SettingsWallet.activePlugin = currentPlugin
+                    logicMainApp.activePlugin = currentPlugin
                 }
             }
             DapButton
@@ -183,11 +182,11 @@ Item
                 {
                     if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
-                        SettingsWallet.activePlugin = ""
+                        logicMainApp.activePlugin = ""
                     }
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
                     pluginsManager.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
-                    SettingsWallet.activePlugin = ""
+                    logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
                 }
@@ -210,11 +209,11 @@ Item
 
                     if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
-                        SettingsWallet.activePlugin = ""
+                        logicMainApp.activePlugin = ""
                     }
     //                    listModel.remove(listViewPlug.currentIndex)
                     pluginsManager.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).urlPath)
-                    SettingsWallet.activePlugin = ""
+                    logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
 

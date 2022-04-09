@@ -3,7 +3,6 @@ import QtQuick.Controls 1.4
 
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
 
 DapAbstractTab
 {
@@ -39,7 +38,7 @@ DapAbstractTab
 
         onCreateWalletSignal:
         {
-            restoreWalletMode = restoreMode
+            logicMainApp.restoreWalletMode = restoreMode
             dapSettingsRightPanel.visible = true
             settingsScreen.dapExtensionsBlock.visible = false
             currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});

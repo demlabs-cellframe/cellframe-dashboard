@@ -2,7 +2,6 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
-import "../../SettingsWallet.js" as SettingsWallet
 
 DapLastActionsRightPanelForm
 {
@@ -215,12 +214,12 @@ DapLastActionsRightPanelForm
 
     function updateWalletHisory()
     {
-        if (SettingsWallet.currentIndex >= 0)
+        if (logicMainApp.currentIndex >= 0)
         {
             lastDate = new Date(0)
             prevDate = new Date(0)
 
-            getAllWalletHistory(SettingsWallet.currentIndex)
+            logicMainApp.getAllWalletHistory(logicMainApp.currentIndex)
         }
     }
 

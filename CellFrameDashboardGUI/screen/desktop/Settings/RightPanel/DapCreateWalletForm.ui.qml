@@ -258,7 +258,7 @@ DapRightPanel
                     spaceIndicatorText: 3 * pt
                     fontRadioButton: mainFont.dapFont.regular16
                     implicitHeight: indicatorInnerSize
-                    onClicked: walletRecoveryType = "Words"
+                    onClicked: logicMainApp.walletRecoveryType = "Words"
                 }
 
 //                    DapRadioButton
@@ -279,7 +279,7 @@ DapRightPanel
                     spaceIndicatorText: 3 * pt
                     implicitHeight: indicatorInnerSize
                     fontRadioButton: mainFont.dapFont.regular16
-                    onClicked: walletRecoveryType = "File"
+                    onClicked: logicMainApp.walletRecoveryType = "File"
                 }
 
                 DapRadioButton
@@ -290,7 +290,7 @@ DapRightPanel
                     spaceIndicatorText: 3 * pt
                     implicitHeight: indicatorInnerSize
                     fontRadioButton: mainFont.dapFont.regular16
-                    onClicked: walletRecoveryType = "Nothing"
+                    onClicked: logicMainApp.walletRecoveryType = "Nothing"
                 }
             }
         }
@@ -335,6 +335,6 @@ DapRightPanel
             color: "transparent"
         }
         Component.onCompleted:
-            walletRecoveryType = "Words"
+            logicMainApp.walletRecoveryType = "Words"
     }
 }
