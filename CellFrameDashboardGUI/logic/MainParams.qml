@@ -17,7 +17,8 @@ QtObject {
     readonly property real maxCorrectScale: 1.25
 
     readonly property int defaultMinWidth: 1280
-    readonly property int defaultMinHeight: 600
+//    readonly property int defaultMinHeight: 600
+    readonly property int defaultMinHeight: 800
 
     readonly property int defaultWidth: 1280
     readonly property int defaultHeight: 800

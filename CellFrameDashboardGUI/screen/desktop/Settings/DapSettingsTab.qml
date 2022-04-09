@@ -90,7 +90,7 @@ DapAbstractTab
 
     Timer {
         id: updateTimer
-        interval: autoUpdateInterval; running: false; repeat: true
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
             dapServiceController.requestToService("DapGetListWalletsCommand")

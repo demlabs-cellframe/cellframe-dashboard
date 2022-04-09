@@ -18,6 +18,8 @@ import "qrc:/widgets"
 
 import "qrc:/screen/desktop/NetworksPanel"
 
+import "qrc:/logic"
+
 
 Rectangle {
     id: dapMainWindow
@@ -50,18 +52,20 @@ Rectangle {
     ///@detalis Path to the dApps tab.
     readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
-
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
-
     readonly property string testScreenPath: path + "/Test/TestPage.qml"
 
 
 
-    property alias footer: networksPanel
+    MainApplicationLogic
+    {
+        id: logicMainApp
+    }
 
     anchors.centerIn: parent
     width: parent.width / scale
     height: parent.height / scale
+    scale: 1.0
 
     DapControlNetworksPanel
     {
@@ -81,8 +85,6 @@ Rectangle {
         }
     }
 
-    scale: 1.0
-
 
     ListModel{
         id:themes
@@ -93,17 +95,14 @@ Rectangle {
                    })
         }
     }
-    property bool currThemeVal: true
-    property var currTheme: currThemeVal ? darkTheme : lightTheme
 
-    property var networkArray: ""
+
 
     signal menuTabChanged()
     signal pluginsTabChanged(var auto, var removed, var name)
 
     readonly property int autoUpdateInterval: 3000
 
-    property alias dapModelMenuTabStates: modelMenuTabStates
 
     // Menu bar tab model
     ListModel
@@ -248,7 +247,7 @@ Rectangle {
             left: parent.left;
             top: parent.top;
             right: parent.right;
-            bottom: footer.top
+            bottom: networksPanel.top
             bottomMargin: 6 * pt
         }
 
@@ -424,7 +423,6 @@ Rectangle {
     DapMessagePopup
     {
         id: messagePopup
-        scale: mainWindow.scale
     }
 
     property bool stateNotify: true
@@ -812,7 +810,7 @@ Rectangle {
             if (dapModelWallets.count < 0)
                 SettingsWallet.currentIndex = -1
 
-            networkArray = ""
+            logicMainApp.networkArray = ""
 
             if (SettingsWallet.currentIndex >= 0)
             {
@@ -824,14 +822,14 @@ Rectangle {
                     {
                         for (var k = 0; k < model.get(j).chains.count; ++k)
                         {
-                            networkArray += model.get(j).name + ":"
-                            networkArray += model.get(j).chains.get(k).name + "/"
+                            logicMainApp.networkArray += model.get(j).name + ":"
+                            logicMainApp.networkArray += model.get(j).chains.get(k).name + "/"
                         }
                     }
                     else
                     {
-                        networkArray += model.get(j).name + ":"
-                        networkArray += "zero" + "/"
+                        logicMainApp.networkArray += model.get(j).name + ":"
+                        logicMainApp.networkArray += "zero" + "/"
                     }
                 }
             }

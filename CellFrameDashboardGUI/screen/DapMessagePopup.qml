@@ -18,6 +18,8 @@ Popup {
     x: (parent.width - width) * 0.5
     y: (parent.height - height) * 0.5
 
+    scale: mainWindow.scale
+
     modal: true
 
     background: Rectangle
@@ -49,8 +51,8 @@ Popup {
         Text {
             id: dapContentText
             Layout.fillWidth: true
-            Layout.margins: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+            Layout.margins: 5 * pt
+            font: mainFont.dapFont.regular14
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -98,7 +100,7 @@ Popup {
                 textButton: qsTr("Cancel")
 
                 implicitHeight: 36 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:

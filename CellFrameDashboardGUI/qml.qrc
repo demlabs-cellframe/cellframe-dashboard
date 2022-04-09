@@ -603,5 +603,6 @@
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppButton.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
+        <file>logic/MainApplicationLogic.qml</file>
     </qresource>
 </RCC>

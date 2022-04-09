@@ -184,7 +184,7 @@ DapAbstractTab
 
     Timer {
         id: updateTimer
-        interval: autoUpdateInterval; running: false; repeat: true
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
             print("DapDashboardTab updateTimer", updateTimer.running)
@@ -268,12 +268,12 @@ DapAbstractTab
 
     function updateCurrentWallet()
     {
-        print("updateCurrentWallet", "networkArray", networkArray)
+        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
 
-        if (SettingsWallet.currentIndex !== -1 && networkArray !== "")
+        if (SettingsWallet.currentIndex !== -1 && logicMainApp.networkArray !== "")
             dapServiceController.requestToService("DapGetWalletInfoCommand",
                 dapModelWallets.get(SettingsWallet.currentIndex).name,
-                networkArray);
+                logicMainApp.networkArray);
     }
 
     function createWallet()

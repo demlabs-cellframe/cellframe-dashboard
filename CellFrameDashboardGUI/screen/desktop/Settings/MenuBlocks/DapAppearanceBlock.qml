@@ -3,6 +3,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import "../../../"
 
 ColumnLayout
 {
@@ -97,94 +98,11 @@ ColumnLayout
 
     property real newScale: 1.0
 
-    Popup {
-        id: restartDialog
-
-        width: 300 * pt
-        height: 180 * pt
-
-        parent: Overlay.overlay
-        x: (parent.width - width) * 0.5
-        y: (parent.height - height) * 0.5
-
-        modal: true
-
-        scale: mainWindow.scale
-
-        background: Rectangle
-        {
-            border.width: 0
-            color: currTheme.backgroundElements
-        }
-
-        ColumnLayout
-        {
-            anchors.fill: parent
-            anchors.margins: 10 * pt
-
-            Text {
-                Layout.fillWidth: true
-                Layout.margins: 10 * pt
-                font: mainFont.dapFont.regular14
-                color: currTheme.textColor
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WordWrap
-                text: qsTr("You must restart the application to apply the new scale. Do you want to restart now? ")
-            }
-
-            RowLayout
-            {
-                Layout.margins: 10 * pt
-                Layout.bottomMargin: 20 * pt
-//                Layout.leftMargin: 10 * pt
-//                Layout.rightMargin: 10 * pt
-                spacing: 10 * pt
-
-                DapButton
-                {
-                    id: restartButton
-                    Layout.fillWidth: true
-
-                    Layout.minimumHeight: 36 * pt
-                    Layout.maximumHeight: 36 * pt
-
-                    textButton: qsTr("Restart")
-
-                    implicitHeight: 36 * pt
-                    fontButton: mainFont.dapFont.medium14
-                    horizontalAligmentText: Text.AlignHCenter
-
-                    onClicked: {
-                        print("Restart")
-
-                        restartDialog.close()
-
-                        params.setNewScale(newScale)
-                    }
-                }
-
-                DapButton
-                {
-                    Layout.fillWidth: true
-
-                    Layout.minimumHeight: 36 * pt
-                    Layout.maximumHeight: 36 * pt
-
-                    textButton: qsTr("Cancel")
-
-                    implicitHeight: 36 * pt
-                    fontButton: mainFont.dapFont.medium14
-                    horizontalAligmentText: Text.AlignHCenter
-
-                    onClicked: {
-                        print("Cancel")
-
-                        restartDialog.close()
-                    }
-                }
-            }
-        }
+    DapMessagePopup
+    {
+        id: restartPopup
+        dapButtonCancel.visible: true
+        onSignalAccept: accept ? params.setNewScale(newScale) : close()
     }
 
     Item {
@@ -219,10 +137,8 @@ ColumnLayout
 
                 onClicked: {
                     print("Reset scale")
-
                     newScale = 1.0
-
-                    restartDialog.open()
+                    restartPopup.smartOpen("Confirm reboot", "You must restart the application to apply the new scale. Do you want to restart now?")
                 }
             }
 
@@ -245,14 +161,11 @@ ColumnLayout
 
                 onClicked: {
                     print("Apply scale")
-
                     newScale = scaleSpinbox.realValue
-
-                    restartDialog.open()
+                    restartPopup.smartOpen("Confirm reboot", "You must restart the application to apply the new scale. Do you want to restart now?")
                 }
             }
         }
-
     }
 
     DapButton
@@ -278,7 +191,6 @@ ColumnLayout
 
         onClicked: {
             print("Reset size")
-
             params.resetSize()
         }
     }
