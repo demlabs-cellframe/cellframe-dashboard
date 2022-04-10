@@ -353,6 +353,13 @@ FocusScope {
         initPages()
     }
 
+    Timer {
+        running: true
+        repeat: true
+        interval: 1000
+        onTriggered: console.log("COUNT ->", mainScreenStack.count)
+    }
+
     Connections {
         target: dapServiceController
 

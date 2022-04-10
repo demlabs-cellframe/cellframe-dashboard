@@ -172,7 +172,7 @@ android {
     gui_data_static.files = android/*
     INSTALLS += gui_data_static
 
-include($$(OPENSSL_LIB)/openssl.pri)
+#include($$(OPENSSL_LIB)/openssl.pri)
 }
 
 DISTFILES += \
