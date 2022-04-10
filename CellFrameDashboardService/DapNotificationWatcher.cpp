@@ -79,10 +79,26 @@ void DapNotificationWatcher::slotReconnect()
 
     sendNotifyState("Notify socket error");
 
-//    QVariant errMsg = "Notify socket error";
-//    QVariantMap msg = errMsg.toMap();
-//    msg["connect_state"] = QVariant::fromValue(m_socketState);
-//    emit rcvNotify(msg);
+
+
+#ifdef Q_OS_WIN
+
+    HANDLE hMutex = OpenMutex(
+      MUTEX_ALL_ACCESS, 0, "DAP_CELLFRAME_NODE_74E9201D33F7F7F684D2FEF1982799A79B6BF94B568446A8D1DE947B00E3C75060F3FD5BF277592D02F77D7E50935E56");
+
+    if(!hMutex)
+    {
+        QString path = QCoreApplication::applicationDirPath();
+        QString program = path +"\\"+ NODE_PATH;
+
+        QProcess *nodeProc = new QProcess(this);
+        nodeProc->setWorkingDirectory(path);
+        nodeProc->start(program);
+    }
+
+    ReleaseMutex(hMutex);
+
+#endif
 }
 
 void DapNotificationWatcher::socketConnected()
@@ -129,18 +145,6 @@ void DapNotificationWatcher::socketReadyRead()
             emit rcvNotify(map);
         }
     }
-
-//    for (int i = 0; i < list.length(); ++i)
-//    {
-//        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
-//        QVariant var = doc.toVariant();
-//        QVariantMap map = var.toMap();
-//        map["connect_state"] = QVariant::fromValue(m_socketState);
-//        qDebug() << list[i] << map;
-
-//        if(var.isValid())
-//            emit rcvNotify(map);
-//    }
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)

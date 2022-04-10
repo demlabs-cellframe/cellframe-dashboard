@@ -24,6 +24,7 @@ unix: !mac: !android {
 
 win32 {
     VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
+    DEFINES += NODE_PATH=\\\"$${BRAND_BASE_LO}-node.exe\\\"
     DEFINES += CLI_PATH=\\\"$${BRAND_BASE_LO}-node-cli.exe\\\"
     DEFINES += TOOLS_PATH=\\\"$${BRAND_BASE_LO}-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
@@ -35,6 +36,7 @@ macx {
 }
 else: !win32 {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
+    DEFINES += NODE_PATH=\\\"$${BRAND_BASE_LO}-node\\\"
     DEFINES += CLI_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-cli\\\"
     DEFINES += TOOLS_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-tool\\\"
     #DEFINES += CMD_HISTORY=\\\"/opt/$${BRAND_BASE_LO}/var/log/cmd_history.txt\\\"

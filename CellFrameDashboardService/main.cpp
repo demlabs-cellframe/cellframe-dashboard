@@ -192,7 +192,7 @@ int main(int argc, char *argv[])
     processArgs();
     DapServiceController serviceController;
     serviceController.start();
-    
+
     return a.exec();
 }
 
