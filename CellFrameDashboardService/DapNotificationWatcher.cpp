@@ -7,6 +7,10 @@
 #include <dapconfigreader.h>
 #include <QJsonDocument>
 
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
 
 QByteArrayList DapNotificationWatcher::jsonListFromData(QByteArray data)
 {
@@ -78,8 +82,6 @@ void DapNotificationWatcher::slotReconnect()
     ((QTcpSocket*)socket)->waitForConnected(5000);
 
     sendNotifyState("Notify socket error");
-
-
 
 #ifdef Q_OS_WIN
 

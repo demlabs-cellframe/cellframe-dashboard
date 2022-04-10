@@ -8,6 +8,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QCoreApplication>
+#include <QProcess>
 
 
 class DapNotificationWatcher : public QObject
