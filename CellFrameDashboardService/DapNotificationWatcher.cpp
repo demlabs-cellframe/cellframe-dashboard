@@ -91,7 +91,7 @@ void DapNotificationWatcher::slotReconnect()
     if(!hMutex)
     {
         QString path = QCoreApplication::applicationDirPath();
-        QString program = path +"\\"+ NODE_PATH;
+        QString program = path +"/"+ NODE_PATH;
 
         QProcess *nodeProc = new QProcess(this);
         nodeProc->setWorkingDirectory(path);
