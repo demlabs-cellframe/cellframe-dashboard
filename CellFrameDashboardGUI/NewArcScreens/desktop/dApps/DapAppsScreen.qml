@@ -71,7 +71,7 @@ Page
 
                             verticalAlignment: Qt.AlignVCenter
                             text: qsTr("Available apps")
-                            font:  _dapQuicksandFonts.dapFont.bold14
+                            font:  mainFont.dapFont.bold14
                             color: currTheme.textColor
                         }
                     }
@@ -135,7 +135,7 @@ Page
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Name")
-                                        font:  _dapQuicksandFonts.dapFont.medium11
+                                        font:  mainFont.dapFont.medium11
                                         color: currTheme.textColor
                                     }
                                 }
@@ -151,7 +151,7 @@ Page
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Verified")
-                                        font:  _dapQuicksandFonts.dapFont.medium11
+                                        font:  mainFont.dapFont.medium11
                                         color: currTheme.textColor
                                     }
                                 }
@@ -166,7 +166,7 @@ Page
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Status")
-                                        font:  _dapQuicksandFonts.dapFont.medium11
+                                        font:  mainFont.dapFont.medium11
                                         color: currTheme.textColor
                                     }
 
@@ -210,7 +210,7 @@ Page
 
                                             text: name
                                             color: currTheme.textColor
-                                            font:  _dapQuicksandFonts.dapFont.regular11
+                                            font:  mainFont.dapFont.regular11
     //                                        wrapMode: Text.WordWrap
                                             elide: Text.ElideMiddle
                                         }
@@ -228,7 +228,7 @@ Page
                                             elide: Text.ElideMiddle
                                             text: urlPath
                                             color: "#B2B2B2"
-                                            font:  _dapQuicksandFonts.dapFont.light12
+                                            font:  mainFont.dapFont.light12
     //                                        wrapMode: Text.WordWrap
                                             verticalAlignment: Qt.AlignVCenter
 
@@ -238,7 +238,7 @@ Page
                                                 contentItem: Text{
                                                     color: currTheme.textColor
                                                     text: urlPath
-                                                    font: _dapQuicksandFonts.dapFont.regular12
+                                                    font: mainFont.dapFont.regular12
                                                 }
                                                 background: Rectangle {
                                                     border.color: currTheme.lineSeparatorColor
@@ -320,7 +320,7 @@ Page
 
                                             text: status === "1" ? "Activated":"Unactivated"
                                             color: currTheme.textColor
-                                            font:  _dapQuicksandFonts.dapFont.regular12
+                                            font:  mainFont.dapFont.regular12
                                         }
                                     }
                             }

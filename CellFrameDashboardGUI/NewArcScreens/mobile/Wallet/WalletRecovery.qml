@@ -71,7 +71,7 @@ Page {
 
                 textButton: qsTr("Back")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked:
                 {
@@ -90,7 +90,7 @@ Page {
 
                 textButton: qsTr("Next")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked:
                 {

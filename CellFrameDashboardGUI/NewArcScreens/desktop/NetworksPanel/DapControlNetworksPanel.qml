@@ -81,7 +81,7 @@ DapNetworksPanel
                     id: txt_left
                     Layout.fillWidth: true
                     Layout.maximumWidth: item_width/2
-                    font: _dapQuicksandFonts.dapFont.bold12
+                    font: mainFont.dapFont.bold12
                     color: currTheme.textColor
                     elide: Text.ElideMiddle
 

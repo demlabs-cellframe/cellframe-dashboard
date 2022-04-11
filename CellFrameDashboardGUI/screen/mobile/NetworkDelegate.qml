@@ -36,7 +36,7 @@ Item {
                 Layout.leftMargin: 5 * pt
                 Layout.fillWidth: true
                 text: name
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -76,14 +76,14 @@ Item {
 
             Text {
                 text: "State:"
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
 
             Text {
                 Layout.fillWidth: true
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 text: networkState
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
@@ -96,7 +96,7 @@ Item {
 
             Text {
                 text: "Target state:"
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -104,7 +104,7 @@ Item {
             Text {
                 Layout.fillWidth: true
                 text: targetState
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -116,7 +116,7 @@ Item {
 
             Text {
                 text: "Active links:"
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -124,7 +124,7 @@ Item {
             Text {
                 Layout.fillWidth: true
                 text: activeLinksCount + " from " + linksCount
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -136,7 +136,7 @@ Item {
 
             Text {
                 text: "Address:"
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
             }
@@ -144,7 +144,7 @@ Item {
             Text {
                 text: nodeAddress
                 Layout.maximumWidth: deleagte.width/2.5
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 Layout.alignment: Qt.AlignHCenter
                 color: currTheme.textColor
                 elide: Text.ElideMiddle

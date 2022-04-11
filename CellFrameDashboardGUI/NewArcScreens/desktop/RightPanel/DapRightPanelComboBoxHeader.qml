@@ -12,7 +12,7 @@ Item {
         width: Math.min(implicitWidth, parent.width - _comboBox.x)
 
         elide: Text.ElideRight
-        font:  _dapQuicksandFonts.dapFont.bold14
+        font:  mainFont.dapFont.bold14
         color: "#3E3853"
     }
 
@@ -51,7 +51,7 @@ Item {
             indicatorLeftInterval: 20 * pt
             colorTopNormalDropShadow: "#00000000"
             colorDropShadow: "#40ABABAB"
-            fontComboBox: [ _dapQuicksandFonts.dapFont.medium14]
+            fontComboBox: [ mainFont.dapFont.medium14]
             colorMainTextComboBox: [["#070023", "#070023"]]
             colorTextComboBox: [["#070023", "#FFFFFF"]]
         }

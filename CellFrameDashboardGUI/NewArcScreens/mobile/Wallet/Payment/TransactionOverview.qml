@@ -32,7 +32,7 @@ Page {
             Text {
 
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).name)
             }
         }
@@ -51,7 +51,7 @@ Page {
             Text {
 
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 text: qsTr( sendAmount + " " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
             }
         }
@@ -75,7 +75,7 @@ Page {
                 wrapMode: Text.Wrap
 
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 text: sendAddress
 
             }
@@ -100,7 +100,7 @@ Page {
 
                 textButton: qsTr("Back")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
@@ -123,7 +123,7 @@ Page {
 
                 textButton: qsTr("Next")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:

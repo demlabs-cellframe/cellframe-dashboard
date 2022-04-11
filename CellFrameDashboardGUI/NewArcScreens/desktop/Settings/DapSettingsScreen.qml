@@ -102,7 +102,7 @@ Page
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: _dapQuicksandFonts.dapFont.medium14
+                    fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(false)
                 }
@@ -123,7 +123,7 @@ Page
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: _dapQuicksandFonts.dapFont.medium14
+                    fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(true)
                 }

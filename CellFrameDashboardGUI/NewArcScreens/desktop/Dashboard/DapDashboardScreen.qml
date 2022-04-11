@@ -92,7 +92,7 @@ Page
             Text
             {
                 id: titleTextWalletCreate
-                font: _dapQuicksandFonts.dapFont.medium26
+                font: mainFont.dapFont.medium26
                 color: currTheme.textColor
                 text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -116,7 +116,7 @@ Page
 //                colorBackgroundHover: currTheme.buttonColorHover
 //                colorButtonTextNormal: currTheme.textColor
 //                colorButtonTextHover: currTheme.textColor
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
 //                colorTextButton: "#FFFFFF"
 
@@ -149,7 +149,7 @@ Page
             anchors.verticalCenter: parent.verticalCenter
             font.family: font.name
             font.pixelSize:26 * pt
-//            font: _dapQuicksandFonts.dapFont.medium26
+//            font: mainFont.dapFont.medium26
             color: currTheme.textColor
             text: qsTr("Creating wallet in process...")
         }
@@ -188,7 +188,7 @@ Page
 
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Tokens")
-                        font:  _dapQuicksandFonts.dapFont.bold14
+                        font:  mainFont.dapFont.bold14
                         color: currTheme.textColor
                     }
                 }
@@ -228,7 +228,7 @@ Page
                                 anchors.left: parent.left
                                 anchors.leftMargin: 16 * pt
                                 anchors.verticalCenter: parent.verticalCenter
-                                font: _dapQuicksandFonts.dapFont.medium11
+                                font: mainFont.dapFont.medium11
                                 color: currTheme.textColor
                                 verticalAlignment: Qt.AlignVCenter
                                 text: name
@@ -241,7 +241,7 @@ Page
                                anchors.right:  networkAddressCopyButton.left
                                anchors.rightMargin: 4 * pt
                                anchors.verticalCenter: parent.verticalCenter
-                               fontDapText: _dapQuicksandFonts.dapFont.medium11
+                               fontDapText: mainFont.dapFont.medium11
                                color: currTheme.textColor
                                fullText: address
                                textElide: Text.ElideMiddle
@@ -291,7 +291,7 @@ Page
                                     Text
                                     {
                                         id: currencyName
-                                        font: _dapQuicksandFonts.dapFont.regular16
+                                        font: mainFont.dapFont.regular16
                                         color: currTheme.textColor
                                         text: name
                                         width: 172 * pt
@@ -302,7 +302,7 @@ Page
                                     {
                                         id: currencySum
                                         Layout.fillWidth: true
-                                        font: _dapQuicksandFonts.dapFont.regular14
+                                        font: mainFont.dapFont.regular14
                                         color: currTheme.textColor
                                         text: balance_without_zeros
 //                                        text: full_balance
@@ -313,7 +313,7 @@ Page
                                     Text
                                     {
                                         id: currencyCode
-                                        font: _dapQuicksandFonts.dapFont.regular14
+                                        font: mainFont.dapFont.regular14
                                         color: currTheme.textColor
                                         text: name
                                         horizontalAlignment: Text.AlignRight

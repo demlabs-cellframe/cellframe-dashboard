@@ -26,7 +26,7 @@ Controls.DapTopPanel {
             id: frameTitleCreateWallet
             anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
-            font: _dapQuicksandFonts.dapFont.medium18
+            font: mainFont.dapFont.medium18
             color: currTheme.textColor
             elide: Text.ElideMiddle
 //            text: qsTr("Name of my wallet")
@@ -44,7 +44,7 @@ Controls.DapTopPanel {
         anchors.verticalCenter: parent.verticalCenter
         implicitHeight: 38 * pt
         implicitWidth: 163 * pt
-        fontButton: _dapQuicksandFonts.dapFont.medium14
+        fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
         visible: frameTitleCreateWallet.text === "" ? false : true
 //        visible: false

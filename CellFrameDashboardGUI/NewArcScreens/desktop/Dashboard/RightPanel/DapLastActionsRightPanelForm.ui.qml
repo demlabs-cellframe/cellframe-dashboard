@@ -32,7 +32,7 @@ Page
                 anchors.leftMargin: 14 * pt
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 10 * pt
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Last actions")
@@ -82,7 +82,7 @@ Page
                             Layout.fillWidth: true
                             text: network
                             color: currTheme.textColor
-                            font: _dapQuicksandFonts.dapFont.regular11
+                            font: mainFont.dapFont.regular11
                             elide: Text.ElideRight
                         }
 
@@ -91,7 +91,7 @@ Page
                             Layout.fillWidth: true
                             text: status
                             color: currTheme.textColorGrayTwo
-                            font: _dapQuicksandFonts.dapFont.regular12
+                            font: mainFont.dapFont.regular12
                         }
                     }
 
@@ -104,7 +104,7 @@ Page
                         verticalAlignment: Qt.AlignVCenter
                         color: currTheme.textColor
                         text: sign + amount + " " + name
-                        font: _dapQuicksandFonts.dapFont.regular14
+                        font: mainFont.dapFont.regular14
                     }
                     Image
                     {

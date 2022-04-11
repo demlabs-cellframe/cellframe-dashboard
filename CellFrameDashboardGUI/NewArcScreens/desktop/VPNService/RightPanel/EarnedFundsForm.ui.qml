@@ -20,7 +20,7 @@ Page {
             text: qsTr("Earned funds")
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
-            font: _dapQuicksandFonts.dapFont.bold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
         }
 

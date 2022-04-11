@@ -58,7 +58,7 @@ Page {
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -84,7 +84,7 @@ Page {
                     horizontalAlignment: Text.AlignLeft
                     color: currTheme.textColor
                     text: qsTr("Users")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                 }
             }
         }
@@ -125,7 +125,7 @@ Page {
                     horizontalAlignment: Text.AlignLeft
                     color: currTheme.textColor
                     text: qsTr("Connection history")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                 }
             }
         }
@@ -158,7 +158,7 @@ Page {
                     horizontalAlignment: Text.AlignLeft
                     color: currTheme.textColor
                     text: qsTr("Load")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                 }
             }
         }

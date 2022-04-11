@@ -215,7 +215,7 @@ FocusScope {
 
                         contentItem: Text {
                                 text: toolTip.text
-                                font: _dapQuicksandFonts.dapFont.regular14
+                                font: mainFont.dapFont.regular14
                                 color: currTheme.textColor
                             }
                         background: Rectangle{color:currTheme.backgroundPanel}

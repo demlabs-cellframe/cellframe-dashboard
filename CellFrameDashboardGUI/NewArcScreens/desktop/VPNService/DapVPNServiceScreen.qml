@@ -102,7 +102,7 @@ Page {
                 radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
                 textButton: "New VPN order"
-                fontButton: _dapQuicksandFonts.dapFont.regular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText:Qt.AlignCenter
                 colorTextButton: "#FFFFFF"
 
@@ -165,7 +165,7 @@ Page {
                 id: textMyVPNOrders
                 x: gridViewOrder.halfMargin
                 y: gridViewOrder.halfMargin
-                font:  _dapQuicksandFonts.dapFont.bold14;
+                font:  mainFont.dapFont.bold14;
                 color: currTheme.textColor
             }
 

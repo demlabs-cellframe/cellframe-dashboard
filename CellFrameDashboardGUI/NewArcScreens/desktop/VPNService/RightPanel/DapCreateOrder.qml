@@ -69,7 +69,7 @@ DapRightPanel {
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 50 * pt
 
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -116,7 +116,7 @@ DapRightPanel {
                     id: textInputNameOrder
                     placeholderText: qsTr("Title, only you can see")
                     anchors.verticalCenter: parent.verticalCenter
-                    font: _dapQuicksandFonts.dapFont.regular16
+                    font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.left: parent.left
                     anchors.right: parent.right
@@ -151,7 +151,7 @@ DapRightPanel {
                     id: textRegion
                     color: currTheme.textColor
                     text: qsTr("Region")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -207,7 +207,7 @@ DapRightPanel {
                     roleInterval: 15
                     endRowPadding: 37
 
-                    fontComboBox: [_dapQuicksandFonts.dapFont.regular16]
+                    fontComboBox: [mainFont.dapFont.regular16]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
 //                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -233,7 +233,7 @@ DapRightPanel {
                     id: textUnits
                     color: currTheme.textColor
                     text: qsTr("Units")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -295,7 +295,7 @@ DapRightPanel {
                         colorDropShadow: currTheme.shadowColor
                         roleInterval: 15
                         endRowPadding: 37
-                        fontComboBox: [_dapQuicksandFonts.dapFont.regular16]
+                        fontComboBox: [mainFont.dapFont.regular16]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                         onCurrentIndexChanged:
                         {
@@ -330,7 +330,7 @@ DapRightPanel {
                     id: textPrice
                     color: currTheme.textColor
                     text: qsTr("Price")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -393,7 +393,7 @@ DapRightPanel {
                         colorDropShadow: currTheme.shadowColor
                         roleInterval: 15
                         endRowPadding: 37
-                        fontComboBox: [_dapQuicksandFonts.dapFont.regular16]
+                        fontComboBox: [mainFont.dapFont.regular16]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 
                         onCurrentIndexChanged:
@@ -428,7 +428,7 @@ DapRightPanel {
                 textButton: qsTr("Create")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: _dapQuicksandFonts.dapFont.regular16
+                fontButton: mainFont.dapFont.regular16
 
                 onClicked:
                 {
@@ -467,7 +467,7 @@ DapRightPanel {
                     anchors.rightMargin: 10 * pt
                     color: "#79FFFA"
                     text: qsTr("Enter the order name using Latin letters, dotes, dashes and / or numbers.")
-                    font: _dapQuicksandFonts.dapFont.regular14
+                    font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     wrapMode: Text.WordWrap

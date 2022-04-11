@@ -30,7 +30,7 @@ Page {
             Layout.alignment: Qt.AlignHCenter
             Text {
                 color: currTheme.textColor
-//                font: _dapQuicksandFonts.dapFont.bold14
+//                font: mainFont.dapFont.bold14
                 font.family: "Quicksand"
                 font.pixelSize: 16 * pt
                 font.bold: true
@@ -40,7 +40,7 @@ Page {
             Text {
 
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).name)
             }
         }
@@ -52,7 +52,7 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font: _dapQuicksandFonts.dapFont.regular14
+            font: mainFont.dapFont.regular14
             color: "#B3FF00"
 
             text: qsTr("Not enough available tokens. Enter a lower value.")
@@ -70,7 +70,7 @@ Page {
             placeholderText: "0.0"
             validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,9}/ }
             color: "#ffffff"
-            font: _dapQuicksandFonts.dapFont.dapFontQuicksandMedium36
+            font: mainFont.dapFont.dapFontQuicksandMedium36
 
             background: Rectangle{color:"transparent"}
         }
@@ -99,7 +99,7 @@ Page {
 
                 textButton: qsTr("Back")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
@@ -120,7 +120,7 @@ Page {
 
                 textButton: qsTr("Next")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:

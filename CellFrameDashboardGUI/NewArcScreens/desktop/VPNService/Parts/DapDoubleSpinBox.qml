@@ -22,7 +22,7 @@ Control {
     property var valueFromText: function(text, locale) { return Number.fromLocaleString(locale, text) }
 
     padding: 4 * pt
-    font:  _dapQuicksandFonts.dapFont.medium16
+    font:  mainFont.dapFont.medium16
 
     contentItem: TextInput {
         text: control.textFromValue(control.value, control.locale)

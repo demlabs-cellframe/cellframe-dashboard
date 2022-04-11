@@ -36,7 +36,7 @@ TXHistoryScreenForm {
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
                 text: getDateString(payDate)
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
             }
         }
     }
@@ -65,7 +65,7 @@ TXHistoryScreenForm {
                     Layout.minimumWidth: 120 * pt
                     text: network
                     color: currTheme.textColor
-                    font:  _dapQuicksandFonts.dapFont.regular16
+                    font:  mainFont.dapFont.regular16
                     Layout.alignment: Qt.AlignLeft
                 }
 
@@ -76,7 +76,7 @@ TXHistoryScreenForm {
                     Layout.minimumWidth: 100 * pt
                     text: name
                     color: currTheme.textColor
-                    font:  _dapQuicksandFonts.dapFont.regular16
+                    font:  mainFont.dapFont.regular16
                     Layout.alignment: Qt.AlignLeft
                 }
 
@@ -87,7 +87,7 @@ TXHistoryScreenForm {
                     Layout.minimumWidth: 100 * pt
                     text: status
                     color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
-                    font:  _dapQuicksandFonts.dapFont.regular14
+                    font:  mainFont.dapFont.regular14
                 }
 
 
@@ -100,7 +100,7 @@ TXHistoryScreenForm {
                     property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                     text: sign + amount + " " + name
                     color: currTheme.textColor
-                    font:  _dapQuicksandFonts.dapFont.regular16
+                    font:  mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
                 }
 

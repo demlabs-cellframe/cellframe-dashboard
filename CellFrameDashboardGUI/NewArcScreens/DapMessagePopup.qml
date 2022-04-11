@@ -38,7 +38,7 @@ Popup {
             id: dapContentTitle
             Layout.fillWidth: true
             Layout.margins: 10 * pt
-            font: _dapQuicksandFonts.dapFont.medium16
+            font: mainFont.dapFont.medium16
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -49,7 +49,7 @@ Popup {
             id: dapContentText
             Layout.fillWidth: true
             Layout.margins: 10 * pt
-            font: _dapQuicksandFonts.dapFont.medium16
+            font: mainFont.dapFont.medium16
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -72,7 +72,7 @@ Popup {
                 textButton: qsTr("Ok")
 
                 implicitHeight: 36 * pt
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:

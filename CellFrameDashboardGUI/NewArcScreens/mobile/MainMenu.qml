@@ -66,7 +66,7 @@ Drawer {
                     Layout.fillWidth: true
                     text: qsTr("Cellframe Dashboard")
                     color: currTheme.textColor
-                    font: _dapQuicksandFonts.dapFont.medium18
+                    font: mainFont.dapFont.medium18
                 }
                 Item {
                     Layout.fillWidth: true
@@ -133,7 +133,7 @@ Drawer {
 
                                 text: qsTr(modelData.name)
                                 color: currTheme.textColor
-                                font: _dapQuicksandFonts.dapFont.medium16
+                                font: mainFont.dapFont.medium16
                             }
                         }
 

@@ -31,7 +31,7 @@ EarnedFundsForm {
                 horizontalAlignment: Qt.AlignLeft
                 color: "#FFFFFF"
                 text: getDateString(payDate)
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
             }
         }
     }

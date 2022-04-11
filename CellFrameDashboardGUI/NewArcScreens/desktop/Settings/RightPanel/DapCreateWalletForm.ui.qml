@@ -88,7 +88,7 @@ Controls.Page
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -104,7 +104,7 @@ Controls.Page
                 id: textNameWallet
                 color: currTheme.textColor
                 text: qsTr("Name of wallet")
-                font: _dapQuicksandFonts.dapFont.medium12
+                font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -126,7 +126,7 @@ Controls.Page
             {
                 id: textInputNameWallet
                 placeholderText: qsTr("Input name of wallet")
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
                 anchors.margins: 10 * pt
@@ -163,7 +163,7 @@ Controls.Page
                 id: textChooseSignatureType
                 color: currTheme.textColor
                 text: qsTr("Choose signature type")
-                font: _dapQuicksandFonts.dapFont.medium12
+                font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -217,7 +217,7 @@ Controls.Page
                 roleInterval: 15
                 endRowPadding: 37
 
-                fontComboBox: [_dapQuicksandFonts.dapFont.regular14]
+                fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                colorTextComboBox: [[currTheme.hilightTextColorComboBox, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -235,7 +235,7 @@ Controls.Page
                 id: textRecoveryMethod
                 color: currTheme.textColor
                 text: qsTr("Recovery method")
-                font: _dapQuicksandFonts.dapFont.medium12
+                font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -266,7 +266,7 @@ Controls.Page
                     checked: true
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 3 * pt
-                    fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                    fontRadioButton: mainFont.dapFont.regular16
                     implicitHeight: indicatorInnerSize
                     onClicked: globalLogic.walletRecoveryType = "Words"
                 }
@@ -278,7 +278,7 @@ Controls.Page
 //                        indicatorInnerSize: 46 * pt
 //                        spaceIndicatorText: 3 * pt
 //                        implicitHeight: indicatorInnerSize
-//                        fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+//                        fontRadioButton: mainFont.dapFont.regular16
 //                        onClicked: walletRecoveryType = "QRcode"
 //                    }
                 DapRadioButton
@@ -288,7 +288,7 @@ Controls.Page
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 3 * pt
                     implicitHeight: indicatorInnerSize
-                    fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                    fontRadioButton: mainFont.dapFont.regular16
                     onClicked: globalLogic.walletRecoveryType = "File"
                 }
 
@@ -300,7 +300,7 @@ Controls.Page
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 3 * pt
                     implicitHeight: indicatorInnerSize
-                    fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                    fontRadioButton: mainFont.dapFont.regular16
                     onClicked: globalLogic.walletRecoveryType = "Nothing"
                 }
             }
@@ -318,7 +318,7 @@ Controls.Page
             textButton: qsTr("Next")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: _dapQuicksandFonts.dapFont.regular16
+            fontButton: mainFont.dapFont.regular16
         }
 
         Text
@@ -331,7 +331,7 @@ Controls.Page
             Layout.maximumWidth: parent.width - 50 * pt
             color: "#79FFFA"
             text: ""
-            font: _dapQuicksandFonts.dapFont.regular14
+            font: mainFont.dapFont.regular14
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             wrapMode: Text.WordWrap

@@ -53,7 +53,7 @@ DapRightPanel {
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -77,7 +77,7 @@ DapRightPanel {
                     id: textUsers
                     color: currTheme.textColor
                     text: qsTr("Users")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -143,7 +143,7 @@ DapRightPanel {
                     id: textRegion
                     color: currTheme.textColor
                     text: qsTr("Connection history")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -189,7 +189,7 @@ DapRightPanel {
                     id: textUnits
                     color: currTheme.textColor
                     text: qsTr("Load")
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left

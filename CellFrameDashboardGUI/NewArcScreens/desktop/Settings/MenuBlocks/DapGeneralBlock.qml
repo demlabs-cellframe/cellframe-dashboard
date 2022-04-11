@@ -25,7 +25,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: _dapQuicksandFonts.dapFont.bold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("General settings")
@@ -44,7 +44,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: _dapQuicksandFonts.dapFont.medium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Networks")
@@ -91,7 +91,7 @@ ColumnLayout
             roleInterval: 15
             endRowPadding: 37
 
-            fontComboBox: [_dapQuicksandFonts.dapFont.regular14]
+            fontComboBox: [mainFont.dapFont.regular14]
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
 
@@ -122,7 +122,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: _dapQuicksandFonts.dapFont.medium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Choose a wallet")
@@ -185,7 +185,7 @@ ColumnLayout
                             height: 26*pt
                             Layout.fillWidth: true
 
-                            font: _dapQuicksandFonts.dapFont.regular11
+                            font: mainFont.dapFont.regular11
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name
@@ -200,7 +200,7 @@ ColumnLayout
                                id: textMetworkAddress
                                Layout.preferredWidth: 101 * pt
 
-                               fontDapText: _dapQuicksandFonts.dapFont.regular12
+                               fontDapText: mainFont.dapFont.regular12
                                color: currTheme.textColorGrayTwo
                                fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
 
@@ -265,7 +265,7 @@ ColumnLayout
                         nameRadioButton: qsTr("")
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
-                        fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                        fontRadioButton: mainFont.dapFont.regular16
                         implicitHeight: indicatorInnerSize
                         checked: index === globalLogic.currentIndex? true:false
 

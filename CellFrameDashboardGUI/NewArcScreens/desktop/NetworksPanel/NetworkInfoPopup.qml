@@ -181,7 +181,7 @@ Popup {
             Text {
                 id: stateNetwork
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 text: "State: "
                 color: currTheme.textColor
             }
@@ -189,7 +189,7 @@ Popup {
                 id:textState
                 anchors.left: stateNetwork.right
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 text: networkState
                 color: currTheme.textColor
                 onTextChanged:
@@ -210,7 +210,7 @@ Popup {
             Text {
                 id: errorNetwork
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 text: errorMessage
                 color: "#FF0000"
             }
@@ -226,7 +226,7 @@ Popup {
             Text {
                 id: targetStateCaption
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 text: "Target state: "
                 color: currTheme.textColor
             }
@@ -234,7 +234,7 @@ Popup {
                 id: targetStateText
                 anchors.left: targetStateCaption.right
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 text: targetState
                 color: currTheme.textColor
             }
@@ -250,7 +250,7 @@ Popup {
             Text {
                 id: activeLinksCaption
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 text: "Active links: "
                 color: currTheme.textColor
             }
@@ -258,7 +258,7 @@ Popup {
                 id: activeLinksText
                 anchors.left: activeLinksCaption.right
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 text: activeLinksCount + " from " + linksCount
                 color: currTheme.textColor
             }
@@ -274,7 +274,7 @@ Popup {
             Text {
                 id: addressCaption
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.bold12
+                font: mainFont.dapFont.bold12
                 text: "Address: "
                 color: currTheme.textColor
             }
@@ -282,7 +282,7 @@ Popup {
                 id: addressText
                 anchors.left: addressCaption.right
                 anchors.verticalCenter: parent.verticalCenter
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
                 text: nodeAddress + " "
                 color: currTheme.textColor
             }
@@ -322,7 +322,7 @@ Popup {
             Layout.alignment: Qt.AlignVCenter
             Layout.fillWidth: true
             Layout.maximumWidth: item_width/2
-            font: _dapQuicksandFonts.dapFont.bold12
+            font: mainFont.dapFont.bold12
             color: currTheme.textColor
             text: name
             elide: Text.ElideMiddle

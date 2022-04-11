@@ -57,8 +57,8 @@ Rectanglez {
 
     ///@details dapMainFonts Project font loader
     readonly property QtObject dapMainFonts: DapFontRoboto {}
-//    readonly property QtObject _dapQuicksandFonts: DapFontQuicksand {}
-    property alias _dapQuicksandFonts: quicksandFonts
+//    readonly property QtObject mainFont: DapFontQuicksand {}
+    property alias mainFont: quicksandFonts
     DapFontQuicksand {
         id: quicksandFonts
     }
@@ -278,7 +278,7 @@ Rectanglez {
 
                         contentItem: Text {
                                 text: toolTip.text
-                                font: _dapQuicksandFonts.dapFont.regular14
+                                font: mainFont.dapFont.regular14
                                 color: currTheme.textColor
                             }
 

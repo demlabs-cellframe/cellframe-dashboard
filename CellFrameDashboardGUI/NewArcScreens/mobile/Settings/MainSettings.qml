@@ -90,7 +90,7 @@ Page {
                                 Layout.fillWidth: true
 
                                 text: name
-                                font: _dapQuicksandFonts.dapFont.medium16
+                                font: mainFont.dapFont.medium16
                                 color: currTheme.textColor
                             }
 
@@ -98,7 +98,7 @@ Page {
                                 Layout.fillWidth: true
                                 Layout.maximumWidth: controlList.width/2.5
                                 text: networks.get(currentNetwork).address
-                                font: _dapQuicksandFonts.dapFont.medium16
+                                font: mainFont.dapFont.medium16
                                 color: currTheme.textColor
                                 elide: Text.ElideMiddle
                             }
@@ -112,7 +112,7 @@ Page {
 
                                 textButton: qsTr("Copy")
 
-                                fontButton: _dapQuicksandFonts.dapFont.medium14
+                                fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 colorTextButton: "#FFFFFF"
 
@@ -176,7 +176,7 @@ Page {
 
             textButton: qsTr("Create new wallet")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium16
+            fontButton: mainFont.dapFont.medium16
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:
@@ -200,7 +200,7 @@ Page {
 
             textButton: qsTr("Import an existing wallet")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium16
+            fontButton: mainFont.dapFont.medium16
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:

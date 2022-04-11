@@ -23,7 +23,7 @@ DapRightPanel
             text: qsTr("Last actions")
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Text.AlignLeft
-            font: _dapQuicksandFonts.dapFont.bold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
 
         }

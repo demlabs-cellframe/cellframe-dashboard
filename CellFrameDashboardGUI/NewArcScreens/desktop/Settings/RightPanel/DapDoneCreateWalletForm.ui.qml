@@ -33,7 +33,7 @@ Page
                 anchors.leftMargin: 47 * pt
                 anchors.rightMargin: 49 * pt
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.medium28
+                font: mainFont.dapFont.medium28
             }
 
             Text
@@ -47,7 +47,7 @@ Page
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
                 color: currTheme.placeHolderTextColor
-                font: _dapQuicksandFonts.dapFont.medium18
+                font: mainFont.dapFont.medium18
             }
 
             DapButton
@@ -61,7 +61,7 @@ Page
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
             }
         }
     }

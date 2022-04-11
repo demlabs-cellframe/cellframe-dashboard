@@ -30,7 +30,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
 
             text: qsTr("You don’t have any wallets. Create a new wallet or import an existing one.")
-            font: _dapQuicksandFonts.dapFont.medium16
+            font: mainFont.dapFont.medium16
             color: currTheme.textColorGrayTwo
             wrapMode: Text.WordWrap
         }
@@ -45,7 +45,7 @@ Page {
 
             textButton: qsTr("Get started")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium14
+            fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:

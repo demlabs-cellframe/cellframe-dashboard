@@ -28,7 +28,7 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font: _dapQuicksandFonts.dapFont.medium16
+            font: mainFont.dapFont.medium16
             color: "#ffffff"
 
             text: qsTr("Your wallet address is")
@@ -42,7 +42,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
 
-            font: _dapQuicksandFonts.dapFont.regular16
+            font: mainFont.dapFont.regular16
             color: "#ffffff"
 
             text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).address)
@@ -61,7 +61,7 @@ Page {
 
             textButton: qsTr("Copy")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium14
+            fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:

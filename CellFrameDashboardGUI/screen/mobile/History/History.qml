@@ -86,7 +86,7 @@ Page {
                             verticalAlignment: Qt.AlignVCenter
 
                             text: network
-                            font: _dapQuicksandFonts.dapFont.medium11
+                            font: mainFont.dapFont.medium11
                             color: currTheme.textColor
                         }
 
@@ -96,7 +96,7 @@ Page {
                             verticalAlignment: Qt.AlignVCenter
 
                             text: status
-                            font: _dapQuicksandFonts.dapFont.medium12
+                            font: mainFont.dapFont.medium12
                             color: currTheme.textColorGray
                         }
 
@@ -111,7 +111,7 @@ Page {
 
                         property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                         text: sign + amount + " " + token_name
-                        font: _dapQuicksandFonts.dapFont.medium14
+                        font: mainFont.dapFont.medium14
                         color: currTheme.textColor
                     }
 
@@ -164,7 +164,7 @@ Page {
 
 //                    text: section
                     text: getDateString(payDate)
-                    font: _dapQuicksandFonts.dapFont.medium12
+                    font: mainFont.dapFont.medium12
                     color: currTheme.textColor
                 }
             }

@@ -81,7 +81,7 @@ Canvas {
 
         text: canvas.text
         color: currTheme.textColor
-        font:  _dapQuicksandFonts.dapFont.bold14
+        font:  mainFont.dapFont.bold14
     }
 
     MouseArea {

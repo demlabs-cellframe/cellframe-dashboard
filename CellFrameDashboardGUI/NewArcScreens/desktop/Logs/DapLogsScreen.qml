@@ -61,7 +61,7 @@ DapAbstractScreen
 
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Node data logs")
-                        font:  _dapQuicksandFonts.dapFont.bold14
+                        font:  mainFont.dapFont.bold14
                         color: currTheme.textColor
                     }
                 }
@@ -154,7 +154,7 @@ DapAbstractScreen
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 verticalAlignment: Qt.AlignVCenter
-                font:  _dapQuicksandFonts.dapFont.medium11
+                font:  mainFont.dapFont.medium11
                 color: currTheme.textColor
                 text: section
             }
@@ -202,7 +202,7 @@ DapAbstractScreen
                         id: typeLog
                         anchors.fill: parent
                         verticalAlignment: Qt.AlignVCenter
-                        font:  _dapQuicksandFonts.dapFont.regular16
+                        font:  mainFont.dapFont.regular16
                         color: currTheme.textColor
                         text: type
                     }
@@ -226,7 +226,7 @@ DapAbstractScreen
                         anchors.fill: parent
                         verticalAlignment: Qt.AlignVCenter
                         wrapMode: Text.Wrap
-                        font:  _dapQuicksandFonts.dapFont.regular16
+                        font:  mainFont.dapFont.regular16
                         color: currTheme.textColor
                         text: info
                     }
@@ -248,7 +248,7 @@ DapAbstractScreen
                         id: fileLog
                         anchors.fill: parent
                         verticalAlignment: Qt.AlignVCenter
-                        font:  _dapQuicksandFonts.dapFont.regular14
+                        font:  mainFont.dapFont.regular14
                         color: currTheme.textColor
                         text: file
                     }
@@ -269,7 +269,7 @@ DapAbstractScreen
                         id: timeLog
                         anchors.fill: parent
                         verticalAlignment: Qt.AlignVCenter
-                        font:  _dapQuicksandFonts.dapFont.regular16
+                        font:  mainFont.dapFont.regular16
                         color: currTheme.textColor
                         text: time
                     }

@@ -24,7 +24,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
             }
             Item {
@@ -33,7 +33,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular14
+                font: mainFont.dapFont.regular14
                 text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance_without_zeros.toString())
             }
         }
@@ -50,7 +50,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 text: qsTr("Max Supply")
             }
             Item {
@@ -59,7 +59,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular14
+                font: mainFont.dapFont.regular14
                 text: qsTr("994445789076.000654")
             }
         }
@@ -76,7 +76,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 text: qsTr("Holders")
             }
             Item {
@@ -85,7 +85,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular14
+                font: mainFont.dapFont.regular14
                 text: qsTr("546654")
             }
         }
@@ -102,7 +102,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 text: qsTr("Website")
             }
             Item {
@@ -111,7 +111,7 @@ Page {
             Text {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular14
+                font: mainFont.dapFont.regular14
                 text: qsTr("https://cellframe.net/")
             }
         }
@@ -138,7 +138,7 @@ Page {
 
                 textButton: qsTr("Receive")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
@@ -157,7 +157,7 @@ Page {
 
                 textButton: qsTr("Send")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:

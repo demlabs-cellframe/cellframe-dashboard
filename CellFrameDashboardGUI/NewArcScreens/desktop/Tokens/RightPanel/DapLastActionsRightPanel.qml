@@ -36,7 +36,7 @@ DapLastActionsRightPanelForm
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
                 text: getDateString(payDate)
-                font: _dapQuicksandFonts.dapFont.regular12
+                font: mainFont.dapFont.regular12
             }
         }
     }

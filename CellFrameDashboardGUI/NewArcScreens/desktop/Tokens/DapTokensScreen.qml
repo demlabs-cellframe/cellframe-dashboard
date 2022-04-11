@@ -66,7 +66,7 @@ DapAbstractScreen {
 
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Tokens")
-                font:  _dapQuicksandFonts.dapFont.bold14
+                font:  mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -110,7 +110,7 @@ DapAbstractScreen {
                         anchors.left: parent.left
                         anchors.leftMargin: 16 * pt
                         anchors.verticalCenter: parent.verticalCenter
-                        font: _dapQuicksandFonts.dapFont.medium11
+                        font: mainFont.dapFont.medium11
                         color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: name
@@ -149,7 +149,7 @@ DapAbstractScreen {
                             {
                                 id: currencyName
                                 anchors.left: parent.left
-                                font: _dapQuicksandFonts.dapFont.regular16
+                                font: mainFont.dapFont.regular16
                                 color: model.selected ? "#FF0080" : currTheme.textColor
                                 text: name + " (" + currencyCode.text + ")"
                                 width: 172 * pt
@@ -165,7 +165,7 @@ DapAbstractScreen {
 //                                    Layout.fillWidth: true
                                 anchors.right: currencyCode.left
                                 anchors.rightMargin: 5 * pt
-                                font: _dapQuicksandFonts.dapFont.regular14
+                                font: mainFont.dapFont.regular14
                                 color: model.selected ? "#FF0080" : currTheme.textColor
                                 text: full_balance
                                 horizontalAlignment: Text.AlignRight
@@ -177,7 +177,7 @@ DapAbstractScreen {
                             {
                                 id: currencyCode
                                 anchors.right: parent.right
-                                font: _dapQuicksandFonts.dapFont.regular14
+                                font: mainFont.dapFont.regular14
                                 color: isCurrentIndex ? "#FF0080" : currTheme.textColor
                                 text: name
                                 horizontalAlignment: Text.AlignRight

@@ -55,7 +55,7 @@ Item
             anchors.verticalCenter: parent.verticalCenter
             text: name
             color: currTheme.textColor
-            font:_dapQuicksandFonts.dapFont.regular13
+            font:mainFont.dapFont.regular13
         }
     }
 

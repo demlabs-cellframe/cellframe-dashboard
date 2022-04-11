@@ -22,7 +22,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: _dapQuicksandFonts.dapFont.bold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Extensions")
@@ -40,7 +40,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: _dapQuicksandFonts.dapFont.medium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Manage dApps")
@@ -92,7 +92,7 @@ ColumnLayout
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         Layout.leftMargin: 15 * pt
 
-                        font: _dapQuicksandFonts.dapFont.regular14
+                        font: mainFont.dapFont.regular14
                         color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: name

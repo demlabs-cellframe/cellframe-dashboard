@@ -46,12 +46,7 @@ GridView {
             radius: currTheme.radiusRectangle
             shadowColor: currTheme.reflectionLight
             lightColor: currTheme.shadowColor
-//            shadowColor: currTheme.shadowColor
-//            lightColor: currTheme.reflectionLight
-//            color: "transparent"
-//            border.width: pt
-//            border.color: currTheme.lineSeparatorColor
-//            radius: currTheme.radiusRectangle
+
             focus: true
 
             contentData:
@@ -87,60 +82,6 @@ GridView {
                                     }
                                 }
                         }
-        //                color: cell.GridView.isCurrentItem ? currTheme.buttonColorNormal : currTheme.backgroundPanel
-        //                color: cell.GridView.isCurrentItem ? "#D51F5D" : "gray"
-        //                radius: parent.radius
-
-        //                LinearGradient
-        //                {
-        //                    anchors.fill: parent
-        //                    source: parent
-        //                    start: Qt.point(0,parent.height/2)
-        //                    end: Qt.point(parent.width,parent.height/2)
-        //                    gradient:
-        //                        Gradient {
-        //                            GradientStop
-        //                            {
-        //                                position: 0;
-        //                                color: cell.GridView.isCurrentItem ? currTheme.buttonColorNormalPosition0 :
-        //                                                         currTheme.buttonNetworkColorNoActive
-        //                            }
-        //                            GradientStop
-        //                            {
-        //                                position: 1;
-        //                                color: cell.GridView.isCurrentItem ? currTheme.buttonColorNormalPosition1 :
-        //                                                         currTheme.buttonNetworkColorNoActive
-        //                            }
-        //                        }
-        //                }
-
-        //                Rectangle {
-        //                    y: parent.height - height
-        //                    width: parent.width
-        //                    height: parent.radius - 2 * pt
-        //                    LinearGradient
-        //                    {
-        //                        anchors.fill: parent
-        //                        source: parent
-        //                        start: Qt.point(0,parent.height/2)
-        //                        end: Qt.point(parent.width,parent.height/2)
-        //                        gradient:
-        //                            Gradient {
-        //                                GradientStop
-        //                                {
-        //                                    position: 0;
-        //                                    color: cell.GridView.isCurrentItem ? currTheme.buttonColorNormalPosition0 :
-        //                                                             currTheme.buttonNetworkColorNoActive
-        //                                }
-        //                                GradientStop
-        //                                {
-        //                                    position: 1;
-        //                                    color: cell.GridView.isCurrentItem ? currTheme.buttonColorNormalPosition1 :
-        //                                                             currTheme.buttonNetworkColorNoActive
-        //                                }
-        //                            }
-        //                    }
-        //                }
 
                         Text {
                             anchors.verticalCenter: parent.verticalCenter

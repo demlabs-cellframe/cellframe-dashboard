@@ -56,7 +56,7 @@ Drawer {
                     Layout.rightMargin: 100 * pt
                     text: qsTr("Networks")
                     color: currTheme.textColor
-                    font: _dapQuicksandFonts.dapFont.medium18
+                    font: mainFont.dapFont.medium18
                 }
                 Image {
                     smooth: true

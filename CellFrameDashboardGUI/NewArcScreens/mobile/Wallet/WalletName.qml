@@ -27,7 +27,7 @@ Page {
 
             placeholderText: qsTr("Enter a new wallet name")
             color: "#ffffff"
-            font: _dapQuicksandFonts.dapFont.medium18
+            font: mainFont.dapFont.medium18
 
             background: Rectangle{color:"transparent"}
         }
@@ -57,7 +57,7 @@ Page {
 
             textButton: qsTr("Next")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium14
+            fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:

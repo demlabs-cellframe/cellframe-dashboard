@@ -111,7 +111,7 @@ Rectangle {
                         leftMargin: 13 * pt
                         verticalCenter: parent.verticalCenter
                     }
-                    font: _dapQuicksandFonts.dapFont.bold14
+                    font: mainFont.dapFont.bold14
                     color: currTheme.textColor
                     text: qsTr("Create certificate")
                 }
@@ -130,7 +130,7 @@ Rectangle {
                     x: 15 * pt
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
-                    font: _dapQuicksandFonts.dapFont.medium13
+                    font: mainFont.dapFont.medium13
                     text: qsTr("Required")
                     color: currTheme.textColor
                 }
@@ -181,7 +181,7 @@ Rectangle {
                     colorTopNormalDropShadow: "#00000000"
                     colorDropShadow: currTheme.shadowColor
 
-                    fontComboBox: [_dapQuicksandFonts.dapFont.regular16]
+                    fontComboBox: [mainFont.dapFont.regular16]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 }
 
@@ -201,7 +201,7 @@ Rectangle {
                             checkRequiredField()
                         }
 
-                    font: _dapQuicksandFonts.dapFont.regular18
+                    font: mainFont.dapFont.regular18
                 }
 
                 Rectangle //bottom line
@@ -231,7 +231,7 @@ Rectangle {
                     x: 15 * pt
                     height: parent.height
                     verticalAlignment: Text.AlignVCenter
-                    font: _dapQuicksandFonts.dapFont.medium13
+                    font: mainFont.dapFont.medium13
                     text: qsTr("Optional")
                     color: currTheme.textColor
                 }
@@ -275,7 +275,7 @@ Rectangle {
 
                             onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", "")}
 
-                            font: _dapQuicksandFonts.dapFont.regular16
+                            font: mainFont.dapFont.regular16
                             onEditingFinished: {
                                 text = text.trim()
                                 optionalRepeater.model.setProperty(model.index, "data", text)
@@ -299,7 +299,7 @@ Rectangle {
 
                         enabled: root.requiredFieldValid
 
-                        fontButton: _dapQuicksandFonts.dapFont.regular16
+                        fontButton: mainFont.dapFont.regular16
                         horizontalAligmentText: Qt.AlignHCenter
 
                         onClicked: {   //enabled when requiredFieldValid

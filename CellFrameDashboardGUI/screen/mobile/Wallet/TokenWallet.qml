@@ -42,7 +42,7 @@ Page {
 //                    Layout.leftMargin: 15 * pt
 //                    Layout.rightMargin: 15 * pt
                     text: name
-                    font: _dapQuicksandFonts.dapFont.medium13
+                    font: mainFont.dapFont.medium13
                     horizontalAlignment: Text.AlignHCenter
                     color: index === currentNetwork ? currTheme.hilightColorComboBox : currTheme.textColor
                 }
@@ -146,13 +146,13 @@ Page {
                             Layout.fillWidth: true
 
                             text: name
-                            font: _dapQuicksandFonts.dapFont.medium16
+                            font: mainFont.dapFont.medium16
                             color: currTheme.textColor
                         }
 
                         Text {
                             text: balance
-                            font: _dapQuicksandFonts.dapFont.medium16
+                            font: mainFont.dapFont.medium16
                             color: currTheme.textColor
                         }
                     }

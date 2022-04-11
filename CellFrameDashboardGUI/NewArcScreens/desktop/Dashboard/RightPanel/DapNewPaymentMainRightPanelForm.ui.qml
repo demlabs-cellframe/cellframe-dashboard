@@ -86,7 +86,7 @@ Controls.Page
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -103,7 +103,7 @@ Controls.Page
                 id: textFrameSenderWallet
                 color: currTheme.textColor
                 text: qsTr("From")
-                font: _dapQuicksandFonts.dapFont.medium12
+                font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -167,7 +167,7 @@ Controls.Page
                     roleInterval: 15
                     endRowPadding: 37
 
-                    fontComboBox: [_dapQuicksandFonts.dapFont.regular14]
+                    fontComboBox: [mainFont.dapFont.regular14]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                     alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -189,7 +189,7 @@ Controls.Page
                     Layout.fillWidth: true
                     color: currTheme.textColor
                     text: qsTr("Chain:")
-                    font: _dapQuicksandFonts.dapFont.regular14
+                    font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignLeft
                 }
 
@@ -232,7 +232,7 @@ Controls.Page
                         roleInterval: 15
                         endRowPadding: 37
 
-                        fontComboBox: [_dapQuicksandFonts.dapFont.regular14]
+                        fontComboBox: [mainFont.dapFont.regular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -254,7 +254,7 @@ Controls.Page
                 id: textFrameamountPayment
                 color: currTheme.textColor
                 text: qsTr("Amount")
-                font: _dapQuicksandFonts.dapFont.medium12
+                font: mainFont.dapFont.medium12
                 anchors.left: parent.left
                 anchors.leftMargin: 17 * pt
                 anchors.topMargin: 20 * pt
@@ -288,7 +288,7 @@ Controls.Page
                     placeholderText: "0"
 //                        placeholderText: "0.0"
                     validator: RegExpValidator { regExp: /[0-9]+\.?[0-9]{0,18}/ }
-                    font: _dapQuicksandFonts.dapFont.regular16
+                    font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
 
                     style:
@@ -342,7 +342,7 @@ Controls.Page
                         colorDropShadow: currTheme.shadowColor
                         roleInterval: 15
                         endRowPadding: 37
-                        fontComboBox: [_dapQuicksandFonts.dapFont.regular14]
+                        fontComboBox: [mainFont.dapFont.regular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -365,7 +365,7 @@ Controls.Page
                 id: textRecipientWallet
                 color: currTheme.textColor
                 text: qsTr("To")
-                font: _dapQuicksandFonts.dapFont.medium12
+                font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -391,7 +391,7 @@ Controls.Page
                 anchors.verticalCenter: parent.verticalCenter
                 placeholderText: qsTr("Paste here")
                 validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
-                font: _dapQuicksandFonts.dapFont.regular16
+                font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
                 anchors.topMargin: 26 * pt
@@ -441,7 +441,7 @@ Controls.Page
                 anchors.rightMargin: 36 * pt
                 color: "#79FFFA"
                 text: qsTr("Not enough available tokens. Enter a lower value.")
-                font: _dapQuicksandFonts.dapFont.regular14
+                font: mainFont.dapFont.regular14
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WordWrap
@@ -461,7 +461,7 @@ Controls.Page
             textButton: qsTr("Send")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: _dapQuicksandFonts.dapFont.medium14
+            fontButton: mainFont.dapFont.medium14
             shadowColor:"#2A2C33"
         }
 

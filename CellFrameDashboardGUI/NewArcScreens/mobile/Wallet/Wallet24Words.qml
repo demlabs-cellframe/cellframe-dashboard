@@ -28,7 +28,7 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font: _dapQuicksandFonts.dapFont.regular14
+            font: mainFont.dapFont.regular14
             color: "#79FFFA"
 
             text: qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
@@ -42,7 +42,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
 
-            font: _dapQuicksandFonts.dapFont.regular16
+            font: mainFont.dapFont.regular16
             color: "#ffffff"
 
             text: qsTr("afiaso amalou baltap barari brabec cajari csirka davrey dosimo gbadoa hallen hovden kokele kumisu le fas liloka llorac loholz lukeka maugbi neiafu nemano rebone utiago")
@@ -57,7 +57,7 @@ Page {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
 
-            font: _dapQuicksandFonts.dapFont.regular14
+            font: mainFont.dapFont.regular14
             color: "#B3FF00"
             text: qsTr("Recovery words copied to clipboard. Keep them in a safe place before proceeding to the next step.")
             wrapMode: Text.WordWrap
@@ -78,7 +78,7 @@ Page {
 
                 textButton: qsTr("Copy")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:
@@ -103,7 +103,7 @@ Page {
 
                 textButton: qsTr("Next")
 
-                fontButton: _dapQuicksandFonts.dapFont.medium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
                 colorTextButton: "#FFFFFF"
                 onClicked:

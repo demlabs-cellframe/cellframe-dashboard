@@ -1,15 +1,19 @@
 import QtQuick 2.9
-import "../Certificates/parts/"
+import "../../Certificates/parts/"
 
 Item {
     property alias text:orderText.text
 //    property alias activeButton:activeBtn
 
-    property bool activeBtn:false
-    property alias info_text : infoText
+    property bool activeBtn: false
+    property alias info_text: infoText
 
     width: root.width
     height: 40 * pt
+    anchors.left: parent.left
+    anchors.leftMargin: 10
+    anchors.right: parent.right
+    anchors.rightMargin: 10
 
     Text {
         id: orderText

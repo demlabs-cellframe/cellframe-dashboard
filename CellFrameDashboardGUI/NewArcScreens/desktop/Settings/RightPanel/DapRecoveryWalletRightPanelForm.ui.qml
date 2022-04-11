@@ -73,7 +73,7 @@ Page
                 anchors.bottomMargin: 8 * pt
                 anchors.leftMargin: 52 * pt
 
-                font: _dapQuicksandFonts.dapFont.bold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -90,7 +90,7 @@ Page
                 id: textMethod
                 color: currTheme.textColor
                 text: qsTr("Recovery method: 24 words")
-                font: _dapQuicksandFonts.dapFont.medium14
+                font: mainFont.dapFont.medium14
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
@@ -116,7 +116,7 @@ Page
                 horizontalAlignment: Text.AlignHCenter
                 color: "#79FFFA"
                 wrapMode: Text.WordWrap
-                font: _dapQuicksandFonts.dapFont.regular14
+                font: mainFont.dapFont.regular14
             }
         }
 
@@ -141,7 +141,7 @@ Page
                     text: modelData
     //                        font { bold: true; pixelSize: 12 }
                     color: currTheme.textColor
-                    font: _dapQuicksandFonts.dapFont.regular16
+                    font: mainFont.dapFont.regular16
 
                 }
                 model: wordsModel
@@ -172,7 +172,7 @@ Page
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            font: _dapQuicksandFonts.dapFont.regular14
+            font: mainFont.dapFont.regular14
         }
 
 
@@ -190,7 +190,7 @@ Page
                 textButton: qsTr("Next")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: _dapQuicksandFonts.dapFont.regular16
+                fontButton: mainFont.dapFont.regular16
                 visible: false
             }
 
@@ -203,7 +203,7 @@ Page
                 checkable: true
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: _dapQuicksandFonts.dapFont.regular16
+                fontButton: mainFont.dapFont.regular16
             }
 
         }

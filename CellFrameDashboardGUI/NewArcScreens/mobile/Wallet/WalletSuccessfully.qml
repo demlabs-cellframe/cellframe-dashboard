@@ -23,7 +23,7 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font: _dapQuicksandFonts.dapFont.medium28
+            font: mainFont.dapFont.medium28
             color: currTheme.textColor
             text: qsTr("Wallet created successfully")
             wrapMode: Text.WordWrap
@@ -42,7 +42,7 @@ Page {
 
             textButton: qsTr("Done")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium14
+            fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:

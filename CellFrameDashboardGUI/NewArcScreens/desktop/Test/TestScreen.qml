@@ -128,7 +128,7 @@ DapAbstractScreen {
                             colorBackgroundNormal: currTheme.buttonColorNormal
                             colorButtonTextNormal: currTheme.textColor
                             colorButtonTextHover: currTheme.textColor
-                            fontButton: _dapQuicksandFonts.dapFont.regular16
+                            fontButton: mainFont.dapFont.regular16
                         }
 
                         DapButton
@@ -145,7 +145,7 @@ DapAbstractScreen {
                             colorBackgroundNormal: currTheme.buttonColorNoActive
                             colorButtonTextNormal: currTheme.textColor
                             colorButtonTextHover: currTheme.textColor
-                            fontButton: _dapQuicksandFonts.dapFont.regular16
+                            fontButton: mainFont.dapFont.regular16
                         }
                     }
 
@@ -159,7 +159,7 @@ DapAbstractScreen {
                             width: 150 * pt
                             height: 28 * pt
                             placeholderText: qsTr("Test Text Field")
-                            font: _dapQuicksandFonts.dapFont.regular16
+                            font: mainFont.dapFont.regular16
                             horizontalAlignment: Text.AlignRight
                             borderWidth: 1 * pt
                             borderRadius: 5 * pt
@@ -203,7 +203,7 @@ DapAbstractScreen {
                             colorDropShadow: currTheme.shadowColor
                             roleInterval: 15
                             endRowPadding: 37
-                            fontComboBox: [_dapQuicksandFonts.dapFont.regular14]
+                            fontComboBox: [mainFont.dapFont.regular14]
                             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                             colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -221,7 +221,7 @@ DapAbstractScreen {
                             Layout.fillWidth: true
                             verticalAlignment: Qt.AlignVCenter
                             text:"Test Text"
-                            font:  _dapQuicksandFonts.dapFont.regular18
+                            font:  mainFont.dapFont.regular18
                             color: currTheme.textColor
                         }
                     }
@@ -238,7 +238,7 @@ DapAbstractScreen {
             //                height: 46 * pt
 
                             nameCheckbox: qsTr("Test Check Box")
-                            fontCheckbox: _dapQuicksandFonts.dapFont.regular14
+                            fontCheckbox: mainFont.dapFont.regular14
                             nameTextColor: currTheme.textColor
 
                             checkboxOn:"qrc:/resources/icons/" + pathTheme + "/ic_checkbox_on.png"
@@ -257,7 +257,7 @@ DapAbstractScreen {
                             indicatorInnerSize: 46 * pt
                             spaceIndicatorText: 3 * pt
                             implicitHeight: indicatorInnerSize
-                            fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                            fontRadioButton: mainFont.dapFont.regular16
                         }
                         DapRadioButton
                         {
@@ -265,7 +265,7 @@ DapAbstractScreen {
                             checked: true
                             indicatorInnerSize: 46 * pt
                             spaceIndicatorText: 3 * pt
-                            fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                            fontRadioButton: mainFont.dapFont.regular16
                             implicitHeight: indicatorInnerSize
                         }
                     }

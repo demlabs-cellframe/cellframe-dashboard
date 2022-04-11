@@ -147,7 +147,7 @@ Page {
                     id: titileLabel
                     Layout.fillWidth: true
                     text: stackView.currentItem.title
-                    font: _dapQuicksandFonts.dapFont.medium18
+                    font: mainFont.dapFont.medium18
                     horizontalAlignment: Text.AlignHCenter
                     color: currTheme.textColor
                 }
@@ -159,7 +159,7 @@ Page {
                     Layout.fillWidth: true
 //                    Layout.bottomMargin: 7 * pt
                     text: _dapModelWallets.get(currentWallet).name
-                    font: _dapQuicksandFonts.dapFont.regular14
+                    font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignHCenter
                     color: currTheme.textColor
                 }

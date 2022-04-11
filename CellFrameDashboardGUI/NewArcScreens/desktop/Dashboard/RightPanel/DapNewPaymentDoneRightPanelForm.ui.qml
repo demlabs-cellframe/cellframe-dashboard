@@ -37,7 +37,7 @@ Controls.Page
                 anchors.leftMargin: 46 * pt
                 anchors.rightMargin: 50 * pt
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.medium27
+                font: mainFont.dapFont.medium27
             }
 
             Text
@@ -49,7 +49,7 @@ Controls.Page
                 anchors.top: textMessage.bottom
                 anchors.topMargin: 36 * pt
                 color: "#A4A3C0"
-                font: _dapQuicksandFonts.dapFont.regular28
+                font: mainFont.dapFont.regular28
             }
 
             Text
@@ -61,7 +61,7 @@ Controls.Page
                 anchors.top: textStatus.bottom
 //                anchors.topMargin: 8 * pt
                 color: currTheme.textColor
-                font: _dapQuicksandFonts.dapFont.regular28
+                font: mainFont.dapFont.regular28
             }
 
             // Button "Send"
@@ -76,7 +76,7 @@ Controls.Page
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: _dapQuicksandFonts.dapFont.regular16
+                fontButton: mainFont.dapFont.regular16
             }
 
             Rectangle

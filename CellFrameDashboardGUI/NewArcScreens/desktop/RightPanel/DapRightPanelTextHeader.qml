@@ -10,7 +10,7 @@ Item {
         width: Math.min(implicitWidth, parent.width)
 
         elide: Text.ElideRight
-        font:  _dapQuicksandFonts.dapFont.bold14
+        font:  mainFont.dapFont.bold14
         color: "#3E3853"
     }
 }

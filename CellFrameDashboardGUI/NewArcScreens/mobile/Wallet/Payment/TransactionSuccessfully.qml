@@ -24,7 +24,7 @@ Page {
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            font: _dapQuicksandFonts.dapFont.medium28
+            font: mainFont.dapFont.medium28
             color: currTheme.textColor
             text: qsTr("Placed to mempool")
         }
@@ -39,7 +39,7 @@ Page {
 
             text: qsTr("Status")
             color: "#A4A3C0"
-            font: _dapQuicksandFonts.dapFont.regular28
+            font: mainFont.dapFont.regular28
         }
 
         Text
@@ -50,7 +50,7 @@ Page {
 
             text: qsTr("Pending")
             color: currTheme.textColor
-            font: _dapQuicksandFonts.dapFont.regular28
+            font: mainFont.dapFont.regular28
         }
         Item {
             Layout.fillHeight: true
@@ -66,7 +66,7 @@ Page {
 
             textButton: qsTr("Done")
 
-            fontButton: _dapQuicksandFonts.dapFont.medium14
+            fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
             colorTextButton: "#FFFFFF"
             onClicked:

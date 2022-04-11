@@ -458,23 +458,6 @@ Rectangle {
             logicMainApp.rcvWallet(wallet)
 
             dapModelOrders.clear()
-
-            dapModelOrders.append({ "index" : 1,
-                                  "location" : "",
-                                  "network" : "",
-                                  "node_addr" : "",
-                                  "price" : "10000"})
-            dapModelOrders.append({ "index" : 2,
-                                  "location" : "",
-                                  "network" : "",
-                                  "node_addr" : "",
-                                  "price" : "10000"})
-            dapModelOrders.append({ "index" : 3,
-                                  "location" : "",
-                                  "network" : "",
-                                  "node_addr" : "",
-                                  "price" : "10000"})
-
         }
 
         onOrdersReceived:

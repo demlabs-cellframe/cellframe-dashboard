@@ -15,7 +15,7 @@ Item {
 
     Text {
         id: title
-        font: _dapQuicksandFonts.dapFont.regular12
+        font: mainFont.dapFont.regular12
         color: currTheme.textColor
         width: parent.width
         wrapMode: Text.Wrap
@@ -24,7 +24,7 @@ Item {
     Text {
         id: content
         y: title.height + verticalSpacing
-        font: _dapQuicksandFonts.dapFont.regular14
+        font: mainFont.dapFont.regular14
         color: currTheme.textColor
         width: parent.width
         wrapMode: Text.Wrap

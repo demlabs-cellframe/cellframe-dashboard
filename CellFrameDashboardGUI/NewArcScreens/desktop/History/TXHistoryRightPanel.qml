@@ -26,7 +26,7 @@ Page
             Layout.maximumHeight: 35 * pt
             Layout.leftMargin: 15 * pt
             verticalAlignment: Text.AlignVCenter
-            font: _dapQuicksandFonts.dapFont.bold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Status")
         }
@@ -45,7 +45,7 @@ Page
                 checked: true
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("All statuses")
@@ -58,7 +58,7 @@ Page
                 nameRadioButton: qsTr("Pending")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Pending")
@@ -71,7 +71,7 @@ Page
                 nameRadioButton: qsTr("Sent")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Sent")
@@ -84,7 +84,7 @@ Page
                 nameRadioButton: qsTr("Received")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Received")
@@ -97,7 +97,7 @@ Page
                 nameRadioButton: qsTr("Error")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: _dapQuicksandFonts.dapFont.regular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Error")
@@ -111,7 +111,7 @@ Page
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
             verticalAlignment: Text.AlignVCenter
-            font: _dapQuicksandFonts.dapFont.bold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Period")
         }
@@ -173,15 +173,15 @@ Page
                 dapIndicatorLeftInterval: 16 * pt
                 dapColorTopNormalDropShadow: "#00000000"
                 dapColorDropShadow: currTheme.shadowColor
-                dapTextFont:  _dapQuicksandFonts.dapFont.regular14
+                dapTextFont:  mainFont.dapFont.regular14
                 dapDefaultMainLineText: "all time"
                 dapIsDefaultNeedToAppend: true
                 dapRangeElementWidth: 74 * pt
                 dapRangeSpacing: 6 * pt
                 dapRangeDefaultText: "dd.mm.yyyy"
-                dapInactiveRangeTextFont:  _dapQuicksandFonts.dapFont.regular14
+                dapInactiveRangeTextFont:  mainFont.dapFont.regular14
                 dapUnselectedRangeColorTopText: "#ACAAB5"
-                dapActiveRangeTextFont:  _dapQuicksandFonts.dapFont.medium14
+                dapActiveRangeTextFont:  mainFont.dapFont.medium14
                 dapSelectedRangeColorTopText: "#FFFFFF"
 
                 dapCalendars:
@@ -199,7 +199,7 @@ Page
                         dapDayHeight: 24 * pt
                         dapDayLeftInterval: 8 * pt
                         dapDayTopInterval: 2 * pt
-                        dapCalendarFont:  _dapQuicksandFonts.dapFont.regular14
+                        dapCalendarFont:  mainFont.dapFont.regular14
 
                         dapCalendarBackgroundColor: currTheme.backgroundMainScreen
                         dapNormalTextColor: currTheme.textColor

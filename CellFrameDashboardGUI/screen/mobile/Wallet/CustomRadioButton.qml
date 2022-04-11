@@ -11,7 +11,7 @@ RadioButton {
         text: control.text
 //        opacity: enabled ? 1.0 : 0.3
         color: control.checked ? "#ffffff" : "#ACABB3"
-        font: _dapQuicksandFonts.dapFont.medium18
+        font: mainFont.dapFont.medium18
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
     }
