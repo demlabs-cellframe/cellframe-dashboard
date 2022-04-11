@@ -64,12 +64,12 @@ Rectangle {
                 }
             }  //titleRectangle
 
-
             ListView {
                 id: certificateDataListView
                 y: titleRectangle.y + titleRectangle.height + 11 * pt
                 width: parent.width
-                height: contentHeight
+                height: parent.height - y
+                model: models.certificateInfo
                 spacing: 22 * pt
                 clip: true
 

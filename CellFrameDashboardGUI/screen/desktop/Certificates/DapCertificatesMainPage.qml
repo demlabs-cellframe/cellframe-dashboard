@@ -281,7 +281,7 @@ DapAbstractTab
     Component {
         id: certificateInfoComponent
         CertificateInfoItem {
-            certificateDataListView.model: models.certificateInfo
+            //certificateDataListView.model: models.certificateInfo
             closeButton.onClicked: {
                 rightPanel.sourceComponent = certificatesActionsComponent
             }

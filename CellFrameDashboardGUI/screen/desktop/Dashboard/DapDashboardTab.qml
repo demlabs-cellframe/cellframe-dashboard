@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
 import "../SettingsWallet.js" as SettingsWallet
+import DapCertificateManager.Commands 1.0
 
 
 DapAbstractTab
@@ -175,9 +176,15 @@ DapAbstractTab
         }
     ]
 
+    DapMessagePopup
+    {
+        id: walletMessagePopup
+        dapButtonCancel.visible: true
+    }
+
     Timer {
         id: updateTimer
-        interval: 1000; running: false; repeat: true
+        interval: autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
             print("DapDashboardTab updateTimer", updateTimer.running)
@@ -213,10 +220,6 @@ DapAbstractTab
                 if(dapModelWallets.count === 0)
                     state = "WALLETDEFAULT"
             }
-//            else if(parametrsRightPanel === createNewWallet)
-//            {
-//                dashboardScreen.dapFrameTitleCreateWallet.textItem.text = qsTr("Creating wallet in process...")
-//            }
         }
     }
 
@@ -293,5 +296,4 @@ DapAbstractTab
             dashboardTab.state = "WALLETSHOW"
         }
     }
-
 }

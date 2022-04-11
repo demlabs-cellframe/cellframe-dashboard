@@ -10,6 +10,8 @@ DapAbstractRightPanel
     /// @param dapButtonSend Send button.
     property alias dapButtonSend: buttonSend
 
+    property alias dapStatusTransaction: textStatusMessage
+
     dapNextRightPanel: lastActionsWallet
     dapPreviousRightPanel: lastActionsWallet
 

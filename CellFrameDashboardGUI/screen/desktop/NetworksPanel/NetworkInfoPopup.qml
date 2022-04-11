@@ -203,16 +203,19 @@ Popup {
         Item
         {
             Layout.alignment: Qt.AlignHCenter
-            Layout.preferredWidth: errorNetwork.implicitWidth
+            Layout.preferredWidth: item_width/2
             Layout.preferredHeight: 15 * pt
-            visible: errorNetwork.text === "" ? false : true
+//            visible: errorNetwork.text === "" || errorNetwork.text === " "  ? false : true
+            visible: false
 
             Text {
                 id: errorNetwork
                 anchors.verticalCenter: parent.verticalCenter
+                width: parent.width
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold12
                 text: errorMessage
                 color: "#FF0000"
+                elide: Text.ElideMiddle
             }
         }
 
@@ -340,9 +343,9 @@ Popup {
             height: 8 * pt
             mipmap: true
 
-            source: networkState === "OFFLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png" :
-                    networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
-                                                 "qrc:/resources/icons/" + pathTheme + "/indicator_online.png"
+            source: networkState === "ONLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
+                    networkState === "ERROR" ?  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
+                                                "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
         }
     }
 

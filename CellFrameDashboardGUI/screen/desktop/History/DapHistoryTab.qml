@@ -81,7 +81,8 @@ DapHistoryTabForm
                                                   "status" : walletHistory[q].Status,
                                                   "amount" : walletHistory[q].AmountWithoutZeros,
                                                   "date" : walletHistory[q].Date,
-                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+                                                  "hash": walletHistory[q].Hash})
                         else
                         {
                             var j = 0;
@@ -97,7 +98,8 @@ DapHistoryTabForm
                                                   "status" : walletHistory[q].Status,
                                                   "amount" : walletHistory[q].AmountWithoutZeros,
                                                   "date" : walletHistory[q].Date,
-                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch})
+                                                  "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+                                                  "hash": walletHistory[q].Hash})
                         }
                     }
 

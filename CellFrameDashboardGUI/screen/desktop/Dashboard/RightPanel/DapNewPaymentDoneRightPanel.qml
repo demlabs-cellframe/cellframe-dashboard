@@ -20,4 +20,21 @@ DapNewPaymentDoneRightPanelForm
     {
         dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
     }
+    Connections
+    {
+        target: dapServiceController
+        onTransactionCreated:
+        {
+            if(aResult.success)
+            {
+                dapStatusTransaction.text = qsTr("Pending")
+                dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
+            }
+            else
+            {
+                dapStatusTransaction.text = qsTr("Error")
+                dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Unsuccessfully!")
+            }
+        }
+    }
 }

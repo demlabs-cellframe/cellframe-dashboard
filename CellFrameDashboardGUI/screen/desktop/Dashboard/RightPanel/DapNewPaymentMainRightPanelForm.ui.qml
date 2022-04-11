@@ -337,7 +337,7 @@ DapRightPanel
                         height: 28 * pt
 //                        placeholderText: "0"
 //                        placeholderText: "0.0"
-                        validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,9}/ }
+                        validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                         font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
                         horizontalAlignment: Text.AlignRight
 

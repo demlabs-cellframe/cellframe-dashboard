@@ -29,12 +29,13 @@ DapAbstractRightPanel
             {
                 anchors.top: textMessage.bottom
                 anchors.topMargin:  24 * pt
-                anchors.leftMargin: 43 * pt
-                anchors.rightMargin: 32 * pt
+//                anchors.leftMargin: 43 * pt
+//                anchors.rightMargin: 32 * pt
 
                 id: textMessageBottom
                 text: qsTr("Now you can manage your\nwallets in Settings")
                 horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
                 color: currTheme.placeHolderTextColor
                 font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18

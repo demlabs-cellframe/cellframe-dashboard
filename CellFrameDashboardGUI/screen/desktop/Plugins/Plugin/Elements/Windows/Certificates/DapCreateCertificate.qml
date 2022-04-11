@@ -77,7 +77,7 @@ Item {
                 }
             }
 
-            DapPluginButton
+            DapAppButton
             {
                 id:rightBut
 

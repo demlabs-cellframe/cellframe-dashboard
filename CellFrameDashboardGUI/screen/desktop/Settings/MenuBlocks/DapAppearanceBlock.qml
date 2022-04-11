@@ -328,7 +328,7 @@ ColumnLayout
             anchors.left: parent.left
             anchors.right: parent.right
             height: 50 * pt
-            onHeightChanged: listWallet.contentHeight = height
+            onHeightChanged: listMenuTab.contentHeight = height
 
             Item {
 //                height: 50 * pt

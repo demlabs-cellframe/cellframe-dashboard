@@ -29,7 +29,7 @@ Rectangle {
         rowSpacing: 20
 
 
-        DapPluginsBlock
+        DapAppRow
         {
             Layout.row: 1
             Layout.rowSpan:1
@@ -49,7 +49,7 @@ Rectangle {
                 loader.open()
             }
         }
-        DapPluginsBlock
+        DapAppRow
         {
             Layout.row: 2
             Layout.rowSpan:1
@@ -68,7 +68,7 @@ Rectangle {
                 loader.open()
             }
         }
-        DapPluginsBlock
+        DapAppRow
         {
             Layout.row: 3
             Layout.rowSpan:1
@@ -83,7 +83,7 @@ Rectangle {
             }
 
         }
-        DapPluginsBlock
+        DapAppRow
         {
             Layout.row: 4
             Layout.rowSpan:1
@@ -97,7 +97,7 @@ Rectangle {
                 loader.open()
             }
         }
-        DapPluginsBlock
+        DapAppRow
         {
             Layout.row: 5
             Layout.rowSpan:1

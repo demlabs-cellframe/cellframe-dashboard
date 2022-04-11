@@ -8,7 +8,7 @@ RowLayout {
 
     spacing: 20
 
-    DapPluginButton
+    DapAppButton
     {
         id:leftBut
 
@@ -21,7 +21,7 @@ RowLayout {
         horizontalAligmentText: Qt.AlignHCenter
     }
 
-    DapPluginButton
+    DapAppButton
     {
         id:rightBut
 
