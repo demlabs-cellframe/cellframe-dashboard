@@ -249,6 +249,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 
                 parsedCommands.clear();
                 parseTree(_commands[i]);
+                parsedCommands.removeDuplicates();
             }
 
         }
