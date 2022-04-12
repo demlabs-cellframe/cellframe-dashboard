@@ -327,9 +327,6 @@
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsInfo.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/DapWindowLoader.qml</file>
-        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginButton.qml</file>
-        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginMainScreen.qml</file>
-        <file>screen/desktop/Plugins/Plugin/Elements/DapPluginsBlock.qml</file>
         <file>screen/desktop/Plugins/Plugin/DapApp.qml</file>
         <file>screen/desktop/Plugins/MiniGame/MiniGame.qml</file>
         <file>screen/desktop/Plugins/MiniGame/Elements/GameMainScreen.qml</file>
@@ -341,5 +338,8 @@
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
         <file>screen/DapMessagePopup.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapAppButton.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>
+        <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
     </qresource>
 </RCC>

@@ -230,5 +230,7 @@ DapAbstractTab {
             state = "ORDERSHOW"
         else
             state = "ORDERDEFAULT"
+
+        dapServiceController.requestToService("DapGetListOrdersCommand")
     }
 }

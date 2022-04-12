@@ -32,6 +32,7 @@ DapTopPanel
             anchors.horizontalCenter: parent.horizontalCenter
             font:dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
             color: currTheme.textColor
+            elide: Text.ElideMiddle
 //            text: qsTr("Name of my wallet")
         }
     }

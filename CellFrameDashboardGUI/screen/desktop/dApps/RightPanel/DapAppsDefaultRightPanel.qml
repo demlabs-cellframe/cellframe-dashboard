@@ -160,7 +160,8 @@ Item
                 onClicked:
                 {
                     currentPlugin = dapAppsModel.get(dapListViewApps.currentIndex).urlPath
-                    pluginsManager.installPlugin(dapListViewApps.currentIndex, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
+                    pluginsManager.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     defaultRightPanel.setEnableButtons()
                     SettingsWallet.activePlugin = currentPlugin
                 }
@@ -184,7 +185,8 @@ Item
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
                     }
-                    pluginsManager.installPlugin(dapListViewApps.currentIndex, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
+                    var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
+                    pluginsManager.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     SettingsWallet.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
@@ -205,7 +207,6 @@ Item
 
                 onClicked:
                 {
-
                     if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
                         SettingsWallet.activePlugin = ""
@@ -215,10 +216,9 @@ Item
                     SettingsWallet.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
-
                     for(var i = 0; i < modelAppsTabStates.count; i++)
-                    {
-                        if(dapModelPlugins.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
+                    {                           
+                        if(dapAppsModel.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
                         {
                             var name = modelAppsTabStates.get(i).name
 

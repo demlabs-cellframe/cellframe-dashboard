@@ -90,10 +90,12 @@ DapAbstractTab
 
     Timer {
         id: updateTimer
-        interval: 1000; running: false; repeat: true
+        interval: autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
             dapServiceController.requestToService("DapGetListWalletsCommand")
+            if(!dapNetworkModel.count)
+                dapServiceController.requestToService("DapGetListNetworksCommand")
         }
     }
 
@@ -128,7 +130,12 @@ DapAbstractTab
         }
         onWalletsListReceived:
         {
-            if(walletsList.length !== dapModelWallets.count)
+            if(dapModelWallets)
+            {
+                if(walletsList.length !== dapModelWallets.count)
+                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
+            }
+            else
                 dapServiceController.requestToService("DapGetWalletsInfoCommand")
         }
     }
