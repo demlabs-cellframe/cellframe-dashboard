@@ -6,7 +6,7 @@ import "qrc:/widgets"
 import "../../"
 import "qrc:/resources/JS/TimeFunctions.js" as TimeFunction
 
-DapAbstractScreen
+Page
 {
     id:dapLogsScreenForm
 
@@ -27,13 +27,9 @@ DapAbstractScreen
     property alias dapLogsListView: dapLogsList
     property bool isModelLoaded: false
 
-    anchors
+    background: Rectangle
     {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 24 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
     DapRectangleLitAndShaded
@@ -133,8 +129,8 @@ DapAbstractScreen
 //            dapLogsList.enabled = false
             isModelLoaded = false;
             isModelLoaded = updateLogsModel(logs);
-            dapLogsListView.currentIndex = -1
-            dapLogsListView.update()
+//            dapLogsListView.currentIndex = -1
+//            dapLogsListView.update()
 //            dapLogsList.enabled = true
         }
     }
@@ -286,7 +282,7 @@ DapAbstractScreen
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                height: 2 * pt
+                height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
 

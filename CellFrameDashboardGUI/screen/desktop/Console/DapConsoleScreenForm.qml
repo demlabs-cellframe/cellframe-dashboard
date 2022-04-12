@@ -7,7 +7,7 @@ import "../../"
 import CommandCmdController 1.0
 import "qrc:/"
 
-DapAbstractScreen
+Page
 {
     id: consoleScreen
 
@@ -26,14 +26,9 @@ DapAbstractScreen
 
     property var _commandCmdController: commandCmdController
 
-    anchors
+    background: Rectangle
     {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 44 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
-
+        color: currTheme.backgroundMainScreen
     }
 
     CommandCmdController

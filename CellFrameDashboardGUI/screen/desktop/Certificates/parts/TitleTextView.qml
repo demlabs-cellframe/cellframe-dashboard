@@ -8,9 +8,7 @@ Item {
 
     property alias title: title
     property alias content: content
-
     property int verticalSpacing: 10 * pt
-
 
     implicitWidth: parent.width - x * 2
     implicitHeight: title.height + verticalSpacing + content.height

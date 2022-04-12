@@ -57,10 +57,6 @@ Item {
 
     ListModel {
         id: certificateInfo
-        //format key, keyView, value
-        //keys: [certName, certSignatureType]     -  required
-        //      [creation_date, domain, expiration_date, organization, fullname, email, description]   - optional
-
     }
 
 
@@ -93,8 +89,6 @@ Item {
         }
     }  //createCertificateOptional
 
-
-
     ListModel {        //this common model
         id: signatureType
         ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; isRecomended: true  }
@@ -106,7 +100,6 @@ Item {
 
     ListModel {
         id: certificates
-        //format "fileName", "completeBaseName", "filePath", "dirType", "accessKeyType"
 
         property int selectedIndex: -1
         readonly property bool isSelected: selectedIndex >= 0
@@ -139,7 +132,6 @@ Item {
             clear()
             for (var i = 0; i < certList.length; ++i) {
                 certList[i].selected = false
-                //utils.beatifulerJSON(certList[i], "certList[%1]".arg(i))  //for test
                 append(certList[i])
             }
         }
@@ -170,7 +162,6 @@ Item {
 
         function update() {
             print("FindDelegateModel update", findString, accessKeyTypeIndex)
-            //console.info("update()", accessKeyTypeIndex, findString, items.count)
             if (findString !== "") {                             //find by name and accessKeyTypeIndex
                 var fstr = findString.toLocaleLowerCase()
 
@@ -192,11 +183,6 @@ Item {
                 renew()
                 return;
             }
-
-            //without find -> all items visible in view
-            //   predicate = function(obj) { return true; }
-            //   renew()
-
         }  //update
 
     }  //certificatesFind

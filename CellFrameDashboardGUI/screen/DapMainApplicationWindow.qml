@@ -40,7 +40,7 @@ Rectangle {
     ///@detalis Path to the console tab.
     readonly property string consoleScreenPath: path + "/Console/DapConsoleTab.qml"
     ///@detalis Path to the certificates tab.
-    readonly property string certificatesScreenPath: path + "/Certificates/DapCertificatesMainPage.qml"
+    readonly property string certificatesScreenPath: path + "/Certificates/DapCertificateTab.qml"
     ///@detalis Path to the tokens tab.
     readonly property string tokensScreenPath: path + "/Tokens/DapTokensTab.qml"
      ///@detalis Path to the plugins tab.
@@ -56,7 +56,7 @@ Rectangle {
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     DapMessagePopup{id: messagePopup}
-    Component{ DapCertificatesMainPage {} }
+//    Component{ DapCertificatesMainPage {} }
 
     signal menuTabChanged()
     onMenuTabChanged: logicMainApp.updateMenuTabStatus()
@@ -428,6 +428,7 @@ Rectangle {
     {
 //        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
+//        dapServiceController.requestToService("DapGetListNetworksCommand")
         pluginsManager.getListPlugins();
 //        dapServiceController.requestToService("DapGetWalletsInfoCommand")
 
@@ -458,23 +459,6 @@ Rectangle {
             logicMainApp.rcvWallet(wallet)
 
             dapModelOrders.clear()
-
-            dapModelOrders.append({ "index" : 1,
-                                  "location" : "",
-                                  "network" : "",
-                                  "node_addr" : "",
-                                  "price" : "10000"})
-            dapModelOrders.append({ "index" : 2,
-                                  "location" : "",
-                                  "network" : "",
-                                  "node_addr" : "",
-                                  "price" : "10000"})
-            dapModelOrders.append({ "index" : 3,
-                                  "location" : "",
-                                  "network" : "",
-                                  "node_addr" : "",
-                                  "price" : "10000"})
-
         }
 
         onOrdersReceived:

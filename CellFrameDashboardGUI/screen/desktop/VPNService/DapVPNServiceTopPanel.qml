@@ -6,8 +6,6 @@ import "../controls" as Controls
 
 Controls.DapTopPanel {
     property alias dapAddOrderButton: addOrderButton
-//    anchors.leftMargin: 4*pt
-//    radius: currTheme.radiusRectangle
 
     Widgets.DapButton
     {

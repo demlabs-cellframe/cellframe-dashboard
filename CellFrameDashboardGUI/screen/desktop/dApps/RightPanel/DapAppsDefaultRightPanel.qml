@@ -219,7 +219,7 @@ Item
 
                     for(var i = 0; i < modelAppsTabStates.count; i++)
                     {
-                        if(dapModelPlugins.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
+                        if(dapAppsModel.get(dapListViewApps.currentIndex).name === modelAppsTabStates.get(i).name)
                         {
                             var name = modelAppsTabStates.get(i).name
 

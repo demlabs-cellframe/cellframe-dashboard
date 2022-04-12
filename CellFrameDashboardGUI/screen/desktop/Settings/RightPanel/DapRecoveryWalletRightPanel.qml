@@ -3,9 +3,6 @@ import Qt.labs.platform 1.0
 
 DapRecoveryWalletRightPanelForm
 {
-    dapNextRightPanel: doneWallet
-    dapPreviousRightPanel: ""
-
     Connections
     {
         target: walletHashManager
@@ -61,19 +58,14 @@ DapRecoveryWalletRightPanelForm
         target: dapServiceController
         onWalletCreated:
         {
-            nextActivated("doneWallet");
+            navigator.doneWalletFunc()
         }
     }
 
     Component.onCompleted:
     {
-        if (logicMainApp.currentTab === dashboardScreenPath)
-          dapPreviousRightPanel = createNewWallet
-        if (logicMainApp.currentTab === settingsScreenPath)
-          dapPreviousRightPanel = inputNameWallet
-
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
-        print("logicMainApp.restorelogicMainApp.WalletMode", restoreWalletMode)
+        print("logicMainApp.restorelogicMainApp.WalletMode", logicMainApp.restoreWalletMode)
 
         dapButtonAction.enabled = true
         dapButtonNext.enabled = false
@@ -237,14 +229,6 @@ DapRecoveryWalletRightPanelForm
 
     dapButtonClose.onClicked:
     {
-        if (logicMainApp.currentTab === dashboardScreenPath)
-            previousActivated(createNewWallet)
-        if (logicMainApp.currentTab === settingsScreenPath)
-        {
-            previousActivated(inputNameWallet)
-//            dapSettingsRightPanel.visible = false
-//            dapSettingsRightPanel.width = 0
-//            dapSettingsScreen.dapExtensionsBlock.visible = true
-        }
+        pop()
     }
 }

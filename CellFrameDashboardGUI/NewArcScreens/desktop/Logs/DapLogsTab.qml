@@ -19,7 +19,8 @@ DapPage
 
     dapScreen.initialItem: DapLogsScreen {}
 
-    dapRightPanel.initialItem: DapLogsRightPanel {}
+    onRightPanel: false
+
 
     Connections
     {

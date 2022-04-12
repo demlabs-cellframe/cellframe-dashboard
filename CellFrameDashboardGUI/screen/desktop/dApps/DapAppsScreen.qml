@@ -29,13 +29,7 @@ Page
     RowLayout
     {
         id:frameApps
-        anchors
-        {
-            fill: parent
-//            margins: 24 * pt
-//            rightMargin: 22 * pt
-//            bottomMargin: 20 * pt
-        }
+        anchors.fill: parent
 
         spacing: 24 * pt
 
@@ -330,7 +324,7 @@ Page
                                 anchors.right: parent.right
                                 anchors.left: parent.left
                                 anchors.bottom: parent.bottom
-                                height: 2 * pt
+                                height: 1 * pt
                                 color: currTheme.lineSeparatorColor
                             }
 

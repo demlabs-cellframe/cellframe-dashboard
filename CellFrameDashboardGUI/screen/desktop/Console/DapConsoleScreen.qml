@@ -12,8 +12,6 @@ DapConsoleScreenForm
     ///@detalis receivedAnswer Answer for the sended command
     property string receivedAnswer
 
-    property var dapServiceController
-
     signal runCommand(string command)
 
     Component.onCompleted:

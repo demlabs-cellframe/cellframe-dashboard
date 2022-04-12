@@ -32,6 +32,5 @@ MouseArea {
         height: parent.height / 2
         verticalAlignment: Image.AlignVCenter
         horizontalAlignment: Image.AlignHCenter
-        mipmap: true
     }
 }   //

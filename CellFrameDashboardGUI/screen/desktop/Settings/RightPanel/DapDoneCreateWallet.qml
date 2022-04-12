@@ -1,49 +1,68 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.4
+import "qrc:/widgets"
 import "../../../"
-import "../"
 
-DapDoneCreateWalletForm
+Page
 {
-    dapNextRightPanel: ""
-    dapPreviousRightPanel: ""
-
-    Component.onCompleted:
-    {
-        if (logicMainApp.currentTab === dashboardScreenPath)
-        {
-          dapNextRightPanel = lastActionsWallet
-          dapPreviousRightPanel = lastActionsWallet
-        }
-        if (logicMainApp.currentTab === settingsScreenPath)
-        {
-          dapNextRightPanel = emptyRightPanel
-          dapPreviousRightPanel = emptyRightPanel
-        }
+    background: Rectangle {
+        color: "transparent"
     }
 
-    dapButtonDone.onClicked:
+    ColumnLayout
     {
-        if (logicMainApp.currentTab === dashboardScreenPath)
-            previousActivated(lastActionsWallet)
-        if (logicMainApp.currentTab === settingsScreenPath)
-        {
-            previousActivated(emptyRightPanel)
-            dapSettingsRightPanel.visible = false
-            dapSettingsRightPanel.width = 0
-            dapSettingsScreen.dapExtensionsBlock.visible = true
-        }
-    }
+        anchors.fill: parent
+        spacing: 0
 
-    dapButtonClose.onClicked:
-    {
-        if (logicMainApp.currentTab === dashboardScreenPath)
-            previousActivated(lastActionsWallet)
-        if (logicMainApp.currentTab === settingsScreenPath)
+        Item
         {
-            previousActivated(emptyRightPanel)
-            dapSettingsRightPanel.visible = false
-            dapSettingsRightPanel.width = 0
-            dapSettingsScreen.dapExtensionsBlock.visible = true
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            Text
+            {
+                id: textMessage
+                text: qsTr("Wallet created\nsuccessfully")
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin:  180 * pt
+                anchors.leftMargin: 47 * pt
+                anchors.rightMargin: 49 * pt
+                color: currTheme.textColor
+                font: mainFont.dapFont.medium28
+            }
+
+            Text
+            {
+                anchors.top: textMessage.bottom
+                anchors.topMargin:  24 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                id: textMessageBottom
+                text: qsTr("Now you can manage your\nwallets in Settings")
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                color: currTheme.placeHolderTextColor
+                font: mainFont.dapFont.medium18
+            }
+
+            DapButton
+            {
+                id: buttonDone
+                height: 36 * pt
+                width: 132 * pt
+                anchors.top: textMessageBottom.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin:  153 * pt
+                textButton: qsTr("Done")
+                horizontalAligmentText: Text.AlignHCenter
+                indentTextRight: 0
+                fontButton: mainFont.dapFont.medium14
+                onClicked: navigator.popPage()
+            }
         }
     }
 }
+

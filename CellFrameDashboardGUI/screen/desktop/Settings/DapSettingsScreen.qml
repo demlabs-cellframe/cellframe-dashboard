@@ -8,32 +8,23 @@ import "../../"
 import "MenuBlocks"
 import "qrc:/widgets"
 
-DapAbstractScreen
+Page
 {
     id: settingScreen
 
     property alias settingsScreen_: settingScreen
     property alias dapGeneralBlock: generalBlock
     property alias dapExtensionsBlock: extensionsBlock
-//    property alias dapComboboxWallet: walletComboBox
 
     signal createWalletSignal(bool restoreMode)
 
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
-    anchors
-    {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 24 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
-    }
 
-    Component.onCompleted:{
-        if(!dapNetworkModel.count)
-            dapServiceController.requestToService("DapGetListNetworksCommand")
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
     }
 
     Item
@@ -44,11 +35,13 @@ DapAbstractScreen
         RowLayout
         {
             anchors.fill: parent
-            spacing: 23 * pt
+//            spacing: 0
+            spacing: dapExtensionsBlock.visible? 24 : 0
 
             ColumnLayout
             {
                 Layout.fillHeight: true
+                Layout.fillWidth: true
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
 
@@ -59,6 +52,7 @@ DapAbstractScreen
 
                     id:generalBlock
                     Layout.fillWidth: true
+//                    Layout.rightMargin: 23
                     Layout.preferredHeight: content.implicitHeight
                     Layout.maximumHeight: control.height - spacing
                     color: currTheme.backgroundElements
@@ -121,6 +115,10 @@ DapAbstractScreen
                 Layout.fillWidth: true
                 Layout.preferredHeight: content1.implicitHeight
                 Layout.maximumHeight: control.height
+                Layout.rightMargin: dapExtensionsBlock.visible? 0 : 0
+//                Layout.rightMargin: 23
+
+                Layout.leftMargin: dapExtensionsBlock.visible? 1 : 25
 
 
                 id: appearanceBlock
@@ -129,7 +127,6 @@ DapAbstractScreen
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
 //                Layout.preferredHeight: contentData.implicitHeight
-                Layout.leftMargin: 2 * pt
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
@@ -145,11 +142,14 @@ DapAbstractScreen
                 Layout.maximumWidth: 350 * pt
                 Layout.alignment: Qt.AlignTop
                 Layout.preferredHeight: contentData.implicitHeight
+//                Layout.leftMargin: 24
 
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
+
+                Layout.minimumHeight: 105
 
                 contentData: DapExtensionsBlock{}
 
@@ -160,7 +160,6 @@ DapAbstractScreen
                     else
                         separatop.visible = true
                 }
-
             }
             Item
             {
@@ -169,9 +168,14 @@ DapAbstractScreen
                 Layout.fillHeight: true
                 Layout.minimumWidth: 0 * pt
                 Layout.maximumWidth: 0 * pt
-//                Layout.leftMargin: 23 * pt
+//                Layout.leftMargin: -23
                 visible: false
             }
         }
+    }
+
+    Component.onCompleted: {
+        if(!dapNetworkModel.count)
+            dapServiceController.requestToService("DapGetListNetworksCommand")
     }
 }

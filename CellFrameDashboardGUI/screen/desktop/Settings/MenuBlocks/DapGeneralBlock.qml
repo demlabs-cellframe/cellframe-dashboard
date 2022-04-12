@@ -96,7 +96,7 @@ ColumnLayout
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
 
-            currentIndex: logicMainApp.currentNetwork
+//            currentIndex: logicMainApp.currentNetwork
 
             onCurrentIndexChanged:
             {

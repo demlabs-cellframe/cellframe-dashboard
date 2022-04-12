@@ -3,8 +3,10 @@ import QtQuick.Controls 1.4
 
 import "qrc:/"
 import "../../"
+import "../controls"
+import "RightPanel"
 
-DapAbstractTab
+DapPage
 {
     ///@detalis Path to the right panel of input name wallet.
     readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
@@ -17,9 +19,6 @@ DapAbstractTab
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
-    color: currTheme.backgroundMainScreen
-
-    property alias dapSettingsRightPanel: stackViewRightPanel
     property alias dapSettingsScreen: settingsScreen
 
     property var walletInfo:
@@ -31,37 +30,56 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-    dapTopPanel: DapSettingsTopPanel { }
+    QtObject {
+        id: navigator
 
-    dapScreen: DapSettingsScreen {
+        function createWallet() {
+            dapRightPanel.push(inputNameWallet)
+        }
+
+        function doneWalletFunc(){
+            dapRightPanel.push(doneWallet)
+        }
+
+        function recoveryWalletFunc()
+        {
+            dapRightPanel.push(recoveryWallet)
+        }
+
+        function popPage() {
+            dapRightPanel.clear()
+            dapRightPanelFrame.visible = false
+            dapSettingsScreen.dapExtensionsBlock.visible = true
+        }
+    }
+
+    dapHeader.initialItem: DapSettingsTopPanel { }
+
+    dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
 
         onCreateWalletSignal:
         {
+            dapRightPanel.pop()
             logicMainApp.restoreWalletMode = restoreMode
-            dapSettingsRightPanel.visible = true
+            dapRightPanelFrame.visible = true
             settingsScreen.dapExtensionsBlock.visible = false
-            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+            navigator.createWallet()
         }
 
         onSwitchMenuTab:
         {
-            console.log("onSwitchMenuTab", tag, state)
-
             for (var i = 0; i < modelMenuTab.count; ++i)
                 if (modelMenuTab.get(i).tag === tag)
                 {
                     modelMenuTab.setProperty(i, "showTab", state)
                     break
                 }
-
             menuTabChanged()
         }
 
         onSwitchAppsTab:
         {
-            console.log("onSwitchMenuTab", tag, name, state)
-
             for (var i = 0; i < modelMenuTab.count; ++i)
                 if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
                 {
@@ -73,19 +91,10 @@ DapAbstractTab
         }
     }
 
-    dapRightPanel: StackView
-    {
-        id: stackViewRightPanel
-        initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: visible ? 350 * pt : 0
-        anchors.fill: parent
-        visible:false
-        delegate:
-            StackViewDelegate
-            {
-                pushTransition: StackViewTransition { }
-            }
-    }
+    dapRightPanel.initialItem: DapEmptyRightPanel{id: rightPanel; visible: false}
+    dapRightPanelFrame.visible: false
+
+
 
     Timer {
         id: updateTimer
@@ -102,21 +111,6 @@ DapAbstractTab
     {
         updateTimer.running = true
     }
-
-    Connections
-    {
-        target: currentRightPanel
-
-        onNextActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapNextRightPanel);
-        }
-        onPreviousActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-        }
-    }
-
 
 
     Connections
