@@ -2,8 +2,9 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../parts"
+import QtQuick.Controls 2.12
 
-Rectangle {
+Page {
     id: root
     property alias closeButton: closeButton
     property alias certificateDataListView: certificateDataListView
@@ -11,8 +12,11 @@ Rectangle {
     implicitWidth: 100
     implicitHeight: 200
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    background: Rectangle {
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+    }
+
 
     //part animation on created and open
     visible: false
