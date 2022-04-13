@@ -1,6 +1,6 @@
 QT += core network
 
-CONFIG += c++11 console #nsis_build
+CONFIG += c++11 console nsis_build
 CONFIG -= app_bundle
 
 
