@@ -52,6 +52,12 @@ Rectangle {
                     break;
                 case "a1_expiration_date":
                 {
+                    if (data == "..")
+                    {
+                        models.createCertificateOptional.setProperty(i, "data", "")
+                        data = ""
+                    }
+
                     var locale = Qt.locale()
                     var dataDate = Date.fromLocaleDateString(locale, data, "dd.MM.yyyy")
                     var day = new Date()
@@ -263,6 +269,7 @@ Rectangle {
                             leftPadding: 0
                             smartPlaceHolderText: model.placeHolderText
                             textAndLineSpacing: 3 * pt
+                            validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
                             onFocusChanged:
                             {
