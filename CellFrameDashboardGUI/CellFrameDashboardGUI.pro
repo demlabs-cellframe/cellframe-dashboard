@@ -2,7 +2,7 @@ QT += qml quick widgets svg network
 !android {
     TEMPLATE = app
 }
-CONFIG += c++11 nsis_build
+CONFIG += c++11 #nsis_build
 CONFIG += node_build
 
 LIBS += -ldl
