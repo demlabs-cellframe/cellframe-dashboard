@@ -1,11 +1,13 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
-import DapCertificateManager.Commands 1.0
+import "../controls"
+import "RightPanel"
+import "logic"
 
-
-DapAbstractTab
+DapPage
 {
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: path + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
@@ -23,9 +25,7 @@ DapAbstractTab
     readonly property string newPaymentDone: path + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
 
     id: dashboardTab
-    color: currTheme.backgroundMainScreen
 
-//    property alias dapDashboardRightPanel: stackViewRightPanel
     property alias dapDashboardScreen: dashboardScreen
 
     property var walletInfo:
@@ -38,49 +38,69 @@ DapAbstractTab
         "recovery_hash": ""
     }
 
-    dapTopPanel:
-        DapDashboardTopPanel
+    ListModel {id: networkModel}
+    LogicWallet{id: logigWallet}
+
+    QtObject {
+        id: navigator
+
+        function createWallet() {
+            if(state !== "WALLETSHOW")
+                state = "WALLETCREATE"
+            dapRightPanel.push(createNewWallet)
+        }
+
+        function doneWalletFunc(){
+            dapRightPanel.push(doneWallet)
+        }
+
+        function recoveryWalletFunc()
         {
-            color: currTheme.backgroundPanel
+            dapRightPanel.push(recoveryWallet)
+        }
+
+        function newPayment()
+        {
+            dapRightPanel.push(newPaymentMain)
+        }
+
+        function doneNewPayment()
+        {
+           dapRightPanel.push(newPaymentDone)
+        }
+
+        function popPage() {
+            dapRightPanel.clear()
+            dapRightPanel.push(lastActionsWallet)
+
+            if(!dapModelWallets.count)
+                state = "WALLETDEFAULT"
+        }
+    }
+
+    dapHeader.initialItem: DapDashboardTopPanel
+        {
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
                 walletInfo.name = dapModelWallets.get(logicMainApp.currentIndex).name
-
-                console.log("New payment")
-                console.log("wallet from: " + walletInfo.name)
-                dapRightPanel.clear()
-                currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(newPaymentMain)});
+                navigator.newPayment()
             }
         }
 
-    dapScreen:
+    dapScreen.initialItem:
         DapDashboardScreen
         {
-//            color: currTheme.backgroundMainScreen
-
             id: dashboardScreen
             dapAddWalletButton.onClicked:
             {
                 logicMainApp.restoreWalletMode = false
-                createWallet()
+                navigator.createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
             }
         }
 
-    dapRightPanel:
-            StackView
-            {
-                id: stackViewRightPanel
-                initialItem: Qt.resolvedUrl(lastActionsWallet);
-                width: 350
-                anchors.fill: parent
-                delegate:
-                    StackViewDelegate
-                    {
-                        pushTransition: StackViewTransition { }
-                    }
-            }
+    dapRightPanel.initialItem: DapLastActionsRightPanel{id: lastActions}
 
     state: "WALLETDEFAULT"
 
@@ -101,12 +121,12 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: dapRightPanel;
+                target: dapRightPanelFrame;
                 visible: false
             }
             PropertyChanges
             {
-                target: dapTopPanel
+                target: dashboardTopPanel
                 visible: false
             }
             PropertyChanges
@@ -130,12 +150,12 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: dapRightPanel;
+                target: dapRightPanelFrame;
                 visible: true
             }
             PropertyChanges
             {
-                target: dapTopPanel
+                target: dashboardTopPanel
                 visible: true
             }
             PropertyChanges
@@ -159,12 +179,12 @@ DapAbstractTab
             }
             PropertyChanges
             {
-                target: dapRightPanel;
+                target: dapRightPanelFrame;
                 visible: true
             }
             PropertyChanges
             {
-                target: dapTopPanel
+                target: dashboardTopPanel
                 visible: true
             }
             PropertyChanges
@@ -188,39 +208,50 @@ DapAbstractTab
         {
             print("DapDashboardTab updateTimer", updateTimer.running)
 
-            updateCurrentWallet()
+            if(!dapModelWallets.count)
+            {
+                if(state !== "WALLETCREATE")
+                {
+                    state = "WALLETDEFAULT"
+                    navigator.popPage()
+                }
+
+                logigWallet.updateAllWallets()
+            }
+            else
+                logigWallet.updateCurrentWallet()
         }
     }
 
-    // Signal-slot connection realizing panel switching depending on predefined rules
-    Connections
-    {
-        target: currentRightPanel
-        onNextActivated:
-        {
-            dapRightPanel.clear()
-            currentRightPanel = dapRightPanel.push(currentRightPanel.dapNextRightPanel);
-            if(parametrsRightPanel === lastActionsWallet)
-            {
-                if(dapModelWallets.count === 0)
-                    state = "WALLETDEFAULT"
-            }
-            else if(parametrsRightPanel === createNewWallet)
-            {
-                dashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Creating wallet in process...")
-            }
-        }
-        onPreviousActivated:
-        {
-            dapRightPanel.clear()
-            currentRightPanel = dapRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-            if(parametrsRightPanel === lastActionsWallet)
-            {
-                if(dapModelWallets.count === 0)
-                    state = "WALLETDEFAULT"
-            }
-        }
-    }
+//    // Signal-slot connection realizing panel switching depending on predefined rules
+//    Connections
+//    {
+//        target: currentRightPanel
+//        onNextActivated:
+//        {
+//            dapRightPanel.clear()
+//            currentRightPanel = dapRightPanel.push(currentRightPanel.dapNextRightPanel);
+//            if(parametrsRightPanel === lastActionsWallet)
+//            {
+//                if(dapModelWallets.count === 0)
+//                    state = "WALLETDEFAULT"
+//            }
+//            else if(parametrsRightPanel === createNewWallet)
+//            {
+//                dashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Creating wallet in process...")
+//            }
+//        }
+//        onPreviousActivated:
+//        {
+//            dapRightPanel.clear()
+//            currentRightPanel = dapRightPanel.push(currentRightPanel.dapPreviousRightPanel);
+//            if(parametrsRightPanel === lastActionsWallet)
+//            {
+//                if(dapModelWallets.count === 0)
+//                    state = "WALLETDEFAULT"
+//            }
+//        }
+//    }
 
 
     Connections
@@ -228,10 +259,10 @@ DapAbstractTab
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            updateComboBox()
+            logigWallet.updateComboBox()
 
             // FOR DEBUG
-//            updateCurrentWallet()
+//            logigWallet.updateCurrentWallet()
         }
     }
 
@@ -240,14 +271,14 @@ DapAbstractTab
         target: dapServiceController
         onWalletCreated:
         {
-            updateAllWallets()
+            logigWallet.updateAllWallets()
         }
     }
 
     Component.onCompleted:
     {
         print("DapDashboardTab onCompleted")
-        updateComboBox()
+        logigWallet.updateComboBox()
 
         if (!updateTimer.running)
             updateTimer.start()
@@ -256,42 +287,5 @@ DapAbstractTab
     Component.onDestruction:
     {
         print("DapDashboardTab onDestruction")
-    }
-
-    function updateAllWallets()
-    {
-        dapModelWallets.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
-    }
-
-    function updateCurrentWallet()
-    {
-        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
-
-        if (logicMainApp.currentIndex !== -1 && logicMainApp.networkArray !== "")
-            dapServiceController.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(logicMainApp.currentIndex).name,
-                logicMainApp.networkArray);
-    }
-
-    function createWallet()
-    {
-        if(state !== "WALLETSHOW")
-            state = "WALLETCREATE"
-        dapRightPanel.clear()
-        currentRightPanel = dapRightPanel.push({item:Qt.resolvedUrl(createNewWallet)});
-    }
-
-    function updateComboBox()
-    {
-        if(logicMainApp.currentIndex !== -1)
-        {
-            dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentIndex).networks
-            dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(logicMainApp.currentIndex).name
-
-            console.log("dapComboboxWallet.onCurrentIndexChanged")
-
-            dashboardTab.state = "WALLETSHOW"
-        }
     }
 }

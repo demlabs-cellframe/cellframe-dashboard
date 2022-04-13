@@ -1,20 +1,18 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
 
 
-DapAbstractScreen
+Page
 {
     id: dapDashboardScreen
-    anchors
+
+    background: Rectangle
     {
-        fill: parent
-//        topMargin: 24 * pt
-        rightMargin: 44 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
     // Paths to currency emblems
@@ -160,7 +158,6 @@ DapAbstractScreen
     {
         id: mainFrameDashboard
         anchors.fill: parent
-        anchors.topMargin: 24 * pt
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
         shadowColor: currTheme.shadowColor

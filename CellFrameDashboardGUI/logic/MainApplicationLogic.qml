@@ -199,6 +199,12 @@ QtObject {
 
     function rcvWallets(walletList)
     {
+        if(!walletList.length)
+        {
+            dapModelWallets.clear()
+            return
+        }
+
         dapModelWallets.clear()
 
         for (var i = 0; i < walletList.length; ++i)
@@ -266,6 +272,12 @@ QtObject {
 
     function rcvWallet(wallet)
     {
+        if(!Object.keys(wallet.Networks).length)
+        {
+            dapModelWallets.clear()
+            return
+        }
+
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
             if (dapModelWallets.get(i).name === wallet.Name)

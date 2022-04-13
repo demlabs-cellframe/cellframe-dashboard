@@ -1,16 +1,68 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 
-DapHistoryScreenForm
+Page
 {
     id: historyScreen
+    property alias dapHistoryRightPanel: historyRightPanel
+    property alias dapHistoryVerticalScrollBar: historyVerticalScrollBar
+    property alias dapListViewHistory: listViewHistory
 
-    ////@ Variables to calculate Today, Yesterdat etc.
-    property date today: new Date()
-    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
+    }
+
+    RowLayout
+    {
+        anchors.fill: parent
+        spacing: 24 * pt
+
+        DapRectangleLitAndShaded
+        {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+//            anchors.fill: parent
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
+
+            contentData:
+            ListView
+            {
+                id: listViewHistory
+                anchors.fill: parent
+                model: modelHistory
+                clip: true
+
+                delegate: delegateToken
+
+                section.property: "date"
+                section.criteria: ViewSection.FullString
+                section.delegate: delegateDate
+
+                ScrollBar.vertical: ScrollBar {
+                    id: historyVerticalScrollBar
+                    active: true
+                }
+            }
+
+        }
+
+        DapHistoryRightPanel
+        {
+            id: historyRightPanel
+
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
+        }
+
+    }
 
     Component.onCompleted:
     {
@@ -37,13 +89,11 @@ DapHistoryScreenForm
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
-                text: getDateString(payDate)
+                text: logicExplorer.getDateString(payDate)
                 font: mainFont.dapFont.regular12
             }
         }
     }
-
-//    https://test-explorer.cellframe.net/transaction/0xC6332B152973346155E4ECC792327E31C2FB0CAB0BC35F352D2630F737930B12
 
     Component
     {
@@ -140,41 +190,4 @@ DapHistoryScreenForm
             }
         }
     }
-
-    ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
-    function getDateString(date)
-    {
-//        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
-
-        if (isSameDay(today, date))
-        {
-            return qsTr("Today")
-        }
-        else if (isSameDay(yesterday, date))
-        {
-            return qsTr("Yesterday")
-        }
-        else if (!isSameYear(today, date))
-        {
-            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy")
-        }
-        else
-        {
-            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d") // Does locale should be changed?
-        }
-    }
-
-    ////@ Checks if dates are same
-    function isSameDay(date1, date2)
-    {
-        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
-    }
-
-    ////@ Checks if dates have same year
-    function isSameYear(date1, date2)
-    {
-        return (date1.getFullYear() === date2.getFullYear()) ? true : false
-    }
-
-
 }

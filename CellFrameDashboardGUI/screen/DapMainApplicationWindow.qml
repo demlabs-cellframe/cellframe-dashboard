@@ -1,23 +1,14 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
 
 import "qrc:/screen"
-import "qrc:/resources/QML"
-import "qrc:/screen/desktop/Dashboard"
-import "qrc:/screen/desktop/Exchange"
-import "qrc:/screen/desktop/Certificates"
-//import "qrc:/screen/desktop/NetworksPanel"
-import "qrc:/screen/desktop/RightPanel"
-import "qrc:/screen/desktop/Settings"
 import "qrc:/widgets"
-
 import "qrc:/screen/desktop/NetworksPanel"
-
 import "qrc:/logic"
-
 
 Rectangle {
     id: dapMainWindow
@@ -51,12 +42,10 @@ Rectangle {
     readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
-    readonly property string testScreenPath: path + "/Test/TestPage.qml"
 
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     DapMessagePopup{id: messagePopup}
-//    Component{ DapCertificatesMainPage {} }
 
     signal menuTabChanged()
     onMenuTabChanged: logicMainApp.updateMenuTabStatus()

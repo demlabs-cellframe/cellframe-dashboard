@@ -32,10 +32,7 @@
         <file>screen/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
         <file>screen/desktop/History/DapHistoryScreen.qml</file>
-        <file>screen/desktop/History/DapHistoryScreenForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryTab.qml</file>
-        <file>screen/desktop/History/DapHistoryTabForm.ui.qml</file>
-        <file>screen/desktop/History/DapHistoryTopPanel.qml</file>
         <file>screen/DapAbstractMenuTabWidget.qml</file>
         <file>screen/DapAbstractMenuTabWidgetForm.ui.qml</file>
         <file>resources/icons/new-wallet_icon_dark_hover.svg</file>
@@ -145,10 +142,6 @@
         <file>resources/icons/Icon_sync_net_hover.svg</file>
         <file>resources/icons/next-page.svg</file>
         <file>resources/icons/next-page_hover.svg</file>
-        <file>screen/desktop/RightPanel/DapRightPanelTextHeader.qml</file>
-        <file>screen/desktop/RightPanel/DapRightPanel_New.qml</file>
-        <file>screen/desktop/RightPanel/DapRightPanelPage.qml</file>
-        <file>screen/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
         <file>resources/illustrations/illustration_vpn-service.svg</file>
         <file>resources/icons/ic_info_order.svg</file>
         <file>resources/icons/under construction.svg</file>
@@ -197,16 +190,12 @@
         <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
         <file>resources/icons/BlackTheme/icon_certificates.png</file>
         <file>screen/desktop/UnderConstructions.qml</file>
-        <file>screen/desktop/SettingsWallet.js</file>
         <file>resources/icons/BlackTheme/ic_copy.png</file>
         <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
-        <file>screen/desktop/Test/DapTestRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Test/TestScreen.qml</file>
-        <file>screen/desktop/Test/TestPage.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
         <file>WalletRestore/english_words.txt</file>
@@ -276,128 +265,6 @@
         <file>resources/icons/icon.png</file>
         <file>resources/icons/icon.ico</file>
         <file>screen/DapMessagePopup.qml</file>
-        <file>NewArcScreens/controls/DapButton.qml</file>
-        <file>NewArcScreens/controls/DapComboBox.qml</file>
-        <file>NewArcScreens/controls/DapMainButtonsMenu.qml</file>
-        <file>NewArcScreens/controls/DapMenuButton.qml</file>
-        <file>NewArcScreens/controls/DapMenuButtonMobile.qml</file>
-        <file>NewArcScreens/controls/DapPage.qml</file>
-        <file>NewArcScreens/controls/DapPageClean.qml</file>
-        <file>NewArcScreens/controls/DapPageElement.qml</file>
-        <file>NewArcScreens/controls/DapScreenPage.qml</file>
-        <file>NewArcScreens/controls/DapStackView.qml</file>
-        <file>NewArcScreens/controls/DapTextField.qml</file>
-        <file>NewArcScreens/controls/DapTopPanel.qml</file>
-        <file>NewArcScreens/controls/HeaderItem.qml</file>
-        <file>NewArcScreens/controls/SearchInputBox.qml</file>
-        <file>NewArcScreens/controls/TextInputFilter.qml</file>
-        <file>NewArcScreens/desktop/Certificates/models/FindDelegateModel.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/CloseButton.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/CreateCertificateModel.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/FindDelegateModel.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/InputField.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/TitleTextView.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/ToolButton.qml</file>
-        <file>NewArcScreens/desktop/Certificates/parts/Utils.qml</file>
-        <file>NewArcScreens/desktop/Certificates/RightPanel/CertificateActions.qml</file>
-        <file>NewArcScreens/desktop/Certificates/RightPanel/CertificateInfoItem.qml</file>
-        <file>NewArcScreens/desktop/Certificates/RightPanel/CreateCertificateItem.qml</file>
-        <file>NewArcScreens/desktop/Certificates/RightPanel/CreateFinishedItem.qml</file>
-        <file>NewArcScreens/desktop/Certificates/CertificatesActionsButtonList.qml</file>
-        <file>NewArcScreens/desktop/Certificates/CertificateScreen.qml</file>
-        <file>NewArcScreens/desktop/Certificates/CertificatesListView.qml</file>
-        <file>NewArcScreens/desktop/Certificates/CertificatesLogic.qml</file>
-        <file>NewArcScreens/desktop/Certificates/CertificatesModels.qml</file>
-        <file>NewArcScreens/desktop/Certificates/CertificateTopPanel.qml</file>
-        <file>NewArcScreens/desktop/Certificates/DapCertificatesMainPage.qml</file>
-        <file>NewArcScreens/desktop/Console/DapConsoleRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Console/DapConsoleRightPanelForm.qml</file>
-        <file>NewArcScreens/desktop/Console/DapConsoleScreen.qml</file>
-        <file>NewArcScreens/desktop/Console/DapConsoleScreenForm.qml</file>
-        <file>NewArcScreens/desktop/Console/DapConsoleTab.qml</file>
-        <file>NewArcScreens/desktop/Console/DapConsoleTopPanel.qml</file>
-        <file>NewArcScreens/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml</file>
-        <file>NewArcScreens/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml</file>
-        <file>NewArcScreens/desktop/dApps/RightPanel/DapProgressBar.qml</file>
-        <file>NewArcScreens/desktop/dApps/DapAppsScreen.qml</file>
-        <file>NewArcScreens/desktop/dApps/DapAppsTab.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanelForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/DapDashboardScreen.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/DapDashboardScreenForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/DapDashboardTab.qml</file>
-        <file>NewArcScreens/desktop/Dashboard/DapDashboardTopPanel.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeScreen.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeTab.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeTabForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeTopPanel.qml</file>
-        <file>NewArcScreens/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
-        <file>NewArcScreens/desktop/History/TXHistoryPage.qml</file>
-        <file>NewArcScreens/desktop/History/TXHistoryRightPanel.qml</file>
-        <file>NewArcScreens/desktop/History/TXHistoryScreen.qml</file>
-        <file>NewArcScreens/desktop/History/TXHistoryScreenForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Logs/JS/DapLogScreenScripts.js</file>
-        <file>NewArcScreens/desktop/Logs/DapLogsRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Logs/DapLogsScreen.qml</file>
-        <file>NewArcScreens/desktop/Logs/DapLogsTab.qml</file>
-        <file>NewArcScreens/desktop/Logs/DapLogsTopPanel.qml</file>
-        <file>NewArcScreens/desktop/Logs/fillModelScript.js</file>
-        <file>NewArcScreens/desktop/Plugins/MiniGame/Elements/GameMainScreen.qml</file>
-        <file>NewArcScreens/desktop/Plugins/MiniGame/Elements/GamePlayer.qml</file>
-        <file>NewArcScreens/desktop/Plugins/MiniGame/Elements/GameTopPanel.qml</file>
-        <file>NewArcScreens/desktop/Plugins/MiniGame/MiniGame.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Console/DapConsoleComponent.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Console/DapShowConsole.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/LastActions/DapDelegateLastActions.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/LastActions/DapShowLastActions.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersFrame.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersGrid.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersInfo.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Orders/DapShowOrders.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapShowWallets.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsInfo.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/Elements/Windows/DapWindowLoader.qml</file>
-        <file>NewArcScreens/desktop/Plugins/Plugin/DapApp.qml</file>
-        <file>NewArcScreens/desktop/RightPanel/DapRightPanel_New.qml</file>
-        <file>NewArcScreens/desktop/RightPanel/DapRightPanelComboBoxHeader.qml</file>
-        <file>NewArcScreens/desktop/RightPanel/DapRightPanelPage.qml</file>
-        <file>NewArcScreens/desktop/RightPanel/DapRightPanelTextHeader.qml</file>
-        <file>NewArcScreens/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
-        <file>NewArcScreens/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
-        <file>NewArcScreens/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapDoneCreateWalletForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
-        <file>NewArcScreens/desktop/Settings/DapSettingsPage.qml</file>
-        <file>NewArcScreens/desktop/Settings/DapSettingsRightPanel.qml</file>
-        <file>NewArcScreens/desktop/Settings/DapSettingsScreen.qml</file>
-        <file>NewArcScreens/desktop/Settings/DapSettingsTab.qml</file>
-        <file>NewArcScreens/desktop/Settings/DapSettingsTopPanel.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/DapVpnClientScreen.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/DapVpnClientTab.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/DapVpnClientTopPanel.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/VPNClientPage.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/VPNClientScreen.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/VPNClientScreenForm.ui.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/VPNClientTopPanel.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/VPNOrders.qml</file>
-        <file>NewArcScreens/desktop/VPNClient/VPNOrdersForm.ui.qml</file>
         <file>logic/MainParams.qml</file>
         <file>screen/mobile/History/History.qml</file>
         <file>screen/mobile/Icons/Close.png</file>
@@ -485,5 +352,7 @@
         <file>screen/desktop/Certificates/RightPanels/CertificateInfoItem.qml</file>
         <file>screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml</file>
         <file>screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml</file>
+        <file>screen/desktop/History/logic/LogicTxExplorer.qml</file>
+        <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
     </qresource>
 </RCC>
