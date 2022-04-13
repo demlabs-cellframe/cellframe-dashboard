@@ -1,4 +1,4 @@
-QT += qml quick widgets svg gui-private network
+QT += qml quick widgets svg network
 !android {
     TEMPLATE = app
 }

@@ -6,6 +6,10 @@
 #include <QTimer>
 #include <dapconfigreader.h>
 #include <QJsonDocument>
+#include <QProcess>
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
 
 
 QByteArrayList DapNotificationWatcher::jsonListFromData(QByteArray data)
@@ -75,14 +79,20 @@ void DapNotificationWatcher::slotError()
 void DapNotificationWatcher::slotReconnect()
 {
     ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
-    ((QTcpSocket*)socket)->waitForConnected(5000);
+    ((QTcpSocket*)socket)->waitForConnected(3000);
 
     sendNotifyState("Notify socket error");
 
-//    QVariant errMsg = "Notify socket error";
-//    QVariantMap msg = errMsg.toMap();
-//    msg["connect_state"] = QVariant::fromValue(m_socketState);
-//    emit rcvNotify(msg);
+#ifdef Q_OS_WIN
+    HANDLE hMutex = OpenMutex(
+      MUTEX_ALL_ACCESS, 0, (WCHAR *)L"DAP_CELLFRAME_NODE_74E9201D33F7F7F684D2FEF1982799A79B6BF94B568446A8D1DE947B00E3C75060F3FD5BF277592D02F77D7E50935E56");
+
+    if (!hMutex) {
+        qInfo() << "Restarting the node: " << QProcess::startDetached("schtasks.exe", QStringList({"/run", "/I", "/TN", DAP_BRAND_BASE_LO "-node"}));
+    } else {
+        ReleaseMutex(hMutex);
+    }
+#endif
 }
 
 void DapNotificationWatcher::socketConnected()
