@@ -1,9 +1,9 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import "qrc:/widgets"
 import "../../"
 
-DapAbstractScreen
+Page
 {
     //@detalis listHistoryVisible To change the visibility of a story list.
     property alias dapListHistoryVisible: listHistory.visible

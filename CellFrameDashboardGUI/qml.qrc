@@ -14,11 +14,6 @@
         <file>main.qml</file>
         <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
-        <file>screen/DapAbstractTab.qml</file>
-        <file>screen/DapAbstractScreen.qml</file>
-        <file>screen/DapAbstractScreenForm.ui.qml</file>
-        <file>screen/DapAbstractRightPanel.qml</file>
-        <file>screen/DapAbstractRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTab.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTopPanel.qml</file>

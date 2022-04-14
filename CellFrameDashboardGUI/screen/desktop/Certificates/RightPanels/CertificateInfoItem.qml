@@ -1,41 +1,28 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.12
 import "qrc:/widgets"
 import "../parts"
 
-Rectangle {
+Page {
     id: root
     property alias closeButton: closeButton
     property alias certificateDataListView: certificateDataListView
 
-    implicitWidth: 100
-    implicitHeight: 200
-
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
-
-    //part animation on created and open
-    visible: false
-    opacity: visible ? 1.0 : 0.0
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 100
-            easing.type: Easing.InOutQuad
-        }
+    background: Rectangle {
+        color: "transparent"
     }
 
-    DapRectangleLitAndShaded
+    ColumnLayout
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        spacing: 0
 
-        contentData:
         Item
         {
-            anchors.fill: parent
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Item {
                 id: titleRectangle
@@ -74,13 +61,20 @@ Rectangle {
                 delegate: TitleTextView {
                     x: 18 * pt
                     title.text: model.keyView
-                    content.text: model.value
+                    content.text:
+                    {
+                        if (model.keyView === "Expiration date" || model.keyView === "Date of creation")
+                        {
+                            var m_date = Date.fromLocaleDateString(Qt.locale(), model.value, "dd.MM.yyyy")
+                            return m_date.toLocaleDateString(Qt.locale("en_En"), "MMMM d, yyyy")
+                        }
+                        else return model.value
+                    }
                     title.color: currTheme.textColorGray
                 }
             }
         }
-    } //frameRightPanel
-
+    }
 }   //root
 
 

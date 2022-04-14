@@ -1,42 +1,33 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../parts"
 
 
-Rectangle {
+Page {
     id: root
     property alias doneButton: doneButton
     property alias finishedText: finishedText
 
-    implicitWidth: 100
-    implicitHeight: 200
-
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    background: Rectangle {
+        color: "transparent"
+    }
 
     //part animation on created and open
     visible: false
     opacity: visible ? 1.0 : 0.0
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 100
-            easing.type: Easing.InOutQuad
-        }
-    }
 
-    DapRectangleLitAndShaded
+    ColumnLayout
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        spacing: 0
 
-        contentData:
         Item
         {
-            anchors.fill: parent
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Text {
                 id: finishedText
