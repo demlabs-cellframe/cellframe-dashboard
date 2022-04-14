@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <manifest package="com.Cellframe.Dashboard" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="2.2-1" android:versionCode="1" android:installLocation="auto">
-    <uses-sdk android:minSdkVersion="27" android:targetSdkVersion="30"/>
+    <uses-sdk android:minSdkVersion="28" android:targetSdkVersion="29"/>
 
     <!-- The following comment will be replaced upon deployment with default permissions based on the dependencies of the application.
          Remove the comment if you do not require these default permissions. -->
@@ -13,7 +13,7 @@
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
         <uses-permission android:name="android.permission.FOREGROUND_SERVICE" android:minSdkVersion="28"/>
     <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="-- %%INSERT_APP_NAME%% --" android:extractNativeLibs="true" android:icon="@drawable/icon" android:allowBackup="true" android:hasFragileUserData="true" android:requestLegacyExternalStorage="true">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="com.Cellframe.Dashboard.DashboardActivity" android:label="Cellframe-Dashboard" android:screenOrientation="portrait" android:launchMode="singleTop">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation|mcc|mnc|density" android:name="com.Cellframe.Dashboard.DashboardActivity" android:label="Dashboard" android:screenOrientation="portrait" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -86,8 +86,8 @@
             <meta-data android:name="android.app.background_running" android:value="true"/>
             <meta-data android:name="android.app.lib_name" android:value="DashboardService"/>
         </service>
-        <!--
-        <service android:name="com.Cellframe.Dashboard.Node" android:process=":node">
+        <service android:name="com.Cellframe.Dashboard.DashboardService" android:process=":node">
+            <!-- meta-data android:name="android.app.arguments" android:value="-service"/ -->
             <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
             <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
             <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
@@ -98,9 +98,8 @@
             <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
             <meta-data android:value="@string/unsupported_android_version" android:name="android.app.unsupported_android_version"/>
             <meta-data android:name="android.app.background_running" android:value="true"/>
-            <meta-data android:name="android.app.lib_name" android:value="cellframe-node"/>
+            <meta-data android:name="android.app.lib_name" android:value="testlib"/>
         </service>
-        -->
         <!-- service android:process=":cellframe" android:name="com.Cellframe.Dashboard.Node" android:enabled="true" android:exported="true" android:permission="android.permission.BIND_VPN_SERVICE">
             <meta-data android:name="android.app.background_running" android:value="true"/>
         </service> -->
