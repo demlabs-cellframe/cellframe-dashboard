@@ -1,45 +1,28 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.12
 import "qrc:/widgets"
 import "../parts"
-import QtQuick.Controls 2.12
 
 Page {
     id: root
     property alias closeButton: closeButton
     property alias certificateDataListView: certificateDataListView
 
-    implicitWidth: 100
-    implicitHeight: 200
-
     background: Rectangle {
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        color: "transparent"
     }
 
-
-    //part animation on created and open
-    visible: false
-    opacity: visible ? 1.0 : 0.0
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 100
-            easing.type: Easing.InOutQuad
-        }
-    }
-
-    DapRectangleLitAndShaded
+    ColumnLayout
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        spacing: 0
 
-        contentData:
         Item
         {
-            anchors.fill: parent
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Item {
                 id: titleRectangle
@@ -91,8 +74,7 @@ Page {
                 }
             }
         }
-    } //frameRightPanel
-
+    }
 }   //root
 
 

@@ -1,38 +1,38 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
+import "../controls"
 
-DapAbstractTab {
+DapPage {
 
     id:vpnCLientTab
-    color: currTheme.backgroundMainScreen
+//    color: currTheme.backgroundMainScreen
 
     property alias dapVpnClientRightPanel: stackViewRightPanel
 
-    dapTopPanel:
-        DapVpnClientTopPanel
-        {
+//    dapTopPanel:
+//        DapVpnClientTopPanel
+//        {
 
-        }
+//        }
 
-    dapScreen:
-        DapVpnClientScreen
-        {
+//    dapScreen:
+//        DapVpnClientScreen
+//        {
 
-        }
+//        }
 
-    dapRightPanel:
-        StackView
-        {
-            id: stackViewRightPanel
-//            initialItem: Qt.resolvedUrl(lastActionsWallet);
-            width: 350
-            anchors.fill: parent
-            delegate:
-                StackViewDelegate
-                {
-                    pushTransition: StackViewTransition { }
-                }
-        }
+//    dapRightPanel:
+//        StackView
+//        {
+//            id: stackViewRightPanel
+////            initialItem: Qt.resolvedUrl(lastActionsWallet);
+//            width: 350
+//            anchors.fill: parent
+//            delegate:
+//                StackViewDelegate
+//                {
+//                    pushTransition: StackViewTransition { }
+//                }
+//        }
 }

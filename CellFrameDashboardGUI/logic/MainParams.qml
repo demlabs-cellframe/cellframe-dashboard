@@ -5,6 +5,7 @@ import QtQuick.Window 2.2
 QtObject {
 
     readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+//    readonly property bool isMobile: true
 
     property real mainWindowScale: settings.window_scale
 

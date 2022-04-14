@@ -2,13 +2,14 @@ import QtQuick 2.9
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.12 as Controls
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../parts"
 import "../models"
 
 
-Rectangle {
+Controls.Page {
     id: root
     property alias closeButton: closeButton
     property alias createButton: createButton
@@ -17,21 +18,14 @@ Rectangle {
     property alias titleCertificateTextInput: titleCertificateTextInput
 
     property bool requiredFieldValid: false
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
 
-    implicitWidth: 100
-    implicitHeight: 200
+    background: Rectangle {
+        color: "transparent"
+    }
 
     //part animation on created and open
     visible: false
     opacity: visible ? 1.0 : 0.0
-    Behavior on opacity {
-        NumberAnimation {
-            duration: 100
-            easing.type: Easing.InOutQuad
-        }
-    }
 
     function checkRequiredField(){
         requiredFieldValid = titleCertificateTextInput.text.length > 0
@@ -84,18 +78,15 @@ Rectangle {
         return true;
     }
 
-    DapRectangleLitAndShaded
+    ColumnLayout
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        spacing: 0
 
-        contentData:
         Item
         {
-            anchors.fill: parent
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
             Item {
                 id: titleRectangle

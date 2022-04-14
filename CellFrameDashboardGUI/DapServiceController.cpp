@@ -13,6 +13,8 @@ DapServiceController::DapServiceController(QObject *apParent)
     m_DapNotifyController = new DapNotifyController();
     notifySignalsAttach();
 
+    m_sVersion = DAP_VERSION;
+
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 }
 
