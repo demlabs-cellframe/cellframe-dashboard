@@ -39,6 +39,8 @@ DapPage
         }
 
         function openInfoItem() {
+            if (dapRightPanel.depth > 0)
+                dapRightPanel.pop(null)
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CertificateInfoItem.qml")
         }
     }

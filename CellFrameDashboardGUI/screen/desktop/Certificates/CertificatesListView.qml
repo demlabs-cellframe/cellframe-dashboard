@@ -147,10 +147,10 @@ ListView {
             Item {
                 id: infoButton
                 anchors {
-                    left: certificateNameText.right
                     right: parent.right
                 }
                 height: parent.height
+                width: 58 * pt
                 visible: model.selected || delegateClicked._entered
 
                 Image{
@@ -169,7 +169,6 @@ ListView {
                         root.infoClicked(model.index)
                     }
                 }
-
 
             }  //
 
