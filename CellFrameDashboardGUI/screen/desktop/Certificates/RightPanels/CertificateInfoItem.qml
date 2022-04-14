@@ -2,8 +2,9 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../parts"
+import QtQuick.Controls 2.12
 
-Rectangle {
+Page {
     id: root
     property alias closeButton: closeButton
     property alias certificateDataListView: certificateDataListView
@@ -11,8 +12,11 @@ Rectangle {
     implicitWidth: 100
     implicitHeight: 200
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    background: Rectangle {
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+    }
+
 
     //part animation on created and open
     visible: false
@@ -74,7 +78,15 @@ Rectangle {
                 delegate: TitleTextView {
                     x: 18 * pt
                     title.text: model.keyView
-                    content.text: model.value
+                    content.text:
+                    {
+                        if (model.keyView === "Expiration date" || model.keyView === "Date of creation")
+                        {
+                            var m_date = Date.fromLocaleDateString(Qt.locale(), model.value, "dd.MM.yyyy")
+                            return m_date.toLocaleDateString(Qt.locale("en_En"), "MMMM d, yyyy")
+                        }
+                        else return model.value
+                    }
                     title.color: currTheme.textColorGray
                 }
             }
