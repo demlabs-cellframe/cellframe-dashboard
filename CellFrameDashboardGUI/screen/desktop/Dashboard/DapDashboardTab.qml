@@ -84,6 +84,7 @@ DapPage
             dapNewPayment.onClicked:
             {
                 walletInfo.name = dapModelWallets.get(logicMainApp.currentIndex).name
+                dapRightPanel.pop()
                 navigator.newPayment()
             }
         }
@@ -126,7 +127,7 @@ DapPage
             }
             PropertyChanges
             {
-                target: dashboardTopPanel
+                target: dapHeaderFrame
                 visible: false
             }
             PropertyChanges
@@ -155,7 +156,17 @@ DapPage
             }
             PropertyChanges
             {
-                target: dashboardTopPanel
+                target: dapHeaderFrame
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardTopPanel.dapNewPayment
+                visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardTopPanel.dapFrameTitle
                 visible: true
             }
             PropertyChanges
@@ -184,8 +195,18 @@ DapPage
             }
             PropertyChanges
             {
-                target: dashboardTopPanel
+                target: dapHeaderFrame
                 visible: true
+            }
+            PropertyChanges
+            {
+                target: dashboardTopPanel.dapNewPayment
+                visible: false
+            }
+            PropertyChanges
+            {
+                target: dashboardTopPanel.dapFrameTitle
+                visible: false
             }
             PropertyChanges
             {

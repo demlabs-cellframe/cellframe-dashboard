@@ -9,6 +9,7 @@ import "qrc:/screen"
 import "qrc:/widgets"
 import "qrc:/screen/desktop/NetworksPanel"
 import "qrc:/logic"
+import "desktop/controls"
 
 Rectangle {
     id: dapMainWindow
@@ -105,133 +106,61 @@ Rectangle {
 
         Component.onCompleted:
         {
-            append({
-                name: qsTr("Wallet"),
-                tag: "Wallet",
-                page: dashboardScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_wallet.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("Exchange"),
-                tag: "Exchange",
-                page: underConstructionsScreenPath, //TODO: here should be: exchangeScreenPath,
-//                page: exchangeScreenPath, //TODO: here should be: exchangeScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_exchange.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("TX explorer"),
-                tag: "TX Explorer",
-                page: historyScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_history.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("Certificates"),
-                tag: "Certificates",
-                page: certificatesScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("Tokens"),
-                tag: "Tokens",
-                page: underConstructionsScreenPath, //TODO: add screen for "Tokens" tab
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_tokens.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("VPN client"),
-                tag: "VPN client",
-                page: underConstructionsScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/vpn-client_icon.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("VPN service"),
-                tag: "VPN service",
-                page: vpnServiceScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_vpn.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("Console"),
-                tag: "Console",
-                page: consoleScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_console.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("Logs"),
-                tag: "Logs",
-                page: logsScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_logs.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("dApps"),
-                tag: "dApps",
-                page: dAppsScreen,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-                showTab: true
-            })
-
-            append ({
-                name: qsTr("Settings"),
-                tag: "Settings",
-                page: settingsScreenPath,
-                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
-                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_settings.png",
-                showTab: true
-            })
-
-//            append ({
-//                name: qsTr("Plugin"),
-//                tag: "Plugins",
-//                page: pluginsScreen,
-//                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-//                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-//                showTab: true
-//            })
-
-//            append ({
-//                name: qsTr("MiniGame"),
-//                tag: "Plugins",
-//                page: miniGameScreen,
-//                normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-//                hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_daaps.png",
-//                showTab: true
-//            })
-
-            //Test elements page for debug
-//            append ({
-//                name: qsTr("Test"),
-//                tag: "Test",
-//                page: testScreen,
-//                normalIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-//                hoverIcon: "qrc:/resources/icons/BlackTheme/icon_settings.png",
-//                showTab: true
-//            })
+        append ({ tag: "Wallet",
+            name: qsTr("Wallet"),
+            bttnIco: "icon_wallet.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
+        append ({ tag: "Exchange",
+            name: qsTr("Exchange"),
+            bttnIco: "icon_exchange.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+        append ({ tag: "TX Explorer",
+            name: qsTr("TX Explorer"),
+            bttnIco: "icon_history.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
+        append ({ tag: "Certificates",
+            name: qsTr("Certificates"),
+            bttnIco: "icon_certificates.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/Certificates/DapCertificateTab.qml"})
+        append ({ tag: "Tokens",
+            name: qsTr("Tokens"),
+            bttnIco: "icon_tokens.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+        append ({ tag: "VPN client",
+            name: qsTr("VPN client"),
+            bttnIco: "vpn-client_icon.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+        append ({ tag: "VPN service",
+            name: qsTr("VPN service"),
+            bttnIco: "icon_vpn.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
+        append ({ tag: "Console",
+            name: qsTr("Console"),
+            bttnIco: "icon_console.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/Console/DapConsoleTab.qml"})
+        append ({ tag: "Logs",
+            name: qsTr("Logs"),
+            bttnIco: "icon_logs.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
+        append ({ tag: "dApps",
+            name: qsTr("dApps"),
+            bttnIco: "icon_daaps.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
+        append ({ tag: "Settings",
+            name: qsTr("Settings"),
+            bttnIco: "icon_settings.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
 
             logicMainApp.initTabs()
             pluginsTabChanged(true,false,"")
@@ -247,44 +176,59 @@ Rectangle {
     scale: 1.0
     color:currTheme.backgroundPanel
 
-    // The horizontal location of the virtual menu column and tab view loader
-    Row
-    {
-        id: rowMainWindow
-
+    RowLayout {
+        id: mainRowLayout
         anchors {
             left: parent.left;
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-            bottomMargin: 6 * pt
+//            bottomMargin: 6 * pt
         }
+        spacing: 0
 
-        // Virtual logo column frame and menu bar
-        Column
-        {
-            id: columnMenuTab
-            z: 1
-            height: rowMainWindow.height - 3 * pt
-            width: 183 * pt
-            spacing: 0
-            // Logotype widget
-            Item
+        Rectangle {
+            id: leftMenuBackGrnd
+            Layout.fillHeight: true
+            Layout.bottomMargin: 7
+            width: 180
+            radius: 20
+            color: currTheme.backgroundPanel
+
+            //hide bottom radius element
+            Rectangle
             {
-                id: logotype
-                width: parent.width * pt
-                height: 60 * pt
+                z:0
+                width: leftMenuBackGrnd.radius
+                color: currTheme.backgroundPanel
+                anchors.bottom: leftMenuBackGrnd.bottom
+                anchors.left: leftMenuBackGrnd.left
+                anchors.top: leftMenuBackGrnd.top
+            }
+            //hide top radius element
+            Rectangle{
+                z:0
+                height: currTheme.radiusRectangle
+                anchors.top:leftMenuBackGrnd.top
+                anchors.right: leftMenuBackGrnd.right
+                anchors.left: leftMenuBackGrnd.left
+                color: currTheme.backgroundPanel
+            }
 
-                Rectangle
-                {
-                    id: frameLogotype
-                    anchors.fill: parent
-                    color:currTheme.backgroundPanel
+            ColumnLayout {
+                id: mainButtonsColumn
+                anchors.fill: parent
+                spacing: 0
 
-                    Image{
-                        width: 114 * pt
-                        height: 24 * pt
-                        mipmap: true
+                Item {
+                    id: logo
+//                    Layout.margins: 10
+                    width: parent.width * pt
+                    height: 60 * pt
+
+                    DapImageLoader{
+                        innerWidth: 114 * pt
+                        innerHeight: 24 * pt
                         source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
 
                         anchors.left: parent.left
@@ -297,9 +241,11 @@ Rectangle {
                         id:toolTip
                         visible: area.containsMouse? true : false
                         text: "https://cellframe.net"
+
                         y:0
                         x:100
                         scale: mainWindow.scale
+
                         contentItem: Text {
                                 text: toolTip.text
                                 font: mainFont.dapFont.regular14
@@ -312,87 +258,64 @@ Rectangle {
                         id:area
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: Qt.openUrlExternally(toolTip.text)
+
+                        onClicked:
+                            Qt.openUrlExternally(toolTip.text);
+                    }
+                }
+
+                ListView {
+                    id: mainButtonsList
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    spacing: 0
+                    clip: true
+                    model: modelMenuTab
+
+                    delegate: DapMenuButton {
+                        onPushPage:mainScreenStack.setInitialItem(pageUrl)
                     }
                 }
             }
-            // Menu bar widget
-            Item
-            {
-                id: menuWidget
-                width: 183 * pt
-                height: columnMenuTab.height - logotype.height
-                //hide left radius element
-                Rectangle
-                {
-                    id: squareRect
-                    width: menuTabWidget.radius
-                    color: currTheme.backgroundPanel
-                    anchors.bottom: menuTabWidget.bottom
-                    anchors.left: menuTabWidget.left
-                    anchors.top: menuTabWidget.top
-                }
-                //hide top radius element
-                Rectangle{
-                    height: currTheme.radiusRectangle
-                    anchors.top:parent.top
-                    anchors.right: parent.right
-                    anchors.left: parent.left
-                    color: currTheme.backgroundPanel
-                }
-
-                data: DapAbstractMenuTabWidget
-                {
-                    color:currTheme.backgroundPanel
-                    radius: currTheme.radiusRectangle
-
-                    onPathScreenChanged:
-                    {
-                        stackViewTabs.setSource(Qt.resolvedUrl(this.pathScreen))
-                    }
-                    id: menuTabWidget
-                    anchors.fill: parent
-                    widthItemMenu: 186*pt
-                    heightItemMenu: 52 * pt
-                    normalColorItemMenu: currTheme.backgroundPanel
-                    selectColorItemMenu: "transparent"
-                    widthIconItemMenu: 18 * pt
-                    heightIconItemMenu: 18 * pt
-                    dapMenuWidget.model: modelMenuTab
-                    normalFont: "Quicksand"
-                    selectedFont: "Quicksand"
-                }
-            }
         }
+        Rectangle {
+            id: mainScreen
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: currTheme.backgroundMainScreen
 
-        DropShadow {
-            z: 1
-            anchors.fill: columnMenuTab
-            horizontalOffset: currTheme.hOffset
-            verticalOffset: currTheme.vOffset
-            radius: currTheme.radiusShadow
-            color: currTheme.shadowColor
-            source: columnMenuTab
-            spread: 0.1
-            smooth: true
-        }
-
-        // Screen downloader widget
-        Item
-        {
-            id: screens
-//                data: dabScreensWidget
-            x: columnMenuTab.width
-            height: rowMainWindow.height
-            width: rowMainWindow.width - columnMenuTab.width
-            Loader
-            {
-                id: stackViewTabs
+            StackView {
+                property string currPage: dashboardScreenPath
+                id: mainScreenStack
                 anchors.fill: parent
-                clip: true
-                source: dashboardScreenPath
+
+                initialItem: dashboardScreenPath
+
+                function clearAll()
+                {
+                    mainScreenStack.clear()
+                    mainScreenStack.push(initialItem)
+                }
+
+                function setInitialItem(item)
+                {
+                    mainScreenStack.initialItem = item
+                    mainScreenStack.clearAll()
+                    currPage = item
+                }
+
             }
         }
+    }
+    DropShadow {
+        anchors.fill: parent
+        horizontalOffset: currTheme.hOffset
+        verticalOffset: currTheme.vOffset
+        radius: currTheme.radiusShadow
+        color: currTheme.shadowColor
+        source: leftMenuBackGrnd
+        spread: 0.1
+        smooth: true
     }
 
     DapControlNetworksPanel
@@ -415,15 +338,11 @@ Rectangle {
 
     Component.onCompleted:
     {
-//        dapServiceController.requestToService("DapGetListNetworksCommand", "chains")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
-//        dapServiceController.requestToService("DapGetListNetworksCommand")
         pluginsManager.getListPlugins();
-//        dapServiceController.requestToService("DapGetWalletsInfoCommand")
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
-
     }
 
     Connections

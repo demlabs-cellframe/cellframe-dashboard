@@ -14,6 +14,7 @@ class CommandCmdController : public QObject
     QVariantMap commandsParams;
 
     bool isDisconnect = false;
+    bool isData = false;
 
     DapServiceController *dapServiceController;
 public:

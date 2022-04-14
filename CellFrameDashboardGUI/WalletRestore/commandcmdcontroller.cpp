@@ -6,15 +6,18 @@ CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
 
 void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapServiceController)
 {
-    dapServiceController = _dapServiceController;
-
-    if (dapServiceController)
+    if (!isData)
     {
-        dapServiceController->requestToService("DapRunCmdCommand", "help");
-        connect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommands);
+        dapServiceController = _dapServiceController;
+
+        if (dapServiceController)
+        {
+            dapServiceController->requestToService("DapRunCmdCommand", "help");
+            connect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommands);
+        }
+        else
+            qDebug() << "dapServiceController not connected";
     }
-    else
-        qDebug() << "dapServiceController not connected";
 }
 
 void CommandCmdController::parseAllCommands(const QVariant &asAnswer)
@@ -57,6 +60,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     }
 
     commandsParams[command] = QVariant::fromValue(commandParams);
+    if (!isData) isData = true;
 }
 
 QString CommandCmdController::getCommandByValue(const QString &value)

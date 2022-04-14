@@ -1,16 +1,16 @@
 import QtQuick 2.4
 import "qrc:/"
 import "../../"
+import "../controls"
 
-DapAbstractTab 
-{
+DapPage {
     id: exchangeTab
 
-    dapTopPanel: DapExchangeTopPanel { }
+//    dapTopPanel: DapExchangeTopPanel { }
 
-    dapScreen: DapExchangeScreen { }
+//    dapScreen: DapExchangeScreen { }
 
-    dapRightPanel: DapExchangeRightPanel { }
+//    dapRightPanel: DapExchangeRightPanel { }
 }
 
 

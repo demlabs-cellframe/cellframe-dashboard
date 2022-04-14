@@ -14,6 +14,9 @@ Item
 
     property bool isPushed: mainButtonsList.currentIndex === index
 
+    signal pushPage(var pageUrl)
+    property string pathScreen
+
 //    background: Item {
 ////        color: currTheme.backgroundPanel
 ////        radius: 16
@@ -42,7 +45,7 @@ Item
             DapImageLoader {
                 innerWidth: parent.width
                 innerHeight: parent.height
-                source: "qrc:/resources/icons/" + pathTheme + "/" + bttnIco
+                source: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/" + bttnIco
             }
         }
 
@@ -64,7 +67,7 @@ Item
         id: handler
         anchors.fill: parent
         hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+//        cursorShape: Qt.PointingHandCursor
 
         onEntered:
         {
@@ -87,8 +90,12 @@ Item
         onClicked:
         {
             mainButtonsList.currentIndex = index;
+//            console.log(page)
+//            pathScreen = page;
             backgroundImage.visible = true
             backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+
+            pushPage(page)
         }
     }
     onIsPushedChanged:
