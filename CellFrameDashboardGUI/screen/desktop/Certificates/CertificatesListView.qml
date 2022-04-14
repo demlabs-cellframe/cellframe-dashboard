@@ -10,9 +10,10 @@ ListView {
     property alias delegateComponent: delegateComponent
     signal selectedIndex(int index)
     signal infoClicked(int index)
+    property bool infoVisible: false
 
     property string seletedCertificateAccessType: qsTr("Public")
-    property bool infoTitleTextVisible: false
+    //property bool infoTitleTextVisible: false
 
 
     //interactive: contentHeight > height
@@ -82,7 +83,7 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font: mainFont.dapFont.medium11
                 text: qsTr("Info")
-                visible: root.infoTitleTextVisible
+                visible: root.infoVisible
                 color: currTheme.textColor
             }
         }
@@ -152,6 +153,8 @@ ListView {
                 height: parent.height
                 width: 58 * pt
                 visible: model.selected || delegateClicked._entered
+
+                onVisibleChanged: root.infoVisible = visible
 
                 Image{
                     anchors.right: infoButton.right

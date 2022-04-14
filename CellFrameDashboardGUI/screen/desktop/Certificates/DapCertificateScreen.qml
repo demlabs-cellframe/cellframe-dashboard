@@ -32,7 +32,7 @@ RowLayout
                 seletedCertificateAccessType: models.certificatesFind.accessKeyTypeIndex == 0 ? qsTr("Public") :
                                               models.certificatesFind.accessKeyTypeIndex == 1 ? qsTr("Private") : qsTr("Both")
 
-                infoTitleTextVisible: models.certificates.isSelected
+               // infoTitleTextVisible: models.certificates.isSelected
                 Component.onCompleted: {
                     models.certificatesFind.delegate = delegateComponent
                     models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
