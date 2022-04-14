@@ -8,8 +8,10 @@ import "../parts"
 
 Page {
     id: root
-    property alias doneButton: doneButton
-    property alias finishedText: finishedText
+
+    property bool accept
+    property string titleText
+    property string contentText
 
     background: Rectangle {
         color: "transparent"
@@ -21,37 +23,48 @@ Page {
 
     ColumnLayout
     {
-        anchors.fill: parent
-        spacing: 0
+        anchors.centerIn: parent
+        width: parent.width * 0.8
+        height: childrenRect.height
+        spacing: 20 * pt
 
-        Item
-        {
+        Text {
+            id: finishedTextTitle
+            font: mainFont.dapFont.medium28
+            color: currTheme.textColor
+            text: titleText//qsTr("Certificate created\nsuccessfully")
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        Text {
+            id: finishedTextContent
+            font: mainFont.dapFont.medium20
+            color: currTheme.textColor
+            text: contentText//qsTr("Certificate created\nsuccessfully")
+            horizontalAlignment: Text.AlignHCenter
+        }
+
+        Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
-
-            Text {
-                id: finishedText
-                y: 198 * pt
-                x: 53 * pt
-                font: mainFont.dapFont.medium28
-                color: currTheme.textColor
-                text: qsTr("Certificate created\nsuccessfully")
-                horizontalAlignment: Text.AlignHCenter
-            }
-
             DapButton {
                 id: doneButton
-                textButton: qsTr("Done")
-                y: 468 * pt
-                x: (parent.width - width) / 2
+                textButton: {if (accept) return qsTr("Done")
+                    else return qsTr("Back")}
                 height: 36 * pt
                 width: 132 * pt
+                x: parent.width * 0.5 - width * 0.5
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Qt.AlignHCenter
 
-                onClicked: certificateNavigator.clearRightPanel()
+                onClicked:
+                {
+                    if (accept)
+                        certificateNavigator.clearRightPanel()
+                    else dapRightPanel.pop()
+                }
             }
         }
-    } //frameRightPanel
+    }
 
 }   //root

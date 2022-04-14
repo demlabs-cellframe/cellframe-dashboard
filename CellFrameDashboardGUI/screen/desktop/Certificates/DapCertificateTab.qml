@@ -31,7 +31,7 @@ DapPage
         }
 
         function openCreateFinishedItem() {
-            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml")
+            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml", {"accept": "true", "titleText": "Certificate created\nsuccessfully"})
         }
 
         function clearRightPanel() {

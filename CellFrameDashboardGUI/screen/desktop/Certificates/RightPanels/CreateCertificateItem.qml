@@ -39,8 +39,12 @@ Controls.Page {
             switch (optionalField.key) {
                 case "a2_domain":
                     if (data !== "" && !utils.validDomain(optionalField.data)) {
-                        messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
-                                               , "Please fill field correctly.")
+                        //messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
+                          //                     , "Please fill field correctly.")
+                        dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml",
+                                           {"accept": false, "titleText": "Certificate not create.",
+                                           "contentText": qsTr("%1 not correct. Please fill field correctly.").arg(optionalField.placeHolderText)})
+
                         return false;
                     }
                     break;
