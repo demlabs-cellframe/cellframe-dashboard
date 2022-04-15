@@ -21,48 +21,49 @@ Page {
     visible: false
     opacity: visible ? 1.0 : 0.0
 
-    ColumnLayout
+    Item
     {
         anchors.centerIn: parent
         width: parent.width * 0.8
         height: childrenRect.height
-        spacing: 20 * pt
 
         Text {
             id: finishedTextTitle
             font: mainFont.dapFont.medium28
             color: currTheme.textColor
-            text: titleText//qsTr("Certificate created\nsuccessfully")
+            text: titleText
             horizontalAlignment: Text.AlignHCenter
+            width: parent.width
+            wrapMode: Text.Wrap
         }
 
         Text {
+            y: finishedTextTitle.height + finishedTextTitle.y + 20 * pt
             id: finishedTextContent
             font: mainFont.dapFont.medium20
             color: currTheme.textColor
-            text: contentText//qsTr("Certificate created\nsuccessfully")
+            text: contentText
             horizontalAlignment: Text.AlignHCenter
+            width: parent.width
+            wrapMode: Text.Wrap
         }
 
-        Item {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-            DapButton {
-                id: doneButton
-                textButton: {if (accept) return qsTr("Done")
-                    else return qsTr("Back")}
-                height: 36 * pt
-                width: 132 * pt
-                x: parent.width * 0.5 - width * 0.5
-                fontButton: mainFont.dapFont.regular16
-                horizontalAligmentText: Qt.AlignHCenter
+        DapButton {
+            id: doneButton
+            textButton: {if (accept) return qsTr("Done")
+                else return qsTr("Back")}
+            height: 36 * pt
+            width: 132 * pt
+            x: parent.width * 0.5 - width * 0.5
+            y: finishedTextContent.height + finishedTextContent.y + 20 * pt
+            fontButton: mainFont.dapFont.regular16
+            horizontalAligmentText: Qt.AlignHCenter
 
-                onClicked:
-                {
-                    if (accept)
-                        certificateNavigator.clearRightPanel()
-                    else dapRightPanel.pop()
-                }
+            onClicked:
+            {
+                if (accept)
+                    certificateNavigator.clearRightPanel()
+                else dapRightPanel.pop()
             }
         }
     }
