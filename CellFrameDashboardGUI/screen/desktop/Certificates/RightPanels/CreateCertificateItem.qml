@@ -97,7 +97,7 @@ Controls.Page {
                     id: closeButton
 
                     onClicked: {
-                           dapRightPanel.pop()
+                           certificateNavigator.clearRightPanel()
                         }
                 }
 

@@ -27,20 +27,36 @@ DapPage
         id: certificateNavigator
 
         function openCreateCertificateItem() {
+            certScreen.dapDefaultRightPanel.visible = false
+            dapRightPanelFrame.visible = true
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml")
         }
 
         function openCreateFinishedItem() {
+            certScreen.dapDefaultRightPanel.visible = false
+            dapRightPanelFrame.visible = true
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml")
         }
 
         function clearRightPanel() {
-            dapRightPanel.pop(null)
+            dapRightPanelFrame.visible = false
+            certScreen.dapDefaultRightPanel.visible = true
+            dapRightPanel.clear()
         }
 
         function openInfoItem() {
             if (dapRightPanel.depth > 0)
-                dapRightPanel.pop(null)
+            {
+                dapRightPanel.pop(pop)
+            }
+            if(!dapRightPanelFrame.visible)
+            {
+                dapRightPanelFrame.visible = true
+                certScreen.dapDefaultRightPanel.visible = false
+            }
+
+            dapRightPanelFrame.visible = true
+            certScreen.dapDefaultRightPanel.visible = false
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CertificateInfoItem.qml")
         }
     }
@@ -54,9 +70,11 @@ DapPage
         }
     }
 
-    dapScreen.initialItem: DapCertificateScreen {}
+    dapScreen.initialItem: DapCertificateScreen {id: certScreen}
 
-    dapRightPanel.initialItem: DapCertificateAtcions {}
+    dapRightPanelFrame.visible: false
+
+//    dapRightPanel.initialItem: DapCertificateAtcions {}
 
     Connections{
         target:importCertificate

@@ -65,6 +65,41 @@ Page {
                 id: rightPanelStack
                 anchors.fill: parent
                 clip: true
+
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        easing.type: Easing.Linear
+                        from: 350
+                        to: 0
+                        duration: 350
+                    }
+                }
+                pushExit: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        easing.type: Easing.Linear
+                        from: 0
+                        to: 350
+                        duration: 350
+                    }
+                }
+                popEnter: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        from: 0
+                        to: 350
+                        duration: 350
+                    }
+                }
+                popExit: Transition {
+                    PropertyAnimation {
+                        property: "x"
+                        from: 350
+                        to: 0
+                        duration: 350
+                    }
+                }
             }
         }
     }
