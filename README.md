@@ -3,7 +3,7 @@ CellFrame Dashboard
 
 ## Build:
 
-* The project uses Qt environment to build. To build the project, it's enough to exec the following in the project directory:
+* The project uses Qt environment to build. To build the project, it's enough to execute the following commands in the project directory:
   ```
   git submodule update --init --recursive --remote
   qmake && make && make install 
@@ -27,7 +27,7 @@ CellFrame Dashboard
   sudo dpkg -i cellframe-node<version>.deb
   ```
   
-### Prerequsites:
+### Prerequisites:
 
 To successfully build, you must have following prerequisites preinstalled:
 
