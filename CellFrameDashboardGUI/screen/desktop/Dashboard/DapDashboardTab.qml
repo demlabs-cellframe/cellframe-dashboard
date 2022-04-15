@@ -227,7 +227,7 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
-            print("DapDashboardTab updateTimer", updateTimer.running)
+            console.log("WALLETS TIMER TICK")
 
             if(!dapModelWallets.count)
             {
@@ -243,37 +243,6 @@ DapPage
                 logigWallet.updateCurrentWallet()
         }
     }
-
-//    // Signal-slot connection realizing panel switching depending on predefined rules
-//    Connections
-//    {
-//        target: currentRightPanel
-//        onNextActivated:
-//        {
-//            dapRightPanel.clear()
-//            currentRightPanel = dapRightPanel.push(currentRightPanel.dapNextRightPanel);
-//            if(parametrsRightPanel === lastActionsWallet)
-//            {
-//                if(dapModelWallets.count === 0)
-//                    state = "WALLETDEFAULT"
-//            }
-//            else if(parametrsRightPanel === createNewWallet)
-//            {
-//                dashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Creating wallet in process...")
-//            }
-//        }
-//        onPreviousActivated:
-//        {
-//            dapRightPanel.clear()
-//            currentRightPanel = dapRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-//            if(parametrsRightPanel === lastActionsWallet)
-//            {
-//                if(dapModelWallets.count === 0)
-//                    state = "WALLETDEFAULT"
-//            }
-//        }
-//    }
-
 
     Connections
     {
@@ -298,7 +267,6 @@ DapPage
 
     Component.onCompleted:
     {
-        print("DapDashboardTab onCompleted")
         logigWallet.updateComboBox()
 
         if (!updateTimer.running)
@@ -307,6 +275,6 @@ DapPage
 
     Component.onDestruction:
     {
-        print("DapDashboardTab onDestruction")
+        updateTimer.stop()
     }
 }

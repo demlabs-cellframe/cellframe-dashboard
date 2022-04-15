@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQml 2.12
 import QtQuick.Controls 2.2
 import DapCertificateManager.Commands 1.0
 import QtQuick.Layouts 1.2
@@ -11,6 +12,9 @@ import "RightPanels"
 
 DapPage
 {
+
+    Component{id: emptyRightPanel; Item{}}
+
     Utils {
         id: utils
     }
@@ -38,17 +42,9 @@ DapPage
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml")
         }
 
-        function clearRightPanel() {
-            dapRightPanelFrame.visible = false
-            certScreen.dapDefaultRightPanel.visible = true
-            dapRightPanel.clear()
-        }
-
         function openInfoItem() {
-            if (dapRightPanel.depth > 0)
-            {
-                dapRightPanel.pop(pop)
-            }
+            dapRightPanel.pop()
+
             if(!dapRightPanelFrame.visible)
             {
                 dapRightPanelFrame.visible = true
@@ -58,6 +54,13 @@ DapPage
             dapRightPanelFrame.visible = true
             certScreen.dapDefaultRightPanel.visible = false
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CertificateInfoItem.qml")
+        }
+
+        function clearRightPanel() {
+            dapRightPanelFrame.visible = false
+            certScreen.dapDefaultRightPanel.visible = true
+            dapRightPanel.clear()
+            dapRightPanel.push(emptyRightPanel)
         }
     }
 
@@ -72,9 +75,10 @@ DapPage
 
     dapScreen.initialItem: DapCertificateScreen {id: certScreen}
 
-    dapRightPanelFrame.visible: false
-
+    dapRightPanel.initialItem: emptyRightPanel
 //    dapRightPanel.initialItem: DapCertificateAtcions {}
+
+    dapRightPanelFrame.visible: false
 
     Connections{
         target:importCertificate

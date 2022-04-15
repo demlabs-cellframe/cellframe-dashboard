@@ -24,19 +24,24 @@ DapPage
            id: updLogTimer
            interval: 5000
            repeat: true
-           onTriggered: dapServiceController.notifyService("DapUpdateLogsCommand", 100);
+           onTriggered:
+           {
+               console.log("LOG TIMER TICK")
+               dapServiceController.notifyService("DapUpdateLogsCommand", 100);
+           }
     }
 
     Component.onCompleted:
     {
         console.log("Log tab open")
         dapServiceController.notifyService("DapUpdateLogsCommand", 100);
-        updLogTimer.running = true
+        updLogTimer.start()
     }
 
     Component.onDestruction:
     {
         console.log("Log tab close")
         dapServiceController.notifyService("DapUpdateLogsCommand","stop");
+        updLogTimer.stop()
     }
 }

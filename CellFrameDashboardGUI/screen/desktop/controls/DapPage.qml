@@ -64,7 +64,31 @@ Page {
             StackView {
                 id: rightPanelStack
                 anchors.fill: parent
-                clip: true
+                clip: true    
+
+//                pushEnter: Transition {
+//                        id: pushEnter
+//                        ParallelAnimation {
+////                            PropertyAction { property: "x"; value: pushEnter.ViewTransition.item.pos }
+////                            NumberAnimation { property: "opacity"; from: 0; to: 1; duration: 400; easing.type: Easing.OutCubic }
+//                        }
+//                    }
+//                    popExit: Transition {
+//                        id: popExit
+//                        ParallelAnimation {
+////                            PropertyAction { property: "x"; value: popExit.ViewTransition.item.pos }
+////                            NumberAnimation { property: "opacity"; from: 1; to: 0; duration: 400; easing.type: Easing.OutCubic }
+//                        }
+//                    }
+
+                pushExit: Transition {
+                    id: pushExit
+                    PropertyAction { property: "x"; value: pushExit.ViewTransition.item.pos }
+                }
+                popEnter: Transition {
+                    id: popEnter
+                    PropertyAction { property: "x"; value: popEnter.ViewTransition.item.pos }
+                }
 
                 pushEnter: Transition {
                     PropertyAnimation {
@@ -75,28 +99,11 @@ Page {
                         duration: 350
                     }
                 }
-                pushExit: Transition {
-                    PropertyAnimation {
-                        property: "x"
-                        easing.type: Easing.Linear
-                        from: 0
-                        to: 350
-                        duration: 350
-                    }
-                }
-                popEnter: Transition {
-                    PropertyAnimation {
-                        property: "x"
-                        from: 0
-                        to: 350
-                        duration: 350
-                    }
-                }
                 popExit: Transition {
                     PropertyAnimation {
                         property: "x"
-                        from: 350
-                        to: 0
+                        from: 0
+                        to: 350
                         duration: 350
                     }
                 }
