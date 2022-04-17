@@ -8,7 +8,18 @@ import "parts"
 import "../../"
 import "../controls"
 
-RowLayout
+Page
+{
+    property alias dapDefaultRightPanel: defaultRightPanel
+
+    anchors.fill: parent
+
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
+    }
+
+    RowLayout
     {
         anchors.fill: parent
 
@@ -52,4 +63,12 @@ RowLayout
             }   //certificatesListView
 
         }
+        DapCertificateAtcions
+        {
+            id:defaultRightPanel
+            Layout.fillHeight: true
+            Layout.minimumWidth: 350 * pt
+            visible: true
+        }
     }
+}

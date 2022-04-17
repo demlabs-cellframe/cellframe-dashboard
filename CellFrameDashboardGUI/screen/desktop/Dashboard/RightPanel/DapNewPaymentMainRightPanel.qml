@@ -105,8 +105,8 @@ DapNewPaymentMainRightPanelForm
     dapButtonClose.onClicked:
     {
 //        previousActivated(lastActionsWallet)
-        pop()
         updateTimer.start()
+        pop()
         //DmitriyT Removed this code below. Will see reaction of app.
         //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }

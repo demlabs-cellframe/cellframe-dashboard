@@ -102,6 +102,7 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
+            console.log("SETTINS TIMER TICK")
             dapServiceController.requestToService("DapGetListWalletsCommand")
             if(!dapNetworkModel.count)
                 dapServiceController.requestToService("DapGetListNetworksCommand")
@@ -109,9 +110,10 @@ DapPage
     }
 
     Component.onCompleted:
-    {
-        updateTimer.running = true
-    }
+        updateTimer.start()
+
+    Component.onDestruction:
+        updateTimer.stop()
 
 
     Connections

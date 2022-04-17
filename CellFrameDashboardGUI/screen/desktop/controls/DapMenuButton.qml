@@ -2,13 +2,14 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import QtQml 2.12
 import "qrc:/widgets"
 
 Item
 {
     id: buttonDelegate
 
-    width: 173 * pt
+    width: 180 * pt
     height: showTab ? 52 * pt : 0
     visible: showTab
 
@@ -17,18 +18,19 @@ Item
     signal pushPage(var pageUrl)
     property string pathScreen
 
-//    background: Item {
-////        color: currTheme.backgroundPanel
-////        radius: 16
-//        anchors.leftMargin: -3
-//    }
-
-    DapImageLoader {
+    Image {
         id: backgroundImage
-        innerWidth: buttonDelegate.width
-        innerHeight: buttonDelegate.height
-        visible: false
+        mipmap: true
+        anchors.fill: parent
+        anchors.rightMargin: 10
+        opacity: isPushed? 1: 0
         source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 150
+            }
+        }
     }
 
     Item {
@@ -41,7 +43,6 @@ Item
             height: 16 * pt
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
-//            Layout.alignment: Qt.AlignLeft
             DapImageLoader {
                 innerWidth: parent.width
                 innerHeight: parent.height
@@ -51,8 +52,6 @@ Item
 
         Text {
             id: buttonText
-//            Layout.alignment: Qt.AlignLeft
-//            Layout.leftMargin: 16
             anchors.left: ico.right
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
@@ -61,20 +60,34 @@ Item
             font:mainFont.dapFont.regular13
         }
     }
+    Timer {
+        id: timer
+    }
+
+    function delay(delayTime, cb) {
+        timer.interval = delayTime;
+        timer.repeat = false;
+        timer.triggered.connect(cb);
+        timer.start();
+    }
 
     MouseArea
     {
         id: handler
         anchors.fill: parent
         hoverEnabled: true
-//        cursorShape: Qt.PointingHandCursor
 
         onEntered:
         {
             if(!buttonDelegate.isPushed)
             {
-                backgroundImage.visible = true
-                backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_hover.png"
+                delay(300,function() {
+                    if(handler.containsMouse && !buttonDelegate.isPushed)
+                    {
+                        backgroundImage.opacity = 1
+                        backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_hover.png"
+                    }
+                })
             }
         }
 
@@ -82,24 +95,19 @@ Item
         {
             if(!buttonDelegate.isPushed)
             {
-                backgroundImage.visible = false
-                backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+                backgroundImage.opacity = 0
             }
         }
 
         onClicked:
         {
             mainButtonsList.currentIndex = index;
-//            console.log(page)
-//            pathScreen = page;
-            backgroundImage.visible = true
             backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
-
             pushPage(page)
         }
     }
     onIsPushedChanged:
     {
-        backgroundImage.visible = isPushed ? true : false
+        backgroundImage.opacity = isPushed ? 1 : 0
     }
 }

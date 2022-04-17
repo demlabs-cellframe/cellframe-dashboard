@@ -42,8 +42,7 @@ QtObject {
                 modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
                                     tag: modelAppsTabStates.get(i).tag,
                                     page: modelAppsTabStates.get(i).path,
-                                    normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
-                                    hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                                    bttnIco: "icon_certificates.png",
                                     showTab: modelAppsTabStates.get(i).show})
             }
         }else{
@@ -61,8 +60,7 @@ QtObject {
                         modelMenuTab.append({name: qsTr(modelAppsTabStates.get(i).name),
                                             tag: modelAppsTabStates.get(i).tag,
                                             page: modelAppsTabStates.get(i).path,
-                                            normalIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
-                                            hoverIcon: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/icon_certificates.png",
+                                            bttnIco: "icon_certificates.png",
                                             showTab: modelAppsTabStates.get(i).show})
                         break;
                     }
@@ -350,8 +348,8 @@ QtObject {
         {
             messagePopup.close()
             console.info("CONNECT SOCKET")
-//                if(!stateNotify) //TODO with notify
-//                    dapServiceController.requestToService("DapGetNetworksStateCommand")
+                if(!stateNotify) //TODO with notify
+                    dapServiceController.requestToService("DapGetNetworksStateCommand")
             stateNotify = true
         }
     }

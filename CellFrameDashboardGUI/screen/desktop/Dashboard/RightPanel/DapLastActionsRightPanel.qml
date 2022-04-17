@@ -76,6 +76,7 @@ DapLastActionsRightPanelForm
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
+            console.log("LAST ACTIONS TICK")
             logicExplorer.updateWalletHistory(true)
         }
     }

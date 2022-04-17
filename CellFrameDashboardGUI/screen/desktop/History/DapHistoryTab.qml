@@ -38,6 +38,7 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
+            console.log("HISTORY TIMER TICK")
             logicExplorer.updateWalletHistory(false)
         }
     }
