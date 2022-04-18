@@ -19,10 +19,10 @@ QtObject {
 
     readonly property int defaultMinWidth: 1280
 //    readonly property int defaultMinHeight: 600
-    readonly property int defaultMinHeight: 800
+    readonly property int defaultMinHeight: 750
 
     readonly property int defaultWidth: 1280
-    readonly property int defaultHeight: 800
+    readonly property int defaultHeight: 750
 
     property var minimumHeight: settings.window_scale < 1.0 ?
                                     defaultMinHeight * settings.window_scale :
