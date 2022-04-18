@@ -276,6 +276,11 @@ Rectangle
         delegate: dapNetworkItem
         interactive: false
         clip: true
+
+        onWidthChanged:
+        {
+            control.visible_count = getCountVisiblePopups()
+        }
     }
 
     ListModel {
