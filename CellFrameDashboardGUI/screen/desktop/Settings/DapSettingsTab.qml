@@ -18,6 +18,8 @@ DapPage
     ///@detalis Path to the right panel of recovery.
     readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
 
+    Component{id: emptyRightPanel; Item{}}
+
     id: settingsTab
     property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
@@ -29,6 +31,11 @@ DapPage
         "chain": "",
         "signature_type": "",
         "recovery_hash": ""
+    }
+    property var commandResult:
+    {
+        "success": "",
+        "message": ""
     }
 
     QtObject {
@@ -50,6 +57,7 @@ DapPage
         function popPage() {
             dapRightPanel.clear()
             dapRightPanelFrame.visible = false
+            dapRightPanel.push(emptyRightPanel)
             dapSettingsScreen.dapExtensionsBlock.visible = true
         }
     }
@@ -92,7 +100,9 @@ DapPage
         }
     }
 
-    dapRightPanel.initialItem: DapEmptyRightPanel{id: rightPanel; visible: false}
+
+
+    dapRightPanel.initialItem: emptyRightPanel
     dapRightPanelFrame.visible: false
 
 
@@ -102,10 +112,12 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
-            console.log("SETTINS TIMER TICK")
             dapServiceController.requestToService("DapGetListWalletsCommand")
             if(!dapNetworkModel.count)
+            {
                 dapServiceController.requestToService("DapGetListNetworksCommand")
+//                dapNetworkComboBox.mainLineText = dapNetworkModel.get(logicMainApp.currentNetwork).name
+            }
         }
     }
 

@@ -90,6 +90,11 @@ DapCreateWalletForm
         onWalletCreated:
         {
 //            nextActivated("doneWallet");
+//            console.log(wallet.success, wallet.message)
+
+            commandResult.success = wallet.success
+            commandResult.message = wallet.message
+
             navigator.doneWalletFunc()
         }
     }

@@ -53,15 +53,6 @@ DapRecoveryWalletRightPanelForm
         }
     }
 
-    Connections
-    {
-        target: dapServiceController
-        onWalletCreated:
-        {
-            navigator.doneWalletFunc()
-        }
-    }
-
     Component.onCompleted:
     {
         print("DapRecoveryWalletRightPanelForm Component.onCompleted")
@@ -230,5 +221,20 @@ DapRecoveryWalletRightPanelForm
     dapButtonClose.onClicked:
     {
         pop()
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onWalletCreated:
+        {
+//            nextActivated("doneWallet");
+//            console.log(wallet.success, wallet.message)
+
+            commandResult.success = wallet.success
+            commandResult.message = wallet.message
+
+            navigator.doneWalletFunc()
+        }
     }
 }

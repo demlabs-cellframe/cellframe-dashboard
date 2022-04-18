@@ -174,8 +174,8 @@ Page
         }
     }
 
-    Component.onCompleted: {
-        if(!dapNetworkModel.count)
-            dapServiceController.requestToService("DapGetListNetworksCommand")
-    }
+//    Component.onCompleted: {
+//        if(!dapNetworkModel.count)
+//            dapServiceController.requestToService("DapGetListNetworksCommand")
+//    }
 }
