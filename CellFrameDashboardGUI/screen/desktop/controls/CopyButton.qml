@@ -6,8 +6,9 @@ import QtQuick.Layouts 1.3
 
 Item
 {
-    width: 170 * pt
-    height: 180 * pt
+    id: root
+    width: 17 * pt
+    height: 18 * pt
 
     signal copyClicked()
 
@@ -32,12 +33,12 @@ Item
     Popup
     {
         id: popup
-        width: 300 * pt
-        height: 200 * pt
+        width: 120 * pt
+        height: 60 * pt
 
-        parent: Overlay.overlay
-        x: (parent.width - width) * 0.5
-        y: (parent.height - height) * 0.5
+        parent: root.parent
+        x: root.x + root.width + 5 * pt
+        y: root.y + root.height * 0.5 - height * 0.5
 
         modal: true
 
@@ -52,15 +53,15 @@ Item
         ColumnLayout
         {
             anchors.fill: parent
-            anchors.margins: 10 * pt
+            anchors.margins: 2 * pt
 
             Text {
                 id: dapContentTitle
                 Layout.fillWidth: true
-                Layout.leftMargin: 5
-                Layout.rightMargin: 5
-                Layout.topMargin: 5
-                font: mainFont.dapFont.medium16
+                Layout.leftMargin: 2
+                Layout.rightMargin: 2
+                //Layout.topMargin: 2
+                font: mainFont.dapFont.medium12
                 color: currTheme.textColor
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
@@ -70,8 +71,8 @@ Item
 
             Image
             {
-                Layout.preferredWidth: 40 * pt
-                Layout.preferredHeight: 40 * pt
+                Layout.preferredWidth: 20 * pt
+                Layout.preferredHeight: 20 * pt
                 Layout.alignment: Qt.AlignCenter
                 source: "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
             }
