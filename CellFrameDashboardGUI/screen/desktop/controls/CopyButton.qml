@@ -76,10 +76,5 @@ Item
                 source: "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
             }
         }
-
-        Text
-        {
-            anchors.centerIn: parent
-        }
     }
 }
