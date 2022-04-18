@@ -24,6 +24,7 @@ TextField {
     implicitHeight: 27 * pt
     implicitWidth: 230 * pt
     font:mainFont.dapFont.regular14
+    validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
     style:
         TextFieldStyle
