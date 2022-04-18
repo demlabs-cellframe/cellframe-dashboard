@@ -39,7 +39,7 @@ DapPage
         function openCreateFinishedItem() {
             certScreen.dapDefaultRightPanel.visible = false
             dapRightPanelFrame.visible = true
-            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml")
+            dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml", {"accept": "true", "titleText": "Certificate created\nsuccessfully"})
         }
 
         function openInfoItem() {
