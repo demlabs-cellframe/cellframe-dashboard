@@ -181,10 +181,22 @@ DapNewPaymentMainRightPanelForm
                         dapCmboBoxToken.mainLineText, amount, commission)
 
 //                    nextActivated("transaction created")
-                    navigator.doneNewPayment()
-                    updateTimer.start()
+
                 }
             }
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+        onTransactionCreated:
+        {
+            commandResult.success = aResult.success
+            commandResult.message = aResult.message
+
+            updateTimer.start()
+            navigator.doneNewPayment()
         }
     }
 }

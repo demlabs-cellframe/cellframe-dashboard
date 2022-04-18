@@ -64,5 +64,18 @@ Page
             }
         }
     }
+
+    Component.onCompleted:
+    {
+        if(commandResult.success)
+        {
+            textMessage.text = qsTr("Wallet created\nsuccessfully")
+        }
+        else
+        {
+            textMessage.text = qsTr("Wallet created\nerror")
+            textMessageBottom.text = ""
+        }
+    }
 }
 

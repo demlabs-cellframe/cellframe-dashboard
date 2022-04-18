@@ -11,6 +11,7 @@ ColumnLayout
 
     property alias dapWalletsButtons : buttonGroup
     property int dapCurrentWallet: logicMainApp.currentIndex
+    property alias dapNetworkComboBox: comboBoxCurrentNetwork
 
     spacing: 0
 
@@ -67,7 +68,10 @@ ColumnLayout
 
             comboBoxTextRole: ["name"]
             mainLineText: {
-             return   dapNetworkModel.get(logicMainApp.currentNetwork).name
+                if(dapNetworkModel.count)
+                    return dapNetworkModel.get(logicMainApp.currentNetwork).name
+                else
+                    return "Networks"
             }
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"

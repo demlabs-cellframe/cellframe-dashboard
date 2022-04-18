@@ -77,7 +77,11 @@ ColumnLayout
             {
                 id: scaleSpinbox
 
-                width: 80 * pt
+//                width: 80 * pt
+//                Layout.fillWidth: true
+//                Layout.leftMargin: 100
+                Layout.maximumWidth: 100
+                Layout.minimumWidth: 100
 
                 Layout.minimumHeight: 18 * pt
                 Layout.maximumHeight: 18 * pt
@@ -88,6 +92,7 @@ ColumnLayout
                 realTo: params.maxWindowScale
                 realStep: 0.05
                 decimals: 2
+
 
                 //defaultValue: mainWindowScale
 

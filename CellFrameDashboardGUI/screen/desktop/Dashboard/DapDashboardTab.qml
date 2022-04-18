@@ -37,6 +37,11 @@ DapPage
         "signature_type": "",
         "recovery_hash": ""
     }
+    property var commandResult:
+    {
+        "success": "",
+        "message": ""
+    }
 
     ListModel {id: networkModel}
     LogicWallet{id: logigWallet}
