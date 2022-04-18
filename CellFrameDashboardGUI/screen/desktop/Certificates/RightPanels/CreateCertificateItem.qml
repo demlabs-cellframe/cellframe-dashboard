@@ -270,6 +270,7 @@ Controls.Page {
                                     inputMask = ""
                             }
 
+                            onTextChanged: {optionalRepeater.model.setProperty(model.index, "data", text)}
 
                             onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", "")}
 
