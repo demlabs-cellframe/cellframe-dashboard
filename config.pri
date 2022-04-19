@@ -42,6 +42,7 @@ else: !win32 {
     DEFINES += CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\"
     DEFINES += DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\"
     DEFINES += LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\"
+    DEFINES += DATA_PATH=\\\"/opt/$${BRAND_LO}/data/\\\"
 }
 
 DEFINES += DAP_VERSION=\\\"$$VERSION\\\"

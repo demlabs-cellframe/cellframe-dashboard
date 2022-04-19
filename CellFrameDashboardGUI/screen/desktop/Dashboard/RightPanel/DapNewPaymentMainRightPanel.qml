@@ -159,7 +159,7 @@ DapNewPaymentMainRightPanelForm
                     print("Enough tokens. Correct address length.")
                     dapTextNotEnoughTokensWarning.text = ""
 
-                    var amount = toDatoshi(logigWallet.dapTextInputAmountPayment.text)
+                    var amount = logigWallet.toDatoshi(dapTextInputAmountPayment.text)
 
                     console.log("DapCreateTransactionCommand:")
                     console.log("   network:", dapComboboxNetwork.mainLineText)

@@ -40,6 +40,7 @@
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
 #include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapVersionController.h"
 
 class DapServiceController : public QObject
 {
@@ -194,6 +195,8 @@ signals:
     void historyReceived(const QVariant& walletHistory);
 
     void allHistoryReceived(const QVariant& walletHistory);
+
+    void versionControllerResult(const QVariant& versionResult);
 
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
 

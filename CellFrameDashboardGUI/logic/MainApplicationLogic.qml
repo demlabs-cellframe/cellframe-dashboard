@@ -20,6 +20,9 @@ QtObject {
 
     property bool stateNotify: true
 
+    property string lastVersion
+    property bool hasUpdate
+
 
     ///Functions
 
@@ -337,6 +340,9 @@ QtObject {
 
     function rcvStateNotify(isError, isFirst)
     {
+        messagePopup.dapButtonCancel.visible = false
+        messagePopup.dapButtonOk.textButton = "Ok"
+
         if(isError)
         {
             if(isFirst)
@@ -382,5 +388,41 @@ QtObject {
             }
         }
         dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array);
+    }
+
+    function rcvNewVersion(currVer, lastVer, isHasUpdate)
+    {
+        lastVersion = lastVer
+        hasUpdate = isHasUpdate
+
+        messagePopupVersion.dapButtonCancel.visible = true
+        messagePopupVersion.dapButtonOk.textButton = "Update"
+        messagePopupVersion.dapButtonCancel.textButton = "Cancel"
+
+        messagePopupVersion.smartOpen("New version", qsTr("Current version - " + currVer +"\n"+
+                                                   "Last version - " + lastVer +"\n" +
+                                                   "Do you want to update ?"))
+    }
+
+    function updateDashboard()
+    {
+        dapServiceController.requestToService("DapVersionController", "update")
+        updatingDashboard("The update process has started.")
+    }
+
+    function updatingDashboard(message)
+    {
+        messagePopupVersion.dapButtonCancel.visible = false
+        messagePopupVersion.dapButtonOk.textButton = "Ok"
+        messagePopupVersion.smartOpen("New version", qsTr(message))
+
+        delay(5000,function() {Qt.quit()} )
+    }
+
+    function delay(delayTime, cb) {
+        timer.interval = delayTime;
+        timer.repeat = false;
+        timer.triggered.connect(cb);
+        timer.start();
     }
 }
