@@ -112,6 +112,94 @@ ColumnLayout
 
     }
 
+    Item
+    {
+        height: 45 * pt
+        Layout.fillWidth: true
+        DapCheckBox
+        {
+            width: 100 * pt
+            height: 45 * pt
+            indicatorInnerSize: 45 * pt
+            nameTextColor: currTheme.textColor
+            nameCheckbox: "Auto online"
+
+            onCheckStateChanged: popup.open()
+
+            Popup
+            {
+                id: popup
+                width: 300 * pt
+                height: 200 * pt
+
+                parent: control.parent
+                x: (parent.width - width) * 0.5
+                y: (parent.height - height) * 0.5
+
+                scale: mainWindow.scale
+
+                modal: true
+
+                closePolicy: Popup.NoAutoClose
+
+                background: Rectangle
+                {
+                    border.width: 0
+                    radius: 16 * pt
+                    color: currTheme.backgroundElements
+                }
+
+                ColumnLayout
+                {
+                    anchors.fill: parent
+                    anchors.margins: 10 * pt
+
+                    Text {
+                        Layout.fillWidth: true
+                        Layout.leftMargin: 5
+                        Layout.rightMargin: 5
+                        Layout.topMargin: 5
+                        font: mainFont.dapFont.medium16
+                        color: currTheme.textColor
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                        text: "Node will be reboot"
+                    }
+
+                    Item
+                    {
+                        Layout.fillWidth: true
+                        height: 40 * pt
+
+                        DapButton
+                        {
+                            width: parent.width * 0.4
+                            height: parent.height
+                            textButton: "Ok"
+                            fontButton: mainFont.dapFont.regular16
+                            horizontalAligmentText: Qt.AlignHCenter
+
+                            onClicked: popup.close()
+                        }
+
+                        DapButton
+                        {
+                            width: parent.width * 0.4
+                            x: parent.width - width
+                            height: parent.height
+                            textButton: "Cansel"
+                            fontButton: mainFont.dapFont.regular16
+                            horizontalAligmentText: Qt.AlignHCenter
+
+                            onClicked: popup.close()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 
     Rectangle
     {
