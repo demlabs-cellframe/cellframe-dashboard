@@ -250,8 +250,6 @@ ColumnLayout
                             CopyButton
                             {
                                 id: networkAddressCopyButton
-                                //Layout.preferredHeight: 18 * pt
-                                //Layout.preferredWidth: 17 * pt
                                 onCopyClicked: textMetworkAddress.copyFullText()
                             }
                         }

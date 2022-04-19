@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
+import "../controls"
 import "qrc:/widgets"
 import "qrc:/"
 import "../../"
@@ -288,7 +289,7 @@ Popup {
                 text: nodeAddress + " "
                 color: currTheme.textColor
             }
-            MouseArea {
+            /*MouseArea {
                 id: networkAddrCopyButton
                 anchors.left: addressText.right
                 anchors.verticalCenter: parent.verticalCenter
@@ -308,7 +309,16 @@ Popup {
 
                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                 }
+            }*/
+
+            CopyButton
+            {
+                id: networkAddrCopyButton
+                onCopyClicked: copyStringToClipboard()
+                anchors.left: addressText.right
+                anchors.verticalCenter: parent.verticalCenter
             }
+
             TextEdit {
                 id: textEdit
                 visible: false
