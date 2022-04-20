@@ -19,12 +19,16 @@ Item
         id:networkAddressCopyButtonImage
         width: parent.width
         height: parent.height
-        source: "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+        mipmap: true
+        source: mouseArea.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png":
+                                          "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
     }
 
     MouseArea
     {
+        id: mouseArea
         anchors.fill: parent
+        hoverEnabled: true
         onClicked:
         {
             popup.opacity = 1
@@ -41,17 +45,22 @@ Item
         id: popup
         width: 140 * pt
         height: 40 * pt
+        scale: mainWindow.scale
 
-        parent: root.parent
-        x: root.x + root.width + 5 * pt
-        y: root.y + root.height * 0.5 - height * 0.5
+//        parent: root.parent
+        parent: root
+//        x: root.x + root.width + 5 * pt
+//        y: root.y + root.height * 0.5 - height * 0.5
+
+        x: (parent.width - popup.width) / 2
+        y: -40
 
         closePolicy: Popup.NoAutoClose
 
         background: Rectangle
         {
             border.width: 1 * pt
-            border.color: currTheme.hilightColorComboBox
+            border.color: currTheme.lineSeparatorColor
             radius: 16 * pt
             color: currTheme.backgroundElements
         }
@@ -66,12 +75,13 @@ Item
             text: "Address copied"
         }
 
-        Image
+        DapImageLoader
         {
-            width: 20 * pt
-            height: 20 * pt
+            innerWidth: 20
+            innerHeight: 20
             y: parent.height * 0.5 - height * 0.5
             x: parent.width - width - 2 * pt
+//            mipmap: true
             source: "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
         }
         onOpacityChanged: if (opacity == 0)
