@@ -7,7 +7,7 @@
 }
 
 VER_MAJ = 2
-VER_MIN = 6
+VER_MIN = 0
 VER_PAT = 6
 
 
