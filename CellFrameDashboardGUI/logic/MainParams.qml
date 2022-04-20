@@ -73,7 +73,6 @@ QtObject {
         }
         else
         {
-
             window.minimumWidth = defaultMinWidth
             window.minimumHeight = defaultMinHeight
         }
@@ -139,6 +138,8 @@ QtObject {
     function setNewScale(newScale)
     {
         print("setNewScale", newScale)
+
+        console.log(newScale, settings.window_scale)
 
         var oldWidth = window.width
         var oldHeight = window.height

@@ -93,6 +93,8 @@ ColumnLayout
                 realStep: 0.05
                 decimals: 2
 
+                maxSym: 4
+
 
                 //defaultValue: mainWindowScale
 
