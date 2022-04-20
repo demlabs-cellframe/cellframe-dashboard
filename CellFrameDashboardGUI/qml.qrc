@@ -434,5 +434,6 @@
         <file>screen/controls/HeaderItem.qml</file>
         <file>screen/controls/SearchInputBox.qml</file>
         <file>screen/controls/TextInputFilter.qml</file>
+        <file>screen/desktop/VPNService/RightPanel/DapCreateOrderForm.ui.qml</file>
     </qresource>
 </RCC>
