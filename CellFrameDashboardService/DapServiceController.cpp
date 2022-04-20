@@ -54,6 +54,7 @@ bool DapServiceController::start()
         registerCommand();
         watcher = new DapNotificationWatcher(this);
         connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
+
     }
 #endif
     else
@@ -128,4 +129,6 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
 
     m_pServer->addService(new DapRcvNotify("DapRcvNotify", m_pServer));
+
+    m_pServer->addService(new DapNodeConfigController("DapNodeConfigController", m_pServer, CLI_PATH));
 }

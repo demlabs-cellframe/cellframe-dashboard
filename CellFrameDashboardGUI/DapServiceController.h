@@ -40,6 +40,7 @@
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
 #include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapNodeConfigController.h"
 
 class DapServiceController : public QObject
 {
@@ -140,6 +141,7 @@ public slots:
     void changeNetworkStateToOffline(QString a_networkName);
     void requestOrdersList();
     void requestNetworksList();
+    int getAutoOnlineValue();
 
 signals:
     /// The signal is emitted when the Brand company property changes.

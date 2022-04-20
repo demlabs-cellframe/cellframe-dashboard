@@ -51,6 +51,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapRcvNotify.h"
 #include "DapNotificationWatcher.h"
+#include "handlers/DapNodeConfigController.h"
 
 #include "QTimer"
 

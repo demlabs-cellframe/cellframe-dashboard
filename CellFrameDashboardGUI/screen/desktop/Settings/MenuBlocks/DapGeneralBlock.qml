@@ -118,13 +118,21 @@ ColumnLayout
         Layout.fillWidth: true
         DapCheckBox
         {
+            id: checkBox
             width: 100 * pt
             height: 45 * pt
             indicatorInnerSize: 45 * pt
             nameTextColor: currTheme.textColor
             nameCheckbox: "Auto online"
+            property bool isCheck: false
 
-            onCheckStateChanged: popup.open()
+            Component.onCompleted:
+            {
+                checkBox.checkState = dapServiceController.getAutoOnlineValue();
+                isCheck = true
+            }
+
+            onCheckStateChanged: if (isCheck) popup.open()
 
             Popup
             {
@@ -180,7 +188,14 @@ ColumnLayout
                             fontButton: mainFont.dapFont.regular16
                             horizontalAligmentText: Qt.AlignHCenter
 
-                            onClicked: popup.close()
+
+                            onClicked:
+                            {
+                                var val = (checkBox.checkState === 2)
+                                console.log("kkkkkkkkkkkkkkk", val)
+                                dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
+                                popup.close()
+                            }
                         }
 
                         DapButton

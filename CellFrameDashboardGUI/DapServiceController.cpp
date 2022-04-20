@@ -116,6 +116,15 @@ void DapServiceController::requestNetworksList()
     this->requestToService("DapGetListNetworksCommand");
 }
 
+int DapServiceController::getAutoOnlineValue()
+{
+    DapConfigReader reader;
+    bool res = reader.getItemBool("general", "auto_online", false);
+    if (res)
+        return 2;
+    else return 0;
+}
+
 
 /// Get an instance of a class.
 /// @return Instance of a class.
@@ -227,6 +236,7 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRcvNotify("DapRcvNotify",m_DAPRpcSocket))), QString("dapRcvNotify")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeConfigController("DapNodeConfigController",m_DAPRpcSocket))), QString("dapNodeConfigController")));
 
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
