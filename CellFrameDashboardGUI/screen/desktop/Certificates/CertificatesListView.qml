@@ -153,6 +153,8 @@ ListView {
                 width: 58 * pt
                 visible: model.selected || delegateClicked._entered
 
+                onVisibleChanged: root.infoTitleTextVisible = visible
+
                 Image{
                     anchors.right: infoButton.right
                     anchors.rightMargin: 14 * pt

@@ -282,7 +282,7 @@ Controls.Page {
 
                             onTextChanged: {optionalRepeater.model.setProperty(model.index, "data", text)}
 
-                            onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", "")}
+                            onVisibleChanged: {optionalRepeater.model.setProperty(model.index, "data", text)}
 
                             font: mainFont.dapFont.regular16
                             onEditingFinished: {

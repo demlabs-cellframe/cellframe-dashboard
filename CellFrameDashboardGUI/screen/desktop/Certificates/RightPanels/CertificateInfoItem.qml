@@ -53,7 +53,7 @@ Page {
                 id: certificateDataListView
                 y: titleRectangle.y + titleRectangle.height + 11 * pt
                 width: parent.width
-                height: contentHeight
+                height: 550 * pt
                 spacing: 22 * pt
                 clip: true
                 model: models.certificateInfo

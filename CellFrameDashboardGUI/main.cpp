@@ -145,6 +145,7 @@ int main(int argc, char *argv[])
         QGuiApplication *testapp = new QGuiApplication(argc, argv);
         qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
         int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
+        int maxheight = QGuiApplication::primaryScreen()->availableGeometry().height();
         testapp->quit();
         delete testapp;
 
@@ -158,6 +159,13 @@ int main(int argc, char *argv[])
         if (1280 * scale > maxWidtn*1.25)
         {
             scale = maxWidtn*1.25 / 1280;
+            qDebug() << "Max correct scale" << scale;
+
+            QSettings().setValue("window_scale", scale);
+        }
+        if (800 * scale > maxheight)
+        {
+            scale = maxheight/800.0;
             qDebug() << "Max correct scale" << scale;
 
             QSettings().setValue("window_scale", scale);
