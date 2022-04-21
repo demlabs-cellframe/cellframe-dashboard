@@ -22,6 +22,7 @@ QtObject {
 
     property string lastVersion
     property bool hasUpdate
+    property string urlDownload
 
 
     ///Functions
@@ -390,24 +391,34 @@ QtObject {
         dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array);
     }
 
-    function rcvNewVersion(currVer, lastVer, isHasUpdate)
+    function rcvNewVersion(currVer, lastVer, isHasUpdate, url)
     {
         lastVersion = lastVer
         hasUpdate = isHasUpdate
+        urlDownload = url
 
         messagePopupVersion.dapButtonCancel.visible = true
         messagePopupVersion.dapButtonOk.textButton = "Update"
         messagePopupVersion.dapButtonCancel.textButton = "Cancel"
 
-        messagePopupVersion.smartOpen("New version", qsTr("Current version - " + currVer +"\n"+
+        messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + currVer +"\n"+
                                                    "Last version - " + lastVer +"\n" +
-                                                   "Do you want to update ?"))
+                                                   "Go to website to download ?"))
+    }
+
+    function rcvReplyVersion()
+    {
+        messagePopupVersion.dapButtonCancel.visible = false
+        messagePopupVersion.dapButtonOk.textButton = "Ok"
+
+        messagePopupVersion.smartOpen("Dashboard update", qsTr("You have the current version installed."))
     }
 
     function updateDashboard()
     {
-        dapServiceController.requestToService("DapVersionController", "update")
-        updatingDashboard("The update process has started.")
+        Qt.openUrlExternally(urlDownload);
+//        dapServiceController.requestToService("DapVersionController", "update")
+//        updatingDashboard("The update process has started.")
     }
 
     function updatingDashboard(message)

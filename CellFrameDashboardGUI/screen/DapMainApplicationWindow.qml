@@ -370,9 +370,13 @@ Rectangle {
         onVersionControllerResult:
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate)
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url)
+            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")
 //                logicMainApp.updatingDashboard()
+
+
 
             console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
         }
