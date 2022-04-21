@@ -127,8 +127,8 @@ Rectangle {
             bttnIco: "icon_exchange.png",
             showTab: true,
             page: "qrc:/screen/desktop/UnderConstructions.qml"})
-        append ({ tag: "TX Explorer",
-            name: qsTr("TX Explorer"),
+        append ({ tag: "TX explorer",
+            name: qsTr("TX explorer"),
             bttnIco: "icon_history.png",
             showTab: true,
             page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
