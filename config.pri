@@ -24,7 +24,7 @@ unix: !mac: !android {
 }
 
 win32 {
-    VERSION = $${VER_MAJ}.$${VER_MIN}-$$VER_PAT
+    VERSION = $${VER_MAJ}.$${VER_MIN}.$$VER_PAT
     DEFINES += CLI_PATH=\\\"$${BRAND_BASE_LO}-node-cli.exe\\\"
     DEFINES += TOOLS_PATH=\\\"$${BRAND_BASE_LO}-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
