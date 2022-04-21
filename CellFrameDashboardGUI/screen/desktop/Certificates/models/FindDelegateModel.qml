@@ -17,7 +17,7 @@ DelegateModel {
     property var predicate: function(obj) { return true; }
 
     function clear() {       //move from visible and pending group to unusable group
-        console.log("FindDelegateModel.clear()", items.count, pendingItems.count)
+//        console.log("FindDelegateModel.clear()", items.count, pendingItems.count)
         if (items.count > 0)
             items.setGroups(0, items.count, "unusable")
         if (pendingItems.count > 0)

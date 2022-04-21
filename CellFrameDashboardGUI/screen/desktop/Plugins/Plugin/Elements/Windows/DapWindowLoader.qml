@@ -12,8 +12,6 @@ Popup {
     
     modal: true
     
-    scale: mainWindow.scale
-
     contentItem: 
     	Loader{
             id: loader

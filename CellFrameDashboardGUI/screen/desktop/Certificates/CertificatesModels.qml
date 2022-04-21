@@ -161,7 +161,7 @@ Item {
         property int accessKeyTypeIndex: DapCertificateType.Public  //from DapCertificateType::accessKeyType
 
         function update() {
-            print("FindDelegateModel update", findString, accessKeyTypeIndex)
+//            print("FindDelegateModel update", findString, accessKeyTypeIndex)
             if (findString !== "") {                             //find by name and accessKeyTypeIndex
                 var fstr = findString.toLocaleLowerCase()
 

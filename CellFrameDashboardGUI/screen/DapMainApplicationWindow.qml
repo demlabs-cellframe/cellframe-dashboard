@@ -173,6 +173,13 @@ Rectangle {
             showTab: true,
             page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
 
+            //FOR DEBUG
+//        append ({ tag: "Plugin",
+//            name: qsTr("Plugin"),
+//            bttnIco: "icon_settings.png",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/Plugins/Plugin/DapApp.qml"})
+
             logicMainApp.initTabs()
             pluginsTabChanged(true,false,"")
         }
@@ -378,7 +385,7 @@ Rectangle {
 
 
 
-            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
+//            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
         }
 
         onWalletsReceived:
