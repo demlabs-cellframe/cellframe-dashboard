@@ -344,5 +344,6 @@
         <file>screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml</file>
         <file>screen/desktop/History/logic/LogicTxExplorer.qml</file>
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
+        <file>screen/desktop/controls/CopyButton.qml</file>
     </qresource>
 </RCC>

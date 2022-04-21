@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
+import "../controls"
 import "qrc:/widgets"
 import "../../"
 
@@ -245,7 +246,7 @@ Page
                                horizontalAlignment: Qt.Alignleft
                             }
 
-                            MouseArea
+                            /*MouseArea
                             {
                                 id: networkAddressCopyButton
                                 anchors.verticalCenter: parent.verticalCenter
@@ -264,6 +265,15 @@ Page
                                     mipmap: true
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
+                            }*/
+
+                            CopyButton
+                            {
+                                id: networkAddressCopyButton
+                                onCopyClicked: textMetworkAddress.copyFullText()
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.right: parent.right
+                                anchors.rightMargin: 16 * pt
                             }
                         }
 
