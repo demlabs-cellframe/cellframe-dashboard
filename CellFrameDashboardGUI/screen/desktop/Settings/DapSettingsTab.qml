@@ -23,6 +23,7 @@ DapPage
     id: settingsTab
     property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
+    property bool sendRequest: false
 
     property var walletInfo:
     {
@@ -145,6 +146,17 @@ DapPage
             }
             else
                 dapServiceController.requestToService("DapGetWalletsInfoCommand")
+        }
+        onVersionControllerResult:
+        {
+            if(sendRequest)
+            {
+                if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+                {
+                    logicMainApp.rcvReplyVersion()
+                    sendRequest = false
+                }
+            }
         }
     }
 }

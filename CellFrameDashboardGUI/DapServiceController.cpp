@@ -225,6 +225,8 @@ void DapServiceController::registerCommand()
     // Save cmd command in file
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapVersionController("DapVersionController",m_DAPRpcSocket))), QString("versionControllerResult")));
+
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRcvNotify("DapRcvNotify",m_DAPRpcSocket))), QString("dapRcvNotify")));
 
 

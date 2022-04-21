@@ -9,6 +9,7 @@ Popup {
     id: dialog
 
     signal signalAccept(var accept);
+    property alias dapButtonOk: buttonOk
     property alias dapButtonCancel: buttonCancel
 
     width: 300 * pt

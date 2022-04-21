@@ -46,7 +46,18 @@ Rectangle {
 
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
-    DapMessagePopup{id: messagePopup}
+    Timer {id: timer}
+
+    DapMessagePopup{ id: messagePopup}
+    DapMessagePopup
+    {
+        id: messagePopupVersion
+        onSignalAccept:
+        {
+            if(dapButtonOk.textButton === "Update" && accept)
+                logicMainApp.updateDashboard()
+        }
+    }
 
     signal menuTabChanged()
     onMenuTabChanged: logicMainApp.updateMenuTabStatus()
@@ -339,10 +350,14 @@ Rectangle {
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetNetworksStateCommand")
+        dapServiceController.requestToService("DapVersionController", "version")
         pluginsManager.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
+
+
+
     }
 
     Connections
@@ -351,6 +366,20 @@ Rectangle {
 
         onNetworksListReceived: logicMainApp.rcvNetList(networksList)
         onSignalStateSocket: logicMainApp.rcvStateNotify(isError, isFirst)
+
+        onVersionControllerResult:
+        {
+            if(versionResult.hasUpdate && versionResult.message === "Reply version")
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url)
+//            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+//                logicMainApp.rcvReplyVersion()
+//            else if(versionResult.message !== "Reply version")
+//                logicMainApp.updatingDashboard()
+
+
+
+            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
+        }
 
         onWalletsReceived:
         {

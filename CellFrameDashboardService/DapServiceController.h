@@ -49,6 +49,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapVersionController.h"
 #include "handlers/DapRcvNotify.h"
 #include "DapNotificationWatcher.h"
 

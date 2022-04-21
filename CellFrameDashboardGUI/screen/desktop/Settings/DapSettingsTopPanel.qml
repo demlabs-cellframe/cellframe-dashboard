@@ -7,11 +7,13 @@ import "qrc:/widgets" as Widgets
 
 Controls.DapTopPanel
 {
+
+
     Text {
         id: vesion
         anchors
         {
-            right: parent.right
+            right: checkUpdate.left
             top: parent.top
             rightMargin: 24 * pt
             topMargin: 23 * pt
@@ -21,6 +23,29 @@ Controls.DapTopPanel
         font: mainFont.dapFont.regular12
         color: currTheme.textColor
 
+    }
+
+    Widgets.DapButton
+    {
+        id: checkUpdate
+        textButton: "Check update"
+
+        anchors.right: parent.right
+        anchors.rightMargin: 24 * pt
+        anchors.top: parent.top
+        anchors.topMargin: 14 * pt
+        anchors.verticalCenter: parent.verticalCenter
+
+        implicitHeight: 38 * pt
+        implicitWidth: 163 * pt
+        fontButton: mainFont.dapFont.medium14
+        horizontalAligmentText: Text.AlignHCenter
+
+        onClicked:
+        {
+            sendRequest = true
+            dapServiceController.requestToService("DapVersionController", "version")
+        }
     }
 
 
