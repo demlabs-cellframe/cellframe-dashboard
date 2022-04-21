@@ -46,7 +46,18 @@ Rectangle {
 
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
-    DapMessagePopup{id: messagePopup}
+    Timer {id: timer}
+
+    DapMessagePopup{ id: messagePopup}
+    DapMessagePopup
+    {
+        id: messagePopupVersion
+        onSignalAccept:
+        {
+            if(dapButtonOk.textButton === "Update" && accept)
+                logicMainApp.updateDashboard()
+        }
+    }
 
     signal menuTabChanged()
     onMenuTabChanged: logicMainApp.updateMenuTabStatus()
@@ -116,8 +127,8 @@ Rectangle {
             bttnIco: "icon_exchange.png",
             showTab: true,
             page: "qrc:/screen/desktop/UnderConstructions.qml"})
-        append ({ tag: "TX Explorer",
-            name: qsTr("TX Explorer"),
+        append ({ tag: "TX explorer",
+            name: qsTr("TX explorer"),
             bttnIco: "icon_history.png",
             showTab: true,
             page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
@@ -161,6 +172,13 @@ Rectangle {
             bttnIco: "icon_settings.png",
             showTab: true,
             page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
+
+            //FOR DEBUG
+//        append ({ tag: "Plugin",
+//            name: qsTr("Plugin"),
+//            bttnIco: "icon_settings.png",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/Plugins/Plugin/DapApp.qml"})
 
             logicMainApp.initTabs()
             pluginsTabChanged(true,false,"")
@@ -339,10 +357,14 @@ Rectangle {
     Component.onCompleted:
     {
         dapServiceController.requestToService("DapGetNetworksStateCommand")
+        dapServiceController.requestToService("DapVersionController", "version")
         pluginsManager.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
+
+
+
     }
 
     Connections
@@ -351,6 +373,20 @@ Rectangle {
 
         onNetworksListReceived: logicMainApp.rcvNetList(networksList)
         onSignalStateSocket: logicMainApp.rcvStateNotify(isError, isFirst)
+
+        onVersionControllerResult:
+        {
+            if(versionResult.hasUpdate && versionResult.message === "Reply version")
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url)
+//            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+//                logicMainApp.rcvReplyVersion()
+//            else if(versionResult.message !== "Reply version")
+//                logicMainApp.updatingDashboard()
+
+
+
+//            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
+        }
 
         onWalletsReceived:
         {

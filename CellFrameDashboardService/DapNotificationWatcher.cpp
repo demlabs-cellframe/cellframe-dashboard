@@ -135,21 +135,10 @@ void DapNotificationWatcher::socketReadyRead()
         }
         else{
             QVariantMap map = reply.object().toVariantMap();
+            map["connect_state"] = QVariant::fromValue(m_socketState);
             emit rcvNotify(map);
         }
     }
-
-//    for (int i = 0; i < list.length(); ++i)
-//    {
-//        QJsonDocument doc = QJsonDocument::fromJson(list[i]);
-//        QVariant var = doc.toVariant();
-//        QVariantMap map = var.toMap();
-//        map["connect_state"] = QVariant::fromValue(m_socketState);
-//        qDebug() << list[i] << map;
-
-//        if(var.isValid())
-//            emit rcvNotify(map);
-//    }
 }
 
 void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState socketState)

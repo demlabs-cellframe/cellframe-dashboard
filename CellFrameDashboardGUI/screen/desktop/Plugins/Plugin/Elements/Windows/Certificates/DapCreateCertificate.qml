@@ -95,6 +95,8 @@ Item {
                 fontButton.pixelSize: 16
                 horizontalAligmentText: Qt.AlignHCenter
 
+                enabled: textInputNameCertificate.length > 0 ? true : false
+
                 onClicked:
                 {
                     dapServiceController.requestToService("DapCertificateManagerCommands"

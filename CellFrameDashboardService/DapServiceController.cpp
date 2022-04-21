@@ -39,6 +39,7 @@ bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
+//    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
@@ -127,6 +128,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
     // Save cmd command in file
     m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
+
+    m_pServer->addService(new DapVersionController("DapVersionController", m_pServer));
 
     m_pServer->addService(new DapRcvNotify("DapRcvNotify", m_pServer));
 

@@ -36,6 +36,7 @@ DapTopPanel {
         anchors.leftMargin: 7 * pt
 
         bottomLineVisible: false
+        validator: RegExpValidator { regExp:  /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
         placeholderText: qsTr("Search")
         height: 28 * pt
