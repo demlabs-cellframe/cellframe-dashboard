@@ -403,7 +403,7 @@ QtObject {
 
         messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + currVer +"\n"+
                                                    "Last version - " + lastVer +"\n" +
-                                                   "Go to website to download ?"))
+                                                   "Go to website to download?"))
     }
 
     function rcvReplyVersion()
