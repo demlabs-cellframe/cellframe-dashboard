@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.3
 import "../../controls"
 import "qrc:/widgets"
 
+import "qrc:/screen"
+
 ColumnLayout
 {
     id:control
@@ -120,9 +122,10 @@ ColumnLayout
         DapCheckBox
         {
             id: checkBox
-            width: 100 * pt
-            height: 45 * pt
-            indicatorInnerSize: 45 * pt
+            anchors.fill: parent
+            anchors.leftMargin: 15 * pt
+            anchors.bottomMargin: 10 * pt
+            indicatorInnerSize: height
             nameTextColor: currTheme.textColor
             nameCheckbox: "Auto online"
             property bool isCheck: false
@@ -133,83 +136,36 @@ ColumnLayout
                 isCheck = true
             }
 
-            onCheckStateChanged: if (isCheck) popup.open()
+            onCheckStateChanged:
+            {
+                var s
+                if (checkState == 0)
+                    s = "disable"
+                else s = "enable"
+                if (isCheck) popup.smartOpen("Confirm restart node", "To " + s + " auto_online it is necessary to restart the node")
+            }
 
-            Popup
+            DapMessagePopup
             {
                 id: popup
-                width: 300 * pt
-                height: 200 * pt
-
-                parent: control.parent
-                x: (parent.width - width) * 0.5
-                y: (parent.height - height) * 0.5
-
-                scale: mainWindow.scale
-
-                modal: true
-
-                closePolicy: Popup.NoAutoClose
-
-                background: Rectangle
+                dapButtonCancel.visible: true
+                dapButtonOk.textButton: "Accept"
+                onSignalAccept:
                 {
-                    border.width: 0
-                    radius: 16 * pt
-                    color: currTheme.backgroundElements
-                }
-
-                ColumnLayout
-                {
-                    anchors.fill: parent
-                    anchors.margins: 10 * pt
-
-                    Text {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 5
-                        Layout.rightMargin: 5
-                        Layout.topMargin: 5
-                        font: mainFont.dapFont.medium16
-                        color: currTheme.textColor
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        wrapMode: Text.WordWrap
-                        text: "Node will be reboot"
-                    }
-
-                    Item
+                    if (accept)
                     {
-                        Layout.fillWidth: true
-                        height: 40 * pt
-
-                        DapButton
-                        {
-                            width: parent.width * 0.4
-                            height: parent.height
-                            textButton: "Ok"
-                            fontButton: mainFont.dapFont.regular16
-                            horizontalAligmentText: Qt.AlignHCenter
-
-
-                            onClicked:
-                            {
-                                var val = (checkBox.checkState === 2)
-                                console.log("kkkkkkkkkkkkkkk", val)
-                                dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
-                                popup.close()
-                            }
-                        }
-
-                        DapButton
-                        {
-                            width: parent.width * 0.4
-                            x: parent.width - width
-                            height: parent.height
-                            textButton: "Cansel"
-                            fontButton: mainFont.dapFont.regular16
-                            horizontalAligmentText: Qt.AlignHCenter
-
-                            onClicked: popup.close()
-                        }
+                        var val = (checkBox.checkState === 2)
+                        dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
+                        popup.close()
+                    }
+                    else
+                    {
+                        var val
+                        if (checkBox.checkState == 0)
+                            val = 2
+                        else val = 0
+                        checkBox.checkState = val
+                        popup.close()
                     }
                 }
             }
