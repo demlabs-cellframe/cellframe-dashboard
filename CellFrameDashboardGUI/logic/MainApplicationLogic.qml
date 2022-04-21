@@ -411,7 +411,7 @@ QtObject {
         messagePopupVersion.dapButtonCancel.visible = false
         messagePopupVersion.dapButtonOk.textButton = "Ok"
 
-        messagePopupVersion.smartOpen("Dashboard update", qsTr("You have the current version installed."))
+        messagePopupVersion.smartOpen("Dashboard update", qsTr("You have the latest version installed."))
     }
 
     function updateDashboard()

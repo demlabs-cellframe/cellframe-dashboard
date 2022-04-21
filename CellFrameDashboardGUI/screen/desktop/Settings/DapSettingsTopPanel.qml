@@ -41,7 +41,11 @@ Controls.DapTopPanel
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
-        onClicked: dapServiceController.requestToService("DapVersionController", "version")
+        onClicked:
+        {
+            sendRequest = true
+            dapServiceController.requestToService("DapVersionController", "version")
+        }
     }
 
 

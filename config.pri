@@ -28,11 +28,13 @@ win32 {
     DEFINES += CLI_PATH=\\\"$${BRAND_BASE_LO}-node-cli.exe\\\"
     DEFINES += TOOLS_PATH=\\\"$${BRAND_BASE_LO}-node-tool.exe\\\"
     DEFINES += HAVE_STRNDUP
+    DEFINES += DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\"
 }
 macx {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
     DEFINES += CLI_PATH=\\\"/Applications/$${BRAND}.app/Contents/MacOS/$${BRAND_BASE_LO}-node-cli\\\"
     DEFINES += TOOLS_PATH=\\\"/Applications/$${BRAND}.app/Contents/MacOS/$${BRAND_BASE_LO}-node-tool\\\"
+    DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 }
 else: !win32 {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
@@ -43,6 +45,7 @@ else: !win32 {
     DEFINES += DAP_PATH_PREFIX=\\\"/opt/$${BRAND_BASE_LO}\\\"
     DEFINES += LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\"
     DEFINES += DATA_PATH=\\\"/opt/$${BRAND_LO}/data/\\\"
+    DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
 }
 
-DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
+#DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
