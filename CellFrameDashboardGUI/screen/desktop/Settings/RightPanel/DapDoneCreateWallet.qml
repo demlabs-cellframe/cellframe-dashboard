@@ -32,13 +32,18 @@ Page
                 anchors.rightMargin: 49 * pt
                 color: currTheme.textColor
                 font: mainFont.dapFont.medium28
+                wrapMode: Text.WordWrap
             }
 
             Text
             {
                 anchors.top: textMessage.bottom
                 anchors.topMargin:  24 * pt
-                anchors.horizontalCenter: parent.horizontalCenter
+//                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.leftMargin: 49
+                anchors.rightMargin: 49
 
                 id: textMessageBottom
                 text: qsTr("Now you can manage your\nwallets in Settings")
@@ -73,8 +78,8 @@ Page
         }
         else
         {
-            textMessage.text = qsTr("Wallet created\nerror")
-            textMessageBottom.text = ""
+            textMessage.text = "Creating wallet error."
+            textMessageBottom.text = commandResult.message
         }
     }
 }
