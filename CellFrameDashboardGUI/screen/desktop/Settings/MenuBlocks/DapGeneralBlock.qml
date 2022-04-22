@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.3
 import "../../controls"
 import "qrc:/widgets"
 
+import "qrc:/screen"
+
 ColumnLayout
 {
     id:control
@@ -65,6 +67,7 @@ ColumnLayout
             anchors.centerIn: parent
             anchors.fill: parent
             anchors.margins: 10 * pt
+            anchors.bottomMargin: 0
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
@@ -111,6 +114,64 @@ ColumnLayout
             }
         }
 
+    }
+
+    Item
+    {
+        height: 50 * pt
+        Layout.fillWidth: true
+        Layout.topMargin: -10
+        DapCheckBox
+        {
+            id: checkBox
+            anchors.fill: parent
+            anchors.leftMargin: 10 * pt
+//            anchors.bottomMargin: 10 * pt
+            indicatorInnerSize: height
+            nameTextColor: currTheme.textColor
+            nameCheckbox: "Auto online"
+            property bool isCheck: false
+
+            Component.onCompleted:
+            {
+                checkBox.checkState = dapServiceController.getAutoOnlineValue();
+                isCheck = true
+            }
+
+            onCheckStateChanged:
+            {
+                var s
+                if (checkState == 0)
+                    s = "disable"
+                else s = "enable"
+                if (isCheck) popup.smartOpen("Confirm restart node", "To " + s + " auto_online it is necessary to restart the node")
+            }
+
+            DapMessagePopup
+            {
+                id: popup
+                dapButtonCancel.visible: true
+                dapButtonOk.textButton: "Accept"
+                onSignalAccept:
+                {
+                    if (accept)
+                    {
+                        var val = (checkBox.checkState === 2)
+                        dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
+                        popup.close()
+                    }
+                    else
+                    {
+                        var val
+                        if (checkBox.checkState == 0)
+                            val = 2
+                        else val = 0
+                        checkBox.checkState = val
+                        popup.close()
+                    }
+                }
+            }
+        }
     }
 
 

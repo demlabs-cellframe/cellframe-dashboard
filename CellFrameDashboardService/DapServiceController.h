@@ -52,6 +52,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapVersionController.h"
 #include "handlers/DapRcvNotify.h"
 #include "DapNotificationWatcher.h"
+#include "handlers/DapNodeConfigController.h"
 
 #include "QTimer"
 

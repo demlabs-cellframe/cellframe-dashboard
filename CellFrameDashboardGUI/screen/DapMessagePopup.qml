@@ -23,6 +23,8 @@ Popup {
 
     modal: true
 
+    closePolicy: Popup.NoAutoClose
+
     background: Rectangle
     {
         border.width: 0
