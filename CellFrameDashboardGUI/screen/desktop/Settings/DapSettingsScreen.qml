@@ -60,7 +60,7 @@ Page
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
-                    Layout.minimumHeight: 200
+                    Layout.minimumHeight: 240
 
                     contentData: DapGeneralBlock{id:content}
                 }
