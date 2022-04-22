@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQml 2.12
 import QtQuick.Controls 2.5
 import "parts"
 import "qrc:/widgets"
@@ -13,7 +14,7 @@ ListView {
 
     property string seletedCertificateAccessType: qsTr("Public")
     property bool infoTitleTextVisible: false
-
+    property bool infoTitleTextVisibleClick: false
 
     //interactive: contentHeight > height
     headerPositioning: ListView.OverlayHeader
@@ -82,8 +83,14 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font: mainFont.dapFont.medium11
                 text: qsTr("Info")
-                visible: root.infoTitleTextVisible
+                opacity: if (root.infoTitleTextVisible || root.infoTitleTextVisibleClick) return 1; else return 0
                 color: currTheme.textColor
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
             }
         }
 
@@ -111,9 +118,18 @@ ListView {
                 verticalAlignment: Text.AlignVCenter
                 font: mainFont.dapFont.regular16
                 text: model.completeBaseName   //model.fileName
-                color: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
                 elide: Text.ElideRight
                 maximumLineCount: 1
+
+                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
+
+                onColorPropertyChanged: textTimer.start()
+
+                Timer {
+                    id: textTimer
+                        interval: 300
+                        onTriggered: certificateNameText.color = certificateNameText.colorProperty
+                    }
             }
 
 
@@ -135,6 +151,7 @@ ListView {
                 onClicked: {
                     root.selectedIndex(model.index)
                     models.selectedAccessKeyType = model.accessKeyType
+                    root.infoTitleTextVisibleClick = true
                 }
 
                 onDoubleClicked: {
@@ -151,9 +168,15 @@ ListView {
                 }
                 height: parent.height
                 width: 58 * pt
-                visible: model.selected || delegateClicked._entered
+                opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
 
-                onVisibleChanged: root.infoTitleTextVisible = visible
+                onOpacityChanged: root.infoTitleTextVisible = opacity
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
 
                 Image{
                     anchors.right: infoButton.right
