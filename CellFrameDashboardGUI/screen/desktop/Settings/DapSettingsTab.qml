@@ -114,11 +114,16 @@ DapPage
         onTriggered:
         {
             dapServiceController.requestToService("DapGetListWalletsCommand")
-            if(!dapNetworkModel.count)
-            {
-                dapServiceController.requestToService("DapGetListNetworksCommand")
-//                dapNetworkComboBox.mainLineText = dapNetworkModel.get(logicMainApp.currentNetwork).name
-            }
+            dapServiceController.requestToService("DapGetListNetworksCommand")
+
+            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
+                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
+
+//            if(!dapNetworkModel.count)
+//            {
+//                dapServiceController.requestToService("DapGetListNetworksCommand")
+////                dapNetworkComboBox.mainLineText = dapNetworkModel.get(logicMainApp.currentNetwork).name
+//            }
         }
     }
 

@@ -4,11 +4,18 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets/"
 import "qrc:/resources/QML"
+import "../../logic"
+import "logic"
 
 Page {
     id: window
 
-//    readonly property string walletPage: _dapModelWallets.count > 0 ? "Wallet/TokenWallet.qml" :
+    anchors.centerIn: parent
+    width: parent.width / scale
+    height: parent.height / scale
+    scale: 1.0
+
+//    readonly property string walletPage: dapModelWallets.count > 0 ? "Wallet/TokenWallet.qml" :
 //                                                                 "Wallet/MainWallet.qml"
     readonly property string walletPage: "Wallet/TokenWallet.qml"
 
@@ -29,7 +36,7 @@ Page {
     property int currentToken: 0
 
     property alias mainWalletModel: walletModel
-    property alias mainNetworkModel: networkModel
+    property alias mainNetworkModel: networksModel
     property alias mainTokenModel: tokenModel
     property alias mainHistoryModel: historyModel
 
@@ -42,14 +49,17 @@ Page {
     property alias walletNameLabel: nameWallet
 
     ListModel {id: walletModel }
-    ListModel {id: networkModel}
+    ListModel {id: networksModel}
     ListModel {id: tokenModel  }
     ListModel {id: historyModel}
-    property ListModel _dapModelWallets
-    property ListModel _dapModelNetworks
+    ListModel {id: dapModelWallets}
+
+    MainApplicationLogic{id: logicMainApp}
+    LogicMobile{id: logicMobile}
 
     Component.onCompleted:
     {
+        console.log("SEND CMD ___________--")
         dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapGetWalletsInfoCommand")
 
@@ -113,8 +123,8 @@ Page {
                 Layout.preferredHeight: 30 * pt
                 Layout.preferredWidth: 30 * pt
                 id: toolButton
-                normalImageButton: stackView.depth > 1 ? "qrc:/screen/mobile_new/android/Icons/Close.png" : "qrc:/screen/mobile_new/android/Icons/MenuIcon.png"
-                hoverImageButton: stackView.depth > 1 ? "qrc:/screen/mobile_new/android/Icons/Close.png" : "qrc:/screen/mobile_new/android/Icons/MenuIcon.png"
+                normalImageButton: stackView.depth > 1 ? "qrc:/screen/mobile/Icons/Close.png" : "qrc:/screen/mobile/Icons/MenuIcon.png"
+                hoverImageButton: stackView.depth > 1 ? "qrc:/screen/mobile/Icons/Close.png" : "qrc:/screen/mobile/Icons/MenuIcon.png"
                 activeFrame: false
 //                height: 40 * pt
 //                width: 40 * pt
@@ -158,7 +168,7 @@ Page {
 //                    Layout.alignment: Qt.AlignBottom
                     Layout.fillWidth: true
 //                    Layout.bottomMargin: 7 * pt
-                    text: _dapModelWallets.get(currentWallet).name
+                    text: dapModelWallets.count ? dapModelWallets.get(currentWallet).name : ""
                     font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignHCenter
                     color: currTheme.textColor
@@ -174,8 +184,8 @@ Page {
                 Layout.preferredHeight: 30 * pt
                 Layout.preferredWidth: 30 * pt
                 id: toolButton1
-                normalImageButton: stackView.depth > 1 ?  "" : "qrc:/screen/mobile_new/android/Icons/NetIcon.png"
-                hoverImageButton: stackView.depth > 1 ?  "" : "qrc:/screen/mobile_new/android/Icons/NetIcon.png"
+                normalImageButton: stackView.depth > 1 ?  "" : "qrc:/screen/mobile/Icons/NetIcon.png"
+                hoverImageButton: stackView.depth > 1 ?  "" : "qrc:/screen/mobile/Icons/NetIcon.png"
                 activeFrame: false
 //                height: 40 * pt
 //                width: 40 * pt
@@ -216,30 +226,19 @@ Page {
 
         onNetworksStatesReceived:
         {
-            networkModelUpdate(networksStatesList)
-            updateContentInAll(networkModel)
+            logicMobile.modelUpdate(networksStatesList)
+            logicMobile.updateContentInAllOpenedPopups(networksModel)
+        }
+        onSignalNetState:
+        {
+            logicMobile.notifyModelUpdate(netState)
         }
 
         onWalletsReceived: {
-            _dapModelWallets = globalLogic.rcvWalletList(walletList, parent)
+            logicMainApp.rcvWallets(walletList)
+            nameWallet.text = dapModelWallets.get(currentWallet).name
+//            updateNetworkModel()
             updateTokenModel()
-            nameWallet.text = _dapModelWallets.get(currentWallet).name
-        }
-    }
-
-    function networkModelUpdate(networksStatesList)
-    {
-        if (!globalLogic.isEqualList(networkModel, networksStatesList)) {
-            networkModel.clear()
-            globalLogic.rcvNetworksStatesList(networkModel, networksStatesList)
-        } else
-            globalLogic.updateContent(networkModel, networksStatesList)
-
-    }
-    function updateContentInAll(curModel)
-    {
-        for (var i=0; i<curModel.count; ++i) {
-            globalLogic.updateContentInSpecified(networkModel.get(i), curModel.get(i))
         }
     }
 
@@ -318,28 +317,11 @@ Page {
 
     }
 
-    function updateNetworkModel()
-    {
-        networkModel.clear()
-
-        var tempModel = _dapModelWallets.get(currentWallet).networks
-
-        for (var i = 0; i < tempModel.count; ++i)
-        {
-            networkModel.append({"name" : tempModel.get(i).name,
-                                "address" : tempModel.get(i).address,
-                                "net_address" : tempModel.get(i).net_address,
-                                "curr_state" : tempModel.get(i).curr_state,
-                                "target_state" : tempModel.get(i).target_state,
-                                "active_links" : tempModel.get(i).active_links})
-        }
-    }
-
     function updateTokenModel()
     {
         tokenModel.clear()
 
-        var tempModel = _dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens
+        var tempModel = dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens
 
         for (var i = 0; i < tempModel.count; ++i)
         {

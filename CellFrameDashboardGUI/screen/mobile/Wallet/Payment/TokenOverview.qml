@@ -25,7 +25,7 @@ Page {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
                 font: mainFont.dapFont.bold14
-                text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+                text: qsTr(dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
             }
             Item {
                 Layout.fillWidth: true
@@ -34,7 +34,7 @@ Page {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular14
-                text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance_without_zeros.toString())
+                text: qsTr(dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance_without_zeros.toString())
             }
         }
         Rectangle
@@ -162,7 +162,7 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
-                    sendToken = _dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name
+                    sendToken = dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name
                     mainStackView.push("TokenAmount.qml")
                 }
 

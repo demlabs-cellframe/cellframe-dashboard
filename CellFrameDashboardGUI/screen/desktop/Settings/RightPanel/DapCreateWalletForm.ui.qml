@@ -257,6 +257,7 @@ Controls.Page
                 DapRadioButton
                 {
                     id: buttonSelectionWords
+                    Layout.fillWidth: true
                     nameRadioButton: qsTr("24 words")
                     checked: true
                     indicatorInnerSize: 46 * pt
@@ -279,6 +280,7 @@ Controls.Page
                 DapRadioButton
                 {
                     id: buttonSelectionExportToFile
+                    Layout.fillWidth: true
                     nameRadioButton: qsTr("Export to file")
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 3 * pt
@@ -290,6 +292,7 @@ Controls.Page
                 DapRadioButton
                 {
                     id: buttonSelectionNothing
+                    Layout.fillWidth: true
                     nameRadioButton: qsTr("Nothing")
                     indicatorInnerSize: 46 * pt
                     spaceIndicatorText: 3 * pt

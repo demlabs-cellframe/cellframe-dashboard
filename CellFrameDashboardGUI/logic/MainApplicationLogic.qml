@@ -9,7 +9,7 @@ QtObject {
 
     //wallets create param
     property bool restoreWalletMode: false
-    property string currentTab: mainScreenStack.currPage
+    property string currentTab: params.isMobile ? "" : mainScreenStack.currPage
     property string walletRecoveryType: "Nothing"
     //
 
@@ -179,24 +179,28 @@ QtObject {
             console.error("networksList is empty")
         else
         {
-            if(currentNetwork === -1)
+            if(dapNetworkModel.count !== networksList.length)
             {
-                dapServiceController.setCurrentNetwork(networksList[0]);
-                dapServiceController.setIndexCurrentNetwork(0);
-                logicMainApp.currentNetwork = dapServiceController.IndexCurrentNetwork
-            }
-            else
-            {
-                dapServiceController.setCurrentNetwork(networksList[currentNetwork]);
-                dapServiceController.setIndexCurrentNetwork(currentNetwork);
-            }
+                if(currentNetwork === -1)
+                {
+                    dapServiceController.setCurrentNetwork(networksList[0]);
+                    dapServiceController.setIndexCurrentNetwork(0);
+                    logicMainApp.currentNetwork = dapServiceController.IndexCurrentNetwork
+                }
+                else
+                {
+                    dapServiceController.setCurrentNetwork(networksList[currentNetwork]);
+                    dapServiceController.setIndexCurrentNetwork(currentNetwork);
+                }
 
-            dapNetworkModel.clear()
-            for (var i = 0; i < networksList.length; ++i)
-                dapNetworkModel.append({ "name" : networksList[i]})
+                dapNetworkModel.clear()
+                for (var i = 0; i < networksList.length; ++i)
+                    dapNetworkModel.append({ "name" : networksList[i]})
 
+                dapServiceController.requestToService("DapGetNetworksStateCommand")
+            }
+            console.info("Current network: "+dapServiceController.CurrentNetwork)
         }
-        console.info("Current network: "+dapServiceController.CurrentNetwork)
     }
 
     function rcvWallets(walletList)

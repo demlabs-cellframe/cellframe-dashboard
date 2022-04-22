@@ -5,7 +5,7 @@ import qmlclipboard 1.0
 import "qrc:/widgets/"
 
 Page {
-    title: qsTr("Receive " + _dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+    title: qsTr("Receive " + dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
     background: Rectangle {color: currTheme.backgroundMainScreen }
 
     QMLClipboard{
@@ -45,7 +45,7 @@ Page {
             font: mainFont.dapFont.regular16
             color: "#ffffff"
 
-            text: qsTr(_dapModelWallets.get(currentWallet).networks.get(currentNetwork).address)
+            text: qsTr(dapModelWallets.get(currentWallet).networks.get(currentNetwork).address)
             wrapMode: Text.Wrap
         }
 

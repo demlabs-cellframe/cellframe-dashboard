@@ -36,6 +36,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionAllStatuses
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("All statuses")
                 checked: true
                 indicatorInnerSize: 46 * pt
@@ -50,6 +51,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionPending
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Pending")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
@@ -63,6 +65,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionSent
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Sent")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
@@ -76,6 +79,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionReceived
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Received")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
@@ -89,6 +93,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionError
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Error")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
