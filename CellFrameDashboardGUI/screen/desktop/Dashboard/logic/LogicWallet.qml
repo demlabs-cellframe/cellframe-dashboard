@@ -177,20 +177,20 @@ QtObject {
 
     function initNetworks()
     {
-        networkModel.clear()
+        networksModel.clear()
 
         var tempNetworks = dapModelWallets.
             get(logicMainApp.currentIndex).networks
 
         for (var i = 0; i < tempNetworks.count; ++i)
         {
-            networkModel.append(
+            networksModel.append(
                         { "tokens" : [],
                           "chains" : [] })
 
             for (var j = 0; j < tempNetworks.get(i).tokens.count; ++j)
             {
-                networkModel.get(i).tokens.append(
+                networksModel.get(i).tokens.append(
                     { "name" : tempNetworks.get(i).tokens.get(j).name,
                       "datoshi": tempNetworks.get(i).tokens.get(j).datoshi,
                       "full_balance": tempNetworks.get(i).tokens.get(j).full_balance,
@@ -199,7 +199,7 @@ QtObject {
 
             for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
             {
-                networkModel.get(i).chains.append(
+                networksModel.get(i).chains.append(
                     { "name" : tempNetworks.get(i).chains.get(k).name})
             }
         }

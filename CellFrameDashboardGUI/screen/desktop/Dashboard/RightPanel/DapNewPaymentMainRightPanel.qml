@@ -31,10 +31,10 @@ DapNewPaymentMainRightPanelForm
         dapCmboBoxChainModel = currentWallet.networks.
             get(dapComboboxNetwork.currentIndex).chains*/
 
-        dapCmboBoxTokenModel = networkModel.
+        dapCmboBoxTokenModel = networksModel.
             get(dapComboboxNetwork.currentIndex).tokens
 
-        dapCmboBoxChainModel = networkModel.
+        dapCmboBoxChainModel = networksModel.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = "0.0"
@@ -64,10 +64,10 @@ DapNewPaymentMainRightPanelForm
         dapCmboBoxTokenModel = currentWallet.networks.
             get(dapComboboxNetwork.currentIndex).tokens*/
 
-        dapCmboBoxTokenModel = networkModel.
+        dapCmboBoxTokenModel = networksModel.
             get(dapComboboxNetwork.currentIndex).tokens
 
-        dapCmboBoxChainModel = networkModel.
+        dapCmboBoxChainModel = networksModel.
             get(dapComboboxNetwork.currentIndex).chains
 
         print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)

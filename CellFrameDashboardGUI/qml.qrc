@@ -345,5 +345,6 @@
         <file>screen/desktop/History/logic/LogicTxExplorer.qml</file>
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
         <file>screen/desktop/controls/CopyButton.qml</file>
+        <file>screen/mobile/logic/LogicMobile.qml</file>
     </qresource>
 </RCC>

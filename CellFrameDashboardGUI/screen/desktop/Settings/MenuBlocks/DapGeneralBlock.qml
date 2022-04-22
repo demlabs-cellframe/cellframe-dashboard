@@ -67,6 +67,7 @@ ColumnLayout
             anchors.centerIn: parent
             anchors.fill: parent
             anchors.margins: 10 * pt
+            anchors.bottomMargin: 0
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
@@ -117,14 +118,15 @@ ColumnLayout
 
     Item
     {
-        height: 45 * pt
+        height: 50 * pt
         Layout.fillWidth: true
+        Layout.topMargin: -10
         DapCheckBox
         {
             id: checkBox
             anchors.fill: parent
-            anchors.leftMargin: 15 * pt
-            anchors.bottomMargin: 10 * pt
+            anchors.leftMargin: 10 * pt
+//            anchors.bottomMargin: 10 * pt
             indicatorInnerSize: height
             nameTextColor: currTheme.textColor
             nameCheckbox: "Auto online"
