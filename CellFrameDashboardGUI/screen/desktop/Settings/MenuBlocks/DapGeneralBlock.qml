@@ -15,6 +15,7 @@ ColumnLayout
     property alias dapWalletsButtons : buttonGroup
     property int dapCurrentWallet: logicMainApp.currentIndex
     property alias dapNetworkComboBox: comboBoxCurrentNetwork
+    property alias dapAutoOnlineCheckBox: checkBox
 
     spacing: 0
 
@@ -123,6 +124,7 @@ ColumnLayout
         Layout.topMargin: -10
         DapCheckBox
         {
+            property bool stopUpdate: false
             id: checkBox
             anchors.fill: parent
             anchors.leftMargin: 10 * pt
@@ -134,12 +136,13 @@ ColumnLayout
 
             Component.onCompleted:
             {
-                checkBox.checkState = dapServiceController.getAutoOnlineValue();
+                checkBox.checkState = dapServiceController.getAutoOnlineValue()
                 isCheck = true
             }
 
-            onCheckStateChanged:
+            onClicked:
             {
+                stopUpdate = true
                 var s
                 if (checkState == 0)
                     s = "disable"
@@ -170,6 +173,8 @@ ColumnLayout
                         popup.close()
                     }
                 }
+                onClosed:
+                    checkBox.stopUpdate = false
             }
         }
     }
