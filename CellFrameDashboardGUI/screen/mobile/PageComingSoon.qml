@@ -9,7 +9,7 @@ Page {
         anchors.fill: parent
         anchors.margins: 20 * pt
         fillMode: Image.PreserveAspectFit
-        source: "qrc:/screen/mobile_new/android/Icons/ComingSoon.png"
+        source: "qrc:/screen/mobile/Icons/ComingSoon.png"
 //        anchors.centerIn: parent
     }
 }

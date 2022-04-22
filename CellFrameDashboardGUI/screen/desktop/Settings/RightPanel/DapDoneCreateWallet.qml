@@ -78,7 +78,7 @@ Page
         }
         else
         {
-            textMessage.text = "Creating wallet error."
+            textMessage.text = "Creating wallet error"
             textMessageBottom.text = commandResult.message
         }
     }

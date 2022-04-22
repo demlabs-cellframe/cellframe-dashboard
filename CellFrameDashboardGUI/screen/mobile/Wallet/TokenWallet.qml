@@ -173,4 +173,16 @@ Page {
             }
         }
     }
+
+    Connections {
+        target: dapServiceController
+
+
+        onWalletsReceived: {
+            logicMainApp.rcvWallets(walletList)
+            nameWallet.text = dapModelWallets.get(currentWallet).name
+            updateTokenModel()
+        }
+    }
+
 }

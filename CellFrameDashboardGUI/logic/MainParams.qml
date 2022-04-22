@@ -4,8 +4,8 @@ import QtQuick.Window 2.2
 
 QtObject {
 
-    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
-//    readonly property bool isMobile: true
+//    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+    readonly property bool isMobile: true
 
     property real mainWindowScale: settings.window_scale
 
@@ -17,12 +17,12 @@ QtObject {
 
     readonly property real maxCorrectScale: 1.25
 
-    readonly property int defaultMinWidth: 1280
+    readonly property int defaultMinWidth: isMobile? 500 :1280
 //    readonly property int defaultMinHeight: 600
-    readonly property int defaultMinHeight: 750
+    readonly property int defaultMinHeight:isMobile? 600 : 800
 
-    readonly property int defaultWidth: 1280
-    readonly property int defaultHeight: 800
+    readonly property int defaultWidth: isMobile? 600 : 1280
+    readonly property int defaultHeight: isMobile? 700 : 800
 
     property var minimumHeight: settings.window_scale < 1.0 ?
                                     defaultMinHeight * settings.window_scale :

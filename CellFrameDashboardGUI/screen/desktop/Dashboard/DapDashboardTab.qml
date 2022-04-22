@@ -43,7 +43,7 @@ DapPage
         "message": ""
     }
 
-    ListModel {id: networkModel}
+    ListModel {id: networksModel}
     LogicWallet{id: logigWallet}
 
     QtObject {
