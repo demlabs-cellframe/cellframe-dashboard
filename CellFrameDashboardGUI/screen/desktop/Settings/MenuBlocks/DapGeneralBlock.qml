@@ -230,9 +230,17 @@ ColumnLayout
             onHeightChanged: listWallet.contentHeight = height
 
             Item {
+                id: block
 //                height: 50 * pt
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+
+                MouseArea
+                {
+                    anchors.fill: parent
+
+                    onClicked: radioBut.clicked();
+                }
 
                 RowLayout
                 {
@@ -259,6 +267,7 @@ ColumnLayout
                         }
                         RowLayout
                         {
+                            id: rowLay
                             Layout.preferredHeight: 16 * pt
 
                             spacing: 0 * pt
@@ -321,6 +330,7 @@ ColumnLayout
                         }
                     }
 
+
                     DapRadioButton
                     {
                         id: radioBut
@@ -361,11 +371,6 @@ ColumnLayout
                     color: currTheme.lineSeparatorColor
 
                 }
-//                MouseArea
-//                {
-//                    anchors.fill: parent
-//                    onClicked: radioBut.clicked();
-//                }
             }
         }
     }

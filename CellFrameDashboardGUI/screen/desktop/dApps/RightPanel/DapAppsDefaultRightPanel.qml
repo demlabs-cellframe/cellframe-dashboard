@@ -49,6 +49,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionAllStatuses
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Verified")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
@@ -62,6 +63,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionPending
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Unverified")
                 Layout.topMargin: 5 * pt
                 indicatorInnerSize: 46 * pt
@@ -76,6 +78,7 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionSent
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Both")
                 Layout.topMargin: 6 * pt
                 indicatorInnerSize: 46 * pt
