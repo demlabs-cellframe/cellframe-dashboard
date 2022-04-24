@@ -66,6 +66,7 @@ SOURCES += \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
     mobile/testcontroller.cpp \
+    nodeBroadcast/NodeBroadcast.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
     systemtray.cpp \
@@ -95,6 +96,8 @@ HEADERS += \
     WalletRestore/wallethashmanager.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
+    nodeBroadcast/123.h \
+    nodeBroadcast/NodeBroadcast.h \
     quickcontrols/qrcodequickitem.h \
     resizeimageprovider.h \
     systemtray.h \
