@@ -96,7 +96,6 @@ HEADERS += \
     WalletRestore/wallethashmanager.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
-    nodeBroadcast/123.h \
     nodeBroadcast/NodeBroadcast.h \
     quickcontrols/qrcodequickitem.h \
     resizeimageprovider.h \
