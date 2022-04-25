@@ -39,6 +39,7 @@ bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
+    m_syncControll = new DapNetSyncController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
