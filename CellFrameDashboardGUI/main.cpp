@@ -99,6 +99,12 @@ bool SingleApplicationTest(const QString &appName)
 
 const int RESTART_CODE = 12345;
 
+const int MIN_WIDTH = 1280;
+const int MIN_HEIGHT = 750;
+
+const int DEFAULT_WIDTH = 1280;
+const int DEFAULT_HEIGHT = 800;
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -156,16 +162,16 @@ int main(int argc, char *argv[])
 
         qDebug() << "window_scale" << scale << QString::number(scale);
 
-        if (1280 * scale > maxWidtn*1.25)
+        if (MIN_WIDTH * scale > maxWidtn*1.25)
         {
-            scale = maxWidtn*1.25 / 1280;
+            scale = (double)maxWidtn*1.25 / MIN_WIDTH;
             qDebug() << "Max correct scale" << scale;
 
             QSettings().setValue("window_scale", scale);
         }
-        if (800 * scale > maxheight)
+        if (MIN_HEIGHT * scale > maxheight)
         {
-            scale = maxheight/800.0;
+            scale = (double)maxheight/MIN_HEIGHT;
             qDebug() << "Max correct scale" << scale;
 
             QSettings().setValue("window_scale", scale);
@@ -208,11 +214,17 @@ int main(int argc, char *argv[])
 
         app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
 
+        context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
+
+        context->setContextProperty("MIN_WIDTH", QVariant::fromValue(MIN_WIDTH));
+        context->setContextProperty("MIN_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
+
+        context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
+        context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
+
         app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
         Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
-
-        context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
 
         result = app.exec();
 

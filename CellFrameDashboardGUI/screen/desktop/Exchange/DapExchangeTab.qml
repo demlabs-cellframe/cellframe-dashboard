@@ -1,14 +1,17 @@
 import QtQuick 2.4
+import "qrc:/"
+import "../../"
+import "../SettingsWallet.js" as SettingsWallet
 
-DapExchangeTabForm
+DapAbstractTab
 {
-    Text
-    {
-        id: textUnderConstruction0
-        text: "Under construction"
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        font:  mainFont.dapFont.regular28
-        color: "#00000000"
-    }
+    property var exchangeTokenModel: dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens
+
+    id: exchangeTab
+    color: currTheme.backgroundMainScreen
+
+    dapTopPanel: DapExchangeTopPanel { }
+    dapScreen: DapExchangeScreen { }
+    dapRightPanel: DapExchangeRightPanel { }
+
 }
