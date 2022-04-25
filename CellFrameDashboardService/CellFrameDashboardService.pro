@@ -31,10 +31,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
+    DapNetSyncController.cpp \
     DapNotificationWatcher.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
+    DapNetSyncController.h \
     DapNotificationWatcher.h
 
 include (../dap-ui-sdk/core/libdap-qt.pri)

@@ -51,6 +51,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapRcvNotify.h"
 #include "DapNotificationWatcher.h"
+#include "DapNetSyncController.h"
 
 #include "QTimer"
 
@@ -65,9 +66,10 @@ class DapServiceController : public QObject
     Q_OBJECT
 
     /// Service core.
-    DapUiService        * m_pServer {nullptr};
+    DapUiService        *m_pServer {nullptr};
 
     DapNotificationWatcher *watcher;
+    DapNetSyncController *m_syncControll;
   
 public:
     /// Standard constructor.
