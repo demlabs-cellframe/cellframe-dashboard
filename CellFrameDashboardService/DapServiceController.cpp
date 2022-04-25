@@ -39,6 +39,8 @@ bool DapServiceController::start()
 {
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
+    watcher = new DapNotificationWatcher(this);
+    m_syncControll = new DapNetSyncController(watcher, this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
@@ -53,7 +55,6 @@ bool DapServiceController::start()
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
         // Register command
         registerCommand();
-        watcher = new DapNotificationWatcher(this);
         connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
 
     }

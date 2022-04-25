@@ -338,7 +338,6 @@
         <file>screen/desktop/Certificates/DapCertificateScreen.qml</file>
         <file>screen/desktop/Certificates/DapCertificateTab.qml</file>
         <file>screen/desktop/Certificates/DapCertificateAtcions.qml</file>
-        <file>screen/desktop/Certificates/RightPanels/CertificateActions.qml</file>
         <file>screen/desktop/Certificates/RightPanels/CertificateInfoItem.qml</file>
         <file>screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml</file>
         <file>screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml</file>
