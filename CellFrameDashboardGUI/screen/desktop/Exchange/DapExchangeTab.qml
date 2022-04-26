@@ -1,17 +1,29 @@
-import QtQuick 2.4
-import "qrc:/"
-import "../../"
-import "../SettingsWallet.js" as SettingsWallet
+import QtQuick 2.12
+import QtQml 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
-DapAbstractTab
+import "../controls"
+
+DapPage
 {
-    property var exchangeTokenModel: dapModelWallets.get(SettingsWallet.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens
+    property var exchangeTokenModel: dapModelWallets.get(logicMainApp.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens
+//    id: exchangeTab
+//    color: currTheme.backgroundMainScreen
 
-    id: exchangeTab
-    color: currTheme.backgroundMainScreen
+//    dapTopPanel: DapExchangeTopPanel { }
+//    dapScreen: DapExchangeScreen { }
+//    dapRightPanel: DapExchangeRightPanel { }
 
-    dapTopPanel: DapExchangeTopPanel { }
-    dapScreen: DapExchangeScreen { }
-    dapRightPanel: DapExchangeRightPanel { }
+    dapHeader.initialItem: DapExchangeTopPanel
+    {
+        id: exchangeTopPanel
+    }
 
+    dapScreen.initialItem: DapExchangeScreen
+    {
+        id: exchangeScreen
+    }
+
+    onRightPanel: false
 }
