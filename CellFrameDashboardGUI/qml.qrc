@@ -17,14 +17,6 @@
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTab.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTopPanel.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTab.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTabForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTopPanelForm.ui.qml</file>
         <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
         <file>screen/desktop/History/DapHistoryScreen.qml</file>
         <file>screen/desktop/History/DapHistoryTab.qml</file>
@@ -345,5 +337,12 @@
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
         <file>screen/desktop/controls/CopyButton.qml</file>
         <file>screen/mobile/logic/LogicMobile.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeTab.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
+        <file>screen/desktop/Exchange/Parts/ExchangeTopPanel.qml</file>
     </qresource>
 </RCC>
