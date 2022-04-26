@@ -13,6 +13,8 @@ import "RightPanels"
 DapPage
 {
 
+    property alias dapCertScreen: certScreen
+
     Component{id: emptyRightPanel; Item{}}
 
     Utils {

@@ -11,6 +11,7 @@ import "../controls"
 Page
 {
     property alias dapDefaultRightPanel: defaultRightPanel
+    property alias dapScreen: certificatesListView
 
     anchors.fill: parent
 

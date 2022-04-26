@@ -115,7 +115,7 @@ void DapNotificationWatcher::socketStateChanged(QLocalSocket::LocalSocketState s
 
 void DapNotificationWatcher::socketReadyRead()
 {
-    qDebug() << "Ready Read";
+//    qDebug() << "Ready Read";
     QByteArray data = socket->readLine();
 //    QByteArray data = socket->readAll();
     if (data[data.length() - 1] != '}')
@@ -145,6 +145,7 @@ void DapNotificationWatcher::tcpSocketStateChanged(QAbstractSocket::SocketState 
 {
     qDebug() << "Notify socket state changed" << socketState;
     m_socketState = socketState;
+    changeConnectState(m_socketState);
 }
 
 void DapNotificationWatcher::reconnectFunc()

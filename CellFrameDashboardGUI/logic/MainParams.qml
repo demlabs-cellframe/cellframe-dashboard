@@ -17,12 +17,11 @@ QtObject {
 
     readonly property real maxCorrectScale: 1.25
 
-    readonly property int defaultMinWidth: isMobile? 500 :1280
-//    readonly property int defaultMinHeight: 600
-    readonly property int defaultMinHeight:isMobile? 600 : 800
+    readonly property int defaultMinWidth: isMobile? 0 : MIN_WIDTH
+    readonly property int defaultMinHeight: isMobile? 0 : MIN_HEIGHT
 
-    readonly property int defaultWidth: isMobile? 600 : 1280
-    readonly property int defaultHeight: isMobile? 700 : 800
+    readonly property int defaultWidth: isMobile? 600 : DEFAULT_WIDTH
+    readonly property int defaultHeight: isMobile? 700 : DEFAULT_HEIGHT
 
     property var minimumHeight: settings.window_scale < 1.0 ?
                                     defaultMinHeight * settings.window_scale :
@@ -45,12 +44,6 @@ QtObject {
 
     function initSize()
     {
-
-        if(isMobile) {
-            window.minimumWidth = 0
-            window.minimumHeight = 0
-        }
-
         var rect = framerect.getFrameRect(window);
         print("window", window.x, window.y, window.width, window.height)
         print("rect", rect.x, rect.y, rect.width, rect.height)
@@ -63,6 +56,9 @@ QtObject {
 
         print("left", leftBorder, "right", rightBorder,
               "top", topBorder, "bottom", bottomBorder)
+
+        print("defaultMinWidth", defaultMinWidth,
+              "defaultMinHeight", defaultMinHeight)
 
         if (settings.window_scale < 1.0)
         {
@@ -82,6 +78,10 @@ QtObject {
         if (window.minimumHeight > window.height)
             window.height = window.minimumHeight
 
+        if(isMobile) {
+            window.minimumWidth = 0
+            window.minimumHeight = 0
+        }
         checkSizeAndPosition()
 
         print("desktopAvailableWidth", Screen.desktopAvailableWidth,

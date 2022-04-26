@@ -13,6 +13,7 @@ ListView {
     signal infoClicked(int index)
 
     property string seletedCertificateAccessType: qsTr("Public")
+//    property alias infoText: infoTitleText
     property bool infoTitleTextVisible: false
     property bool infoTitleTextVisibleClick: false
 
@@ -120,6 +121,7 @@ ListView {
                 text: model.completeBaseName   //model.fileName
                 elide: Text.ElideRight
                 maximumLineCount: 1
+                color: currTheme.textColor
 
                 property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
 
@@ -174,7 +176,7 @@ ListView {
 
                 Behavior on opacity {
                     NumberAnimation {
-                        duration: 100
+                        duration: 300
                     }
                 }
 
