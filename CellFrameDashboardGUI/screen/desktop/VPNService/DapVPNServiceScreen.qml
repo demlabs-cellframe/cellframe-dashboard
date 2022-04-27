@@ -23,75 +23,74 @@ Page {
         color: currTheme.backgroundMainScreen
     }
 
-    DapRectangleLitAndShaded
+    Rectangle
     {
         id: orderCreateFrame
         anchors.fill: parent
-        anchors.horizontalCenter: parent.horizontalCenter
+//        anchors.topMargin: 41 * pt
+        anchors.leftMargin: 301 * pt
+        anchors.rightMargin: 281 * pt
+        anchors.bottomMargin: 131 * pt
+        anchors.topMargin: 50
 
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
-        shadowColor: currTheme.shadowColor
-        lightColor: currTheme.reflectionLight
+        color: "transparent"
 
-        contentData:
 
         Column
         {
+            y: 50 * pt
+            x: 40 * pt
             anchors.horizontalCenter: parent.horizontalCenter
-            Rectangle
-            {
-                height: 82.79 * pt
-                width: parent.width
-                color: "transparent"
-            }
 
-            Image
+            Item
             {
-                id: iconCreateOrder
-                sourceSize: Qt.size(500 * pt, 261 * pt)
-                source: "qrc:/resources/illustrations/illustration_vpn-service.svg"
-//                    width: 500 * pt
-//                    height: 300 * pt
+                width: iconCreateWallet.implicitWidth
+                height: iconCreateWallet.implicitHeight
+
+                Image
+                {
+                    anchors.fill: parent
+                    id: iconCreateWallet
+                    source: "qrc:/resources/illustrations/illustration_vpn-service.svg"
+                    sourceSize.width: 500 * pt
+                    sourceSize.height: 261 * pt
+                    fillMode: Image.PreserveAspectFit
+                }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-            Rectangle
+            Item
             {
-                height: 45 * pt
+                height: 30 * pt
                 width: parent.width
-                color: "transparent"
             }
 
             Text
             {
                 id: titleTextOrderCreate
-                font.family: "Quiksand"
-                font.pixelSize: 26 * pt
+                font: mainFont.dapFont.medium26
                 color: currTheme.textColor
                 text: qsTr("Create your first VPN order")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-            Rectangle
+            Item
             {
                 height: 21 * pt
                 width: parent.width
-                color: "transparent"
             }
             DapButton
             {
                 enabled: false
                 id: addOrderButton
-                implicitWidth: 180 * pt
-                implicitHeight: 36 * pt
-                radius: currTheme.radiusButton
-                anchors.horizontalCenter: parent.horizontalCenter
-                textButton: "New VPN order"
-                fontButton: mainFont.dapFont.regular16
-                horizontalAligmentText:Qt.AlignCenter
-                colorTextButton: "#FFFFFF"
 
+
+                implicitWidth: 165 * pt
+                implicitHeight: 36 * pt
+                anchors.horizontalCenter: parent.horizontalCenter
+                textButton: qsTr("New VPN order")
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText:Qt.AlignCenter
             }
-            Rectangle
+            Item
             {
                 height: Layout.fillHeight
                 width: parent.width

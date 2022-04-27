@@ -114,7 +114,7 @@ DapPage
         onTriggered:
         {
             dapServiceController.requestToService("DapGetListWalletsCommand")
-            dapServiceController.requestToService("DapGetListNetworksCommand")
+//            dapServiceController.requestToService("DapGetListNetworksCommand")
 
             if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
                 settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
