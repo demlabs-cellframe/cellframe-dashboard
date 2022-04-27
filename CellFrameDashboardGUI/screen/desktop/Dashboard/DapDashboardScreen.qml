@@ -108,17 +108,10 @@ Page
 
                 implicitWidth: 165 * pt
                 implicitHeight: 36 * pt
-//                radius: currTheme.radiusButton
                 anchors.horizontalCenter: parent.horizontalCenter
                 textButton: qsTr("Get started")
-//                colorBackgroundNormal: currTheme.buttonColorNormal
-//                colorBackgroundHover: currTheme.buttonColorHover
-//                colorButtonTextNormal: currTheme.textColor
-//                colorButtonTextHover: currTheme.textColor
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText:Qt.AlignCenter
-//                colorTextButton: "#FFFFFF"
-
             }
             Item
             {

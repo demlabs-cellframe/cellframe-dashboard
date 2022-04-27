@@ -40,11 +40,14 @@ Rectangle
 //>>>>>>> ad58c27b1072b9518c9ab46b926a13144720515f
     Timer {
         id: idNetworkPanelTimer
-        interval: 0; running: true; repeat: true
+        interval: logicMainApp.autoUpdateInterval; running: true; repeat: true
         onTriggered:
         {
             console.log("NETWORK TIMER TICK")
-            dapServiceController.requestToService("DapGetNetworksStateCommand")
+            dapServiceController.requestToService("DapGetListNetworksCommand")
+//            dapServiceController.requestToService("DapGetNetworksStateCommand")
+
+
         }
     }
 
