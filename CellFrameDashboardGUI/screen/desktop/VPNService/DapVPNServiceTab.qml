@@ -96,6 +96,11 @@ DapPage {
                 }
                 PropertyChanges
                 {
+                    target: dapHeaderFrame;
+                    visible: false
+                }
+                PropertyChanges
+                {
                     target: dapRightPanelFrame;
                     visible: false
                 }
@@ -120,6 +125,11 @@ DapPage {
                 }
                 PropertyChanges
                 {
+                    target: dapHeaderFrame;
+                    visible: true
+                }
+                PropertyChanges
+                {
                     target: dapRightPanelFrame;
                     visible: true
                 }
@@ -140,6 +150,11 @@ DapPage {
                 PropertyChanges
                 {
                     target: vpnServiceScreen.dapGridViewOrder;
+                    visible: false
+                }
+                PropertyChanges
+                {
+                    target: dapHeaderFrame;
                     visible: false
                 }
                 PropertyChanges

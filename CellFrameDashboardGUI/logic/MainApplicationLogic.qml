@@ -175,6 +175,7 @@ QtObject {
 
     function rcvNetList(networksList)
     {
+        console.log(networksList.length, "AAAAAAAAAAAAAAAAAAAAAAAAa")
         if (!networksList.length)
             console.error("networksList is empty")
         else
