@@ -337,8 +337,6 @@
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
         <file>screen/desktop/controls/CopyButton.qml</file>
         <file>screen/mobile/logic/LogicMobile.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
         <file>screen/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTab.qml</file>

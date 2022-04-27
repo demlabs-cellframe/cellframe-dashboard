@@ -61,7 +61,7 @@ Rectangle
                 roleInterval: 15
                 endRowPadding: 37
 
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
             }
@@ -104,7 +104,7 @@ Rectangle
                 roleInterval: 15
                 endRowPadding: 37
 
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+                fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
             }
@@ -129,7 +129,7 @@ Rectangle
                 anchors.bottom: value_lastPrice.top
                 anchors.bottomMargin: 6 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: mainFont.dapFont.regular12
                 text: qsTr("Last price")
             }
             Text
@@ -138,7 +138,7 @@ Rectangle
                 anchors.left: lastPrice.left
                 anchors.bottom: lastPrice.bottom
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: mainFont.dapFont.regular14
                 text: qsTr("$ 10 807.35 NGD")
             }
             Text
@@ -147,7 +147,7 @@ Rectangle
                 anchors.bottom: lastPrice.bottom
                 anchors.leftMargin: 6 * pt
                 color: "#6F9F00"
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: mainFont.dapFont.regular12
                 text: qsTr("+3.59%")
             }
         }
@@ -164,7 +164,7 @@ Rectangle
                 anchors.bottom: value_valume24.top
                 anchors.bottomMargin: 6 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                font: mainFont.dapFont.regular12
                 text: qsTr("24h volume")
             }
             Text
@@ -173,7 +173,7 @@ Rectangle
                 anchors.right: volume24.right
                 anchors.bottom: volume24.bottom
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+                font: mainFont.dapFont.regular14
                 text: qsTr("9 800 TKN1")
             }
         }

@@ -11,7 +11,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 
-Page
+DapExchangeScreenForm
 {
 /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
@@ -455,7 +455,7 @@ Page
                 ctx.strokeStyle = lineColorArea;
                 ctx.moveTo(x, chartCanvas.height-fontSizeArea-topMarginXAxisText);
                 ctx.lineTo(x, thisProperty.fieldYMin);
-                ctx.font = "normal "+fontSizeArea+ "px Roboto";
+                ctx.font = "normal "+fontSizeArea+ "px Quicksand";
                 ctx.fillStyle = fontColorArea;
                 ctx.fillText(text,x-13,chartCanvas.height);
                 ctx.stroke();
@@ -470,7 +470,7 @@ Page
                 ctx.strokeStyle = lineColorArea;
                 ctx.moveTo(thisProperty.fieldXMax, y);
                 ctx.lineTo(0, y);
-                ctx.font = "normal "+fontSizeArea+ "px Roboto";
+                ctx.font = "normal "+fontSizeArea+ "px Quicksand";
                 ctx.fillStyle = fontColorArea;
                 ctx.fillText(text,chartCanvas.width - rightTextField,y+3);
                 ctx.stroke();
@@ -521,7 +521,7 @@ Page
                 ctx.moveTo(0, y);
                 ctx.lineTo(chartCanvas.width - imageCursorWidth + 4, y);
                 ctx.drawImage(imageCursorPath, chartCanvas.width-imageCursorWidth, y-imageCursorHeight/2,imageCursorWidth,imageCursorHeight);
-                ctx.font = "normal " +fontSizeCursor+ "px Roboto";
+                ctx.font = "normal " +fontSizeCursor+ "px Quicksand";
                 ctx.fillStyle = colorCursorFont;
                 ctx.fillText(text,chartCanvas.width - rightTextField - (5*pt),y+imageCursorHeight/5);
                 ctx.stroke();

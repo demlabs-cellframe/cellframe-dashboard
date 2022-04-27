@@ -4,7 +4,7 @@ import "qrc:/widgets"
 import "../../"
 import "Parts"
 
-DapAbstractScreen
+Page
 {
     //@detalis listHistoryVisible To change the visibility of a story list.
     property alias dapListHistoryVisible: listHistory.visible
@@ -13,20 +13,16 @@ DapAbstractScreen
     //@detalis dapIconHistoryButton Link to the resource of the picture in the history button.
     property alias dapIconHistoryButton: tradeHistoryButtonIcon.source
 
-    anchors
+    background: Rectangle
     {
-        fill: parent
-//        topMargin: 24 * pt
-        rightMargin: 44 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
+        color: currTheme.backgroundMainScreen
     }
 
     DapRectangleLitAndShaded
     {
         id: mainFrameDashboard
         anchors.fill: parent
-        anchors.topMargin: 24 * pt
+//        anchors.topMargin: 24 * pt
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
         shadowColor: currTheme.shadowColor
@@ -146,7 +142,7 @@ DapAbstractScreen
                                 anchors.topMargin: 16 * pt
                                 width: 336 * pt
                                 color: currTheme.textColor
-                                font: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular16
+                                font: mainFont.dapFont.regular16
                                 anchors.verticalCenter: parent.verticalCenter
                             }
 
@@ -164,7 +160,7 @@ DapAbstractScreen
                                 Item
                                 {
                                     anchors.fill: parent
-//                                    color: "#FFFFFF"
+        //                                    color: "#FFFFFF"
                                     Image
                                     {
                                         id: tradeHistoryButtonIcon
@@ -205,7 +201,7 @@ DapAbstractScreen
                                         id: timeExchangeHeader
                                         text: qsTr("Time")
                                         color: currTheme.textColor
-                                        font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                                        font.family: mainFont.dapFont.regular10
                                         anchors.top: parent.top
                                         anchors.left: parent.left
                                         width: 149 * pt
@@ -216,7 +212,7 @@ DapAbstractScreen
                                         id: priceExchangeHeader
                                         text: qsTr("Price,NGD")
                                         color: currTheme.textColor
-                                        font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                                        font.family: mainFont.dapFont.regular10
                                         anchors.top: parent.top
                                         anchors.left: timeExchangeHeader.right
                                         anchors.leftMargin: 20 * pt
@@ -228,7 +224,7 @@ DapAbstractScreen
                                         id: tokenExchangeHeader
                                         text: qsTr("TKN1")
                                         color: currTheme.textColor
-                                        font.family: dapMainFonts.dapMainFontTheme.dapFontRobotoRegular10
+                                        font.family: mainFont.dapFont.regular10
                                         anchors.top: parent.top
                                         anchors.left: priceExchangeHeader.right
                                         anchors.leftMargin: 20 * pt
