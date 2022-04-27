@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import "qrc:/widgets"
 import "../../"
 import "Parts"
+import "logic"
 
 Page
 {
@@ -166,7 +167,7 @@ Page
                                         id: tradeHistoryButtonIcon
                                         width: 22 * pt
                                         height: 22 * pt
-                                        source: "qrc:/resources/icons/ic_chevron_down.png"
+                                        source: "qrc:/resources/icons/ic_chevron_up.png"
                                     }
                                 }
                             }
@@ -180,7 +181,7 @@ Page
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
-                            visible: false
+                            visible: true
                             model: modelExchangeHistory
                             delegate: delegateExchangeHistory
                             clip: true

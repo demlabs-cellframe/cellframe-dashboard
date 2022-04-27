@@ -10,119 +10,31 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
+import "logic"
 
 DapExchangeScreenForm
 {
-/************************************************************************************************
-                                DapUiQmlWidgetChainExchanges
--------------------------------------------------------------------------------------------------
-                                       CandleStick model
-************************************************************************************************/
-    ListModel{
-        id:candleModel
-        ListElement{time:1546543400;minimum:10000;maximum:10550;open:10050;close:10100;}
-        ListElement{time:1546543700;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546544000;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546544300;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546544600;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546544900;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546545200;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546545500;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546545800;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546546100;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546546400;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546546700;minimum:10300;maximum:10550;open:10450;close:10400;}
-        ListElement{time:1546547000;minimum:10200;maximum:10650;open:10350;close:10400;}
-        ListElement{time:1546547300;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546547600;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546547900;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546548200;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546548500;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546548800;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546549100;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546549400;minimum:10300;maximum:10650;open:10450;close:10400;}
-        ListElement{time:1546549700;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546550000;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546550300;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546550600;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546550900;minimum:10500;maximum:10650;open:10550;close:10580;}
-        ListElement{time:1546551200;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546551500;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546551800;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546552100;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546552400;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546552700;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546553000;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546553300;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546553600;minimum:10650;maximum:10950;open:10800;close:10750;}
-        ListElement{time:1546553900;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546554200;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546554500;minimum:10200;maximum:10450;open:10350;close:10400;}
-        ListElement{time:1546554800;minimum:10200;maximum:10450;open:10350;close:10400;}
-    }
-/************************************************************************************************
-                                DapUiQmlWidgetChainExchanges
--------------------------------------------------------------------------------------------------
-                                      Converson model
-************************************************************************************************/
+    ListModel{ id: candleModel }
 
-    ListModel
+    ListModel{ id: conversionList }
+
+    ListModel{ id: timeModel }
+
+    ListModel{ id: orderModel }
+
+    ListModel{ id: modelExchangeHistory }
+
+    LogicExchange { id: logicExchange }
+
+    Component.onCompleted:
     {
-        id: conversionList
-        ListElement{text: "TKN1/NGD"}
-        ListElement{text: "TKN2/NGD"}
-        ListElement{text: "NGD/KLVN"}
-        ListElement{text: "KLVN/USD"}
-    }
-/************************************************************************************************
-                                DapUiQmlWidgetChainExchanges
--------------------------------------------------------------------------------------------------
-                                           Time model
-************************************************************************************************/
-    ListModel
-    {
-        id: timeModel
-        ListElement{text: "1 minute"}
-        ListElement{text: "5 minute"}
-        ListElement{text: "15 minute"}
-        ListElement{text: "30 minute"}
-        ListElement{text: "1 hour"}
-        ListElement{text: "4 hour"}
-        ListElement{text: "12 hour"}
-        ListElement{text: "24 hour"}
-    }
-    /************************************************************************************************
-                                DapUiQmlWidgetChainExchanges
--------------------------------------------------------------------------------------------------
-                                        Orders model
-************************************************************************************************/
-    ListModel
-    {
-        id: orderModel
-        ListElement{titleOrder:"Buy"; path:"qrc:/resources/icons/buy_icon.png";currencyName: qsTr("KLVN");tokenName: qsTr("TKN1");balance: 0}
-        ListElement{titleOrder:"Sell"; path:"qrc:/resources/icons/sell_icon.png";currencyName: qsTr("KLVN");tokenName: qsTr("TKN1");balance: 0}
+        logicExchange.initCandleStickModel()
+        logicExchange.initConversonModel()
+        logicExchange.initTimeModel()
+        logicExchange.initOrdersModel()
+        logicExchange.initHistoryModel()
     }
 
-    /************************************************************************************************
-                                DapUiQmlWidgetChainExchanges
--------------------------------------------------------------------------------------------------
-                                        History model
-************************************************************************************************/
-
-    ListModel
-    {
-        id: modelExchangeHistory
-        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.05013112}
-        ListElement{time:"Jule,11,11:55";status:"Buy";price:10550;token:1.00502423}
-        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:100.502222}
-        ListElement{time:"Jule,11,11:55";status:"Buy";price:10550;token:1.00503453}
-        ListElement{time:"Jule,11,11:55";status:"Buy";price:10.23423;token:1005.0}
-        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.050345}
-        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:10.05021312}
-        ListElement{time:"Jule,11,11:55";status:"Buy";price:150.12;token:1.005034543}
-        ListElement{time:"Jule,11,11:55";status:"Sell";price:10550;token:100.5012321}
-
-    }
 /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
 -------------------------------------------------------------------------------------------------
@@ -345,7 +257,7 @@ DapExchangeScreenForm
                         if(count>10)thisProperty.modelCountMin = count-cashCandle;
                         else thisProperty.modelCountMin = 0;
                     }
-                    if(!isEnded | rightTime>candleModel.get(count).time)
+                    if(!isEnded | rightTime > candleModel.get(count).time)
                     {
                         isEnded = true;
                         if(count < candleModel.count-10)thisProperty.modelCountMax = count+cashCandle;
@@ -883,7 +795,7 @@ DapExchangeScreenForm
         }
     }
 
-/*    Connections
+    Connections
     {
         target: dapHistoryButton
         onClicked:
@@ -899,7 +811,7 @@ DapExchangeScreenForm
                 dapIconHistoryButton = "qrc:/resources/icons/ic_chevron_up.png"
             }
         }
-    }*/
+    }
 }
 /*##^##
 Designer {

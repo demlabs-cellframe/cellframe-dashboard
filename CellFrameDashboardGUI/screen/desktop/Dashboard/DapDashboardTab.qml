@@ -44,7 +44,7 @@ DapPage
     }
 
     ListModel {id: networksModel}
-    LogicWallet{id: logigWallet}
+    LogicWallet{id: logicWallet}
 
     QtObject {
         id: navigator
@@ -242,10 +242,10 @@ DapPage
                     navigator.popPage()
                 }
 
-                logigWallet.updateAllWallets()
+                logicWallet.updateAllWallets()
             }
             else
-                logigWallet.updateCurrentWallet()
+                logicWallet.updateCurrentWallet()
         }
     }
 
@@ -254,10 +254,10 @@ DapPage
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            logigWallet.updateComboBox()
+            logicWallet.updateComboBox()
 
             // FOR DEBUG
-//            logigWallet.updateCurrentWallet()
+//            logicWallet.updateCurrentWallet()
         }
     }
 
@@ -266,13 +266,13 @@ DapPage
         target: dapServiceController
         onWalletCreated:
         {
-            logigWallet.updateAllWallets()
+            logicWallet.updateAllWallets()
         }
     }
 
     Component.onCompleted:
     {
-        logigWallet.updateComboBox()
+        logicWallet.updateComboBox()
 
         if (!updateTimer.running)
             updateTimer.start()
