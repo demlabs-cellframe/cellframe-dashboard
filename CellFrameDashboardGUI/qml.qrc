@@ -338,10 +338,14 @@
         <file>screen/desktop/controls/CopyButton.qml</file>
         <file>screen/mobile/logic/LogicMobile.qml</file>
         <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTab.qml</file>
         <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/Parts/ExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/logic/LogicExchange.qml</file>
+        <file>screen/desktop/Exchange/Parts/CandleChart.qml</file>
+        <file>screen/desktop/Exchange/logic/LogicCandleChart.qml</file>
+        <file>screen/desktop/Exchange/Parts/OrderPanelDelegate.qml</file>
+        <file>screen/desktop/Exchange/Parts/ExchangeHistoryDelegate.qml</file>
+        <file>screen/desktop/Exchange/Parts/ExchangeHistoryWidget.qml</file>
     </qresource>
 </RCC>
