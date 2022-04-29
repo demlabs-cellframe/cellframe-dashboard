@@ -181,9 +181,9 @@ Rectangle {
 //            showTab: true,
 //            page: "qrc:/screen/desktop/Plugins/Plugin/DapApp.qml"})
 
-            logicMainApp.initTabs()
-            pluginsTabChanged(true,false,"")
-        }
+//            logicMainApp.initTabs()
+//            pluginsTabChanged(true,false,"")
+//        }
     }
 
     //----------------------//
