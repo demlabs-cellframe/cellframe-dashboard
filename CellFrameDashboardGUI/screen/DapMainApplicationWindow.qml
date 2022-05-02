@@ -7,7 +7,8 @@ import QtQuick.Layouts 1.3
 
 import "qrc:/screen"
 import "qrc:/widgets"
-import "qrc:/screen/desktop/NetworksPanel"
+//import "qrc:/screen/desktop/NetworksPanel"
+import "desktop/Networks"
 import "qrc:/logic"
 import "desktop/controls"
 
@@ -337,7 +338,13 @@ Rectangle {
         smooth: true
     }
 
-    DapControlNetworksPanel
+//    DapControlNetworksPanel
+//    {
+//        id: networksPanel
+//        height: 40 * pt
+//    }
+
+    DapNetworksPanel
     {
         id: networksPanel
         height: 40 * pt
@@ -357,7 +364,7 @@ Rectangle {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetNetworksStateCommand")
+//        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
         pluginsManager.getListPlugins();
 

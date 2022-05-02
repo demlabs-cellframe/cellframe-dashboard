@@ -345,7 +345,11 @@
         <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
         <file>screen/desktop/Exchange/Parts/ExchangeTopPanel.qml</file>
         <file>screen/desktop/Networks/DapNetworksPanel.qml</file>
-        <file>screen/desktop/Networks/DapNetworksButton.qml</file>
         <file>screen/desktop/Networks/logic/LogicNetworks.qml</file>
+        <file>screen/desktop/Networks/parts/DapNetworkButton.qml</file>
+        <file>screen/desktop/Networks/parts/DapNetworkDelegate.qml</file>
+        <file>screen/desktop/Networks/parts/DapInfoDelegate.qml</file>
+        <file>screen/desktop/Networks/parts/DapInfoButton.qml</file>
+        <file>screen/desktop/Networks/parts/DapRowInfoText.qml</file>
     </qresource>
 </RCC>

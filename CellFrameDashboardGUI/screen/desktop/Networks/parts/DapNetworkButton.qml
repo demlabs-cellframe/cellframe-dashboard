@@ -36,10 +36,17 @@ Item {
         onEntered: {controlImg.source = control.hoverIcon}
         onExited: {controlImg.source = control.normalIcon}
 
-        onClicked: control.clicked()
-        onPressed: {controlImg.source = control.pressedIcon}
-        onReleased: {containsMouse ? control.hoverIcon : control.normalIcon}
-
-
+//        onClicked: {
+//            control.clicked()
+//            controlImg.source = control.pressedIcon
+//            logicNet.delay(200, function(){controlImg.source = containsMouse ? control.hoverIcon : control.normalIcon})
+//        }
+        onPressed: {
+            controlImg.source = control.pressedIcon
+        }
+        onReleased: {
+            control.clicked()
+            logicNet.delay(100, function(){controlImg.source = containsMouse ? control.hoverIcon : control.normalIcon})
+        }
     }
 }

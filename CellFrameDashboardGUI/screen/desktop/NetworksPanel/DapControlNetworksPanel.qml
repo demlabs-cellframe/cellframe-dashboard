@@ -321,6 +321,11 @@ Rectangle
         }
     }
 
+    Component.onCompleted:
+    {
+        dapServiceController.requestToService("DapGetNetworksStateCommand")
+    }
+
 
     function closeAllPopups(popups, count)
     {
