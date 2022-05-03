@@ -8,6 +8,8 @@ import "../../controls"
 Popup {
     property alias imgStatus: nameStatus
     property bool isOpen: false
+    property real startY: 0
+    property real stopY: 0
 
     id: popupItem
 
@@ -51,11 +53,11 @@ Popup {
 
     enter: Transition {
                 NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200 }
-//                NumberAnimation { property: "y"; from: 0; to: popupItem.y; duration: 200 }
+                NumberAnimation { property: "y"; from: startY; to: stopY; duration: 200 }
             }
     exit: Transition {
                 NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 200 }
-//                NumberAnimation { property: "y"; from: popupItem.y; to: 0; duration: 200 }
+                NumberAnimation { property: "y"; from: stopY; to: startY; duration: 200 }
             }
 
     contentItem:

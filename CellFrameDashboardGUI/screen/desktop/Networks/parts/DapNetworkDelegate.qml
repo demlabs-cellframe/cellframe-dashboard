@@ -123,21 +123,23 @@ Component {
             info.x = controlDelegate.width/2 - info.width/2/info.scale
             if (params.mainWindowScale < 1.0)
             {
-                info.y = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
+                info.startY = controlDelegate.height + 2
+                info.stopY = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
                 print("setInfoPosition info.scale < 1.0")
             }
             else
             if (params.mainWindowScale === 1.0)
             {
-                info.y = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
+                info.startY = controlDelegate.height + 2
+                info.stopY = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
                 print("setInfoPosition info.scale === 1.0")
             }
             else
             {
-                info.y = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height
+                info.startY = controlDelegate.height
+                info.stopY = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height
                 print("setInfoPosition info.scale >= 1.0")
             }
-
         }
     }
 
