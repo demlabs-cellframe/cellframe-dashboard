@@ -95,10 +95,13 @@ QtObject {
 
     function searchElement(text)
     {
+        var fstr = text.toLocaleLowerCase()
+
         listModelApps.clear()
         for(var i = 0; i < temporaryModel.count; i++)
         {
-            if(temporaryModel.get(i).name.includes(text))
+            var name = temporaryModel.get(i).name
+            if(name.toLowerCase().indexOf(fstr) >= 0)
             {
                 if(dAppsScreen.currentFiltr === "Both")
                 {
