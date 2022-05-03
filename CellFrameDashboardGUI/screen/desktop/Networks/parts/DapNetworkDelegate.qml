@@ -80,19 +80,16 @@ Component {
             width: item_width
             height: 190
 
-            x: controlDelegate.width/2 - width/2/mainWindow.scale - 0.5
-            y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
+            x: 0
+            y: 0
 
             imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
 
             scale: mainWindow.scale
+
             Component.onCompleted:
             {
-                if (params.mainWindowScale > 1.0)
-                {
-                    x = controlDelegate.width/2 - width/2/mainWindow.scale
-                    y = -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
-                }
+                setInfoPosition()
             }
         }
 
@@ -108,18 +105,41 @@ Component {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log("CLICK NET", info.y, -150 * mainWindow.scale)
+                console.log("CLICK NET", info.y)
                 if(info.isOpen)
                     info.close()
                 else
                 {
                     networkList.closePopups()
-                    info.y = -150
+                    setInfoPosition()
                     info.open()
                 }
                 info.isOpen = !info.isOpen
                 console.log("CLICK NET", info.y)
             }
         }
+
+        function setInfoPosition() {
+            info.x = controlDelegate.width/2 - info.width/2/info.scale
+            if (params.mainWindowScale < 1.0)
+            {
+                info.y = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
+                print("setInfoPosition info.scale < 1.0")
+            }
+            else
+            if (params.mainWindowScale === 1.0)
+            {
+                info.y = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
+                print("setInfoPosition info.scale === 1.0")
+            }
+            else
+            {
+                info.y = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height
+                print("setInfoPosition info.scale >= 1.0")
+            }
+
+        }
     }
+
+
 }

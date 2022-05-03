@@ -51,10 +51,11 @@ Popup {
 
     enter: Transition {
                 NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200 }
+//                NumberAnimation { property: "y"; from: 0; to: popupItem.y; duration: 200 }
             }
     exit: Transition {
                 NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 200 }
-                NumberAnimation { property: "y"; from: popupItem.y; to: 0; duration: 200 }
+//                NumberAnimation { property: "y"; from: popupItem.y; to: 0; duration: 200 }
             }
 
     contentItem:
