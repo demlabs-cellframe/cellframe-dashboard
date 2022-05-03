@@ -19,7 +19,6 @@ Component {
             id:content
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
-//                anchors.fill: parent
             spacing: 5 * pt
 
             Item {
@@ -58,22 +57,6 @@ Component {
             }
         }
 
-//        Rectangle
-//        {
-//            id: info
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.horizontalCenter: parent.horizontalCenter
-
-//            height: 190
-//            y: -height*(1 + 1/mainWindow.scale)*0.5 + controlDelegate.height
-
-
-//            Text{
-//                anchors.fill: parent
-//                text: "Hello"
-//            }
-//        }
-
         DapInfoDelegate
         {
             id: info
@@ -105,7 +88,7 @@ Component {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log("CLICK NET", info.y)
+//                console.log("CLICK NET", info.y)
                 if(info.isOpen)
                     info.close()
                 else
@@ -115,7 +98,7 @@ Component {
                     info.open()
                 }
                 info.isOpen = !info.isOpen
-                console.log("CLICK NET", info.y)
+//                console.log("CLICK NET", info.y)
             }
         }
 
@@ -125,20 +108,20 @@ Component {
             {
                 info.startY = controlDelegate.height + 2
                 info.stopY = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
-                print("setInfoPosition info.scale < 1.0")
+//                print("setInfoPosition info.scale < 1.0")
             }
             else
             if (params.mainWindowScale === 1.0)
             {
                 info.startY = controlDelegate.height + 2
                 info.stopY = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height + 2
-                print("setInfoPosition info.scale === 1.0")
+//                print("setInfoPosition info.scale === 1.0")
             }
             else
             {
                 info.startY = controlDelegate.height
                 info.stopY = -info.height*(1 + 1/info.scale)*0.5 + controlDelegate.height
-                print("setInfoPosition info.scale >= 1.0")
+//                print("setInfoPosition info.scale >= 1.0")
             }
         }
     }

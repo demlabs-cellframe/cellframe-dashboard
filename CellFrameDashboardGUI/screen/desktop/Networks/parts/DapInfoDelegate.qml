@@ -49,6 +49,15 @@ Popup {
         }
     }
 
+    onIsOpenChanged:{
+        if(isOpen){
+            buttonSync.enabled = true
+            buttonNetwork.enabled = true
+        }else{
+            buttonSync.enabled = false
+            buttonNetwork.enabled = false
+        }
+    }
 
 
     enter: Transition {
@@ -113,7 +122,7 @@ Popup {
                             else
                                 buttonNetwork.textBut = qsTr("Off network")
 
-                            console.log(targetState, networkState )
+//                            console.log(targetState, networkState )
                         }
                     }
                 }
@@ -212,9 +221,6 @@ Popup {
                     }
 
                     RowLayout {
-
-//                        x: (popupItem.width/2 - (nameText.width + nameStatus.width + spacing) /2)
-//                        Layout.topMargin: errorMsg.visible? 11 : 34
                         Layout.fillWidth: false
                         Layout.alignment: Qt.AlignHCenter
 

@@ -22,6 +22,12 @@ Item {
     width: parent.width
     height: 40
 
+    Timer {
+        id: idNetworkPanelTimer
+        interval: /*logicMainApp.autoUpdateInterval*/5000; running: true; repeat: true
+        onTriggered: dapServiceController.requestToService("DapGetListNetworksCommand")
+    }
+
     Item
     {
         id: animationController

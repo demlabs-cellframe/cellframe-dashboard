@@ -45,7 +45,7 @@ Item {
             }
 
         background: Rectangle {
-    //        color: "transparent"
+            color: currTheme.buttonNetworkColorNoActive
             LinearGradient
             {
                 anchors.fill: parent
