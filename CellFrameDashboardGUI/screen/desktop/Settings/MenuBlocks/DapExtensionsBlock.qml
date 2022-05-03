@@ -92,6 +92,7 @@ ColumnLayout
                 {
                     anchors.fill: parent
                     anchors.verticalCenter: parent.verticalCenter
+                    spacing: 0
 //                    anchors.topMargin: 16 * pt
 //                    anchors.bottomMargin: 16 * pt
 
@@ -99,11 +100,13 @@ ColumnLayout
                     {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         Layout.leftMargin: 15 * pt
+                        Layout.maximumWidth: 250
 
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: name
+                        elide: Text.ElideMiddle
                     }
 
                     DapSwitch
