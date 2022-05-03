@@ -48,9 +48,9 @@ Popup {
             opacity: 1
         }
     }
-
-    onIsOpenChanged:{
-        if(isOpen){
+    onOpenedChanged:
+    {
+        if(opened){
             buttonSync.enabled = true
             buttonNetwork.enabled = true
         }else{
@@ -58,7 +58,6 @@ Popup {
             buttonNetwork.enabled = false
         }
     }
-
 
     enter: Transition {
                 NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200 }
@@ -97,6 +96,7 @@ Popup {
 
                     DapInfoButton {
                         id: buttonSync
+                        enabled: false
                         Layout.fillWidth: true
                         height: 24
                         isSynch: true
@@ -105,6 +105,7 @@ Popup {
 
                     DapInfoButton {
                         id: buttonNetwork
+                        enabled: false
                         Layout.fillWidth: true
                         height: 24
                         Component.onCompleted: setText()
@@ -249,8 +250,10 @@ Popup {
                             mipmap: true
 
                             source: networkState === "ONLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
-                                    networkState === "ERROR" ?  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
-                                                                "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
+                                    networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
+                                                                 "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
+
+                            opacity: networkState !== targetState? animationController.opacity : 1
                         }
                     }
                     Item {

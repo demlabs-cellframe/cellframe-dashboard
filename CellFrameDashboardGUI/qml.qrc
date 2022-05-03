@@ -113,12 +113,6 @@
         <file>resources/icons/ic_tokens_hover.svg</file>
         <file>resources/icons/ic_tokens.svg</file>
         <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>screen/desktop/NetworksPanel/DapNetworksPanel.qml</file>
-        <file>screen/desktop/NetworksPanel/DapNetworkPanelButton.qml</file>
-        <file>screen/desktop/NetworksPanel/DapNetworksList.qml</file>
-        <file>screen/desktop/NetworksPanel/DapNetworkPopup.qml</file>
-        <file>screen/desktop/NetworksPanel/DapNetworkName.qml</file>
-        <file>screen/desktop/NetworksPanel/DapNetworkPopupButton.qml</file>
         <file>resources/icons/ic_copy.svg</file>
         <file>resources/icons/ic_copy_hover.svg</file>
         <file>resources/icons/icon_on_off_net.svg</file>
@@ -211,9 +205,6 @@
         <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
-        <file>screen/desktop/NetworksPanel/DapControlNetworksPanel.qml</file>
-        <file>screen/desktop/NetworksPanel/NetworkInfoPopup.qml</file>
-        <file>screen/desktop/NetworksPanel/DapNetworkButton.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
         <file>resources/icons/BlackTheme/check_icon.png</file>

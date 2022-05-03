@@ -62,18 +62,10 @@ Component {
             id: info
             width: item_width
             height: 190
-
             x: 0
             y: 0
-
-            imgStatus.opacity: networkState !== targetState? animationController.opacity : 1
-
             scale: mainWindow.scale
-
-            Component.onCompleted:
-            {
-                setInfoPosition()
-            }
+            Component.onCompleted: setInfoPosition()
         }
 
         Connections
