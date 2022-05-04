@@ -9,7 +9,7 @@ DapNetSyncController::DapNetSyncController(DapNotificationWatcher* watcher, QObj
 
     m_timerSync = new QTimer(this);
     connect(m_timerSync, SIGNAL(timeout()), this, SLOT(updateTick()));
-    m_timerSync->start(1000 * 60 * 20); //20 min timer
+    m_timerSync->start(1000 * 60 * 5); //5 min timer
 
     connect(m_notifWatch, SIGNAL(changeConnectState(QString)), this, SLOT(rcvNotifState(QString)));
 }

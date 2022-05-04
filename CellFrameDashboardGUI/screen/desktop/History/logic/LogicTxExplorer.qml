@@ -208,16 +208,18 @@ QtObject {
 
     function checkText(item, line)
     {
-        if (item.network.includes(line))
+        var fstr = line.toLocaleLowerCase()
+
+        if (item.network.toLowerCase().indexOf(fstr) >= 0)
             return true
 
-        if (item.name.includes(line))
+        if (item.name.toLowerCase().indexOf(fstr) >= 0)
             return true
 
-        if (item.status.includes(line))
+        if (item.status.toLowerCase().indexOf(fstr) >= 0)
             return true
 
-        if (item.amount.toString().includes(line))
+        if (item.amount.toString().toLowerCase().indexOf(fstr) >= 0)
             return true
 
         return false
