@@ -40,7 +40,7 @@ Item {
                     Layout.rightMargin: isSynch ? 22 * pt : 28 * pt
                     font: mainFont.dapFont.medium12
                     color: currTheme.textColor
-                    text: isSynch ? qsTr("Sync Network") : qsTr("On network")
+                    text: isSynch ? qsTr("Sync network") : qsTr("On network")
                 }
             }
 
