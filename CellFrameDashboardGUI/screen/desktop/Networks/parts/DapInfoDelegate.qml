@@ -98,18 +98,20 @@ Popup {
                         id: buttonSync
                         enabled: false
                         Layout.fillWidth: true
-                        height: 24
+                        Layout.fillHeight: true
+//                        height: 24
                         isSynch: true
-                        button.onClicked: dapServiceController.requestToService("DapNetworkSingleSyncCommand", name)
+                        onClicked: dapServiceController.requestToService("DapNetworkSingleSyncCommand", name)
                     }
 
                     DapInfoButton {
                         id: buttonNetwork
                         enabled: false
                         Layout.fillWidth: true
-                        height: 24
+                        Layout.fillHeight: true
+//                        height: 24
                         Component.onCompleted: setText()
-                        button.onClicked: {
+                        onClicked: {
                             if (targetState !== "ONLINE" && networkState !== "ONLINE" )
                                 dapServiceController.requestToService("DapNetworkGoToCommand", name, true)
                             else

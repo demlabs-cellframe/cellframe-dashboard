@@ -18,7 +18,7 @@ QtObject {
 
     readonly property int autoUpdateInterval: 3000
 
-    property bool stateNotify: true
+    property bool stateNotify: false
 
     property string lastVersion
     property bool hasUpdate
