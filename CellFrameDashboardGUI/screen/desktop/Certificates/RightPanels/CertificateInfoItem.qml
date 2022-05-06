@@ -7,7 +7,7 @@ import "../parts"
 
 Page {
     id: root
-    property alias closeButton: closeButton
+    property alias closeButton: itemButtonClose
     property alias certificateDataListView: certificateDataListView
 
     background: Rectangle {
@@ -21,57 +21,68 @@ Page {
 
         Item
         {
-            Layout.fillHeight: true
             Layout.fillWidth: true
+            height: 38 * pt
+            DapButton
+            {
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 9 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 24 * pt
+                anchors.rightMargin: 13 * pt
 
-            Item {
-                id: titleRectangle
-                width: parent.width
-                height: 40 * pt
+                id: itemButtonClose
+                height: 20 * pt
+                width: 20 * pt
+                heightImageButton: 10 * pt
+                widthImageButton: 10 * pt
+                activeFrame: false
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                onClicked: certificateNavigator.clearRightPanel()
+            }
 
-                CloseButton {
-                    id: closeButton
-                    x: 16 * pt
+            Text
+            {
+                id: textHeader
+                text: qsTr("Info about certificate")
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 52 * pt
 
-                    onClicked: certificateNavigator.clearRightPanel()
-                }  //
+                font: mainFont.dapFont.bold14
+                color: currTheme.textColor
+            }
+        }
 
-                Text {
-                    id: certificatesTitleText
-                    anchors{
-                        left: closeButton.right
-                        leftMargin: 12 * pt
-                        verticalCenter: closeButton.verticalCenter
-                    }
-                    font: mainFont.dapFont.bold14
-                    color: currTheme.textColor
-                    text: qsTr("Info about certificate")
-                }
-            }  //titleRectangle
+        ListView {
+            id: certificateDataListView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            spacing: 22 * pt
+            clip: true
+            model: models.certificateInfo
 
-            ListView {
-                id: certificateDataListView
-                y: titleRectangle.y + titleRectangle.height + 11 * pt
-                width: parent.width
-                height: 550 * pt
-                spacing: 22 * pt
-                clip: true
-                model: models.certificateInfo
-
-                delegate: TitleTextView {
-                    x: 18 * pt
-                    title.text: model.keyView
-                    content.text:
+            delegate: TitleTextView {
+                x: 18 * pt
+                title.text: model.keyView
+                content.text:
+                {
+                    if (model.keyView === "Expiration date" || model.keyView === "Date of creation")
                     {
-                        if (model.keyView === "Expiration date" || model.keyView === "Date of creation")
-                        {
-                            var m_date = Date.fromLocaleDateString(Qt.locale(), model.value, "dd.MM.yyyy")
-                            return m_date.toLocaleDateString(Qt.locale("en_En"), "MMMM d, yyyy")
-                        }
-                        else return model.value
+                        var m_date = Date.fromLocaleDateString(Qt.locale(), model.value, "dd.MM.yyyy")
+                        return m_date.toLocaleDateString(Qt.locale("en_En"), "MMMM d, yyyy")
                     }
-                    title.color: currTheme.textColorGray
+                    else return model.value
                 }
+                title.color: currTheme.textColorGray
             }
         }
     }
