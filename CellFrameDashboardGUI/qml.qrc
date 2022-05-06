@@ -95,8 +95,6 @@
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
         <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
         <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
-        <file>screen/desktop/Certificates/parts/ToolButton.qml</file>
-        <file>screen/desktop/Certificates/parts/CloseButton.qml</file>
         <file>screen/desktop/Certificates/parts/InputField.qml</file>
         <file>screen/desktop/Certificates/models/FindDelegateModel.qml</file>
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
