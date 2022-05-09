@@ -156,7 +156,8 @@ Page
                         }
                         Keys.onUpPressed:
                         {
-                                if (autocomleteStatus == 2 && autocompleteText.text.length > consoleCmd.text.length)
+                            //console.log("cococount", autocomleteStatus, autocompleteParamsCount)
+                                if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
                                 {
                                     autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                     ++autocompleteParamsCount
@@ -182,7 +183,7 @@ Page
                         }
                         Keys.onDownPressed:
                         {
-                            if (autocomleteStatus == 2 && autocompleteText.text.length > consoleCmd.text.length)
+                            if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
                             {
                                 autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                 --autocompleteParamsCount

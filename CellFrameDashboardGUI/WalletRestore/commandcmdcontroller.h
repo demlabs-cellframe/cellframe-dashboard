@@ -11,10 +11,12 @@ class CommandCmdController : public QObject
     Q_PROPERTY(DapServiceController *dapServiceController MEMBER dapServiceController)
 
     QStringList commands;
+    QStringList parsedCommands;
     QVariantMap commandsParams;
 
     bool isDisconnect = false;
-    bool isData = false;
+    bool isFirstInit = true;
+    void parseTree(QString command);
 
     DapServiceController *dapServiceController;
 public:
