@@ -216,8 +216,12 @@ Page
                             if (autocomleteStatus == 0 && consoleCmd.text != "")
                             {
                                 autocomleteStatus = 1
-                                consoleCmd.text = commandCmdController.getCommandByValue(consoleCmd.text)
-                                autocompleteText.text = consoleCmd.text
+                                var str = commandCmdController.getCommandByValue(consoleCmd.text)
+                                if (str != "")
+                                {
+                                    consoleCmd.text = str
+                                    autocompleteText.text = consoleCmd.text
+                                }
                             }
                         }
 
