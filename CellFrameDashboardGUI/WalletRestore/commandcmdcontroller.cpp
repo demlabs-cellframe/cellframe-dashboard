@@ -124,7 +124,7 @@ void CommandCmdController::parseTree(QString command)
                 --count;*/
         }
     }
-    else
+    else if (command.contains("[") || command.contains("]"))
     {
         //qDebug() << "cccccccccccccommand[[[[[[[[[[: " << command;
         int count = 0;
@@ -152,6 +152,8 @@ void CommandCmdController::parseTree(QString command)
                 --count;
         }
     }
+    else
+        return;
 }
 
 /*

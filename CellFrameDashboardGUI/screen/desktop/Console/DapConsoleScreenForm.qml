@@ -157,13 +157,8 @@ Page
                         Keys.onUpPressed:
                         {
                             //console.log("cococount", autocomleteStatus, autocompleteParamsCount)
-                                if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
-                                {
-                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                    ++autocompleteParamsCount
-                                }
-                                else
-                                {
+
+                                //{
 
                             (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
                             consoleHistoryIndex += 1 :
@@ -179,17 +174,17 @@ Page
                             autocompleteParamsCount = 0
                             autocomleteStatus = 0
                                     }
-                                }
+                                //}
                         }
                         Keys.onDownPressed:
                         {
-                            if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
+                            /*if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
                             {
                                 autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
                                 --autocompleteParamsCount
                             }
-                            else
-                            {
+                            else*/
+                            //{
                             (consoleHistoryIndex > -1) ?
                             consoleHistoryIndex -= 1 :
                             null
@@ -205,13 +200,19 @@ Page
                         autocompleteParamsCount = 0
                         autocomleteStatus = 0
                                 }
-                            }
+                            //}
                         }
 
                         property int autocompleteParamsCount: 0
 
                         Keys.onTabPressed:
                         {
+                            if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
+                            {
+                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
+                                ++autocompleteParamsCount
+                            }
+                            else
                             if (autocomleteStatus == 0 && consoleCmd.text != "")
                             {
                                 autocomleteStatus = 1
