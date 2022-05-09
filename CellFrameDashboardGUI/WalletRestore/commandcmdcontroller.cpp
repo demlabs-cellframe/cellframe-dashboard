@@ -93,7 +93,15 @@ void CommandCmdController::parseTree(QString command)
 
        // qDebug() << "cocococommand" << command << (!command.contains(" ") || (command.count(" ") == 1 && command.endsWith(" ")));
         if (!(!command.contains(" ") || (command.count(" ") == 1 && command.endsWith(" "))))
+        {
+            for (int i = 0; i < command.length(); ++i)
+                if (command[i] == ' ' && command[i - 1] == ' ')
+                {
+                    command.remove(i, 1);
+                    --i;
+                }
             parsedCommands.append(command);
+        }
         return;
     }
     else if (command.contains("|"))
