@@ -9,7 +9,7 @@ DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 void DapNotifyController::rcvData(QVariant data)
 {
 
-    qDebug() << data;
+//    qDebug() << data;
     QVariantMap map = data.toMap();
 
     for(auto it=map.begin(); it!=map.end(); it++)

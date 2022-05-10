@@ -100,7 +100,7 @@ bool SingleApplicationTest(const QString &appName)
 const int RESTART_CODE = 12345;
 
 const int MIN_WIDTH = 1280;
-const int MIN_HEIGHT = 750;
+const int MIN_HEIGHT = 770;
 
 const int DEFAULT_WIDTH = 1280;
 const int DEFAULT_HEIGHT = 800;
@@ -127,9 +127,9 @@ int main(int argc, char *argv[])
         filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
         pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
     #elif defined Q_OS_MACOS
-        mkdir("/tmp/cellframe-dashboard_dapps",0777);
-        filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_dapps");
+        mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
+        filePluginConfig = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
+        pluginPath = QString("/tmp/Cellframe-Dashboard_dapps");
     #elif defined Q_OS_WIN
         filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
         pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);

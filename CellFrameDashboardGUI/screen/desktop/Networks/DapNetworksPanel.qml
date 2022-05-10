@@ -1,6 +1,9 @@
 import QtQuick 2.0
+import QtQml 2.12
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import "parts"
+import "logic"
 
 Item {
 
@@ -8,14 +11,22 @@ Item {
 
     property int cur_index: 0
     property int visible_count: 4
-    readonly property int item_width: 290 * pt
+    readonly property int item_width: 295 * pt
 
     ListModel {id: networksModel}
+    LogicNetworks{id: logicNet}
+    Timer{id: timer}
 
     id: control
     y: parent.height - height
     width: parent.width
     height: 40
+
+    Timer {
+        id: idNetworkPanelTimer
+        interval: /*logicMainApp.autoUpdateInterval*/5000; running: true; repeat: true
+        onTriggered: dapServiceController.requestToService("DapGetListNetworksCommand")
+    }
 
     Item
     {
@@ -45,13 +56,14 @@ Item {
 
     RowLayout
     {
-        DapNetworksButton
+        anchors.fill: parent
+        spacing: 0
+
+        DapNetworkButton
         {
             id: left_button
-            anchors.left: parent.left
-            anchors.leftMargin: 7 * pt
-            anchors.verticalCenter: parent.verticalCenter
-
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: 7
             visible: networkList.count > visible_count && networkList.currentIndex != 0 ? true : false
 
             mirror: true
@@ -92,30 +104,27 @@ Item {
             highlightMoveDuration : 200
 
             orientation: ListView.Horizontal
-            anchors.right: right_button.left
-            anchors.left: left_button.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.leftMargin: 10
+            Layout.rightMargin: 10
 
-            anchors.leftMargin: 10 * pt
-            anchors.rightMargin: 10 * pt
-            delegate: dapNetworkItem
+            delegate: DapNetworkDelegate{}
             interactive: false
             clip: true
 
             onWidthChanged:
             {
-                control.visible_count = getCountVisiblePopups()
+                control.visible_count = logicNet.getCountVisiblePopups()
             }
         }
 
-        DapNetworksButton
+        DapNetworkButton
         {
             id: right_button
-            anchors.right: parent.right
-            anchors.rightMargin: 7 * pt
+            Layout.alignment: Qt.AlignRight
+            Layout.rightMargin: 7
 
-            anchors.verticalCenter: parent.verticalCenter
             visible: networkList.count > visible_count && networkList.currentIndex != networkList.count -1 ? true : false
 
             onClicked: {
@@ -151,9 +160,31 @@ Item {
 
     onWidthChanged:
     {
-        control.visible_count = getCountVisiblePopups()
+        control.visible_count = logicNet.getCountVisiblePopups()
         networkList.currentIndex = cur_index
         networkList.closePopups()
     }
+
+    Component.onCompleted: dapServiceController.requestToService("DapGetListNetworksCommand")
+
+    Connections
+    {
+        target: dapServiceController
+
+        onSignalNetState:
+        {
+            logicNet.notifyModelUpdate(netState)
+        }
+
+        onNetworksStatesReceived:
+        {
+            if (!logicNet.isNetworkListsEqual(networksModel, networksStatesList)) {
+                networkList.closePopups()
+            }
+            logicNet.modelUpdate(networksStatesList)
+            logicNet.updateContentInAllOpenedPopups(networksModel)
+        }
+    }
+
 
 }

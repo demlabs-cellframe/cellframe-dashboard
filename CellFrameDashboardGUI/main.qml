@@ -8,7 +8,6 @@ import windowframerect 1.0
 
 import "resources/theme"
 import "qrc:/resources/QML"
-import "qrc:/screen/desktop/NetworksPanel"
 import "screen/mobile"
 import "screen"
 import "logic"

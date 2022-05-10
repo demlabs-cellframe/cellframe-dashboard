@@ -53,9 +53,12 @@ Item
         Text {
             id: buttonText
             anchors.left: ico.right
+            anchors.right: parent.right
+            anchors.rightMargin: 10
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             text: name
+            elide: Text.ElideMiddle
             color: currTheme.textColor
             font:mainFont.dapFont.regular13
         }

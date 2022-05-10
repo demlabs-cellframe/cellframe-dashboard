@@ -92,6 +92,7 @@ ColumnLayout
                 {
                     anchors.fill: parent
                     anchors.verticalCenter: parent.verticalCenter
+                    spacing: 0
 //                    anchors.topMargin: 16 * pt
 //                    anchors.bottomMargin: 16 * pt
 
@@ -99,11 +100,13 @@ ColumnLayout
                     {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                         Layout.leftMargin: 15 * pt
+                        Layout.maximumWidth: 250
 
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: name
+                        elide: Text.ElideMiddle
                     }
 
                     DapSwitch
@@ -118,10 +121,26 @@ ColumnLayout
                         borderColor: currTheme.reflectionLight
                         shadowColor: currTheme.shadowColor
 
-                        checked: modelAppsTabStates.get(index).show
+                        checked:{
+                           var i = getIndex(name)
+                           return i >= 0 ? modelAppsTabStates.get(i).show : false
+                        }
                         onToggled: {
-                            modelAppsTabStates.get(index).show = checked
-                            switchAppsTab(modelAppsTabStates.get(index).tag, modelAppsTabStates.get(index).name, checked)
+                            var i = getIndex(name)
+                            if(i >= 0)
+                                modelAppsTabStates.get(i).show = checked
+
+                            switchAppsTab(modelAppsTabStates.get(index).tag, name, checked)
+                        }
+
+                        function getIndex(nameExt)
+                        {
+                            for(var i = 0; i < modelAppsTabStates.count; i++ )
+                            {
+                                if(modelAppsTabStates.get(i).name === nameExt)
+                                    return i
+                            }
+                            return -1
                         }
                     }
                 }

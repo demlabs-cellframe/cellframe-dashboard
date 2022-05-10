@@ -7,7 +7,7 @@ import QtQuick.Layouts 1.3
 
 import "qrc:/screen"
 import "qrc:/widgets"
-import "qrc:/screen/desktop/NetworksPanel"
+import "desktop/Networks"
 import "qrc:/logic"
 import "desktop/controls"
 
@@ -22,7 +22,6 @@ Rectangle {
     readonly property string historyScreenPath: path + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
     readonly property string vpnServiceScreenPath: path + "/VPNService/DapVPNServiceTab.qml"
-//    readonly property string vpnServiceScreenPath: path + "/VPNService_New/DapVPNServiceTab.qml"
     ///@detalis Path to the VPN client tab.
     readonly property string vpnClientScreenPath: path + "/VPNClient/DapVpnClientTab.qml"
     ///@detalis Path to the settings tab.
@@ -337,7 +336,7 @@ Rectangle {
         smooth: true
     }
 
-    DapControlNetworksPanel
+    DapNetworksPanel
     {
         id: networksPanel
         height: 40 * pt
@@ -357,7 +356,7 @@ Rectangle {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetNetworksStateCommand")
+//        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
         pluginsManager.getListPlugins();
 

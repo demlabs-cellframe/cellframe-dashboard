@@ -194,7 +194,6 @@ DapNewPaymentMainRightPanelForm
         {
             commandResult.success = aResult.success
             commandResult.message = aResult.errorMessage
-
             updateTimer.start()
             navigator.doneNewPayment()
         }
