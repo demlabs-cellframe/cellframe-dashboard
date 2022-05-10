@@ -308,12 +308,18 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     command = command.right(command.length() - 5);
 
     QString str = asAnswer.toList()[1].toString();
+
+    qDebug() << "help output1" << str;
+
     str = str.right(str.size());
+
+    qDebug() << "help output2" << str;
 
     QStringList _commands = str.split("\n");
 
     for (int i = 1; i < _commands.length(); ++i)
     {
+        qDebug() << "help output3" << _commands[i];
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower() && _commands[i] != "s" && _commands[i] != "g" && _commands[i] != "n")
         {
             if (_commands[i].contains("\t"))
@@ -332,7 +338,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 
                 QStringList list = commandsParams[command].toStringList();
                 list.append(parsedCommands);
-                qDebug() << "parsedCommands" << command << parsedCommands;
+                //qDebug() << "parsedCommands" << command << parsedCommands;
                 commandsParams[command] = QVariant::fromValue(list);
             }
 
@@ -362,7 +368,7 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
     QString val = splitList[0];
     QStringList list = commandsParams[val].toStringList();
 
-    qDebug() << "command list" << val << count << list;
+    //qDebug() << "command list" << val << count << list;
 
     QStringList resList;
 
