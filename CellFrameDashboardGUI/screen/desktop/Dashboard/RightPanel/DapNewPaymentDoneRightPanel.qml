@@ -24,6 +24,8 @@ DapNewPaymentDoneRightPanelForm
         {
             dapStatusTransaction.text = qsTr("Error")
             dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Unsuccessfully!")
+            print("DapNewPaymentDoneRightPanel commandResult.message",
+                  commandResult.message)
         }
     }
 }
