@@ -18,6 +18,8 @@ class CommandCmdController : public QObject
     bool isFirstInit = true;
     void parseTree(QString command);
 
+    QStringList certNames;
+
     DapServiceController *dapServiceController;
 public:
     explicit CommandCmdController(QObject *parent = nullptr);
