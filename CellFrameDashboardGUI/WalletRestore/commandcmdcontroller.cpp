@@ -354,10 +354,10 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower() && _commands[i] != "s" && _commands[i] != "g" && _commands[i] != "n")
         {
             if (_commands[i].contains("\t"))
-                _commands[i] = _commands[i].left(_commands[i].count('\t'));
+                _commands[i] = _commands[i].split('\t')[0];
 
             if (_commands[i].contains("\r"))
-                _commands[i] = _commands[i].left(_commands[i].count('\r'));
+                _commands[i] = _commands[i].split('\r')[0];
             {
 
 
