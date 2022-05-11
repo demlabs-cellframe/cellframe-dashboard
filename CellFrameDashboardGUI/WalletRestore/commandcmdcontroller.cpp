@@ -331,21 +331,6 @@ void CommandCmdController::parseTree(QString command)
     "exit"
 
 
-    Вера Федоровна - 40
-    Кредитка - 50
-    Андрей - 20
-    Папа - 20
-    Люба - 10
-    Дима - 5
-    Мама - 5
-    Полина - 2
-    Лика - 3
-    Антон - 3
-    Мама - 7
-
-
-
-
 */
 
 void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)

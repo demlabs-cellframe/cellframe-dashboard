@@ -42,6 +42,8 @@
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
+#include <WalletRestore/commandcmdcontroller.h>
+
 
 class DapServiceController : public QObject
 {
@@ -132,6 +134,8 @@ public:
     bool getReadingChains() const;
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
+
+    QPointer<CommandCmdController> commandCmdController;
 
 
 public slots:

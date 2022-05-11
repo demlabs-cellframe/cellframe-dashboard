@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.0
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
-import CommandCmdController 1.0
+//import CommandCmdController 1.0
 import "qrc:/"
 
 Page
@@ -24,17 +24,17 @@ Page
     property alias dapInputCommand: inputCommand
     property alias listView: listViewConsoleCommand
 
-    property var _commandCmdController: commandCmdController
+    //property var _commandCmdController: commandCmdController
 
     background: Rectangle
     {
         color: currTheme.backgroundMainScreen
     }
 
-    CommandCmdController
+    /*CommandCmdController
     {
         id: commandCmdController
-    }
+    }*/
 
     DapRectangleLitAndShaded
     {

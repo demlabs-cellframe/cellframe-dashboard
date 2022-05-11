@@ -20,7 +20,7 @@ DapConsoleScreenForm
         consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
-        _commandCmdController.dapServiceControllerInit(dapServiceController)
+        //_commandCmdController.dapServiceControllerInit(dapServiceController)
     }
 
     ListModel
