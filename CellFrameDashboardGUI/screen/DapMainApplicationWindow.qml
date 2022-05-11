@@ -47,6 +47,7 @@ Rectangle {
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
 
+//    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
     DapMessagePopup
     {
@@ -56,6 +57,11 @@ Rectangle {
             if(dapButtonOk.textButton === "Update" && accept)
                 logicMainApp.updateDashboard()
         }
+    }
+    signal openCopyPopup()
+    onOpenCopyPopup: {
+        component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
+        component.createObject(dapMainWindow);
     }
 
     signal menuTabChanged()
