@@ -24,17 +24,10 @@ Page
     property alias dapInputCommand: inputCommand
     property alias listView: listViewConsoleCommand
 
-    //property var _commandCmdController: commandCmdController
-
     background: Rectangle
     {
         color: currTheme.backgroundMainScreen
     }
-
-    /*CommandCmdController
-    {
-        id: commandCmdController
-    }*/
 
     DapRectangleLitAndShaded
     {

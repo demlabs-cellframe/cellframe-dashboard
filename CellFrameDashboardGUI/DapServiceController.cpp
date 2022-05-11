@@ -29,8 +29,6 @@ void DapServiceController::init(DapServiceClient *apDapServiceClient)
     m_DAPRpcSocket = new DapRpcSocket(apDapServiceClient->getClientSocket(), this);
     // Register command.
     registerCommand();
-    commandCmdController = new CommandCmdController();
-    commandCmdController->dapServiceControllerInit(this);
 }
 
 /// Get company brand.
