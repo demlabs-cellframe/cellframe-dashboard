@@ -6,6 +6,7 @@ import "qrc:/"
 import "../../"
 import "../controls"
 import "RightPanel"
+import "MenuBlocks"
 
 DapPage
 {
@@ -13,12 +14,8 @@ DapPage
     readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of done.
     readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
-    //empty panel
-    readonly property string emptyRightPanel: path + "/Settings/RightPanel/DapEmptyRightPanel.qml"
     ///@detalis Path to the right panel of recovery.
     readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
-
-    Component{id: emptyRightPanel; Item{}}
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
@@ -57,9 +54,7 @@ DapPage
 
         function popPage() {
             dapRightPanel.clear()
-            dapRightPanelFrame.visible = false
-            dapRightPanel.push(emptyRightPanel)
-            dapSettingsScreen.dapExtensionsBlock.visible = true
+            dapRightPanel.push(dapSettingsScreen.dapExtensionsBlock)
         }
     }
 
@@ -72,8 +67,6 @@ DapPage
         {
             dapRightPanel.pop()
             logicMainApp.restoreWalletMode = restoreMode
-            dapRightPanelFrame.visible = true
-            settingsScreen.dapExtensionsBlock.visible = false
             navigator.createWallet()
         }
 
@@ -101,12 +94,8 @@ DapPage
         }
     }
 
-
-
-    dapRightPanel.initialItem: emptyRightPanel
-    dapRightPanelFrame.visible: false
-
-
+    dapRightPanel.initialItem: settingsScreen.dapExtensionsBlock
+    dapRightPanelFrame.visible: true
 
     Timer {
         id: updateTimer
