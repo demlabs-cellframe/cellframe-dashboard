@@ -130,7 +130,7 @@ ColumnLayout
                             if(i >= 0)
                                 modelAppsTabStates.get(i).show = checked
 
-                            switchAppsTab(modelAppsTabStates.get(index).tag, name, checked)
+                            settingScreen.switchAppsTab(modelAppsTabStates.get(index).tag, name, checked)
                         }
 
                         function getIndex(nameExt)
