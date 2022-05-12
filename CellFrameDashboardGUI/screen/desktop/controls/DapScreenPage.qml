@@ -6,10 +6,11 @@ import "qrc:/widgets"
 
 Page {
     id: root
-    property alias data: frame.data
+    property alias data: root.data
+    property alias frame: back
 
     background: DapRectangleLitAndShaded {
-        id: frame
+        id: back
 
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle

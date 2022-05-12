@@ -40,6 +40,7 @@ DapPage
         id: navigator
 
         function createWallet() {
+            dapRightPanelFrame.frame.visible = true
             dapRightPanel.push(inputNameWallet)
         }
 
@@ -49,12 +50,14 @@ DapPage
 
         function recoveryWalletFunc()
         {
+            dapRightPanelFrame.frame.visible = true
             dapRightPanel.push(recoveryWallet)
         }
 
         function popPage() {
             dapRightPanel.clear()
-            dapRightPanel.push(dapSettingsScreen.dapExtensionsBlock)
+            dapRightPanel.push(dapExtensionsBlock)
+            dapRightPanelFrame.frame.visible = false
         }
     }
 
@@ -94,8 +97,9 @@ DapPage
         }
     }
 
-    dapRightPanel.initialItem: settingsScreen.dapExtensionsBlock
+    dapRightPanel.initialItem: DapExtensionsBlock{id:dapExtensionsBlock}
     dapRightPanelFrame.visible: true
+    dapRightPanelFrame.frame.visible: false
 
     Timer {
         id: updateTimer

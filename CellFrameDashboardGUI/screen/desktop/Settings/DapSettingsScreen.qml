@@ -12,19 +12,12 @@ Page
 {
     id: settingScreen
 
-//    property alias settingsScreen_: settingScreen
     property alias dapGeneralBlock: generalBlock
-    property alias dapExtensionsBlock: extensionsBlock
 
     signal createWalletSignal(bool restoreMode)
-
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
-    Component{
-        id: extensionsBlock
-        DapExtensionsBlock{}
-    }
 
     background: Rectangle
     {
