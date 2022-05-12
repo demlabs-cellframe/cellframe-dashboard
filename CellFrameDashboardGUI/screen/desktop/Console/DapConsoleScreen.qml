@@ -99,5 +99,4 @@ DapConsoleScreenForm
         currentCommand = dapConsoleRigthPanel.dapModelHistoryConsole.get(consoleHistoryIndex).query;
         return;
     }
-
 }

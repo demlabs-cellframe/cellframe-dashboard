@@ -6,6 +6,7 @@ import "qrc:/widgets"
 import "../../"
 //import CommandCmdController 1.0
 import "qrc:/"
+import "Suggestion"
 
 Page
 {
@@ -16,7 +17,7 @@ Page
     ///@detalis isCommandSended Sing of sending.
     property bool isCommandSended
     ///@detalis currentCommand Current text in consoleCmd.
-    property alias currentCommand: consoleCmd.text
+    property alias currentCommand: suggestionsBox.property//consoleCmd.text
     ///@detalis consoleHistoryIndex Index for using KeyUp and KeyDown to the navigation in console history.
     property int consoleHistoryIndex
     ///@detalis consoleInput Reference to console input area
@@ -67,6 +68,19 @@ Page
                 }
             }
 
+
+            SuggestionBox {
+                id: suggestionsBox
+                model: suggestions
+                width: 200 * pt
+                anchors.bottom: inputCommand.top
+                x: 20 * pt
+                filter: inputField.textInput.text
+
+
+                property: "name"
+            }
+
             //RowLayout
             Flickable
             {
@@ -91,12 +105,49 @@ Page
                         text: ">"
                         color: currTheme.textColor
                         x: 20 * pt
-                        y: 5 * pt
+                        y: 2 * pt
 
                         font: mainFont.dapFont.regular18
                     }
 
-                    TextField
+                    Suggestions {
+                        id: suggestions
+                    }
+
+                    Item {
+                        id: consoleCmd
+                        width: parent.width - x
+                        height: 40 * pt
+                        anchors.bottom: parent.bottom
+                        x: promt.x + promt.width + 5 * pt
+
+                        LineEdit {
+                            id: inputField
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 30 * pt
+
+                            onEnterPressed:
+                            {
+                                textInput.text.length > 0 ?
+                                     sendedCommand = textInput.text :
+                                     sendedCommand = ""
+                                textInput.text = ""
+                            }
+
+                        }
+
+                        SuggestionsPreview {
+                            // just to show you what you can type in
+                            model: suggestions
+                        }
+
+
+                    }
+
+
+                    /*TextField
                     {
                         id: consoleCmd
                         width: parent.width - x
@@ -122,7 +173,10 @@ Page
                             if (autocomleteStatus == 2 && consoleCmd.cursorPosition == consoleCmd.text.length && autocompleteText.text != "")
                             {
                                 consoleCmd.text = autocompleteText.text
-                                autocomleteStatus = 0
+                                if (autocompleteText.text.length <= consoleCmd.text.length)
+                                {
+                                    autocomleteStatus = 0
+                                }
                                 autocompleteParamsCount = 0
                             }
                             else
@@ -178,7 +232,7 @@ Page
                             }
                             else*/
                             //{
-                            (consoleHistoryIndex > -1) ?
+                           /* (consoleHistoryIndex > -1) ?
                             consoleHistoryIndex -= 1 :
                             null
 
@@ -273,7 +327,7 @@ Page
 
                         }
 
-                    }
+                    }*/
 
 
                 }

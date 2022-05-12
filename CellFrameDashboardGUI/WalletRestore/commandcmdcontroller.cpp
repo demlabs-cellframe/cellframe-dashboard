@@ -251,6 +251,10 @@ void CommandCmdController::parseTree(QString command)
 
 
 
+  <chain net name>,  <chain name>, <net name>, <cert name>, <token ticker>, <wallet_name>, <token name>
+
+
+
     "dag -net event create <chain net name> -chain <chain name> -datum <datum hash> [-H {hex | base58(default)}]"
     "dag event cancel -net <chain net name> -chain <chain name> -event <event hash>"
     "dag event sign -net <chain net name> -chain <chain name> -event <event hash>"
@@ -328,8 +332,7 @@ void CommandCmdController::parseTree(QString command)
     "token info -net <network name> -name <token name>"
     "token tx [all | -addr <wallet_addr> | -wallet <wallet_name>] -name <token name> -net <network name> [-page_start <page>] [-page <page>]"
     "print_log [ts_after <timestamp >] [limit <line numbers>]"
-    "exit"
-
+    "exit"  
 
 */
 
