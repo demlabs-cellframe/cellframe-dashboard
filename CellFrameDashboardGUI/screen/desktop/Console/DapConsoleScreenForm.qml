@@ -77,8 +77,8 @@ Page
                 x: 20 * pt
                 filter: inputField.textInput.text
 
-
                 property: "name"
+
             }
 
             //RowLayout

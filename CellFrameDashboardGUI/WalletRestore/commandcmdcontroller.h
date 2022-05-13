@@ -14,6 +14,17 @@ class CommandCmdController : public QObject
     QStringList parsedCommands;
     QVariantMap commandsParams;
 
+    struct commandTree
+    {
+        QString data;
+        QList<commandTree*> children;
+
+        commandTree append(QStringList command);
+        void debugTree(commandTree *tree);
+    };
+
+
+
     bool isDisconnect = false;
     bool isFirstInit = true;
     void parseTree(QString command);

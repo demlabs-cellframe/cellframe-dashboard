@@ -36,6 +36,24 @@ CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
         if (s != "." && s != "..")
             certNames.append(s);
     }
+
+
+
+    commandTree tree;
+    tree.append({"aaa0", "bbb1"});
+    tree.append({"aaa0", "ccc1"});
+    tree.append({"aaa0", "ddd1"});
+    tree.append({"aaa0", "bbb1", "eee2"});
+    tree.append({"aaa0", "bbb1", "fff2"});
+    tree.append({"aaa0", "bbb1", "jjj2"});
+    tree.append({"aaa0", "ccc1", "hhh2"});
+    tree.append({"aaa0", "ccc1", "iii2"});
+    tree.append({"aaa0", "ccc1", "jjj2"});
+    tree.append({"aaa0", "ddd1", "kkk2"});
+
+    commandTree *tree2 = &tree;
+    qDebug() << "llllllllllllllllllllllllllllllll";
+    tree.debugTree(tree2);
 }
 
 void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapServiceController)
@@ -119,13 +137,11 @@ QString leftOrCommand(QString command, int i)
 
 void CommandCmdController::parseTree(QString command)
 {
-    //qDebug() << "cccccccccccccommand: " << command;
     if (!command.contains("[") && !command.contains("|"))
     {
         command = command.remove('{');
         command = command.remove('}');
 
-       // qDebug() << "cocococommand" << command << (!command.contains(" ") || (command.count(" ") == 1 && command.endsWith(" ")));
         if (!(!command.contains(" ") || (command.count(" ") == 1 && command.endsWith(" "))))
         {
             for (int i = 0; i < command.length(); ++i)
@@ -141,8 +157,6 @@ void CommandCmdController::parseTree(QString command)
     else if (command.contains("|"))
     {
 
-        //qDebug() << "cccccccccccccommand||||||||||: " << command;
-        //int count = 0;
         for (int i = 0; i < command.length(); ++i)
         {
             if (command[i] == '|'/* && count == 0*/)
@@ -150,12 +164,6 @@ void CommandCmdController::parseTree(QString command)
                 parseTree(leftOrCommand(command, i));
                 parseTree(rightOrCommand(command, i));
             }
-
-           /* if (command[i] == '[')
-                ++count;
-
-            if (command[i] == ']')
-                --count;*/
         }
     }
     else if (command.contains("[") || command.contains("]"))
@@ -343,17 +351,12 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 
     QString str = asAnswer.toList()[1].toString();
 
-    qDebug() << "help output1" << str;
-
     str = str.right(str.size());
-
-    qDebug() << "help output2" << str;
 
     QStringList _commands = str.split("\n");
 
     for (int i = 1; i < _commands.length(); ++i)
     {
-        qDebug() << "help output3" << _commands[i];
         if (!_commands[i].startsWith("\t") && _commands[i] != "" && _commands[i] != "\r" && _commands[i][0].isLower() && _commands[i] != "s" && _commands[i] != "g" && _commands[i] != "n")
         {
             if (_commands[i].contains("\t"))
@@ -423,4 +426,62 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
 bool CommandCmdController::isOneWord(const QString &value)
 {
     return !value.contains(" ");
+}
+
+CommandCmdController::commandTree CommandCmdController::commandTree::append(QStringList command)
+{
+    int i = 1;
+    if (this->data == "")
+    {
+        this->data = command[0];
+    }
+
+    commandTree *tree = this;
+    bool flag = true;
+
+    while (flag)
+    {
+        if (tree->children.length() == 0)
+            break;
+        for (int j = 0; j < tree->children.length(); ++j)
+            if (tree->children[j]->data == command[i])
+            {
+                tree = tree->children[j];
+                ++i;
+                break;
+            }
+            else
+                if (j == tree->children.length() - 1)
+                    flag = false;
+    }
+
+    for (int j = i; j < command.length(); ++j)
+    {
+        commandTree *tmp = new commandTree;
+        tmp->data = command[j];
+        tree->children.append(tmp);
+        tree = tmp;
+    }
+
+    return *this;
+}
+
+void CommandCmdController::commandTree::debugTree(commandTree *tree)
+{
+    qDebug() << "papa" << tree->data;
+
+    if (tree->children.length() == 0)
+    {
+        return;
+    }
+
+    for (int i = 0; i < tree->children.length(); ++i)
+    {
+        qDebug() << "chichi" << tree->children[i]->data;
+    }
+
+    for (int i = 0; i < tree->children.length(); ++i)
+    {
+        debugTree(tree->children[i]);
+    }
 }
