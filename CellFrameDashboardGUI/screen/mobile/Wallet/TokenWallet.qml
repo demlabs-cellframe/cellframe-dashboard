@@ -29,18 +29,28 @@ Page {
             height: 33 * pt
 
             model: mainNetworkModel
-            spacing: 39
+//            spacing: 39
 
+            spacing: {
+                    if (count > 0) {
+                        return (width - (60 * count))/(count - 1)
+                    } else {
+                        return 0
+                    }
+                }
 
             delegate:
             ColumnLayout
             {
                 spacing: 0
+//                width: 80
 
                 Label {
 //                    Layout.topMargin: 5 * pt
 //                    Layout.leftMargin: 15 * pt
 //                    Layout.rightMargin: 15 * pt
+//                    Layout.fillWidth: true
+                    elide: Text.ElideMiddle
                     text: name
                     font: mainFont.dapFont.medium13
                     horizontalAlignment: Text.AlignHCenter
