@@ -9,9 +9,10 @@ FocusScope {
     property bool hasClearButton: true
     property alias textInput: textInputComponent
     signal enterPressed()
+    signal textChanged(var text)
 
     // --- signals
-    signal accepted
+    //signal accepted
 
 
     id: focusScope
@@ -40,6 +41,8 @@ FocusScope {
         {
             enterPressed()
         }
+
+        onTextChanged: textChanged(text)
     }
 
 

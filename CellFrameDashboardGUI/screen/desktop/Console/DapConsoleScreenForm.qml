@@ -17,7 +17,7 @@ Page
     ///@detalis isCommandSended Sing of sending.
     property bool isCommandSended
     ///@detalis currentCommand Current text in consoleCmd.
-    property alias currentCommand: suggestionsBox.property//consoleCmd.text
+    //property alias currentCommand: suggestionsBox.property//consoleCmd.text
     ///@detalis consoleHistoryIndex Index for using KeyUp and KeyDown to the navigation in console history.
     property int consoleHistoryIndex
     ///@detalis consoleInput Reference to console input area
@@ -71,13 +71,13 @@ Page
 
             SuggestionBox {
                 id: suggestionsBox
-                model: suggestions
+                //model: suggestions
                 width: 200 * pt
                 anchors.bottom: inputCommand.top
                 x: 20 * pt
-                filter: inputField.textInput.text
+                //filter: inputField.textInput.text
 
-                property: "name"
+                //property: "name"
 
             }
 
@@ -110,9 +110,9 @@ Page
                         font: mainFont.dapFont.regular18
                     }
 
-                    Suggestions {
+                   /* Suggestions {
                         id: suggestions
-                    }
+                    }*/
 
                     Item {
                         id: consoleCmd
@@ -127,6 +127,8 @@ Page
                             anchors.left: parent.left
                             anchors.right: parent.right
                             height: 30 * pt
+
+                            onTextChanged: suggestionsBox.model = commandCmdController.getTreeWords(text)
 
                             onEnterPressed:
                             {

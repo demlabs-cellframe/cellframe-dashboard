@@ -25,15 +25,15 @@ Rectangle {
     // --- properties
     property QtObject model: undefined
     property Item delegate
-    property alias suggestionsModel: filterItem.model
-    property alias filter: filterItem.filter
-    property alias property: filterItem.property
+    //property alias suggestionsModel: filterItem.model
+    //property alias filter: filterItem.filter
+    //property alias property: filterItem.property
     signal itemSelected(variant item)
 
 
     // --- behaviours
     z: parent.z + 100
-    visible: filter.length > 0 && suggestionsModel.count > 0
+    visible: model.length > 0
     height: visible ? childrenRect.height : 0
 
 
@@ -51,10 +51,10 @@ Rectangle {
     }
 
 
-    Filter {
+   /* Filter {
         id: filterItem
         sourceModel: container.model
-    }
+    }*/
 
     // --- UI
     Column {
@@ -77,7 +77,7 @@ Rectangle {
 
         Repeater {
             id: repeater
-            model: container.suggestionsModel
+            model: container.model
             delegate: Item {
                 id: delegateItem
                 property variant suggestion: model
@@ -99,7 +99,7 @@ Rectangle {
                 Text {
                     id: textComponent
                     color: index == 0 ?  currTheme.hilightTextColorComboBox : currTheme.textColor
-                    text: suggestion.name
+                    text: modelData
                     y: parent.height * 0.5 - height * 0.5
                     x: 20 * pt
                     font: mainFont.dapFont.regular16

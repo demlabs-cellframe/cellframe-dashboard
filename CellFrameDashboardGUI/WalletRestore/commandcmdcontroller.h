@@ -14,6 +14,7 @@ class CommandCmdController : public QObject
     QStringList parsedCommands;
     QVariantMap commandsParams;
 
+
     struct commandTree
     {
         QString data;
@@ -23,6 +24,7 @@ class CommandCmdController : public QObject
         void debugTree(commandTree *tree);
     };
 
+    QMap<QString, commandTree> words;
 
 
     bool isDisconnect = false;
@@ -43,6 +45,8 @@ public slots:
     QString getCommandByValue(const QString &value);
     QString getCommandParams(const QString &value, int count);
     bool isOneWord(const QString &value);
+
+    QStringList getTreeWords(QString value);
 
 signals:
 

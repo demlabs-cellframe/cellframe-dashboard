@@ -39,7 +39,7 @@ CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
 
 
 
-    commandTree tree;
+   /* commandTree tree;
     tree.append({"aaa0", "bbb1"});
     tree.append({"aaa0", "ccc1"});
     tree.append({"aaa0", "ddd1"});
@@ -51,9 +51,12 @@ CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
     tree.append({"aaa0", "ccc1", "jjj2"});
     tree.append({"aaa0", "ddd1", "kkk2"});
 
-    commandTree *tree2 = &tree;
-    qDebug() << "llllllllllllllllllllllllllllllll";
-    tree.debugTree(tree2);
+    words.insert("aaa0", tree);
+
+    //commandTree *tree2 = &tree;
+    //qDebug() << "llllllllllllllllllllllllllllllll";
+    //tree.debugTree(tree2);
+    qDebug() << "lllllllllllllll" << getTreeWords("aaa0 bbb1");*/
 }
 
 void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapServiceController)
@@ -373,10 +376,16 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
                 parseTree(_commands[i]);
                 parsedCommands.removeDuplicates();
 
-                QStringList list = commandsParams[command].toStringList();
-                list.append(parsedCommands);
+                for (int j = 0; j < parsedCommands.length(); ++j)
+                {
+                    QStringList s = parsedCommands[i].split(" ");
+                    words[command].append(s);
+                }
+
+                //QStringList list = commandsParams[command].toStringList();
+                //list.append(parsedCommands);
                 //qDebug() << "parsedCommands" << command << parsedCommands;
-                commandsParams[command] = QVariant::fromValue(list);
+                //commandsParams[command] = QVariant::fromValue(list);
             }
 
         }
@@ -426,6 +435,30 @@ QString CommandCmdController::getCommandParams(const QString &value, int count)
 bool CommandCmdController::isOneWord(const QString &value)
 {
     return !value.contains(" ");
+}
+
+QStringList CommandCmdController::getTreeWords(QString value)
+{
+    QStringList list = value.split(" ");
+    QString key = list[0];
+    commandTree *tree = &words[key];
+
+    QStringList res;
+
+    for (int i = 1; i < list.length(); ++i)
+    {
+        for (int j = 0; j < tree->children.length(); ++j)
+            if (tree->children[j]->data == list[i])
+            {
+                tree = tree->children[j];
+                break;
+            }
+    }
+
+    for (int i = 0; i < tree->children.length(); ++i)
+        res.append(tree->children[i]->data);
+
+    return res;
 }
 
 CommandCmdController::commandTree CommandCmdController::commandTree::append(QStringList command)
