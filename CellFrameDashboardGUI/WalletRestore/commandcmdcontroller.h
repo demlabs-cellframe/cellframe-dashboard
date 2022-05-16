@@ -46,7 +46,7 @@ public slots:
     QString getCommandParams(const QString &value, int count);
     bool isOneWord(const QString &value);
 
-    QStringList getTreeWords(QString value);
+    QVariantList getTreeWords(QString value);
 
 signals:
 

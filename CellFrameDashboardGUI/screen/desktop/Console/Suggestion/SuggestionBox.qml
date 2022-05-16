@@ -23,19 +23,19 @@ Rectangle {
     id: container
 
     // --- properties
-    property QtObject model: undefined
+    property var model: undefined
     property Item delegate
     //property alias suggestionsModel: filterItem.model
     //property alias filter: filterItem.filter
     //property alias property: filterItem.property
     signal itemSelected(variant item)
+    signal wordSelected(var word)
 
 
     // --- behaviours
     z: parent.z + 100
-    visible: model.length > 0
-    height: visible ? childrenRect.height : 0
-
+    //visible: model.length > 0
+    height: model.length * 25
 
     Behavior on height {
         SpringAnimation { spring: 2; damping: 0.2 }
@@ -60,7 +60,7 @@ Rectangle {
     Column {
         id: popup
         clip: true
-        height: childrenRect.height
+        height: model.length * 25
         width: parent.width - 6
         anchors.centerIn: parent
 
@@ -73,7 +73,6 @@ Rectangle {
         Behavior on opacity {
             NumberAnimation { }
         }
-
 
         Repeater {
             id: repeater
@@ -99,7 +98,7 @@ Rectangle {
                 Text {
                     id: textComponent
                     color: index == 0 ?  currTheme.hilightTextColorComboBox : currTheme.textColor
-                    text: modelData
+                    text: modelData.word
                     y: parent.height * 0.5 - height * 0.5
                     x: 20 * pt
                     font: mainFont.dapFont.regular16
@@ -107,11 +106,10 @@ Rectangle {
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: container.itemSelected(delegateItem.suggestion)
+                    onClicked: container.wordSelected(modelData.str)
                 }
             }
         }
     }
 
 }
-

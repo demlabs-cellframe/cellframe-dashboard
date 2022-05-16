@@ -39,7 +39,7 @@ CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
 
 
 
-   /* commandTree tree;
+    /* commandTree tree;
     tree.append({"aaa0", "bbb1"});
     tree.append({"aaa0", "ccc1"});
     tree.append({"aaa0", "ddd1"});
@@ -343,7 +343,7 @@ void CommandCmdController::parseTree(QString command)
     "token info -net <network name> -name <token name>"
     "token tx [all | -addr <wallet_addr> | -wallet <wallet_name>] -name <token name> -net <network name> [-page_start <page>] [-page <page>]"
     "print_log [ts_after <timestamp >] [limit <line numbers>]"
-    "exit"  
+    "exit"
 
 */
 
@@ -370,7 +370,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
             {
 
 
-                qDebug() << "command:" << _commands[i];
+                //qDebug() << "command:" << _commands[i];
 
                 parsedCommands.clear();
                 parseTree(_commands[i]);
@@ -378,7 +378,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 
                 for (int j = 0; j < parsedCommands.length(); ++j)
                 {
-                    QStringList s = parsedCommands[i].split(" ");
+                    QStringList s = parsedCommands[j].split(" ");
                     words[command].append(s);
                 }
 
@@ -437,13 +437,28 @@ bool CommandCmdController::isOneWord(const QString &value)
     return !value.contains(" ");
 }
 
-QStringList CommandCmdController::getTreeWords(QString value)
+QVariantList CommandCmdController::getTreeWords(QString value)
 {
     QStringList list = value.split(" ");
+
+    QVariantList res;
+
+    QVariantMap map;
+
+    if (list.length() == 1)
+    {
+        for (int i = 0; i < commands.length(); ++i)
+            if (commands[i].startsWith(value))
+            {
+                map["word"] = QVariant::fromValue(commands[i]);
+                map["str"] = QVariant::fromValue(commands[i]);
+                res.append(map);
+            }
+        return res;
+    }
+
     QString key = list[0];
     commandTree *tree = &words[key];
-
-    QStringList res;
 
     for (int i = 1; i < list.length(); ++i)
     {
@@ -456,7 +471,21 @@ QStringList CommandCmdController::getTreeWords(QString value)
     }
 
     for (int i = 0; i < tree->children.length(); ++i)
-        res.append(tree->children[i]->data);
+    {
+        QString str = tree->children[i]->data;
+        //qDebug() << "kkkkkkkkkkkkkkk" << str + " " + tree->children[i]->data;
+        if (str.startsWith(" "))
+            str.remove(0, 1);
+
+        if (str != "" && str != " ")
+        {
+            map["word"] = QVariant::fromValue(str);
+            if (!value.endsWith(" "))
+                value += " ";
+            map["str"] = QVariant::fromValue(value + str);
+            res.append(map);
+        }
+    }
 
     return res;
 }
@@ -474,7 +503,7 @@ CommandCmdController::commandTree CommandCmdController::commandTree::append(QStr
 
     while (flag)
     {
-        if (tree->children.length() == 0)
+        if (tree->children.length() == 0 || i == command.length())
             break;
         for (int j = 0; j < tree->children.length(); ++j)
             if (tree->children[j]->data == command[i])

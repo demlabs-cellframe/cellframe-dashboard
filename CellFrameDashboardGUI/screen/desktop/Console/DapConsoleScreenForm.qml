@@ -17,7 +17,7 @@ Page
     ///@detalis isCommandSended Sing of sending.
     property bool isCommandSended
     ///@detalis currentCommand Current text in consoleCmd.
-    //property alias currentCommand: suggestionsBox.property//consoleCmd.text
+    property alias currentCommand: inputField.text
     ///@detalis consoleHistoryIndex Index for using KeyUp and KeyDown to the navigation in console history.
     property int consoleHistoryIndex
     ///@detalis consoleInput Reference to console input area
@@ -69,16 +69,14 @@ Page
             }
 
 
-            SuggestionBox {
+            SuggestionBox
+            {
                 id: suggestionsBox
-                //model: suggestions
                 width: 200 * pt
                 anchors.bottom: inputCommand.top
                 x: 20 * pt
-                //filter: inputField.textInput.text
 
-                //property: "name"
-
+                onWordSelected: inputField.text = word
             }
 
             //RowLayout
@@ -128,7 +126,11 @@ Page
                             anchors.right: parent.right
                             height: 30 * pt
 
-                            onTextChanged: suggestionsBox.model = commandCmdController.getTreeWords(text)
+                            onSugTextChanged:
+                            {
+                                if (text != "")
+                                    suggestionsBox.model = commandCmdController.getTreeWords(text)
+                            }
 
                             onEnterPressed:
                             {
@@ -136,6 +138,21 @@ Page
                                      sendedCommand = textInput.text :
                                      sendedCommand = ""
                                 textInput.text = ""
+                            }
+
+                            onUpButtonPressed:
+                            {
+                                if (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1)
+                                {
+                                    consoleHistoryIndex += 1
+                                }
+                            }
+
+                            onDownButtonPressed:
+                            {
+                                (consoleHistoryIndex > -1) ?
+                                                            consoleHistoryIndex -= 1 :
+                                                            null
                             }
 
                         }

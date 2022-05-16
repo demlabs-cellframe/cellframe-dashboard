@@ -8,19 +8,17 @@ FocusScope {
     property int borderWidth: 1
     property bool hasClearButton: true
     property alias textInput: textInputComponent
+    property alias text: textInputComponent.text
     signal enterPressed()
-    signal textChanged(var text)
+    signal sugTextChanged(var text)
+    signal upButtonPressed()
+    signal downButtonPressed()
 
     // --- signals
     //signal accepted
 
 
     id: focusScope
-
-    MouseArea {
-        anchors.fill: parent
-        onClicked: { focusScope.focus = true; textInput.openSoftwareInputPanel(); }
-    }
 
     TextField {
         id: textInputComponent
@@ -37,26 +35,24 @@ FocusScope {
             color: currTheme.backgroundElements
         }
 
+        Keys.onUpPressed:
+        {
+            upButtonPressed()
+        }
+
+        Keys.onDownPressed:
+        {
+            downButtonPressed()
+        }
+
         onEditingFinished:
         {
             enterPressed()
         }
 
-        onTextChanged: textChanged(text)
-    }
-
-
-    states: State {
-        name: "hasText"; when: textInput.text != ''
-        PropertyChanges { target: hintComponent; opacity: 0 }
-        PropertyChanges { target: clearButtonComponent; opacity: 1 }
-    }
-
-    transitions: [
-
-        Transition {
-            from: "hasText"; to: ""
-            NumberAnimation { properties: "opacity" }
+        onTextChanged:
+        {
+            sugTextChanged(text)
         }
-    ]
+    }
 }
