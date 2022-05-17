@@ -33,6 +33,7 @@ public slots:
 
 signals:
     void rcvNotify(QVariant);
+    void changeConnectState(QString);
 
 private:
     void reconnectFunc();
@@ -42,8 +43,10 @@ private:
     QString m_listenPath;
     QString m_listenAddr;
     uint16_t m_listenPort;
-    QString m_socketState;
     QTimer * m_reconnectTimer;
+
+public:
+    QString m_socketState;
 
 };
 

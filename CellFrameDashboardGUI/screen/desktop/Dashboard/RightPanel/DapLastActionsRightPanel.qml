@@ -1,8 +1,9 @@
 import QtQuick 2.9
+import QtQml 2.12
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../../../"
-import "../../SettingsWallet.js" as SettingsWallet
+import "../../History/logic"
 
 DapLastActionsRightPanelForm
 {
@@ -17,25 +18,12 @@ DapLastActionsRightPanelForm
 
     property int lastHistoryLength: 0
 
-    ListModel
-    {
-        id: modelLastActions
-    }
+    ListModel{id: modelLastActions}
+    ListModel{id: newModelLastActions}
+    ListModel{id: temporaryModel}
+    ListModel{id: previousModel}
 
-    ListModel
-    {
-        id: newModelLastActions
-    }
-
-    ListModel
-    {
-        id: temporaryModel
-    }
-
-    ListModel
-    {
-        id: previousModel
-    }
+    LogicTxExplorer{id: logicExplorer}
 
     Component
     {
@@ -56,8 +44,8 @@ DapLastActionsRightPanelForm
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
-                text: getDateString(payDate)
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                text: logicExplorer.getDateString(payDate)
+                font: mainFont.dapFont.medium12
             }
         }
     }
@@ -67,107 +55,7 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onAllWalletHistoryReceived:
         {
-            if (walletHistory.length !== lastHistoryLength)
-            {
-                print("onAllWalletHistoryReceived",
-                      "walletHistory.length", walletHistory.length,
-                      "lastHistoryLength", lastHistoryLength)
-
-                if (walletHistory.length < lastHistoryLength)
-                {
-                    print("ERROR! walletHistory.length < lastHistoryLength",
-                          walletHistory.length, lastHistoryLength)
-                }
-                else
-                {
-                    lastHistoryLength = walletHistory.length
-
-                    temporaryModel.clear()
-
-                    for (var i = 0; i < walletHistory.length; ++i)
-                    {
-                        if (temporaryModel.count === 0)
-                            temporaryModel.append({ "network" : walletHistory[i].Network,
-                                "name" : walletHistory[i].Name,
-                                "amount" : walletHistory[i].AmountWithoutZeros,
-                                "status" : walletHistory[i].Status,
-                                "date" : walletHistory[i].Date,
-                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch,
-                                "hash": walletHistory[i].Hash})
-                        else
-                        {
-                            var j = 0;
-                            while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[i].SecsSinceEpoch)
-                            {
-                                ++j;
-                                if (j >= temporaryModel.count)
-                                    break;
-                            }
-                            temporaryModel.insert(j, { "network" : walletHistory[i].Network,
-                                "name" : walletHistory[i].Name,
-                                "amount" : walletHistory[i].AmountWithoutZeros,
-                                "status" : walletHistory[i].Status,
-                                "date" : walletHistory[i].Date,
-                                "SecsSinceEpoch" : walletHistory[i].SecsSinceEpoch,
-                                "hash": walletHistory[i].Hash})
-                        }
-
-                        var currDate = new Date(Date.parse(walletHistory[i].Date))
-
-                        if (lastDate === new Date(0))
-                        {
-                            lastDate = currDate
-                            prevDate = currDate
-                        }
-                        if (lastDate < currDate)
-                        {
-                            prevDate = lastDate
-                            lastDate = currDate
-                        }
-                    }
-
-                    var test = true
-
-                    if (previousModel.count !== temporaryModel.count)
-                        test = false
-                    else
-                    {
-                        for (var k = 0; k < previousModel.count; ++k)
-                            if (!compareHistoryElements(temporaryModel.get(k), previousModel.get(k)))
-                            {
-                                test = false
-                                break
-                            }
-                    }
-
-                    previousModel.clear()
-                    for (var l = 0; l < temporaryModel.count; ++l)
-                        previousModel.append(temporaryModel.get(l))
-
-                    if (!test)
-                    {
-                        print("New model != Previous model")
-
-                        today = new Date()
-                        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
-
-                        modelLastActions.clear()
-
-                        for (var m = 0; m < temporaryModel.count; ++m)
-                        {
-                            var payDate = new Date(Date.parse(temporaryModel.get(m).date))
-
-                            if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
-                                modelLastActions.append(temporaryModel.get(m))
-                        }
-
-                        print("modelLastActions.count", modelLastActions.count)
-
-                        print("Reset position")
-                        dapLastActionsView.positionViewAtBeginning()
-                    }
-                }
-            }
+            logicExplorer.rcvAllWalletHistory(walletHistory, true)
         }
 
     }
@@ -179,28 +67,24 @@ DapLastActionsRightPanelForm
         {
             lastHistoryLength = 0
 
-            updateWalletHisory()
+            logicExplorer.updateWalletHistory(true)
         }
     }
 
     Timer {
         id: updateTimer
-        interval: autoUpdateInterval; running: false; repeat: true
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
-//            print("DapLastActionsRightPanel updateTimer", updateTimer.running)
-
-            updateWalletHisory()
+            console.log("LAST ACTIONS TICK")
+            logicExplorer.updateWalletHistory(true)
         }
     }
 
     Component.onCompleted:
     {
-        print("DapLastActionsRightPanel onCompleted", updateTimer.running)
-
         lastHistoryLength = 0
-
-        updateWalletHisory()
+        logicExplorer.updateWalletHistory(true)
 
         if (!updateTimer.running)
             updateTimer.start()
@@ -208,74 +92,6 @@ DapLastActionsRightPanelForm
 
     Component.onDestruction:
     {
-        print("DapLastActionsRightPanel onDestruction", updateTimer.running)
-
         updateTimer.stop()
-    }
-
-    function updateWalletHisory()
-    {
-        if (SettingsWallet.currentIndex >= 0)
-        {
-            lastDate = new Date(0)
-            prevDate = new Date(0)
-
-            getAllWalletHistory(SettingsWallet.currentIndex)
-        }
-    }
-
-    function compareHistoryElements(elem1, elem2)
-    {
-        if (elem1.wallet !== elem2.wallet)
-            return false
-        if (elem1.network !== elem2.network)
-            return false
-        if (elem1.name !== elem2.name)
-            return false
-        if (elem1.status !== elem2.status)
-            return false
-        if (elem1.amount !== elem2.amount)
-            return false
-        if (elem1.date !== elem2.date)
-            return false
-        if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
-            return false
-
-        return true
-    }
-
-    ////@ Functions for "Today" or "Yesterday" or "Month, Day" or "Month, Day, Year" output
-    function getDateString(date)
-    {
-//        console.log("getDateString", date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy"))
-
-        if (isSameDay(today, date))
-        {
-            return qsTr("Today")
-        }
-        else if (isSameDay(yesterday, date))
-        {
-            return qsTr("Yesterday")
-        }
-        else if (!isSameYear(today, date))
-        {
-            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d, yyyy")
-        }
-        else
-        {
-            return date.toLocaleString(Qt.locale("en_EN"), "MMMM, d") // Does locale should be changed?
-        }
-    }
-
-    ////@ Checks if dates are same
-    function isSameDay(date1, date2)
-    {
-        return (isSameYear(date1, date2) && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) ? true : false
-    }
-
-    ////@ Checks if dates have same year
-    function isSameYear(date1, date2)
-    {
-        return (date1.getFullYear() === date2.getFullYear()) ? true : false
     }
 }

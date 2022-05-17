@@ -7,6 +7,12 @@
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
 #include "DapVpnOrdersModel.h"
+#include "mobile/QMLClipboard.h"
+#include "mobile/testcontroller.h"
+
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#endif
 
 class DapApplication : public QApplication
 {
@@ -16,13 +22,15 @@ class DapApplication : public QApplication
 public:
     DapApplication(int &argc, char **argv);
 
+    ~DapApplication();
+
     DapNetworksList *networks();
 
     QQmlApplicationEngine *qmlEngine();
 
     Q_INVOKABLE void setClipboardText(const QString &text);
 //    Q_INVOKABLE DapWallet *currentWallet() const;
-    void setCurrentWallet(DapWallet *a_currentWallet);
+    Q_INVOKABLE void startService();
     DapVpnOrdersModel* getVpnOrdersModel();
 
 signals:

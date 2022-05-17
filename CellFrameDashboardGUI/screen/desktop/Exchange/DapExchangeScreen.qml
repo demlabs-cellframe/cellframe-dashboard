@@ -1,11 +1,17 @@
-﻿import QtQuick 2.4
+﻿//import QtQuick 2.4
+//import QtQuick.Controls 2.0
+//import QtQuick.Layouts 1.0
+//import "qrc:/widgets"
+//import "../../"
+
+import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
+import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.0
 import "qrc:/widgets"
-import "../../"
 
-
-DapExchangeScreenForm
+Page
 {
 /************************************************************************************************
                                 DapUiQmlWidgetChainExchanges
@@ -535,7 +541,7 @@ DapExchangeScreenForm
         id: delegateOrderPanel
 
         ///Order panel
-        Rectangle
+        Item
         {
             property int fromStringReadOnly: btnMarket.checked ? 0 : 1
 
@@ -557,7 +563,7 @@ DapExchangeScreenForm
                     RowLayout
                     {
                         spacing: 8 * pt
-                        Rectangle
+                        Item
                         {
                             width: 20 * pt
                             height: 20 * pt
@@ -572,14 +578,14 @@ DapExchangeScreenForm
                         //Title order text
                         Text
                         {
-                            color: "#070023"
-                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                            color: currTheme.textColor
+                            font:  mainFont.dapFont.regular16
                             text: titleOrder
                         }
                     }
                 }
 
-                Rectangle
+                Item
                 {
                     width: parent.width
                     height: 10 * pt
@@ -589,17 +595,17 @@ DapExchangeScreenForm
                 Text
                 {
                     text: qsTr("Balance: ") + balance + " " + currencyName
-                    color: "#59556C"
-                    font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    color: currTheme.textColor
+                    font:  mainFont.dapFont.regular12
                 }
 
-                Rectangle
+                Item
                 {
                     width: parent.width
                     height: 20 * pt
                 }
 
-                Rectangle
+                Item
                 {
                     width: childrenRect.width
                     height: childrenRect.height
@@ -642,7 +648,7 @@ DapExchangeScreenForm
                                     horizontalAligmentText:Qt.AlignHCenter
                                     borderColorButton: checked ? "#070023" : "#908D9D"
                                     borderWidthButton: 1 * pt
-                                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                                    fontButton: mainFont.dapFont.regular11
                                     colorTextButton: checked ? "#070023" : "#908D9D"
 
                                     onClicked:
@@ -667,7 +673,7 @@ DapExchangeScreenForm
                                     horizontalAligmentText:Qt.AlignHCenter
                                     borderColorButton: checked ? "#070023" : "#908D9D"
                                     borderWidthButton: 1 * pt
-                                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                                    fontButton: mainFont.dapFont.regular11
                                     colorTextButton: checked ? "#070023" : "#908D9D"
 
                                     onClicked:
@@ -686,7 +692,7 @@ DapExchangeScreenForm
                             RowLayout
                             {
                                 spacing: 0
-                                Rectangle
+                                Item
                                 {
                                     height: childrenRect.height
                                     width: 118 * pt
@@ -695,8 +701,8 @@ DapExchangeScreenForm
                                     Text
                                     {
                                         text: titleToken
-                                        color: "#59556C"
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                        color: currTheme.textColor
+                                        font:  mainFont.dapFont.regular12
                                     }
                                 }
 
@@ -705,6 +711,7 @@ DapExchangeScreenForm
                                 {
                                     width: 130 * pt
                                     height: 22 * pt
+                                    radius: 6
                                     border.width: 1 * pt
                                     border.color:
                                     {
@@ -713,6 +720,7 @@ DapExchangeScreenForm
                                         else
                                             return "#C7C6CE"
                                     }
+                                    color: currTheme.backgroundMainScreen
 
                                     //Input field
                                     TextInput
@@ -725,7 +733,7 @@ DapExchangeScreenForm
                                         anchors.leftMargin: 6 * pt
                                         anchors.rightMargin: 6 * pt
                                         color: readOnly ? "#ACAAB5" : "#59556C"
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                        font:  mainFont.dapFont.regular12
                                         verticalAlignment: Qt.AlignVCenter
                                         validator: RegExpValidator{ regExp: /\d+/ }
                                         clip: true
@@ -744,8 +752,8 @@ DapExchangeScreenForm
                                         anchors.rightMargin: 6 * pt
                                         verticalAlignment: Text.AlignVCenter
                                         horizontalAlignment: Text.AlignRight
-                                        color: "#59556C"
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                        color: currTheme.textColor
+                                        font:  mainFont.dapFont.regular12
                                         text: index === 0 ? currencyName : tokenName
                                     }
                                 }
@@ -765,7 +773,7 @@ DapExchangeScreenForm
                             horizontalAligmentText:Qt.AlignHCenter
                             borderColorButton: "#000000"
                             borderWidthButton: 0
-                            fontButton.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegularCustom
+                            fontButton.family:  mainFont.dapFont.regular12
                             fontButton.pixelSize: 13 * pt
                             colorTextButton: "#FFFFFF"
 
@@ -803,8 +811,8 @@ DapExchangeScreenForm
             {
                 id: timeExchangeHistory
                 text: time
-                color: "#4F5357"
-                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                color: currTheme.textColor
+                font.family:  mainFont.dapFont.regular12
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.topMargin: 8 * pt
@@ -822,7 +830,7 @@ DapExchangeScreenForm
                     else
                         return "#6F9F00"
                 }
-                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular10
+                font.family:  mainFont.dapFont.regular10
                 anchors.left: timeExchangeHistory.right
                 anchors.leftMargin: 20 * pt
                 anchors.top: parent.top
@@ -834,8 +842,8 @@ DapExchangeScreenForm
             {
                 id: priceExchangeHistory
                 text: price
-                color: "#4F5357"
-                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                color: currTheme.textColor
+                font.family:  mainFont.dapFont.regular11
                 anchors.left: statusExchangeHistory.right
                 anchors.leftMargin: 20 * pt
                 anchors.top: parent.top
@@ -847,8 +855,8 @@ DapExchangeScreenForm
             {
                 id: tokenExchangeHistory
                 text: token
-                color: "#4F5357"
-                font.family:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                color: currTheme.textColor
+                font.family:  mainFont.dapFont.regular11
                 anchors.left: priceExchangeHistory.right
                 anchors.leftMargin: 20 * pt
                 anchors.top: parent.top
@@ -870,12 +878,12 @@ DapExchangeScreenForm
                     else
                         return false;
                 }
-                color: "#E3E2E6"
+                color: currTheme.lineSeparatorColor
             }
         }
     }
 
-    Connections
+/*    Connections
     {
         target: dapHistoryButton
         onClicked:
@@ -891,7 +899,7 @@ DapExchangeScreenForm
                 dapIconHistoryButton = "qrc:/resources/icons/ic_chevron_up.png"
             }
         }
-    }
+    }*/
 }
 /*##^##
 Designer {

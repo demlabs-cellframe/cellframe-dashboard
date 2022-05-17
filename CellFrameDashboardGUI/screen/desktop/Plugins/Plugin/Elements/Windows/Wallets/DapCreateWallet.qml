@@ -97,6 +97,8 @@ Item {
                 fontButton.pixelSize: 20
                 horizontalAligmentText: Qt.AlignHCenter
 
+                enabled: textInputNameWallet.length > 0 ? true : false
+
                 onClicked:
                 {
                     dapServiceController.requestToService("DapAddWalletCommand",

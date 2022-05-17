@@ -12,8 +12,6 @@ DapConsoleScreenForm
     ///@detalis receivedAnswer Answer for the sended command
     property string receivedAnswer
 
-    property var dapServiceController
-
     signal runCommand(string command)
 
     Component.onCompleted:
@@ -45,7 +43,7 @@ DapConsoleScreenForm
                 id: textQuery
                 text: "> " + query
                 wrapMode: TextEdit.Wrap
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font:  mainFont.dapFont.regular18
                 color: currTheme.textColor
 
             }
@@ -57,7 +55,7 @@ DapConsoleScreenForm
                 text: response
                 width: parent.width
                 wrapMode: TextEdit.Wrap
-                font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular18
+                font:  mainFont.dapFont.regular18
                 color: currTheme.textColor
             }
         }

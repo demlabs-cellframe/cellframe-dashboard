@@ -3,7 +3,6 @@ import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.2
 import Qt.labs.platform 1.0
 import "qrc:/widgets"
-import "../../SettingsWallet.js" as SettingsWallet
 
 Item
 {
@@ -35,7 +34,7 @@ Item
             Layout.maximumHeight: 35 * pt
             Layout.leftMargin: 15 * pt
             verticalAlignment: Text.AlignVCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Filter")
         }
@@ -50,10 +49,11 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionAllStatuses
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Verified")
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Verified")
@@ -63,11 +63,12 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionPending
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Unverified")
                 Layout.topMargin: 5 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Unverified")
@@ -77,11 +78,12 @@ Item
             DapRadioButton
             {
                 id: buttonSelectionSent
+                Layout.fillWidth: true
                 nameRadioButton: qsTr("Both")
                 Layout.topMargin: 6 * pt
                 indicatorInnerSize: 46 * pt
                 spaceIndicatorText: 3 * pt
-                fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Both")
@@ -96,7 +98,7 @@ Item
             Layout.minimumHeight: 35 * pt
             Layout.maximumHeight: 35 * pt
             verticalAlignment: Text.AlignVCenter
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Actions")
         }
@@ -119,7 +121,7 @@ Item
                 id:loadPlug
                 textButton: "Add dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
 
@@ -154,7 +156,7 @@ Item
                 id:installPlug
                 textButton: "Activate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -163,7 +165,7 @@ Item
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
                     pluginsManager.installPlugin(namePlugin, 1,dapAppsModel.get(dapListViewApps.currentIndex).verifed)
                     defaultRightPanel.setEnableButtons()
-                    SettingsWallet.activePlugin = currentPlugin
+                    logicMainApp.activePlugin = currentPlugin
                 }
             }
             DapButton
@@ -176,18 +178,18 @@ Item
                 id:uninstallPlug
                 textButton: "Deactivate dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
                 {
                     if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
-                        SettingsWallet.activePlugin = ""
+                        logicMainApp.activePlugin = ""
                     }
                     var namePlugin = dapAppsModel.get(dapListViewApps.currentIndex).name
                     pluginsManager.installPlugin(namePlugin, 0, dapAppsModel.get(dapListViewApps.currentIndex).verifed)
-                    SettingsWallet.activePlugin = ""
+                    logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
                 }
@@ -202,7 +204,7 @@ Item
                 id:deletePlug
                 textButton: "Delete dApp"
 
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -210,11 +212,11 @@ Item
 
                     if(currentPlugin === dapAppsModel.get(dapListViewApps.currentIndex).urlPath){
                         currentPlugin = ""
-                        SettingsWallet.activePlugin = ""
+                        logicMainApp.activePlugin = ""
                     }
     //                    listModel.remove(listViewPlug.currentIndex)
                     pluginsManager.deletePlugin(dapAppsModel.get(dapListViewApps.currentIndex).urlPath)
-                    SettingsWallet.activePlugin = ""
+                    logicMainApp.activePlugin = ""
 
                     defaultRightPanel.setEnableButtons()
 

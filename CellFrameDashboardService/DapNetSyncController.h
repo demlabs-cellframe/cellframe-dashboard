@@ -7,16 +7,20 @@
 #include <QDebug>
 #include <QStringList>
 #include <QProcess>
+#include <QAbstractSocket>
+
+#include "DapNotificationWatcher.h"
 
 class DapNetSyncController : public QObject
 {
     Q_OBJECT
 public:
-    explicit DapNetSyncController(QObject *parent = nullptr);
-
+    explicit DapNetSyncController(DapNotificationWatcher* watcher, QObject *parent = nullptr);
 
 private:
     QTimer* m_timerSync;
+    DapNotificationWatcher* m_notifWatch;
+    QString m_nodeState;
 
 private:
     QStringList getNetworkList();
@@ -24,6 +28,7 @@ private:
 
 private slots:
     void updateTick();
+    void rcvNotifState(QString);
 
 signals:
 

@@ -9,6 +9,7 @@ Popup {
     id: dialog
 
     signal signalAccept(var accept);
+    property alias dapButtonOk: buttonOk
     property alias dapButtonCancel: buttonCancel
 
     width: 300 * pt
@@ -18,7 +19,11 @@ Popup {
     x: (parent.width - width) * 0.5
     y: (parent.height - height) * 0.5
 
+    scale: mainWindow.scale
+
     modal: true
+
+    closePolicy: Popup.NoAutoClose
 
     background: Rectangle
     {
@@ -39,7 +44,7 @@ Popup {
             Layout.leftMargin: 5
             Layout.rightMargin: 5
             Layout.topMargin: 5
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+            font: mainFont.dapFont.medium16
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -49,8 +54,8 @@ Popup {
         Text {
             id: dapContentText
             Layout.fillWidth: true
-            Layout.margins: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+            Layout.margins: 5 * pt
+            font: mainFont.dapFont.regular14
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -75,7 +80,7 @@ Popup {
                 textButton: qsTr("Ok")
 
                 implicitHeight: 36 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:
@@ -98,7 +103,7 @@ Popup {
                 textButton: qsTr("Cancel")
 
                 implicitHeight: 36 * pt
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked:

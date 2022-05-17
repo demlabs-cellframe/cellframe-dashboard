@@ -1,4 +1,5 @@
 import QtQuick 2.2
+import QtQml 2.12
 import QtQuick.Controls 2.12
 
 Popup {
@@ -6,9 +7,13 @@ Popup {
     id: dialog
     property alias source:loader.source
 
-    width: 700
-    height: 600
-    anchors.centerIn: Overlay.overlay
+    scale: mainWindow.scale
+
+    width: 700 * mainWindow.scale
+    height: 600 * mainWindow.scale
+    parent: Overlay.overlay
+    x: Math.round((parent.width - width) / 2)
+    y: Math.round((parent.height - height) / 2)
     
     modal: true
     

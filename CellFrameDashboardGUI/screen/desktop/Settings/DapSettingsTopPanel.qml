@@ -2,28 +2,50 @@ import QtQuick 2.4
 import QtQuick.Controls 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
-import "qrc:/widgets"
+import "../controls" as Controls
+import "qrc:/widgets" as Widgets
 
-DapTopPanel
+Controls.DapTopPanel
 {
-    anchors.leftMargin: 4*pt
-    radius: currTheme.radiusRectangle
-    color: currTheme.backgroundPanel
+
 
     Text {
         id: vesion
         anchors
         {
-            right: parent.right
+            right: checkUpdate.left
             top: parent.top
             rightMargin: 24 * pt
             topMargin: 23 * pt
         }
 
-        text: qsTr( "Vesion " + dapServiceController.Version)
-        font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+        text: qsTr( "Version " + dapServiceController.Version)
+        font: mainFont.dapFont.regular12
         color: currTheme.textColor
 
+    }
+
+    Widgets.DapButton
+    {
+        id: checkUpdate
+        textButton: "Check update"
+
+        anchors.right: parent.right
+        anchors.rightMargin: 24 * pt
+        anchors.top: parent.top
+        anchors.topMargin: 14 * pt
+        anchors.verticalCenter: parent.verticalCenter
+
+        implicitHeight: 38 * pt
+        implicitWidth: 163 * pt
+        fontButton: mainFont.dapFont.medium14
+        horizontalAligmentText: Text.AlignHCenter
+
+        onClicked:
+        {
+            sendRequest = true
+            dapServiceController.requestToService("DapVersionController", "version")
+        }
     }
 
 
@@ -43,12 +65,12 @@ DapTopPanel
             Layout.fillWidth: true
 
             text: qsTr( "Node connection status " )
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+            font: mainFont.dapFont.regular12
             color: currTheme.textColor
             elide: Text.ElideMiddle
         }
 
-        DapImageLoader {
+        Widgets.DapImageLoader {
             id: notifyState
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredHeight: 8 * pt
@@ -56,7 +78,7 @@ DapTopPanel
             innerWidth: 8 * pt
             innerHeight: 8 * pt
 
-            source: stateNotify? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png":
+            source: logicMainApp.stateNotify? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png":
                                  "qrc:/resources/icons/" + pathTheme + "/indicator_error.png"
 
         }

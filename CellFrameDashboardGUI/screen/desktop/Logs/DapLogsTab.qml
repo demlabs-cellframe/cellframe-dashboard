@@ -1,41 +1,47 @@
 import QtQuick 2.4
 import "qrc:/"
 import "../../"
+import "../controls"
 
-DapAbstractTab
+DapPage
 {
     id: logsTab
-    color: currTheme.backgroundMainScreen
+
     ///Log window model.
     ListModel
     {
         id:dapLogsModel
     }
 
-    dapTopPanel: DapLogsTopPanel { }
+    dapHeader.initialItem: DapLogsTopPanel {}
 
-    dapScreen: DapLogsScreen { }
+    dapScreen.initialItem: DapLogsScreen {}
 
-    dapRightPanel: DapLogsRightPanel { }
+    onRightPanel: false
 
     Timer
     {
            id: updLogTimer
            interval: 5000
            repeat: true
-           onTriggered: dapServiceController.notifyService("DapUpdateLogsCommand", 100);
+           onTriggered:
+           {
+               console.log("LOG TIMER TICK")
+               dapServiceController.notifyService("DapUpdateLogsCommand", 100);
+           }
     }
 
     Component.onCompleted:
     {
         console.log("Log tab open")
         dapServiceController.notifyService("DapUpdateLogsCommand", 100);
-        updLogTimer.running = true
+        updLogTimer.start()
     }
 
     Component.onDestruction:
     {
         console.log("Log tab close")
         dapServiceController.notifyService("DapUpdateLogsCommand","stop");
+        updLogTimer.stop()
     }
 }

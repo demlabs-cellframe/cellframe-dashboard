@@ -3,20 +3,15 @@ import QtQuick.Controls 2.0
 import Qt.labs.platform 1.0
 
 import "../../"
-import "qrc:/widgets"
+import "qrc:/widgets" as Widgets
+import "../controls" as Controls
 
-DapTopPanel
+Controls.DapTopPanel
 {
     id:topLogsPanel
 
-    anchors.leftMargin: 4*pt
-    radius: currTheme.radiusRectangle
-    color: currTheme.backgroundPanel
-
-    property alias buttonNormalColor: exportLogButton.colorBackgroundNormal
-
     //Export log button
-    DapButton
+    Widgets.DapButton
     {
         id: exportLogButton
         textButton: "Export log"
@@ -27,7 +22,7 @@ DapTopPanel
         anchors.verticalCenter: parent.verticalCenter
         implicitHeight: 38 * pt
         implicitWidth: 163 * pt
-        fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+        fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
     }
 
@@ -122,6 +117,5 @@ DapTopPanel
     {
         fastBlurMainWindow.visible = false;
         saveWindow.sourceComponent = undefined;
-        buttonNormalColor = "#070023";
     }
 }

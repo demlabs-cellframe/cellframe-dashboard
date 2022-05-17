@@ -86,7 +86,7 @@ DapRectangleLitAndShaded {
                     id: textHeader
                     text: qsTr("Activating dApp")
                     verticalAlignment: Qt.AlignLeft
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                    font: mainFont.dapFont.bold14
                     color: currTheme.textColor
                 }
                 Item {
@@ -110,7 +110,7 @@ DapRectangleLitAndShaded {
                     id: _name
                     color: currTheme.textColor
                     text: qsTr("dApp")
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium12
+                    font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
@@ -137,7 +137,7 @@ DapRectangleLitAndShaded {
 
             id:_errors
             color: currTheme.placeHolderTextColor
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14
+            font: mainFont.dapFont.regular14
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
 
@@ -165,7 +165,7 @@ DapRectangleLitAndShaded {
 
 
                     color: currTheme.textColor;
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    font: mainFont.dapFont.medium20
                     horizontalAlignment: Text.AlignHCenter
                 }
                 Text{
@@ -179,7 +179,7 @@ DapRectangleLitAndShaded {
                     text: qsTr("TOTAL")
 
                     color: currTheme.placeHolderTextColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
@@ -200,7 +200,7 @@ DapRectangleLitAndShaded {
                     id:_speed
 
                     color: currTheme.textColor;
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    font: mainFont.dapFont.medium20
                     horizontalAlignment: Text.AlignHCenter
                 }
                 Text{
@@ -215,7 +215,7 @@ DapRectangleLitAndShaded {
                     text: qsTr("SPEED")
 
                     color: currTheme.placeHolderTextColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
@@ -241,7 +241,7 @@ DapRectangleLitAndShaded {
                     id:_download
 
                     color: currTheme.textColor;
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    font: mainFont.dapFont.medium20
                     horizontalAlignment: Text.AlignHCenter
                 }
                 Text{
@@ -255,7 +255,7 @@ DapRectangleLitAndShaded {
                     text: qsTr("DOWNLOAD")
 
                     color: currTheme.placeHolderTextColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
@@ -275,7 +275,7 @@ DapRectangleLitAndShaded {
                     id:_time
 
                     color: currTheme.textColor;
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium20
+                    font: mainFont.dapFont.medium20
                     horizontalAlignment: Text.AlignHCenter
                 }
                 Text{
@@ -291,7 +291,7 @@ DapRectangleLitAndShaded {
                     text: qsTr("TIME REMAIN")
 
                     color: currTheme.placeHolderTextColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                    font: mainFont.dapFont.regular12
                     horizontalAlignment: Text.AlignHCenter
                 }
             }
@@ -318,7 +318,7 @@ DapRectangleLitAndShaded {
 
                 id:reloadDownload
                 textButton: "Reload"
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
             }
 
@@ -333,7 +333,7 @@ DapRectangleLitAndShaded {
 
                 id: canceledDownload
                 textButton: "Cancel"
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
             }
 

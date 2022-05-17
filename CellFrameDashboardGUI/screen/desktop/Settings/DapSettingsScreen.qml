@@ -7,34 +7,21 @@ import "qrc:/"
 import "../../"
 import "MenuBlocks"
 import "qrc:/widgets"
-import "../SettingsWallet.js" as SettingsWallet
 
-DapAbstractScreen
+Page
 {
     id: settingScreen
 
-    property alias settingsScreen_: settingScreen
     property alias dapGeneralBlock: generalBlock
-    property alias dapExtensionsBlock: extensionsBlock
-//    property alias dapComboboxWallet: walletComboBox
 
     signal createWalletSignal(bool restoreMode)
-
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
-    anchors
-    {
-        fill: parent
-        topMargin: 24 * pt
-        rightMargin: 24 * pt
-        leftMargin: 24 * pt
-        bottomMargin: 20 * pt
-    }
 
-    Component.onCompleted:{
-        if(!dapNetworkModel.count)
-            dapServiceController.requestToService("DapGetListNetworksCommand")
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
     }
 
     Item
@@ -45,11 +32,12 @@ DapAbstractScreen
         RowLayout
         {
             anchors.fill: parent
-            spacing: 23 * pt
+            spacing: 24
 
             ColumnLayout
             {
                 Layout.fillHeight: true
+                Layout.fillWidth: true
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
 
@@ -67,6 +55,8 @@ DapAbstractScreen
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
+                    Layout.minimumHeight: 240
+
                     contentData: DapGeneralBlock{id:content}
                 }
 
@@ -82,11 +72,11 @@ DapAbstractScreen
                     Layout.topMargin: 20 * pt
                     Layout.alignment: Qt.AlignHCenter
 
-                    textButton: "Create a new wallet"
+                    textButton: qsTr("Create a new wallet")
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(false)
                 }
@@ -103,65 +93,38 @@ DapAbstractScreen
                     Layout.topMargin: 9 * pt
                     Layout.alignment: Qt.AlignHCenter
 
-                    textButton: "Import an existing wallet"
+                    textButton: qsTr("Import an existing wallet")
 
                     implicitHeight: 36 * pt
                     implicitWidth: 297 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium14
+                    fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(true)
                 }
             }
             DapRectangleLitAndShaded
             {
-                id: appearanceBlock
+                property alias dapContent:content1
+
                 Layout.fillWidth: true
+                Layout.preferredHeight: content1.implicitHeight
+                Layout.maximumHeight: control.height
+
+                id: appearanceBlock
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
-                Layout.preferredHeight: contentData.implicitHeight
-                Layout.leftMargin: 2 * pt
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 
-                contentData: DapAppearanceBlock{}
-            }
-            DapRectangleLitAndShaded
-            {
-                id:extensionsBlock
-                Layout.fillWidth: true
-                Layout.minimumWidth: 350 * pt
-                Layout.maximumWidth: 350 * pt
-                Layout.alignment: Qt.AlignTop
-                Layout.preferredHeight: contentData.implicitHeight
-
-                color: currTheme.backgroundElements
-                radius: currTheme.radiusRectangle
-                shadowColor: currTheme.shadowColor
-                lightColor: currTheme.reflectionLight
-
-                contentData: DapExtensionsBlock{}
-
-                onVisibleChanged:
-                {
-                    if(visible)
-                        separatop.visible = false
-                    else
-                        separatop.visible = true
-                }
-
-            }
-            Item
-            {
-                id:separatop
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.minimumWidth: 0 * pt
-                Layout.maximumWidth: 0 * pt
-//                Layout.leftMargin: 23 * pt
-                visible: false
+                contentData: DapAppearanceBlock{id:content1}
             }
         }
     }
+
+//    Component.onCompleted: {
+//        if(!dapNetworkModel.count)
+//            dapServiceController.requestToService("DapGetListNetworksCommand")
+//    }
 }

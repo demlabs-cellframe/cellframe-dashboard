@@ -13,6 +13,8 @@ DapServiceController::DapServiceController(QObject *apParent)
     m_DapNotifyController = new DapNotifyController();
     notifySignalsAttach();
 
+    m_sVersion = DAP_VERSION;
+
     m_bReadingChains = configReader.getItemBool("general", "reading_chains", false);
 }
 
@@ -114,6 +116,15 @@ void DapServiceController::requestNetworksList()
     this->requestToService("DapGetListNetworksCommand");
 }
 
+int DapServiceController::getAutoOnlineValue()
+{
+    DapConfigReader reader;
+    bool res = reader.getItemBool("general", "auto_online", false);
+    if (res)
+        return 2;
+    else return 0;
+}
+
 
 /// Get an instance of a class.
 /// @return Instance of a class.
@@ -121,6 +132,12 @@ DapServiceController &DapServiceController::getInstance()
 {
     static DapServiceController instance;
     return instance;
+}
+
+/// Disconnect all signals
+void DapServiceController::disconnectAll()
+{
+    disconnect(this, 0, 0, 0);
 }
 
 /// Send request to service.
@@ -217,8 +234,11 @@ void DapServiceController::registerCommand()
     // Save cmd command in file
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapVersionController("DapVersionController",m_DAPRpcSocket))), QString("versionControllerResult")));
+
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRcvNotify("DapRcvNotify",m_DAPRpcSocket))), QString("dapRcvNotify")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeConfigController("DapNodeConfigController",m_DAPRpcSocket))), QString("dapNodeConfigController")));
 
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
@@ -249,7 +269,7 @@ void DapServiceController::registerCommand()
         QDataStream in(&array, QIODevice::ReadOnly);
         in >> wallet;
 
-        qDebug() << "walletInfoReceived" << wallet.getName();
+//        qDebug() << "walletInfoReceived" << wallet.getName();
 
         DapWallet * outWallet = new DapWallet(wallet);
 
@@ -273,6 +293,9 @@ void DapServiceController::registerCommand()
             wallethistoryEvent = new DapWalletHistoryEvent(*begin);
             walletHistory.append(wallethistoryEvent);
         }
+
+        qDebug() << "DapServiceController::registerCommand"
+                 << "DapServiceController::historyReceived" << walletHistory.size();
 
         emit walletHistoryReceived(walletHistory);
     });
@@ -363,7 +386,9 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
+//        qDebug() << "dapRcvNotify data: " << rcvData;
         m_DapNotifyController->rcvData(rcvData);
+//        emit notifyReceived(rcvData);
     });
 
 
@@ -376,6 +401,7 @@ void DapServiceController::registerCommand()
 void DapServiceController::findEmittedSignal(const QVariant &aValue)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand *>(sender());
+//    qDebug() << "findEmittedSignal, transceiver:" << transceiver  << ", value:" << aValue;
     Q_ASSERT(transceiver);
     auto service = std::find_if(m_transceivers.begin(), m_transceivers.end(), [=] (const QPair<DapAbstractCommand*, QString>& it) 
     {

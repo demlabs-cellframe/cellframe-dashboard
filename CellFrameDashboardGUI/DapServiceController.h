@@ -40,6 +40,8 @@
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapRcvNotify.h"
 #include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapNodeConfigController.h"
+#include "handlers/DapVersionController.h"
 
 class DapServiceController : public QObject
 {
@@ -73,6 +75,10 @@ public:
     /// Get an instance of a class.
     /// @return Instance of a class.
     Q_INVOKABLE static DapServiceController &getInstance();
+
+    /// Disconnect all signals
+    Q_INVOKABLE void disconnectAll();
+
     /// Send request to service.
     /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
     /// @param asServiceName Service name.
@@ -136,6 +142,7 @@ public slots:
     void changeNetworkStateToOffline(QString a_networkName);
     void requestOrdersList();
     void requestNetworksList();
+    int getAutoOnlineValue();
 
 signals:
     /// The signal is emitted when the Brand company property changes.
@@ -190,6 +197,8 @@ signals:
     void historyReceived(const QVariant& walletHistory);
 
     void allHistoryReceived(const QVariant& walletHistory);
+
+    void versionControllerResult(const QVariant& versionResult);
 
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
 

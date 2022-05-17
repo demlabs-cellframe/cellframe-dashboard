@@ -8,6 +8,12 @@
 #include <QSharedMemory>
 #include <QScreen>
 
+#ifdef Q_OS_ANDROID
+#include <QtAndroid>
+#include <QAndroidJniObject>
+#include <QAndroidIntent>
+#endif
+
 #include "DapHelper.h"
 #include "serviceClient/DapServiceClient.h"
 #include "DapServiceController.h"
@@ -21,6 +27,10 @@
 #include "dapconfigreader.h"
 
 #include "systemtray.h"
+
+#include "resizeimageprovider.h"
+
+#include "windowframerect.h"
 
 #include "models/VpnOrdersModel.h"
 
@@ -87,15 +97,18 @@ bool SingleApplicationTest(const QString &appName)
     return true;
 }
 
+const int RESTART_CODE = 12345;
+
+const int MIN_WIDTH = 1280;
+const int MIN_HEIGHT = 770;
+
+const int DEFAULT_WIDTH = 1280;
+const int DEFAULT_HEIGHT = 800;
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     DapLogger dapLogger(QCoreApplication::instance(), "GUI");
-
-    DapApplication app(argc, argv);
-
-    if (!SingleApplicationTest(app.applicationName()))
-        return 1;
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
@@ -114,9 +127,9 @@ int main(int argc, char *argv[])
         filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
         pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
     #elif defined Q_OS_MACOS
-        mkdir("/tmp/cellframe-dashboard_dapps",0777);
-        filePluginConfig = QString("/tmp/cellframe-dashboard_dapps/config_dApps.ini");
-        pluginPath = QString("/tmp/cellframe-dashboard_dapps");
+        mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
+        filePluginConfig = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
+        pluginPath = QString("/tmp/Cellframe-Dashboard_dapps");
     #elif defined Q_OS_WIN
         filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
         pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
@@ -129,27 +142,95 @@ int main(int argc, char *argv[])
             filePlugin.close();
     }
 
-    SystemTray * systemTray = new SystemTray();
-    QQmlContext * context = app.qmlEngine()->rootContext();
-    context->setContextProperty("systemTray", systemTray);
+    int result = RESTART_CODE;
 
-    // For wallet restore
-    WalletHashManager walletHashManager;
-    context->setContextProperty("walletHashManager", &walletHashManager);
-    walletHashManager.setContext(context);
+    while (result == RESTART_CODE)
+    {
+        qputenv("QT_SCALE_FACTOR", "1.0");
 
-    //For plugins
-    DapPluginsController pluginsManager(filePluginConfig,pluginPath);
-    context->setContextProperty("pluginsManager", &pluginsManager);
+        QGuiApplication *testapp = new QGuiApplication(argc, argv);
+        qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
+        int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
+        int maxheight = QGuiApplication::primaryScreen()->availableGeometry().height();
+        testapp->quit();
+        delete testapp;
 
-    //For cert
-    ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
-    context->setContextProperty("importCertificate", &importCertifiacte);
+        QCoreApplication::setOrganizationName("Cellframe Network");
+        QCoreApplication::setApplicationName(DAP_BRAND);
 
+        double scale = QSettings().value("window_scale", 1.0).toDouble();
 
-    app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+        qDebug() << "window_scale" << scale << QString::number(scale);
 
-    Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
+        if (MIN_WIDTH * scale > maxWidtn*1.25)
+        {
+            scale = (double)maxWidtn*1.25 / MIN_WIDTH;
+            qDebug() << "Max correct scale" << scale;
 
-    return app.exec();
+            QSettings().setValue("window_scale", scale);
+        }
+        if (MIN_HEIGHT * scale > maxheight)
+        {
+            scale = (double)maxheight/MIN_HEIGHT;
+            qDebug() << "Max correct scale" << scale;
+
+            QSettings().setValue("window_scale", scale);
+        }
+
+        if (scale < 1.0)
+        {
+            qputenv("QT_SCALE_FACTOR", "1.0");
+        }
+        else
+        {
+            qputenv("QT_SCALE_FACTOR", QString::number(scale).toLocal8Bit());
+        }
+
+        DapApplication app(argc, argv);
+
+        if (!SingleApplicationTest(app.applicationName()))
+            return 1;
+
+        QQmlContext * context = app.qmlEngine()->rootContext();
+
+//        SystemTray * systemTray = new SystemTray();
+//        context->setContextProperty("systemTray", systemTray);
+
+        // For wallet restore
+        WalletHashManager walletHashManager;
+
+        context->setContextProperty("walletHashManager", &walletHashManager);
+        walletHashManager.setContext(context);
+
+        //For plugins
+        DapPluginsController pluginsManager(filePluginConfig,pluginPath);
+        context->setContextProperty("pluginsManager", &pluginsManager);
+
+        //For cert
+        ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
+        context->setContextProperty("importCertificate", &importCertifiacte);
+
+        qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
+
+        app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
+
+        context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
+
+        context->setContextProperty("MIN_WIDTH", QVariant::fromValue(MIN_WIDTH));
+        context->setContextProperty("MIN_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
+
+        context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
+        context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
+
+        app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+
+        Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
+
+        result = app.exec();
+
+//        systemTray->hideIconTray();
+//        delete systemTray;
+    }
+
+    return result;
 }

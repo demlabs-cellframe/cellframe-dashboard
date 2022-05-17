@@ -49,7 +49,10 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetNetworksStateCommand.h"
 #include "handlers/DapNetworkSingleSyncCommand.h"
 #include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapVersionController.h"
 #include "handlers/DapRcvNotify.h"
+#include "handlers/DapNodeConfigController.h"
+
 #include "DapNotificationWatcher.h"
 #include "DapNetSyncController.h"
 
@@ -70,7 +73,7 @@ class DapServiceController : public QObject
 
     DapNotificationWatcher *watcher;
     DapNetSyncController *m_syncControll;
-  
+
 public:
     /// Standard constructor.
     /// @param parent Parent.

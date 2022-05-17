@@ -1,14 +1,29 @@
-import QtQuick 2.4
+import QtQuick 2.12
+import QtQml 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
-DapExchangeTabForm
+import "../controls"
+
+DapPage
 {
-    Text
+    property var exchangeTokenModel: dapModelWallets.get(logicMainApp.currentIndex).networks.get(dapServiceController.IndexCurrentNetwork).tokens
+//    id: exchangeTab
+//    color: currTheme.backgroundMainScreen
+
+//    dapTopPanel: DapExchangeTopPanel { }
+//    dapScreen: DapExchangeScreen { }
+//    dapRightPanel: DapExchangeRightPanel { }
+
+    dapHeader.initialItem: DapExchangeTopPanel
     {
-        id: textUnderConstruction0
-        text: "Under construction"
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
-        color: "#00000000"
+        id: exchangeTopPanel
     }
+
+    dapScreen.initialItem: DapExchangeScreen
+    {
+        id: exchangeScreen
+    }
+
+    onRightPanel: false
 }

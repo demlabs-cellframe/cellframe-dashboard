@@ -2,22 +2,28 @@ import QtQuick 2.4
 
 DapCreateWalletForm
 {
-    dapNextRightPanel: recoveryWallet
-    dapPreviousRightPanel: ""
+//    dapNextRightPanel: recoveryWallet
+//    dapPreviousRightPanel: ""
 
     property string dapSignatureTypeWallet
 
     Component.onCompleted:
     {
-        if (currentTab === dashboardScreenPath)
-          dapPreviousRightPanel = lastActionsWallet
-        if (currentTab === settingsScreenPath)
-          dapPreviousRightPanel = emptyRightPanel
+//        if (logicMainApp.currentTab === dashboardScreenPath)
+//          dapPreviousRightPanel = lastActionsWallet
+//        if (logicMainApp.currentTab === settingsScreenPath)
+//          dapPreviousRightPanel = emptyRightPanel
 
-        if (!restoreWalletMode)
+        if (!logicMainApp.restoreWalletMode)
+        {
             dapTextHeader.text = qsTr("New wallet")
+            dapButtonSelectionNothing.visible = true
+        }
         else
+        {
             dapTextHeader.text = qsTr("Restore a wallet")
+            dapButtonSelectionNothing.visible = false
+        }
     }
 
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
@@ -40,16 +46,17 @@ DapCreateWalletForm
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
 
-            if (walletRecoveryType !== "Nothing")
+            if (logicMainApp.walletRecoveryType !== "Nothing")
             {
-                print("walletRecoveryType", walletRecoveryType)
+                print("walletRecoveryType", logicMainApp.walletRecoveryType)
 
-                dapNextRightPanel = recoveryWallet
-                nextActivated("recoveryWallet");
+//                dapNextRightPanel = recoveryWallet
+//                nextActivated("recoveryWallet");
+                navigator.recoveryWalletFunc()
             }
             else
             {
-                dapNextRightPanel = doneWallet
+//                dapNextRightPanel = doneWallet
 
                 console.log("Create new wallet " + walletInfo.name);
                 console.log(walletInfo.signature_type);
@@ -65,15 +72,16 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-        if (currentTab === dashboardScreenPath)
-            previousActivated(lastActionsWallet)
-        if (currentTab === settingsScreenPath)
-        {
-            previousActivated(emptyRightPanel)
-            dapSettingsRightPanel.visible = false
-            dapSettingsRightPanel.width = 0
-            dapSettingsScreen.dapExtensionsBlock.visible = true
-        }
+//        if (logicMainApp.currentTab === dashboardScreenPath)
+//            previousActivated(lastActionsWallet)
+//        if (logicMainApp.currentTab === settingsScreenPath)
+//        {
+//            previousActivated(emptyRightPanel)
+//            dapSettingsRightPanel.visible = false
+//            dapSettingsRightPanel.width = 0
+//            dapSettingsScreen.dapExtensionsBlock.visible = true
+//        }
+        navigator.popPage()
     }
 
     Connections
@@ -81,7 +89,13 @@ DapCreateWalletForm
         target: dapServiceController
         onWalletCreated:
         {
-            nextActivated("doneWallet");
+//            nextActivated("doneWallet");
+//            console.log(wallet.success, wallet.message)
+
+            commandResult.success = wallet.success
+            commandResult.message = wallet.message
+
+            navigator.doneWalletFunc()
         }
     }
 }

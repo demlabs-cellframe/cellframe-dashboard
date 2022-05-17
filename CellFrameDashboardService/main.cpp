@@ -21,7 +21,7 @@
 #include <DapNotificationWatcher.h>
 void processArgs();
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) && !defined(QT_DEBUG)
 #include "registry.h"
 #include "Service.h"
 void ServiceMain(int argc, char *argv[]) {
@@ -34,8 +34,6 @@ void ServiceMain(int argc, char *argv[]) {
         DapLogger dapLogger(QCoreApplication::instance(), "Service");
 
         DapPluginsPathControll dapPlugins;
-        dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
-
         dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
         QDir dirPlug(dapPlugins.getPathToPlugin());
         if(!dirPlug.exists())
@@ -136,8 +134,6 @@ int main(int argc, char *argv[]) {
 #else
 int main(int argc, char *argv[])
 {
-
-
     // Creating a semaphore for locking external resources, as well as initializing an external resource-memory
     QSystemSemaphore systemSemaphore(QString("systemSemaphore for %1").arg("CellFrameDashboardService"), 1);
 
@@ -192,6 +188,7 @@ int main(int argc, char *argv[])
     processArgs();
     DapServiceController serviceController;
     serviceController.start();
+    qDebug() << "SERVICE STARTED";
     
     return a.exec();
 }

@@ -1,14 +1,17 @@
 #include "DapNetSyncController.h"
 
-DapNetSyncController::DapNetSyncController(QObject *parent)
+DapNetSyncController::DapNetSyncController(DapNotificationWatcher* watcher, QObject *parent)
     : QObject{parent}
 {
+    m_notifWatch = watcher;
+    m_nodeState = watcher->m_socketState;
     updateTick();
 
     m_timerSync = new QTimer(this);
     connect(m_timerSync, SIGNAL(timeout()), this, SLOT(updateTick()));
     m_timerSync->start(1000 * 60 * 5); //5 min timer
 
+    connect(m_notifWatch, SIGNAL(changeConnectState(QString)), this, SLOT(rcvNotifState(QString)));
 }
 
 void DapNetSyncController::updateTick()
@@ -42,7 +45,6 @@ QStringList DapNetSyncController::getNetworkList()
         qWarning()<<"Empty network lsit";
 
     return list;
-
 }
 
 void DapNetSyncController::goSyncNet(QString net)
@@ -53,5 +55,18 @@ void DapNetSyncController::goSyncNet(QString net)
     process.waitForFinished(-1);
     QString result = QString::fromLatin1(process.readAll());
     qInfo() << "result:" << result;
+}
 
+void DapNetSyncController::rcvNotifState(QString state)
+{
+    if(state == QAbstractSocket::SocketState::ConnectedState)
+    {
+        if(state != m_nodeState)
+        {
+            m_timerSync->stop();
+            updateTick();
+            m_timerSync->start(1000 * 60 * 20);
+        }
+    }
+    m_nodeState = state;
 }

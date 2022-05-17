@@ -1,10 +1,11 @@
 import QtQuick 2.4
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
 
-DapAbstractScreen {
+Page {
 
     id: dapVpnClientScreen
     anchors
@@ -53,7 +54,7 @@ DapAbstractScreen {
                     anchors.left: parent.left
                     text: qsTr("Conntected to:")
                     color: currTheme.textColorGray
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                    font: mainFont.dapFont.regular16
                 }
 
                 Text {
@@ -63,7 +64,7 @@ DapAbstractScreen {
                     anchors.topMargin: 10 * pt
                     text: qsTr("42.112.14.73 (San Juan, Puerto Rico)")
                     color: currTheme.textColor
-                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium18
+                    font: mainFont.dapFont.medium18
                 }
 
                 DapButton
@@ -76,7 +77,7 @@ DapAbstractScreen {
                     anchors.topMargin: 17 * pt
                     implicitHeight: 36 * pt
                     implicitWidth: 165 * pt
-                    fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16
+                    fontButton: mainFont.dapFont.medium16
                     horizontalAligmentText: Text.AlignHCenter
                 }
             }

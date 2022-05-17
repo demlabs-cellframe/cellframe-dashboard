@@ -1,0 +1,211 @@
+import QtQuick 2.12
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
+import qmlclipboard 1.0
+import "qrc:/widgets/"
+
+Page {
+    title: qsTr("Send " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+    background: Rectangle {color: currTheme.backgroundMainScreen }
+
+    QMLClipboard{
+        id: clipboard
+    }
+
+    ColumnLayout
+    {
+        anchors.fill: parent
+        anchors.margins: 30
+        width: parent.width
+        spacing: 0
+
+//        Item {
+//            Layout.fillHeight: true
+//        }
+
+        RowLayout
+        {
+            Layout.topMargin: 30
+//            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Text {
+                color: currTheme.textColor
+//                font: mainFont.dapFont.bold14
+                font.family: "Quicksand"
+                font.pixelSize: 16 * pt
+                font.bold: true
+                text: qsTr("Network: ")
+            }
+
+            Text {
+
+                color: currTheme.textColor
+                font: mainFont.dapFont.regular16
+                text: qsTr(walletModel.get(currentWallet).networks.get(currentNetwork).name)
+            }
+        }
+
+        RowLayout
+        {
+            Layout.topMargin: 12 * pt
+//            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignHCenter
+            Text {
+                color: currTheme.textColor
+//                font: mainFont.dapFont.bold14
+                font.family: "Quicksand"
+                font.pixelSize: 16 * pt
+                font.bold: true
+                text: qsTr("Amount: ")
+            }
+
+            Text {
+
+                color: currTheme.textColor
+                font: mainFont.dapFont.regular16
+                text: qsTr( sendAmount + " " + walletModel.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).name)
+            }
+        }
+
+        Text {
+            Layout.topMargin: 30
+            id: warningText
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font: mainFont.dapFont.regular14
+            color: "#B3FF00"
+
+            text: qsTr("Enter a valid wallet address.")
+            wrapMode: Text.WordWrap
+            visible: false
+        }
+
+        TextField {
+            Layout.topMargin: 30
+            id: addressText
+            Layout.alignment: Qt.AlignHCenter
+            horizontalAlignment: Text.AlignHCenter
+//            width: parent.width
+
+            implicitWidth: parent.width* 0.95
+
+            placeholderText: qsTr("Enter a wallet address")
+            color: "#ffffff"
+            font: mainFont.dapFont.medium14
+
+            background: Rectangle{color:"transparent"}
+        }
+
+        Rectangle
+        {
+            Layout.topMargin: 5
+            Layout.fillWidth: true
+            height: 1
+            color: "#6B6979"
+        }
+
+        RowLayout
+        {
+            Layout.topMargin: 5
+            Layout.fillWidth: true
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            DapButton
+            {
+                implicitWidth: 50 * pt
+                implicitHeight: 20 * pt
+                radius: 5 * pt
+
+                textButton: qsTr("Paste")
+
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText: Text.AlignHCenter
+                colorTextButton: "#FFFFFF"
+
+//                customColors: true
+//                gradientHover0:"#B9B8D9"
+//                gradientNormal0:"#A4A3C0"
+//                gradientHover1:"#9392B0"
+//                gradientNormal1:"#7D7C96"
+//                gradientNoActive:"gray"
+
+
+                onClicked:
+                {
+                    addressText.text = clipboard.getText()
+                }
+
+            }
+
+        }
+
+        RowLayout
+        {
+            Layout.topMargin: 30
+            Layout.fillWidth: true
+            spacing: 17 * pt
+
+            DapButton
+            {
+                Layout.fillWidth: true
+
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
+                radius: currTheme.radiusButton
+
+                textButton: qsTr("Back")
+
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText: Text.AlignHCenter
+                colorTextButton: "#FFFFFF"
+                onClicked:
+                {
+                    mainStackView.pop()
+                }
+
+            }
+
+            DapButton
+            {
+                id: next
+                Layout.fillWidth: true
+
+                implicitWidth: 132 * pt
+                implicitHeight: 36 * pt
+                radius: currTheme.radiusButton
+
+                textButton: qsTr("Next")
+
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText: Text.AlignHCenter
+                colorTextButton: "#FFFFFF"
+                onClicked:
+                {
+                    if (addressText.text.length != 104)
+                    {
+                        warningText.visible = true
+                    }
+                    else
+                    {
+                        warningText.visible = false
+                        sendAddress = addressText.text
+
+                        mainStackView.push("TransactionOverview.qml")
+                    }
+
+                }
+
+            }
+        }
+
+        Item {
+            Layout.fillHeight: true
+        }
+
+    }
+}

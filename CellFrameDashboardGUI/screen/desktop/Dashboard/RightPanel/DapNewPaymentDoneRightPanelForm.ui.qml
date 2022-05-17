@@ -1,24 +1,30 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.5 as Controls
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.4
 import "qrc:/widgets"
 import "../../../"
 
-DapAbstractRightPanel
+Controls.Page
 {
     /// @param dapButtonSend Send button.
     property alias dapButtonSend: buttonSend
-
     property alias dapStatusTransaction: textStatusMessage
 
-    dapNextRightPanel: lastActionsWallet
-    dapPreviousRightPanel: lastActionsWallet
+    background: Rectangle {
+        color: "transparent"
+    }
 
-    dapContentItemData:
-        Item
-        {
-            anchors.fill: parent
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
+        Item {
+
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             Text
             {
@@ -32,7 +38,7 @@ DapAbstractRightPanel
                 anchors.leftMargin: 46 * pt
                 anchors.rightMargin: 50 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium27
+                font: mainFont.dapFont.medium27
             }
 
             Text
@@ -44,7 +50,7 @@ DapAbstractRightPanel
                 anchors.top: textMessage.bottom
                 anchors.topMargin: 36 * pt
                 color: "#A4A3C0"
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+                font: mainFont.dapFont.regular28
             }
 
             Text
@@ -56,7 +62,7 @@ DapAbstractRightPanel
                 anchors.top: textStatus.bottom
 //                anchors.topMargin: 8 * pt
                 color: currTheme.textColor
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular28
+                font: mainFont.dapFont.regular28
             }
 
             // Button "Send"
@@ -71,7 +77,7 @@ DapAbstractRightPanel
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                fontButton: mainFont.dapFont.regular16
             }
 
             Rectangle
@@ -86,4 +92,5 @@ DapAbstractRightPanel
                 color: "transparent"
             }
         }
+    }
 }

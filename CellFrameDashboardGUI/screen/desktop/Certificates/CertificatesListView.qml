@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQml 2.12
 import QtQuick.Controls 2.5
 import "parts"
 import "qrc:/widgets"
@@ -12,8 +13,9 @@ ListView {
     signal infoClicked(int index)
 
     property string seletedCertificateAccessType: qsTr("Public")
+//    property alias infoText: infoTitleText
     property bool infoTitleTextVisible: false
-
+    property bool infoTitleTextVisibleClick: false
 
     //interactive: contentHeight > height
     headerPositioning: ListView.OverlayHeader
@@ -47,7 +49,7 @@ ListView {
                 x: 3 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
                 text: qsTr("Certificates")
             }
@@ -66,7 +68,7 @@ ListView {
                 x: 15 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                font: mainFont.dapFont.medium11
                 text: root.seletedCertificateAccessType
                 color: currTheme.textColor
             }
@@ -80,10 +82,16 @@ ListView {
                 }
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                font: mainFont.dapFont.medium11
                 text: qsTr("Info")
-                visible: root.infoTitleTextVisible
+                opacity: if (root.infoTitleTextVisible || root.infoTitleTextVisibleClick) return 1; else return 0
                 color: currTheme.textColor
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 100
+                    }
+                }
             }
         }
 
@@ -109,11 +117,21 @@ ListView {
                 width: 597 * pt
                 height: parent.height
                 verticalAlignment: Text.AlignVCenter
-                font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                font: mainFont.dapFont.regular16
                 text: model.completeBaseName   //model.fileName
-                color: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
                 elide: Text.ElideRight
                 maximumLineCount: 1
+                color: currTheme.textColor
+
+                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
+
+                onColorPropertyChanged: textTimer.start()
+
+                Timer {
+                    id: textTimer
+                        interval: 300
+                        onTriggered: certificateNameText.color = certificateNameText.colorProperty
+                    }
             }
 
 
@@ -135,6 +153,7 @@ ListView {
                 onClicked: {
                     root.selectedIndex(model.index)
                     models.selectedAccessKeyType = model.accessKeyType
+                    root.infoTitleTextVisibleClick = true
                 }
 
                 onDoubleClicked: {
@@ -147,17 +166,26 @@ ListView {
             Item {
                 id: infoButton
                 anchors {
-                    left: certificateNameText.right
                     right: parent.right
                 }
                 height: parent.height
-                visible: model.selected || delegateClicked._entered
+                width: 58 * pt
+                opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
 
-                DapImageLoader{
+                onOpacityChanged: root.infoTitleTextVisible = opacity
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 300
+                    }
+                }
+
+                Image{
                     anchors.right: infoButton.right
                     anchors.rightMargin: 14 * pt
-                    innerWidth: 30 * pt
-                    innerHeight: 30 * pt
+                    width: 30 * pt
+                    height: 30 * pt
+                    mipmap: true
                     source: "qrc:/resources/icons/Certificates/ic_info.png"
                 }
 
@@ -168,7 +196,6 @@ ListView {
                         root.infoClicked(model.index)
                     }
                 }
-
 
             }  //
 

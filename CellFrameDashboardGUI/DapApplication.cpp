@@ -24,8 +24,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
 
-
-
     qDebug()<<QString(DAP_SERVICE_NAME);
 
 #ifdef Q_OS_ANDROID
@@ -59,63 +57,16 @@ DapApplication::DapApplication(int &argc, char **argv)
         qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 
-/*    connect(m_serviceController, &DapServiceController::walletsReceived, [this](QList<QObject*> walletList)
-    {
-        qDebug() << "walletsReceived" << walletList;
-        if (!walletList.isEmpty())
-            this->setCurrentWallet(static_cast<DapWallet*>(walletList[0]));
-
-        this->m_serviceController->requestWalletInfo(currentWallet()->getName(), currentWallet()->getNetworks());
-    });*/
     m_serviceController->requestWalletList();
     m_serviceController->requestOrdersList();
     m_serviceController->requestNetworksList();
-//    m_serviceController->requestNetworksStateList();
 
-/*    connect(m_serviceController, &DapServiceController::walletInfoReceived, [this](const QVariant& walletInfo)
-    {
-        qDebug() << "walletInfoReceived" << walletInfo;
-        QVariantMap infoMap = walletInfo.toMap();
-        if (currentWallet()->getName() == infoMap.value(DapGetWalletInfoCommand::WALLET_NAME).toString())
-        {
-            DapWalletBalanceModel::WalletBallanceInfo_t walletBalance;
+}
 
-            QVariantMap networkAllInfos = infoMap.value(DapGetWalletInfoCommand::NETWORKS_INFO).toMap();
-            for (auto netIt = networkAllInfos.begin(); netIt != networkAllInfos.end(); ++netIt)
-            {
-                QVariantMap networkInfo = netIt.value().toMap().value(DapGetWalletInfoCommand::BALANCE).toMap();
-
-                if (networkInfo.count() == 0)
-                    continue;
-
-                DapBalanceModel::BalanceInfo_t networkBalance;
-                for (auto tokenIt = networkInfo.begin(); tokenIt != networkInfo.end(); ++tokenIt)
-                {
-                    const DapToken* currentToken = DapToken::token(tokenIt.key());
-
-                    balance_t currentAmount = tokenIt.value().value<balance_t>();
-
-                    if (networkBalance.contains(currentToken))
-                        currentAmount =  currentAmount + networkBalance[currentToken];
-
-                    networkBalance[currentToken] = currentAmount;
-                }
-
-                DapNetwork *currentNetwork = networks()->addIfNotExist(netIt.key());
-
-                walletBalance.insert(currentNetwork, networkBalance);
-            }
-            currentWallet()->setBalance(walletBalance);
-        }
-
-
-    });*/
-
-
-//    m_currentWallet = new DapWallet(this);
-
-//    m_currentWallet->setBalance({{}});
-
+DapApplication::~DapApplication()
+{
+    qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
+    m_serviceController->disconnectAll();
 }
 
 DapNetworksList *DapApplication::networks()
@@ -169,6 +120,8 @@ void DapApplication::registerQmlTypes()
 
     qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
 
+    qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
+
 }
 
 /*DapWallet *DapApplication::currentWallet() const
@@ -176,14 +129,13 @@ void DapApplication::registerQmlTypes()
     return m_currentWallet;
 }*/
 
-/*void DapApplication::setCurrentWallet(DapWallet *a_currentWallet)
+void DapApplication::startService()
 {
-    if (m_currentWallet == a_currentWallet)
-        return;
-    m_currentWallet = a_currentWallet;
-
-    emit this->currentWalletChanged(a_currentWallet);
-}*/
+    qInfo()<<"C++ -> < Go run Dashboard Service >";
+#ifdef Q_OS_ANDROID
+    QtAndroid::androidContext().callMethod<void>("startService", "()V");
+#endif
+}
 
 void DapApplication::setContextProperties()
 {

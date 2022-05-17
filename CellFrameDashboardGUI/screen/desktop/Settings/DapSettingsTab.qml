@@ -1,27 +1,26 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 1.4
 
 import "qrc:/"
 import "../../"
-import "../SettingsWallet.js" as SettingsWallet
+import "../controls"
+import "RightPanel"
+import "MenuBlocks"
 
-DapAbstractTab
+DapPage
 {
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string inputNameWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapCreateWallet.qml"
+    readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapDoneCreateWallet.qml"
-    //empty panel
-    readonly property string emptyRightPanel: "qrc:/screen/" + device + "/Settings/RightPanel/DapEmptyRightPanel.qml"
+    readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: "qrc:/screen/" + device + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
+    readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
-    color: currTheme.backgroundMainScreen
-
-    property alias dapSettingsRightPanel: stackViewRightPanel
     property alias dapSettingsScreen: settingsScreen
+    property bool sendRequest: false
 
     property var walletInfo:
     {
@@ -31,38 +30,62 @@ DapAbstractTab
         "signature_type": "",
         "recovery_hash": ""
     }
+    property var commandResult:
+    {
+        "success": "",
+        "message": ""
+    }
 
-    dapTopPanel: DapSettingsTopPanel { }
+    QtObject {
+        id: navigator
 
-    dapScreen: DapSettingsScreen {
+        function createWallet() {
+            dapRightPanelFrame.frame.visible = true
+            dapRightPanel.push(inputNameWallet)
+        }
+
+        function doneWalletFunc(){
+            dapRightPanel.push(doneWallet)
+        }
+
+        function recoveryWalletFunc()
+        {
+            dapRightPanelFrame.frame.visible = true
+            dapRightPanel.push(recoveryWallet)
+        }
+
+        function popPage() {
+            dapRightPanel.clear()
+            dapRightPanel.push(dapExtensionsBlock)
+            dapRightPanelFrame.frame.visible = false
+        }
+    }
+
+    dapHeader.initialItem: DapSettingsTopPanel { }
+
+    dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
 
         onCreateWalletSignal:
         {
-            restoreWalletMode = restoreMode
-            dapSettingsRightPanel.visible = true
-            settingsScreen.dapExtensionsBlock.visible = false
-            currentRightPanel = stackViewRightPanel.push({item:Qt.resolvedUrl(inputNameWallet)});
+            dapRightPanel.pop()
+            logicMainApp.restoreWalletMode = restoreMode
+            navigator.createWallet()
         }
 
         onSwitchMenuTab:
         {
-            console.log("onSwitchMenuTab", tag, state)
-
             for (var i = 0; i < modelMenuTab.count; ++i)
                 if (modelMenuTab.get(i).tag === tag)
                 {
                     modelMenuTab.setProperty(i, "showTab", state)
                     break
                 }
-
             menuTabChanged()
         }
 
         onSwitchAppsTab:
         {
-            console.log("onSwitchMenuTab", tag, name, state)
-
             for (var i = 0; i < modelMenuTab.count; ++i)
                 if (modelMenuTab.get(i).tag === tag && modelMenuTab.get(i).name === name)
                 {
@@ -74,50 +97,34 @@ DapAbstractTab
         }
     }
 
-    dapRightPanel: StackView
-    {
-        id: stackViewRightPanel
-        initialItem: Qt.resolvedUrl(emptyRightPanel);
-        width: visible ? 350 * pt : 0
-        anchors.fill: parent
-        visible:false
-        delegate:
-            StackViewDelegate
-            {
-                pushTransition: StackViewTransition { }
-            }
-    }
+    dapRightPanel.initialItem: DapExtensionsBlock{id:dapExtensionsBlock}
+    dapRightPanelFrame.visible: true
+    dapRightPanelFrame.frame.visible: false
 
     Timer {
         id: updateTimer
-        interval: autoUpdateInterval; running: false; repeat: true
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
             dapServiceController.requestToService("DapGetListWalletsCommand")
-            if(!dapNetworkModel.count)
-                dapServiceController.requestToService("DapGetListNetworksCommand")
+//            dapServiceController.requestToService("DapGetListNetworksCommand")
+
+            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
+                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
+
+//            if(!dapNetworkModel.count)
+//            {
+//                dapServiceController.requestToService("DapGetListNetworksCommand")
+////                dapNetworkComboBox.mainLineText = dapNetworkModel.get(logicMainApp.currentNetwork).name
+//            }
         }
     }
 
     Component.onCompleted:
-    {
-        updateTimer.running = true
-    }
+        updateTimer.start()
 
-    Connections
-    {
-        target: currentRightPanel
-
-        onNextActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapNextRightPanel);
-        }
-        onPreviousActivated:
-        {
-            currentRightPanel = dapSettingsRightPanel.push(currentRightPanel.dapPreviousRightPanel);
-        }
-    }
-
+    Component.onDestruction:
+        updateTimer.stop()
 
 
     Connections
@@ -137,6 +144,17 @@ DapAbstractTab
             }
             else
                 dapServiceController.requestToService("DapGetWalletsInfoCommand")
+        }
+        onVersionControllerResult:
+        {
+            if(sendRequest)
+            {
+                if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+                {
+                    logicMainApp.rcvReplyVersion()
+                    sendRequest = false
+                }
+            }
         }
     }
 }

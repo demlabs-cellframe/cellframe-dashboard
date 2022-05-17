@@ -1,50 +1,53 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.0
+import QtQml 2.12
+import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
-import "screen"
+import windowframerect 1.0
 
-import "qrc:/screen/desktop/NetworksPanel"
+import "resources/theme"
+import "qrc:/resources/QML"
+import "screen/mobile"
+import "screen"
+import "logic"
 
 ApplicationWindow
 {
-    id: window
-    visible: true
+    property string path: params.isMobile ? "qrc:/screen/mobile" : "qrc:/screen/desktop"
+    property string pathTheme: currThemeVal ? "BlackTheme" : "LightTheme"
+    property bool currThemeVal: true
+    property var currTheme: currThemeVal ? darkTheme : lightTheme
+    property alias mainFont: quicksandFonts
+    property alias mainWindow : params.mainWindow
 
-    readonly property bool isMobile: ["android", "ios"].includes(Qt.platform.os)
+
+    id: window
+//    flags: Qt.FramelessWindowHint
+
+    WindowFrameRect{ id: framerect }
+    MainParams{ id: params}
+    Dark {id: darkTheme}
+    Light {id: lightTheme}
+    DapFontQuicksand { id: quicksandFonts }
 
     Settings {
+        id: settings
         property alias x: window.x
         property alias y: window.y
-//        property alias width: window.width
-//        property alias height: window.height
+        property alias width: window.width
+        property alias height: window.height
+        property real window_scale: 1.0
     }
 
-    //Main window
-    DapMainApplicationWindow
-    {
-        id: mainWindow
-        property alias device: dapDevice.device
-        property alias footer: networksPanel
 
-        anchors.fill: parent
+    visible: true
+    width: params.defaultWidth
+    height: params.defaultHeight
+    minimumWidth: params.minimumWidth
+    minimumHeight: params.minimumHeight
 
-        Device
-        {
-            id: dapDevice
-        }
-
-        DapControlNetworksPanel
-        {
-            id: networksPanel
-            property alias pathTheme: mainWindow.pathTheme
-            property alias currTheme: mainWindow.currTheme
-            property alias dapQuicksandFonts: mainWindow.dapQuicksandFonts
-            property alias dapMainWindow: mainWindow
-            height: 40 * pt
-        }
-    }
+    color: darkTheme.backgroundPanel
 
     ///The image with the effect fast blur
     Image
@@ -64,6 +67,16 @@ ApplicationWindow
         visible: false
     }
 
+    onClosing: {
+        close.accepted = false
+        Qt.quit()
+    }
+
+    Component.onCompleted: {
+        params.initScreen()
+        params.initSize()
+    }
+
     Connections
     {
         target: dapServiceController
@@ -71,24 +84,18 @@ ApplicationWindow
         onClientActivated:
         {
             if(window.visibility === Window.Hidden)
-            {
-                window.show()
-                window.raise()
-                window.requestActivate()
-            }
+                params.restoreWindow()
             else
-            {
-                window.hide()
-            }
+                params.hideWindow()
+
         }
     }
 
-    Connections {
+/*    Connections {
         target: systemTray
         onSignalShow: {
-            window.show()
-            window.raise()
-            window.requestActivate()
+            restoreWindow()
+
         }
 
         onSignalQuit: {
@@ -99,56 +106,15 @@ ApplicationWindow
         onSignalIconActivated: {
              if(window.visibility === Window.Hidden)
              {
-                 window.show()
-                 window.raise()
-                 window.requestActivate()
+                 restoreWindow()
+
              }
              else
              {
-                 window.hide()
+                 hideWindow()
              }
         }
-    }
+    }*/
 
-    onClosing: {
-        close.accepted = false
-        Qt.quit()
-//        window.hide()
-    }
 
-    Component.onCompleted: {
-        if(isMobile) {
-            window.minimumWidth = 0
-            window.minimumHeight = 0
-        }
-        else
-            sizeUpdate()
-
-    }
-
-    function sizeUpdate()
-    {
-        if(Screen.width > 1280 && Screen.height > 800)
-        {
-            width = 1280
-            height = 800
-        }
-        else if(Screen.width < 1280 && Screen.height > 800)
-        {
-            width = Screen.width
-            height = 800
-        }
-        else if(Screen.height < 800 && Screen.width > 1280)
-        {
-            width = 1280
-            height = Screen.height - 60
-        }
-        else
-        {
-            width = Screen.width
-            height = Screen.height - 60
-        }
-        minimumWidth = width
-        minimumHeight = height
-    }
 }

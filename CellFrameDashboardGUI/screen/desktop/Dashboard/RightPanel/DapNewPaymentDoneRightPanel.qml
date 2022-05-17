@@ -8,33 +8,22 @@ DapNewPaymentDoneRightPanelForm
 
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
 
-        nextActivated("transaction done")
-    }
-
-    dapButtonClose.onClicked:
-    {
-        previousActivated(lastActionsWallet)
+        navigator.popPage()
     }
 
     Component.onCompleted:
     {
-        dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
-    }
-    Connections
-    {
-        target: dapServiceController
-        onTransactionCreated:
+//        dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
+
+        if(commandResult.success)
         {
-            if(aResult.success)
-            {
-                dapStatusTransaction.text = qsTr("Pending")
-                dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
-            }
-            else
-            {
-                dapStatusTransaction.text = qsTr("Error")
-                dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Unsuccessfully!")
-            }
+            dapStatusTransaction.text = qsTr("Pending")
+            dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
+        }
+        else
+        {
+            dapStatusTransaction.text = qsTr("Error")
+            dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Unsuccessfully!")
         }
     }
 }

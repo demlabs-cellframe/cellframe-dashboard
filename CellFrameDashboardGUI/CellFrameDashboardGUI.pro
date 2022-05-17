@@ -65,7 +65,9 @@ SOURCES += \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
+    resizeimageprovider.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
@@ -91,9 +93,13 @@ HEADERS += \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    mobile/QMLClipboard.h \
+    mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \
+    resizeimageprovider.h \
     systemtray.h \
-    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
+    windowframerect.h
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
@@ -165,4 +171,6 @@ android {
     gui_data_static.path = /
     gui_data_static.files = android/*
     INSTALLS += gui_data_static
+
+include($$(OPENSSL_LIB)/openssl.pri)
 }

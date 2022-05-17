@@ -1,9 +1,11 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
+import "../../controls"
 import "qrc:/widgets"
-import "../../SettingsWallet.js" as SettingsWallet
+
+import "qrc:/screen"
 
 ColumnLayout
 {
@@ -11,7 +13,9 @@ ColumnLayout
     anchors.fill: parent
 
     property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: SettingsWallet.currentIndex
+    property int dapCurrentWallet: logicMainApp.currentIndex
+    property alias dapNetworkComboBox: comboBoxCurrentNetwork
+    property alias dapAutoOnlineCheckBox: checkBox
 
     spacing: 0
 
@@ -26,7 +30,7 @@ ColumnLayout
             anchors.leftMargin: 14 * pt
             anchors.topMargin: 10 * pt
             anchors.bottomMargin: 10 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+            font: mainFont.dapFont.bold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("General settings")
@@ -45,7 +49,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Networks")
@@ -64,11 +68,16 @@ ColumnLayout
             anchors.centerIn: parent
             anchors.fill: parent
             anchors.margins: 10 * pt
+            anchors.bottomMargin: 0
             anchors.leftMargin: 15 * pt
 
             comboBoxTextRole: ["name"]
-            mainLineText: dapNetworkModel.count ? dapNetworkModel.get(SettingsWallet.currentNetwork).name :
-                                                  "Networks"
+            mainLineText: {
+                if(dapNetworkModel.count)
+                    return dapNetworkModel.get(logicMainApp.currentNetwork).name
+                else
+                    return "Networks"
+            }
 
             indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -92,20 +101,82 @@ ColumnLayout
             roleInterval: 15
             endRowPadding: 37
 
-            fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
+            fontComboBox: [mainFont.dapFont.regular14]
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
             alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
 
-            currentIndex: SettingsWallet.currentNetwork
+//            currentIndex: logicMainApp.currentNetwork
 
             onCurrentIndexChanged:
             {
                 dapServiceController.setCurrentNetwork(dapNetworkModel.get(currentIndex).name);
                 dapServiceController.setIndexCurrentNetwork(currentIndex);
-                SettingsWallet.currentNetwork = currentIndex
+                logicMainApp.currentNetwork = currentIndex
             }
         }
 
+    }
+
+    Item
+    {
+        height: 50 * pt
+        Layout.fillWidth: true
+        Layout.topMargin: -10
+        DapCheckBox
+        {
+            property bool stopUpdate: false
+            id: checkBox
+            anchors.fill: parent
+            anchors.leftMargin: 10 * pt
+//            anchors.bottomMargin: 10 * pt
+            indicatorInnerSize: height
+            nameTextColor: currTheme.textColor
+            nameCheckbox: "Auto online"
+            property bool isCheck: false
+
+            Component.onCompleted:
+            {
+                checkBox.checkState = dapServiceController.getAutoOnlineValue()
+                isCheck = true
+            }
+
+            onClicked:
+            {
+                stopUpdate = true
+                var s
+                if (checkState == 0)
+                    s = "disable"
+                else s = "enable"
+                if (isCheck) popup.smartOpen("Confirm restart node", "To " + s + " auto_online it is necessary to restart the node")
+            }
+
+            DapMessagePopup
+            {
+                id: popup
+                dapButtonCancel.visible: true
+                dapButtonOk.textButton: "Accept"
+                onSignalAccept:
+                {
+                    if (accept)
+                    {
+                        var val = (checkBox.checkState === 2)
+                        dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
+                        popup.close()
+                    }
+                    else
+                    {
+                        var val
+                        if (checkBox.checkState == 0)
+                            val = 2
+                        else val = 0
+                        checkBox.checkState = val
+                        popup.close()
+                    }
+                }
+                onClosed:
+                    checkBox.stopUpdate = false
+            }
+        }
     }
 
 
@@ -123,7 +194,7 @@ ColumnLayout
             anchors.leftMargin: 16 * pt
             anchors.topMargin: 8 * pt
             anchors.bottomMargin: 8 * pt
-            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+            font: mainFont.dapFont.medium11
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Choose a wallet")
@@ -159,9 +230,17 @@ ColumnLayout
             onHeightChanged: listWallet.contentHeight = height
 
             Item {
+                id: block
 //                height: 50 * pt
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+
+                MouseArea
+                {
+                    anchors.fill: parent
+
+                    onClicked: radioBut.clicked();
+                }
 
                 RowLayout
                 {
@@ -180,7 +259,7 @@ ColumnLayout
                             height: 26*pt
                             Layout.fillWidth: true
 
-                            font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                            font: mainFont.dapFont.regular11
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: name
@@ -188,6 +267,7 @@ ColumnLayout
                         }
                         RowLayout
                         {
+                            id: rowLay
                             Layout.preferredHeight: 16 * pt
 
                             spacing: 0 * pt
@@ -196,7 +276,7 @@ ColumnLayout
                                id: textMetworkAddress
                                Layout.preferredWidth: 101 * pt
 
-                               fontDapText: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                               fontDapText: mainFont.dapFont.regular12
                                color: currTheme.textColorGrayTwo
                                fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
 
@@ -224,7 +304,7 @@ ColumnLayout
 //                                   fullText: " "
 //                               }
                             }
-                            MouseArea
+                            /*MouseArea
                             {
                                 id: networkAddressCopyButton
 //                                Layout.leftMargin: 3 * pt
@@ -234,15 +314,22 @@ ColumnLayout
 
                                 onClicked: textMetworkAddress.copyFullText()
 
-                                DapImageLoader{
+                                Image{
                                     id:networkAddressCopyButtonImage
-                                    innerWidth: parent.width
-                                    innerHeight: parent.height
+                                    width: parent.width
+                                    height: parent.height
+                                    mipmap: true
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
+                            }*/
+                            CopyButton
+                            {
+                                id: networkAddressCopyButton
+                                onCopyClicked: textMetworkAddress.copyFullText()
                             }
                         }
                     }
+
 
                     DapRadioButton
                     {
@@ -261,16 +348,16 @@ ColumnLayout
                         nameRadioButton: qsTr("")
                         indicatorInnerSize: 46 * pt
                         spaceIndicatorText: 3 * pt
-                        fontRadioButton: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular16
+                        fontRadioButton: mainFont.dapFont.regular16
                         implicitHeight: indicatorInnerSize
-                        checked: index === SettingsWallet.currentIndex? true:false
+                        checked: index === logicMainApp.currentIndex? true:false
 
                         onClicked:
                         {
 //                            if(!checked)
 //                                checked = true
                             dapCurrentWallet = index
-                            SettingsWallet.currentIndex = index
+                            logicMainApp.currentIndex = index
                         }
                     }
                 }
@@ -284,11 +371,6 @@ ColumnLayout
                     color: currTheme.lineSeparatorColor
 
                 }
-//                MouseArea
-//                {
-//                    anchors.fill: parent
-//                    onClicked: radioBut.clicked();
-//                }
             }
         }
     }

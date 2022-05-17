@@ -1,9 +1,10 @@
 import QtQuick 2.4
-import QtQuick.Layouts 1.3
-import "qrc:/widgets"
+import QtQuick.Controls 2.5
 import "../../"
 
-DapEmptyRightPanelForm
+Page
 {
-
+    background: Rectangle {
+        color: "transparent"
+    }
 }

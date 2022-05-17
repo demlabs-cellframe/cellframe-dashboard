@@ -7,7 +7,7 @@ import "qrc:/widgets"
 import "../../"
 import "RightPanel"
 
-DapAbstractScreen
+Page
 {
     property alias dapFrameApps: frameApps
     property alias dapListViewApps: listViewApps
@@ -21,16 +21,15 @@ DapAbstractScreen
 
     anchors.fill: parent
 
+    background: Rectangle
+    {
+        color: currTheme.backgroundMainScreen
+    }
+
     RowLayout
     {
         id:frameApps
-        anchors
-        {
-            fill: parent
-            margins: 24 * pt
-            rightMargin: 22 * pt
-            bottomMargin: 20 * pt
-        }
+        anchors.fill: parent
 
         spacing: 24 * pt
 
@@ -66,7 +65,7 @@ DapAbstractScreen
 
                             verticalAlignment: Qt.AlignVCenter
                             text: qsTr("Available apps")
-                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandBold14
+                            font:  mainFont.dapFont.bold14
                             color: currTheme.textColor
                         }
                     }
@@ -130,7 +129,7 @@ DapAbstractScreen
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Name")
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        font:  mainFont.dapFont.medium11
                                         color: currTheme.textColor
                                     }
                                 }
@@ -146,7 +145,7 @@ DapAbstractScreen
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Verified")
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        font:  mainFont.dapFont.medium11
                                         color: currTheme.textColor
                                     }
                                 }
@@ -161,7 +160,7 @@ DapAbstractScreen
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Status")
-                                        font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium11
+                                        font:  mainFont.dapFont.medium11
                                         color: currTheme.textColor
                                     }
 
@@ -205,7 +204,7 @@ DapAbstractScreen
 
                                             text: name
                                             color: currTheme.textColor
-                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular11
+                                            font:  mainFont.dapFont.regular11
     //                                        wrapMode: Text.WordWrap
                                             elide: Text.ElideMiddle
                                         }
@@ -223,7 +222,7 @@ DapAbstractScreen
                                             elide: Text.ElideMiddle
                                             text: urlPath
                                             color: "#B2B2B2"
-                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandLight12
+                                            font:  mainFont.dapFont.light12
     //                                        wrapMode: Text.WordWrap
                                             verticalAlignment: Qt.AlignVCenter
 
@@ -233,7 +232,7 @@ DapAbstractScreen
                                                 contentItem: Text{
                                                     color: currTheme.textColor
                                                     text: urlPath
-                                                    font: dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                                    font: mainFont.dapFont.regular12
                                                 }
                                                 background: Rectangle {
                                                     border.color: currTheme.lineSeparatorColor
@@ -286,11 +285,12 @@ DapAbstractScreen
                                                 width: 20 * pt
                                                 height: 20 * pt
 
-                                                DapImageLoader{
+                                                Image{
                                                     id:indicatorRadioButton
                                                     anchors.fill: parent
-                                                    innerWidth: 20 * pt
-                                                    innerHeight: 20 * pt
+                                                    width: 20 * pt
+                                                    height: 20 * pt
+                                                    mipmap: true
                                                     source: verifed === "0" ? "qrc:/resources/icons/" + pathTheme + "/no_icon.png" : "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
                                                 }
                                             }
@@ -315,7 +315,7 @@ DapAbstractScreen
 
                                             text: status === "1" ? "Activated":"Unactivated"
                                             color: currTheme.textColor
-                                            font:  dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular12
+                                            font:  mainFont.dapFont.regular12
                                         }
                                     }
                             }
@@ -324,7 +324,7 @@ DapAbstractScreen
                                 anchors.right: parent.right
                                 anchors.left: parent.left
                                 anchors.bottom: parent.bottom
-                                height: 2 * pt
+                                height: 1 * pt
                                 color: currTheme.lineSeparatorColor
                             }
 

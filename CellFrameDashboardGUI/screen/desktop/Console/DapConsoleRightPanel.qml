@@ -1,6 +1,10 @@
-import QtQuick 2.4
+import QtQuick 2.9
+import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
+import "qrc:/widgets"
+import "../../"
 
-DapConsoleRightPanelForm
+Page
 {
     property alias dapModelHistoryConsole: modelHistoryConsole
     ///@detalis commandQuery Command for history.
@@ -16,6 +20,83 @@ DapConsoleRightPanelForm
     {
         id: modelHistoryConsole
     }
+
+    background: Rectangle {
+        color: "transparent"
+    }
+
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
+
+        Item
+        {
+            Layout.fillWidth: true
+            height: 38 * pt
+
+            Text
+            {
+                id: textHeader
+                anchors.fill: parent
+                anchors.leftMargin: 24 * pt
+                text: qsTr("Last actions")
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                font: mainFont.dapFont.bold14
+                color: currTheme.textColor
+            }
+        }
+
+        ListView
+        {
+            id: listViewHistoryConsole
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            spacing: 32 * pt
+            model: modelHistoryConsole
+            ScrollBar.vertical: ScrollBar {
+                active: true
+            }
+
+            delegate:
+                Item
+                {
+                    anchors.leftMargin: 5 * pt
+                    anchors.rightMargin: 5 * pt
+                    width: listViewHistoryConsole.width
+                    height: textCommand.implicitHeight
+                    Text
+                    {
+                        anchors.fill: parent
+                        anchors.rightMargin: 20 * pt
+                        anchors.leftMargin: 16 * pt
+
+                        id: textCommand
+                        text: query
+                        color: currTheme.textColor
+
+                        wrapMode: Text.Wrap
+                        font: mainFont.dapFont.regular14
+                        //For the automatic sending selected command from history
+                        MouseArea
+                        {
+                            id: historyQueryMouseArea
+                            anchors.fill: textCommand
+                            onDoubleClicked: historyQueryIndex = index
+                        }
+                    }
+                }
+            //It allows to see last element of list by default
+            currentIndex: count - 1
+            highlightFollowsCurrentItem: true
+            highlightRangeMode: ListView.ApplyRange
+        }
+    }
+
+
+
 
     Component.onCompleted:
     {
