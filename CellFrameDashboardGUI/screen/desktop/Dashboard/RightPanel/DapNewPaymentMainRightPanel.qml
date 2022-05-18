@@ -102,7 +102,7 @@ DapNewPaymentMainRightPanelForm
         }
         else
         {
-            print("balanse:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).datoshi)
+            print("balance:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).datoshi)
             print("amount:", dapTextInputAmountPayment.text)
             print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
@@ -120,6 +120,7 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
+                print("walletMessagePopup.smartOpen", dapCmboBoxToken.mainLineText)
                 walletMessagePopup.smartOpen("Confirming the transaction", "Attention, the transaction fee will be 0.1 " + dapCmboBoxToken.mainLineText )
             }
         }
@@ -130,6 +131,18 @@ DapNewPaymentMainRightPanelForm
         target: walletMessagePopup
         onSignalAccept:
         {
+            print("walletMessagePopup.onSignalAccept")
+            print("dapCmboBoxTokenModel.count", dapCmboBoxTokenModel.count,
+                  "dapCmboBoxToken.currentIndex", dapCmboBoxToken.currentIndex)
+            print("dapCmboBoxChainModel.count", dapCmboBoxChainModel.count,
+                  "dapComboboxChain.currentIndex", dapComboboxChain.currentIndex)
+
+            console.log("   network:", dapComboboxNetwork.mainLineText)
+            console.log("   wallet from:", walletName)
+            console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
+            console.log("   token:", dapCmboBoxToken.mainLineText)
+            console.log("   amount:", logicWallet.toDatoshi(dapTextInputAmountPayment.text))
+
             if (dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex ||
                 dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex)
             {
@@ -140,12 +153,16 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-                if (accept && dapCmboBoxTokenModel.count)
+                print ("accept", accept)
+
+                if (accept)
                 {
                     var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
-                    if (!logicWallet.testAmount(
-                        dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance,
-                        amountWithCommission))
+                    print("amountWithCommission", amountWithCommission)
+                    var full_balance = dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance
+                    print("full_balance", full_balance)
+
+                    if (!logicWallet.testAmount(full_balance, amountWithCommission))
                     {
                         print("Not enough tokens")
                         dapTextNotEnoughTokensWarning.text =
