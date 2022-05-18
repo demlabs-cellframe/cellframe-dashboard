@@ -47,6 +47,7 @@ public slots:
     bool isOneWord(const QString &value);
 
     QVariantList getTreeWords(QString value);
+    int maxLengthText(QVariantList list);
 
 signals:
 

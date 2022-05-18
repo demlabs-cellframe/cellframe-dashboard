@@ -40,7 +40,7 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-        Item
+            Item
         {
             anchors.fill: parent
 
@@ -68,15 +68,46 @@ Page
                 }
             }
 
-
             SuggestionBox
             {
                 id: suggestionsBox
-                width: 200 * pt
+                //width: commandCmdController.maxLengthText(model) * 15 * pt//200 * pt
                 anchors.bottom: inputCommand.top
                 x: 20 * pt
 
                 onWordSelected: inputField.text = word
+
+                /*onVisibleChanged:
+                {
+                    closeSuggestionBoxButton.visible = suggestionsBox.visible
+                }*/
+            }
+
+            Rectangle
+            {
+                id: closeSuggestionBoxButton
+                width: 20 * pt
+                height: width
+                radius: height * 0.5
+
+                x: suggestionsBox.x + suggestionsBox.width
+                y: suggestionsBox.y - height
+
+                visible: suggestionsBox.visible
+
+                color: currTheme.hilightColorComboBox
+                Text
+                {
+                    anchors.centerIn: parent
+                    text: "X"
+                    font.pointSize: 20
+                }
+
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: suggestionsBox.model = {}
+                }
             }
 
             //RowLayout
@@ -108,7 +139,7 @@ Page
                         font: mainFont.dapFont.regular18
                     }
 
-                   /* Suggestions {
+                    /* Suggestions {
                         id: suggestions
                     }*/
 
@@ -128,40 +159,61 @@ Page
 
                             onSugTextChanged:
                             {
-                                if (text != "")
-                                    suggestionsBox.model = commandCmdController.getTreeWords(text)
+                                suggestionsBox.model = commandCmdController.getTreeWords(text)
                             }
 
                             onEnterPressed:
                             {
-                                textInput.text.length > 0 ?
-                                     sendedCommand = textInput.text :
-                                     sendedCommand = ""
-                                textInput.text = ""
+                                if (!suggestionsBox.visible)
+                                {
+                                    textInput.text.length > 0 ?
+                                                sendedCommand = textInput.text :
+                                                sendedCommand = ""
+                                    textInput.text = ""
+                                }
+
+                                else
+                                {
+                                    inputField.text = suggestionsBox.model[suggestionsBox.selectedIndex].str
+                                    suggestionsBox.selectedIndex = 0
+                                }
                             }
 
                             onUpButtonPressed:
                             {
-                                if (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1)
+                                if (!suggestionsBox.visible)
                                 {
-                                    consoleHistoryIndex += 1
+                                    if (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1)
+                                    {
+                                        consoleHistoryIndex += 1
+                                    }
+                                }
+
+                                else
+                                {
+                                    if (suggestionsBox.selectedIndex > 0)
+                                        --suggestionsBox.selectedIndex
+                                    else suggestionsBox.selectedIndex = suggestionsBox.model.length - 1
                                 }
                             }
 
                             onDownButtonPressed:
                             {
-                                (consoleHistoryIndex > -1) ?
-                                                            consoleHistoryIndex -= 1 :
-                                                            null
+                                if (!suggestionsBox.visible)
+                                {
+                                    (consoleHistoryIndex > -1) ?
+                                                consoleHistoryIndex -= 1 :
+                                                null
+                                }
+                                else
+                                {
+                                    if (suggestionsBox.selectedIndex < suggestionsBox.model.length - 1)
+                                        ++suggestionsBox.selectedIndex
+                                    else suggestionsBox.selectedIndex = 0
+                                }
                             }
 
                         }
-
-                        SuggestionsPreview {
-                            // just to show you what you can type in
-                            model: suggestions
-                        }
-
 
                     }
 
@@ -250,8 +302,8 @@ Page
                                 --autocompleteParamsCount
                             }
                             else*/
-                            //{
-                           /* (consoleHistoryIndex > -1) ?
+                    //{
+                    /* (consoleHistoryIndex > -1) ?
                             consoleHistoryIndex -= 1 :
                             null
 

@@ -31,15 +31,20 @@ Rectangle {
     signal itemSelected(variant item)
     signal wordSelected(var word)
 
+    property int selectedIndex: 0
+    property int maxLenIndex: 0
+
+    Component.onCompleted:
+    {
+        model = {}
+    }
+
+    onModelChanged: maxLenIndex = commandCmdController.maxLengthText(model)
 
     // --- behaviours
     z: parent.z + 100
-    //visible: model.length > 0
+    visible: model.length > 0
     height: model.length * 25
-
-    Behavior on height {
-        SpringAnimation { spring: 2; damping: 0.2 }
-    }
 
 
     // --- defaults
@@ -50,11 +55,6 @@ Rectangle {
         color: currTheme.lineSeparatorColor
     }
 
-
-   /* Filter {
-        id: filterItem
-        sourceModel: container.model
-    }*/
 
     // --- UI
     Column {
@@ -92,16 +92,22 @@ Rectangle {
                     x: textComponent.x - 9
                     y: textComponent.y
                     color: currTheme.hilightColorComboBox
-                    visible: index == 0
+                    visible: index == selectedIndex
                 }
 
                 Text {
                     id: textComponent
-                    color: index == 0 ?  currTheme.hilightTextColorComboBox : currTheme.textColor
+                    color: index == selectedIndex ?  currTheme.hilightTextColorComboBox : currTheme.textColor
                     text: modelData.word
                     y: parent.height * 0.5 - height * 0.5
                     x: 20 * pt
                     font: mainFont.dapFont.regular16
+
+                    Component.onCompleted:
+                    {
+                        if (maxLenIndex == index)
+                            container.width = width + 50 * pt
+                    }
                 }
 
                 MouseArea {

@@ -153,6 +153,9 @@ void CommandCmdController::parseTree(QString command)
                     command.remove(i, 1);
                     --i;
                 }
+
+            //qDebug() << "cccccccoooommmmm" << command;
+
             parsedCommands.append(command);
         }
         return;
@@ -263,6 +266,19 @@ void CommandCmdController::parseTree(QString command)
 
 
   <chain net name>,  <chain name>, <net name>, <cert name>, <token ticker>, <wallet_name>, <token name>
+
+
+  "wallet [new -w <wallet_name> [-sign <sign_type>] [-restore <hex value>] [-net <net_name>] [-force]| list | info -addr <addr> -w <wallet_name> -net <net_name>]"
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -443,6 +459,9 @@ QVariantList CommandCmdController::getTreeWords(QString value)
 
     QVariantList res;
 
+    if (value == "")
+        return res;
+
     QVariantMap map;
 
     if (list.length() == 1)
@@ -470,10 +489,14 @@ QVariantList CommandCmdController::getTreeWords(QString value)
             }
     }
 
+    //qDebug() << "lllllllll" << tree->data << list[list.length() - 1];
+
+    if (tree->data != list[list.length() - 1] && list[list.length() - 1] != "")
+        return res;
+
     for (int i = 0; i < tree->children.length(); ++i)
     {
         QString str = tree->children[i]->data;
-        //qDebug() << "kkkkkkkkkkkkkkk" << str + " " + tree->children[i]->data;
         if (str.startsWith(" "))
             str.remove(0, 1);
 
@@ -488,6 +511,19 @@ QVariantList CommandCmdController::getTreeWords(QString value)
     }
 
     return res;
+}
+
+int CommandCmdController::maxLengthText(QVariantList list)
+{
+    int max = 0;
+    int idx = 0;
+    for (int i = 0; i < list.length(); ++i)
+        if (list[i].toMap()["word"].toString().length() > max)
+        {
+             max = list[i].toMap()["word"].toString().length();
+             idx = i;
+        }
+    return idx;
 }
 
 CommandCmdController::commandTree CommandCmdController::commandTree::append(QStringList command)
