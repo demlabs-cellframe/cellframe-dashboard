@@ -470,7 +470,7 @@ QVariantList CommandCmdController::getTreeWords(QString value)
             if (commands[i].startsWith(value))
             {
                 map["word"] = QVariant::fromValue(commands[i]);
-                map["str"] = QVariant::fromValue(commands[i]);
+                map["str"] = QVariant::fromValue(commands[i] + " ");
                 res.append(map);
             }
         return res;

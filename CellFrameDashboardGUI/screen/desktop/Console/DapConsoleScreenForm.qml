@@ -83,24 +83,24 @@ Page
                 }*/
             }
 
-            Rectangle
+            Item
             {
                 id: closeSuggestionBoxButton
-                width: 20 * pt
+                width: 15 * pt
                 height: width
-                radius: height * 0.5
 
                 x: suggestionsBox.x + suggestionsBox.width
                 y: suggestionsBox.y - height
 
                 visible: suggestionsBox.visible
 
-                color: currTheme.hilightColorComboBox
                 Text
                 {
                     anchors.centerIn: parent
-                    text: "X"
+                    text: "×"
                     font.pointSize: 20
+                    color: "white"
+                    font.bold: true
                 }
 
                 MouseArea
@@ -216,6 +216,7 @@ Page
                         }
 
                     }
+
 
 
                     /*TextField
@@ -405,4 +406,7 @@ Page
             }
         }
     }
+
+
+
 }

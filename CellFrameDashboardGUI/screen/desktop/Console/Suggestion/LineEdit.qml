@@ -45,9 +45,10 @@ FocusScope {
             downButtonPressed()
         }
 
-        onEditingFinished:
+        Keys.onPressed:
         {
-            enterPressed()
+            if (event.key == 16777220)
+                enterPressed()
         }
 
         onTextChanged:
