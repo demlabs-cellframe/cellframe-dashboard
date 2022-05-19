@@ -7,7 +7,6 @@ import QtQuick.Layouts 1.3
 
 import "qrc:/screen"
 import "qrc:/widgets"
-//import "qrc:/screen/desktop/NetworksPanel"
 import "desktop/Networks"
 import "qrc:/logic"
 import "desktop/controls"
@@ -23,7 +22,6 @@ Rectangle {
     readonly property string historyScreenPath: path + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
     readonly property string vpnServiceScreenPath: path + "/VPNService/DapVPNServiceTab.qml"
-//    readonly property string vpnServiceScreenPath: path + "/VPNService_New/DapVPNServiceTab.qml"
     ///@detalis Path to the VPN client tab.
     readonly property string vpnClientScreenPath: path + "/VPNClient/DapVpnClientTab.qml"
     ///@detalis Path to the settings tab.
@@ -49,6 +47,7 @@ Rectangle {
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
 
+//    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
     DapMessagePopup
     {
@@ -58,6 +57,11 @@ Rectangle {
             if(dapButtonOk.textButton === "Update" && accept)
                 logicMainApp.updateDashboard()
         }
+    }
+    signal openCopyPopup()
+    onOpenCopyPopup: {
+        component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
+        component.createObject(dapMainWindow);
     }
 
     signal menuTabChanged()
@@ -337,12 +341,6 @@ Rectangle {
         spread: 0.1
         smooth: true
     }
-
-//    DapControlNetworksPanel
-//    {
-//        id: networksPanel
-//        height: 40 * pt
-//    }
 
     DapNetworksPanel
     {

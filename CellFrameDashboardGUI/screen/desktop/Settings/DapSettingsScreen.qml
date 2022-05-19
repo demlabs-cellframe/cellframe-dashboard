@@ -12,12 +12,9 @@ Page
 {
     id: settingScreen
 
-    property alias settingsScreen_: settingScreen
     property alias dapGeneralBlock: generalBlock
-    property alias dapExtensionsBlock: extensionsBlock
 
     signal createWalletSignal(bool restoreMode)
-
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
@@ -35,8 +32,7 @@ Page
         RowLayout
         {
             anchors.fill: parent
-//            spacing: 0
-            spacing: dapExtensionsBlock.visible? 24 : 0
+            spacing: 24
 
             ColumnLayout
             {
@@ -52,7 +48,6 @@ Page
 
                     id:generalBlock
                     Layout.fillWidth: true
-//                    Layout.rightMargin: 23
                     Layout.preferredHeight: content.implicitHeight
                     Layout.maximumHeight: control.height - spacing
                     color: currTheme.backgroundElements
@@ -110,66 +105,20 @@ Page
             DapRectangleLitAndShaded
             {
                 property alias dapContent:content1
-//                property int spacing: (72 + 39) * pt
 
                 Layout.fillWidth: true
                 Layout.preferredHeight: content1.implicitHeight
                 Layout.maximumHeight: control.height
-                Layout.rightMargin: dapExtensionsBlock.visible? 0 : 0
-//                Layout.rightMargin: 23
-
-                Layout.leftMargin: dapExtensionsBlock.visible? 1 : 25
-
 
                 id: appearanceBlock
-//                Layout.fillWidth: true
-//                Layout.fillHeight: true
                 Layout.minimumWidth: 327 * pt
                 Layout.alignment: Qt.AlignTop
-//                Layout.preferredHeight: contentData.implicitHeight
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 
                 contentData: DapAppearanceBlock{id:content1}
-            }
-            DapRectangleLitAndShaded
-            {
-                id:extensionsBlock
-                Layout.fillWidth: true
-                Layout.minimumWidth: 350 * pt
-                Layout.maximumWidth: 350 * pt
-                Layout.alignment: Qt.AlignTop
-                Layout.preferredHeight: contentData.implicitHeight
-//                Layout.leftMargin: 24
-
-                color: currTheme.backgroundElements
-                radius: currTheme.radiusRectangle
-                shadowColor: currTheme.shadowColor
-                lightColor: currTheme.reflectionLight
-
-                Layout.minimumHeight: 105
-
-                contentData: DapExtensionsBlock{}
-
-                onVisibleChanged:
-                {
-                    if(visible)
-                        separatop.visible = false
-                    else
-                        separatop.visible = true
-                }
-            }
-            Item
-            {
-                id:separatop
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.minimumWidth: 0 * pt
-                Layout.maximumWidth: 0 * pt
-//                Layout.leftMargin: -23
-                visible: false
             }
         }
     }
