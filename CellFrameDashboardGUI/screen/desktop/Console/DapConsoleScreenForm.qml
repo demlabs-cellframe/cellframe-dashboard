@@ -71,16 +71,10 @@ Page
             SuggestionBox
             {
                 id: suggestionsBox
-                //width: commandCmdController.maxLengthText(model) * 15 * pt//200 * pt
                 anchors.bottom: inputCommand.top
                 x: 20 * pt
 
                 onWordSelected: inputField.text = word
-
-                /*onVisibleChanged:
-                {
-                    closeSuggestionBoxButton.visible = suggestionsBox.visible
-                }*/
             }
 
             Item
@@ -138,10 +132,6 @@ Page
 
                         font: mainFont.dapFont.regular18
                     }
-
-                    /* Suggestions {
-                        id: suggestions
-                    }*/
 
                     Item {
                         id: consoleCmd
@@ -212,201 +202,10 @@ Page
                                     else suggestionsBox.selectedIndex = 0
                                 }
                             }
-
                         }
-
                     }
-
-
-
-                    /*TextField
-                    {
-                        id: consoleCmd
-                        width: parent.width - x
-                        anchors.bottom: parent.bottom
-                        x: promt.x + promt.width + 5 * pt
-                        wrapMode: TextArea.Wrap
-                        validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\s*]+/ }
-                        placeholderText: qsTr("Type here...")
-                        selectByMouse: true
-                        background: Rectangle{color: currTheme.backgroundElements}
-
-                        property int autocomleteStatus: 0
-                        // 0 - самое начало ввода, 1 - нажат таб и автодополнение срабатывает,
-                        // 2 - после 1 введен пробел и можно продолжить автодополнение параметрами
-                        // (тут по нажатию таба будут по очереди перебираться варианты параметров, а по ентеру будет выбран нужный)
-
-                        color: currTheme.textColor
-                        focus: true
-                        font: mainFont.dapFont.regular18
-
-                        Keys.onRightPressed:
-                        {
-                            if (autocomleteStatus == 2 && consoleCmd.cursorPosition == consoleCmd.text.length && autocompleteText.text != "")
-                            {
-                                consoleCmd.text = autocompleteText.text
-                                if (autocompleteText.text.length <= consoleCmd.text.length)
-                                {
-                                    autocomleteStatus = 0
-                                }
-                                autocompleteParamsCount = 0
-                            }
-                            else
-                                if (consoleCmd.cursorPosition != consoleCmd.text.length)
-                                    ++consoleCmd.cursorPosition
-                        }
-
-                        Keys.onReturnPressed:
-                        {
-                            text.length > 0 ?
-                                 sendedCommand = text :
-                                 sendedCommand = ""
-                            autocompleteParamsCount = 0
-                            autocomleteStatus = 0
-                        }
-                        Keys.onEnterPressed:
-                        {
-                            autocompleteText.text = ""
-                            autocompleteParamsCount = 0
-                            autocomleteStatus = 0
-                            text.length > 0 ?
-                                 sendedCommand = text :
-                                 sendedCommand = ""
-                        }
-                        Keys.onUpPressed:
-                        {
-                            //console.log("cococount", autocomleteStatus, autocompleteParamsCount)
-
-                                //{
-
-                            (consoleHistoryIndex < dapConsoleRigthPanel.dapModelHistoryConsole.count - 1) ?
-                            consoleHistoryIndex += 1 :
-                            null
-                                    if (!commandCmdController.isOneWord(consoleCmd.text))
-                                    {
-                                        autocomleteStatus = 2
-                                        autocompleteParamsCount = 0
-                                        autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                    }
-                                    else
-                                    {
-                            autocompleteParamsCount = 0
-                            autocomleteStatus = 0
-                                    }
-                                //}
-                        }
-                        Keys.onDownPressed:
-                        {
-                            /*if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
-                            {
-                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                --autocompleteParamsCount
-                            }
-                            else*/
-                    //{
-                    /* (consoleHistoryIndex > -1) ?
-                            consoleHistoryIndex -= 1 :
-                            null
-
-                                if (!commandCmdController.isOneWord(consoleCmd.text))
-                                {
-                                    autocomleteStatus = 2
-                                    autocompleteParamsCount = 0
-                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                }
-                                else
-                                {
-                        autocompleteParamsCount = 0
-                        autocomleteStatus = 0
-                                }
-                            //}
-                        }
-
-                        property int autocompleteParamsCount: 0
-
-                        Keys.onTabPressed:
-                        {
-                            if (autocomleteStatus == 2 && autocompleteText.text.length >= consoleCmd.text.length)
-                            {
-                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                ++autocompleteParamsCount
-                            }
-                            else
-                            if (autocomleteStatus == 0 && consoleCmd.text != "")
-                            {
-                                autocomleteStatus = 1
-                                var str = commandCmdController.getCommandByValue(consoleCmd.text)
-                                if (str != "")
-                                {
-                                    consoleCmd.text = str
-                                    autocompleteText.text = consoleCmd.text
-                                }
-                            }
-                        }
-
-                        onTextChanged:
-                        {
-                            inputCommand.contentY = inputCommand.contentHeight - inputCommand.height
-
-                            if (autocomleteStatus == 2)
-                            {
-                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                if (commandCmdController.isOneWord(consoleCmd.text))
-                                    autocomleteStatus = 0
-                            }
-                            else
-                                if (commandCmdController.isOneWord(consoleCmd.text) && autocomleteStatus == 1)
-                                {
-                                    autocompleteParamsCount = 0
-                                    autocomleteStatus = 0
-                                }
-
-                            else
-                            if (autocomleteStatus == 1 && text == autocompleteText.text + " ")
-                            {
-                                autocomleteStatus = 2
-                                autocompleteParamsCount = 0
-                                autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                            }
-                            else
-                            if (text != "" && autocomleteStatus == 0)
-                            {
-                                autocompleteText.text = commandCmdController.getCommandByValue(consoleCmd.text)
-                                if (text[text.length - 1] == " ")
-                                {
-                                    autocomleteStatus = 2
-                                    autocompleteParamsCount = 0
-                                    autocompleteText.text = commandCmdController.getCommandParams(consoleCmd.text, autocompleteParamsCount)
-                                }
-                            }
-                            else
-                                autocompleteText.text = ""
-                        }
-
-
-
-                        Text
-                        {
-                            id: autocompleteText
-                            width: parent.width - x * 1.7
-                            height: parent.height
-                            x: 10 * pt
-                            y: 6 * pt
-                            wrapMode: TextArea.Wrap
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.regular18
-                            opacity: 0.5
-
-                        }
-
-                    }*/
-
-
                 }
             }
         }
     }
-
-
-
 }

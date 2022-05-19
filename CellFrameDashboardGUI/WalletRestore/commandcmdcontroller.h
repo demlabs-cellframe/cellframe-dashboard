@@ -42,10 +42,6 @@ public slots:
     void parseAllCommands(const QVariant& asAnswer);
     void parseAllCommandsParams(const QVariant& asAnswer);
 
-    QString getCommandByValue(const QString &value);
-    QString getCommandParams(const QString &value, int count);
-    bool isOneWord(const QString &value);
-
     QVariantList getTreeWords(QString value);
     int maxLengthText(QVariantList list);
 

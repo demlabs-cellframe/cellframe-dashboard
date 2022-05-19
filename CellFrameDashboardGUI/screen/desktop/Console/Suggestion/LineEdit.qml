@@ -3,20 +3,12 @@ import QtQuick.Controls 2.5
 
 FocusScope {
     // --- properties
-    property color borderColor: "black"
-    property color borderColorFocused: "steelblue"
-    property int borderWidth: 1
-    property bool hasClearButton: true
     property alias textInput: textInputComponent
     property alias text: textInputComponent.text
     signal enterPressed()
     signal sugTextChanged(var text)
     signal upButtonPressed()
     signal downButtonPressed()
-
-    // --- signals
-    //signal accepted
-
 
     id: focusScope
 

@@ -25,9 +25,6 @@ Rectangle {
     // --- properties
     property var model: undefined
     property Item delegate
-    //property alias suggestionsModel: filterItem.model
-    //property alias filter: filterItem.filter
-    //property alias property: filterItem.property
     signal itemSelected(variant item)
     signal wordSelected(var word)
 
@@ -39,7 +36,11 @@ Rectangle {
         model = {}
     }
 
-    onModelChanged: maxLenIndex = commandCmdController.maxLengthText(model)
+    onModelChanged:
+    {
+        selectedIndex = 0
+        maxLenIndex = commandCmdController.maxLengthText(model)
+    }
 
     // --- behaviours
     z: parent.z + 100

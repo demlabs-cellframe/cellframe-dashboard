@@ -341,12 +341,7 @@
         <file>screen/desktop/Networks/parts/DapInfoButton.qml</file>
         <file>screen/desktop/Networks/parts/DapRowInfoText.qml</file>
         <file>screen/desktop/controls/CopyPopup.qml</file>
-        <file>screen/desktop/Console/Suggestion/Button.qml</file>
-        <file>screen/desktop/Console/Suggestion/Filter.qml</file>
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
-        <file>screen/desktop/Console/Suggestion/PreviewDelegate.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
-        <file>screen/desktop/Console/Suggestion/Suggestions.qml</file>
-        <file>screen/desktop/Console/Suggestion/SuggestionsPreview.qml</file>
     </qresource>
 </RCC>
