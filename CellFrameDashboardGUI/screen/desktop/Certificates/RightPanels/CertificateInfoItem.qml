@@ -17,7 +17,7 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 0
+        spacing: 15 * pt
 
         Item
         {
@@ -29,8 +29,8 @@ Page {
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 9 * pt
-                anchors.bottomMargin: 8 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
                 anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
 
