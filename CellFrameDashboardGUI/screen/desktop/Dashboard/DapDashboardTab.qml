@@ -221,12 +221,6 @@ DapPage
         }
     ]
 
-    DapMessagePopup
-    {
-        id: walletMessagePopup
-        dapButtonCancel.visible: true
-    }
-
     Timer {
         id: updateWalletTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true

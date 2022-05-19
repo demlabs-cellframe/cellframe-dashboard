@@ -16,18 +16,20 @@ Controls.Page
     property alias dapButtonSend: buttonSend
     /// @param dapTextInputAmountPayment Input field for transfer amount.
     property alias dapTextInputAmountPayment: textInputAmountPayment
-    /// @param dapCmboBoxTokenModel Token combobox model.
-    property alias dapCmboBoxTokenModel: comboboxToken.model
+    /// @param dapComboBoxTokenModel Token combobox model.
+    property alias dapComboBoxTokenModel: comboboxToken.model
 
     property alias dapComboboxNetwork: comboboxNetwork
     property alias dapComboboxChain: comboboxChain
 
+    property alias dapWalletMessagePopup: walletMessagePopup
+
     property alias dapChainGroup: chainGroup
 
-    property alias dapCmboBoxNetworkModel: comboboxNetwork.model
-    property alias dapCmboBoxChainModel: comboboxChain.model
+    property alias dapComboBoxNetworkModel: comboboxNetwork.model
+    property alias dapComboBoxChainModel: comboboxChain.model
 
-    property alias dapCmboBoxToken: comboboxToken
+    property alias dapComboBoxToken: comboboxToken
 
     property alias dapFrameAmountPayment: frameAmountPayment
     property alias dapFrameInputAmountPayment: frameInputAmountPayment
@@ -43,6 +45,12 @@ Controls.Page
 
     background: Rectangle {
         color: "transparent"
+    }
+
+    DapMessagePopup
+    {
+        id: walletMessagePopup
+        dapButtonCancel.visible: true
     }
 
     ColumnLayout

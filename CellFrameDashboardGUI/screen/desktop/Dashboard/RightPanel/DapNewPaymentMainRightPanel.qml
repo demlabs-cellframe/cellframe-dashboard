@@ -17,25 +17,25 @@ DapNewPaymentMainRightPanelForm
         else
             dapChainGroup.visible = false
 
-        dapCmboBoxNetworkModel = dapNetworkModel
+        dapComboBoxNetworkModel = dapNetworkModel
 
         dapTextNotEnoughTokensWarning.text = ""
 
-        dapCmboBoxTokenModel = networksModel.
+        dapComboBoxTokenModel = networksModel.
             get(dapComboboxNetwork.currentIndex).tokens
 
-        dapCmboBoxChainModel = networksModel.
+        dapComboBoxChainModel = networksModel.
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = "0.0"
 
-        if (dapCmboBoxNetworkModel.count)
-            dapComboboxNetwork.mainLineText = dapCmboBoxNetworkModel.get(0).name
+        if (dapComboBoxNetworkModel.count)
+            dapComboboxNetwork.mainLineText = dapComboBoxNetworkModel.get(0).name
         else
             dapComboboxNetwork.mainLineText = "Networks"
 
-        if (dapCmboBoxTokenModel.count)
-            dapCmboBoxToken.mainLineText = dapCmboBoxTokenModel.get(0).name
+        if (dapComboBoxTokenModel.count)
+            dapComboBoxToken.mainLineText = dapComboBoxTokenModel.get(0).name
     }
     dapComboboxNetwork.onCurrentIndexChanged:
     {
@@ -47,15 +47,15 @@ DapNewPaymentMainRightPanelForm
         {
             print("dapComboboxNetwork.onCurrentIndexChanged")
 
-            dapCmboBoxTokenModel = networksModel.
+            dapComboBoxTokenModel = networksModel.
                 get(dapComboboxNetwork.currentIndex).tokens
 
-            dapCmboBoxChainModel = networksModel.
+            dapComboBoxChainModel = networksModel.
                 get(dapComboboxNetwork.currentIndex).chains
 
-            print("dapCmboBoxTokenModel length", dapCmboBoxTokenModel.count)
+            print("dapComboBoxTokenModel length", dapComboBoxTokenModel.count)
 
-            if (dapCmboBoxTokenModel.count === 0)
+            if (dapComboBoxTokenModel.count === 0)
             {
                 dapFrameAmountPayment.visible = false
                 dapFrameInputAmountPayment.visible = false
@@ -76,12 +76,12 @@ DapNewPaymentMainRightPanelForm
 
             dapTextInputAmountPayment.text = "0.0"
 
-            if (dapCmboBoxTokenModel.count)
-              dapCmboBoxToken.mainLineText = dapCmboBoxTokenModel.get(0).name
+            if (dapComboBoxTokenModel.count)
+              dapComboBoxToken.mainLineText = dapComboBoxTokenModel.get(0).name
         }
     }
 
-    dapCmboBoxToken.onCurrentIndexChanged:
+    dapComboBoxToken.onCurrentIndexChanged:
     {
         dapTextInputAmountPayment.text = "0.0"
     }
@@ -97,13 +97,13 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonSend.onClicked:
     {
-        if (dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex)
+        if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
         {
-            console.warn("dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex")
+            console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
         }
         else
         {
-            print("balance:", dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).datoshi)
+            print("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi)
             print("amount:", dapTextInputAmountPayment.text)
             print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
@@ -121,146 +121,70 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-//                print("walletMessagePopup.smartOpen", dapCmboBoxToken.mainLineText)
-//                walletMessagePopup.smartOpen("Confirming the transaction", "Attention, the transaction fee will be 0.1 " + dapCmboBoxToken.mainLineText )
+                print("dapWalletMessagePopup.smartOpen")
+                dapWalletMessagePopup.smartOpen("Confirming the transaction", "Attention, the transaction fee will be 0.1 " + dapComboBoxToken.mainLineText )
 
-                print("walletMessagePopup.onSignalAccept")
-
-                if (dapCmboBoxTokenModel === null)
-                    console.warn("dapCmboBoxTokenModel === null")
-                if (dapCmboBoxChainModel === null)
-                    console.warn("dapCmboBoxChainModel === null")
-
-                print("dapCmboBoxTokenModel.count", dapCmboBoxTokenModel.count,
-                      "dapCmboBoxToken.currentIndex", dapCmboBoxToken.currentIndex)
-                print("dapCmboBoxChainModel.count", dapCmboBoxChainModel.count,
-                      "dapComboboxChain.currentIndex", dapComboboxChain.currentIndex)
-
-                console.log("   network:", dapComboboxNetwork.mainLineText)
-                console.log("   wallet from:", walletName)
-                console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                console.log("   token:", dapCmboBoxToken.mainLineText)
-                console.log("   amount:", logicWallet.toDatoshi(dapTextInputAmountPayment.text))
-
-                if (dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex ||
-                    dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex)
-                {
-                    if (dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex)
-                        console.warn("dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex")
-                    if (dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex)
-                        console.warn("dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex")
-                }
-                else
-                {
-                    var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
-                    print("amountWithCommission", amountWithCommission)
-                    var full_balance = dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance
-                    print("full_balance", full_balance)
-
-                    if (!logicWallet.testAmount(full_balance, amountWithCommission))
-                    {
-                        print("Not enough tokens")
-                        dapTextNotEnoughTokensWarning.text =
-                            qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                            arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
-                    }
-                    else
-                    {
-                        print("Enough tokens. Correct address length.")
-                        dapTextNotEnoughTokensWarning.text = ""
-
-                        var amount = logicWallet.toDatoshi(dapTextInputAmountPayment.text)
-
-                        console.log("DapCreateTransactionCommand:")
-                        console.log("   network:", dapComboboxNetwork.mainLineText)
-                        console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-                        console.log("   wallet from:", walletName)
-                        console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                        console.log("   token:", dapCmboBoxToken.mainLineText)
-                        console.log("   amount:", amount)
-
-                        var commission = logicWallet.toDatoshi("0.1")
-
-                        dapServiceController.requestToService("DapCreateTransactionCommand",
-                            dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
-                            walletName,
-                            dapTextInputRecipientWalletAddress.text,
-                            dapCmboBoxToken.mainLineText, amount, commission)
-                    }
-                }
             }
         }
     }
 
-    Connections
+    dapWalletMessagePopup.onSignalAccept:
     {
-        target: walletMessagePopup
-        onSignalAccept:
+        print("dapWalletMessagePopup.onSignalAccept", accept)
+
+        if (accept)
         {
-/*            print("walletMessagePopup.onSignalAccept")
-            print("dapCmboBoxTokenModel.count", dapCmboBoxTokenModel.count,
-                  "dapCmboBoxToken.currentIndex", dapCmboBoxToken.currentIndex)
-            print("dapCmboBoxChainModel.count", dapCmboBoxChainModel.count,
-                  "dapComboboxChain.currentIndex", dapComboboxChain.currentIndex)
-
-            console.log("   network:", dapComboboxNetwork.mainLineText)
-            console.log("   wallet from:", walletName)
-            console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-            console.log("   token:", dapCmboBoxToken.mainLineText)
-            console.log("   amount:", logicWallet.toDatoshi(dapTextInputAmountPayment.text))
-
-            if (dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex ||
-                dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex)
+            if (dapComboBoxTokenModel === null || dapComboBoxChainModel === null ||
+                dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex ||
+                dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
             {
-                if (dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex)
-                    console.warn("dapCmboBoxTokenModel.count <= dapCmboBoxToken.currentIndex")
-                if (dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex)
-                    console.warn("dapCmboBoxChainModel.count <= dapComboboxChain.currentIndex")
+                if (dapComboBoxTokenModel === null)
+                    console.warn("dapComboBoxTokenModel === null")
+                if (dapComboBoxChainModel === null)
+                    console.warn("dapComboBoxChainModel === null")
+                if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
+                    console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
+                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
+                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
             }
             else
             {
-                print ("accept", accept)
+                var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
+                print("amountWithCommission", amountWithCommission)
+                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).full_balance
+                print("full_balance", full_balance)
 
-                if (accept)
+                if (!logicWallet.testAmount(full_balance, amountWithCommission))
                 {
-                    var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
-                    print("amountWithCommission", amountWithCommission)
-                    var full_balance = dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).full_balance
-                    print("full_balance", full_balance)
-
-                    if (!logicWallet.testAmount(full_balance, amountWithCommission))
-                    {
-                        print("Not enough tokens")
-                        dapTextNotEnoughTokensWarning.text =
-                            qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                            arg(dapCmboBoxTokenModel.get(dapCmboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
-                    }
-                    else
-                    {
-                        print("Enough tokens. Correct address length.")
-                        dapTextNotEnoughTokensWarning.text = ""
-
-                        var amount = logicWallet.toDatoshi(dapTextInputAmountPayment.text)
-
-                        console.log("DapCreateTransactionCommand:")
-                        console.log("   network:", dapComboboxNetwork.mainLineText)
-                        console.log("   chain:", dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-                        console.log("   wallet from:", walletName)
-                        console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                        console.log("   token:", dapCmboBoxToken.mainLineText)
-                        console.log("   amount:", amount)
-
-                        var commission = logicWallet.toDatoshi("0.1")
-
-                        dapServiceController.requestToService("DapCreateTransactionCommand",
-                            dapComboboxNetwork.mainLineText, dapCmboBoxChainModel.get(dapComboboxChain.currentIndex).name,
-                            walletName,
-                            dapTextInputRecipientWalletAddress.text,
-                            dapCmboBoxToken.mainLineText, amount, commission)
-                    }
+                    print("Not enough tokens")
+                    dapTextNotEnoughTokensWarning.text =
+                        qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
+                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
                 }
-            }*/
+                else
+                {
+                    print("Enough tokens. Correct address length.")
+                    dapTextNotEnoughTokensWarning.text = ""
 
+                    var amount = logicWallet.toDatoshi(dapTextInputAmountPayment.text)
+
+                    console.log("DapCreateTransactionCommand:")
+                    console.log("   network:", dapComboboxNetwork.mainLineText)
+                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
+                    console.log("   wallet from:", walletName)
+                    console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
+                    console.log("   token:", dapComboBoxToken.mainLineText)
+                    console.log("   amount:", amount)
+
+                    var commission = logicWallet.toDatoshi("0.1")
+
+                    dapServiceController.requestToService("DapCreateTransactionCommand",
+                        dapComboboxNetwork.mainLineText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
+                        walletName,
+                        dapTextInputRecipientWalletAddress.text,
+                        dapComboBoxToken.mainLineText, amount, commission)
+                }
+            }
         }
     }
 
