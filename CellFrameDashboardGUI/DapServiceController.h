@@ -43,6 +43,7 @@
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
 
+
 class DapServiceController : public QObject
 {
     Q_OBJECT
@@ -132,7 +133,6 @@ public:
     bool getReadingChains() const;
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
-
 
 public slots:
     void requestWalletList();
