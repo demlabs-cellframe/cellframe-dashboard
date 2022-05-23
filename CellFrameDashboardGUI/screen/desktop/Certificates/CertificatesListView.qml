@@ -183,6 +183,7 @@ ListView {
                 Image{
                     anchors.right: infoButton.right
                     anchors.rightMargin: 14 * pt
+                    y: 3 * pt
                     width: 30 * pt
                     height: 30 * pt
                     mipmap: true
