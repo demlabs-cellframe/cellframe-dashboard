@@ -44,7 +44,7 @@ Rectangle {
 
     // --- behaviours
     z: parent.z + 100
-    visible: model.length > 0
+    visible: model.length > 0 ? true : false
     height: model.length * 25
 
 

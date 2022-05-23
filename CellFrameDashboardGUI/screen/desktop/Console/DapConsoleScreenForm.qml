@@ -128,7 +128,7 @@ Page
                         text: ">"
                         color: currTheme.textColor
                         x: 20 * pt
-                        y: 2 * pt
+                        y: 1 * pt
 
                         font: mainFont.dapFont.regular18
                     }
