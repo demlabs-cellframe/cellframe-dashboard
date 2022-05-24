@@ -72,7 +72,7 @@ DapLastActionsRightPanelForm
     }
 
     Timer {
-        id: updateTimer
+        id: updateLastActionTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
@@ -86,12 +86,12 @@ DapLastActionsRightPanelForm
         lastHistoryLength = 0
         logicExplorer.updateWalletHistory(true)
 
-        if (!updateTimer.running)
-            updateTimer.start()
+        if (!updateLastActionTimer.running)
+            updateLastActionTimer.start()
     }
 
     Component.onDestruction:
     {
-        updateTimer.stop()
+        updateLastActionTimer.stop()
     }
 }

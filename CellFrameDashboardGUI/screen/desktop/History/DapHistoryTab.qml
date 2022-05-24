@@ -34,7 +34,7 @@ DapPage
     }
 
     Timer {
-        id: updateTimer
+        id: updateHistoryTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
@@ -85,12 +85,12 @@ DapPage
     {
         logicExplorer.updateWalletHistory()
 
-        if (!updateTimer.running)
-            updateTimer.start()
+        if (!updateHistoryTimer.running)
+            updateHistoryTimer.start()
     }
 
     Component.onDestruction:
     {
-        updateTimer.stop()
+        updateHistoryTimer.stop()
     }
 }

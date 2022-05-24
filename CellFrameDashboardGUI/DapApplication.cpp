@@ -5,7 +5,6 @@
 #include <QClipboard>
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
-#include "WalletRestore/commandcmdcontroller.h"
 
 #ifdef ANDROID
 #include <QtAndroid>
@@ -37,6 +36,10 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
+
+
+    commandCmdController = new CommandCmdController();
+    commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 
     this->registerQmlTypes();
     this->setContextProperties();
@@ -145,4 +148,6 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
+
+    m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
 }

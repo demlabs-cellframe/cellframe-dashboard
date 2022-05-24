@@ -44,7 +44,7 @@ DapPage
     }
 
     ListModel {id: networksModel}
-    LogicWallet{id: logigWallet}
+    LogicWallet{id: logicWallet}
 
     QtObject {
         id: navigator
@@ -221,14 +221,8 @@ DapPage
         }
     ]
 
-    DapMessagePopup
-    {
-        id: walletMessagePopup
-        dapButtonCancel.visible: true
-    }
-
     Timer {
-        id: updateTimer
+        id: updateWalletTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
@@ -242,10 +236,10 @@ DapPage
                     navigator.popPage()
                 }
 
-                logigWallet.updateAllWallets()
+                logicWallet.updateAllWallets()
             }
             else
-                logigWallet.updateCurrentWallet()
+                logicWallet.updateCurrentWallet()
         }
     }
 
@@ -254,10 +248,10 @@ DapPage
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            logigWallet.updateComboBox()
+            logicWallet.updateComboBox()
 
             // FOR DEBUG
-//            logigWallet.updateCurrentWallet()
+//            logicWallet.updateCurrentWallet()
         }
     }
 
@@ -266,20 +260,20 @@ DapPage
         target: dapServiceController
         onWalletCreated:
         {
-            logigWallet.updateAllWallets()
+            logicWallet.updateAllWallets()
         }
     }
 
     Component.onCompleted:
     {
-        logigWallet.updateComboBox()
+        logicWallet.updateComboBox()
 
-        if (!updateTimer.running)
-            updateTimer.start()
+        if (!updateWalletTimer.running)
+            updateWalletTimer.start()
     }
 
     Component.onDestruction:
     {
-        updateTimer.stop()
+        updateWalletTimer.stop()
     }
 }

@@ -352,5 +352,7 @@
         <file>screen/desktop/VPNClient/Parts/RightPanel/VPNOrders.qml</file>
         <file>screen/desktop/VPNClient/Images/check.png</file>
         <file>screen/desktop/VPNClient/Images/page.png</file>
+        <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
+        <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
     </qresource>
 </RCC>

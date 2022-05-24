@@ -102,7 +102,7 @@ DapPage
     dapRightPanelFrame.frame.visible: false
 
     Timer {
-        id: updateTimer
+        id: updateSettingsTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
@@ -121,10 +121,10 @@ DapPage
     }
 
     Component.onCompleted:
-        updateTimer.start()
+        updateSettingsTimer.start()
 
     Component.onDestruction:
-        updateTimer.stop()
+        updateSettingsTimer.stop()
 
 
     Connections
