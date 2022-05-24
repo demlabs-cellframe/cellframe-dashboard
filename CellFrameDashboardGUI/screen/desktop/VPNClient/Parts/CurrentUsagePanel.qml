@@ -149,7 +149,6 @@ Item
                         id: topUpButton
                         Layout.fillWidth: true
                         Layout.minimumHeight: 26 * pt
-//                        font.pointSize: 10
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular12
                         textButton: qsTr("Top up")
@@ -160,7 +159,6 @@ Item
                         id: refundButton
                         Layout.fillWidth: true
                         Layout.minimumHeight: 26 * pt
-//                        font.pointSize: 10
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular12
                         textButton: qsTr("Refund")

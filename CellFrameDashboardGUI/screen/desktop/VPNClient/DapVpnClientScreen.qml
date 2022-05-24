@@ -19,7 +19,7 @@ Page {
         anchors.fill: parent
 //        anchors.margins: 10
 
-        spacing: 10 * pt
+        spacing: 20 * pt
 
         ConnectPanel
         {
@@ -29,7 +29,7 @@ Page {
         RowLayout {
             Layout.fillWidth: true
 
-            spacing: 10 * pt
+            spacing: 20 * pt
 
             CurrentUsagePanel
             {
@@ -55,26 +55,34 @@ Page {
 
         }
 
-        ChartPanel
+        DapRectangleLitAndShaded
         {
             Layout.fillWidth: true
             Layout.fillHeight: true
-        }
 
-        CheckersPanel
-        {
-            Layout.fillWidth: true
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
+
+            contentData:
+                ColumnLayout
+                {
+                    anchors.fill: parent
+                    anchors.margins: 20 * pt
+                    spacing: 5 * pt
+
+                    ChartPanel
+                    {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
+
+                    CheckersPanel
+                    {
+                        Layout.fillWidth: true
+                    }
+                }
         }
     }
-
-//    RowLayout
-//    {
-//        anchors.fill: parent
-//        anchors.margins: 10
-
-//        spacing: 10
-
-
-//    }
-
 }

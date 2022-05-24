@@ -45,6 +45,11 @@ DapPage {
 //            Layout.fillHeight: true
         }
 
+    dapHeader.initialItem:
+        DapVpnClientTopPanel
+        {
+
+        }
 
     Component.onCompleted:
     {
@@ -56,7 +61,7 @@ DapPage {
     {
         rightStackView.setInitialItem(vpnOrdersPage)
     }
-	
+
 //    color: currTheme.backgroundMainScreen
 
 //    property alias dapVpnClientRightPanel: stackViewRightPanel

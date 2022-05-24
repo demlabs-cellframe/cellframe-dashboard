@@ -2,52 +2,56 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
-Rectangle
+Item
 {
-    height: 40
+    height: 40 * pt
 
     RowLayout
     {
         anchors.fill: parent
-        anchors.margins: 10
+        anchors.margins: 10 * pt
 
-        spacing: 10
+        spacing: 10 * pt
 
-        Image {
-            width: 10
-            height: 10
+        Image
+        {
+            width: 10 * pt
+            height: 10 * pt
             fillMode: Image.PreserveAspectFit
 
             source: "qrc:/screen/desktop/VPNClient/Images/check.png"
         }
 
-        Text {
+        Text
+        {
             Layout.fillWidth: true
-            font.pointSize: 10
-            color: "white"
+            color: currTheme.textColor
+            font: mainFont.dapFont.medium13
 
             text: qsTr("Connection established")
         }
 
-        Image {
-            width: 10
-            height: 10
+        Image
+        {
+            width: 10 * pt
+            height: 10 * pt
             fillMode: Image.PreserveAspectFit
 
             source: "qrc:/screen/desktop/VPNClient/Images/check.png"
         }
 
-        Text {
+        Text
+        {
             Layout.fillWidth: true
-            font.pointSize: 10
-            color: "white"
+            color: currTheme.textColor
+            font: mainFont.dapFont.medium13
 
             text: qsTr("IP requested")
         }
 
         Image {
-            width: 10
-            height: 10
+            width: 10 * pt
+            height: 10 * pt
             fillMode: Image.PreserveAspectFit
 
             source: "qrc:/screen/desktop/VPNClient/Images/check.png"
@@ -55,13 +59,12 @@ Rectangle
 
         Text {
             Layout.fillWidth: true
-            font.pointSize: 10
-            color: "white"
+            color: currTheme.textColor
+            font: mainFont.dapFont.medium13
 
             text: qsTr("Virtual network interface")
         }
 
     }
 
-    color: "blue"
 }

@@ -1,8 +1,11 @@
 import QtQuick 2.4
-import QtQuick.Controls 2.4
+import QtQuick.Controls 1.4 as Controls
+import QtQuick.Controls.Styles 1.4 as Styles
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
 
-Rectangle
+Item
 {
     ListModel {
         id: refundModel
@@ -43,15 +46,19 @@ Rectangle
 
             spacing: 10
 
-            Button
+            DapButton
             {
-                id: closeButton
-                Layout.maximumWidth: 20
-                Layout.maximumHeight: 20
-                Layout.topMargin: 10
-//                Layout.alignment: Qt.AlignBottom
-                font.pointSize: 12
-                text: qsTr("X")
+                Layout.maximumWidth: 20 * pt
+                Layout.maximumHeight: 20 * pt
+                Layout.topMargin: 10 * pt
+
+                height: 20 * pt
+                width: 20 * pt
+                heightImageButton: 10 * pt
+                widthImageButton: 10 * pt
+                activeFrame: false
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
                 onClicked: goToHomePage()
             }
 
@@ -60,9 +67,9 @@ Rectangle
                 Layout.fillWidth: true
                 Layout.topMargin: 8
                 verticalAlignment: Qt.AlignVCenter
-                font.pointSize: 12
-                font.bold: true
-                color: "white"
+                font: mainFont.dapFont.medium14
+//                font.bold: true
+                color: currTheme.textColor
 
                 text: qsTr("Refund")
             }
@@ -71,19 +78,18 @@ Rectangle
         Rectangle
         {
             Layout.fillWidth: true
-            Layout.minimumHeight: 30
+            Layout.minimumHeight: 30 * pt
+            color: currTheme.backgroundMainScreen
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 10
-                color: "white"
-                font.pointSize: 10
+                anchors.leftMargin: 10 * pt
+                color: currTheme.textColor
+                font: mainFont.dapFont.medium12
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Choose token and input value")
             }
-
-            color: "dark blue"
         }
 
         ListView
@@ -108,9 +114,15 @@ Rectangle
                     width: parent.width
                     height: refundDelegateHeight
 
-                    CheckBox {
+                    DapCheckBox
+                    {
                         id: refundCheckBox
+                        Layout.fillWidth: true
+                        Layout.maximumHeight: 30 * pt
+                        Layout.minimumWidth: 30 * pt
                         Layout.alignment: Qt.AlignTop
+                        indicatorInnerSize: height
+                        nameTextColor: currTheme.textColor
                         checked: false
                         onToggled:
                         {
@@ -119,6 +131,17 @@ Rectangle
                         }
                     }
 
+//                    CheckBox {
+//                        id: refundCheckBox
+//                        Layout.alignment: Qt.AlignTop
+//                        checked: false
+//                        onToggled:
+//                        {
+//                            check = checked
+//                            checkBoxSwitched()
+//                        }
+//                    }
+
                     ColumnLayout
                     {
                         enabled: refundCheckBox.checked
@@ -126,62 +149,93 @@ Rectangle
                         Layout.minimumHeight: refundDelegateHeight
                         spacing: 2
 
-                        TextField
+                        Controls.TextField
                         {
                             id: refundField
                             Layout.fillWidth: true
-                            Layout.maximumHeight: 30
-                            horizontalAlignment: Qt.AlignRight
-                            font.pointSize: 10
-                            placeholderText: "0"
-    //                            text: value
+//                            Layout.maximumHeight: 30
+                            height: 28 * pt
+            //                        placeholderText: "0"
+                            placeholderText: "0.0"
+                            validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
+                            font: mainFont.dapFont.regular16
+                            horizontalAlignment: Text.AlignRight
+
+                            style:
+                                Styles.TextFieldStyle
+                                {
+                                    textColor: currTheme.textColor
+                                    placeholderTextColor: currTheme.textColor
+                                    background:
+                                        Rectangle
+                                        {
+                                            border.width: 1
+                                            radius: 4 * pt
+                                            border.color: currTheme.borderColor
+                                            color: currTheme.backgroundElements
+                                        }
+                                }
+
                             onTextChanged: value = Number(text)
                         }
+
+//                        TextField
+//                        {
+//                            id: refundField
+//                            Layout.fillWidth: true
+//                            Layout.maximumHeight: 30
+//                            horizontalAlignment: Qt.AlignRight
+//                            font.pointSize: 10
+//                            placeholderText: "0"
+//    //                            text: value
+//                            onTextChanged: value = Number(text)
+//                        }
 
                         RowLayout
                         {
                             Layout.fillWidth: true
                             spacing: 5
 
-                            Button
+                            DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.maximumHeight: 20
-                                font.pointSize: 8
-                                padding: 0
-                                text: qsTr("25%")
+                                Layout.minimumHeight: 20 * pt
+                                horizontalAligmentText: Text.AlignHCenter
+                                fontButton: mainFont.dapFont.regular10
+                                textButton: qsTr("25%")
                                 onClicked:
                                     refundField.text = balance*0.25
                             }
 
-                            Button
+                            DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.maximumHeight: 20
-                                font.pointSize: 8
-                                padding: 0
-                                text: qsTr("50%")
+                                Layout.minimumHeight: 20 * pt
+                                horizontalAligmentText: Text.AlignHCenter
+                                fontButton: mainFont.dapFont.regular10
+                                textButton: qsTr("50%")
                                 onClicked:
                                     refundField.text = balance*0.5
                             }
 
-                            Button
+                            DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.maximumHeight: 20
-                                font.pointSize: 8
-                                padding: 0
-                                text: qsTr("75%")
+                                Layout.minimumHeight: 20 * pt
+                                horizontalAligmentText: Text.AlignHCenter
+                                fontButton: mainFont.dapFont.regular10
+                                textButton: qsTr("75%")
                                 onClicked:
                                     refundField.text = balance*0.75
                             }
 
-                            Button
+                            DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.maximumHeight: 20
-                                font.pointSize: 8
-                                text: qsTr("100%")
+                                Layout.minimumHeight: 20 * pt
+                                horizontalAligmentText: Text.AlignHCenter
+                                fontButton: mainFont.dapFont.regular10
+                                textButton: qsTr("100%")
                                 onClicked:
                                     refundField.text = balance
                             }
@@ -192,8 +246,8 @@ Rectangle
                             Layout.fillWidth: true
                             Layout.alignment: Qt.AlignTop
                             horizontalAlignment: Qt.AlignRight
-                            color: "white"
-                            font.pointSize: 8
+                            color: currTheme.textColorGray
+                            font: mainFont.dapFont.medium12
                             text: "Avlb " + balance + " " + token
                         }
                     }
@@ -204,21 +258,23 @@ Rectangle
                         Layout.minimumHeight: 30
                         Layout.alignment: Qt.AlignTop
                         verticalAlignment: Qt.AlignBottom
-                        color: "white"
-                        font.pointSize: 10
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium16
                         text: token
                     }
                 }
         }
 
-        Button
+
+        DapButton
         {
             id: refundButton
             Layout.alignment: Qt.AlignHCenter
-            Layout.maximumHeight: 30
-            font.pointSize: 10
-            enabled: false
-            text: qsTr("Refund")
+            Layout.minimumWidth: 150 * pt
+            Layout.minimumHeight: 36 * pt
+            horizontalAligmentText: Text.AlignHCenter
+            fontButton: mainFont.dapFont.regular16
+            textButton: qsTr("Refund")
         }
 
         Item
@@ -242,6 +298,4 @@ Rectangle
         print("test", test)
         refundButton.enabled = test
     }
-
-    color: "blue"
 }

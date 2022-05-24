@@ -2,10 +2,10 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
-Rectangle
+Item
 {
     id: rightStackView
-    width: 300
+    anchors.fill: parent
 
     StackView {
         id: stackView
@@ -25,7 +25,5 @@ Rectangle
         stackView.clear(StackView.ReplaceTransition)
         stackView.push(item)
     }
-
-    color: "dark blue"
 }
 

@@ -9,8 +9,9 @@ Rectangle
     property string fontFamilies: "Arial"
     property int fontIndent: 3
 
-    property string gridColor: "grey"
-    property string gridTextColor: "black"
+    property string backgroundColor: currTheme.backgroundElements
+    property string gridColor: "#a0a0a0"
+    property string gridTextColor: "#ffffff"
 
     property real gridWidth: 1
     property real lineWidth: 2
@@ -74,23 +75,8 @@ Rectangle
         onPaint:
         {
             var ctx = getContext("2d");
-            ctx.fillStyle = Qt.rgba(1, 1, 1, 1);
+            ctx.fillStyle = backgroundColor;
             ctx.fillRect(0, 0, width, height);
-
-//            drawLine(ctx, 0, 0, width, height, "red")
-//            drawLine(ctx, width, 0, 0, height, "blue")
-
-/*            drawHorizontalLine(ctx, height*0.125)
-            drawHorizontalLineText(ctx, height*0.25, "0.25")
-            drawHorizontalLine(ctx, height*0.375)
-            drawHorizontalLineText(ctx, height*0.5, "0.5")
-            drawHorizontalLine(ctx, height*0.625)
-            drawHorizontalLineText(ctx, height*0.75, "0.75")
-            drawHorizontalLine(ctx, height*0.875)
-
-            drawVerticalLine(ctx, width*0.25)
-            drawVerticalLineText(ctx, width*0.5, "0.5")
-            drawVerticalLine(ctx, width*0.75)*/
 
             drawGrid(ctx)
 
