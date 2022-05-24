@@ -19,6 +19,11 @@ Item
         stackView.push(initialItem)
     }
 
+    function setItem(item)
+    {
+        stackView.replace(item)
+    }
+
     function setInitialItem(item)
     {
         stackView.initialItem = item

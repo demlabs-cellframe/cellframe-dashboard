@@ -53,13 +53,15 @@ DapPage {
 
     Component.onCompleted:
     {
-        rightStackView.setInitialItem(vpnOrdersPage)
+        rightStackView.setItem(vpnOrdersPage)
+        //rightStackView.setInitialItem(vpnOrdersPage)
 //        rightStackView.setInitialItem("RightPanel/TopUp.qml")
     }
 
     onGoToHomePage:
     {
-        rightStackView.setInitialItem(vpnOrdersPage)
+        rightStackView.setItem(vpnOrdersPage)
+        //rightStackView.setInitialItem(vpnOrdersPage)
     }
 
 //    color: currTheme.backgroundMainScreen

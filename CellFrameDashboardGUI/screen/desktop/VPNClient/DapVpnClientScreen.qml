@@ -38,11 +38,13 @@ Page {
 
                 dapTopUpButton.onClicked:
                 {
-                    rightStackView.setInitialItem(topUpPage)
+                    rightStackView.setItem(topUpPage)
+                    //rightStackView.setInitialItem(topUpPage)
                 }
                 dapRefundButton.onClicked:
                 {
-                    rightStackView.setInitialItem(refundPage)
+                    rightStackView.setItem(refundPage)
+                    //rightStackView.setInitialItem(refundPage)
                 }
 
             }
