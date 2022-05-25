@@ -36,7 +36,7 @@ DapTopPanel
         Label
         {
             id: textNameWallet
-            text: dapModelWallets.get(SettingsWallet.currentIndex).name
+            text: dapModelWallets.get(logicMainApp.currentIndex).name
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
         }

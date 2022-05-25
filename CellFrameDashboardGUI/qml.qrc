@@ -326,13 +326,6 @@
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
         <file>screen/desktop/controls/CopyButton.qml</file>
         <file>screen/mobile/logic/LogicMobile.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTab.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
-        <file>screen/desktop/Exchange/Parts/ExchangeTopPanel.qml</file>
         <file>screen/desktop/Networks/DapNetworksPanel.qml</file>
         <file>screen/desktop/Networks/logic/LogicNetworks.qml</file>
         <file>screen/desktop/Networks/parts/DapNetworkButton.qml</file>
@@ -343,5 +336,15 @@
         <file>screen/desktop/controls/CopyPopup.qml</file>
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeTab.qml</file>
+        <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
+        <file>screen/desktop/Exchange/Parts/CandleChart.qml</file>
+        <file>screen/desktop/Exchange/Parts/ExchangeHistoryDelegate.qml</file>
+        <file>screen/desktop/Exchange/Parts/ExchangeHistoryWidget.qml</file>
+        <file>screen/desktop/Exchange/Parts/ExchangeTopPanel.qml</file>
+        <file>screen/desktop/Exchange/Parts/OrderPanelDelegate.qml</file>
+        <file>screen/desktop/Exchange/logic/LogicCandleChart.qml</file>
+        <file>screen/desktop/Exchange/logic/LogicExchange.qml</file>
     </qresource>
 </RCC>
