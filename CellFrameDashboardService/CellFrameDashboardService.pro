@@ -39,12 +39,26 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
     DapNetSyncController.cpp \
-    DapNotificationWatcher.cpp
+    DapNotificationWatcher.cpp \
+    DapWeb3Api/DapWebControll.cpp \
+    DapWeb3Api/httpServer/http_parser.c \
+    DapWeb3Api/httpServer/qhttpconnection.cpp \
+    DapWeb3Api/httpServer/qhttprequest.cpp \
+    DapWeb3Api/httpServer/qhttpresponse.cpp \
+    DapWeb3Api/httpServer/qhttpserver.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
     DapNetSyncController.h \
-    DapNotificationWatcher.h
+    DapNotificationWatcher.h \
+    DapWeb3Api/DapWebControll.h \
+    DapWeb3Api/httpServer/http_parser.h \
+    DapWeb3Api/httpServer/qhttpconnection.h \
+    DapWeb3Api/httpServer/qhttprequest.h \
+    DapWeb3Api/httpServer/qhttpresponse.h \
+    DapWeb3Api/httpServer/qhttpserver.h \
+    DapWeb3Api/httpServer/qhttpserverapi.h \
+    DapWeb3Api/httpServer/qhttpserverfwd.h
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)

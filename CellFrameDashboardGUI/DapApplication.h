@@ -10,6 +10,7 @@
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
 #include "WalletRestore/commandcmdcontroller.h"
+#include "DapWeb3Api/DapWebControll.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -49,6 +50,7 @@ private:
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
+    DapWebControll * m_webControll;
 };
 
 #endif // DAPAPPLICATION_H
