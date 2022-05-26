@@ -49,7 +49,7 @@ QtObject
     ///@detalis fontSizeCursor Cursor font size.
     property int fontSizeCursor: 10*pt
     ///@detalis currentValue Current value price.
-    property int currentValue: 10236
+    property int currentValue: 10000
     ///@detalis cashCandle The number of candles outside the screen from the right and left.
     property int cashCandle: 5
     ///@detalis isRightTimeCurrent Graphic redraw resolution for offset

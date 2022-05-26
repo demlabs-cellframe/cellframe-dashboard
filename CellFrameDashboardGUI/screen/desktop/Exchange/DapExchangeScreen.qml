@@ -9,6 +9,8 @@ import "logic"
 
 Page
 {
+    ListModel{ id: rowDataModel }
+
     ListModel{ id: candleModel }
 
     ListModel{ id: conversionList }
@@ -23,11 +25,15 @@ Page
 
     Component.onCompleted:
     {
-        logicExchange.initCandleStickModel()
+//        logicExchange.initCandleStickModel()
         logicExchange.initConversonModel()
         logicExchange.initTimeModel()
         logicExchange.initOrdersModel()
         logicExchange.initHistoryModel()
+
+        logicExchange.generateData(rowDataModel, 10000)
+
+        logicExchange.getCandleModel(rowDataModel, candleModel, 20)
     }
 
     background: Rectangle

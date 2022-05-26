@@ -29,7 +29,7 @@ Item
 
         Component.onCompleted:
         {
-            loadImage(imageCursorPath)
+            loadImage(logic.imageCursorPath)
         }
 
         onPaint:
