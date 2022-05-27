@@ -7,9 +7,9 @@ import "../../"
 Rectangle
 {
 
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
+//    anchors.left: parent.left
+//    anchors.right: parent.right
+//    anchors.top: parent.top
 //    anchors.leftMargin: 12 * pt
 //    anchors.topMargin: 12 * pt
 //    anchors.rightMargin: 12 * pt
@@ -64,6 +64,14 @@ Rectangle
                 fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+
+                mainLineText: {
+                    if(conversionList.count)
+                        return conversionList.get(0).text
+                    else
+                        return "-/-"
+                }
+
             }
         }
 
@@ -107,6 +115,13 @@ Rectangle
                 fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+
+                mainLineText: {
+                    if(timeModel.count)
+                        return timeModel.get(0).text
+                    else
+                        return "-/-"
+                }
             }
         }
 

@@ -17,8 +17,6 @@ Page
 
     ListModel{ id: timeModel }
 
-    ListModel{ id: orderModel }
-
     ListModel{ id: modelExchangeHistory }
 
     LogicExchange { id: logicExchange }
@@ -28,7 +26,7 @@ Page
 //        logicExchange.initCandleStickModel()
         logicExchange.initConversonModel()
         logicExchange.initTimeModel()
-        logicExchange.initOrdersModel()
+//        logicExchange.initOrdersModel()
         logicExchange.initHistoryModel()
 
         logicExchange.generateData(rowDataModel, 10000)
@@ -50,90 +48,93 @@ Page
     {
         id: mainFrameDashboard
         anchors.fill: parent
-//        anchors.topMargin: 24 * pt
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
 
         contentData:
-            Item
+            ColumnLayout
             {
                 anchors.fill: parent
+                spacing: 0
 
                 ///Top panel in tab Exchange
                 ExchangeTopPanel
                 {
                     id: topPanelExchange
+                    Layout.fillWidth: true
                 }
 
                 CandleChart
                 {
                     id: candleChart
-
-                    anchors.top: topPanelExchange.bottom
-                    anchors.left: parent.left
-                    anchors.right:parent.right
-                    anchors.leftMargin: 24 * pt
-                    anchors.rightMargin: 24 * pt
-                    anchors.topMargin: 16 * pt
-                    height: 282 * pt
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    Layout.margins: 10 * pt
                 }
 
                 ///Dividing horizontal line
                 Rectangle
                 {
-                    id:horizontalLine
-                    anchors.top: candleChart.bottom
-                    anchors.topMargin: 24 * pt
-                    height: 1*pt
-                    width: parent.width
+                    id: horizontalLine
+                    Layout.fillWidth: true
+                    height: 1 * pt
                     color: currTheme.lineSeparatorColor
                 }
 
                 ///Orders panel
-                Item
+                RowLayout
                 {
-                    id:exchangeBottomPanel
-                    anchors.top: horizontalLine.bottom
-                    anchors.right: parent.right
-                    anchors.left: parent.left
-                    anchors.bottom: parent.bottom
-                    anchors.leftMargin: 24 * pt
-                    anchors.rightMargin: 24 * pt
+                    id: exchangeBottomPanel
+                    Layout.maximumHeight: 300 * pt
+                    spacing: 0
 
-                    ///List of orders
-                    ListView
+                    OrderPanelDelegate
                     {
-                        id: orderListView
-                        anchors.left: parent.left
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        orientation: ListView.Horizontal
-                        interactive: false
-                        model: orderModel
-                        delegate: delegateOrderPanel
-                        width: childrenRect.width
+                        id: orderBuy
+                        Layout.fillHeight: true
+                        Layout.maximumWidth: 260 * pt
+                        Layout.margins: 10 * pt
+                        Layout.leftMargin: 20 * pt
+
+                        titleOrder: "Buy"
+                        imagePath: "qrc:/resources/icons/buy_icon.png"
+                        currencyName: "KLVN"
+                        tokenName: "TKN1"
+                        balance: "0.123"
+                    }
+
+                    OrderPanelDelegate
+                    {
+                        id: orderSell
+                        Layout.fillHeight: true
+                        Layout.maximumWidth: 260 * pt
+                        Layout.margins: 10 * pt
+                        Layout.leftMargin: 20 * pt
+
+                        titleOrder: "Sell"
+                        imagePath: "qrc:/resources/icons/sell_icon.png"
+                        currencyName: "KLVN"
+                        tokenName: "TKN1"
+                        balance: "0.123"
                     }
 
                     ///Dividing vertical line
                     Rectangle
                     {
-                        id:verticalLine
-                        anchors.left: orderListView.right
-                        height: parent.height
+                        id: verticalLine
+                        Layout.fillHeight: true
                         width: 1 * pt
                         color: currTheme.lineSeparatorColor
                     }
 
                     ExchangeHistoryWidget
                     {
-                        width:430 * pt
-                        anchors.top: parent.top
-                        anchors.bottom: parent.bottom
-                        anchors.left: verticalLine.right
-                        anchors.right: parent.right
-                        anchors.leftMargin: 20 * pt
+                        id: historyWidget
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.margins: 10 * pt
 
                     }
                 }

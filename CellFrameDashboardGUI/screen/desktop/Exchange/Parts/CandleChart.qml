@@ -30,6 +30,12 @@ Item
         Component.onCompleted:
         {
             loadImage(logic.imageCursorPath)
+
+            if (candleModel.count > 0)
+                logic.rightTime = candleModel.get(candleModel.count-1).time + 20
+            if (rowDataModel.count > 0)
+                logic.currentValue = rowDataModel.get(rowDataModel.count-1).data
+
         }
 
         onPaint:

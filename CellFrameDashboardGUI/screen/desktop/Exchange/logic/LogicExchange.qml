@@ -124,11 +124,11 @@ QtObject {
         timeModel.append({"text":"24 hour"})
     }
 
-    function initOrdersModel()
-    {
-        orderModel.append({"titleOrder":"Buy", "path":"qrc:/resources/icons/buy_icon.png", "currencyName":"KLVN", "tokenName":"TKN1", "balance": 0})
-        orderModel.append({"titleOrder":"Sell", "path":"qrc:/resources/icons/sell_icon.png", "currencyName":"KLVN", "tokenName":"TKN1", "balance": 0})
-    }
+//    function initOrdersModel()
+//    {
+//        orderModel.append({"titleOrder":"Buy", "path":"qrc:/resources/icons/buy_icon.png", "currencyName":"KLVN", "tokenName":"TKN1", "balance": 0})
+//        orderModel.append({"titleOrder":"Sell", "path":"qrc:/resources/icons/sell_icon.png", "currencyName":"KLVN", "tokenName":"TKN1", "balance": 0})
+//    }
 
     function initHistoryModel()
     {
