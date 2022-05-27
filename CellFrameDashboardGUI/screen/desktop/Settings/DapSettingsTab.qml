@@ -22,6 +22,8 @@ DapPage
     property alias dapSettingsScreen: settingsScreen
     property bool sendRequest: false
 
+    Timer{id:timer}
+
     property var walletInfo:
     {
         "name": "",
@@ -61,7 +63,7 @@ DapPage
         }
     }
 
-    dapHeader.initialItem: DapSettingsTopPanel { }
+    dapHeader.initialItem: DapSettingsTopPanel { id:topPanel }
 
     dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
@@ -149,12 +151,18 @@ DapPage
         {
             if(sendRequest)
             {
+//                sendRequest = false
+
                 if(!versionResult.hasUpdate && versionResult.message === "Reply version")
-                {
                     logicMainApp.rcvReplyVersion()
-                    sendRequest = false
-                }
+                else if(versionResult.message !== "")
+                    messagePopupVersion.smartOpen("Dashboard update", qsTr(versionResult.message))
             }
         }
+    }
+    Connections
+    {
+        target: messagePopupVersion
+        onClick: sendRequest = false
     }
 }
