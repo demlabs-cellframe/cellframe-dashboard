@@ -185,7 +185,9 @@ Controls.Page
                 anchors.margins: 10 * pt
                 anchors.leftMargin: 15 * pt
 
-                comboBoxTextRole: ["name"]
+                defaultText: qsTr("all signature")
+
+/*                comboBoxTextRole: ["name"]
                 mainLineText: "all signature"
 
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -215,7 +217,7 @@ Controls.Page
                 fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
 //                colorTextComboBox: [[currTheme.hilightTextColorComboBox, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
             }
         }
 

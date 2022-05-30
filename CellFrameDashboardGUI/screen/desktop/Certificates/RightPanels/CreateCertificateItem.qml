@@ -166,17 +166,18 @@ Controls.Page {
                 anchors.verticalCenter: undefined
                 x: (parent.width - width) / 2
                 y: 15 * pt
-                widthPopupComboBoxNormal: 316 * pt
+/*                widthPopupComboBoxNormal: 316 * pt
                 widthPopupComboBoxActive: 316 * pt
                 heightComboBoxNormal: 42 * pt
-                heightComboBoxActive: 42 * pt
+                heightComboBoxActive: 42 * pt*/
                 model: models.signatureType
 
                 onCurrentIndexChanged: {
                         checkRequiredField()
                     }
 
-                comboBoxTextRole: ["name"]
+                defaultText: qsTr("Signature type")
+/*                comboBoxTextRole: ["name"]
                 mainLineText: qsTr("Signature type")
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -198,7 +199,7 @@ Controls.Page {
                 colorDropShadow: currTheme.shadowColor
 
                 fontComboBox: [mainFont.dapFont.regular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]*/
             }
 
             InputField {

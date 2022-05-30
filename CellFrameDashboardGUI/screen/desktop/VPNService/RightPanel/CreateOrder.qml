@@ -167,7 +167,11 @@ Page {
                 anchors.margins: 10 * pt
                 anchors.leftMargin: 15 * pt
 
-                comboBoxTextRole: ["region"]
+                defaultText: qsTr("all signature")
+
+                mainTextRole: "region"
+
+/*                comboBoxTextRole: ["region"]
                 mainLineText: "all signature"
 
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
@@ -195,7 +199,7 @@ Page {
                 endRowPadding: 37
 
                 fontComboBox: [mainFont.dapFont.regular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]*/
     //                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
     //                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
 
@@ -251,7 +255,11 @@ Page {
                         ListElement { unit: qsTr("seconds") }
                     }
 
-                    comboBoxTextRole: ["unit"]
+                    x: sidePaddingNormal
+
+                    mainTextRole: "unit"
+
+/*                    comboBoxTextRole: ["unit"]
                     anchors.centerIn: parent
                     indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -262,7 +270,6 @@ Page {
                     heightComboBoxNormal: 24 * pt
                     heightComboBoxActive: 42 * pt
                     topEffect: false
-                    x: sidePaddingNormal
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
@@ -276,7 +283,7 @@ Page {
                     roleInterval: 15
                     endRowPadding: 37
                     fontComboBox: [mainFont.dapFont.regular16]
-                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]*/
                     onCurrentIndexChanged:
                     {
                         dapUnitOrder = comboBoxUnit.currentIndex.toString()
@@ -342,8 +349,12 @@ Page {
                         ListElement { token: "ETH"; decimals: 4 }
                     }
 
-                    comboBoxTextRole: ["token"]
+                    x: sidePaddingNormal
                     anchors.centerIn: parent
+
+                    mainTextRole: "token"
+
+/*                    comboBoxTextRole: ["token"]
                     indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                     sidePaddingNormal: 19 * pt
@@ -353,7 +364,6 @@ Page {
                     heightComboBoxNormal: 24 * pt
                     heightComboBoxActive: 42 * pt
                     topEffect: false
-                    x: sidePaddingNormal
                     normalColor: currTheme.backgroundMainScreen
                     normalTopColor: currTheme.backgroundElements
                     hilightTopColor: currTheme.backgroundMainScreen
@@ -367,7 +377,7 @@ Page {
                     roleInterval: 15
                     endRowPadding: 37
                     fontComboBox: [mainFont.dapFont.regular16]
-                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]*/
 
                     onCurrentIndexChanged:
                     {

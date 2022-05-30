@@ -36,7 +36,8 @@ Rectangle
             {
                 model: conversionList
 
-                comboBoxTextRole: ["text"]
+                mainTextRole: "text"
+/*                comboBoxTextRole: ["text"]
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 10 * pt
@@ -63,7 +64,7 @@ Rectangle
 
                 fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
             }
         }
 
@@ -79,7 +80,9 @@ Rectangle
             DapComboBox
             {
                 model:timeModel
-                comboBoxTextRole: ["text"]
+
+                mainTextRole: "text"
+/*                comboBoxTextRole: ["text"]
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 10 * pt
@@ -106,7 +109,7 @@ Rectangle
 
                 fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
             }
         }
 

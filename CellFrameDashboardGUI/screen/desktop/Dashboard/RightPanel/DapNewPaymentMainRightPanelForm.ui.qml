@@ -38,7 +38,7 @@ Controls.Page
 
     property alias dapTextNotEnoughTokensWarning: textNotEnoughTokensWarning
     //@param dapSendedToken Name of token to send
-    property string dapSendedToken: comboboxToken.mainLineText
+    property string dapSendedToken: comboboxToken.displayText
 
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
@@ -146,7 +146,9 @@ Controls.Page
                     anchors.fill: parent
                     anchors.leftMargin: 5 * pt
 
-                    comboBoxTextRole: ["name"]
+                    defaultText: qsTr("Networks")
+
+/*                    comboBoxTextRole: ["name"]
     //                        mainLineText: "private"
                     indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                     indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -175,7 +177,7 @@ Controls.Page
                     fontComboBox: [mainFont.dapFont.regular14]
                     colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
     //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
                 }
 
             }
@@ -273,7 +275,7 @@ Controls.Page
                         anchors.centerIn: parent
                         anchors.fill: parent
 
-                        comboBoxTextRole: ["name"]
+/*                        comboBoxTextRole: ["name"]
     //                            mainLineText: "private"
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -302,7 +304,7 @@ Controls.Page
                         fontComboBox: [mainFont.dapFont.regular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
     //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
                     }
                 }
             }
@@ -386,7 +388,9 @@ Controls.Page
                     {
                         id: comboboxToken
                         anchors.fill: parent
-                        comboBoxTextRole: ["name"]
+
+                        defaultText: qsTr("Tokens")
+/*                        comboBoxTextRole: ["name"]
     //                            mainLineText: "tCELL"
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
@@ -413,7 +417,7 @@ Controls.Page
                         fontComboBox: [mainFont.dapFont.regular14]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
     //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
                     }
                 }
 

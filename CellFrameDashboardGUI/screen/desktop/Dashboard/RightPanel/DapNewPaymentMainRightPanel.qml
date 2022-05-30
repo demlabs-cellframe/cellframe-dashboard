@@ -28,14 +28,6 @@ DapNewPaymentMainRightPanelForm
             get(dapComboboxNetwork.currentIndex).chains
 
         dapTextInputAmountPayment.text = "0.0"
-
-        if (dapComboBoxNetworkModel.count)
-            dapComboboxNetwork.mainLineText = dapComboBoxNetworkModel.get(0).name
-        else
-            dapComboboxNetwork.mainLineText = "Networks"
-
-        if (dapComboBoxTokenModel.count)
-            dapComboBoxToken.mainLineText = dapComboBoxTokenModel.get(0).name
     }
     dapComboboxNetwork.onCurrentIndexChanged:
     {
@@ -75,9 +67,6 @@ DapNewPaymentMainRightPanelForm
             }
 
             dapTextInputAmountPayment.text = "0.0"
-
-            if (dapComboBoxTokenModel.count)
-              dapComboBoxToken.mainLineText = dapComboBoxTokenModel.get(0).name
         }
     }
 
@@ -122,7 +111,9 @@ DapNewPaymentMainRightPanelForm
             else
             {
                 print("dapWalletMessagePopup.smartOpen")
-                dapWalletMessagePopup.smartOpen("Confirming the transaction", "Attention, the transaction fee will be 0.1 " + dapComboBoxToken.mainLineText )
+                dapWalletMessagePopup.smartOpen(
+                            "Confirming the transaction",
+                            "Attention, the transaction fee will be 0.1 " + dapComboBoxToken.displayText )
 
             }
         }
@@ -169,20 +160,20 @@ DapNewPaymentMainRightPanelForm
                     var amount = logicWallet.toDatoshi(dapTextInputAmountPayment.text)
 
                     console.log("DapCreateTransactionCommand:")
-                    console.log("   network:", dapComboboxNetwork.mainLineText)
+                    console.log("   network:", dapComboboxNetwork.displayText)
                     console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
                     console.log("   wallet from:", walletName)
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                    console.log("   token:", dapComboBoxToken.mainLineText)
+                    console.log("   token:", dapComboBoxToken.displayText)
                     console.log("   amount:", amount)
 
                     var commission = logicWallet.toDatoshi("0.1")
 
                     dapServiceController.requestToService("DapCreateTransactionCommand",
-                        dapComboboxNetwork.mainLineText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
+                        dapComboboxNetwork.displayText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
                         walletName,
                         dapTextInputRecipientWalletAddress.text,
-                        dapComboBoxToken.mainLineText, amount, commission)
+                        dapComboBoxToken.displayText, amount, commission)
                 }
             }
         }

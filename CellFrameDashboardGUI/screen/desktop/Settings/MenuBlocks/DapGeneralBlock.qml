@@ -71,15 +71,16 @@ ColumnLayout
             anchors.bottomMargin: 0
             anchors.leftMargin: 15 * pt
 
-            comboBoxTextRole: ["name"]
+            defaultText: qsTr("Networks")
+/*            comboBoxTextRole: ["name"]
             mainLineText: {
                 if(dapNetworkModel.count)
                     return dapNetworkModel.get(logicMainApp.currentNetwork).name
                 else
                     return "Networks"
-            }
+            }*/
 
-            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+/*            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
             indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
             sidePaddingNormal: 10 * pt
             sidePaddingActive: 10 * pt
@@ -103,7 +104,7 @@ ColumnLayout
 
             fontComboBox: [mainFont.dapFont.regular14]
             colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
 
             currentIndex: logicMainApp.currentNetwork
 
