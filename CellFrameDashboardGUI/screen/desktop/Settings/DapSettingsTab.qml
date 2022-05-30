@@ -103,6 +103,17 @@ DapPage
     dapRightPanelFrame.visible: true
     dapRightPanelFrame.frame.visible: false
 
+    onSendRequestChanged: if(sendRequest) timeout.start()
+
+    Timer{
+        id: timeout
+        interval: 10000; running: false; repeat: false;
+        onTriggered: {
+            messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
+            sendRequest = false
+        }
+    }
+
     Timer {
         id: updateSettingsTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
@@ -152,7 +163,7 @@ DapPage
             if(sendRequest)
             {
 //                sendRequest = false
-
+                timeout.stop()
                 if(!versionResult.hasUpdate && versionResult.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
                 else if(versionResult.message !== "")
