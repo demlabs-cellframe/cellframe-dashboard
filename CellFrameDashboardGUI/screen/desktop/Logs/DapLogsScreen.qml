@@ -2,6 +2,7 @@ import QtQuick.Window 2.2
 import QtGraphicalEffects 1.0
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import "../controls"
 import "qrc:/widgets"
 import "../../"
 import "qrc:/resources/JS/TimeFunctions.js" as TimeFunction
@@ -89,21 +90,34 @@ Page
                 }
             }
 
-        DapBusyIndicator
-        {
-            x: parent.width / 2
-            y: parent.height / 2
-            busyPointNum: 8
-            busyPointRounding: 50
-            busyPointWidth: 12
-            busyPointHeight: 12
-            busyPointMinScale: 1.0
-            busyPointMaxScale: 1.0
-            busyIndicatorWidth: 40
-            busyIndicatorHeight: 40
-            busyIndicatorDelay: 125
-            busyIndicatorDarkColor: currTheme.hilightColorComboBox
-            busyIndicatorLightColor: currTheme.backgroundElements
+//        DapBusyIndicator
+//        {
+//            x: parent.width / 2
+//            y: parent.height / 2
+//            busyPointNum: 8
+//            busyPointRounding: 50
+//            busyPointWidth: 12
+//            busyPointHeight: 12
+//            busyPointMinScale: 1.0
+//            busyPointMaxScale: 1.0
+//            busyIndicatorWidth: 40
+//            busyIndicatorHeight: 40
+//            busyIndicatorDelay: 125
+//            busyIndicatorDarkColor: currTheme.hilightColorComboBox
+//            busyIndicatorLightColor: currTheme.backgroundElements
+//            running: !isModelLoaded
+//        }
+
+        DapLoadIndicator {
+//            x: parent.width / 2
+//            y: parent.height / 2
+
+            anchors.centerIn: parent
+
+            indicatorSize: 64
+            countElements: 8
+            elementSize: 10
+
             running: !isModelLoaded
         }
     }

@@ -8,6 +8,9 @@ import "qrc:/widgets" as Widgets
 Controls.DapTopPanel
 {
 
+    property alias buttonUpdate: checkUpdate
+    property alias indicatorUpdate: loadIndicator
+
 
     Text {
         id: vesion
@@ -41,13 +44,26 @@ Controls.DapTopPanel
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
+        Controls.DapLoadIndicator {
+            id: loadIndicator
+
+            anchors.verticalCenter: parent.verticalCenter
+
+            anchors.right: checkUpdate.right
+            anchors.rightMargin: 5
+            indicatorSize: 16
+
+            countElements: 5
+            elementSize: 4
+
+            running: sendRequest
+        }
         onClicked:
         {
             sendRequest = true
             dapServiceController.requestToService("DapVersionController", "version")
         }
     }
-
 
     RowLayout {
         anchors
