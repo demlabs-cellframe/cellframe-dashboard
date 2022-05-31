@@ -36,35 +36,9 @@ Rectangle
             {
                 model: conversionList
 
+                font: mainFont.dapFont.regular16
+
                 mainTextRole: "text"
-/*                comboBoxTextRole: ["text"]
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-
-                widthPopupComboBoxNormal: 140 * pt
-                widthPopupComboBoxActive: 140 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundMainScreen
-                hilightTopColor: currTheme.backgroundMainScreen
-
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
             }
         }
 
@@ -81,35 +55,9 @@ Rectangle
             {
                 model:timeModel
 
+                font: mainFont.dapFont.regular16
+
                 mainTextRole: "text"
-/*                comboBoxTextRole: ["text"]
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-
-                widthPopupComboBoxNormal: 140 * pt
-                widthPopupComboBoxActive: 140 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundMainScreen
-                hilightTopColor: currTheme.backgroundMainScreen
-
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandRegular14]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
             }
         }
 

@@ -167,10 +167,7 @@ Controls.Page {
                 anchors.verticalCenter: undefined
                 x: (parent.width - width) / 2
                 y: 15 * pt
-/*                widthPopupComboBoxNormal: 316 * pt
-                widthPopupComboBoxActive: 316 * pt
-                heightComboBoxNormal: 42 * pt
-                heightComboBoxActive: 42 * pt*/
+
                 model: models.signatureType
 
                 onCurrentIndexChanged: {
@@ -178,29 +175,7 @@ Controls.Page {
                     }
 
                 defaultText: qsTr("Signature type")
-/*                comboBoxTextRole: ["name"]
-                mainLineText: qsTr("Signature type")
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
-                paddingTopItemDelegate: 11 * pt
-                currentIndex: -1
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                indicatorLeftInterval: 20 * pt
-                roleInterval: 15
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-
-                topEffect: false
-                colorTopNormalDropShadow: "#00000000"
-                colorDropShadow: currTheme.shadowColor
-
-                fontComboBox: [mainFont.dapFont.regular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]*/
+                font: mainFont.dapFont.regular16
             }
 
             InputField {
