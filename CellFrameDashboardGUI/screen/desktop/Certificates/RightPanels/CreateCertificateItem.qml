@@ -162,7 +162,8 @@ Controls.Page {
 
             DapComboBox {
                 id: signatureTypeCertificateComboBox
-
+                width: 316 * pt
+                height: 42 * pt
                 anchors.verticalCenter: undefined
                 x: (parent.width - width) / 2
                 y: 15 * pt

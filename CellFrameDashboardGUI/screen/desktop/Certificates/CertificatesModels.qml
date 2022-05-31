@@ -91,9 +91,12 @@ Item {
 
     ListModel {        //this common model
         id: signatureType
-        ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; isRecomended: true  }
-        ListElement {  name: "Bliss"; signature: "sig_bliss"; isRecomended: false  }
-        ListElement {  name: "Picnic"; signature: "sig_picnic"; isRecomended: false  }
+//        ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; isRecomended: true  }
+//        ListElement {  name: "Bliss"; signature: "sig_bliss"; isRecomended: false  }
+//        ListElement {  name: "Picnic"; signature: "sig_picnic"; isRecomended: false  }
+        ListElement {  name: "Crystal-Dylithium"; signature: "sig_dil"; secondname: "Recomended"  }
+        ListElement {  name: "Bliss"; signature: "sig_bliss"; secondname: ""  }
+        ListElement {  name: "Picnic"; signature: "sig_picnic"; secondname: ""  }
 //        ListElement {  name: "Tesla"; signature: "sig_tesla"; isRecomended: false  }
     }
 
