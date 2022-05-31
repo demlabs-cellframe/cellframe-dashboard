@@ -50,7 +50,7 @@ Controls.Page {
                     break;
                 case "a1_expiration_date":
                 {
-                    if (data == "..")
+                    if (data === "..")
                     {
                         models.createCertificateOptional.setProperty(i, "data", "")
                         data = ""
@@ -62,7 +62,7 @@ Controls.Page {
                     var nextDay = new Date(day)
                     nextDay.setDate(day.getDate() + 1)
 
-                    if (data !== "" && (!utils.validDate(optionalField.data) || dataDate < nextDay)) {
+                    if (data !== "" && (!utils.validDate(optionalField.data) || dataDate < nextDay || data.length !== 10)) {
                         //messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                           //                     , "Please fill field correctly.")
                         dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml",
