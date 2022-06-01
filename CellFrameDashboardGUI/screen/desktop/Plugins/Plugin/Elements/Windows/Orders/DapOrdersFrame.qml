@@ -29,6 +29,7 @@ Item {
         target:dapServiceController
         onOrdersReceived:
         {
+            console.log("qqqqqqqqqqqqqqqqqqqqqqq")
             dapOrders.splice(0,dapOrders.length)
             dapModelOrders.clear()
             for (var q = 0; q < orderList.length; ++q)
@@ -37,6 +38,9 @@ Item {
             }
             for (var i = 0; i < dapOrders.length; ++i)
             {
+
+                console.log("pppppppppppppppppppppppppppppppp", dapOrders[i].Index, dapOrders[i].Location, dapOrders[i].Network, dapOrders[i].AddrNode, dapOrders[i].TotalPrice)
+
                 dapModelOrders.append({ "index" : dapOrders[i].Index,
                                       "location" : dapOrders[i].Location,
                                       "network" : dapOrders[i].Network,

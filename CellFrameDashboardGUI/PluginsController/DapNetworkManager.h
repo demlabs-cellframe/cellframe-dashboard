@@ -15,6 +15,7 @@
 class DapNetworkManager : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit DapNetworkManager(QString path, QString pathPlugins, QWidget *parent = nullptr);
 

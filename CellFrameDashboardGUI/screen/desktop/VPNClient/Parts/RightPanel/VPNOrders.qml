@@ -2,9 +2,21 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import VPNOrdersController 1.0
 
 Item
 {
+
+    VPNOrdersController
+    {
+        id: vpnOrdersController
+
+        onVpnOrdersReceived:
+        {
+            console.log("kkkkkkkkkkkkkkkkkkkkk", doc)
+            ordersListView.model = doc
+        }
+    }
 
     ListModel {
         id: serverModel
@@ -129,6 +141,7 @@ Item
 
         ListView
         {
+            id: ordersListView
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
@@ -136,7 +149,7 @@ Item
                 active: true
             }
 
-            model: serverModel
+            //model: vpnOrders//serverModel
 
             delegate:
                 ColumnLayout

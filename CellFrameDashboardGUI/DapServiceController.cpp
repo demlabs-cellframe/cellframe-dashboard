@@ -323,7 +323,10 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::ordersListReceived, [=] (const QVariant& ordersList)
     {
+
         QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
+
+        qDebug() << "oooooooooooooooooooooooooo" << array;
         QList<DapVpnOrder> tempOrders;
 
         QDataStream in(&array, QIODevice::ReadOnly);
@@ -337,7 +340,17 @@ void DapServiceController::registerCommand()
         {
             order = new DapVpnOrder(*begin);
             orders.append(order);
+            qDebug() << "oooooooooooooooooooooooooo2222" << order->index() << order->nodeLocation() << order->network() << order->nodeAddr() << order->totalPrice();
         }
+
+
+        /*
+
+    Q_PROPERTY(QString AddrNode MEMBER m_nodeAddr READ nodeAddr WRITE setNodeAddr NOTIFY nodeAddrChanged)
+    Q_PROPERTY(QString TotalPrice MEMBER m_totalPrice READ totalPrice WRITE setTotalPrice NOTIFY totalPriceChanged)
+         */
+
+
 
         emit ordersReceived(orders);
     });

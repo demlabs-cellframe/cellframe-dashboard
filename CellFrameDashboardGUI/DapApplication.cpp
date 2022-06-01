@@ -5,6 +5,7 @@
 #include <QClipboard>
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
+#include "dapvpnorderscontroller.h"
 
 #ifdef ANDROID
 #include <QtAndroid>
@@ -124,6 +125,7 @@ void DapApplication::registerQmlTypes()
     qmlRegisterType<CommandCmdController>("CommandCmdController", 1, 0, "CommandCmdController");
 
     qmlRegisterType<QMLClipboard>("qmlclipboard", 1,0, "QMLClipboard");
+    qmlRegisterType<DapVPNOrdersController>("VPNOrdersController", 1,0, "VPNOrdersController");
 
 }
 
@@ -147,6 +149,9 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("pt", 1);
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
+
+    qDebug() << "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" << this->getVpnOrdersModel()->length();
+
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);

@@ -65,6 +65,7 @@ SOURCES += \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
@@ -93,6 +94,7 @@ HEADERS += \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \
