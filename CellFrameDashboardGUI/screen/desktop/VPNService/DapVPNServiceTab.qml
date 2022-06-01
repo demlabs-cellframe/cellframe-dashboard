@@ -178,20 +178,14 @@ DapPage {
         }
     }
 
-    Connections
-    {
-        target: dapServiceController
-        onMempoolProcessed:
+    Timer {
+        id: updateOrderTimer
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        onTriggered:
         {
-            update()
+            console.log("ORDER TIMER TICK")
+            dapServiceController.requestToService("DapGetListOrdersCommand");
         }
-    }
-
-    function update()
-    {
-        dapModelOrders.clear()
-        dapServiceController.requestToService("DapGetListOrdersCommand");
-
     }
 
     Component.onCompleted:
@@ -200,5 +194,12 @@ DapPage {
             state = "ORDERSHOW"
         else
             state = "ORDERDEFAULT"
+
+        if (!updateOrderTimer.running)
+            updateOrderTimer.start()
+    }
+    Component.onDestruction:
+    {
+        updateOrderTimer.stop()
     }
 }

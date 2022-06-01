@@ -52,10 +52,13 @@ Rectangle {
     DapMessagePopup
     {
         id: messagePopupVersion
+
+        signal click()
         onSignalAccept:
         {
             if(dapButtonOk.textButton === "Update" && accept)
                 logicMainApp.updateDashboard()
+            click()
         }
     }
     signal openCopyPopup()
@@ -297,7 +300,10 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
-                        onPushPage:mainScreenStack.setInitialItem(pageUrl)
+                        onPushPage: {
+                            if(pageUrl !== mainScreenStack.currPage)
+                                mainScreenStack.setInitialItem(pageUrl)
+                        }
                     }
                 }
             }
@@ -383,7 +389,7 @@ Rectangle {
         onVersionControllerResult:
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url)
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")
