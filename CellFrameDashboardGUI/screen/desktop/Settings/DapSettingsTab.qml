@@ -22,6 +22,8 @@ DapPage
     property alias dapSettingsScreen: settingsScreen
     property bool sendRequest: false
 
+    Timer{id:timer}
+
     property var walletInfo:
     {
         "name": "",
@@ -61,7 +63,7 @@ DapPage
         }
     }
 
-    dapHeader.initialItem: DapSettingsTopPanel { }
+    dapHeader.initialItem: DapSettingsTopPanel { id:topPanel }
 
     dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
@@ -100,6 +102,17 @@ DapPage
     dapRightPanel.initialItem: DapExtensionsBlock{id:dapExtensionsBlock}
     dapRightPanelFrame.visible: true
     dapRightPanelFrame.frame.visible: false
+
+    onSendRequestChanged: if(sendRequest) timeout.start()
+
+    Timer{
+        id: timeout
+        interval: 10000; running: false; repeat: false;
+        onTriggered: {
+            messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
+            sendRequest = false
+        }
+    }
 
     Timer {
         id: updateSettingsTimer
@@ -149,12 +162,18 @@ DapPage
         {
             if(sendRequest)
             {
+//                sendRequest = false
+                timeout.stop()
                 if(!versionResult.hasUpdate && versionResult.message === "Reply version")
-                {
                     logicMainApp.rcvReplyVersion()
-                    sendRequest = false
-                }
+                else if(versionResult.message !== "")
+                    messagePopupVersion.smartOpen("Dashboard update", qsTr(versionResult.message))
             }
         }
+    }
+    Connections
+    {
+        target: messagePopupVersion
+        onClick: sendRequest = false
     }
 }

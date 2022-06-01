@@ -323,13 +323,16 @@ QtObject {
 
     function rcvOrders(orderList)
     {
-        dapModelOrders.clear()
-        for (var i = 0; i < orderList.length; ++i)
-            dapModelOrders.append({ "index" : orderList[i].Index,
-                                  "location" : orderList[i].Location,
-                                  "network" : orderList[i].Network,
-                                  "node_addr" : orderList[i].AddrNode,
-                                  "price" : orderList[i].TotalPrice})
+        if(orderList.length !== dapModelOrders.count)
+        {
+            dapModelOrders.clear()
+            for (var i = 0; i < orderList.length; ++i)
+                dapModelOrders.append({ "index" : orderList[i].Index,
+                                      "location" : orderList[i].Location,
+                                      "network" : orderList[i].Network,
+                                      "node_addr" : orderList[i].AddrNode,
+                                      "price" : orderList[i].TotalPrice})
+        }
 
     }
 
