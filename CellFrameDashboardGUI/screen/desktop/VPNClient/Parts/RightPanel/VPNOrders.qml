@@ -2,74 +2,86 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
-import VPNOrdersController 1.0
 
 Item
 {
 
-    VPNOrdersController
+    Component.onCompleted: vpnOrdersController.retryConnection()
+
+    Connections
     {
-        id: vpnOrdersController
+        target: vpnOrdersController
 
         onVpnOrdersReceived:
         {
-            console.log("kkkkkkkkkkkkkkkkkkkkk", doc)
-            ordersListView.model = doc
+            var json = JSON.parse(doc)
+            ordersListView.model = json
+            vpnOrdersLayout.visible = true
+            connectingText.visible = false
+            errorItem.visible = false
+        }
+
+        onConnectionError:
+        {
+            vpnOrdersLayout.visible = false
+            connectingText.visible = false
+            errorItem.visible = true
         }
     }
 
-    ListModel {
-        id: serverModel
-        ListElement {
-            name: "Auto server"
-            server_state: true
-            units: 3600
-            units_type: "seconds"
-            value: 0.1
-            token: "KELT"
-            message: ""
+    Text
+    {
+        id: connectingText
+        anchors.centerIn: parent
+        color: currTheme.textColor
+        font: mainFont.dapFont.medium16
+        text: "Connecting..."
+    }
+
+    Item
+    {
+        id: errorItem
+        anchors.fill: parent
+        visible: false
+
+        Text
+        {
+            id: errorText
+            anchors.centerIn: parent
+            color: currTheme.textColor
+            font: mainFont.dapFont.medium16
+            text: "Connection error"
         }
-        ListElement {
-            name: "Auto server"
-            server_state: false
-            units: 3600
-            units_type: "seconds"
-            value: 0.1
-            token: "KELT"
-            message: ""
-        }
-        ListElement {
-            name: "Auto server"
-            server_state: true
-            units: 3600
-            units_type: "seconds"
-            value: 0.1
-            token: "KELT"
-            message: "Potentially unsafe connection for your personal data"
-        }
-        ListElement {
-            name: "Auto server"
-            server_state: true
-            units: 3600
-            units_type: "seconds"
-            value: 0.1
-            token: "KELT"
-            message: "Promo with speed limit 30 Mb"
-        }
-        ListElement {
-            name: "Auto server"
-            server_state: true
-            units: 3600
-            units_type: "seconds"
-            value: 0.1
-            token: "KELT"
-            message: ""
+
+        DapButton {
+            textButton: qsTr("Retry")
+
+            Layout.preferredHeight: 36 * pt
+
+            x: parent.width * 0.5 - width * 0.5
+            y: errorText.y + errorText.height + 16 * pt
+            implicitHeight: 36 * pt
+            implicitWidth: 100 * pt
+
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
+            fontButton: mainFont.dapFont.regular16
+
+            onClicked:
+            {
+                vpnOrdersController.retryConnection()
+                connectingText.visible = true
+                errorItem.visible = false
+            }
         }
     }
+
 
     ColumnLayout
     {
+        id: vpnOrdersLayout
         anchors.fill: parent
+        visible: false
 
         RowLayout
         {
@@ -84,7 +96,7 @@ Item
             Text {
                 Layout.fillWidth: true
                 font: mainFont.dapFont.medium14
-//                font.bold: true
+                //                font.bold: true
                 color: currTheme.textColor
 
                 text: qsTr("VPN orders")
@@ -98,7 +110,7 @@ Item
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 10 * pt
                 sidePaddingActive: 10 * pt
-//                            hilightColor: currTheme.buttonColorNormal
+                //                            hilightColor: currTheme.buttonColorNormal
 
                 widthPopupComboBoxNormal: 170 * pt
                 widthPopupComboBoxActive: 170 * pt
@@ -120,13 +132,13 @@ Item
 
                 fontComboBox: [mainFont.dapFont.regular14]
                 colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
+                //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                 alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
 
                 comboBoxTextRole: ["name"]
 
                 model:
-                ListModel {
+                    ListModel {
                     ListElement {
                         name: qsTr("Sort by region")
                     }
@@ -149,185 +161,207 @@ Item
                 active: true
             }
 
-            //model: vpnOrders//serverModel
-
             delegate:
                 ColumnLayout
+            {
+                width: parent.width
+
+                Rectangle
                 {
-                    width: parent.width
+                    Layout.fillWidth: true
+                    Layout.minimumHeight:
+                        serverInfoHeader.Layout.minimumHeight +
+                        serverInfoMessage.Layout.minimumHeight
+                    color: currTheme.backgroundMainScreen
 
-                    Rectangle
+                    ColumnLayout
                     {
-                        Layout.fillWidth: true
-                        Layout.minimumHeight:
-                            serverInfoHeader.Layout.minimumHeight +
-                            serverInfoMessage.Layout.minimumHeight
-                        color: currTheme.backgroundMainScreen
+                        anchors.fill: parent
+                        spacing: 0
 
-                        ColumnLayout
+                        RowLayout
                         {
-                            anchors.fill: parent
-                            spacing: 0
+                            id: serverInfoHeader
+                            Layout.minimumHeight: 30 * pt
+                            Layout.fillWidth: true
+                            Layout.leftMargin: 10 * pt
 
-                            RowLayout
+                            Text
                             {
-                                id: serverInfoHeader
-                                Layout.minimumHeight: 30 * pt
                                 Layout.fillWidth: true
-                                Layout.leftMargin: 10 * pt
-
-                                Text
-                                {
-                                    Layout.fillWidth: true
-                                    color: currTheme.textColor
-                                    font: mainFont.dapFont.medium12
-                                    text: name
-                                }
-
-//                                Switch
-//                                {
-//                                    checked: server_state
-//                                }
-
-                                DapSwitch
-                                {
-                                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                                    Layout.preferredHeight: 26 * pt
-                                    Layout.preferredWidth: 46 * pt
-                                    Layout.rightMargin: 10 * pt
-
-                                    backgroundColor: currTheme.backgroundMainScreen
-                                    borderColor: currTheme.reflectionLight
-                                    shadowColor: currTheme.shadowColor
-
-//                                    checked: show
-                                    onToggled: {
-                                    }
-                                }
+                                color: currTheme.textColor
+                                font: mainFont.dapFont.medium12
+                                text: modelData.Name
                             }
 
-                            Rectangle
+                            //                                Switch
+                            //                                {
+                            //                                    checked: server_state
+                            //                                }
+
+                            DapSwitch
                             {
-                                id : serverInfoMessage
-                                Layout.minimumHeight:
-                                    message !== "" ? 20 * pt : 0
-                                Layout.fillWidth: true
+                                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                                Layout.preferredHeight: 26 * pt
+                                Layout.preferredWidth: 46 * pt
+                                Layout.rightMargin: 10 * pt
 
-                                visible: message !== ""
+                                backgroundColor: currTheme.backgroundMainScreen
+                                borderColor: currTheme.reflectionLight
+                                shadowColor: currTheme.shadowColor
 
-                                color: currTheme.backgroundMainScreen
-
-                                Text
-                                {
-                                    anchors.fill: parent
-                                    anchors.leftMargin: 10 * pt
-                                    color: "yellow"
-                                    font: mainFont.dapFont.medium10
-                                    text: message
+                                //                                    checked: show
+                                onToggled: {
                                 }
                             }
+                        }
 
+                        Rectangle
+                        {
+                            id : serverInfoMessage
+                            Layout.minimumHeight:
+                                message !== "" ? 20 * pt : 0
+                            Layout.fillWidth: true
+
+                            visible: message !== ""
+
+                            color: currTheme.backgroundMainScreen
+
+                            Text
+                            {
+                                anchors.fill: parent
+                                anchors.leftMargin: 10 * pt
+                                color: "yellow"
+                                font: mainFont.dapFont.medium10
+                                text: message
+                            }
                         }
 
                     }
 
-                    RowLayout
+                }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
                     {
                         Layout.fillWidth: true
-                        Layout.leftMargin: 10 * pt
-                        Layout.rightMargin: 10 * pt
-                        height: 30 * pt
-
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: qsTr("Units")
-                        }
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Qt.AlignRight
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: units
-                        }
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Units")
                     }
-
-                    RowLayout
+                    Text
                     {
                         Layout.fillWidth: true
-                        Layout.leftMargin: 10 * pt
-                        Layout.rightMargin: 10 * pt
-                        height: 30 * pt
-
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: qsTr("Units type")
-                        }
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Qt.AlignRight
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: units_type
-                        }
-                    }
-
-                    RowLayout
-                    {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 10 * pt
-                        Layout.rightMargin: 10 * pt
-                        height: 30 * pt
-
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: qsTr("Value")
-                        }
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Qt.AlignRight
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: value
-                        }
-                    }
-
-                    RowLayout
-                    {
-                        Layout.fillWidth: true
-                        Layout.leftMargin: 10 * pt
-                        Layout.rightMargin: 10 * pt
-                        Layout.bottomMargin: 10 * pt
-                        height: 30 * pt
-
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: qsTr("Token")
-                        }
-                        Text
-                        {
-                            Layout.fillWidth: true
-                            horizontalAlignment: Qt.AlignRight
-                            color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
-                            text: token
-                        }
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: modelData.PriceUnits
                     }
                 }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Location")
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: modelData.Location
+                    }
+                }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Chain Net")
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: modelData.ChainNet
+                    }
+                }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Price")
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: modelData.Price
+                    }
+                }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    Layout.bottomMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Token")
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: modelData.PriceToken
+                    }
+                }
+            }
         }
     }
 }

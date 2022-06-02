@@ -326,7 +326,6 @@ void DapServiceController::registerCommand()
 
         QByteArray  array = QByteArray::fromHex(ordersList.toByteArray());
 
-        qDebug() << "oooooooooooooooooooooooooo" << array;
         QList<DapVpnOrder> tempOrders;
 
         QDataStream in(&array, QIODevice::ReadOnly);
@@ -340,7 +339,6 @@ void DapServiceController::registerCommand()
         {
             order = new DapVpnOrder(*begin);
             orders.append(order);
-            qDebug() << "oooooooooooooooooooooooooo2222" << order->index() << order->nodeLocation() << order->network() << order->nodeAddr() << order->totalPrice();
         }
 
 

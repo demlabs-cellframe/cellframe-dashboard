@@ -15,14 +15,18 @@ class DapVPNOrdersController : public QObject
 
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
+    QNetworkRequest request;
 public:
     DapVPNOrdersController();
 
 public slots:
     void VPNOrdersReplyFinished();
+    void connectionError(QNetworkReply::NetworkError);
+    void retryConnection();
 
 signals:
-    void vpnOrdersReceived(QJsonDocument doc);
+    void vpnOrdersReceived(QByteArray doc);
+    void connectionError();
 };
 
 #endif // DAPVPNORDERSCONTROLLER_H

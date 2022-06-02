@@ -158,6 +158,84 @@ Page {
                 anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
                 anchors.leftMargin: 27 * pt
                 delegateMargin: gridViewOrder.halfMargin
+
+                Component.onCompleted: vpnOrdersController.retryConnection()
+            }
+
+
+
+            Connections
+            {
+                target: vpnOrdersController
+
+                onVpnOrdersReceived:
+                {
+                    var json = JSON.parse(doc)
+                    vpnOrdersView.model = json
+                    vpnOrdersView.visible = true
+                    connectingText.visible = false
+                    errorItem.visible = false
+                }
+
+                onConnectionError:
+                {
+                    vpnOrdersView.visible = false
+                    connectingText.visible = false
+                    errorItem.visible = true
+                }
+            }
+
+            Item
+            {
+                id: connectingText
+                anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
+                anchors.leftMargin: 27 * pt
+                Text
+                {
+                    anchors.centerIn: parent
+                    color: currTheme.textColor
+                    font: mainFont.dapFont.medium16
+                    text: "Connecting..."
+                }
+            }
+
+            Item
+            {
+                id: errorItem
+                anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
+                anchors.leftMargin: 27 * pt
+                visible: false
+
+                Text
+                {
+                    id: errorText
+                    anchors.centerIn: parent
+                    color: currTheme.textColor
+                    font: mainFont.dapFont.medium16
+                    text: "Connection error"
+                }
+
+                DapButton {
+                    textButton: qsTr("Retry")
+
+                    Layout.preferredHeight: 36 * pt
+
+                    x: parent.width * 0.5 - width * 0.5
+                    y: errorText.y + errorText.height + 16 * pt
+                    implicitHeight: 36 * pt
+                    implicitWidth: 100 * pt
+
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.regular16
+
+                    onClicked:
+                    {
+                        vpnOrdersController.retryConnection()
+                        connectingText.visible = true
+                        errorItem.visible = false
+                    }
+                }
             }
         }
     }

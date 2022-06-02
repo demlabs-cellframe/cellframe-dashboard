@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
+import VPNOrdersController 1.0
 
 import "qrc:/screen"
 import "qrc:/widgets"
@@ -85,6 +86,12 @@ Rectangle {
     ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
+
+    VPNOrdersController
+    {
+        id: vpnOrdersController
+    }
+
 
     ListModel{
         id:themes
@@ -368,6 +375,7 @@ Rectangle {
 
     Component.onCompleted:
     {
+
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
         pluginsManager.getListPlugins();

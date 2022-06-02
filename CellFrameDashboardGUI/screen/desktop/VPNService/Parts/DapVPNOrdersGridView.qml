@@ -13,7 +13,7 @@ GridView {
 
     signal orderDetailsShow(var index)
 
-    model: dapModelOrders
+    //model: dapModelOrders
 
     cellWidth: delegateMargin * 2 + delegateWidth
     cellHeight: delegateMargin * 2 + delegateHeight
@@ -91,7 +91,7 @@ GridView {
                             font:  mainFont.dapFont.medium12
                             elide: Text.ElideRight
                             color: currTheme.textColor
-                            text: "VPN Order " + model.index
+                            text: modelData.Name
                         }
 
                         Image {
@@ -123,26 +123,23 @@ GridView {
 
                             DapVPNOrderInfoLine {
                                 width: infoFrame.width
-                                name: qsTr("Location ")
-                                value: model.location
-                                visible: model.location === "None-None" ? false : true
+                                name: qsTr("Units ")
+                                value: modelData.PriceUnits
                             }
                             DapVPNOrderInfoLine {
                                 width: infoFrame.width
-                                name: qsTr("Network")
-                                value: model.network
-                            }
-                            DapVPNOrderInfoLine {
-                                width: infoFrame.width
-                                name: qsTr("Node Addr")
-                                value: model.node_addr
-                                visible: model.node_addr === "" ? false : true
-
+                                name: qsTr("Location")
+                                value: modelData.Location
                             }
                             DapVPNOrderInfoLine {
                                 width: infoFrame.width
                                 name: qsTr("Price")
-                                value: model.price
+                                value: modelData.Price
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Token")
+                                value: modelData.PriceToken
                             }
                         }
                     }
