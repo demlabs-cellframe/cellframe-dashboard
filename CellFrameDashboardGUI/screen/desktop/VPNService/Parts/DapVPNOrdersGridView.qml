@@ -150,7 +150,8 @@ GridView {
                         onClicked: {
                             cell.forceActiveFocus();
                             control.currentIndex = index-1;
-                            orderDetailsShow(model.index)
+                            //orderDetailsShow(model.index)
+                            navigator.pushInfoPage(modelData)
                         }
                     }
             }

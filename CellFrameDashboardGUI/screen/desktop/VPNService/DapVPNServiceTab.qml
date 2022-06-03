@@ -41,6 +41,10 @@ DapPage {
         function popPage() {
             dapRightPanel.pop()
         }
+
+        function pushInfoPage(model) {
+            dapRightPanel.push("qrc:/screen/desktop/VPNService/RightPanel/DapOrderDetails.qml", {"modelValue": model})
+        }
     }
 
 

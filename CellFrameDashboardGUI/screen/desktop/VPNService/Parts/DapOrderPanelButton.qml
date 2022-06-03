@@ -69,7 +69,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
     }
 
-    ToolButton {
+    /*ToolButton {
         id: infoButton
         anchors {
             left: orderText.right
@@ -90,7 +90,7 @@ Item {
             if(activeBtn)
                 console.log(orderText.text + " clicked")
         }
-    }
+    }*/
 
     Rectangle {
         id: bottomLine

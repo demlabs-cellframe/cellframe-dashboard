@@ -150,8 +150,6 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("networks", this->networks());
 
-    qDebug() << "jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" << this->getVpnOrdersModel()->length();
-
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
