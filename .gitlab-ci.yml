@@ -10,11 +10,11 @@ variables:
     GIT_SUBMODULE_STRATEGY: recursive
 
 
-#cellframe-dashboard_android:
-#    stage: build
-#    tags:
-#     - cellframe-dashboard
-#    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
+cellframe-dashboard_android:
+    stage: build
+    tags:
+     - cellframe-dashboard
+    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
 
 cellframe-dashboard_linux:
     stage: build
