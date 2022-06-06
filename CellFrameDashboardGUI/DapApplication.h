@@ -9,7 +9,7 @@
 #include "DapVpnOrdersModel.h"
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
-#include "WalletRestore/commandcmdcontroller.h"
+#include "Autocomplete/commandcmdcontroller.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
