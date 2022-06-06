@@ -55,6 +55,7 @@ OTHER_FILES += libdap-qt-ui-qml \
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
+    Autocomplete/commandcmdcontroller.cpp \
     DapApplication.cpp \
     ImportCertificate/ImportCertificate.cpp \
     NotifyController/DapNotifyController.cpp \
@@ -84,6 +85,7 @@ else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 
 HEADERS += \
     $$PWD/DapServiceController.h \
+    Autocomplete/commandcmdcontroller.h \
     DapApplication.h \
     ImportCertificate/ImportCertificate.h \
     NotifyController/DapNotifyController.h \

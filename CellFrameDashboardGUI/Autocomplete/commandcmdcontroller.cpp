@@ -80,6 +80,8 @@ QString rightOrCommand(QString command, int i)
     int k = i;
     while (true)
     {
+        if (i < 0)
+            return "";
         if (command[i] == ']' || command[i] == '}')
             ++count;
 
@@ -99,8 +101,11 @@ QString leftOrCommand(QString command, int i)
 {
     int count = 0;
     int k = i;
+    int j = 0;
     while (true)
     {
+        if (i > command.length())
+            return "";
         if (command[i] == ']' || command[i] == '}')
         {
             if (count == 0)
@@ -139,7 +144,6 @@ void CommandCmdController::parseTree(QString command)
     }
     else if (command.contains("|"))
     {
-
         for (int i = 0; i < command.length(); ++i)
         {
             if (command[i] == '|'/* && count == 0*/)
