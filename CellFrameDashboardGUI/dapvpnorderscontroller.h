@@ -16,6 +16,10 @@ class DapVPNOrdersController : public QObject
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QNetworkRequest request;
+
+    QByteArray ordersModel;
+    bool isError = false;
+
 public:
     DapVPNOrdersController();
 
@@ -23,6 +27,8 @@ public slots:
     void VPNOrdersReplyFinished();
     void connectionError(QNetworkReply::NetworkError);
     void retryConnection();
+    QByteArray getOrdersModel();
+    bool getIsError();
 
 signals:
     void vpnOrdersReceived(QByteArray doc);

@@ -6,7 +6,24 @@ import "qrc:/widgets"
 Item
 {
 
-    Component.onCompleted: vpnOrdersController.retryConnection()
+    Component.onCompleted:
+    {
+        if (!vpnOrdersController.getIsError())
+        {
+            var doc = vpnOrdersController.getOrdersModel()
+            var json = JSON.parse(doc)
+            ordersListView.model = json
+            vpnOrdersLayout.visible = true
+            connectingText.visible = false
+            errorItem.visible = false
+        }
+        else
+        {
+            vpnOrdersLayout.visible = false
+            connectingText.visible = false
+            errorItem.visible = true
+        }
+    }
 
     Connections
     {
@@ -241,6 +258,8 @@ Item
 
                 }
 
+                property var unitsType: ["UNDEFINED", "megabytes", "seconds", "days", "kilobytes", "bytes", "pieces"]
+
                 RowLayout
                 {
                     Layout.fillWidth: true
@@ -261,79 +280,55 @@ Item
                         horizontalAlignment: Qt.AlignRight
                         color: currTheme.textColor
                         font: mainFont.dapFont.medium12
-                        text: modelData.PriceUnits
-                    }
-                }
-
-                RowLayout
-                {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 10 * pt
-                    Layout.rightMargin: 10 * pt
-                    height: 30 * pt
-
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
-                        text: qsTr("Location")
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Qt.AlignRight
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
-                        text: modelData.Location
-                    }
-                }
-
-                RowLayout
-                {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 10 * pt
-                    Layout.rightMargin: 10 * pt
-                    height: 30 * pt
-
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
-                        text: qsTr("Chain Net")
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Qt.AlignRight
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
-                        text: modelData.ChainNet
-                    }
-                }
-
-                RowLayout
-                {
-                    Layout.fillWidth: true
-                    Layout.leftMargin: 10 * pt
-                    Layout.rightMargin: 10 * pt
-                    height: 30 * pt
-
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
-                        text: qsTr("Price")
-                    }
-                    Text
-                    {
-                        Layout.fillWidth: true
-                        horizontalAlignment: Qt.AlignRight
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
                         text: modelData.Price
+                    }
+                }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Units type")
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: unitsType[modelData.PriceUnits]
+                    }
+                }
+
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 10 * pt
+                    Layout.rightMargin: 10 * pt
+                    height: 30 * pt
+
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: qsTr("Value")
+                    }
+                    Text
+                    {
+                        Layout.fillWidth: true
+                        horizontalAlignment: Qt.AlignRight
+                        color: currTheme.textColor
+                        font: mainFont.dapFont.medium12
+                        text: "0"
                     }
                 }
 

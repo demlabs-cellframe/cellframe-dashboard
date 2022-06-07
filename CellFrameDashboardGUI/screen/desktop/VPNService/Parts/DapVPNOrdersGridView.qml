@@ -123,18 +123,19 @@ GridView {
 
                             DapVPNOrderInfoLine {
                                 width: infoFrame.width
-                                name: qsTr("Units ")
-                                value: modelData.PriceUnits
-                            }
-                            DapVPNOrderInfoLine {
-                                width: infoFrame.width
-                                name: qsTr("Location")
-                                value: modelData.Location
-                            }
-                            DapVPNOrderInfoLine {
-                                width: infoFrame.width
-                                name: qsTr("Price")
+                                name: qsTr("Units")
                                 value: modelData.Price
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Units type")
+                                property var unitsType: ["UNDEFINED", "megabytes", "seconds", "days", "kilobytes", "bytes", "pieces"]
+                                value: unitsType[modelData.PriceUnits]
+                            }
+                            DapVPNOrderInfoLine {
+                                width: infoFrame.width
+                                name: qsTr("Value")
+                                value: "0"
                             }
                             DapVPNOrderInfoLine {
                                 width: infoFrame.width

@@ -159,7 +159,25 @@ Page {
                 anchors.leftMargin: 27 * pt
                 delegateMargin: gridViewOrder.halfMargin
 
-                Component.onCompleted: vpnOrdersController.retryConnection()
+                Component.onCompleted:
+                {
+                    if (!vpnOrdersController.getIsError())
+                    {
+                        var doc = vpnOrdersController.getOrdersModel()
+                        vpnOrdersController.vpnOrdersReceived(doc)
+                        var json = JSON.parse(doc)
+                        vpnOrdersView.model = json
+                        vpnOrdersView.visible = true
+                        connectingText.visible = false
+                        errorItem.visible = false
+                    }
+                    else
+                    {
+                        vpnOrdersView.visible = false
+                        connectingText.visible = false
+                        errorItem.visible = true
+                    }
+                }
             }
 
 

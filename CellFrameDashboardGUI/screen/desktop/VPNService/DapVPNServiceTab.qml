@@ -172,17 +172,17 @@ DapPage {
 
     Connections
     {
-        target: dapMainWindow
-        onModelOrdersUpdated:
+        target: vpnOrdersController
+        onVpnOrdersReceived:
         {
-            if(dapModelOrders.count > 0)
+            if(doc !== "")
                 state = "ORDERSHOW"
             else
                 state = "ORDERDEFAULT"
         }
     }
 
-    Timer {
+   /* Timer {
         id: updateOrderTimer
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
@@ -190,20 +190,20 @@ DapPage {
             console.log("ORDER TIMER TICK")
             dapServiceController.requestToService("DapGetListOrdersCommand");
         }
-    }
+    }*/
 
     Component.onCompleted:
     {
-        if(dapModelOrders.count > 0)
+        if(vpnOrdersController.ordersModel !== "")
             state = "ORDERSHOW"
         else
             state = "ORDERDEFAULT"
 
-        if (!updateOrderTimer.running)
-            updateOrderTimer.start()
+        //if (!updateOrderTimer.running)
+            //updateOrderTimer.start()
     }
-    Component.onDestruction:
-    {
-        updateOrderTimer.stop()
-    }
+    //Component.onDestruction:
+    //{
+    //    updateOrderTimer.stop()
+    //}
 }

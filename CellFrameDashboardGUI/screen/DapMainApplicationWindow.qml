@@ -424,14 +424,6 @@ Rectangle {
 
             dapModelOrders.clear()
         }
-
-        onOrdersReceived:
-        {
-            print("onOrdersReceived")
-            console.log("Orders count:", orderList.length)
-            logicMainApp.rcvOrders(orderList)
-            modelOrdersUpdated();
-        }
     }
 
     Connections{
