@@ -291,7 +291,6 @@
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
         <file>logic/MainApplicationLogic.qml</file>
         <file>screen/desktop/controls/DapButton.qml</file>
-        <file>screen/desktop/controls/DapComboBox.qml</file>
         <file>screen/desktop/controls/DapMainButtonsMenu.qml</file>
         <file>screen/desktop/controls/DapMenuButton.qml</file>
         <file>screen/desktop/controls/DapMenuButtonMobile.qml</file>
