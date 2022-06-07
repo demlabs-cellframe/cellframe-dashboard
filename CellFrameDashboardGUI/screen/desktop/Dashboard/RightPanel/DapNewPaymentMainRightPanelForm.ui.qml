@@ -38,7 +38,7 @@ Controls.Page
 
     property alias dapTextNotEnoughTokensWarning: textNotEnoughTokensWarning
     //@param dapSendedToken Name of token to send
-    property string dapSendedToken: comboboxToken.mainLineText
+    property string dapSendedToken: comboboxToken.displayText
 
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
@@ -146,36 +146,9 @@ Controls.Page
                     anchors.fill: parent
                     anchors.leftMargin: 5 * pt
 
-                    comboBoxTextRole: ["name"]
-    //                        mainLineText: "private"
-                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                    sidePaddingNormal: 10 * pt
-                    sidePaddingActive: 10 * pt
-    //                            hilightColor: currTheme.buttonColorNormal
+                    font: mainFont.dapFont.regular16
 
-                    widthPopupComboBoxNormal: 318 * pt
-                    widthPopupComboBoxActive: 318 * pt
-                    heightComboBoxNormal: 24 * pt
-                    heightComboBoxActive: 42 * pt
-                    topEffect: false
-
-                    normalColor: currTheme.backgroundMainScreen
-                    normalTopColor: currTheme.backgroundElements
-                    hilightTopColor: currTheme.backgroundMainScreen
-
-                    paddingTopItemDelegate: 8 * pt
-                    heightListElement: 42 * pt
-                    indicatorWidth: 24 * pt
-                    indicatorHeight: indicatorWidth
-                    colorDropShadow: currTheme.shadowColor
-                    roleInterval: 15
-                    endRowPadding: 37
-
-                    fontComboBox: [mainFont.dapFont.regular14]
-                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-    //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                    defaultText: qsTr("Networks")
                 }
 
             }
@@ -273,36 +246,7 @@ Controls.Page
                         anchors.centerIn: parent
                         anchors.fill: parent
 
-                        comboBoxTextRole: ["name"]
-    //                            mainLineText: "private"
-                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                        sidePaddingNormal: 10 * pt
-                        sidePaddingActive: 10 * pt
-    //                            hilightColor: currTheme.buttonColorNormal
-
-                        widthPopupComboBoxNormal: 318 * pt
-                        widthPopupComboBoxActive: 318 * pt
-                        heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 42 * pt
-                        topEffect: false
-
-                        normalColor: currTheme.backgroundMainScreen
-                        normalTopColor: currTheme.backgroundElements
-                        hilightTopColor: currTheme.backgroundMainScreen
-
-                        paddingTopItemDelegate: 8 * pt
-                        heightListElement: 42 * pt
-                        indicatorWidth: 24 * pt
-                        indicatorHeight: indicatorWidth
-                        colorDropShadow: currTheme.shadowColor
-                        roleInterval: 15
-                        endRowPadding: 37
-
-                        fontComboBox: [mainFont.dapFont.regular14]
-                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-    //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        font: mainFont.dapFont.regular16
                     }
                 }
             }
@@ -386,34 +330,10 @@ Controls.Page
                     {
                         id: comboboxToken
                         anchors.fill: parent
-                        comboBoxTextRole: ["name"]
-    //                            mainLineText: "tCELL"
-                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                        indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                        sidePaddingNormal: 10 * pt
-                        sidePaddingActive: 10 * pt
-                        widthPopupComboBoxNormal: 119 * pt
-                        widthPopupComboBoxActive: 119 * pt
-                        heightComboBoxNormal: 24 * pt
-                        heightComboBoxActive: 42 * pt
-                        topEffect: false
-                        x: sidePaddingNormal
-                        normalColor: currTheme.backgroundMainScreen
-                        normalTopColor: currTheme.backgroundElements
-                        hilightTopColor: currTheme.backgroundMainScreen
-    //                            hilightColor: currTheme.buttonColorNormal
 
-                        paddingTopItemDelegate: 8 * pt
-                        heightListElement: 42 * pt
-                        indicatorWidth: 24 * pt
-                        indicatorHeight: indicatorWidth
-                        colorDropShadow: currTheme.shadowColor
-                        roleInterval: 15
-                        endRowPadding: 37
-                        fontComboBox: [mainFont.dapFont.regular14]
-                        colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-    //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        defaultText: qsTr("Tokens")
+
+                        font: mainFont.dapFont.regular16
                     }
                 }
 

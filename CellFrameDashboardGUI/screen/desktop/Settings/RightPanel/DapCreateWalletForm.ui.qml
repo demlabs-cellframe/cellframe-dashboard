@@ -28,16 +28,19 @@ Controls.Page
         {
             name: "Dilithium"
             sign: "sig_dil"
+            secondname: "Recommended"
         }
         ListElement
         {
             name: "Bliss"
             sign: "sig_bliss"
+            secondname: ""
         }
         ListElement
         {
             name: "Picnic"
             sign: " sig_picnic"
+            secondname: ""
         }
     }
 
@@ -185,37 +188,9 @@ Controls.Page
                 anchors.margins: 10 * pt
                 anchors.leftMargin: 15 * pt
 
-                comboBoxTextRole: ["name"]
-                mainLineText: "all signature"
+                font: mainFont.dapFont.regular16
 
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-//                hilightColor: currTheme.buttonColorNormal
-
-                widthPopupComboBoxNormal: 318 * pt
-                widthPopupComboBoxActive: 318 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [mainFont.dapFont.regular14]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-//                colorTextComboBox: [[currTheme.hilightTextColorComboBox, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                defaultText: qsTr("all signature")
             }
         }
 
