@@ -80,7 +80,9 @@ void DapWebControll::onClientSocketReadyRead()
       QString cmd = match.captured(1);
       qDebug()<<"request = " << cmd;
       if(cmd == "Connect"){
-          emit signalConnectRequest(list[6].split("Origin: ")[1].split("/n")[0], idUser);
+          QRegularExpression regex(R"(Origin: ([a-zA-Z\:\/\-\.]+))");
+          QRegularExpressionMatch match = regex.match(req);
+          emit signalConnectRequest(match.captured(1), idUser);
           return;
       }else{
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");

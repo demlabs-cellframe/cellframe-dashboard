@@ -6,6 +6,9 @@ DapMessagePopup {
     property int indexUser
     property string webSite
 
+    width: 350 * pt
+    height: 250 * pt
+
     dapButtonCancel.visible: true
 //    closePolicy: Popup.CloseOnPressOutside
 //    modal: false

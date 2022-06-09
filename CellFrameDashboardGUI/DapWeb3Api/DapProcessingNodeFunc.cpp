@@ -44,7 +44,6 @@ QJsonDocument DapWebControll::processingResult(QString status, QString errorMsg)
 
 QJsonDocument DapWebControll::getWallets()
 {
-    QProcess process;
     QString command = QString("%1 wallet list")
             .arg(CLI_PATH);
 
@@ -59,6 +58,7 @@ QJsonDocument DapWebControll::getWallets()
         while (itr.hasNext()){
             QRegularExpressionMatch match = itr.next();
             QString walletName = match.captured(1);
+            walletName = walletName.split("\r")[0];
             jsonArr.append(QJsonValue(walletName));
         }
         docResult = processingResult("ok", "", jsonArr);
@@ -71,7 +71,6 @@ QJsonDocument DapWebControll::getWallets()
 
 QJsonDocument DapWebControll::getDataWallets(QString walletName)
 {
-    QProcess process;
     QString command = QString("%1 wallet info -w %2 -net %3")
             .arg(CLI_PATH)
             .arg(walletName)
@@ -80,8 +79,8 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
     QString result = send_cmd(command);
 
 #ifdef Q_OS_WIN
-    QRegularExpression regex(R"(^addr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
-    QRegularExpression regex2(R"(^addr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
+    QRegularExpression regex(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
+    QRegularExpression regex2(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
 #else
     QRegularExpression regex(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
     QRegularExpression regex2(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
@@ -178,8 +177,6 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
 
 QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
 {
-    QProcess process;
-
     QString txHistoryCommand = QString("%1 tx_history -net %2 -chain %3 -addr %4").arg(CLI_PATH);
     txHistoryCommand = txHistoryCommand.arg(net);
     txHistoryCommand = txHistoryCommand.arg(s_defaultChain);
