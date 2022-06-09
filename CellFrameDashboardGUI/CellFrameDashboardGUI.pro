@@ -55,19 +55,14 @@ OTHER_FILES += libdap-qt-ui-qml \
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
+    Autocomplete/commandcmdcontroller.cpp \
     DapApplication.cpp \
     DapWeb3Api/DapWebControll.cpp \
-    DapWeb3Api/httpServer/http_parser.c \
-    DapWeb3Api/httpServer/qhttpconnection.cpp \
-    DapWeb3Api/httpServer/qhttprequest.cpp \
-    DapWeb3Api/httpServer/qhttpresponse.cpp \
-    DapWeb3Api/httpServer/qhttpserver.cpp \
     ImportCertificate/ImportCertificate.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
-    WalletRestore/commandcmdcontroller.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -90,20 +85,13 @@ else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 
 HEADERS += \
     $$PWD/DapServiceController.h \
+    Autocomplete/commandcmdcontroller.h \
     DapApplication.h \
     DapWeb3Api/DapWebControll.h \
-    DapWeb3Api/httpServer/http_parser.h \
-    DapWeb3Api/httpServer/qhttpconnection.h \
-    DapWeb3Api/httpServer/qhttprequest.h \
-    DapWeb3Api/httpServer/qhttpresponse.h \
-    DapWeb3Api/httpServer/qhttpserver.h \
-    DapWeb3Api/httpServer/qhttpserverapi.h \
-    DapWeb3Api/httpServer/qhttpserverfwd.h \
     ImportCertificate/ImportCertificate.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
-    WalletRestore/commandcmdcontroller.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \

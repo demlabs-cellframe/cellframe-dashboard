@@ -4,53 +4,188 @@ DapWebControll::DapWebControll(QObject *parent)
     : QObject{parent}
 {
 
-    s_defaultNet = "Backbone";
-    s_defaultChain = "main";
+    s_defaultNet = "private";
+    s_defaultChain = "zero";
 
-    QHttpServer *server = new QHttpServer(this);
-    connect(server, SIGNAL(newRequest(QHttpRequest*, QHttpResponse*)),
-            this, SLOT(handleRequest(QHttpRequest*, QHttpResponse*)));
+    _tcpServer = new QTcpServer(this);
+    connect(_tcpServer, &QTcpServer::newConnection, this, &DapWebControll::onNewConnetion);
 
-    server->listen(QHostAddress::Any, 8085);
+    s_id = getNewId();
+
+    startServer(8045);
 
     //FOR TEST
 
 //    getWallets(); //OK
 //    getDataWallets("tokenWallet"); //OK
 //    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL"); //OK
-//    getTransactions("tokenWallet");
+//    getTransactions("tokenWallet"); //OK
 }
 
-void DapWebControll::handleRequest(QHttpRequest *req, QHttpResponse *resp)
+QString DapWebControll::getRandomString()
 {
-    qDebug()<<req->headers();
-    qDebug()<<req->body();
-
-    // TODO: parse request
-    // TODO: request users for WEB permission
-
-    QString name;
-    QString net;
-    QString addr;
-    QString to;
-    QString value;
-    QString tokenName;
-
-    QJsonDocument doc;
-
-    doc = getWallets();
-    doc = getDataWallets(name);
-    doc = sendTransaction(name, to, value, tokenName);
-    doc = getTransactions(name);
-
-    QByteArray body = doc.toJson();
-
-    qDebug() << body;
-
-    resp->setHeader("result", QString::number(body.size()));
-    resp->writeHead(200);
-    resp->end(body);
+   QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+   int randomStringLength = 8;
+   QString randomString;
+   for(int i=0; i<randomStringLength; ++i)
+   {
+//       int index = qrand() % possibleCharacters.length();
+       int index = QRandomGenerator::global()->bounded(0, possibleCharacters.length());
+       QChar nextChar = possibleCharacters.at(index);
+       randomString.append(nextChar);
+   }
+   return randomString;
 }
+
+QString DapWebControll::getNewId()
+{
+    dap_chain_hash_fast_t l_hash_cert_pkey;
+    QString id = getRandomString();
+    dap_hash_fast(id.constData(), id.size(), &l_hash_cert_pkey);
+    char *l_cert_pkey_hash_str = dap_chain_hash_fast_to_str_new(&l_hash_cert_pkey);
+    QString result = QString::fromLatin1(l_cert_pkey_hash_str);
+    DAP_DEL_Z(l_cert_pkey_hash_str)
+    return result;
+}
+
+bool DapWebControll::startServer(int port)
+{
+  if( !_tcpServer->listen(QHostAddress::Any, port) ) { qWarning()<<"Unable start server"; return false; }
+  qInfo()<<"Server is started";
+  return true;
+}
+
+void DapWebControll::onNewConnetion()
+{
+  qDebug()<<"New connection...";
+
+  QTcpSocket * _socket = _tcpServer->nextPendingConnection();
+  s_tcpSocketList.append(_socket);
+
+  connect(_socket, &QTcpSocket::readyRead, this, &DapWebControll::onClientSocketReadyRead);
+  connect(_socket, &QTcpSocket::disconnected, this, &DapWebControll::onClietnSocketDisconnected);
+}
+
+void DapWebControll::onClietnSocketDisconnected()
+{
+    qInfo()<<"Client disconnected...";
+    QTcpSocket * _socket = dynamic_cast<QTcpSocket*>(sender());
+    if ( _socket==nullptr ) { return; }
+
+    for(int i = 0; s_tcpSocketList.length(); i++)
+    {
+        if(_socket == s_tcpSocketList[i])
+            s_tcpSocketList.removeAt(i);
+    }
+}
+
+void DapWebControll::rcvAccept(bool accept)
+{
+
+}
+
+void DapWebControll::requestProcessing()
+{
+
+}
+
+void DapWebControll::onClientSocketReadyRead()
+{
+  QTcpSocket * _socket = dynamic_cast<QTcpSocket*>(sender());
+  if ( _socket==nullptr ) { return; }
+
+  QString req = _socket->readAll();
+  QStringList list = req.split("\n", QString::SkipEmptyParts);
+  QRegularExpression regex(R"(method=([a-zA-Z]+))");
+  QRegularExpressionMatch match = regex.match(list.at(0));
+
+  QJsonDocument doc;
+
+  if (!match.hasMatch())
+  {
+      qWarning() << "Can't parse request" << list.at(0);
+      doc = processingResult("bad", "Can't parse request");
+  }
+  else
+  {
+      QString cmd = match.captured(1);
+      qInfo()<<"request = " << cmd;
+
+      if(cmd == "Connect")
+      {
+
+          //TODO: need waiting function and continue requests processing
+
+          emit signalConnectRequest(list[6].split("Origin: ")[1].split("/n")[0]);
+
+          QJsonObject obj;
+          obj.insert("id", s_id);
+          doc = processingResult("ok", "", obj);
+      }
+      else
+      {
+          QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
+          QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
+
+          QString name, net, addr, value, tokenName, id;
+
+          while(matchIt.hasNext())
+          {
+              QRegularExpressionMatch match = matchIt.next();
+
+              if(match.captured(1) == "id")
+                  id = match.captured(2);
+              else if(match.captured(1) == "walletName" | match.captured(1) == "nameWallet" )
+                  name = match.captured(2);
+              else if(match.captured(1) == "toAddr" | match.captured(1) == "addr")
+                  addr = match.captured(2);
+              else if(match.captured(1) == "tokenName")
+                  tokenName = match.captured(2);
+              else if(match.captured(1) == "value")
+                  value = match.captured(2);
+              else if(match.captured(1) == "net")
+                  net = match.captured(2);
+          }
+
+          if(id == s_id)
+          {
+              if(cmd == "GetWallets")
+                  doc = getWallets();
+              else if(cmd == "GetDataWallet")
+                  doc = getDataWallets(name);
+              else if(cmd == "SendTransaction")
+                  doc = sendTransaction(name, addr, value, tokenName);
+              else if(cmd == "GetTransactions")
+                  doc = getTransactions(addr, net);
+              else
+              {
+                  qWarning()<<"Unknown request";
+                  doc = processingResult("bad", "Unknown request: " + cmd);
+              }
+          }
+          else
+          {
+              qWarning()<<"Incorrect id";
+              doc = processingResult("bad", "Incorrect id");
+          }
+      }
+
+      QByteArray body = doc.toJson();
+
+      QTextStream answer(_socket);
+      answer.setAutoDetectUnicode(true);
+      answer
+        <<"HTTP/1.1 200 OK\r\n"
+        <<"Content-Type: application/json; charset=\"UTF-8\"\r\n"
+        <<"Access-Control-Allow-Origin: *\r\n"
+        <<"\r\n"
+        <<doc.toJson();
+      _socket->flush();
+  }
+  _socket->close();
+}
+
+
 
 QJsonDocument DapWebControll::getWallets()
 {
@@ -58,7 +193,7 @@ QJsonDocument DapWebControll::getWallets()
     QString command = QString("%1 wallet list")
             .arg(CLI_PATH);
 
-    QByteArray result = send_cmd(command);
+    QString result = send_cmd(command);
 
     QJsonDocument docResult;
     QJsonArray jsonArr;
@@ -87,7 +222,7 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
             .arg(walletName)
             .arg(s_defaultNet);
 
-    QByteArray result = send_cmd(command);
+    QString result = send_cmd(command);
 
 #ifdef Q_OS_WIN
     QRegularExpression regex(R"(^addr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
@@ -102,7 +237,8 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
 
     if (!match.hasMatch()){
         qWarning() << "Can't parse result" << result;
-        docResult = processingResult("bad", "Can't parse result. " + result);
+        QString str = QString("Can't parse result. Wallet name: %1 . %2").arg("' " + walletName + " '").arg(result);
+        docResult = processingResult("bad", str);
     }else{
         QString name, addr, balance, network;
 
@@ -164,10 +300,7 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
     txCommand = txCommand.arg(tokenName);
     txCommand = txCommand.arg(value);
 
-    QByteArray resultTx = send_cmd(txCommand);
-
-    QRegExp txHash("tx_hash=0x(\\w+)");
-    txHash.indexIn(resultTx, 0);
+    QString resultTx = send_cmd(txCommand);
 
     QJsonObject res;
     QJsonDocument docResult;
@@ -175,11 +308,10 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
     QRegExp rx("transfer=(\\w+)");
     rx.indexIn(resultTx, 0);
 
-    res.insert("transfer", rx.cap(1));
-
     if(rx.cap(1) == "Ok"){
         QRegExp rxHash("tx_hash=0x(\\w+)");
         rxHash.indexIn(resultTx, 0);
+        res.insert("transfer", rx.cap(1));
         res.insert("hash", rxHash.cap(1));
         docResult = processingResult("ok", "", res);
     }else{
@@ -189,17 +321,17 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
     return docResult;
 }
 
-QJsonDocument DapWebControll::getTransactions(QString walletName)
+QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
 {
     QProcess process;
 
-    QString txHistoryCommand = QString("%1 tx_history -net %2 -chain %3 -w %4").arg(CLI_PATH);
-    txHistoryCommand = txHistoryCommand.arg(s_defaultNet);
+    QString txHistoryCommand = QString("%1 tx_history -net %2 -chain %3 -addr %4").arg(CLI_PATH);
+    txHistoryCommand = txHistoryCommand.arg(net);
     txHistoryCommand = txHistoryCommand.arg(s_defaultChain);
-    txHistoryCommand = txHistoryCommand.arg(walletName);
+    txHistoryCommand = txHistoryCommand.arg(addr);
 
-    QByteArray result = send_cmd(txHistoryCommand);
-    result.replace("\t", "");
+    QString result = send_cmd(txHistoryCommand);
+//    result.replace("\t", "");
 
     QJsonDocument docResult;
 
@@ -213,7 +345,6 @@ QJsonDocument DapWebControll::getTransactions(QString walletName)
             while (matchItr.hasNext()){
 
                 QRegularExpressionMatch match = matchItr.next();
-                QLocale setLocale  = QLocale(QLocale::English, QLocale::UnitedStates);
                 QStringList s = match.capturedTexts();
                 QString txHash = s[0].split(" ")[0].split("\n")[0];
                 QString amountWithoutZeros = match.captured(5);
@@ -231,36 +362,37 @@ QJsonDocument DapWebControll::getTransactions(QString walletName)
                 if (amountWithoutZeros.back() == '.')
                     amountWithoutZeros.remove(amountWithoutZeros.length()-1, 1);
                 auto data = QJsonObject({
-                    qMakePair(QString("date"),           QJsonValue(setLocale.toDateTime(match.captured(1), "ddd MMM d hh:mm:ss yyyy").toString("yyyy-MM-dd"))),
+                    qMakePair(QString("date"),           QJsonValue(QDateTime::fromString(match.captured(1)).toString("yyyy-MM-dd"))),
                     qMakePair(QString("status"),         QJsonValue(match.captured(4) == "send" ? "Sent" : "Received")),
                     qMakePair(QString("amountDatoshi"),  QJsonValue(match.captured(5))),
                     qMakePair(QString("amount"),         QJsonValue(amountWithoutZeros)),
                     qMakePair(QString("tokenName"),      QJsonValue(match.captured(6))),
-                    qMakePair(QString("walletName"),     QJsonValue(walletName)),
-                    qMakePair(QString("network"),        QJsonValue(s_defaultNet)),
-                    qMakePair(QString("secsSinceEpoch"), QJsonValue(setLocale.toDateTime(match.captured(1), "ddd MMM d hh:mm:ss yyyy").toSecsSinceEpoch())),
+//                    qMakePair(QString("walletName"),     QJsonValue(walletName)),
+                    qMakePair(QString("network"),        QJsonValue(net)),
+                    qMakePair(QString("secsSinceEpoch"), QJsonValue(QDateTime::fromString(match.captured(1)).toSecsSinceEpoch())),
                     qMakePair(QString("hash"),           QJsonValue(txHash))
                 });
                 arrJson.push_back(data);
             }
             docResult = processingResult("ok", "", arrJson);
         }else{
-            docResult = processingResult("bad", result);
+            docResult = processingResult("bad", QString(result));
         }
     }else{
-        docResult = processingResult("bad", result);
+        docResult = processingResult("bad", QString(result));
     }
 
     return docResult;
 }
 
-QByteArray DapWebControll::send_cmd(QString cmd)
+QString DapWebControll::send_cmd(QString cmd)
 {
     QProcess process;
     qInfo() << "command:" << cmd;
     process.start(cmd);
     process.waitForFinished(-1);
-    QByteArray result = process.readAll();
+    QString result = process.readAll();
+    result.replace("\t", "");
     qInfo() << "result:" << result;
     return result;
 }
@@ -294,4 +426,3 @@ QJsonDocument DapWebControll::processingResult(QString status, QString errorMsg)
     QJsonDocument doc(obj);
     return doc;
 }
-

@@ -49,13 +49,17 @@ Rectangle {
 
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
+    DapMessagePopup{ id: messageWebConnect; onSignalAccept: webControl.rcvAccept(accept)}
     DapMessagePopup
     {
         id: messagePopupVersion
+
+        signal click()
         onSignalAccept:
         {
             if(dapButtonOk.textButton === "Update" && accept)
                 logicMainApp.updateDashboard()
+            click()
         }
     }
     signal openCopyPopup()
@@ -297,7 +301,10 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
-                        onPushPage:mainScreenStack.setInitialItem(pageUrl)
+                        onPushPage: {
+                            if(pageUrl !== mainScreenStack.currPage)
+                                mainScreenStack.setInitialItem(pageUrl)
+                        }
                     }
                 }
             }
@@ -383,7 +390,7 @@ Rectangle {
         onVersionControllerResult:
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url)
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")
@@ -430,6 +437,15 @@ Rectangle {
 
             modelPluginsUpdated()
             logicMainApp.updateModelAppsTab()
+        }
+    }
+
+    Connections{
+        target: webControl
+        onSignalConnectRequest:
+        {
+            messageWebConnect.dapButtonCancel.visible = true
+            messageWebConnect.smartOpen("Request to work with a wallet", "The site "+ site +" requests permission to exchange work with the wallet.")
         }
     }
 }
