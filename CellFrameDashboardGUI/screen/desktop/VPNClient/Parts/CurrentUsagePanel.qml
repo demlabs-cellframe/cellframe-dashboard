@@ -46,8 +46,11 @@ Item
             ColumnLayout
             {
                 anchors.fill: parent
-                anchors.margins: 20 * pt
-                spacing: 5 * pt
+                anchors.leftMargin: 18 * pt
+                anchors.topMargin: 7 * pt
+                anchors.rightMargin: 20 * pt
+                anchors.bottomMargin: 18 * pt
+                spacing: 12 * pt
 
                 RowLayout
                 {
@@ -57,17 +60,24 @@ Item
 
                     Text {
                         Layout.fillWidth: true
-                        font: mainFont.dapFont.medium14
+                        font: mainFont.dapFont.medium16
 //                        font.bold: true
                         color: currTheme.textColor
 
                         text: qsTr("Current Usage")
                     }
 
-                    DapComboBox
+                    Item
                     {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         Layout.minimumWidth: 100 * pt
                         Layout.maximumHeight: 26 * pt
+                    DapComboBox
+                    {
+                        height: parent.height
+                        width: 80 * pt
+                        x: parent.width - width + 10 * pt
                         indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                         sidePaddingNormal: 10 * pt
@@ -92,7 +102,7 @@ Item
                         roleInterval: 15
                         endRowPadding: 37
 
-                        fontComboBox: [mainFont.dapFont.regular14]
+                        fontComboBox: [mainFont.dapFont.regular18]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
         //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
                         alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
@@ -107,6 +117,7 @@ Item
                                 mainLineText = dapTokenModel.get(0).name
                         }
                     }
+                }
                 }
 
                 ListView
@@ -133,22 +144,23 @@ Item
                                 Layout.fillWidth: true
                                 horizontalAlignment: Qt.AlignRight
                                 color: currTheme.textColor
-                                font: mainFont.dapFont.medium12
+                                font: mainFont.dapFont.medium14
                                 text: value
                             }
                         }
 
                 }
 
-                RowLayout
+                Item
                 {
                     Layout.fillWidth: true
+                    height: 26 * pt
 
                     DapButton
                     {
                         id: topUpButton
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 26 * pt
+                        height: 26 * pt
+                        width: 141 * pt
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular12
                         textButton: qsTr("Top up")
@@ -157,8 +169,9 @@ Item
                     DapButton
                     {
                         id: refundButton
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 26 * pt
+                        height: 26 * pt
+                        width: 141 * pt
+                        x: parent.width - width
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular12
                         textButton: qsTr("Refund")

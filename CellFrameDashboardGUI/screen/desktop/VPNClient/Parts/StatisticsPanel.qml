@@ -47,14 +47,17 @@ Item
             ListView
             {
                 anchors.fill: parent
-                anchors.margins: 20 * pt
+                anchors.leftMargin: 20 * pt
+                anchors.rightMargin: 20 * pt
+                anchors.topMargin: 5 * pt
+                anchors.bottomMargin: 10 * pt
 
                 model: statisticsModel
                 delegate:
                     RowLayout
                     {
                         width: parent.width
-                        height: 34 * pt
+                        height: 38 * pt
 
                         Text
                         {

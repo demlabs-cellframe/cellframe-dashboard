@@ -5,22 +5,14 @@ import "qrc:/widgets"
 
 Item
 {
-    height: 80
+    height: 60
 
-    RowLayout
-    {
-        anchors.fill: parent
-        spacing: 10
-
-        ColumnLayout
+        Item
         {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            spacing: 10
+            anchors.fill: parent
 
             Text {
-                Layout.fillWidth: true
+                id: connectedText
                 font: mainFont.dapFont.medium16
                 color: currTheme.textColor
 
@@ -28,10 +20,10 @@ Item
             }
 
             Text {
-                Layout.fillWidth: true
                 font: mainFont.dapFont.medium18
 //                font.bold: true
                 color: currTheme.textColor
+                y: connectedText.height + 10 * pt
 
                 text: qsTr("42.112.14.73 (San Juan, Puerto Rico)")
             }
@@ -39,14 +31,15 @@ Item
 
         DapButton
         {
-            Layout.minimumWidth: 150 * pt
-            Layout.minimumHeight: 36 * pt
+            y: parent.height * 0.5 - height * 0.5 + 3 * pt
+            x: parent.width - width
+            width: 170 * pt
+            height: 38 * pt
 //            font.pointSize: 12
             horizontalAligmentText: Text.AlignHCenter
             fontButton: mainFont.dapFont.regular16
             textButton: qsTr("Disconnect")
         }
-    }
 
 //    color: "transparent"
 }

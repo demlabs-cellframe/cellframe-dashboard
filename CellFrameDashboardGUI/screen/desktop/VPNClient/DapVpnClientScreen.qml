@@ -17,6 +17,7 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
+        anchors.leftMargin: 7 * pt
 //        anchors.margins: 10
 
         spacing: 20 * pt

@@ -20,7 +20,7 @@ DapPage {
     ListModel {
         id: tokenModel
         ListElement {
-            name: "KLVN"
+            name: "KEL"
         }
         ListElement {
             name: "DAPS"
