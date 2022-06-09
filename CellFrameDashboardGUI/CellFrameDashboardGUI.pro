@@ -57,6 +57,7 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     Autocomplete/commandcmdcontroller.cpp \
     DapApplication.cpp \
+    DapWeb3Api/DapProcessingNodeFunc.cpp \
     DapWeb3Api/DapWebControll.cpp \
     ImportCertificate/ImportCertificate.cpp \
     NotifyController/DapNotifyController.cpp \

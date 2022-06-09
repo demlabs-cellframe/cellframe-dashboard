@@ -343,5 +343,6 @@
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
         <file>screen/desktop/controls/DapLoadIndicator.qml</file>
+        <file>screen/desktop/controls/DapWebMessagePopup.qml</file>
     </qresource>
 </RCC>

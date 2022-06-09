@@ -49,7 +49,11 @@ Rectangle {
 
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
-    DapMessagePopup{ id: messageWebConnect; onSignalAccept: webControl.rcvAccept(accept)}
+//    DapMessagePopup{
+//        property int index
+//        id: messageWebConnect
+//        onSignalAccept: webControl.rcvAccept(accept, index)
+//    }
     DapMessagePopup
     {
         id: messagePopupVersion
@@ -444,8 +448,8 @@ Rectangle {
         target: webControl
         onSignalConnectRequest:
         {
-            messageWebConnect.dapButtonCancel.visible = true
-            messageWebConnect.smartOpen("Request to work with a wallet", "The site "+ site +" requests permission to exchange work with the wallet.")
+            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
+            component.createObject(dapMainWindow,{indexUser: index, webSite: site});
         }
     }
 }

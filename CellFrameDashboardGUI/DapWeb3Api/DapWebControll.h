@@ -28,7 +28,6 @@ public:
 private slots:
   void onNewConnetion();
   void onClientSocketReadyRead();
-  void onClietnSocketDisconnected();
 
 private:
     QJsonDocument getWallets();
@@ -45,7 +44,7 @@ private:
     QString getRandomString();
     QString getNewId();
 
-    void requestProcessing();
+    void sendResponce(QJsonDocument data, QTcpSocket* socket);
 
 private:
     QString s_defaultNet;
@@ -54,13 +53,13 @@ private:
 
     QTcpServer * _tcpServer;
 
-    QList <QTcpSocket*> s_tcpSocketList;
+    QMap <int,QTcpSocket*> s_tcpSocketList;
 
 signals:
-    void signalConnectRequest(QString site);
+    void signalConnectRequest(QString site, int index);
 
-private slots:
-    void rcvAccept(bool rcv);
+public slots:
+    void rcvAccept(bool accept, int index);
 
 };
 
