@@ -19,9 +19,9 @@ CertificatesActionsButtonList
     onSelectedAccessKeyType: {
         //index
         models.accessKeyType.setSelectedIndex(index)
-        models.certificates.clearSelected()
         dapCertScreen.dapScreen.infoTitleTextVisible = false
         dapCertScreen.dapScreen.infoTitleTextVisibleClick = false
+        models.certificates.clearSelected()
         switch (index) {
         case 0:      //"public"
             models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public

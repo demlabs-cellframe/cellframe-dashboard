@@ -156,6 +156,8 @@ win32: nsis_build {
 android {
     QT += androidextras
 
+ LIBS += /usr/lib/x86_64-linux-gnu/libmagic.a
+
     DISTFILES += \
         android/AndroidManifest.xml \
         android/build.gradle \

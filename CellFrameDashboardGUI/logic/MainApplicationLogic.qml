@@ -18,7 +18,7 @@ QtObject {
 
     readonly property int autoUpdateInterval: 3000
 
-    property bool stateNotify: true
+    property bool stateNotify: false
 
     property string lastVersion
     property bool hasUpdate
@@ -175,7 +175,7 @@ QtObject {
 
     function rcvNetList(networksList)
     {
-        console.log(networksList.length, "AAAAAAAAAAAAAAAAAAAAAAAAa")
+//        console.log(networksList.length, "AAAAAAAAAAAAAAAAAAAAAAAAa")
         if (!networksList.length)
             console.error("networksList is empty")
         else
@@ -359,9 +359,11 @@ QtObject {
         else
         {
             messagePopup.close()
-            console.info("CONNECT SOCKET")
-                if(!stateNotify) //TODO with notify
-                    dapServiceController.requestToService("DapGetNetworksStateCommand")
+            if(isFirst)
+                console.info("CONNECT SOCKET")
+
+            if(!stateNotify) //TODO with notify
+                dapServiceController.requestToService("DapGetNetworksStateCommand")
             stateNotify = true
         }
     }
