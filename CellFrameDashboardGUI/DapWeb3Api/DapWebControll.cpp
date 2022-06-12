@@ -3,21 +3,16 @@
 DapWebControll::DapWebControll(QObject *parent)
     : QObject{parent}
 {
-    s_defaultNet = "Backbone";
-    s_defaultChain = "main";
-
     _tcpServer = new QTcpServer(this);
     connect(_tcpServer, &QTcpServer::newConnection, this, &DapWebControll::onNewConnetion);
-
-    s_id = getNewId();
     startServer(8045);
 
     //FOR TEST
-
+//    getNetworks(); //OK
 //    getWallets(); //OK
 //    getDataWallets("tokenWallet"); //OK
-//    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL"); //OK
-//    getTransactions("tokenWallet"); //OK
+//    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL", "mileena"); //OK
+//    getTransactions("tokenWallet", "mileena"); //OK
 }
 
 QString DapWebControll::getRandomString()
@@ -104,14 +99,15 @@ void DapWebControll::onClientSocketReadyRead()
               else if(match.captured(1) == "net")
                   net = match.captured(2);
           }
-
-          if(id == s_id){
+          if(s_id.filter(id).length()){
               if(cmd == "GetWallets")
                   doc = getWallets();
+              else if(cmd == "GetNetworks")
+                  doc = getNetworks();
               else if(cmd == "GetDataWallet")
                   doc = getDataWallets(name);
               else if(cmd == "SendTransaction")
-                  doc = sendTransaction(name, addr, value, tokenName);
+                  doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
               else{
@@ -146,8 +142,10 @@ void DapWebControll::rcvAccept(bool accept, int index)
 {
     QJsonDocument doc;
     if(accept){
+        QString newId = getNewId();
+        s_id.append(newId);
         QJsonObject obj;
-        obj.insert("id", s_id);
+        obj.insert("id", newId);
         doc = processingResult("ok", "", obj);
     }else
         doc = processingResult("bad", "The User declined the request");

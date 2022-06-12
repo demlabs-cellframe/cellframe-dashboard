@@ -31,8 +31,9 @@ private slots:
 
 private:
     QJsonDocument getWallets();
+    QJsonDocument getNetworks();
     QJsonDocument getDataWallets(QString walletName);
-    QJsonDocument sendTransaction(QString walletName, QString to, QString value, QString tokenName);
+    QJsonDocument sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net);
     QJsonDocument getTransactions(QString addr, QString net);
 
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonObject data);
@@ -47,9 +48,8 @@ private:
     void sendResponce(QJsonDocument data, QTcpSocket* socket);
 
 private:
-    QString s_defaultNet;
-    QString s_defaultChain;
-    QString s_id;
+//    QMap <int,QString> s_id;
+    QStringList s_id;
 
     QTcpServer * _tcpServer;
 

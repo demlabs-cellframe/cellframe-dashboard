@@ -69,86 +69,142 @@ QJsonDocument DapWebControll::getWallets()
     return docResult;
 }
 
-QJsonDocument DapWebControll::getDataWallets(QString walletName)
+QJsonDocument DapWebControll::getNetworks()
 {
-    QString command = QString("%1 wallet info -w %2 -net %3")
-            .arg(CLI_PATH)
-            .arg(walletName)
-            .arg(s_defaultNet);
+    QString command = QString("%1 net list")
+            .arg(CLI_PATH);
 
     QString result = send_cmd(command);
 
-#ifdef Q_OS_WIN
-    QRegularExpression regex(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
-    QRegularExpression regex2(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
-#else
-    QRegularExpression regex(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
-    QRegularExpression regex2(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
-#endif
-
-    QRegularExpressionMatch match = regex.match(result).hasMatch()?regex.match(result): regex2.match(result);
     QJsonDocument docResult;
+    QJsonArray jsonArr;
+    QStringList list;
 
-    if (!match.hasMatch()){
+    result.remove(' ');
+    result.remove('\r');
+    result.remove('\t');
+    result.remove("Networks:");
+
+    if(!(result.isEmpty() || result.isNull() || result.contains('\'')))
+    {
+        list = result.split('\n', QString::SkipEmptyParts);
+        for(int i = 0; i < list.length(); i++)
+            jsonArr.append(list[i]);
+
+        docResult = processingResult("ok", "", jsonArr);
+    }
+    else
+    {
         qWarning() << "Can't parse result" << result;
-        QString str = QString("Can't parse result. Wallet name: %1 . %2").arg("' " + walletName + " '").arg(result);
-        docResult = processingResult("bad", str);
-    }else{
-        QString name, addr, balance, network;
-
-        name = match.captured(1);
-        addr = match.captured(2);
-        network = match.captured(3);
-        balance = match.captured(4);
-        QJsonObject res;
-
-        res.insert("wallet_name", QJsonValue(name));
-        res.insert("wallet_addr", QJsonValue(addr));
-        res.insert("wallet_network", QJsonValue(network));
-
-        if(balance != "0"){
-            QRegularExpression balanceRegex1(R"((\d+.\d+) \((\d+)\) (\w+))");
-            QRegularExpression balanceRegex2(R"((\d+.) \((\d+)\) (\w+))");
-            QRegularExpressionMatchIterator matchIt1 = balanceRegex1.globalMatch(result);
-            QRegularExpressionMatchIterator matchIt2 = balanceRegex2.globalMatch(result);
-            QRegularExpressionMatchIterator matchIt = matchIt1.hasNext() ? matchIt1 : matchIt2;
-
-            QJsonArray arrJson;
-            while (matchIt.hasNext()){
-                QRegularExpressionMatch match = matchIt.next();
-                auto data = QJsonObject({
-                    qMakePair(QString("balance"),    QJsonValue(match.captured(1))),
-                    qMakePair(QString("datoshi"),    QJsonValue(match.captured(2))),
-                    qMakePair(QString("tokenName"),  QJsonValue(match.captured(3))),
-                });
-                arrJson.push_back(data);
-            }
-            res.insert("tokens", arrJson);
-
-
-
-        }else{
-            QJsonArray arrJson;
-            auto data = QJsonObject({
-                qMakePair(QString("balance"),   QJsonValue(balance)),
-                qMakePair(QString("datoshi"),   QJsonValue("0")),
-                qMakePair(QString("tokenName"), QJsonValue("0")),
-            });
-            arrJson.push_back(data);
-            res.insert("tokens", arrJson);
-        }
-        docResult = processingResult("ok", "", res);
+        docResult = processingResult("bad", "Can't parse result. " + result);
     }
     return docResult;
 }
 
-QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QString value, QString tokenName)
+QJsonDocument DapWebControll::getDataWallets(QString walletName)
+{
+    QString command = QString("%1 net list")
+            .arg(CLI_PATH);
+    QString result = send_cmd(command);
+
+    result.remove(' ');
+    result.remove('\r');
+    result.remove("Networks:");
+    result.remove(':');
+
+    QJsonDocument docResult;
+    QJsonArray arrObj;
+    QStringList netlist;
+
+    if(!(result.isEmpty() || result.isNull() || result.contains('\'')))
+        netlist = result.split('\n', QString::SkipEmptyParts);
+    else
+    {
+        qWarning() << "Can't parse result" << result;
+        docResult = processingResult("bad", "Can't parse result. " + result);
+        return docResult;
+    }
+
+    for (QString net: netlist)
+    {
+        QString command = QString("%1 wallet info -w %2 -net %3")
+                .arg(CLI_PATH)
+                .arg(walletName)
+                .arg(net);
+
+        QString result = send_cmd(command);
+
+#ifdef Q_OS_WIN
+        QRegularExpression regex(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance:)");
+        QRegularExpression regex2(R"(^wallet: (\S+)\r\naddr: (\S+)\r\nnetwork: (\S+)\r\nbalance: (\S+))");
+#else
+        QRegularExpression regex(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance: (\S+))");
+        QRegularExpression regex2(R"(^wallet: (\S+)\naddr: (\S+)\nnetwork: (\S+)\nbalance:)");
+#endif
+        QRegularExpressionMatch match = regex.match(result).hasMatch()?regex.match(result): regex2.match(result);
+
+        if (!match.hasMatch()){
+            qWarning() << "Can't parse result" << result;
+            QString str = QString("Can't parse result. Wallet name: %1 . %2").arg("' " + walletName + " '").arg(result);
+            return docResult = processingResult("bad", str);
+        }else{
+            QString addr, balance;
+            addr = match.captured(2);
+            balance = match.captured(4);
+            QJsonArray arrJson;
+
+            if(balance != "0"){
+                QRegularExpression balanceRegex1(R"((\d+.\d+) \((\d+)\) (\w+))");
+                QRegularExpression balanceRegex2(R"((\d+.) \((\d+)\) (\w+))");
+                QRegularExpressionMatchIterator matchIt1 = balanceRegex1.globalMatch(result);
+                QRegularExpressionMatchIterator matchIt2 = balanceRegex2.globalMatch(result);
+                QRegularExpressionMatchIterator matchIt = matchIt1.hasNext() ? matchIt1 : matchIt2;
+                while (matchIt.hasNext()){
+                    QRegularExpressionMatch match = matchIt.next();
+                    auto data = QJsonObject({
+                        qMakePair(QString("balance"),    QJsonValue(match.captured(1))),
+                        qMakePair(QString("datoshi"),    QJsonValue(match.captured(2))),
+                        qMakePair(QString("tokenName"),  QJsonValue(match.captured(3))),
+                    });
+                    arrJson.push_back(data);
+                }
+            }else{
+                auto data = QJsonObject({
+                    qMakePair(QString("balance"),   QJsonValue(balance)),
+                    qMakePair(QString("datoshi"),   QJsonValue("0")),
+                    qMakePair(QString("tokenName"), QJsonValue("0")),
+                });
+                arrJson.push_back(data);
+            }
+            QJsonObject obj;
+            obj.insert("network", net);
+            obj.insert("address", addr);
+            obj.insert("tokens", arrJson);
+            arrObj.push_back(obj);
+        }
+    }
+    return docResult = processingResult("ok", "", arrObj);
+}
+
+QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net)
 {
     QString txCommand = QString("%1 tx_create -net %2 -chain %3 -from_wallet %4 "
                               "-to_addr %5 -token %6 -value %7").arg(CLI_PATH);
 
-    txCommand = txCommand.arg(s_defaultNet);
-    txCommand = txCommand.arg(s_defaultChain);
+    QString chain;
+
+    if(net != "private")
+    {
+        if(net != "subzero")
+            chain = "main";
+        else
+            chain = "support";
+    }
+    else
+        chain = "zero";
+
+    txCommand = txCommand.arg(net);
+    txCommand = txCommand.arg(chain);
     txCommand = txCommand.arg(walletName);
     txCommand = txCommand.arg(to);
     txCommand = txCommand.arg(tokenName);
@@ -178,8 +234,20 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
 QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
 {
     QString txHistoryCommand = QString("%1 tx_history -net %2 -chain %3 -addr %4").arg(CLI_PATH);
+
+    QString chain;
+    if(net != "private")
+    {
+        if(net != "subzero")
+            chain = "main";
+        else
+            chain = "support";
+    }
+    else
+        chain = "zero";
+
     txHistoryCommand = txHistoryCommand.arg(net);
-    txHistoryCommand = txHistoryCommand.arg(s_defaultChain);
+    txHistoryCommand = txHistoryCommand.arg(chain);
     txHistoryCommand = txHistoryCommand.arg(addr);
 
     QString result = send_cmd(txHistoryCommand);
