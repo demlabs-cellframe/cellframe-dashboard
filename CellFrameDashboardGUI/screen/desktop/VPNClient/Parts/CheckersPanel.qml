@@ -9,7 +9,7 @@ Item
     RowLayout
     {
         anchors.fill: parent
-        anchors.margins: 10 * pt
+        //anchors.margins: 10 * pt
 
         spacing: 10 * pt
 
@@ -58,7 +58,6 @@ Item
         }
 
         Text {
-            Layout.fillWidth: true
             color: currTheme.textColor
             font: mainFont.dapFont.medium13
 

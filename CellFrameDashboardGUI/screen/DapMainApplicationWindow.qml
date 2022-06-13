@@ -439,21 +439,6 @@ Rectangle {
         }
     }
 
-
-
-
-    Image
-    {
-        height: 710 //1102 777 1.4
-        width: height * 1.6
-
-        x: 184
-        y: -2
-
-        opacity: 0.4
-        source: "qrc:/resources/Screenshot_20220608_182609.png"
-    }
-
   /*  */
 }
 

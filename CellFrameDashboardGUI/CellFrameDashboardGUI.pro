@@ -176,7 +176,3 @@ android {
 
 include($$(OPENSSL_LIB)/openssl.pri)
 }
-
-DISTFILES += \
-    ../../../../Projects/cellframe-dashboard/CellFrameDashboardGUI/resources/Screenshot_20220608_182609.png \
-    Screenshot_20220608_182609.png

@@ -103,7 +103,7 @@ Item
         RowLayout
         {
             Layout.fillWidth: true
-            Layout.minimumHeight: 26 * pt
+            Layout.minimumHeight: 30 * pt
             Layout.topMargin: 5 * pt
             Layout.leftMargin: 15 * pt
             Layout.rightMargin: 5 * pt
@@ -119,10 +119,17 @@ Item
                 text: qsTr("VPN orders")
             }
 
-            DapComboBox
+            Item
             {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 Layout.minimumWidth: 170 * pt
                 Layout.maximumHeight: 26 * pt
+            DapComboBox
+            {
+                height: parent.height
+                width: 145 * pt
+                x: parent.width - width + 10 * pt
                 indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                 indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                 sidePaddingNormal: 10 * pt
@@ -165,6 +172,7 @@ Item
                 }
 
                 mainLineText: model.get(0).name
+            }
             }
         }
 
@@ -265,7 +273,8 @@ Item
                     Layout.fillWidth: true
                     Layout.leftMargin: 10 * pt
                     Layout.rightMargin: 10 * pt
-                    height: 30 * pt
+                    Layout.minimumHeight: 25 * pt
+                    Layout.maximumHeight: 25 * pt
 
                     Text
                     {
@@ -289,7 +298,8 @@ Item
                     Layout.fillWidth: true
                     Layout.leftMargin: 10 * pt
                     Layout.rightMargin: 10 * pt
-                    height: 30 * pt
+                    Layout.minimumHeight: 25 * pt
+                    Layout.maximumHeight: 25 * pt
 
                     Text
                     {
@@ -313,7 +323,8 @@ Item
                     Layout.fillWidth: true
                     Layout.leftMargin: 10 * pt
                     Layout.rightMargin: 10 * pt
-                    height: 30 * pt
+                    Layout.minimumHeight: 25 * pt
+                    Layout.maximumHeight: 25 * pt
 
                     Text
                     {
@@ -338,7 +349,8 @@ Item
                     Layout.leftMargin: 10 * pt
                     Layout.rightMargin: 10 * pt
                     Layout.bottomMargin: 10 * pt
-                    height: 30 * pt
+                    Layout.minimumHeight: 25 * pt
+                    Layout.maximumHeight: 25 * pt
 
                     Text
                     {
