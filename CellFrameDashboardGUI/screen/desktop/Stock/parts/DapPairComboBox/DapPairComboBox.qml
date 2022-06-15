@@ -49,8 +49,7 @@ ComboBox {
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
                                currTheme.textColor
-                    font.family: "Quicksand"
-                    font.pixelSize: 13
+                    font: mainFont.dapFont.regular13
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -64,8 +63,7 @@ ComboBox {
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
                                currTheme.textColor
-                    font.family: "Quicksand"
-                    font.pixelSize: 13
+                    font: mainFont.dapFont.regular13
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -78,9 +76,8 @@ ComboBox {
                     text: logic.getModelData(index, "change")
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
-                               text[0] === "+" ? "#84BE00":"#FF5F5F"
-                    font.family: "Quicksand"
-                    font.pixelSize: 13
+                               text[0] === "+" ? currTheme.textColorGreen:currTheme.textColorRed
+                    font: mainFont.dapFont.regular13
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -131,7 +128,6 @@ ComboBox {
 
             fillMode: Image.PreserveAspectFit
             source: "icons/icon_arrow_down.png"
-    //        source: "qrc:/icon_arrow_down.png"
             sourceSize.width: 24
             rotation: control.popup.opened ? 180 : 0
 
@@ -148,19 +144,22 @@ ComboBox {
                 id: coin1
                 mipmap: true
                 source: logic.getIcon(displayElement.pair.split("/")[0])
+                sourceSize.height: 32
+                sourceSize.width: 32
             }
             Image{
                 id: coin2
                 mipmap: true
                 source: logic.getIcon(displayElement.pair.split("/")[1])
+                sourceSize.height: 32
+                sourceSize.width: 32
             }
             Text
             {
                 Layout.leftMargin: 4
                 leftPadding: 0
                 text: displayElement.pair
-                font.family: "Quicksand"
-                font.pixelSize: 14
+                font: mainFont.dapFont.medium14
                 color: currTheme.textColor
                 elide: Text.ElideLeft
             }
@@ -174,7 +173,7 @@ ComboBox {
     Popup
     {
         id: popup
-        y: control.height + 11 //11 - maket spacing
+        y: control.height //11 - maket spacing
         width: widthPopup
         implicitHeight: contentItem.implicitHeight/* + 3*/
             //+3 is needed to make ListView less moovable
@@ -189,6 +188,7 @@ ComboBox {
         ColumnLayout
         {
             anchors.fill: parent
+            spacing: 0
             Rectangle
             {
                 width: popup.width
@@ -225,18 +225,16 @@ ComboBox {
                                 anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:"Pair"
-                                font.family: "Quicksand"
-                                font.pixelSize: 12
+                                font: mainFont.dapFont.medium12
                                 color: currTheme.textColor
 
                             }
                             Text{
                                 anchors.left: parent.left
-                                anchors.leftMargin: 138
+                                anchors.leftMargin: 122
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:"Price"
-                                font.family: "Quicksand"
-                                font.pixelSize: 12
+                                font: mainFont.dapFont.medium12
                                 color: currTheme.textColor
 
                             }
@@ -244,8 +242,7 @@ ComboBox {
                                 anchors.right: parent.right
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:"Change"
-                                font.family: "Quicksand"
-                                font.pixelSize: 12
+                                font: mainFont.dapFont.medium12
                                 color: currTheme.textColor
 
                             }

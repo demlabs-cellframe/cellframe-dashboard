@@ -85,10 +85,14 @@ Item {
     function getIcon(nameCoin)
     {
         if(nameCoin === "CELL")
-            return "icons/cellframeCoin.png"
+            return "icons/cell_icon.png"
         else if(nameCoin === "DAI")
-            return "icons/cellframeCoin.png"
-        else
-            return "icons/Ethereum-ETH-icon 1.png"
+            return "icons/dai_icon.png"
+        else if(nameCoin === "USDT")
+            return "icons/usdt_icon.png"
+        else if(nameCoin === "BNB")
+            return "icons/bnb_icon.png"
+        else if(nameCoin === "ETH")
+            return "icons/eth_icon.png"
     }
 }

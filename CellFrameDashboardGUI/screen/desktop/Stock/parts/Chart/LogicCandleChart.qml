@@ -9,7 +9,7 @@ QtObject
 
     property int fontSize: 12
 //    property string fontFamilies: "Quicksand"
-    property string fontFamilies: "Arial"
+    property string fontFamilies: "Quicksand"
     property int fontIndent: 3
 
     property string gridColor: "#a0a0a0"

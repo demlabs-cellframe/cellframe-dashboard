@@ -353,9 +353,13 @@
         <file>screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/SearchElement.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/logic/LogicComboBox.qml</file>
-        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/cellframeCoin.png</file>
-        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/Ethereum-ETH-icon 1.png</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/icons/icon_arrow_down.png</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/icons/searchIcon.svg</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/usdt_icon.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/dai_icon.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/bnb_icon.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/cell_icon.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/eth_icon.png</file>
+        <file>screen/desktop/Stock/parts/Chart/ChartTextBlock.qml</file>
     </qresource>
 </RCC>

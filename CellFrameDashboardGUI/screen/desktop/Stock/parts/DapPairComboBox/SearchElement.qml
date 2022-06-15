@@ -32,13 +32,11 @@ ColumnLayout
             Layout.leftMargin: 11
             Layout.topMargin: 8
 
-            validator: RegExpValidator { regExp:  /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+            validator: RegExpValidator { regExp:  /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\\\/\s*]+/ }
 
             placeholderText: qsTr("Search")
             height: 28
-            font.family: "Quicksand"
-            font.pixelSize: 14
-    //        font: mainFont.dapFont.regular14
+            font: mainFont.dapFont.regular14
 
             style:
                 TextFieldStyle

@@ -4,39 +4,17 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../DapPairComboBox"
 
-Rectangle
+Item
 {
-    color: "#404040"
-
-    property string tokenName: "ETH"
-
-/*    ListModel {
-        id: pairModel
-        ListElement {
-            name: "CELL/ETH"
-        }
-        ListElement {
-            name: "CELL/DAI"
-        }
-        ListElement {
-            name: "CELL/USDT"
-        }
-    }*/
+    property string tokenName: pairBox.displayElement.pair.split("/")[1]
 
     ListModel
     {
         id: pairModel
-
-        ListElement
-        {
-            pair: "CELL/KELL"
-            price: "1.12"
-            change: "+2.25 %"
-        }
         ListElement
         {
             pair: "CELL/USDT"
-            price: "4.24"
+            price: "1.6"
             change: "-4.1 %"
         }
         ListElement
@@ -54,20 +32,8 @@ Rectangle
         ListElement
         {
             pair: "CELL/DAI"
-            price: "12.547986"
-            change: "-5.69 %"
-        }
-        ListElement
-        {
-            pair: "CELL/DAI"
-            price: "12.547986"
-            change: "-5.69 %"
-        }
-        ListElement
-        {
-            pair: "CELL/DAI"
-            price: "12.547986"
-            change: "-5.69 %"
+            price: "1.12"
+            change: "+2.25 %"
         }
     }
 
@@ -75,32 +41,18 @@ Rectangle
     {
         anchors.fill: parent
         anchors.margins: 10
-        spacing: 10
+        spacing: 0
 
         RowLayout
         {
             Layout.fillWidth: true
             spacing: 20
 
-/*            DapComboBox
-            {
-                Layout.minimumWidth: 120
-                height: 35
-                font.pointSize: 10
-
-                model: pairModel
-            }*/
-
             DapPairComboBox
             {
-                Layout.minimumWidth: 220
-                height: 35
-//                anchors.leftMargin: 50
-//                anchors.topMargin: 50
-//                anchors.left: parent.left
-//                anchors.top: parent.top
-//                width: 220
-//                height: 32
+                id: pairBox
+                Layout.minimumWidth: 190
+                height: 32
                 Component.onCompleted: logic.setModel(pairModel)
             }
 
@@ -110,17 +62,15 @@ Rectangle
 
                 Text
                 {
-                    font.pointSize: 10
-                    color: "gray"
-
+                    font: mainFont.dapFont.medium12
+                    color: currTheme.textColorGray
                     text: qsTr("24h Hight")
                 }
 
                 Text
                 {
-                    font.pointSize: 10
-                    color: "white"
-
+                    font: mainFont.dapFont.regular12
+                    color: currTheme.textColor
                     text: qsTr("6132.2349123")
                 }
             }
@@ -131,16 +81,16 @@ Rectangle
 
                 Text
                 {
-                    font.pointSize: 10
-                    color: "gray"
+                    font: mainFont.dapFont.medium12
+                    color: currTheme.textColorGray
 
                     text: qsTr("24h Low")
                 }
 
                 Text
                 {
-                    font.pointSize: 10
-                    color: "white"
+                    font: mainFont.dapFont.regular12
+                    color: currTheme.textColor
 
                     text: qsTr("3403.2349123")
                 }
@@ -152,16 +102,16 @@ Rectangle
 
                 Text
                 {
-                    font.pointSize: 10
-                    color: "gray"
+                    font: mainFont.dapFont.medium12
+                    color: currTheme.textColorGray
 
                     text: qsTr("24h Volume")
                 }
 
                 Text
                 {
-                    font.pointSize: 10
-                    color: "white"
+                    font: mainFont.dapFont.regular12
+                    color: currTheme.textColor
 
                     text: qsTr("5694321987.2349123" + " " + tokenName)
                 }
@@ -214,6 +164,7 @@ Rectangle
 
         DapSelector
         {
+            Layout.topMargin: 16
             height: 35
 
             selectorModel: selectorModel
@@ -226,50 +177,50 @@ Rectangle
 
         RowLayout
         {
+            Layout.topMargin: 16
             spacing: 10
 
             Text
             {
-                font.pointSize: 18
-                color: "white"
-
-                text: qsTr("CELL/ETH:")
+                font: mainFont.dapFont.medium24
+                color: currTheme.textColor
+                text: pairBox.displayElement.pair + ":"
             }
 
             Text
             {
-                font.pointSize: 18
-                color: "green"
-
-                text: qsTr("3403.2349123")
+                font: mainFont.dapFont.medium24
+                color: currTheme.textColorGreen
+                text: pairBox.displayElement.price
             }
         }
 
         RowLayout
         {
+            Layout.topMargin: 4
             spacing: 10
 
             Text
             {
                 Layout.fillWidth: true
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium14
+                color: currTheme.textColorGray
 
                 text: qsTr("May 30, 08:30 AM")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium14
+                color: currTheme.textColorGray
 
                 text: qsTr("AVG Price:")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "white"
+                font: mainFont.dapFont.medium14
+                color: currTheme.textColor
 
                 text: qsTr("3403.2349123")
             }
@@ -278,6 +229,7 @@ Rectangle
         CandleChart
         {
             id: chartItem
+            Layout.topMargin: 9
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -298,10 +250,16 @@ Rectangle
         {
             spacing: 5
 
+            ChartTextBlock
+            {
+                text1.text: qsTr("2022/05/30")
+                text2.visible: false
+            }
+
             Text
             {
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.regular13
+                color: currTheme.textColorGray
 
                 text: qsTr("2022/05/30")
             }
@@ -309,16 +267,16 @@ Rectangle
             Text
             {
                 Layout.leftMargin: 20
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGray
 
                 text: qsTr("Open:")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "green"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGreen
 
                 text: qsTr("58.1421")
             }
@@ -326,16 +284,16 @@ Rectangle
             Text
             {
                 Layout.leftMargin: 20
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGray
 
                 text: qsTr("High:")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "green"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGreen
 
                 text: qsTr("59.1421")
             }
@@ -343,16 +301,16 @@ Rectangle
             Text
             {
                 Layout.leftMargin: 20
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGray
 
                 text: qsTr("Low:")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "green"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGreen
 
                 text: qsTr("57.1421")
             }
@@ -360,16 +318,16 @@ Rectangle
             Text
             {
                 Layout.leftMargin: 20
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGray
 
                 text: qsTr("Close:")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "green"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGreen
 
                 text: qsTr("57.1421")
             }
@@ -377,16 +335,16 @@ Rectangle
             Text
             {
                 Layout.leftMargin: 20
-                font.pointSize: 10
-                color: "gray"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGray
 
                 text: qsTr("Change:")
             }
 
             Text
             {
-                font.pointSize: 10
-                color: "green"
+                font: mainFont.dapFont.medium13
+                color: currTheme.textColorGreen
 
                 text: qsTr("2.97%")
             }
