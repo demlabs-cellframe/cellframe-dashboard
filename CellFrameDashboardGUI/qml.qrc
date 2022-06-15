@@ -325,13 +325,6 @@
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
         <file>screen/desktop/controls/CopyButton.qml</file>
         <file>screen/mobile/logic/LogicMobile.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanel.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeRightPanelForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreen.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeScreenForm.ui.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTab.qml</file>
-        <file>screen/desktop/Exchange/DapExchangeTopPanel.qml</file>
-        <file>screen/desktop/Exchange/Parts/ExchangeTopPanel.qml</file>
         <file>screen/desktop/Networks/DapNetworksPanel.qml</file>
         <file>screen/desktop/Networks/logic/LogicNetworks.qml</file>
         <file>screen/desktop/Networks/parts/DapNetworkButton.qml</file>
@@ -343,5 +336,26 @@
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
         <file>screen/desktop/controls/DapLoadIndicator.qml</file>
+        <file>screen/desktop/Stock/DapStockScreen.qml</file>
+        <file>screen/desktop/Stock/DapStockTab.qml</file>
+        <file>screen/desktop/Stock/DapStockTopPanel.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder.qml</file>
+        <file>screen/desktop/Stock/parts/OrderBook.qml</file>
+        <file>screen/desktop/Stock/parts/Chart/CandleChart.qml</file>
+        <file>screen/desktop/Stock/parts/Chart/ChartPanel.qml</file>
+        <file>screen/desktop/Stock/parts/Chart/LogicCandleChart.qml</file>
+        <file>screen/desktop/Stock/parts/OrderList/OpenOrders.qml</file>
+        <file>screen/desktop/Stock/parts/OrderList/OrderHistory.qml</file>
+        <file>screen/desktop/Stock/parts/OrderList/OrderList.qml</file>
+        <file>screen/desktop/Stock/icons/icon1.png</file>
+        <file>screen/desktop/Stock/icons/icon2.png</file>
+        <file>screen/desktop/Stock/icons/icon3.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/SearchElement.qml</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/logic/LogicComboBox.qml</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/cellframeCoin.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/Ethereum-ETH-icon 1.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/icon_arrow_down.png</file>
+        <file>screen/desktop/Stock/parts/DapPairComboBox/icons/searchIcon.svg</file>
     </qresource>
 </RCC>

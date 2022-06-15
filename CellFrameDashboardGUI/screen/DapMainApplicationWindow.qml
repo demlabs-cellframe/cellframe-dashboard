@@ -16,8 +16,8 @@ Rectangle {
 
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreenPath: path + "/Dashboard/DapDashboardTab.qml"
-    ///@detalis Path to the exchange tab.
-    readonly property string exchangeScreenPath: path + "/Exchange/DapExchangeTab.qml"
+    ///@detalis Path to the stock tab.
+    readonly property string stockScreenPath: path + "/Stock/DapStockTab.qml"
     ///@detalis Path to the history tab.
     readonly property string historyScreenPath: path + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
@@ -130,12 +130,11 @@ Rectangle {
             bttnIco: "icon_wallet.png",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
-        append ({ tag: "Exchange",
-            name: qsTr("Exchange"),
+        append ({ tag: "Stock",
+            name: qsTr("Stock"),
             bttnIco: "icon_exchange.png",
             showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
-//            page: "qrc:/screen/desktop/Exchange/DapExchangeTab.qml"})
+            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "TX explorer",
             name: qsTr("TX explorer"),
             bttnIco: "icon_history.png",
