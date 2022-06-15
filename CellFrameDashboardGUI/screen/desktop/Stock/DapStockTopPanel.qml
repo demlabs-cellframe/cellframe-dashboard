@@ -14,16 +14,38 @@ import "../controls"
 
 DapTopPanel
 {
-    anchors.leftMargin: 4*pt
+    anchors.leftMargin: 4
 //    radius: currTheme.radiusRectangle
 //    color: currTheme.backgroundPanel
 
     RowLayout
     {
         anchors.left: parent.left
-        anchors.leftMargin: 24 * pt
+        anchors.leftMargin: 24
         anchors.verticalCenter: parent.verticalCenter
         spacing: 18
+
+        Label
+        {
+            id: backToStock
+            Layout.rightMargin: 40
+            font: mainFont.dapFont.regular16
+            color: currTheme.textColor
+            text: qsTr(" <  Stock")
+            visible: false
+
+            MouseArea
+            {
+                anchors.fill: parent
+
+                onClicked:
+                {
+                    stockScreen.changeMainPage(
+                                "parts/StockHome.qml")
+                    backToStock.visible = false
+                }
+            }
+        }
 
         // Static text "Wallet"
         Label
@@ -40,7 +62,6 @@ DapTopPanel
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
         }
-
 
         // Static wallet balance text "Wallet balance"
         Label
@@ -71,46 +92,10 @@ DapTopPanel
             font: mainFont.dapFont.regular12
             color: currTheme.textColor
         }
+    }
 
-        // Token selection combo box
-        /*Item
-        {
-            width: 150 * pt
-
-            DapComboBox
-            {
-                id: tokenComboBox
-                model: exchangeTokenModel
-
-                comboBoxTextRole: ["name"]
-                mainLineText: dapModelWallets.count && exchangeTokenModel.count ? exchangeTokenModel.get(0).name : "No tokens"
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-
-                widthPopupComboBoxNormal: 150 * pt
-                widthPopupComboBoxActive: 150 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundElements
-                normalTopColor: currTheme.backgroundPanel
-                hilightTopColor: currTheme.backgroundPanel
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [dapQuicksandFonts.dapMainFontTheme.dapFontQuicksandMedium16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-            }
-        }*/
+    function setBackToStockVisible(visible)
+    {
+        backToStock.visible = visible
     }
 }

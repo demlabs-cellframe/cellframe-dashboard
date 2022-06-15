@@ -9,10 +9,11 @@ import "parts/Chart"
 
 Page
 {
+    id: mainStockScreen
 
     Component.onCompleted:
     {
-
+        changeMainPage("parts/StockHome.qml")
     }
 
     background: Rectangle
@@ -20,48 +21,17 @@ Page
         color: currTheme.backgroundMainScreen
     }
 
-    RowLayout
-    {
+    StackView {
+        id: mainStackView
         anchors.fill: parent
-        spacing: 20
 
-        DapRectangleLitAndShaded
-        {
-            id: mainFrame
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
-            shadowColor: currTheme.shadowColor
-            lightColor: currTheme.reflectionLight
-
-            contentData:
-                ChartPanel
-                {
-                    anchors.fill: parent
-                }
-        }
-
-        DapRectangleLitAndShaded
-        {
-            id: rightFrame
-            Layout.minimumWidth: 350
-            Layout.fillHeight: true
-
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
-            shadowColor: currTheme.shadowColor
-            lightColor: currTheme.reflectionLight
-
-            contentData:
-                OrderBook
-                {
-                    anchors.fill: parent
-                }
-        }
-
+        clip: true
     }
 
+    function changeMainPage(page)
+    {
+        mainStackView.clear()
+        mainStackView.push(page)
+    }
 }
 

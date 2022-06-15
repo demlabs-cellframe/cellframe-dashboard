@@ -1,72 +1,84 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
 
-Rectangle
+Item
 {
-    color: "#404040"
+//    color: "#404040"
 
     Component.onCompleted:
     {
         showPage("OpenOrders.qml")
     }
 
-    ColumnLayout
+    DapRectangleLitAndShaded
     {
         anchors.fill: parent
-        spacing: 0
 
-        RowLayout
-        {
-            Layout.fillWidth: true
-            Layout.leftMargin: 0
+        color: currTheme.backgroundElements
+        radius: currTheme.radiusRectangle
+        shadowColor: currTheme.shadowColor
+        lightColor: currTheme.reflectionLight
 
-            spacing: 0
-
-            DapRadioButton
+        contentData:
+            ColumnLayout
             {
-                Layout.minimumWidth: 120
+                anchors.fill: parent
+                spacing: 0
 
-                indicatorInnerSize: 46
-                spaceIndicatorText: -5
-//                fontRadioButton: mainFont.dapFont.regular16
-                implicitHeight: 35
+                RowLayout
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 0
 
-                nameRadioButton: qsTr("Open orders")
-                checked: true
+                    spacing: 0
 
-                onClicked: {
-                    showPage("OpenOrders.qml")
+                    DapRadioButton
+                    {
+                        Layout.minimumWidth: 120
+
+                        indicatorInnerSize: 46
+                        spaceIndicatorText: -5
+        //                fontRadioButton: mainFont.dapFont.regular16
+                        implicitHeight: 35
+
+                        nameRadioButton: qsTr("Open orders")
+                        checked: true
+
+                        onClicked: {
+                            showPage("OpenOrders.qml")
+                        }
+                    }
+
+                    DapRadioButton
+                    {
+                        Layout.minimumWidth: 120
+
+                        indicatorInnerSize: 46
+                        spaceIndicatorText: -5
+        //                fontRadioButton: mainFont.dapFont.regular16
+                        implicitHeight: 35
+
+                        nameRadioButton: qsTr("Order history")
+                        checked: false
+
+                        onClicked: {
+                            showPage("OrderHistory.qml")
+                        }
+                    }
+
                 }
-            }
 
-            DapRadioButton
-            {
-                Layout.minimumWidth: 120
+                StackView {
+                    id: stackView
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-                indicatorInnerSize: 46
-                spaceIndicatorText: -5
-//                fontRadioButton: mainFont.dapFont.regular16
-                implicitHeight: 35
-
-                nameRadioButton: qsTr("Order history")
-                checked: false
-
-                onClicked: {
-                    showPage("OrderHistory.qml")
+                    clip: true
                 }
+
             }
-
-        }
-
-        StackView {
-            id: stackView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            clip: true
-        }
-
     }
 
     function showPage(page)

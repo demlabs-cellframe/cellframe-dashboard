@@ -56,8 +56,13 @@ Rectangle
                 heightImageButton: 10
                 widthImageButton: 10
                 activeFrame: false
-                normalImageButton: "qrc:/close_icon.png"
-                hoverImageButton:  "qrc:/close_icon_hover.png"
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+
+                onClicked:
+                {
+                    goToRightHome()
+                }
             }
 
             Text

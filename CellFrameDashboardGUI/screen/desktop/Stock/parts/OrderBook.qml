@@ -135,7 +135,7 @@ Rectangle
             }
 
             Image {
-                source: "qrc:/icon1.png"
+                source: "qrc:/screen/desktop/Stock/icons/icon1.png"
 
                 MouseArea {
                     anchors.fill: parent
@@ -147,7 +147,7 @@ Rectangle
             }
 
             Image {
-                source: "qrc:/icon2.png"
+                source: "qrc:/screen/desktop/Stock/icons/icon2.png"
 
                 MouseArea {
                     anchors.fill: parent
@@ -159,7 +159,7 @@ Rectangle
             }
 
             Image {
-                source: "qrc:/icon3.png"
+                source: "qrc:/screen/desktop/Stock/icons/icon3.png"
 
                 MouseArea {
                     anchors.fill: parent

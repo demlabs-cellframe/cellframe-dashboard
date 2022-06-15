@@ -9,14 +9,14 @@ DapPage
 {
     id: stockTab
 
-    dapHeader.initialItem: DapStockTopPanel
-    {
-        id: stockTopPanel
-    }
-
     dapScreen.initialItem: DapStockScreen
     {
         id: stockScreen
+    }
+
+    dapHeader.initialItem: DapStockTopPanel
+    {
+        id: stockTopPanel
     }
 
     onRightPanel: false
