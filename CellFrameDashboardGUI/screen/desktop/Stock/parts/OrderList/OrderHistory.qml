@@ -19,7 +19,7 @@ Rectangle
             ["expiresIn", 0.07]
     ]))
 
-    ListModel {
+/*    ListModel {
         id: openOrdersModel
         ListElement {
             date: "2022-12-15 18:40"
@@ -262,7 +262,7 @@ Rectangle
             expiresIn: "3 days"
         }
     }
-
+*/
     ListModel {
         id: pairModel
         ListElement {
@@ -471,7 +471,7 @@ Rectangle
                 active: true
             }
 
-            model: openOrdersModel
+            model: orderHistoryModel
 
             delegate:
                 ColumnLayout

@@ -846,6 +846,17 @@ Rectangle
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
 //                fontButton: mainFont.dapFont.regular16
+
+            onClicked:
+            {
+                var date = new Date()
+
+                logicStock.addNewOrder(
+                    date.toLocaleString(Qt.locale("en_EN"),
+                    "yyyy-MM-dd hh:mm:ss"),
+                    "CELL/USDT", "Market", "Sell",
+                    "1234.4356", "674221.23", "1 day")
+            }
         }
 
         Item

@@ -6,20 +6,34 @@ Rectangle
 {
     property var layoutCoeff:
         ( new Map([
-            ["date", 0.145],
-            ["pair", 0.08],
-            ["type", 0.08],
-            ["side", 0.04],
-            ["price", 0.08],
-            ["amount", 0.08],
-            ["filled", 0.06],
-            ["total", 0.08],
-            ["triggerCondition", 0.12],
-            ["expiresIn", 0.07],
-            ["cancel", 0.06]
+            ["date", 145],
+            ["pair", 80],
+            ["type", 80],
+            ["side", 40],
+            ["price", 80],
+            ["amount", 80],
+            ["filled", 60],
+            ["total", 80],
+            ["triggerCondition", 120],
+            ["expiresIn", 70],
+            ["cancel", 60]
     ]))
 
-    ListModel {
+//        ( new Map([
+//            ["date", 0.145],
+//            ["pair", 0.08],
+//            ["type", 0.08],
+//            ["side", 0.04],
+//            ["price", 0.08],
+//            ["amount", 0.08],
+//            ["filled", 0.06],
+//            ["total", 0.08],
+//            ["triggerCondition", 0.12],
+//            ["expiresIn", 0.07],
+//            ["cancel", 0.06]
+//    ]))
+
+/*    ListModel {
         id: openOrdersModel
         ListElement {
             date: "2022-12-15 18:40"
@@ -262,7 +276,7 @@ Rectangle
             expiresIn: "3 days"
         }
     }
-
+*/
     color: "#404040"
 
     ColumnLayout
@@ -285,7 +299,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("date")
                     color: "white"
                     font.pointSize: 9
@@ -294,7 +308,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("pair")
                     color: "white"
                     font.pointSize: 9
@@ -303,7 +317,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("type")
                     color: "white"
                     font.pointSize: 9
@@ -312,7 +326,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("side")
                     color: "white"
                     font.pointSize: 9
@@ -321,7 +335,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("price")
                     color: "white"
                     font.pointSize: 9
@@ -330,7 +344,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("amount")
                     color: "white"
                     font.pointSize: 9
@@ -339,7 +353,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("filled")
                     color: "white"
                     font.pointSize: 9
@@ -348,7 +362,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("total")
                     color: "white"
                     font.pointSize: 9
@@ -357,7 +371,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("triggerCondition")
                     color: "white"
                     font.pointSize: 9
@@ -366,7 +380,7 @@ Rectangle
 
                 Text
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("expiresIn")
                     color: "white"
                     font.pointSize: 9
@@ -375,7 +389,7 @@ Rectangle
 
                 Item
                 {
-                    Layout.preferredWidth: parent.width *
+                    Layout.preferredWidth:  /* parent.width * */
                                            layoutCoeff.get("cancel")
                 }
 
@@ -411,7 +425,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("date")
                             color: "white"
                             font.pointSize: 9
@@ -420,7 +434,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("pair")
                             color: "white"
                             font.pointSize: 9
@@ -429,7 +443,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("type")
                             color: "white"
                             font.pointSize: 9
@@ -438,7 +452,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("side")
                             color: side === "Sell" ? "red" : "green"
                             font.pointSize: 9
@@ -447,7 +461,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("price")
                             color: "white"
                             font.pointSize: 9
@@ -456,7 +470,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("amount")
                             color: "white"
                             font.pointSize: 9
@@ -465,7 +479,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("filled")
                             color: "white"
                             font.pointSize: 9
@@ -474,7 +488,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("total")
                             color: "white"
                             font.pointSize: 9
@@ -483,7 +497,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("triggerCondition")
                             color: "white"
                             font.pointSize: 9
@@ -492,7 +506,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("expiresIn")
                             color: "white"
                             font.pointSize: 9
@@ -501,7 +515,7 @@ Rectangle
 
                         Text
                         {
-                            Layout.preferredWidth: parent.width *
+                            Layout.preferredWidth:  /* parent.width * */
                                                    layoutCoeff.get("cancel")
                             color: "yellow"
                             font.pointSize: 9

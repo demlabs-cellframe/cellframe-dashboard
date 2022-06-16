@@ -5,94 +5,6 @@ import "qrc:/widgets"
 
 Rectangle
 {
-
-    ListModel {
-        id: sellModel
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-    }
-    ListModel {
-        id: buyModel
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-        ListElement {
-            price: 0.2911
-            amount: 23452.23
-            total: 573.45677
-        }
-    }
-
     ListModel {
         id: accuracyModel
         ListElement {
@@ -235,7 +147,7 @@ Rectangle
                 active: true
             }
 
-            model: sellModel
+            model: sellBookModel
 
             delegate:
                 ColumnLayout
@@ -332,7 +244,7 @@ Rectangle
                 active: true
             }
 
-            model: buyModel
+            model: buyBookModel
 
             delegate:
                 ColumnLayout
