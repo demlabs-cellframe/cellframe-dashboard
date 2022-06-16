@@ -78,7 +78,7 @@ Item
                         height: parent.height
                         width: 80 * pt
                         x: parent.width - width + 10 * pt
-                        indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
+                        /*indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
                         indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
                         sidePaddingNormal: 10 * pt
                         sidePaddingActive: 10 * pt
@@ -105,16 +105,16 @@ Item
                         fontComboBox: [mainFont.dapFont.regular18]
                         colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
         //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                        alignTextComboBox: [Text.AlignLeft, Text.AlignRight]*/
 
-                        comboBoxTextRole: ["name"]
+                        //comboBoxTextRole: ["name"]
 
-                        model: dapTokenModel
+                        model: tokenModel//vpnClientTokenModel
 
                         Component.onCompleted:
                         {
-                            if (dapTokenModel.count)
-                                mainLineText = dapTokenModel.get(0).name
+                            if (tokenModel.count)
+                                mainLineText = tokenModel.get(0).name
                         }
                     }
                 }

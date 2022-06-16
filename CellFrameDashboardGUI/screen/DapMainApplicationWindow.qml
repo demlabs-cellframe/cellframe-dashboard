@@ -44,6 +44,8 @@ Rectangle {
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
+    property var vpnClientTokenModel
+
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
