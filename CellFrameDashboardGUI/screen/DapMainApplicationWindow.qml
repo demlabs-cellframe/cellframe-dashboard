@@ -44,7 +44,7 @@ Rectangle {
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
-    property var vpnClientTokenModel
+    property var vpnClientTokenModel: new Array()
 
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
@@ -416,6 +416,19 @@ Rectangle {
             console.log("Wallets length:", walletList.length)
             logicMainApp.rcvWallets(walletList)
             modelWalletsUpdated();
+        }
+
+        onCurrentNetworkChanged:
+        {
+            for(var x = 0; x < dapModelWallets.count; x++)
+            {
+                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                    for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
+                    {
+                        if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
+                            vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
+                    }
+            }
         }
 
         onWalletReceived:

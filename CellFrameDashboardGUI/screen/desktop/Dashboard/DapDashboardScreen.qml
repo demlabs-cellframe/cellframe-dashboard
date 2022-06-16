@@ -275,13 +275,6 @@ Page
                             width: parent.width
                             model: tokens
 
-                            onModelChanged:
-                            {
-                                console.log("llllllllllllllllllllllllllllll")
-                                vpnClientTokenModel = tokens
-                                console.log("llllllllllllllllllllllllllllll", tokens.length)
-                            }
-
                             Rectangle
                             {
                                 anchors.left: parent.left
