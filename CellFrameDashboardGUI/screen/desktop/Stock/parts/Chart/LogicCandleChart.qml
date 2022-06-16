@@ -161,6 +161,9 @@ QtObject
             }
         }
 
+        maxY += 25
+        minY -= 25
+
         if (minX === maxX)
         {
             minX -= 0.00000000001
@@ -291,13 +294,13 @@ QtObject
 
     function drawAll(ctx)
     {
-        ctx.fillStyle = backgroundColor;
+        ctx.fillStyle = currTheme.backgroundElements;
 //        ctx.fillStyle = Qt.rgba(1, 1, 1, 1);
         ctx.fillRect(0, 0, width, height);
 
         logic.drawGrid(ctx)
 
-        logic.drawChart(ctx, "red")
+        logic.drawChart(ctx, currTheme.textColorGreen)
     }
 
     function drawGrid(ctx)
@@ -412,7 +415,7 @@ QtObject
     {
         ctx.font = "normal "+fontSize+"px "+fontFamilies;
         ctx.fillStyle = gridTextColor;
-        ctx.fillText(text, x + fontIndent, height - fontIndent);
+        ctx.fillText(text , x + fontIndent, height - fontIndent);
         ctx.stroke();
     }
 

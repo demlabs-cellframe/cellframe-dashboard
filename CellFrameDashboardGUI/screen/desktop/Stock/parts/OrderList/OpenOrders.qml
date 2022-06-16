@@ -6,18 +6,32 @@ Rectangle
 {
     property var layoutCoeff:
         ( new Map([
-            ["date", 0.145],
-            ["pair", 0.08],
-            ["type", 0.08],
-            ["side", 0.04],
-            ["price", 0.08],
-            ["amount", 0.08],
-            ["filled", 0.06],
-            ["total", 0.08],
-            ["triggerCondition", 0.12],
-            ["expiresIn", 0.07],
-            ["cancel", 0.06]
+            ["date", 145],
+            ["pair", 80],
+            ["type", 80],
+            ["side", 40],
+            ["price", 80],
+            ["amount", 80],
+            ["filled", 60],
+            ["total", 80],
+            ["triggerCondition", 120],
+            ["expiresIn", 70],
+            ["cancel", 60]
     ]))
+
+//        ( new Map([
+//            ["date", 0.145],
+//            ["pair", 0.08],
+//            ["type", 0.08],
+//            ["side", 0.04],
+//            ["price", 0.08],
+//            ["amount", 0.08],
+//            ["filled", 0.06],
+//            ["total", 0.08],
+//            ["triggerCondition", 0.12],
+//            ["expiresIn", 0.07],
+//            ["cancel", 0.06]
+//    ]))
 
     ListModel {
         id: openOrdersModel
@@ -263,7 +277,7 @@ Rectangle
         }
     }
 
-    color: "#404040"
+    color: currTheme.backgroundElements
 
     ColumnLayout
     {
@@ -275,110 +289,13 @@ Rectangle
             Layout.fillWidth: true
             height: 25
 
-            color: "#202020"
+            color: currTheme.backgroundMainScreen
 
-            RowLayout
+            RowOpenOrder
             {
                 anchors.fill: parent
-                anchors.leftMargin: 10
+                anchors.leftMargin: 16
                 anchors.rightMargin: 10
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("date")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Date")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("pair")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Pair")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("type")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Type")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("side")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Side")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("price")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Price")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("amount")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Amount")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("filled")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Filled")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("total")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Total")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("triggerCondition")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Trigger condition")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("expiresIn")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Expires in")
-                }
-
-                Item
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("cancel")
-                }
-
             }
         }
 
@@ -399,115 +316,17 @@ Rectangle
                 ColumnLayout
                 {
                     width: parent.width
+                    height: 50
 
-                    RowLayout
+                    RowOpenOrder
                     {
                         Layout.minimumWidth:
                             parent.width - Layout.leftMargin
                             - Layout.rightMargin
                         Layout.topMargin: 5
-                        Layout.leftMargin: 10
+                        Layout.leftMargin: 16
                         Layout.rightMargin: 10
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("date")
-                            color: "white"
-                            font.pointSize: 9
-                            text: date
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("pair")
-                            color: "white"
-                            font.pointSize: 9
-                            text: pair
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("type")
-                            color: "white"
-                            font.pointSize: 9
-                            text: type
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("side")
-                            color: side === "Sell" ? "red" : "green"
-                            font.pointSize: 9
-                            text: side
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("price")
-                            color: "white"
-                            font.pointSize: 9
-                            text: price
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("amount")
-                            color: "white"
-                            font.pointSize: 9
-                            text: amount
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("filled")
-                            color: "white"
-                            font.pointSize: 9
-                            text: filled
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("total")
-                            color: "white"
-                            font.pointSize: 9
-                            text: total
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("triggerCondition")
-                            color: "white"
-                            font.pointSize: 9
-                            text: triggerCondition
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("expiresIn")
-                            color: "white"
-                            font.pointSize: 9
-                            text: expiresIn
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("cancel")
-                            color: "yellow"
-                            font.pointSize: 9
-                            text: "Cancel"
-                        }
-
+                        isHeader: false
                     }
 
                     Rectangle
@@ -517,7 +336,7 @@ Rectangle
                         visible: index <
                                  parent.ListView.view.model.count-1
 
-                        color: "black"
+                        color: currTheme.lineSeparatorColor
                     }
                 }
         }

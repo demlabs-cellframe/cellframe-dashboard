@@ -38,10 +38,11 @@ Item
                     {
                         Layout.minimumWidth: 120
 
-                        indicatorInnerSize: 46
+                        indicatorInnerSize: 40
                         spaceIndicatorText: -5
         //                fontRadioButton: mainFont.dapFont.regular16
-                        implicitHeight: 35
+                        implicitHeight: 40
+                        fontRadioButton: mainFont.dapFont.medium14
 
                         nameRadioButton: qsTr("Open orders")
                         checked: true
@@ -55,10 +56,11 @@ Item
                     {
                         Layout.minimumWidth: 120
 
-                        indicatorInnerSize: 46
+                        indicatorInnerSize: 40
                         spaceIndicatorText: -5
         //                fontRadioButton: mainFont.dapFont.regular16
-                        implicitHeight: 35
+                        implicitHeight: 40
+                        fontRadioButton: mainFont.dapFont.medium14
 
                         nameRadioButton: qsTr("Order history")
                         checked: false

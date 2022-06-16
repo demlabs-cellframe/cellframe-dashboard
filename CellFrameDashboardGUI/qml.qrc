@@ -362,5 +362,7 @@
         <file>screen/desktop/Stock/parts/DapPairComboBox/icons/eth_icon.png</file>
         <file>screen/desktop/Stock/parts/Chart/ChartTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
+        <file>screen/desktop/Stock/parts/OrderList/RowOrderHistory.qml</file>
+        <file>screen/desktop/Stock/parts/OrderList/RowOpenOrder.qml</file>
     </qresource>
 </RCC>

@@ -7,259 +7,189 @@ Rectangle
 {
     property var layoutCoeff:
         ( new Map([
-            ["date", 0.145],
-            ["pair", 0.08],
-            ["type", 0.08],
-            ["side", 0.04],
-            ["price", 0.08],
-            ["amount", 0.08],
-            ["filled", 0.06],
-            ["total", 0.08],
-            ["triggerCondition", 0.12],
-            ["expiresIn", 0.07]
+            ["date", 110],
+            ["closedDate", 110],
+            ["pair", 80],
+            ["type", 80],
+            ["side", 40],
+            ["averagePrice", 70],
+            ["price", 70],
+            ["filled", 60],
+            ["amount", 80],
+            ["total", 70],
+            ["triggerCondition", 110],
+            ["status", 60]
     ]))
 
     ListModel {
         id: openOrdersModel
         ListElement {
             date: "2022-12-15 18:40"
+            closedDate: "2022-12-18 06:50"
             pair: "CELL/ETH"
             type: "Stop limit"
             side: "Sell"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
             filled: "100%"
+            amount: "204,241"
             total: "1000.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
+            status: "Filled"
         }
         ListElement {
-            date: "2022-12-15 18:40"
+            date: "2022-12-10 16:22"
+            closedDate: "2022-12-13 12:08"
             pair: "CELL/ETH"
             type: "Limit"
             side: "Buy"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
+            filled: "44%"
+            amount: "105,241"
+            total: "218.11"
+            triggerCondition: ">=12,214"
+            status: "Cancelled"
         }
         ListElement {
             date: "2022-12-15 18:40"
+            closedDate: "2022-12-18 06:50"
             pair: "CELL/ETH"
             type: "Stop limit"
             side: "Sell"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
             filled: "100%"
+            amount: "204,241"
             total: "1000.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
+            status: "Filled"
         }
         ListElement {
-            date: "2022-12-15 18:40"
+            date: "2022-12-10 16:22"
+            closedDate: "2022-12-13 12:08"
             pair: "CELL/ETH"
             type: "Limit"
             side: "Buy"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
+            filled: "44%"
+            amount: "105,241"
+            total: "218.11"
+            triggerCondition: ">=12,214"
+            status: "Cancelled"
         }
         ListElement {
             date: "2022-12-15 18:40"
+            closedDate: "2022-12-18 06:50"
             pair: "CELL/ETH"
             type: "Stop limit"
             side: "Sell"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
             filled: "100%"
+            amount: "204,241"
             total: "1000.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
+            status: "Filled"
         }
         ListElement {
-            date: "2022-12-15 18:40"
+            date: "2022-12-10 16:22"
+            closedDate: "2022-12-13 12:08"
             pair: "CELL/ETH"
             type: "Limit"
             side: "Buy"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
+            filled: "44%"
+            amount: "105,241"
+            total: "218.11"
+            triggerCondition: ">=12,214"
+            status: "Cancelled"
         }
         ListElement {
             date: "2022-12-15 18:40"
+            closedDate: "2022-12-18 06:50"
             pair: "CELL/ETH"
             type: "Stop limit"
             side: "Sell"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
             filled: "100%"
+            amount: "204,241"
             total: "1000.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
+            status: "Filled"
         }
         ListElement {
-            date: "2022-12-15 18:40"
+            date: "2022-12-10 16:22"
+            closedDate: "2022-12-13 12:08"
             pair: "CELL/ETH"
             type: "Limit"
             side: "Buy"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
+            filled: "44%"
+            amount: "105,241"
+            total: "218.11"
+            triggerCondition: ">=12,214"
+            status: "Cancelled"
         }
         ListElement {
             date: "2022-12-15 18:40"
+            closedDate: "2022-12-18 06:50"
             pair: "CELL/ETH"
             type: "Stop limit"
             side: "Sell"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
             filled: "100%"
+            amount: "204,241"
             total: "1000.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
+            status: "Filled"
         }
         ListElement {
-            date: "2022-12-15 18:40"
+            date: "2022-12-10 16:22"
+            closedDate: "2022-12-13 12:08"
             pair: "CELL/ETH"
             type: "Limit"
             side: "Buy"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
+            filled: "44%"
+            amount: "105,241"
+            total: "218.11"
+            triggerCondition: ">=12,214"
+            status: "Cancelled"
         }
         ListElement {
             date: "2022-12-15 18:40"
+            closedDate: "2022-12-18 06:50"
             pair: "CELL/ETH"
             type: "Stop limit"
             side: "Sell"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
             filled: "100%"
+            amount: "204,241"
             total: "1000.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
+            status: "Filled"
         }
         ListElement {
-            date: "2022-12-15 18:40"
+            date: "2022-12-10 16:22"
+            closedDate: "2022-12-13 12:08"
             pair: "CELL/ETH"
             type: "Limit"
             side: "Buy"
+            averagePrice: "10.224"
             price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Stop limit"
-            side: "Sell"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "100%"
-            total: "1000.11"
+            filled: "44%"
+            amount: "105,241"
+            total: "218.11"
             triggerCondition: ">=12,214"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Limit"
-            side: "Buy"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Stop limit"
-            side: "Sell"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "100%"
-            total: "1000.11"
-            triggerCondition: ">=12,214"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Limit"
-            side: "Buy"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Stop limit"
-            side: "Sell"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "100%"
-            total: "1000.11"
-            triggerCondition: ">=12,214"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Limit"
-            side: "Buy"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Stop limit"
-            side: "Sell"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "100%"
-            total: "1000.11"
-            triggerCondition: ">=12,214"
-            expiresIn: "3 days"
-        }
-        ListElement {
-            date: "2022-12-15 18:40"
-            pair: "CELL/ETH"
-            type: "Limit"
-            side: "Buy"
-            price: "11,2241"
-            amount: "204,241"
-            filled: "92%"
-            total: "1000.11"
-            triggerCondition: "-"
-            expiresIn: "3 days"
+            status: "Cancelled"
         }
     }
 
@@ -279,17 +209,17 @@ Rectangle
     ListModel {
         id: modeModel
         ListElement {
+            name: "All"
+        }
+        ListElement {
             name: "Buy"
         }
         ListElement {
             name: "Sell"
         }
-        ListElement {
-            name: "All"
-        }
     }
 
-    color: "#404040"
+    color: currTheme.backgroundElements
 
     ColumnLayout
     {
@@ -299,7 +229,9 @@ Rectangle
         RowLayout
         {
             Layout.fillWidth: true
-            Layout.margins: 10
+//            Layout.margins: 10
+            Layout.leftMargin: 16
+            Layout.bottomMargin: 12
             spacing: 10
 
             ListModel {
@@ -359,104 +291,13 @@ Rectangle
             Layout.fillWidth: true
             height: 25
 
-            color: "#202020"
+            color: currTheme.backgroundMainScreen
 
-            RowLayout
+            RowOrderHistory
             {
                 anchors.fill: parent
-                anchors.leftMargin: 10
+                anchors.leftMargin: 16
                 anchors.rightMargin: 10
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("date")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Date")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("pair")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Pair")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("type")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Type")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("side")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Side")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("price")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Price")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("amount")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Amount")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("filled")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Filled")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("total")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Total")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("triggerCondition")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Trigger condition")
-                }
-
-                Text
-                {
-                    Layout.preferredWidth: parent.width *
-                                           layoutCoeff.get("expiresIn")
-                    color: "white"
-                    font.pointSize: 9
-                    text: qsTr("Expires in")
-                }
-
             }
         }
 
@@ -477,105 +318,18 @@ Rectangle
                 ColumnLayout
                 {
                     width: parent.width
+                    height: 50
 
-                    RowLayout
+                    RowOrderHistory
                     {
                         Layout.minimumWidth:
                             parent.width - Layout.leftMargin
                             - Layout.rightMargin
                         Layout.topMargin: 5
-                        Layout.leftMargin: 10
+                        Layout.leftMargin: 16
                         Layout.rightMargin: 10
 
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("date")
-                            color: "white"
-                            font.pointSize: 9
-                            text: date
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("pair")
-                            color: "white"
-                            font.pointSize: 9
-                            text: pair
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("type")
-                            color: "white"
-                            font.pointSize: 9
-                            text: type
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("side")
-                            color: side === "Sell" ? "red" : "green"
-                            font.pointSize: 9
-                            text: side
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("price")
-                            color: "white"
-                            font.pointSize: 9
-                            text: price
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("amount")
-                            color: "white"
-                            font.pointSize: 9
-                            text: amount
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("filled")
-                            color: "white"
-                            font.pointSize: 9
-                            text: filled
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("total")
-                            color: "white"
-                            font.pointSize: 9
-                            text: total
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("triggerCondition")
-                            color: "white"
-                            font.pointSize: 9
-                            text: triggerCondition
-                        }
-
-                        Text
-                        {
-                            Layout.preferredWidth: parent.width *
-                                                   layoutCoeff.get("expiresIn")
-                            color: "white"
-                            font.pointSize: 9
-                            text: expiresIn
-                        }
+                        isHeader: false
                     }
 
                     Rectangle
@@ -585,7 +339,7 @@ Rectangle
                         visible: index <
                                  parent.ListView.view.model.count-1
 
-                        color: "black"
+                        color: currTheme.lineSeparatorColor
                     }
                 }
         }

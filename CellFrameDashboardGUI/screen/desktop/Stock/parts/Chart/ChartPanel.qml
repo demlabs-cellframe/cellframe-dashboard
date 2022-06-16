@@ -244,113 +244,51 @@ Item
         width: childrenRect.width
         height: childrenRect.height
 
-        color: "#a0404040"
+//        color: "#a0404040"
+        color: "transparent"
 
         RowLayout
         {
-            spacing: 5
+            spacing: 16
 
             ChartTextBlock
             {
+                id: textDate
                 text1.text: qsTr("2022/05/30")
                 text2.visible: false
             }
 
-            Text
+            ChartTextBlock
             {
-                font: mainFont.dapFont.regular13
-                color: currTheme.textColorGray
-
-                text: qsTr("2022/05/30")
+                id: textOpen
+                text1.text: qsTr("Open:")
+                text2.text: qsTr("58.1421")
             }
 
-            Text
+            ChartTextBlock
             {
-                Layout.leftMargin: 20
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGray
-
-                text: qsTr("Open:")
+                id: textHigh
+                text1.text: qsTr("High:")
+                text2.text: qsTr("59.1421")
             }
-
-            Text
+            ChartTextBlock
             {
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGreen
-
-                text: qsTr("58.1421")
+                id: textLow
+                text1.text: qsTr("Low:")
+                text2.text: qsTr("57.1421")
             }
-
-            Text
+            ChartTextBlock
             {
-                Layout.leftMargin: 20
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGray
-
-                text: qsTr("High:")
+                id: textClose
+                text1.text: qsTr("Close:")
+                text2.text: qsTr("57.1421")
             }
-
-            Text
+            ChartTextBlock
             {
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGreen
-
-                text: qsTr("59.1421")
+                id: textChange
+                text1.text: qsTr("Change:")
+                text2.text: qsTr("2.97%")
             }
-
-            Text
-            {
-                Layout.leftMargin: 20
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGray
-
-                text: qsTr("Low:")
-            }
-
-            Text
-            {
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGreen
-
-                text: qsTr("57.1421")
-            }
-
-            Text
-            {
-                Layout.leftMargin: 20
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGray
-
-                text: qsTr("Close:")
-            }
-
-            Text
-            {
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGreen
-
-                text: qsTr("57.1421")
-            }
-
-            Text
-            {
-                Layout.leftMargin: 20
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGray
-
-                text: qsTr("Change:")
-            }
-
-            Text
-            {
-                font: mainFont.dapFont.medium13
-                color: currTheme.textColorGreen
-
-                text: qsTr("2.97%")
-            }
-
         }
-
     }
-
 }

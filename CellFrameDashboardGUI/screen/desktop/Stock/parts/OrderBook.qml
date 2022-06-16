@@ -48,9 +48,29 @@ Rectangle
             amount: 23452.23
             total: 573.45677
         }
+        ListElement {
+            price: 0.2911
+            amount: 23452.23
+            total: 573.45677
+        }
+        ListElement {
+            price: 0.2911
+            amount: 23452.23
+            total: 573.45677
+        }
     }
     ListModel {
         id: buyModel
+        ListElement {
+            price: 0.2911
+            amount: 23452.23
+            total: 573.45677
+        }
+        ListElement {
+            price: 0.2911
+            amount: 23452.23
+            total: 573.45677
+        }
         ListElement {
             price: 0.2911
             amount: 23452.23
@@ -190,7 +210,7 @@ Rectangle
             Layout.fillWidth: true
             height: 25
 
-            color: "#202020"
+            color: currTheme.backgroundMainScreen
 
             RowLayout
             {
@@ -240,6 +260,7 @@ Rectangle
             delegate:
                 ColumnLayout
                 {
+                    height: 32
                     width: parent.width
 
                     RowLayout
@@ -252,7 +273,7 @@ Rectangle
                         Text
                         {
                             Layout.minimumWidth: 100
-                            color: "red"
+                            color: currTheme.textColorRed
                             font.pointSize: 10
                             text: price
                         }
@@ -281,9 +302,10 @@ Rectangle
                         visible: index <
                                  parent.ListView.view.model.count-1
 
-                        color: "black"
+                        color: currTheme.lineSeparatorColor
                     }
                 }
+            Layout.bottomMargin: 12
         }
 
         ColumnLayout
@@ -295,7 +317,7 @@ Rectangle
             {
                 Layout.fillWidth: true
                 height: 1
-                color: "black"
+                color: currTheme.lineSeparatorColor
             }
 
             Text
@@ -306,7 +328,7 @@ Rectangle
                 Layout.rightMargin: 10
                 Layout.bottomMargin: 10
 
-                color: "red"
+                color: currTheme.textColorRed
                 font.pointSize: 10
                 font.bold: true
 
@@ -317,7 +339,7 @@ Rectangle
             {
                 Layout.fillWidth: true
                 height: 1
-                color: "black"
+                color: currTheme.lineSeparatorColor
             }
         }
 
@@ -325,6 +347,7 @@ Rectangle
         {
             id: buyView
 
+            Layout.topMargin: 12
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
@@ -337,6 +360,7 @@ Rectangle
             delegate:
                 ColumnLayout
                 {
+                    height: 32
                     width: parent.width
 
                     RowLayout
@@ -349,7 +373,7 @@ Rectangle
                         Text
                         {
                             Layout.minimumWidth: 100
-                            color: "green"
+                            color: currTheme.textColorGreen
                             font.pointSize: 10
                             text: price
                         }
@@ -378,7 +402,7 @@ Rectangle
                         visible: index <
                                  parent.ListView.view.model.count-1
 
-                        color: "black"
+                        color: currTheme.lineSeparatorColor
                     }
                 }
         }
@@ -389,5 +413,5 @@ Rectangle
     }
 
 
-    color: "#404040"
+    color: currTheme.backgroundElements
 }

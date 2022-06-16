@@ -2,15 +2,13 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 
-Rectangle
+Item
 {
     ListModel{ id: dataModel }
 
     ListModel{ id: candleModel }
 
     LogicCandleChart { id: logic }
-
-    color: logic.backgroundColor
 
     Component.onCompleted:
     {
