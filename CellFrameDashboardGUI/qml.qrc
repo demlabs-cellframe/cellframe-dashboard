@@ -364,5 +364,6 @@
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
         <file>screen/desktop/Stock/parts/OrderList/RowOrderHistory.qml</file>
         <file>screen/desktop/Stock/parts/OrderList/RowOpenOrder.qml</file>
+        <file>screen/desktop/Stock/LogicStock.qml</file>
     </qresource>
 </RCC>
