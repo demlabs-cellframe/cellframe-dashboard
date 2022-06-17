@@ -80,6 +80,8 @@ Item
                         x: parent.width - width + 10 * pt
                         font: mainFont.dapFont.regular14
                         model: vpnClientTokenModel
+                        comboBoxVpnOrdersController: vpnOrdersController
+                        vpnClientTokens: true
                     }
                 }
                 }

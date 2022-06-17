@@ -48,3 +48,12 @@ bool DapVPNOrdersController::getIsError()
 {
     return isError;
 }
+
+bool DapVPNOrdersController::isTokenInOrders(const QString &tokenName)
+{
+    QString s = ordersModel;
+
+    qDebug() << "ggggggggggggggggggggggg" << s.contains(tokenName) << s << tokenName;
+
+    return s.contains(tokenName);
+}

@@ -10,7 +10,9 @@ Item
     {
         if (!vpnOrdersController.getIsError())
         {
+            console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
             var doc = vpnOrdersController.getOrdersModel()
+            console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj", doc)
             var json = JSON.parse(doc)
             ordersListView.model = json
             vpnOrdersLayout.visible = true
@@ -130,36 +132,6 @@ Item
                 height: parent.height
                 width: 145 * pt
                 x: parent.width - width + 10 * pt
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-                //                            hilightColor: currTheme.buttonColorNormal
-
-                widthPopupComboBoxNormal: 170 * pt
-                widthPopupComboBoxActive: 170 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [mainFont.dapFont.regular14]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-
-                comboBoxTextRole: ["name"]
 
                 model:
                     ListModel {
@@ -170,8 +142,6 @@ Item
                         name: qsTr("Sort by date")
                     }
                 }
-
-                mainLineText: model.get(0).name
             }
             }
         }

@@ -29,6 +29,7 @@ public slots:
     void retryConnection();
     QByteArray getOrdersModel();
     bool getIsError();
+    bool isTokenInOrders(const QString &tokenName);
 
 signals:
     void vpnOrdersReceived(QByteArray doc);
