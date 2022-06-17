@@ -61,10 +61,10 @@ Item
                     textButton: qsTr("Create order")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-        //                fontButton: mainFont.dapFont.regular16
+                    fontButton: mainFont.dapFont.medium14
                     onClicked:
                     {
-                        changeRightPage("CreateOrder.qml")
+                        changeRightPage("CreateOrder/OrderCreate.qml")
                     }
                 }
 
@@ -75,7 +75,7 @@ Item
                     textButton: qsTr("My orders")
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
-        //                fontButton: mainFont.dapFont.regular16
+                    fontButton: mainFont.dapFont.medium14
                     onClicked:
                     {
                         stockTopPanel.setBackToStockVisible(true)

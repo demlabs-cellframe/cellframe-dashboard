@@ -339,7 +339,6 @@
         <file>screen/desktop/Stock/DapStockScreen.qml</file>
         <file>screen/desktop/Stock/DapStockTab.qml</file>
         <file>screen/desktop/Stock/DapStockTopPanel.qml</file>
-        <file>screen/desktop/Stock/parts/CreateOrder.qml</file>
         <file>screen/desktop/Stock/parts/OrderBook.qml</file>
         <file>screen/desktop/Stock/parts/Chart/CandleChart.qml</file>
         <file>screen/desktop/Stock/parts/Chart/ChartPanel.qml</file>
@@ -365,5 +364,9 @@
         <file>screen/desktop/Stock/parts/OrderList/RowOrderHistory.qml</file>
         <file>screen/desktop/Stock/parts/OrderList/RowOpenOrder.qml</file>
         <file>screen/desktop/Stock/LogicStock.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderLimit.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderMarket.qml</file>
+        <file>screen/desktop/Stock/parts/CreateOrder/OrderStopLimit.qml</file>
     </qresource>
 </RCC>
