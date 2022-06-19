@@ -1,7 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
-import QtCharts 2.2
 import "qrc:/widgets"
 import "../DapPairComboBox"
 
@@ -126,6 +125,9 @@ Item
                 name: "1m"
             }
             ListElement {
+                name: "2m"
+            }
+            ListElement {
                 name: "5m"
             }
             ListElement {
@@ -144,7 +146,10 @@ Item
                 name: "12h"
             }
             ListElement {
-                name: "24h"
+                name: "1D"
+            }
+            ListElement {
+                name: "3D"
             }
             ListElement {
                 name: "7D"
@@ -154,12 +159,6 @@ Item
             }
             ListElement {
                 name: "1M"
-            }
-            ListElement {
-                name: "3M"
-            }
-            ListElement {
-                name: "1Y"
             }
         }
 
@@ -173,6 +172,7 @@ Item
             onItemSelected:
             {
                 print("onItemSelected", "currentIndex", currentIndex)
+                chartItem.setCandleSize(currentIndex)
             }
         }
 
@@ -245,8 +245,8 @@ Item
         width: childrenRect.width
         height: childrenRect.height
 
-//        color: "#a0404040"
-        color: "transparent"
+        color: "#a0363A42"
+//        color: "transparent"
 
         RowLayout
         {

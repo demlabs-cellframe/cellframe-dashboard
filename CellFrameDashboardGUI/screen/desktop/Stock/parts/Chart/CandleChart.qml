@@ -12,14 +12,23 @@ Item
 
     Component.onCompleted:
     {
+        logic.backgroundColor = currTheme.backgroundElements
+        logic.redCandleColor = currTheme.textColorRed
+        logic.greenCandleColor = currTheme.textColorGreen
+
         logic.generateData(10001)
+
+        logic.setCandleWidth(logic.minute)
+//        logic.getCandleModel(10000)
 
         logic.resetRightTime()
 
 //        logic.getCandleModel(rowDataModel, candleModel, 20)
 
-        logic.dataAnalysis()
+//        logic.dataAnalysis()
     }
+
+    property bool analysisNeeded: false
 
     Canvas
     {
@@ -31,9 +40,30 @@ Item
 
         onPaint:
         {
+            if (analysisNeeded)
+            {
+                analysisNeeded = false
+
+                logic.dataAnalysis()
+            }
+
             var ctx = getContext("2d");
 
             logic.drawAll(ctx)
+        }
+
+        onWidthChanged:
+        {
+            analysisNeeded = true
+
+            requestPaint()
+        }
+
+        onHeightChanged:
+        {
+            analysisNeeded = true
+
+            requestPaint()
         }
     }
 
@@ -55,7 +85,7 @@ Item
             interval: 30
             onTriggered:
             {
-                print("mouseShift", mouseShift)
+//                print("mouseShift", mouseShift)
 
                 logic.shiftTime(mouseShift)
 
@@ -66,7 +96,7 @@ Item
 
         onWheel:
         {
-            print("onWheel", wheel.angleDelta.y)
+//            print("onWheel", wheel.angleDelta.y)
 
             logic.zoomTime(wheel.angleDelta.y)
         }
@@ -96,6 +126,56 @@ Item
         {
             moveTimer.stop()
         }
+    }
+
+    function setCandleSize(index)
+    {
+        logic.resetRightTime()
+
+        switch (index)
+        {
+        default:
+            logic.setCandleWidth(logic.minute)
+            break
+        case 1:
+            logic.setCandleWidth(logic.minute*2)
+            break
+        case 2:
+            logic.setCandleWidth(logic.minute*5)
+            break
+        case 3:
+            logic.setCandleWidth(logic.minute*15)
+            break
+        case 4:
+            logic.setCandleWidth(logic.minute*30)
+            break
+        case 5:
+            logic.setCandleWidth(logic.hour)
+            break
+        case 6:
+            logic.setCandleWidth(logic.hour*4)
+            break
+        case 7:
+            logic.setCandleWidth(logic.hour*12)
+            break
+        case 8:
+            logic.setCandleWidth(logic.day)
+            break
+        case 9:
+            logic.setCandleWidth(logic.day*3)
+            break
+        case 10:
+            logic.setCandleWidth(logic.day*7)
+            break
+        case 11:
+            logic.setCandleWidth(logic.day*14)
+            break
+        case 12:
+            logic.setCandleWidth(logic.day*30)
+            break
+        }
+
+        chartCanvas.requestPaint()
     }
 
 }
