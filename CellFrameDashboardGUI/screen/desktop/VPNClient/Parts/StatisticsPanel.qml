@@ -63,7 +63,7 @@ Item
                         {
                             Layout.fillWidth: true
                             color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
+                            font: mainFont.dapFont.regular12
                             text: name
                         }
                         Text
@@ -71,7 +71,7 @@ Item
                             Layout.fillWidth: true
                             horizontalAlignment: Qt.AlignRight
                             color: currTheme.textColor
-                            font: mainFont.dapFont.medium12
+                            font: mainFont.dapFont.regular13
                             text: value
                         }
                     }

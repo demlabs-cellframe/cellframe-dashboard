@@ -80,8 +80,8 @@ Rectangle
 
             drawGrid(ctx)
 
-            drawChart(ctx, chart1, "red")
-            drawChart(ctx, chart2, "green")
+            drawChart(ctx, chart1, "#DEF398")
+            drawChart(ctx, chart2, "#A361FF")
         }
     }
 

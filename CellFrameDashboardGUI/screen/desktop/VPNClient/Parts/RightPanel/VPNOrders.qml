@@ -158,7 +158,8 @@ Item
             delegate:
                 ColumnLayout
             {
-                width: parent.width
+                width: parent.width - x * 2
+                x: 16 * pt
 
                 Rectangle
                 {
@@ -249,7 +250,7 @@ Item
                     {
                         Layout.fillWidth: true
                         color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
+                        font: mainFont.dapFont.regular12
                         text: qsTr("Units")
                     }
                     Text
@@ -274,7 +275,7 @@ Item
                     {
                         Layout.fillWidth: true
                         color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
+                        font: mainFont.dapFont.regular12
                         text: qsTr("Units type")
                     }
                     Text
@@ -299,7 +300,7 @@ Item
                     {
                         Layout.fillWidth: true
                         color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
+                        font: mainFont.dapFont.regular12
                         text: qsTr("Value")
                     }
                     Text
@@ -325,7 +326,7 @@ Item
                     {
                         Layout.fillWidth: true
                         color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
+                        font: mainFont.dapFont.regular12
                         text: qsTr("Token")
                     }
                     Text

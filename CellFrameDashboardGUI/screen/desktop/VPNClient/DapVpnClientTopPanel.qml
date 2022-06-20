@@ -20,7 +20,7 @@ DapTopPanel {
 //            Layout.fillWidth: true
             Layout.minimumHeight: 30
             color: currTheme.textColorGray
-            font: mainFont.dapFont.medium16
+            font: mainFont.dapFont.regular16
             text: qsTr("Time Connected:")
         }
 

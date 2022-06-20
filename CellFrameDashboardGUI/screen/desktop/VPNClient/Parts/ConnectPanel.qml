@@ -13,7 +13,7 @@ Item
 
             Text {
                 id: connectedText
-                font: mainFont.dapFont.medium16
+                font: mainFont.dapFont.regular16
                 color: currTheme.textColor
 
                 text: qsTr("Connected to:")
@@ -37,7 +37,7 @@ Item
             height: 38 * pt
 //            font.pointSize: 12
             horizontalAligmentText: Text.AlignHCenter
-            fontButton: mainFont.dapFont.regular16
+            fontButton: mainFont.dapFont.regular14
             textButton: qsTr("Disconnect")
         }
 

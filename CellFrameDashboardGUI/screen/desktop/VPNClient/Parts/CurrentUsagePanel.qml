@@ -60,7 +60,7 @@ Item
 
                     Text {
                         Layout.fillWidth: true
-                        font: mainFont.dapFont.medium16
+                        font: mainFont.dapFont.medium14
 //                        font.bold: true
                         color: currTheme.textColor
 
@@ -77,13 +77,13 @@ Item
                     DapComboBox
                     {
                         height: parent.height
-                        //width: 100 * pt
+                        width: 100 * pt
                         x: parent.width - width + 10 * pt
-                        font: mainFont.dapFont.regular14
+                        font: mainFont.dapFont.regular16
                         model: vpnClientTokenModel
                         comboBoxVpnOrdersController: vpnOrdersController
                         vpnClientTokens: true
-                        defaultText: "      -"
+                        defaultText: "   -"
                     }
                 }
                 }
@@ -104,7 +104,7 @@ Item
                             {
                                 Layout.fillWidth: true
                                 color: currTheme.textColor
-                                font: mainFont.dapFont.medium12
+                                font: mainFont.dapFont.regular12
                                 text: name
                             }
                             Text
@@ -112,7 +112,7 @@ Item
                                 Layout.fillWidth: true
                                 horizontalAlignment: Qt.AlignRight
                                 color: currTheme.textColor
-                                font: mainFont.dapFont.medium14
+                                font: mainFont.dapFont.regular13
                                 text: value
                             }
                         }

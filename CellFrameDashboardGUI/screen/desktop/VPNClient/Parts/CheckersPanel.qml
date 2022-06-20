@@ -26,7 +26,7 @@ Item
         {
             Layout.fillWidth: true
             color: currTheme.textColor
-            font: mainFont.dapFont.medium13
+            font: mainFont.dapFont.regular13
 
             text: qsTr("Connection established")
         }
@@ -44,7 +44,7 @@ Item
         {
             Layout.fillWidth: true
             color: currTheme.textColor
-            font: mainFont.dapFont.medium13
+            font: mainFont.dapFont.regular13
 
             text: qsTr("IP requested")
         }
@@ -59,7 +59,7 @@ Item
 
         Text {
             color: currTheme.textColor
-            font: mainFont.dapFont.medium13
+            font: mainFont.dapFont.regular13
 
             text: qsTr("Virtual network interface")
         }
