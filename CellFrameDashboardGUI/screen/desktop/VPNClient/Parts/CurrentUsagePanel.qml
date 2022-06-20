@@ -73,15 +73,17 @@ Item
                         Layout.fillHeight: true
                         Layout.minimumWidth: 100 * pt
                         Layout.maximumHeight: 26 * pt
+
                     DapComboBox
                     {
                         height: parent.height
-                        width: 80 * pt
+                        //width: 100 * pt
                         x: parent.width - width + 10 * pt
                         font: mainFont.dapFont.regular14
                         model: vpnClientTokenModel
                         comboBoxVpnOrdersController: vpnOrdersController
                         vpnClientTokens: true
+                        defaultText: "      -"
                     }
                 }
                 }

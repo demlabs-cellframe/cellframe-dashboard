@@ -10,9 +10,7 @@ Item
     {
         if (!vpnOrdersController.getIsError())
         {
-            console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj")
             var doc = vpnOrdersController.getOrdersModel()
-            console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj", doc)
             var json = JSON.parse(doc)
             ordersListView.model = json
             vpnOrdersLayout.visible = true
@@ -130,8 +128,9 @@ Item
             DapComboBox
             {
                 height: parent.height
-                width: 145 * pt
+                width: 150 * pt
                 x: parent.width - width + 10 * pt
+                font: mainFont.dapFont.regular14
 
                 model:
                     ListModel {
