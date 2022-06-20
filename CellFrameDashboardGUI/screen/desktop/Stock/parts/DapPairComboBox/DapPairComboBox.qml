@@ -292,6 +292,17 @@ ComboBox {
                     samples: 10
                     cached: true
                 }
+                DropShadow
+                {
+                    anchors.fill: popupBackGrnd
+                    horizontalOffset: 0
+                    verticalOffset: 0
+                    radius: 7
+                    color: currTheme.shadowColor
+                    source: popupBackGrnd
+                    samples: 10
+                    cached: true
+                }
 
 //                InnerShadow {
 //                    anchors.fill: popupBackGrnd

@@ -339,16 +339,12 @@
         <file>screen/desktop/Stock/DapStockScreen.qml</file>
         <file>screen/desktop/Stock/DapStockTab.qml</file>
         <file>screen/desktop/Stock/DapStockTopPanel.qml</file>
-        <file>screen/desktop/Stock/parts/OrderBook.qml</file>
         <file>screen/desktop/Stock/parts/Chart/CandleChart.qml</file>
         <file>screen/desktop/Stock/parts/Chart/ChartPanel.qml</file>
         <file>screen/desktop/Stock/parts/Chart/LogicCandleChart.qml</file>
         <file>screen/desktop/Stock/parts/OrderList/OpenOrders.qml</file>
         <file>screen/desktop/Stock/parts/OrderList/OrderHistory.qml</file>
         <file>screen/desktop/Stock/parts/OrderList/OrderList.qml</file>
-        <file>screen/desktop/Stock/icons/icon1.png</file>
-        <file>screen/desktop/Stock/icons/icon2.png</file>
-        <file>screen/desktop/Stock/icons/icon3.png</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/SearchElement.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/logic/LogicComboBox.qml</file>
@@ -368,5 +364,11 @@
         <file>screen/desktop/Stock/parts/CreateOrder/OrderLimit.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderMarket.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderStopLimit.qml</file>
+        <file>screen/desktop/Stock/icons/sellIcon.png</file>
+        <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
+        <file>screen/desktop/Stock/icons/buyIcon.png</file>
+        <file>screen/desktop/Stock/parts/OrderBook/OrderBook.qml</file>
+        <file>screen/desktop/Stock/parts/OrderBook/BookSellByuImg.qml</file>
+        <file>screen/desktop/Stock/parts/OrderBook/OrderBookDelegate.qml</file>
     </qresource>
 </RCC>

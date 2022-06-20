@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "Chart"
+import "OrderBook"
 
 Item
 {
@@ -12,12 +13,12 @@ Item
 
     onGoToRightHome:
     {
-        changeRightPage("OrderBook.qml")
+        changeRightPage("OrderBook/OrderBook.qml")
     }
 
     Component.onCompleted:
     {
-        changeRightPage("OrderBook.qml")
+        changeRightPage("OrderBook/OrderBook.qml")
     }
 
     RowLayout
