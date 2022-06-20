@@ -165,6 +165,7 @@ Page
             ScrollBar.vertical: ScrollBar{
                 active: true
                 visible: sellView.interactive
+                onVisibleChanged: setPosition(0)
             }
 
             model: sellBookModel
@@ -220,6 +221,7 @@ Page
             ScrollBar.vertical: ScrollBar{
                 active: true
                 visible: buyView.interactive
+                onVisibleChanged: setPosition(buyView.positionViewAtBeginning())
             }
 
             model: buyBookModel
