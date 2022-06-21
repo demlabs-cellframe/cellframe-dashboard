@@ -205,7 +205,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
             if (_commands[i].contains("\r"))
                 _commands[i] = _commands[i].split('\r')[0];
             {
-                //qDebug() << "command:" << _commands[i];
+               // qDebug() << "command:" << _commands[i];
 
                 parsedCommands.clear();
                 parseTree(_commands[i]);
@@ -214,6 +214,8 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
                 for (int j = 0; j < parsedCommands.length(); ++j)
                 {
                     QStringList s = parsedCommands[j].split(" ");
+                    s.removeAll("");
+
                     words[command].append(s);
                 }
             }
