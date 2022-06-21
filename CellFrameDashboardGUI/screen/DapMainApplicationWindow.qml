@@ -85,6 +85,7 @@ Rectangle {
     ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
+    ListModel{ id: fakeWallet}
 
     ListModel{
         id:themes
@@ -370,6 +371,7 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
         pluginsManager.getListPlugins();
+        logicMainApp.initFakeWallet()
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()

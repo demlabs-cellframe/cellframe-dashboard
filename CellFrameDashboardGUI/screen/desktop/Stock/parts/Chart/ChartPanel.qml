@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -6,37 +7,6 @@ import "../DapPairComboBox"
 
 Item
 {
-    property string tokenName: pairBox.displayElement.pair.split("/")[1]
-
-    ListModel
-    {
-        id: pairModel
-        ListElement
-        {
-            pair: "CELL/USDT"
-            price: "1.6"
-            change: "-4.1 %"
-        }
-        ListElement
-        {
-            pair: "CELL/BNB"
-            price: "9.6"
-            change: "+1.86 %"
-        }
-        ListElement
-        {
-            pair: "CELL/ETH"
-            price: "12.547986"
-            change: "+7.44 %"
-        }
-        ListElement
-        {
-            pair: "CELL/DAI"
-            price: "1.12"
-            change: "+2.25 %"
-        }
-    }
-
     ColumnLayout
     {
         anchors.fill: parent
@@ -54,6 +24,12 @@ Item
                 Layout.minimumWidth: 190
                 height: 32
                 Component.onCompleted: logic.setModel(pairModel)
+                onCurrentIndexChanged: {
+                    logicStock.indexPair = currentIndex
+                    logicStock.nameTokenPair = pairModel.get(currentIndex).pair.split("/")[1]
+                    logicStock.tokenPrice = pairModel.get(currentIndex).price
+                    logicStock.tokenChange = pairModel.get(currentIndex).change
+                }
             }
 
             ColumnLayout
@@ -71,7 +47,7 @@ Item
                 {
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: qsTr("6132.2349123")
+                    text: qsTr("0.2509")
                 }
             }
 
@@ -92,7 +68,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: qsTr("3403.2349123")
+                    text: qsTr("0.2344")
                 }
             }
 
@@ -113,7 +89,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: qsTr("5694321987.2349123" + " " + tokenName)
+                    text: qsTr("923673.75" + " " + logicStock.nameTokenPair)
                 }
             }
 
@@ -168,6 +144,7 @@ Item
             height: 35
 
             selectorModel: selectorModel
+            selectorListView.interactive: false
 
             onItemSelected:
             {
@@ -207,7 +184,8 @@ Item
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColorGray
 
-                text: qsTr("May 30, 08:30 AM")
+//                text: qsTr("May 30, 08:30 AM")
+                text: logicStock.getCurrentDate("MMM dd, hh:mm AP")
             }
 
             Text
@@ -223,7 +201,7 @@ Item
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColor
 
-                text: qsTr("3403.2349123")
+                text: qsTr("0.24265")
             }
         }
 
@@ -255,7 +233,7 @@ Item
             ChartTextBlock
             {
                 id: textDate
-                text1.text: qsTr("2022/05/30")
+                text1.text: "2022/06/17"
                 text2.visible: false
             }
 
@@ -263,7 +241,7 @@ Item
             {
                 id: textOpen
                 text1.text: qsTr("Open:")
-                text2.text: qsTr("58.1421")
+                text2.text: qsTr("0.23147")
             }
 
             ChartTextBlock

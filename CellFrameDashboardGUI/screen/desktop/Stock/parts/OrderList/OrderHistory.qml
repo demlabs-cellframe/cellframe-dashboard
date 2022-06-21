@@ -24,6 +24,9 @@ Rectangle
     ListModel {
         id: pairModel
         ListElement {
+            name: "All"
+        }
+        ListElement {
             name: "CELL/ETH"
         }
         ListElement {
