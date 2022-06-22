@@ -85,11 +85,11 @@ Page
             Layout.fillWidth: true
             Layout.leftMargin: 16
             Layout.topMargin: 10
-            text1.text: qsTr("Balance:")
-            text2.text: balanceValue + " " + tokenName
-            text2.color: currTheme.textColor
-            text1.font: mainFont.dapFont.regular14
-            text2.font: mainFont.dapFont.regular14
+            label.text: qsTr("Balance:")
+            text.text: balanceValue + " " + tokenName
+            text.color: currTheme.textColor
+            label.font: mainFont.dapFont.regular14
+            text.font: mainFont.dapFont.regular14
 
         }
 
