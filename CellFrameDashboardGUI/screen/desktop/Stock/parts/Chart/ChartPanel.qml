@@ -234,6 +234,23 @@ Item
             Layout.fillWidth: true
             Layout.fillHeight: true
 
+            candleLogic.onChandleSelected:
+            {
+//                print("onChandleSelected",
+//                      openValue, highValue, lowValue, closeValue)
+
+                var roundValue = 100000
+
+                var date = new Date(timeValue)
+
+                textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
+                textOpen.text = Math.round(openValue*roundValue)/roundValue
+                textHigh.text = Math.round(highValue*roundValue)/roundValue
+                textLow.text = Math.round(lowValue*roundValue)/roundValue
+                textClose.text = Math.round(closeValue*roundValue)/roundValue
+                textChange.text = Math.round(
+                    (closeValue/openValue*100 - 100)*10000)/10000 + "%"
+            }
         }
     }
 
@@ -255,40 +272,40 @@ Item
             ChartTextBlock
             {
                 id: textDate
-                text1.text: qsTr("2022/05/30")
-                text2.visible: false
+                labelVisible: false
+                text: qsTr("-")
             }
 
             ChartTextBlock
             {
                 id: textOpen
-                text1.text: qsTr("Open:")
-                text2.text: qsTr("58.1421")
+                label: qsTr("Open:")
+                text: qsTr("-")
             }
 
             ChartTextBlock
             {
                 id: textHigh
-                text1.text: qsTr("High:")
-                text2.text: qsTr("59.1421")
+                label: qsTr("High:")
+                text: qsTr("-")
             }
             ChartTextBlock
             {
                 id: textLow
-                text1.text: qsTr("Low:")
-                text2.text: qsTr("57.1421")
+                label: qsTr("Low:")
+                text: qsTr("-")
             }
             ChartTextBlock
             {
                 id: textClose
-                text1.text: qsTr("Close:")
-                text2.text: qsTr("57.1421")
+                label: qsTr("Close:")
+                text: qsTr("-")
             }
             ChartTextBlock
             {
                 id: textChange
-                text1.text: qsTr("Change:")
-                text2.text: qsTr("2.97%")
+                label: qsTr("Change:")
+                text: qsTr("-")
             }
         }
     }

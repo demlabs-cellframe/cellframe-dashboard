@@ -10,6 +10,8 @@ Item
 
     LogicCandleChart { id: logic }
 
+    property alias candleLogic: logic
+
     Component.onCompleted:
     {
         logic.backgroundColor = currTheme.backgroundElements
@@ -26,6 +28,8 @@ Item
 //        logic.getCandleModel(rowDataModel, candleModel, 20)
 
 //        logic.dataAnalysis()
+
+        updateTimer.start()
     }
 
     property bool analysisNeeded: false
@@ -69,6 +73,41 @@ Item
 
     property real mouseStart: 0
     property real mouseShift: 0
+    property bool mousePressed: false
+    property bool mouseMoved: false
+    property bool mouseVisibleChanged: false
+
+    Timer
+    {
+        id: updateTimer
+        repeat: true
+        interval: 30
+        onTriggered:
+        {
+//                print("mouseShift", mouseShift)
+            if (mousePressed)
+            {
+                logic.shiftTime(mouseShift)
+
+                mouseStart += mouseShift
+                mouseShift = 0
+            }
+
+            if (mouseMoved)
+            {
+                mouseMoved = false
+
+                chartCanvas.requestPaint()
+            }
+
+            if (mouseVisibleChanged)
+            {
+                mouseVisibleChanged = false
+
+                chartCanvas.requestPaint()
+            }
+        }
+    }
 
     MouseArea
     {
@@ -76,23 +115,7 @@ Item
 
         anchors.fill: parent
 
-//        hoverEnabled: true
-
-        Timer
-        {
-            id: moveTimer
-            repeat: true
-            interval: 30
-            onTriggered:
-            {
-//                print("mouseShift", mouseShift)
-
-                logic.shiftTime(mouseShift)
-
-                mouseStart += mouseShift
-                mouseShift = 0
-            }
-        }
+        hoverEnabled: true
 
         onWheel:
         {
@@ -105,26 +128,52 @@ Item
         {
             if(mouse.button === Qt.LeftButton)
             {
-//                print("onPressed", mouse.x)
+                print("onPressed")
+
+                mousePressed = true
 
                 mouseStart = mouse.x
                 mouseShift = 0
-
-                moveTimer.start()
             }
         }
 
         onPositionChanged:
         {
-//            print("onPositionChanged", mouse.x - mouseStart)
+//            print("onPositionChanged", mouse.x, mouse.y)
+            logic.mouseX = mouse.x
+            logic.mouseY = mouse.y
 
-            mouseShift = mouse.x - mouseStart
+            if (mousePressed)
+                mouseShift = mouse.x - mouseStart
 
+            mouseMoved = true
         }
 
         onReleased:
         {
-            moveTimer.stop()
+            print("onReleased")
+
+            mousePressed = false
+        }
+
+        onEntered:
+        {
+            print("onEntered")
+
+            mouseVisibleChanged = true
+
+            logic.mouseX = mouseX
+            logic.mouseY = mouseY
+            logic.mouseVisible = true
+        }
+
+        onExited:
+        {
+            print("onExited")
+
+            mouseVisibleChanged = true
+
+            logic.mouseVisible = false
         }
     }
 

@@ -2,19 +2,20 @@ import QtQuick 2.4
 import QtQuick.Layouts 1.3
 
 RowLayout {
-    property alias text1:text1
-    property alias text2:text2
+    property alias label: label.text
+    property alias text: text.text
+    property alias labelVisible: label.visible
 
     spacing: 3
     Text
     {
-        id: text1
+        id: label
         font: mainFont.dapFont.regular13
         color: currTheme.textColorGray
     }
     Text
     {
-        id: text2
+        id: text
         font: mainFont.dapFont.regular13
         color: currTheme.textColorGreen
     }
