@@ -53,6 +53,7 @@ ColumnLayout {
                 placeholderText: "0.0"
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular16
+                selectByMouse: true
 
                 background: Rectangle{color:"transparent"}
             }
@@ -135,6 +136,7 @@ ColumnLayout {
                     placeholderText: "0.0"
                     color: currTheme.textColor
                     font: mainFont.dapFont.regular16
+                    selectByMouse: true
 
                     background: Rectangle{color:"transparent"}
                 }
@@ -218,6 +220,7 @@ ColumnLayout {
                 placeholderText: "0.0"
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular16
+                selectByMouse: true
 
                 background: Rectangle{color:"transparent"}
             }
@@ -324,5 +327,34 @@ ColumnLayout {
                 textAmount.text = balanceValue
             }
         }
+    }
+
+    DapButton
+    {
+        Layout.alignment: Qt.AlignCenter
+        Layout.topMargin: 22
+//            Layout.leftMargin: 16
+//            Layout.rightMargin: 16
+        implicitHeight: 36 * pt
+        implicitWidth: 132 * pt
+        textButton: qsTr("Create")
+        horizontalAligmentText: Text.AlignHCenter
+        indentTextRight: 0
+        fontButton: mainFont.dapFont.medium14
+
+        onClicked:
+        {
+            var date = new Date()
+
+            logicStock.addNewOrder(
+                date.toLocaleString(Qt.locale("en_EN"),
+                "yyyy-MM-dd hh:mm:ss"),
+                "CELL/USDT", "Market", "Sell",
+                "1234.4356", "674221.23", "1 day")
+        }
+    }
+
+    Item{
+        Layout.fillHeight: true
     }
 }

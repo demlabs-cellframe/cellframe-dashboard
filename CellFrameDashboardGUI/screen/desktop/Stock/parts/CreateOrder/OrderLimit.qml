@@ -44,55 +44,26 @@ ColumnLayout {
     RowLayout
     {
         Layout.fillWidth: true
-        Layout.minimumHeight: 40 * pt
-        Layout.maximumHeight: 40 * pt
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-
         spacing: 8
 
-        Rectangle
+        OrderTextBlock
         {
+            id: price
             Layout.fillWidth: true
+            Layout.minimumWidth: 215
             Layout.minimumHeight: 40 * pt
             Layout.maximumHeight: 40 * pt
-
-            border.color: currTheme.borderColor
-            color: "transparent"
-            radius: 4
-
-            RowLayout
-            {
-                anchors.fill: parent
-
-                TextField {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    horizontalAlignment: Text.AlignLeft
-
-                    placeholderText: "0.0"
-                    color: currTheme.textColor
-                    font: mainFont.dapFont.regular16
-
-                    background: Rectangle{color:"transparent"}
-                }
-
-                Text
-                {
-                    Layout.fillHeight: true
-                    Layout.rightMargin: 10
-                    verticalAlignment: Qt.AlignVCenter
-                    color: currTheme.textColorGray
-                    font: mainFont.dapFont.regular16
-                    text: tokenName
-                }
-            }
+            textToken: tokenName
+            textValue: logicStock.tokenPrice
         }
 
         Rectangle
         {
             id: expiresRect
+            Layout.fillWidth: true
             Layout.minimumWidth: 95
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
@@ -103,6 +74,7 @@ ColumnLayout {
 
             DapComboBox
             {
+                id: expiresComboBox
                 anchors.fill: parent
                 anchors.margins: 2
                 font: mainFont.dapFont.regular16
@@ -132,46 +104,17 @@ ColumnLayout {
         }
     }
 
-    Rectangle
+    OrderTextBlock
     {
+        id: amount
         Layout.fillWidth: true
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        Layout.minimumHeight: 40 * pt
-        Layout.maximumHeight: 40 * pt
-
-        border.color: currTheme.borderColor
-        color: "transparent"
-        radius: 4
-
-        RowLayout
-        {
-            anchors.fill: parent
-
-            TextField {
-                id: textAmount
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                horizontalAlignment: Text.AlignLeft
-
-                placeholderText: "0.0"
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular16
-
-                background: Rectangle{color:"transparent"}
-            }
-
-            Text
-            {
-                Layout.fillHeight: true
-                Layout.rightMargin: 10
-                verticalAlignment: Qt.AlignVCenter
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular16
-                text: qsTr("CELL")
-            }
-        }
+        Layout.minimumHeight: 40
+        Layout.maximumHeight: 40
+        textToken: "CELL"
+        textValue: "0"
     }
 
     RowLayout
@@ -192,13 +135,13 @@ ColumnLayout {
             fontButton: mainFont.dapFont.regular12
             selected: false
             onClicked:
-            {
+            {          
                 button25.selected = true
                 button50.selected = false
                 button75.selected = false
                 button100.selected = false
 
-                textAmount.text = balanceValue*0.25
+                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.25
             }
         }
 
@@ -219,7 +162,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                textAmount.text = balanceValue*0.5
+                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.5
             }
         }
 
@@ -240,7 +183,7 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                textAmount.text = balanceValue*0.75
+                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.75
             }
         }
 
@@ -261,8 +204,39 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                textAmount.text = balanceValue
+                amount.textValue = (balanceValue / logicStock.tokenPrice )
             }
         }
+    }
+
+    DapButton
+    {
+        Layout.alignment: Qt.AlignCenter
+        Layout.topMargin: 22
+//            Layout.leftMargin: 16
+//            Layout.rightMargin: 16
+        implicitHeight: 36 * pt
+        implicitWidth: 132 * pt
+        textButton: qsTr("Create")
+        horizontalAligmentText: Text.AlignHCenter
+        indentTextRight: 0
+        fontButton: mainFont.dapFont.medium14
+
+        onClicked:
+        {
+            var date = new Date()
+
+            logicStock.addNewOrder(
+                date.toLocaleString(Qt.locale("en_EN"),
+                "yyyy-MM-dd hh:mm:ss"),
+                "CELL/"+logicStock.nameTokenPair,
+                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
+                logicStock.tokenPrice, amount.textValue,
+                expiresModel.get(expiresComboBox.currentIndex).name)
+        }
+    }
+
+    Item{
+        Layout.fillHeight: true
     }
 }

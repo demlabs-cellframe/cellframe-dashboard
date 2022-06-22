@@ -12,12 +12,12 @@ QtObject
 //    property string fontFamilies: "Arial"
     property int fontIndent: 3
 
-    property string gridColor: "#a0a0a0"
-    property string gridTextColor: "#a0a0a0"
-    property string backgroundColor: "#404040"
+    property string gridColor: currTheme.borderColor
+    property string gridTextColor: currTheme.textColorGray
+    property string backgroundColor: currTheme.backgroundElements
 
-    property string redCandleColor: "#80ff0000"
-    property string greenCandleColor: "#8000ff00"
+    property string redCandleColor: currTheme.textColorRed
+    property string greenCandleColor: currTheme.textColorGreen
 
     property string sightColor: "#80ffff00"
 

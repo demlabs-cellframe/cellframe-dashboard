@@ -9,35 +9,13 @@ DapPage
 {
     id: stockTab
 
-    LogicStock
-    {
-        id: logicStock
-    }
+    LogicStock{id: logicStock}
 
-    ListModel
-    {
-        id: sellBookModel
-    }
-    ListModel
-    {
-        id: buyBookModel
-    }
-
-    ListModel
-    {
-        id: openOrdersModel
-    }
-
-    ListModel
-    {
-        id: orderHistoryModel
-    }
-
-    Component.onCompleted:
-    {
-        logicStock.initBookModels()
-        logicStock.initOrderLists()
-    }
+    ListModel{ id: sellBookModel}
+    ListModel{ id: buyBookModel}
+    ListModel{ id: openOrdersModel}
+    ListModel{ id: orderHistoryModel}
+    ListModel{ id: pairModel}
 
     dapScreen.initialItem: DapStockScreen
     {

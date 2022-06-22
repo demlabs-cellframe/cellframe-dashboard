@@ -10,8 +10,10 @@ Page
         color: "transparent"
     }
 
-    property string balanceValue: "123.45678901234"
-    property string tokenName: "ETH"
+    property string balanceValue: fakeWallet.get(0).tokens.get(1).balance_without_zeros
+    property string balanceCellValue: fakeWallet.get(0).tokens.get(0).balance_without_zeros
+    property string tokenName: logicStock.nameTokenPair
+    property string currentOrder: "Limit"
 
     ListModel {
         id: expiresModel
@@ -100,6 +102,7 @@ Page
 
             DapSwitch
             {
+                id: sellBuySwitch
                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                 Layout.preferredHeight: 26
                 Layout.preferredWidth: 46
@@ -169,7 +172,8 @@ Page
             Layout.fillWidth: true
             Layout.leftMargin: 5
             Layout.topMargin: 7
-//            spacing: 10
+            Layout.rightMargin: 16
+            spacing: 36
 
             DapRadioButton
             {
@@ -184,10 +188,10 @@ Page
                 checked: true
 
                 onClicked: {
-                    print("Limit")
                     limit.visible = true
                     market.visible = false
                     stopLimit.visible = false
+                    currentOrder = "Limit"
                 }
             }
 
@@ -204,10 +208,10 @@ Page
                 checked: false
 
                 onClicked: {
-                    print("Market")
                     limit.visible = false
                     market.visible = true
                     stopLimit.visible = false
+                    currentOrder = "Market"
                 }
             }
 
@@ -224,10 +228,10 @@ Page
                 checked: false
 
                 onClicked: {
-                    print("Stop limit")
                     limit.visible = false
                     market.visible = false
                     stopLimit.visible = true
+                    currentOrder = "Stop limit"
                 }
             }
         }
@@ -250,35 +254,6 @@ Page
             id: stopLimit
             Layout.fillWidth: true
             visible: false
-        }
-
-        DapButton
-        {
-            Layout.alignment: Qt.AlignCenter
-            Layout.topMargin: 22
-//            Layout.leftMargin: 16
-//            Layout.rightMargin: 16
-            implicitHeight: 36 * pt
-            implicitWidth: 132 * pt
-            textButton: qsTr("Create")
-            horizontalAligmentText: Text.AlignHCenter
-            indentTextRight: 0
-            fontButton: mainFont.dapFont.medium14
-
-            onClicked:
-            {
-                var date = new Date()
-
-                logicStock.addNewOrder(
-                    date.toLocaleString(Qt.locale("en_EN"),
-                    "yyyy-MM-dd hh:mm:ss"),
-                    "CELL/USDT", "Market", "Sell",
-                    "1234.4356", "674221.23", "1 day")
-            }
-        }
-
-        Item{
-            Layout.fillHeight: true
         }
     }
 }

@@ -3,10 +3,20 @@ import QtQml 2.12
 
 QtObject
 {
+    property int indexPair
+    property string nameTokenPair
+    property string tokenPrice
+    property string tokenChange
+
+    function getCurrentDate(format)
+    {
+        var today = new Date();
+        return today.toLocaleString(Qt.locale("en_EN"),format)
+    }
 
     function initBookModels()
     {
-        for(var i = 0; i < 50; i++)
+        for(var i = 0; i < 24; i++)
         {
 
             var val = (0.2914 + 0.1*i).toFixed(4)
@@ -28,27 +38,27 @@ QtObject
     {
         for(var i = 0; i < 12; i++)
         {
-            openOrdersModel.append({   date: "2022-12-15 18:40",
-                                       pair: "CELL/ETH",
-                                       type: "Stop limit",
-                                       side: "Sell",
-                                       price: "11,2241",
-                                       amount: "204,241",
-                                       filled: "100%",
-                                       total: "1000.11",
-                                       triggerCondition: ">=12,214",
-                                       expiresIn: "3 days" })
+//            openOrdersModel.append({   date: "2022-12-15 18:40",
+//                                       pair: "CELL/ETH",
+//                                       type: "Stop limit",
+//                                       side: "Sell",
+//                                       price: "11,2241",
+//                                       amount: "204,241",
+//                                       filled: "100%",
+//                                       total: "1000.11",
+//                                       triggerCondition: ">=12,214",
+//                                       expiresIn: "3 days" })
 
-            openOrdersModel.append({   date: "2022-12-15 18:40",
-                                       pair: "CELL/ETH",
-                                       type: "Limit",
-                                       side: "Buy",
-                                       price: "11,2241",
-                                       amount: "204,241",
-                                       filled: "92%",
-                                       total: "1000.11",
-                                       triggerCondition: "-",
-                                       expiresIn: "3 days" })
+//            openOrdersModel.append({   date: "2022-12-15 18:40",
+//                                       pair: "CELL/ETH",
+//                                       type: "Limit",
+//                                       side: "Buy",
+//                                       price: "11,2241",
+//                                       amount: "204,241",
+//                                       filled: "92%",
+//                                       total: "1000.11",
+//                                       triggerCondition: "-",
+//                                       expiresIn: "3 days" })
 
             orderHistoryModel.append({
                                          date: "2022-12-15 18:40",
@@ -82,6 +92,26 @@ QtObject
         }
     }
 
+    function initPairModel()
+    {
+        pairModel.append({ pair: "CELL/USDT",
+                           price: "0.245978",
+                           change: "+5.16 %"
+                         })
+        pairModel.append({ pair: "CELL/BNB",
+                           price: "0.00110722",
+                           change: "-0.04 %"
+                         })
+        pairModel.append({ pair: "CELL/ETH",
+                           price: "0.000210952",
+                           change: "+1.47 %"
+                         })
+        pairModel.append({ pair: "CELL/DAI",
+                           price: "0.245852",
+                           change: "+5.22 %"
+                         })
+    }
+
     function addNewOrder(_date, _pair, _type, _side, _price,
                          _amount, _expiresIn)
     {
@@ -105,5 +135,4 @@ QtObject
         var count = (heightParent - 42)/32/2 - 1
         return Math.floor(count)
     }
-
 }

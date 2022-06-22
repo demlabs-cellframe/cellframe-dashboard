@@ -28,8 +28,9 @@ ColumnLayout {
         }
     }
 
-    Rectangle
+    OrderTextBlock
     {
+        id: price
         enabled: false
         Layout.fillWidth: true
         Layout.minimumHeight: 40 * pt
@@ -37,37 +38,8 @@ ColumnLayout {
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-
-        border.color: currTheme.borderColor
-        color: "transparent"
-        radius: 4
-
-        RowLayout
-        {
-            anchors.fill: parent
-
-            TextField {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                horizontalAlignment: Text.AlignLeft
-
-                placeholderText: "0.0"
-                color: currTheme.textColorGray
-                font: mainFont.dapFont.regular16
-
-                background: Rectangle{color:"transparent"}
-            }
-
-            Text
-            {
-                Layout.fillHeight: true
-                Layout.rightMargin: 10
-                verticalAlignment: Qt.AlignVCenter
-                color: currTheme.textColorGray
-                font: mainFont.dapFont.regular16
-                text: qsTr("Market")
-            }
-        }
+        textToken: tokenName
+        textValue: logicStock.tokenPrice
     }
 
 
@@ -91,46 +63,19 @@ ColumnLayout {
         }
     }
 
-    Rectangle
+    OrderTextBlock
     {
+        id: amount
         Layout.fillWidth: true
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        Layout.minimumHeight: 40 * pt
-        Layout.maximumHeight: 40 * pt
+        Layout.minimumHeight: 40
+        Layout.maximumHeight: 40
+        textToken: "CELL"
+        textValue: "0"
+        onTextValueChanged: total.textValue = textValue * logicStock.tokenPrice
 
-        border.color: currTheme.borderColor
-        color: "transparent"
-        radius: 4
-
-        RowLayout
-        {
-            anchors.fill: parent
-
-            TextField {
-                id: textAmount
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                horizontalAlignment: Text.AlignLeft
-
-                placeholderText: "0.0"
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular16
-
-                background: Rectangle{color:"transparent"}
-            }
-
-            Text
-            {
-                Layout.fillHeight: true
-                Layout.rightMargin: 10
-                verticalAlignment: Qt.AlignVCenter
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular16
-                text: qsTr("CELL")
-            }
-        }
     }
 
     RowLayout
@@ -157,7 +102,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                textAmount.text = balanceValue*0.25
+                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.25
+                total.textValue = balanceValue*0.25
             }
         }
 
@@ -178,7 +124,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                textAmount.text = balanceValue*0.5
+                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.5
+                total.textValue = balanceValue*0.5
             }
         }
 
@@ -199,7 +146,8 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                textAmount.text = balanceValue*0.75
+                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.75
+                total.textValue = balanceValue*0.75
             }
         }
 
@@ -220,7 +168,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                textAmount.text = balanceValue
+                amount.textValue = (balanceValue / logicStock.tokenPrice )
+                total.textValue = balanceValue
             }
         }
     }
@@ -245,44 +194,46 @@ ColumnLayout {
         }
     }
 
-    Rectangle
+    OrderTextBlock
     {
+        id: total
         Layout.fillWidth: true
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        Layout.minimumHeight: 40 * pt
-        Layout.maximumHeight: 40 * pt
+        Layout.minimumHeight: 40
+        Layout.maximumHeight: 40
+        textToken: tokenName
+        textValue: "0"
+        onTextValueChanged: amount.textValue = textValue / logicStock.tokenPrice
+    }
 
-        border.color: currTheme.borderColor
-        color: "transparent"
-        radius: 4
+    DapButton
+    {
+        Layout.alignment: Qt.AlignCenter
+        Layout.topMargin: 22
+//            Layout.leftMargin: 16
+//            Layout.rightMargin: 16
+        implicitHeight: 36 * pt
+        implicitWidth: 132 * pt
+        textButton: qsTr("Create")
+        horizontalAligmentText: Text.AlignHCenter
+        indentTextRight: 0
+        fontButton: mainFont.dapFont.medium14
 
-        RowLayout
+        onClicked:
         {
-            anchors.fill: parent
+            var date = new Date()
 
-            TextField {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                horizontalAlignment: Text.AlignLeft
-
-                placeholderText: "0.0"
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular16
-
-                background: Rectangle{color:"transparent"}
-            }
-
-            Text
-            {
-                Layout.fillHeight: true
-                Layout.rightMargin: 10
-                verticalAlignment: Qt.AlignVCenter
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular16
-                text: tokenName
-            }
+            logicStock.addNewOrder(
+                date.toLocaleString(Qt.locale("en_EN"),
+                "yyyy-MM-dd hh:mm:ss"),
+                "CELL/USDT", "Market", "Sell",
+                "1234.4356", "674221.23", "1 day")
         }
+    }
+
+    Item{
+        Layout.fillHeight: true
     }
 }

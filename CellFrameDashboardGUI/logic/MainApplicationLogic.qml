@@ -446,4 +446,25 @@ QtObject {
         timer.triggered.connect(cb);
         timer.start();
     }
+
+    //////////////////////
+    function initFakeWallet()
+    {
+        fakeWallet.clear()
+        fakeWallet.append({"name": "testWallet",
+                           "tokens": []
+                          })
+        fakeWallet.get(0).tokens.append(
+                    {"name": "CELL",
+                     "full_balance": "1000.000000000000000000",
+                     "balance_without_zeros": "1000",
+                     "datoshi": "1000000000000000000000",
+                     "network": "Backbone"})
+        fakeWallet.get(0).tokens.append(
+                    {"name": "USDT",
+                     "full_balance": "521.000000000000000000",
+                     "balance_without_zeros": "521",
+                     "datoshi": "521000000000000000000",
+                     "network": "Backbone"})
+    }
 }
