@@ -13,4 +13,4 @@
 [submodule "cellframe-node"]
 	path = cellframe-node
 	url = https://gitlab.demlabs.net/cellframe/cellframe-node
-	branch = master
+	branch = hotfix-6383
