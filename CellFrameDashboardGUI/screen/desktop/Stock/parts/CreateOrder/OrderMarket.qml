@@ -102,8 +102,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.25
-                total.textValue = balanceValue*0.25
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.25
+                total.textValue = logicStock.balanceValue*0.25
             }
         }
 
@@ -124,8 +124,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.5
-                total.textValue = balanceValue*0.5
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.5
+                total.textValue = logicStock.balanceValue*0.5
             }
         }
 
@@ -146,8 +146,8 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.75
-                total.textValue = balanceValue*0.75
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.75
+                total.textValue = logicStock.balanceValue*0.75
             }
         }
 
@@ -168,8 +168,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )
-                total.textValue = balanceValue
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )
+                total.textValue = logicStock.balanceValue
             }
         }
     }
@@ -212,8 +212,6 @@ ColumnLayout {
     {
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
-//            Layout.leftMargin: 16
-//            Layout.rightMargin: 16
         implicitHeight: 36 * pt
         implicitWidth: 132 * pt
         textButton: qsTr("Create")
@@ -227,9 +225,12 @@ ColumnLayout {
 
             logicStock.addNewOrder(
                 date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm:ss"),
-                "CELL/USDT", "Market", "Sell",
-                "1234.4356", "674221.23", "1 day")
+                "yyyy-MM-dd hh:mm"),
+                "CELL/"+logicStock.nameTokenPair,
+                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
+                logicStock.tokenPrice, amount.textValue,"Not", "-")
+
+            createOrder()
         }
     }
 

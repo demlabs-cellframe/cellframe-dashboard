@@ -96,7 +96,7 @@ RowLayout
     Text
     {
         Layout.preferredWidth: layoutCoeff.get("status")
-        color: currTheme.textColor
+        color: isHeader? currTheme.textColor : status === "Filled" ? currTheme.textColorGreen : currTheme.textColorRed
         font: isHeader? mainFont.dapFont.regular12 : mainFont.dapFont.regular13
         text: isHeader? qsTr("Status") : status
     }

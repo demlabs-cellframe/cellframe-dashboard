@@ -90,9 +90,17 @@ RowLayout
     {
         visible: !isHeader
         Layout.preferredWidth: layoutCoeff.get("cancel")
-        color: currTheme.hilightColorComboBox
+        color: mouseArea.containsMouse ? currTheme.textColorRed : currTheme.hilightColorComboBox
         font: isHeader? mainFont.dapFont.regular12 : mainFont.dapFont.regular13
         text: "Cancel"
+
+        MouseArea{
+            id: mouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+
+            onClicked: logicStock.cancelationOrder(index)
+        }
     }
 
     Item

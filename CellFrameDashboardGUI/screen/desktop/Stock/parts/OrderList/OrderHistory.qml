@@ -63,10 +63,13 @@ Rectangle
 //            Layout.margins: 10
             Layout.leftMargin: 16
             Layout.bottomMargin: 12
-            spacing: 10
+            spacing: 20
 
             ListModel {
                 id: selectorModel
+                ListElement {
+                    name: "All"
+                }
                 ListElement {
                     name: "1 Day"
                 }
@@ -79,9 +82,7 @@ Rectangle
                 ListElement {
                     name: "3 Month"
                 }
-                ListElement {
-                    name: "All"
-                }
+
             }
 
             DapSelector
@@ -89,31 +90,50 @@ Rectangle
                 height: 35
 
                 selectorModel: selectorModel
+                selectorListView.interactive: false
 
                 onItemSelected:
                 {
                     print("onItemSelected", "currentIndex", currentIndex)
                 }
             }
+            RowLayout{
+                spacing: 0
+                Layout.leftMargin: 10
 
-            DapComboBox
-            {
-                Layout.minimumWidth: 150
-                Layout.maximumHeight: 35
-//                height: 30
-                font.pointSize: 10
+                Text{
+                    text: "Pair: "
+                    color: currTheme.textColor
+                    font: mainFont.dapFont.regular16
+                }
 
-                model: pairModel
+                DapComboBox
+                {
+                    Layout.minimumWidth: 150
+                    font: mainFont.dapFont.regular16
+
+                    model: pairModel
+                }
+
             }
 
-            DapComboBox
-            {
-                Layout.minimumWidth: 120
-                Layout.maximumHeight: 35
-//                height: 30
-                font.pointSize: 10
+            RowLayout{
+                spacing: 0
 
-                model: modeModel
+                Text{
+                    text: "Side: "
+                    color: currTheme.textColor
+                    font: mainFont.dapFont.regular16
+                }
+
+
+                DapComboBox
+                {
+                    Layout.minimumWidth: 120
+                    font: mainFont.dapFont.regular16
+
+                    model: modeModel
+                }
             }
         }
 
