@@ -154,7 +154,7 @@ QtObject
 
         if(_side === "Buy")
         {
-            value = parseFloat(balanceValue) - (parseFloat(_amount) * parseFloat(logicStock.tokenPrice))
+            value = parseFloat(balanceValue) - (parseFloat(_amount) * logicStock.tokenPrice)
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
             balanceValue = value
 
@@ -169,7 +169,7 @@ QtObject
         {
             if(_type === "Market")
             {
-                value = parseFloat(balanceValue) + (parseFloat(_amount) * parseFloat(logicStock.tokenPrice))
+                value = parseFloat(balanceValue) + (parseFloat(_amount) * logicStock.tokenPrice)
                 fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
 
                 cellBalance = parseFloat(cellBalanceValue) - parseFloat(_amount)
@@ -187,7 +187,7 @@ QtObject
                                        pair: _pair,
                                        type: _type,
                                        side: _side,
-                                       price: _price,
+                                       price: _price.toString(),
                                        amount: _amount,
                                        filled: "0%",
                                        total: "0",
@@ -201,8 +201,8 @@ QtObject
                                          pair: _pair,
                                          type: _type,
                                          side: _side,
-                                         averagePrice: _price,
-                                         price: _price,
+                                         averagePrice: _price.toString(),
+                                         price: _price.toString(),
                                          filled: "100%",
                                          amount: _amount,
                                          total: (_amount * _price).toString(),
@@ -237,7 +237,7 @@ QtObject
 
         if(order.side === "Buy")
         {
-            value = parseFloat(balanceValue) + (parseFloat(order.amount) * parseFloat(logicStock.tokenPrice))
+            value = parseFloat(balanceValue) + (parseFloat(order.amount) * logicStock.tokenPrice)
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
             balanceValue = value
 

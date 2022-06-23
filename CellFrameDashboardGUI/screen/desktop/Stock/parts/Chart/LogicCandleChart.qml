@@ -8,8 +8,8 @@ QtObject
 //    property alias candleModel: _candleModel
 
     property int fontSize: 11
-//    property string fontFamilies: "Quicksand"
-    property string fontFamilies: "Arial"
+    property string fontFamilies: "Quicksand"
+//    property string fontFamilies: "Arial"
     property int fontIndent: 3
 
     property string gridColor: "#a0a0a0"
