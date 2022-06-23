@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtQml 2.12
 
-
 QtObject
 {
 //    property alias dataModel: _dataModel
@@ -118,7 +117,7 @@ QtObject
 
         for (var i = 0; i < length; ++i)
         {
-            currentData += Math.random()*0.001 - 0.0005
+            currentData += Math.random()*0.0001 - 0.00005
             currentTime -= 5000 + Math.round(Math.random()*3000)
 
 //            print(currentData)
@@ -529,6 +528,7 @@ QtObject
     function drawSight(ctx)
     {
         ctx.strokeStyle = sightColor
+        ctx.setLineDash([2, space, 2, space])
         ctx.lineWidth = 2;
 
         if(mouseY <= chartHeight + chartTextHeight)

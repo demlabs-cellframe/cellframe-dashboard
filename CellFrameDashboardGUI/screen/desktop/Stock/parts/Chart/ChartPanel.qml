@@ -7,6 +7,8 @@ import "../DapPairComboBox"
 
 Item
 {
+    property real roundValue: 1000000
+
     ColumnLayout
     {
         anchors.fill: parent
@@ -216,8 +218,6 @@ Item
             {
 //                print("onChandleSelected",
 //                      openValue, highValue, lowValue, closeValue)
-
-                var roundValue = 100000
 
                 var date = new Date(timeValue)
 
