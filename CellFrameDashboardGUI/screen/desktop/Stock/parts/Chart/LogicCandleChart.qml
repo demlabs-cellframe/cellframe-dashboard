@@ -219,7 +219,7 @@ QtObject
 
             var lastTime = candleModel.get(candleModel.count-1).time
             if (rightCandleNumber == lastCandleNumber &&
-                (rightTime < lastTime + candleWidth || rightTime > lastTime - candleWidth))
+                rightTime < lastTime + candleWidth && rightTime > lastTime - candleWidth)
                 resetRightTime()
 
             lastCandleNumber = candleModel.count-1
