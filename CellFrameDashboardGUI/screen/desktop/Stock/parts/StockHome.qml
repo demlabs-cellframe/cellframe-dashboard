@@ -24,7 +24,7 @@ Item
 
     Component.onCompleted:
     {
-        logicStock.initPairModel()
+//        logicStock.initPairModel()
         changeRightPage("OrderBook/OrderBook.qml")
     }
 

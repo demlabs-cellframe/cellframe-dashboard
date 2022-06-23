@@ -23,6 +23,7 @@ DapPage
 
     Component.onCompleted:
     {
+        logicStock.initPairModel()
         logicStock.initBookModels()
         logicStock.initOrderLists()
         generateTimer.start()

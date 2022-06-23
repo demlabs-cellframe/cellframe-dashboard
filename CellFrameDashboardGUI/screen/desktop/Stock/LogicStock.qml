@@ -205,7 +205,7 @@ QtObject
                                          price: _price.toString(),
                                          filled: "100%",
                                          amount: _amount,
-                                         total: (_amount * _price).toString(),
+                                         total: (_amount * _price).toFixed(4).toString(),
                                          triggerCondition: _trigger,
                                          status: "Filled"
                                        })

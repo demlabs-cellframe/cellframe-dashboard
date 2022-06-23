@@ -74,7 +74,7 @@ ColumnLayout {
         Layout.maximumHeight: 40
         textToken: "CELL"
         textValue: "0"
-        onTextValueChanged: total.textValue = textValue * logicStock.tokenPrice
+        onTextValueChanged: total.textValue = textValue * logicStock.tokenPriceRounded
 
     }
 
@@ -102,7 +102,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.25
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )*0.25
                 total.textValue = logicStock.balanceValue*0.25
             }
         }
@@ -124,7 +124,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.5
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )*0.5
                 total.textValue = logicStock.balanceValue*0.5
             }
         }
@@ -146,7 +146,7 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.75
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )*0.75
                 total.textValue = logicStock.balanceValue*0.75
             }
         }
@@ -168,7 +168,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )
                 total.textValue = logicStock.balanceValue
             }
         }
@@ -205,7 +205,7 @@ ColumnLayout {
         Layout.maximumHeight: 40
         textToken: tokenName
         textValue: "0"
-        onTextValueChanged: amount.textValue = textValue / logicStock.tokenPrice
+        onTextValueChanged: amount.textValue = textValue / logicStock.tokenPriceRounded
     }
 
     DapButton
@@ -228,7 +228,7 @@ ColumnLayout {
                 "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
                 currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                logicStock.tokenPrice, amount.textValue,"Not", "-")
+                logicStock.tokenPriceRounded, amount.textValue,"Not", "-")
 
             createOrder()
         }
