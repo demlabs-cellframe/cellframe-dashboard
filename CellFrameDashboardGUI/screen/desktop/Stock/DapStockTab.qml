@@ -9,6 +9,8 @@ DapPage
 {
     id: stockTab
 
+    signal fakeWalletChanged() //for top panel
+
     LogicStock{id: logicStock}
 
     ListModel{ id: sellBookModel}
@@ -16,6 +18,14 @@ DapPage
     ListModel{ id: openOrdersModel}
     ListModel{ id: orderHistoryModel}
     ListModel{ id: pairModel}
+
+    Timer{id: timer}
+
+    Component.onCompleted:
+    {
+        logicStock.initBookModels()
+        logicStock.initOrderLists()
+    }
 
     dapScreen.initialItem: DapStockScreen
     {

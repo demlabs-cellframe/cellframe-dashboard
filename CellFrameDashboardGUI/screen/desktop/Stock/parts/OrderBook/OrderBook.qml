@@ -18,6 +18,9 @@ Page
     ListModel {
         id: accuracyModel
         ListElement {
+            value: 0.1
+        }
+        ListElement {
             value: 0.0001
         }
         ListElement {

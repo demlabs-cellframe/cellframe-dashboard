@@ -6,14 +6,18 @@ import "../Chart"
 
 Page
 {
+
+    signal createOrder()
+
     background: Rectangle {
         color: "transparent"
     }
 
-    property string balanceValue: fakeWallet.get(0).tokens.get(1).balance_without_zeros
     property string balanceCellValue: fakeWallet.get(0).tokens.get(0).balance_without_zeros
     property string tokenName: logicStock.nameTokenPair
     property string currentOrder: "Limit"
+
+    onCreateOrder: goToDoneCreate()
 
     ListModel {
         id: expiresModel
@@ -85,11 +89,11 @@ Page
             Layout.fillWidth: true
             Layout.leftMargin: 16
             Layout.topMargin: 10
-            text1.text: qsTr("Balance:")
-            text2.text: balanceValue + " " + tokenName
-            text2.color: currTheme.textColor
-            text1.font: mainFont.dapFont.regular14
-            text2.font: mainFont.dapFont.regular14
+            label.text: qsTr("Balance:")
+            text.text: logicStock.balanceValue + " " + tokenName
+            text.color: currTheme.textColor
+            label.font: mainFont.dapFont.regular14
+            text.font: mainFont.dapFont.regular14
 
         }
 

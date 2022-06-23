@@ -221,13 +221,18 @@ Item
 
                 var date = new Date(timeValue)
 
-                textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
-                textOpen.text = Math.round(openValue*roundValue)/roundValue
-                textHigh.text = Math.round(highValue*roundValue)/roundValue
-                textLow.text = Math.round(lowValue*roundValue)/roundValue
-                textClose.text = Math.round(closeValue*roundValue)/roundValue
-                textChange.text = Math.round(
-                    (closeValue/openValue*100 - 100)*10000)/10000 + "%"
+                var valFixed = 4
+                if(logicStock.nameTokenPair === "USDT")
+                    valFixed = 4
+
+                textDate.text.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
+                textOpen.text.text = (Math.round(openValue*roundValue)/roundValue).toFixed(valFixed)
+                textHigh.text.text = (Math.round(highValue*roundValue)/roundValue).toFixed(valFixed)
+                textLow.text.text = (Math.round(lowValue*roundValue)/roundValue).toFixed(valFixed)
+                textClose.text.text = (Math.round(closeValue*roundValue)/roundValue).toFixed(valFixed)
+                textChange.text.text = (Math.round(
+                    (closeValue/openValue*100 - 100)*10000)/10000).toFixed(valFixed) + "%"
+
             }
         }
     }
@@ -250,40 +255,52 @@ Item
             ChartTextBlock
             {
                 id: textDate
+                Layout.minimumWidth: 100
+                Layout.maximumWidth: 100
                 labelVisible: false
-                text: qsTr("-")
+                text.text: qsTr("-")
             }
 
             ChartTextBlock
             {
                 id: textOpen
-                label: qsTr("Open:")
-                text: qsTr("-")
+                Layout.minimumWidth: 80
+                Layout.maximumWidth: 80
+                label.text: qsTr("Open:")
+                text.text: qsTr("-")
             }
 
             ChartTextBlock
             {
                 id: textHigh
-                label: qsTr("High:")
-                text: qsTr("-")
+                Layout.minimumWidth: 80
+                Layout.maximumWidth: 80
+                label.text: qsTr("High:")
+                text.text: qsTr("-")
             }
             ChartTextBlock
             {
                 id: textLow
-                label: qsTr("Low:")
-                text: qsTr("-")
+                Layout.minimumWidth: 80
+                Layout.maximumWidth: 80
+                label.text: qsTr("Low:")
+                text.text: qsTr("-")
             }
             ChartTextBlock
             {
                 id: textClose
-                label: qsTr("Close:")
-                text: qsTr("-")
+                Layout.minimumWidth: 80
+                Layout.maximumWidth: 80
+                label.text: qsTr("Close:")
+                text.text: qsTr("-")
             }
             ChartTextBlock
             {
                 id: textChange
-                label: qsTr("Change:")
-                text: qsTr("-")
+                Layout.minimumWidth: 80
+                Layout.maximumWidth: 80
+                label.text: qsTr("Change:")
+                text.text: qsTr("-")
             }
         }
     }

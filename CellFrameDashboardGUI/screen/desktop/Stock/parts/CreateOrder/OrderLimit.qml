@@ -141,7 +141,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.25
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.25
             }
         }
 
@@ -162,7 +162,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.5
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.5
             }
         }
 
@@ -183,7 +183,7 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )*0.75
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.75
             }
         }
 
@@ -204,7 +204,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = (balanceValue / logicStock.tokenPrice )
+                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )
             }
         }
     }
@@ -213,8 +213,6 @@ ColumnLayout {
     {
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
-//            Layout.leftMargin: 16
-//            Layout.rightMargin: 16
         implicitHeight: 36 * pt
         implicitWidth: 132 * pt
         textButton: qsTr("Create")
@@ -228,11 +226,14 @@ ColumnLayout {
 
             logicStock.addNewOrder(
                 date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm:ss"),
+                "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
                 currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                logicStock.tokenPrice, amount.textValue,
-                expiresModel.get(expiresComboBox.currentIndex).name)
+                price.textValue, amount.textValue,
+                expiresModel.get(expiresComboBox.currentIndex).name,
+                sellBuySwitch.checked? "<=" + price.textValue :">=" + price.textValue)
+
+            createOrder()
         }
     }
 

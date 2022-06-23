@@ -80,13 +80,27 @@ Controls.DapTopPanel
 
         DapComboBox{
             id: tokenComboBox
+
+            property var currentBalance
 //            width: 95
             Layout.minimumWidth: 120
             Layout.maximumWidth: 120
             model: fakeWallet.get(fakeWallet.count - 1).tokens
             font: mainFont.dapFont.regular16
 
-            Component.onCompleted: currentIndex = 0
+            Component.onCompleted: {currentIndex = 0; updateBalance()}
+
+            onCurrentIndexChanged: updateBalance()
+
+            Connections{
+                target: stockTab
+                onFakeWalletChanged: tokenComboBox.updateBalance()
+            }
+
+            function updateBalance(){
+                tokenComboBox.currentBalance = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            }
+
 
             background:
             Item
@@ -130,16 +144,6 @@ Controls.DapTopPanel
             }
         }
 
-//        // Dynamic token name
-//        Label
-//        {
-//            id: textWalletToken
-//            text: fakeWallet.get(fakeWallet.count - 1).tokens.get(fakeWallet.get(0).tokens.count - 2).name
-
-//            font: mainFont.dapFont.regular16
-//            color: currTheme.textColor
-//        }
-
         // Static wallet balance text "Wallet balance"
         Label
         {
@@ -156,7 +160,7 @@ Controls.DapTopPanel
         {
             id: textWalletBalance
 //            text: "$ 3 050 745.3453289 USD"
-            text: tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            text: tokenComboBox.currentBalance
 
             font: mainFont.dapFont.regular16
             color: currTheme.textColor

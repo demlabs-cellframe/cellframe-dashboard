@@ -6,23 +6,25 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "Chart"
 import "OrderBook"
+import "CreateOrder"
 
 Item
 {
     signal goToRightHome()
+    signal goToDoneCreate()
 
     onGoToRightHome:
     {
         changeRightPage("OrderBook/OrderBook.qml")
     }
+    onGoToDoneCreate:
+    {
+        changeRightPage("CreateOrder/OrderCreateDone.qml")
+    }
 
     Component.onCompleted:
     {
-        logicStock.initBookModels()
-        logicStock.initOrderLists()
         logicStock.initPairModel()
-
-        console.log("Init. models is completed", "---------------------")
         changeRightPage("OrderBook/OrderBook.qml")
     }
 
