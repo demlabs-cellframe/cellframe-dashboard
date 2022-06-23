@@ -18,7 +18,7 @@ ColumnLayout
             Layout.minimumWidth: 100
             color: isSell? currTheme.textColorRed : currTheme.textColorGreen
             font: mainFont.dapFont.regular13
-            text: price
+            text: price.toFixed(5)
         }
 
         Text
@@ -26,7 +26,7 @@ ColumnLayout
             Layout.fillWidth: true
             color: currTheme.textColor
             font: mainFont.dapFont.regular13
-            text: amount
+            text: amount.toFixed(2)
         }
 
         Text
@@ -34,7 +34,7 @@ ColumnLayout
             horizontalAlignment: Qt.AlignRight
             color: currTheme.textColor
             font: mainFont.dapFont.regular13
-            text: total
+            text: total.toFixed(4)
         }
     }
 

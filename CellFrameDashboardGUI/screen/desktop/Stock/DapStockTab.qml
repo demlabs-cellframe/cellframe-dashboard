@@ -25,6 +25,7 @@ DapPage
     {
         logicStock.initBookModels()
         logicStock.initOrderLists()
+        generateTimer.start()
     }
 
     dapScreen.initialItem: DapStockScreen
@@ -38,4 +39,17 @@ DapPage
     }
 
     onRightPanel: false
+
+    Timer
+    {
+        id: generateTimer
+        repeat: true
+        interval: 1000
+        onTriggered:
+        {
+            interval = 100 + Math.round(Math.random()*200)
+
+            logicStock.generateBookState()
+        }
+    }
 }

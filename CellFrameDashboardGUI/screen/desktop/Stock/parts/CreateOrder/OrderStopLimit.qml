@@ -38,7 +38,7 @@ ColumnLayout {
         Layout.minimumHeight: 40 * pt
         Layout.maximumHeight: 40 * pt
         textToken: tokenName
-        textValue: logicStock.tokenPrice
+        textValue: logicStock.tokenPriceRounded
     }
 
     Rectangle
@@ -90,7 +90,7 @@ ColumnLayout {
             Layout.minimumHeight: 40 * pt
             Layout.maximumHeight: 40 * pt
             textToken: tokenName
-            textValue: logicStock.tokenPrice
+            textValue: logicStock.tokenPriceRounded
         }
 
         Rectangle

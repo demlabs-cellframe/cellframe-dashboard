@@ -5,7 +5,9 @@ QtObject
 {
     property int indexPair
     property string nameTokenPair
-    property string tokenPrice
+    property real tokenPrice
+    property real tokenPrevPrice
+    property string tokenPriceRounded
     property string tokenChange
     property string balanceValue: fakeWallet.get(0).tokens.get(1).balance_without_zeros
     property string cellBalanceValue: fakeWallet.get(0).tokens.get(0).balance_without_zeros
@@ -18,20 +20,60 @@ QtObject
 
     function initBookModels()
     {
-        for(var i = 0; i < 24; i++)
-        {
-            var val = (0.2914 + 0.1*i).toFixed(4)
-            var amountSell = (Math.random() * (10000/(24-i) - 50*(24-i)) + 50*(24-i)).toFixed(0)
-            var amountBuy = (Math.random() * (10000/(24-i) - 50*(24-i)) + 50*(24-i)).toFixed(0)
-            var totalSell = (amountSell * val).toFixed(4)
-            var totaBuy = (amountBuy * val).toFixed(4)
+        var value = 0.245978
 
-            sellBookModel.append({ price: val,
-                                   amount: amountSell,
-                                   total: totalSell })
-            buyBookModel.append({  price: val,
-                                   amount: amountBuy,
-                                   total: totaBuy })
+        for (var i = 0; i < 18; i++)
+        {
+            value += Math.random()*0.0001
+            var amount = Math.random()*1500
+            var total = amount * value
+
+            sellBookModel.append({ price: value,
+                                   amount: amount,
+                                   total: total })
+        }
+
+        value = 0.245978
+
+        for (var j = 0; j < 18; j++)
+        {
+            value -= Math.random()*0.0001
+            var amount = Math.random()*1500
+            var total = amount * value
+
+            buyBookModel.append({ price: value,
+                                   amount: amount,
+                                   total: total })
+        }
+    }
+
+    function generateBookState()
+    {
+        if (Math.random() < 0.5)
+        {
+            var index = Math.round((Math.random()*(sellBookModel.count-1)))
+
+            var value = sellBookModel.get(index).price
+            var amount = sellBookModel.get(index).amount + Math.random()*20
+
+            var total = amount * value
+
+            sellBookModel.set(index, { price: value,
+                                  amount: amount,
+                                  total: total })
+        }
+        else
+        {
+            var index = Math.round((Math.random()*(buyBookModel.count-1)))
+
+            var value = buyBookModel.get(index).price
+            var amount = buyBookModel.get(index).amount + Math.random()*20
+
+            var total = amount * value
+
+            buyBookModel.set(index, { price: value,
+                                  amount: amount,
+                                  total: total })
         }
     }
 

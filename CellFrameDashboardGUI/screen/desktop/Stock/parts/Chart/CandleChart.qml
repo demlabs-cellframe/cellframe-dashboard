@@ -12,6 +12,8 @@ Item
 
     property alias candleLogic: logic
 
+    property alias chartCanvas: chartCanvas
+
     Component.onCompleted:
     {
         logic.backgroundColor = currTheme.backgroundElements
@@ -25,11 +27,17 @@ Item
 
         logic.resetRightTime()
 
+        logic.updateCurrentTokenPrice()
+
+        updateTokenPrice()
+
 //        logic.getCandleModel(rowDataModel, candleModel, 20)
 
 //        logic.dataAnalysis()
 
         updateTimer.start()
+
+        generateTimer.start()
     }
 
     property bool analysisNeeded: false
@@ -128,7 +136,7 @@ Item
         {
             if(mouse.button === Qt.LeftButton)
             {
-                print("onPressed")
+//                print("onPressed")
 
                 mousePressed = true
 
@@ -151,14 +159,14 @@ Item
 
         onReleased:
         {
-            print("onReleased")
+//            print("onReleased")
 
             mousePressed = false
         }
 
         onEntered:
         {
-            print("onEntered")
+//            print("onEntered")
 
             mouseVisibleChanged = true
 
@@ -169,7 +177,7 @@ Item
 
         onExited:
         {
-            print("onExited")
+//            print("onExited")
 
             mouseVisibleChanged = true
 
@@ -179,8 +187,6 @@ Item
 
     function setCandleSize(index)
     {
-        logic.resetRightTime()
-
         switch (index)
         {
         default:

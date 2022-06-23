@@ -3,11 +3,18 @@ import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+//import ".."
 import "../DapPairComboBox"
 
 Item
 {
     property real roundValue: 1000000
+    property int roundPower: 6
+    property alias tokenPriceText: tokenPriceText
+
+    property alias candleLogic: chartItem.candleLogic
+
+    property real volume24h: 923673750.32
 
     ColumnLayout
     {
@@ -47,9 +54,10 @@ Item
 
                 Text
                 {
+                    id: max24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: qsTr("0.2509")
+                    text: "-"
                 }
             }
 
@@ -67,10 +75,11 @@ Item
 
                 Text
                 {
+                    id: min24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: qsTr("0.2344")
+                    text: "-"
                 }
             }
 
@@ -91,7 +100,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: qsTr("923673.75" + " " + logicStock.nameTokenPair)
+                    text: volume24h.toFixed(2) + " " + logicStock.nameTokenPair
                 }
             }
 
@@ -169,9 +178,10 @@ Item
 
             Text
             {
+                id: tokenPriceText
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColorGreen
-                text: pairBox.displayElement.price
+                text: logicStock.tokenPriceRounded
             }
         }
 
@@ -214,6 +224,12 @@ Item
             Layout.fillWidth: true
             Layout.fillHeight: true
 
+            candleLogic.onMin24max24Changed:
+            {
+                min24hText.text = min24h.toFixed(roundPower)
+                max24hText.text = max24h.toFixed(roundPower)
+            }
+
             candleLogic.onChandleSelected:
             {
 //                print("onChandleSelected",
@@ -221,18 +237,29 @@ Item
 
                 var date = new Date(timeValue)
 
-                var valFixed = 4
-                if(logicStock.nameTokenPair === "USDT")
-                    valFixed = 4
+                textDate.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
+                textOpen.text = openValue.toFixed(roundPower)
+                textHigh.text = highValue.toFixed(roundPower)
+                textLow.text = lowValue.toFixed(roundPower)
+                textClose.text = closeValue.toFixed(roundPower)
+                textChange.text = (closeValue/openValue*100 - 100).toFixed(3) + "%"
 
-                textDate.text.text = date.toLocaleString(Qt.locale("en_EN"), "yyyy/MM/dd hh:mm")
-                textOpen.text.text = (Math.round(openValue*roundValue)/roundValue).toFixed(valFixed)
-                textHigh.text.text = (Math.round(highValue*roundValue)/roundValue).toFixed(valFixed)
-                textLow.text.text = (Math.round(lowValue*roundValue)/roundValue).toFixed(valFixed)
-                textClose.text.text = (Math.round(closeValue*roundValue)/roundValue).toFixed(valFixed)
-                textChange.text.text = (Math.round(
-                    (closeValue/openValue*100 - 100)*10000)/10000).toFixed(valFixed) + "%"
-
+                if (openValue < closeValue)
+                {
+                    textOpen.textColor = currTheme.textColorGreen
+                    textHigh.textColor = currTheme.textColorGreen
+                    textLow.textColor = currTheme.textColorGreen
+                    textClose.textColor = currTheme.textColorGreen
+                    textChange.textColor = currTheme.textColorGreen
+                }
+                else
+                {
+                    textOpen.textColor = currTheme.textColorRed
+                    textHigh.textColor = currTheme.textColorRed
+                    textLow.textColor = currTheme.textColorRed
+                    textClose.textColor = currTheme.textColorRed
+                    textChange.textColor = currTheme.textColorRed
+                }
             }
         }
     }
@@ -250,58 +277,90 @@ Item
 
         RowLayout
         {
-            spacing: 16
-
             ChartTextBlock
             {
                 id: textDate
-                Layout.minimumWidth: 100
-                Layout.maximumWidth: 100
+                Layout.minimumWidth: 120
                 labelVisible: false
-                text.text: qsTr("-")
+                text: "-"
+                textColor: currTheme.textColorGray
             }
 
             ChartTextBlock
             {
                 id: textOpen
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 80
-                label.text: qsTr("Open:")
-                text.text: qsTr("-")
+                Layout.minimumWidth: 100
+                label: qsTr("Open:")
+                text: "-"
             }
 
             ChartTextBlock
             {
                 id: textHigh
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 80
-                label.text: qsTr("High:")
-                text.text: qsTr("-")
+                Layout.minimumWidth: 100
+                label: qsTr("High:")
+                text: "-"
             }
             ChartTextBlock
             {
                 id: textLow
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 80
-                label.text: qsTr("Low:")
-                text.text: qsTr("-")
+                Layout.minimumWidth: 100
+                label: qsTr("Low:")
+                text: "-"
             }
             ChartTextBlock
             {
                 id: textClose
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 80
-                label.text: qsTr("Close:")
-                text.text: qsTr("-")
+                Layout.minimumWidth: 100
+                label: qsTr("Close:")
+                text: "-"
             }
             ChartTextBlock
             {
                 id: textChange
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 80
-                label.text: qsTr("Change:")
-                text.text: qsTr("-")
+                Layout.minimumWidth: 100
+                label: qsTr("Change:")
+                text: "-"
             }
         }
     }
+
+    Timer
+    {
+        id: generateTimer
+        repeat: true
+        interval: 1000
+        onTriggered:
+        {
+            interval = 500 + Math.round(Math.random()*3000)
+
+            candleLogic.generateNewPrice()
+
+            updateTokenPrice()
+
+            candleLogic.getCandleModel()
+
+//            logic.resetRightTime()
+
+            candleLogic.dataAnalysis()
+
+            chartItem.chartCanvas.requestPaint()
+
+            volume24h += Math.random()*10
+        }
+    }
+
+    function updateTokenPrice()
+    {
+        logicStock.tokenPriceRounded =
+                (logicStock.tokenPrice).toFixed(roundPower)
+//        logicStock.tokenPriceRounded =
+//                Math.round(logicStock.tokenPrice*roundValue)/roundValue
+
+        if (logicStock.tokenPrice < logicStock.tokenPrevPrice)
+            tokenPriceText.color = currTheme.textColorRed
+        else
+            tokenPriceText.color = currTheme.textColorGreen
+    }
+
 }

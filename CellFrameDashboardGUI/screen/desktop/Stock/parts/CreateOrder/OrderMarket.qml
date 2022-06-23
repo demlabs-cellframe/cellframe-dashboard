@@ -39,7 +39,7 @@ ColumnLayout {
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         textToken: tokenName
-        textValue: logicStock.tokenPrice
+        textValue: logicStock.tokenPriceRounded
     }
 
 

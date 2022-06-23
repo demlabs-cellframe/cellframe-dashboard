@@ -1,24 +1,26 @@
 import QtQuick 2.12
 import QtQml 2.12
 
+
 QtObject
 {
 //    property alias dataModel: _dataModel
 //    property alias candleModel: _candleModel
 
     property int fontSize: 11
-    property string fontFamilies: "Quicksand"
-//    property string fontFamilies: "Arial"
+//    property string fontFamilies: "Quicksand"
+    property string fontFamilies: "Arial"
     property int fontIndent: 3
 
-    property string gridColor: currTheme.borderColor
-    property string gridTextColor: currTheme.textColorGray
-    property string backgroundColor: currTheme.backgroundElements
+    property string gridColor: "#a0a0a0"
+    property string gridTextColor: "#a0a0a0"
+    property string backgroundColor: "#404040"
+    property string darkBackgroundColor: "#303030"
 
-    property string redCandleColor: currTheme.textColorRed
-    property string greenCandleColor: currTheme.textColorGreen
+    property string redCandleColor: "#80ff0000"
+    property string greenCandleColor: "#8000ff00"
 
-    property string sightColor: "#80ffff00"
+    property string sightColor: "#60ffffff"
 
     property real gridWidth: 0.2
     property real candleLineWidth: 2
@@ -32,6 +34,9 @@ QtObject
 
     property real minY: 0
     property real maxY: 0
+
+    property real min24h: 0
+    property real max24h: 0
 
     property real coefficientY: 0
     property real coefficientX: 0
@@ -54,6 +59,10 @@ QtObject
     property real beginTime: 0
     property real endTime: 0
 
+    property int lastCandleNumber: 0
+    property real lastCandleOpen: 0
+    property real lastCandleClose: 0
+
     property real candleWidth: 50000
 
     property real measurementScaleWidth: 60
@@ -63,7 +72,9 @@ QtObject
     property real chartHeight: height -
         measurementScaleHeight - chartTextHeight
 
-    property int selectedCandle: -1
+    property int selectedCandleNumber: -1
+
+    property int rightCandleNumber: 0
 
     readonly property int day: 86400000
     readonly property int hour: 3600000
@@ -73,12 +84,19 @@ QtObject
     signal chandleSelected( var timeValue,
         var openValue, var highValue, var lowValue, var closeValue)
 
+    signal min24max24Changed( var min24h, var max24h)
+
 //    ListModel{ id: _dataModel }
 
 //    ListModel{ id: _candleModel }
 
     function drawAll(ctx)
     {
+        if (!mouseVisible)
+        {
+            selectedCandleNumber = lastCandleNumber
+        }
+
         ctx.fillStyle = backgroundColor;
 //        ctx.fillStyle = Qt.rgba(1, 1, 1, 1);
         ctx.fillRect(0, 0, width, height);
@@ -105,6 +123,8 @@ QtObject
 
         visibleTime = candleWidth * visibleDefaultCandles
 
+        resetRightTime()
+
         dataAnalysis()
     }
 
@@ -112,6 +132,9 @@ QtObject
     {
         var currentData = 0.245978
         var currentTime = (new Date()).getTime()
+
+        min24h = currentData
+        max24h = currentData
 
         print("currentTime", currentTime)
 
@@ -121,26 +144,16 @@ QtObject
             currentTime -= 5000 + Math.round(Math.random()*3000)
 
 //            print(currentData)
+            if (min24h > currentData)
+                min24h = currentData
+            if (max24h < currentData)
+                max24h = currentData
 
             dataModel.insert(0, { "y" : currentData * roundedCoefficient,
                                  "x" : currentTime })
         }
 
-/*        logicCandleChart.generateDataModel(1000)
-
-        print("logicCandleChart.DataModel.count",
-              logicCandleChart.DataModel.length)
-
-        for (var j = 0; j < logicCandleChart.DataModel.length; ++j)
-//        for (var j = 0; j < 1000; ++j)
-        {
-//            print("wordsModel",
-//                  logicCandleChart.DataModel[j]["x"],
-//                  logicCandleChart.DataModel[j]["y"])
-//            print("wordsModel", j)
-        }
-
-        print("logicCandleChart.DataModel end")*/
+        min24max24Changed(min24h, max24h)
     }
 
     function getCandleModel()
@@ -158,14 +171,25 @@ QtObject
             candleBegin = dataModel.get(0).x
 
             openValue = dataModel.get(0).y
-            closeValue = dataModel.get(0).y
-            minValue = dataModel.get(0).y
-            maxValue = dataModel.get(0).y
+            closeValue = openValue
+            minValue = openValue
+            maxValue = openValue
         }
 
         for (var i = 0; i < dataModel.count; ++i)
         {
-            if (dataModel.get(i).x > candleBegin + candleWidth)
+            var currY = dataModel.get(i).y
+
+            closeValue = currY
+
+            if (minValue > currY)
+                minValue = currY
+
+            if (maxValue < currY)
+                maxValue = currY
+
+            if (dataModel.get(i).x > candleBegin + candleWidth
+                || i === dataModel.count-1)
             {
                 candleModel.append({
                     time: candleBegin + candleWidth*0.5,
@@ -182,31 +206,55 @@ QtObject
 
                 candleBegin += candleWidth
 
-                openValue = dataModel.get(i).y
-                closeValue = dataModel.get(i).y
-                minValue = dataModel.get(i).y
-                maxValue = dataModel.get(i).y
+                openValue = currY
+                closeValue = currY
+                minValue = currY
+                maxValue = currY
             }
-            else
-            {
-                closeValue = dataModel.get(i).y
+        }
 
-                if (minValue > dataModel.get(i).y)
-                    minValue = dataModel.get(i).y
+        if (lastCandleNumber !== candleModel.count-1)
+        {
+            print("NEW CANDLE", candleModel.count-1)
 
-                if (maxValue < dataModel.get(i).y)
-                    maxValue = dataModel.get(i).y
-            }
+            var lastTime = candleModel.get(candleModel.count-1).time
+            if (rightCandleNumber == lastCandleNumber &&
+                (rightTime < lastTime + candleWidth || rightTime > lastTime - candleWidth))
+                resetRightTime()
+
+            lastCandleNumber = candleModel.count-1
         }
     }
 
     function resetRightTime()
     {
-        if (dataModel.count > 0)
-            rightTime = dataModel.get(dataModel.count-1).x
+//        if (dataModel.count > 0)
+//            rightTime = dataModel.get(dataModel.count-1).x
+        if (candleModel.count > 0)
+            rightTime = candleModel.get(candleModel.count-1).time + candleWidth*0.5
     }
 
-    function dataAnalysis()
+    function generateNewPrice()
+    {
+        logicStock.tokenPrevPrice = logicStock.tokenPrice
+        logicStock.tokenPrice += Math.random()*0.00004 - 0.00002
+        var y = logicStock.tokenPrice*roundedCoefficient
+        var currentTime = (new Date()).getTime()
+
+        dataModel.append({ "y" : y, "x" : currentTime })
+    }
+
+
+    function updateCurrentTokenPrice()
+    {
+        if (dataModel.count > 1)
+        {
+            logicStock.tokenPrevPrice = dataModel.get(dataModel.count-2).y/roundedCoefficient
+            logicStock.tokenPrice = dataModel.get(dataModel.count-1).y/roundedCoefficient
+        }
+    }
+
+/*    function dataAnalysis()
     {
         var reset = true
 
@@ -221,29 +269,102 @@ QtObject
             endTime = dataModel.get(dataModel.count-1).x
         }
 
-//        minY -= 1000
-//        maxY += 1000
-
         for (var i = 0; i < dataModel.count; ++i)
         {
-            if (dataModel.get(i).x < rightTime - visibleTime)
+            var currX = dataModel.get(i).x
+            var currY = dataModel.get(i).y
+
+            if (currX < rightTime - visibleTime)
                 continue
 
-            if (dataModel.get(i).x > rightTime)
+            if (currX > rightTime)
                 break
 
             if (reset)
             {
-                minY = maxY = dataModel.get(i).y
+                minY = maxY = currY
 
                 reset = false
             }
             else
             {
-                if (minY > dataModel.get(i).y)
-                    minY = dataModel.get(i).y
-                if (maxY < dataModel.get(i).y)
-                    maxY = dataModel.get(i).y
+                if (minY > currY)
+                    minY = currY
+                if (maxY < currY)
+                    maxY = currY
+            }
+        }
+
+        if (minX === maxX)
+        {
+            minX -= 0.00000000001
+            maxX += 0.00000000001
+        }
+        if (minY === maxY)
+        {
+            minY -= 0.00000000001
+            maxY += 0.00000000001
+        }
+
+        if (maxY > minY)
+            coefficientY = chartHeight/(maxY - minY)
+        if (visibleTime > 0)
+            coefficientX = chartWidth/visibleTime
+
+        getRoundedStepY()
+
+        getRoundedStepTime()
+
+//        print("minX", minX, "minY", minY,
+//              "maxX", maxX, "maxY", maxY)
+    }*/
+
+    function dataAnalysis()
+    {
+        var reset = true
+
+        maxX = rightTime
+
+        minX = rightTime - visibleTime
+
+        if (candleModel.count > 0)
+        {
+            minY = candleModel.get(0).minimum
+            maxY = candleModel.get(0).maximum
+            beginTime = candleModel.get(0).time - candleWidth*0.5
+            endTime = candleModel.get(
+                candleModel.count-1).time + candleWidth*0.5
+        }
+
+        rightCandleNumber = 0
+
+        for (var i = 0; i < candleModel.count; ++i)
+        {
+            var currX = candleModel.get(i).time
+            var minimum = candleModel.get(i).minimum
+            var maximum = candleModel.get(i).maximum
+
+            if (currX + candleWidth*0.5 < rightTime - visibleTime)
+                continue
+
+            if (currX - candleWidth*0.5 > rightTime)
+                break
+
+            rightCandleNumber = i
+
+            if (reset)
+            {
+                minY = minimum
+                maxY = maximum
+
+                reset = false
+            }
+            else
+            {
+                if (minY > minimum)
+                    minY = minimum
+                if (maxY < maximum)
+                    maxY = maximum
             }
         }
 
@@ -270,42 +391,6 @@ QtObject
 //        print("minX", minX, "minY", minY,
 //              "maxX", maxX, "maxY", maxY)
     }
-
-    /*function getRoundedStepY()
-    {
-        var realStep = (maxY - minY)/maxStepNumberY
-
-//        print("minY", minY, "maxY", maxY)
-//        print("maxY - minY", maxY - minY)
-//        print("realStep", realStep)
-
-        var digit = 0.00000000001
-
-        while (digit*10 < realStep)
-            digit *= 10
-
-//        print("digit", digit)
-
-        roundedStepY = digit
-
-        if (digit*2 > realStep)
-            roundedStepY = digit*2
-        else
-        if (digit*5 > realStep)
-            roundedStepY = digit*5
-        else
-            roundedStepY = digit*10
-
-//        print("roundedStepY", roundedStepY)
-
-        roundedMaxY = maxY - maxY%roundedStepY
-
-//        while (roundedMaxY > minY)
-//        {
-//            print(roundedMaxY)
-//            roundedMaxY -= roundedStepY
-//        }
-    }*/
 
     function getRoundedStepY()
     {
@@ -375,11 +460,13 @@ QtObject
 
     property string timeMask: "yyyy-MM-dd hh:mm:ss"
 
+    property int timeStepsIndex: 0
+
     function getRoundedStepTime()
     {
         var realStep = (maxX - minX)/maxStepNumberX
 
-        var timeStepsIndex = 0
+        timeStepsIndex = 0
         roundedStepX = timeSteps[timeStepsIndex]
 
         while (timeSteps[timeStepsIndex] < realStep &&
@@ -389,10 +476,12 @@ QtObject
             roundedStepX = timeSteps[timeStepsIndex]
         }
 
+//        print("timeStepsIndex", timeStepsIndex)
+
         if (timeStepsIndex < 5)
             timeMask = "hh:mm:ss"
         else
-        if (timeStepsIndex < 10)
+        if (timeStepsIndex < 12)
             timeMask = "hh:mm"
         else
         if (timeStepsIndex < 15)
@@ -496,39 +585,80 @@ QtObject
         ctx.fillRect(0, height-measurementScaleHeight,
                      width, height);
 
+        var date
         var currentX = roundedMaxX
+
         while (currentX > minX)
         {
-            var date = new Date(currentX)
+            date = new Date(currentX)
 
             drawVerticalLineText(ctx,
                 (currentX - minX)*coefficientX,
-                date.toLocaleString(Qt.locale("en_EN"), timeMask))
+                date.toLocaleString(Qt.locale("en_EN"), timeMask),
+                gridTextColor)
 
 //            print(currentX)
             currentX -= roundedStepX
         }
 
-//        print("roundedStepY", roundedStepY)
+        var outText = ""
+
+        if (mouseVisible && mouseX <= chartWidth)
+        {
+            date = new Date((minX + mouseX/coefficientX))
+
+            outText = date.toLocaleString(Qt.locale("en_EN"), "MM/dd hh:mm")
+
+//            print("X", outText)
+
+            drawVerticalLineText(ctx,
+                mouseX,
+                outText,
+                "white", true)
+        }
 
         var currentY = roundedMaxY
         while (currentY > minY)
         {
-            var outText = currentY/roundedCoefficient
+            outText = currentY/roundedCoefficient
             drawHorizontalLineText(ctx,
                 (maxY - currentY)*coefficientY + chartTextHeight,
-                outText)
+                outText, gridTextColor)
 
 //            print(currentY)
             currentY -= roundedStepY
         }
 
+        outText = lastCandleClose/roundedCoefficient
+
+        var priceColor = greenCandleColor
+        if (lastCandleClose < lastCandleOpen)
+            priceColor = redCandleColor
+
+        var priceY = (maxY - lastCandleClose)*coefficientY + chartTextHeight
+
+        if (priceY > 0 && priceY <= chartHeight + chartTextHeight)
+            drawHorizontalLineText(ctx,
+                priceY,
+                outText.toFixed(roundPower),
+                priceColor, true)
+
+        if (mouseVisible && mouseY <= chartHeight + chartTextHeight)
+        {
+            outText = (maxY - (mouseY-chartTextHeight)/coefficientY)
+                    /roundedCoefficient
+
+            drawHorizontalLineText(ctx,
+                mouseY,
+                outText.toFixed(roundPower),
+                "white", true)
+        }
     }
 
     function drawSight(ctx)
     {
         ctx.strokeStyle = sightColor
-        ctx.setLineDash([2, space, 2, space])
+        ctx.setLineDash([4, 2])
         ctx.lineWidth = 2;
 
         if(mouseY <= chartHeight + chartTextHeight)
@@ -546,6 +676,7 @@ QtObject
             ctx.lineTo(mouseX, 0);
             ctx.stroke();
         }
+        ctx.setLineDash([])
     }
 
     function drawChart(ctx, color)
@@ -571,6 +702,8 @@ QtObject
     {
         var realCandleWidth = candleWidth*0.98*coefficientX - 1
         var mouseCandleWidth = candleWidth*coefficientX
+
+        var selectedChange = false
 
         for (var i = 0; i < candleModel.count; ++i)
         {
@@ -598,28 +731,29 @@ QtObject
 
             var candleX = (candleModel.get(i).time - rightTime + visibleTime)*coefficientX
 
-            if (candleX > mouseX - mouseCandleWidth*0.5 &&
+            if (mouseVisible &&
+                candleX > mouseX - mouseCandleWidth*0.5 &&
                 candleX < mouseX + mouseCandleWidth*0.5)
+            {
+
+                if (selectedCandleNumber !== i)
+                {
+                    selectedCandleNumber = i
+
+                    selectedChange = true
+//                    print("selectedCandle", selectedCandle)
+
+                }
+
+            }
+
+            if (selectedCandleNumber === i)
             {
                 if (!redCandle)
                     color = "#B1FF00"
                 else
                     color = "#FF3232"
 //                    color = "#FF9797"
-
-                if (selectedCandle !== i)
-                {
-                    selectedCandle = i
-                    print("selectedCandle", selectedCandle)
-
-                    chandleSelected(
-                        candleModel.get(i).time,
-                        candleModel.get(i).open/roundedCoefficient,
-                        candleModel.get(i).maximum/roundedCoefficient,
-                        candleModel.get(i).minimum/roundedCoefficient,
-                        candleModel.get(i).close/roundedCoefficient)
-                }
-
             }
 
             drawCandle(ctx,
@@ -629,6 +763,24 @@ QtObject
                 (maxY - down)*coefficientY + chartTextHeight,
                 (maxY - candleModel.get(i).minimum)*coefficientY + chartTextHeight,
                 realCandleWidth, color)
+
+            lastCandleOpen = candleModel.get(i).open
+            lastCandleClose = candleModel.get(i).close
+        }
+
+        if (selectedChange || selectedCandleNumber === lastCandleNumber)
+        {
+            print("selectedChange", selectedChange,
+                  selectedCandleNumber, lastCandleNumber)
+
+            if (selectedCandleNumber >= 0 &&
+                selectedCandleNumber < candleModel.count)
+                chandleSelected(
+                    candleModel.get(selectedCandleNumber).time,
+                    candleModel.get(selectedCandleNumber).open/roundedCoefficient,
+                    candleModel.get(selectedCandleNumber).maximum/roundedCoefficient,
+                    candleModel.get(selectedCandleNumber).minimum/roundedCoefficient,
+                    candleModel.get(selectedCandleNumber).close/roundedCoefficient)
         }
 
         ctx.restore()
@@ -666,18 +818,32 @@ QtObject
         ctx.stroke();
     }
 
-    function drawHorizontalLineText(ctx, y, text)
+    function drawHorizontalLineText(ctx, y, text, color, border = false)
     {
+        if (border)
+        {
+            ctx.fillStyle = darkBackgroundColor;
+            ctx.fillRect(chartWidth, y-10,
+                         measurementScaleWidth, 18);
+        }
+
         ctx.font = "normal "+fontSize+"px "+fontFamilies;
-        ctx.fillStyle = gridTextColor;
+        ctx.fillStyle = color;
         ctx.fillText(text, chartWidth + fontIndent, y + fontSize*0.3);
         ctx.stroke();
     }
 
-    function drawVerticalLineText(ctx, x, text)
+    function drawVerticalLineText(ctx, x, text, color, border = false)
     {
+        if (border)
+        {
+            ctx.fillStyle = darkBackgroundColor;
+            ctx.fillRect(x-3, chartHeight + chartTextHeight,
+                         62, measurementScaleHeight);
+        }
+
         ctx.font = "normal "+fontSize+"px "+fontFamilies;
-        ctx.fillStyle = gridTextColor;
+        ctx.fillStyle = color;
         ctx.fillText(text, x,
             chartHeight + chartTextHeight + fontIndent + fontSize);
         ctx.stroke();

@@ -18,19 +18,19 @@ Page
     ListModel {
         id: accuracyModel
         ListElement {
-            value: 0.1
+            value: "0.00001"
         }
         ListElement {
-            value: 0.0001
+            value: "0.0001"
         }
         ListElement {
-            value: 0.001
+            value: "0.001"
         }
         ListElement {
-            value: 0.01
+            value: "0.01"
         }
         ListElement {
-            value: 0.1
+            value: "0.1"
         }
     }
 
@@ -200,7 +200,7 @@ Page
                 color: currTheme.textColor
                 font: mainFont.dapFont.medium14
 
-                text: "0.2911"
+                text: logicStock.tokenPriceRounded
             }
 
             Rectangle
