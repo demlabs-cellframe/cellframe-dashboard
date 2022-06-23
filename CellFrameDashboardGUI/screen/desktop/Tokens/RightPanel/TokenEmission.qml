@@ -13,6 +13,66 @@ Page {
         color: "transparent"
     }
 
+    ListModel
+    {
+        id: chainModel
+
+        ListElement
+        {
+            name: "chain1"
+        }
+
+        ListElement
+        {
+            name: "chain2"
+        }
+
+        ListElement
+        {
+            name: "chain3"
+        }
+
+        ListElement
+        {
+            name: "chain4"
+        }
+
+        ListElement
+        {
+            name: "chain5"
+        }
+    }
+
+    ListModel
+    {
+        id: certModel
+
+        ListElement
+        {
+            name: "cert1"
+        }
+
+        ListElement
+        {
+            name: "cert2"
+        }
+
+        ListElement
+        {
+            name: "cert3"
+        }
+
+        ListElement
+        {
+            name: "cert4"
+        }
+
+        ListElement
+        {
+            name: "cert5"
+        }
+    }
+
     ColumnLayout
     {
         width: parent.width
@@ -89,9 +149,9 @@ Page {
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
-                model: 5
+                model: chainModel
 
-                defaultText: qsTr("Zero")
+                defaultText: qsTr("chain1")
                 font: mainFont.dapFont.regular16
             }
         }
@@ -123,9 +183,9 @@ Page {
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
-                model: 5
+                model: certModel
 
-                defaultText: qsTr("Certificate name")
+                defaultText: qsTr("cert1")
                 font: mainFont.dapFont.regular16
             }
         }
