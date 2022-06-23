@@ -1,193 +1,122 @@
-import QtQuick 2.4
+import QtQuick 2.9
+import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.12
+import "qrc:/widgets"
+import "../parts"
 
-DapNewPaymentMainRightPanelForm
-{
-    property var walletName: ""
+Page {
+    id: root
+    property alias closeButton: itemButtonClose
 
-    Component.onCompleted:
-    {
-        updateWalletTimer.stop()
-
-        walletName = dapModelWallets.get(logicMainApp.currentIndex).name
-
-        logicWallet.initNetworks()
-
-        if (dapServiceController.ReadingChains)
-            dapChainGroup.visible = true
-        else
-            dapChainGroup.visible = false
-
-        dapComboBoxNetworkModel = dapNetworkModel
-
-        dapTextNotEnoughTokensWarning.text = ""
-
-        dapComboBoxTokenModel = networksModel.
-            get(dapComboboxNetwork.currentIndex).tokens
-
-        dapComboBoxChainModel = networksModel.
-            get(dapComboboxNetwork.currentIndex).chains
-
-        dapTextInputAmountPayment.text = "0.0"
+    background: Rectangle {
+        color: "transparent"
     }
-    dapComboboxNetwork.onCurrentIndexChanged:
+
+    ColumnLayout
     {
-        if (networksModel.count <= dapComboboxNetwork.currentIndex)
+        anchors.fill: parent
+        spacing: 15 * pt
+
+        Item
         {
-            console.warn("networksModel.count <= dapComboboxNetwork.currentIndex")
+            Layout.fillWidth: true
+            height: 38 * pt
+
+
+            DapButton
+            {
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 24 * pt
+                anchors.rightMargin: 13 * pt
+
+                id: itemButtonClose
+                height: 20 * pt
+                width: 20 * pt
+                heightImageButton: 10 * pt
+                widthImageButton: 10 * pt
+                activeFrame: false
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                onClicked: navigator.clear()
+            }
+
+            Text
+            {
+                id: textHeader
+                text: qsTr("Info about token")
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 52 * pt
+
+                font: mainFont.dapFont.bold14
+                color: currTheme.textColor
+            }
         }
-        else
+
+        ListModel
         {
-            print("dapComboboxNetwork.onCurrentIndexChanged")
+            id: certificateInfoModel
 
-            dapComboBoxTokenModel = networksModel.
-                get(dapComboboxNetwork.currentIndex).tokens
-
-            dapComboBoxChainModel = networksModel.
-                get(dapComboboxNetwork.currentIndex).chains
-
-            print("dapComboBoxTokenModel length", dapComboBoxTokenModel.count)
-
-            if (dapComboBoxTokenModel.count === 0)
+            ListElement
             {
-                dapFrameAmountPayment.visible = false
-                dapFrameInputAmountPayment.visible = false
-                dapFrameRecipientWallet.visible = false
-                dapFrameRecipientWalletAddress.visible = false
-                dapTextNotEnoughTokensWarning.visible = false
-                dapButtonSend.visible = false
-            }
-            else
-            {
-                dapFrameAmountPayment.visible = true
-                dapFrameInputAmountPayment.visible = true
-                dapFrameRecipientWallet.visible = true
-                dapFrameRecipientWalletAddress.visible = true
-                dapTextNotEnoughTokensWarning.visible = true
-                dapButtonSend.visible = true
+                key: "Amount of signatures"
+                value: "5"
             }
 
-            dapTextInputAmountPayment.text = "0.0"
+            ListElement
+            {
+                key: "Hashes of signatures"
+                value: "84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4\n\n84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4\n\n84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4\n\n84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4"
+            }
+
+            ListElement
+            {
+                key: "Minimum amount of signatures for emission"
+                value: "2"
+            }
         }
-    }
 
-    dapComboBoxToken.onCurrentIndexChanged:
-    {
-        dapTextInputAmountPayment.text = "0.0"
-    }
 
-    dapButtonClose.onClicked:
-    {
-//        previousActivated(lastActionsWallet)
-        updateWalletTimer.start()
-        pop()
-        //DmitriyT Removed this code below. Will see reaction of app.
-        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
-    }
+        ListView {
+            id: certificateDataListView
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            spacing: 22 * pt
+            clip: true
+            model: certificateInfoModel
 
-    dapButtonSend.onClicked:
-    {
-        if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
-        {
-            console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
-        }
-        else
-        {
-            print("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi)
-            print("amount:", dapTextInputAmountPayment.text)
-            print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
-
-            if (dapTextInputAmountPayment.text === "" ||
-                logicWallet.testAmount("0.0", dapTextInputAmountPayment.text))
-            {
-                print("Zero value")
-                dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
-            }
-            else
-            if (dapTextInputRecipientWalletAddress.text.length != 104)
-            {
-                print("Wrong address length")
-                dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
-            }
-            else
-            {
-                print("dapWalletMessagePopup.smartOpen")
-                dapWalletMessagePopup.smartOpen(
-                            "Confirming the transaction",
-                            "Attention, the transaction fee will be 0.1 " + dapComboBoxToken.displayText )
-
+            delegate: TitleTextView {
+                x: 18 * pt
+                title.text: model.key
+                content.text: model.value
+                title.color: currTheme.textColorGray
             }
         }
     }
 
-    dapWalletMessagePopup.onSignalAccept:
+    DapButton
     {
-        print("dapWalletMessagePopup.onSignalAccept", accept)
-
-        if (accept)
-        {
-            if (dapComboBoxTokenModel === null || dapComboBoxChainModel === null ||
-                dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex ||
-                dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
-            {
-                if (dapComboBoxTokenModel === null)
-                    console.warn("dapComboBoxTokenModel === null")
-                if (dapComboBoxChainModel === null)
-                    console.warn("dapComboBoxChainModel === null")
-                if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
-                    console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
-                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
-                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
-            }
-            else
-            {
-                var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
-                print("amountWithCommission", amountWithCommission)
-                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).full_balance
-                print("full_balance", full_balance)
-
-                if (!logicWallet.testAmount(full_balance, amountWithCommission))
-                {
-                    print("Not enough tokens")
-                    dapTextNotEnoughTokensWarning.text =
-                        qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
-                }
-                else
-                {
-                    print("Enough tokens. Correct address length.")
-                    dapTextNotEnoughTokensWarning.text = ""
-
-                    var amount = logicWallet.toDatoshi(dapTextInputAmountPayment.text)
-
-                    console.log("DapCreateTransactionCommand:")
-                    console.log("   network:", dapComboboxNetwork.displayText)
-                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-                    console.log("   wallet from:", walletName)
-                    console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
-                    console.log("   token:", dapComboBoxToken.displayText)
-                    console.log("   amount:", amount)
-
-                    var commission = logicWallet.toDatoshi("0.1")
-
-                    dapServiceController.requestToService("DapCreateTransactionCommand",
-                        dapComboboxNetwork.displayText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
-                        walletName,
-                        dapTextInputRecipientWalletAddress.text,
-                        dapComboBoxToken.displayText, amount, commission)
-                }
-            }
-        }
-    }
-
-    Connections
-    {
-        target: dapServiceController
-        onTransactionCreated:
-        {
-            commandResult.success = aResult.success
-            commandResult.message = aResult.message
-            updateWalletTimer.start()
-            navigator.doneNewPayment()
-        }
+        implicitWidth: 165 * pt
+        implicitHeight: 36 * pt
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 24 * pt
+        textButton: qsTr("Emission")
+        fontButton: mainFont.dapFont.medium14
+        horizontalAligmentText:Qt.AlignCenter
+        onClicked: navigator.emission()
     }
 }
+
+
+

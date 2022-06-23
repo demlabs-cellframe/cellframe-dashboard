@@ -7,11 +7,64 @@ import "../../../"
 
 Page
 {
-    id:control
+    id: control
 
     background: Rectangle {
         color: "transparent"
     }
+
+
+    property var modelLastActions:
+        [
+            {
+                network: "network1",
+                status: "Local",
+                sign: "+",
+                amount: "412.8",
+                name: "token1",
+                date: "Today"
+            },
+            {
+                network: "network1",
+                status: "Mempool (X Confirms)",
+                sign: "+",
+                amount: "103",
+                name: "token4",
+                date: "July, 22"
+            },
+            {
+                network: "network3",
+                status: "Canceled",
+                sign: "-",
+                amount: "22.345",
+                name: "token1",
+                date: "December, 21"
+            },
+            {
+                network: "network1",
+                status: "Successful (X Confirms)",
+                sign: "+",
+                amount: "264.11",
+                name: "token4",
+                date: "December, 20"
+            },
+            {
+                network: "network4",
+                status: "Local",
+                sign: "-",
+                amount: "666.666",
+                name: "token1",
+                date: "November, 14"
+            },
+            {
+                network: "network4",
+                status: "Successful (X Confirms)",
+                sign: "-",
+                amount: "932.16",
+                name: "token1",
+                date: "November, 11"
+            }
+        ]
 
     ColumnLayout
     {
@@ -36,6 +89,8 @@ Page
             }
         }
 
+
+
         ListView
         {
             id: lastActionsView
@@ -49,7 +104,18 @@ Page
 
             section.property: "date"
             section.criteria: ViewSection.FullString
-            section.delegate: delegateSection
+            section.delegate:
+                Text
+                {
+                    anchors.fill: parent
+                    anchors.leftMargin: 16 * pt
+                    anchors.rightMargin: 16 * pt
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignLeft
+                    color: currTheme.textColor
+                    text: model[index].date//logicExplorer.getDateString(payDate)
+                    font: mainFont.dapFont.medium12
+                }
 
             delegate: Item {
                 anchors.left: parent.left
@@ -57,7 +123,6 @@ Page
                 anchors.leftMargin: 5 * pt
                 anchors.rightMargin: 5 * pt
                 width: lastActionsView.width
-//                color: currTheme.backgroundElements
                 height: 50 * pt
 
                 RowLayout
@@ -75,7 +140,7 @@ Page
                         Text
                         {
                             Layout.fillWidth: true
-                            text: network
+                            text: modelData.network
                             color: currTheme.textColor
                             font: mainFont.dapFont.regular11
                             elide: Text.ElideRight
@@ -84,7 +149,7 @@ Page
                         Text
                         {
                             Layout.fillWidth: true
-                            text: status
+                            text: modelData.status
                             color: currTheme.textColorGrayTwo
                             font: mainFont.dapFont.regular12
                         }
@@ -92,33 +157,13 @@ Page
 
                     Text
                     {
-                        property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         horizontalAlignment: Qt.AlignRight
                         verticalAlignment: Qt.AlignVCenter
                         color: currTheme.textColor
-                        text: sign + amount + " " + name
+                        text: modelData.sign + modelData.amount + " " + modelData.name
                         font: mainFont.dapFont.regular14
-                    }
-                    Image
-                    {
-                        Layout.preferredHeight: 30
-                        Layout.preferredWidth: 30
-    //                    innerWidth: 20
-    //                    innerHeight: 20
-
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
-
-                        source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
-
-                        MouseArea
-                        {
-                            id: mouseArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
-                        }
                     }
                 }
 
@@ -133,5 +178,3 @@ Page
         }
     }
 }
-
-

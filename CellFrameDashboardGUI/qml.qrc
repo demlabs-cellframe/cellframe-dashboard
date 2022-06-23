@@ -346,5 +346,6 @@
         <file>screen/desktop/Tokens/RightPanel/TokenEmission.qml</file>
         <file>screen/desktop/Tokens/RightPanel/InfoAboutToken.qml</file>
         <file>screen/desktop/Tokens/RightPanel/CreateNewToken.qml</file>
+        <file>screen/desktop/Tokens/parts/TitleTextView.qml</file>
     </qresource>
 </RCC>

@@ -25,61 +25,61 @@ Page
 
     property var tokenModel:
         [
-            {
-                name: "network1",
-                address: "12345",
-                tokens:
+        {
+            name: "network1",
+            address: "12345",
+            tokens:
                 [
-                    {
-                        name: "token1",
-                        balance: "100"
-                    },
-                    {
-                        name: "token2",
-                        balance: "100"},
-                    {
-                        name: "token3",
-                        balance: "100"
-                    }
-                ]
-            },
-            {
-                name: "network2",
-                address: "12345",
-                tokens:
+                {
+                    name: "token1",
+                    balance: "100"
+                },
+                {
+                    name: "token2",
+                    balance: "100"},
+                {
+                    name: "token3",
+                    balance: "100"
+                }
+            ]
+        },
+        {
+            name: "network2",
+            address: "12345",
+            tokens:
                 [
-                    {
-                        name: "token1",
-                        balance: "100"
-                    },
-                    {
-                        name: "token2",
-                        balance: "100"},
-                    {
-                        name: "token3",
-                        balance: "100"
-                    }
-                ]
-            },
-            {
-                name: "network3",
-                address: "12345",
-                tokens:
+                {
+                    name: "token1",
+                    balance: "100"
+                },
+                {
+                    name: "token2",
+                    balance: "100"},
+                {
+                    name: "token3",
+                    balance: "100"
+                }
+            ]
+        },
+        {
+            name: "network3",
+            address: "12345",
+            tokens:
                 [
-                    {
-                        name: "token1",
-                        balance: "100"
-                    },
-                    {
-                        name: "token2",
-                        balance: "100"},
-                    {
-                        name: "token3",
-                        balance: "100"
-                    }
-                ]
-            }
-        ]
+                {
+                    name: "token1",
+                    balance: "100"
+                },
+                {
+                    name: "token2",
+                    balance: "100"},
+                {
+                    name: "token3",
+                    balance: "100"
+                }
+            ]
+        }
+    ]
 
     DapRectangleLitAndShaded
     {
@@ -92,157 +92,165 @@ Page
 
         contentData:
             Item
+        {
+            anchors.fill: parent
+
+            Item
             {
-                anchors.fill: parent
-
-                Item
+                id: tokensShowHeader
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                height: 38 * pt
+                Text
                 {
-                    id: tokensShowHeader
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 38 * pt
-                    Text
-                    {
-                        anchors.fill: parent
-                        anchors.leftMargin: 18 * pt
-                        anchors.topMargin: 10 * pt
-                        anchors.bottomMargin: 10 * pt
+                    anchors.fill: parent
+                    anchors.leftMargin: 18 * pt
+                    anchors.topMargin: 10 * pt
+                    anchors.bottomMargin: 10 * pt
 
-                        verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Tokens")
-                        font:  mainFont.dapFont.bold14
-                        color: currTheme.textColor
-                    }
+                    verticalAlignment: Qt.AlignVCenter
+                    text: qsTr("Tokens")
+                    font:  mainFont.dapFont.bold14
+                    color: currTheme.textColor
                 }
+            }
 
-                ListView
-                {
-                    id: listViewTokens
-                    anchors.top: tokensShowHeader.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    clip: true
-                    model: tokenModel
+            ListView
+            {
+                id: listViewTokens
+                anchors.top: tokensShowHeader.bottom
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                clip: true
+                model: tokenModel
+                property int selectedIndex: -1
 
-                    delegate: delegateTokenView
-                }
-
-                Component
+                delegate: Column
                 {
                     id: delegateTokenView
-                    Column
+                    property int idx: index
+                    width: listViewTokens.width
+
+                    Rectangle
                     {
-                        width: listViewTokens.width
+                        id: stockNameBlock
+                        height: 30 * pt
+                        width: parent.width
+                        color: currTheme.backgroundMainScreen
+
+                        Text
+                        {
+                            id: stockNameText
+                            anchors.left: parent.left
+                            anchors.leftMargin: 16 * pt
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: mainFont.dapFont.medium11
+                            color: currTheme.textColor
+                            verticalAlignment: Qt.AlignVCenter
+                            text: modelData.name
+                        }
+
+                        DapText
+                        {
+                            id: textMetworkAddress
+                            width: 63 * pt
+                            anchors.right:  networkAddressCopyButton.left
+                            anchors.rightMargin: 4 * pt
+                            anchors.verticalCenter: parent.verticalCenter
+                            fontDapText: mainFont.dapFont.medium11
+                            color: currTheme.textColor
+                            fullText: modelData.address
+                            textElide: Text.ElideMiddle
+                            horizontalAlignment: Qt.Alignleft
+                        }
+
+                        CopyButton
+                        {
+                            id: networkAddressCopyButton
+                            onCopyClicked: textMetworkAddress.copyFullText()
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
+                            anchors.rightMargin: 16 * pt
+                        }
+                    }
+
+                    Repeater
+                    {
+                        id: tokensRepeater
+                        width: parent.width
+                        model: modelData.tokens
+
+                        property int selectedIndex: -1
 
                         Rectangle
                         {
-                            id: stockNameBlock
-                            height: 30 * pt
-                            width: parent.width
-                            color: currTheme.backgroundMainScreen
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: 50 * pt
+                            color: currTheme.backgroundElements
 
-                            Text
+                            RowLayout
                             {
-                                id: stockNameText
-                                anchors.left: parent.left
-                                anchors.leftMargin: 16 * pt
-                                anchors.verticalCenter: parent.verticalCenter
-                                font: mainFont.dapFont.medium11
-                                color: currTheme.textColor
-                                verticalAlignment: Qt.AlignVCenter
-                                text: modelData.name
-                            }
+                                anchors.fill: parent
+                                anchors.leftMargin: 20 * pt
+                                anchors.rightMargin: 20 * pt
+                                spacing: 10 * pt
 
-                            DapText
-                            {
-                               id: textMetworkAddress
-                               width: 63 * pt
-                               anchors.right:  networkAddressCopyButton.left
-                               anchors.rightMargin: 4 * pt
-                               anchors.verticalCenter: parent.verticalCenter
-                               fontDapText: mainFont.dapFont.medium11
-                               color: currTheme.textColor
-                               fullText: modelData.address
-                               textElide: Text.ElideMiddle
-                               horizontalAlignment: Qt.Alignleft
-                            }
+                                Text
+                                {
+                                    id: currencyName
+                                    font: mainFont.dapFont.regular16
+                                    color: tokensRepeater.selectedIndex === index && listViewTokens.selectedIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    text: modelData.name
+                                    width: 172 * pt
+                                    horizontalAlignment: Text.AlignLeft
+                                }
 
-                            CopyButton
-                            {
-                                id: networkAddressCopyButton
-                                onCopyClicked: textMetworkAddress.copyFullText()
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.right: parent.right
-                                anchors.rightMargin: 16 * pt
-                            }
-                        }
+                                Text
+                                {
+                                    id: currencySum
+                                    Layout.fillWidth: true
+                                    font: mainFont.dapFont.regular14
+                                    color: tokensRepeater.selectedIndex === index && listViewTokens.selectedIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    text: modelData.balance
+                                    horizontalAlignment: Text.AlignRight
+                                }
 
-                        Repeater
-                        {
-                            width: parent.width
-                            model: modelData.tokens
+                                Text
+                                {
+                                    id: currencyCode
+                                    font: mainFont.dapFont.regular14
+                                    color: tokensRepeater.selectedIndex === index && listViewTokens.selectedIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    text: modelData.name
+                                    horizontalAlignment: Text.AlignRight
+                                }
+                            }
 
                             Rectangle
                             {
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                height: 50 * pt
-                                color: currTheme.backgroundElements
+                                x: 20 * pt
+                                y: parent.height - 1 * pt
+                                width: parent.width - 40 * pt
+                                height: 1 * pt
+                                color: currTheme.lineSeparatorColor
+                            }
 
-                                RowLayout
+                            MouseArea
+                            {
+                                anchors.fill: parent
+                                onClicked:
                                 {
-                                    anchors.fill: parent
-                                    anchors.leftMargin: 20 * pt
-                                    anchors.rightMargin: 20 * pt
-                                    spacing: 10 * pt
-
-                                    Text
-                                    {
-                                        id: currencyName
-                                        font: mainFont.dapFont.regular16
-                                        color: currTheme.textColor
-                                        text: modelData.name
-                                        width: 172 * pt
-                                        horizontalAlignment: Text.AlignLeft
-                                    }
-
-                                    Text
-                                    {
-                                        id: currencySum
-                                        Layout.fillWidth: true
-                                        font: mainFont.dapFont.regular14
-                                        color: currTheme.textColor
-                                        text: modelData.balance
-                                        horizontalAlignment: Text.AlignRight
-                                    }
-
-                                    Text
-                                    {
-                                        id: currencyCode
-                                        font: mainFont.dapFont.regular14
-                                        color: currTheme.textColor
-                                        text: modelData.name
-                                        horizontalAlignment: Text.AlignRight
-                                    }
+                                    tokensRepeater.selectedIndex = index
+                                    listViewTokens.selectedIndex = delegateTokenView.idx
+                                    navigator.tokenInfo()
                                 }
-
-                                Rectangle
-                                {
-                                    x: 20 * pt
-                                    y: parent.height - 1 * pt
-                                    width: parent.width - 40 * pt
-                                    height: 1 * pt
-                                    color: currTheme.lineSeparatorColor
-                                }
-
                             }
                         }
                     }
                 }
-
             }
-
+        }
     }
 }

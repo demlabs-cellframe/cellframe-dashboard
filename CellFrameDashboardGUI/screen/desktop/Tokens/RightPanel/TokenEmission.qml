@@ -1,16 +1,13 @@
-import QtQuick 2.4
-import QtQuick.Controls 1.4
-import QtQuick.Controls 2.5 as Controls
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.4
+import QtQuick 2.9
+import QtGraphicalEffects 1.0
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.12
 import "qrc:/widgets"
-import "../../../"
+import "../parts"
 
-Controls.Page
-{
-    /// @param dapButtonSend Send button.
-    property alias dapButtonSend: buttonSend
-    property alias dapStatusTransaction: textStatusMessage
+Page {
+    id: root
+    property alias closeButton: itemButtonClose
 
     background: Rectangle {
         color: "transparent"
@@ -18,79 +15,239 @@ Controls.Page
 
     ColumnLayout
     {
-        anchors.fill: parent
-        spacing: 0
+        width: parent.width
+        height: childrenRect.height
 
-        Item {
-
+        Item
+        {
             Layout.fillWidth: true
-            Layout.fillHeight: true
+            height: 38 * pt
 
-            Text
-            {
-                id: textMessage
-                text: qsTr("Placed to mempool")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.topMargin:  150 * pt
-                anchors.leftMargin: 46 * pt
-                anchors.rightMargin: 50 * pt
-                color: currTheme.textColor
-                font: mainFont.dapFont.medium27
-            }
-
-            Text
-            {
-                id: textStatus
-                text: qsTr("Status")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: textMessage.bottom
-                anchors.topMargin: 36 * pt
-                color: "#A4A3C0"
-                font: mainFont.dapFont.regular28
-            }
-
-            Text
-            {
-                id: textStatusMessage
-                text: qsTr("Pending")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: textStatus.bottom
-//                anchors.topMargin: 8 * pt
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular28
-            }
-
-            // Button "Send"
             DapButton
             {
-                id: buttonSend
-                height: 36 * pt
-                width: 132 * pt
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: textStatusMessage.bottom
-                anchors.topMargin: 190 * pt
-                textButton: qsTr("Done")
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                anchors.left: parent.left
+                anchors.right: textHeader.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 24 * pt
+                anchors.rightMargin: 13 * pt
+
+                id: itemButtonClose
+                height: 20 * pt
+                width: 20 * pt
+                heightImageButton: 10 * pt
+                widthImageButton: 10 * pt
+                activeFrame: false
+                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
+                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                onClicked: navigator.clear()
+            }
+
+            Text
+            {
+                id: textHeader
+                text: qsTr("Emission")
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.topMargin: 12 * pt
+                anchors.bottomMargin: 8 * pt
+                anchors.leftMargin: 52 * pt
+
+                font: mainFont.dapFont.bold14
+                color: currTheme.textColor
+            }
+        }
+
+        Rectangle {
+            color: currTheme.backgroundMainScreen
+            Layout.fillWidth: true
+            height: 30 * pt
+
+            Text {
+                color: currTheme.textColor
+                text: qsTr("Chain")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
+        Item
+        {
+            height: 56 * pt
+            Layout.fillWidth: true
+
+            DapComboBox {
+                anchors.fill: parent
+                anchors.leftMargin: 15 * pt
+                anchors.rightMargin: 15 * pt
+                model: 5
+
+                defaultText: qsTr("Zero")
+                font: mainFont.dapFont.regular16
+            }
+        }
+
+        Rectangle {
+            color: currTheme.backgroundMainScreen
+            Layout.fillWidth: true
+            height: 30 * pt
+
+            Text {
+                color: currTheme.textColor
+                text: qsTr("Select certificate")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
+        Item
+        {
+            height: 56 * pt
+            Layout.fillWidth: true
+
+            DapComboBox {
+                anchors.fill: parent
+                anchors.leftMargin: 15 * pt
+                anchors.rightMargin: 15 * pt
+                model: 5
+
+                defaultText: qsTr("Certificate name")
+                font: mainFont.dapFont.regular16
+            }
+        }
+
+        Rectangle {
+            color: currTheme.backgroundMainScreen
+            Layout.fillWidth: true
+            height: 30 * pt
+
+            Text {
+                color: currTheme.textColor
+                text: qsTr("Emission value")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
+        Item
+        {
+            Layout.fillWidth: true
+            height: 60 * pt
+
+            Rectangle
+            {
+                anchors.fill: parent
+                anchors.leftMargin: 36 * pt
+                anchors.rightMargin: 36 * pt
+                anchors.topMargin: 16 * pt
+                anchors.bottomMargin: 16 * pt
+                border.width: 1
+                border.color: "#666E7D"
+                color: "transparent"
+
+                TextField
+                {
+                    anchors.fill: parent
+                    validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
+                    font: mainFont.dapFont.regular16
+                    horizontalAlignment: Text.AlignRight
+                    color: currTheme.textColor
+
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+                    text: "200000.86"
+                }
+            }
+        }
+
+        Rectangle {
+            color: currTheme.backgroundMainScreen
+            Layout.fillWidth: true
+            height: 30 * pt
+
+            Text {
+                color: currTheme.textColor
+                text: qsTr("Wallet")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
+        Rectangle
+        {
+            id: frameRecipientWalletAddress
+            Layout.fillWidth: true
+            Layout.leftMargin: 20 * pt
+            Layout.rightMargin: 20 * pt
+            height: 53 * pt
+            color: "transparent"
+
+            TextField
+            {
+                id: textInputRecipientWalletAddress
+                anchors.verticalCenter: parent.verticalCenter
+                placeholderText: qsTr("Paste here")
+                validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
+                font: mainFont.dapFont.regular16
+                horizontalAlignment: Text.AlignLeft
+                anchors.fill: parent
+                anchors.topMargin: 26 * pt
+                color: currTheme.textColor
+
+                background: Rectangle {
+                    color: "transparent"
+                }
             }
 
             Rectangle
             {
-                id: rectangleBottomButton
-                height: 190 * pt
-                anchors.top: buttonSend.bottom
-                anchors.topMargin: 24 * pt
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                color: "transparent"
+                height: 1 * pt
+                width: parent.width - x * 2
+                color: currTheme.borderColor
+                y: textInputRecipientWalletAddress.y + textInputRecipientWalletAddress.height + 5 * pt
+                x: 10 * pt
             }
         }
+
+    }
+
+    DapButton
+    {
+        implicitWidth: 165 * pt
+        implicitHeight: 36 * pt
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 24 * pt
+        textButton: qsTr("Emission")
+        fontButton: mainFont.dapFont.medium14
+        horizontalAligmentText:Qt.AlignCenter
     }
 }
+
+
+

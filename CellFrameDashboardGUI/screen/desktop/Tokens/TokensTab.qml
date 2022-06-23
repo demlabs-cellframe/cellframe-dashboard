@@ -35,6 +35,12 @@ DapPage
         {
             dapRightPanel.push(tokenEmission)
         }
+
+        function clear()
+        {
+            dapRightPanel.clear()
+            dapRightPanel.push(tokensLastActions)
+        }
     }
 
     dapHeader.initialItem: TokensTopPanel
