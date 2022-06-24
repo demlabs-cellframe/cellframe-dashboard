@@ -13,59 +13,6 @@ Page
         color: "transparent"
     }
 
-
-    property var modelLastActions:
-        [
-            {
-                network: "network1",
-                status: "Local",
-                sign: "+",
-                amount: "412.8",
-                name: "token1",
-                date: "Today"
-            },
-            {
-                network: "network1",
-                status: "Mempool (X Confirms)",
-                sign: "+",
-                amount: "103",
-                name: "token4",
-                date: "July, 22"
-            },
-            {
-                network: "network3",
-                status: "Canceled",
-                sign: "-",
-                amount: "22.345",
-                name: "token1",
-                date: "December, 21"
-            },
-            {
-                network: "network1",
-                status: "Successful (X Confirms)",
-                sign: "+",
-                amount: "264.11",
-                name: "token4",
-                date: "December, 20"
-            },
-            {
-                network: "network4",
-                status: "Local",
-                sign: "-",
-                amount: "666.666",
-                name: "token1",
-                date: "November, 14"
-            },
-            {
-                network: "network4",
-                status: "Successful (X Confirms)",
-                sign: "-",
-                amount: "932.16",
-                name: "token1",
-                date: "November, 11"
-            }
-        ]
-
     ColumnLayout
     {
         anchors.fill: parent
@@ -89,15 +36,13 @@ Page
             }
         }
 
-
-
         ListView
         {
             id: lastActionsView
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: modelLastActions
+            model: logicTokens.modelLastActions
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
