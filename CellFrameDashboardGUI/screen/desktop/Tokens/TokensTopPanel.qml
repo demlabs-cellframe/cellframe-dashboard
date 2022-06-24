@@ -61,5 +61,7 @@ Controls.DapTopPanel
         implicitWidth: 163 * pt
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
+
+        onClicked: navigator.createToken()
     }
 }
