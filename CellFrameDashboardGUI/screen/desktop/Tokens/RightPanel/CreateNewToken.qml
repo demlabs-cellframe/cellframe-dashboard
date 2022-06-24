@@ -12,6 +12,7 @@ Page {
         color: "transparent"
     }
 
+
     ListModel
     {
         id: chainModel

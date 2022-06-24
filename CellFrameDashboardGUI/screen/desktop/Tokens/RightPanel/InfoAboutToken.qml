@@ -43,7 +43,11 @@ Page {
                 activeFrame: false
                 normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
                 hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
-                onClicked: navigator.clear()
+                onClicked:
+                {
+                    logicTokens.unselectToken()
+                    navigator.clear()
+                }
             }
 
             Text

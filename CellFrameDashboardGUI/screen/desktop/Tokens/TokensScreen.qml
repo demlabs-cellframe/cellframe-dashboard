@@ -21,66 +21,6 @@ Page
     property string newGoldImagePath: "qrc:/resources/icons/ng_icon.png"
     property string kelvinImagePath: "qrc:/resources/icons/ic_klvn.png"
 
-    //TODO: move to logic
-
-    property var tokenModel:
-        [
-        {
-            name: "network1",
-            address: "12345",
-            tokens:
-                [
-                {
-                    name: "token1",
-                    balance: "100"
-                },
-                {
-                    name: "token2",
-                    balance: "100"},
-                {
-                    name: "token3",
-                    balance: "100"
-                }
-            ]
-        },
-        {
-            name: "network2",
-            address: "12345",
-            tokens:
-                [
-                {
-                    name: "token1",
-                    balance: "100"
-                },
-                {
-                    name: "token2",
-                    balance: "100"},
-                {
-                    name: "token3",
-                    balance: "100"
-                }
-            ]
-        },
-        {
-            name: "network3",
-            address: "12345",
-            tokens:
-                [
-                {
-                    name: "token1",
-                    balance: "100"
-                },
-                {
-                    name: "token2",
-                    balance: "100"},
-                {
-                    name: "token3",
-                    balance: "100"
-                }
-            ]
-        }
-    ]
-
     DapRectangleLitAndShaded
     {
         id: mainFrameTokens
@@ -124,8 +64,7 @@ Page
                 anchors.left: parent.left
                 anchors.right: parent.right
                 clip: true
-                model: tokenModel
-                property int selectedIndex: -1
+                model: logicTokens.tokenModel
 
                 delegate: Column
                 {
@@ -182,8 +121,6 @@ Page
                         width: parent.width
                         model: modelData.tokens
 
-                        property int selectedIndex: -1
-
                         Rectangle
                         {
                             anchors.left: parent.left
@@ -202,7 +139,7 @@ Page
                                 {
                                     id: currencyName
                                     font: mainFont.dapFont.regular16
-                                    color: tokensRepeater.selectedIndex === index && listViewTokens.selectedIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
                                     text: modelData.name
                                     width: 172 * pt
                                     horizontalAlignment: Text.AlignLeft
@@ -213,7 +150,7 @@ Page
                                     id: currencySum
                                     Layout.fillWidth: true
                                     font: mainFont.dapFont.regular14
-                                    color: tokensRepeater.selectedIndex === index && listViewTokens.selectedIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
                                     text: modelData.balance
                                     horizontalAlignment: Text.AlignRight
                                 }
@@ -222,7 +159,7 @@ Page
                                 {
                                     id: currencyCode
                                     font: mainFont.dapFont.regular14
-                                    color: tokensRepeater.selectedIndex === index && listViewTokens.selectedIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
                                     text: modelData.name
                                     horizontalAlignment: Text.AlignRight
                                 }
@@ -242,8 +179,8 @@ Page
                                 anchors.fill: parent
                                 onClicked:
                                 {
-                                    tokensRepeater.selectedIndex = index
-                                    listViewTokens.selectedIndex = delegateTokenView.idx
+                                    logicTokens.selectTokenIndex = index
+                                    logicTokens.selectNetworkIndex = delegateTokenView.idx
                                     navigator.tokenInfo()
                                 }
                             }

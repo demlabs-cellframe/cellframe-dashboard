@@ -16,7 +16,6 @@ DapPage
 
     id: dashboardTab
 
-    ListModel {id: networksModel}
     LogicTokens{id: logicTokens}
 
     QtObject {
