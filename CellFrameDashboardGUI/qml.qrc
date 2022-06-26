@@ -179,11 +179,6 @@
         <file>screen/desktop/VPNClient/DapVpnClientScreen.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTab.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTopPanel.qml</file>
-        <file>screen/desktop/Tokens/DapTokensScreen.qml</file>
-        <file>screen/desktop/Tokens/DapTokensTab.qml</file>
-        <file>screen/desktop/Tokens/DapTokensTopPanel.qml</file>
-        <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanel.qml</file>
-        <file>screen/desktop/Tokens/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
         <file>screen/desktop/dApps/DapAppsScreen.qml</file>
         <file>screen/desktop/dApps/DapAppsTab.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml</file>
@@ -343,5 +338,14 @@
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
         <file>screen/desktop/controls/DapLoadIndicator.qml</file>
+        <file>screen/desktop/Tokens/TokensTopPanel.qml</file>
+        <file>screen/desktop/Tokens/TokensTab.qml</file>
+        <file>screen/desktop/Tokens/TokensScreen.qml</file>
+        <file>screen/desktop/Tokens/logic/LogicTokens.qml</file>
+        <file>screen/desktop/Tokens/RightPanel/TokensLastActions.qml</file>
+        <file>screen/desktop/Tokens/RightPanel/TokenEmission.qml</file>
+        <file>screen/desktop/Tokens/RightPanel/InfoAboutToken.qml</file>
+        <file>screen/desktop/Tokens/RightPanel/CreateNewToken.qml</file>
+        <file>screen/desktop/Tokens/parts/TitleTextView.qml</file>
     </qresource>
 </RCC>
