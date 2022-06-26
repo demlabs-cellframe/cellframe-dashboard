@@ -150,7 +150,7 @@ Rectangle {
             name: qsTr("Tokens"),
             bttnIco: "icon_tokens.png",
             showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+            page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
         append ({ tag: "VPN client",
             name: qsTr("VPN client"),
             bttnIco: "vpn-client_icon.png",
