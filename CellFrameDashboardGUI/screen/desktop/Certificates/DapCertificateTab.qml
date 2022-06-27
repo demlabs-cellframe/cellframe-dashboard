@@ -14,6 +14,8 @@ DapPage
 {
 
     property alias dapCertScreen: certScreen
+    property string openedRightPanelPage: "emptyRightPanel"
+    property int infoIndex: -1
 
     Component{id: emptyRightPanel; Item{}}
 
@@ -36,15 +38,17 @@ DapPage
             certScreen.dapDefaultRightPanel.visible = false
             dapRightPanelFrame.visible = true
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml")
+            openedRightPanelPage = "createCertificate"
         }
 
         function openCreateFinishedItem() {
             certScreen.dapDefaultRightPanel.visible = false
             dapRightPanelFrame.visible = true
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml", {"accept": "true", "titleText": "Certificate created\nsuccessfully"})
+            openedRightPanelPage = "createFinished"
         }
 
-        function openInfoItem() {
+        function openInfoItem(index) {
             dapRightPanel.pop()
 
             if(!dapRightPanelFrame.visible)
@@ -56,6 +60,8 @@ DapPage
             dapRightPanelFrame.visible = true
             certScreen.dapDefaultRightPanel.visible = false
             dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CertificateInfoItem.qml")
+            openedRightPanelPage = "Info"
+            infoIndex = index
         }
 
         function clearRightPanel() {
@@ -63,6 +69,8 @@ DapPage
             certScreen.dapDefaultRightPanel.visible = true
             dapRightPanel.clear()
             dapRightPanel.push(emptyRightPanel)
+            openedRightPanelPage = "emptyRightPanel"
+            infoIndex = -1
         }
     }
 
