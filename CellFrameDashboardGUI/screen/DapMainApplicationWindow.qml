@@ -47,6 +47,8 @@ Rectangle {
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
 
+    ListModel {id: networksModel}
+
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
     DapMessagePopup
