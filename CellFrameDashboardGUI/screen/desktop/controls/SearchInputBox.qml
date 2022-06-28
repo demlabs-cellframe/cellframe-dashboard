@@ -8,7 +8,6 @@ import QtQuick.Controls.Styles 1.4
 
   need move to common module
 
-
 */
 
 
