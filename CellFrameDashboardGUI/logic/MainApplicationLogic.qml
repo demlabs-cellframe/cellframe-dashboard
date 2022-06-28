@@ -175,11 +175,15 @@ QtObject {
 
     function rcvNetList(networksList)
     {
-//        console.log(networksList.length, "AAAAAAAAAAAAAAAAAAAAAAAAa")
         if (!networksList.length)
             console.error("networksList is empty")
         else
         {
+            if (networksModel.count !== networksList.length)
+            {
+                dapServiceController.requestToService("DapGetNetworksStateCommand")
+            }
+
             if(dapNetworkModel.count !== networksList.length)
             {
                 if(currentNetwork === -1)
@@ -197,8 +201,6 @@ QtObject {
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
-
-                dapServiceController.requestToService("DapGetNetworksStateCommand")
             }
             console.info("Current network: "+dapServiceController.CurrentNetwork)
         }
