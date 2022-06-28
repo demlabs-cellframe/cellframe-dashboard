@@ -150,17 +150,32 @@ ListView {
                 {
                     _entered = false
                 }
+
+                Timer
+                {
+                    id: clickTimer
+                    interval: 30
+                    onTriggered:
+                    {
+                        root.selectedIndex(model.index)
+                        models.selectedAccessKeyType = model.accessKeyType
+                        root.infoTitleTextVisibleClick = true
+                        if (openedRightPanelPage == "Info" && model.index !== infoIndex)
+                            certificateNavigator.clearRightPanel()
+                    }
+                }
+
                 onClicked: {
-                    root.selectedIndex(model.index)
-                    models.selectedAccessKeyType = model.accessKeyType
-                    root.infoTitleTextVisibleClick = true
-                    if (openedRightPanelPage == "Info" && model.index !== infoIndex)
-                        certificateNavigator.clearRightPanel()
+                    clickTimer.start()
                 }
 
                 onDoubleClicked: {
                     root.infoClicked(model.index)
-                    //root.selectedIndex(model.index)
+                    clickTimer.stop()
+
+                    root.selectedIndex(model.index)
+                    models.selectedAccessKeyType = model.accessKeyType
+                    root.infoTitleTextVisibleClick = true
                 }
             }
 
@@ -197,6 +212,9 @@ ListView {
                     anchors.fill: parent
                     onClicked: {
                         root.infoClicked(model.index)
+                        root.selectedIndex(model.index)
+                        models.selectedAccessKeyType = model.accessKeyType
+                        root.infoTitleTextVisibleClick = true
                     }
                 }
 
