@@ -214,6 +214,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
                 for (int j = 0; j < parsedCommands.length(); ++j)
                 {
                     QStringList s = parsedCommands[j].split(" ");
+                    s.removeAll("");
                     words[command].append(s);
                 }
             }

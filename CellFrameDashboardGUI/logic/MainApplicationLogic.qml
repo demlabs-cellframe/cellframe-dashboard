@@ -175,11 +175,15 @@ QtObject {
 
     function rcvNetList(networksList)
     {
-//        console.log(networksList.length, "AAAAAAAAAAAAAAAAAAAAAAAAa")
         if (!networksList.length)
             console.error("networksList is empty")
         else
         {
+            if (networksModel.count !== networksList.length)
+            {
+                dapServiceController.requestToService("DapGetNetworksStateCommand")
+            }
+
             if(dapNetworkModel.count !== networksList.length)
             {
                 if(currentNetwork === -1)
@@ -197,8 +201,6 @@ QtObject {
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
-
-                dapServiceController.requestToService("DapGetNetworksStateCommand")
             }
             console.info("Current network: "+dapServiceController.CurrentNetwork)
         }
@@ -445,5 +447,26 @@ QtObject {
         timer.repeat = false;
         timer.triggered.connect(cb);
         timer.start();
+    }
+
+    //////////////////////
+    function initFakeWallet()
+    {
+        fakeWallet.clear()
+        fakeWallet.append({"name": "testWallet",
+                           "tokens": []
+                          })
+        fakeWallet.get(0).tokens.append(
+                    {"name": "CELL",
+                     "full_balance": "1000.000000000000000000",
+                     "balance_without_zeros": "1000",
+                     "datoshi": "1000000000000000000000",
+                     "network": "Backbone"})
+        fakeWallet.get(0).tokens.append(
+                    {"name": "USDT",
+                     "full_balance": "521.000000000000000000",
+                     "balance_without_zeros": "521",
+                     "datoshi": "521000000000000000000",
+                     "network": "Backbone"})
     }
 }
