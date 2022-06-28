@@ -171,7 +171,7 @@
         <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
