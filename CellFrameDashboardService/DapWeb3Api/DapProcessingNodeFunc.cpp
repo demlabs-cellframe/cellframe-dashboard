@@ -301,6 +301,24 @@ QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
     }else{
         docResult = processingResult("bad", QString(result));
     }
+    return docResult;
+}
 
+QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
+{
+    QString path = s_pathJsonCmd + "tx_json.json";
+    QFile file(path);
+
+    if(file.open(QIODevice::WriteOnly))
+    {
+        file.write(jsonCommand.toJson());
+        file.close();
+    }
+
+    QString txCustomCommand = QString("%1 tx_create_json -json %2").arg(CLI_PATH).arg(path);
+    QString result = send_cmd(txCustomCommand);
+
+    QJsonDocument docResult;
+    docResult = processingResult("bad", QString(result));
     return docResult;
 }

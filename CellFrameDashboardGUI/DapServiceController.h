@@ -42,6 +42,7 @@
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
+#include "handlers/DapWebConnectRequest.h"
 
 
 class DapServiceController : public QObject
@@ -223,6 +224,8 @@ signals:
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
+    void dapWebConnectRequest(const QVariant& rcvData);
+//    void replyClientRequestConnect(QString, int);
 
 private slots:
     /// Register command.
@@ -244,6 +247,7 @@ private slots:
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
+
 };
 
 #endif // DAPSERVICECONTROLLER_H

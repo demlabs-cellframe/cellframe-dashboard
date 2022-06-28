@@ -9,7 +9,6 @@
 #include "DapVpnOrdersModel.h"
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
-#include "DapWeb3Api/DapWebControll.h"
 #include "Autocomplete/commandcmdcontroller.h"
 
 #ifdef Q_OS_ANDROID
@@ -50,7 +49,6 @@ private:
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
-    DapWebControll * m_webControll;
 };
 
 #endif // DAPAPPLICATION_H

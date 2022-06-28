@@ -10,11 +10,9 @@ DapMessagePopup {
     height: 250 * pt
 
     dapButtonCancel.visible: true
-//    closePolicy: Popup.CloseOnPressOutside
-//    modal: false
 
     onSignalAccept: {
-        webControl.rcvAccept(accept, indexUser)
+        dapServiceController.notifyService("DapWebConnectRequest", accept, indexUser)
         destroy()
     }
 

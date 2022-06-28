@@ -40,11 +40,14 @@ SOURCES += \
     $$PWD/main.cpp \
     DapNetSyncController.cpp \
     DapNotificationWatcher.cpp \
+    DapWeb3Api/DapProcessingNodeFunc.cpp \
+    DapWeb3Api/DapWebControll.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
     DapNetSyncController.h \
     DapNotificationWatcher.h \
+    DapWeb3Api/DapWebControll.h
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)

@@ -1,13 +1,81 @@
 #include "DapWebControll.h"
 
+#ifdef Q_OS_WIN
+#include "registry.h"
+#endif
+
 DapWebControll::DapWebControll(QObject *parent)
     : QObject{parent}
 {
+    s_connectFrontendStatus = false;
     _tcpServer = new QTcpServer(this);
     connect(_tcpServer, &QTcpServer::newConnection, this, &DapWebControll::onNewConnetion);
     startServer(8045);
 
+#if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    s_pathJsonCmd =  QString("/opt/%1/data/").arg(DAP_BRAND_LO);
+#elif defined(Q_OS_MACOS)
+    s_pathJsonCmd =  QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/data/").arg(getenv("USER"));
+#elif defined (Q_OS_WIN)
+    s_pathJsonCmd =  QString("%1/%2/data/").arg(regWGetUsrPath()).arg(DAP_BRAND);
+#endif
+
+
     //FOR TEST
+
+
+//    {
+//      "net" : "kelvin-testnet",
+//      "chain" : "zerochain",
+//      "items" : [ {
+//        "type" : "in",
+//        "prev_hash" : "0xB5A01C52D6AFAFD4860172F4057A9BDF5E7AAB5A5AD9BE574EA919DB27EFBC0B",
+//        "out_prev_idx" : 2
+//      }, {
+//        "type" : "out",
+//        "value" : "12345",
+//        "addr" : "RpiDC8c1SxrTF3aSu2VL4Pwu8beWMY8ur71TeiR6ViBdnvMQCKudoWkvT8BGFN2ycKnHSaGm5WrNccex2qiZjA4PoEicUmWJNvRQQJYN"
+//      },{
+//        "type" : "sign",
+//        "wallet" : "myk2",
+//      } ]
+//    }
+
+
+
+
+    QJsonObject obj3;
+    obj3.insert("type", "in");
+    obj3.insert("prev_hash", "0xB5A01C52D6AFAFD4860172F4057A9BDF5E7AAB5A5AD9BE574EA919DB27EFBC0B");
+    obj3.insert("out_prev_idx", "2");
+
+    QJsonObject obj4;
+    obj4.insert("type", "out");
+    obj4.insert("value", "12345");
+    obj4.insert("addr", "RpiDC8c1SxrTF3aSu2VL4Pwu8beWMY8ur71TeiR6ViBdnvMQCKudoWkvT8BGFN2ycKnHSaGm5WrNccex2qiZjA4PoEicUmWJNvRQQJYN");
+
+    QJsonObject obj2;
+    obj2.insert("type", "sign");
+    obj2.insert("wallet", "tokenWallet");
+
+
+    QJsonArray arr;
+    arr.push_back(obj3);
+    arr.push_back(obj4);
+    arr.push_back(obj2);
+
+    QJsonObject obj;
+    obj.insert("net", "mileena");
+    obj.insert("chain", "main");
+    obj.insert("items", arr);
+
+
+
+    QJsonDocument doc(obj);
+
+    sendJsonTransaction(doc);
+
+
 //    getNetworks(); //OK
 //    getWallets(); //OK
 //    getDataWallets("tokenWallet"); //OK
@@ -74,15 +142,23 @@ void DapWebControll::onClientSocketReadyRead()
   }else{
       QString cmd = match.captured(1);
       qDebug()<<"request = " << cmd;
+
       if(cmd == "Connect"){
-          QRegularExpression regex(R"(Origin: ([a-zA-Z\:\/\-\.]+))");
-          QRegularExpressionMatch match = regex.match(req);
-          emit signalConnectRequest(match.captured(1), idUser);
-          return;
+          if(s_connectFrontendStatus){
+              QRegularExpression regex(R"(Origin: ([a-zA-Z\:\/\-\.]+))");
+              QRegularExpressionMatch match = regex.match(req);
+              emit signalConnectRequest(match.captured(1), idUser);
+              return;
+          }else{
+              doc = processingResult("bad", "The request cannot be processed. User is offline.");
+              return;
+          }
       }else{
+
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
           QString name, net, addr, value, tokenName, id;
+
           while(matchIt.hasNext())
           {
               QRegularExpressionMatch match = matchIt.next();
@@ -110,6 +186,37 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
+              else if(cmd == "TxCreateJson")
+              {
+//                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
+//                 all symbols in {} - {((?>[^{}]+|(?R))*)}
+//                 json parser -       (&([a-zA-Z]+)=(?<o>{((?<s>\"([^\0-\x1F\"\\]|\\[\"\\\/bfnrt]|\\u[0-9a-fA-F]{4})*\"):(?<v>\g<s>|(?<n>-?(0|[1-9]\d*)(.\d+)?([eE][+-]?\d+)?)|\g<o>|\g<a>|true|false|null))?\s*((?<c>,\s*)\g<s>(?<d>:\s*)\g<v>)*})|(?<a>\[\g<v>?(\g<c>\g<v>)*\]))
+//                  QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
+//                  while(matchIt.hasNext())
+//                  {
+//                      QRegularExpressionMatch match = matchIt.next();
+//                      if(match.captured(1) == "json"){
+
+//                      }else{
+//                          qWarning()<<"Incorrect json data";
+//                          doc = processingResult("bad", "Incorrect json data: " + cmd);
+//                      }
+//                  }
+
+                  QRegularExpression regex("{((?>[^{}]+|(?R))*)}");
+                  QRegularExpressionMatch match = regex.match(list.at(0));
+                  QJsonDocument doc;
+
+                  if (!match.hasMatch())
+                      qWarning() << "Incorrect json data";
+                  else
+                  {
+                      QJsonObject obj;
+                      obj.insert("data", match.captured(0));
+                      QJsonDocument requestDoc(obj);
+                      doc = sendJsonTransaction(requestDoc);
+                  }
+              }
               else{
                   qWarning()<<"Unknown request";
                   doc = processingResult("bad", "Unknown request: " + cmd);
@@ -138,10 +245,10 @@ void DapWebControll::sendResponce(QJsonDocument data, QTcpSocket* socket)
     s_tcpSocketList.remove(socket->socketDescriptor());
 }
 
-void DapWebControll::rcvAccept(bool accept, int index)
+void DapWebControll::rcvAccept(QString accept, int index)
 {
     QJsonDocument doc;
-    if(accept){
+    if(accept == "true"){
         QString newId = getNewId();
         s_id.append(newId);
         QJsonObject obj;

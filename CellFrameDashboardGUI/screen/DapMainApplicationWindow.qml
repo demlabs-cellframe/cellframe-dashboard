@@ -380,6 +380,9 @@ Rectangle {
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
 
+//        for(var i = 0; i < 50; i++)
+//            dapServiceController.requestToService("DapWebConnectRequest", "1")
+
 
 
     }
@@ -429,6 +432,12 @@ Rectangle {
             logicMainApp.rcvOrders(orderList)
             modelOrdersUpdated();
         }
+
+        onDapWebConnectRequest:
+        {
+            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
+            component.createObject(dapMainWindow,{indexUser: rcvData[1], webSite: rcvData[0]});
+        }
     }
 
     Connections{
@@ -441,15 +450,6 @@ Rectangle {
 
             modelPluginsUpdated()
             logicMainApp.updateModelAppsTab()
-        }
-    }
-
-    Connections{
-        target: webControl
-        onSignalConnectRequest:
-        {
-            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
-            component.createObject(dapMainWindow,{indexUser: index, webSite: site});
         }
     }
 }

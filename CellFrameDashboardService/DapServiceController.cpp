@@ -24,6 +24,12 @@ DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
     connect(this, &DapServiceController::onNewClientConnected, [=] {
         qDebug() << "Frontend connected";
         watcher->frontendConnected();
+        m_web3Controll->rcvFrontendConnectStatus(true);
+    });
+
+    connect(this, &DapServiceController::onClientDisconnected, [=] {
+        qDebug() << "Frontend disconnected";
+        m_web3Controll->rcvFrontendConnectStatus(false);
     });
 }
 
@@ -41,11 +47,13 @@ bool DapServiceController::start()
     m_pServer = new DapUiService(this);
     watcher = new DapNotificationWatcher(this);
     m_syncControll = new DapNetSyncController(watcher, this);
+    m_web3Controll = new DapWebControll(this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
+        connect(m_pServer, SIGNAL(onClientDisconnected()), SIGNAL(onClientDisconnected()));
         registerCommand();
     }
 #else
@@ -53,9 +61,15 @@ bool DapServiceController::start()
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
+        connect(m_pServer, SIGNAL(onClientDisconnected()), SIGNAL(onClientDisconnected()));
         // Register command
         registerCommand();
+        // Send data from notify socket to client
         connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
+        // Channel req\rep for web 3 API
+        DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
+        connect(transceiver, SIGNAL(clientResponded(QVariant)), this, SLOT(rcvReplyFromClient(QVariant)));
+        connect(m_web3Controll, SIGNAL(signalConnectRequest(QString, int)), this, SLOT(sendConnectRequest(QString, int)));
 
     }
 #endif
@@ -72,6 +86,20 @@ void DapServiceController::sendNotifyDataToGui(QVariant data)
 {
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapRcvNotify"));
     transceiver->notifyToClient(data);
+}
+
+void DapServiceController::sendConnectRequest(QString site, int index)
+{
+    DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
+    QJsonArray arr;
+    arr.push_back(site);
+    arr.push_back(index);
+    transceiver->notifyToClient(arr);
+}
+
+void DapServiceController::rcvReplyFromClient(QVariant result)
+{
+    m_web3Controll->rcvAccept(result.toJsonArray()[0].toString(), result.toJsonArray()[1].toInt());
 }
 
 /// Register command.
@@ -135,4 +163,6 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapRcvNotify("DapRcvNotify", m_pServer));
 
     m_pServer->addService(new DapNodeConfigController("DapNodeConfigController", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
 }

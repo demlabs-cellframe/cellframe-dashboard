@@ -57,8 +57,6 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     Autocomplete/commandcmdcontroller.cpp \
     DapApplication.cpp \
-    DapWeb3Api/DapProcessingNodeFunc.cpp \
-    DapWeb3Api/DapWebControll.cpp \
     ImportCertificate/ImportCertificate.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
@@ -88,7 +86,6 @@ HEADERS += \
     $$PWD/DapServiceController.h \
     Autocomplete/commandcmdcontroller.h \
     DapApplication.h \
-    DapWeb3Api/DapWebControll.h \
     ImportCertificate/ImportCertificate.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
