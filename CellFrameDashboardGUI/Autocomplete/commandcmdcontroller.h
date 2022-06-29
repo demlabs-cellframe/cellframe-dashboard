@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "DapServiceController.h"
+#include "autocompletevalues.h"
 
 class CommandCmdController : public QObject
 {
@@ -13,6 +14,7 @@ class CommandCmdController : public QObject
     QStringList commands;
     QStringList parsedCommands;
     QVariantMap commandsParams;
+    AutocompleteValues *values;
 
 
     struct commandTree

@@ -28,7 +28,7 @@ Page
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 0
+        spacing: 18 * pt
 
         Item
         {
@@ -54,7 +54,7 @@ Page
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            spacing: 32 * pt
+            spacing: 24 * pt
             model: modelHistoryConsole
             ScrollBar.vertical: ScrollBar {
                 active: true

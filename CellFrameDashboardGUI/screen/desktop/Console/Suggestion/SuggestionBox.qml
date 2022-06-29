@@ -19,20 +19,22 @@
 
 import QtQuick 2.0
 
-Rectangle {
+Image {
     id: container
 
     // --- properties
-    property var model: undefined
+    property var model: ({})
     property Item delegate
     signal itemSelected(variant item)
     signal wordSelected(var word)
+    source: "qrc:/resources/icons/ui_menu_light.png"
 
     property int selectedIndex: 0
     property int maxLenIndex: 0
 
     Component.onCompleted:
     {
+        console.log("yyyyyyyyyyyyyyyy", visible, model.length)
         model = {}
     }
 
@@ -44,20 +46,34 @@ Rectangle {
 
     // --- behaviours
     z: parent.z + 100
-    visible: model.length > 0 ? true : false
-    height: model.length * 25
-
-
-    // --- defaults
-    color: currTheme.backgroundMainScreen
-    radius: 16
-    border {
-        width: 1
-        color: currTheme.lineSeparatorColor
-    }
+    visible: model.length > 0
+    height: model.length * 25 < 200 * pt ? model.length * 25 : 200 * pt
 
 
     // --- UI
+    property int flickContY: 0
+
+    onSelectedIndexChanged:
+    {
+        if (selectedIndex == model.length - 1)
+            flickContY = model.length * 25 * pt - height
+        else
+        if (selectedIndex == 0)
+            flickContY = 0
+        else
+        if (selectedIndex * 25 > flickContY + height - 25 * pt)
+            flickContY += 25 * pt
+        else
+        if (selectedIndex * 25 - 25 * pt < flickContY)
+            flickContY -= 25 * pt
+    }
+
+    Flickable
+    {
+        anchors.fill: parent
+        contentHeight: container.model.length * 25
+        clip: true
+        contentY: flickContY
     Column {
         id: popup
         clip: true
@@ -74,7 +90,6 @@ Rectangle {
         Behavior on opacity {
             NumberAnimation { }
         }
-
         Repeater {
             id: repeater
             model: container.model
@@ -116,6 +131,7 @@ Rectangle {
                     onClicked: container.wordSelected(modelData.str)
                 }
             }
+        }
         }
     }
 

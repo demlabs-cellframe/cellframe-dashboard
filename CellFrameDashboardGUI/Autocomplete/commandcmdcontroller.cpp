@@ -1,41 +1,9 @@
 #include "commandcmdcontroller.h"
 #include <QFile>
 
-#ifdef Q_OS_WIN
-#include "registry.h"
-#define PUB_CERT_PATH QString("%1/cellframe-node/var/lib/ca").arg(regGetUsrPath())
-#define PRIV_CERT_PATH QString("%1/cellframe-node/share/ca").arg(regGetUsrPath())
-#endif
-
-#ifdef Q_OS_MAC
-#define PUB_CERT_PATH QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/share/ca/").arg(getenv("USER"))
-#define PRIV_CERT_PATH QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/lib/ca/").arg(getenv("USER"))
-#endif
-
-#ifdef Q_OS_LINUX
-#define PUB_CERT_PATH QString("/opt/cellframe-node/var/lib/ca")
-#define PRIV_CERT_PATH QString("/opt/cellframe-node/share/ca")
-#endif
-
 CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
 {
-    QDir pubDir(PUB_CERT_PATH);
-    QStringList files = pubDir.entryList();
-    for (int i = 0; i < files.length(); ++i)
-    {
-        QString s = files[i].remove(".dcert");
-        if (s != "." && s != "..")
-            certNames.append(s);
-    }
-
-    QDir privDir(PRIV_CERT_PATH);
-    files = privDir.entryList();
-    for (int i = 0; i < files.length(); ++i)
-    {
-        QString s = files[i].remove(".dcert");
-        if (s != "." && s != "..")
-            certNames.append(s);
-    }
+    values = new AutocompleteValues();
 }
 
 void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapServiceController)
@@ -124,7 +92,7 @@ QString leftOrCommand(QString command, int i)
 
 void CommandCmdController::parseTree(QString command)
 {
-    if (!command.contains("[") && !command.contains("|"))
+    if (!command.contains("[") && !command.contains("|") && !command.contains("<cert name>"))
     {
         command = command.remove('{');
         command = command.remove('}');
@@ -178,6 +146,22 @@ void CommandCmdController::parseTree(QString command)
 
             if (command[i] == ']')
                 --count;
+        }
+    }
+    else if (command.contains("<") || command.contains(">"))
+    {
+        if (command.contains("<cert name>"))
+        {
+            QStringList certsList = values->getCerts();
+            QString sCommand = command;
+            int idx = sCommand.indexOf("<cert name>");
+            QString s = sCommand.remove(idx, 11);
+            for (int i = 0; i < certsList.length(); ++i)
+            {
+                QString rS = s;
+                rS = rS.insert(idx, certsList[i]);
+                parseTree(rS);
+            }
         }
     }
     else
