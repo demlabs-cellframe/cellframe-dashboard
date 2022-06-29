@@ -20,22 +20,22 @@
 
 void AutocompleteValues::_getCerts()
 {
-   /* QDir pubDir(PUB_CERT_PATH);
+    QDir pubDir(PUB_CERT_PATH);
     QStringList files = pubDir.entryList();
     for (int i = 0; i < files.length(); ++i)
     {
         QString s = files[i].remove(".dcert");
         if (s != "." && s != "..")
-            certs.append(s);
-    }*/
+            pubCerts.append(s);
+    }
 
     QDir privDir(PRIV_CERT_PATH);
-    QStringList files = privDir.entryList();
+    files = privDir.entryList();
     for (int i = 0; i < files.length(); ++i)
     {
         QString s = files[i].remove(".dcert");
         if (s != "." && s != "..")
-            certs.append(s);
+            privCerts.append(s);
     }
 }
 
@@ -45,7 +45,12 @@ AutocompleteValues::AutocompleteValues(QObject *parent)
     _getCerts();
 }
 
-QStringList AutocompleteValues::getCerts()
+QStringList AutocompleteValues::getPubCerts()
 {
-    return certs;
+    return pubCerts;
+}
+
+QStringList AutocompleteValues::getPrivCerts()
+{
+    return privCerts;
 }

@@ -7,12 +7,14 @@ class AutocompleteValues : public QObject
 {
     Q_OBJECT
 
-    QStringList certs;
+    QStringList pubCerts;
+    QStringList privCerts;
     void _getCerts();
 
 public:
     explicit AutocompleteValues(QObject *parent = nullptr);
-    QStringList getCerts();
+    QStringList getPubCerts();
+    QStringList getPrivCerts();
 
 signals:
 

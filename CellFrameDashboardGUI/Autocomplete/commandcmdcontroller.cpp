@@ -150,12 +150,26 @@ void CommandCmdController::parseTree(QString command)
     }
     else if (command.contains("<") || command.contains(">"))
     {
-        if (command.contains("<cert name>"))
+        if (command.contains("<priv_cert_name>"))
         {
-            QStringList certsList = values->getCerts();
+            QStringList certsList = values->getPrivCerts();
             QString sCommand = command;
-            int idx = sCommand.indexOf("<cert name>");
-            QString s = sCommand.remove(idx, 11);
+            int idx = sCommand.indexOf("<priv_cert_name>");
+            QString s = sCommand.remove(idx, 16);
+            for (int i = 0; i < certsList.length(); ++i)
+            {
+                QString rS = s;
+                rS = rS.insert(idx, certsList[i]);
+                parseTree(rS);
+            }
+        }
+
+        if (command.contains("<pub_cert_name>"))
+        {
+            QStringList certsList = values->getPubCerts();
+            QString sCommand = command;
+            int idx = sCommand.indexOf("<pub_cert_name>");
+            QString s = sCommand.remove(idx, 15);
             for (int i = 0; i < certsList.length(); ++i)
             {
                 QString rS = s;
@@ -189,7 +203,8 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
             if (_commands[i].contains("\r"))
                 _commands[i] = _commands[i].split('\r')[0];
             {
-                //qDebug() << "command:" << _commands[i];
+                if (_commands[i].contains("-cert"))
+                    qDebug() << "llllllllllllllllllll command:" << _commands[i];
 
                 parsedCommands.clear();
                 parseTree(_commands[i]);
@@ -206,6 +221,60 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     }
     isFirstInit = false;
 }
+
+
+/*
+
+  "mempool_add_ca -net <net name> [-chain <chain name>] -ca_name <Certificate name>"
+
+  "chain_ca_pub -net <net name> [-chain <chain name>] -ca_name <Certificate name>"
+
+  "chain_ca_pub -net <net name> [-chain <chain name>] -ca_name <Certificate name>"
+
+"block_poa -net <chain net name> -chain <chain name> block sign [-cert <cert name>] "
+
+"net -net <chain net name> ca add {-cert <cert name> | -hash <cert hash>}"
+
+"srv_stake order create -net <net name> -addr_hldr <addr> -token <ticker> -coins <value> -cert <name> -fee_percent <value>"
+
+"srv_stake order update -net <net name> -order <order hash> {-cert <name> | -wallet <name>} [-H {hex | base58(default)}]{[-addr_hldr <addr>] [-token <ticker>] [-coins <value>] [-fee_percent <value>] | [-token <ticker>] [-coins <value>] -fee_percent <value>]}"
+
+"srv_stake approve -net <net name> -tx <transaction hash> -cert <root cert name>"
+
+"mempool sign -cert <cert name> -net <net name> -chain <chain name> -file <filename> [-mime {<SIGNER_FILENAME,SIGNER_FILENAME_SHORT,SIGNER_FILESIZE,SIGNER_DATE,SIGNER_MIME_MAGIC> | <SIGNER_ALL_FLAGS>}]"
+
+"mempool check -cert <cert name> -net <net name> {-file <filename> | -hash <hash>} [-mime {<SIGNER_FILENAME,SIGNER_FILENAME_SHORT,SIGNER_FILESIZE,SIGNER_DATE,SIGNER_MIME_MAGIC> | <SIGNER_ALL_FLAGS>}]"
+
+        !!!  "tx_cond_create -net <net name> -token <token ticker> -wallet <from wallet> -cert <public cert> -value <value datoshi> -unit {mb | kb | b | sec | day} -srv_uid <numeric uid>"
+
+        !!! "token_decl_sign -net <net name> -chain <chain name> -datum <datum_hash> -certs <certs list>"
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 QVariantList CommandCmdController::getTreeWords(QString value)
 {
