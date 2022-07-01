@@ -18,6 +18,8 @@
 #include <QRandomGenerator>
 #include <dap_hash.h>
 #include <QFile>
+#include <QTextCodec>
+#include <QUrl>
 
 class DapWebControll : public QObject
 {
@@ -41,6 +43,7 @@ private:
 
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonObject data);
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonArray data);
+    QJsonDocument processingResult(QString status, QString errorMsg, QString data);
     QJsonDocument processingResult(QString status, QString errorMsg);
 
     QString send_cmd(QString cmd);

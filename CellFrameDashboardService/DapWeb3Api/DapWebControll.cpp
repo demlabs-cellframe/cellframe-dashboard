@@ -73,7 +73,7 @@ DapWebControll::DapWebControll(QObject *parent)
 
     QJsonDocument doc(obj);
 
-    sendJsonTransaction(doc);
+//    sendJsonTransaction(doc);
 
 
 //    getNetworks(); //OK
@@ -129,7 +129,9 @@ void DapWebControll::onClientSocketReadyRead()
   if ( _socket == nullptr ) { return; }
 
   int idUser = _socket->socketDescriptor();
-  QString req = s_tcpSocketList[idUser]->readAll();
+
+  QByteArray encodedString = s_tcpSocketList[idUser]->readAll();
+  QString req = QUrl::fromPercentEncoding(encodedString);
   QStringList list = req.split("\n", QString::SkipEmptyParts);
   QRegularExpression regex(R"(method=([a-zA-Z]+))");
   QRegularExpressionMatch match = regex.match(list.at(0));
@@ -191,30 +193,16 @@ void DapWebControll::onClientSocketReadyRead()
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
 //                 all symbols in {} - {((?>[^{}]+|(?R))*)}
 //                 json parser -       (&([a-zA-Z]+)=(?<o>{((?<s>\"([^\0-\x1F\"\\]|\\[\"\\\/bfnrt]|\\u[0-9a-fA-F]{4})*\"):(?<v>\g<s>|(?<n>-?(0|[1-9]\d*)(.\d+)?([eE][+-]?\d+)?)|\g<o>|\g<a>|true|false|null))?\s*((?<c>,\s*)\g<s>(?<d>:\s*)\g<v>)*})|(?<a>\[\g<v>?(\g<c>\g<v>)*\]))
-//                  QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
-//                  while(matchIt.hasNext())
-//                  {
-//                      QRegularExpressionMatch match = matchIt.next();
-//                      if(match.captured(1) == "json"){
-
-//                      }else{
-//                          qWarning()<<"Incorrect json data";
-//                          doc = processingResult("bad", "Incorrect json data: " + cmd);
-//                      }
-//                  }
 
                   QRegularExpression regex("{((?>[^{}]+|(?R))*)}");
                   QRegularExpressionMatch match = regex.match(list.at(0));
-                  QJsonDocument doc;
 
                   if (!match.hasMatch())
                       qWarning() << "Incorrect json data";
                   else
                   {
-                      QJsonObject obj;
-                      obj.insert("data", match.captured(0));
-                      QJsonDocument requestDoc(obj);
-                      doc = sendJsonTransaction(requestDoc);
+                      QJsonDocument document = QJsonDocument::fromJson(match.captured(0).toStdString().data());
+                      doc = sendJsonTransaction(document);
                   }
               }
               else{

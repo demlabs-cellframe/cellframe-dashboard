@@ -32,6 +32,16 @@ QJsonDocument DapWebControll::processingResult(QString status, QString errorMsg,
     return doc;
 }
 
+QJsonDocument DapWebControll::processingResult(QString status, QString errorMsg, QString data)
+{
+    QJsonObject obj;
+    obj.insert("status", status);
+    obj.insert("errorMsg", errorMsg);
+    obj.insert("data", data);
+    QJsonDocument doc(obj);
+    return doc;
+}
+
 QJsonDocument DapWebControll::processingResult(QString status, QString errorMsg)
 {
     QJsonObject obj;
@@ -48,23 +58,29 @@ QJsonDocument DapWebControll::getWallets()
             .arg(CLI_PATH);
 
     QString result = send_cmd(command);
-
     QJsonDocument docResult;
-    QJsonArray jsonArr;
 
-    QRegularExpression rx("wallet:\\s(.+)\\s", QRegularExpression::MultilineOption);
-    QRegularExpressionMatchIterator itr = rx.globalMatch(result);
-    if(itr.hasNext()){
-        while (itr.hasNext()){
-            QRegularExpressionMatch match = itr.next();
-            QString walletName = match.captured(1);
-            walletName = walletName.split("\r")[0];
-            jsonArr.append(QJsonValue(walletName));
+    if(!result.isEmpty())
+    {
+
+        QJsonArray jsonArr;
+
+        QRegularExpression rx("wallet:\\s(.+)\\s", QRegularExpression::MultilineOption);
+        QRegularExpressionMatchIterator itr = rx.globalMatch(result);
+        if(itr.hasNext()){
+            while (itr.hasNext()){
+                QRegularExpressionMatch match = itr.next();
+                QString walletName = match.captured(1);
+                walletName = walletName.split("\r")[0];
+                jsonArr.append(QJsonValue(walletName));
+            }
+            docResult = processingResult("ok", "", jsonArr);
+        }else{
+            qWarning() << "Can't parse result" << result;
+            docResult = processingResult("bad", "Can't parse result. " + result);
         }
-        docResult = processingResult("ok", "", jsonArr);
     }else{
-        qWarning() << "Can't parse result" << result;
-        docResult = processingResult("bad", "Can't parse result. " + result);
+        docResult = processingResult("bad", "", QString("Node is offline"));
     }
     return docResult;
 }
@@ -211,21 +227,26 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
     txCommand = txCommand.arg(value);
 
     QString resultTx = send_cmd(txCommand);
-
-    QJsonObject res;
     QJsonDocument docResult;
 
-    QRegExp rx("transfer=(\\w+)");
-    rx.indexIn(resultTx, 0);
+    if(!resultTx.isEmpty())
+    {
+        QJsonObject res;
 
-    if(rx.cap(1) == "Ok"){
-        QRegExp rxHash("tx_hash=0x(\\w+)");
-        rxHash.indexIn(resultTx, 0);
-        res.insert("transfer", rx.cap(1));
-        res.insert("hash", rxHash.cap(1));
-        docResult = processingResult("ok", "", res);
+        QRegExp rx("transfer=(\\w+)");
+        rx.indexIn(resultTx, 0);
+
+        if(rx.cap(1) == "Ok"){
+            QRegExp rxHash("tx_hash=0x(\\w+)");
+            rxHash.indexIn(resultTx, 0);
+            res.insert("transfer", rx.cap(1));
+            res.insert("hash", rxHash.cap(1));
+            docResult = processingResult("ok", "", res);
+        }else{
+            docResult = processingResult("bad", resultTx, res);
+        }
     }else{
-        docResult = processingResult("bad", resultTx, res);
+        docResult = processingResult("bad", "", QString("Node is offline"));
     }
 
     return docResult;
@@ -299,7 +320,7 @@ QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
             docResult = processingResult("bad", QString(result));
         }
     }else{
-        docResult = processingResult("bad", QString(result));
+        docResult = processingResult("bad", QString("Node is offline"));
     }
     return docResult;
 }
@@ -319,6 +340,10 @@ QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
     QString result = send_cmd(txCustomCommand);
 
     QJsonDocument docResult;
-    docResult = processingResult("bad", QString(result));
+    if(result.isEmpty())
+        docResult = processingResult("bad", QString("Node is offline"));
+    else
+        docResult = processingResult("ok", "", result);
+
     return docResult;
 }
