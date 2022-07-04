@@ -42,7 +42,6 @@ ColumnLayout {
         realValue: logicStock.tokenPrice
     }
 
-
     Rectangle
     {
         Layout.fillWidth: true
@@ -73,9 +72,16 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: "CELL"
-        realValue: 0
-        onTextValueChanged:
-            total.realValue = realValue * logicStock.tokenPrice
+        textValue: "0.0"
+        onEdited:
+        {
+            total.setRealValue(realValue * logicStock.tokenPrice)
+
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+        }
     }
 
     RowLayout
@@ -102,8 +108,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice)*0.25
-                total.realValue = logicStock.balanceReal*0.25
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
+                total.setRealValue(logicStock.balanceReal*0.25)
             }
         }
 
@@ -124,8 +131,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice)*0.5
-                total.realValue = logicStock.balanceReal*0.5
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
+                total.setRealValue(logicStock.balanceReal*0.5)
             }
         }
 
@@ -146,8 +154,9 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice)*0.75
-                total.realValue = logicStock.balanceReal*0.75
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
+                total.setRealValue(logicStock.balanceReal*0.75)
             }
         }
 
@@ -168,8 +177,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.realValue = logicStock.balanceReal / logicStock.tokenPrice
-                total.realValue = logicStock.balanceReal
+                amount.setRealValue(
+                    logicStock.balanceReal / logicStock.tokenPrice)
+                total.setRealValue(logicStock.balanceReal)
             }
         }
     }
@@ -204,9 +214,9 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: tokenName
-        realValue: 0.0
-        onTextValueChanged:
-            amount.realValue = realValue / logicStock.tokenPrice
+        textValue: "0.0"
+        onEdited:
+            amount.setRealValue(realValue / logicStock.tokenPrice)
     }
 
     DapButton

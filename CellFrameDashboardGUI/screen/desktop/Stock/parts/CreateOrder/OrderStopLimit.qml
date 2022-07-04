@@ -9,6 +9,12 @@ ColumnLayout {
     Layout.topMargin: 16
     spacing: 0
 
+    Component.onCompleted:
+    {
+        stop.setRealValue(logicStock.tokenPrice)
+        limit.setRealValue(logicStock.tokenPrice)
+    }
+
     Rectangle
     {
         Layout.fillWidth: true
@@ -38,7 +44,7 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: tokenName
-        realValue: logicStock.tokenPrice
+        textValue: "0.0"
     }
 
     Rectangle
@@ -90,7 +96,7 @@ ColumnLayout {
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
             textToken: tokenName
-            realValue: logicStock.tokenPrice
+            textValue: "0.0"
         }
 
         Rectangle
@@ -147,7 +153,14 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: "CELL"
-        realValue: 0.0
+        textValue: "0.0"
+        onEdited:
+        {
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+        }
     }
 
     RowLayout
@@ -174,7 +187,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )*0.25
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
             }
         }
 
@@ -195,7 +209,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )*0.5
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
             }
         }
 
@@ -216,7 +231,8 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )*0.75
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
             }
         }
 
@@ -237,7 +253,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )
+                amount.setRealValue(
+                    logicStock.balanceReal / logicStock.tokenPrice)
             }
         }
     }

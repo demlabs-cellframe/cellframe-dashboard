@@ -14,11 +14,19 @@ Rectangle
     color: "transparent"
     radius: 4
 
+    signal edited()
+
     onRealValueChanged:
     {
-        textValue.text = realValue.toFixed(roundPower)
-        if (textValue.text === (0.0).toFixed(roundPower))
-            textValue.text = "0.0"
+        if (!enabled)
+        {
+            textValue.text = realValue.toFixed(roundPower)
+            if (textValue.text === (0.0).toFixed(roundPower))
+                textValue.text = "0.0"
+            print("onRealValueChanged",
+                  "textValue.text", textValue.text,
+                  "realValue", realValue)
+        }
     }
 
     RowLayout
@@ -40,6 +48,19 @@ Rectangle
             text: "0.0"
 
             background: Rectangle{color:"transparent"}
+
+            onTextEdited:
+            {
+                if (enabled)
+                {
+                    realValue = parseFloat(text)
+                    print("onTextChanged",
+                          "textValue.text", textValue.text,
+                          "realValue", realValue)
+
+                    edited()
+                }
+            }
         }
 
         Text
@@ -51,5 +72,18 @@ Rectangle
             color: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
         }
+    }
+
+    function setRealValue(value)
+    {
+        realValue = value
+
+        textValue.text = realValue.toFixed(roundPower)
+        if (textValue.text === (0.0).toFixed(roundPower))
+            textValue.text = "0.0"
+
+        print("setRealValue",
+              "textValue.text", textValue.text,
+              "realValue", realValue)
     }
 }
