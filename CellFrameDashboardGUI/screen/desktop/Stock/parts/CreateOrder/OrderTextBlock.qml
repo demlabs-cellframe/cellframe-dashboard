@@ -14,6 +14,13 @@ Rectangle
     color: "transparent"
     radius: 4
 
+    onRealValueChanged:
+    {
+        textValue.text = realValue.toFixed(roundPower)
+        if (textValue.text === (0.0).toFixed(roundPower))
+            textValue.text = "0.0"
+    }
+
     RowLayout
     {
         anchors.fill: parent
@@ -30,7 +37,7 @@ Rectangle
             placeholderText: qsTr("0.0")
             color: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
-            text: realValue.toFixed(roundPower)
+            text: "0.0"
 
             background: Rectangle{color:"transparent"}
         }
