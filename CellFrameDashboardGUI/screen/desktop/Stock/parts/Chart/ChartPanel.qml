@@ -9,7 +9,6 @@ import "../DapPairComboBox"
 Item
 {
     property real roundValue: 1000000
-    property int roundPower: 6
     property alias tokenPriceText: tokenPriceText
 
     property alias candleLogic: chartItem.candleLogic
@@ -32,7 +31,12 @@ Item
                 id: pairBox
                 Layout.minimumWidth: 190
                 height: 32
-                Component.onCompleted: logic.setModel(pairModel)
+                Component.onCompleted:
+                {
+                    logicStock.initPairModel()
+                    logic.setModel(pairModel)
+                    print("pairModel.count", pairModel.count)
+                }
                 onCurrentIndexChanged: {
                     logicStock.indexPair = currentIndex
                     logicStock.nameTokenPair = pairModel.get(currentIndex).pair.split("/")[1]
@@ -57,7 +61,7 @@ Item
                     id: max24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: "-"
+                    text: dataWorker.maximum24h.toFixed(6)
                 }
             }
 
@@ -79,7 +83,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: "-"
+                    text: dataWorker.minimum24h.toFixed(6)
                 }
             }
 
@@ -181,7 +185,8 @@ Item
                 id: tokenPriceText
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColorGreen
-                text: logicStock.tokenPriceRounded
+                text: dataWorker.currentTokenPrice.
+                    toFixed(roundPower)
             }
         }
 
@@ -223,12 +228,6 @@ Item
             Layout.topMargin: 9
             Layout.fillWidth: true
             Layout.fillHeight: true
-
-            candleLogic.onMin24max24Changed:
-            {
-                min24hText.text = min24h.toFixed(roundPower)
-                max24hText.text = max24h.toFixed(roundPower)
-            }
 
             candleLogic.onChandleSelected:
             {
@@ -297,14 +296,14 @@ Item
             ChartTextBlock
             {
                 id: textHigh
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 95
                 label: qsTr("High:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textLow
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 90
                 label: qsTr("Low:")
                 text: "-"
             }
@@ -334,11 +333,13 @@ Item
         {
             interval = 500 + Math.round(Math.random()*3000)
 
-            candleLogic.generateNewPrice()
+            dataWorker.generateNewPrice()
+
+            dataWorker.getMinimumMaximum24h()
 
             updateTokenPrice()
 
-            candleLogic.getCandleModel()
+            dataWorker.getCandleModel()
 
 //            logic.resetRightTime()
 
@@ -353,11 +354,12 @@ Item
     function updateTokenPrice()
     {
         logicStock.tokenPriceRounded =
-                (logicStock.tokenPrice).toFixed(roundPower)
-//        logicStock.tokenPriceRounded =
-//                Math.round(logicStock.tokenPrice*roundValue)/roundValue
+                dataWorker.currentTokenPrice.toFixed(roundPower)
 
-        if (logicStock.tokenPrice < logicStock.tokenPrevPrice)
+        logicStock.tokenPrice = dataWorker.currentTokenPrice
+        logicStock.tokenPrevPrice = dataWorker.previousTokenPrice
+
+        if (dataWorker.currentTokenPrice < dataWorker.previousTokenPrice)
             tokenPriceText.color = currTheme.textColorRed
         else
             tokenPriceText.color = currTheme.textColorGreen

@@ -7,6 +7,7 @@ Rectangle
 {
     property alias textValue: textValue.text
     property alias textToken: textToken.text
+    property real realValue: 0.0
     property string placeholderText: textValue.placeholderText
 
     border.color: currTheme.borderColor
@@ -29,6 +30,7 @@ Rectangle
             placeholderText: qsTr("0.0")
             color: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
+            text: realValue.toFixed(roundPower)
 
             background: Rectangle{color:"transparent"}
         }

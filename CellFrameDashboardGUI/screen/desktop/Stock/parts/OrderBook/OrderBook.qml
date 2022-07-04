@@ -62,7 +62,7 @@ Page
                 Layout.leftMargin: 16
                 index: 0
                 isActive: true
-                source: "qrc:/screen/desktop/Stock/icons/sellBuy_icon.png"
+                source: "../../icons/sellBuy_icon.png"
                 onClicked: {
                     sellView.visible = true
                     buyView.visible = true
@@ -75,7 +75,7 @@ Page
                 id: buy
                 Layout.leftMargin: 8
                 index: 1
-                source: "qrc:/screen/desktop/Stock/icons/buyIcon.png"
+                source: "../../icons/buyIcon.png"
                 onClicked: {
                     sellView.visible = false
                     buyView.visible = true
@@ -88,7 +88,7 @@ Page
                 id: sell
                 Layout.leftMargin: 8
                 index: 2
-                source: "qrc:/screen/desktop/Stock/icons/sellIcon.png"
+                source: "../../icons/sellIcon.png"
                 onClicked: {
                     sellView.visible = true
                     buyView.visible = false
@@ -116,7 +116,7 @@ Page
         {
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30
 
             RowLayout
             {

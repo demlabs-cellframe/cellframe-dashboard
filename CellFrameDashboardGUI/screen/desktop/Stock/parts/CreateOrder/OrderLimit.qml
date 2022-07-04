@@ -13,7 +13,7 @@ ColumnLayout {
     {
         Layout.fillWidth: true
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -22,9 +22,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
         Text
         {
@@ -34,9 +34,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignRight
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 57 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.rightMargin: 57
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
 
         }
     }
@@ -54,10 +54,10 @@ ColumnLayout {
             id: price
             Layout.fillWidth: true
             Layout.minimumWidth: 215
-            Layout.minimumHeight: 40 * pt
-            Layout.maximumHeight: 40 * pt
+            Layout.minimumHeight: 40
+            Layout.maximumHeight: 40
             textToken: tokenName
-            textValue: logicStock.tokenPriceRounded
+            realValue: logicStock.tokenPrice
         }
 
         Rectangle
@@ -89,7 +89,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.topMargin: 12
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -98,9 +98,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
     }
 
@@ -114,7 +114,7 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: "CELL"
-        textValue: "0"
+        realValue: 0.0
     }
 
     RowLayout
@@ -141,7 +141,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.25
+                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )*0.25
             }
         }
 
@@ -162,7 +162,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.5
+                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )*0.5
             }
         }
 
@@ -183,7 +183,11 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.75
+                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )*0.75
+
+                print("logicStock.balanceReal", logicStock.balanceReal,
+                      "logicStock.tokenPrice", logicStock.tokenPrice,
+                      "amount.realValue", amount.realValue)
             }
         }
 
@@ -204,7 +208,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )
+                amount.realValue = (logicStock.balanceReal / logicStock.tokenPrice )
             }
         }
     }
@@ -213,8 +217,8 @@ ColumnLayout {
     {
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
-        implicitHeight: 36 * pt
-        implicitWidth: 132 * pt
+        implicitHeight: 36
+        implicitWidth: 132
         textButton: qsTr("Create")
         horizontalAligmentText: Text.AlignHCenter
         indentTextRight: 0
@@ -229,7 +233,7 @@ ColumnLayout {
                 "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
                 currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                price.textValue, amount.textValue,
+                price.realValue, amount.realValue,
                 expiresModel.get(expiresComboBox.currentIndex).name,
                 sellBuySwitch.checked? "<=" + price.textValue :">=" + price.textValue)
 

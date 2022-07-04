@@ -43,7 +43,7 @@ RowLayout
         Layout.preferredWidth: layoutCoeff.get("price")
         color: currTheme.textColor
         font: isHeader? mainFont.dapFont.regular12 : mainFont.dapFont.regular13
-        text: isHeader? qsTr("Price") : price
+        text: isHeader? qsTr("Price") : price.toFixed(roundPower)
     }
 
     Text
@@ -51,7 +51,7 @@ RowLayout
         Layout.preferredWidth: layoutCoeff.get("amount")
         color: currTheme.textColor
         font: isHeader? mainFont.dapFont.regular12 : mainFont.dapFont.regular13
-        text: isHeader? qsTr("Amount") : amount
+        text: isHeader? qsTr("Amount") : amount.toFixed(roundPower)
     }
 
     Text
@@ -67,7 +67,7 @@ RowLayout
         Layout.preferredWidth: layoutCoeff.get("total")
         color: currTheme.textColor
         font: isHeader? mainFont.dapFont.regular12 : mainFont.dapFont.regular13
-        text: isHeader? qsTr("Total") : total
+        text: isHeader? qsTr("Total") : total.toFixed(roundPower)
     }
 
     Text
