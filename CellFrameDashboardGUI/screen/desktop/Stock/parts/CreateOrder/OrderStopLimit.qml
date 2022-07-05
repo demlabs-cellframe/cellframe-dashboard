@@ -260,15 +260,11 @@ ColumnLayout {
             logicStock.addNewOrder(
                 date.toLocaleString(Qt.locale("en_EN"),
                 "yyyy-MM-dd hh:mm"),
-                "CELL/USDT", "Market", "Sell",
-                1234.4356, 674221.23, "1 day","-")
-
-            logicStock.addNewOrder(
-                date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
-                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                limit.realValue, amount.realValue,
+                currentOrder,
+                sellBuySwitch.checked? "Sell": "Buy",
+                limit.realValue,
+                amount.realValue,
                 expiresModel.get(expiresComboBox.currentIndex).name,
                 sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
 

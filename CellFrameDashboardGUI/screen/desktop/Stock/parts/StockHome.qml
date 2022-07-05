@@ -88,8 +88,11 @@ Item
                     {
                         stockTopPanel.setBackToStockVisible(true)
 
+//                        stockScreen.changeMainPage(
+//                                    "parts/OrderList/OrderList.qml")
+
                         stockScreen.changeMainPage(
-                                    "parts/OrderList/OrderList.qml")
+                                    "parts/MyOrders/MyOrdersTab.qml")
 //                        changeRightPage("CreateOrder.qml")
 
                     }
