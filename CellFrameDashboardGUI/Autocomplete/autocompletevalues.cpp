@@ -5,8 +5,8 @@
 
 #ifdef Q_OS_WIN
 #include "registry.h"
-#define PUB_CERT_PATH QString("%1/cellframe-node/var/lib/ca/").arg(regGetUsrPath())
-#define PRIV_CERT_PATH QString("%1/cellframe-node/share/ca/").arg(regGetUsrPath())
+#define PRIV_CERT_PATH QString("%1/cellframe-node/var/lib/ca/").arg(regGetUsrPath())
+#define PUB_CERT_PATH QString("%1/cellframe-node/share/ca/").arg(regGetUsrPath())
 #define NETWORKS_PATH QString("%1/cellframe-node/etc/network/").arg(regGetUsrPath())
 #endif
 
@@ -53,9 +53,11 @@ void AutocompleteValues::_getNetworks()
     for (int i = 0; i < files.length(); ++i)
     {
         QString s = files[i].remove(".cfg");
+        s = files[i].remove(".tpl");
         if (s != "." && s != "..")
             networks.append(s);
     }
+    networks.removeDuplicates();
 }
 
 AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController, QObject *parent)
