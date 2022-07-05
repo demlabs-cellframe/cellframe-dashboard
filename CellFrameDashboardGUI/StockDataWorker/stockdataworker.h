@@ -21,6 +21,9 @@ class StockDataWorker : public QObject
     Q_PROPERTY(double minPrice READ minPrice)
     Q_PROPERTY(double maxPrice READ maxPrice)
 
+    Q_PROPERTY(qint64 minPriceTime READ minPriceTime)
+    Q_PROPERTY(qint64 maxPriceTime READ maxPriceTime)
+
     Q_PROPERTY(qint64 beginTime READ beginTime)
     Q_PROPERTY(qint64 endTime READ endTime)
 
@@ -36,23 +39,23 @@ class StockDataWorker : public QObject
     Q_PROPERTY(int firstVisibleCandle READ firstVisibleCandle)
     Q_PROPERTY(int lastVisibleCandle READ lastVisibleCandle)
 
-    Q_PROPERTY(int firstVisibleAverage READ firstVisibleAverage)
-    Q_PROPERTY(int lastVisibleAverage READ lastVisibleAverage)
+//    Q_PROPERTY(int firstVisibleAverage READ firstVisibleAverage)
+//    Q_PROPERTY(int lastVisibleAverage READ lastVisibleAverage)
 
 public:
     explicit StockDataWorker(QObject *parent = nullptr);
 
     Q_INVOKABLE void generatePriceData(int length);
-
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
 
     Q_INVOKABLE void getCandleModel();
-
     Q_INVOKABLE QVariantMap getCandleInfo(int index);
 
     Q_INVOKABLE void getAveragedModel();
+    Q_INVOKABLE QVariantMap getAveragedInfo(int chart, int index);
 
-    Q_INVOKABLE QVariantMap getAveragedInfo(int index);
+    Q_INVOKABLE int getFirstVisibleAverage(int chart);
+    Q_INVOKABLE int getLastVisibleAverage(int chart);
 
     Q_INVOKABLE void getMinimumMaximum24h();
 
@@ -84,6 +87,11 @@ public:
     double maxPrice() const
         { return m_maxPrice; }
 
+    qint64 minPriceTime() const
+        { return m_minPriceTime; }
+    qint64 maxPriceTime() const
+        { return m_maxPriceTime; }
+
     qint64 beginTime() const
         { return m_beginTime; }
     qint64 endTime() const
@@ -109,10 +117,10 @@ public:
     int lastVisibleCandle() const
         { return m_lastVisibleCandle; }
 
-    int firstVisibleAverage() const
-        { return m_firstVisibleAverage; }
-    int lastVisibleAverage() const
-        { return m_lastVisibleAverage; }
+//    int firstVisibleAverage() const
+//        { return m_firstVisibleAverage; }
+//    int lastVisibleAverage() const
+//        { return m_lastVisibleAverage; }
 
 public slots:
     void setCandleWidth(qint64 width);
@@ -143,7 +151,9 @@ signals:
 private:
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
-    QVector <PriceInfo> averagedModel;
+
+    QVector <QVector <PriceInfo>> averagedModel;
+    QVector <int> averageDelta;
 
     qint64 m_candleWidth {1000};
     double m_visibleTime {1000000};
@@ -153,6 +163,9 @@ private:
     qint64 m_maxTime {0};
     double m_minPrice {0.0};
     double m_maxPrice {0.0};
+
+    qint64 m_minPriceTime {0};
+    qint64 m_maxPriceTime {0};
 
     qint64 m_beginTime {0};
     qint64 m_endTime {0};
@@ -169,8 +182,8 @@ private:
     int m_firstVisibleCandle {0};
     int m_lastVisibleCandle {0};
 
-    int m_firstVisibleAverage {0};
-    int m_lastVisibleAverage {0};
+    QVector <int> firstVisibleAverage;
+    QVector <int> lastVisibleAverage;
 };
 
 #endif // STOCKDATAWORKER_H

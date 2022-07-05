@@ -197,6 +197,7 @@ Item
 
             Text
             {
+                id: timeItem
                 Layout.fillWidth: true
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColorGray
@@ -347,6 +348,17 @@ Item
             chartItem.chartCanvas.requestPaint()
 
             volume24h += Math.random()*10
+        }
+    }
+
+    Timer
+    {
+        id: timeUpdate
+        repeat: true
+        interval: 10000
+        onTriggered:
+        {
+            timeItem.text = logicStock.getCurrentDate("MMM dd, hh:mm AP")
         }
     }
 

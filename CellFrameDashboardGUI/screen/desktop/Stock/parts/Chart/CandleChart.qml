@@ -36,6 +36,8 @@ Item
 
         generateTimer.start()
 
+        timeUpdate.start()
+
         print("CandleChart", "Component.onCompleted", "END")
     }
 
