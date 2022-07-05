@@ -250,8 +250,8 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
             if (_commands[i].contains("\r"))
                 _commands[i] = _commands[i].split('\r')[0];
             {
-                //if (_commands[i].contains("-token <"))
-                  //  qDebug() << "llllllllllllllllllll command:" << _commands[i];
+               // if (_commands[i].contains("-token <"))
+                    //qDebug() << "llllllllllllllllllll command:" << _commands[i];
 
                 parsedCommands.clear();
                 parseTree(_commands[i]);

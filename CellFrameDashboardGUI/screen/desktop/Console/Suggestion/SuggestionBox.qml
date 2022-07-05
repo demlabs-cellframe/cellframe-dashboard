@@ -34,7 +34,6 @@ Image {
 
     Component.onCompleted:
     {
-        console.log("yyyyyyyyyyyyyyyy", visible, model.length)
         model = {}
     }
 
@@ -47,7 +46,7 @@ Image {
     // --- behaviours
     z: parent.z + 100
     visible: model.length > 0
-    height: model.length * 25 < 200 * pt ? model.length * 25 : 200 * pt
+    height: model.length * 30 < 240 * pt ? model.length * 30 : 240 * pt
 
 
     // --- UI
@@ -56,28 +55,28 @@ Image {
     onSelectedIndexChanged:
     {
         if (selectedIndex == model.length - 1)
-            flickContY = model.length * 25 * pt - height
+            flickContY = model.length * 30 * pt - height
         else
         if (selectedIndex == 0)
             flickContY = 0
         else
-        if (selectedIndex * 25 > flickContY + height - 25 * pt)
-            flickContY += 25 * pt
+        if (selectedIndex * 30 > flickContY + height - 30 * pt)
+            flickContY += 30 * pt
         else
-        if (selectedIndex * 25 - 25 * pt < flickContY)
-            flickContY -= 25 * pt
+        if (selectedIndex * 30 - 30 * pt < flickContY)
+            flickContY -= 30 * pt
     }
 
     Flickable
     {
         anchors.fill: parent
-        contentHeight: container.model.length * 25
+        contentHeight: container.model.length * 30
         clip: true
         contentY: flickContY
     Column {
         id: popup
         clip: true
-        height: model.length * 25
+        height: model.length * 30
         width: parent.width - 6
         anchors.centerIn: parent
 
@@ -97,16 +96,12 @@ Image {
                 id: delegateItem
                 property variant suggestion: model
 
-                height: 25 * pt
+                height: 30 * pt
                 width: container.width
 
                 Rectangle
                 {
-                    radius: 16
-                    width: textComponent.width + 18
-                    height: textComponent.height
-                    x: textComponent.x - 9
-                    y: textComponent.y
+                    anchors.fill: parent
                     color: currTheme.hilightColorComboBox
                     visible: index == selectedIndex
                 }
