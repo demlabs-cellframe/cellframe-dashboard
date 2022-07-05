@@ -4,9 +4,12 @@
 #include <QRandomGenerator>
 #include <QDebug>
 
-constexpr int visibleDefaultCandles {40};
+constexpr double visibleDefaultCandles {40};
 constexpr double maxZoom{3.0};
 constexpr double minZoom{0.2};
+
+constexpr double minAverageStep {0.5};
+constexpr double averageDelta {20};
 
 StockDataWorker::StockDataWorker(QObject *parent) :
     QObject(parent)
@@ -174,6 +177,120 @@ QVariantMap StockDataWorker::getCandleInfo(int index)
         return candleModel.at(index).getMap();
 }
 
+void StockDataWorker::getAveragedModel()
+{
+    int averStep = m_candleWidth * minAverageStep;
+
+    qint64 timeLength = priceModel.last().time - priceModel.first().time;
+    int length = timeLength / averStep;
+    if (timeLength % averStep)
+        ++length;
+
+    qint64 averBegin = priceModel.first().time;
+    qint64 averNext = averBegin + averStep;
+
+    QVector <PriceInfo> tempModel;
+
+    tempModel.resize(length);
+
+//    qDebug() << "StockDataWorker::getAveragedModel"
+//             << "averStep" << averStep
+//             << "length" << length;
+
+    int averIndex = 0;
+
+    int counter = 0;
+    double summ = 0;
+
+    for (auto i = 0; i < priceModel.size(); ++i)
+    {
+        if (priceModel.at(i).time > averNext ||
+            i == priceModel.size()-1)
+        {
+            if (averIndex >= tempModel.size())
+                tempModel.resize(averIndex+1);
+
+            PriceInfo info;
+
+            info.time = averBegin + averStep/2;
+
+            if (counter == 0)
+                info.price = priceModel.at(i).price;
+            else
+                info.price = summ/counter;
+
+            tempModel[averIndex] = info;
+
+//            qDebug() << "StockDataWorker::getAveragedModel"
+//                     << averIndex
+//                     << "info.time" << info.time
+//                     << "info.price" << info.price
+//                     << "counter" << counter
+//                     << "summ" << summ;
+
+            counter = 0;
+            summ = 0;
+
+            averBegin = averNext;
+            averNext = averBegin + averStep;
+
+            ++averIndex;
+        }
+        else
+        {
+            ++counter;
+            summ += priceModel.at(i).price;
+        }
+    }
+
+    if (averIndex < tempModel.size())
+        tempModel.resize(averIndex);
+
+//    qDebug() << "StockDataWorker::getAveragedModel"
+//             << "tempModel.size()" << tempModel.size();
+
+    averagedModel.resize(tempModel.size());
+
+    for (auto i = 0; i < tempModel.size(); ++i)
+    {
+        counter = 0;
+        summ = 0;
+
+        for (auto j = i - averageDelta; j <= i + averageDelta; ++j)
+        {
+            if (j < 0)
+                continue;
+            if (j >= tempModel.size())
+                break;
+
+            ++counter;
+            summ += tempModel.at(j).price;
+        }
+
+        PriceInfo info{tempModel.at(i).time, summ/counter};
+
+        averagedModel[i] = info;
+
+//        qDebug() << "StockDataWorker::getAveragedModel"
+//                 << i
+//                 << "info.time" << info.time
+//                 << "info.price" << info.price
+//                 << "counter" << counter
+//                 << "summ" << summ;
+    }
+}
+
+QVariantMap StockDataWorker::getAveragedInfo(int index)
+{
+//    qDebug() << "StockDataWorker::getAveragedInfo"
+//             << index << averagedModel.size();
+
+    if (index < 0 || index >= averagedModel.size())
+        return {};
+    else
+        return averagedModel.at(index).getMap();
+}
+
 void StockDataWorker::getMinimumMaximum24h()
 {
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
@@ -203,7 +320,7 @@ void StockDataWorker::getMinimumMaximum24h()
 void StockDataWorker::resetRightTime()
 {
     if (!candleModel.isEmpty())
-        setRightTime(candleModel.last().time + m_candleWidth/2);
+        m_rightTime = candleModel.last().time + m_candleWidth/2;
 }
 
 void StockDataWorker::setNewCandleWidth(qint64 width)
@@ -216,6 +333,8 @@ void StockDataWorker::setNewCandleWidth(qint64 width)
     setVisibleTime(m_candleWidth * visibleDefaultCandles);
 
     getCandleModel();
+
+    getAveragedModel();
 
     resetRightTime();
 
@@ -297,19 +416,44 @@ void StockDataWorker::dataAnalysis()
 
     for (auto i = 0; i < candleModel.size(); ++i)
     {
-        if (candleModel.at(i).time + m_candleWidth*0.5 <
+        qint64 time = candleModel.at(i).time;
+
+        if (time + m_candleWidth*0.5 <
                 m_rightTime - m_visibleTime)
             continue;
 
         if (m_firstVisibleCandle == 0)
             m_firstVisibleCandle = i;
 
-        if (candleModel.at(i).time - m_candleWidth*0.5 >
+        if (time - m_candleWidth*0.5 >
                 m_rightTime)
             break;
 
         m_lastVisibleCandle = i;
     }
+
+    m_firstVisibleAverage = 0;
+    m_lastVisibleAverage = 0;
+
+    for (auto i = 0; i < averagedModel.size(); ++i)
+    {
+        qint64 time = averagedModel.at(i).time;
+
+        if (time < m_rightTime - m_visibleTime)
+            continue;
+
+        if (m_firstVisibleAverage == 0)
+            m_firstVisibleAverage = i;
+
+        if (time > m_rightTime)
+            break;
+
+        m_lastVisibleAverage = i;
+    }
+
+//    qDebug() << "StockDataWorker::dataAnalysis"
+//             << "m_firstVisibleAverage" << m_firstVisibleAverage
+//             << "m_lastVisibleAverage" << m_lastVisibleAverage;
 
 //    qDebug() << "StockDataWorker::dataAnalysis"
 //             << "m_minTime" << m_minTime
@@ -368,7 +512,6 @@ bool StockDataWorker::zoomTime(int step)
         m_rightTime += (m_visibleTime - oldVisibleTime)*0.5;
 
         emit visibleTimeChanged(m_visibleTime);
-        emit rightTimeChanged(m_rightTime);
 
         return true;
     }
@@ -383,8 +526,6 @@ void StockDataWorker::shiftTime(double step)
 
     if (m_rightTime < m_beginTime + m_visibleTime*0.5)
         m_rightTime = m_beginTime + m_visibleTime*0.5;
-
-    emit rightTimeChanged(m_rightTime);
 }
 
 void StockDataWorker::setCandleWidth(qint64 width)
@@ -403,69 +544,6 @@ void StockDataWorker::setVisibleTime(double time)
 
     m_visibleTime = time;
     emit visibleTimeChanged(m_visibleTime);
-}
-
-void StockDataWorker::setRightTime(qint64 time)
-{
-    if (m_rightTime == time)
-        return;
-
-    m_rightTime = time;
-    emit rightTimeChanged(m_rightTime);
-}
-
-void StockDataWorker::setMinTime(qint64 time)
-{
-    if (m_minTime == time)
-        return;
-
-    m_minTime = time;
-    emit minTimeChanged(m_minTime);
-}
-
-void StockDataWorker::setMaxTime(qint64 time)
-{
-    if (m_maxTime == time)
-        return;
-
-    m_maxTime = time;
-    emit maxTimeChanged(m_maxTime);
-}
-
-void StockDataWorker::setMinPrice(double price)
-{
-    if (m_minPrice == price)
-        return;
-
-    m_minPrice = price;
-    emit minPriceChanged(m_minPrice);
-}
-
-void StockDataWorker::setMaxPrice(double price)
-{
-    if (m_maxPrice == price)
-        return;
-
-    m_maxPrice = price;
-    emit maxPriceChanged(m_maxPrice);
-}
-
-void StockDataWorker::setBeginTime(qint64 time)
-{
-    if (m_beginTime == time)
-        return;
-
-    m_beginTime = time;
-    emit beginTimeChanged(m_beginTime);
-}
-
-void StockDataWorker::setEndTime(qint64 time)
-{
-    if (m_endTime == time)
-        return;
-
-    m_endTime = time;
-    emit endTimeChanged(m_endTime);
 }
 
 void StockDataWorker::setMinimum24h(double min)

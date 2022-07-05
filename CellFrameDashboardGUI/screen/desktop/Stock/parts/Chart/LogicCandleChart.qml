@@ -6,7 +6,6 @@ QtObject
 {
     property int fontSize: 11
     property string fontFamilies: "Quicksand"
-//    property string fontFamilies: "Arial"
     property int fontIndent: 3
 
     property string gridColor: "#a0a0a0"
@@ -76,7 +75,7 @@ QtObject
 
         drawGrid(ctx)
 
-//        drawChart(ctx, "blue")
+        drawChart(ctx, "#00afaf")
 
         drawCandleChart(ctx)
 
@@ -384,29 +383,32 @@ QtObject
         ctx.setLineDash([])
     }
 
-/*    function drawChart(ctx, color)
+    function drawChart(ctx, color)
     {
-        for (var i = 1; i < dataModel.count; ++i)
-        {
-            if (dataModel.get(i-1).x < dataWorker.rightTime -
-                    dataWorker.visibleTime)
-                continue
+//        print("firstVisibleAverage", dataWorker.firstVisibleAverage,
+//              "lastVisibleAverage", dataWorker.lastVisibleAverage)
 
-            if (dataModel.get(i).x > dataWorker.rightTime)
-                break
+        for (var i = dataWorker.firstVisibleAverage;
+             i < dataWorker.lastVisibleAverage; ++i)
+        {
+            var info1 = dataWorker.getAveragedInfo(i)
+            var info2 = dataWorker.getAveragedInfo(i+1)
+
+//            print("info1", i, info1.time, info1.price,
+//                  "info2", i+1, info2.time, info2.price)
 
             drawChartLine(ctx,
-                (dataModel.get(i-1).x - dataWorker.rightTime +
+                (info1.time - dataWorker.rightTime +
                     dataWorker.visibleTime)*coefficientTime,
-                (maxPrice - dataModel.get(i-1).y)*coefficientPrice +
-                    chartTextHeight,
-                (dataModel.get(i).x - dataWorker.rightTime +
+                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                    chartCandleBegin,
+                (info2.time - dataWorker.rightTime +
                     dataWorker.visibleTime)*coefficientTime,
-                (dataWorker.maxPrice - dataModel.get(i).y)*coefficientPrice +
-                    chartTextHeight,
+                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                    chartCandleBegin,
                 color)
         }
-    }*/
+    }
 
     function drawCandleChart(ctx)
     {
@@ -500,16 +502,6 @@ QtObject
         ctx.closePath()
     }
 
-    function drawChartLine(ctx, x1, y1, x2, y2, color)
-    {
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = color
-        ctx.beginPath()
-        ctx.moveTo(x1, y1)
-        ctx.lineTo(x2, y2)
-        ctx.stroke()
-    }
-
     function drawHorizontalLine(ctx, y)
     {
         ctx.lineWidth = gridWidth;
@@ -559,6 +551,18 @@ QtObject
         ctx.fillText(text, x,
             chartFullHeight + fontIndent + fontSize);
         ctx.stroke();
+    }
+
+    function drawChartLine(ctx, x1, y1, x2, y2, color)
+    {
+//        print("drawChartLine", x1, y1, x2, y2)
+
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = color
+        ctx.beginPath()
+        ctx.moveTo(x1, y1)
+        ctx.lineTo(x2, y2)
+        ctx.stroke()
     }
 
     function drawCandle(ctx, x, y0, y1, y2, y3, w, color)

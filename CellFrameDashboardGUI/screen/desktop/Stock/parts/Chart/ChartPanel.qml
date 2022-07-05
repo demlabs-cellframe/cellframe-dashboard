@@ -201,7 +201,6 @@ Item
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColorGray
 
-//                text: qsTr("May 30, 08:30 AM")
                 text: logicStock.getCurrentDate("MMM dd, hh:mm AP")
             }
 
@@ -341,7 +340,7 @@ Item
 
             dataWorker.getCandleModel()
 
-//            logic.resetRightTime()
+            dataWorker.getAveragedModel()
 
             candleLogic.dataAnalysis()
 

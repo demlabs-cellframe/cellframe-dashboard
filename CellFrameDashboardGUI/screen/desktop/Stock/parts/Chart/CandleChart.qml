@@ -21,24 +21,14 @@ Item
         logic.redCandleColor = currTheme.textColorRed
         logic.greenCandleColor = currTheme.textColorGreen
 
-//        logic.generateData(10001)
-
+//        dataWorker.generatePriceData(1000000)
         dataWorker.generatePriceData(1000000)
 
         dataWorker.getMinimumMaximum24h()
 
         dataWorker.setNewCandleWidth(logic.minute)
 
-//        logic.setCandleWidth(logic.minute)
-//        logic.getCandleModel(10000)
-
-//        dataWorker.resetRightTime()
-
-//        logic.updateCurrentTokenPrice()
-
         updateTokenPrice()
-
-//        logic.getCandleModel(rowDataModel, candleModel, 20)
 
         logic.dataAnalysis()
 

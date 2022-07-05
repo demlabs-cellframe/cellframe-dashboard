@@ -14,15 +14,15 @@ class StockDataWorker : public QObject
 
     Q_PROPERTY(qint64 candleWidth READ candleWidth WRITE setCandleWidth NOTIFY candleWidthChanged)
     Q_PROPERTY(double visibleTime READ visibleTime WRITE setVisibleTime NOTIFY visibleTimeChanged)
-    Q_PROPERTY(qint64 rightTime READ rightTime WRITE setRightTime NOTIFY rightTimeChanged)
+    Q_PROPERTY(qint64 rightTime READ rightTime)
 
-    Q_PROPERTY(qint64 minTime READ minTime WRITE setMinTime NOTIFY minTimeChanged)
-    Q_PROPERTY(qint64 maxTime READ maxTime WRITE setMaxTime NOTIFY maxTimeChanged)
-    Q_PROPERTY(double minPrice READ minPrice WRITE setMinPrice NOTIFY minPriceChanged)
-    Q_PROPERTY(double maxPrice READ maxPrice WRITE setMaxPrice NOTIFY maxPriceChanged)
+    Q_PROPERTY(qint64 minTime READ minTime)
+    Q_PROPERTY(qint64 maxTime READ maxTime)
+    Q_PROPERTY(double minPrice READ minPrice)
+    Q_PROPERTY(double maxPrice READ maxPrice)
 
-    Q_PROPERTY(qint64 beginTime READ beginTime WRITE setBeginTime NOTIFY beginTimeChanged)
-    Q_PROPERTY(qint64 endTime READ endTime WRITE setEndTime NOTIFY endTimeChanged)
+    Q_PROPERTY(qint64 beginTime READ beginTime)
+    Q_PROPERTY(qint64 endTime READ endTime)
 
     Q_PROPERTY(double minimum24h READ minimum24h WRITE setMinimum24h NOTIFY minimum24hChanged)
     Q_PROPERTY(double maximum24h READ maximum24h WRITE setMaximum24h NOTIFY maximum24hChanged)
@@ -36,8 +36,8 @@ class StockDataWorker : public QObject
     Q_PROPERTY(int firstVisibleCandle READ firstVisibleCandle)
     Q_PROPERTY(int lastVisibleCandle READ lastVisibleCandle)
 
-//    Q_PROPERTY(double coefficientTime READ coefficientTime WRITE setCoefficientTime NOTIFY coefficientTimeChanged)
-//    Q_PROPERTY(double coefficientPrice READ coefficientPrice WRITE setCoefficientPrice NOTIFY coefficientPriceChanged)
+    Q_PROPERTY(int firstVisibleAverage READ firstVisibleAverage)
+    Q_PROPERTY(int lastVisibleAverage READ lastVisibleAverage)
 
 public:
     explicit StockDataWorker(QObject *parent = nullptr);
@@ -49,6 +49,10 @@ public:
     Q_INVOKABLE void getCandleModel();
 
     Q_INVOKABLE QVariantMap getCandleInfo(int index);
+
+    Q_INVOKABLE void getAveragedModel();
+
+    Q_INVOKABLE QVariantMap getAveragedInfo(int index);
 
     Q_INVOKABLE void getMinimumMaximum24h();
 
@@ -105,23 +109,14 @@ public:
     int lastVisibleCandle() const
         { return m_lastVisibleCandle; }
 
-//    double coefficientTime() const
-//        { return m_coefficientTime; }
-//    double coefficientPrice() const
-//        { return m_coefficientPrice; }
+    int firstVisibleAverage() const
+        { return m_firstVisibleAverage; }
+    int lastVisibleAverage() const
+        { return m_lastVisibleAverage; }
 
 public slots:
     void setCandleWidth(qint64 width);
     void setVisibleTime(double time);
-    void setRightTime(qint64 time);
-
-    void setMinTime(qint64 time);
-    void setMaxTime(qint64 time);
-    void setMinPrice(double price);
-    void setMaxPrice(double price);
-
-    void setBeginTime(qint64 time);
-    void setEndTime(qint64 time);
 
     void setMinimum24h(double min);
     void setMaximum24h(double max);
@@ -132,21 +127,9 @@ public slots:
     void setCurrentTokenPrice(double price);
     void setPreviousTokenPrice(double price);
 
-//    void setCoefficientTime(double coeff);
-//    void setCoefficientPrice(double coeff);
-
 signals:
     void candleWidthChanged(qint64 width);
     void visibleTimeChanged(double time);
-    void rightTimeChanged(qint64 time);
-
-    void minTimeChanged(double time);
-    void maxTimeChanged(double time);
-    void minPriceChanged(double price);
-    void maxPriceChanged(double price);
-
-    void beginTimeChanged(double time);
-    void endTimeChanged(double time);
 
     void minimum24hChanged(double min);
     void maximum24hChanged(double min);
@@ -157,12 +140,10 @@ signals:
     void currentTokenPriceChanged(double price);
     void previousTokenPriceChanged(double price);
 
-//    void coefficientTimeChanged(double coeff);
-//    void coefficientPriceChanged(double coeff);
-
 private:
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
+    QVector <PriceInfo> averagedModel;
 
     qint64 m_candleWidth {1000};
     double m_visibleTime {1000000};
@@ -188,8 +169,8 @@ private:
     int m_firstVisibleCandle {0};
     int m_lastVisibleCandle {0};
 
-//    double m_coefficientTime {0.0};
-//    double m_coefficientPrice {0.0};
+    int m_firstVisibleAverage {0};
+    int m_lastVisibleAverage {0};
 };
 
 #endif // STOCKDATAWORKER_H
