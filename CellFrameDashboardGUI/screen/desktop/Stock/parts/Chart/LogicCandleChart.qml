@@ -6,13 +6,17 @@ QtObject
 {
     property int fontSize: 11
     property string fontFamilies: "Quicksand"
-//    property string fontFamilies: "Arial"
     property int fontIndent: 3
 
     property string gridColor: "#a0a0a0"
     property string gridTextColor: "#a0a0a0"
     property string backgroundColor: "#404040"
     property string darkBackgroundColor: "#303030"
+
+    property string labelColor: "#ffffff"
+    property string labelBackgroundColor: "#40303030"
+    property string labelLineColor: "#40ffffff"
+    property real labelLineLength: 30
 
     property string redCandleColor: "#80ff0000"
     property string greenCandleColor: "#8000ff00"
@@ -70,17 +74,25 @@ QtObject
         if (!mouseVisible)
             selectedCandleNumber = dataWorker.lastCandleNumber
 
-        ctx.fillStyle = backgroundColor;
-//        ctx.fillStyle = Qt.rgba(1, 1, 1, 1);
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = backgroundColor
+//        ctx.fillStyle = Qt.rgba(1, 1, 1, 1)
+        ctx.fillRect(0, 0, width, height)
 
         drawGrid(ctx)
 
-//        drawChart(ctx, "blue")
+        drawChart(ctx, 0, "#00ffff")
+        drawChart(ctx, 1, "#2090cf")
+        drawChart(ctx, 2, "#4040af")
 
         drawCandleChart(ctx)
 
+        drawMinMax(ctx)
+
         drawGridText(ctx)
+
+//        drawLineAndLabel(ctx, 200, 100, 123432423.345623948)
+
+//        drawLineAndLabel(ctx, 500, 100, 123432423.345623948)
 
         if (mouseVisible)
             drawSight(ctx)
@@ -283,11 +295,11 @@ QtObject
 
     function drawGridText(ctx)
     {
-        ctx.fillStyle = backgroundColor;
+        ctx.fillStyle = backgroundColor
         ctx.fillRect(width-measurementScaleWidth, 0,
-                     measurementScaleWidth, height);
+                     measurementScaleWidth, height)
         ctx.fillRect(0, height-measurementScaleHeight,
-                     width, height);
+                     width, height)
 
         var date
         var currentX = roundedMaxTime
@@ -364,49 +376,52 @@ QtObject
     {
         ctx.strokeStyle = sightColor
         ctx.setLineDash([4, 2])
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2
 
         if(mouseY <= chartFullHeight)
         {
-            ctx.beginPath();
-            ctx.moveTo(chartWidth, mouseY);
-            ctx.lineTo(0, mouseY);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(chartWidth, mouseY)
+            ctx.lineTo(0, mouseY)
+            ctx.stroke()
         }
 
         if(mouseX <= chartWidth)
         {
-            ctx.beginPath();
-            ctx.moveTo(mouseX, chartFullHeight);
-            ctx.lineTo(mouseX, 0);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(mouseX, chartFullHeight)
+            ctx.lineTo(mouseX, 0)
+            ctx.stroke()
         }
         ctx.setLineDash([])
     }
 
-/*    function drawChart(ctx, color)
+    function drawChart(ctx, chart, color)
     {
-        for (var i = 1; i < dataModel.count; ++i)
-        {
-            if (dataModel.get(i-1).x < dataWorker.rightTime -
-                    dataWorker.visibleTime)
-                continue
+//        print("firstVisibleAverage", dataWorker.firstVisibleAverage,
+//              "lastVisibleAverage", dataWorker.lastVisibleAverage)
 
-            if (dataModel.get(i).x > dataWorker.rightTime)
-                break
+        for (var i = dataWorker.getFirstVisibleAverage(chart);
+             i < dataWorker.getLastVisibleAverage(chart); ++i)
+        {
+            var info1 = dataWorker.getAveragedInfo(chart, i)
+            var info2 = dataWorker.getAveragedInfo(chart, i+1)
+
+//            print("info1", i, info1.time, info1.price,
+//                  "info2", i+1, info2.time, info2.price)
 
             drawChartLine(ctx,
-                (dataModel.get(i-1).x - dataWorker.rightTime +
+                (info1.time - dataWorker.rightTime +
                     dataWorker.visibleTime)*coefficientTime,
-                (maxPrice - dataModel.get(i-1).y)*coefficientPrice +
-                    chartTextHeight,
-                (dataModel.get(i).x - dataWorker.rightTime +
+                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                    chartCandleBegin,
+                (info2.time - dataWorker.rightTime +
                     dataWorker.visibleTime)*coefficientTime,
-                (dataWorker.maxPrice - dataModel.get(i).y)*coefficientPrice +
-                    chartTextHeight,
+                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                    chartCandleBegin,
                 color)
         }
-    }*/
+    }
 
     function drawCandleChart(ctx)
     {
@@ -495,14 +510,136 @@ QtObject
                         selCandle.close)
         }
 
+        ctx.lineCap = "butt"
         ctx.restore()
         ctx.beginPath()
         ctx.closePath()
     }
 
+    function drawMinMax(ctx)
+    {
+        var labelX = (dataWorker.minPriceTime - dataWorker.rightTime +
+                       dataWorker.visibleTime)*coefficientTime
+
+        var labelY = chartDrawHeight + chartCandleBegin
+
+        drawLineAndLabel(ctx, labelX, labelY, dataWorker.minPrice)
+
+        labelX = (dataWorker.maxPriceTime - dataWorker.rightTime +
+                       dataWorker.visibleTime)*coefficientTime
+
+        labelY = chartCandleBegin
+
+        drawLineAndLabel(ctx, labelX, labelY, dataWorker.maxPrice)
+    }
+
+    function drawLineAndLabel(ctx, x, y, text)
+    {
+//        print("drawLineAndLabel", x, y, text)
+
+        var toRight = true
+
+        if (x > chartWidth*0.5)
+            toRight = false
+
+        ctx.lineWidth = 2
+        ctx.strokeStyle = labelLineColor
+        ctx.beginPath()
+        ctx.moveTo(x, y)
+        if (toRight)
+            ctx.lineTo(x+labelLineLength, y)
+        else
+            ctx.lineTo(x-labelLineLength, y)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.stroke()
+
+        ctx.font = "normal "+fontSize+"px "+fontFamilies
+
+        var width = ctx.measureText(text.toFixed(6)).width
+
+        ctx.fillStyle = labelBackgroundColor
+        if (toRight)
+            ctx.fillRect(x+labelLineLength, y-10,
+                     width+fontIndent*2, 18)
+        else
+            ctx.fillRect(x-labelLineLength-fontIndent*2-width, y-10,
+                     width+fontIndent*2, 18)
+
+        ctx.fillStyle = labelColor
+        if (toRight)
+            ctx.fillText(text.toFixed(6),
+                     x+labelLineLength+fontIndent, y + fontSize*0.3)
+        else
+            ctx.fillText(text.toFixed(6),
+                     x-labelLineLength-fontIndent-width, y + fontSize*0.3)
+
+        ctx.stroke()
+    }
+
+    function drawHorizontalLine(ctx, y)
+    {
+        ctx.lineWidth = gridWidth
+        ctx.strokeStyle = gridColor
+        ctx.beginPath()
+        ctx.moveTo(chartWidth, y)
+        ctx.lineTo(0, y)
+        ctx.stroke()
+    }
+
+    function drawVerticalLine(ctx, x)
+    {
+        ctx.lineWidth = gridWidth
+        ctx.strokeStyle = gridColor
+        ctx.beginPath()
+        ctx.moveTo(x, chartFullHeight)
+        ctx.lineTo(x, 0)
+        ctx.stroke()
+    }
+
+    function drawHorizontalLineText(ctx, y, text, color, border = false)
+    {
+        ctx.font = "normal "+fontSize+"px "+fontFamilies
+
+        if (border)
+        {
+            var width = ctx.measureText(text.toFixed(6)).width
+
+            ctx.fillStyle = darkBackgroundColor
+            ctx.fillRect(chartWidth, y-10,
+                         width+6, 18)
+        }
+
+        ctx.fillStyle = color
+        ctx.fillText(text.toFixed(6), chartWidth + fontIndent, y + fontSize*0.3)
+        ctx.stroke()
+    }
+
+    function drawVerticalLineText(ctx, x, text, color, border = false)
+    {
+        ctx.font = "normal "+fontSize+"px "+fontFamilies
+
+        if (border)
+        {
+            var width = ctx.measureText(text).width
+
+            ctx.fillStyle = darkBackgroundColor
+            ctx.fillRect(x-fontIndent, chartFullHeight,
+                         width+fontIndent*2, measurementScaleHeight)
+        }
+
+        ctx.fillStyle = color
+        ctx.fillText(text, x,
+            chartFullHeight + fontIndent + fontSize)
+        ctx.stroke()
+    }
+
     function drawChartLine(ctx, x1, y1, x2, y2, color)
     {
-        ctx.lineWidth = 1;
+//        print("drawChartLine", x1, y1, x2, y2)
+
+        ctx.lineWidth = 1
         ctx.strokeStyle = color
         ctx.beginPath()
         ctx.moveTo(x1, y1)
@@ -510,61 +647,10 @@ QtObject
         ctx.stroke()
     }
 
-    function drawHorizontalLine(ctx, y)
-    {
-        ctx.lineWidth = gridWidth;
-        ctx.strokeStyle = gridColor;
-        ctx.beginPath();
-        ctx.moveTo(chartWidth, y);
-        ctx.lineTo(0, y);
-        ctx.stroke();
-    }
-
-    function drawVerticalLine(ctx, x)
-    {
-        ctx.lineWidth = gridWidth;
-        ctx.strokeStyle = gridColor;
-        ctx.beginPath();
-        ctx.moveTo(x, chartFullHeight);
-        ctx.lineTo(x, 0);
-        ctx.stroke();
-    }
-
-    function drawHorizontalLineText(ctx, y, text, color, border = false)
-    {
-        if (border)
-        {
-            ctx.fillStyle = darkBackgroundColor;
-            ctx.fillRect(chartWidth, y-10,
-                         measurementScaleWidth, 18);
-        }
-
-        ctx.font = "normal "+fontSize+"px "+fontFamilies;
-        ctx.fillStyle = color;
-        ctx.fillText(text.toFixed(6), chartWidth + fontIndent, y + fontSize*0.3);
-        ctx.stroke();
-    }
-
-    function drawVerticalLineText(ctx, x, text, color, border = false)
-    {
-        if (border)
-        {
-            ctx.fillStyle = darkBackgroundColor;
-            ctx.fillRect(x-3, chartFullHeight,
-                         70, measurementScaleHeight);
-        }
-
-        ctx.font = "normal "+fontSize+"px "+fontFamilies;
-        ctx.fillStyle = color;
-        ctx.fillText(text, x,
-            chartFullHeight + fontIndent + fontSize);
-        ctx.stroke();
-    }
-
     function drawCandle(ctx, x, y0, y1, y2, y3, w, color)
     {
         ctx.strokeStyle = color
-        ctx.lineWidth = candleLineWidth;
+        ctx.lineWidth = candleLineWidth
         ctx.beginPath()
             ctx.moveTo(x, y0)
             ctx.lineTo(x, y3)
@@ -585,7 +671,7 @@ QtObject
 
         ctx.strokeStyle = color
         ctx.lineCap = "round"
-        ctx.lineWidth = radius*2;
+        ctx.lineWidth = radius*2
         ctx.beginPath()
             ctx.moveTo(rx+radius, ry+radius)
             ctx.lineTo(rx+rw-radius, ry+radius)
@@ -599,7 +685,7 @@ QtObject
         {
             ctx.strokeStyle = color
             ctx.lineCap = "butt"
-            ctx.lineWidth = rw;
+            ctx.lineWidth = rw
             ctx.beginPath()
                 ctx.moveTo(rx+rw*0.5, ry+radius)
                 ctx.lineTo(rx+rw*0.5, ry+rh-radius)
