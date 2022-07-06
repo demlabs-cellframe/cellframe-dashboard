@@ -162,7 +162,10 @@ Item
                         id: mouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: logicStock.cancelationOrder(index)
+                        onClicked: {
+                            logicStock.cancelationOrder(index)
+                            logic.initOrdersModels()
+                        }
                     }
                 }
             }
