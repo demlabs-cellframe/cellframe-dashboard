@@ -216,7 +216,14 @@ ColumnLayout {
         textToken: tokenName
         textValue: "0.0"
         onEdited:
+        {
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+
             amount.setRealValue(realValue / logicStock.tokenPrice)
+        }
     }
 
     DapButton

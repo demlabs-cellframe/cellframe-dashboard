@@ -20,12 +20,12 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.topMargin: 3 * pt
-        spacing: 0 * pt
+        anchors.topMargin: 3
+        spacing: 0
 
         Text {
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -34,8 +34,8 @@ Item
 
         ColumnLayout
         {
-            Layout.leftMargin: -13 * pt
-            Layout.topMargin: 3 * pt
+            Layout.leftMargin: -13
+            Layout.topMargin: 3
             spacing: 0
 
             DapRadioButton
@@ -43,8 +43,8 @@ Item
                 id: butOpenOrders
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Open orders")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 checked: true
@@ -59,8 +59,8 @@ Item
                 Layout.topMargin: -5
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Orders History")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -70,9 +70,9 @@ Item
         }
 
         Text {
-            Layout.topMargin: 24 * pt
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
+            Layout.topMargin: 24
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -82,9 +82,9 @@ Item
         DapComboBox
         {
             id: comboboxPair
-            Layout.topMargin: 16 * pt
+            Layout.topMargin: 16
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42
             font: mainFont.dapFont.regular16
             defaultText: qsTr("All pairs")
             mainTextRole: "pair"
@@ -92,9 +92,9 @@ Item
         }
 
         Text {
-            Layout.topMargin: 24 * pt
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
+            Layout.topMargin: 24
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -104,9 +104,9 @@ Item
         DapComboBox
         {
             id: comboboxPeriod
-            Layout.topMargin: 16 * pt
+            Layout.topMargin: 16
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42
             font: mainFont.dapFont.regular16
             defaultText: qsTr("All time")
             model: periodModel
@@ -115,9 +115,9 @@ Item
         }
 
         Text {
-            Layout.topMargin: 24 * pt
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
+            Layout.topMargin: 24
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -126,8 +126,8 @@ Item
 
         ColumnLayout
         {
-            Layout.leftMargin: -13 * pt
-            Layout.topMargin: 3 * pt
+            Layout.leftMargin: -13
+            Layout.topMargin: 3
             spacing: 0
 
             DapRadioButton
@@ -135,8 +135,8 @@ Item
                 id: buttonSelectionAllStatuses
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Both")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 checked: true
@@ -151,8 +151,8 @@ Item
                 Layout.fillWidth: true
                 Layout.topMargin: -5
                 nameRadioButton: qsTr("Buy")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -166,8 +166,8 @@ Item
                 Layout.fillWidth: true
                 Layout.topMargin: -5
                 nameRadioButton: qsTr("Sell")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {

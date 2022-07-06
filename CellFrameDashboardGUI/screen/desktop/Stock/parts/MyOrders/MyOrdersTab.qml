@@ -9,10 +9,10 @@ import "logic"
 
 RowLayout
 {
-    property string openOrders: "qrc:/screen/desktop/Stock/parts/MyOrders/OpenOrders.qml"
-    property string ordersHistory: "qrc:/screen/desktop/Stock/parts/MyOrders/OrdersHistory.qml"
-    property string detailOpen: "qrc:/screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml"
-    property string detailHistory: "qrc:/screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml"
+    property string openOrders: "../OpenOrders.qml"
+    property string ordersHistory: "../OrdersHistory.qml"
+    property string detailOpen: "../RightPanels/DetailsOpen.qml"
+    property string detailHistory: "../RightPanels/DetailsHistory.qml"
 
     property string currentPair: "All pairs"
     property string currentSide: "Both"

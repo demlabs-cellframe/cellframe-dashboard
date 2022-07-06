@@ -20,23 +20,23 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
+            height: 38
             DapButton
             {
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 24 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10
+                anchors.bottomMargin: 7
+                anchors.leftMargin: 24
+                anchors.rightMargin: 13
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
+                height: 20
+                width: 20
+                heightImageButton: 10
+                widthImageButton: 10
                 activeFrame: false
                 normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
                 hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
@@ -52,9 +52,9 @@ Page {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.topMargin: 12
+                anchors.bottomMargin: 8
+                anchors.leftMargin: 52
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -64,7 +64,7 @@ Page {
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: 12 * pt
+            Layout.topMargin: 12
             Layout.leftMargin: 16
             clip: true
 
@@ -131,7 +131,7 @@ Page {
 //            id: detailsList
 //            Layout.fillWidth: true
 //            Layout.fillHeight: true
-//            Layout.topMargin: 12 * pt
+//            Layout.topMargin: 12
 //            clip: true
 //            model: bufferDetails.get(0)
 
