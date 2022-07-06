@@ -22,7 +22,7 @@ Item
         logic.greenCandleColor = currTheme.textColorGreen
 
 //        dataWorker.generatePriceData(1000000)
-        dataWorker.generatePriceData(1000000)
+        dataWorker.generatePriceData(100000)
 
         dataWorker.getMinimumMaximum24h()
 
