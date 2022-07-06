@@ -11,7 +11,7 @@ include(../config.pri)
 TARGET = $${BRAND}
 
 win32 {
-    RC_ICONS = $$PWD/resources/icons/icon_win32.ico
+    RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -22,10 +22,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = resources/icons/CellframeDashboard.icns
+    ICON = $$PWD/Resources/CellframeDashboard.icns
 }
 else: !win32 {
-    ICON = qrc:/resources/icons/icon.ico
+    ICON = $$PWD/Resources/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.

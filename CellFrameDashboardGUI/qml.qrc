@@ -343,5 +343,59 @@
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
         <file>screen/desktop/controls/DapLoadIndicator.qml</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_certificates.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_console.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_daaps.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_exchange.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_history.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_logs.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_settings.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_tokens.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_vpn.png</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_wallet.png</file>
+        <file>Resources/BlackTheme/icons/navigation/vpn-client_icon.png</file>
+        <file>Resources/BlackTheme/icons/other/back.svg</file>
+        <file>Resources/BlackTheme/icons/other/back_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/bg-menuitem_active.png</file>
+        <file>Resources/BlackTheme/icons/other/bg-menuitem_hover.png</file>
+        <file>Resources/BlackTheme/icons/other/browser.svg</file>
+        <file>Resources/BlackTheme/icons/other/browser_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/check_icon.png</file>
+        <file>Resources/BlackTheme/icons/other/copy.svg</file>
+        <file>Resources/BlackTheme/icons/other/copy_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/cross.png</file>
+        <file>Resources/BlackTheme/icons/other/cross.svg</file>
+        <file>Resources/BlackTheme/icons/other/cross_hover.png</file>
+        <file>Resources/BlackTheme/icons/other/cross_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/crossBold.svg</file>
+        <file>Resources/BlackTheme/icons/other/crossBold_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/crossBoldTest.svg</file>
+        <file>Resources/BlackTheme/icons/other/crossTest.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_arrow_up.png</file>
+        <file>Resources/BlackTheme/icons/other/ic_checkbox_off.png</file>
+        <file>Resources/BlackTheme/icons/other/ic_checkbox_on.png</file>
+        <file>Resources/BlackTheme/icons/other/ic_info.png</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrow_down.png</file>
+        <file>Resources/BlackTheme/icons/other/indicator_error.png</file>
+        <file>Resources/BlackTheme/icons/other/indicator_offline.png</file>
+        <file>Resources/BlackTheme/icons/other/indicator_online.png</file>
+        <file>Resources/BlackTheme/icons/other/next.svg</file>
+        <file>Resources/BlackTheme/icons/other/no_icon.png</file>
+        <file>Resources/BlackTheme/icons/other/on_off.svg</file>
+        <file>Resources/BlackTheme/icons/other/radio_btn_off.png</file>
+        <file>Resources/BlackTheme/icons/other/radio_btn_on.png</file>
+        <file>Resources/BlackTheme/icons/other/receipt.svg</file>
+        <file>Resources/BlackTheme/icons/other/receipt_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/search.svg</file>
+        <file>Resources/BlackTheme/icons/other/sync.svg</file>
+        <file>Resources/BlackTheme/Illustratons/comingsoon_illustration.png</file>
+        <file>Resources/BlackTheme/Illustratons/illustration_vpn-service.svg</file>
+        <file>Resources/BlackTheme/Illustratons/wallet_illustration.png</file>
+        <file>Resources/BlackTheme/cellframe-logo-dashboard.svg</file>
+        <file>Resources/theme/Dark.qml</file>
+        <file>Resources/theme/Light.qml</file>
+        <file>Resources/CellframeDashboard.icns</file>
+        <file>Resources/icon.ico</file>
+        <file>Resources/icon_win32.ico</file>
     </qresource>
 </RCC>
