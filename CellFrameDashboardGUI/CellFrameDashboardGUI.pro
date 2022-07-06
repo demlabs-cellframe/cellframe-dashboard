@@ -62,6 +62,7 @@ SOURCES += \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
+    StockDataWorker/stockdataworker.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -90,6 +91,9 @@ HEADERS += \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
+    StockDataWorker/candleinfo.h \
+    StockDataWorker/priceinfo.h \
+    StockDataWorker/stockdataworker.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \

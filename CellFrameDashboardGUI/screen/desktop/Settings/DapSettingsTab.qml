@@ -167,7 +167,9 @@ DapPage
                 if(!versionResult.hasUpdate && versionResult.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
                 else if(versionResult.message !== "")
-                    messagePopupVersion.smartOpen("Dashboard update", qsTr(versionResult.message))
+                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + dapServiceController.Version +"\n"+
+                                                                           "Last version - " + versionResult.lastVersion +"\n" +
+                                                                           "Go to website to download?"))
             }
         }
     }

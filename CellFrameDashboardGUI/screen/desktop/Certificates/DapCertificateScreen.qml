@@ -58,7 +58,8 @@ Page
 
                 onInfoClicked: {     //index
                     logics.dumpCertificate(index)
-                    certificateNavigator.openInfoItem()
+                    if (!(openedRightPanelPage == "Info" && infoIndex == index))
+                        certificateNavigator.openInfoItem(index)
                 }
 
             }   //certificatesListView

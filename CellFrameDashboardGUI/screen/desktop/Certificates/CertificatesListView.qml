@@ -154,6 +154,8 @@ ListView {
                     root.selectedIndex(model.index)
                     models.selectedAccessKeyType = model.accessKeyType
                     root.infoTitleTextVisibleClick = true
+                    if (openedRightPanelPage == "Info" && model.index !== infoIndex)
+                        certificateNavigator.clearRightPanel()
                 }
 
                 onDoubleClicked: {

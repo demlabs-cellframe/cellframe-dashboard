@@ -46,6 +46,8 @@
 
 #include "WalletRestore/wallethashmanager.h"
 
+#include "StockDataWorker/stockdataworker.h"
+
 bool SingleApplicationTest(const QString &appName)
 {
     static QSystemSemaphore semaphore("<"+appName+" uniq semaphore id>", 1);
@@ -108,6 +110,7 @@ const int DEFAULT_HEIGHT = 800;
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     DapLogger dapLogger(QCoreApplication::instance(), "GUI");
 
     DapConfigReader configReader;
@@ -141,6 +144,8 @@ int main(int argc, char *argv[])
         if(filePlugin.open(QIODevice::WriteOnly))
             filePlugin.close();
     }
+
+    qmlRegisterType<StockDataWorker>("StockDataWorker", 1,0, "StockDataWorker");
 
     int result = RESTART_CODE;
 
