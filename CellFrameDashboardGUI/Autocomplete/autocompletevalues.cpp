@@ -58,6 +58,46 @@ void AutocompleteValues::_getNetworks()
             networks.append(s);
     }
     networks.removeDuplicates();
+
+
+    //serviceController->requestToService("DapRunCmdCommand", "net list chains");
+    //connect(serviceController, &DapServiceController::cmdRunned, this, &AutocompleteValues::_getChains);
+}
+
+void AutocompleteValues::_getChains()
+{
+    QProcess process;
+    QString command = QString("%1 net list chains").arg(CLI_PATH);
+    process.start(command);
+    process.waitForFinished(-1);
+    QString result = QString::fromLatin1(process.readAll());
+
+    result = result.remove("Networks:\n\t");
+    result = result.remove(":");
+    result = result.remove("\n");
+    result = result.remove("\r");
+    QStringList list = result.split("\t");
+    list.removeAll("");
+
+    QString netKey = list[0];
+    QStringList chainList;
+
+    for (int i = 1; i < list.length(); ++i)
+    {
+        if (!networks.contains(list[i]))
+        {
+            chainList.append(list[i]);
+            chains.append(list[i]);
+        }
+        else
+        {
+            netChains.insert(netKey, chainList);
+            chainList.clear();
+            netKey = list[i];
+        }
+    }
+    netChains.insert(netKey, chainList);
+    chains.removeDuplicates();
 }
 
 AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController, QObject *parent)
@@ -97,6 +137,7 @@ AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController,
 
     _getCerts();
     _getNetworks();
+    _getChains();
 }
 
 QStringList AutocompleteValues::getPubCerts()
@@ -122,4 +163,14 @@ QStringList AutocompleteValues::getWallets()
 QStringList AutocompleteValues::getTokens()
 {
     return tokens;
+}
+
+QStringList AutocompleteValues::getAllChains()
+{
+    return chains;
+}
+
+QStringList AutocompleteValues::getChainsByNetwork(const QString &netName)
+{
+    return netChains[netName];
 }

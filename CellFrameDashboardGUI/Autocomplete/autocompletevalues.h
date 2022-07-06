@@ -15,8 +15,12 @@ class AutocompleteValues : public QObject
     QStringList networks;
     QStringList wallets;
     QStringList tokens;
+    QStringList chains;
+    QMap<QString, QStringList> netChains;
+
     void _getCerts();
     void _getNetworks();
+    void _getChains();
 
 public:
     explicit AutocompleteValues(DapServiceController *_serviceController, QObject *parent = nullptr);
@@ -25,6 +29,8 @@ public:
     QStringList getNetworks();
     QStringList getWallets();
     QStringList getTokens();
+    QStringList getAllChains();
+    QStringList getChainsByNetwork(const QString &netName);
 
 signals:
 
