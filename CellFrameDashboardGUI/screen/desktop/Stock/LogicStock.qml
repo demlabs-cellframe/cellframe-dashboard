@@ -9,13 +9,23 @@ QtObject
     property real tokenPrevPrice
     property string tokenPriceRounded
     property string tokenChange
-    property string balanceValue: fakeWallet.get(0).tokens.get(1).balance_without_zeros
-    property string cellBalanceValue: fakeWallet.get(0).tokens.get(0).balance_without_zeros
+    property string balanceText: balanceReal.toFixed(roundPower)
+    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
+    property real balanceReal
+    property real cellBalanceReal
 
     function getCurrentDate(format)
     {
         var today = new Date();
         return today.toLocaleString(Qt.locale("en_EN"),format)
+    }
+
+    function initBalance()
+    {
+//        balanceText = fakeWallet.get(0).tokens.get(1).balance_without_zeros
+//        cellBalanceText = fakeWallet.get(0).tokens.get(0).balance_without_zeros
+        balanceReal = parseFloat(fakeWallet.get(0).tokens.get(1).balance_without_zeros)
+        cellBalanceReal = parseFloat(fakeWallet.get(0).tokens.get(0).balance_without_zeros)
     }
 
     function initBookModels()
@@ -85,11 +95,11 @@ QtObject
                                      pair: "CELL/USDT",
                                      type: "Market",
                                      side: "Sell",
-                                     averagePrice: "0,259",
-                                     price: "0,259",
+                                     averagePrice: 0.259,
+                                     price: 0.259,
                                      filled: "100%",
-                                     amount: "247.6",
-                                     total: "64.1284",
+                                     amount: 247.6,
+                                     total: 64.1284,
                                      triggerCondition: "-",
                                      status: "Filled"
                                    })
@@ -99,11 +109,11 @@ QtObject
                                      pair: "CELL/USDT",
                                      type: "Limit",
                                      side: "Buy",
-                                     averagePrice: "0,2387",
-                                     price: "0,2387",
+                                     averagePrice: 0.2387,
+                                     price: 0.2387,
                                      filled: "100%",
-                                     amount: "35",
-                                     total: "8.3545",
+                                     amount: 35,
+                                     total: 8.3545,
                                      triggerCondition: ">=0.2387",
                                      status: "Filled"
                                    })
@@ -113,11 +123,11 @@ QtObject
                                      pair: "CELL/USDT",
                                      type: "Limit",
                                      side: "Buy",
-                                     averagePrice: "0,2241",
-                                     price: "0,2241",
+                                     averagePrice: 0.2241,
+                                     price: 0.2241,
                                      filled: "44%",
-                                     amount: "185.4",
-                                     total: "41.54814",
+                                     amount: 185.4,
+                                     total: 41.54814,
                                      triggerCondition: ">=0.2241",
                                      status: "Cancelled"
                                    })
@@ -154,29 +164,29 @@ QtObject
 
         if(_side === "Buy")
         {
-            value = parseFloat(balanceValue) - (parseFloat(_amount) * logicStock.tokenPrice)
+            value = balanceReal - _amount * logicStock.tokenPrice
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
-            balanceValue = value
+            balanceReal = value
 
             if(_type === "Market")
             {
-                cellBalance = parseFloat(cellBalanceValue) + parseFloat(_amount)
+                cellBalance = cellBalanceReal + _amount
                 fakeWallet.get(0).tokens.get(0).balance_without_zeros = cellBalance.toString()
-                cellBalanceValue = cellBalance
+                cellBalanceReal = cellBalance
             }
         }
         else
         {
             if(_type === "Market")
             {
-                value = parseFloat(balanceValue) + (parseFloat(_amount) * logicStock.tokenPrice)
+                value = balanceReal + _amount * logicStock.tokenPrice
                 fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
 
-                cellBalance = parseFloat(cellBalanceValue) - parseFloat(_amount)
+                cellBalance = cellBalanceReal - _amount
                 fakeWallet.get(0).tokens.get(0).balance_without_zeros = cellBalance.toString()
 
-                balanceValue = value
-                cellBalanceValue = cellBalance
+                balanceReal = value
+                cellBalanceReal = cellBalance
             }
         }
 
@@ -187,10 +197,10 @@ QtObject
                                        pair: _pair,
                                        type: _type,
                                        side: _side,
-                                       price: _price.toString(),
+                                       price: _price,
                                        amount: _amount,
                                        filled: "0%",
-                                       total: "0",
+                                       total: 0,
                                        triggerCondition: _trigger,
                                        expiresIn: _expiresIn })
         else
@@ -201,11 +211,11 @@ QtObject
                                          pair: _pair,
                                          type: _type,
                                          side: _side,
-                                         averagePrice: _price.toString(),
-                                         price: _price.toString(),
+                                         averagePrice: _price,
+                                         price: _price,
                                          filled: "100%",
                                          amount: _amount,
-                                         total: (_amount * _price).toFixed(4).toString(),
+                                         total: _amount * _price,
                                          triggerCondition: _trigger,
                                          status: "Filled"
                                        })
@@ -237,9 +247,9 @@ QtObject
 
         if(order.side === "Buy")
         {
-            value = parseFloat(balanceValue) + (parseFloat(order.amount) * logicStock.tokenPrice)
+            value = balanceReal + order.amount * logicStock.tokenPrice
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
-            balanceValue = value
+            balanceReal = value
 
             fakeWalletChanged() //for top panel
         }

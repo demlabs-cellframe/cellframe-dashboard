@@ -7,11 +7,27 @@ Rectangle
 {
     property alias textValue: textValue.text
     property alias textToken: textToken.text
+    property real realValue: 0.0
     property string placeholderText: textValue.placeholderText
 
     border.color: currTheme.borderColor
     color: "transparent"
     radius: 4
+
+    signal edited()
+
+    onRealValueChanged:
+    {
+        if (!enabled)
+        {
+            textValue.text = realValue.toFixed(roundPower)
+            if (textValue.text === (0.0).toFixed(roundPower))
+                textValue.text = "0.0"
+            print("onRealValueChanged",
+                  "textValue.text", textValue.text,
+                  "realValue", realValue)
+        }
+    }
 
     RowLayout
     {
@@ -29,8 +45,22 @@ Rectangle
             placeholderText: qsTr("0.0")
             color: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
+            text: "0.0"
 
             background: Rectangle{color:"transparent"}
+
+            onTextEdited:
+            {
+                if (enabled)
+                {
+                    realValue = parseFloat(text)
+                    print("onTextChanged",
+                          "textValue.text", textValue.text,
+                          "realValue", realValue)
+
+                    edited()
+                }
+            }
         }
 
         Text
@@ -42,5 +72,18 @@ Rectangle
             color: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
         }
+    }
+
+    function setRealValue(value)
+    {
+        realValue = value
+
+        textValue.text = realValue.toFixed(roundPower)
+        if (textValue.text === (0.0).toFixed(roundPower))
+            textValue.text = "0.0"
+
+        print("setRealValue",
+              "textValue.text", textValue.text,
+              "realValue", realValue)
     }
 }

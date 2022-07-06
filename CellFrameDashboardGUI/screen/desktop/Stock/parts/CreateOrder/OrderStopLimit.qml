@@ -9,11 +9,17 @@ ColumnLayout {
     Layout.topMargin: 16
     spacing: 0
 
+    Component.onCompleted:
+    {
+        stop.setRealValue(logicStock.tokenPrice)
+        limit.setRealValue(logicStock.tokenPrice)
+    }
+
     Rectangle
     {
         Layout.fillWidth: true
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -22,9 +28,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
     }
 
@@ -35,10 +41,10 @@ ColumnLayout {
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        Layout.minimumHeight: 40 * pt
-        Layout.maximumHeight: 40 * pt
+        Layout.minimumHeight: 40
+        Layout.maximumHeight: 40
         textToken: tokenName
-        textValue: logicStock.tokenPriceRounded
+        textValue: "0.0"
     }
 
     Rectangle
@@ -46,7 +52,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.topMargin: 12
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -55,9 +61,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
         Text
         {
@@ -67,9 +73,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignRight
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 57 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.rightMargin: 57
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
 
         }
     }
@@ -87,10 +93,10 @@ ColumnLayout {
             id: limit
             Layout.fillWidth: true
             Layout.minimumWidth: 215
-            Layout.minimumHeight: 40 * pt
-            Layout.maximumHeight: 40 * pt
+            Layout.minimumHeight: 40
+            Layout.maximumHeight: 40
             textToken: tokenName
-            textValue: logicStock.tokenPriceRounded
+            textValue: "0.0"
         }
 
         Rectangle
@@ -122,7 +128,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.topMargin: 12
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -131,9 +137,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
     }
 
@@ -147,7 +153,14 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: "CELL"
-        textValue: "0"
+        textValue: "0.0"
+        onEdited:
+        {
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+        }
     }
 
     RowLayout
@@ -174,7 +187,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.25
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
             }
         }
 
@@ -195,7 +209,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.5
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
             }
         }
 
@@ -216,7 +231,8 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )*0.75
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
             }
         }
 
@@ -237,7 +253,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPrice )
+                amount.setRealValue(
+                    logicStock.balanceReal / logicStock.tokenPrice)
             }
         }
     }
@@ -246,8 +263,8 @@ ColumnLayout {
     {
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
-        implicitHeight: 36 * pt
-        implicitWidth: 132 * pt
+        implicitHeight: 36
+        implicitWidth: 132
         textButton: qsTr("Create")
         horizontalAligmentText: Text.AlignHCenter
         indentTextRight: 0
@@ -260,15 +277,11 @@ ColumnLayout {
             logicStock.addNewOrder(
                 date.toLocaleString(Qt.locale("en_EN"),
                 "yyyy-MM-dd hh:mm"),
-                "CELL/USDT", "Market", "Sell",
-                "1234.4356", "674221.23", "1 day","-")
-
-            logicStock.addNewOrder(
-                date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
-                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                limit.textValue, amount.textValue,
+                currentOrder,
+                sellBuySwitch.checked? "Sell": "Buy",
+                limit.realValue,
+                amount.realValue,
                 expiresModel.get(expiresComboBox.currentIndex).name,
                 sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
 

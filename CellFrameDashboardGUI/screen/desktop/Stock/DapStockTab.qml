@@ -3,27 +3,37 @@ import QtQml 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
+import StockDataWorker 1.0
+
 import "../controls"
 
 DapPage
 {
     id: stockTab
 
+    property int roundPower: 6
+
     signal fakeWalletChanged() //for top panel
 
-    LogicStock{id: logicStock}
+    LogicStock { id: logicStock }
 
-    ListModel{ id: sellBookModel}
-    ListModel{ id: buyBookModel}
-    ListModel{ id: openOrdersModel}
-    ListModel{ id: orderHistoryModel}
-    ListModel{ id: pairModel}
+    StockDataWorker
+    {
+        id: dataWorker
+    }
+
+    ListModel { id: sellBookModel }
+    ListModel { id: buyBookModel }
+    ListModel { id: openOrdersModel }
+    ListModel { id: orderHistoryModel }
+    ListModel { id: pairModel }
 
     Timer{id: timer}
 
     Component.onCompleted:
     {
-        logicStock.initPairModel()
+//        logicStock.initPairModel()
+        logicStock.initBalance()
         logicStock.initBookModels()
         logicStock.initOrderLists()
         generateTimer.start()
