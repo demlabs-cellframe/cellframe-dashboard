@@ -285,7 +285,6 @@
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
         <file>logic/MainApplicationLogic.qml</file>
-        <file>screen/desktop/controls/DapButton.qml</file>
         <file>screen/desktop/controls/DapMainButtonsMenu.qml</file>
         <file>screen/desktop/controls/DapMenuButton.qml</file>
         <file>screen/desktop/controls/DapMenuButtonMobile.qml</file>
@@ -434,5 +433,9 @@
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/parts/DetailsText.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/logic/LogicMyOrders.qml</file>
+        <file>screen/desktop/controls/HeaderButtonForRightPanels.qml</file>
+        <file>Resources/BlackTheme/icons/other/next-page_pressed.png</file>
+        <file>Resources/BlackTheme/icons/other/next-page_hover.png</file>
+        <file>Resources/BlackTheme/icons/other/next-page.png</file>
     </qresource>
 </RCC>
