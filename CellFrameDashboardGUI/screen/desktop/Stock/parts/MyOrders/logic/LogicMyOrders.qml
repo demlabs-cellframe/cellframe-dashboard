@@ -34,9 +34,10 @@ QtObject {
 
     function initOrdersModels()
     {
+        historyModel.clear()
         for(var i = 0; i < orderHistoryModel.count; i++)
             historyModel.append(orderHistoryModel.get(i))
-
+        openModel.clear()
         for(var i = 0; i < openOrdersModel.count; i++)
             openModel.append(openOrdersModel.get(i))
 
