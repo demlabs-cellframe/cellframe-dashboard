@@ -337,9 +337,6 @@
         <file>screen/desktop/Stock/parts/Chart/CandleChart.qml</file>
         <file>screen/desktop/Stock/parts/Chart/ChartPanel.qml</file>
         <file>screen/desktop/Stock/parts/Chart/LogicCandleChart.qml</file>
-        <file>screen/desktop/Stock/parts/OrderList/OpenOrders.qml</file>
-        <file>screen/desktop/Stock/parts/OrderList/OrderHistory.qml</file>
-        <file>screen/desktop/Stock/parts/OrderList/OrderList.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/SearchElement.qml</file>
         <file>screen/desktop/Stock/parts/DapPairComboBox/logic/LogicComboBox.qml</file>
@@ -352,8 +349,6 @@
         <file>screen/desktop/Stock/parts/DapPairComboBox/icons/eth_icon.png</file>
         <file>screen/desktop/Stock/parts/Chart/ChartTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/StockHome.qml</file>
-        <file>screen/desktop/Stock/parts/OrderList/RowOrderHistory.qml</file>
-        <file>screen/desktop/Stock/parts/OrderList/RowOpenOrder.qml</file>
         <file>screen/desktop/Stock/LogicStock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreate.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderLimit.qml</file>
