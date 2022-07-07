@@ -22,10 +22,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = $$PWD/Resources/CellframeDashboard.icns
+    ICON = Resources/CellframeDashboard.icns
 }
 else: !win32 {
-    ICON = $$PWD/Resources/icon.ico
+    ICON = qrc:/Resources/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.

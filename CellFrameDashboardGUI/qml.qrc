@@ -1,18 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>CellFrameDashboardGUI.conf</file>
-        <file>resources/icons/icon_console.png</file>
-        <file>resources/icons/icon_console_hover.png</file>
-        <file>resources/icons/icon_dashboard.png</file>
-        <file>resources/icons/icon_dashboard_hover.png</file>
-        <file>resources/icons/icon_exchange.png</file>
-        <file>resources/icons/icon_exchange_hover.png</file>
-        <file>resources/icons/icon_logs.png</file>
-        <file>resources/icons/icon_logs_hover.png</file>
-        <file>resources/icons/icon_settings.png</file>
-        <file>resources/icons/icon_settings_hover.png</file>
         <file>main.qml</file>
-        <file>resources/icons/cellframe-logo-dashboard.png</file>
         <file>screen/DapMainApplicationWindow.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardScreen.qml</file>
         <file>screen/desktop/Dashboard/DapDashboardTab.qml</file>
@@ -20,76 +9,21 @@
         <file>screen/desktop/History/DapHistoryRightPanel.qml</file>
         <file>screen/desktop/History/DapHistoryScreen.qml</file>
         <file>screen/desktop/History/DapHistoryTab.qml</file>
-        <file>resources/icons/new-wallet_icon_dark_hover.svg</file>
-        <file>resources/icons/new-wallet_icon_dark.svg</file>
-        <file>resources/icons/ic_arrow_drop_down.png</file>
-        <file>resources/icons/ic_arrow_drop_up.png</file>
         <file>screen/desktop/Logs/DapLogsTab.qml</file>
         <file>screen/desktop/Logs/DapLogsTopPanel.qml</file>
         <file>screen/desktop/Logs/DapLogsScreen.qml</file>
-        <file>resources/icons/icon_export.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanelForm.ui.qml</file>
-        <file>resources/icons/back_icon_hover.png</file>
-        <file>resources/icons/back_icon.png</file>
-        <file>resources/icons/close_icon_hover.png</file>
-        <file>resources/icons/close_icon.png</file>
-        <file>resources/icons/ic_arrow_drop_down_dark.png</file>
-        <file>resources/icons/ic_scroll-down.png</file>
-        <file>resources/icons/ic_scroll-down_hover.png</file>
-        <file>resources/icons/ic_scroll-up.png</file>
-        <file>resources/icons/ic_scroll-up_hover.png</file>
         <file>screen/desktop/Settings/DapSettingsTab.qml</file>
         <file>screen/desktop/Settings/DapSettingsTopPanel.qml</file>
         <file>screen/desktop/Settings/DapSettingsScreen.qml</file>
         <file>screen/desktop/Console/DapConsoleTab.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
-        <file>resources/icons/ic_flag.png</file>
-        <file>resources/icons/buy_icon.png</file>
-        <file>resources/icons/ic_arrow_drop_down_dark_blue.png</file>
-        <file>resources/icons/ic_arrow_drop_up_dark_blue.png</file>
-        <file>resources/icons/sell_icon.png</file>
-        <file>resources/icons/ic_copy.png</file>
-        <file>resources/icons/ic_copy_hover.png</file>
-        <file>resources/icons/ic_edit.png</file>
-        <file>resources/icons/ic_edit_hover.png</file>
-        <file>resources/icons/ic_klvn.png</file>
-        <file>resources/icons/new-payment_icon.png</file>
-        <file>resources/icons/tkn2_icon.png</file>
-        <file>resources/icons/tkn1_icon_light.png</file>
-        <file>resources/icons/ng_icon.png</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanelForm.ui.qml</file>
-        <file>resources/icons/ic_cellframe.png</file>
-        <file>resources/icons/ic_search.png</file>
-        <file>resources/icons/wallet.png</file>
-        <file>resources/icons/trade-history_icon.png</file>
-        <file>resources/icons/ic_chevron_down.png</file>
-        <file>resources/icons/ic_chevron_up.png</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
-        <file>resources/icons/next_month_icon.png</file>
-        <file>resources/icons/next_year_icon.png</file>
-        <file>resources/icons/previous_month_icon.png</file>
-        <file>resources/icons/previous_year_icon.png</file>
-        <file>resources/icons/Certificates/btn_actions.svg</file>
-        <file>resources/icons/Certificates/btn_actions_hover.svg</file>
-        <file>resources/icons/Certificates/btn_actions_no-active.svg</file>
-        <file>resources/icons/Certificates/btn_create_done.svg</file>
-        <file>resources/icons/Certificates/btn_create_done_hover.svg</file>
-        <file>resources/icons/Certificates/btn_create_done_no-active.svg</file>
-        <file>resources/icons/Certificates/cellframe-logo-dashboard.svg</file>
-        <file>resources/icons/Certificates/close_icon.svg</file>
-        <file>resources/icons/Certificates/close_icon_hover.svg</file>
-        <file>resources/icons/Certificates/ic_arrow_up.svg</file>
-        <file>resources/icons/Certificates/ic_info.svg</file>
-        <file>resources/icons/Certificates/icon_arrow_down.svg</file>
-        <file>resources/icons/Certificates/icon_certificates.svg</file>
-        <file>resources/icons/Certificates/icon_certificates_hover.svg</file>
-        <file>resources/icons/Certificates/ic_search.svg</file>
-        <file>resources/icons/Certificates/radio_off_dark.svg</file>
-        <file>resources/icons/Certificates/radio_on_dark.svg</file>
         <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
         <file>screen/desktop/Certificates/CertificatesModels.qml</file>
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
@@ -100,75 +34,7 @@
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
-        <file>resources/icons/ic_vpn-client_hover.svg</file>
-        <file>resources/icons/ic_vpn-client.svg</file>
-        <file>resources/icons/icon_vpn-service_hover.svg</file>
-        <file>resources/icons/icon_vpn-service.svg</file>
-        <file>resources/icons/icon_logs_hover.svg</file>
-        <file>resources/icons/icon_logs.svg</file>
-        <file>resources/icons/icon_history_hover.svg</file>
-        <file>resources/icons/icon_history.svg</file>
-        <file>resources/icons/ic_tokens_hover.svg</file>
-        <file>resources/icons/ic_tokens.svg</file>
-        <file>resources/icons/illustration_new-wallet.svg</file>
-        <file>resources/icons/ic_copy.svg</file>
-        <file>resources/icons/ic_copy_hover.svg</file>
-        <file>resources/icons/icon_on_off_net.svg</file>
-        <file>resources/icons/icon_on_off_net_hover.svg</file>
-        <file>resources/icons/Icon_sync_net.svg</file>
-        <file>resources/icons/Icon_sync_net_hover.svg</file>
-        <file>resources/icons/next-page.svg</file>
-        <file>resources/icons/next-page_hover.svg</file>
-        <file>resources/illustrations/illustration_vpn-service.svg</file>
-        <file>resources/icons/ic_info_order.svg</file>
-        <file>resources/icons/under construction.svg</file>
-        <file>resources/icons/illustration_new-wallet.png</file>
-        <file>resources/theme/Light.qml</file>
-        <file>resources/theme/Dark.qml</file>
-        <file>resources/icons/arrow-right_icon.svg</file>
-        <file>resources/icons/BlackTheme/bg-menuitem_active.png</file>
-        <file>resources/icons/BlackTheme/bg-menuitem_hover.png</file>
-        <file>resources/icons/BlackTheme/cellframe-logo-dashboard.png</file>
-        <file>resources/icons/BlackTheme/back_icon.png</file>
-        <file>resources/icons/BlackTheme/back_icon_hover.png</file>
-        <file>resources/icons/BlackTheme/bg_menu.png</file>
-        <file>resources/icons/BlackTheme/bg_new-payment_btn.png</file>
-        <file>resources/icons/BlackTheme/bg_new-payment_btn_hover_active.png</file>
-        <file>resources/icons/BlackTheme/bg_plain_btn.png</file>
-        <file>resources/icons/BlackTheme/bg_plain_btn_hover_active.png</file>
-        <file>resources/icons/BlackTheme/bg_plain_btn_noactive.png</file>
-        <file>resources/icons/BlackTheme/clear_icon.png</file>
-        <file>resources/icons/BlackTheme/clear_icon_hover.png</file>
-        <file>resources/icons/BlackTheme/close_icon.png</file>
-        <file>resources/icons/BlackTheme/close_icon_hover.png</file>
-        <file>resources/icons/BlackTheme/ic_arrow_up.png</file>
-        <file>resources/icons/BlackTheme/ic_checkbox_off.png</file>
-        <file>resources/icons/BlackTheme/ic_checkbox_on.png</file>
-        <file>resources/icons/BlackTheme/icon_arrow_down.png</file>
-        <file>resources/icons/BlackTheme/icon_console.png</file>
-        <file>resources/icons/BlackTheme/icon_exchange.png</file>
-        <file>resources/icons/BlackTheme/icon_history.png</file>
-        <file>resources/icons/BlackTheme/icon_logs.png</file>
-        <file>resources/icons/BlackTheme/icon_logs-1.png</file>
-        <file>resources/icons/BlackTheme/icon_settings.png</file>
-        <file>resources/icons/BlackTheme/icon_tokens.png</file>
-        <file>resources/icons/BlackTheme/icon_vpn.png</file>
-        <file>resources/icons/BlackTheme/icon_wallet.png</file>
-        <file>resources/icons/BlackTheme/illustration-new-wallet.png</file>
-        <file>resources/icons/BlackTheme/indicator_error.png</file>
-        <file>resources/icons/BlackTheme/indicator_offline.png</file>
-        <file>resources/icons/BlackTheme/indicator_online.png</file>
-        <file>resources/icons/BlackTheme/next-page.png</file>
-        <file>resources/icons/BlackTheme/next-page_hover.png</file>
-        <file>resources/icons/BlackTheme/next-page_pressed.png</file>
-        <file>resources/icons/BlackTheme/radio_btn_off.png</file>
-        <file>resources/icons/BlackTheme/radio_btn_on.png</file>
-        <file>resources/icons/BlackTheme/under construction.png</file>
-        <file>resources/icons/BlackTheme/vpn-client_icon.png</file>
-        <file>resources/icons/BlackTheme/icon_certificates.png</file>
         <file>screen/desktop/UnderConstructions.qml</file>
-        <file>resources/icons/BlackTheme/ic_copy.png</file>
-        <file>resources/icons/BlackTheme/ic_copy_hover.png</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
@@ -182,31 +48,11 @@
         <file>screen/desktop/dApps/DapAppsScreen.qml</file>
         <file>screen/desktop/dApps/DapAppsTab.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_certificates.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_console.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_daaps.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_exchange.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_history.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_logs.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_settings.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_tokens.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_vpn.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/icon_wallet.png</file>
-        <file>resources/icons/BlackTheme/LeftIcons/vpn-client_icon.png</file>
-        <file>resources/icons/BlackTheme/Illustratons/comingsoon_illustration.png</file>
-        <file>resources/icons/BlackTheme/Illustratons/wallet_illustration.png</file>
         <file>screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapExtensionsBlock.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml</file>
         <file>screen/desktop/dApps/RightPanel/DapProgressBar.qml</file>
-        <file>resources/icons/BlackTheme/check_icon.png</file>
-        <file>resources/icons/BlackTheme/no_icon.png</file>
-        <file>resources/icons/switch_off.png</file>
-        <file>resources/icons/switch_on.png</file>
-        <file>resources/icons/CellframeDashboard.icns</file>
-        <file>resources/icons/Certificates/ic_info.png</file>
-        <file>resources/icons/icon_win32.ico</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCertificatesComponent.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapShowCertificates.qml</file>
@@ -230,9 +76,6 @@
         <file>screen/desktop/Plugins/MiniGame/Elements/GamePlayer.qml</file>
         <file>screen/desktop/Console/DapConsoleScreenForm.qml</file>
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
-        <file>resources/icons/icon_export_hover.png</file>
-        <file>resources/icons/icon.png</file>
-        <file>resources/icons/icon.ico</file>
         <file>screen/DapMessagePopup.qml</file>
         <file>logic/MainParams.qml</file>
         <file>screen/mobile/History/History.qml</file>
@@ -437,5 +280,9 @@
         <file>Resources/BlackTheme/icons/other/next-page_pressed.png</file>
         <file>Resources/BlackTheme/icons/other/next-page_hover.png</file>
         <file>Resources/BlackTheme/icons/other/next-page.png</file>
+        <file>Resources/BlackTheme/icons/other/ic_info_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_info.svg</file>
+        <file>Resources/BlackTheme/icons/other/Double_arrow.png</file>
+        <file>Resources/BlackTheme/icons/other/Arrow.png</file>
     </qresource>
 </RCC>

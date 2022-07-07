@@ -51,7 +51,7 @@ Page {
                 {
                     anchors.fill: parent
                     id: iconCreateWallet
-                    source: "qrc:/resources/illustrations/illustration_vpn-service.svg"
+                    source: "qrc:/Resources/" + pathTheme + "/Illustratons/illustration_vpn-service.svg"
                     sourceSize.width: 500 * pt
                     sourceSize.height: 261 * pt
                     fillMode: Image.PreserveAspectFit
