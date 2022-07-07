@@ -3,9 +3,9 @@ import QtQuick 2.4
 Item {
     id: control
 
-    property string normalIcon: "qrc:/resources/icons/" + pathTheme + "/next-page.png"
-    property string hoverIcon: "qrc:/resources/icons/" + pathTheme + "/next-page_hover.png"
-    property string pressedIcon: "qrc:/resources/icons/" + pathTheme + "/next-page_pressed.png"
+    property string normalIcon: "qrc:/Resources/" + pathTheme + "/icons/other/next-page.png"
+    property string hoverIcon: "qrc:/Resources/" + pathTheme + "/icons/other/next-page_hover.png"
+    property string pressedIcon: "qrc:/Resources/" + pathTheme + "/icons/other/next-page_pressed.png"
 //    property bool isRight
     property bool isPressed:false
     property alias mirror: controlImg.mirror

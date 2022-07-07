@@ -3,6 +3,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../Chart"
+import "../../../controls"
 
 Page
 {
@@ -45,26 +46,24 @@ Page
             Layout.fillWidth: true
             height: 38
 
-            DapButton
-            {
+            HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10
-                anchors.bottomMargin: 7
-                anchors.leftMargin: 24
-                anchors.rightMargin: 13
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 21 * pt
+                anchors.rightMargin: 13 * pt
 
                 id: itemButtonClose
-                height: 20
-                width: 20
-                heightImageButton: 10
-                widthImageButton: 10
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                height: 20 * pt
+                width: 20 * pt
+                heightImage: 20 * pt
+                widthImage: 20 * pt
 
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: goToRightHome()
             }
 

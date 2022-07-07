@@ -1,4 +1,0 @@
-<svg id="radio_on_dark" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <rect id="radio_on" width="20" height="20" fill="none"/>
-  <path id="radio_on-2" data-name="radio_on" d="M10.333,6.167A4.167,4.167,0,1,0,14.5,10.333a4.126,4.126,0,0,0-4.167-4.167Zm0-4.167a8.333,8.333,0,1,0,8.333,8.333A8.358,8.358,0,0,0,10.333,2Zm0,15A6.667,6.667,0,1,1,17,10.333,6.686,6.686,0,0,1,10.333,17Z" transform="translate(-0.333 -0.333)" fill="#211a3a" fill-rule="evenodd"/>
-</svg>

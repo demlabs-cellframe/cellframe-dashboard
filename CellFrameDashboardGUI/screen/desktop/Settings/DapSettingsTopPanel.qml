@@ -94,8 +94,8 @@ Controls.DapTopPanel
             innerWidth: 8 * pt
             innerHeight: 8 * pt
 
-            source: logicMainApp.stateNotify? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png":
-                                 "qrc:/resources/icons/" + pathTheme + "/indicator_error.png"
+            source: logicMainApp.stateNotify? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
+                                              "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
 
         }
     }

@@ -255,10 +255,9 @@ Rectangle {
                     width: parent.width * pt
                     height: 60 * pt
 
-                    DapImageLoader{
-                        innerWidth: 114 * pt
-                        innerHeight: 24 * pt
-                        source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
+                    Image{
+                        source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
+                        mipmap: true
 
                         anchors.left: parent.left
                         anchors.leftMargin: 23*pt
