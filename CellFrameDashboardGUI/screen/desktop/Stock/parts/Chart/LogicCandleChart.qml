@@ -80,9 +80,11 @@ QtObject
 
         drawGrid(ctx)
 
-        drawChart(ctx, 0, "#00ffff")
-        drawChart(ctx, 1, "#2090cf")
-        drawChart(ctx, 2, "#4040af")
+        drawAverageChart(ctx, 0, "#00ffff")
+        drawAverageChart(ctx, 1, "#2090cf")
+        drawAverageChart(ctx, 2, "#4040af")
+
+//        drawPriceChart(ctx, "yellow")
 
         drawCandleChart(ctx)
 
@@ -396,7 +398,31 @@ QtObject
         ctx.setLineDash([])
     }
 
-    function drawChart(ctx, chart, color)
+    function drawPriceChart(ctx, color)
+    {
+        for (var i = 0;
+             i < dataWorker.priceModelSize-1; ++i)
+        {
+            var info1 = dataWorker.getPriceInfo(i)
+            var info2 = dataWorker.getPriceInfo(i+1)
+
+//            print("info1", i, info1.time, info1.price,
+//                  "info2", i+1, info2.time, info2.price)
+
+            drawChartLine(ctx,
+                (info1.time - dataWorker.rightTime +
+                    dataWorker.visibleTime)*coefficientTime,
+                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                    chartCandleBegin,
+                (info2.time - dataWorker.rightTime +
+                    dataWorker.visibleTime)*coefficientTime,
+                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                    chartCandleBegin,
+                color)
+        }
+    }
+
+    function drawAverageChart(ctx, chart, color)
     {
 //        print("firstVisibleAverage", dataWorker.firstVisibleAverage,
 //              "lastVisibleAverage", dataWorker.lastVisibleAverage)
@@ -557,7 +583,7 @@ QtObject
 
         ctx.font = "normal "+fontSize+"px "+fontFamilies
 
-        var width = ctx.measureText(text.toFixed(6)).width
+        var width = ctx.measureText(text.toFixed(roundPower)).width
 
         ctx.fillStyle = labelBackgroundColor
         if (toRight)
@@ -569,10 +595,10 @@ QtObject
 
         ctx.fillStyle = labelColor
         if (toRight)
-            ctx.fillText(text.toFixed(6),
+            ctx.fillText(text.toFixed(roundPower),
                      x+labelLineLength+fontIndent, y + fontSize*0.3)
         else
-            ctx.fillText(text.toFixed(6),
+            ctx.fillText(text.toFixed(roundPower),
                      x-labelLineLength-fontIndent-width, y + fontSize*0.3)
 
         ctx.stroke()
@@ -604,7 +630,7 @@ QtObject
 
         if (border)
         {
-            var width = ctx.measureText(text.toFixed(6)).width
+            var width = ctx.measureText(text.toFixed(roundPower)).width
 
             ctx.fillStyle = darkBackgroundColor
             ctx.fillRect(chartWidth, y-10,
@@ -612,7 +638,7 @@ QtObject
         }
 
         ctx.fillStyle = color
-        ctx.fillText(text.toFixed(6), chartWidth + fontIndent, y + fontSize*0.3)
+        ctx.fillText(text.toFixed(roundPower), chartWidth + fontIndent, y + fontSize*0.3)
         ctx.stroke()
     }
 

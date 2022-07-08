@@ -21,22 +21,22 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
+            height: 38
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10
+                anchors.bottomMargin: 7
+                anchors.leftMargin: 21
+                anchors.rightMargin: 13
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20
+                width: 20
+                heightImage: 20
+                widthImage: 20
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -51,9 +51,9 @@ Page {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.topMargin: 12
+                anchors.bottomMargin: 8
+                anchors.leftMargin: 52
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -63,7 +63,7 @@ Page {
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: 12 * pt
+            Layout.topMargin: 12
             Layout.leftMargin: 16
             clip: true
 

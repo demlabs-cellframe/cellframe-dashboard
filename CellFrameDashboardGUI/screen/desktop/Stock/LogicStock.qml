@@ -14,6 +14,9 @@ QtObject
     property real balanceReal
     property real cellBalanceReal
 
+    property real sellMaxTotal: 1
+    property real buyMaxTotal: 1
+
     function getCurrentDate(format)
     {
         var today = new Date();
@@ -32,6 +35,9 @@ QtObject
     {
         var value = 0.245978
 
+        sellMaxTotal = 0
+        buyMaxTotal = 0
+
         for (var i = 0; i < 18; i++)
         {
             value += Math.random()*0.0001
@@ -41,6 +47,9 @@ QtObject
             sellBookModel.append({ price: value,
                                    amount: amount,
                                    total: total })
+
+            if (sellMaxTotal < total)
+                sellMaxTotal = total
         }
 
         value = 0.245978
@@ -54,6 +63,9 @@ QtObject
             buyBookModel.append({ price: value,
                                    amount: amount,
                                    total: total })
+
+            if (buyMaxTotal < total)
+                buyMaxTotal = total
         }
     }
 
@@ -71,6 +83,9 @@ QtObject
             sellBookModel.set(index, { price: value,
                                   amount: amount,
                                   total: total })
+
+            if (sellMaxTotal < total)
+                sellMaxTotal = total
         }
         else
         {
@@ -84,6 +99,9 @@ QtObject
             buyBookModel.set(index, { price: value,
                                   amount: amount,
                                   total: total })
+
+            if (buyMaxTotal < total)
+                buyMaxTotal = total
         }
     }
 

@@ -16,13 +16,13 @@ Item
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 38 * pt
+        height: 38
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 10
+            anchors.bottomMargin: 10
 
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Orders history")
@@ -48,7 +48,7 @@ Item
         header: Rectangle
         {
             width:parent.width
-            height: 30 * pt
+            height: 30
             color: currTheme.backgroundMainScreen
             z:10
 
@@ -57,28 +57,28 @@ Item
                 anchors.fill: parent
                 spacing: 0
                 HeaderLabel{
-                    Layout.preferredWidth: 135 * pt
+                    Layout.preferredWidth: 135
                     label.text: qsTr("Date")
                     label.anchors.leftMargin: 16
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 102 * pt
+                    Layout.preferredWidth: 102
                     label.text: qsTr("Pair")
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 96 * pt
+                    Layout.preferredWidth: 96
                     label.text: qsTr("Type")
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 61 * pt
+                    Layout.preferredWidth: 61
                     label.text: qsTr("Side")
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 150 * pt
+                    Layout.preferredWidth: 150
                     label.text: qsTr("Price")
                 }
                 HeaderLabel{
-                    Layout.preferredWidth: 49 * pt
+                    Layout.preferredWidth: 49
                     label.text: qsTr("Filled")
                 }
                 HeaderLabel{
@@ -99,7 +99,7 @@ Item
             id: delegate
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 50 * pt
+            height: 50
 
             MouseArea{
                 anchors.fill: parent
@@ -121,34 +121,34 @@ Item
                 anchors.fill: parent
                 spacing: 0
                 HeaderLabel{
-                    Layout.minimumWidth: 135 * pt
+                    Layout.minimumWidth: 135
                     label.text: date
                     label.anchors.leftMargin: 16
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 102 * pt
+                    Layout.minimumWidth: 102
                     label.text: pair
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 96 * pt
+                    Layout.minimumWidth: 96
                     label.text: type
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 61 * pt
+                    Layout.minimumWidth: 61
                     label.text: side
                     label.font: mainFont.dapFont.regular13
                     label.color: side === "Sell" ? currTheme.textColorRed : currTheme.textColorGreen
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 150 * pt
+                    Layout.minimumWidth: 150
                     label.text: price
                     label.font: mainFont.dapFont.regular13
                 }
                 HeaderLabel{
-                    Layout.minimumWidth: 49 * pt
+                    Layout.minimumWidth: 49
                     label.text: filled
                     label.font: mainFont.dapFont.regular13
                 }
@@ -174,7 +174,7 @@ Item
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
-                height: 1 * pt
+                height: 1
                 color: currTheme.lineSeparatorColor
             }
         }

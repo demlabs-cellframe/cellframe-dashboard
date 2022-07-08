@@ -7,6 +7,8 @@ Page
 {
     id: control
     property var visibleCount
+    property string sellHistogramColor: "#13ff6060"
+    property string buyHistogramColor: "#1300ff00"
 
     Component.onCompleted: visibleCount = logicStock.getBookVisibleCount(control.height - rowHeader.height - 30)
     onHeightChanged: visibleCount = logicStock.getBookVisibleCount(control.height - rowHeader.height - 30)
