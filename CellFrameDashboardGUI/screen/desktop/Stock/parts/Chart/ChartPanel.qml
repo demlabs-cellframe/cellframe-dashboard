@@ -35,7 +35,7 @@ Item
                 {
                     logicStock.initPairModel()
                     logic.setModel(pairModel)
-                    print("pairModel.count", pairModel.count)
+//                    print("pairModel.count", pairModel.count)
                 }
                 onCurrentIndexChanged: {
                     logicStock.indexPair = currentIndex
@@ -163,7 +163,7 @@ Item
 
             onItemSelected:
             {
-                print("onItemSelected", "currentIndex", currentIndex)
+//                print("onItemSelected", "currentIndex", currentIndex)
                 chartItem.setCandleSize(currentIndex)
             }
         }
@@ -171,6 +171,7 @@ Item
         RowLayout
         {
             Layout.topMargin: 16
+            Layout.bottomMargin: 8
             spacing: 10
 
             Text
@@ -187,38 +188,6 @@ Item
                 color: currTheme.textColorGreen
                 text: dataWorker.currentTokenPrice.
                     toFixed(roundPower)
-            }
-        }
-
-        RowLayout
-        {
-            Layout.topMargin: 4
-            spacing: 10
-
-            Text
-            {
-                id: timeItem
-                Layout.fillWidth: true
-                font: mainFont.dapFont.medium14
-                color: currTheme.textColorGray
-
-                text: logicStock.getCurrentDate("MMM dd, hh:mm AP")
-            }
-
-            Text
-            {
-                font: mainFont.dapFont.medium14
-                color: currTheme.textColorGray
-
-                text: qsTr("AVG Price:")
-            }
-
-            Text
-            {
-                font: mainFont.dapFont.medium14
-                color: currTheme.textColor
-
-                text: qsTr("0.24265")
             }
         }
 
@@ -339,26 +308,17 @@ Item
 
             updateTokenPrice()
 
-            dataWorker.getCandleModel()
+            dataWorker.updateAllModels()
 
-            dataWorker.getAveragedModel()
+//            dataWorker.getCandleModel()
+
+//            dataWorker.getAveragedModel()
 
             candleLogic.dataAnalysis()
 
             chartItem.chartCanvas.requestPaint()
 
             volume24h += Math.random()*10
-        }
-    }
-
-    Timer
-    {
-        id: timeUpdate
-        repeat: true
-        interval: 10000
-        onTriggered:
-        {
-            timeItem.text = logicStock.getCurrentDate("MMM dd, hh:mm AP")
         }
     }
 

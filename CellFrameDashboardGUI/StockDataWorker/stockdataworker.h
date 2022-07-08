@@ -39,6 +39,8 @@ class StockDataWorker : public QObject
     Q_PROPERTY(int firstVisibleCandle READ firstVisibleCandle)
     Q_PROPERTY(int lastVisibleCandle READ lastVisibleCandle)
 
+    Q_PROPERTY(int priceModelSize READ priceModelSize)
+
 //    Q_PROPERTY(int firstVisibleAverage READ firstVisibleAverage)
 //    Q_PROPERTY(int lastVisibleAverage READ lastVisibleAverage)
 
@@ -48,10 +50,13 @@ public:
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
 
-    Q_INVOKABLE void getCandleModel();
+    Q_INVOKABLE void updateAllModels();
+
+    Q_INVOKABLE void getCandleModel(bool update);
     Q_INVOKABLE QVariantMap getCandleInfo(int index);
 
-    Q_INVOKABLE void getAveragedModel();
+    Q_INVOKABLE void getTempAveragedModel(bool update);
+    Q_INVOKABLE void getAveragedModels(bool update);
     Q_INVOKABLE QVariantMap getAveragedInfo(int chart, int index);
 
     Q_INVOKABLE int getFirstVisibleAverage(int chart);
@@ -117,6 +122,9 @@ public:
     int lastVisibleCandle() const
         { return m_lastVisibleCandle; }
 
+    int priceModelSize() const
+        { return priceModel.size(); }
+
 //    int firstVisibleAverage() const
 //        { return m_firstVisibleAverage; }
 //    int lastVisibleAverage() const
@@ -152,6 +160,7 @@ private:
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
 
+    QVector <PriceInfo> tempAverModel;
     QVector <QVector <PriceInfo>> averagedModel;
     QVector <int> averageDelta;
 

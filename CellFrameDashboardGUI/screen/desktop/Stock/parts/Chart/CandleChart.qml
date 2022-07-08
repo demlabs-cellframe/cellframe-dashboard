@@ -16,7 +16,7 @@ Item
 
     Component.onCompleted:
     {
-        print("CandleChart", "Component.onCompleted", "BEGIN")
+//        print("CandleChart", "Component.onCompleted", "BEGIN")
         logic.backgroundColor = currTheme.backgroundElements
         logic.redCandleColor = currTheme.textColorRed
         logic.greenCandleColor = currTheme.textColorGreen
@@ -36,9 +36,7 @@ Item
 
         generateTimer.start()
 
-        timeUpdate.start()
-
-        print("CandleChart", "Component.onCompleted", "END")
+//        print("CandleChart", "Component.onCompleted", "END")
     }
 
     property bool analysisNeeded: false
