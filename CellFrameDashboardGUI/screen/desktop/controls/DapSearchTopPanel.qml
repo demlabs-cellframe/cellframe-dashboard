@@ -18,13 +18,14 @@ DapTopPanel {
         anchors.left: parent.left
         anchors.leftMargin: 38 * pt
         y: 21 * pt
-        height: 19 * pt
-        width: 19 * pt
-        fillMode: Image.PreserveAspectFit
+        height: 20 * pt
+        width: 20 * pt
+//        fillMode: Image.PreserveAspectFit
         verticalAlignment: Image.AlignVCenter
         horizontalAlignment: Image.AlignHCenter
+        mipmap: true
 
-        source: "qrc:/resources/icons/ic_search.png"
+        source: "qrc:/Resources/"+ pathTheme +"/icons/other/search.svg"
     }
 
     SearchInputBox {

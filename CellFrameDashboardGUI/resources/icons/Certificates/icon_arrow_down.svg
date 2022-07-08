@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g id="icon_arrow_down" transform="translate(24 24) rotate(180)">
-    <rect id="bg_arrow_down_icon" width="24" height="24" fill="none"/>
-    <path id="arrow_down_object_icon" d="M0,5,5,0l5,5Z" transform="translate(7 9)" fill="#505559"/>
-  </g>
-</svg>

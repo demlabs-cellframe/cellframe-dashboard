@@ -161,12 +161,14 @@ Page
                 {
                     Layout.preferredHeight: 30
                     Layout.preferredWidth: 30
+                    mipmap: true
 //                    innerWidth: 20
 //                    innerHeight: 20
 
                     visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
 
-                    source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+                    source: mouseArea.containsMouse? "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg" :
+                                                     "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
 
                     MouseArea
                     {

@@ -45,9 +45,9 @@ Component {
                 height: 8 * pt
                 mipmap: true
 
-                source: networkState === "ONLINE" ? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png" :
-                        networkState === "ERROR" ?   "qrc:/resources/icons/" + pathTheme + "/indicator_error.png":
-                                                     "qrc:/resources/icons/" + pathTheme + "/indicator_offline.png"
+                source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
+                        networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png":
+                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.png"
 
                 opacity: networkState !== targetState? animationController.opacity : 1
             }

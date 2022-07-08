@@ -27,9 +27,9 @@ Page {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
-                anchors.topMargin:  150 * pt
-                anchors.leftMargin: 46 * pt
-                anchors.rightMargin: 50 * pt
+                anchors.topMargin:  150
+                anchors.leftMargin: 46
+                anchors.rightMargin: 50
                 color: currTheme.textColor
                 font: mainFont.dapFont.medium27
             }
@@ -41,7 +41,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: textMessage.bottom
-                anchors.topMargin: 36 * pt
+                anchors.topMargin: 36
                 color: "#A4A3C0"
                 font: mainFont.dapFont.regular28
             }
@@ -53,7 +53,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: textStatus.bottom
-//                anchors.topMargin: 8 * pt
+//                anchors.topMargin: 8
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular28
             }
@@ -62,11 +62,11 @@ Page {
             DapButton
             {
                 id: buttonDone
-                height: 36 * pt
-                width: 132 * pt
+                height: 36
+                width: 132
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: textStatusMessage.bottom
-                anchors.topMargin: 190 * pt
+                anchors.topMargin: 190
                 textButton: qsTr("Done")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -77,9 +77,9 @@ Page {
             Rectangle
             {
                 id: rectangleBottomButton
-                height: 190 * pt
+                height: 190
                 anchors.top: buttonDone.bottom
-                anchors.topMargin: 24 * pt
+                anchors.topMargin: 24
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom

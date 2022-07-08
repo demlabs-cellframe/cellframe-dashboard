@@ -117,8 +117,8 @@ Item {
             width: 24 * pt
             mipmap: true
 
-            source: isSynch ? "qrc:/resources/icons/Icon_sync_net_hover.svg" :
-                              "qrc:/resources/icons/icon_on_off_net_hover.svg"
+            source: isSynch ? "qrc:/Resources/"+ pathTheme +"/icons/other/sync.svg" :
+                              "qrc:/Resources/"+ pathTheme +"/icons/other/on_off.svg"
         }
 
         Text {

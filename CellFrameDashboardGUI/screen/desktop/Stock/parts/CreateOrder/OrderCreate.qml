@@ -3,6 +3,7 @@ import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 import "../Chart"
+import "../../../controls"
 
 Page
 {
@@ -43,27 +44,26 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
-            DapButton
-            {
+            height: 38
+
+            HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 24 * pt
+                anchors.leftMargin: 21 * pt
                 anchors.rightMargin: 13 * pt
 
                 id: itemButtonClose
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20 * pt
+                widthImage: 20 * pt
 
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: goToRightHome()
             }
 
@@ -75,9 +75,9 @@ Page
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.topMargin: 12
+                anchors.bottomMargin: 8
+                anchors.leftMargin: 52
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -90,7 +90,7 @@ Page
             Layout.leftMargin: 16
             Layout.topMargin: 10
             label: qsTr("Balance:")
-            text: logicStock.balanceValue + " " + tokenName
+            text: logicStock.balanceText + " " + tokenName
             textColor: currTheme.textColor
             textFont: mainFont.dapFont.regular14
 //            font: mainFont.dapFont.regular14

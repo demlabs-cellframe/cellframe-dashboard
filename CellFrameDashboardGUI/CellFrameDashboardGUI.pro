@@ -11,7 +11,7 @@ include(../config.pri)
 TARGET = $${BRAND}
 
 win32 {
-    RC_ICONS = $$PWD/resources/icons/icon_win32.ico
+    RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -22,10 +22,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
 macx {
-    ICON = resources/icons/CellframeDashboard.icns
+    ICON = Resources/CellframeDashboard.icns
 }
 else: !win32 {
-    ICON = qrc:/resources/icons/icon.ico
+    ICON = qrc:/Resources/icon.ico
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -62,6 +62,7 @@ SOURCES += \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
+    StockDataWorker/stockdataworker.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -90,6 +91,9 @@ HEADERS += \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
+    StockDataWorker/candleinfo.h \
+    StockDataWorker/priceinfo.h \
+    StockDataWorker/stockdataworker.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
@@ -138,7 +142,7 @@ win32: nsis_build {
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/resources/icons/icon_win32.ico) $$DESTDIR &&
+        $$shell_path($$_PRO_FILE_PWD_/Resources/icon_win32.ico) $$DESTDIR &&
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/build.nsi) $$DESTDIR &&
     copyconfig.commands += $(COPY_DIR) \

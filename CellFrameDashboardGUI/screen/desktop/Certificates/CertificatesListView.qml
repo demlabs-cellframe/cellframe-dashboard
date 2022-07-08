@@ -189,7 +189,7 @@ ListView {
                     width: 30 * pt
                     height: 30 * pt
                     mipmap: true
-                    source: "qrc:/resources/icons/Certificates/ic_info.png"
+                    source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
                 }
 
                 MouseArea

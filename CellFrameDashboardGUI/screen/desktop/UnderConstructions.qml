@@ -20,7 +20,7 @@ Rectangle{
             Layout.leftMargin: (parent.width - width) / 2 - 18 * pt
             Layout.topMargin: (parent.height - height) / 2 - 24 * pt
 
-            source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/comingsoon_illustration.png"
+            source: "qrc:/Resources/" + pathTheme + "/Illustratons/comingsoon_illustration.png"
             fillMode: Image.PreserveAspectFit
             sourceSize.width: 500 * pt
             sourceSize.height: 211 * pt
