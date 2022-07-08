@@ -61,7 +61,7 @@ Rectangle {
         {
             innerWidth: 20
             innerHeight: 20
-            source: "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
+            source: "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png"
         }
 
     }

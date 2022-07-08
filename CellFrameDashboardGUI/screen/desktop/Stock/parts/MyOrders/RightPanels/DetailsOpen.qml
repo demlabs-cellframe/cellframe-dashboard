@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.12
 import "qrc:/widgets"
 import "../parts"
+import "../../../../controls"
 
 Page {
     id: root
@@ -21,26 +22,24 @@ Page {
         {
             Layout.fillWidth: true
             height: 38
-            DapButton
-            {
+            HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 anchors.topMargin: 10
                 anchors.bottomMargin: 7
-                anchors.leftMargin: 24
+                anchors.leftMargin: 21
                 anchors.rightMargin: 13
 
                 id: itemButtonClose
                 height: 20
                 width: 20
-                heightImageButton: 10
-                widthImageButton: 10
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20
+                widthImage: 20
 
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: logic.closedDetails()
             }
 

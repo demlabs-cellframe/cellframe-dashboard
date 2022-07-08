@@ -24,7 +24,7 @@ Item
         anchors.fill: parent
         anchors.rightMargin: 10
         opacity: isPushed? 1: 0
-        source: "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+        source: "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
 
         Behavior on opacity {
             NumberAnimation {
@@ -46,7 +46,7 @@ Item
             DapImageLoader {
                 innerWidth: parent.width
                 innerHeight: parent.height
-                source: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/" + bttnIco
+                source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
             }
         }
 
@@ -88,7 +88,7 @@ Item
                     if(handler.containsMouse && !buttonDelegate.isPushed)
                     {
                         backgroundImage.opacity = 1
-                        backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_hover.png"
+                        backgroundImage.source = "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_hover.png"
                     }
                 })
             }
@@ -105,7 +105,7 @@ Item
         onClicked:
         {
             mainButtonsList.currentIndex = index;
-            backgroundImage.source = "qrc:/resources/icons/" + pathTheme + "/bg-menuitem_active.png"
+            backgroundImage.source = "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
             pushPage(page)
         }
     }
