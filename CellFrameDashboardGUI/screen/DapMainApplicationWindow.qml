@@ -68,6 +68,12 @@ Rectangle {
             click()
         }
     }
+
+    DapWebMessagePopup{
+        id: webPopup
+
+    }
+
     signal openCopyPopup()
     onOpenCopyPopup: {
         component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
@@ -82,6 +88,7 @@ Rectangle {
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
+    signal newWebRequest()
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -92,7 +99,9 @@ Rectangle {
     ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
-    ListModel{ id: fakeWallet}
+    ListModel{id: dapMessageBuffer}
+
+    ListModel{id: fakeWallet}
 
     ListModel{
         id:themes
@@ -437,8 +446,25 @@ Rectangle {
 
         onDapWebConnectRequest:
         {
-            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
-            component.createObject(dapMainWindow,{indexUser: rcvData[1], webSite: rcvData[0]});
+            logicMainApp.requestsMessageCounter++
+            dapMessageBuffer.append({index: rcvData[1],
+                                     site: rcvData[0]})
+            newWebRequest()
+
+            var isSingle
+            if(logicMainApp.requestsMessageCounter > 1)
+            {
+                isSingle = false
+                webPopup.setDisplayText(isSingle, logicMainApp.requestsMessageCounter, -1)
+            }else{
+                isSingle = true
+                webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+            }
+            if(!webPopup.isOpen)
+                webPopup.open()
+
+//            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
+//            component.createObject(dapMainWindow,{indexUser: rcvData[1], webSite: rcvData[0]});
         }
     }
 

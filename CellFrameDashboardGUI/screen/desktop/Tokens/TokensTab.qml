@@ -42,10 +42,9 @@ DapPage
         }
     }
 
-    dapHeader.initialItem: TokensTopPanel
-        {
-            id: tokensTopPanel
-        }
+    dapHeader.initialItem: DapSearchTopPanel{
+//        onFindHandler: logicTokens.searchElement(text)
+    }
 
     dapScreen.initialItem:
         TokensScreen

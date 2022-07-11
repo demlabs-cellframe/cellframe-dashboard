@@ -24,6 +24,8 @@ QtObject {
     property bool hasUpdate
     property string urlDownload
 
+    property int requestsMessageCounter: 0
+
 
     ///Functions
 
