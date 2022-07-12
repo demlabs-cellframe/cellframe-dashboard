@@ -74,6 +74,24 @@ Item
         timer.start();
     }
 
+    Connections
+    {
+        target: dapMainWindow
+        onCheckWebRequest:{
+            if(page === settingsScreenPath)
+            {
+                mainButtonsList.currentIndex = index;
+                backgroundImage.source = "qrc:/Resources/" + pathTheme + "/icons/other/bg-menuitem_active.png"
+                pushPage(page)
+
+                delay(400,function() {
+                    openRequests()
+                })
+
+            }
+        }
+    }
+
     MouseArea
     {
         id: handler

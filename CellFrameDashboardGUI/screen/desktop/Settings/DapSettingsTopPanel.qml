@@ -11,6 +11,64 @@ Controls.DapTopPanel
     property alias buttonUpdate: checkUpdate
     property alias indicatorUpdate: loadIndicator
 
+    //Requests
+    Item{
+        anchors
+        {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+            bottomMargin: 21
+            leftMargin: 24
+            topMargin: 21
+        }
+        width: row.implicitWidth
+
+        RowLayout{
+            id: row
+            spacing: 6
+            anchors.fill: parent
+
+            Text{
+                Layout.fillHeight: true
+                id: requestsBut
+                text: qsTr("Requests")
+                font: mainFont.dapFont.medium14
+                color: logicMainApp.requestsMessageCounter > 0 ? currTheme.hilightColorComboBox : currTheme.textColor
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Rectangle{
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignVCenter
+                Layout.preferredWidth: 20
+                radius: 20
+                visible: logicMainApp.requestsMessageCounter > 0
+                color: currTheme.hilightColorComboBox
+
+                Text{
+                    id: value
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    text: logicMainApp.requestsMessageCounter
+                    color: currTheme.hilightTextColorComboBox
+                    font: mainFont.dapFont.regular13
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+        }
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: navigator.openRequests()
+        }
+
+        Connections
+        {
+            target: dapMainWindow
+            onOpenRequests: navigator.openRequests()
+        }
+    }
 
     Text {
         id: vesion

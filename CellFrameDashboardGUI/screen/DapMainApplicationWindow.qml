@@ -84,10 +84,14 @@ Rectangle {
     signal pluginsTabChanged(var auto, var removed, var name)
     onPluginsTabChanged: logicMainApp.updateAppsTabStatus(auto, removed, name)
 
+    signal changeHeight()
+    onHeightChanged: changeHeight()
+
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
-    signal newWebRequest()
+    signal checkWebRequest()
+    signal openRequests()
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -99,6 +103,7 @@ Rectangle {
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
     ListModel{id: dapMessageBuffer}
+    ListModel{id: dapMessageLogBuffer}
 
     ListModel{id: fakeWallet}
 
@@ -445,22 +450,36 @@ Rectangle {
 
         onDapWebConnectRequest:
         {
-            logicMainApp.requestsMessageCounter++
-            dapMessageBuffer.append({index: rcvData[1],
-                                     site: rcvData[0]})
-            newWebRequest()
+            var isEqual = false
 
-            var isSingle
-            if(logicMainApp.requestsMessageCounter > 1)
+            //TODO: for release
+//            for(var i = 0; i < dapMessageBuffer.count; i++)
+//            {
+//                if(dapMessageBuffer.get(i).site === rcvData[0]){
+//                    isEqual = true
+//                    break;
+//                }
+//            }
+
+            if(!isEqual)
             {
-                isSingle = false
-                webPopup.setDisplayText(isSingle, logicMainApp.requestsMessageCounter, -1)
-            }else{
-                isSingle = true
-                webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                logicMainApp.requestsMessageCounter++
+                dapMessageBuffer.append({indexRequest: rcvData[1],
+                                         site: rcvData[0]})
+
+
+                var isSingle
+                if(logicMainApp.requestsMessageCounter > 1)
+                {
+                    isSingle = false
+                    webPopup.setDisplayText(isSingle, logicMainApp.requestsMessageCounter, -1)
+                }else{
+                    isSingle = true
+                    webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                }
+                if(!webPopup.isOpen)
+                    webPopup.open()
             }
-            if(!webPopup.isOpen)
-                webPopup.open()
 
 //            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
 //            component.createObject(dapMainWindow,{indexUser: rcvData[1], webSite: rcvData[0]});

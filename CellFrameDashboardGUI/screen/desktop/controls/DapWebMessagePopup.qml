@@ -17,20 +17,38 @@ Page {
     width: 328
     height: checkButton.visible? 178 : 196
 
-    anchors.right: networksPanel.right
-//    anchors.rightMargin: 24
-//    x: setX()
-
-    function setX()
-    {
-        console.log(parent.width, popup.width, popup.scale) // 1391.25 328 0.8
-        console.log(parent.width - popup.width/popup.scale) // 981.25
-        return parent.width - popup.width/popup.scale
-    }
+    anchors.right: parent.right
+    anchors.rightMargin: 24
 
     y: startY
 
-    scale: mainWindow.scale
+    Timer{
+        property int counter: 0
+        id: timer
+        interval: 200
+        repeat: true
+        onTriggered: {
+            if(counter === 20){
+                running = false
+                counter = 0
+            }else{
+                counter++
+                popup.y = stopY
+            }
+        }
+    }
+
+    Connections{
+        target: parent
+        onChangeHeight: {
+            startY = parent.height
+            if(isOpen)
+                timer.start()
+            else
+                y = startY
+        }
+    }
+
     visible: isOpen
     z: 10
 
@@ -128,6 +146,7 @@ Page {
             horizontalAligmentText: Text.AlignHCenter
 
             onClicked:{
+                checkWebRequest()
                 clearAndClose()
             }
 
@@ -151,12 +170,9 @@ Page {
                 textButton: qsTr("Allow")
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
-                onClicked:
-                {
+                onClicked:{
                     dapServiceController.notifyService("DapWebConnectRequest",true, indexUser)
-                    logicMainApp.requestsMessageCounter--
-
-                    clearAndClose()
+                    eventMessage("Allowed")
                 }
             }
 
@@ -171,17 +187,31 @@ Page {
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: {
                     dapServiceController.notifyService("DapWebConnectRequest",false, indexUser)
-                    logicMainApp.requestsMessageCounter--
-                    clearAndClose()
+                    eventMessage("Denied")
                 }
             }
         }
     }
+
+    function eventMessage(reply)
+    {
+        logicMainApp.requestsMessageCounter--
+        for(var i = 0; i < dapMessageBuffer.count; i++)
+        {
+            if(dapMessageBuffer.get(i).site === webSite)
+            {
+                dapMessageBuffer.remove(i)
+                dapMessageLogBuffer.append({infoText: infoText.text,
+                                            date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
+                                            reply: reply})
+                break;
+            }
+        }
+        clearAndClose()
+    }
+
     function setDisplayText(isSingle, text, index)
     {
-
-        console.log("Y = ", y, "________________________________________________________-")
-
         if(isSingle)
         {
             buttonsLayout.visible = true
@@ -217,6 +247,4 @@ Page {
         isOpen = true
         y = stopY
     }
-
-
 }

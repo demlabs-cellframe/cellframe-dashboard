@@ -77,12 +77,12 @@ Page {
     ColumnLayout
     {
         width: parent.width
-        height: childrenRect.height
+//        height: childrenRect.height
 
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
+            height: 42 * pt
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left

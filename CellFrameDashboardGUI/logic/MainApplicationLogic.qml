@@ -451,6 +451,11 @@ QtObject {
         timer.start();
     }
 
+    function getDate(format){
+        var date = new Date()
+        return date.toLocaleString(Qt.locale("en_EN"),format)
+    }
+
     //////////////////////
     function initFakeWallet()
     {

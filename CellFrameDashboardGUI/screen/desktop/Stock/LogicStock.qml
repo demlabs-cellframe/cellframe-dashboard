@@ -243,12 +243,9 @@ QtObject
     function cancelationOrder(index)
     {
         var order = openOrdersModel.get(index)
-        var date = new Date()
-        var closedDate = date.toLocaleString(Qt.locale("en_EN"),"yyyy-MM-dd hh:mm")
-
         orderHistoryModel.insert(0,{
                                      date: order.date,
-                                     closedDate: closedDate,
+                                     closedDate: logicMainApp.getDate("yyyy-MM-dd hh:mm"),
                                      pair: order.pair,
                                      type: order.type,
                                      side: order.side,

@@ -32,7 +32,9 @@ QtObject {
     readonly property color textColor              : "#ffffff" // OK
     readonly property color textColorGray          : "#B4B1BD" // OK
     readonly property color textColorGrayTwo       : "#B2B2B2" // OK
+    readonly property color textColorGrayThree     : "#B0AEB9" // OK
     readonly property color placeHolderTextColor   : "#C7C6CE" // OK
+    readonly property color textColorLightGreen    : "#CAFC33" // OK
     readonly property color textColorGreen         : "#84BE00" // OK //STOCK
     readonly property color textColorRed           : "#FF5F5F" // OK //STOCK
 
