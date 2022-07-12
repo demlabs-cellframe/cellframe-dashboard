@@ -71,7 +71,6 @@ Rectangle {
 
     DapWebMessagePopup{
         id: webPopup
-
     }
 
     signal openCopyPopup()

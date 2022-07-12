@@ -5,27 +5,34 @@ import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 
-Popup {
+Page {
     property bool isOpen: false
     property int indexUser
     property string webSite
     property real startY: parent.height
-    property real stopY: -height*(1 + 1/scale)*0.5 + parent.height - networksPanel.height - 24
-
-    onOpenedChanged: isOpen = !isOpen
+    property real stopY: parent.height - popup.height - networksPanel.height - 24
 
     id: popup
 
     width: 328
     height: checkButton.visible? 178 : 196
-//    height: 178
 
-    x: parent.width - popup.width/scale - 24
+    anchors.right: networksPanel.right
+//    anchors.rightMargin: 24
+//    x: setX()
+
+    function setX()
+    {
+        console.log(parent.width, popup.width, popup.scale) // 1391.25 328 0.8
+        console.log(parent.width - popup.width/popup.scale) // 981.25
+        return parent.width - popup.width/popup.scale
+    }
+
+    y: startY
 
     scale: mainWindow.scale
-
-    closePolicy: Popup.NoAutoClose
-    padding: 0
+    visible: isOpen
+    z: 10
 
     background: Item {
         Rectangle {
@@ -61,15 +68,11 @@ Popup {
         }
     }
 
-
-    enter: Transition {
-//                NumberAnimation { property: "opacity"; from: 0.0; to: 1.0; duration: 200 }
-                NumberAnimation { property: "y"; from: startY; to: stopY; duration: 200 }
-            }
-    exit: Transition {
-//                NumberAnimation { property: "opacity"; from: 1.0; to: 0.0; duration: 200 }
-                NumberAnimation { property: "y"; from: stopY; to: startY; duration: 200 }
-            }
+    Behavior on y {
+        NumberAnimation {
+            duration: 200
+        }
+    }
 
     contentItem: ColumnLayout{
 
@@ -88,8 +91,7 @@ Popup {
 
             onClicked:
             {
-
-                popup.close()
+                clearAndClose()
             }
         }
 
@@ -126,7 +128,7 @@ Popup {
             horizontalAligmentText: Text.AlignHCenter
 
             onClicked:{
-                popup.close()
+                clearAndClose()
             }
 
         }
@@ -154,7 +156,7 @@ Popup {
                     dapServiceController.notifyService("DapWebConnectRequest",true, indexUser)
                     logicMainApp.requestsMessageCounter--
 
-                    popup.close()
+                    clearAndClose()
                 }
             }
 
@@ -170,7 +172,7 @@ Popup {
                 onClicked: {
                     dapServiceController.notifyService("DapWebConnectRequest",false, indexUser)
                     logicMainApp.requestsMessageCounter--
-                    popup.close()
+                    clearAndClose()
                 }
             }
         }
@@ -195,7 +197,26 @@ Popup {
             infoText.text = "You have " + text + " requests permission to exchange work with the wallet"
 
             if(isOpen)
-                y += 18
+                y = stopY
         }
     }
+
+    function clearAndClose()
+    {
+        y = startY
+        logicMainApp.delay(200, function(){
+            isOpen = false
+            webSite = ""
+            indexUser = -1
+            infoText.text = ""
+        })
+    }
+
+    function open()
+    {
+        isOpen = true
+        y = stopY
+    }
+
+
 }
