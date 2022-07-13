@@ -25,6 +25,7 @@ QtObject {
     property string urlDownload
 
     property int requestsMessageCounter: 0
+    property bool isOpenRequests: false
 
 
     ///Functions

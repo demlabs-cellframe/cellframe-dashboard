@@ -39,7 +39,7 @@ Page {
     }
 
     Connections{
-        target: parent
+        target: dapMainWindow
         onChangeHeight: {
             startY = parent.height
             if(isOpen)
@@ -149,7 +149,6 @@ Page {
                 checkWebRequest()
                 clearAndClose()
             }
-
         }
 
         RowLayout{

@@ -1,7 +1,9 @@
 import QtQuick.Window 2.2
+import QtQml 2.12
 import QtGraphicalEffects 1.0
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
 import "../controls"
 import "qrc:/widgets"
 import "../../"
@@ -187,106 +189,71 @@ Page
             anchors.left: parent.left
             anchors.right: parent.right
             color: "transparent"
-//            height: 70 * pt
-            height: textLog.implicitHeight < 60 * pt ? 60 * pt : textLog.implicitHeight + 20 * pt
+            height: row.implicitHeight < 36 ? 50 : row.implicitHeight + 27
 
             //Event container
-            Rectangle
-            {
-                id: container
+            RowLayout{
+                id: row
                 anchors.fill: parent
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
-                anchors.leftMargin: firstMarginList
-                anchors.rightMargin: fifthMarginList
-                color: parent.color
+                anchors.topMargin: 14 * pt
+                anchors.bottomMargin: 13 * pt
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
+                spacing: 0
 
-                //Frame type log
-                Rectangle
+                Text
                 {
-                    id:frameTypeLog
-                    anchors.left: parent.left
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    width: 43 * pt
-                    color: parent.color
-                    clip: true
-                    Text
-                    {
-                        id: typeLog
-                        anchors.fill: parent
-                        verticalAlignment: Qt.AlignVCenter
-                        font:  mainFont.dapFont.regular16
-                        color: currTheme.textColor
-                        text: type
-                    }
+                    id: typeLog
+                    Layout.minimumWidth: 34
+                    Layout.maximumWidth: 34
+                    Layout.alignment: Qt.AlignLeft
+//                    width: 34
+                    verticalAlignment: Qt.AlignVCenter
+                    font:  mainFont.dapFont.regular14
+                    color: type === "WRN" ? currTheme.textColorYellow :
+                           type === "ERR" ? currTheme.textColorRed :
+                           type === "INF" || type === " * " ?
+                           currTheme.textColorLightBlue : currTheme.textColor
+                    text: type
                 }
 
-                // Frame text log
-                Rectangle
+                Text
                 {
-                    id:frameTextLog
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.left: frameTypeLog.right
-                    anchors.leftMargin: secondMarginList
-                    anchors.right: frameFileLog.left
-                    anchors.rightMargin: thirdMarginList
-                    color: parent.color
-                    clip: true
-                    Text
-                    {
-                        id: textLog
-                        anchors.fill: parent
-                        verticalAlignment: Qt.AlignVCenter
-                        wrapMode: Text.Wrap
-                        font:  mainFont.dapFont.regular16
-                        color: currTheme.textColor
-                        text: info
-                    }
+                    id: textLog
+//                    Layout.preferredWidth: 280
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: 30
+                    verticalAlignment: Qt.AlignVCenter
+                    wrapMode: Text.WrapAnywhere
+                    font:  mainFont.dapFont.regular14
+                    color: currTheme.textColor
+                    text: info
                 }
 
-                //Frame file log
-                Rectangle
+                Text
                 {
-                    id: frameFileLog
-                    anchors.right: frameTimeLog.left
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.rightMargin: thirdMarginList
-                    width: 200 * pt
-                    color: parent.color
-                    clip: true
-                    Text
-                    {
-                        id: fileLog
-                        anchors.fill: parent
-                        verticalAlignment: Qt.AlignVCenter
-                        font:  mainFont.dapFont.regular14
-                        color: currTheme.textColor
-                        text: file
-                    }
+                    id: fileLog
+                    Layout.minimumWidth: 200
+                    Layout.alignment: Qt.AlignLeft
+                    Layout.leftMargin: 40
+                    verticalAlignment: Qt.AlignVCenter
+                    font:  mainFont.dapFont.regular13
+                    color: currTheme.textColor
+                    text: file
                 }
 
-                //Frame time log
-                Rectangle
+                Text
                 {
-                    id: frameTimeLog
-                    anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.right: parent.right
-                    width: 62 * pt
-                    color: parent.color
-                    clip: true
-                    Text
-                    {
-                        id: timeLog
-                        anchors.fill: parent
-                        verticalAlignment: Qt.AlignVCenter
-                        font:  mainFont.dapFont.regular16
-                        color: currTheme.textColor
-                        text: time
-                    }
+                    id: timeLog
+                    Layout.minimumWidth: 50
+                    Layout.maximumWidth: 50
+                    Layout.leftMargin: 20
+                    Layout.alignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                    font:  mainFont.dapFont.regular14
+                    color: currTheme.textColor
+                    text: time
                 }
             }
 
@@ -296,6 +263,7 @@ Page
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
+//                anchors.topMargin: 13 * pt
                 height: 1 * pt
                 color: currTheme.lineSeparatorColor
             }
@@ -343,8 +311,12 @@ Page
 
             if(stringTime !== "error" && arrLogString[2] !== "")
             {
+                var info = arrLogString[4]
+                if(info[0] === " ")
+                    info = info.substring(1)
+
                 dapLogsModel.append({"type": arrLogString[2],
-                                     "info": arrLogString[4],
+                                     "info": info,
                                      "file": arrLogString[3],
                                      "time": TimeFunction.getTime(stringTime),
                                      "date": TimeFunction.getDay(stringTime, privateDate),

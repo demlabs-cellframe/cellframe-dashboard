@@ -63,14 +63,10 @@ Page {
                 active: true
             }
 
-            delegate: Item {
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 108 * pt
-
-                ColumnLayout
-                {
-                    anchors.fill: parent
+            delegate:
+                ColumnLayout{
+                    anchors.left: parent.left
+                    anchors.right: parent.right
 
                     Text
                     {
@@ -119,6 +115,6 @@ Page {
                     }
                 }
             }
-        }
+
     }
 }

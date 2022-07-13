@@ -465,20 +465,23 @@ Rectangle {
             {
                 logicMainApp.requestsMessageCounter++
                 dapMessageBuffer.append({indexRequest: rcvData[1],
-                                         site: rcvData[0]})
+                                         site: rcvData[0],
+                                         date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap")})
 
-
-                var isSingle
-                if(logicMainApp.requestsMessageCounter > 1)
+                if(!logicMainApp.isOpenRequests)
                 {
-                    isSingle = false
-                    webPopup.setDisplayText(isSingle, logicMainApp.requestsMessageCounter, -1)
-                }else{
-                    isSingle = true
-                    webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                    var isSingle
+                    if(logicMainApp.requestsMessageCounter > 1)
+                    {
+                        isSingle = false
+                        webPopup.setDisplayText(isSingle, logicMainApp.requestsMessageCounter, -1)
+                    }else{
+                        isSingle = true
+                        webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                    }
+                    if(!webPopup.isOpen)
+                        webPopup.open()
                 }
-                if(!webPopup.isOpen)
-                    webPopup.open()
             }
 
 //            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
