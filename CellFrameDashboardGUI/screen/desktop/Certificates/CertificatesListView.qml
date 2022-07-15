@@ -28,7 +28,7 @@ ListView {
 
     header: Rectangle {
         width: parent.width
-        height: certificatesTitle.height + tableTitle.height + spacing - 6 * pt
+        height: certificatesTitle.height + tableTitle.height + spacing - 6
         z:10
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
@@ -36,7 +36,7 @@ ListView {
         Rectangle {
             id: certificatesTitle
             width: parent.width
-            height: 40 * pt
+            height: 42 * pt
             color: currTheme.backgroundElements
             anchors.left: parent.left
             anchors.leftMargin: 10 * pt

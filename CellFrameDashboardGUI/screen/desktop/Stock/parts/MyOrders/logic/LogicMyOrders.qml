@@ -30,6 +30,7 @@ QtObject {
         defaultRightPanel.visible = true
         closedDetailsSignal()
         changeRightPanel(emptyRightPanel)
+        bufferDetails.clear()
     }
 
     function initOrdersModels()
@@ -47,9 +48,7 @@ QtObject {
     {
         var isEqual = false
         var rightPage
-
         if(screen === "open"){
-
             rightPage = detailOpen
             checkingBufferDetails.append({date: data.date,
                                              pair: data.pair,
@@ -87,7 +86,6 @@ QtObject {
 
 
         }else{
-
             rightPage = detailHistory
 
             checkingBufferDetails.append({date: data.date,
@@ -126,6 +124,7 @@ QtObject {
             }
             else
                 bufferDetails.append(checkingBufferDetails.get(0))
+
         }
 
         if(!isEqual)

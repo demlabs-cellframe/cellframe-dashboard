@@ -173,6 +173,7 @@
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
         <file>screen/desktop/controls/DapLoadIndicator.qml</file>
+        <file>screen/desktop/controls/DapWebMessagePopup.qml</file>
         <file>Resources/BlackTheme/icons/navigation/icon_certificates.png</file>
         <file>Resources/BlackTheme/icons/navigation/icon_console.png</file>
         <file>Resources/BlackTheme/icons/navigation/icon_daaps.png</file>
@@ -258,7 +259,6 @@
         <file>screen/desktop/Stock/parts/OrderBook/OrderBookDelegate.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreateDone.qml</file>
-        <file>screen/desktop/Tokens/TokensTopPanel.qml</file>
         <file>screen/desktop/Tokens/TokensTab.qml</file>
         <file>screen/desktop/Tokens/TokensScreen.qml</file>
         <file>screen/desktop/Tokens/logic/LogicTokens.qml</file>
@@ -284,5 +284,7 @@
         <file>Resources/BlackTheme/icons/other/ic_info.svg</file>
         <file>Resources/BlackTheme/icons/other/Double_arrow.png</file>
         <file>Resources/BlackTheme/icons/other/Arrow.png</file>
+        <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml</file>
     </qresource>
 </RCC>

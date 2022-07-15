@@ -16,6 +16,8 @@ DapPage
     readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
     readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
+    ///@detalis Path to the right panel of requests.
+    readonly property string requestsPanel: path + "/Settings/RightPanel/DapRequestsRightPanel.qml"
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
@@ -54,6 +56,11 @@ DapPage
         {
             dapRightPanelFrame.frame.visible = true
             dapRightPanel.push(recoveryWallet)
+        }
+
+        function openRequests() {
+            dapRightPanelFrame.frame.visible = true
+            dapRightPanel.push(requestsPanel)
         }
 
         function popPage() {
