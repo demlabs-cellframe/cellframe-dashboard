@@ -448,45 +448,8 @@ Rectangle {
             modelOrdersUpdated();
         }
 
-        onDapWebConnectRequest:
-        {
-            var isEqual = false
+        onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
 
-            //TODO: for release
-//            for(var i = 0; i < dapMessageBuffer.count; i++)
-//            {
-//                if(dapMessageBuffer.get(i).site === rcvData[0]){
-//                    isEqual = true
-//                    break;
-//                }
-//            }
-
-            if(!isEqual)
-            {
-                logicMainApp.requestsMessageCounter++
-                dapMessageBuffer.append({indexRequest: rcvData[1],
-                                         site: rcvData[0],
-                                         date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap")})
-
-                if(!logicMainApp.isOpenRequests)
-                {
-                    var isSingle
-                    if(logicMainApp.requestsMessageCounter > 1)
-                    {
-                        isSingle = false
-                        webPopup.setDisplayText(isSingle, logicMainApp.requestsMessageCounter, -1)
-                    }else{
-                        isSingle = true
-                        webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
-                    }
-                    if(!webPopup.isOpen)
-                        webPopup.open()
-                }
-            }
-
-//            component = Qt.createComponent("qrc:/screen/desktop/controls/DapWebMessagePopup.qml");
-//            component.createObject(dapMainWindow,{indexUser: rcvData[1], webSite: rcvData[0]});
-        }
     }
 
     Connections{

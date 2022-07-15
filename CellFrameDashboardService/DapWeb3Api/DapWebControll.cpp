@@ -235,14 +235,18 @@ void DapWebControll::sendResponce(QJsonDocument data, QTcpSocket* socket)
 
 void DapWebControll::rcvAccept(QString accept, int index)
 {
-    QJsonDocument doc;
-    if(accept == "true"){
-        QString newId = getNewId();
-        s_id.append(newId);
-        QJsonObject obj;
-        obj.insert("id", newId);
-        doc = processingResult("ok", "", obj);
-    }else
-        doc = processingResult("bad", "The User declined the request");
-    sendResponce(doc, s_tcpSocketList[index]);
+    if(s_tcpSocketList.contains(index))
+    {
+        QJsonDocument doc;
+        if(accept == "true"){
+            QString newId = getNewId();
+            s_id.append(newId);
+            QJsonObject obj;
+            obj.insert("id", newId);
+            doc = processingResult("ok", "", obj);
+        }else
+            doc = processingResult("bad", "The User declined the request");
+
+        sendResponce(doc, s_tcpSocketList[index]);
+    }
 }

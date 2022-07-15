@@ -406,6 +406,42 @@ QtObject {
         dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array);
     }
 
+    function rcvWebConnectRequest(rcvData)
+    {
+        var isEqual = false
+        //filtering equeal sites requests
+        for(var i = 0; i < dapMessageBuffer.count; i++)
+        {
+            if(dapMessageBuffer.get(i).site === rcvData[0]){
+                isEqual = true
+                break;
+            }
+        }
+
+        if(!isEqual)
+        {
+            requestsMessageCounter++
+            dapMessageBuffer.append({indexRequest: rcvData[1],
+                                     site: rcvData[0],
+                                     date: getDate("yyyy-MM-dd, hh:mm ap")})
+
+            if(!isOpenRequests)
+            {
+                var isSingle
+                if(requestsMessageCounter > 1)
+                {
+                    isSingle = false
+                    webPopup.setDisplayText(isSingle, requestsMessageCounter, -1)
+                }else{
+                    isSingle = true
+                    webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                }
+                if(!webPopup.isOpen)
+                    webPopup.open()
+            }
+        }
+    }
+
     function rcvNewVersion(currVer, lastVer, isHasUpdate, url)
     {
         lastVersion = lastVer
