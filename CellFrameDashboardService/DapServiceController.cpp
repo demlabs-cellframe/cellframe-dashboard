@@ -135,4 +135,6 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapRcvNotify("DapRcvNotify", m_pServer));
 
     m_pServer->addService(new DapNodeConfigController("DapNodeConfigController", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetListTokensCommand("DapGetListTokensCommand", m_pServer, CLI_PATH));
 }

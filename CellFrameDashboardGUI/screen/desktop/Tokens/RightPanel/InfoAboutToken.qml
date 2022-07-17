@@ -8,7 +8,6 @@ import "../../controls"
 
 Page {
     id: root
-    property alias closeButton: itemButtonClose
 
     background: Rectangle {
         color: "transparent"

@@ -8,6 +8,7 @@
 #include <QVector>
 #include <algorithm>
 #include <QDataStream>
+#include <QJsonDocument>
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -42,6 +43,7 @@
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
+#include "handlers/DapGetListTokensCommand.h"
 
 
 class DapServiceController : public QObject
@@ -220,6 +222,9 @@ signals:
     void networksStatesReceived(QList<QObject*> networksStatesList);
 
     void networksReceived(QList<QObject*> networksList);
+
+    void tokensListReceived(const QVariant& tokensResult);
+    void signalTokensListReceived(const QVariant& tokensResult);
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);

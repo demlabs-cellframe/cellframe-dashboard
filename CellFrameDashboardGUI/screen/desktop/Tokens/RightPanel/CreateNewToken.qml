@@ -77,7 +77,7 @@ Page {
     ColumnLayout
     {
         width: parent.width
-        height: childrenRect.height
+//        height: childrenRect.height
 
         Item
         {

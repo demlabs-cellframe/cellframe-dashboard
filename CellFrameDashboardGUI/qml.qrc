@@ -262,7 +262,6 @@
         <file>screen/desktop/Tokens/TokensTab.qml</file>
         <file>screen/desktop/Tokens/TokensScreen.qml</file>
         <file>screen/desktop/Tokens/logic/LogicTokens.qml</file>
-        <file>screen/desktop/Tokens/RightPanel/TokensLastActions.qml</file>
         <file>screen/desktop/Tokens/RightPanel/TokenEmission.qml</file>
         <file>screen/desktop/Tokens/RightPanel/InfoAboutToken.qml</file>
         <file>screen/desktop/Tokens/RightPanel/CreateNewToken.qml</file>

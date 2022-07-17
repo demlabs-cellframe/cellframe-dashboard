@@ -18,27 +18,35 @@ DapPage
 
     LogicTokens{id: logicTokens}
 
+    Component{id: emptyRightPanel; Item{}}
+
     QtObject {
         id: navigator
 
         function createToken() {
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
             dapRightPanel.push(createNewToken)
         }
 
         function tokenInfo()
         {
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
             dapRightPanel.push(infoAboutToken)
         }
 
         function emission()
         {
+            dapRightPanelFrame.visible = true
             dapRightPanel.push(tokenEmission)
         }
 
         function clear()
         {
             dapRightPanel.clear()
-            dapRightPanel.push(tokensLastActions)
+            dapRightPanelFrame.visible = false
+            dapRightPanel.push(emptyRightPanel)
         }
     }
 
@@ -53,9 +61,12 @@ DapPage
             id: tokensScreen
         }
 
-    dapRightPanel.initialItem:
-        TokensLastActions
-        {
-            id: lastActions
-        }
+
+    dapRightPanelFrame.visible: false
+    dapRightPanel.initialItem: emptyRightPanel
+
+//        TokensLastActions
+//        {
+//            id: lastActions
+//        }
 }

@@ -349,6 +349,13 @@ QtObject {
 
     }
 
+    function rcvTokens(tokensList)
+    {
+        var jsonDocument = JSON.parse(tokensList)
+        dapModelTokens.clear()
+        dapModelTokens.append(jsonDocument)
+    }
+
     function rcvStateNotify(isError, isFirst)
     {
         messagePopup.dapButtonCancel.visible = false

@@ -240,6 +240,8 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeConfigController("DapNodeConfigController",m_DAPRpcSocket))), QString("dapNodeConfigController")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeConfigController("DapGetListTokensCommand",m_DAPRpcSocket))), QString("tokensListReceived")));
+
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
         QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
@@ -389,6 +391,11 @@ void DapServiceController::registerCommand()
 //        qDebug() << "dapRcvNotify data: " << rcvData;
         m_DapNotifyController->rcvData(rcvData);
 //        emit notifyReceived(rcvData);
+    });
+
+    connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
+    {
+        emit signalTokensListReceived(tokensResult);
     });
 
 

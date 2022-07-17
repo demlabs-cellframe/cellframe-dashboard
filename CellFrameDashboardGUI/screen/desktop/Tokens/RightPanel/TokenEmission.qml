@@ -77,7 +77,7 @@ Page {
     ColumnLayout
     {
         width: parent.width
-        height: childrenRect.height
+//        height: childrenRect.height
 
         Item
         {
@@ -100,12 +100,13 @@ Page {
                 heightImage: 20 * pt
                 widthImage: 20 * pt
 
-                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
-                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/back.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/back_hover.svg"
                 onClicked:
                 {
                     logicTokens.unselectToken()
-                    navigator.clear()
+                    dapRightPanel.pop()
+//                    navigator.clear()
                 }
             }
 

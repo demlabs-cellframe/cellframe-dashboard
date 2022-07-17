@@ -87,6 +87,7 @@ Rectangle {
     ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
+    ListModel{id: dapModelTokens}
     ListModel{ id: fakeWallet}
 
     ListModel{
@@ -371,6 +372,7 @@ Rectangle {
     {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
+        dapServiceController.requestToService("DapGetListTokensCommand")
         pluginsManager.getListPlugins();
         logicMainApp.initFakeWallet()
 
@@ -425,6 +427,13 @@ Rectangle {
             console.log("Orders count:", orderList.length)
             logicMainApp.rcvOrders(orderList)
             modelOrdersUpdated();
+        }
+
+
+        onSignalTokensListReceived:
+        {
+            print("TokensListReceived")
+            logicMainApp.rcvTokens(tokensResult)
         }
     }
 
