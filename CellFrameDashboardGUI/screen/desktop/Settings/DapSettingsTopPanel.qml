@@ -11,6 +11,74 @@ Controls.DapTopPanel
     property alias buttonUpdate: checkUpdate
     property alias indicatorUpdate: loadIndicator
 
+    //Requests
+    Item{
+        anchors
+        {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+            bottomMargin: 20
+            leftMargin: 24
+            topMargin: 20
+        }
+        width: row.implicitWidth
+
+        RowLayout{
+            id: row
+            spacing: 6
+            anchors.fill: parent
+
+            Text{
+                Layout.fillHeight: true
+                Layout.topMargin: 1
+                Layout.bottomMargin: 1
+                id: requestsBut
+                text: qsTr("Requests")
+                font: mainFont.dapFont.medium14
+                color: mouseArea.containsMouse ? currTheme.textColorYellow : logicMainApp.requestsMessageCounter > 0 ? currTheme.hilightColorComboBox : currTheme.textColor
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+
+            }
+
+            Rectangle{
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignVCenter
+                width: value.implicitWidth > 8 ? value.implicitWidth + 12  : 20
+                radius: 20
+                visible: logicMainApp.requestsMessageCounter > 0
+                color: mouseArea.containsMouse ? currTheme.textColorYellow : currTheme.hilightColorComboBox
+
+                Text{
+                    id: value
+                    anchors.fill: parent
+                    anchors.leftMargin: 6
+                    anchors.rightMargin: 6
+                    anchors.topMargin: 2
+                    anchors.bottomMargin: 2
+                    text: logicMainApp.requestsMessageCounter
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    color: currTheme.hilightTextColorComboBox
+                    font: mainFont.dapFont.regular13
+                }
+            }
+        }
+
+        MouseArea{
+            id: mouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: navigator.openRequests()
+        }
+
+        Connections
+        {
+            target: dapMainWindow
+            onOpenRequests: navigator.openRequests()
+        }
+    }
 
     Text {
         id: vesion
@@ -94,8 +162,8 @@ Controls.DapTopPanel
             innerWidth: 8 * pt
             innerHeight: 8 * pt
 
-            source: logicMainApp.stateNotify? "qrc:/resources/icons/" + pathTheme + "/indicator_online.png":
-                                 "qrc:/resources/icons/" + pathTheme + "/indicator_error.png"
+            source: logicMainApp.stateNotify? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
+                                              "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
 
         }
     }

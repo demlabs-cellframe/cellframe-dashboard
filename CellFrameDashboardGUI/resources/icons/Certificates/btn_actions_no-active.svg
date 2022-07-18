@@ -1,6 +1,0 @@
-<svg id="btn_actions_no-active" xmlns="http://www.w3.org/2000/svg" width="350" height="36" viewBox="0 0 350 36">
-  <g id="bg" fill="none" stroke="#211a3a" stroke-width="1">
-    <rect width="350" height="36" rx="4" stroke="none"/>
-    <rect x="0.5" y="0.5" width="349" height="35" rx="3.5" fill="none"/>
-  </g>
-</svg>

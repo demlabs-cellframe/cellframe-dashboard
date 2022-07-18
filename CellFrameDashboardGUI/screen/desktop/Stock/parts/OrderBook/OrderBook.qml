@@ -7,6 +7,8 @@ Page
 {
     id: control
     property var visibleCount
+    property string sellHistogramColor: "#13ff6060"
+    property string buyHistogramColor: "#1300ff00"
 
     Component.onCompleted: visibleCount = logicStock.getBookVisibleCount(control.height - rowHeader.height - 30)
     onHeightChanged: visibleCount = logicStock.getBookVisibleCount(control.height - rowHeader.height - 30)
@@ -44,6 +46,7 @@ Page
             id: rowHeader
             Layout.fillWidth: true
             Layout.leftMargin: 14
+            height: 42
 
             signal setActive(var ind)
 
@@ -62,7 +65,7 @@ Page
                 Layout.leftMargin: 16
                 index: 0
                 isActive: true
-                source: "qrc:/screen/desktop/Stock/icons/sellBuy_icon.png"
+                source: "../../icons/sellBuy_icon.png"
                 onClicked: {
                     sellView.visible = true
                     buyView.visible = true
@@ -75,7 +78,7 @@ Page
                 id: buy
                 Layout.leftMargin: 8
                 index: 1
-                source: "qrc:/screen/desktop/Stock/icons/buyIcon.png"
+                source: "../../icons/buyIcon.png"
                 onClicked: {
                     sellView.visible = false
                     buyView.visible = true
@@ -88,7 +91,7 @@ Page
                 id: sell
                 Layout.leftMargin: 8
                 index: 2
-                source: "qrc:/screen/desktop/Stock/icons/sellIcon.png"
+                source: "../../icons/sellIcon.png"
                 onClicked: {
                     sellView.visible = true
                     buyView.visible = false
@@ -116,7 +119,7 @@ Page
         {
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30
 
             RowLayout
             {

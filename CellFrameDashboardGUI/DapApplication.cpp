@@ -21,7 +21,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     this->setApplicationName(DAP_BRAND);
-    this->setWindowIcon(QIcon(":/resources/icons/icon.ico"));
+    this->setWindowIcon(QIcon(":/Resources/icon.ico"));
 
     qDebug()<<QString(DAP_SERVICE_NAME);
 
@@ -36,7 +36,6 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
-
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());

@@ -51,6 +51,11 @@ Rectangle {
 
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
+//    DapMessagePopup{
+//        property int index
+//        id: messageWebConnect
+//        onSignalAccept: webControl.rcvAccept(accept, index)
+//    }
     DapMessagePopup
     {
         id: messagePopupVersion
@@ -63,6 +68,11 @@ Rectangle {
             click()
         }
     }
+
+    DapWebMessagePopup{
+        id: webPopup
+    }
+
     signal openCopyPopup()
     onOpenCopyPopup: {
         component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
@@ -74,9 +84,14 @@ Rectangle {
     signal pluginsTabChanged(var auto, var removed, var name)
     onPluginsTabChanged: logicMainApp.updateAppsTabStatus(auto, removed, name)
 
+    signal changeHeight()
+    onHeightChanged: changeHeight()
+
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
+    signal checkWebRequest()
+    signal openRequests()
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -87,7 +102,10 @@ Rectangle {
     ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
-    ListModel{ id: fakeWallet}
+    ListModel{id: dapMessageBuffer}
+    ListModel{id: dapMessageLogBuffer}
+
+    ListModel{id: fakeWallet}
 
     ListModel{
         id:themes
@@ -255,10 +273,9 @@ Rectangle {
                     width: parent.width * pt
                     height: 60 * pt
 
-                    DapImageLoader{
-                        innerWidth: 114 * pt
-                        innerHeight: 24 * pt
-                        source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
+                    Image{
+                        source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
+                        mipmap: true
 
                         anchors.left: parent.left
                         anchors.leftMargin: 23*pt
@@ -378,6 +395,9 @@ Rectangle {
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
 
+//        for(var i = 0; i < 50; i++)
+//            dapServiceController.requestToService("DapWebConnectRequest", "1")
+
 
 
     }
@@ -427,6 +447,9 @@ Rectangle {
             logicMainApp.rcvOrders(orderList)
             modelOrdersUpdated();
         }
+
+        onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
+
     }
 
     Connections{

@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
 import "../controls"
+import "qrc:/widgets"
 import "RightPanel"
 import "logic"
 
@@ -42,10 +43,26 @@ DapPage
         }
     }
 
-    dapHeader.initialItem: TokensTopPanel
-        {
-            id: tokensTopPanel
-        }
+    dapHeader.initialItem: DapSearchTopPanel{
+        DapButton
+            {
+                id: newTokenButton
+                textButton: "New Token"
+                anchors.right: parent.right
+                anchors.rightMargin: 24 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 14 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                implicitHeight: 38 * pt
+                implicitWidth: 163 * pt
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked: navigator.createToken()
+            }
+
+//        onFindHandler: logicTokens.searchElement(text)
+    }
 
     dapScreen.initialItem:
         TokensScreen

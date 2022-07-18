@@ -68,7 +68,7 @@ Page
                 {
                     anchors.fill: parent
                     id: iconCreateWallet
-                    source: "qrc:/resources/icons/" + pathTheme + "/Illustratons/wallet_illustration.png"
+                    source: "qrc:/Resources/" + pathTheme + "/Illustratons/wallet_illustration.png"
                     sourceSize.width: 200 * pt
                     sourceSize.height: 200 * pt
                     fillMode: Image.PreserveAspectFit
@@ -169,7 +169,7 @@ Page
                     anchors.top: parent.top
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    height: 38 * pt
+                    height: 42 * pt
                     Text
                     {
                         anchors.fill: parent

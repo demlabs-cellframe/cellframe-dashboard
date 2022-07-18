@@ -13,7 +13,7 @@ ColumnLayout {
     {
         Layout.fillWidth: true
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -22,9 +22,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
     }
 
@@ -33,22 +33,21 @@ ColumnLayout {
         id: price
         enabled: false
         Layout.fillWidth: true
-        Layout.minimumHeight: 40 * pt
-        Layout.maximumHeight: 40 * pt
+        Layout.minimumHeight: 40
+        Layout.maximumHeight: 40
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         textToken: tokenName
-        textValue: logicStock.tokenPriceRounded
+        realValue: logicStock.tokenPrice
     }
-
 
     Rectangle
     {
         Layout.fillWidth: true
         Layout.topMargin: 12
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -57,9 +56,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
     }
 
@@ -73,9 +72,16 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: "CELL"
-        textValue: "0"
-        onTextValueChanged: total.textValue = textValue * logicStock.tokenPriceRounded
+        textValue: "0.0"
+        onEdited:
+        {
+            total.setRealValue(realValue * logicStock.tokenPrice)
 
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+        }
     }
 
     RowLayout
@@ -102,8 +108,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )*0.25
-                total.textValue = logicStock.balanceValue*0.25
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
+                total.setRealValue(logicStock.balanceReal*0.25)
             }
         }
 
@@ -124,8 +131,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )*0.5
-                total.textValue = logicStock.balanceValue*0.5
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
+                total.setRealValue(logicStock.balanceReal*0.5)
             }
         }
 
@@ -146,8 +154,9 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )*0.75
-                total.textValue = logicStock.balanceValue*0.75
+                amount.setRealValue(
+                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
+                total.setRealValue(logicStock.balanceReal*0.75)
             }
         }
 
@@ -168,8 +177,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = (logicStock.balanceValue / logicStock.tokenPriceRounded )
-                total.textValue = logicStock.balanceValue
+                amount.setRealValue(
+                    logicStock.balanceReal / logicStock.tokenPrice)
+                total.setRealValue(logicStock.balanceReal)
             }
         }
     }
@@ -179,7 +189,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.topMargin: 12
         color: currTheme.backgroundMainScreen
-        height: 30 * pt
+        height: 30
         Text
         {
             color: currTheme.textColor
@@ -188,9 +198,9 @@ ColumnLayout {
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 20 * pt
-            anchors.bottomMargin: 5 * pt
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
         }
     }
 
@@ -204,16 +214,24 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: tokenName
-        textValue: "0"
-        onTextValueChanged: amount.textValue = textValue / logicStock.tokenPriceRounded
+        textValue: "0.0"
+        onEdited:
+        {
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+
+            amount.setRealValue(realValue / logicStock.tokenPrice)
+        }
     }
 
     DapButton
     {
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
-        implicitHeight: 36 * pt
-        implicitWidth: 132 * pt
+        implicitHeight: 36
+        implicitWidth: 132
         textButton: qsTr("Create")
         horizontalAligmentText: Text.AlignHCenter
         indentTextRight: 0
@@ -228,7 +246,7 @@ ColumnLayout {
                 "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
                 currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                logicStock.tokenPriceRounded, amount.textValue,"Not", "-")
+                logicStock.tokenPrice, amount.realValue,"Not", "-")
 
             createOrder()
         }

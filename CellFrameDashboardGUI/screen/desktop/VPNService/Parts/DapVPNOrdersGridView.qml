@@ -99,8 +99,10 @@ GridView {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
                             anchors.rightMargin: (control.delegateContentMargin / 2) * pt  // / 2 - ic_info_order.svg have space right
-                            sourceSize: Qt.size(parent.height, parent.height)
-                            source: "qrc:/resources/icons/ic_info_order.svg"
+                            mipmap: true
+                            sourceSize: Qt.size(16, 16)
+                            source: cell.GridView.isCurrentItem ? "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info_hover.svg":
+                                                                  "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.svg"
                         }
                         Rectangle
                         {

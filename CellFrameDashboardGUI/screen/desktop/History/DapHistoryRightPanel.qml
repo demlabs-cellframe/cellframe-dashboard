@@ -146,8 +146,8 @@ Item
                 anchors.margins: 10 * pt
                 anchors.leftMargin: 15 * pt
 
-                dapIndicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                dapIndicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
+                dapIndicatorImageNormal: "qrc:/Resources/"+pathTheme+"/icons/other/icon_arrow_down.png"
+                dapIndicatorImageActive: "qrc:/Resources/"+pathTheme+"/icons/other/ic_arrow_up.png"
                 dapSidePaddingNormal: 10 * pt
                 dapSidePaddingActive: 10 * pt
                 dapNormalColorText: currTheme.textColor
@@ -210,10 +210,13 @@ Item
                         dapSelectedBackgroundColor: currTheme.buttonColorNormal
 
                         dapDayOfWeeksFormat: Locale.NarrowFormat
-                        dapPreviousYearButtonImage: "qrc:/resources/icons/previous_year_icon.png"
-                        dapPreviousMonthButtonImage: "qrc:/resources/icons/previous_month_icon.png"
-                        dapNextMonthButtonImage: "qrc:/resources/icons/next_month_icon.png"
-                        dapNextYearButtonImage: "qrc:/resources/icons/next_year_icon.png"
+//                        dapPreviousYearButtonImage: "qrc:/resources/icons/previous_year_icon.png"
+//                        dapPreviousMonthButtonImage: "qrc:/resources/icons/previous_month_icon.png"
+//                        dapNextMonthButtonImage: "qrc:/resources/icons/next_month_icon.png"
+//                        dapNextYearButtonImage: "qrc:/resources/icons/next_year_icon.png"
+
+                        dapClickMonthImage: "qrc:/Resources/"+ pathTheme +"/icons/other/Arrow.png"
+                        dapClickYearImage: "qrc:/Resources/"+ pathTheme +"/icons/other/Double_arrow.png"
                     }
 
                 onDapResultTextChanged:

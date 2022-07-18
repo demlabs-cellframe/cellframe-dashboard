@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
+import "../../controls"
 
 
 DapRectangleLitAndShaded {
@@ -59,22 +60,21 @@ DapRectangleLitAndShaded {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 38 * pt
+                height: 42 * pt
 
-                DapButton
-                {
+                HeaderButtonForRightPanels{
                     Layout.topMargin: 9 * pt
                     Layout.bottomMargin: 8 * pt
                     Layout.leftMargin: 24 * pt
 
                     id: buttonClose
-                    Layout.preferredHeight: 20 * pt
-                    Layout.preferredWidth: 20 * pt
-                    heightImageButton: 10 * pt
-                    widthImageButton: 10 * pt
-                    activeFrame: false
-                    normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                    hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                    height: 20 * pt
+                    width: 20 * pt
+                    heightImage: 20 * pt
+                    widthImage: 20 * pt
+
+                    normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                    hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 }
 
                 Text

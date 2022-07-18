@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
+import "../../controls"
 
 Controls.Page
 {
@@ -52,26 +53,26 @@ Controls.Page
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
-            DapButton
-            {
+            height: 42 * pt
+
+            HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 9 * pt
-                anchors.bottomMargin: 8 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
                 anchors.leftMargin: 24 * pt
                 anchors.rightMargin: 13 * pt
 
                 id: itemButtonClose
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20 * pt
+                widthImage: 20 * pt
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
             }
 
             Text

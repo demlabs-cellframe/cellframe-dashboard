@@ -1,4 +1,0 @@
-<svg id="close_icon_hover" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-  <rect id="bg_close_icon" width="20" height="20" fill="none"/>
-  <path id="close_object_icon" d="M23.442,23l4.467-4.467a.312.312,0,0,0-.442-.442L23,22.558l-4.467-4.467a.312.312,0,1,0-.442.442L22.558,23l-4.467,4.467a.312.312,0,1,0,.442.442L23,23.442l4.467,4.467a.312.312,0,0,0,.442-.442Z" transform="translate(-12.5 -12.5)" fill="#d51f5d"/>
-</svg>

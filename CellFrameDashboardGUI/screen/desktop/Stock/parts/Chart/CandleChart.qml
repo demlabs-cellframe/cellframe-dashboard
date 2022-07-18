@@ -16,28 +16,27 @@ Item
 
     Component.onCompleted:
     {
+//        print("CandleChart", "Component.onCompleted", "BEGIN")
         logic.backgroundColor = currTheme.backgroundElements
         logic.redCandleColor = currTheme.textColorRed
         logic.greenCandleColor = currTheme.textColorGreen
 
-        logic.generateData(10001)
+//        dataWorker.generatePriceData(1000000)
+        dataWorker.generatePriceData(100000)
 
-        logic.setCandleWidth(logic.minute)
-//        logic.getCandleModel(10000)
+        dataWorker.getMinimumMaximum24h()
 
-        logic.resetRightTime()
-
-        logic.updateCurrentTokenPrice()
+        dataWorker.setNewCandleWidth(logic.minute)
 
         updateTokenPrice()
 
-//        logic.getCandleModel(rowDataModel, candleModel, 20)
-
-//        logic.dataAnalysis()
+        logic.dataAnalysis()
 
         updateTimer.start()
 
         generateTimer.start()
+
+//        print("CandleChart", "Component.onCompleted", "END")
     }
 
     property bool analysisNeeded: false
@@ -127,9 +126,12 @@ Item
 
         onWheel:
         {
-//            print("onWheel", wheel.angleDelta.y)
+//            print("CandleChart", "onWheel", "BEGIN")
 
+//            logic.zoomTime(wheel.angleDelta.y)
             logic.zoomTime(wheel.angleDelta.y)
+
+//            print("CandleChart", "onWheel", "END")
         }
 
         onPressed:
@@ -190,45 +192,47 @@ Item
         switch (index)
         {
         default:
-            logic.setCandleWidth(logic.minute)
+            dataWorker.setNewCandleWidth(logic.minute)
             break
         case 1:
-            logic.setCandleWidth(logic.minute*2)
+            dataWorker.setNewCandleWidth(logic.minute*2)
             break
         case 2:
-            logic.setCandleWidth(logic.minute*5)
+            dataWorker.setNewCandleWidth(logic.minute*5)
             break
         case 3:
-            logic.setCandleWidth(logic.minute*15)
+            dataWorker.setNewCandleWidth(logic.minute*15)
             break
         case 4:
-            logic.setCandleWidth(logic.minute*30)
+            dataWorker.setNewCandleWidth(logic.minute*30)
             break
         case 5:
-            logic.setCandleWidth(logic.hour)
+            dataWorker.setNewCandleWidth(logic.hour)
             break
         case 6:
-            logic.setCandleWidth(logic.hour*4)
+            dataWorker.setNewCandleWidth(logic.hour*4)
             break
         case 7:
-            logic.setCandleWidth(logic.hour*12)
+            dataWorker.setNewCandleWidth(logic.hour*12)
             break
         case 8:
-            logic.setCandleWidth(logic.day)
+            dataWorker.setNewCandleWidth(logic.day)
             break
         case 9:
-            logic.setCandleWidth(logic.day*3)
+            dataWorker.setNewCandleWidth(logic.day*3)
             break
         case 10:
-            logic.setCandleWidth(logic.day*7)
+            dataWorker.setNewCandleWidth(logic.day*7)
             break
         case 11:
-            logic.setCandleWidth(logic.day*14)
+            dataWorker.setNewCandleWidth(logic.day*14)
             break
         case 12:
-            logic.setCandleWidth(logic.day*30)
+            dataWorker.setNewCandleWidth(logic.day*30)
             break
         }
+
+        logic.dataAnalysis()
 
         chartCanvas.requestPaint()
     }

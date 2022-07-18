@@ -17,7 +17,7 @@ DapPage
 
     dapScreen.initialItem: DapLogsScreen {}
 
-    onRightPanel: false
+    dapRightPanel.initialItem: DapLogsRightPanel {}
 
     Timer
     {

@@ -4,18 +4,19 @@ import QtQml 2.12
 
 QtObject
 {
-//    property alias dataModel: _dataModel
-//    property alias candleModel: _candleModel
-
     property int fontSize: 11
     property string fontFamilies: "Quicksand"
-//    property string fontFamilies: "Arial"
     property int fontIndent: 3
 
     property string gridColor: "#a0a0a0"
     property string gridTextColor: "#a0a0a0"
     property string backgroundColor: "#404040"
     property string darkBackgroundColor: "#303030"
+
+    property string labelColor: "#ffffff"
+    property string labelBackgroundColor: "#40303030"
+    property string labelLineColor: "#40ffffff"
+    property real labelLineLength: 30
 
     property string redCandleColor: "#80ff0000"
     property string greenCandleColor: "#8000ff00"
@@ -29,52 +30,36 @@ QtObject
     property real mouseY: -10
     property bool mouseVisible: false
 
-    property real minX: 0
-    property real maxX: 0
+    property real coefficientTime: 0
+    property real coefficientPrice: 0
 
-    property real minY: 0
-    property real maxY: 0
+    property int maxStepNumberTime: 8
+    property real roundedStepTime: 0
+    property real roundedMaxTime: 0
 
-    property real min24h: 0
-    property real max24h: 0
+    property int maxStepNumberPrice: 8
+    property real roundedStepPrice: 0
+    property real roundedMaxPrice: 0
 
-    property real coefficientY: 0
-    property real coefficientX: 0
+    readonly property real roundedCoefficient: 1
 
-    property int maxStepNumberX: 8
-    property real roundedStepX: 0
-    property real roundedMaxX: 0
-
-    property int maxStepNumberY: 8
-    property real roundedStepY: 0
-    property real roundedMaxY: 0
-
-    readonly property real roundedCoefficient: 10000000000000
-
-    property real visibleTime: 1000000
-    property real maxZoom: 3.0
-    property real minZoom: 0.2
-    property real visibleDefaultCandles: 40
-    property real rightTime: 0
-    property real beginTime: 0
-    property real endTime: 0
-
-    property int lastCandleNumber: 0
     property real lastCandleOpen: 0
     property real lastCandleClose: 0
 
-    property real candleWidth: 50000
-
     property real measurementScaleWidth: 60
     property real chartTextHeight: 20
+    property real chartBorderHeight: 10
     property real measurementScaleHeight: 20
     property real chartWidth: width - measurementScaleWidth
-    property real chartHeight: height -
-        measurementScaleHeight - chartTextHeight
+    property real chartDrawHeight: height -
+        measurementScaleHeight - chartTextHeight - chartBorderHeight*2
+    property real chartFullHeight: height -
+        measurementScaleHeight
+    property real chartCandleBegin: chartTextHeight + chartBorderHeight
 
     property int selectedCandleNumber: -1
 
-    property int rightCandleNumber: 0
+//    property int rightCandleNumber: 0
 
     readonly property int day: 86400000
     readonly property int hour: 3600000
@@ -84,30 +69,32 @@ QtObject
     signal chandleSelected( var timeValue,
         var openValue, var highValue, var lowValue, var closeValue)
 
-    signal min24max24Changed( var min24h, var max24h)
-
-//    ListModel{ id: _dataModel }
-
-//    ListModel{ id: _candleModel }
-
     function drawAll(ctx)
     {
         if (!mouseVisible)
-        {
-            selectedCandleNumber = lastCandleNumber
-        }
+            selectedCandleNumber = dataWorker.lastCandleNumber
 
-        ctx.fillStyle = backgroundColor;
-//        ctx.fillStyle = Qt.rgba(1, 1, 1, 1);
-        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = backgroundColor
+//        ctx.fillStyle = Qt.rgba(1, 1, 1, 1)
+        ctx.fillRect(0, 0, width, height)
 
         drawGrid(ctx)
 
-//        drawChart(ctx, "blue")
+        drawAverageChart(ctx, 0, "#00ffff")
+        drawAverageChart(ctx, 1, "#2090cf")
+        drawAverageChart(ctx, 2, "#4040af")
+
+//        drawPriceChart(ctx, "yellow")
 
         drawCandleChart(ctx)
 
+        drawMinMax(ctx)
+
         drawGridText(ctx)
+
+//        drawLineAndLabel(ctx, 200, 100, 123432423.345623948)
+
+//        drawLineAndLabel(ctx, 500, 100, 123432423.345623948)
 
         if (mouseVisible)
             drawSight(ctx)
@@ -115,312 +102,53 @@ QtObject
 //        drawCandle(ctx, 200, 50, 60, 180, 205, 50, "red")
     }
 
-    function setCandleWidth(newWidth)
-    {
-        candleWidth = newWidth
-
-        getCandleModel(candleWidth)
-
-        visibleTime = candleWidth * visibleDefaultCandles
-
-        resetRightTime()
-
-        dataAnalysis()
-    }
-
-    function generateData(length)
-    {
-        var currentData = 0.245978
-        var currentTime = (new Date()).getTime()
-
-        min24h = currentData
-        max24h = currentData
-
-        print("currentTime", currentTime)
-
-        for (var i = 0; i < length; ++i)
-        {
-            currentData += Math.random()*0.0001 - 0.00005
-            currentTime -= 5000 + Math.round(Math.random()*3000)
-
-//            print(currentData)
-            if (min24h > currentData)
-                min24h = currentData
-            if (max24h < currentData)
-                max24h = currentData
-
-            dataModel.insert(0, { "y" : currentData * roundedCoefficient,
-                                 "x" : currentTime })
-        }
-
-        min24max24Changed(min24h, max24h)
-    }
-
-    function getCandleModel()
-    {
-        var openValue = 0
-        var closeValue = 0
-        var minValue = 0
-        var maxValue = 0
-        var candleBegin = 0
-
-        candleModel.clear()
-
-        if (dataModel.count > 0)
-        {
-            candleBegin = dataModel.get(0).x
-
-            openValue = dataModel.get(0).y
-            closeValue = openValue
-            minValue = openValue
-            maxValue = openValue
-        }
-
-        for (var i = 0; i < dataModel.count; ++i)
-        {
-            var currY = dataModel.get(i).y
-
-            closeValue = currY
-
-            if (minValue > currY)
-                minValue = currY
-
-            if (maxValue < currY)
-                maxValue = currY
-
-            if (dataModel.get(i).x > candleBegin + candleWidth
-                || i === dataModel.count-1)
-            {
-                candleModel.append({
-                    time: candleBegin + candleWidth*0.5,
-                    minimum: minValue,
-                    maximum: maxValue,
-                    open: openValue,
-                    close: closeValue })
-
-//                print("time", candleBegin + candleWidth*0.5,
-//                      "minimum", minValue,
-//                      "maximum", maxValue,
-//                      "open", openValue,
-//                      "close", closeValue)
-
-                candleBegin += candleWidth
-
-                openValue = currY
-                closeValue = currY
-                minValue = currY
-                maxValue = currY
-            }
-        }
-
-        if (lastCandleNumber !== candleModel.count-1)
-        {
-            print("NEW CANDLE", candleModel.count-1)
-
-            var lastTime = candleModel.get(candleModel.count-1).time
-            if (rightCandleNumber == lastCandleNumber &&
-                rightTime < lastTime + candleWidth && rightTime > lastTime - candleWidth)
-                resetRightTime()
-
-            lastCandleNumber = candleModel.count-1
-        }
-    }
-
-    function resetRightTime()
-    {
-//        if (dataModel.count > 0)
-//            rightTime = dataModel.get(dataModel.count-1).x
-        if (candleModel.count > 0)
-            rightTime = candleModel.get(candleModel.count-1).time + candleWidth*0.5
-    }
-
-    function generateNewPrice()
-    {
-        logicStock.tokenPrevPrice = logicStock.tokenPrice
-        logicStock.tokenPrice += Math.random()*0.00004 - 0.00002
-        var y = logicStock.tokenPrice*roundedCoefficient
-        var currentTime = (new Date()).getTime()
-
-        dataModel.append({ "y" : y, "x" : currentTime })
-    }
-
-
-    function updateCurrentTokenPrice()
-    {
-        if (dataModel.count > 1)
-        {
-            logicStock.tokenPrevPrice = dataModel.get(dataModel.count-2).y/roundedCoefficient
-            logicStock.tokenPrice = dataModel.get(dataModel.count-1).y/roundedCoefficient
-        }
-    }
-
-/*    function dataAnalysis()
-    {
-        var reset = true
-
-        maxX = rightTime
-
-        minX = rightTime - visibleTime
-
-        if (dataModel.count > 0)
-        {
-            minY = maxY = dataModel.get(0).y
-            beginTime = dataModel.get(0).x
-            endTime = dataModel.get(dataModel.count-1).x
-        }
-
-        for (var i = 0; i < dataModel.count; ++i)
-        {
-            var currX = dataModel.get(i).x
-            var currY = dataModel.get(i).y
-
-            if (currX < rightTime - visibleTime)
-                continue
-
-            if (currX > rightTime)
-                break
-
-            if (reset)
-            {
-                minY = maxY = currY
-
-                reset = false
-            }
-            else
-            {
-                if (minY > currY)
-                    minY = currY
-                if (maxY < currY)
-                    maxY = currY
-            }
-        }
-
-        if (minX === maxX)
-        {
-            minX -= 0.00000000001
-            maxX += 0.00000000001
-        }
-        if (minY === maxY)
-        {
-            minY -= 0.00000000001
-            maxY += 0.00000000001
-        }
-
-        if (maxY > minY)
-            coefficientY = chartHeight/(maxY - minY)
-        if (visibleTime > 0)
-            coefficientX = chartWidth/visibleTime
-
-        getRoundedStepY()
-
-        getRoundedStepTime()
-
-//        print("minX", minX, "minY", minY,
-//              "maxX", maxX, "maxY", maxY)
-    }*/
-
     function dataAnalysis()
     {
-        var reset = true
+        dataWorker.dataAnalysis()
 
-        maxX = rightTime
+        if (dataWorker.maxPrice > dataWorker.minPrice)
+            coefficientPrice = chartDrawHeight/
+                    (dataWorker.maxPrice - dataWorker.minPrice)
+        if (dataWorker.visibleTime > 0)
+            coefficientTime = chartWidth/dataWorker.visibleTime
 
-        minX = rightTime - visibleTime
-
-        if (candleModel.count > 0)
-        {
-            minY = candleModel.get(0).minimum
-            maxY = candleModel.get(0).maximum
-            beginTime = candleModel.get(0).time - candleWidth*0.5
-            endTime = candleModel.get(
-                candleModel.count-1).time + candleWidth*0.5
-        }
-
-        rightCandleNumber = 0
-
-        for (var i = 0; i < candleModel.count; ++i)
-        {
-            var currX = candleModel.get(i).time
-            var minimum = candleModel.get(i).minimum
-            var maximum = candleModel.get(i).maximum
-
-            if (currX + candleWidth*0.5 < rightTime - visibleTime)
-                continue
-
-            if (currX - candleWidth*0.5 > rightTime)
-                break
-
-            rightCandleNumber = i
-
-            if (reset)
-            {
-                minY = minimum
-                maxY = maximum
-
-                reset = false
-            }
-            else
-            {
-                if (minY > minimum)
-                    minY = minimum
-                if (maxY < maximum)
-                    maxY = maximum
-            }
-        }
-
-        if (minX === maxX)
-        {
-            minX -= 0.00000000001
-            maxX += 0.00000000001
-        }
-        if (minY === maxY)
-        {
-            minY -= 0.00000000001
-            maxY += 0.00000000001
-        }
-
-        if (maxY > minY)
-            coefficientY = chartHeight/(maxY - minY)
-        if (visibleTime > 0)
-            coefficientX = chartWidth/visibleTime
-
-        getRoundedStepY()
+        getRoundedStepPrice()
 
         getRoundedStepTime()
 
-//        print("minX", minX, "minY", minY,
-//              "maxX", maxX, "maxY", maxY)
     }
 
-    function getRoundedStepY()
+    function getRoundedStepPrice()
     {
-        var realStep = (maxY - minY)/maxStepNumberY
+        var realStep = (dataWorker.maxPrice - dataWorker.minPrice)/
+                maxStepNumberPrice
 
 //        print("minY", minY, "maxY", maxY)
 //        print("maxY - minY", maxY - minY)
 //        print("realStep", realStep)
 
-        var digit = 1
+        var digit = 0.000000000000000001
 
         while (digit*10 < realStep)
             digit *= 10
 
 //        print("digit", digit)
 
-        roundedStepY = digit
+        roundedStepPrice = digit
 
         if (digit*2 > realStep)
-            roundedStepY = digit*2
+            roundedStepPrice = digit*2
         else
         if (digit*5 > realStep)
-            roundedStepY = digit*5
+            roundedStepPrice = digit*5
         else
-            roundedStepY = digit*10
+            roundedStepPrice = digit*10
 
+        roundedMaxPrice = dataWorker.maxPrice -
+                dataWorker.maxPrice%roundedStepPrice
 
-        roundedMaxY = maxY - maxY%roundedStepY
-
-//        print("roundedStepY", roundedStepY, "roundedMaxY", roundedMaxY)
+//        print("roundedStepPrice", roundedStepPrice,
+//              "roundedMaxPrice", roundedMaxPrice)
 
 //        while (roundedMaxY > minY)
 //        {
@@ -429,34 +157,37 @@ QtObject
 //        }
     }
 
-
     property var timeSteps:
         ( new Uint32Array(
-             [1*second,
-              2*second,
-              5*second,
-              10*second,
-              20*second,
-              1*minute,
-              2*minute,
-              5*minute,
-              10*minute,
-              20*minute,
-              1*hour,
-              2*hour,
-              4*hour,
-              6*hour,
-              12*hour,
-              1*day,
-              2*day,
-              5*day,
-              7*day,
-              10*day,
-              15*day,
-              30*day,
-              45*day,
-              60*day,
-              90*day]))
+             [1,
+              2,
+              5,
+              10,
+              20,
+              1*minute/second,
+              2*minute/second,
+              5*minute/second,
+              10*minute/second,
+              20*minute/second,
+              30*minute/second,
+              1*hour/second,
+              2*hour/second,
+              4*hour/second,
+              6*hour/second,
+              12*hour/second,
+              1*day/second,
+              2*day/second,
+              5*day/second,
+              7*day/second,
+              10*day/second,
+              15*day/second,
+              30*day/second,
+              45*day/second,
+              60*day/second,
+              90*day/second,
+              150*day/second,
+              200*day/second,
+              300*day/second]))
 
     property string timeMask: "yyyy-MM-dd hh:mm:ss"
 
@@ -464,19 +195,21 @@ QtObject
 
     function getRoundedStepTime()
     {
-        var realStep = (maxX - minX)/maxStepNumberX
+        var realStep = (dataWorker.maxTime - dataWorker.minTime)/
+                maxStepNumberTime
 
         timeStepsIndex = 0
-        roundedStepX = timeSteps[timeStepsIndex]
+        roundedStepTime = timeSteps[timeStepsIndex]*second
 
-        while (timeSteps[timeStepsIndex] < realStep &&
+        while (timeSteps[timeStepsIndex]*second < realStep &&
                timeStepsIndex < timeSteps.length-1)
         {
             ++timeStepsIndex
-            roundedStepX = timeSteps[timeStepsIndex]
+            roundedStepTime = timeSteps[timeStepsIndex]*second
         }
 
-//        print("timeStepsIndex", timeStepsIndex)
+//        print("timeStepsIndex", timeStepsIndex,
+//              "roundedStepTime", roundedStepTime)
 
         if (timeStepsIndex < 5)
             timeMask = "hh:mm:ss"
@@ -487,48 +220,38 @@ QtObject
         if (timeStepsIndex < 15)
             timeMask = "MM/dd hh:mm"
         else
+        if (timeStepsIndex < 22)
             timeMask = "MM/dd"
+        else
+            timeMask = "yy/MM/dd"
 
-//        print("step", realStep, "roundedStep", roundedStepX)
+//        print("step", realStep, "roundedStep", roundedStepTime)
 
-        roundedMaxX = maxX - maxX%roundedStepX
+        roundedMaxTime = dataWorker.maxTime -
+                dataWorker.maxTime%roundedStepTime
 
         if (timeStepsIndex > 10)
         {
-            roundedMaxX -= hour*3
+            roundedMaxTime -= hour*3
 
 //            print("maxX%roundedStepX", maxX%roundedStepX,
 //                  "roundedStepX", roundedStepX,
 //                  "hour*3", hour*3)
 
-            if (roundedStepX < hour*3 + maxX%roundedStepX)
-                roundedMaxX += roundedStepX
+            while (roundedMaxTime < dataWorker.maxTime -
+                   dataWorker.maxTime%roundedStepTime)
+                roundedMaxTime += roundedStepTime
+
+//            while (roundedStepTime < hour*3 + dataWorker.maxTime%roundedStepTime)
+//                roundedMaxTime += roundedStepTime
         }
 
     }
 
     function zoomTime(step)
     {
-        var oldVisibleTime = visibleTime
-
-        if (step > 0)
+        if (dataWorker.zoomTime(step))
         {
-            visibleTime *= 1.2
-        }
-        else
-        {
-            visibleTime /= 1.2
-        }
-
-        if (visibleTime > candleWidth * visibleDefaultCandles * maxZoom ||
-            visibleTime < candleWidth * visibleDefaultCandles * minZoom)
-        {
-            visibleTime = oldVisibleTime
-        }
-        else
-        {
-            rightTime += (visibleTime - oldVisibleTime)*0.5
-
             dataAnalysis()
 
             chartCanvas.requestPaint()
@@ -539,13 +262,7 @@ QtObject
     {
         if (step !== 0)
         {
-            rightTime -= step / coefficientX
-
-            if (rightTime > endTime + visibleTime*0.5)
-                rightTime = endTime + visibleTime*0.5
-
-            if (rightTime < beginTime + visibleTime*0.5)
-                rightTime = beginTime + visibleTime*0.5
+            dataWorker.shiftTime(step / coefficientTime)
 
             dataAnalysis()
 
@@ -555,57 +272,58 @@ QtObject
 
     function drawGrid(ctx)
     {
-        var currentX = roundedMaxX
-        while (currentX > minX)
+        var currentX = roundedMaxTime
+        while (currentX > dataWorker.minTime)
         {
             drawVerticalLine(ctx,
-                (currentX - minX)*coefficientX)
+                (currentX - dataWorker.minTime)*coefficientTime)
 
 //            print(currentX)
-            currentX -= roundedStepX
+            currentX -= roundedStepTime
         }
 
-        var currentY = roundedMaxY
-        while (currentY > minY)
+        var currentY = roundedMaxPrice
+        while (currentY > dataWorker.minPrice)
         {
             drawHorizontalLine(ctx,
-                (maxY - currentY)*coefficientY + chartTextHeight)
+                (dataWorker.maxPrice - currentY)*coefficientPrice +
+                               chartCandleBegin)
 
 //            print(currentY)
-            currentY -= roundedStepY
+            currentY -= roundedStepPrice
         }
 
     }
 
     function drawGridText(ctx)
     {
-        ctx.fillStyle = backgroundColor;
+        ctx.fillStyle = backgroundColor
         ctx.fillRect(width-measurementScaleWidth, 0,
-                     measurementScaleWidth, height);
+                     measurementScaleWidth, height)
         ctx.fillRect(0, height-measurementScaleHeight,
-                     width, height);
+                     width, height)
 
         var date
-        var currentX = roundedMaxX
+        var currentX = roundedMaxTime
 
-        while (currentX > minX)
+        while (currentX > dataWorker.minTime)
         {
             date = new Date(currentX)
 
             drawVerticalLineText(ctx,
-                (currentX - minX)*coefficientX,
+                (currentX - dataWorker.minTime)*coefficientTime,
                 date.toLocaleString(Qt.locale("en_EN"), timeMask),
                 gridTextColor)
 
 //            print(currentX)
-            currentX -= roundedStepX
+            currentX -= roundedStepTime
         }
 
         var outText = ""
 
         if (mouseVisible && mouseX <= chartWidth)
         {
-            date = new Date((minX + mouseX/coefficientX))
+            date = new Date((dataWorker.minTime + mouseX/coefficientTime))
 
             outText = date.toLocaleString(Qt.locale("en_EN"), "MM/dd hh:mm")
 
@@ -617,40 +335,41 @@ QtObject
                 "white", true)
         }
 
-        var currentY = roundedMaxY
-        while (currentY > minY)
+        var currentY = roundedMaxPrice
+        while (currentY > dataWorker.minPrice)
         {
-            outText = currentY/roundedCoefficient
+            outText = currentY
             drawHorizontalLineText(ctx,
-                (maxY - currentY)*coefficientY + chartTextHeight,
+                (dataWorker.maxPrice - currentY)*coefficientPrice +
+                                   chartCandleBegin,
                 outText, gridTextColor)
 
 //            print(currentY)
-            currentY -= roundedStepY
+            currentY -= roundedStepPrice
         }
 
-        outText = lastCandleClose/roundedCoefficient
+        outText = lastCandleClose
 
         var priceColor = greenCandleColor
         if (lastCandleClose < lastCandleOpen)
             priceColor = redCandleColor
 
-        var priceY = (maxY - lastCandleClose)*coefficientY + chartTextHeight
+        var priceY = (dataWorker.maxPrice - lastCandleClose)*coefficientPrice +
+                chartCandleBegin
 
-        if (priceY > 0 && priceY <= chartHeight + chartTextHeight)
+        if (priceY > 0 && priceY <= chartFullHeight)
             drawHorizontalLineText(ctx,
                 priceY,
-                outText.toFixed(roundPower),
+                outText,
                 priceColor, true)
 
-        if (mouseVisible && mouseY <= chartHeight + chartTextHeight)
+        if (mouseVisible && mouseY <= chartFullHeight)
         {
-            outText = (maxY - (mouseY-chartTextHeight)/coefficientY)
-                    /roundedCoefficient
+            outText = (dataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
 
             drawHorizontalLineText(ctx,
                 mouseY,
-                outText.toFixed(roundPower),
+                outText,
                 "white", true)
         }
     }
@@ -659,90 +378,121 @@ QtObject
     {
         ctx.strokeStyle = sightColor
         ctx.setLineDash([4, 2])
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2
 
-        if(mouseY <= chartHeight + chartTextHeight)
+        if(mouseY <= chartFullHeight)
         {
-            ctx.beginPath();
-            ctx.moveTo(chartWidth, mouseY);
-            ctx.lineTo(0, mouseY);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(chartWidth, mouseY)
+            ctx.lineTo(0, mouseY)
+            ctx.stroke()
         }
 
         if(mouseX <= chartWidth)
         {
-            ctx.beginPath();
-            ctx.moveTo(mouseX, chartHeight + chartTextHeight);
-            ctx.lineTo(mouseX, 0);
-            ctx.stroke();
+            ctx.beginPath()
+            ctx.moveTo(mouseX, chartFullHeight)
+            ctx.lineTo(mouseX, 0)
+            ctx.stroke()
         }
         ctx.setLineDash([])
     }
 
-    function drawChart(ctx, color)
+    function drawPriceChart(ctx, color)
     {
-        for (var i = 1; i < dataModel.count; ++i)
+        for (var i = 0;
+             i < dataWorker.priceModelSize-1; ++i)
         {
-            if (dataModel.get(i-1).x < rightTime - visibleTime)
-                continue
+            var info1 = dataWorker.getPriceInfo(i)
+            var info2 = dataWorker.getPriceInfo(i+1)
 
-            if (dataModel.get(i).x > rightTime)
-                break
+//            print("info1", i, info1.time, info1.price,
+//                  "info2", i+1, info2.time, info2.price)
 
             drawChartLine(ctx,
-                (dataModel.get(i-1).x - rightTime + visibleTime)*coefficientX,
-                (maxY - dataModel.get(i-1).y)*coefficientY + chartTextHeight,
-                (dataModel.get(i).x - rightTime + visibleTime)*coefficientX,
-                (maxY - dataModel.get(i).y)*coefficientY + chartTextHeight,
+                (info1.time - dataWorker.rightTime +
+                    dataWorker.visibleTime)*coefficientTime,
+                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                    chartCandleBegin,
+                (info2.time - dataWorker.rightTime +
+                    dataWorker.visibleTime)*coefficientTime,
+                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                    chartCandleBegin,
+                color)
+        }
+    }
+
+    function drawAverageChart(ctx, chart, color)
+    {
+//        print("firstVisibleAverage", dataWorker.firstVisibleAverage,
+//              "lastVisibleAverage", dataWorker.lastVisibleAverage)
+
+        for (var i = dataWorker.getFirstVisibleAverage(chart);
+             i < dataWorker.getLastVisibleAverage(chart); ++i)
+        {
+            var info1 = dataWorker.getAveragedInfo(chart, i)
+            var info2 = dataWorker.getAveragedInfo(chart, i+1)
+
+//            print("info1", i, info1.time, info1.price,
+//                  "info2", i+1, info2.time, info2.price)
+
+            drawChartLine(ctx,
+                (info1.time - dataWorker.rightTime +
+                    dataWorker.visibleTime)*coefficientTime,
+                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                    chartCandleBegin,
+                (info2.time - dataWorker.rightTime +
+                    dataWorker.visibleTime)*coefficientTime,
+                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                    chartCandleBegin,
                 color)
         }
     }
 
     function drawCandleChart(ctx)
     {
-        var realCandleWidth = candleWidth*0.98*coefficientX - 1
-        var mouseCandleWidth = candleWidth*coefficientX
+        var realCandleWidth = dataWorker.candleWidth*0.98*coefficientTime - 1
+        var mouseCandleWidth = dataWorker.candleWidth*coefficientTime
 
         var selectedChange = false
 
-        for (var i = 0; i < candleModel.count; ++i)
-        {
-            if (candleModel.get(i).time + candleWidth*0.5 < rightTime - visibleTime)
-                continue
+        if (mouseX > chartWidth)
+            selectedCandleNumber = dataWorker.lastCandleNumber
 
-            if (candleModel.get(i).time - candleWidth*0.5 > rightTime)
-                break
+        for (var i = dataWorker.firstVisibleCandle;
+             i <= dataWorker.lastVisibleCandle; ++i)
+        {
+            var candle = dataWorker.getCandleInfo(i)
 
             var redCandle = true
 
-            if (candleModel.get(i).open < candleModel.get(i).close)
+            if (candle.open < candle.close)
                 redCandle = false
 
             var color = redCandleColor
-            var up = candleModel.get(i).open
-            var down = candleModel.get(i).close
+            var up = candle.open
+            var down = candle.close
 
             if (!redCandle)
             {
                 color = greenCandleColor
-                up = candleModel.get(i).close
-                down = candleModel.get(i).open
+                up = candle.close
+                down = candle.open
             }
 
-            var candleX = (candleModel.get(i).time - rightTime + visibleTime)*coefficientX
+            var candleX = (candle.time - dataWorker.rightTime +
+                           dataWorker.visibleTime)*coefficientTime
 
             if (mouseVisible &&
                 candleX > mouseX - mouseCandleWidth*0.5 &&
                 candleX < mouseX + mouseCandleWidth*0.5)
             {
-
                 if (selectedCandleNumber !== i)
                 {
                     selectedCandleNumber = i
 
                     selectedChange = true
 //                    print("selectedCandle", selectedCandle)
-
                 }
 
             }
@@ -758,39 +508,164 @@ QtObject
 
             drawCandle(ctx,
                 candleX,
-                (maxY - candleModel.get(i).maximum)*coefficientY + chartTextHeight,
-                (maxY - up)*coefficientY + chartTextHeight,
-                (maxY - down)*coefficientY + chartTextHeight,
-                (maxY - candleModel.get(i).minimum)*coefficientY + chartTextHeight,
+                (dataWorker.maxPrice - candle.maximum)*coefficientPrice +
+                       chartCandleBegin,
+                (dataWorker.maxPrice - up)*coefficientPrice + chartCandleBegin,
+                (dataWorker.maxPrice - down)*coefficientPrice + chartCandleBegin,
+                (dataWorker.maxPrice - candle.minimum)*coefficientPrice +
+                       chartCandleBegin,
                 realCandleWidth, color)
 
-            lastCandleOpen = candleModel.get(i).open
-            lastCandleClose = candleModel.get(i).close
+            lastCandleOpen = candle.open
+            lastCandleClose = candle.close
         }
 
-        if (selectedChange || selectedCandleNumber === lastCandleNumber)
+        if (selectedChange ||
+            selectedCandleNumber === dataWorker.lastCandleNumber)
         {
-            print("selectedChange", selectedChange,
-                  selectedCandleNumber, lastCandleNumber)
+//            print("selectedChange", selectedChange,
+//                  selectedCandleNumber, dataWorker.lastCandleNumber)
 
-            if (selectedCandleNumber >= 0 &&
-                selectedCandleNumber < candleModel.count)
-                chandleSelected(
-                    candleModel.get(selectedCandleNumber).time,
-                    candleModel.get(selectedCandleNumber).open/roundedCoefficient,
-                    candleModel.get(selectedCandleNumber).maximum/roundedCoefficient,
-                    candleModel.get(selectedCandleNumber).minimum/roundedCoefficient,
-                    candleModel.get(selectedCandleNumber).close/roundedCoefficient)
+            var selCandle = dataWorker.getCandleInfo(selectedCandleNumber)
+
+            chandleSelected(
+                        selCandle.time,
+                        selCandle.open,
+                        selCandle.maximum,
+                        selCandle.minimum,
+                        selCandle.close)
         }
 
+        ctx.lineCap = "butt"
         ctx.restore()
         ctx.beginPath()
         ctx.closePath()
     }
 
+    function drawMinMax(ctx)
+    {
+        var labelX = (dataWorker.minPriceTime - dataWorker.rightTime +
+                       dataWorker.visibleTime)*coefficientTime
+
+        var labelY = chartDrawHeight + chartCandleBegin
+
+        drawLineAndLabel(ctx, labelX, labelY, dataWorker.minPrice)
+
+        labelX = (dataWorker.maxPriceTime - dataWorker.rightTime +
+                       dataWorker.visibleTime)*coefficientTime
+
+        labelY = chartCandleBegin
+
+        drawLineAndLabel(ctx, labelX, labelY, dataWorker.maxPrice)
+    }
+
+    function drawLineAndLabel(ctx, x, y, text)
+    {
+//        print("drawLineAndLabel", x, y, text)
+
+        var toRight = true
+
+        if (x > chartWidth*0.5)
+            toRight = false
+
+        ctx.lineWidth = 2
+        ctx.strokeStyle = labelLineColor
+        ctx.beginPath()
+        ctx.moveTo(x, y)
+        if (toRight)
+            ctx.lineTo(x+labelLineLength, y)
+        else
+            ctx.lineTo(x-labelLineLength, y)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.stroke()
+
+        ctx.font = "normal "+fontSize+"px "+fontFamilies
+
+        var width = ctx.measureText(text.toFixed(roundPower)).width
+
+        ctx.fillStyle = labelBackgroundColor
+        if (toRight)
+            ctx.fillRect(x+labelLineLength, y-10,
+                     width+fontIndent*2, 18)
+        else
+            ctx.fillRect(x-labelLineLength-fontIndent*2-width, y-10,
+                     width+fontIndent*2, 18)
+
+        ctx.fillStyle = labelColor
+        if (toRight)
+            ctx.fillText(text.toFixed(roundPower),
+                     x+labelLineLength+fontIndent, y + fontSize*0.3)
+        else
+            ctx.fillText(text.toFixed(roundPower),
+                     x-labelLineLength-fontIndent-width, y + fontSize*0.3)
+
+        ctx.stroke()
+    }
+
+    function drawHorizontalLine(ctx, y)
+    {
+        ctx.lineWidth = gridWidth
+        ctx.strokeStyle = gridColor
+        ctx.beginPath()
+        ctx.moveTo(chartWidth, y)
+        ctx.lineTo(0, y)
+        ctx.stroke()
+    }
+
+    function drawVerticalLine(ctx, x)
+    {
+        ctx.lineWidth = gridWidth
+        ctx.strokeStyle = gridColor
+        ctx.beginPath()
+        ctx.moveTo(x, chartFullHeight)
+        ctx.lineTo(x, 0)
+        ctx.stroke()
+    }
+
+    function drawHorizontalLineText(ctx, y, text, color, border = false)
+    {
+        ctx.font = "normal "+fontSize+"px "+fontFamilies
+
+        if (border)
+        {
+            var width = ctx.measureText(text.toFixed(roundPower)).width
+
+            ctx.fillStyle = darkBackgroundColor
+            ctx.fillRect(chartWidth, y-10,
+                         width+6, 18)
+        }
+
+        ctx.fillStyle = color
+        ctx.fillText(text.toFixed(roundPower), chartWidth + fontIndent, y + fontSize*0.3)
+        ctx.stroke()
+    }
+
+    function drawVerticalLineText(ctx, x, text, color, border = false)
+    {
+        ctx.font = "normal "+fontSize+"px "+fontFamilies
+
+        if (border)
+        {
+            var width = ctx.measureText(text).width
+
+            ctx.fillStyle = darkBackgroundColor
+            ctx.fillRect(x-fontIndent, chartFullHeight,
+                         width+fontIndent*2, measurementScaleHeight)
+        }
+
+        ctx.fillStyle = color
+        ctx.fillText(text, x,
+            chartFullHeight + fontIndent + fontSize)
+        ctx.stroke()
+    }
+
     function drawChartLine(ctx, x1, y1, x2, y2, color)
     {
-        ctx.lineWidth = 1;
+//        print("drawChartLine", x1, y1, x2, y2)
+
+        ctx.lineWidth = 1
         ctx.strokeStyle = color
         ctx.beginPath()
         ctx.moveTo(x1, y1)
@@ -798,61 +673,10 @@ QtObject
         ctx.stroke()
     }
 
-    function drawHorizontalLine(ctx, y)
-    {
-        ctx.lineWidth = gridWidth;
-        ctx.strokeStyle = gridColor;
-        ctx.beginPath();
-        ctx.moveTo(chartWidth, y);
-        ctx.lineTo(0, y);
-        ctx.stroke();
-    }
-
-    function drawVerticalLine(ctx, x)
-    {
-        ctx.lineWidth = gridWidth;
-        ctx.strokeStyle = gridColor;
-        ctx.beginPath();
-        ctx.moveTo(x, chartHeight + chartTextHeight);
-        ctx.lineTo(x, 0);
-        ctx.stroke();
-    }
-
-    function drawHorizontalLineText(ctx, y, text, color, border = false)
-    {
-        if (border)
-        {
-            ctx.fillStyle = darkBackgroundColor;
-            ctx.fillRect(chartWidth, y-10,
-                         measurementScaleWidth, 18);
-        }
-
-        ctx.font = "normal "+fontSize+"px "+fontFamilies;
-        ctx.fillStyle = color;
-        ctx.fillText(text, chartWidth + fontIndent, y + fontSize*0.3);
-        ctx.stroke();
-    }
-
-    function drawVerticalLineText(ctx, x, text, color, border = false)
-    {
-        if (border)
-        {
-            ctx.fillStyle = darkBackgroundColor;
-            ctx.fillRect(x-3, chartHeight + chartTextHeight,
-                         62, measurementScaleHeight);
-        }
-
-        ctx.font = "normal "+fontSize+"px "+fontFamilies;
-        ctx.fillStyle = color;
-        ctx.fillText(text, x,
-            chartHeight + chartTextHeight + fontIndent + fontSize);
-        ctx.stroke();
-    }
-
     function drawCandle(ctx, x, y0, y1, y2, y3, w, color)
     {
         ctx.strokeStyle = color
-        ctx.lineWidth = candleLineWidth;
+        ctx.lineWidth = candleLineWidth
         ctx.beginPath()
             ctx.moveTo(x, y0)
             ctx.lineTo(x, y3)
@@ -873,7 +697,7 @@ QtObject
 
         ctx.strokeStyle = color
         ctx.lineCap = "round"
-        ctx.lineWidth = radius*2;
+        ctx.lineWidth = radius*2
         ctx.beginPath()
             ctx.moveTo(rx+radius, ry+radius)
             ctx.lineTo(rx+rw-radius, ry+radius)
@@ -887,7 +711,7 @@ QtObject
         {
             ctx.strokeStyle = color
             ctx.lineCap = "butt"
-            ctx.lineWidth = rw;
+            ctx.lineWidth = rw
             ctx.beginPath()
                 ctx.moveTo(rx+rw*0.5, ry+radius)
                 ctx.lineTo(rx+rw*0.5, ry+rh-radius)
