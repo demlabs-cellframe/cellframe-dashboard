@@ -21,7 +21,7 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 38
+            height: 42
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
@@ -64,11 +64,11 @@ Page {
         ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: 12
+//            Layout.topMargin: 12
             Layout.leftMargin: 16
             clip: true
 
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+//            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
 
             contentData:

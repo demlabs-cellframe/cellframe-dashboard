@@ -22,7 +22,7 @@ ColumnLayout
     Item
     {
         Layout.fillWidth: true
-        height: 38 * pt
+        height: 42 * pt
 
         Text
         {
@@ -75,7 +75,7 @@ ColumnLayout
 
             defaultText: qsTr("Networks")
 
-            currentIndex: logicMainApp.currentNetwork
+//            currentIndex: logicMainApp.currentNetwork
 
             onCurrentIndexChanged:
             {

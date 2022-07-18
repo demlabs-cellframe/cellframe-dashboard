@@ -46,6 +46,7 @@ Page
             id: rowHeader
             Layout.fillWidth: true
             Layout.leftMargin: 14
+            height: 42
 
             signal setActive(var ind)
 

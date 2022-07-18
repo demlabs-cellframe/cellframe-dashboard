@@ -1,12 +1,15 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.12
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.12 as Controls
+import QtQml 2.12
 import "qrc:/widgets"
 import "../parts"
 import "../../controls"
 
-Page {
+Controls.Page {
     id: root
 
     background: Rectangle {
@@ -44,36 +47,6 @@ Page {
         }
     }
 
-    ListModel
-    {
-        id: certModel
-
-        ListElement
-        {
-            name: "cert1"
-        }
-
-        ListElement
-        {
-            name: "cert2"
-        }
-
-        ListElement
-        {
-            name: "cert3"
-        }
-
-        ListElement
-        {
-            name: "cert4"
-        }
-
-        ListElement
-        {
-            name: "cert5"
-        }
-    }
-
     ColumnLayout
     {
         width: parent.width
@@ -82,7 +55,7 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
+            height: 42 * pt
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
@@ -104,7 +77,7 @@ Page {
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/back_hover.svg"
                 onClicked:
                 {
-                    logicTokens.unselectToken()
+//                    logicTokens.unselectToken()
                     dapRightPanel.pop()
 //                    navigator.clear()
                 }
@@ -188,9 +161,9 @@ Page {
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
-                model: certModel
+                model: certificatesModel
 
-                defaultText: qsTr("cert1")
+                mainTextRole: "completeBaseName"
                 font: mainFont.dapFont.regular16
             }
         }
@@ -231,16 +204,28 @@ Page {
 
                 TextField
                 {
+                    id: textInputAmount
                     anchors.fill: parent
+    //                        placeholderText: "0"
+                            placeholderText: "0.0"
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
-                    color: currTheme.textColor
 
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                    text: "200000.86"
+                    style:
+                        TextFieldStyle
+                        {
+                            textColor: currTheme.textColor
+                            placeholderTextColor: currTheme.textColor
+                            background:
+                                Rectangle
+                                {
+                                    border.width: 1
+                                    radius: 4 * pt
+                                    border.color: currTheme.borderColor
+                                    color: currTheme.backgroundElements
+                                }
+                        }
                 }
             }
         }
@@ -265,7 +250,6 @@ Page {
 
         Rectangle
         {
-            id: frameRecipientWalletAddress
             Layout.fillWidth: true
             Layout.leftMargin: 20 * pt
             Layout.rightMargin: 20 * pt
@@ -282,11 +266,19 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
                 anchors.topMargin: 26 * pt
-                color: currTheme.textColor
+                style:
+                    TextFieldStyle
+                    {
+                        textColor: currTheme.textColor
+                        placeholderTextColor: currTheme.placeHolderTextColor
 
-                background: Rectangle {
-                    color: "transparent"
-                }
+                        background:
+                            Rectangle
+                            {
+                                border.width: 0
+                                color: currTheme.backgroundElements
+                            }
+                    }
             }
 
             Rectangle
@@ -296,6 +288,30 @@ Page {
                 color: currTheme.borderColor
                 y: textInputRecipientWalletAddress.y + textInputRecipientWalletAddress.height + 5 * pt
                 x: 10 * pt
+            }
+        }
+
+        Rectangle
+        {
+            width: 278*pt
+            height: 69 * pt
+            color: "transparent"
+            Layout.topMargin: 43 * pt
+            Layout.fillWidth: true
+
+            Text
+            {
+                id: error
+                anchors.fill: parent
+                anchors.leftMargin: 37 * pt
+                anchors.rightMargin: 36 * pt
+                color: "#79FFFA"
+                text: qsTr("")
+                font: mainFont.dapFont.regular14
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                visible: false
             }
         }
 
@@ -311,6 +327,46 @@ Page {
         textButton: qsTr("Emission")
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText:Qt.AlignCenter
+
+        onClicked:{
+
+            var supply = detailsModel.get(0).current_supply_with_dot
+
+            if (textInputAmount.text === "" ||
+                logicTokens.testAmount("0.0", textInputAmount.text))
+            {
+                error.visible = true
+                error.text = qsTr("Zero value.")
+            }
+            else
+            if (!logicTokens.testAmount(supply, textInputAmount.text))
+            {
+                error.visible = true
+                error.text =
+                    qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
+                    arg(supply).arg(textInputAmount.text)
+            }
+            else
+            if (textInputRecipientWalletAddress.text.length != 104)
+            {
+                error.visible = true
+                error.text = qsTr("Enter a valid wallet address.")
+            }
+
+            else
+            {
+                error.visible = false
+
+//                console.log("DapEmissionWallet", textInputAmount.text,
+//                                                      textInputRecipientWalletAddress.text,
+//                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).network)
+
+                dapServiceController.requestToService("DapEmissionWallet", textInputAmount.text,
+                                                      textInputRecipientWalletAddress.text,
+                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).network)
+
+            }
+        }
     }
 }
 

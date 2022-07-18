@@ -60,7 +60,7 @@ DapRectangleLitAndShaded {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 38 * pt
+                height: 42 * pt
 
                 HeaderButtonForRightPanels{
                     Layout.topMargin: 9 * pt

@@ -242,6 +242,8 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeConfigController("DapGetListTokensCommand",m_DAPRpcSocket))), QString("tokensListReceived")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
+
     connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
     {
         QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
@@ -388,17 +390,36 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::dapRcvNotify, [=] (const QVariant& rcvData)
     {
-//        qDebug() << "dapRcvNotify data: " << rcvData;
         m_DapNotifyController->rcvData(rcvData);
-//        emit notifyReceived(rcvData);
     });
 
     connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
     {
-        emit signalTokensListReceived(tokensResult);
+        if(!tokensResult.isValid())
+            return ;
+
+        if(s_bufferTokensJson.isEmpty())
+        {
+            s_bufferTokensJson = tokensResult.toByteArray();
+            emit signalTokensListReceived(tokensResult);
+            return ;
+        }else{
+            json_object *obj = json_object_new_string(tokensResult.toByteArray());
+            json_object *obj2 = json_object_new_string(s_bufferTokensJson);
+
+            if(!json_object_equal(obj, obj2))
+            {
+                s_bufferTokensJson = tokensResult.toByteArray();
+                json_object_put(obj);
+                json_object_put(obj2);
+                emit signalTokensListReceived(tokensResult);
+                return ;
+            }
+            json_object_put(obj);
+            json_object_put(obj2);
+            emit signalTokensListReceived("isEqual");
+        }
     });
-
-
 
     registerEmmitedSignal();
 }
@@ -431,7 +452,7 @@ void DapServiceController::registerEmmitedSignal()
     foreach (auto command, m_transceivers)
     {
         connect(command.first, SIGNAL(clientNotifed(QVariant)), SLOT(findEmittedSignal(QVariant)));
-    }
+    } 
 }
 
 void DapServiceController::notifySignalsAttach()

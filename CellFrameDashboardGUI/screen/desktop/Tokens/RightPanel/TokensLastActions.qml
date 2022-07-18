@@ -7,9 +7,7 @@ import "../../../"
 
 Page
 {
-    id:control
-
-    property alias dapLastActionsView: lastActionsView
+    id: control
 
     background: Rectangle {
         color: "transparent"
@@ -44,14 +42,25 @@ Page
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: modelLastActions
+            model: logicTokens.modelLastActions
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
 
             section.property: "date"
             section.criteria: ViewSection.FullString
-            section.delegate: delegateSection
+            section.delegate:
+                Text
+                {
+                    anchors.fill: parent
+                    anchors.leftMargin: 16 * pt
+                    anchors.rightMargin: 16 * pt
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignLeft
+                    color: currTheme.textColor
+                    text: model[index].date//logicExplorer.getDateString(payDate)
+                    font: mainFont.dapFont.medium12
+                }
 
             delegate: Item {
                 anchors.left: parent.left
@@ -59,7 +68,6 @@ Page
                 anchors.leftMargin: 5 * pt
                 anchors.rightMargin: 5 * pt
                 width: lastActionsView.width
-//                color: currTheme.backgroundElements
                 height: 50 * pt
 
                 RowLayout
@@ -77,7 +85,7 @@ Page
                         Text
                         {
                             Layout.fillWidth: true
-                            text: network
+                            text: modelData.network
                             color: currTheme.textColor
                             font: mainFont.dapFont.regular11
                             elide: Text.ElideRight
@@ -86,7 +94,7 @@ Page
                         Text
                         {
                             Layout.fillWidth: true
-                            text: status
+                            text: modelData.status
                             color: currTheme.textColorGrayTwo
                             font: mainFont.dapFont.regular12
                         }
@@ -94,33 +102,13 @@ Page
 
                     Text
                     {
-                        property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         horizontalAlignment: Qt.AlignRight
                         verticalAlignment: Qt.AlignVCenter
                         color: currTheme.textColor
-                        text: sign + amount + " " + name
+                        text: modelData.sign + modelData.amount + " " + modelData.name
                         font: mainFont.dapFont.regular14
-                    }
-                    Image
-                    {
-                        Layout.preferredHeight: 30
-                        Layout.preferredWidth: 30
-    //                    innerWidth: 20
-    //                    innerHeight: 20
-
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
-
-                        source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
-
-                        MouseArea
-                        {
-                            id: mouseArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
-                        }
                     }
                 }
 
@@ -135,5 +123,3 @@ Page
         }
     }
 }
-
-

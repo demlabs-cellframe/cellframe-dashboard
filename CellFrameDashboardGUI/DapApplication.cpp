@@ -37,7 +37,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
 
-
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 

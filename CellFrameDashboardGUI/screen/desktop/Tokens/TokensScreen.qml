@@ -31,17 +31,16 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-            Item
+            ColumnLayout
         {
             anchors.fill: parent
+            spacing: 0
 
             Item
             {
                 id: tokensShowHeader
-                anchors.top: parent.top
-                anchors.left: parent.left
-                anchors.right: parent.right
-                height: 38 * pt
+                Layout.fillWidth: true
+                height: 42 * pt
                 Text
                 {
                     anchors.fill: parent
@@ -59,10 +58,8 @@ Page
             ListView
             {
                 id: listViewTokens
-                anchors.top: tokensShowHeader.bottom
-                anchors.bottom: parent.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
+                Layout.fillWidth: true
+                Layout.fillHeight: true
                 clip: true
                 model: dapModelTokens
 
@@ -81,7 +78,6 @@ Page
 
                         Text
                         {
-                            id: stockNameText
                             anchors.left: parent.left
                             anchors.leftMargin: 16 * pt
                             anchors.verticalCenter: parent.verticalCenter
@@ -122,24 +118,16 @@ Page
                                     horizontalAlignment: Text.AlignLeft
                                 }
 
-//                                Text
-//                                {
-//                                    id: currencySum
-//                                    Layout.fillWidth: true
-//                                    font: mainFont.dapFont.regular14
-//                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
-//                                    text: modelData.balance
-//                                    horizontalAlignment: Text.AlignRight
-//                                }
+                                Text
+                                {
+                                    id: currencySum
+                                    Layout.fillWidth: true
 
-//                                Text
-//                                {
-//                                    id: currencyCode
-//                                    font: mainFont.dapFont.regular14
-//                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
-//                                    text: modelData.name
-//                                    horizontalAlignment: Text.AlignRight
-//                                }
+                                    font: mainFont.dapFont.regular14
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    text: current_supply_with_dot
+                                    horizontalAlignment: Text.AlignRight
+                                }
                             }
 
                             Rectangle
@@ -154,11 +142,16 @@ Page
                             MouseArea
                             {
                                 anchors.fill: parent
+                                hoverEnabled: true
                                 onClicked:
                                 {
-                                    logicTokens.selectTokenIndex = index
-                                    logicTokens.selectNetworkIndex = delegateTokenView.idx
-                                    navigator.tokenInfo()
+                                    if(logicTokens.selectTokenIndex !== index || logicTokens.selectNetworkIndex !== delegateTokenView.idx)
+                                    {
+                                        logicTokens.selectTokenIndex = index
+                                        logicTokens.selectNetworkIndex = delegateTokenView.idx
+                                        logicTokens.initDetailsModel()
+                                        navigator.tokenInfo()
+                                    }
                                 }
                             }
                         }

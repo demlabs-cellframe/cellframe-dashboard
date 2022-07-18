@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <QDataStream>
 #include <QJsonDocument>
+#include "json-c/json.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -44,6 +45,7 @@
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
 #include "handlers/DapGetListTokensCommand.h"
+#include "handlers/DapWebConnectRequest.h"
 
 
 class DapServiceController : public QObject
@@ -135,6 +137,8 @@ public:
     bool getReadingChains() const;
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
+
+    QByteArray s_bufferTokensJson;
 
 public slots:
     void requestWalletList();
@@ -228,6 +232,8 @@ signals:
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
+    void dapWebConnectRequest(const QVariant& rcvData);
+//    void replyClientRequestConnect(QString, int);
 
 private slots:
     /// Register command.
@@ -249,6 +255,7 @@ private slots:
 signals:
     void signalStateSocket(QString state, int isFirst, int isError);
     void signalNetState(QVariantMap netState);
+
 };
 
 #endif // DAPSERVICECONTROLLER_H

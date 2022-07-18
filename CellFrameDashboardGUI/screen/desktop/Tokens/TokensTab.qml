@@ -4,6 +4,7 @@ import QtQuick.Controls 1.4
 import "qrc:/"
 import "../../"
 import "../controls"
+import "qrc:/widgets"
 import "RightPanel"
 import "logic"
 
@@ -17,6 +18,8 @@ DapPage
     id: dashboardTab
 
     LogicTokens{id: logicTokens}
+    ListModel{id: detailsModel}
+    ListModel{id: certificatesModel}
 
     Component{id: emptyRightPanel; Item{}}
 
@@ -24,6 +27,7 @@ DapPage
         id: navigator
 
         function createToken() {
+            logicTokens.unselectToken()
             dapRightPanelFrame.visible = true
             dapRightPanel.pop()
             dapRightPanel.push(createNewToken)
@@ -50,10 +54,26 @@ DapPage
         }
     }
 
-    dapHeader.initialItem: TokensTopPanel
-        {
-            id: tokensTopPanel
-        }
+    dapHeader.initialItem: DapSearchTopPanel{
+        DapButton
+            {
+                id: newTokenButton
+                textButton: "New Token"
+                anchors.right: parent.right
+                anchors.rightMargin: 24 * pt
+                anchors.top: parent.top
+                anchors.topMargin: 14 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                implicitHeight: 38 * pt
+                implicitWidth: 163 * pt
+                fontButton: mainFont.dapFont.medium14
+                horizontalAligmentText: Text.AlignHCenter
+
+                onClicked: navigator.createToken()
+            }
+
+//        onFindHandler: logicTokens.searchElement(text)
+    }
 
     dapScreen.initialItem:
         TokensScreen
@@ -65,8 +85,41 @@ DapPage
     dapRightPanelFrame.visible: false
     dapRightPanel.initialItem: emptyRightPanel
 
-//        TokensLastActions
-//        {
-//            id: lastActions
-//        }
+    Timer {
+        id: updateTokensTimer
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        onTriggered:
+        {
+            console.log("TOKENS TIMER TICK")
+            dapServiceController.requestToService("DapGetListTokensCommand")
+        }
+    }
+    Component.onCompleted:
+    {
+        dapServiceController.requestToService("DapCertificateManagerCommands", 1)
+        dapServiceController.requestToService("DapGetListTokensCommand")
+        if (!updateTokensTimer.running)
+            updateTokensTimer.start()
+    }
+
+    Component.onDestruction:
+    {
+        updateTokensTimer.stop()
+    }
+
+    Connections{
+        target: dapServiceController
+        onCertificateManagerOperationResult:{
+            var certList = result.data
+
+            for (var i = 0; i < certList.length; ++i) {
+                if(certList[i].accessKeyType === 1)
+                {
+                    certList[i].selected = false
+                    certificatesModel.append(certList[i])
+                }
+            }
+        }
+    }
+
 }

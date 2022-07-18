@@ -55,7 +55,7 @@ Page
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        height: 38 * pt
+                        height: 42 * pt
                         Text
                         {
                             anchors.fill: parent

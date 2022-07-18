@@ -1,12 +1,14 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.12
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.12 as Controls
 import "qrc:/widgets"
 import "../parts"
 import "../../controls"
 
-Page {
+Controls.Page {
     id: root
 
     background: Rectangle {
@@ -44,45 +46,14 @@ Page {
         }
     }
 
-    ListModel
-    {
-        id: certModel
-
-        ListElement
-        {
-            name: "cert1"
-        }
-
-        ListElement
-        {
-            name: "cert2"
-        }
-
-        ListElement
-        {
-            name: "cert3"
-        }
-
-        ListElement
-        {
-            name: "cert4"
-        }
-
-        ListElement
-        {
-            name: "cert5"
-        }
-    }
-
     ColumnLayout
     {
         width: parent.width
-//        height: childrenRect.height
 
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
+            height: 42 * pt
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
@@ -184,6 +155,40 @@ Page {
 
             Text {
                 color: currTheme.textColor
+                text: qsTr("Select network")
+                font: mainFont.dapFont.medium12
+                horizontalAlignment: Text.AlignLeft
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.leftMargin: 17 * pt
+                anchors.topMargin: 20 * pt
+                anchors.bottomMargin: 5 * pt
+            }
+        }
+
+        Item
+        {
+            height: 56 * pt
+            Layout.fillWidth: true
+
+            DapComboBox {
+                anchors.fill: parent
+                anchors.leftMargin: 15 * pt
+                anchors.rightMargin: 15 * pt
+                model: dapModelTokens
+
+                mainTextRole: "network"
+                font: mainFont.dapFont.regular16
+            }
+        }
+
+        Rectangle {
+            color: currTheme.backgroundMainScreen
+            Layout.fillWidth: true
+            height: 30 * pt
+
+            Text {
+                color: currTheme.textColor
                 text: qsTr("Chain")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -238,9 +243,9 @@ Page {
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
-                model: certModel
+                model: certificatesModel
 
-                defaultText: qsTr("cert1")
+                mainTextRole: "completeBaseName"
                 font: mainFont.dapFont.regular16
             }
         }
@@ -281,16 +286,27 @@ Page {
 
                 TextField
                 {
+                    id: textInputAmount
                     anchors.fill: parent
+                    placeholderText: "0.0"
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
-                    color: currTheme.textColor
 
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                    text: "200000.86"
+                    style:
+                        TextFieldStyle
+                        {
+                            textColor: currTheme.textColor
+                            placeholderTextColor: currTheme.textColor
+                            background:
+                                Rectangle
+                                {
+                                    border.width: 1
+                                    radius: 4 * pt
+                                    border.color: currTheme.borderColor
+                                    color: currTheme.backgroundElements
+                                }
+                        }
                 }
             }
         }

@@ -44,7 +44,7 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 38
+            height: 42
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
