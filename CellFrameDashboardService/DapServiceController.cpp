@@ -166,5 +166,10 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapGetListTokensCommand("DapGetListTokensCommand", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapTokenEmissionCommand("DapTokenEmissionCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapTokenDeclCommand("DapTokenDeclCommand", m_pServer, CLI_PATH));
+
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
+
 }

@@ -45,7 +45,9 @@
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
 #include "handlers/DapGetListTokensCommand.h"
+#include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapTokenDeclCommand.h"
 
 
 class DapServiceController : public QObject
@@ -229,6 +231,8 @@ signals:
 
     void tokensListReceived(const QVariant& tokensResult);
     void signalTokensListReceived(const QVariant& tokensResult);
+    void responseEmissionToken(const QVariant& resultEmission);
+    void responseDeclToken(const QVariant& resultDecl);
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);

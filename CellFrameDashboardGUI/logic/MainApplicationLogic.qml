@@ -359,6 +359,7 @@ QtObject {
             var jsonDocument = JSON.parse(tokensList)
             dapModelTokens.clear()
             dapModelTokens.append(jsonDocument)
+            modelTokensUpdated()
         }
     }
 

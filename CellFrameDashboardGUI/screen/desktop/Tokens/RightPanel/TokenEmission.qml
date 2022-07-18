@@ -16,37 +16,6 @@ Controls.Page {
         color: "transparent"
     }
 
-
-    ListModel
-    {
-        id: chainModel
-
-        ListElement
-        {
-            name: "chain1"
-        }
-
-        ListElement
-        {
-            name: "chain2"
-        }
-
-        ListElement
-        {
-            name: "chain3"
-        }
-
-        ListElement
-        {
-            name: "chain4"
-        }
-
-        ListElement
-        {
-            name: "chain5"
-        }
-    }
-
     ColumnLayout
     {
         width: parent.width
@@ -107,40 +76,6 @@ Controls.Page {
 
             Text {
                 color: currTheme.textColor
-                text: qsTr("Chain")
-                font: mainFont.dapFont.medium12
-                horizontalAlignment: Text.AlignLeft
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
-            }
-        }
-
-        Item
-        {
-            height: 56 * pt
-            Layout.fillWidth: true
-
-            DapComboBox {
-                anchors.fill: parent
-                anchors.leftMargin: 15 * pt
-                anchors.rightMargin: 15 * pt
-                model: chainModel
-
-                defaultText: qsTr("chain1")
-                font: mainFont.dapFont.regular16
-            }
-        }
-
-        Rectangle {
-            color: currTheme.backgroundMainScreen
-            Layout.fillWidth: true
-            height: 30 * pt
-
-            Text {
-                color: currTheme.textColor
                 text: qsTr("Select certificate")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -158,6 +93,7 @@ Controls.Page {
             Layout.fillWidth: true
 
             DapComboBox {
+                id: certificates
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
@@ -356,16 +292,22 @@ Controls.Page {
             else
             {
                 error.visible = false
-
-//                console.log("DapEmissionWallet", textInputAmount.text,
-//                                                      textInputRecipientWalletAddress.text,
-//                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).network)
-
-                dapServiceController.requestToService("DapEmissionWallet", textInputAmount.text,
+                dapServiceController.requestToService("DapTokenEmissionCommand", logicTokens.toDatoshi(textInputAmount.text),
                                                       textInputRecipientWalletAddress.text,
-                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).network)
+                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).network,
+                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).tokens.get(logicTokens.selectTokenIndex).name,
+                                                      certificates.displayText)
 
             }
+        }
+    }
+
+    Connections{
+        target: dapServiceController
+        onResponseEmissionToken:
+        {
+            logicTokens.commandResult = resultEmission
+            navigator.done()
         }
     }
 }

@@ -112,7 +112,7 @@ Page
                                 {
                                     id: currencyName
                                     font: mainFont.dapFont.regular16
-                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
                                     text: name
                                     width: 172 * pt
                                     horizontalAlignment: Text.AlignLeft
@@ -124,7 +124,7 @@ Page
                                     Layout.fillWidth: true
 
                                     font: mainFont.dapFont.regular14
-                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
                                     text: current_supply_with_dot
                                     horizontalAlignment: Text.AlignRight
                                 }
@@ -141,6 +141,7 @@ Page
 
                             MouseArea
                             {
+                                id: mouseArea
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 onClicked:

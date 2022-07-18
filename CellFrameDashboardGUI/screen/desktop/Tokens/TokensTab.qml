@@ -14,12 +14,15 @@ DapPage
     readonly property string createNewToken: path + "/Tokens/RightPanel/CreateNewToken.qml"
     readonly property string infoAboutToken: path + "/Tokens/RightPanel/InfoAboutToken.qml"
     readonly property string tokenEmission: path + "/Tokens/RightPanel/TokenEmission.qml"
+    readonly property string tokenDone: path + "/Tokens/RightPanel/TokenOperationsDone.qml"
 
     id: dashboardTab
 
     LogicTokens{id: logicTokens}
     ListModel{id: detailsModel}
     ListModel{id: certificatesModel}
+//    ListModel{id: tokensModel}
+//    ListModel{id: temporaryModel}
 
     Component{id: emptyRightPanel; Item{}}
 
@@ -44,6 +47,11 @@ DapPage
         {
             dapRightPanelFrame.visible = true
             dapRightPanel.push(tokenEmission)
+        }
+
+        function done()
+        {
+            dapRightPanel.push(tokenDone)
         }
 
         function clear()
@@ -71,8 +79,9 @@ DapPage
 
                 onClicked: navigator.createToken()
             }
+        isVisibleSearch: false
 
-//        onFindHandler: logicTokens.searchElement(text)
+//        onFindHandler: logicTokens.filterResults(text)
     }
 
     dapScreen.initialItem:
@@ -121,5 +130,13 @@ DapPage
             }
         }
     }
+
+//    Connections{
+//        target: dapMainWindow
+
+//        onModelTokensUpdated:{
+//            logicTokens.modelUpdate()
+//        }
+//    }
 
 }

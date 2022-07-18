@@ -7,6 +7,8 @@ QtObject
     property int selectTokenIndex: -1
     property int selectNetworkIndex: -1
 
+    property var commandResult
+
     function unselectToken()
     {
         selectTokenIndex = -1
@@ -159,113 +161,47 @@ QtObject
         return str
     }
 
-    property var tokenModel:
-        [
-        {
-            name: "network1",
-            address: "12345",
-            tokens:
-                [
-                {
-                    name: "token1",
-                    balance: "100"
-                },
-                {
-                    name: "token2",
-                    balance: "100"},
-                {
-                    name: "token3",
-                    balance: "100"
-                }
-            ]
-        },
-        {
-            name: "network2",
-            address: "12345",
-            tokens:
-                [
-                {
-                    name: "token1",
-                    balance: "100"
-                },
-                {
-                    name: "token2",
-                    balance: "100"},
-                {
-                    name: "token3",
-                    balance: "100"
-                }
-            ]
-        },
-        {
-            name: "network3",
-            address: "12345",
-            tokens:
-                [
-                {
-                    name: "token1",
-                    balance: "100"
-                },
-                {
-                    name: "token2",
-                    balance: "100"},
-                {
-                    name: "token3",
-                    balance: "100"
-                }
-            ]
-        }
-    ]
+    //TODO: needed filtering
+//    function modelUpdate()
+//    {
+//        temporaryModel.clear()
+//        tokensModel.clear()
+//        for(var i = 0; i < dapModelTokens.count; i++)
+//        {
+//            temporaryModel.append(dapModelTokens.get(i))
+//            tokensModel.append(dapModelTokens.get(i))
+//        }
+//    }
 
-    property var modelLastActions:
-            [
-                {
-                    network: "network1",
-                    status: "Local",
-                    sign: "+",
-                    amount: "412.8",
-                    name: "token1",
-                    date: "Today"
-                },
-                {
-                    network: "network1",
-                    status: "Mempool (X Confirms)",
-                    sign: "+",
-                    amount: "103",
-                    name: "token4",
-                    date: "July, 22"
-                },
-                {
-                    network: "network3",
-                    status: "Canceled",
-                    sign: "-",
-                    amount: "22.345",
-                    name: "token1",
-                    date: "December, 21"
-                },
-                {
-                    network: "network1",
-                    status: "Successful (X Confirms)",
-                    sign: "+",
-                    amount: "264.11",
-                    name: "token4",
-                    date: "December, 20"
-                },
-                {
-                    network: "network4",
-                    status: "Local",
-                    sign: "-",
-                    amount: "666.666",
-                    name: "token1",
-                    date: "November, 14"
-                },
-                {
-                    network: "network4",
-                    status: "Successful (X Confirms)",
-                    sign: "-",
-                    amount: "932.16",
-                    name: "token1",
-                    date: "November, 11"
-                }
-            ]
+//    function filterResults(text)
+//    {
+//        tokensModel.clear()
+//        var fstr = text.toLocaleLowerCase()
+
+//        for (var i = 0; i < temporaryModel.count; ++i)
+//        {
+//            var arrTokens = []
+//            for(var j = 0; j < temporaryModel.get(i).tokens.count; j++)
+//            {
+//                var name = temporaryModel.get(i).tokens.get(j).name
+
+//                if (name.toLowerCase().indexOf(fstr) >= 0)
+//                {
+//                    arrTokens.push(temporaryModel.get(i).tokens.get(j))
+//                }
+//            }
+
+//            if(text === "")
+//            {
+//                tokensModel.append(temporaryModel.get(i))
+//            }
+//            else{
+//                tokensModel.append({"network": temporaryModel.get(i).network,
+//                                "tokens": arrTokens.toString()})
+//            }
+
+//        }
+
+//        dapHistoryScreen.dapListViewHistory.positionViewAtBeginning()
+//    }
 }

@@ -90,6 +90,7 @@ Rectangle {
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
+    signal modelTokensUpdated()
     signal checkWebRequest()
     signal openRequests()
 

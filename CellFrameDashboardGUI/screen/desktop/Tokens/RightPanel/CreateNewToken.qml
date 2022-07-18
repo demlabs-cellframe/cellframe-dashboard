@@ -15,37 +15,6 @@ Controls.Page {
         color: "transparent"
     }
 
-
-    ListModel
-    {
-        id: chainModel
-
-        ListElement
-        {
-            name: "chain1"
-        }
-
-        ListElement
-        {
-            name: "chain2"
-        }
-
-        ListElement
-        {
-            name: "chain3"
-        }
-
-        ListElement
-        {
-            name: "chain4"
-        }
-
-        ListElement
-        {
-            name: "chain5"
-        }
-    }
-
     ColumnLayout
     {
         width: parent.width
@@ -113,7 +82,6 @@ Controls.Page {
 
         Rectangle
         {
-            id: frameRecipientWalletAddress
             Layout.fillWidth: true
             Layout.leftMargin: 20 * pt
             Layout.rightMargin: 20 * pt
@@ -125,17 +93,25 @@ Controls.Page {
                 id: textInputNewTokenName
                 anchors.verticalCenter: parent.verticalCenter
                 placeholderText: qsTr("Write here")
-                validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
-                color: currTheme.textColor
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 10 * pt
 
-                background: Rectangle {
-                    color: "transparent"
-                }
+                validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
+                style:
+                    TextFieldStyle
+                    {
+                        textColor: currTheme.textColor
+                        placeholderTextColor: currTheme.textColorGray
+                        background:
+                            Rectangle
+                            {
+                                border.width: 0
+                                color: currTheme.backgroundElements
+                            }
+                    }
             }
 
             Rectangle
@@ -172,46 +148,13 @@ Controls.Page {
             Layout.fillWidth: true
 
             DapComboBox {
+                id: networks
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
                 model: dapModelTokens
 
                 mainTextRole: "network"
-                font: mainFont.dapFont.regular16
-            }
-        }
-
-        Rectangle {
-            color: currTheme.backgroundMainScreen
-            Layout.fillWidth: true
-            height: 30 * pt
-
-            Text {
-                color: currTheme.textColor
-                text: qsTr("Chain")
-                font: mainFont.dapFont.medium12
-                horizontalAlignment: Text.AlignLeft
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
-            }
-        }
-
-        Item
-        {
-            height: 56 * pt
-            Layout.fillWidth: true
-
-            DapComboBox {
-                anchors.fill: parent
-                anchors.leftMargin: 15 * pt
-                anchors.rightMargin: 15 * pt
-                model: chainModel
-
-                defaultText: qsTr("chain1")
                 font: mainFont.dapFont.regular16
             }
         }
@@ -240,6 +183,7 @@ Controls.Page {
             Layout.fillWidth: true
 
             DapComboBox {
+                id: certificates
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
@@ -311,6 +255,29 @@ Controls.Page {
             }
         }
 
+        Rectangle
+        {
+            width: 278*pt
+            height: 69 * pt
+            color: "transparent"
+            Layout.topMargin: 43 * pt
+            Layout.fillWidth: true
+
+            Text
+            {
+                id: error
+                anchors.fill: parent
+                anchors.leftMargin: 37 * pt
+                anchors.rightMargin: 36 * pt
+                color: "#79FFFA"
+                text: qsTr("")
+                font: mainFont.dapFont.regular14
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                visible: false
+            }
+        }
     }
 
     DapButton
@@ -323,6 +290,40 @@ Controls.Page {
         textButton: qsTr("Create new token")
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText:Qt.AlignCenter
+        onClicked:{
+
+            var supply = textInputAmount.text
+
+            if(textInputNewTokenName.text === "")
+            {
+                error.visible = true
+                error.text = qsTr("Empty token name")
+            }
+            else
+            if (supply === "" || logicTokens.testAmount("0.0", supply))
+            {
+                error.visible = true
+                error.text = qsTr("Zero supply.")
+            }
+            else
+            {
+                error.visible = false
+                dapServiceController.requestToService("DapTokenDeclCommand", logicTokens.toDatoshi(supply),
+                                                      networks.displayText,
+                                                      textInputNewTokenName.text,
+                                                      certificates.displayText)
+
+            }
+        }
+    }
+
+    Connections{
+        target: dapServiceController
+        onResponseDeclToken:
+        {
+            logicTokens.commandResult = resultDecl
+            navigator.done()
+        }
     }
 }
 
