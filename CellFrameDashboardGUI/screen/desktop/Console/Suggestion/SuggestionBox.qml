@@ -27,7 +27,7 @@ Image {
     property Item delegate
     signal itemSelected(variant item)
     signal wordSelected(var word)
-    source: "qrc:/resources/icons/ui_menu_light.png"
+    source: "qrc:/Resources/ui_menu_light.png"
 
     property int selectedIndex: 0
     property int maxLenIndex: 0

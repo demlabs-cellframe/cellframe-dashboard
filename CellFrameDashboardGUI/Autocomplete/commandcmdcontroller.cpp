@@ -92,7 +92,7 @@ QString leftOrCommand(QString command, int i)
 
 void CommandCmdController::parseTree(QString command)
 {
-    bool containsValue = command.contains("<chain name>") || command.contains("<priv_cert_name>") || command.contains("<pub_cert_name>") || command.contains("<net_name>") || command.contains("<wallet_name>") || command.contains("<token_ticker>");
+    bool containsValue = command.contains("<chain_name>") || command.contains("<priv_cert_name>") || command.contains("<pub_cert_name>") || command.contains("<net_name>") || command.contains("<wallet_name>") || command.contains("<token_ticker>");
     if (!command.contains("[") && !command.contains("|") && !containsValue)
     {
         command = command.remove('{');
@@ -212,7 +212,7 @@ void CommandCmdController::parseTree(QString command)
         else
         if (command.contains("<token_ticker>"))
         {
-            QStringList tokenList = values->getWallets();
+            QStringList tokenList = values->getTokens();
             QString sCommand = command;
             int idx = sCommand.indexOf("<token_ticker>");
             QString s = sCommand.remove(idx, 14);
@@ -224,11 +224,11 @@ void CommandCmdController::parseTree(QString command)
             }
         }
         else
-        if (command.contains("<chain name>"))
+        if (command.contains("<chain_name>"))
         {
             QStringList chaintList = values->getAllChains();
             QString sCommand = command;
-            int idx = sCommand.indexOf("<chain name>");
+            int idx = sCommand.indexOf("<chain_name>");
             QString s = sCommand.remove(idx, 12);
             for (int i = 0; i < chaintList.length(); ++i)
             {
@@ -264,7 +264,7 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
             if (_commands[i].contains("\r"))
                 _commands[i] = _commands[i].split('\r')[0];
             {
-               // if (_commands[i].contains("-token <"))
+               // if (_commands[i].contains("-chain <"))
                     //qDebug() << "llllllllllllllllllll command:" << _commands[i];
 
                 parsedCommands.clear();
