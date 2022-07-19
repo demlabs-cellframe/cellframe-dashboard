@@ -354,6 +354,7 @@ QtObject {
 
     function rcvTokens(tokensList)
     {
+        console.log(tokensList)
         if(tokensList !== "isEqual")
         {
             var jsonDocument = JSON.parse(tokensList)

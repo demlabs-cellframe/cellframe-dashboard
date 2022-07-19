@@ -106,6 +106,7 @@ Rectangle {
     ListModel{id: dapModelTokens}
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
+    ListModel{id: pairsModel}
 
     ListModel{id: fakeWallet}
 
