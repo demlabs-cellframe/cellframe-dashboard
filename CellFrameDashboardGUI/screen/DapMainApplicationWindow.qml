@@ -392,7 +392,25 @@ Rectangle {
     {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
-//        dapServiceController.requestToService("DapGetListTokensCommand")
+
+        var timeTo = 10
+        var timeFrom = 20
+        var addr = "abcd"
+        var net = "private"
+
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
+
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
+
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
+
+        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
+        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
+
+
         pluginsManager.getListPlugins();
         logicMainApp.initFakeWallet()
 
@@ -459,6 +477,8 @@ Rectangle {
         }
 
         onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
+
+        onRcvXchangeTxList: console.log(rcvData)
 
     }
 

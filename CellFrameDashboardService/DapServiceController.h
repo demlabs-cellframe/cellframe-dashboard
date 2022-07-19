@@ -56,6 +56,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapWebConnectRequest.h"
 #include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
 
 #include "DapWeb3Api/DapWebControll.h"
 

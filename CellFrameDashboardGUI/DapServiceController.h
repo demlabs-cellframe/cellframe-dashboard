@@ -48,6 +48,7 @@
 #include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapWebConnectRequest.h"
 #include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
 
 
 class DapServiceController : public QObject
@@ -233,6 +234,8 @@ signals:
     void signalTokensListReceived(const QVariant& tokensResult);
     void responseEmissionToken(const QVariant& resultEmission);
     void responseDeclToken(const QVariant& resultDecl);
+
+    void rcvXchangeTxList(const QVariant& rcvData);
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
