@@ -398,6 +398,7 @@ Rectangle {
         var addr = "abcd"
         var net = "private"
 
+        //-------//OrdersHistory
         dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
         dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
 
@@ -409,6 +410,14 @@ Rectangle {
 
         dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
         dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
+        //-------//CreateOrder
+        var tokenSell = "sell"
+        var tokenBuy = "buy"
+        var wallet = "tokenWallet"
+        var coins = 100000
+        var rate = 1
+        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
+
 
 
         pluginsManager.getListPlugins();
@@ -479,6 +488,7 @@ Rectangle {
         onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
 
         onRcvXchangeTxList: console.log(rcvData)
+        onRcvXchangeCreate: console.log(rcvData)
 
     }
 

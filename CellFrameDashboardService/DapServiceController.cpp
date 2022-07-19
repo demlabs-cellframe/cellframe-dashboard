@@ -172,6 +172,8 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapGetXchangeTxList("DapGetXchangeTxList", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapXchangeOrderCreate("DapXchangeOrderCreate", m_pServer, CLI_PATH));
+
 
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
 
