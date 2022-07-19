@@ -4,9 +4,11 @@
 #include <QObject>
 #include <QVector>
 #include <QVariantMap>
+#include <QQmlContext>
 
 #include "priceinfo.h"
 #include "candleinfo.h"
+#include "orderinfo.h"
 
 class StockDataWorker : public QObject
 {
@@ -40,15 +42,21 @@ class StockDataWorker : public QObject
     Q_PROPERTY(int lastVisibleCandle READ lastVisibleCandle)
 
     Q_PROPERTY(int priceModelSize READ priceModelSize)
+    Q_PROPERTY(int sellOrderModelSize READ sellOrderModelSize)
+    Q_PROPERTY(int buyOrderModelSize READ buyOrderModelSize)
 
-//    Q_PROPERTY(int firstVisibleAverage READ firstVisibleAverage)
-//    Q_PROPERTY(int lastVisibleAverage READ lastVisibleAverage)
+    Q_PROPERTY(double sellMaxTotal READ sellMaxTotal NOTIFY sellMaxTotalChanged)
+    Q_PROPERTY(double buyMaxTotal READ buyMaxTotal NOTIFY buyMaxTotalChanged)
 
 public:
     explicit StockDataWorker(QObject *parent = nullptr);
 
+    void setContext(QQmlContext *cont);
+
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
+
+    Q_INVOKABLE void generateBookModel(double price, int length);
 
     Q_INVOKABLE void updateAllModels();
 
@@ -71,6 +79,8 @@ public:
     Q_INVOKABLE void dataAnalysis();
 
     Q_INVOKABLE void generateNewPrice();
+
+    Q_INVOKABLE void generateNewOrderState();
 
     Q_INVOKABLE bool zoomTime(int step);
 
@@ -124,11 +134,15 @@ public:
 
     int priceModelSize() const
         { return priceModel.size(); }
+    int sellOrderModelSize() const
+        { return sellOrderModel.size(); }
+    int buyOrderModelSize() const
+        { return buyOrderModel.size(); }
 
-//    int firstVisibleAverage() const
-//        { return m_firstVisibleAverage; }
-//    int lastVisibleAverage() const
-//        { return m_lastVisibleAverage; }
+    int sellMaxTotal() const
+        { return m_sellMaxTotal; }
+    int buyMaxTotal() const
+        { return m_buyMaxTotal; }
 
 public slots:
     void setCandleWidth(qint64 width);
@@ -156,9 +170,22 @@ signals:
     void currentTokenPriceChanged(double price);
     void previousTokenPriceChanged(double price);
 
+    void sellMaxTotalChanged(double max);
+    void buyMaxTotalChanged(double max);
+
+private:
+    void getVariantBookModels();
+
+    void updateBookModels();
+
 private:
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
+    QVector <OrderInfo> sellOrderModel;
+    QVector <OrderInfo> buyOrderModel;
+
+    QVariantList buyModel;
+    QVariantList sellModel;
 
     QVector <PriceInfo> tempAverModel;
     QVector <QVector <PriceInfo>> averagedModel;
@@ -193,6 +220,11 @@ private:
 
     QVector <int> firstVisibleAverage;
     QVector <int> lastVisibleAverage;
+
+    double m_sellMaxTotal {0.0};
+    double m_buyMaxTotal {0.0};
+
+    QQmlContext *context;
 };
 
 #endif // STOCKDATAWORKER_H

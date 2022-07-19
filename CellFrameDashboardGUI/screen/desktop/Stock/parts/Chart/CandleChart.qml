@@ -21,12 +21,12 @@ Item
         logic.redCandleColor = currTheme.textColorRed
         logic.greenCandleColor = currTheme.textColorGreen
 
-//        dataWorker.generatePriceData(1000000)
-        dataWorker.generatePriceData(100000)
+//        stockDataWorker.generatePriceData(1000000)
+        stockDataWorker.generatePriceData(100000)
 
-        dataWorker.getMinimumMaximum24h()
+        stockDataWorker.getMinimumMaximum24h()
 
-        dataWorker.setNewCandleWidth(logic.minute)
+        stockDataWorker.setNewCandleWidth(logic.minute)
 
         updateTokenPrice()
 
@@ -192,43 +192,43 @@ Item
         switch (index)
         {
         default:
-            dataWorker.setNewCandleWidth(logic.minute)
+            stockDataWorker.setNewCandleWidth(logic.minute)
             break
         case 1:
-            dataWorker.setNewCandleWidth(logic.minute*2)
+            stockDataWorker.setNewCandleWidth(logic.minute*2)
             break
         case 2:
-            dataWorker.setNewCandleWidth(logic.minute*5)
+            stockDataWorker.setNewCandleWidth(logic.minute*5)
             break
         case 3:
-            dataWorker.setNewCandleWidth(logic.minute*15)
+            stockDataWorker.setNewCandleWidth(logic.minute*15)
             break
         case 4:
-            dataWorker.setNewCandleWidth(logic.minute*30)
+            stockDataWorker.setNewCandleWidth(logic.minute*30)
             break
         case 5:
-            dataWorker.setNewCandleWidth(logic.hour)
+            stockDataWorker.setNewCandleWidth(logic.hour)
             break
         case 6:
-            dataWorker.setNewCandleWidth(logic.hour*4)
+            stockDataWorker.setNewCandleWidth(logic.hour*4)
             break
         case 7:
-            dataWorker.setNewCandleWidth(logic.hour*12)
+            stockDataWorker.setNewCandleWidth(logic.hour*12)
             break
         case 8:
-            dataWorker.setNewCandleWidth(logic.day)
+            stockDataWorker.setNewCandleWidth(logic.day)
             break
         case 9:
-            dataWorker.setNewCandleWidth(logic.day*3)
+            stockDataWorker.setNewCandleWidth(logic.day*3)
             break
         case 10:
-            dataWorker.setNewCandleWidth(logic.day*7)
+            stockDataWorker.setNewCandleWidth(logic.day*7)
             break
         case 11:
-            dataWorker.setNewCandleWidth(logic.day*14)
+            stockDataWorker.setNewCandleWidth(logic.day*14)
             break
         case 12:
-            dataWorker.setNewCandleWidth(logic.day*30)
+            stockDataWorker.setNewCandleWidth(logic.day*30)
             break
         }
 
