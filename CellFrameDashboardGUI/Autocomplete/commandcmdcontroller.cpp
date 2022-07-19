@@ -315,6 +315,7 @@ QVariantList CommandCmdController::getTreeWords(QString value)
         return res;
     }
 
+
     QString key = list[0];
     commandTree *tree = &words[key];
 
@@ -328,16 +329,13 @@ QVariantList CommandCmdController::getTreeWords(QString value)
             }
     }
 
-    if (tree->data != list[list.length() - 1] && list[list.length() - 1] != "")
-        return res;
-
     for (int i = 0; i < tree->children.length(); ++i)
     {
         QString str = tree->children[i]->data;
         if (str.startsWith(" "))
             str.remove(0, 1);
 
-        if (str != "" && str != " ")
+        if (str != "" && str != " " && (str.startsWith(list[list.length() - 1]) || tree->data == list[list.length() - 1]))
         {
             map["word"] = QVariant::fromValue(str);
             checkChainList.append(str);
