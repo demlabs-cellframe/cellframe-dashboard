@@ -153,9 +153,6 @@ Page
             }
         }
 
-
-
-
         ListView
         {
             id: sellView
@@ -174,7 +171,7 @@ Page
                 onVisibleChanged: setPosition(sellView.positionViewAtBeginning())
             }
 
-            model: sellBookModel
+            model: sellModel
 
             delegate: OrderBookDelegate{visible: buyView.visible ? index > visibleCount ? false : true : true}
         }
@@ -230,7 +227,7 @@ Page
                 onVisibleChanged: setPosition(buyView.positionViewAtBeginning())
             }
 
-            model: buyBookModel
+            model: buyModel
 
             delegate: OrderBookDelegate{isSell: false; visible: sellView.visible ? index > visibleCount ? false : true : true}
         }

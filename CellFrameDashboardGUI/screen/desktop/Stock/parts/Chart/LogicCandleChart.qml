@@ -72,7 +72,7 @@ QtObject
     function drawAll(ctx)
     {
         if (!mouseVisible)
-            selectedCandleNumber = dataWorker.lastCandleNumber
+            selectedCandleNumber = stockDataWorker.lastCandleNumber
 
         ctx.fillStyle = backgroundColor
 //        ctx.fillStyle = Qt.rgba(1, 1, 1, 1)
@@ -104,13 +104,13 @@ QtObject
 
     function dataAnalysis()
     {
-        dataWorker.dataAnalysis()
+        stockDataWorker.dataAnalysis()
 
-        if (dataWorker.maxPrice > dataWorker.minPrice)
+        if (stockDataWorker.maxPrice > stockDataWorker.minPrice)
             coefficientPrice = chartDrawHeight/
-                    (dataWorker.maxPrice - dataWorker.minPrice)
-        if (dataWorker.visibleTime > 0)
-            coefficientTime = chartWidth/dataWorker.visibleTime
+                    (stockDataWorker.maxPrice - stockDataWorker.minPrice)
+        if (stockDataWorker.visibleTime > 0)
+            coefficientTime = chartWidth/stockDataWorker.visibleTime
 
         getRoundedStepPrice()
 
@@ -120,7 +120,7 @@ QtObject
 
     function getRoundedStepPrice()
     {
-        var realStep = (dataWorker.maxPrice - dataWorker.minPrice)/
+        var realStep = (stockDataWorker.maxPrice - stockDataWorker.minPrice)/
                 maxStepNumberPrice
 
 //        print("minY", minY, "maxY", maxY)
@@ -144,8 +144,8 @@ QtObject
         else
             roundedStepPrice = digit*10
 
-        roundedMaxPrice = dataWorker.maxPrice -
-                dataWorker.maxPrice%roundedStepPrice
+        roundedMaxPrice = stockDataWorker.maxPrice -
+                stockDataWorker.maxPrice%roundedStepPrice
 
 //        print("roundedStepPrice", roundedStepPrice,
 //              "roundedMaxPrice", roundedMaxPrice)
@@ -195,7 +195,7 @@ QtObject
 
     function getRoundedStepTime()
     {
-        var realStep = (dataWorker.maxTime - dataWorker.minTime)/
+        var realStep = (stockDataWorker.maxTime - stockDataWorker.minTime)/
                 maxStepNumberTime
 
         timeStepsIndex = 0
@@ -227,8 +227,8 @@ QtObject
 
 //        print("step", realStep, "roundedStep", roundedStepTime)
 
-        roundedMaxTime = dataWorker.maxTime -
-                dataWorker.maxTime%roundedStepTime
+        roundedMaxTime = stockDataWorker.maxTime -
+                stockDataWorker.maxTime%roundedStepTime
 
         if (timeStepsIndex > 10)
         {
@@ -238,11 +238,11 @@ QtObject
 //                  "roundedStepX", roundedStepX,
 //                  "hour*3", hour*3)
 
-            while (roundedMaxTime < dataWorker.maxTime -
-                   dataWorker.maxTime%roundedStepTime)
+            while (roundedMaxTime < stockDataWorker.maxTime -
+                   stockDataWorker.maxTime%roundedStepTime)
                 roundedMaxTime += roundedStepTime
 
-//            while (roundedStepTime < hour*3 + dataWorker.maxTime%roundedStepTime)
+//            while (roundedStepTime < hour*3 + stockDataWorker.maxTime%roundedStepTime)
 //                roundedMaxTime += roundedStepTime
         }
 
@@ -250,7 +250,7 @@ QtObject
 
     function zoomTime(step)
     {
-        if (dataWorker.zoomTime(step))
+        if (stockDataWorker.zoomTime(step))
         {
             dataAnalysis()
 
@@ -262,7 +262,7 @@ QtObject
     {
         if (step !== 0)
         {
-            dataWorker.shiftTime(step / coefficientTime)
+            stockDataWorker.shiftTime(step / coefficientTime)
 
             dataAnalysis()
 
@@ -273,20 +273,20 @@ QtObject
     function drawGrid(ctx)
     {
         var currentX = roundedMaxTime
-        while (currentX > dataWorker.minTime)
+        while (currentX > stockDataWorker.minTime)
         {
             drawVerticalLine(ctx,
-                (currentX - dataWorker.minTime)*coefficientTime)
+                (currentX - stockDataWorker.minTime)*coefficientTime)
 
 //            print(currentX)
             currentX -= roundedStepTime
         }
 
         var currentY = roundedMaxPrice
-        while (currentY > dataWorker.minPrice)
+        while (currentY > stockDataWorker.minPrice)
         {
             drawHorizontalLine(ctx,
-                (dataWorker.maxPrice - currentY)*coefficientPrice +
+                (stockDataWorker.maxPrice - currentY)*coefficientPrice +
                                chartCandleBegin)
 
 //            print(currentY)
@@ -306,12 +306,12 @@ QtObject
         var date
         var currentX = roundedMaxTime
 
-        while (currentX > dataWorker.minTime)
+        while (currentX > stockDataWorker.minTime)
         {
             date = new Date(currentX)
 
             drawVerticalLineText(ctx,
-                (currentX - dataWorker.minTime)*coefficientTime,
+                (currentX - stockDataWorker.minTime)*coefficientTime,
                 date.toLocaleString(Qt.locale("en_EN"), timeMask),
                 gridTextColor)
 
@@ -323,7 +323,7 @@ QtObject
 
         if (mouseVisible && mouseX <= chartWidth)
         {
-            date = new Date((dataWorker.minTime + mouseX/coefficientTime))
+            date = new Date((stockDataWorker.minTime + mouseX/coefficientTime))
 
             outText = date.toLocaleString(Qt.locale("en_EN"), "MM/dd hh:mm")
 
@@ -336,11 +336,11 @@ QtObject
         }
 
         var currentY = roundedMaxPrice
-        while (currentY > dataWorker.minPrice)
+        while (currentY > stockDataWorker.minPrice)
         {
             outText = currentY
             drawHorizontalLineText(ctx,
-                (dataWorker.maxPrice - currentY)*coefficientPrice +
+                (stockDataWorker.maxPrice - currentY)*coefficientPrice +
                                    chartCandleBegin,
                 outText, gridTextColor)
 
@@ -354,7 +354,7 @@ QtObject
         if (lastCandleClose < lastCandleOpen)
             priceColor = redCandleColor
 
-        var priceY = (dataWorker.maxPrice - lastCandleClose)*coefficientPrice +
+        var priceY = (stockDataWorker.maxPrice - lastCandleClose)*coefficientPrice +
                 chartCandleBegin
 
         if (priceY > 0 && priceY <= chartFullHeight)
@@ -365,7 +365,7 @@ QtObject
 
         if (mouseVisible && mouseY <= chartFullHeight)
         {
-            outText = (dataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
+            outText = (stockDataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
 
             drawHorizontalLineText(ctx,
                 mouseY,
@@ -401,22 +401,22 @@ QtObject
     function drawPriceChart(ctx, color)
     {
         for (var i = 0;
-             i < dataWorker.priceModelSize-1; ++i)
+             i < stockDataWorker.priceModelSize-1; ++i)
         {
-            var info1 = dataWorker.getPriceInfo(i)
-            var info2 = dataWorker.getPriceInfo(i+1)
+            var info1 = stockDataWorker.getPriceInfo(i)
+            var info2 = stockDataWorker.getPriceInfo(i+1)
 
 //            print("info1", i, info1.time, info1.price,
 //                  "info2", i+1, info2.time, info2.price)
 
             drawChartLine(ctx,
-                (info1.time - dataWorker.rightTime +
-                    dataWorker.visibleTime)*coefficientTime,
-                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                (info1.time - stockDataWorker.rightTime +
+                    stockDataWorker.visibleTime)*coefficientTime,
+                (stockDataWorker.maxPrice - info1.price)*coefficientPrice +
                     chartCandleBegin,
-                (info2.time - dataWorker.rightTime +
-                    dataWorker.visibleTime)*coefficientTime,
-                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                (info2.time - stockDataWorker.rightTime +
+                    stockDataWorker.visibleTime)*coefficientTime,
+                (stockDataWorker.maxPrice - info2.price)*coefficientPrice +
                     chartCandleBegin,
                 color)
         }
@@ -424,26 +424,26 @@ QtObject
 
     function drawAverageChart(ctx, chart, color)
     {
-//        print("firstVisibleAverage", dataWorker.firstVisibleAverage,
-//              "lastVisibleAverage", dataWorker.lastVisibleAverage)
+//        print("firstVisibleAverage", stockDataWorker.firstVisibleAverage,
+//              "lastVisibleAverage", stockDataWorker.lastVisibleAverage)
 
-        for (var i = dataWorker.getFirstVisibleAverage(chart);
-             i < dataWorker.getLastVisibleAverage(chart); ++i)
+        for (var i = stockDataWorker.getFirstVisibleAverage(chart);
+             i < stockDataWorker.getLastVisibleAverage(chart); ++i)
         {
-            var info1 = dataWorker.getAveragedInfo(chart, i)
-            var info2 = dataWorker.getAveragedInfo(chart, i+1)
+            var info1 = stockDataWorker.getAveragedInfo(chart, i)
+            var info2 = stockDataWorker.getAveragedInfo(chart, i+1)
 
 //            print("info1", i, info1.time, info1.price,
 //                  "info2", i+1, info2.time, info2.price)
 
             drawChartLine(ctx,
-                (info1.time - dataWorker.rightTime +
-                    dataWorker.visibleTime)*coefficientTime,
-                (dataWorker.maxPrice - info1.price)*coefficientPrice +
+                (info1.time - stockDataWorker.rightTime +
+                    stockDataWorker.visibleTime)*coefficientTime,
+                (stockDataWorker.maxPrice - info1.price)*coefficientPrice +
                     chartCandleBegin,
-                (info2.time - dataWorker.rightTime +
-                    dataWorker.visibleTime)*coefficientTime,
-                (dataWorker.maxPrice - info2.price)*coefficientPrice +
+                (info2.time - stockDataWorker.rightTime +
+                    stockDataWorker.visibleTime)*coefficientTime,
+                (stockDataWorker.maxPrice - info2.price)*coefficientPrice +
                     chartCandleBegin,
                 color)
         }
@@ -451,18 +451,18 @@ QtObject
 
     function drawCandleChart(ctx)
     {
-        var realCandleWidth = dataWorker.candleWidth*0.98*coefficientTime - 1
-        var mouseCandleWidth = dataWorker.candleWidth*coefficientTime
+        var realCandleWidth = stockDataWorker.candleWidth*0.98*coefficientTime - 1
+        var mouseCandleWidth = stockDataWorker.candleWidth*coefficientTime
 
         var selectedChange = false
 
         if (mouseX > chartWidth)
-            selectedCandleNumber = dataWorker.lastCandleNumber
+            selectedCandleNumber = stockDataWorker.lastCandleNumber
 
-        for (var i = dataWorker.firstVisibleCandle;
-             i <= dataWorker.lastVisibleCandle; ++i)
+        for (var i = stockDataWorker.firstVisibleCandle;
+             i <= stockDataWorker.lastVisibleCandle; ++i)
         {
-            var candle = dataWorker.getCandleInfo(i)
+            var candle = stockDataWorker.getCandleInfo(i)
 
             var redCandle = true
 
@@ -480,8 +480,8 @@ QtObject
                 down = candle.open
             }
 
-            var candleX = (candle.time - dataWorker.rightTime +
-                           dataWorker.visibleTime)*coefficientTime
+            var candleX = (candle.time - stockDataWorker.rightTime +
+                           stockDataWorker.visibleTime)*coefficientTime
 
             if (mouseVisible &&
                 candleX > mouseX - mouseCandleWidth*0.5 &&
@@ -508,11 +508,11 @@ QtObject
 
             drawCandle(ctx,
                 candleX,
-                (dataWorker.maxPrice - candle.maximum)*coefficientPrice +
+                (stockDataWorker.maxPrice - candle.maximum)*coefficientPrice +
                        chartCandleBegin,
-                (dataWorker.maxPrice - up)*coefficientPrice + chartCandleBegin,
-                (dataWorker.maxPrice - down)*coefficientPrice + chartCandleBegin,
-                (dataWorker.maxPrice - candle.minimum)*coefficientPrice +
+                (stockDataWorker.maxPrice - up)*coefficientPrice + chartCandleBegin,
+                (stockDataWorker.maxPrice - down)*coefficientPrice + chartCandleBegin,
+                (stockDataWorker.maxPrice - candle.minimum)*coefficientPrice +
                        chartCandleBegin,
                 realCandleWidth, color)
 
@@ -521,12 +521,12 @@ QtObject
         }
 
         if (selectedChange ||
-            selectedCandleNumber === dataWorker.lastCandleNumber)
+            selectedCandleNumber === stockDataWorker.lastCandleNumber)
         {
 //            print("selectedChange", selectedChange,
-//                  selectedCandleNumber, dataWorker.lastCandleNumber)
+//                  selectedCandleNumber, stockDataWorker.lastCandleNumber)
 
-            var selCandle = dataWorker.getCandleInfo(selectedCandleNumber)
+            var selCandle = stockDataWorker.getCandleInfo(selectedCandleNumber)
 
             chandleSelected(
                         selCandle.time,
@@ -544,19 +544,19 @@ QtObject
 
     function drawMinMax(ctx)
     {
-        var labelX = (dataWorker.minPriceTime - dataWorker.rightTime +
-                       dataWorker.visibleTime)*coefficientTime
+        var labelX = (stockDataWorker.minPriceTime - stockDataWorker.rightTime +
+                       stockDataWorker.visibleTime)*coefficientTime
 
         var labelY = chartDrawHeight + chartCandleBegin
 
-        drawLineAndLabel(ctx, labelX, labelY, dataWorker.minPrice)
+        drawLineAndLabel(ctx, labelX, labelY, stockDataWorker.minPrice)
 
-        labelX = (dataWorker.maxPriceTime - dataWorker.rightTime +
-                       dataWorker.visibleTime)*coefficientTime
+        labelX = (stockDataWorker.maxPriceTime - stockDataWorker.rightTime +
+                       stockDataWorker.visibleTime)*coefficientTime
 
         labelY = chartCandleBegin
 
-        drawLineAndLabel(ctx, labelX, labelY, dataWorker.maxPrice)
+        drawLineAndLabel(ctx, labelX, labelY, stockDataWorker.maxPrice)
     }
 
     function drawLineAndLabel(ctx, x, y, text)

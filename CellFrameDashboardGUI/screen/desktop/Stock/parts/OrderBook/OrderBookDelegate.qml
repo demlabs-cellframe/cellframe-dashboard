@@ -14,8 +14,8 @@ Rectangle
     Rectangle
     {
         anchors.right: parent.right
-        width: isSell ? parent.width*total/logicStock.sellMaxTotal :
-                        parent.width*total/logicStock.buyMaxTotal
+        width: isSell ? parent.width*modelData.total/stockDataWorker.sellMaxTotal :
+                        parent.width*modelData.total/stockDataWorker.buyMaxTotal
         height: parent.height
 
         color: isSell? sellHistogramColor : buyHistogramColor
@@ -37,7 +37,7 @@ Rectangle
                 Layout.minimumWidth: 100
                 color: isSell? currTheme.textColorRed : currTheme.textColorGreen
                 font: mainFont.dapFont.regular13
-                text: price.toFixed(5)
+                text: modelData.price.toFixed(5)
             }
 
             Text
@@ -45,7 +45,7 @@ Rectangle
                 Layout.fillWidth: true
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular13
-                text: amount.toFixed(2)
+                text: modelData.amount.toFixed(2)
             }
 
             Text
@@ -53,7 +53,7 @@ Rectangle
                 horizontalAlignment: Qt.AlignRight
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular13
-                text: total.toFixed(4)
+                text: modelData.total.toFixed(4)
             }
         }
 
@@ -62,7 +62,7 @@ Rectangle
             Layout.fillWidth: true
             height: 1
             visible: isSell? index !== 0 : index <
-                delegateRectangle.ListView.view.model.count-1
+                delegateRectangle.ListView.view.model.length-1
 
             color: currTheme.lineSeparatorColor
         }
