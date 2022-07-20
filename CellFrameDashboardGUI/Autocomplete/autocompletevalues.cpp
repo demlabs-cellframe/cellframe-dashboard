@@ -108,6 +108,39 @@ void AutocompleteValues::_getChains()
     }
 }
 
+void AutocompleteValues::_getMempoolTokens()
+{
+    for (int i = 0; i < networks.length(); ++i)
+    {
+        QProcess process2;
+        QString command = QString("%1 ledger list coins -net %2").arg(CLI_PATH).arg(networks[i]);
+        process2.start(command);
+        process2.waitForFinished(-1);
+        QString result = QString::fromLatin1(process2.readAll());
+
+        QStringList list = result.split("\n");
+        QStringList resList;
+
+        for (int j = 0; j < list.length(); ++j)
+            if (list[j].contains("Token name"))
+                resList.append(list[j]);
+
+        for (int j = 0; j < resList.length(); ++j)
+        {
+            int k = 12;
+            QString tokenName = "";
+            while (resList[j][k] != '\'')
+            {
+                tokenName += resList[j][k];
+                ++k;
+            }
+            resList[j] = tokenName;
+        }
+        mempoolTokens.insert(networks[i], resList);
+    }
+}
+
+
 AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController, QObject *parent)
     : QObject{parent}
 {
@@ -146,6 +179,7 @@ AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController,
     _getCerts();
     _getNetworks();
     _getChains();
+    _getMempoolTokens();
 }
 
 QStringList AutocompleteValues::getPubCerts()
@@ -186,4 +220,19 @@ QStringList AutocompleteValues::getChainsByNetwork(const QString &netName)
 QStringList AutocompleteValues::getNetworkByChain(const QString &chainName)
 {
     return chainNets[chainName];
+}
+
+QStringList AutocompleteValues::getAllMempoolTokens()
+{
+    QStringList res = {};
+    for (int i = 0; i < mempoolTokens.keys().length(); ++i)
+    {
+        res += mempoolTokens[mempoolTokens.keys()[i]];
+    }
+    return res;
+}
+
+QStringList AutocompleteValues::getMempoolTokensByNetwork(const QString &netName)
+{
+    return mempoolTokens[netName];
 }
