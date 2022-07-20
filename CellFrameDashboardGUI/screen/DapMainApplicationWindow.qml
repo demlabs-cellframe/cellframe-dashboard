@@ -423,10 +423,9 @@ Rectangle {
         dapServiceController.requestToService("DapGetXchangeOrdersList")
 
         //-------//TokenPair
-        dapServiceController.requestToService("DapGetXchangeTokenPair", "mileena")
-        print("DapGetXchangeTokenPriceAverage")
-        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "mileena", "NCELL", "MILT")
-        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "mileena", "NCELL", "MILT")
+//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
 
 
 

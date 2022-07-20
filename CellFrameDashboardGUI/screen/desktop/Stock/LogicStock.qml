@@ -171,6 +171,13 @@ QtObject
                          })
     }
 
+    function readPairModel(rcvData)
+    {
+        var jsonDocument = JSON.parse(rcvData)
+        pairModel.clear()
+        pairModel.append(jsonDocument)
+    }
+
     function addNewOrder(_date, _pair, _type, _side, _price,
                          _amount, _expiresIn, _trigger)
     {

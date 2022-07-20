@@ -15,6 +15,15 @@ Item
 
     property real volume24h: 923673750.32
 
+    Connections{
+        target: stockTab
+        onTokenPairChanged:
+        {
+            print("onTokenPairChanged")
+            pairBox.logic.setModel(pairModel)
+        }
+    }
+
     ColumnLayout
     {
         anchors.fill: parent
@@ -33,7 +42,7 @@ Item
                 height: 32
                 Component.onCompleted:
                 {
-                    logicStock.initPairModel()
+//                    logicStock.initPairModel()
                     logic.setModel(pairModel)
 //                    print("pairModel.count", pairModel.count)
                 }
@@ -43,6 +52,7 @@ Item
                     logicStock.tokenPrice = pairModel.get(currentIndex).price
                     logicStock.tokenChange = pairModel.get(currentIndex).change
                 }
+
             }
 
             ColumnLayout
