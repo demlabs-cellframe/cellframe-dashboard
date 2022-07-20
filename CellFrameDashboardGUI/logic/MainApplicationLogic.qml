@@ -354,13 +354,23 @@ QtObject {
 
     function rcvTokens(tokensList)
     {
-        console.log(tokensList)
         if(tokensList !== "isEqual")
         {
             var jsonDocument = JSON.parse(tokensList)
             dapModelTokens.clear()
             dapModelTokens.append(jsonDocument)
             modelTokensUpdated()
+        }
+    }
+
+    function rcvOpenOrders(rcvData)
+    {
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(rcvData)
+            dapModelXchangeOrders.clear()
+            dapModelXchangeOrders.append(jsonDocument)
+            modelXchangeOrdersUpdated()
         }
     }
 

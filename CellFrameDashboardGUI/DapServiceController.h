@@ -50,6 +50,7 @@
 #include "handlers/DapTokenDeclCommand.h"
 #include "handlers/DapGetXchangeTxList.h"
 #include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapGetXchangeOrdersList.h"
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
@@ -146,6 +147,7 @@ public:
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
 
     QByteArray s_bufferTokensJson;
+    QByteArray s_bufferOrdersJson;
 
 public slots:
     void requestWalletList();
@@ -241,9 +243,14 @@ signals:
 
     void rcvXchangeTxList(const QVariant& rcvData);
     void rcvXchangeCreate(const QVariant& rcvData);
+
+    void rcvXchangeOrderList(const QVariant& rcvData);
+    void signalXchangeOrderListReceived(const QVariant& rcvData);
+
     void rcvXchangeTokenPair(const QVariant& rcvData);
     void rcvXchangeTokenPriceAverage(const QVariant& rcvData);
     void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
+
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);

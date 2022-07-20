@@ -174,6 +174,8 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapXchangeOrderCreate("DapXchangeOrderCreate", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapGetXchangeOrdersList("DapGetXchangeOrdersList", m_pServer, CLI_PATH));
+
     m_pServer->addService(new DapGetXchangeTokenPair("DapGetXchangeTokenPair", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapGetXchangeTokenPriceAverage("DapGetXchangeTokenPriceAverage", m_pServer, CLI_PATH));
