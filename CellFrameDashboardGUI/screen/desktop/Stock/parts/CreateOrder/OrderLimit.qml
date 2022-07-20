@@ -238,6 +238,9 @@ ColumnLayout {
 
         onClicked:
         {
+
+
+
             var date = new Date()
 
             logicStock.addNewOrder(
