@@ -250,6 +250,8 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderCreate("DapXchangeOrderCreate",m_DAPRpcSocket))), QString("rcvXchangeCreate")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetXchangeOrdersList("DapGetXchangeOrdersList",m_DAPRpcSocket))), QString("rcvXchangeOrderList")));
+
 
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
@@ -428,6 +430,34 @@ void DapServiceController::registerCommand()
             json_object_put(obj);
             json_object_put(obj2);
             emit signalTokensListReceived("isEqual");
+        }
+    });
+
+    connect(this, &DapServiceController::rcvXchangeOrderList, [=] (const QVariant& rcvData)
+    {
+        if(!rcvData.isValid())
+            return ;
+
+        if(s_bufferOrdersJson.isEmpty())
+        {
+            s_bufferOrdersJson = rcvData.toByteArray();
+            emit signalXchangeOrderListReceived(rcvData);
+            return ;
+        }else{
+            json_object *obj = json_object_new_string(rcvData.toByteArray());
+            json_object *obj2 = json_object_new_string(s_bufferOrdersJson);
+
+            if(!json_object_equal(obj, obj2))
+            {
+                s_bufferOrdersJson = rcvData.toByteArray();
+                json_object_put(obj);
+                json_object_put(obj2);
+                emit signalXchangeOrderListReceived(rcvData);
+                return ;
+            }
+            json_object_put(obj);
+            json_object_put(obj2);
+            emit signalXchangeOrderListReceived("isEqual");
         }
     });
 

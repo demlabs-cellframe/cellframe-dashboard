@@ -91,6 +91,7 @@ Rectangle {
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
     signal modelTokensUpdated()
+    signal modelXchangeOrdersUpdated()
     signal checkWebRequest()
     signal openRequests()
 
@@ -107,6 +108,7 @@ Rectangle {
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: pairsModel}
+    ListModel{id: dapModelXchangeOrders}
 
     ListModel{id: fakeWallet}
 
@@ -398,25 +400,27 @@ Rectangle {
         var addr = "abcd"
         var net = "private"
 
-        //-------//OrdersHistory
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
+//        //-------//OrdersHistory
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
 
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
 
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
 
-        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
-        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
-        //-------//CreateOrder
-        var tokenSell = "sell"
-        var tokenBuy = "buy"
-        var wallet = "tokenWallet"
-        var coins = 100000
-        var rate = 1
-        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
+//        //-------//CreateOrder
+//        var tokenSell = "sell"
+//        var tokenBuy = "buy"
+//        var wallet = "tokenWallet"
+//        var coins = 100000
+//        var rate = 1
+//        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
+        //------//GetOrdersList
+        dapServiceController.requestToService("DapGetXchangeOrdersList")
 
 
 
@@ -489,6 +493,12 @@ Rectangle {
 
         onRcvXchangeTxList: console.log(rcvData)
         onRcvXchangeCreate: console.log(rcvData)
+
+        onSignalXchangeOrderListReceived:
+        {
+            print("RcvXchangeOrderList")
+            logicMainApp.rcvOpenOrders(rcvData)
+        }
 
     }
 
