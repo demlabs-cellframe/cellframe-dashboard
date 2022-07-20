@@ -88,6 +88,10 @@ void AutocompleteValues::_getChains()
         {
             chainList.append(list[i]);
             chains.append(list[i]);
+            if (chainNets.keys().contains(list[i]))
+                chainNets[list[i]].append(netKey);
+            else
+                chainNets.insert(list[i], {netKey});
         }
         else
         {
@@ -98,6 +102,10 @@ void AutocompleteValues::_getChains()
     }
     netChains.insert(netKey, chainList);
     chains.removeDuplicates();
+    for (int i = 0; i < chainNets.keys().length(); ++i)
+    {
+        chainNets[chainNets.keys()[i]].removeDuplicates();
+    }
 }
 
 AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController, QObject *parent)
@@ -173,4 +181,9 @@ QStringList AutocompleteValues::getAllChains()
 QStringList AutocompleteValues::getChainsByNetwork(const QString &netName)
 {
     return netChains[netName];
+}
+
+QStringList AutocompleteValues::getNetworkByChain(const QString &chainName)
+{
+    return chainNets[chainName];
 }

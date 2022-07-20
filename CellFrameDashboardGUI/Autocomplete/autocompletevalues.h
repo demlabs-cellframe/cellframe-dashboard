@@ -17,6 +17,7 @@ class AutocompleteValues : public QObject
     QStringList tokens;
     QStringList chains;
     QMap<QString, QStringList> netChains;
+    QMap<QString, QStringList> chainNets;
 
     void _getCerts();
     void _getNetworks();
@@ -31,6 +32,7 @@ public:
     QStringList getTokens();
     QStringList getAllChains();
     QStringList getChainsByNetwork(const QString &netName);
+    QStringList getNetworkByChain(const QString &chainName);
 
 signals:
 

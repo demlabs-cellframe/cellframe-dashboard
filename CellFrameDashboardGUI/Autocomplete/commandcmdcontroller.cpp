@@ -329,6 +329,14 @@ QVariantList CommandCmdController::getTreeWords(QString value)
             }
     }
 
+    if (!value.endsWith(tree->data))
+    {
+        int k = value.length() - 1;
+        while (value[k] != " ")
+                --k;
+        value = value.left(k);
+    }
+
     for (int i = 0; i < tree->children.length(); ++i)
     {
         QString str = tree->children[i]->data;
@@ -345,6 +353,7 @@ QVariantList CommandCmdController::getTreeWords(QString value)
             res.append(map);
         }
     }
+
 
     QStringList chainsList = values->getAllChains();
     bool isEqual = false;
@@ -384,6 +393,42 @@ QVariantList CommandCmdController::getTreeWords(QString value)
     }
 
 
+    QStringList netsList = values->getNetworks();
+    bool isNetEqual = false;
+
+    if (checkChainList.length() == netsList.length() && checkChainList.length() != 0 && value.contains("-chain"))
+    {
+        isNetEqual = true;
+        for (int k = 0; k < checkChainList.length(); ++k)
+            if (!checkChainList.contains(netsList[k]))
+                isNetEqual = false;
+    }
+
+    if (isNetEqual)
+    {
+        int idx = value.indexOf("-chain") + 7;
+        while (value[idx] == " ")
+            ++idx;
+
+        QString chainName = "";
+        while (value[idx] != " ")
+        {
+            chainName.push_back(value[idx]);
+            ++idx;
+        }
+
+        QStringList chainNets = values->getNetworkByChain(chainName);
+        QVariantList netsRes;
+
+        for (int k = 0; k < res.length(); ++k)
+        {
+            if (chainNets.contains(res[k].toMap()["word"].toString()))
+                netsRes.append(res[k]);
+        }
+
+        return netsRes;
+
+    }
 
     return res;
 }
