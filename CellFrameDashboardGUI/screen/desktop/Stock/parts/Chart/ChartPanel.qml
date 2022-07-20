@@ -61,7 +61,7 @@ Item
                     id: max24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: dataWorker.maximum24h.toFixed(6)
+                    text: stockDataWorker.maximum24h.toFixed(6)
                 }
             }
 
@@ -83,7 +83,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: dataWorker.minimum24h.toFixed(6)
+                    text: stockDataWorker.minimum24h.toFixed(6)
                 }
             }
 
@@ -186,7 +186,7 @@ Item
                 id: tokenPriceText
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColorGreen
-                text: dataWorker.currentTokenPrice.
+                text: stockDataWorker.currentTokenPrice.
                     toFixed(roundPower)
             }
         }
@@ -302,17 +302,17 @@ Item
         {
             interval = 500 + Math.round(Math.random()*3000)
 
-            dataWorker.generateNewPrice()
+            stockDataWorker.generateNewPrice()
 
-            dataWorker.getMinimumMaximum24h()
+            stockDataWorker.getMinimumMaximum24h()
 
             updateTokenPrice()
 
-            dataWorker.updateAllModels()
+            stockDataWorker.updateAllModels()
 
-//            dataWorker.getCandleModel()
+//            stockDataWorker.getCandleModel()
 
-//            dataWorker.getAveragedModel()
+//            stockDataWorker.getAveragedModel()
 
             candleLogic.dataAnalysis()
 
@@ -325,12 +325,12 @@ Item
     function updateTokenPrice()
     {
         logicStock.tokenPriceRounded =
-                dataWorker.currentTokenPrice.toFixed(roundPower)
+                stockDataWorker.currentTokenPrice.toFixed(roundPower)
 
-        logicStock.tokenPrice = dataWorker.currentTokenPrice
-        logicStock.tokenPrevPrice = dataWorker.previousTokenPrice
+        logicStock.tokenPrice = stockDataWorker.currentTokenPrice
+        logicStock.tokenPrevPrice = stockDataWorker.previousTokenPrice
 
-        if (dataWorker.currentTokenPrice < dataWorker.previousTokenPrice)
+        if (stockDataWorker.currentTokenPrice < stockDataWorker.previousTokenPrice)
             tokenPriceText.color = currTheme.textColorRed
         else
             tokenPriceText.color = currTheme.textColorGreen
