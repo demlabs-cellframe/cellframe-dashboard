@@ -418,6 +418,12 @@ Rectangle {
         var rate = 1
         dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
 
+        //-------//TokenPair
+        dapServiceController.requestToService("DapGetXchangeTokenPair", "mileena")
+        print("DapGetXchangeTokenPriceAverage")
+        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "mileena", "NCELL", "MILT")
+        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "mileena", "NCELL", "MILT")
+
 
 
         pluginsManager.getListPlugins();
@@ -487,8 +493,29 @@ Rectangle {
 
         onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
 
-        onRcvXchangeTxList: console.log(rcvData)
+        onRcvXchangeTxList:
+        {
+            print("onRcvXchangeTxList")
+            console.log(rcvData)
+        }
+
         onRcvXchangeCreate: console.log(rcvData)
+
+        onRcvXchangeTokenPair:
+        {
+            print("onRcvXchangeTokenPair", rcvData)
+        }
+
+        onRcvXchangeTokenPriceAverage:
+        {
+            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
+//            console.log(rcvData)
+        }
+
+        onRcvXchangeTokenPriceHistory:
+        {
+            print("onRcvXchangeTokenPriceHistory", rcvData.result)
+        }
 
     }
 
