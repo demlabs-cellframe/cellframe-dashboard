@@ -7,6 +7,7 @@ import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../parts"
 import "../models"
+import "../../controls"
 
 
 Controls.Page {
@@ -50,7 +51,7 @@ Controls.Page {
                     break;
                 case "a1_expiration_date":
                 {
-                    if (data == "..")
+                    if (data === "..")
                     {
                         models.createCertificateOptional.setProperty(i, "data", "")
                         data = ""
@@ -62,7 +63,7 @@ Controls.Page {
                     var nextDay = new Date(day)
                     nextDay.setDate(day.getDate() + 1)
 
-                    if (data !== "" && (!utils.validDate(optionalField.data) || dataDate < nextDay)) {
+                    if (data !== "" && (!utils.validDate(optionalField.data) || dataDate < nextDay || data.length !== 10)) {
                         //messagePopup.smartOpen(qsTr("%1 not correct").arg(optionalField.placeHolderText)
                           //                     , "Please fill field correctly.")
                         dapRightPanel.push("qrc:/screen/desktop/Certificates/RightPanels/CreateFinishedItem.qml",
@@ -96,26 +97,25 @@ Controls.Page {
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
-            DapButton
-            {
+            height: 42 * pt
+            HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 9 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 24 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 21 * pt
                 anchors.rightMargin: 13 * pt
 
                 id: itemButtonClose
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20 * pt
+                widthImage: 20 * pt
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: certificateNavigator.clearRightPanel()
             }
 
@@ -162,43 +162,20 @@ Controls.Page {
 
             DapComboBox {
                 id: signatureTypeCertificateComboBox
-
+                width: 316 * pt
+                height: 42 * pt
                 anchors.verticalCenter: undefined
                 x: (parent.width - width) / 2
                 y: 15 * pt
-                widthPopupComboBoxNormal: 316 * pt
-                widthPopupComboBoxActive: 316 * pt
-                heightComboBoxNormal: 42 * pt
-                heightComboBoxActive: 42 * pt
+
                 model: models.signatureType
 
                 onCurrentIndexChanged: {
                         checkRequiredField()
                     }
 
-                comboBoxTextRole: ["name"]
-                mainLineText: qsTr("Signature type")
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 19 * pt
-                sidePaddingActive: 19 * pt
-                paddingTopItemDelegate: 11 * pt
-                currentIndex: -1
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                indicatorLeftInterval: 20 * pt
-                roleInterval: 15
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-
-                topEffect: false
-                colorTopNormalDropShadow: "#00000000"
-                colorDropShadow: currTheme.shadowColor
-
-                fontComboBox: [mainFont.dapFont.regular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                defaultText: qsTr("Signature type")
+                font: mainFont.dapFont.regular16
             }
 
             InputField {

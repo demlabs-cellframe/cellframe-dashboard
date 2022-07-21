@@ -16,11 +16,15 @@ DapPage
     readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
     readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
+    ///@detalis Path to the right panel of requests.
+    readonly property string requestsPanel: path + "/Settings/RightPanel/DapRequestsRightPanel.qml"
 
     id: settingsTab
     property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
     property bool sendRequest: false
+
+    Timer{id:timer}
 
     property var walletInfo:
     {
@@ -54,6 +58,11 @@ DapPage
             dapRightPanel.push(recoveryWallet)
         }
 
+        function openRequests() {
+            dapRightPanelFrame.frame.visible = true
+            dapRightPanel.push(requestsPanel)
+        }
+
         function popPage() {
             dapRightPanel.clear()
             dapRightPanel.push(dapExtensionsBlock)
@@ -61,7 +70,7 @@ DapPage
         }
     }
 
-    dapHeader.initialItem: DapSettingsTopPanel { }
+    dapHeader.initialItem: DapSettingsTopPanel { id:topPanel }
 
     dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
@@ -100,6 +109,17 @@ DapPage
     dapRightPanel.initialItem: DapExtensionsBlock{id:dapExtensionsBlock}
     dapRightPanelFrame.visible: true
     dapRightPanelFrame.frame.visible: false
+
+    onSendRequestChanged: if(sendRequest) timeout.start()
+
+    Timer{
+        id: timeout
+        interval: 10000; running: false; repeat: false;
+        onTriggered: {
+            messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
+            sendRequest = false
+        }
+    }
 
     Timer {
         id: updateSettingsTimer
@@ -149,12 +169,20 @@ DapPage
         {
             if(sendRequest)
             {
+//                sendRequest = false
+                timeout.stop()
                 if(!versionResult.hasUpdate && versionResult.message === "Reply version")
-                {
                     logicMainApp.rcvReplyVersion()
-                    sendRequest = false
-                }
+                else if(versionResult.message !== "")
+                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + dapServiceController.Version +"\n"+
+                                                                           "Last version - " + versionResult.lastVersion +"\n" +
+                                                                           "Go to website to download?"))
             }
         }
+    }
+    Connections
+    {
+        target: messagePopupVersion
+        onClick: sendRequest = false
     }
 }

@@ -22,7 +22,7 @@ ColumnLayout
     Item
     {
         Layout.fillWidth: true
-        height: 38 * pt
+        height: 42 * pt
 
         Text
         {
@@ -71,39 +71,9 @@ ColumnLayout
             anchors.bottomMargin: 0
             anchors.leftMargin: 15 * pt
 
-            comboBoxTextRole: ["name"]
-            mainLineText: {
-                if(dapNetworkModel.count)
-                    return dapNetworkModel.get(logicMainApp.currentNetwork).name
-                else
-                    return "Networks"
-            }
+            font: mainFont.dapFont.regular16
 
-            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-            sidePaddingNormal: 10 * pt
-            sidePaddingActive: 10 * pt
-
-            widthPopupComboBoxNormal: 318 * pt
-            widthPopupComboBoxActive: 318 * pt
-            heightComboBoxNormal: 24 * pt
-            heightComboBoxActive: 42 * pt
-            topEffect: false
-
-            normalColor: currTheme.backgroundMainScreen
-            normalTopColor: currTheme.backgroundElements
-            hilightTopColor: currTheme.backgroundMainScreen
-
-            paddingTopItemDelegate: 8 * pt
-            heightListElement: 42 * pt
-            indicatorWidth: 24 * pt
-            indicatorHeight: indicatorWidth
-            roleInterval: 15
-            endRowPadding: 37
-
-            fontComboBox: [mainFont.dapFont.regular14]
-            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+            defaultText: qsTr("Networks")
 
 //            currentIndex: logicMainApp.currentNetwork
 
@@ -114,7 +84,6 @@ ColumnLayout
                 logicMainApp.currentNetwork = currentIndex
             }
         }
-
     }
 
     Item

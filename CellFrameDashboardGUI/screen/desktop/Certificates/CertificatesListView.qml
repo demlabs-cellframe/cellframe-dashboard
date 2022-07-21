@@ -28,7 +28,7 @@ ListView {
 
     header: Rectangle {
         width: parent.width
-        height: certificatesTitle.height + tableTitle.height + spacing - 6 * pt
+        height: certificatesTitle.height + tableTitle.height + spacing - 6
         z:10
         color: currTheme.backgroundElements
         radius: currTheme.radiusRectangle
@@ -36,7 +36,7 @@ ListView {
         Rectangle {
             id: certificatesTitle
             width: parent.width
-            height: 40 * pt
+            height: 42 * pt
             color: currTheme.backgroundElements
             anchors.left: parent.left
             anchors.leftMargin: 10 * pt
@@ -154,6 +154,8 @@ ListView {
                     root.selectedIndex(model.index)
                     models.selectedAccessKeyType = model.accessKeyType
                     root.infoTitleTextVisibleClick = true
+                    if (openedRightPanelPage == "Info" && model.index !== infoIndex)
+                        certificateNavigator.clearRightPanel()
                 }
 
                 onDoubleClicked: {
@@ -183,10 +185,11 @@ ListView {
                 Image{
                     anchors.right: infoButton.right
                     anchors.rightMargin: 14 * pt
+                    y: 3 * pt
                     width: 30 * pt
                     height: 30 * pt
                     mipmap: true
-                    source: "qrc:/resources/icons/Certificates/ic_info.png"
+                    source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
                 }
 
                 MouseArea

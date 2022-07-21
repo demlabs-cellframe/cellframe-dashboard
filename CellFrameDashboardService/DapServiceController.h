@@ -52,6 +52,18 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapVersionController.h"
 #include "handlers/DapRcvNotify.h"
 #include "handlers/DapNodeConfigController.h"
+#include "handlers/DapGetListTokensCommand.h"
+#include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapTokenEmissionCommand.h"
+#include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
+#include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapGetXchangeOrdersList.h"
+#include "handlers/DapGetXchangeTokenPair.h"
+#include "handlers/DapGetXchangeTokenPriceAverage.h"
+#include "handlers/DapGetXchangeTokenPriceHistory.h"
+
+#include "DapWeb3Api/DapWebControll.h"
 
 #include "DapNotificationWatcher.h"
 #include "DapNetSyncController.h"
@@ -73,6 +85,7 @@ class DapServiceController : public QObject
 
     DapNotificationWatcher *watcher;
     DapNetSyncController *m_syncControll;
+    DapWebControll *m_web3Controll;
 
 public:
     /// Standard constructor.
@@ -92,11 +105,14 @@ public:
 signals:
     /// The signal is emitted in case of successful connection of a new client.
     void onNewClientConnected();
+    void onClientDisconnected();
     
 private slots:
     /// Register command.
     void registerCommand();
     void sendNotifyDataToGui(QVariant);
+    void rcvReplyFromClient(QVariant);
+    void sendConnectRequest(QString site, int index);
 };
 
 #endif // DAPSERVICECONTROLLER_H

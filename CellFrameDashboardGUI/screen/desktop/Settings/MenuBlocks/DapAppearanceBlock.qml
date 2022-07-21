@@ -13,7 +13,7 @@ ColumnLayout
     Item
     {
         Layout.fillWidth: true
-        height: 38 * pt
+        height: 42 * pt
 
         Text
         {

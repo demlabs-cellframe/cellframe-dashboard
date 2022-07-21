@@ -16,8 +16,8 @@ Rectangle {
 
     ///@detalis Path to the dashboard tab.
     readonly property string dashboardScreenPath: path + "/Dashboard/DapDashboardTab.qml"
-    ///@detalis Path to the exchange tab.
-    readonly property string exchangeScreenPath: path + "/Exchange/DapExchangeTab.qml"
+    ///@detalis Path to the stock tab.
+    readonly property string stockScreenPath: path + "/Stock/DapStockTab.qml"
     ///@detalis Path to the history tab.
     readonly property string historyScreenPath: path + "/History/DapHistoryTab.qml"
     ///@detalis Path to the VPN service tab.
@@ -47,17 +47,32 @@ Rectangle {
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
 
+    ListModel {id: networksModel}
+
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
+//    DapMessagePopup{
+//        property int index
+//        id: messageWebConnect
+//        onSignalAccept: webControl.rcvAccept(accept, index)
+//    }
     DapMessagePopup
     {
         id: messagePopupVersion
+
+        signal click()
         onSignalAccept:
         {
             if(dapButtonOk.textButton === "Update" && accept)
                 logicMainApp.updateDashboard()
+            click()
         }
     }
+
+    DapWebMessagePopup{
+        id: webPopup
+    }
+
     signal openCopyPopup()
     onOpenCopyPopup: {
         component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
@@ -69,9 +84,16 @@ Rectangle {
     signal pluginsTabChanged(var auto, var removed, var name)
     onPluginsTabChanged: logicMainApp.updateAppsTabStatus(auto, removed, name)
 
+    signal changeHeight()
+    onHeightChanged: changeHeight()
+
     signal modelWalletsUpdated()
     signal modelOrdersUpdated()
     signal modelPluginsUpdated()
+    signal modelTokensUpdated()
+    signal modelXchangeOrdersUpdated()
+    signal checkWebRequest()
+    signal openRequests()
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -82,6 +104,13 @@ Rectangle {
     ListModel{id: dapModelWallets}
     ListModel{id: dapModelOrders}
     ListModel{id: dapModelPlugins}
+    ListModel{id: dapModelTokens}
+    ListModel{id: dapMessageBuffer}
+    ListModel{id: dapMessageLogBuffer}
+    ListModel{id: pairsModel}
+    ListModel{id: dapModelXchangeOrders}
+
+    ListModel{id: fakeWallet}
 
     ListModel{
         id:themes
@@ -127,12 +156,11 @@ Rectangle {
             bttnIco: "icon_wallet.png",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
-        append ({ tag: "Exchange",
-            name: qsTr("Exchange"),
+        append ({ tag: "Stock",
+            name: qsTr("Stock"),
             bttnIco: "icon_exchange.png",
             showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
-//            page: "qrc:/screen/desktop/Exchange/DapExchangeTab.qml"})
+            page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "TX explorer",
             name: qsTr("TX explorer"),
             bttnIco: "icon_history.png",
@@ -147,7 +175,7 @@ Rectangle {
             name: qsTr("Tokens"),
             bttnIco: "icon_tokens.png",
             showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+            page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
         append ({ tag: "VPN client",
             name: qsTr("VPN client"),
             bttnIco: "vpn-client_icon.png",
@@ -250,10 +278,9 @@ Rectangle {
                     width: parent.width * pt
                     height: 60 * pt
 
-                    DapImageLoader{
-                        innerWidth: 114 * pt
-                        innerHeight: 24 * pt
-                        source: "qrc:/resources/icons/" + pathTheme + "/cellframe-logo-dashboard.png"
+                    Image{
+                        source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
+                        mipmap: true
 
                         anchors.left: parent.left
                         anchors.leftMargin: 23*pt
@@ -297,7 +324,10 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
-                        onPushPage:mainScreenStack.setInitialItem(pageUrl)
+                        onPushPage: {
+                            if(pageUrl !== mainScreenStack.currPage)
+                                mainScreenStack.setInitialItem(pageUrl)
+                        }
                     }
                 }
             }
@@ -364,10 +394,49 @@ Rectangle {
     {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
+
+        var timeTo = 10
+        var timeFrom = 20
+        var addr = "abcd"
+        var net = "private"
+
+//        //-------//OrdersHistory
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
+
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
+
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
+
+//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
+//        //-------//CreateOrder
+//        var tokenSell = "sell"
+//        var tokenBuy = "buy"
+//        var wallet = "tokenWallet"
+//        var coins = 100000
+//        var rate = 1
+//        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
+        //------//GetOrdersList
+//        dapServiceController.requestToService("DapGetXchangeOrdersList")
+
+        //-------//TokenPair
+//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
+
+
+
         pluginsManager.getListPlugins();
+        logicMainApp.initFakeWallet()
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
+
+//        for(var i = 0; i < 50; i++)
+//            dapServiceController.requestToService("DapWebConnectRequest", "1")
 
 
 
@@ -383,7 +452,7 @@ Rectangle {
         onVersionControllerResult:
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url)
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")
@@ -418,6 +487,44 @@ Rectangle {
             logicMainApp.rcvOrders(orderList)
             modelOrdersUpdated();
         }
+
+        onSignalTokensListReceived:
+        {
+            print("TokensListReceived")
+            logicMainApp.rcvTokens(tokensResult)
+        }
+
+        onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
+
+        onRcvXchangeTxList:
+        {
+            print("onRcvXchangeTxList")
+            console.log(rcvData)
+        }
+
+        onSignalXchangeOrderListReceived:
+        {
+            print("RcvXchangeOrderList")
+            logicMainApp.rcvOpenOrders(rcvData)
+        }
+
+        onRcvXchangeTokenPair:
+        {
+//            print("onRcvXchangeTokenPair", rcvData)
+        }
+
+        onRcvXchangeTokenPriceAverage:
+        {
+//            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
+//            console.log(rcvData)
+        }
+
+        onRcvXchangeTokenPriceHistory:
+        {
+//            print("onRcvXchangeTokenPriceHistory", rcvData.result)
+
+        }
+
     }
 
     Connections{

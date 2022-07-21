@@ -13,7 +13,6 @@ Item {
     property int visible_count: 4
     readonly property int item_width: 295 * pt
 
-    ListModel {id: networksModel}
     LogicNetworks{id: logicNet}
     Timer{id: timer}
 

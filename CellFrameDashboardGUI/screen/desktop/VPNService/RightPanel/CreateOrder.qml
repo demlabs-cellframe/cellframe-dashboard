@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.4
 
 import "qrc:/widgets"
 import "../Parts"
+import "../../controls"
 
 Page {
 
@@ -35,30 +36,27 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 38 * pt
+            height: 42 * pt
 
-            DapButton
-            {
+            HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 9 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 24 * pt
+                anchors.topMargin: 10 * pt
+                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 21 * pt
                 anchors.rightMargin: 13 * pt
 
                 id: itemButtonClose
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
-                onClicked: {
-                    pop()
-                }
+                heightImage: 20 * pt
+                widthImage: 20 * pt
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+                onClicked: pop()
             }
 
             Text
@@ -167,37 +165,11 @@ Page {
                 anchors.margins: 10 * pt
                 anchors.leftMargin: 15 * pt
 
-                comboBoxTextRole: ["region"]
-                mainLineText: "all signature"
+                font: mainFont.dapFont.regular16
 
-                indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                sidePaddingNormal: 10 * pt
-                sidePaddingActive: 10 * pt
-    //                    hilightColor: currTheme.buttonColorNormal
+                defaultText: qsTr("all signature")
 
-                widthPopupComboBoxNormal: 318 * pt
-                widthPopupComboBoxActive: 318 * pt
-                heightComboBoxNormal: 24 * pt
-                heightComboBoxActive: 42 * pt
-                topEffect: false
-
-                normalColor: currTheme.backgroundMainScreen
-                normalTopColor: currTheme.backgroundElements
-                hilightTopColor: currTheme.backgroundMainScreen
-
-                paddingTopItemDelegate: 8 * pt
-                heightListElement: 42 * pt
-                indicatorWidth: 24 * pt
-                indicatorHeight: indicatorWidth
-                colorDropShadow: currTheme.shadowColor
-                roleInterval: 15
-                endRowPadding: 37
-
-                fontComboBox: [mainFont.dapFont.regular16]
-                colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-    //                    colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-    //                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
+                mainTextRole: "region"
 
                 onCurrentIndexChanged:
                 {
@@ -251,32 +223,12 @@ Page {
                         ListElement { unit: qsTr("seconds") }
                     }
 
-                    comboBoxTextRole: ["unit"]
-                    anchors.centerIn: parent
-                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                    sidePaddingNormal: 19 * pt
-                    sidePaddingActive: 19 * pt
-                    widthPopupComboBoxNormal: 119 * pt
-                    widthPopupComboBoxActive: 119 * pt
-                    heightComboBoxNormal: 24 * pt
-                    heightComboBoxActive: 42 * pt
-                    topEffect: false
                     x: sidePaddingNormal
-                    normalColor: currTheme.backgroundMainScreen
-                    normalTopColor: currTheme.backgroundElements
-                    hilightTopColor: currTheme.backgroundMainScreen
-    //                        hilightColor: currTheme.buttonColorNormal
 
-                    paddingTopItemDelegate: 8 * pt
-                    heightListElement: 42 * pt
-                    indicatorWidth: 24 * pt
-                    indicatorHeight: indicatorWidth
-                    colorDropShadow: currTheme.shadowColor
-                    roleInterval: 15
-                    endRowPadding: 37
-                    fontComboBox: [mainFont.dapFont.regular16]
-                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                    font: mainFont.dapFont.regular16
+
+                    mainTextRole: "unit"
+
                     onCurrentIndexChanged:
                     {
                         dapUnitOrder = comboBoxUnit.currentIndex.toString()
@@ -342,32 +294,12 @@ Page {
                         ListElement { token: "ETH"; decimals: 4 }
                     }
 
-                    comboBoxTextRole: ["token"]
-                    anchors.centerIn: parent
-                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                    sidePaddingNormal: 19 * pt
-                    sidePaddingActive: 19 * pt
-                    widthPopupComboBoxNormal: 119 * pt
-                    widthPopupComboBoxActive: 119 * pt
-                    heightComboBoxNormal: 24 * pt
-                    heightComboBoxActive: 42 * pt
-                    topEffect: false
                     x: sidePaddingNormal
-                    normalColor: currTheme.backgroundMainScreen
-                    normalTopColor: currTheme.backgroundElements
-                    hilightTopColor: currTheme.backgroundMainScreen
-    //                        hilightColor: currTheme.buttonColorNormal
+                    anchors.centerIn: parent
 
-                    paddingTopItemDelegate: 8 * pt
-                    heightListElement: 42 * pt
-                    indicatorWidth: 24 * pt
-                    indicatorHeight: indicatorWidth
-                    colorDropShadow: currTheme.shadowColor
-                    roleInterval: 15
-                    endRowPadding: 37
-                    fontComboBox: [mainFont.dapFont.regular16]
-                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
+                    font: mainFont.dapFont.regular16
+
+                    mainTextRole: "token"
 
                     onCurrentIndexChanged:
                     {

@@ -8,26 +8,30 @@ import QtQuick.Controls.Styles 1.4
 
 DapTopPanel {
     id: root
+    property bool isVisibleSearch: true
 
     signal findHandler(string text)
 
     // Frame icon search
     Image
     {
+        visible: isVisibleSearch
         id: frameIconSearch
         anchors.left: parent.left
         anchors.leftMargin: 38 * pt
         y: 21 * pt
-        height: 19 * pt
-        width: 19 * pt
-        fillMode: Image.PreserveAspectFit
+        height: 20 * pt
+        width: 20 * pt
+//        fillMode: Image.PreserveAspectFit
         verticalAlignment: Image.AlignVCenter
         horizontalAlignment: Image.AlignHCenter
+        mipmap: true
 
-        source: "qrc:/resources/icons/ic_search.png"
+        source: "qrc:/Resources/"+ pathTheme +"/icons/other/search.svg"
     }
 
     SearchInputBox {
+        visible: isVisibleSearch
         id: searchBox
         //x: 38 * pt
 //        x: 0
@@ -60,6 +64,7 @@ DapTopPanel {
 
 
     Rectangle {
+        visible: isVisibleSearch
         width: searchBox.width
         height: 1 * pt
         anchors.top: searchBox.bottom
@@ -71,6 +76,7 @@ DapTopPanel {
 
     //right Rectangle
     Rectangle {
+        visible: isVisibleSearch
 //        color: parent.color
         height: parent.height
         width: parent.radius

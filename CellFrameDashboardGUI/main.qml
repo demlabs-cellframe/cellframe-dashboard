@@ -6,7 +6,7 @@ import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
 import windowframerect 1.0
 
-import "resources/theme"
+import "Resources/theme"
 import "qrc:/resources/QML"
 import "screen/mobile"
 import "screen"

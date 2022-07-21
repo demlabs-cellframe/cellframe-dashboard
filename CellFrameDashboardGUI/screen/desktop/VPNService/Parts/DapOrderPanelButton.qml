@@ -3,7 +3,6 @@ import "../../Certificates/parts/"
 
 Item {
     property alias text:orderText.text
-//    property alias activeButton:activeBtn
 
     property bool activeBtn: false
     property alias info_text: infoText
@@ -44,6 +43,7 @@ Item {
             if(activeBtn){
                 orderText.color = currTheme.hilightColorComboBox
                 infoText.color = currTheme.hilightColorComboBox
+                img.source = "qrc:/Resources/"+ pathTheme +"/icons/other/back_hover.svg"
             }
         }
 
@@ -53,6 +53,7 @@ Item {
             {
                 orderText.color = currTheme.textColor
                 infoText.color = currTheme.textColor
+                img.source = "qrc:/Resources/"+ pathTheme +"/icons/other/back.svg"
             }
         }
     }
@@ -69,7 +70,8 @@ Item {
         verticalAlignment: Text.AlignVCenter
     }
 
-    ToolButton {
+    Item{
+//        property bool activeBtn: true
         id: infoButton
         anchors {
             left: orderText.right
@@ -78,17 +80,17 @@ Item {
         height: parent.height
         visible: activeBtn? true : false
 
-        image.anchors {
-            right: infoButton.right
-            rightMargin: 14 * pt
-        }
-        image.source: "qrc:/resources/icons/arrow-right_icon.svg"
-        image.width: 30 * pt
-        image.height: 30 * pt
-
-        onClicked: {
-            if(activeBtn)
-                console.log(orderText.text + " clicked")
+        Image{
+            id: img
+            anchors {
+                right: infoButton.right
+                rightMargin: 14 * pt
+                verticalCenter: parent.verticalCenter
+            }
+            source: "qrc:/Resources/"+ pathTheme +"/icons/other/back.svg"
+            width: 20 * pt
+            height: 20 * pt
+            mirror: true
         }
     }
 

@@ -24,6 +24,9 @@ QtObject {
     property bool hasUpdate
     property string urlDownload
 
+    property int requestsMessageCounter: 0
+    property bool isOpenRequests: false
+
 
     ///Functions
 
@@ -175,11 +178,15 @@ QtObject {
 
     function rcvNetList(networksList)
     {
-//        console.log(networksList.length, "AAAAAAAAAAAAAAAAAAAAAAAAa")
         if (!networksList.length)
             console.error("networksList is empty")
         else
         {
+            if (networksModel.count !== networksList.length)
+            {
+                dapServiceController.requestToService("DapGetNetworksStateCommand")
+            }
+
             if(dapNetworkModel.count !== networksList.length)
             {
                 if(currentNetwork === -1)
@@ -197,8 +204,6 @@ QtObject {
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
-
-                dapServiceController.requestToService("DapGetNetworksStateCommand")
             }
             console.info("Current network: "+dapServiceController.CurrentNetwork)
         }
@@ -323,13 +328,16 @@ QtObject {
 
     function rcvOrders(orderList)
     {
-        dapModelOrders.clear()
-        for (var i = 0; i < orderList.length; ++i)
-            dapModelOrders.append({ "index" : orderList[i].Index,
-                                  "location" : orderList[i].Location,
-                                  "network" : orderList[i].Network,
-                                  "node_addr" : orderList[i].AddrNode,
-                                  "price" : orderList[i].TotalPrice})
+        if(orderList.length !== dapModelOrders.count)
+        {
+            dapModelOrders.clear()
+            for (var i = 0; i < orderList.length; ++i)
+                dapModelOrders.append({ "index" : orderList[i].Index,
+                                      "location" : orderList[i].Location,
+                                      "network" : orderList[i].Network,
+                                      "node_addr" : orderList[i].AddrNode,
+                                      "price" : orderList[i].TotalPrice})
+        }
 
     }
 
@@ -342,6 +350,28 @@ QtObject {
                                     "status" : m_pluginsList[q][2],
                                     "verifed" : m_pluginsList[q][3]})
 
+    }
+
+    function rcvTokens(tokensList)
+    {
+        if(tokensList !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(tokensList)
+            dapModelTokens.clear()
+            dapModelTokens.append(jsonDocument)
+            modelTokensUpdated()
+        }
+    }
+
+    function rcvOpenOrders(rcvData)
+    {
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(rcvData)
+            dapModelXchangeOrders.clear()
+            dapModelXchangeOrders.append(jsonDocument)
+            modelXchangeOrdersUpdated()
+        }
     }
 
     function rcvStateNotify(isError, isFirst)
@@ -398,6 +428,42 @@ QtObject {
         dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array);
     }
 
+    function rcvWebConnectRequest(rcvData)
+    {
+        var isEqual = false
+        //filtering equeal sites requests
+        for(var i = 0; i < dapMessageBuffer.count; i++)
+        {
+            if(dapMessageBuffer.get(i).site === rcvData[0]){
+                isEqual = true
+                break;
+            }
+        }
+
+        if(!isEqual)
+        {
+            requestsMessageCounter++
+            dapMessageBuffer.append({indexRequest: rcvData[1],
+                                     site: rcvData[0],
+                                     date: getDate("yyyy-MM-dd, hh:mm ap")})
+
+            if(!isOpenRequests)
+            {
+                var isSingle
+                if(requestsMessageCounter > 1)
+                {
+                    isSingle = false
+                    webPopup.setDisplayText(isSingle, requestsMessageCounter, -1)
+                }else{
+                    isSingle = true
+                    webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                }
+                if(!webPopup.isOpen)
+                    webPopup.open()
+            }
+        }
+    }
+
     function rcvNewVersion(currVer, lastVer, isHasUpdate, url)
     {
         lastVersion = lastVer
@@ -442,5 +508,31 @@ QtObject {
         timer.repeat = false;
         timer.triggered.connect(cb);
         timer.start();
+    }
+
+    function getDate(format){
+        var date = new Date()
+        return date.toLocaleString(Qt.locale("en_EN"),format)
+    }
+
+    //////////////////////
+    function initFakeWallet()
+    {
+        fakeWallet.clear()
+        fakeWallet.append({"name": "testWallet",
+                           "tokens": []
+                          })
+        fakeWallet.get(0).tokens.append(
+                    {"name": "CELL",
+                     "full_balance": "1000.000000000000000000",
+                     "balance_without_zeros": "1000",
+                     "datoshi": "1000000000000000000000",
+                     "network": "Backbone"})
+        fakeWallet.get(0).tokens.append(
+                    {"name": "USDT",
+                     "full_balance": "521.000000000000000000",
+                     "balance_without_zeros": "521",
+                     "datoshi": "521000000000000000000",
+                     "network": "Backbone"})
     }
 }

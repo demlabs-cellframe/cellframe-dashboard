@@ -55,7 +55,7 @@ Page
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        height: 38 * pt
+                        height: 42 * pt
                         Text
                         {
                             anchors.fill: parent
@@ -291,7 +291,8 @@ Page
                                                     width: 20 * pt
                                                     height: 20 * pt
                                                     mipmap: true
-                                                    source: verifed === "0" ? "qrc:/resources/icons/" + pathTheme + "/no_icon.png" : "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
+                                                    source: verifed === "0" ? "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png" :
+                                                                              "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png"
                                                 }
                                             }
                                         }

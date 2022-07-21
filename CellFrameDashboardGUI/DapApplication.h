@@ -9,6 +9,7 @@
 #include "DapVpnOrdersModel.h"
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
+#include "Autocomplete/commandcmdcontroller.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -19,6 +20,7 @@ class DapApplication : public QApplication
     Q_OBJECT
 
 //    Q_PROPERTY(DapWallet* currentWallet READ currentWallet WRITE setCurrentWallet NOTIFY currentWalletChanged)
+
 public:
     DapApplication(int &argc, char **argv);
 
@@ -32,6 +34,7 @@ public:
 //    Q_INVOKABLE DapWallet *currentWallet() const;
     Q_INVOKABLE void startService();
     DapVpnOrdersModel* getVpnOrdersModel();
+    CommandCmdController *commandCmdController;
 
 signals:
 //    void currentWalletChanged(DapWallet* a_currentWallet);
