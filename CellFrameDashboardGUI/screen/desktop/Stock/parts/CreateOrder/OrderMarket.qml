@@ -247,8 +247,6 @@ ColumnLayout {
                 "CELL/"+logicStock.nameTokenPair,
                 currentOrder, sellBuySwitch.checked? "Sell": "Buy",
                 logicStock.tokenPrice, amount.realValue,"Not", "-")
-
-            createOrder()
         }
     }
 

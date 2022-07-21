@@ -14,6 +14,8 @@ QtObject
     property real balanceReal
     property real cellBalanceReal
 
+    property var resultCreate
+
 //    property real sellMaxTotal: 1
 //    property real buyMaxTotal: 1
 

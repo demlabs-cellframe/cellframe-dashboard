@@ -420,13 +420,13 @@ Rectangle {
 //        var rate = 1
 //        dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, wallet, coins, rate)
         //------//GetOrdersList
-        dapServiceController.requestToService("DapGetXchangeOrdersList")
+//        dapServiceController.requestToService("DapGetXchangeOrdersList")
 
-        //-------//TokenPair
-        dapServiceController.requestToService("DapGetXchangeTokenPair", "mileena")
-        print("DapGetXchangeTokenPriceAverage")
-        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "mileena", "NCELL", "MILT")
-        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "mileena", "NCELL", "MILT")
+//        //-------//TokenPair
+//        dapServiceController.requestToService("DapGetXchangeTokenPair", "mileena")
+//        print("DapGetXchangeTokenPriceAverage")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "mileena", "NCELL", "MILT")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "mileena", "NCELL", "MILT")
 
 
 

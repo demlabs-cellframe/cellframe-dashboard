@@ -354,7 +354,7 @@ QtObject {
 
     function rcvTokens(tokensList)
     {
-        if(rcvData !== "isEqual")
+        if(tokensList !== "isEqual")
         {
             var jsonDocument = JSON.parse(tokensList)
             dapModelTokens.clear()
