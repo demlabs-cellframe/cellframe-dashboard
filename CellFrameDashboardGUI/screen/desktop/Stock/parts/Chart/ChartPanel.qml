@@ -15,6 +15,15 @@ Item
 
     property real volume24h: 923673750.32
 
+    Connections{
+        target: stockTab
+        onTokenPairChanged:
+        {
+            print("onTokenPairChanged")
+            pairBox.logic.setModel(dapPairModel)
+        }
+    }
+
     ColumnLayout
     {
         anchors.fill: parent
@@ -33,16 +42,18 @@ Item
                 height: 32
                 Component.onCompleted:
                 {
-                    logicStock.initPairModel()
-                    logic.setModel(pairModel)
-//                    print("pairModel.count", pairModel.count)
+                    logic.setModel(dapPairModel)
                 }
                 onCurrentIndexChanged: {
                     logicStock.indexPair = currentIndex
-                    logicStock.nameTokenPair = pairModel.get(currentIndex).pair.split("/")[1]
-                    logicStock.tokenPrice = pairModel.get(currentIndex).price
-                    logicStock.tokenChange = pairModel.get(currentIndex).change
+                    logicStock.nameTokenPair1 = dapPairModel.get(currentIndex).token1
+                    logicStock.nameTokenPair2 = dapPairModel.get(currentIndex).token2
+                    logicStock.tokenPrice = dapPairModel.get(currentIndex).rate
+                    logicStock.tokenChange = dapPairModel.get(currentIndex).change
+                    logicStock.tokenNet = dapPairModel.get(currentIndex).network
+                    tokenPairChanged()
                 }
+
             }
 
             ColumnLayout
@@ -104,7 +115,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: volume24h.toFixed(2) + " " + logicStock.nameTokenPair
+                    text: volume24h.toFixed(2) + " " + logicStock.nameTokenPair1
                 }
             }
 
@@ -178,7 +189,7 @@ Item
             {
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColor
-                text: pairBox.displayElement.pair + ":"
+                text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
             }
 
             Text

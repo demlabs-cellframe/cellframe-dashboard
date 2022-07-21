@@ -3,16 +3,20 @@ import QtQml 2.12
 
 QtObject
 {
-    property int indexPair
-    property string nameTokenPair
+    property int indexPair: -1
+    property string nameTokenPair1: ""
+    property string nameTokenPair2: ""
     property real tokenPrice
     property real tokenPrevPrice
     property string tokenPriceRounded
-    property string tokenChange
+    property string tokenNet: ""
+    property string tokenChange: ""
     property string balanceText: balanceReal.toFixed(roundPower)
     property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
     property real balanceReal
     property real cellBalanceReal
+
+    property var resultCreate
 
 //    property real sellMaxTotal: 1
 //    property real buyMaxTotal: 1
@@ -151,25 +155,32 @@ QtObject
                                    })
     }
 
-    function initPairModel()
-    {
-        pairModel.append({ pair: "CELL/USDT",
-                           price: "0.245978",
-                           change: "+5.16 %"
-                         })
-        pairModel.append({ pair: "CELL/BNB",
-                           price: "0.00110722",
-                           change: "-0.04 %"
-                         })
-        pairModel.append({ pair: "CELL/ETH",
-                           price: "0.000210952",
-                           change: "+1.47 %"
-                         })
-        pairModel.append({ pair: "CELL/DAI",
-                           price: "0.245852",
-                           change: "+5.22 %"
-                         })
-    }
+//    function initPairModel()
+//    {
+//        DapPairModel.append({ pair: "CELL/USDT",
+//                           price: "0.245978",
+//                           change: "+5.16 %"
+//                         })
+//        DapPairModel.append({ pair: "CELL/BNB",
+//                           price: "0.00110722",
+//                           change: "-0.04 %"
+//                         })
+//        DapPairModel.append({ pair: "CELL/ETH",
+//                           price: "0.000210952",
+//                           change: "+1.47 %"
+//                         })
+//        DapPairModel.append({ pair: "CELL/DAI",
+//                           price: "0.245852",
+//                           change: "+5.22 %"
+//                         })
+//    }
+
+//    function readPairModel(rcvData)
+//    {
+//        var jsonDocument = JSON.parse(rcvData)
+//        pairModel.clear()
+//        pairModel.append(jsonDocument)
+//    }
 
     function addNewOrder(_date, _pair, _type, _side, _price,
                          _amount, _expiresIn, _trigger)

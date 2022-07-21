@@ -238,18 +238,30 @@ ColumnLayout {
 
         onClicked:
         {
-            var date = new Date()
 
-            logicStock.addNewOrder(
-                date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm"),
-                "CELL/"+logicStock.nameTokenPair,
-                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                price.realValue, amount.realValue,
-                expiresModel.get(expiresComboBox.currentIndex).name,
-                sellBuySwitch.checked? "<=" + price.textValue :">=" + price.textValue)
+            var net = "private"
+            var isSell = sellBuySwitch.checked
+            var tokenSell = isSell ? logicStock.nameTokenPair1 : logicStock.nameTokenPair2
+            var tokenBuy = isSell ? logicStock.nameTokenPair2 : logicStock.nameTokenPair1
+            var currentWallet = "tokenWallet"
 
-            createOrder()
+            var rate = parseFloat(price.textValue)
+            console.log("RATE--------", rate, parseFloat(price.textValue), price.textValue)
+
+
+            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, currentWallet, amount.realValue, rate)
+
+
+//            var date = new Date()
+
+//            logicStock.addNewOrder(
+//                date.toLocaleString(Qt.locale("en_EN"),
+//                "yyyy-MM-dd hh:mm"),
+//                "CELL/"+logicStock.nameTokenPair,
+//                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
+//                price.realValue, amount.realValue,
+//                expiresModel.get(expiresComboBox.currentIndex).name,
+//                sellBuySwitch.checked? "<=" + price.textValue :">=" + price.textValue)
         }
     }
 

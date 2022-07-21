@@ -15,6 +15,8 @@ DapPage
 
     signal fakeWalletChanged() //for top panel
 
+    signal tokenPairChanged()
+
     LogicStock { id: logicStock }
 
 //    StockDataWorker
@@ -26,12 +28,14 @@ DapPage
     ListModel { id: buyBookModel }
     ListModel { id: openOrdersModel }
     ListModel { id: orderHistoryModel }
-    ListModel { id: pairModel }
+//    ListModel { id: pairModel }
 
     Timer{id: timer}
 
     Component.onCompleted:
     {
+//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
+
 //        logicStock.initPairModel()
         logicStock.initBalance()
         stockDataWorker.generateBookModel(0.245978, 18)
@@ -39,6 +43,20 @@ DapPage
         logicStock.initOrderLists()
         generateTimer.start()
     }
+
+//    Connections
+//    {
+//        target: dapServiceController
+
+//        onRcvXchangeTokenPair:
+//        {
+////            print("DapStockTab onRcvXchangeTokenPair", rcvData)
+//            logicStock.readPairModel(rcvData)
+
+//            tokenPairChanged()
+//        }
+//    }
+
 
     dapScreen.initialItem: DapStockScreen
     {

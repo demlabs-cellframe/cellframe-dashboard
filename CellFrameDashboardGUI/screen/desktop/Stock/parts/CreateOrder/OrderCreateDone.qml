@@ -49,7 +49,6 @@ Page {
             Text
             {
                 id: textStatusMessage
-                text: qsTr("Successfully")
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: textStatus.bottom
@@ -58,7 +57,23 @@ Page {
                 font: mainFont.dapFont.regular28
             }
 
-            // Button "Send"
+            Text
+            {
+                id: textResult
+                visible: false
+                horizontalAlignment: Text.AlignHCenter
+                anchors.top: textStatusMessage.bottom
+                anchors.topMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
+                anchors.rightMargin: 20
+                anchors.right: parent.right
+                wrapMode: Text.WordWrap
+//                anchors.topMargin: 8
+                color: currTheme.textColor
+                font: mainFont.dapFont.regular18
+            }
+
             DapButton
             {
                 id: buttonDone
@@ -85,6 +100,18 @@ Page {
                 anchors.bottom: parent.bottom
                 color: "transparent"
             }
+        }
+    }
+
+    Component.onCompleted:
+    {
+        if(logicStock.resultCreate.success)
+            textStatusMessage.text = qsTr("Successfully")
+        else
+        {
+            textStatusMessage.text = qsTr("Error")
+            textResult.text = qsTr(logicStock.resultCreate.message)
+            textResult.visible = true
         }
     }
 }

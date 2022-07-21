@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -7,18 +8,22 @@ import "../../../controls"
 
 Page
 {
-
-    signal createOrder()
-
     background: Rectangle {
         color: "transparent"
     }
 
     property string balanceCellValue: fakeWallet.get(0).tokens.get(0).balance_without_zeros
-    property string tokenName: logicStock.nameTokenPair
+    property string tokenName: logicStock.nameTokenPair1
     property string currentOrder: "Limit"
 
-    onCreateOrder: goToDoneCreate()
+
+    Connections{
+        target: dapServiceController
+        onRcvXchangeCreate:{
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+    }
 
     ListModel {
         id: expiresModel

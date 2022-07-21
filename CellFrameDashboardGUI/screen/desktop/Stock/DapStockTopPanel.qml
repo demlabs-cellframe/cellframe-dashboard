@@ -54,7 +54,7 @@ Controls.DapTopPanel
         Label
         {
             id: textNameWallet
-            text: fakeWallet.get(fakeWallet.count - 1).name
+            text: dapModelWallets.get(logicMainApp.currentIndex).name
             Layout.alignment: Qt.AlignVCenter
 
             font: mainFont.dapFont.regular16
@@ -78,21 +78,24 @@ Controls.DapTopPanel
 //            width: 95
             Layout.minimumWidth: 120
             Layout.maximumWidth: 120
-            model: fakeWallet.get(fakeWallet.count - 1).tokens
+            model: {
+
+            }
             font: mainFont.dapFont.regular16
 
-            Component.onCompleted: {currentIndex = 0; updateBalance()}
+            Component.onCompleted: {
+                currentIndex = 0;
+                updateBalance()
+            }
 
             onCurrentIndexChanged: updateBalance()
 
-            Connections{
-                target: stockTab
-                onFakeWalletChanged: tokenComboBox.updateBalance()
-            }
+//            Connections{
+//                target: stockTab
+//                onFakeWalletChanged: tokenComboBox.updateBalance()
+//            }
 
-            function updateBalance(){
-                tokenComboBox.currentBalance = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
-            }
+
 
 
             background:
@@ -158,6 +161,27 @@ Controls.DapTopPanel
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
         }
+    }
+
+    Connections{
+        target: stockTab
+        onTokenPairChanged:
+        {
+            updatePair()
+        }
+    }
+
+    function updatePair()
+    {
+        for(var i = 0; i < dapModelWallets.get(logicMainApp.currentIndex).networks.count; i++)
+            if(logicStock.tokenNet === dapModelWallets.get(logicMainApp.currentIndex).networks.get(i).name)
+                tokenComboBox.model =  dapModelWallets.get(logicMainApp.currentIndex).networks.get(i).tokens
+
+        updateBalance()
+    }
+
+    function updateBalance(){
+        tokenComboBox.currentBalance = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
     }
 
     function setBackToStockVisible(visible)

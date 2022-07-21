@@ -374,6 +374,14 @@ QtObject {
         }
     }
 
+    function rcvPairsModel(rcvData)
+    {
+        var jsonDocument = JSON.parse(rcvData)
+        dapPairModel.clear()
+        dapPairModel.append(jsonDocument)
+        modelPairsUpdated()
+    }
+
     function rcvStateNotify(isError, isFirst)
     {
         messagePopup.dapButtonCancel.visible = false

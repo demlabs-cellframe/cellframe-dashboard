@@ -94,6 +94,7 @@ Rectangle {
     signal modelXchangeOrdersUpdated()
     signal checkWebRequest()
     signal openRequests()
+    signal modelPairsUpdated()
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -109,6 +110,7 @@ Rectangle {
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: pairsModel}
     ListModel{id: dapModelXchangeOrders}
+    ListModel{id: dapPairModel}
 
     ListModel{id: fakeWallet}
 
@@ -423,7 +425,7 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetXchangeOrdersList")
 
         //-------//TokenPair
-//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
+        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
 
@@ -510,7 +512,8 @@ Rectangle {
 
         onRcvXchangeTokenPair:
         {
-//            print("onRcvXchangeTokenPair", rcvData)
+            print("onRcvXchangeTokenPair")
+            logicMainApp.rcvPairsModel(rcvData)
         }
 
         onRcvXchangeTokenPriceAverage:

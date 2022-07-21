@@ -36,12 +36,14 @@ Item {
         mainModel.clear()
         for(var i = 0; i < temporaryModel.count; i++)
         {
-            var pair = temporaryModel.get(i).pair
-            var price = temporaryModel.get(i).price
+            var token1 = temporaryModel.get(i).token1
+            var token2 = temporaryModel.get(i).token2
+            var rate = temporaryModel.get(i).rate
             var change = temporaryModel.get(i).change
 
-            if(pair.toLowerCase().indexOf(fstr) >= 0 ||
-               price.toLowerCase().indexOf(fstr) >= 0 ||
+            if(token1.toLowerCase().indexOf(fstr) >= 0 ||
+               token2.toLowerCase().indexOf(fstr) >= 0 ||
+               rate.toLowerCase().indexOf(fstr) >= 0 ||
                change.toLowerCase().indexOf(fstr) >= 0)
             {
                 mainModel.append(temporaryModel.get(i))
