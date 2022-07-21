@@ -9,12 +9,6 @@ ColumnLayout {
     Layout.topMargin: 16
     spacing: 0
 
-    Component.onCompleted:
-    {
-        stop.setRealValue(logicStock.tokenPrice)
-        limit.setRealValue(logicStock.tokenPrice)
-    }
-
     Rectangle
     {
         Layout.fillWidth: true
@@ -23,7 +17,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.textColor
-            text: qsTr("Stop")
+            text: qsTr("Price")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -36,91 +30,16 @@ ColumnLayout {
 
     OrderTextBlock
     {
-        id: stop
+        id: price
+        enabled: false
         Layout.fillWidth: true
-        Layout.topMargin: 12
-        Layout.leftMargin: 16
-        Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenName
-        textValue: "0.0"
-    }
-
-    Rectangle
-    {
-        Layout.fillWidth: true
-        Layout.topMargin: 12
-        color: currTheme.backgroundMainScreen
-        height: 30
-        Text
-        {
-            color: currTheme.textColor
-            text: qsTr("Limit")
-            font: mainFont.dapFont.medium12
-            horizontalAlignment: Text.AlignLeft
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.topMargin: 20
-            anchors.bottomMargin: 5
-        }
-        Text
-        {
-            color: currTheme.textColor
-            text: qsTr("Expires in")
-            font: mainFont.dapFont.medium12
-            horizontalAlignment: Text.AlignRight
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 57
-            anchors.topMargin: 20
-            anchors.bottomMargin: 5
-
-        }
-    }
-
-    RowLayout
-    {
-        Layout.fillWidth: true
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        spacing: 8
-
-        OrderTextBlock
-        {
-            id: limit
-            Layout.fillWidth: true
-            Layout.minimumWidth: 215
-            Layout.minimumHeight: 40
-            Layout.maximumHeight: 40
-            textToken: tokenName
-            textValue: "0.0"
-        }
-
-        Rectangle
-        {
-            id: expiresRect
-            Layout.fillWidth: true
-            Layout.minimumWidth: 95
-            Layout.minimumHeight: 40
-            Layout.maximumHeight: 40
-
-            border.color: currTheme.borderColor
-            color: "transparent"
-            radius: 4
-
-            DapComboBox
-            {
-                id: expiresComboBox
-                anchors.fill: parent
-                anchors.margins: 2
-                font: mainFont.dapFont.regular16
-
-                model: expiresModel
-            }
-        }
+        textToken: tokenName
+        realValue: logicStock.tokenPrice
     }
 
     Rectangle
@@ -156,6 +75,8 @@ ColumnLayout {
         textValue: "0.0"
         onEdited:
         {
+            total.setRealValue(realValue * logicStock.tokenPrice)
+
             button25.selected = false
             button50.selected = false
             button75.selected = false
@@ -189,6 +110,7 @@ ColumnLayout {
 
                 amount.setRealValue(
                     (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
+                total.setRealValue(logicStock.balanceReal*0.25)
             }
         }
 
@@ -211,6 +133,7 @@ ColumnLayout {
 
                 amount.setRealValue(
                     (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
+                total.setRealValue(logicStock.balanceReal*0.5)
             }
         }
 
@@ -233,6 +156,7 @@ ColumnLayout {
 
                 amount.setRealValue(
                     (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
+                total.setRealValue(logicStock.balanceReal*0.75)
             }
         }
 
@@ -255,7 +179,50 @@ ColumnLayout {
 
                 amount.setRealValue(
                     logicStock.balanceReal / logicStock.tokenPrice)
+                total.setRealValue(logicStock.balanceReal)
             }
+        }
+    }
+
+    Rectangle
+    {
+        Layout.fillWidth: true
+        Layout.topMargin: 12
+        color: currTheme.backgroundMainScreen
+        height: 30
+        Text
+        {
+            color: currTheme.textColor
+            text: qsTr("Total")
+            font: mainFont.dapFont.medium12
+            horizontalAlignment: Text.AlignLeft
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 16
+            anchors.topMargin: 20
+            anchors.bottomMargin: 5
+        }
+    }
+
+    OrderTextBlock
+    {
+        id: total
+        Layout.fillWidth: true
+        Layout.topMargin: 12
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.minimumHeight: 40
+        Layout.maximumHeight: 40
+        textToken: tokenName
+        textValue: "0.0"
+        onEdited:
+        {
+            button25.selected = false
+            button50.selected = false
+            button75.selected = false
+            button100.selected = false
+
+            amount.setRealValue(realValue / logicStock.tokenPrice)
         }
     }
 
@@ -278,14 +245,8 @@ ColumnLayout {
                 date.toLocaleString(Qt.locale("en_EN"),
                 "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
-                currentOrder,
-                sellBuySwitch.checked? "Sell": "Buy",
-                limit.realValue,
-                amount.realValue,
-                expiresModel.get(expiresComboBox.currentIndex).name,
-                sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
-
-            createOrder()
+                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
+                logicStock.tokenPrice, amount.realValue,"Not", "-")
         }
     }
 

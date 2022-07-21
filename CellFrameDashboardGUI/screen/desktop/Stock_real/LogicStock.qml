@@ -3,16 +3,20 @@ import QtQml 2.12
 
 QtObject
 {
-    property int indexPair
-    property string nameTokenPair
+    property int indexPair: 0
+    property string nameTokenPair1
+    property string nameTokenPair2
     property real tokenPrice
     property real tokenPrevPrice
     property string tokenPriceRounded
+    property string tokenNet
     property string tokenChange
     property string balanceText: balanceReal.toFixed(roundPower)
     property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
     property real balanceReal
     property real cellBalanceReal
+
+    property var resultCreate
 
 //    property real sellMaxTotal: 1
 //    property real buyMaxTotal: 1
@@ -169,6 +173,13 @@ QtObject
                            price: "0.245852",
                            change: "+5.22 %"
                          })
+    }
+
+    function readPairModel(rcvData)
+    {
+        var jsonDocument = JSON.parse(rcvData)
+        pairModel.clear()
+        pairModel.append(jsonDocument)
     }
 
     function addNewOrder(_date, _pair, _type, _side, _price,

@@ -284,8 +284,6 @@ ColumnLayout {
                 amount.realValue,
                 expiresModel.get(expiresComboBox.currentIndex).name,
                 sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
-
-            createOrder()
         }
     }
 

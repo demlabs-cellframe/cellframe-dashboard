@@ -22,7 +22,6 @@ Page {
         {
             Layout.fillWidth: true
             height: 42
-
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
@@ -68,8 +67,6 @@ Page {
             Layout.leftMargin: 16
             clip: true
 
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
-
 
             contentData:
             ColumnLayout
@@ -79,11 +76,6 @@ Page {
                 DetailsText {
                     title.text: "Date"
                     content.text: bufferDetails.get(0).date
-                    title.color: currTheme.textColorGray
-                }
-                DetailsText {
-                    title.text: "Closed date"
-                    content.text: bufferDetails.get(0).closedDate
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
@@ -99,11 +91,6 @@ Page {
                 DetailsText {
                     title.text: "Side"
                     content.text: bufferDetails.get(0).side
-                    title.color: currTheme.textColorGray
-                }
-                DetailsText {
-                    title.text: "Average price"
-                    content.text: bufferDetails.get(0).averagePrice
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
@@ -132,12 +119,9 @@ Page {
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
-                    title.text: "Status"
-                    content.text: bufferDetails.get(0).status
+                    title.text: "Expires in"
+                    content.text: bufferDetails.get(0).expiresIn
                     title.color: currTheme.textColorGray
-                }
-                Item{
-                    height: 10
                 }
             }
         }

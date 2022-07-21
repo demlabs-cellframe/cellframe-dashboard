@@ -11,8 +11,7 @@ ColumnLayout {
 
     Component.onCompleted:
     {
-        stop.setRealValue(logicStock.tokenPrice)
-        limit.setRealValue(logicStock.tokenPrice)
+        price.setRealValue(logicStock.tokenPrice)
     }
 
     Rectangle
@@ -23,40 +22,7 @@ ColumnLayout {
         Text
         {
             color: currTheme.textColor
-            text: qsTr("Stop")
-            font: mainFont.dapFont.medium12
-            horizontalAlignment: Text.AlignLeft
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 16
-            anchors.topMargin: 20
-            anchors.bottomMargin: 5
-        }
-    }
-
-    OrderTextBlock
-    {
-        id: stop
-        Layout.fillWidth: true
-        Layout.topMargin: 12
-        Layout.leftMargin: 16
-        Layout.rightMargin: 16
-        Layout.minimumHeight: 40
-        Layout.maximumHeight: 40
-        textToken: tokenName
-        textValue: "0.0"
-    }
-
-    Rectangle
-    {
-        Layout.fillWidth: true
-        Layout.topMargin: 12
-        color: currTheme.backgroundMainScreen
-        height: 30
-        Text
-        {
-            color: currTheme.textColor
-            text: qsTr("Limit")
+            text: qsTr("Price")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
             anchors.verticalCenter: parent.verticalCenter
@@ -90,7 +56,7 @@ ColumnLayout {
 
         OrderTextBlock
         {
-            id: limit
+            id: price
             Layout.fillWidth: true
             Layout.minimumWidth: 215
             Layout.minimumHeight: 40
@@ -181,7 +147,7 @@ ColumnLayout {
             fontButton: mainFont.dapFont.regular12
             selected: false
             onClicked:
-            {
+            {          
                 button25.selected = true
                 button50.selected = false
                 button75.selected = false
@@ -272,20 +238,30 @@ ColumnLayout {
 
         onClicked:
         {
-            var date = new Date()
 
-            logicStock.addNewOrder(
-                date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm"),
-                "CELL/"+logicStock.nameTokenPair,
-                currentOrder,
-                sellBuySwitch.checked? "Sell": "Buy",
-                limit.realValue,
-                amount.realValue,
-                expiresModel.get(expiresComboBox.currentIndex).name,
-                sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
+            var net = "private"
+            var isSell = sellBuySwitch.checked
+            var tokenSell = isSell ? logicStock.nameTokenPair1 : logicStock.nameTokenPair2
+            var tokenBuy = isSell ? logicStock.nameTokenPair2 : logicStock.nameTokenPair1
+            var currentWallet = "tokenWallet"
 
-            createOrder()
+            var rate = parseFloat(price.textValue)
+            console.log("RATE--------", rate, parseFloat(price.textValue), price.textValue)
+
+
+            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, currentWallet, amount.realValue, rate)
+
+
+//            var date = new Date()
+
+//            logicStock.addNewOrder(
+//                date.toLocaleString(Qt.locale("en_EN"),
+//                "yyyy-MM-dd hh:mm"),
+//                "CELL/"+logicStock.nameTokenPair,
+//                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
+//                price.realValue, amount.realValue,
+//                expiresModel.get(expiresComboBox.currentIndex).name,
+//                sellBuySwitch.checked? "<=" + price.textValue :">=" + price.textValue)
         }
     }
 

@@ -422,11 +422,10 @@ Rectangle {
         //------//GetOrdersList
 //        dapServiceController.requestToService("DapGetXchangeOrdersList")
 
-//        //-------//TokenPair
-//        dapServiceController.requestToService("DapGetXchangeTokenPair", "mileena")
-//        print("DapGetXchangeTokenPriceAverage")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "mileena", "NCELL", "MILT")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "mileena", "NCELL", "MILT")
+        //-------//TokenPair
+//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
+//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
 
 
 
@@ -503,9 +502,6 @@ Rectangle {
             console.log(rcvData)
         }
 
-        onRcvXchangeCreate: console.log(rcvData)
-
-
         onSignalXchangeOrderListReceived:
         {
             print("RcvXchangeOrderList")
@@ -514,18 +510,18 @@ Rectangle {
 
         onRcvXchangeTokenPair:
         {
-            print("onRcvXchangeTokenPair", rcvData)
+//            print("onRcvXchangeTokenPair", rcvData)
         }
 
         onRcvXchangeTokenPriceAverage:
         {
-            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
+//            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
 //            console.log(rcvData)
         }
 
         onRcvXchangeTokenPriceHistory:
         {
-            print("onRcvXchangeTokenPriceHistory", rcvData.result)
+//            print("onRcvXchangeTokenPriceHistory", rcvData.result)
 
         }
 
