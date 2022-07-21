@@ -14,8 +14,8 @@ QtObject
     property real balanceReal
     property real cellBalanceReal
 
-    property real sellMaxTotal: 1
-    property real buyMaxTotal: 1
+//    property real sellMaxTotal: 1
+//    property real buyMaxTotal: 1
 
     function getCurrentDate(format)
     {
@@ -31,7 +31,7 @@ QtObject
         cellBalanceReal = parseFloat(fakeWallet.get(0).tokens.get(0).balance_without_zeros)
     }
 
-    function initBookModels()
+/*    function initBookModels()
     {
         var value = 0.245978
 
@@ -67,9 +67,9 @@ QtObject
             if (buyMaxTotal < total)
                 buyMaxTotal = total
         }
-    }
+    }*/
 
-    function generateBookState()
+/*    function generateBookState()
     {
         if (Math.random() < 0.5)
         {
@@ -103,7 +103,7 @@ QtObject
             if (buyMaxTotal < total)
                 buyMaxTotal = total
         }
-    }
+    }*/
 
     function initOrderLists()
     {

@@ -41,13 +41,24 @@ StockDataWorker::StockDataWorker(QObject *parent) :
     }
 }
 
-/*QObject* StockDataWorker::createStructure()
+void StockDataWorker::setContext(QQmlContext *cont)
 {
-    CandleInfo* structure = new CandleInfo(this);
-    structure->m_number = ++m_structureCount;
-    structure->m_message = QString("Structure %1").arg(m_structureCount);
-    return structure;
-}*/
+    context = cont;
+
+//    buyModel.append(QVariant::fromValue(OrderInfo{2.561, 2000, 2000}));
+//    buyModel.append(QVariant::fromValue(OrderInfo{2.562, 2000, 2000}));
+//    buyModel.append(QVariant::fromValue(OrderInfo{2.563, 2000, 2000}));
+
+//    sellModel.append(QVariant::fromValue(OrderInfo{2.565, 2000, 2000}));
+//    sellModel.append(QVariant::fromValue(OrderInfo{2.566, 2000, 2000}));
+//    sellModel.append(QVariant::fromValue(OrderInfo{2.567, 2000, 2000}));
+//    for (int i = 0; i < maxLines; ++i)
+//        infoList << QVariant::fromValue(Info{});
+
+    //    updateHistogram();
+
+    updateBookModels();
+}
 
 void StockDataWorker::generatePriceData(int length)
 {
@@ -107,6 +118,46 @@ QVariantMap StockDataWorker::getPriceInfo(int index)
         return {};
     else
         return priceModel.at(index).getMap();
+}
+
+void StockDataWorker::generateBookModel(double price, int length)
+{
+    m_sellMaxTotal = 0;
+    m_buyMaxTotal = 0;
+
+    double temp_price = price;
+
+    for (auto i = 0; i < length; i++)
+    {
+        temp_price +=
+            QRandomGenerator::global()->generateDouble()*0.0001;
+        double amount = QRandomGenerator::global()->generateDouble()*1500;
+        double total = amount * temp_price;
+
+        sellOrderModel.append(OrderInfo{temp_price, amount, total});
+
+        if (m_sellMaxTotal < total)
+            m_sellMaxTotal = total;
+    }
+
+    temp_price = price;
+
+    for (auto i = 0; i < length; i++)
+    {
+        temp_price -=
+            QRandomGenerator::global()->generateDouble()*0.0001;
+        double amount = QRandomGenerator::global()->generateDouble()*1500;
+        double total = amount * temp_price;
+
+        buyOrderModel.append(OrderInfo{temp_price, amount, total});
+
+        if (m_buyMaxTotal < total)
+            m_buyMaxTotal = total;
+    }
+
+    getVariantBookModels();
+
+    updateBookModels();
 }
 
 void StockDataWorker::updateAllModels()
@@ -708,6 +759,50 @@ void StockDataWorker::generateNewPrice()
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
+void StockDataWorker::generateNewOrderState()
+{
+    if (QRandomGenerator::global()->bounded(2))
+    {
+        int index =
+            QRandomGenerator::global()->bounded(sellOrderModel.size());
+
+        sellOrderModel[index].amount +=
+                QRandomGenerator::global()->bounded(1, 20);
+        sellOrderModel[index].total = sellOrderModel.at(index).amount *
+                sellOrderModel.at(index).price;
+
+        if (m_sellMaxTotal < sellOrderModel.at(index).total)
+            m_sellMaxTotal = sellOrderModel.at(index).total;
+
+//        addOrderInfo(true, price, amount, total);
+    }
+    else
+    {
+        int index =
+            QRandomGenerator::global()->bounded(buyOrderModel.size());
+
+//        double price = buyOrderModel.at(index).price;
+//        double amount = buyOrderModel.at(index).amount +
+//            QRandomGenerator::global()->bounded(1, 20);
+
+//        double total = amount * price;
+
+        buyOrderModel[index].amount +=
+                QRandomGenerator::global()->bounded(1, 20);
+        buyOrderModel[index].total = buyOrderModel.at(index).amount *
+                buyOrderModel.at(index).price;
+
+        if (m_buyMaxTotal < buyOrderModel.at(index).total)
+            m_buyMaxTotal = buyOrderModel.at(index).total;
+
+//        addOrderInfo(false, price, amount, total);
+    }
+
+    getVariantBookModels();
+
+    updateBookModels();
+}
+
 bool StockDataWorker::zoomTime(int step)
 {
     double oldVisibleTime = m_visibleTime;
@@ -821,20 +916,34 @@ void StockDataWorker::setPreviousTokenPrice(double price)
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
-/*void StockDataWorker::setCoefficientTime(double coeff)
+void StockDataWorker::getVariantBookModels()
 {
-    if (m_coefficientTime == coeff)
-        return;
+/*    sellModel.reserve(sellOrderModel.size());
 
-    m_coefficientTime = coeff;
-    emit coefficientTimeChanged(m_coefficientTime);
+    for (auto i = 0; i < sellOrderModel.size(); ++i)
+        sellModel[i] = QVariant::fromValue(sellOrderModel.at(i));
+
+    buyModel.reserve(buyOrderModel.size());
+
+    for (auto i = 0; i < buyOrderModel.size(); ++i)
+        buyModel[i] = QVariant::fromValue(buyOrderModel.at(i));*/
+
+    sellModel.clear();
+
+    for (auto i = 0; i < sellOrderModel.size(); ++i)
+        sellModel << QVariant::fromValue(sellOrderModel.at(i));
+
+    buyModel.clear();
+
+    for (auto i = 0; i < buyOrderModel.size(); ++i)
+        buyModel << QVariant::fromValue(buyOrderModel.at(i));
 }
 
-void StockDataWorker::setCoefficientPrice(double coeff)
+void StockDataWorker::updateBookModels()
 {
-    if (m_coefficientPrice == coeff)
-        return;
+    emit sellMaxTotalChanged(m_sellMaxTotal);
+    emit buyMaxTotalChanged(m_buyMaxTotal);
 
-    m_coefficientPrice = coeff;
-    emit coefficientPriceChanged(m_coefficientPrice);
-}*/
+    context->setContextProperty("buyModel", buyModel);
+    context->setContextProperty("sellModel", sellModel);
+}

@@ -1,77 +1,18 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.12
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.12 as Controls
 import "qrc:/widgets"
 import "../parts"
 import "../../controls"
 
-Page {
+Controls.Page {
     id: root
 
     background: Rectangle {
         color: "transparent"
-    }
-
-
-    ListModel
-    {
-        id: chainModel
-
-        ListElement
-        {
-            name: "chain1"
-        }
-
-        ListElement
-        {
-            name: "chain2"
-        }
-
-        ListElement
-        {
-            name: "chain3"
-        }
-
-        ListElement
-        {
-            name: "chain4"
-        }
-
-        ListElement
-        {
-            name: "chain5"
-        }
-    }
-
-    ListModel
-    {
-        id: certModel
-
-        ListElement
-        {
-            name: "cert1"
-        }
-
-        ListElement
-        {
-            name: "cert2"
-        }
-
-        ListElement
-        {
-            name: "cert3"
-        }
-
-        ListElement
-        {
-            name: "cert4"
-        }
-
-        ListElement
-        {
-            name: "cert5"
-        }
     }
 
     ColumnLayout
@@ -141,7 +82,6 @@ Page {
 
         Rectangle
         {
-            id: frameRecipientWalletAddress
             Layout.fillWidth: true
             Layout.leftMargin: 20 * pt
             Layout.rightMargin: 20 * pt
@@ -153,17 +93,25 @@ Page {
                 id: textInputNewTokenName
                 anchors.verticalCenter: parent.verticalCenter
                 placeholderText: qsTr("Write here")
-                validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
-                color: currTheme.textColor
                 anchors.topMargin: 10 * pt
                 anchors.bottomMargin: 10 * pt
 
-                background: Rectangle {
-                    color: "transparent"
-                }
+                validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
+                style:
+                    TextFieldStyle
+                    {
+                        textColor: currTheme.textColor
+                        placeholderTextColor: currTheme.textColorGray
+                        background:
+                            Rectangle
+                            {
+                                border.width: 0
+                                color: currTheme.backgroundElements
+                            }
+                    }
             }
 
             Rectangle
@@ -183,7 +131,7 @@ Page {
 
             Text {
                 color: currTheme.textColor
-                text: qsTr("Chain")
+                text: qsTr("Select network")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
@@ -200,12 +148,13 @@ Page {
             Layout.fillWidth: true
 
             DapComboBox {
+                id: networks
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
-                model: chainModel
+                model: dapModelTokens
 
-                defaultText: qsTr("chain1")
+                mainTextRole: "network"
                 font: mainFont.dapFont.regular16
             }
         }
@@ -234,12 +183,13 @@ Page {
             Layout.fillWidth: true
 
             DapComboBox {
+                id: certificates
                 anchors.fill: parent
                 anchors.leftMargin: 15 * pt
                 anchors.rightMargin: 15 * pt
-                model: certModel
+                model: certificatesModel
 
-                defaultText: qsTr("cert1")
+                mainTextRole: "completeBaseName"
                 font: mainFont.dapFont.regular16
             }
         }
@@ -280,20 +230,54 @@ Page {
 
                 TextField
                 {
+                    id: textInputAmount
                     anchors.fill: parent
+                    placeholderText: "0.0"
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
-                    color: currTheme.textColor
 
-                    background: Rectangle {
-                        color: "transparent"
-                    }
-                    text: "200000.86"
+                    style:
+                        TextFieldStyle
+                        {
+                            textColor: currTheme.textColor
+                            placeholderTextColor: currTheme.textColor
+                            background:
+                                Rectangle
+                                {
+                                    border.width: 1
+                                    radius: 4 * pt
+                                    border.color: currTheme.borderColor
+                                    color: currTheme.backgroundElements
+                                }
+                        }
                 }
             }
         }
 
+        Rectangle
+        {
+            width: 278*pt
+            height: 69 * pt
+            color: "transparent"
+            Layout.topMargin: 43 * pt
+            Layout.fillWidth: true
+
+            Text
+            {
+                id: error
+                anchors.fill: parent
+                anchors.leftMargin: 37 * pt
+                anchors.rightMargin: 36 * pt
+                color: "#79FFFA"
+                text: qsTr("")
+                font: mainFont.dapFont.regular14
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                wrapMode: Text.WordWrap
+                visible: false
+            }
+        }
     }
 
     DapButton
@@ -306,6 +290,40 @@ Page {
         textButton: qsTr("Create new token")
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText:Qt.AlignCenter
+        onClicked:{
+
+            var supply = textInputAmount.text
+
+            if(textInputNewTokenName.text === "")
+            {
+                error.visible = true
+                error.text = qsTr("Empty token name")
+            }
+            else
+            if (supply === "" || logicTokens.testAmount("0.0", supply))
+            {
+                error.visible = true
+                error.text = qsTr("Zero supply.")
+            }
+            else
+            {
+                error.visible = false
+                dapServiceController.requestToService("DapTokenDeclCommand", logicTokens.toDatoshi(supply),
+                                                      networks.displayText,
+                                                      textInputNewTokenName.text,
+                                                      certificates.displayText)
+
+            }
+        }
+    }
+
+    Connections{
+        target: dapServiceController
+        onResponseDeclToken:
+        {
+            logicTokens.commandResult = resultDecl
+            navigator.done()
+        }
     }
 }
 

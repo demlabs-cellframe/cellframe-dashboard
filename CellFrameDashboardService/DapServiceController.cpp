@@ -164,5 +164,25 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapNodeConfigController("DapNodeConfigController", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapGetListTokensCommand("DapGetListTokensCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapTokenEmissionCommand("DapTokenEmissionCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapTokenDeclCommand("DapTokenDeclCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetXchangeTxList("DapGetXchangeTxList", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapXchangeOrderCreate("DapXchangeOrderCreate", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetXchangeOrdersList("DapGetXchangeOrdersList", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetXchangeTokenPair("DapGetXchangeTokenPair", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetXchangeTokenPriceAverage("DapGetXchangeTokenPriceAverage", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetXchangeTokenPriceHistory("DapGetXchangeTokenPriceHistory", m_pServer, CLI_PATH));
+
+
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
+
 }

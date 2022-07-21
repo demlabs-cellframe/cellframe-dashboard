@@ -8,7 +8,6 @@ import "../../controls"
 
 Page {
     id: root
-    property alias closeButton: itemButtonClose
 
     background: Rectangle {
         color: "transparent"
@@ -17,7 +16,7 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 15 * pt
+        spacing: 0
 
         Item
         {
@@ -29,16 +28,16 @@ Page {
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10
+                anchors.bottomMargin: 7
+                anchors.leftMargin: 21
+                anchors.rightMargin: 13
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20
+                width: 20
+                heightImage: 20
+                widthImage: 20
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -57,52 +56,73 @@ Page {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.topMargin: 12
+                anchors.bottomMargin: 8
+                anchors.leftMargin: 52
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
 
-        ListModel
-        {
-            id: certificateInfoModel
-
-            ListElement
-            {
-                key: "Amount of signatures"
-                value: "5"
-            }
-
-            ListElement
-            {
-                key: "Hashes of signatures"
-                value: "84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4\n\n84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4\n\n84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4\n\n84ed78436ab128c654ee87643acd453b3a384ed78436ab128c654ee87643acd4"
-            }
-
-            ListElement
-            {
-                key: "Minimum amount of signatures for emission"
-                value: "2"
-            }
-        }
-
-
-        ListView {
-            id: certificateDataListView
+        ScrollView {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 22 * pt
+//            Layout.topMargin: 12
+            Layout.leftMargin: 16
             clip: true
-            model: certificateInfoModel
 
-            delegate: TitleTextView {
-                x: 18 * pt
-                title.text: model.key
-                content.text: model.value
-                title.color: currTheme.textColorGray
+//            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+
+
+            contentData:
+            ColumnLayout
+            {
+                spacing: 16
+
+                DetailsText {
+                    title.text: "Name"
+                    content.text: detailsModel.get(0).name
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Auth signs"
+                    content.text: detailsModel.get(0).auth_signs
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Type"
+                    content.text: detailsModel.get(0).type
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Flags"
+                    content.text: detailsModel.get(0).flags
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Decimals"
+                    content.text: detailsModel.get(0).decimals
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Current supply"
+                    content.text: detailsModel.get(0).current_supply_with_dot
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Total supply"
+                    content.text: detailsModel.get(0).total_supply_with_dot
+                    title.color: currTheme.textColorGray
+                }
+                DetailsText {
+                    title.text: "Total emissions"
+                    content.text: detailsModel.get(0).total_emissions
+                    title.color: currTheme.textColorGray
+                }
+                Item{
+                    height: 10
+                }
             }
         }
     }
