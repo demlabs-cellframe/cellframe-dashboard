@@ -239,17 +239,13 @@ ColumnLayout {
         onClicked:
         {
 
-            var net = "private"
+            var net = logicStock.tokenNet
             var isSell = sellBuySwitch.checked
             var tokenSell = isSell ? logicStock.nameTokenPair1 : logicStock.nameTokenPair2
             var tokenBuy = isSell ? logicStock.nameTokenPair2 : logicStock.nameTokenPair1
-            var currentWallet = "tokenWallet"
+            var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var rate = parseFloat(price.textValue)
-            console.log("RATE--------", rate, parseFloat(price.textValue), price.textValue)
-
-
-            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, currentWallet, amount.realValue, rate)
+            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, currentWallet, amount.realValue, price.realValue)
 
 
 //            var date = new Date()

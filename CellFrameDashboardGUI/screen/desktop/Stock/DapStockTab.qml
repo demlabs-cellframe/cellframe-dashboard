@@ -28,7 +28,6 @@ DapPage
     ListModel { id: buyBookModel }
     ListModel { id: openOrdersModel }
     ListModel { id: orderHistoryModel }
-//    ListModel { id: pairModel }
 
     Timer{id: timer}
 

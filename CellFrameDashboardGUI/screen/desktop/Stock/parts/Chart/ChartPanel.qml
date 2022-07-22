@@ -15,14 +15,14 @@ Item
 
     property real volume24h: 923673750.32
 
-    Connections{
-        target: stockTab
-        onTokenPairChanged:
-        {
-            print("onTokenPairChanged")
-            pairBox.logic.setModel(dapPairModel)
-        }
-    }
+//    Connections{
+//        target: stockTab
+//        onTokenPairChanged:
+//        {
+//            print("onTokenPairChanged")
+////            pairBox.logic.setModel(dapPairModel)
+//        }
+//    }
 
     ColumnLayout
     {
@@ -45,6 +45,12 @@ Item
                     logic.setModel(dapPairModel)
                 }
                 onCurrentIndexChanged: {
+                    if(currentIndex !== -1)
+                        updateInfo(currentIndex)
+                }
+
+                function updateInfo(currentIndex)
+                {
                     logicStock.indexPair = currentIndex
                     logicStock.nameTokenPair1 = dapPairModel.get(currentIndex).token1
                     logicStock.nameTokenPair2 = dapPairModel.get(currentIndex).token2
