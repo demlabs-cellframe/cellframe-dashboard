@@ -44,34 +44,34 @@ DapWebControll::DapWebControll(QObject *parent)
 
 
 
-    QJsonObject obj3;
-    obj3.insert("type", "in");
-    obj3.insert("prev_hash", "0xB5A01C52D6AFAFD4860172F4057A9BDF5E7AAB5A5AD9BE574EA919DB27EFBC0B");
-    obj3.insert("out_prev_idx", "2");
+//    QJsonObject obj3;
+//    obj3.insert("type", "in");
+//    obj3.insert("prev_hash", "0xB5A01C52D6AFAFD4860172F4057A9BDF5E7AAB5A5AD9BE574EA919DB27EFBC0B");
+//    obj3.insert("out_prev_idx", "2");
 
-    QJsonObject obj4;
-    obj4.insert("type", "out");
-    obj4.insert("value", "12345");
-    obj4.insert("addr", "RpiDC8c1SxrTF3aSu2VL4Pwu8beWMY8ur71TeiR6ViBdnvMQCKudoWkvT8BGFN2ycKnHSaGm5WrNccex2qiZjA4PoEicUmWJNvRQQJYN");
+//    QJsonObject obj4;
+//    obj4.insert("type", "out");
+//    obj4.insert("value", "12345");
+//    obj4.insert("addr", "RpiDC8c1SxrTF3aSu2VL4Pwu8beWMY8ur71TeiR6ViBdnvMQCKudoWkvT8BGFN2ycKnHSaGm5WrNccex2qiZjA4PoEicUmWJNvRQQJYN");
 
-    QJsonObject obj2;
-    obj2.insert("type", "sign");
-    obj2.insert("wallet", "tokenWallet");
-
-
-    QJsonArray arr;
-    arr.push_back(obj3);
-    arr.push_back(obj4);
-    arr.push_back(obj2);
-
-    QJsonObject obj;
-    obj.insert("net", "mileena");
-    obj.insert("chain", "main");
-    obj.insert("items", arr);
+//    QJsonObject obj2;
+//    obj2.insert("type", "sign");
+//    obj2.insert("wallet", "tokenWallet");
 
 
+//    QJsonArray arr;
+//    arr.push_back(obj3);
+//    arr.push_back(obj4);
+//    arr.push_back(obj2);
 
-    QJsonDocument doc(obj);
+//    QJsonObject obj;
+//    obj.insert("net", "mileena");
+//    obj.insert("chain", "main");
+//    obj.insert("items", arr);
+
+
+
+//    QJsonDocument doc(obj);
 
 //    sendJsonTransaction(doc);
 
@@ -159,7 +159,7 @@ void DapWebControll::onClientSocketReadyRead()
 
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
-          QString name, net, addr, value, tokenName, id;
+          QString name, net, addr, value, tokenName, id, hashTx;
 
           while(matchIt.hasNext())
           {
@@ -176,6 +176,8 @@ void DapWebControll::onClientSocketReadyRead()
                   value = match.captured(2);
               else if(match.captured(1) == "net")
                   net = match.captured(2);
+              else if(match.captured(1) == "hashTx")
+                  hashTx = match.captured(2);
           }
           if(s_id.filter(id).length()){
               if(cmd == "GetWallets")
@@ -188,6 +190,8 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
+              else if(cmd == "GetTxHistoryInfo")
+                  doc = getTxHistoryInfo(hashTx, net);
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)

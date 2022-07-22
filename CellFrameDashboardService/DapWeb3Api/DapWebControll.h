@@ -40,6 +40,7 @@ private:
     QJsonDocument sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net);
     QJsonDocument getTransactions(QString addr, QString net);
     QJsonDocument sendJsonTransaction(QJsonDocument jsonCommand);
+    QJsonDocument getTxHistoryInfo(QString hash, QString net);
 
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonObject data);
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonArray data);
