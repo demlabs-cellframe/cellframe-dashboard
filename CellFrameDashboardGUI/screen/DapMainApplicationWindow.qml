@@ -510,7 +510,7 @@ Rectangle {
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        onRcvXchangeTokenPair:
+        onSignalXchangeTokenPairReceived:
         {
             print("onRcvXchangeTokenPair")
             logicMainApp.rcvPairsModel(rcvData)

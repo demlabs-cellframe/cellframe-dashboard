@@ -31,32 +31,6 @@ DapPage
 
     Timer{id: timer}
 
-    Component.onCompleted:
-    {
-//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
-
-//        logicStock.initPairModel()
-        logicStock.initBalance()
-        stockDataWorker.generateBookModel(0.245978, 18)
-//        logicStock.initBookModels()
-        logicStock.initOrderLists()
-        generateTimer.start()
-    }
-
-//    Connections
-//    {
-//        target: dapServiceController
-
-//        onRcvXchangeTokenPair:
-//        {
-////            print("DapStockTab onRcvXchangeTokenPair", rcvData)
-//            logicStock.readPairModel(rcvData)
-
-//            tokenPairChanged()
-//        }
-//    }
-
-
     dapScreen.initialItem: DapStockScreen
     {
         id: stockScreen
@@ -68,6 +42,33 @@ DapPage
     }
 
     onRightPanel: false
+
+    Timer {
+        id: updatePairTimer
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        onTriggered:
+        {
+            console.log("PAIR TIMER TICK")
+            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
+        }
+    }
+    Component.onCompleted:
+    {
+//        logicStock.initPairModel()
+        logicStock.initBalance()
+        stockDataWorker.generateBookModel(0.245978, 18)
+//        logicStock.initBookModels()
+        logicStock.initOrderLists()
+        generateTimer.start()
+
+        if (!updatePairTimer.running)
+            updatePairTimer.start()
+    }
+
+    Component.onDestruction:
+    {
+        updatePairTimer.stop()
+    }
 
     Timer
     {

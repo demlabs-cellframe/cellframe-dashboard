@@ -376,10 +376,13 @@ QtObject {
 
     function rcvPairsModel(rcvData)
     {
-        var jsonDocument = JSON.parse(rcvData)
-        dapPairModel.clear()
-        dapPairModel.append(jsonDocument)
-        modelPairsUpdated()
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(rcvData)
+            dapPairModel.clear()
+            dapPairModel.append(jsonDocument)
+            modelPairsUpdated()
+        }
     }
 
     function rcvStateNotify(isError, isFirst)
