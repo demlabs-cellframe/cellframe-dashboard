@@ -11,10 +11,13 @@ QtObject
     property string tokenPriceRounded
     property string tokenNet: ""
     property string tokenChange: ""
-    property string balanceText: balanceReal.toFixed(roundPower)
-    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
-    property real balanceReal
-    property real cellBalanceReal
+//    property string balanceText: balanceReal.toFixed(roundPower)
+//    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
+    property var selectedTokenNameWallet:""
+    property var selectedTokenBalanceWallet:0
+    property var unselectedTokenNameWallet:""
+    property var unselectedTokenBalanceWallet:0
+
 
     property var resultCreate
 

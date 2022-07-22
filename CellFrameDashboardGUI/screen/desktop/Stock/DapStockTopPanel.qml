@@ -13,6 +13,8 @@ Controls.DapTopPanel
 //    radius: currTheme.radiusRectangle
 //    color: currTheme.backgroundPanel
 
+    ListModel{id: stockModelTokens}
+
     RowLayout
     {
         anchors.left: parent.left
@@ -73,19 +75,15 @@ Controls.DapTopPanel
 
         DapComboBox{
             id: tokenComboBox
-
-            property var currentBalance
 //            width: 95
             Layout.minimumWidth: 120
             Layout.maximumWidth: 120
-            model: {
-
-            }
             font: mainFont.dapFont.regular16
 
             Component.onCompleted: {
-                currentIndex = 0;
-                updateBalance()
+                updatePair()
+//                currentIndex = 0;
+//                updateBalance()
             }
 
             onCurrentIndexChanged: updateBalance()
@@ -156,7 +154,7 @@ Controls.DapTopPanel
         {
             id: textWalletBalance
 //            text: "$ 3 050 745.3453289 USD"
-            text: tokenComboBox.currentBalance
+//            text: tokenComboBox.currentBalance
 
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
@@ -173,15 +171,74 @@ Controls.DapTopPanel
 
     function updatePair()
     {
-        for(var i = 0; i < dapModelWallets.get(logicMainApp.currentIndex).networks.count; i++)
-            if(logicStock.tokenNet === dapModelWallets.get(logicMainApp.currentIndex).networks.get(i).name)
-                tokenComboBox.model =  dapModelWallets.get(logicMainApp.currentIndex).networks.get(i).tokens
+        var modelWallet = dapModelWallets.get(logicMainApp.currentIndex)
+        stockModelTokens.clear()
 
-        updateBalance()
+        for(var i = 0; i < modelWallet.networks.count; i++)
+        {
+            if(logicStock.tokenNet === modelWallet.networks.get(i).name)
+            {
+                for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
+                {
+                    if(modelWallet.networks.get(i).tokens.get(k).name === logicStock.nameTokenPair1 ||
+                       modelWallet.networks.get(i).tokens.get(k).name === logicStock.nameTokenPair2)
+                    {
+                        stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
+                    }
+                }
+
+                if(stockModelTokens.count)
+                {
+                    tokenComboBox.model =  stockModelTokens
+                    tokenComboBox.currentIndex = 0
+                }
+
+                break
+            }
+        }
+
+        if(stockModelTokens.count)
+        {
+            tokenComboBox.visible = true
+            textWalletBalance.visible = true
+        }
+        else
+        {
+            tokenComboBox.visible = false
+            textWalletBalance.visible = false
+        }
     }
 
     function updateBalance(){
-        tokenComboBox.currentBalance = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+
+        if(tokenComboBox.count)
+        {
+            textWalletBalance.text = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
+            logicStock.selectedTokenBalanceWallet = textWalletBalance.text
+        }
+
+        if(tokenComboBox.count == 2)
+        {
+            var unselectedIndex = tokenComboBox.currentIndex === 1 ? 0 : 1
+
+            logicStock.unselectedTokenNameWallet = tokenComboBox.getModelData(unselectedIndex,"name")
+            logicStock.unselectedTokenBalanceWallet = tokenComboBox.getModelData(unselectedIndex,"balance_without_zeros")
+        }
+        else if(tokenComboBox.count)
+        {
+            var name = logicStock.selectedTokenNameWallet === logicStock.nameTokenPair1 ? logicStock.nameTokenPair2:
+                                                                                          logicStock.nameTokenPair1
+            logicStock.unselectedTokenNameWallet = name
+            logicStock.unselectedTokenBalanceWallet = 0
+        }
+        else
+        {
+            logicStock.selectedTokenNameWallet = ""
+            logicStock.selectedTokenBalanceWallet = ""
+            logicStock.unselectedTokenNameWallet = 0
+            logicStock.unselectedTokenBalanceWallet = 0
+        }
     }
 
     function setBackToStockVisible(visible)

@@ -55,7 +55,7 @@ DapPage
     Component.onCompleted:
     {
 //        logicStock.initPairModel()
-        logicStock.initBalance()
+//        logicStock.initBalance()
         stockDataWorker.generateBookModel(0.245978, 18)
 //        logicStock.initBookModels()
         logicStock.initOrderLists()

@@ -26,6 +26,7 @@ QtObject {
 
     property int requestsMessageCounter: 0
     property bool isOpenRequests: false
+    property int currentIndexPair: -1
 
 
     ///Functions
@@ -379,9 +380,38 @@ QtObject {
         if(rcvData !== "isEqual")
         {
             var jsonDocument = JSON.parse(rcvData)
-            dapPairModel.clear()
-            dapPairModel.append(jsonDocument)
-            modelPairsUpdated()
+
+
+            if(dapPairModel.count > 0)
+            {
+                var token1 = dapPairModel.get(currentIndexPair).token1
+                var token2 = dapPairModel.get(currentIndexPair).token2
+                var network = dapPairModel.get(currentIndexPair).network
+
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+
+                for(var i = 0; i < dapPairModel.count; i++)
+                {
+                    var token1New = dapPairModel.get(i).token1
+                    var token2New = dapPairModel.get(i).token2
+                    var networkNew = dapPairModel.get(i).network
+
+                    if(token1 === token1New && token2 === token2New && netwokr === networkNew)
+                    {
+                        currentIndexPair = i
+                        modelPairsUpdated()
+                        return
+                    }
+                }
+            }
+            else
+            {
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+                currentIndexPair = 0
+                modelPairsUpdated()
+            }
         }
     }
 
