@@ -92,7 +92,7 @@ QString leftOrCommand(QString command, int i)
 
 void CommandCmdController::parseTree(QString command)
 {
-    bool containsValue = command.contains("<chain_name>") || command.contains("<priv_cert_name>") || command.contains("<pub_cert_name>") || command.contains("<net_name>") || command.contains("<wallet_name>") || command.contains("<token_ticker>");
+    bool containsValue = command.contains("<mempool_token_ticker>") ||  command.contains("<chain_name>") || command.contains("<priv_cert_name>") || command.contains("<pub_cert_name>") || command.contains("<net_name>") || command.contains("<wallet_name>") || command.contains("<token_ticker>");
     if (!command.contains("[") && !command.contains("|") && !containsValue)
     {
         command = command.remove('{');
@@ -216,6 +216,20 @@ void CommandCmdController::parseTree(QString command)
             QString sCommand = command;
             int idx = sCommand.indexOf("<token_ticker>");
             QString s = sCommand.remove(idx, 14);
+            for (int i = 0; i < tokenList.length(); ++i)
+            {
+                QString rS = s;
+                rS = rS.insert(idx, tokenList[i]);
+                parseTree(rS);
+            }
+        }
+        else
+        if (command.contains("<mempool_token_ticker>"))
+        {
+            QStringList tokenList = values->getAllMempoolTokens();
+            QString sCommand = command;
+            int idx = sCommand.indexOf("<mempool_token_ticker>");
+            QString s = sCommand.remove(idx, 22);
             for (int i = 0; i < tokenList.length(); ++i)
             {
                 QString rS = s;
