@@ -327,7 +327,7 @@ QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
 
 QJsonDocument DapWebControll::getTxHistoryInfo(QString hash, QString net)
 {
-    QString command = QString("%1 ledger tx -tx %1 -net %2")
+    QString command = QString("%1 ledger tx -tx %2 -net %3")
             .arg(CLI_PATH).arg(hash).arg(net);
 
     QString result = send_cmd(command);
