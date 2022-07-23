@@ -17,6 +17,8 @@ DapPage
 
     signal tokenPairChanged()
 
+    signal tokenPriceChanged(var price)
+
     LogicStock { id: logicStock }
 
 //    StockDataWorker
@@ -33,14 +35,19 @@ DapPage
 
     Component.onCompleted:
     {
+        print("DapStockTab onCompleted",
+              "dapPairIndex", dapPairIndex,
+              "dapPairModel.count", dapPairModel.count)
+
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 
 //        logicStock.initPairModel()
         logicStock.initBalance()
-        stockDataWorker.generateBookModel(0.245978, 18)
+//        stockDataWorker.generateBookModel(0.245978, 18)
 //        logicStock.initBookModels()
         logicStock.initOrderLists()
-        generateTimer.start()
+//        generateTimer.start()
+        updatePriceTimer.start()
     }
 
 //    Connections
@@ -79,7 +86,57 @@ DapPage
             interval = 100 + Math.round(Math.random()*200)
 
 //            logicStock.generateBookState()
-            stockDataWorker.generateNewOrderState()
+//            stockDataWorker.generateNewOrderState()
         }
     }
+
+    Timer
+    {
+        id: updatePriceTimer
+        repeat: true
+        interval: 1000
+        onTriggered:
+        {
+            print("updatePriceTimer",
+                  "dapPairIndex", dapPairIndex,
+                  "dapPairModel.count", dapPairModel.count)
+
+            if (dapPairModel.count > 0 &&
+                dapPairIndex >= 0 && dapPairIndex < dapPairModel.count)
+            {
+                var pair = dapPairModel.get(dapPairIndex)
+                print("pair", pair.token1, pair.token2, pair.network)
+
+//                dapServiceController.requestToService(
+//                    "DapGetXchangeTokenPriceAverage",
+//                    pair.network, pair.token1, pair.token2)
+                dapServiceController.requestToService(
+                    "DapGetXchangeTokenPriceAverage",
+                    pair.network, pair.token1, pair.token2, "simulation")
+            }
+        }
+    }
+
+    Connections{
+        target: dapMainWindow
+        onModelPairsUpdated:
+        {
+            print("DapStockTab", "onModelPairsUpdated")
+
+        }
+    }
+
+    Connections
+    {
+        target: dapServiceController
+
+        onRcvXchangeTokenPriceAverage:
+        {
+            print("DapStockTab TokenPriceAverage", rcvData.rate)
+
+            if (rcvData.rate !== "0")
+                tokenPriceChanged(rcvData.rate)
+        }
+    }
+
 }

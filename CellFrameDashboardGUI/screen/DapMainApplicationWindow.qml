@@ -111,6 +111,12 @@ Rectangle {
     ListModel{id: pairsModel}
     ListModel{id: dapModelXchangeOrders}
     ListModel{id: dapPairModel}
+    property int dapPairIndex: 0
+
+    onDapPairIndexChanged:
+    {
+        print("onDapPairIndexChanged", dapPairIndex)
+    }
 
     ListModel{id: fakeWallet}
 
@@ -402,6 +408,8 @@ Rectangle {
         var addr = "abcd"
         var net = "private"
 
+        stockDataWorker.resetPriceData(0.0, true)
+        stockDataWorker.resetBookModel()
 //        //-------//OrdersHistory
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")

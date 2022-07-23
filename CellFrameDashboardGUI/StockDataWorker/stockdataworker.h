@@ -53,8 +53,12 @@ public:
 
     void setContext(QQmlContext *cont);
 
+    Q_INVOKABLE void resetPriceData(double price, double init);
+
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
+
+    Q_INVOKABLE void resetBookModel();
 
     Q_INVOKABLE void generateBookModel(double price, int length);
 
@@ -77,6 +81,8 @@ public:
     Q_INVOKABLE void setNewCandleWidth(qint64 width);
 
     Q_INVOKABLE void dataAnalysis();
+
+    Q_INVOKABLE void setNewPrice(const QString &price);
 
     Q_INVOKABLE void generateNewPrice();
 

@@ -464,6 +464,9 @@ QtObject
         {
             var candle = stockDataWorker.getCandleInfo(i)
 
+            if (candle.open === undefined)
+                continue
+
             var redCandle = true
 
             if (candle.open < candle.close)
@@ -528,12 +531,13 @@ QtObject
 
             var selCandle = stockDataWorker.getCandleInfo(selectedCandleNumber)
 
-            chandleSelected(
-                        selCandle.time,
-                        selCandle.open,
-                        selCandle.maximum,
-                        selCandle.minimum,
-                        selCandle.close)
+            if (candle.open !== undefined)
+                chandleSelected(
+                            selCandle.time,
+                            selCandle.open,
+                            selCandle.maximum,
+                            selCandle.minimum,
+                            selCandle.close)
         }
 
         ctx.lineCap = "butt"

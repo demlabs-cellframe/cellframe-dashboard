@@ -13,7 +13,13 @@ Item
 
     property alias candleLogic: chartItem.candleLogic
 
-    property real volume24h: 923673750.32
+    property real volume24h: 0.0
+
+    Component.onCompleted:
+    {
+        print("stockDataWorker.maximum24h", stockDataWorker.maximum24h)
+        print("stockDataWorker.currentTokenPrice", stockDataWorker.currentTokenPrice)
+    }
 
 //    Connections{
 //        target: stockTab
@@ -47,6 +53,7 @@ Item
                 onCurrentIndexChanged: {
                     if(currentIndex !== -1)
                         updateInfo(currentIndex)
+                    dapPairIndex = currentIndex
                 }
 
                 function updateInfo(currentIndex)
@@ -78,7 +85,7 @@ Item
                     id: max24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: stockDataWorker.maximum24h.toFixed(6)
+                    text: stockDataWorker.maximum24h.toFixed(roundPower)
                 }
             }
 
@@ -100,7 +107,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: stockDataWorker.minimum24h.toFixed(6)
+                    text: stockDataWorker.minimum24h.toFixed(roundPower)
                 }
             }
 
@@ -227,23 +234,27 @@ Item
                 textHigh.text = highValue.toFixed(roundPower)
                 textLow.text = lowValue.toFixed(roundPower)
                 textClose.text = closeValue.toFixed(roundPower)
-                textChange.text = (closeValue/openValue*100 - 100).toFixed(3) + "%"
 
-                if (openValue < closeValue)
-                {
-                    textOpen.textColor = currTheme.textColorGreen
-                    textHigh.textColor = currTheme.textColorGreen
-                    textLow.textColor = currTheme.textColorGreen
-                    textClose.textColor = currTheme.textColorGreen
-                    textChange.textColor = currTheme.textColorGreen
-                }
+                if (openValue > 0.0000000000000000001)
+                    textChange.text = (closeValue/openValue*100 - 100).toFixed(3) + "%"
                 else
+                    textChange.text = "0%"
+
+                if (openValue > closeValue)
                 {
                     textOpen.textColor = currTheme.textColorRed
                     textHigh.textColor = currTheme.textColorRed
                     textLow.textColor = currTheme.textColorRed
                     textClose.textColor = currTheme.textColorRed
                     textChange.textColor = currTheme.textColorRed
+                }
+                else
+                {
+                    textOpen.textColor = currTheme.textColorGreen
+                    textHigh.textColor = currTheme.textColorGreen
+                    textLow.textColor = currTheme.textColorGreen
+                    textClose.textColor = currTheme.textColorGreen
+                    textChange.textColor = currTheme.textColorGreen
                 }
             }
         }
@@ -338,6 +349,29 @@ Item
             volume24h += Math.random()*10
         }
     }
+
+    Connections
+    {
+        target: stockTab
+
+        onTokenPriceChanged:
+        {
+            stockDataWorker.setNewPrice(price)
+
+            stockDataWorker.getMinimumMaximum24h()
+
+            updateTokenPrice()
+
+            stockDataWorker.updateAllModels()
+
+            candleLogic.dataAnalysis()
+
+            chartItem.chartCanvas.requestPaint()
+
+//            volume24h += Math.random()*10
+        }
+    }
+
 
     function updateTokenPrice()
     {
