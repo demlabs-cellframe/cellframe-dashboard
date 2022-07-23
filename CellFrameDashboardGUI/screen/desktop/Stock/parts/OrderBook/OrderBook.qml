@@ -200,7 +200,7 @@ Page
                 color: currTheme.textColor
                 font: mainFont.dapFont.medium14
 
-                text: logicStock.tokenPriceRounded
+                text: stockDataWorker.currentTokenPrice.toFixed(roundPower)
             }
 
             Rectangle

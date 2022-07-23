@@ -84,6 +84,8 @@ void StockDataWorker::resetPriceData(double price, double init)
 
     getAveragedModels(false);
 
+    getMinimumMaximum24h();
+
     emit currentTokenPriceChanged(m_currentTokenPrice);
     emit previousTokenPriceChanged(m_previousTokenPrice);
 
@@ -820,6 +822,8 @@ void StockDataWorker::setNewPrice(const QString &price)
         emit currentTokenPriceChanged(m_currentTokenPrice);
         emit previousTokenPriceChanged(m_previousTokenPrice);
     }
+
+    getMinimumMaximum24h();
 }
 
 void StockDataWorker::generateNewPrice()

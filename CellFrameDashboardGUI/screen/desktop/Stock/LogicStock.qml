@@ -3,18 +3,16 @@ import QtQml 2.12
 
 QtObject
 {
-    property int indexPair: -1
-    property string nameTokenPair1: ""
-    property string nameTokenPair2: ""
-    property real tokenPrice
-    property real tokenPrevPrice
-    property string tokenPriceRounded
-    property string tokenNet: ""
     property string tokenChange: ""
-    property string balanceText: balanceReal.toFixed(roundPower)
-    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
     property real balanceReal
     property real cellBalanceReal
+//    property string balanceText: balanceReal.toFixed(roundPower)
+//    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
+    property var selectedTokenNameWallet:""
+    property var selectedTokenBalanceWallet:0
+    property var unselectedTokenNameWallet:""
+    property var unselectedTokenBalanceWallet:0
+
 
     property var resultCreate
 
@@ -193,7 +191,7 @@ QtObject
 
         if(_side === "Buy")
         {
-            value = balanceReal - _amount * logicStock.tokenPrice
+            value = balanceReal - _amount * logicMainApp.tokenPrice
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
             balanceReal = value
 
@@ -208,7 +206,7 @@ QtObject
         {
             if(_type === "Market")
             {
-                value = balanceReal + _amount * logicStock.tokenPrice
+                value = balanceReal + _amount * logicMainApp.tokenPrice
                 fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
 
                 cellBalance = cellBalanceReal - _amount
@@ -273,7 +271,7 @@ QtObject
 
         if(order.side === "Buy")
         {
-            value = balanceReal + order.amount * logicStock.tokenPrice
+            value = balanceReal + order.amount * logicMainApp.tokenPrice
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
             balanceReal = value
 

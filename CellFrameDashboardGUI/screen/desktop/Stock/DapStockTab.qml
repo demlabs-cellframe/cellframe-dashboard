@@ -17,7 +17,7 @@ DapPage
 
     signal tokenPairChanged()
 
-    signal tokenPriceChanged(var price)
+    signal tokenPriceChanged()
 
     LogicStock { id: logicStock }
 
@@ -31,38 +31,7 @@ DapPage
     ListModel { id: openOrdersModel }
     ListModel { id: orderHistoryModel }
 
-    Timer{id: timer}
-
-    Component.onCompleted:
-    {
-        print("DapStockTab onCompleted",
-              "dapPairIndex", dapPairIndex,
-              "dapPairModel.count", dapPairModel.count)
-
-//        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
-
-//        logicStock.initPairModel()
-        logicStock.initBalance()
-//        stockDataWorker.generateBookModel(0.245978, 18)
-//        logicStock.initBookModels()
-        logicStock.initOrderLists()
-//        generateTimer.start()
-        updatePriceTimer.start()
-    }
-
-//    Connections
-//    {
-//        target: dapServiceController
-
-//        onRcvXchangeTokenPair:
-//        {
-////            print("DapStockTab onRcvXchangeTokenPair", rcvData)
-//            logicStock.readPairModel(rcvData)
-
-//            tokenPairChanged()
-//        }
-//    }
-
+//    Timer{id: timer}
 
     dapScreen.initialItem: DapStockScreen
     {
@@ -75,6 +44,38 @@ DapPage
     }
 
     onRightPanel: false
+
+    Timer {
+        id: updatePairTimer
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        onTriggered:
+        {
+            console.log("PAIR TIMER TICK")
+            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
+        }
+    }
+
+    Component.onCompleted:
+    {
+        print("DapStockTab Component.onCompleted")
+
+//        logicStock.initPairModel()
+        logicStock.initBalance()
+//        stockDataWorker.generateBookModel(0.245978, 18)
+//        logicStock.initBookModels()
+        logicStock.initOrderLists()
+//        generateTimer.start()
+        if (!updatePriceTimer.running)
+            updatePriceTimer.start()
+
+        if (!updatePairTimer.running)
+            updatePairTimer.start()
+    }
+
+    Component.onDestruction:
+    {
+        updatePairTimer.stop()
+    }
 
     Timer
     {
@@ -98,22 +99,16 @@ DapPage
         onTriggered:
         {
             print("updatePriceTimer",
-                  "dapPairIndex", dapPairIndex,
-                  "dapPairModel.count", dapPairModel.count)
+                  "dapPairToken1", logicMainApp.token1Name,
+                  "dapPairToken2", logicMainApp.token2Name,
+                  "dapPairNetwork", logicMainApp.tokenNetwork)
 
-            if (dapPairModel.count > 0 &&
-                dapPairIndex >= 0 && dapPairIndex < dapPairModel.count)
-            {
-                var pair = dapPairModel.get(dapPairIndex)
-                print("pair", pair.token1, pair.token2, pair.network)
-
-//                dapServiceController.requestToService(
-//                    "DapGetXchangeTokenPriceAverage",
-//                    pair.network, pair.token1, pair.token2)
-                dapServiceController.requestToService(
-                    "DapGetXchangeTokenPriceAverage",
-                    pair.network, pair.token1, pair.token2, "simulation")
-            }
+            dapServiceController.requestToService(
+                "DapGetXchangeTokenPriceAverage",
+                logicMainApp.tokenNetwork,
+                logicMainApp.token1Name,
+                logicMainApp.token2Name,
+                "simulation")
         }
     }
 
@@ -121,7 +116,7 @@ DapPage
         target: dapMainWindow
         onModelPairsUpdated:
         {
-            print("DapStockTab", "onModelPairsUpdated")
+//            print("DapStockTab", "onModelPairsUpdated")
 
         }
     }
@@ -134,9 +129,36 @@ DapPage
         {
             print("DapStockTab TokenPriceAverage", rcvData.rate)
 
-            if (rcvData.rate !== "0")
-                tokenPriceChanged(rcvData.rate)
+//            print(rcvData.token1,
+//                  rcvData.token2,
+//                  rcvData.network)
+
+//            print(logicMainApp.token1Name,
+//                  logicMainApp.token2Name,
+//                  logicMainApp.tokenNetwork)
+
+            if (rcvData.rate !== "0" &&
+                rcvData.token1 === logicMainApp.token1Name &&
+                rcvData.token2 === logicMainApp.token2Name &&
+                rcvData.network === logicMainApp.tokenNetwork)
+            {
+                stockDataWorker.setNewPrice(rcvData.rate)
+
+                logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+
+                tokenPriceChanged()
+            }
         }
+    }
+
+    onTokenPairChanged:
+    {
+        print("DapStockTab onTokenPairChanged")
+
+        stockDataWorker.resetPriceData(logicMainApp.tokenPrice, false)
+        stockDataWorker.resetBookModel()
+
+        tokenPriceChanged()
     }
 
 }

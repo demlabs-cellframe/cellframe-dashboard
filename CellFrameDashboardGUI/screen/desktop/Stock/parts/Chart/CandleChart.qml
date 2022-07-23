@@ -24,8 +24,6 @@ Item
 //        stockDataWorker.generatePriceData(1000000)
 //        stockDataWorker.generatePriceData(100000)
 
-        stockDataWorker.getMinimumMaximum24h()
-
         stockDataWorker.setNewCandleWidth(logic.minute)
 
         updateTokenPrice()

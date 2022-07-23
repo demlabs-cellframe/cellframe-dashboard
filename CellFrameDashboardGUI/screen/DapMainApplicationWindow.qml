@@ -111,12 +111,6 @@ Rectangle {
     ListModel{id: pairsModel}
     ListModel{id: dapModelXchangeOrders}
     ListModel{id: dapPairModel}
-    property int dapPairIndex: 0
-
-    onDapPairIndexChanged:
-    {
-        print("onDapPairIndexChanged", dapPairIndex)
-    }
 
     ListModel{id: fakeWallet}
 
@@ -514,13 +508,13 @@ Rectangle {
 
         onSignalXchangeOrderListReceived:
         {
-            print("RcvXchangeOrderList")
+            print("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        onRcvXchangeTokenPair:
+        onSignalXchangeTokenPairReceived:
         {
-            print("onRcvXchangeTokenPair")
+            print("onSignalXchangeTokenPairReceived")
             logicMainApp.rcvPairsModel(rcvData)
         }
 

@@ -39,7 +39,7 @@ ColumnLayout {
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         textToken: tokenName
-        realValue: logicStock.tokenPrice
+        realValue: logicMainApp.tokenPrice
     }
 
     Rectangle
@@ -75,7 +75,7 @@ ColumnLayout {
         textValue: "0.0"
         onEdited:
         {
-            total.setRealValue(realValue * logicStock.tokenPrice)
+            total.setRealValue(realValue * logicMainApp.tokenPrice)
 
             button25.selected = false
             button50.selected = false
@@ -109,7 +109,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
+                    (logicStock.balanceReal / logicMainApp.tokenPrice)*0.25)
                 total.setRealValue(logicStock.balanceReal*0.25)
             }
         }
@@ -132,7 +132,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
+                    (logicStock.balanceReal / logicMainApp.tokenPrice)*0.5)
                 total.setRealValue(logicStock.balanceReal*0.5)
             }
         }
@@ -155,7 +155,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
+                    (logicStock.balanceReal / logicMainApp.tokenPrice)*0.75)
                 total.setRealValue(logicStock.balanceReal*0.75)
             }
         }
@@ -178,7 +178,7 @@ ColumnLayout {
                 button100.selected = true
 
                 amount.setRealValue(
-                    logicStock.balanceReal / logicStock.tokenPrice)
+                    logicStock.balanceReal / logicMainApp.tokenPrice)
                 total.setRealValue(logicStock.balanceReal)
             }
         }
@@ -222,7 +222,7 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.setRealValue(realValue / logicStock.tokenPrice)
+            amount.setRealValue(realValue / logicMainApp.tokenPrice)
         }
     }
 
@@ -246,7 +246,7 @@ ColumnLayout {
                 "yyyy-MM-dd hh:mm"),
                 "CELL/"+logicStock.nameTokenPair,
                 currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                logicStock.tokenPrice, amount.realValue,"Not", "-")
+                logicMainApp.tokenPrice, amount.realValue,"Not", "-")
         }
     }
 

@@ -21,15 +21,6 @@ Item
         print("stockDataWorker.currentTokenPrice", stockDataWorker.currentTokenPrice)
     }
 
-//    Connections{
-//        target: stockTab
-//        onTokenPairChanged:
-//        {
-//            print("onTokenPairChanged")
-////            pairBox.logic.setModel(dapPairModel)
-//        }
-//    }
-
     ColumnLayout
     {
         anchors.fill: parent
@@ -53,20 +44,28 @@ Item
                 onCurrentIndexChanged: {
                     if(currentIndex !== -1)
                         updateInfo(currentIndex)
-                    dapPairIndex = currentIndex
                 }
 
                 function updateInfo(currentIndex)
                 {
-                    logicStock.indexPair = currentIndex
-                    logicStock.nameTokenPair1 = dapPairModel.get(currentIndex).token1
-                    logicStock.nameTokenPair2 = dapPairModel.get(currentIndex).token2
-                    logicStock.tokenPrice = dapPairModel.get(currentIndex).rate
+                    logicMainApp.currentIndexPair = currentIndex
+                    logicMainApp.token1Name = dapPairModel.get(currentIndex).token1
+                    logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
+                    logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
+
+                    logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
                     logicStock.tokenChange = dapPairModel.get(currentIndex).change
-                    logicStock.tokenNet = dapPairModel.get(currentIndex).network
                     tokenPairChanged()
                 }
 
+                Connections
+                {
+                    target: dapMainWindow
+                    onModelPairsUpdated:
+                    {
+                        pairBox.currentIndex = logicMainApp.currentIndexPair
+                    }
+                }
             }
 
             ColumnLayout
@@ -128,7 +127,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: volume24h.toFixed(2) + " " + logicStock.nameTokenPair1
+                    text: volume24h.toFixed(2) + " " + logicMainApp.token1Name
                 }
             }
 
@@ -356,10 +355,6 @@ Item
 
         onTokenPriceChanged:
         {
-            stockDataWorker.setNewPrice(price)
-
-            stockDataWorker.getMinimumMaximum24h()
-
             updateTokenPrice()
 
             stockDataWorker.updateAllModels()
@@ -375,12 +370,6 @@ Item
 
     function updateTokenPrice()
     {
-        logicStock.tokenPriceRounded =
-                stockDataWorker.currentTokenPrice.toFixed(roundPower)
-
-        logicStock.tokenPrice = stockDataWorker.currentTokenPrice
-        logicStock.tokenPrevPrice = stockDataWorker.previousTokenPrice
-
         if (stockDataWorker.currentTokenPrice < stockDataWorker.previousTokenPrice)
             tokenPriceText.color = currTheme.textColorRed
         else

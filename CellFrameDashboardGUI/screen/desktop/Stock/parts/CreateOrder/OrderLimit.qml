@@ -11,7 +11,7 @@ ColumnLayout {
 
     Component.onCompleted:
     {
-        price.setRealValue(logicStock.tokenPrice)
+        price.setRealValue(logicMainApp.tokenPrice)
     }
 
     Rectangle
@@ -61,7 +61,7 @@ ColumnLayout {
             Layout.minimumWidth: 215
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-            textToken: tokenName
+            textToken: logicStock.unselectedTokenNameWallet
             textValue: "0.0"
         }
 
@@ -118,7 +118,7 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: "CELL"
+        textToken: logicStock.selectedTokenNameWallet
         textValue: "0.0"
         onEdited:
         {
@@ -154,7 +154,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.25)
             }
         }
 
@@ -176,7 +176,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.5)
             }
         }
 
@@ -198,7 +198,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.75)
             }
         }
 
@@ -220,7 +220,7 @@ ColumnLayout {
                 button100.selected = true
 
                 amount.setRealValue(
-                    logicStock.balanceReal / logicStock.tokenPrice)
+                    logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)
             }
         }
     }
@@ -239,10 +239,10 @@ ColumnLayout {
         onClicked:
         {
 
-            var net = logicStock.tokenNet
+            var net = logicStock.tokenNetwork
             var isSell = sellBuySwitch.checked
-            var tokenSell = isSell ? logicStock.nameTokenPair1 : logicStock.nameTokenPair2
-            var tokenBuy = isSell ? logicStock.nameTokenPair2 : logicStock.nameTokenPair1
+            var tokenSell = isSell ? logicStock.unselectedTokenNameWallet : logicStock.selectedTokenNameWallet
+            var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
             dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, currentWallet, amount.realValue, price.realValue)

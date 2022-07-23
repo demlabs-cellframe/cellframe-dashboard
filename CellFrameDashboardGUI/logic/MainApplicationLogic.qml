@@ -26,7 +26,12 @@ QtObject {
 
     property int requestsMessageCounter: 0
     property bool isOpenRequests: false
+    property int currentIndexPair: -1
 
+    property string token1Name: ""
+    property string token2Name: ""
+    property string tokenNetwork: ""
+    property real tokenPrice
 
     ///Functions
 
@@ -376,10 +381,60 @@ QtObject {
 
     function rcvPairsModel(rcvData)
     {
-        var jsonDocument = JSON.parse(rcvData)
-        dapPairModel.clear()
-        dapPairModel.append(jsonDocument)
-        modelPairsUpdated()
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(rcvData)
+
+
+            if(dapPairModel.count > 0)
+            {
+                token1Name = dapPairModel.get(currentIndexPair).token1
+                token2Name = dapPairModel.get(currentIndexPair).token2
+                tokenNetwork = dapPairModel.get(currentIndexPair).network
+
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+
+                for(var i = 0; i < dapPairModel.count; i++)
+                {
+                    var token1New = dapPairModel.get(i).token1
+                    var token2New = dapPairModel.get(i).token2
+                    var networkNew = dapPairModel.get(i).network
+
+                    if (token1Name === token1New &&
+                        token2Name === token2New &&
+                        tokenNetwork === networkNew)
+                    {
+                        currentIndexPair = i
+                        modelPairsUpdated()
+                        return
+                    }
+                }
+            }
+            else
+            {
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+                currentIndexPair = 0
+
+                if(dapPairModel.count > 0)
+                {
+                    token1Name = dapPairModel.get(currentIndexPair).token1
+                    token2Name = dapPairModel.get(currentIndexPair).token2
+                    tokenNetwork = dapPairModel.get(currentIndexPair).network
+                }
+                else
+                {
+                    token1Name = ""
+                    token2Name = ""
+                    tokenNetwork = ""
+                }
+
+                modelPairsUpdated()
+
+
+            }
+        }
     }
 
     function rcvStateNotify(isError, isFirst)
