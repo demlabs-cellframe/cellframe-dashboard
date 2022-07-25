@@ -8,6 +8,8 @@
 #include <QVector>
 #include <algorithm>
 #include <QDataStream>
+#include <QJsonDocument>
+#include "json-c/json.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -42,7 +44,16 @@
 #include "handlers/DapGetListWalletsCommand.h"
 #include "handlers/DapNodeConfigController.h"
 #include "handlers/DapVersionController.h"
+#include "handlers/DapGetListTokensCommand.h"
+#include "handlers/DapTokenEmissionCommand.h"
 #include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
+#include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapGetXchangeOrdersList.h"
+#include "handlers/DapGetXchangeTokenPair.h"
+#include "handlers/DapGetXchangeTokenPriceAverage.h"
+#include "handlers/DapGetXchangeTokenPriceHistory.h"
 
 
 class DapServiceController : public QObject
@@ -135,6 +146,9 @@ public:
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
 
+    QByteArray s_bufferTokensJson;
+    QByteArray s_bufferOrdersJson;
+
 public slots:
     void requestWalletList();
 //    void requestWalletInfo(const QString& a_walletName, const QStringList& a_networkName);
@@ -221,6 +235,22 @@ signals:
     void networksStatesReceived(QList<QObject*> networksStatesList);
 
     void networksReceived(QList<QObject*> networksList);
+
+    void tokensListReceived(const QVariant& tokensResult);
+    void signalTokensListReceived(const QVariant& tokensResult);
+    void responseEmissionToken(const QVariant& resultEmission);
+    void responseDeclToken(const QVariant& resultDecl);
+
+    void rcvXchangeTxList(const QVariant& rcvData);
+    void rcvXchangeCreate(const QVariant& rcvData);
+
+    void rcvXchangeOrderList(const QVariant& rcvData);
+    void signalXchangeOrderListReceived(const QVariant& rcvData);
+
+    void rcvXchangeTokenPair(const QVariant& rcvData);
+    void rcvXchangeTokenPriceAverage(const QVariant& rcvData);
+    void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
+
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);

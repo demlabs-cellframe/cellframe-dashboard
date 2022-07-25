@@ -14,32 +14,51 @@ DapPage
     readonly property string createNewToken: path + "/Tokens/RightPanel/CreateNewToken.qml"
     readonly property string infoAboutToken: path + "/Tokens/RightPanel/InfoAboutToken.qml"
     readonly property string tokenEmission: path + "/Tokens/RightPanel/TokenEmission.qml"
+    readonly property string tokenDone: path + "/Tokens/RightPanel/TokenOperationsDone.qml"
 
     id: dashboardTab
 
     LogicTokens{id: logicTokens}
+    ListModel{id: detailsModel}
+    ListModel{id: certificatesModel}
+//    ListModel{id: tokensModel}
+//    ListModel{id: temporaryModel}
+
+    Component{id: emptyRightPanel; Item{}}
 
     QtObject {
         id: navigator
 
         function createToken() {
+            logicTokens.unselectToken()
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
             dapRightPanel.push(createNewToken)
         }
 
         function tokenInfo()
         {
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
             dapRightPanel.push(infoAboutToken)
         }
 
         function emission()
         {
+            dapRightPanelFrame.visible = true
             dapRightPanel.push(tokenEmission)
+        }
+
+        function done()
+        {
+            dapRightPanel.push(tokenDone)
         }
 
         function clear()
         {
             dapRightPanel.clear()
-            dapRightPanel.push(tokensLastActions)
+            dapRightPanelFrame.visible = false
+            dapRightPanel.push(emptyRightPanel)
         }
     }
 
@@ -60,8 +79,9 @@ DapPage
 
                 onClicked: navigator.createToken()
             }
+        isVisibleSearch: false
 
-//        onFindHandler: logicTokens.searchElement(text)
+//        onFindHandler: logicTokens.filterResults(text)
     }
 
     dapScreen.initialItem:
@@ -70,9 +90,53 @@ DapPage
             id: tokensScreen
         }
 
-    dapRightPanel.initialItem:
-        TokensLastActions
+
+    dapRightPanelFrame.visible: false
+    dapRightPanel.initialItem: emptyRightPanel
+
+    Timer {
+        id: updateTokensTimer
+        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        onTriggered:
         {
-            id: lastActions
+            console.log("TOKENS TIMER TICK")
+            dapServiceController.requestToService("DapGetListTokensCommand")
         }
+    }
+    Component.onCompleted:
+    {
+        dapServiceController.requestToService("DapCertificateManagerCommands", 1)
+        dapServiceController.requestToService("DapGetListTokensCommand")
+        if (!updateTokensTimer.running)
+            updateTokensTimer.start()
+    }
+
+    Component.onDestruction:
+    {
+        updateTokensTimer.stop()
+    }
+
+    Connections{
+        target: dapServiceController
+        onCertificateManagerOperationResult:{
+            var certList = result.data
+
+            for (var i = 0; i < certList.length; ++i) {
+                if(certList[i].accessKeyType === 1)
+                {
+                    certList[i].selected = false
+                    certificatesModel.append(certList[i])
+                }
+            }
+        }
+    }
+
+//    Connections{
+//        target: dapMainWindow
+
+//        onModelTokensUpdated:{
+//            logicTokens.modelUpdate()
+//        }
+//    }
+
 }

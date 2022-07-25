@@ -94,6 +94,7 @@ HEADERS += \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
     StockDataWorker/candleinfo.h \
+    StockDataWorker/orderinfo.h \
     StockDataWorker/priceinfo.h \
     StockDataWorker/stockdataworker.h \
     WalletRestore/randomfile.h \

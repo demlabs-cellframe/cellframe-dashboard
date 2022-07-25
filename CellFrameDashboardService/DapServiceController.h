@@ -52,7 +52,16 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapVersionController.h"
 #include "handlers/DapRcvNotify.h"
 #include "handlers/DapNodeConfigController.h"
+#include "handlers/DapGetListTokensCommand.h"
 #include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapTokenEmissionCommand.h"
+#include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
+#include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapGetXchangeOrdersList.h"
+#include "handlers/DapGetXchangeTokenPair.h"
+#include "handlers/DapGetXchangeTokenPriceAverage.h"
+#include "handlers/DapGetXchangeTokenPriceHistory.h"
 
 #include "DapWeb3Api/DapWebControll.h"
 
