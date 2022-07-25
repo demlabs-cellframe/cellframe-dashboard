@@ -54,6 +54,7 @@
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
+#include "handlers/DapXchangeOrderPurchase.h"
 
 
 class DapServiceController : public QObject
@@ -247,6 +248,7 @@ signals:
 
     void rcvXchangeOrderList(const QVariant& rcvData);
     void signalXchangeOrderListReceived(const QVariant& rcvData);
+    void rcvXchangePurchase(const QVariant& rcvData);
 
     void rcvXchangeTokenPair(const QVariant& rcvData);
     void signalXchangeTokenPairReceived(const QVariant& rcvData);

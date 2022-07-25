@@ -271,7 +271,7 @@ ColumnLayout {
                         var orderNet = dapModelXchangeOrders.get(i).network
                         var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
                         var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
-                        var orderPrice = dapModelXchangeOrders.get(i).orders.get(j).rate
+                        var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
                         var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
                         var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
                         var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
@@ -285,12 +285,11 @@ ColumnLayout {
                                     orderBuyAmount, walletBalance)
 
 
-                        if(net === orderNet &&
-                           orderBuy === tokenSell &&
+                        if(orderBuy === tokenSell &&
                            orderSell === tokenBuy &&
                            orderPrice === price &&
                            orderSellAmount >= amount &&
-                           orderBuyAmount >= walletBalance)
+                           orderBuyAmount <= walletBalance)
                         {
                             return orderHash
                         }

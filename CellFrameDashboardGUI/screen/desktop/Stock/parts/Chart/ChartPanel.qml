@@ -71,8 +71,13 @@ Item
                     target: dapMainWindow
                     onModelPairsUpdated:
                     {
-                        pairBox.currentIndex = logicMainApp.currentIndexPair
-                        displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                        if(!pairBox.count)
+                            pairBox.logic.setModel(dapPairModel)
+                        else
+                        {
+                            pairBox.currentIndex = logicMainApp.currentIndexPair
+                            displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                        }
                     }
                 }
             }
