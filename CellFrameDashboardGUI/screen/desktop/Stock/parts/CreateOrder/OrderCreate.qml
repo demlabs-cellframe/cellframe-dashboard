@@ -20,6 +20,10 @@ Page
             logicStock.resultCreate = rcvData
             goToDoneCreate()
         }
+        onRcvXchangePurchase:{
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
     }
 
     ListModel {

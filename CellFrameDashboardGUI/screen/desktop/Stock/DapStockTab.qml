@@ -52,8 +52,10 @@ DapPage
         {
             console.log("PAIR TIMER TICK")
             dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
+            dapServiceController.requestToService("DapGetXchangeOrdersList")
         }
     }
+
 
     Component.onCompleted:
     {
@@ -107,8 +109,7 @@ DapPage
                 "DapGetXchangeTokenPriceAverage",
                 logicMainApp.tokenNetwork,
                 logicMainApp.token1Name,
-                logicMainApp.token2Name,
-                "simulation")
+                logicMainApp.token2Name)
         }
     }
 
@@ -154,6 +155,8 @@ DapPage
     onTokenPairChanged:
     {
         print("DapStockTab onTokenPairChanged")
+
+        console.log(logicMainApp.tokenPrice)
 
         stockDataWorker.resetPriceData(logicMainApp.tokenPrice, false)
         stockDataWorker.resetBookModel()
