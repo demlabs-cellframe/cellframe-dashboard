@@ -325,6 +325,27 @@ QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
     return docResult;
 }
 
+QJsonDocument DapWebControll::getTxHistoryInfo(QString hash, QString net)
+{
+    QString command = QString("%1 ledger tx -tx %2 -net %3")
+            .arg(CLI_PATH).arg(hash).arg(net);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(!result.isEmpty())
+    {
+        obj.insert("string", result);
+        docResult = processingResult("ok", "", obj);
+    }else{
+        docResult = processingResult("bad", QString("Node is offline"));
+    }
+
+    return docResult;
+}
+
 QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
 {
     QString path = s_pathJsonCmd + "tx_json.json";
