@@ -354,5 +354,16 @@
         <file>screen/desktop/Console/Suggestion/LineEdit.qml</file>
         <file>screen/desktop/Console/Suggestion/SuggestionBox.qml</file>
         <file>screen/desktop/controls/DapLoadIndicator.qml</file>
+        <file>screen/desktop/VPNClient-new/DapVpnClientScreen.qml</file>
+        <file>screen/desktop/VPNClient-new/DapVpnClientTopPanel.qml</file>
+        <file>screen/desktop/VPNClient-new/DapVpnClientTab.qml</file>
+        <file>screen/desktop/VPNClient-new/RightPanel/Refund.qml</file>
+        <file>screen/desktop/VPNClient-new/RightPanel/TopUp.qml</file>
+        <file>screen/desktop/VPNClient-new/RightPanel/VPNOrders.qml</file>
+        <file>screen/desktop/VPNClient-new/Parts/ChartPanel.qml</file>
+        <file>screen/desktop/VPNClient-new/Parts/CheckersPanel.qml</file>
+        <file>screen/desktop/VPNClient-new/Parts/CurrentUsagePanel.qml</file>
+        <file>screen/desktop/VPNClient-new/Parts/RightStackView.qml</file>
+        <file>screen/desktop/VPNClient-new/Parts/StatisticsPanel.qml</file>
     </qresource>
 </RCC>

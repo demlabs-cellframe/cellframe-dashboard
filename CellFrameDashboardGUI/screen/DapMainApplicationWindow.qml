@@ -164,7 +164,7 @@ Rectangle {
             name: qsTr("VPN client"),
             bttnIco: "vpn-client_icon.png",
             showTab: true,
-            page: "qrc:/screen/desktop/VPNClient/DapVpnClientTab.qml"})
+            page: "qrc:/screen/desktop/VPNClient-new/DapVpnClientTab.qml"})
         append ({ tag: "VPN service",
             name: qsTr("VPN service"),
             bttnIco: "icon_vpn.png",
