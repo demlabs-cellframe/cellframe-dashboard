@@ -245,8 +245,17 @@ ColumnLayout {
             var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                  currentWallet, amount.realValue, price.realValue)
+            var amountValue = logicStock.toDatoshi(amount.textValue)
+
+            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.realValue, amountValue)
+
+            if(hash !== "0")
+                dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
+                                                      net, currentWallet, amountValue)
+
+            else
+                dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
+                                                      currentWallet, amountValue, price.realValue)
         }
     }
 

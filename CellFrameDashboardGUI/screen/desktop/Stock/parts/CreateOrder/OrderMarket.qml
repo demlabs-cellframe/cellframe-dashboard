@@ -245,58 +245,18 @@ ColumnLayout {
             var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var hash = searchOrder(net, tokenSell, tokenBuy, price.realValue, amount.realValue)
+            var amountValue = logicStock.toDatoshi(amount.textValue)
+            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.realValue, amountValue)
 
             console.log("HASH: ", hash)
 
             if(hash !== "0")
                 dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
-                                                      net, currentWallet, amount.realValue)
+                                                      net, currentWallet, amountValue)
 
             else
                 dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amount.realValue, price.realValue)
-        }
-
-        function searchOrder(net, tokenSell, tokenBuy, price, amount)
-        {
-            for(var i = 0; i < dapModelXchangeOrders.count; i++)
-            {
-                console.log(net, dapModelXchangeOrders.get(i).network)
-
-                if(net === dapModelXchangeOrders.get(i).network)
-                {
-                    for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
-                    {
-                        var orderNet = dapModelXchangeOrders.get(i).network
-                        var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
-                        var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
-                        var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
-                        var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
-                        var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
-                        var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
-
-                        var walletBalance = logicStock.selectedTokenBalanceWallet
-
-                        console.log(orderBuy, tokenSell,
-                                    orderSell, tokenBuy,
-                                    orderPrice, price,
-                                    orderSellAmount, amount,
-                                    orderBuyAmount, walletBalance)
-
-
-                        if(orderBuy === tokenSell &&
-                           orderSell === tokenBuy &&
-                           orderPrice === price &&
-                           orderSellAmount >= amount &&
-                           orderBuyAmount <= walletBalance)
-                        {
-                            return orderHash
-                        }
-                    }
-                }
-            }
-            return "0"
+                                                      currentWallet, amountValue, price.realValue)
         }
     }
 
