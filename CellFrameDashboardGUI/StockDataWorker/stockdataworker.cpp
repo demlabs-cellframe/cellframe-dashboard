@@ -69,7 +69,7 @@ void StockDataWorker::resetPriceData(double price, double init)
 
     priceModel.clear();
 
-    if (!init)
+    if (!init && price > 0.000000000000000000001)
     {
         PriceInfo info{currentTime, price};
 
