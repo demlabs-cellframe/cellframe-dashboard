@@ -405,8 +405,6 @@ void StockDataWorker::getTempAveragedModel(bool update)
 
     int lastAverIndex = tempAverModel.size()-1;
 
-    tempAverModel.resize(length);
-
 //    qDebug() << "StockDataWorker::getAveragedModel"
 //             << "averStep" << averStep
 //             << "length" << length;
@@ -423,7 +421,7 @@ void StockDataWorker::getTempAveragedModel(bool update)
         averIndex = lastAverIndex;
 
 //        averBegin += averIndex * averStep;
-        if (averIndex >= 0)
+        if (averIndex >= 0 && averIndex < tempAverModel.size())
             averBegin = tempAverModel.at(averIndex).time - averStep/2;
         averNext = averBegin + averStep;
 
@@ -452,6 +450,8 @@ void StockDataWorker::getTempAveragedModel(bool update)
 
 //        qDebug() << "priceIndex END" << priceIndex;
     }
+
+    tempAverModel.resize(length);
 
     for (auto i = priceIndex; i < priceModel.size(); ++i)
     {
