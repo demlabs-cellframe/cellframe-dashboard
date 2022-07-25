@@ -397,10 +397,10 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
 
-        var timeTo = 10
-        var timeFrom = 20
-        var addr = "abcd"
-        var net = "private"
+//        var timeTo = 10
+//        var timeFrom = 20
+//        var addr = "abcd"
+//        var net = "private"
 
         stockDataWorker.resetPriceData(0.0, true)
         stockDataWorker.resetBookModel()

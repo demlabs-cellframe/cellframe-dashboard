@@ -115,7 +115,7 @@ Page
 //                Layout.rightMargin: 15
 
                 enabled: logicStock.unselectedTokenBalanceWallet
-                checked: logicStock.unselectedTokenBalanceWallet
+//                checked: logicStock.unselectedTokenBalanceWallet
 
                 backgroundColor: currTheme.backgroundMainScreen
                 borderColor: currTheme.reflectionLight

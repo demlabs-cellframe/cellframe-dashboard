@@ -19,7 +19,10 @@ ComboBox {
 //    property string mainTextRole: "pair"
     property string defaultText: qsTr("Undefined")
     property var displayElement
+
+    signal initModelIsCompleted()
     spacing: 0
+
 
     LogicComboBox{id: logic}
     ListModel{id: temporaryModel}
@@ -45,6 +48,7 @@ ComboBox {
                     anchors.left: parent.left
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
+                    width: 122
                     text: logic.getModelData(index, "token1") + "/" +
                           logic.getModelData(index, "token2")
                     color: menuDelegate.highlighted ?
@@ -59,6 +63,7 @@ ComboBox {
                 {
                     anchors.left: parent.left
                     anchors.leftMargin: 138
+                    anchors.right: changeText.left
                     anchors.verticalCenter: parent.verticalCenter
                     text: logic.getModelData(index, "rate")
                     color: menuDelegate.highlighted ?
@@ -71,6 +76,7 @@ ComboBox {
 
                 Text
                 {
+                    id: changeText
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.rightMargin: 16
@@ -245,10 +251,8 @@ ComboBox {
                                 text:"Change"
                                 font: mainFont.dapFont.medium12
                                 color: currTheme.textColor
-
                             }
                         }
-
                     }
                 }
             }

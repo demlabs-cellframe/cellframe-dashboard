@@ -429,10 +429,7 @@ QtObject {
                     token2Name = ""
                     tokenNetwork = ""
                 }
-
                 modelPairsUpdated()
-
-
             }
         }
     }
