@@ -62,7 +62,7 @@ ColumnLayout {
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
             textToken: logicStock.unselectedTokenNameWallet
-            textValue: "0.0"
+            textValue: logicMainApp.tokenPrice
         }
 
         Rectangle
@@ -239,25 +239,14 @@ ColumnLayout {
         onClicked:
         {
 
-            var net = logicStock.tokenNetwork
+            var net = logicMainApp.tokenNetwork
             var isSell = sellBuySwitch.checked
             var tokenSell = isSell ? logicStock.unselectedTokenNameWallet : logicStock.selectedTokenNameWallet
             var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy, currentWallet, amount.realValue, price.realValue)
-
-
-//            var date = new Date()
-
-//            logicStock.addNewOrder(
-//                date.toLocaleString(Qt.locale("en_EN"),
-//                "yyyy-MM-dd hh:mm"),
-//                "CELL/"+logicStock.nameTokenPair,
-//                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-//                price.realValue, amount.realValue,
-//                expiresModel.get(expiresComboBox.currentIndex).name,
-//                sellBuySwitch.checked? "<=" + price.textValue :">=" + price.textValue)
+            dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
+                                                  currentWallet, amount.realValue, price.realValue)
         }
     }
 

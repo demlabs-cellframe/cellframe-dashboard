@@ -67,6 +67,7 @@ Item {
 
         control.model = mainModel
         displayElement = temporaryModel.get(0)
+        initModelIsCompleted()
     }
 
     function getModelData(index, role)

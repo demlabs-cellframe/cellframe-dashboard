@@ -34,15 +34,24 @@ Item
 
             DapPairComboBox
             {
+                property bool isInit: false
                 id: pairBox
                 Layout.minimumWidth: 190
                 height: 32
+
+                onInitModelIsCompleted: {
+                    isInit = true
+                    currentIndex = logicMainApp.currentIndexPair
+                    displayElement = dapPairModel.get(currentIndex)
+                }
+
                 Component.onCompleted:
                 {
                     logic.setModel(dapPairModel)
+
                 }
                 onCurrentIndexChanged: {
-                    if(currentIndex !== -1)
+                    if(currentIndex !== -1 && isInit)
                         updateInfo(currentIndex)
                 }
 
@@ -52,7 +61,6 @@ Item
                     logicMainApp.token1Name = dapPairModel.get(currentIndex).token1
                     logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
                     logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
-
                     logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
                     logicStock.tokenChange = dapPairModel.get(currentIndex).change
                     tokenPairChanged()
@@ -64,6 +72,7 @@ Item
                     onModelPairsUpdated:
                     {
                         pairBox.currentIndex = logicMainApp.currentIndexPair
+                        displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
                     }
                 }
             }
