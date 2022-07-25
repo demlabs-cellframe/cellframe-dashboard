@@ -176,7 +176,7 @@ Controls.DapTopPanel
 
         for(var i = 0; i < modelWallet.networks.count; i++)
         {
-            if(logicStock.tokenNetwork === modelWallet.networks.get(i).name)
+            if(logicMainApp.tokenNetwork === modelWallet.networks.get(i).name)
             {
                 for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
                 {
@@ -231,7 +231,7 @@ Controls.DapTopPanel
         {
             var name = logicStock.selectedTokenNameWallet
                     === logicMainApp.token1Name ? logicMainApp.token2Name:
-                                                                                          logicStock.token1Name
+                                                  logicMainApp.token1Name
             logicStock.unselectedTokenNameWallet = name
             logicStock.unselectedTokenBalanceWallet = 0
         }
