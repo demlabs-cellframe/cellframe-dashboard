@@ -288,4 +288,72 @@ QtObject
         var count = (heightParent - 42)/32/2 - 1
         return Math.floor(count)
     }
+
+    function searchOrder(net, tokenSell, tokenBuy, price, amount)
+    {
+        for(var i = 0; i < dapModelXchangeOrders.count; i++)
+        {
+            console.log(net, dapModelXchangeOrders.get(i).network)
+
+            if(net === dapModelXchangeOrders.get(i).network)
+            {
+                for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
+                {
+                    var orderNet = dapModelXchangeOrders.get(i).network
+                    var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
+                    var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
+                    var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
+                    var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
+                    var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
+                    var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
+
+                    var walletBalance = logicStock.selectedTokenBalanceWallet
+
+                    console.log(orderBuy, tokenSell,
+                                orderSell, tokenBuy,
+                                orderPrice, price,
+                                orderSellAmount, amount,
+                                orderBuyAmount, walletBalance)
+
+
+                    if(orderBuy === tokenSell &&
+                       orderSell === tokenBuy &&
+                       orderPrice === price &&
+                       orderSellAmount >= amount &&
+                       orderBuyAmount <= walletBalance)
+                    {
+                        return orderHash
+                    }
+                }
+            }
+        }
+        return "0"
+    }
+
+    function toDatoshi(str)
+    {
+        var dotIndex = str.indexOf('.')
+
+        if (dotIndex === -1)
+        {
+            str += "000000000000000000"
+        }
+        else
+        {
+            var shift = 19 - str.length + dotIndex
+            str += "0".repeat(shift)
+            str = str.slice(0, dotIndex) + str.slice(dotIndex+1, str.length)
+        }
+
+        var i = 0;
+        while (i < str.length)
+        {
+            if (str[i] !== '0')
+                break
+            ++i
+        }
+        str = str.slice(i, str.length)
+
+        return str
+    }
 }
