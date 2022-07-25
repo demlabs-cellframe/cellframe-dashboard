@@ -226,7 +226,11 @@ void StockDataWorker::getCandleModel(bool update)
 //    qDebug() << "StockDataWorker::getCandleModel" << "BEGIN"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
 
-    qint64 timeLength = priceModel.last().time - priceModel.first().time;
+    qint64 timeLength = 0;
+
+    if (!priceModel.isEmpty())
+        timeLength = priceModel.last().time - priceModel.first().time;
+
     int length = timeLength / m_candleWidth;
     if (timeLength % m_candleWidth)
         ++length;
@@ -343,7 +347,8 @@ void StockDataWorker::getCandleModel(bool update)
 
 //    qDebug() << "candleModel.size()" << candleModel.size();
 
-    if (m_lastCandleNumber != candleModel.size()-1)
+    if (m_lastCandleNumber != candleModel.size()-1 &&
+        !candleModel.isEmpty())
     {
 //        qDebug() << "NEW CANDLE" << candleModel.size()-1;
 
@@ -356,9 +361,8 @@ void StockDataWorker::getCandleModel(bool update)
         m_lastCandleNumber = candleModel.size()-1;
     }
 
-    qDebug() << "StockDataWorker::getCandleModel"
-             << "candleModel.last().time" << candleModel.last().time
-             << "m_rightTime" << m_rightTime;
+//    qDebug() << "StockDataWorker::getCandleModel"
+//             << "m_rightTime" << m_rightTime;
 
 //    qDebug() << "StockDataWorker::getCandleModel" << "END"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
@@ -376,15 +380,27 @@ void StockDataWorker::getTempAveragedModel(bool update)
 {
 //    qDebug() << "StockDataWorker::getTempAveragedModel" << "BEGIN"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
+    if (priceModel.isEmpty())
+    {
+        tempAverModel.clear();
+        return;
+    }
 
     int averStep = m_candleWidth * minAverageStep;
 
-    qint64 timeLength = priceModel.last().time - priceModel.first().time;
+    qint64 timeLength = 0;
+
+    if (!priceModel.isEmpty())
+        timeLength = priceModel.last().time - priceModel.first().time;
+
     int length = timeLength / averStep;
     if (timeLength % averStep)
         ++length;
 
-    qint64 averBegin = priceModel.first().time;
+    qint64 averBegin = 0;
+
+    if (!priceModel.isEmpty())
+        averBegin = priceModel.first().time;
     qint64 averNext = averBegin + averStep;
 
     int lastAverIndex = tempAverModel.size()-1;
