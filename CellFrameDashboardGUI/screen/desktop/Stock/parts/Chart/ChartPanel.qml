@@ -63,6 +63,10 @@ Item
                     logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
                     logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
                     logicStock.tokenChange = dapPairModel.get(currentIndex).change
+
+                    stockDataWorker.setTokenPair(logicMainApp.token1Name,
+                        logicMainApp.token2Name, logicMainApp.tokenNetwork)
+
                     tokenPairChanged()
                 }
 
@@ -249,7 +253,7 @@ Item
                 textClose.text = closeValue.toFixed(roundPower)
 
                 if (openValue > 0.0000000000000000001)
-                    textChange.text = (closeValue/openValue*100 - 100).toFixed(3) + "%"
+                    textChange.text = (closeValue/openValue*100 - 100).toFixed(4) + "%"
                 else
                     textChange.text = "0%"
 

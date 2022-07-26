@@ -376,6 +376,34 @@ QtObject {
             dapModelXchangeOrders.clear()
             dapModelXchangeOrders.append(jsonDocument)
             modelXchangeOrdersUpdated()
+
+            stockDataWorker.setBookModel(rcvData)
+
+/*            print("rcvOpenOrders", dapModelXchangeOrders.count)
+
+            for(var i = 0; i < dapModelXchangeOrders.count; i++)
+            {
+                console.log(dapModelXchangeOrders.get(i).network,
+                            dapModelXchangeOrders.get(i).orders.count)
+
+                for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
+                {
+                    var orderNet = dapModelXchangeOrders.get(i).network
+                    var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
+                    var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
+                    var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
+                    var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
+                    var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
+                    var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
+
+                    console.log(orderBuy,
+                                orderSell,
+                                orderPrice,
+                                orderSellAmount,
+                                orderBuyAmount)
+                }
+            }*/
+
         }
     }
 
@@ -391,6 +419,8 @@ QtObject {
                 token1Name = dapPairModel.get(currentIndexPair).token1
                 token2Name = dapPairModel.get(currentIndexPair).token2
                 tokenNetwork = dapPairModel.get(currentIndexPair).network
+
+                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
 
                 dapPairModel.clear()
                 dapPairModel.append(jsonDocument)
@@ -429,6 +459,9 @@ QtObject {
                     token2Name = ""
                     tokenNetwork = ""
                 }
+
+                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+
                 modelPairsUpdated()
             }
         }

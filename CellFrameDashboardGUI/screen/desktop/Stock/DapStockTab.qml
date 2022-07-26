@@ -47,15 +47,27 @@ DapPage
 
     Timer {
         id: updatePairTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        interval: logicStock.updateInterval
+        running: false
+        repeat: true
         onTriggered:
         {
-            console.log("PAIR TIMER TICK")
+//            console.log("PAIR TIMER TICK")
             dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
-            dapServiceController.requestToService("DapGetXchangeOrdersList")
         }
     }
 
+
+    Timer {
+        id: updateOrdersListTimer
+        interval: logicStock.updateInterval
+        running: false
+        repeat: true
+        onTriggered:
+        {
+            dapServiceController.requestToService("DapGetXchangeOrdersList")
+        }
+    }
 
     Component.onCompleted:
     {
@@ -72,6 +84,9 @@ DapPage
 
         if (!updatePairTimer.running)
             updatePairTimer.start()
+
+        if (!updateOrdersListTimer.running)
+            updateOrdersListTimer.start()
     }
 
     Component.onDestruction:
@@ -97,19 +112,25 @@ DapPage
     {
         id: updatePriceTimer
         repeat: true
-        interval: 1000
+        interval: logicStock.updateInterval
         onTriggered:
         {
-            print("updatePriceTimer",
-                  "dapPairToken1", logicMainApp.token1Name,
-                  "dapPairToken2", logicMainApp.token2Name,
-                  "dapPairNetwork", logicMainApp.tokenNetwork)
+//            print("updatePriceTimer",
+//                  "dapPairToken1", logicMainApp.token1Name,
+//                  "dapPairToken2", logicMainApp.token2Name,
+//                  "dapPairNetwork", logicMainApp.tokenNetwork)
 
             dapServiceController.requestToService(
                 "DapGetXchangeTokenPriceAverage",
                 logicMainApp.tokenNetwork,
                 logicMainApp.token1Name,
                 logicMainApp.token2Name)
+//            dapServiceController.requestToService(
+//                "DapGetXchangeTokenPriceAverage",
+//                logicMainApp.tokenNetwork,
+//                logicMainApp.token1Name,
+//                logicMainApp.token2Name,
+//                "simulation")
         }
     }
 
@@ -155,6 +176,10 @@ DapPage
     onTokenPairChanged:
     {
         print("DapStockTab onTokenPairChanged")
+
+        updateOrdersListTimer.stop()
+        dapServiceController.requestToService("DapGetXchangeOrdersList")
+        updateOrdersListTimer.start()
 
         console.log(logicMainApp.tokenPrice)
 

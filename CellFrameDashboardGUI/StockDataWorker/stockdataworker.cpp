@@ -3,6 +3,8 @@
 #include <QDateTime>
 #include <QRandomGenerator>
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
 
 constexpr double visibleDefaultCandles {40};
 constexpr double maxZoom{3.0};
@@ -58,6 +60,16 @@ void StockDataWorker::setContext(QQmlContext *cont)
     //    updateHistogram();
 
     updateBookModels();
+}
+
+void StockDataWorker::setTokenPair(const QString &tok1,
+    const QString &tok2, const QString &net)
+{
+    token1 = tok1;
+    token2 = tok2;
+    network = net;
+
+    qDebug() << "StockDataWorker::setTokenPair" << token1 << token2 << network;
 }
 
 void StockDataWorker::resetPriceData(double price, double init)
@@ -204,6 +216,96 @@ void StockDataWorker::generateBookModel(double price, int length)
     getVariantBookModels();
 
     updateBookModels();
+}
+
+void StockDataWorker::setBookModel(const QByteArray &json)
+{
+//    qDebug() << "StockDataWorker::setBookModel";
+
+    QJsonDocument doc = QJsonDocument::fromJson(json);
+
+    if (doc.isArray())
+    {
+        sellOrderModel.clear();
+        buyOrderModel.clear();
+
+        m_sellMaxTotal = 0;
+        m_buyMaxTotal = 0;
+
+        QJsonArray netArray = doc.array();
+//        qDebug() << "array.size()" << netArray.size();
+
+        for(auto i = 0; i < netArray.size(); i++)
+        {
+//            qDebug() << netArray.at(i)["network"].toString()
+//                    << (netArray.at(i)["network"].toString() == network);
+
+            if (netArray.at(i)["network"].toString() == network)
+            {
+                QJsonArray orders = netArray.at(i)["orders"].toArray();
+
+                for(auto j = 0; j < orders.size(); j++)
+                {
+                    QString tok1 = orders.at(j)["buy_token"].toString();
+                    QString tok2 = orders.at(j)["sell_token"].toString();
+
+                    if ((tok1 == token1 && tok2 == token2) ||
+                        (tok2 == token1 && tok1 == token2))
+                    {
+//                        qDebug () << tok1 << tok2
+//                                  << orders.at(j)["rate"].toString().toDouble()
+//                                  << orders.at(j)["buy_amount"].toString().toDouble()
+//                                  << orders.at(j)["sell_amount"].toString().toDouble();
+
+                        double price = orders.at(j)["rate"].toString().toDouble();
+                        double amount;
+
+                        if (tok1 == token1)
+                        {
+                            amount = orders.at(j)["buy_amount"].toString().toDouble();
+                            if (price > 0.000000000000000000001)
+                                amount /= price;
+                        }
+                        else
+                        {
+                            amount = orders.at(j)["sell_amount"].toString().toDouble();
+                        }
+
+                        amount *= 0.000000000000000001;
+
+                        double total = amount * price;
+
+//                        qDebug () << tok1 << tok2
+//                                  << price
+//                                  << amount
+//                                  << total;
+
+                        if (tok1 == token1)
+                        {
+                            sellOrderModel.append(OrderInfo{price, amount, total});
+
+                            if (m_sellMaxTotal < total)
+                                m_sellMaxTotal = total;
+                        }
+                        else
+                        {
+                            buyOrderModel.append(OrderInfo{price, amount, total});
+
+                            if (m_buyMaxTotal < total)
+                                m_buyMaxTotal = total;
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+        getVariantBookModels();
+
+        updateBookModels();
+    }
+
 }
 
 void StockDataWorker::updateAllModels()

@@ -438,7 +438,10 @@ void DapServiceController::registerCommand()
         if(!rcvData.isValid())
             return ;
 
-        if(s_bufferOrdersJson.isEmpty())
+        s_bufferOrdersJson = rcvData.toByteArray();
+        emit signalXchangeOrderListReceived(rcvData);
+
+/*        if(s_bufferOrdersJson.isEmpty())
         {
             s_bufferOrdersJson = rcvData.toByteArray();
             emit signalXchangeOrderListReceived(rcvData);
@@ -451,7 +454,7 @@ void DapServiceController::registerCommand()
                 return ;
             }
             emit signalXchangeOrderListReceived("isEqual");
-        }
+        }*/
     });
 
     connect(this, &DapServiceController::rcvXchangeTokenPair, [=] (const QVariant& rcvData)

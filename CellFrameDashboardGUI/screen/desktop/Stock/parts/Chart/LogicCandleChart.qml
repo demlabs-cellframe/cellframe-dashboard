@@ -109,6 +109,8 @@ QtObject
         if (stockDataWorker.maxPrice > stockDataWorker.minPrice)
             coefficientPrice = chartDrawHeight/
                     (stockDataWorker.maxPrice - stockDataWorker.minPrice)
+        else
+            coefficientPrice = 0
         if (stockDataWorker.visibleTime > 0)
             coefficientTime = chartWidth/stockDataWorker.visibleTime
 
@@ -365,7 +367,10 @@ QtObject
 
         if (mouseVisible && mouseY <= chartFullHeight)
         {
-            outText = (stockDataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
+            if (stockDataWorker.maxPrice > stockDataWorker.minPrice)
+                outText = (stockDataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
+            else
+                outText = stockDataWorker.maxPrice
 
             drawHorizontalLineText(ctx,
                 mouseY,

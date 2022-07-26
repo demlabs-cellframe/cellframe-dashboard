@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QVariantMap>
 #include <QQmlContext>
+#include <QJsonDocument>
 
 #include "priceinfo.h"
 #include "candleinfo.h"
@@ -53,6 +54,9 @@ public:
 
     void setContext(QQmlContext *cont);
 
+    Q_INVOKABLE void setTokenPair(const QString &tok1,
+        const QString &tok2, const QString &net);
+
     Q_INVOKABLE void resetPriceData(double price, double init);
 
     Q_INVOKABLE void generatePriceData(int length);
@@ -61,6 +65,8 @@ public:
     Q_INVOKABLE void resetBookModel();
 
     Q_INVOKABLE void generateBookModel(double price, int length);
+
+    Q_INVOKABLE void setBookModel(const QByteArray &json);
 
     Q_INVOKABLE void updateAllModels();
 
@@ -185,6 +191,10 @@ private:
     void updateBookModels();
 
 private:
+    QString token1 {""};
+    QString token2 {""};
+    QString network {""};
+
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
     QVector <OrderInfo> sellOrderModel;

@@ -13,6 +13,7 @@ QtObject
     property var unselectedTokenNameWallet:""
     property var unselectedTokenBalanceWallet:0
 
+    property int updateInterval: 1000
 
     property var resultCreate
 

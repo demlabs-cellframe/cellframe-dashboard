@@ -132,7 +132,7 @@ Page
                     Layout.minimumWidth: 100
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Price(ETH)"
+                    text: "Price("+logicMainApp.token1Name+")"
                 }
 
                 Text
@@ -140,7 +140,7 @@ Page
                     Layout.fillWidth: true
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Amount(CELL)"
+                    text: "Amount("+logicMainApp.token2Name+")"
                 }
 
                 Text
