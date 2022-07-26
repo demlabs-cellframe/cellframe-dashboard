@@ -92,9 +92,11 @@ Rectangle {
     signal modelPluginsUpdated()
     signal modelTokensUpdated()
     signal modelXchangeOrdersUpdated()
+    signal modelPairsUpdated()
+    signal modelTokenPriceHistoryUpdated()
     signal checkWebRequest()
     signal openRequests()
-    signal modelPairsUpdated()
+
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -108,9 +110,9 @@ Rectangle {
     ListModel{id: dapModelTokens}
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
-    ListModel{id: pairsModel}
     ListModel{id: dapModelXchangeOrders}
     ListModel{id: dapPairModel}
+    ListModel{id: dapTokenPriceHistory}
 
     ListModel{id: fakeWallet}
 
@@ -158,8 +160,8 @@ Rectangle {
             bttnIco: "icon_wallet.png",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
-        append ({ tag: "Stock",
-            name: qsTr("Stock"),
+        append ({ tag: "DEX",
+            name: qsTr("DEX"),
             bttnIco: "icon_exchange.png",
             showTab: true,
             page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
@@ -429,7 +431,7 @@ Rectangle {
         //-------//TokenPair
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
+        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "private", "token1", "token2")
 
 
 
@@ -526,8 +528,8 @@ Rectangle {
 
         onRcvXchangeTokenPriceHistory:
         {
-//            print("onRcvXchangeTokenPriceHistory", rcvData.result)
-
+            print("onRcvXchangeTokenPriceHistory", rcvData.result)
+            logicMainApp.rcvTokenPriceHistory(rcvData)
         }
 
     }

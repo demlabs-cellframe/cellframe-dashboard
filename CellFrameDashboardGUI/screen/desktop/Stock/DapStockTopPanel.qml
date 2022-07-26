@@ -28,7 +28,7 @@ Controls.DapTopPanel
             Layout.rightMargin: 40
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
-            text: qsTr(" <  Stock")
+            text: qsTr(" <  DEX")
             visible: false
 
             MouseArea

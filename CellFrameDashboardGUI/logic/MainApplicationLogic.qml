@@ -467,6 +467,17 @@ QtObject {
         }
     }
 
+    function rcvTokenPriceHistory(rcvData)
+    {
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(tokensList)
+            dapTokenPriceHistory.clear()
+            dapTokenPriceHistory.append(jsonDocument)
+            modelTokenPriceHistoryUpdated()
+        }
+    }
+
     function rcvStateNotify(isError, isFirst)
     {
         messagePopup.dapButtonCancel.visible = false

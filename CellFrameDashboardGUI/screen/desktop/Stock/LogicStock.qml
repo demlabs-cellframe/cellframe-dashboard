@@ -308,7 +308,7 @@ QtObject
                     var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
                     var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
 
-                    var walletBalance = logicStock.selectedTokenBalanceWallet
+                    var walletBalance = toDatoshi(logicStock.selectedTokenBalanceWallet)
 
                     console.log(orderBuy, tokenSell,
                                 orderSell, tokenBuy,
@@ -323,11 +323,13 @@ QtObject
                        orderSellAmount >= amount &&
                        orderBuyAmount <= walletBalance)
                     {
+                        console.log("HASH:", orderHash)
                         return orderHash
                     }
                 }
             }
         }
+        console.log("HASH: 0")
         return "0"
     }
 

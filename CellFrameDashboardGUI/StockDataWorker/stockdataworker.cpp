@@ -385,7 +385,7 @@ void StockDataWorker::getCandleModel(bool update)
 //                 << "candleBegin" << candleBegin
 //                 << "priceModel.size()" << priceModel.size();
 
-        while (priceIndex > 0 &&
+        while (!priceModel.isEmpty() && priceIndex > 0 &&
                priceModel.at(priceIndex).time > candleBegin)
         {
             --priceIndex;
@@ -396,7 +396,7 @@ void StockDataWorker::getCandleModel(bool update)
         if (priceIndex < 0)
             priceIndex = 0;
 
-        if (priceModel.at(priceIndex).time < candleBegin)
+        if (!priceModel.isEmpty() && priceModel.at(priceIndex).time < candleBegin)
             ++priceIndex;
 
 //        qDebug() << "END priceIndex" << priceIndex;
