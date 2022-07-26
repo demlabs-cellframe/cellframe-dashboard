@@ -35,6 +35,7 @@ Item
             DapPairComboBox
             {
                 property bool isInit: false
+                property var globalIndex
                 id: pairBox
                 Layout.minimumWidth: 190
                 height: 32
@@ -42,7 +43,9 @@ Item
                 onInitModelIsCompleted: {
                     isInit = true
                     currentIndex = logicMainApp.currentIndexPair
-                    displayElement = dapPairModel.get(currentIndex)
+                    globalIndex = currentIndex
+                    displayElement = dapPairModel.get(globalIndex)
+                    updateInfo(globalIndex)
                 }
 
                 Component.onCompleted:
@@ -51,8 +54,21 @@ Item
 
                 }
                 onCurrentIndexChanged: {
-                    if(currentIndex !== -1 && isInit)
-                        updateInfo(currentIndex)
+
+                    if(isInit)
+                    {
+                        for(var i = 0; i < dapPairModel.count; i++)
+                        {
+                            if(dapPairModel.get(i).token1 === pairBox.displayElement.token1 &&
+                               dapPairModel.get(i).token2 === pairBox.displayElement.token2)
+                            {
+                                globalIndex = i
+                            }
+                        }
+
+                        if(globalIndex !== -1)
+                            updateInfo(globalIndex)
+                    }
                 }
 
                 function updateInfo(currentIndex)
