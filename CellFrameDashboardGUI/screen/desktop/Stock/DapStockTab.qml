@@ -104,7 +104,7 @@ DapPage
             interval = 100 + Math.round(Math.random()*200)
 
 //            logicStock.generateBookState()
-//            stockDataWorker.generateNewOrderState()
+//            stockDataWorker.generateNewBookState()
         }
     }
 

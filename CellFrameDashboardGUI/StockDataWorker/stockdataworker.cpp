@@ -192,7 +192,9 @@ void StockDataWorker::generateBookModel(double price, int length)
         double amount = QRandomGenerator::global()->generateDouble()*1500;
         double total = amount * temp_price;
 
-        sellOrderModel.append(OrderInfo{temp_price, amount, total});
+//        sellOrderModel.append(OrderInfo{temp_price, amount, total});
+
+        insertBookOrder(true, temp_price, amount, total);
 
         if (m_sellMaxTotal < total)
             m_sellMaxTotal = total;
@@ -207,7 +209,9 @@ void StockDataWorker::generateBookModel(double price, int length)
         double amount = QRandomGenerator::global()->generateDouble()*1500;
         double total = amount * temp_price;
 
-        buyOrderModel.append(OrderInfo{temp_price, amount, total});
+//        buyOrderModel.append(OrderInfo{temp_price, amount, total});
+
+        insertBookOrder(false, temp_price, amount, total);
 
         if (m_buyMaxTotal < total)
             m_buyMaxTotal = total;
@@ -253,9 +257,8 @@ void StockDataWorker::setBookModel(const QByteArray &json)
                         (tok2 == token1 && tok1 == token2))
                     {
 //                        qDebug () << tok1 << tok2
-//                                  << orders.at(j)["rate"].toString().toDouble()
-//                                  << orders.at(j)["buy_amount"].toString().toDouble()
-//                                  << orders.at(j)["sell_amount"].toString().toDouble();
+//                                  << orders.at(j)["rate"].toString()
+//                                  << orders.at(j)["rate"].toString().toDouble();
 
                         double price = orders.at(j)["rate"].toString().toDouble();
                         double amount;
@@ -282,14 +285,18 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 
                         if (tok1 == token1)
                         {
-                            sellOrderModel.append(OrderInfo{price, amount, total});
+//                            sellOrderModel.append(OrderInfo{price, amount, total});
+
+                            insertBookOrder(true, price, amount, total);
 
                             if (m_sellMaxTotal < total)
                                 m_sellMaxTotal = total;
                         }
                         else
                         {
-                            buyOrderModel.append(OrderInfo{price, amount, total});
+//                            buyOrderModel.append(OrderInfo{price, amount, total});
+
+                            insertBookOrder(false, price, amount, total);
 
                             if (m_buyMaxTotal < total)
                                 m_buyMaxTotal = total;
@@ -959,7 +966,7 @@ void StockDataWorker::generateNewPrice()
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
-void StockDataWorker::generateNewOrderState()
+void StockDataWorker::generateNewBookState()
 {
     if (QRandomGenerator::global()->bounded(2))
     {
@@ -1117,6 +1124,86 @@ void StockDataWorker::setPreviousTokenPrice(double price)
 
     m_previousTokenPrice = price;
     emit previousTokenPriceChanged(m_previousTokenPrice);
+}
+
+void StockDataWorker::insertBookOrder(bool sell, double price, double amount, double total)
+{
+//    qDebug() << "StockDataWorker::insertBookOrder";
+
+//    qDebug() << price << QString::number(price, 'f', bookRoundPower)
+//             << QString::number(price, 'f', bookRoundPower).toDouble()
+//             << QString("%1").arg(price, 0, 'g', 30);
+
+//    if (sell)
+//    {
+//        sellOrderModel.append(OrderInfo{price, amount, total});
+//    }
+//    else
+//    {
+//        buyOrderModel.append(OrderInfo{price, amount, total});
+//    }
+
+    price = QString::number(price, 'f', bookRoundPower).toDouble();
+
+    if (sell)
+    {
+        int index = 0;
+
+        while (index < sellOrderModel.size())
+        {
+            if (price == sellOrderModel.at(index).price)
+            {
+                sellOrderModel[index].amount += amount;
+                sellOrderModel[index].total = sellOrderModel.at(index).amount *
+                        sellOrderModel.at(index).price;
+
+                break;
+            }
+            else
+            {
+                if (price < sellOrderModel.at(index).price)
+                {
+                    sellOrderModel.insert(index, OrderInfo{price, amount, total});
+                    break;
+                }
+            }
+
+            ++index;
+        }
+
+        if (index == sellOrderModel.size())
+            sellOrderModel.append(OrderInfo{price, amount, total});
+    }
+    else
+    {
+        int index = 0;
+
+        while (index < buyOrderModel.size())
+        {
+            if (price == buyOrderModel.at(index).price)
+            {
+                buyOrderModel[index].amount += amount;
+                buyOrderModel[index].total = buyOrderModel.at(index).amount *
+                        buyOrderModel.at(index).price;
+
+                break;
+            }
+            else
+            {
+                if (price > buyOrderModel.at(index).price)
+                {
+                    buyOrderModel.insert(index, OrderInfo{price, amount, total});
+                    break;
+                }
+            }
+
+            ++index;
+        }
+
+        if (index == buyOrderModel.size())
+            buyOrderModel.append(OrderInfo{price, amount, total});
+    }
+
 }
 
 void StockDataWorker::getVariantBookModels()

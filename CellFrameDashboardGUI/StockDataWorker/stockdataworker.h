@@ -92,7 +92,7 @@ public:
 
     Q_INVOKABLE void generateNewPrice();
 
-    Q_INVOKABLE void generateNewOrderState();
+    Q_INVOKABLE void generateNewBookState();
 
     Q_INVOKABLE bool zoomTime(int step);
 
@@ -186,6 +186,8 @@ signals:
     void buyMaxTotalChanged(double max);
 
 private:
+    void insertBookOrder(bool sell, double price, double amount, double total);
+
     void getVariantBookModels();
 
     void updateBookModels();
@@ -194,6 +196,8 @@ private:
     QString token1 {""};
     QString token2 {""};
     QString network {""};
+
+    int bookRoundPower {5};
 
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
