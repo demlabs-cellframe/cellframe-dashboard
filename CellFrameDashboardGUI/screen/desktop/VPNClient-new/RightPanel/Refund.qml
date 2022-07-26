@@ -42,7 +42,6 @@ Item
             Layout.fillWidth: true
             Layout.leftMargin: 10
             Layout.minimumHeight: 30
-//            Layout.rightMargin: 10
 
             spacing: 10
 
@@ -59,7 +58,7 @@ Item
                 activeFrame: false
                 normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
                 hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
-                onClicked: goToHomePage()
+                onClicked: vpnClientNavigator.openVpnOrders()
             }
 
             Text

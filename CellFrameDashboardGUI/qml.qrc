@@ -365,5 +365,9 @@
         <file>screen/desktop/VPNClient-new/Parts/CurrentUsagePanel.qml</file>
         <file>screen/desktop/VPNClient-new/Parts/RightStackView.qml</file>
         <file>screen/desktop/VPNClient-new/Parts/StatisticsPanel.qml</file>
+        <file>screen/desktop/VPNClient-new/Images/check.png</file>
+        <file>screen/desktop/VPNClient-new/Images/page.png</file>
+        <file>screen/desktop/VPNClient-new/Images/page-hov.png</file>
+        <file>screen/desktop/VPNClient-new/RightPanel/Receipts.qml</file>
     </qresource>
 </RCC>

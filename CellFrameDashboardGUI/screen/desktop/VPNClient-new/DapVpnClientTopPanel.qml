@@ -17,8 +17,6 @@ DapTopPanel {
 
         Text
         {
-//            Layout.fillWidth: true
-            //Layout.minimumHeight: 30
             color: currTheme.textColorGray
             font: mainFont.dapFont.regular16
             text: qsTr("Time Connected:")
@@ -27,19 +25,24 @@ DapTopPanel {
         Text
         {
             Layout.fillWidth: true
-            //Layout.minimumHeight: 30
             color: currTheme.textColor
             font: mainFont.dapFont.medium16
             text: "1d 16h 34m 18s"
         }
 
-        Image
+        DapButton
         {
-            width: 21 * pt
-            height: 26 * pt
-            fillMode: Image.PreserveAspectFit
+            width: 22 * pt
+            height: 24 * pt
 
-            source: "qrc:/screen/desktop/VPNClient/Images/page.png"
+            activeFrame: false
+            heightImageButton: 24 * pt
+            widthImageButton: 22 * pt
+
+            normalImageButton: "qrc:/screen/desktop/VPNClient-new/Images/page.png"
+
+            hoverImageButton:  "qrc:/screen/desktop/VPNClient-new/Images/page-hov.png"
+            onClicked: vpnClientNavigator.openVpnReceipts()
         }
     }
 

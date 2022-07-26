@@ -28,7 +28,6 @@ Item
             Layout.fillWidth: true
             Layout.leftMargin: 10 * pt
             Layout.minimumHeight: 30 * pt
-//            Layout.rightMargin: 10
 
             spacing: 10
 
@@ -45,7 +44,7 @@ Item
                 activeFrame: false
                 normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
                 hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
-                onClicked: goToHomePage()
+                onClicked: vpnClientNavigator.openVpnOrders()
             }
 
             Text
@@ -54,7 +53,6 @@ Item
                 Layout.topMargin: 8
                 verticalAlignment: Qt.AlignVCenter
                 font: mainFont.dapFont.medium14
-//                font.bold: true
                 color: currTheme.textColor
 
                 text: qsTr("Top up current usage")
@@ -66,9 +64,6 @@ Item
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-//            ScrollBar.vertical: ScrollBar {
-//                active: true
-//            }
             ScrollBar.horizontal: ScrollBar {
                 active: false
                 visible: false
@@ -77,9 +72,6 @@ Item
             ColumnLayout
             {
                 width: topUpItem.width
-//                height: topUpItem.height
-//                anchors.fill: parent
-//                anchors.rightMargin: 25 * pt
 
                 Rectangle
                 {
@@ -110,22 +102,12 @@ Item
                     {
                         Layout.fillWidth: true
 
-//                        TextField
-//                        {
-//                            Layout.fillWidth: true
-//                            Layout.maximumHeight: 30 * pt
-//                            horizontalAlignment: Qt.AlignRight
-//                            font.pointSize: 10
-//                            placeholderText: "0"
-//                        }
-
                         Controls.TextField
                         {
                             Layout.fillWidth: true
                             Layout.leftMargin: 15 * pt
                             width: 150 * pt
                             height: 28 * pt
-            //                        placeholderText: "0"
                             placeholderText: "0.0"
                             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                             font: mainFont.dapFont.regular16
@@ -151,38 +133,8 @@ Item
                         {
                             Layout.minimumWidth: 100 * pt
                             Layout.maximumHeight: 26 * pt
-                            indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                            indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                            sidePaddingNormal: 10 * pt
-                            sidePaddingActive: 10 * pt
-            //                            hilightColor: currTheme.buttonColorNormal
 
-                            widthPopupComboBoxNormal: 100 * pt
-                            widthPopupComboBoxActive: 100 * pt
-                            heightComboBoxNormal: 24 * pt
-                            heightComboBoxActive: 42 * pt
-                            topEffect: false
-
-                            normalColor: currTheme.backgroundMainScreen
-                            normalTopColor: currTheme.backgroundElements
-                            hilightTopColor: currTheme.backgroundMainScreen
-
-                            paddingTopItemDelegate: 8 * pt
-                            heightListElement: 42 * pt
-                            indicatorWidth: 24 * pt
-                            indicatorHeight: indicatorWidth
-                            colorDropShadow: currTheme.shadowColor
-                            roleInterval: 15
-                            endRowPadding: 37
-
-                            fontComboBox: [mainFont.dapFont.regular14]
-                            colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-            //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                            alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-
-                            comboBoxTextRole: ["name"]
-
-                            model: dapTokenModel
+                            model: vpnClientTokenModel
 
                             Component.onCompleted:
                             {
@@ -190,14 +142,6 @@ Item
                                     mainLineText = dapTokenModel.get(0).name
                             }
                         }
-
-//                        ComboBox
-//                        {
-//                            Layout.maximumWidth: 100 * pt
-//                            Layout.maximumHeight: 30 * pt
-//                            font.pointSize: 10
-//                            model: dapTokenModel
-//                        }
                     }
 
                     Text
@@ -232,7 +176,6 @@ Item
                     Layout.fillWidth: true
                     Layout.leftMargin: 20 * pt
                     Layout.rightMargin: 20 * pt
-//                    Layout.topMargin: 10 * pt
                     Layout.bottomMargin: 10 * pt
 
                     DapCheckBox
@@ -251,9 +194,6 @@ Item
                         Layout.minimumHeight:
                             limitModel.count * limitDelegateHeight
                         clip: true
-        //                ScrollBar.vertical: ScrollBar {
-        //                    active: true
-        //                }
 
                         enabled: autoTopUpCheckBox.checked
 
@@ -278,7 +218,6 @@ Item
                                     Layout.leftMargin: 15 * pt
                                     width: 150 * pt
                                     height: 28 * pt
-                    //                        placeholderText: "0"
                                     placeholderText: "0.0"
                                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                                     font: mainFont.dapFont.regular16
@@ -304,38 +243,8 @@ Item
                                 {
                                     Layout.minimumWidth: 100 * pt
                                     Layout.maximumHeight: 26 * pt
-                                    indicatorImageNormal: "qrc:/resources/icons/"+pathTheme+"/icon_arrow_down.png"
-                                    indicatorImageActive: "qrc:/resources/icons/"+pathTheme+"/ic_arrow_up.png"
-                                    sidePaddingNormal: 10 * pt
-                                    sidePaddingActive: 10 * pt
-                    //                            hilightColor: currTheme.buttonColorNormal
 
-                                    widthPopupComboBoxNormal: 100 * pt
-                                    widthPopupComboBoxActive: 100 * pt
-                                    heightComboBoxNormal: 24 * pt
-                                    heightComboBoxActive: 42 * pt
-                                    topEffect: false
-
-                                    normalColor: currTheme.backgroundMainScreen
-                                    normalTopColor: currTheme.backgroundElements
-                                    hilightTopColor: currTheme.backgroundMainScreen
-
-                                    paddingTopItemDelegate: 8 * pt
-                                    heightListElement: 42 * pt
-                                    indicatorWidth: 24 * pt
-                                    indicatorHeight: indicatorWidth
-                                    colorDropShadow: currTheme.shadowColor
-                                    roleInterval: 15
-                                    endRowPadding: 37
-
-                                    fontComboBox: [mainFont.dapFont.regular14]
-                                    colorMainTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.textColor, currTheme.textColor]]
-                    //                            colorTextComboBox: [[currTheme.textColor, currTheme.textColor], [currTheme.buttonColorNormal, currTheme.buttonColorNormal]]
-                                    alignTextComboBox: [Text.AlignLeft, Text.AlignRight]
-
-                                    comboBoxTextRole: ["name"]
-
-                                    model: dapTokenModel
+                                    model: vpnClientTokenModel
 
                                     Component.onCompleted:
                                     {
@@ -352,7 +261,6 @@ Item
                         enabled: autoTopUpCheckBox.checked
                         Layout.fillWidth: true
                         Layout.minimumHeight: 20 * pt
-//                        font.pointSize: 10
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular10
                         textButton: qsTr("Add token for auto top up")
