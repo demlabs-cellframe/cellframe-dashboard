@@ -47,7 +47,7 @@ DapPage
 
     Timer {
         id: updatePairTimer
-        interval: logicStock.updateInterval
+        interval: 3000
         running: false
         repeat: true
         onTriggered:
@@ -71,6 +71,9 @@ DapPage
 
     Component.onCompleted:
     {
+        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
+            logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
+
         print("DapStockTab Component.onCompleted")
 
 //        logicStock.initPairModel()
@@ -176,6 +179,9 @@ DapPage
     onTokenPairChanged:
     {
         print("DapStockTab onTokenPairChanged")
+
+        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
+            logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
         updateOrdersListTimer.stop()
         dapServiceController.requestToService("DapGetXchangeOrdersList")

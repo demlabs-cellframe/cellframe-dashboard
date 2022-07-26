@@ -74,6 +74,8 @@ void StockDataWorker::setTokenPair(const QString &tok1,
 
 void StockDataWorker::resetPriceData(double price, double init)
 {
+    qDebug() << "StockDataWorker::resetPriceData" << price;
+
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
     m_currentTokenPrice = price;
@@ -163,6 +165,192 @@ QVariantMap StockDataWorker::getPriceInfo(int index)
         return {};
     else
         return priceModel.at(index).getMap();
+}
+
+void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
+{
+    qDebug() << "StockDataWorker::setTokenPriceHistory";
+
+    QJsonDocument doc = QJsonDocument::fromJson(json);
+
+    qDebug() << doc.isObject();
+
+    qDebug() << doc["network"].toString();
+    qDebug() << doc["token1"].toString();
+    qDebug() << doc["token2"].toString();
+
+    qDebug() << doc["history"].isArray();
+
+    QJsonArray history = doc["history"].toArray();
+
+    qDebug() << history.size();
+
+    priceModel.resize(history.size());
+
+    for(auto i = 0; i < history.size(); i++)
+    {
+        QString date = history.at(i)["date"].toString();
+
+        double price = history.at(i)["rate"].toString().toDouble();
+        qint64 time = date.toLongLong();
+
+        qDebug() << price
+                << time
+                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
+
+        PriceInfo info{time, price};
+
+        priceModel[i] = info;
+    }
+
+/*    priceModel.clear();
+
+    double prevPrice = 0;
+    qint64 prevTime = 0;
+
+    qint64 minStep = 1000;
+
+    for(auto i = 0; i < history.size(); i++)
+    {
+        QString date = history.at(i)["date"].toString();
+
+        double price = history.at(i)["rate"].toString().toDouble();
+        qint64 time = date.toLongLong();
+
+        qDebug() << price
+                << time
+                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
+
+        PriceInfo info{time, price};
+
+        if (prevTime == 0 || time - prevTime <= minStep)
+        {
+            priceModel.append(info);
+            prevTime = time;
+        }
+        else
+            while (time - prevTime > minStep)
+            {
+                prevTime += minStep;
+                info.time = prevTime;
+                priceModel.append(info);
+            }
+
+//        priceModel[i] = info;
+    }*/
+
+
+
+/*    if (priceModel.size() > 0)
+    {
+        qint64 minStep = 1000;
+        double price = priceModel.first().price;
+        qint64 time = priceModel.first().time;
+
+        int index = 1;
+
+        while (index < history.size())
+        {
+            if (time + minStep < priceModel.at(index).time)
+            {
+                time += minStep;
+                PriceInfo info{time, price};
+                priceModel.insert(index, info);
+            }
+            else
+            {
+                time = priceModel.at(index).time;
+                price = priceModel.at(index).price;
+            }
+
+            ++index;
+        }
+
+        qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+
+        while (priceModel.last().time + minStep < currentTime)
+        {
+            PriceInfo info{priceModel.last().time + minStep, price};
+            priceModel.append(info);
+        }
+    }*/
+
+
+    if (priceModel.size() > 0)
+    {
+        m_previousTokenPrice = m_currentTokenPrice = priceModel.last().price;
+    }
+    if (priceModel.size() > 1)
+    {
+        m_previousTokenPrice = priceModel.at(priceModel.size()-2).price;
+    }
+
+    getCandleModel(false);
+
+    resetRightTime();
+
+    getTempAveragedModel(false);
+
+    getAveragedModels(false);
+
+    getMinimumMaximum24h();
+
+    emit currentTokenPriceChanged(m_currentTokenPrice);
+    emit previousTokenPriceChanged(m_previousTokenPrice);
+
+
+/*    double currentPrice = 0.245978;
+    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+
+//    m_minimum24h = currentPrice;
+//    m_maximum24h = currentPrice;
+
+    m_currentTokenPrice = currentPrice;
+    m_previousTokenPrice = currentPrice;
+
+    if (length < 1)
+        length = 1;
+
+    priceModel.resize(length);
+
+    for (auto i = length-1; i >= 0; --i)
+    {
+        PriceInfo info{currentTime, currentPrice};
+
+//        if (m_minimum24h > currentPrice)
+//            m_minimum24h = currentPrice;
+//        if (m_maximum24h < currentPrice)
+//            m_maximum24h = currentPrice;
+
+        priceModel[i] = info;
+//        priceModel.prepend(info);
+//        priceModel.append(info);
+
+        currentPrice +=
+            QRandomGenerator::global()->generateDouble() * 0.0001 - 0.00005;
+
+        if (i == length-1)
+            m_previousTokenPrice = currentPrice;
+
+        currentTime -= 5000 + static_cast<qint64>(
+            QRandomGenerator::global()->generateDouble() * 3000);
+    }
+
+//    emit minimum24hChanged(m_minimum24h);
+//    emit maximum24hChanged(m_maximum24h);
+
+    emit currentTokenPriceChanged(m_currentTokenPrice);
+    emit previousTokenPriceChanged(m_previousTokenPrice);*/
+
+
+//    QJsonObject
+
+//    if (doc.at(i)["network"].toString() == network)
+//    {
+//        QJsonArray orders = netArray.at(i)["orders"].toArray();
+
+//    }
+
 }
 
 void StockDataWorker::resetBookModel()
@@ -335,10 +523,12 @@ void StockDataWorker::getCandleModel(bool update)
 //    qDebug() << "StockDataWorker::getCandleModel" << "BEGIN"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
 
+    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+
     qint64 timeLength = 0;
 
     if (!priceModel.isEmpty())
-        timeLength = priceModel.last().time - priceModel.first().time;
+        timeLength = currentTime - priceModel.first().time;
 
     int length = timeLength / m_candleWidth;
     if (timeLength % m_candleWidth)

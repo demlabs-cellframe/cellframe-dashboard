@@ -431,7 +431,6 @@ Rectangle {
         //-------//TokenPair
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
-        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "private", "token1", "token2")
 
 
 
