@@ -372,13 +372,12 @@ QtObject {
     {
         if(rcvData !== "isEqual")
         {
+            stockDataWorker.setBookModel(rcvData)
+
             var jsonDocument = JSON.parse(rcvData)
             dapModelXchangeOrders.clear()
             dapModelXchangeOrders.append(jsonDocument)
             modelXchangeOrdersUpdated()
-
-            stockDataWorker.setBookModel(rcvData)
-
 /*            print("rcvOpenOrders", dapModelXchangeOrders.count)
 
             for(var i = 0; i < dapModelXchangeOrders.count; i++)
@@ -471,10 +470,32 @@ QtObject {
     {
         if(rcvData !== "")
         {
-            var jsonDocument = JSON.parse(rcvData)
+            stockDataWorker.setTokenPriceHistory(rcvData)
+
+/*            var jsonDocument = JSON.parse(rcvData)
+
+            print("rcvData", rcvData)
             dapTokenPriceHistory.clear()
+<<<<<<< HEAD
             dapTokenPriceHistory.append(jsonDocument)
             modelTokenPriceHistoryUpdated()
+=======
+            dapTokenPriceHistory.append(jsonDocument.history)
+//            modelTokenPriceHistoryUpdated()
+
+
+            print("dapTokenPriceHistory");
+            print(jsonDocument.network,
+                  jsonDocument.token1,
+                  jsonDocument.token2)
+
+            print(dapTokenPriceHistory.count)
+
+            for(var i = 0; i < dapTokenPriceHistory.count; i++)
+            {
+                console.log(dapTokenPriceHistory.get(i).date,
+                            dapTokenPriceHistory.get(i).rate)
+            }*/
         }
     }
 

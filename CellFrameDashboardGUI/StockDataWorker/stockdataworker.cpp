@@ -74,6 +74,8 @@ void StockDataWorker::setTokenPair(const QString &tok1,
 
 void StockDataWorker::resetPriceData(double price, double init)
 {
+    qDebug() << "StockDataWorker::resetPriceData" << price;
+
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
     m_currentTokenPrice = price;
@@ -163,6 +165,83 @@ QVariantMap StockDataWorker::getPriceInfo(int index)
         return {};
     else
         return priceModel.at(index).getMap();
+}
+
+void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
+{
+    qDebug() << "StockDataWorker::setTokenPriceHistory";
+
+/*    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    priceModel.resize(4);
+    PriceInfo info;
+
+    info.price = 12.3;
+    info.time = currentTime - 1000*60*10;
+    priceModel[0] = info;
+
+    info.price = 24.5;
+    info.time = currentTime - 1000*60*7;
+    priceModel[1] = info;
+
+    info.price = 18.7;
+    info.time = currentTime - 1000*60*4;
+    priceModel[2] = info;
+
+    info.price = 31.2;
+    info.time = currentTime - 1000*60*3;
+    priceModel[3] = info;*/
+
+    QJsonDocument doc = QJsonDocument::fromJson(json);
+
+    qDebug() << doc.isObject();
+
+    qDebug() << doc["network"].toString();
+    qDebug() << doc["token1"].toString();
+    qDebug() << doc["token2"].toString();
+
+    QJsonArray history = doc["history"].toArray();
+
+    qDebug() << "history.size()" << history.size();
+
+    priceModel.resize(history.size());
+
+    for(auto i = 0; i < history.size(); i++)
+    {
+        QString date = history.at(i)["date"].toString();
+
+        double price = history.at(i)["rate"].toString().toDouble();
+        qint64 time = date.toLongLong();
+
+        qDebug() << price
+                << time
+                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
+
+        PriceInfo info{time, price};
+
+        priceModel[i] = info;
+    }
+
+    if (priceModel.size() > 0)
+    {
+        m_previousTokenPrice = m_currentTokenPrice = priceModel.last().price;
+    }
+    if (priceModel.size() > 1)
+    {
+        m_previousTokenPrice = priceModel.at(priceModel.size()-2).price;
+    }
+
+    getCandleModel(false);
+
+    resetRightTime();
+
+    getTempAveragedModel(false);
+
+    getAveragedModels(false);
+
+    getMinimumMaximum24h();
+
+    emit currentTokenPriceChanged(m_currentTokenPrice);
+    emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
 void StockDataWorker::resetBookModel()
@@ -335,10 +414,12 @@ void StockDataWorker::getCandleModel(bool update)
 //    qDebug() << "StockDataWorker::getCandleModel" << "BEGIN"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
 
+    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+
     qint64 timeLength = 0;
 
     if (!priceModel.isEmpty())
-        timeLength = priceModel.last().time - priceModel.first().time;
+        timeLength = currentTime - priceModel.first().time;
 
     int length = timeLength / m_candleWidth;
     if (timeLength % m_candleWidth)
@@ -378,10 +459,6 @@ void StockDataWorker::getCandleModel(bool update)
 
         if (m_lastCandleNumber < candleModel.size())
         {
-//            open = candleModel.at(m_lastCandleNumber).open;
-//            close = candleModel.at(m_lastCandleNumber).close;
-//            min = candleModel.at(m_lastCandleNumber).minimum;
-//            max = candleModel.at(m_lastCandleNumber).maximum;
             open = close = min = max =
                 candleModel.at(m_lastCandleNumber).open;
         }
@@ -409,7 +486,87 @@ void StockDataWorker::getCandleModel(bool update)
 //        qDebug() << "END priceIndex" << priceIndex;
     }
 
-    for (auto i = priceIndex; i < priceModel.size(); ++i)
+    int index = priceIndex;
+    qint64 nextTime = 0;
+
+    if (index < priceModel.size()-1)
+        nextTime = priceModel.at(index+1).time;
+    else
+        nextTime = currentTime;
+
+    while (index < priceModel.size())
+    {
+        double currPrice = priceModel.at(index).price;
+
+        qDebug() << "nextTime"
+                 << QDateTime::fromMSecsSinceEpoch(nextTime)
+                    .toString("dd HH:mm:ss")
+                 << "candleBegin + m_candleWidth"
+                 << QDateTime::fromMSecsSinceEpoch(candleBegin + m_candleWidth)
+                    .toString("dd HH:mm:ss")
+                 << "currPrice" << currPrice;
+
+        if (nextTime > candleBegin + m_candleWidth ||
+            index == priceModel.size()-1)
+        {
+            if (candleIndex >= candleModel.size())
+                candleModel.resize(candleIndex+1);
+
+            close = currPrice;
+            if (min > currPrice)
+                min = currPrice;
+            if (max < currPrice)
+                max = currPrice;
+
+            CandleInfo info {candleBegin + m_candleWidth/2,
+                            open, close, min, max};
+
+            candleModel[candleIndex] = info;
+
+            qDebug() << "CandleInfo"
+                     << "priceIndex" << index
+                     << QDateTime::fromMSecsSinceEpoch(priceModel.at(index).time)
+                        .toString("dd HH:mm:ss")
+                     << "currPrice" << currPrice
+                     << "candleIndex" << candleIndex
+                     << QDateTime::fromMSecsSinceEpoch(candleBegin)
+                        .toString("dd HH:mm:ss")
+                     << "open" << open
+                     << "close" << close
+                     << "min" << min
+                     << "max" << max;
+
+            ++candleIndex;
+
+            candleBegin += m_candleWidth;
+
+            open = currPrice;
+            close = currPrice;
+            min = currPrice;
+            max = currPrice;
+
+            if (candleBegin > currentTime)
+                break;
+        }
+        else
+        {
+            close = currPrice;
+            if (min > currPrice)
+                min = currPrice;
+            if (max < currPrice)
+                max = currPrice;
+
+            ++index;
+
+            if (index < priceModel.size()-1)
+                nextTime = priceModel.at(index+1).time;
+            else
+                nextTime = currentTime;
+        }
+
+    }
+
+/*    for (auto i = priceIndex; i < priceModel.size(); ++i)
     {
         double currPrice = priceModel.at(i).price;
 
@@ -449,7 +606,7 @@ void StockDataWorker::getCandleModel(bool update)
             min = currPrice;
             max = currPrice;
         }
-    }
+    }*/
 
     if (candleIndex < candleModel.size())
         candleModel.resize(candleIndex);
@@ -487,6 +644,8 @@ QVariantMap StockDataWorker::getCandleInfo(int index)
 
 void StockDataWorker::getTempAveragedModel(bool update)
 {
+    return;
+
 //    qDebug() << "StockDataWorker::getTempAveragedModel" << "BEGIN"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
     if (priceModel.isEmpty())
@@ -616,6 +775,8 @@ void StockDataWorker::getTempAveragedModel(bool update)
 
 void StockDataWorker::getAveragedModels(bool update)
 {
+    return;
+
 //    update = false;
 
 //    qDebug() << "StockDataWorker::getAveragedModels" << "BEGIN"

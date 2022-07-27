@@ -62,6 +62,8 @@ public:
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
 
+    Q_INVOKABLE void setTokenPriceHistory(const QByteArray &json);
+
     Q_INVOKABLE void resetBookModel();
 
     Q_INVOKABLE void generateBookModel(double price, int length);

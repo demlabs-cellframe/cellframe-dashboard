@@ -71,6 +71,9 @@ DapPage
 
     Component.onCompleted:
     {
+        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
+            logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
+
         print("DapStockTab Component.onCompleted")
         dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
         dapServiceController.requestToService("DapGetXchangeOrdersList")
@@ -180,6 +183,9 @@ DapPage
     onTokenPairChanged:
     {
         print("DapStockTab onTokenPairChanged")
+
+        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
+            logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
         updateOrdersListTimer.stop()
         dapServiceController.requestToService("DapGetXchangeOrdersList")
