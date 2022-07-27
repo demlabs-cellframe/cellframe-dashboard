@@ -86,7 +86,14 @@ Page {
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.regular16
-                onClicked: goToRightHome()
+                onClicked:
+                {
+                    dapServiceController.requestToService("DapGetWalletInfoCommand",
+                        dapModelWallets.get(logicMainApp.currentIndex).name,
+                        logicMainApp.networkArray);
+
+                    goToRightHome()
+                }
             }
 
             Rectangle

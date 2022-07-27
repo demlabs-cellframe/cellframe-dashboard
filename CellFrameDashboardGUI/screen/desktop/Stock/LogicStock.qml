@@ -319,9 +319,8 @@ QtObject
 
                     if(orderBuy === tokenSell &&
                        orderSell === tokenBuy &&
-                       orderPrice === price &&
-                       orderSellAmount >= amount &&
-                       orderBuyAmount <= walletBalance)
+                       orderPrice === 1/price &&
+                       orderSellAmount >= amount/orderPrice)
                     {
                         console.log("HASH:", orderHash)
                         return orderHash

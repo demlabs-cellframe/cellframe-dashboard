@@ -472,7 +472,7 @@ QtObject {
 
         if(rcvData !== "isEqual")
         {
-//            stockDataWorker.setTokenPriceHistory(rcvData)
+            stockDataWorker.setTokenPriceHistory(rcvData)
 
 /*            var jsonDocument = JSON.parse(rcvData)
 

@@ -47,7 +47,7 @@ DapPage
 
     Timer {
         id: updatePairTimer
-        interval: 3000
+        interval: 1000*60
         running: false
         repeat: true
         onTriggered:
@@ -60,7 +60,7 @@ DapPage
 
     Timer {
         id: updateOrdersListTimer
-        interval: logicStock.updateInterval
+        interval: 5000
         running: false
         repeat: true
         onTriggered:
@@ -75,12 +75,14 @@ DapPage
             logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
         print("DapStockTab Component.onCompleted")
+        dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
+        dapServiceController.requestToService("DapGetXchangeOrdersList")
 
 //        logicStock.initPairModel()
-        logicStock.initBalance()
+//        logicStock.initBalance()
 //        stockDataWorker.generateBookModel(0.245978, 18)
 //        logicStock.initBookModels()
-        logicStock.initOrderLists()
+//        logicStock.initOrderLists()
 //        generateTimer.start()
         if (!updatePriceTimer.running)
             updatePriceTimer.start()
@@ -95,6 +97,8 @@ DapPage
     Component.onDestruction:
     {
         updatePairTimer.stop()
+        updateOrdersListTimer.stop()
+        updatePriceTimer.stop()
     }
 
     Timer
@@ -115,7 +119,7 @@ DapPage
     {
         id: updatePriceTimer
         repeat: true
-        interval: logicStock.updateInterval
+        interval: 1000
         onTriggered:
         {
 //            print("updatePriceTimer",

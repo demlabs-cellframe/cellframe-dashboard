@@ -110,6 +110,8 @@ Page
                 height: 35
                 font: mainFont.dapFont.regular13
                 mainTextRole: "value"
+                enabled: false
+//                visible: false
 
                 model: accuracyModel
             }
