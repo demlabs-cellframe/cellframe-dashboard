@@ -68,7 +68,7 @@ Page {
             Layout.leftMargin: 16
             clip: true
 
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+//            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
 
             contentData:

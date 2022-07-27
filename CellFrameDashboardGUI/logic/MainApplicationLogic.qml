@@ -26,7 +26,12 @@ QtObject {
 
     property int requestsMessageCounter: 0
     property bool isOpenRequests: false
+    property int currentIndexPair: -1
 
+    property string token1Name: ""
+    property string token2Name: ""
+    property string tokenNetwork: ""
+    property real tokenPrice
 
     ///Functions
 
@@ -367,10 +372,129 @@ QtObject {
     {
         if(rcvData !== "isEqual")
         {
+            stockDataWorker.setBookModel(rcvData)
+
             var jsonDocument = JSON.parse(rcvData)
             dapModelXchangeOrders.clear()
             dapModelXchangeOrders.append(jsonDocument)
             modelXchangeOrdersUpdated()
+/*            print("rcvOpenOrders", dapModelXchangeOrders.count)
+
+            for(var i = 0; i < dapModelXchangeOrders.count; i++)
+            {
+                console.log(dapModelXchangeOrders.get(i).network,
+                            dapModelXchangeOrders.get(i).orders.count)
+
+                for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
+                {
+                    var orderNet = dapModelXchangeOrders.get(i).network
+                    var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
+                    var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
+                    var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
+                    var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
+                    var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
+                    var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
+
+                    console.log(orderBuy,
+                                orderSell,
+                                orderPrice,
+                                orderSellAmount,
+                                orderBuyAmount)
+                }
+            }*/
+
+        }
+    }
+
+    function rcvPairsModel(rcvData)
+    {
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(rcvData)
+
+
+            if(dapPairModel.count > 0)
+            {
+                token1Name = dapPairModel.get(currentIndexPair).token1
+                token2Name = dapPairModel.get(currentIndexPair).token2
+                tokenNetwork = dapPairModel.get(currentIndexPair).network
+
+                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+
+                for(var i = 0; i < dapPairModel.count; i++)
+                {
+                    var token1New = dapPairModel.get(i).token1
+                    var token2New = dapPairModel.get(i).token2
+                    var networkNew = dapPairModel.get(i).network
+
+                    if (token1Name === token1New &&
+                        token2Name === token2New &&
+                        tokenNetwork === networkNew)
+                    {
+                        currentIndexPair = i
+                        modelPairsUpdated()
+                        return
+                    }
+                }
+            }
+            else
+            {
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+                currentIndexPair = 0
+
+                if(dapPairModel.count > 0)
+                {
+                    token1Name = dapPairModel.get(currentIndexPair).token1
+                    token2Name = dapPairModel.get(currentIndexPair).token2
+                    tokenNetwork = dapPairModel.get(currentIndexPair).network
+                }
+                else
+                {
+                    token1Name = ""
+                    token2Name = ""
+                    tokenNetwork = ""
+                }
+
+                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+
+                modelPairsUpdated()
+            }
+        }
+    }
+
+    function rcvTokenPriceHistory(rcvData)
+    {
+        print("rcvTokenPriceHistory")
+
+        if(rcvData !== "isEqual")
+        {
+            stockDataWorker.setTokenPriceHistory(rcvData)
+
+/*            var jsonDocument = JSON.parse(rcvData)
+
+            print("rcvData", rcvData)
+            dapTokenPriceHistory.clear()
+            dapTokenPriceHistory.append(jsonDocument.history)
+//            modelTokenPriceHistoryUpdated()
+
+
+            print("dapTokenPriceHistory");
+            print(jsonDocument.network,
+                  jsonDocument.token1,
+                  jsonDocument.token2)
+
+            print(dapTokenPriceHistory.count)
+
+            for(var i = 0; i < dapTokenPriceHistory.count; i++)
+            {
+                console.log(dapTokenPriceHistory.get(i).date,
+                            dapTokenPriceHistory.get(i).rate)
+            }*/
+
         }
     }
 

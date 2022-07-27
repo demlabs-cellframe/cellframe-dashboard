@@ -38,8 +38,8 @@ ColumnLayout {
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        textToken: tokenName
-        realValue: logicStock.tokenPrice
+        textToken: logicStock.unselectedTokenNameWallet
+        realValue: logicMainApp.tokenPrice
     }
 
     Rectangle
@@ -71,11 +71,11 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: "CELL"
+        textToken: logicStock.selectedTokenNameWallet
         textValue: "0.0"
         onEdited:
         {
-            total.setRealValue(realValue * logicStock.tokenPrice)
+            total.setRealValue(realValue * logicMainApp.tokenPrice)
 
             button25.selected = false
             button50.selected = false
@@ -109,8 +109,8 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
-                total.setRealValue(logicStock.balanceReal*0.25)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.25)
+                total.setRealValue(logicStock.selectedTokenBalanceWallet*0.25)
             }
         }
 
@@ -132,8 +132,8 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
-                total.setRealValue(logicStock.balanceReal*0.5)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.5)
+                total.setRealValue(logicStock.selectedTokenBalanceWalletl*0.5)
             }
         }
 
@@ -155,8 +155,8 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
-                total.setRealValue(logicStock.balanceReal*0.75)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.75)
+                total.setRealValue(logicStock.selectedTokenBalanceWallet*0.75)
             }
         }
 
@@ -178,8 +178,8 @@ ColumnLayout {
                 button100.selected = true
 
                 amount.setRealValue(
-                    logicStock.balanceReal / logicStock.tokenPrice)
-                total.setRealValue(logicStock.balanceReal)
+                    logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)
+                total.setRealValue(logicStock.selectedTokenBalanceWallet)
             }
         }
     }
@@ -213,7 +213,7 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenName
+        textToken: logicStock.unselectedTokenNameWallet
         textValue: "0.0"
         onEdited:
         {
@@ -222,7 +222,7 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.setRealValue(realValue / logicStock.tokenPrice)
+            amount.setRealValue(realValue / logicMainApp.tokenPrice)
         }
     }
 
@@ -239,16 +239,24 @@ ColumnLayout {
 
         onClicked:
         {
-            var date = new Date()
+            var net = logicMainApp.tokenNetwork
+            var isSell = sellBuySwitch.checked
+            var tokenSell = isSell ? logicStock.unselectedTokenNameWallet : logicStock.selectedTokenNameWallet
+            var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
+            var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            logicStock.addNewOrder(
-                date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm"),
-                "CELL/"+logicStock.nameTokenPair,
-                currentOrder, sellBuySwitch.checked? "Sell": "Buy",
-                logicStock.tokenPrice, amount.realValue,"Not", "-")
+            var amountValue = logicStock.toDatoshi(amount.textValue)
+            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.realValue, amountValue)
 
-            createOrder()
+            console.log("HASH: ", hash)
+
+            if(hash !== "0")
+                dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
+                                                      net, currentWallet, amountValue)
+
+            else
+                dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
+                                                      currentWallet, amountValue, price.realValue)
         }
     }
 

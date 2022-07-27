@@ -64,7 +64,8 @@ Item
 
                 DapButton
                 {
-                    enabled: false
+                    enabled: (logicStock.selectedTokenBalanceWallet || logicStock.unselectedTokenBalanceWallet) ? true : false
+                    id: createOrderButton
                     Layout.fillWidth: true
                     implicitHeight: 36
                     textButton: qsTr("Create order")

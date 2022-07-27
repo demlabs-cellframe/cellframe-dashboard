@@ -3,16 +3,19 @@ import QtQml 2.12
 
 QtObject
 {
-    property int indexPair
-    property string nameTokenPair
-    property real tokenPrice
-    property real tokenPrevPrice
-    property string tokenPriceRounded
-    property string tokenChange
-    property string balanceText: balanceReal.toFixed(roundPower)
-    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
+    property string tokenChange: ""
     property real balanceReal
     property real cellBalanceReal
+//    property string balanceText: balanceReal.toFixed(roundPower)
+//    property string cellBalanceText: cellBalanceReal.toFixed(roundPower)
+    property var selectedTokenNameWallet:""
+    property var selectedTokenBalanceWallet:0
+    property var unselectedTokenNameWallet:""
+    property var unselectedTokenBalanceWallet:0
+
+    property int updateInterval: 1000
+
+    property var resultCreate
 
 //    property real sellMaxTotal: 1
 //    property real buyMaxTotal: 1
@@ -151,25 +154,32 @@ QtObject
                                    })
     }
 
-    function initPairModel()
-    {
-        pairModel.append({ pair: "CELL/USDT",
-                           price: "0.245978",
-                           change: "+5.16 %"
-                         })
-        pairModel.append({ pair: "CELL/BNB",
-                           price: "0.00110722",
-                           change: "-0.04 %"
-                         })
-        pairModel.append({ pair: "CELL/ETH",
-                           price: "0.000210952",
-                           change: "+1.47 %"
-                         })
-        pairModel.append({ pair: "CELL/DAI",
-                           price: "0.245852",
-                           change: "+5.22 %"
-                         })
-    }
+//    function initPairModel()
+//    {
+//        DapPairModel.append({ pair: "CELL/USDT",
+//                           price: "0.245978",
+//                           change: "+5.16 %"
+//                         })
+//        DapPairModel.append({ pair: "CELL/BNB",
+//                           price: "0.00110722",
+//                           change: "-0.04 %"
+//                         })
+//        DapPairModel.append({ pair: "CELL/ETH",
+//                           price: "0.000210952",
+//                           change: "+1.47 %"
+//                         })
+//        DapPairModel.append({ pair: "CELL/DAI",
+//                           price: "0.245852",
+//                           change: "+5.22 %"
+//                         })
+//    }
+
+//    function readPairModel(rcvData)
+//    {
+//        var jsonDocument = JSON.parse(rcvData)
+//        pairModel.clear()
+//        pairModel.append(jsonDocument)
+//    }
 
     function addNewOrder(_date, _pair, _type, _side, _price,
                          _amount, _expiresIn, _trigger)
@@ -182,7 +192,7 @@ QtObject
 
         if(_side === "Buy")
         {
-            value = balanceReal - _amount * logicStock.tokenPrice
+            value = balanceReal - _amount * logicMainApp.tokenPrice
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
             balanceReal = value
 
@@ -197,7 +207,7 @@ QtObject
         {
             if(_type === "Market")
             {
-                value = balanceReal + _amount * logicStock.tokenPrice
+                value = balanceReal + _amount * logicMainApp.tokenPrice
                 fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
 
                 cellBalance = cellBalanceReal - _amount
@@ -262,7 +272,7 @@ QtObject
 
         if(order.side === "Buy")
         {
-            value = balanceReal + order.amount * logicStock.tokenPrice
+            value = balanceReal + order.amount * logicMainApp.tokenPrice
             fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
             balanceReal = value
 
@@ -278,5 +288,74 @@ QtObject
     {
         var count = (heightParent - 42)/32/2 - 1
         return Math.floor(count)
+    }
+
+    function searchOrder(net, tokenSell, tokenBuy, price, amount)
+    {
+        for(var i = 0; i < dapModelXchangeOrders.count; i++)
+        {
+            console.log(net, dapModelXchangeOrders.get(i).network)
+
+            if(net === dapModelXchangeOrders.get(i).network)
+            {
+                for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
+                {
+                    var orderNet = dapModelXchangeOrders.get(i).network
+                    var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
+                    var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
+                    var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
+                    var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
+                    var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
+                    var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
+
+                    var walletBalance = toDatoshi(logicStock.selectedTokenBalanceWallet)
+
+                    console.log(orderBuy, tokenSell,
+                                orderSell, tokenBuy,
+                                orderPrice, price,
+                                orderSellAmount, amount,
+                                orderBuyAmount, walletBalance)
+
+
+                    if(orderBuy === tokenSell &&
+                       orderSell === tokenBuy &&
+                       orderPrice === 1/price &&
+                       orderSellAmount >= amount/orderPrice)
+                    {
+                        console.log("HASH:", orderHash)
+                        return orderHash
+                    }
+                }
+            }
+        }
+        console.log("HASH: 0")
+        return "0"
+    }
+
+    function toDatoshi(str)
+    {
+        var dotIndex = str.indexOf('.')
+
+        if (dotIndex === -1)
+        {
+            str += "000000000000000000"
+        }
+        else
+        {
+            var shift = 19 - str.length + dotIndex
+            str += "0".repeat(shift)
+            str = str.slice(0, dotIndex) + str.slice(dotIndex+1, str.length)
+        }
+
+        var i = 0;
+        while (i < str.length)
+        {
+            if (str[i] !== '0')
+                break
+            ++i
+        }
+        str = str.slice(i, str.length)
+
+        return str
     }
 }

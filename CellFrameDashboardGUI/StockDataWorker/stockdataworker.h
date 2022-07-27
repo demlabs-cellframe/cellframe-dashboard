@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QVariantMap>
 #include <QQmlContext>
+#include <QJsonDocument>
 
 #include "priceinfo.h"
 #include "candleinfo.h"
@@ -53,10 +54,21 @@ public:
 
     void setContext(QQmlContext *cont);
 
+    Q_INVOKABLE void setTokenPair(const QString &tok1,
+        const QString &tok2, const QString &net);
+
+    Q_INVOKABLE void resetPriceData(double price, double init);
+
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
 
+    Q_INVOKABLE void setTokenPriceHistory(const QByteArray &json);
+
+    Q_INVOKABLE void resetBookModel();
+
     Q_INVOKABLE void generateBookModel(double price, int length);
+
+    Q_INVOKABLE void setBookModel(const QByteArray &json);
 
     Q_INVOKABLE void updateAllModels();
 
@@ -78,9 +90,11 @@ public:
 
     Q_INVOKABLE void dataAnalysis();
 
+    Q_INVOKABLE void setNewPrice(const QString &price);
+
     Q_INVOKABLE void generateNewPrice();
 
-    Q_INVOKABLE void generateNewOrderState();
+    Q_INVOKABLE void generateNewBookState();
 
     Q_INVOKABLE bool zoomTime(int step);
 
@@ -174,11 +188,19 @@ signals:
     void buyMaxTotalChanged(double max);
 
 private:
+    void insertBookOrder(bool sell, double price, double amount, double total);
+
     void getVariantBookModels();
 
     void updateBookModels();
 
 private:
+    QString token1 {""};
+    QString token2 {""};
+    QString network {""};
+
+    int bookRoundPower {5};
+
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
     QVector <OrderInfo> sellOrderModel;

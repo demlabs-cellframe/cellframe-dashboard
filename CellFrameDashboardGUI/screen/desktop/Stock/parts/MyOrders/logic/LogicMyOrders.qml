@@ -8,7 +8,7 @@ QtObject {
         pairModelFilter.append({"pair": "All pairs"})
         for(var i = 0; i < pairModel.count; i++)
         {
-            pairModelFilter.append({"pair": pairModel.get(i).pair})
+            pairModelFilter.append({"pair": dapPairModel.get(i).pair})
         }
     }
 

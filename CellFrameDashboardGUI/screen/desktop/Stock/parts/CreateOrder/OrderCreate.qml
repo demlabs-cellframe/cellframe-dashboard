@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -7,18 +8,23 @@ import "../../../controls"
 
 Page
 {
-
-    signal createOrder()
-
     background: Rectangle {
         color: "transparent"
     }
-
-    property string balanceCellValue: fakeWallet.get(0).tokens.get(0).balance_without_zeros
-    property string tokenName: logicStock.nameTokenPair
     property string currentOrder: "Limit"
 
-    onCreateOrder: goToDoneCreate()
+
+    Connections{
+        target: dapServiceController
+        onRcvXchangeCreate:{
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+        onRcvXchangePurchase:{
+            logicStock.resultCreate = rcvData
+            goToDoneCreate()
+        }
+    }
 
     ListModel {
         id: expiresModel
@@ -90,7 +96,7 @@ Page
             Layout.leftMargin: 16
             Layout.topMargin: 10
             label: qsTr("Balance:")
-            text: logicStock.balanceText + " " + tokenName
+            text: logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
             textColor: currTheme.textColor
             textFont: mainFont.dapFont.regular14
 //            font: mainFont.dapFont.regular14
@@ -112,6 +118,9 @@ Page
                 Layout.preferredWidth: 46
 //                Layout.rightMargin: 15
 
+                enabled: logicStock.unselectedTokenBalanceWallet
+//                checked: logicStock.unselectedTokenBalanceWallet
+
                 backgroundColor: currTheme.backgroundMainScreen
                 borderColor: currTheme.reflectionLight
                 shadowColor: currTheme.shadowColor
@@ -123,14 +132,14 @@ Page
                         textBye.color = currTheme.textColorGray
                         textSell.color = currTheme.textColor
 
-                        textMode.text = qsTr("Sell CELL")
+                        textMode.text = qsTr("Sell " + logicStock.unselectedTokenNameWallet)
                     }
                     else
                     {
                         textBye.color = currTheme.textColor
                         textSell.color = currTheme.textColorGray
 
-                        textMode.text = qsTr("Buy CELL")
+                        textMode.text = qsTr("Buy " + logicStock.unselectedTokenNameWallet)
                     }
                 }
             }
@@ -168,7 +177,7 @@ Page
             font: mainFont.dapFont.medium14
             color: currTheme.textColor
 
-            text: qsTr("Buy CELL")
+            text: "Buy " + logicStock.unselectedTokenNameWallet
         }
 
         RowLayout
