@@ -528,7 +528,7 @@ Rectangle {
 
         onRcvXchangeTokenPriceHistory:
         {
-            print("onRcvXchangeTokenPriceHistory", rcvData)
+            print("onRcvXchangeTokenPriceHistory")
             logicMainApp.rcvTokenPriceHistory(rcvData)
         }
 

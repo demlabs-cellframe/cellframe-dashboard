@@ -469,18 +469,12 @@ QtObject {
 
     function rcvTokenPriceHistory(rcvData)
     {
-        if(rcvData !== "isEqual")
+        if(rcvData !== "")
         {
             var jsonDocument = JSON.parse(rcvData)
             dapTokenPriceHistory.clear()
             dapTokenPriceHistory.append(jsonDocument)
             modelTokenPriceHistoryUpdated()
-
-            for(var i = 0; i < dapTokenPriceHistory.count; i++)
-            {
-                console.log(dapTokenPriceHistory.get(i).date,
-                            dapTokenPriceHistory.get(i).rate)
-            }
         }
     }
 
