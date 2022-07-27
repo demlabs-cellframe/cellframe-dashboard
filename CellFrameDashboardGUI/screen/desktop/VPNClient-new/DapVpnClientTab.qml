@@ -8,13 +8,9 @@ import "../controls"
 import QtQml 2.12
 
 DapPage {
-    id:vpnCLientTab
-	
-   // property alias dapTokenModel: tokenModel
+    id: vpnCLientTab
 
-    readonly property string vpnOrdersPage: "RightPanel/VPNOrders.qml"
-    readonly property string topUpPage: "RightPanel/TopUp.qml"
-    readonly property string refundPage: "RightPanel/Refund.qml"
+    property bool isReceiptsOpen: false
 
     QtObject {
         id: vpnClientNavigator
@@ -22,21 +18,29 @@ DapPage {
         function openRefoundItem() {
             dapRightPanel.clear()
             dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/Refund.qml")
+            isReceiptsOpen = false
         }
 
         function openTopUpItem() {
             dapRightPanel.clear()
             dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/TopUp.qml")
+            isReceiptsOpen = false
         }
 
         function openVpnOrders() {
             dapRightPanel.clear()
             dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/VPNOrders.qml")
+            isReceiptsOpen = false
         }
 
         function openVpnReceipts() {
             dapRightPanel.clear()
             dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/Receipts.qml")
+            isReceiptsOpen = true
+        }
+
+        function openVpnReceiptsDetails() {
+            dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/ReceiptsDetails.qml")
         }
     }
 

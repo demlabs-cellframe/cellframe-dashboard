@@ -159,7 +159,7 @@ Item
                 ColumnLayout
             {
                 width: parent.width - x * 2
-                x: 16 * pt
+                x: 2 * pt
 
                 Rectangle
                 {
@@ -189,11 +189,6 @@ Item
                                 text: modelData.Name
                             }
 
-                            //                                Switch
-                            //                                {
-                            //                                    checked: server_state
-                            //                                }
-
                             DapSwitch
                             {
                                 Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
@@ -205,7 +200,6 @@ Item
                                 borderColor: currTheme.reflectionLight
                                 shadowColor: currTheme.shadowColor
 
-                                //                                    checked: show
                                 onToggled: {
                                 }
                             }

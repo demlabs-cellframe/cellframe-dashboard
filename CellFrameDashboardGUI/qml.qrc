@@ -369,5 +369,6 @@
         <file>screen/desktop/VPNClient-new/Images/page.png</file>
         <file>screen/desktop/VPNClient-new/Images/page-hov.png</file>
         <file>screen/desktop/VPNClient-new/RightPanel/Receipts.qml</file>
+        <file>screen/desktop/VPNClient-new/RightPanel/ReceiptsDetails.qml</file>
     </qresource>
 </RCC>

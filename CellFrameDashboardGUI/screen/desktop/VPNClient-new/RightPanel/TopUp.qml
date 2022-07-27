@@ -86,7 +86,7 @@ Item
                         color: currTheme.textColor
                         font: mainFont.dapFont.medium12
                         verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Ammount")
+                        text: qsTr("Amount")
                     }
                 }
 

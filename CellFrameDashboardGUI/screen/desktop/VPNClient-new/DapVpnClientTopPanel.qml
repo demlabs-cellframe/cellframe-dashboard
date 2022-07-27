@@ -5,7 +5,7 @@ import "qrc:/widgets"
 
 DapTopPanel {
 
-    anchors.leftMargin: 4*pt
+    anchors.leftMargin: 4 * pt
     radius: currTheme.radiusRectangle
     color: currTheme.backgroundPanel
 
@@ -39,7 +39,7 @@ DapTopPanel {
             heightImageButton: 24 * pt
             widthImageButton: 22 * pt
 
-            normalImageButton: "qrc:/screen/desktop/VPNClient-new/Images/page.png"
+            normalImageButton: isReceiptsOpen ? "qrc:/screen/desktop/VPNClient-new/Images/page-hov.png" : "qrc:/screen/desktop/VPNClient-new/Images/page.png"
 
             hoverImageButton:  "qrc:/screen/desktop/VPNClient-new/Images/page-hov.png"
             onClicked: vpnClientNavigator.openVpnReceipts()
