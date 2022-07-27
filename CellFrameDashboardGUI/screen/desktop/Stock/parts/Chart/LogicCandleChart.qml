@@ -701,8 +701,8 @@ QtObject
         if (radius > secondRadius)
             radius = secondRadius
 
-        if (radius < 1)
-            radius = 1
+        if (radius < 0.5)
+            radius = 0.5
 
         ctx.strokeStyle = color
         ctx.lineCap = "round"
