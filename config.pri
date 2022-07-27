@@ -8,7 +8,7 @@
 
 VER_MAJ = 2
 VER_MIN = 8
-VER_PAT = 3
+VER_PAT = 4
 
 
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
