@@ -357,10 +357,12 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 
                         double total = amount * price;
 
-//                        qDebug () << tok1 << tok2
-//                                  << price
-//                                  << amount
-//                                  << total;
+                        qDebug () << tok1 << tok2
+                                  << price
+                                  << amount
+                                  << total
+                                  << QString::number(total)
+                                  << QString::number(amount);
 
                         if (tok1 == token1)
                         {

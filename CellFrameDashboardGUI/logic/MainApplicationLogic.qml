@@ -472,6 +472,12 @@ QtObject {
         {
             stockDataWorker.setTokenPriceHistory(rcvData)
 
+            var jsonDocument = JSON.parse(rcvData)
+
+            print("rcvData", rcvData)
+            dapTokenPriceHistory.clear()
+            dapTokenPriceHistory.append(jsonDocument.history)
+
 /*            var jsonDocument = JSON.parse(rcvData)
 
             print("rcvData", rcvData)

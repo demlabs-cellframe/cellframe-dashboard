@@ -308,7 +308,7 @@ QtObject
                     var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
                     var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
 
-                    var walletBalance = toDatoshi(logicStock.selectedTokenBalanceWallet)
+                    var walletBalance = dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet)
 
                     console.log(orderBuy, tokenSell,
                                 orderSell, tokenBuy,
@@ -332,30 +332,18 @@ QtObject
         return "0"
     }
 
-    function toDatoshi(str)
+    function getPercentBalance(percent, price)
     {
-        var dotIndex = str.indexOf('.')
+        if(price === 0)
+            return price
 
-        if (dotIndex === -1)
-        {
-            str += "000000000000000000"
-        }
-        else
-        {
-            var shift = 19 - str.length + dotIndex
-            str += "0".repeat(shift)
-            str = str.slice(0, dotIndex) + str.slice(dotIndex+1, str.length)
-        }
+        var balanceDatoshi = dapMath.coinsToBalance(selectedTokenBalanceWallet)
+        var priceDatoshi = dapMath.coinsToBalance(price)
+        var percentDatoshi = dapMath.coinsToBalance(percent)
 
-        var i = 0;
-        while (i < str.length)
-        {
-            if (str[i] !== '0')
-                break
-            ++i
-        }
-        str = str.slice(i, str.length)
+        var divRes = dapMath.divCoins(balanceDatoshi, priceDatoshi, true)
+        var multRes = dapMath.multCoins(divRes, percentDatoshi, false)
 
-        return str
+        return multRes
     }
 }

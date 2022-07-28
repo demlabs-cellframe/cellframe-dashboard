@@ -407,14 +407,8 @@ Rectangle {
         stockDataWorker.resetPriceData(0.0, true)
         stockDataWorker.resetBookModel()
 //        //-------//OrdersHistory
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
 
 //        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")

@@ -6,9 +6,11 @@ QtObject {
     function initPairModelFilter()
     {
         pairModelFilter.append({"pair": "All pairs"})
-        for(var i = 0; i < pairModel.count; i++)
+
+        for(var i = 0; i < dapPairModel.count; i++)
         {
-            pairModelFilter.append({"pair": dapPairModel.get(i).pair})
+            if(dapPairModel.get(i).network === logicMainApp.tokenNetwork)
+            pairModelFilter.append({"pair": dapPairModel.get(i).token1 + "/" + dapPairModel.get(i).token2})
         }
     }
 

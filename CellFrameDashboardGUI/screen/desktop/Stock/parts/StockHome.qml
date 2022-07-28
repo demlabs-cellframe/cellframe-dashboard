@@ -80,7 +80,7 @@ Item
 
                 DapButton
                 {
-                    enabled: false
+//                    enabled: false
                     Layout.fillWidth: true
                     implicitHeight: 36
                     textButton: qsTr("My orders")

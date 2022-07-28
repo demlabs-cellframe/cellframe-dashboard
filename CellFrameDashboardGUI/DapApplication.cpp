@@ -40,6 +40,9 @@ DapApplication::DapApplication(int &argc, char **argv)
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 
+    m_mathBigNumbers = new DapMath();
+    m_mathBigNumbers->test();
+
     this->registerQmlTypes();
     this->setContextProperties();
 
@@ -151,4 +154,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
+    m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
 }

@@ -75,7 +75,8 @@ ColumnLayout {
         textValue: "0.0"
         onEdited:
         {
-            total.setRealValue(realValue * logicMainApp.tokenPrice)
+            total.textValue = dapMath.multCoins(dapMath.coinsToBalance(realValue),
+                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
 
             button25.selected = false
             button50.selected = false
@@ -108,9 +109,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.25)
-                total.setRealValue(logicStock.selectedTokenBalanceWallet*0.25)
+                amount.textValue = logicStock.getPercentBalance("0.25", logicMainApp.tokenPrice)
+                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
+                                                    dapMath.coinsToBalance("0.25"), false)
             }
         }
 
@@ -131,9 +132,9 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.5)
-                total.setRealValue(logicStock.selectedTokenBalanceWalletl*0.5)
+                amount.textValue = logicStock.getPercentBalance("0.50", logicMainApp.tokenPrice)
+                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
+                                                    dapMath.coinsToBalance("0.5"), false)
             }
         }
 
@@ -154,9 +155,9 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.75)
-                total.setRealValue(logicStock.selectedTokenBalanceWallet*0.75)
+                amount.textValue = logicStock.getPercentBalance("0.75", logicMainApp.tokenPrice)
+                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
+                                                    dapMath.coinsToBalance("0.75"), false)
             }
         }
 
@@ -177,9 +178,8 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.setRealValue(
-                    logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)
-                total.setRealValue(logicStock.selectedTokenBalanceWallet)
+                amount.textValue = logicStock.getPercentBalance("1.0", logicMainApp.tokenPrice)
+                total.textValue = logicStock.selectedTokenBalanceWallet
             }
         }
     }
@@ -222,7 +222,8 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.setRealValue(realValue / logicMainApp.tokenPrice)
+            amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(realValue),
+                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
         }
     }
 
@@ -245,10 +246,8 @@ ColumnLayout {
             var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var amountValue = logicStock.toDatoshi(amount.textValue)
+            var amountValue = dapMath.coinsToBalance(amount.textValue)
             var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.realValue, amountValue)
-
-            console.log("HASH: ", hash)
 
             if(hash !== "0")
                 dapServiceController.requestToService("DapXchangeOrderPurchase", hash,

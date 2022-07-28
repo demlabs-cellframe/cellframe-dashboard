@@ -153,8 +153,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.25)
+                amount.textValue = logicStock.getPercentBalance("0.25", price.realValue)
             }
         }
 
@@ -175,8 +174,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.5)
+                amount.textValue = logicStock.getPercentBalance("0.5", price.realValue)
             }
         }
 
@@ -197,8 +195,7 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.setRealValue(
-                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.75)
+                amount.textValue = logicStock.getPercentBalance("0.75", price.realValue)
             }
         }
 
@@ -219,8 +216,7 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.setRealValue(
-                    logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)
+                amount.textValue = logicStock.getPercentBalance("1.0", price.realValue)
             }
         }
     }
@@ -245,14 +241,13 @@ ColumnLayout {
             var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var amountValue = logicStock.toDatoshi(amount.textValue)
+            var amountValue = dapMath.coinsToBalance(amount.textValue)
 
             var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.realValue, amountValue)
 
             if(hash !== "0")
                 dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
                                                       net, currentWallet, amountValue)
-
             else
                 dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
                                                       currentWallet, amountValue, price.realValue)

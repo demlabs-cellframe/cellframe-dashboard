@@ -23,6 +23,7 @@ Rectangle
             textValue.text = realValue.toFixed(roundPower)
             if (textValue.text === (0.0).toFixed(roundPower))
                 textValue.text = "0.0"
+
             print("onRealValueChanged",
                   "textValue.text", textValue.text,
                   "realValue", realValue)
