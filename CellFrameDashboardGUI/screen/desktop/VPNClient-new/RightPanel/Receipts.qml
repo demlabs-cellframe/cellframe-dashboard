@@ -6,7 +6,6 @@ import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 
 Item {
-
     property var receiptsModel: [{"date" : "Today", "transactions" :
                                                 [{"time" : "18:29", "value" : "745.112 KLVN"},
                                                 {"time" : "18:33", "value" : "39.1432 TKN"},
@@ -82,6 +81,7 @@ Item {
 
                 Text
                 {
+                    id: dateText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
                     text: modelData.date
@@ -104,6 +104,7 @@ Item {
 
                     Text
                     {
+                        id: timeText
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
                         x: 16 * pt
@@ -126,6 +127,13 @@ Item {
                         width: parent.width
                         height: 2
                         color: currTheme.backgroundMainScreen
+                    }
+
+                    MouseArea
+                    {
+                        anchors.fill: parent
+
+                        onClicked: vpnClientNavigator.openVpnReceiptsDetails("Receipt details, " + dateText.text + ", " + timeText.text)
                     }
                 }
             }

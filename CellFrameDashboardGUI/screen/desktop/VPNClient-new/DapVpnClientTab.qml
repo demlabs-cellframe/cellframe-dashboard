@@ -39,8 +39,14 @@ DapPage {
             isReceiptsOpen = true
         }
 
-        function openVpnReceiptsDetails() {
-            dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/ReceiptsDetails.qml")
+        function openVpnReceiptsDetails(headerText) {
+            dapRightPanel.clear()
+            dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/ReceiptsDetails.qml", {"headerText" : headerText})
+        }
+
+        function closeVpnReceiptsDetails() {
+            dapRightPanel.clear()
+            dapRightPanel.push("qrc:/screen/desktop/VPNClient-new/RightPanel/Receipts.qml", StackView.PopTransition)
         }
     }
 

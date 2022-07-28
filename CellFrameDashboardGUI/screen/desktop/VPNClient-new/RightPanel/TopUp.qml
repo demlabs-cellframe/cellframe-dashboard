@@ -76,7 +76,7 @@ Item
                 Rectangle
                 {
                     Layout.fillWidth: true
-                    Layout.minimumHeight: 30 * pt
+                    Layout.minimumHeight: 40 * pt
                     color: currTheme.backgroundMainScreen
 
                     Text
@@ -95,8 +95,10 @@ Item
                     Layout.fillWidth: true
                     Layout.leftMargin: 10 * pt
                     Layout.rightMargin: 10 * pt
-                    Layout.topMargin: 10 * pt
-                    Layout.bottomMargin: 10 * pt
+                    Layout.topMargin: 20 * pt
+                    Layout.bottomMargin: 20 * pt
+
+                    spacing: 20 * pt
 
                     RowLayout
                     {
@@ -107,7 +109,7 @@ Item
                             Layout.fillWidth: true
                             Layout.leftMargin: 15 * pt
                             width: 150 * pt
-                            height: 28 * pt
+                            Layout.minimumHeight: 40 * pt
                             placeholderText: "0.0"
                             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                             font: mainFont.dapFont.regular16
@@ -132,7 +134,7 @@ Item
                         DapComboBox
                         {
                             Layout.minimumWidth: 100 * pt
-                            Layout.maximumHeight: 26 * pt
+                            Layout.maximumHeight: 40 * pt
 
                             model: vpnClientTokenModel
 
@@ -177,6 +179,7 @@ Item
                     Layout.leftMargin: 20 * pt
                     Layout.rightMargin: 20 * pt
                     Layout.bottomMargin: 10 * pt
+                    spacing: 10 * pt
 
                     DapCheckBox
                     {
@@ -217,7 +220,7 @@ Item
                                     Layout.fillWidth: true
                                     Layout.leftMargin: 15 * pt
                                     width: 150 * pt
-                                    height: 28 * pt
+                                    Layout.minimumHeight: 40 * pt
                                     placeholderText: "0.0"
                                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                                     font: mainFont.dapFont.regular16
@@ -259,10 +262,11 @@ Item
                     DapButton
                     {
                         enabled: autoTopUpCheckBox.checked
-                        Layout.fillWidth: true
-                        Layout.minimumHeight: 20 * pt
+                        Layout.minimumWidth: 221 * pt
+                        Layout.minimumHeight: 36 * pt
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular10
+                        Layout.alignment: Qt.AlignHCenter
                         textButton: qsTr("Add token for auto top up")
                         onClicked:
                         {
