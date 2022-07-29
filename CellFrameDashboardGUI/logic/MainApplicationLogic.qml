@@ -474,7 +474,7 @@ QtObject {
 
             var jsonDocument = JSON.parse(rcvData)
 
-            print("rcvData", rcvData)
+//            print("rcvData", rcvData)
             dapTokenPriceHistory.clear()
             dapTokenPriceHistory.append(jsonDocument.history)
 
