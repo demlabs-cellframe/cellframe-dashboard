@@ -11,6 +11,11 @@
 #include "candleinfo.h"
 #include "orderinfo.h"
 
+enum class OrderType
+{
+    sell, buy
+};
+
 class StockDataWorker : public QObject
 {
     Q_OBJECT
@@ -188,7 +193,7 @@ signals:
     void buyMaxTotalChanged(double max);
 
 private:
-    void insertBookOrder(bool sell, double price, double amount, double total);
+    void insertBookOrder(const OrderType& type, double price, double amount, double total);
 
     void getVariantBookModels();
 

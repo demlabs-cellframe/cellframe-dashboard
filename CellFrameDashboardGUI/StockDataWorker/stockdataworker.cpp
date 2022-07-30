@@ -273,7 +273,7 @@ void StockDataWorker::generateBookModel(double price, int length)
 
 //        sellOrderModel.append(OrderInfo{temp_price, amount, total});
 
-        insertBookOrder(true, temp_price, amount, total);
+        insertBookOrder(OrderType::sell, temp_price, amount, total);
 
         if (m_sellMaxTotal < total)
             m_sellMaxTotal = total;
@@ -290,7 +290,7 @@ void StockDataWorker::generateBookModel(double price, int length)
 
 //        buyOrderModel.append(OrderInfo{temp_price, amount, total});
 
-        insertBookOrder(false, temp_price, amount, total);
+        insertBookOrder(OrderType::buy, temp_price, amount, total);
 
         if (m_buyMaxTotal < total)
             m_buyMaxTotal = total;
@@ -335,9 +335,10 @@ void StockDataWorker::setBookModel(const QByteArray &json)
                     if ((tok1 == token1 && tok2 == token2) ||
                         (tok2 == token1 && tok1 == token2))
                     {
-//                        qDebug () << tok1 << tok2
-//                                  << orders.at(j)["rate"].toString()
-//                                  << orders.at(j)["rate"].toString().toDouble();
+                        qDebug () << "buy_token" << tok1
+                                  << "sell_token" << tok2
+                                  << "buy_amount" << orders.at(j)["buy_amount"].toString()
+                                  << "sell_amount" << orders.at(j)["sell_amount"].toString();
 
                         double price = orders.at(j)["rate"].toString().toDouble();
                         double amount;
@@ -345,8 +346,8 @@ void StockDataWorker::setBookModel(const QByteArray &json)
                         if (tok1 == token1)
                         {
                             amount = orders.at(j)["buy_amount"].toString().toDouble();
-                            if (price > 0.000000000000000000001)
-                                amount /= price;
+//                            if (price > 0.000000000000000000001)
+//                                amount /= price;
                         }
                         else
                         {
@@ -354,6 +355,11 @@ void StockDataWorker::setBookModel(const QByteArray &json)
                         }
 
                         amount *= 0.000000000000000001;
+
+                        qDebug () << "buy_token" << tok1
+                                  << "sell_token" << tok2
+                                  << "price" << price
+                                  << "amount";
 
                         double total = amount * price;
 
@@ -368,7 +374,7 @@ void StockDataWorker::setBookModel(const QByteArray &json)
                         {
 //                            sellOrderModel.append(OrderInfo{price, amount, total});
 
-                            insertBookOrder(true, price, amount, total);
+                            insertBookOrder(OrderType::buy, price, amount, total);
 
                             if (m_sellMaxTotal < total)
                                 m_sellMaxTotal = total;
@@ -377,7 +383,7 @@ void StockDataWorker::setBookModel(const QByteArray &json)
                         {
 //                            buyOrderModel.append(OrderInfo{price, amount, total});
 
-                            insertBookOrder(false, price, amount, total);
+                            insertBookOrder(OrderType::sell, price, amount, total);
 
                             if (m_buyMaxTotal < total)
                                 m_buyMaxTotal = total;
@@ -1289,7 +1295,7 @@ void StockDataWorker::setPreviousTokenPrice(double price)
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
-void StockDataWorker::insertBookOrder(bool sell, double price, double amount, double total)
+void StockDataWorker::insertBookOrder(const OrderType& type, double price, double amount, double total)
 {
 //    qDebug() << "StockDataWorker::insertBookOrder";
 
@@ -1308,7 +1314,7 @@ void StockDataWorker::insertBookOrder(bool sell, double price, double amount, do
 
     price = QString::number(price, 'f', bookRoundPower).toDouble();
 
-    if (sell)
+    if (type == OrderType::sell)
     {
         int index = 0;
 
