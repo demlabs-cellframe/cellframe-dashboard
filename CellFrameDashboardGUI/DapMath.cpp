@@ -48,6 +48,9 @@ void DapMath::test()
 
 QVariant DapMath::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
+       arg1.toString() == "0" || arg2.toString() == "0") return "0";
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
     uint256_t accum = {};
@@ -62,6 +65,9 @@ QVariant DapMath::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 
 QVariant DapMath::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
+       arg1.toString() == "0" || arg2.toString() == "0") return "0";
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
 
@@ -77,11 +83,14 @@ QVariant DapMath::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 
 QVariant DapMath::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
+       arg1.toString() == "0" || arg2.toString() == "0") return "0";
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
     uint256_t accum = {};
 
-    MULT_256_COIN(arg1_256, arg2_256, &accum);
+    MULT_256_256(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
         return dap_chain_balance_print(accum);
@@ -91,12 +100,15 @@ QVariant DapMath::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi
 
 QVariant DapMath::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
+       arg1.toString() == "0" || arg2.toString() == "0") return "0";
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
 
     uint256_t accum = {};
 
-    DIV_256_COIN(arg1_256, arg2_256, &accum);
+    DIV_256(arg1_256, arg2_256, &accum);
 
     if(getDatoshi.toBool())
         return dap_chain_balance_print(accum);
@@ -106,6 +118,8 @@ QVariant DapMath::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 
 QVariant DapMath::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return "0";
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
     uint256_t accum = {};
@@ -120,6 +134,8 @@ QVariant DapMath::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 
 QVariant DapMath::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return "0";
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
     uint256_t accum = {};
@@ -134,6 +150,8 @@ QVariant DapMath::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 
 QVariant DapMath::isEqual(QVariant arg1, QVariant arg2)
 {
+    if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return true;
+
     uint256_t arg1_256 = dap_cvt_str_to_uint256(arg1.toString().toStdString().data());
     uint256_t arg2_256 = dap_cvt_str_to_uint256(arg2.toString().toStdString().data());
 
@@ -142,6 +160,8 @@ QVariant DapMath::isEqual(QVariant arg1, QVariant arg2)
 
 QVariant DapMath::coinsToBalance(QVariant coins)
 {
+    if(coins.toString().isEmpty()) return "0";
+
     QString cointStr = coins.toString();
     QString value;
     if(cointStr.contains(".") && cointStr[cointStr.length() - 1] != ".")
@@ -155,6 +175,8 @@ QVariant DapMath::coinsToBalance(QVariant coins)
 
 QVariant DapMath::balanceToCoins(QVariant balance)
 {
+    if(balance.toString().isEmpty()) return "0";
+
     uint256_t convert =  dap_cvt_str_to_uint256(balance.toString().toStdString().data());
     return dap_chain_balance_to_coins(convert);
 }

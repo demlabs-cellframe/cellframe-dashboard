@@ -8,10 +8,14 @@ import "../../../controls"
 
 Page
 {
+    id: createForm
     background: Rectangle {
         color: "transparent"
     }
     property string currentOrder: "Limit"
+
+    property bool isSell: false
+    signal sellBuyChanged()
 
 
     Connections{
@@ -96,7 +100,23 @@ Page
             Layout.leftMargin: 16
             Layout.topMargin: 10
             label: qsTr("Balance:")
-            text: logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
+            text:
+            {
+                if(sellBuySwitch.checked)
+                {
+                    if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
+                        return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
+                    else
+                        return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
+                }
+                else
+                {
+                    if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
+                        return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
+                    else
+                        return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
+                }
+            }
             textColor: currTheme.textColor
             textFont: mainFont.dapFont.regular14
 //            font: mainFont.dapFont.regular14
@@ -118,29 +138,29 @@ Page
                 Layout.preferredWidth: 46
 //                Layout.rightMargin: 15
 
-                enabled: logicStock.unselectedTokenBalanceWallet
-//                checked: logicStock.unselectedTokenBalanceWallet
-
                 backgroundColor: currTheme.backgroundMainScreen
                 borderColor: currTheme.reflectionLight
                 shadowColor: currTheme.shadowColor
 
                 onToggled:
                 {
+                    isSell = !isSell
                     if (checked)
                     {
                         textBye.color = currTheme.textColorGray
                         textSell.color = currTheme.textColor
 
-                        textMode.text = qsTr("Sell " + logicStock.unselectedTokenNameWallet)
+                        textMode.text = qsTr("Sell " + logicMainApp.token1Name)
                     }
                     else
                     {
                         textBye.color = currTheme.textColor
                         textSell.color = currTheme.textColorGray
 
-                        textMode.text = qsTr("Buy " + logicStock.unselectedTokenNameWallet)
+                        textMode.text = qsTr("Buy " + logicMainApp.token1Name)
+
                     }
+                    sellBuyChanged()
                 }
             }
 
@@ -177,7 +197,7 @@ Page
             font: mainFont.dapFont.medium14
             color: currTheme.textColor
 
-            text: "Buy " + logicStock.unselectedTokenNameWallet
+            text: "Buy " + logicMainApp.token1Name
         }
 
         RowLayout
@@ -231,6 +251,7 @@ Page
             DapRadioButton
             {
                 Layout.fillWidth: true
+                enabled: false
 
                 indicatorInnerSize: 46
                 spaceIndicatorText: -5
@@ -267,6 +288,53 @@ Page
             id: stopLimit
             Layout.fillWidth: true
             visible: false
+        }
+    }
+
+    function setStatusCreateButton(total, price)
+    {
+        var totalValue = isSell ? dapMath.divCoins(dapMath.coinsToBalance(total),
+                                                   dapMath.coinsToBalance(price),false):
+                                  total
+
+        var nameToken = isSell ? logicMainApp.token1Name :
+                                 logicMainApp.token2Name
+        var str;
+
+
+//        console.log("isSell", isSell, "\n",
+//                    "total", total, "\n",
+//                    "totalValue", totalValue, "\n",
+//                    "price", price, "\n",
+//                    "nameToken", nameToken, "\n",
+//                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
+//                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
+//                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
+//                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
+
+
+
+        if(logicStock.selectedTokenNameWallet === nameToken)
+        {
+            str = dapMath.subCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet), dapMath.coinsToBalance(totalValue), false)
+
+            if(str.length < 70)
+                return true
+            else
+                return false
+        }
+        else if(logicStock.unselectedTokenNameWallet === nameToken)
+        {
+            str = dapMath.subCoins(dapMath.coinsToBalance(logicStock.unselectedTokenBalanceWallet), dapMath.coinsToBalance(totalValue), false)
+
+            if(str.length < 70)
+                return true
+            else
+                return false
+        }
+        else
+        {
+            return false
         }
     }
 }

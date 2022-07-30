@@ -64,7 +64,7 @@ Item
 
                 DapButton
                 {
-                    enabled: (logicStock.selectedTokenBalanceWallet || logicStock.unselectedTokenBalanceWallet) ? true : false
+                    enabled: (logicStock.selectedTokenBalanceWallet > 0 || logicStock.unselectedTokenBalanceWallet > 0) ? true : false
                     id: createOrderButton
                     Layout.fillWidth: true
                     implicitHeight: 36

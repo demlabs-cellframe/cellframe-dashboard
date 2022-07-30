@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -11,8 +12,8 @@ ColumnLayout {
 
     Component.onCompleted:
     {
-        stop.setRealValue(logicStock.tokenPrice)
-        limit.setRealValue(logicStock.tokenPrice)
+        stop.textValue = logicMainApp.tokenPrice
+        limit.textValue = logicMainApp.tokenPrice
     }
 
     Rectangle

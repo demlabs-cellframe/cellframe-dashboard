@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -8,6 +9,22 @@ ColumnLayout {
     Layout.fillWidth: true
     Layout.topMargin: 16
     spacing: 0
+
+    Component.onCompleted: updateForms()
+
+    Connections{
+        target: createForm
+        onSellBuyChanged:{
+            createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+//            updateForms()
+        }
+    }
+    Connections{
+        target: stockTab
+        onTokenPairChanged:{
+            updateForms()
+        }
+    }
 
     Rectangle
     {
@@ -38,8 +55,13 @@ ColumnLayout {
         Layout.topMargin: 12
         Layout.leftMargin: 16
         Layout.rightMargin: 16
-        textToken: logicStock.unselectedTokenNameWallet
-        realValue: logicMainApp.tokenPrice
+        textToken: logicMainApp.token2Name
+        textValue: logicMainApp.tokenPrice
+        onEdited: {
+            if(amount.textValue !== "0")
+                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
+                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+        }
     }
 
     Rectangle
@@ -71,17 +93,19 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: logicStock.selectedTokenNameWallet
+        textToken: logicMainApp.token1Name
         textValue: "0.0"
         onEdited:
         {
-            total.textValue = dapMath.multCoins(dapMath.coinsToBalance(realValue),
+            total.textValue = dapMath.multCoins(dapMath.coinsToBalance(textValue),
                                                 dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
 
             button25.selected = false
             button50.selected = false
             button75.selected = false
             button100.selected = false
+
+            createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
         }
     }
 
@@ -109,9 +133,10 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = logicStock.getPercentBalance("0.25", logicMainApp.tokenPrice)
-                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
-                                                    dapMath.coinsToBalance("0.25"), false)
+                var result = logicStock.getPercentBalance("0.25", price.textValue, isSell)
+
+                amount.textValue = result[0]
+                total.textValue = result[1]
             }
         }
 
@@ -132,9 +157,10 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = logicStock.getPercentBalance("0.50", logicMainApp.tokenPrice)
-                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
-                                                    dapMath.coinsToBalance("0.5"), false)
+                var result = logicStock.getPercentBalance("0.5", price.textValue, isSell)
+
+                amount.textValue = result[0]
+                total.textValue = result[1]
             }
         }
 
@@ -155,9 +181,10 @@ ColumnLayout {
                 button75.selected = true
                 button100.selected = false
 
-                amount.textValue = logicStock.getPercentBalance("0.75", logicMainApp.tokenPrice)
-                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
-                                                    dapMath.coinsToBalance("0.75"), false)
+                var result = logicStock.getPercentBalance("0.75", price.textValue, isSell)
+
+                amount.textValue = result[0]
+                total.textValue = result[1]
             }
         }
 
@@ -178,8 +205,10 @@ ColumnLayout {
                 button75.selected = false
                 button100.selected = true
 
-                amount.textValue = logicStock.getPercentBalance("1.0", logicMainApp.tokenPrice)
-                total.textValue = logicStock.selectedTokenBalanceWallet
+                var result = logicStock.getPercentBalance("1.0", price.textValue, isSell)
+
+                amount.textValue = result[0]
+                total.textValue = result[1]
             }
         }
     }
@@ -213,7 +242,7 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: logicStock.unselectedTokenNameWallet
+        textToken: logicMainApp.token2Name
         textValue: "0.0"
         onEdited:
         {
@@ -222,13 +251,15 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(realValue),
+            amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(textValue),
                                                 dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
         }
+        onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
     }
 
     DapButton
     {
+        id:createButton
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
         implicitHeight: 36
@@ -247,7 +278,7 @@ ColumnLayout {
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
             var amountValue = dapMath.coinsToBalance(amount.textValue)
-            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.realValue, amountValue)
+            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.textValue, amountValue)
 
             if(hash !== "0")
                 dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
@@ -255,11 +286,24 @@ ColumnLayout {
 
             else
                 dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amountValue, price.realValue)
+                                                      currentWallet, amountValue, price.textValue)
         }
     }
 
     Item{
         Layout.fillHeight: true
+    }
+
+    function updateForms()
+    {
+        price.textValue = logicMainApp.tokenPrice
+//        price.setRealValue(logicMainApp.tokenPrice)
+        total.textValue = "0"
+        amount.textValue = "0"
+        createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
+        button25.selected = false
+        button50.selected = false
+        button75.selected = false
+        button100.selected = false
     }
 }

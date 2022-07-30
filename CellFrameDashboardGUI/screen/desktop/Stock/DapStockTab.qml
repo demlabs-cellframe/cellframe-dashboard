@@ -74,7 +74,7 @@ DapPage
         dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
             logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
-        print("DapStockTab Component.onCompleted")
+//        print("DapStockTab Component.onCompleted")
         dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
         dapServiceController.requestToService("DapGetXchangeOrdersList")
 
@@ -156,7 +156,7 @@ DapPage
 
         onRcvXchangeTokenPriceAverage:
         {
-            print("DapStockTab TokenPriceAverage", rcvData.rate)
+//            print("DapStockTab TokenPriceAverage", rcvData.rate)
 
 //            print(rcvData.token1,
 //                  rcvData.token2,
@@ -191,7 +191,7 @@ DapPage
         dapServiceController.requestToService("DapGetXchangeOrdersList")
         updateOrdersListTimer.start()
 
-        console.log(logicMainApp.tokenPrice)
+//        console.log(logicMainApp.tokenPrice)
 
         stockDataWorker.resetPriceData(logicMainApp.tokenPrice, false)
         stockDataWorker.resetBookModel()
