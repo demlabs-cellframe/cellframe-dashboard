@@ -19,6 +19,14 @@ Rectangle
         height: parent.height
 
         color: isSell? sellHistogramColor : buyHistogramColor
+
+//        Component.onCompleted:
+//        {
+//            print("isSell", isSell,
+//                  "modelData.total", modelData.total,
+//                  "stockDataWorker.sellMaxTotal", stockDataWorker.sellMaxTotal,
+//                  "stockDataWorker.buyMaxTotal", stockDataWorker.buyMaxTotal)
+//        }
     }
 
     ColumnLayout

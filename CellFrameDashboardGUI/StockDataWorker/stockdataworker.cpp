@@ -307,61 +307,71 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 
     QJsonDocument doc = QJsonDocument::fromJson(json);
 
-    if (doc.isArray())
-    {
-        sellOrderModel.clear();
-        buyOrderModel.clear();
+    if (!doc.isArray())
+        return;
 
-        m_sellMaxTotal = 0;
-        m_buyMaxTotal = 0;
 
-        QJsonArray netArray = doc.array();
+    sellOrderModel.clear();
+    buyOrderModel.clear();
+
+    QJsonArray netArray = doc.array();
 //        qDebug() << "array.size()" << netArray.size();
 
-        for(auto i = 0; i < netArray.size(); i++)
-        {
+    for(auto i = 0; i < netArray.size(); i++)
+    {
 //            qDebug() << netArray.at(i)["network"].toString()
 //                    << (netArray.at(i)["network"].toString() == network);
 
-            if (netArray.at(i)["network"].toString() == network)
+        if (netArray.at(i)["network"].toString() == network)
+        {
+            QJsonArray orders = netArray.at(i)["orders"].toArray();
+
+            for(auto j = 0; j < orders.size(); j++)
             {
-                QJsonArray orders = netArray.at(i)["orders"].toArray();
+                QString tok1 = orders.at(j)["buy_token"].toString();
+                QString tok2 = orders.at(j)["sell_token"].toString();
 
-                for(auto j = 0; j < orders.size(); j++)
+                if ((tok1 == token1 && tok2 == token2) ||
+                    (tok2 == token1 && tok1 == token2))
                 {
-                    QString tok1 = orders.at(j)["buy_token"].toString();
-                    QString tok2 = orders.at(j)["sell_token"].toString();
+                    OrderType type;
 
-                    if ((tok1 == token1 && tok2 == token2) ||
-                        (tok2 == token1 && tok1 == token2))
+                    if (tok1 == token1)
+                        type = OrderType::buy;
+                    else
+                        type = OrderType::sell;
+
+//                    qDebug () << "buy_token" << tok1
+//                              << "sell_token" << tok2
+//                              << "buy_amount" << orders.at(j)["buy_amount"].toString()
+//                              << "sell_amount" << orders.at(j)["sell_amount"].toString();
+
+                    double price = orders.at(j)["rate"].toString().toDouble();
+
+                    if (type == OrderType::buy)
                     {
-                        qDebug () << "buy_token" << tok1
-                                  << "sell_token" << tok2
-                                  << "buy_amount" << orders.at(j)["buy_amount"].toString()
-                                  << "sell_amount" << orders.at(j)["sell_amount"].toString();
+                        if (price > 0.000000000000000000000001)
+                            price = 1/price;
+                        else
+                            price = 1;
+                    }
 
-                        double price = orders.at(j)["rate"].toString().toDouble();
-                        double amount;
+                    double amount;
 
-                        if (tok1 == token1)
-                        {
-                            amount = orders.at(j)["buy_amount"].toString().toDouble();
+                    if (type == OrderType::buy)
+                    {
+                        amount = orders.at(j)["buy_amount"].toString().toDouble();
 //                            if (price > 0.000000000000000000001)
 //                                amount /= price;
-                        }
-                        else
-                        {
-                            amount = orders.at(j)["sell_amount"].toString().toDouble();
-                        }
+                    }
+                    else
+                    {
+                        amount = orders.at(j)["sell_amount"].toString().toDouble();
+                    }
 
-                        amount *= 0.000000000000000001;
+                    amount *= 0.000000000000000001;
 
-                        qDebug () << "buy_token" << tok1
-                                  << "sell_token" << tok2
-                                  << "price" << price
-                                  << "amount";
-
-                        double total = amount * price;
+                    double total = amount * price;
 
 //                        qDebug () << tok1 << tok2
 //                                  << price
@@ -370,35 +380,36 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 //                                  << QString::number(total)
 //                                  << QString::number(amount);
 
-                        if (tok1 == token1)
-                        {
-//                            sellOrderModel.append(OrderInfo{price, amount, total});
+//                    qDebug () << "buy_token" << tok1
+//                              << "sell_token" << tok2
+//                              << "price" << price
+//                              << "amount" << amount
+//                              << "total" << total;
 
-                            insertBookOrder(OrderType::buy, price, amount, total);
-
-                            if (m_sellMaxTotal < total)
-                                m_sellMaxTotal = total;
-                        }
-                        else
-                        {
-//                            buyOrderModel.append(OrderInfo{price, amount, total});
-
-                            insertBookOrder(OrderType::sell, price, amount, total);
-
-                            if (m_buyMaxTotal < total)
-                                m_buyMaxTotal = total;
-                        }
-
-                    }
+                    insertBookOrder(type, price, amount, total);
                 }
             }
-
         }
 
-        getVariantBookModels();
-
-        updateBookModels();
     }
+
+    m_sellMaxTotal = 0;
+    m_buyMaxTotal = 0;
+
+    for(auto i = 0; i < sellOrderModel.size(); i++)
+        if (m_sellMaxTotal < sellOrderModel.at(i).total)
+            m_sellMaxTotal = sellOrderModel.at(i).total;
+
+    for(auto i = 0; i < buyOrderModel.size(); i++)
+        if (m_buyMaxTotal < buyOrderModel.at(i).total)
+            m_buyMaxTotal = buyOrderModel.at(i).total;
+
+//    qDebug() << "m_buyMaxTotal" << m_buyMaxTotal
+//             << "m_sellMaxTotal" << m_sellMaxTotal;
+
+    getVariantBookModels();
+
+    updateBookModels();
 
 }
 

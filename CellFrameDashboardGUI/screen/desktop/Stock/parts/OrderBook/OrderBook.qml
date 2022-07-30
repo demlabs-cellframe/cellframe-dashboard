@@ -134,7 +134,7 @@ Page
                     Layout.minimumWidth: 100
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Price("+logicMainApp.token1Name+")"
+                    text: "Price("+logicMainApp.token2Name+")"
                 }
 
                 Text
@@ -142,7 +142,7 @@ Page
                     Layout.fillWidth: true
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Amount("+logicMainApp.token2Name+")"
+                    text: "Amount("+logicMainApp.token1Name+")"
                 }
 
                 Text

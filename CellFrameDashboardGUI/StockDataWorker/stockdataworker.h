@@ -158,9 +158,9 @@ public:
     int buyOrderModelSize() const
         { return buyOrderModel.size(); }
 
-    int sellMaxTotal() const
+    double sellMaxTotal() const
         { return m_sellMaxTotal; }
-    int buyMaxTotal() const
+    double buyMaxTotal() const
         { return m_buyMaxTotal; }
 
 public slots:
