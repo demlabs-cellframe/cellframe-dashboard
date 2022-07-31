@@ -293,6 +293,9 @@ Page
 
     function setStatusCreateButton(total, price)
     {
+        if(price === "0" || total === "0" || total === "" || price === "")
+            return false
+
         var totalValue = isSell ? dapMath.divCoins(dapMath.coinsToBalance(total),
                                                    dapMath.coinsToBalance(price),false):
                                   total
@@ -302,15 +305,16 @@ Page
         var str;
 
 
-//        console.log("isSell", isSell, "\n",
-//                    "total", total, "\n",
-//                    "totalValue", totalValue, "\n",
-//                    "price", price, "\n",
-//                    "nameToken", nameToken, "\n",
-//                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
-//                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
-//                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
-//                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
+        console.log("isSell", isSell, "\n",
+                    "total", total, "\n",
+                    "totalValue", totalValue, "\n",
+                    "price", price, "\n",
+                    "nameToken", nameToken, "\n",
+                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
+                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
+                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
+                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
+
 
 
 

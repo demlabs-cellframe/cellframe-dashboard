@@ -58,7 +58,7 @@ QtObject
         return Math.floor(count)
     }
 
-    function searchOrder(net, tokenSell, tokenBuy, price, amount)
+    function searchOrder(net, tokenSell, tokenBuy, price, amountSell, amountBuy)
     {
         for(var i = 0; i < dapModelXchangeOrders.count; i++)
         {
@@ -76,35 +76,33 @@ QtObject
                     var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
                     var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
 
-                    var walletBalance = dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet)
+//                    console.log("-------")
+//                    console.log("order_buy", orderBuy,               "user_sell",tokenSell,"\n",
+//                                "order_sell",orderSell,              "user_buy",tokenBuy,"\n",
+//                                "order_price",orderPrice,            "user_price",price,"\n",
+//                                "order_sell_amount",orderSellAmount, "user_buy_amount",amountBuy,"\n",
+//                                "order_buy_amount",orderBuyAmount,   "user_sell_amount",amountSell,"\n")
 
-                    console.log(orderBuy, tokenSell,
-                                orderSell, tokenBuy,
-                                orderPrice, price,
-                                orderSellAmount, amount,
-                                orderBuyAmount, walletBalance)
-
-
-                    var amountValue = amount;
-                    var priceValue = price;
-
-                    if(logicMainApp.token1Name === tokenBuy)
+                    if(orderBuy === tokenSell && orderSell === tokenBuy)
                     {
-                        dapMath.divCoins(dapMath.coinsToBalance(amountValue),
-                                         dapMath.coinsToBalance(price),false)
-
-                        amountValue /= price
-                        priceValue = 1/price
-                    }
-
-
-                    if(orderBuy === tokenSell &&
-                       orderSell === tokenBuy &&
-                       orderPrice === priceValue &&
-                       orderSellAmount >= amountValue)
-                    {
-                        console.log("HASH:", orderHash)
-                        return orderHash
+                        if(logicMainApp.token1Name === tokenBuy)
+                        {
+                            if(1/orderPrice === price &&
+                               orderSellAmount >= amountBuy)
+                            {
+                                console.log("HASH:", orderHash)
+                                return orderHash
+                            }
+                        }
+                        else
+                        {
+                            if(orderPrice === 1/price &&
+                               orderSellAmount >= amountBuy)
+                            {
+                                console.log("HASH:", orderHash)
+                                return orderHash
+                            }
+                        }
                     }
                 }
             }

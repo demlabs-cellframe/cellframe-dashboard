@@ -58,6 +58,7 @@ ColumnLayout {
         textToken: logicMainApp.token2Name
         textValue: logicMainApp.tokenPrice
         onEdited: {
+            createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             if(amount.textValue !== "0")
                 total.textValue = dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
                                                 dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
@@ -253,6 +254,7 @@ ColumnLayout {
 
             amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(textValue),
                                                 dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+            createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
         onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
     }
@@ -271,22 +273,34 @@ ColumnLayout {
 
         onClicked:
         {
+
             var net = logicMainApp.tokenNetwork
-            var isSell = sellBuySwitch.checked
-            var tokenSell = isSell ? logicStock.unselectedTokenNameWallet : logicStock.selectedTokenNameWallet
-            var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
+            var tokenSell = isSell ? logicMainApp.token1Name : logicMainApp.token2Name
+            var tokenBuy = isSell ? logicMainApp.token2Name : logicMainApp.token1Name
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var amountValue = dapMath.coinsToBalance(amount.textValue)
-            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.textValue, amountValue)
+            var amountBuy = isSell ? dapMath.coinsToBalance(total.textValue) :
+                                      dapMath.coinsToBalance(amount.textValue)
+
+            var amountSell = isSell ? dapMath.coinsToBalance(amount.textValue) :
+                                     dapMath.coinsToBalance(total.textValue)
+
+            var priceValue = isSell? price.textValue : 1/price.textValue
+
+//            console.log("tokenSell",tokenSell,
+//                        "tokenBuy", tokenBuy,
+//                        "amountSell", amountSell,
+//                        "amountBuy", amountBuy,
+//                        "priceValue" , priceValue)
+
+            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
 
             if(hash !== "0")
                 dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
-                                                      net, currentWallet, amountValue)
-
+                                                      net, currentWallet, amountSell)
             else
                 dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amountValue, price.textValue)
+                                                      currentWallet, amountSell, priceValue)
         }
     }
 

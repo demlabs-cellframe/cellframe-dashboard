@@ -77,6 +77,8 @@ ColumnLayout {
             textValue: logicMainApp.tokenPrice
 
             onEdited: {
+                createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
+
                 if(amount.textValue !== "0")
                     total.textValue = dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
                                                     dapMath.coinsToBalance(textValue),false)
@@ -177,56 +179,6 @@ ColumnLayout {
                 button50.selected = false
                 button75.selected = false
                 button100.selected = false
-
-//                if(!isSell)
-//                {
-//                    var balanceToken1 = logicStock.selectedTokenNameWallet === logicMainApp.token1Name ? logicStock.selectedTokenBalanceWallet :
-//                                                                                                    logicStock.unselectedTokenBalanceWallet
-
-//                    var balanceToken2 = logicStock.selectedTokenNameWallet === logicMainApp.token1Name ? logicStock.unselectedTokenBalanceWallet :
-//                                                                                                    logicStock.selectedTokenBalanceWallet
-
-
-//                    var percent = "0.25"
-
-//                    var balanceDatoshi = dapMath.coinsToBalance(balanceToken2)
-//                    var percentDatoshi = dapMath.coinsToBalance(percent)
-//                    var priceDatoshi = dapMath.coinsToBalance(price.textValue)
-
-//                    var multRes = dapMath.multCoins(balanceDatoshi, percentDatoshi, false)
-
-//                    total.textValue = multRes
-
-//                    amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(multRes),
-//                                                         priceDatoshi, false)
-//                }
-//                else
-//                {
-//                    var balanceToken1 = logicStock.selectedTokenNameWallet === logicMainApp.token1Name ? logicStock.selectedTokenBalanceWallet :
-//                                                                                                    logicStock.unselectedTokenBalanceWallet
-
-//                    var balanceToken2 = logicStock.selectedTokenNameWallet === logicMainApp.token1Name ? logicStock.unselectedTokenBalanceWallet :
-//                                                                                                    logicStock.selectedTokenBalanceWallet
-
-//                    var percent = "0.25"
-
-//                    var balanceDatoshi = dapMath.coinsToBalance(balanceToken1)
-//                    var priceDatoshi = dapMath.coinsToBalance(price.textValue)
-//                    var percentDatoshi = dapMath.coinsToBalance(percent)
-
-////                    var divRes = dapMath.divCoins(balanceDatoshi, priceDatoshi, true)
-//                    var multRes = dapMath.multCoins(balanceDatoshi, percentDatoshi, false)
-
-//                    amount.textValue = multRes
-
-//                    total.textValue = dapMath.multCoins(dapMath.coinsToBalance(multRes),
-//                                                        priceDatoshi, false)
-//                }
-
-//                amount.textValue = logicStock.getPercentBalance("0.25", price.realValue)
-
-//                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet),
-//                                                    dapMath.coinsToBalance("0.25"), false)
 
                 var result = logicStock.getPercentBalance("0.25", price.textValue, isSell)
 
@@ -348,6 +300,7 @@ ColumnLayout {
 
             amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(textValue),
                                                 dapMath.coinsToBalance(price.textValue),false)
+            createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
         onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, price.textValue)
@@ -367,23 +320,33 @@ ColumnLayout {
 
         onClicked:
         {
-
             var net = logicMainApp.tokenNetwork
-            var isSell = sellBuySwitch.checked
-            var tokenSell = isSell ? logicStock.unselectedTokenNameWallet : logicStock.selectedTokenNameWallet
-            var tokenBuy = isSell ? logicStock.selectedTokenNameWallet : logicStock.unselectedTokenNameWallet
+            var tokenSell = isSell ? logicMainApp.token1Name : logicMainApp.token2Name
+            var tokenBuy = isSell ? logicMainApp.token2Name : logicMainApp.token1Name
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var amountValue = dapMath.coinsToBalance(amount.textValue)
+            var amountBuy = isSell ? dapMath.coinsToBalance(total.textValue) :
+                                      dapMath.coinsToBalance(amount.textValue)
 
-            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, price.textValue, amountValue)
+            var amountSell = isSell ? dapMath.coinsToBalance(amount.textValue) :
+                                     dapMath.coinsToBalance(total.textValue)
+
+            var priceValue = isSell? price.textValue : 1/price.textValue
+
+//            console.log("tokenSell",tokenSell,
+//                        "tokenBuy", tokenBuy,
+//                        "amountSell", amountSell,
+//                        "amountBuy", amountBuy,
+//                        "priceValue" , priceValue)
+
+            var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
 
             if(hash !== "0")
                 dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
-                                                      net, currentWallet, amountValue)
+                                                      net, currentWallet, amountSell)
             else
                 dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
-                                                      currentWallet, amountValue, price.textValue)
+                                                      currentWallet, amountSell, priceValue)
         }
     }
 
