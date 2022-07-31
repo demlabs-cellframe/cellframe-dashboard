@@ -305,15 +305,15 @@ Page
         var str;
 
 
-        console.log("isSell", isSell, "\n",
-                    "total", total, "\n",
-                    "totalValue", totalValue, "\n",
-                    "price", price, "\n",
-                    "nameToken", nameToken, "\n",
-                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
-                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
-                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
-                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
+//        console.log("isSell", isSell, "\n",
+//                    "total", total, "\n",
+//                    "totalValue", totalValue, "\n",
+//                    "price", price, "\n",
+//                    "nameToken", nameToken, "\n",
+//                    "selectedTokenNameWallet", logicStock.selectedTokenNameWallet, "\n",
+//                    "unselectedTokenNameWallet", logicStock.unselectedTokenNameWallet, "\n",
+//                    "selectedTokenBalanceWallet", logicStock.selectedTokenBalanceWallet, "\n",
+//                    "unselectedTokenBalanceWallet", logicStock.unselectedTokenBalanceWallet)
 
 
 
