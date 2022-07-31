@@ -482,10 +482,6 @@ QtObject {
 
             print("rcvData", rcvData)
             dapTokenPriceHistory.clear()
-<<<<<<< HEAD
-            dapTokenPriceHistory.append(jsonDocument)
-            modelTokenPriceHistoryUpdated()
-=======
             dapTokenPriceHistory.append(jsonDocument.history)
 //            modelTokenPriceHistoryUpdated()
 
