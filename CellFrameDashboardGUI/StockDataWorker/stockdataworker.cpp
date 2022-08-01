@@ -69,12 +69,12 @@ void StockDataWorker::setTokenPair(const QString &tok1,
     token2 = tok2;
     network = net;
 
-    qDebug() << "StockDataWorker::setTokenPair" << token1 << token2 << network;
+//    qDebug() << "StockDataWorker::setTokenPair" << token1 << token2 << network;
 }
 
 void StockDataWorker::resetPriceData(double price, double init)
 {
-    qDebug() << "StockDataWorker::resetPriceData" << price;
+//    qDebug() << "StockDataWorker::resetPriceData" << price;
 
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
@@ -169,7 +169,7 @@ QVariantMap StockDataWorker::getPriceInfo(int index)
 
 void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 {
-    qDebug() << "StockDataWorker::setTokenPriceHistory";
+//    qDebug() << "StockDataWorker::setTokenPriceHistory";
 
 /*    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
     priceModel.resize(4);
@@ -193,15 +193,15 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 
     QJsonDocument doc = QJsonDocument::fromJson(json);
 
-    qDebug() << doc.isObject();
+//    qDebug() << doc.isObject();
 
-    qDebug() << doc["network"].toString();
-    qDebug() << doc["token1"].toString();
-    qDebug() << doc["token2"].toString();
+//    qDebug() << doc["network"].toString();
+//    qDebug() << doc["token1"].toString();
+//    qDebug() << doc["token2"].toString();
 
     QJsonArray history = doc["history"].toArray();
 
-    qDebug() << "history.size()" << history.size();
+//    qDebug() << "history.size()" << history.size();
 
     priceModel.resize(history.size());
 
@@ -212,9 +212,9 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
         double price = history.at(i)["rate"].toString().toDouble();
         qint64 time = date.toLongLong();
 
-        qDebug() << price
-                << time
-                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
+//        qDebug() << price
+//                << time
+//                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
 
         PriceInfo info{time, price};
 
@@ -273,7 +273,7 @@ void StockDataWorker::generateBookModel(double price, int length)
 
 //        sellOrderModel.append(OrderInfo{temp_price, amount, total});
 
-        insertBookOrder(true, temp_price, amount, total);
+        insertBookOrder(OrderType::sell, temp_price, amount, total);
 
         if (m_sellMaxTotal < total)
             m_sellMaxTotal = total;
@@ -290,7 +290,7 @@ void StockDataWorker::generateBookModel(double price, int length)
 
 //        buyOrderModel.append(OrderInfo{temp_price, amount, total});
 
-        insertBookOrder(false, temp_price, amount, total);
+        insertBookOrder(OrderType::buy, temp_price, amount, total);
 
         if (m_buyMaxTotal < total)
             m_buyMaxTotal = total;
@@ -307,90 +307,109 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 
     QJsonDocument doc = QJsonDocument::fromJson(json);
 
-    if (doc.isArray())
-    {
-        sellOrderModel.clear();
-        buyOrderModel.clear();
+    if (!doc.isArray())
+        return;
 
-        m_sellMaxTotal = 0;
-        m_buyMaxTotal = 0;
 
-        QJsonArray netArray = doc.array();
+    sellOrderModel.clear();
+    buyOrderModel.clear();
+
+    QJsonArray netArray = doc.array();
 //        qDebug() << "array.size()" << netArray.size();
 
-        for(auto i = 0; i < netArray.size(); i++)
-        {
+    for(auto i = 0; i < netArray.size(); i++)
+    {
 //            qDebug() << netArray.at(i)["network"].toString()
 //                    << (netArray.at(i)["network"].toString() == network);
 
-            if (netArray.at(i)["network"].toString() == network)
+        if (netArray.at(i)["network"].toString() == network)
+        {
+            QJsonArray orders = netArray.at(i)["orders"].toArray();
+
+            for(auto j = 0; j < orders.size(); j++)
             {
-                QJsonArray orders = netArray.at(i)["orders"].toArray();
+                QString tok1 = orders.at(j)["buy_token"].toString();
+                QString tok2 = orders.at(j)["sell_token"].toString();
 
-                for(auto j = 0; j < orders.size(); j++)
+                if ((tok1 == token1 && tok2 == token2) ||
+                    (tok2 == token1 && tok1 == token2))
                 {
-                    QString tok1 = orders.at(j)["buy_token"].toString();
-                    QString tok2 = orders.at(j)["sell_token"].toString();
+                    OrderType type;
 
-                    if ((tok1 == token1 && tok2 == token2) ||
-                        (tok2 == token1 && tok1 == token2))
+                    if (tok1 == token1)
+                        type = OrderType::buy;
+                    else
+                        type = OrderType::sell;
+
+//                    qDebug () << "buy_token" << tok1
+//                              << "sell_token" << tok2
+//                              << "buy_amount" << orders.at(j)["buy_amount"].toString()
+//                              << "sell_amount" << orders.at(j)["sell_amount"].toString();
+
+                    double price = orders.at(j)["rate"].toString().toDouble();
+
+                    if (type == OrderType::buy)
                     {
-//                        qDebug () << tok1 << tok2
-//                                  << orders.at(j)["rate"].toString()
-//                                  << orders.at(j)["rate"].toString().toDouble();
-
-                        double price = orders.at(j)["rate"].toString().toDouble();
-                        double amount;
-
-                        if (tok1 == token1)
-                        {
-                            amount = orders.at(j)["buy_amount"].toString().toDouble();
-                            if (price > 0.000000000000000000001)
-                                amount /= price;
-                        }
+                        if (price > 0.000000000000000000000001)
+                            price = 1/price;
                         else
-                        {
-                            amount = orders.at(j)["sell_amount"].toString().toDouble();
-                        }
+                            price = 1;
+                    }
 
-                        amount *= 0.000000000000000001;
+                    double amount;
 
-                        double total = amount * price;
+                    if (type == OrderType::buy)
+                    {
+                        amount = orders.at(j)["buy_amount"].toString().toDouble();
+//                            if (price > 0.000000000000000000001)
+//                                amount /= price;
+                    }
+                    else
+                    {
+                        amount = orders.at(j)["sell_amount"].toString().toDouble();
+                    }
+
+                    amount *= 0.000000000000000001;
+
+                    double total = amount * price;
 
 //                        qDebug () << tok1 << tok2
 //                                  << price
 //                                  << amount
-//                                  << total;
+//                                  << total
+//                                  << QString::number(total)
+//                                  << QString::number(amount);
 
-                        if (tok1 == token1)
-                        {
-//                            sellOrderModel.append(OrderInfo{price, amount, total});
+//                    qDebug () << "buy_token" << tok1
+//                              << "sell_token" << tok2
+//                              << "price" << price
+//                              << "amount" << amount
+//                              << "total" << total;
 
-                            insertBookOrder(true, price, amount, total);
-
-                            if (m_sellMaxTotal < total)
-                                m_sellMaxTotal = total;
-                        }
-                        else
-                        {
-//                            buyOrderModel.append(OrderInfo{price, amount, total});
-
-                            insertBookOrder(false, price, amount, total);
-
-                            if (m_buyMaxTotal < total)
-                                m_buyMaxTotal = total;
-                        }
-
-                    }
+                    insertBookOrder(type, price, amount, total);
                 }
             }
-
         }
 
-        getVariantBookModels();
-
-        updateBookModels();
     }
+
+    m_sellMaxTotal = 0;
+    m_buyMaxTotal = 0;
+
+    for(auto i = 0; i < sellOrderModel.size(); i++)
+        if (m_sellMaxTotal < sellOrderModel.at(i).total)
+            m_sellMaxTotal = sellOrderModel.at(i).total;
+
+    for(auto i = 0; i < buyOrderModel.size(); i++)
+        if (m_buyMaxTotal < buyOrderModel.at(i).total)
+            m_buyMaxTotal = buyOrderModel.at(i).total;
+
+//    qDebug() << "m_buyMaxTotal" << m_buyMaxTotal
+//             << "m_sellMaxTotal" << m_sellMaxTotal;
+
+    getVariantBookModels();
+
+    updateBookModels();
 
 }
 
@@ -498,13 +517,13 @@ void StockDataWorker::getCandleModel(bool update)
     {
         double currPrice = priceModel.at(index).price;
 
-        qDebug() << "nextTime"
-                 << QDateTime::fromMSecsSinceEpoch(nextTime)
-                    .toString("dd HH:mm:ss")
-                 << "candleBegin + m_candleWidth"
-                 << QDateTime::fromMSecsSinceEpoch(candleBegin + m_candleWidth)
-                    .toString("dd HH:mm:ss")
-                 << "currPrice" << currPrice;
+//        qDebug() << "nextTime"
+//                 << QDateTime::fromMSecsSinceEpoch(nextTime)
+//                    .toString("dd HH:mm:ss")
+//                 << "candleBegin + m_candleWidth"
+//                 << QDateTime::fromMSecsSinceEpoch(candleBegin + m_candleWidth)
+//                    .toString("dd HH:mm:ss")
+//                 << "currPrice" << currPrice;
 
         if (nextTime > candleBegin + m_candleWidth ||
             index == priceModel.size()-1)
@@ -523,18 +542,18 @@ void StockDataWorker::getCandleModel(bool update)
 
             candleModel[candleIndex] = info;
 
-            qDebug() << "CandleInfo"
-                     << "priceIndex" << index
-                     << QDateTime::fromMSecsSinceEpoch(priceModel.at(index).time)
-                        .toString("dd HH:mm:ss")
-                     << "currPrice" << currPrice
-                     << "candleIndex" << candleIndex
-                     << QDateTime::fromMSecsSinceEpoch(candleBegin)
-                        .toString("dd HH:mm:ss")
-                     << "open" << open
-                     << "close" << close
-                     << "min" << min
-                     << "max" << max;
+//            qDebug() << "CandleInfo"
+//                     << "priceIndex" << index
+//                     << QDateTime::fromMSecsSinceEpoch(priceModel.at(index).time)
+//                        .toString("dd HH:mm:ss")
+//                     << "currPrice" << currPrice
+//                     << "candleIndex" << candleIndex
+//                     << QDateTime::fromMSecsSinceEpoch(candleBegin)
+//                        .toString("dd HH:mm:ss")
+//                     << "open" << open
+//                     << "close" << close
+//                     << "min" << min
+//                     << "max" << max;
 
             ++candleIndex;
 
@@ -1089,7 +1108,7 @@ void StockDataWorker::dataAnalysis()
 
 void StockDataWorker::setNewPrice(const QString &price)
 {
-    qDebug() << "StockDataWorker::setNewPrice" << price;
+//    qDebug() << "StockDataWorker::setNewPrice" << price;
 
     if (priceModel.isEmpty())
     {
@@ -1287,7 +1306,7 @@ void StockDataWorker::setPreviousTokenPrice(double price)
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
-void StockDataWorker::insertBookOrder(bool sell, double price, double amount, double total)
+void StockDataWorker::insertBookOrder(const OrderType& type, double price, double amount, double total)
 {
 //    qDebug() << "StockDataWorker::insertBookOrder";
 
@@ -1306,7 +1325,7 @@ void StockDataWorker::insertBookOrder(bool sell, double price, double amount, do
 
     price = QString::number(price, 'f', bookRoundPower).toDouble();
 
-    if (sell)
+    if (type == OrderType::sell)
     {
         int index = 0;
 

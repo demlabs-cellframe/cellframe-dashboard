@@ -88,10 +88,6 @@ Page {
                 fontButton: mainFont.dapFont.regular16
                 onClicked:
                 {
-                    dapServiceController.requestToService("DapGetWalletInfoCommand",
-                        dapModelWallets.get(logicMainApp.currentIndex).name,
-                        logicMainApp.networkArray);
-
                     goToRightHome()
                 }
             }

@@ -10,6 +10,7 @@
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
 #include "Autocomplete/commandcmdcontroller.h"
+#include "DapMath.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -49,6 +50,7 @@ private:
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
+    DapMath *m_mathBigNumbers;
 };
 
 #endif // DAPAPPLICATION_H

@@ -147,6 +147,7 @@ Item
             ColumnLayout
             {
                 height: 35
+                visible: false
 
                 Text
                 {

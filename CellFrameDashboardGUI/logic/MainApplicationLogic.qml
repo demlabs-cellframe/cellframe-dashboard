@@ -209,8 +209,10 @@ QtObject {
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
+
+                console.info("Current network: "+dapServiceController.CurrentNetwork)
             }
-            console.info("Current network: "+dapServiceController.CurrentNetwork)
+
         }
     }
 
@@ -249,7 +251,7 @@ QtObject {
                         dapModelWallets.get(i).networks.get(n).tokens.append(
                              {"name": walletList[i].Tokens[t].Name,
                               "full_balance": walletList[i].Tokens[t].FullBalance,
-                              "balance_without_zeros": walletList[i].Tokens[t].BalanceWithoutZeros,
+                              "balance_without_zeros": dapMath.balanceToCoins(walletList[i].Tokens[t].Datoshi),
                               "datoshi": walletList[i].Tokens[t].Datoshi,
                               "network": walletList[i].Tokens[t].Network})
                     }
@@ -320,7 +322,7 @@ QtObject {
                             dapModelWallets.get(i).networks.get(n).tokens.append(
                                  {"name": wallet.Tokens[t].Name,
                                   "full_balance": wallet.Tokens[t].FullBalance,
-                                  "balance_without_zeros": wallet.Tokens[t].BalanceWithoutZeros,
+                                  "balance_without_zeros": dapMath.balanceToCoins(wallet.Tokens[t].Datoshi),
                                   "datoshi": wallet.Tokens[t].Datoshi,
                                   "network": wallet.Tokens[t].Network})
                         }
@@ -468,11 +470,15 @@ QtObject {
 
     function rcvTokenPriceHistory(rcvData)
     {
-        print("rcvTokenPriceHistory")
-
-        if(rcvData !== "isEqual")
+        if(rcvData !== "")
         {
             stockDataWorker.setTokenPriceHistory(rcvData)
+
+            var jsonDocument = JSON.parse(rcvData)
+
+//            print("rcvData", rcvData)
+            dapTokenPriceHistory.clear()
+            dapTokenPriceHistory.append(jsonDocument.history)
 
 /*            var jsonDocument = JSON.parse(rcvData)
 
@@ -494,7 +500,6 @@ QtObject {
                 console.log(dapTokenPriceHistory.get(i).date,
                             dapTokenPriceHistory.get(i).rate)
             }*/
-
         }
     }
 
@@ -637,26 +642,5 @@ QtObject {
     function getDate(format){
         var date = new Date()
         return date.toLocaleString(Qt.locale("en_EN"),format)
-    }
-
-    //////////////////////
-    function initFakeWallet()
-    {
-        fakeWallet.clear()
-        fakeWallet.append({"name": "testWallet",
-                           "tokens": []
-                          })
-        fakeWallet.get(0).tokens.append(
-                    {"name": "CELL",
-                     "full_balance": "1000.000000000000000000",
-                     "balance_without_zeros": "1000",
-                     "datoshi": "1000000000000000000000",
-                     "network": "Backbone"})
-        fakeWallet.get(0).tokens.append(
-                    {"name": "USDT",
-                     "full_balance": "521.000000000000000000",
-                     "balance_without_zeros": "521",
-                     "datoshi": "521000000000000000000",
-                     "network": "Backbone"})
     }
 }
