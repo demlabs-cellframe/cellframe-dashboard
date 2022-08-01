@@ -209,8 +209,10 @@ QtObject {
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
+
+                console.info("Current network: "+dapServiceController.CurrentNetwork)
             }
-            console.info("Current network: "+dapServiceController.CurrentNetwork)
+
         }
     }
 
