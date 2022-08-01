@@ -134,7 +134,7 @@ Item {
                             dapModelWallets.get(i).networks.get(n).tokens.append(
                                  {"name": dapWallets[i].Tokens[t].Name,
                                   "full_balance": dapWallets[i].Tokens[t].FullBalance,
-                                  "balance_without_zeros": dapWallets[i].Tokens[t].BalanceWithoutZeros,
+                                  "balance_without_zeros": dapMath.balanceToCoins(dapWallets[i].Tokens[t].Datoshi),
                                   "datoshi": dapWallets[i].Tokens[t].Datoshi,
                                   "network": dapWallets[i].Tokens[t].Network})
                         }

@@ -66,6 +66,7 @@ DapPage
         onTriggered:
         {
             dapServiceController.requestToService("DapGetXchangeOrdersList")
+            dapServiceController.requestToService("DapGetWalletsInfoCommand");
         }
     }
 

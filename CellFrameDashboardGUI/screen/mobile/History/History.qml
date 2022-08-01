@@ -204,16 +204,11 @@ Page {
                 modelHistory.append({ "network" : mainHistoryModel.get(q).Network,
                                       "token_name" : mainHistoryModel.get(q).Name,
                                       "status" : mainHistoryModel.get(q).Status,
-                                      "amount" : mainHistoryModel.get(q).AmountWithoutZeros,
+//                                      "amount" : mainHistoryModel.get(q).AmountWithoutZeros,
+                                      "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
                                       "date" : mainHistoryModel.get(q).Date,
                                       "SecsSinceEpoch" : mainHistoryModel.get(q).SecsSinceEpoch,
                                       "last_in_day" : false})
-//            modelHistory.append({ "network" : mainHistoryModel[q].Network,
-//                                  "token_name" : mainHistoryModel[q].Name,
-//                                  "status" : mainHistoryModel[q].Status,
-//                                  "amount" : mainHistoryModel[q].AmountWithoutZeros,
-//                                  "date" : mainHistoryModel[q].Date,
-//                                  "SecsSinceEpoch" : mainHistoryModel[q].SecsSinceEpoch})
             else
             {
                 var j = 0;
@@ -227,16 +222,10 @@ Page {
                 modelHistory.insert(j, {"network" : mainHistoryModel.get(q).Network,
                                       "token_name" : mainHistoryModel.get(q).Name,
                                       "status" : mainHistoryModel.get(q).Status,
-                                      "amount" : mainHistoryModel.get(q).AmountWithoutZeros,
+                                      "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
                                       "date" : mainHistoryModel.get(q).Date,
                                       "SecsSinceEpoch" : mainHistoryModel.get(q).SecsSinceEpoch,
                                       "last_in_day" : false})
-//                modelHistory.insert(j, {"network" : mainHistoryModel[q].Network,
-//                                      "token_name" : mainHistoryModel[q].Name,
-//                                      "status" : mainHistoryModel[q].Status,
-//                                      "amount" : mainHistoryModel[q].AmountWithoutZeros,
-//                                      "date" : mainHistoryModel[q].Date,
-//                                      "SecsSinceEpoch" : mainHistoryModel[q].SecsSinceEpoch})
             }
         }
 
