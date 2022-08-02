@@ -125,7 +125,7 @@ Page
 
                                     font: mainFont.dapFont.regular14
                                     color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
-                                    text: current_supply_with_dot
+                                    text: dapMath.balanceToCoins(current_supply)
                                     horizontalAlignment: Text.AlignRight
                                 }
                             }
