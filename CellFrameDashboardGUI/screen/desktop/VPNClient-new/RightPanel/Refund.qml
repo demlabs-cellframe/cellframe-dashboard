@@ -29,7 +29,7 @@ Item
         }
     }
 
-    readonly property int refundDelegateHeight: 80
+    readonly property int refundDelegateHeight: 140
 
     signal checkBoxSwitched()
 
@@ -112,6 +112,7 @@ Item
                 {
                     width: parent.width
                     height: refundDelegateHeight
+                    spacing: 10 * pt
 
                     DapCheckBox
                     {
@@ -122,6 +123,8 @@ Item
                         Layout.alignment: Qt.AlignTop
                         indicatorInnerSize: height
                         nameTextColor: currTheme.textColor
+                        textFont: mainFont.dapFont.regular16
+                        nameCheckbox: token
                         checked: false
                         onToggled:
                         {
@@ -130,31 +133,18 @@ Item
                         }
                     }
 
-//                    CheckBox {
-//                        id: refundCheckBox
-//                        Layout.alignment: Qt.AlignTop
-//                        checked: false
-//                        onToggled:
-//                        {
-//                            check = checked
-//                            checkBoxSwitched()
-//                        }
-//                    }
-
                     ColumnLayout
                     {
                         enabled: refundCheckBox.checked
                         Layout.fillWidth: true
-                        Layout.minimumHeight: refundDelegateHeight
-                        spacing: 2
+                        //Layout.minimumHeight: refundDelegateHeight
+                        spacing: 20 * pt
 
                         Controls.TextField
                         {
                             id: refundField
                             Layout.fillWidth: true
-//                            Layout.maximumHeight: 30
-                            height: 28 * pt
-            //                        placeholderText: "0"
+                            Layout.minimumHeight: 40 * pt
                             placeholderText: "0.0"
                             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                             font: mainFont.dapFont.regular16
@@ -178,18 +168,6 @@ Item
                             onTextChanged: value = Number(text)
                         }
 
-//                        TextField
-//                        {
-//                            id: refundField
-//                            Layout.fillWidth: true
-//                            Layout.maximumHeight: 30
-//                            horizontalAlignment: Qt.AlignRight
-//                            font.pointSize: 10
-//                            placeholderText: "0"
-//    //                            text: value
-//                            onTextChanged: value = Number(text)
-//                        }
-
                         RowLayout
                         {
                             Layout.fillWidth: true
@@ -198,9 +176,9 @@ Item
                             DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.minimumHeight: 20 * pt
+                                Layout.minimumHeight: 30 * pt
                                 horizontalAligmentText: Text.AlignHCenter
-                                fontButton: mainFont.dapFont.regular10
+                                fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("25%")
                                 onClicked:
                                     refundField.text = balance*0.25
@@ -209,9 +187,9 @@ Item
                             DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.minimumHeight: 20 * pt
+                                Layout.minimumHeight: 30 * pt
                                 horizontalAligmentText: Text.AlignHCenter
-                                fontButton: mainFont.dapFont.regular10
+                                fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("50%")
                                 onClicked:
                                     refundField.text = balance*0.5
@@ -220,9 +198,9 @@ Item
                             DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.minimumHeight: 20 * pt
+                                Layout.minimumHeight: 30 * pt
                                 horizontalAligmentText: Text.AlignHCenter
-                                fontButton: mainFont.dapFont.regular10
+                                fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("75%")
                                 onClicked:
                                     refundField.text = balance*0.75
@@ -231,9 +209,9 @@ Item
                             DapButton
                             {
                                 Layout.fillWidth: true
-                                Layout.minimumHeight: 20 * pt
+                                Layout.minimumHeight: 30 * pt
                                 horizontalAligmentText: Text.AlignHCenter
-                                fontButton: mainFont.dapFont.regular10
+                                fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("100%")
                                 onClicked:
                                     refundField.text = balance
@@ -247,19 +225,8 @@ Item
                             horizontalAlignment: Qt.AlignRight
                             color: currTheme.textColorGray
                             font: mainFont.dapFont.medium12
-                            text: "Avlb " + balance + " " + token
+                            text: "Available " + balance + " " + token
                         }
-                    }
-
-                    Text
-                    {
-                        enabled: refundCheckBox.checked
-                        Layout.minimumHeight: 30
-                        Layout.alignment: Qt.AlignTop
-                        verticalAlignment: Qt.AlignBottom
-                        color: currTheme.textColor
-                        font: mainFont.dapFont.medium16
-                        text: token
                     }
                 }
         }

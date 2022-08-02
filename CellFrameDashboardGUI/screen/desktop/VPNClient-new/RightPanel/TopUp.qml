@@ -151,7 +151,7 @@ Item
                         Layout.fillWidth: true
                         Layout.leftMargin: 15 * pt
                         color: currTheme.textColor
-                        font: mainFont.dapFont.medium12
+                        font: mainFont.dapFont.regular12
                         text: "5m 12d 13h at the current price"
                     }
                 }
@@ -179,15 +179,16 @@ Item
                     Layout.leftMargin: 20 * pt
                     Layout.rightMargin: 20 * pt
                     Layout.bottomMargin: 10 * pt
-                    spacing: 10 * pt
+                    spacing: 30 * pt
 
                     DapCheckBox
                     {
                         id: autoTopUpCheckBox
                         Layout.fillWidth: true
-                        Layout.maximumHeight: 30 * pt
+                        Layout.maximumHeight: 40 * pt
                         indicatorInnerSize: height
                         nameTextColor: currTheme.textColor
+                        textFont: mainFont.dapFont.regular16
                         nameCheckbox: qsTr("Auto top up")
                     }
 
@@ -211,7 +212,7 @@ Item
                                 Text
                                 {
                                     color: currTheme.textColor
-                                    font: mainFont.dapFont.medium12
+                                    font: mainFont.dapFont.regular16
                                     text: "Limit"
                                 }
 
@@ -265,7 +266,7 @@ Item
                         Layout.minimumWidth: 221 * pt
                         Layout.minimumHeight: 36 * pt
                         horizontalAligmentText: Text.AlignHCenter
-                        fontButton: mainFont.dapFont.regular10
+                        fontButton: mainFont.dapFont.regular14
                         Layout.alignment: Qt.AlignHCenter
                         textButton: qsTr("Add token for auto top up")
                         onClicked:
@@ -275,21 +276,22 @@ Item
                     }
                 }
 
-                DapButton
-                {
-                    enabled: !autoTopUpCheckBox.checked
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.minimumWidth: 150 * pt
-                    Layout.minimumHeight: 36 * pt
-                    horizontalAligmentText: Text.AlignHCenter
-                    fontButton: mainFont.dapFont.regular16
-                    textButton: qsTr("Top up")
-                }
-
                 Item
                 {
                     Layout.fillHeight: true
                 }
+            }
+
+            DapButton
+            {
+                enabled: !autoTopUpCheckBox.checked
+                x: parent.width * 0.5 - width * 0.5
+                y: parent.height - height - 40 * pt
+                width: 150 * pt
+                height: 36 * pt
+                horizontalAligmentText: Text.AlignHCenter
+                fontButton: mainFont.dapFont.regular16
+                textButton: qsTr("Top up")
             }
         }
 
