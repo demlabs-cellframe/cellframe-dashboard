@@ -133,7 +133,7 @@ void DapWebControll::onClientSocketReadyRead()
   QByteArray encodedString = s_tcpSocketList[idUser]->readAll();
   QString req = QUrl::fromPercentEncoding(encodedString);
 
-  if(req.contains("Access-Control-Request-Method") && req.contains("Access-Control-Request-Private-Network"))
+  if(req.contains("Access-Control-Request-Method") || req.contains("Access-Control-Request-Private-Network"))
   {
       qDebug()<<"Preflight web request";
 
