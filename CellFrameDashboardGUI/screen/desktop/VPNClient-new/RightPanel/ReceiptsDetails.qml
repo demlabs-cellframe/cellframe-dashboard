@@ -147,7 +147,16 @@ Item {
 
 
 
-
+    DapButton
+    {
+        x: parent.width * 0.5 - width * 0.5
+        y: parent.height - height - 16 * pt
+        width: 150 * pt
+        height: 36 * pt
+        horizontalAligmentText: Text.AlignHCenter
+        fontButton: mainFont.dapFont.regular16
+        textButton: qsTr("Save")
+    }
 
 
 
