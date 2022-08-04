@@ -81,6 +81,14 @@ DapWebControll::DapWebControll(QObject *parent)
 //    getDataWallets("tokenWallet"); //OK
 //    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL", "mileena"); //OK
 //    getTransactions("tokenWallet", "mileena"); //OK
+
+//    QJsonDocument doc = createCertificate("sig_dil", "testCert");
+//    doc = getCertificates(); // OK
+
+//    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
+
+//    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", date, "subzero", "10000");
+//    qDebug()<<"";
 }
 
 QString DapWebControll::getRandomString()
@@ -178,7 +186,8 @@ void DapWebControll::onClientSocketReadyRead()
 
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
-          QString name, net, addr, value, tokenName, id, hashTx;
+          QString name, net, addr, value, tokenName, id, hashTx, certType,
+                  certName, timeStaking;
 
           while(matchIt.hasNext())
           {
@@ -197,6 +206,12 @@ void DapWebControll::onClientSocketReadyRead()
                   net = match.captured(2);
               else if(match.captured(1) == "hashTx")
                   hashTx = match.captured(2);
+              else if(match.captured(1) == "certName")
+                  certName = match.captured(2);
+              else if(match.captured(1) == "timeStaking")
+                  timeStaking = match.captured(2);
+              else if(match.captured(1) == "certType")
+                  certType = match.captured(2);
           }
           if(!s_id.isEmpty() && s_id.filter(id).length()){
               if(cmd == "GetWallets")
@@ -209,8 +224,18 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
-              else if(cmd == "GetTxHistoryInfo")
-                  doc = getTxHistoryInfo(hashTx, net);
+              else if(cmd == "GetLedgetTxHash")
+                  doc = getLedgetTxHash(hashTx, net);
+              else if(cmd == "GetLedgerTxListAll")
+                  doc = getLedgetTxListAll(net);
+              else if(cmd == "GetCertificates")
+                  doc = getCertificates();
+              else if(cmd == "CreateCertificate")
+                  doc = createCertificate(certType, certName);
+              else if(cmd == "stakeLockTake")
+                  doc = stakeLockTake(name, net, hashTx);
+              else if(cmd == "stakeLockHold")
+                  doc = stakeLockHold(tokenName, certName, name, timeStaking, net, value);
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
