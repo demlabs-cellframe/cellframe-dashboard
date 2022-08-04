@@ -52,7 +52,6 @@ DapPage {
 
     dapScreen.initialItem: DapVpnClientScreen
     {
-
     }
 
     dapRightPanel.initialItem:

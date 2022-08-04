@@ -44,6 +44,8 @@ Rectangle {
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
+    property var vpnClientTokenModel: new Array()
+
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
@@ -191,7 +193,7 @@ Rectangle {
             name: qsTr("VPN client"),
             bttnIco: "vpn-client_icon.png",
             showTab: true,
-            page: "qrc:/screen/desktop/VPNClient/DapVpnClientTopPanel.qml"})
+            page: "qrc:/screen/desktop/VPNClient/DapVpnClientTab.qml"})
         append ({ tag: "VPN service",
             name: qsTr("VPN service"),
             bttnIco: "icon_vpn.png",
@@ -475,6 +477,20 @@ Rectangle {
             logicMainApp.rcvWallets(walletList)
             modelWalletsUpdated();
         }
+
+        onCurrentNetworkChanged:
+                {
+                    for(var x = 0; x < dapModelWallets.count; x++)
+                    {
+                        if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                            for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
+                            {
+                                if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
+                                    vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
+                            }
+                    }
+                }
+
 
         onWalletReceived:
         {

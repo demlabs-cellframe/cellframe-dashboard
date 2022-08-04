@@ -3,7 +3,8 @@ import QtQuick.Controls 1.4 as Controls
 import QtQuick.Controls.Styles 1.4 as Styles
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "qrc:/widgets"
+import "qrc:/widgets" as Widgests
+import "../../controls"
 
 Item
 {
@@ -31,7 +32,7 @@ Item
 
             spacing: 10
 
-            DapButton
+            HeaderButtonForRightPanels
             {
                 Layout.maximumWidth: 20 * pt
                 Layout.maximumHeight: 20 * pt
@@ -39,11 +40,11 @@ Item
 
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20 * pt
+                widthImage: 20 * pt
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: vpnClientNavigator.openVpnOrders()
             }
 
@@ -131,7 +132,7 @@ Item
                                 }
                         }
 
-                        DapComboBox
+                        Widgests.DapComboBox
                         {
                             Layout.minimumWidth: 100 * pt
                             Layout.maximumHeight: 40 * pt
@@ -181,7 +182,7 @@ Item
                     Layout.bottomMargin: 10 * pt
                     spacing: 30 * pt
 
-                    DapCheckBox
+                    Widgests.DapCheckBox
                     {
                         id: autoTopUpCheckBox
                         Layout.fillWidth: true
@@ -243,7 +244,7 @@ Item
                                         }
                                 }
 
-                                DapComboBox
+                                Widgests.DapComboBox
                                 {
                                     Layout.minimumWidth: 100 * pt
                                     Layout.maximumHeight: 26 * pt
@@ -260,7 +261,7 @@ Item
                     }
 
 
-                    DapButton
+                    Widgests.DapButton
                     {
                         enabled: autoTopUpCheckBox.checked
                         Layout.minimumWidth: 221 * pt
@@ -282,7 +283,7 @@ Item
                 }
             }
 
-            DapButton
+            Widgests.DapButton
             {
                 enabled: !autoTopUpCheckBox.checked
                 x: parent.width * 0.5 - width * 0.5

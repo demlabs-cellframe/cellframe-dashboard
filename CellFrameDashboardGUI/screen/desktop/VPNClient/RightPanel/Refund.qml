@@ -3,7 +3,8 @@ import QtQuick.Controls 1.4 as Controls
 import QtQuick.Controls.Styles 1.4 as Styles
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import "qrc:/widgets"
+import "qrc:/widgets" as Widgests
+import "../../controls"
 
 Item
 {
@@ -45,7 +46,7 @@ Item
 
             spacing: 10
 
-            DapButton
+            HeaderButtonForRightPanels
             {
                 Layout.maximumWidth: 20 * pt
                 Layout.maximumHeight: 20 * pt
@@ -53,11 +54,11 @@ Item
 
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20 * pt
+                widthImage: 20 * pt
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: vpnClientNavigator.openVpnOrders()
             }
 
@@ -114,13 +115,14 @@ Item
                     height: refundDelegateHeight
                     spacing: 10 * pt
 
-                    DapCheckBox
+                    Widgests.DapCheckBox
                     {
                         id: refundCheckBox
                         Layout.fillWidth: true
                         Layout.maximumHeight: 30 * pt
                         Layout.minimumWidth: 30 * pt
-                        Layout.alignment: Qt.AlignTop
+                        //Layout.alignment: Qt.AlignTop
+                        Layout.bottomMargin: 85 * pt
                         indicatorInnerSize: height
                         nameTextColor: currTheme.textColor
                         textFont: mainFont.dapFont.regular16
@@ -173,7 +175,7 @@ Item
                             Layout.fillWidth: true
                             spacing: 5
 
-                            DapButton
+                            Widgests.DapButton
                             {
                                 Layout.fillWidth: true
                                 Layout.minimumHeight: 30 * pt
@@ -184,7 +186,7 @@ Item
                                     refundField.text = balance*0.25
                             }
 
-                            DapButton
+                            Widgests.DapButton
                             {
                                 Layout.fillWidth: true
                                 Layout.minimumHeight: 30 * pt
@@ -195,7 +197,7 @@ Item
                                     refundField.text = balance*0.5
                             }
 
-                            DapButton
+                            Widgests.DapButton
                             {
                                 Layout.fillWidth: true
                                 Layout.minimumHeight: 30 * pt
@@ -206,7 +208,7 @@ Item
                                     refundField.text = balance*0.75
                             }
 
-                            DapButton
+                            Widgests.DapButton
                             {
                                 Layout.fillWidth: true
                                 Layout.minimumHeight: 30 * pt
@@ -231,22 +233,23 @@ Item
                 }
         }
 
-
-        DapButton
-        {
-            id: refundButton
-            Layout.alignment: Qt.AlignHCenter
-            Layout.minimumWidth: 150 * pt
-            Layout.minimumHeight: 36 * pt
-            horizontalAligmentText: Text.AlignHCenter
-            fontButton: mainFont.dapFont.regular16
-            textButton: qsTr("Refund")
-        }
-
         Item
         {
             Layout.fillHeight: true
         }
+    }
+
+
+    Widgests.DapButton
+    {
+        id: refundButton
+        x: parent.width * 0.5 - width * 0.5
+        y: parent.height - height - 40 * pt
+        width: 150 * pt
+        height: 36 * pt
+        horizontalAligmentText: Text.AlignHCenter
+        fontButton: mainFont.dapFont.regular16
+        textButton: qsTr("Refund")
     }
 
     onCheckBoxSwitched:
