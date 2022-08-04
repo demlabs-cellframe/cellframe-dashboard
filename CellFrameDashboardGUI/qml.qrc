@@ -287,5 +287,18 @@
         <file>screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml</file>
         <file>screen/desktop/Tokens/parts/DetailsText.qml</file>
         <file>screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/Receipts.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/Refund.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/TopUp.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/VPNOrders.qml</file>
+        <file>screen/desktop/VPNClient/Parts/ChartPanel.qml</file>
+        <file>screen/desktop/VPNClient/Parts/CheckersPanel.qml</file>
+        <file>screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml</file>
+        <file>screen/desktop/VPNClient/Parts/RightStackView.qml</file>
+        <file>screen/desktop/VPNClient/Parts/StatisticsPanel.qml</file>
+        <file>screen/desktop/VPNClient/Images/check.png</file>
+        <file>screen/desktop/VPNClient/Images/page.png</file>
+        <file>screen/desktop/VPNClient/Images/page-hov.png</file>
     </qresource>
 </RCC>
