@@ -363,6 +363,8 @@ QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
     QJsonDocument docResult;
     if(result.isEmpty())
         docResult = processingResult("bad", QString("Node is offline"));
+    else if(result.contains("No valid items"))
+        docResult = processingResult("bad", result);
     else
         docResult = processingResult("ok", "", result);
 
