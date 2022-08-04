@@ -132,6 +132,25 @@ void DapWebControll::onClientSocketReadyRead()
 
   QByteArray encodedString = s_tcpSocketList[idUser]->readAll();
   QString req = QUrl::fromPercentEncoding(encodedString);
+
+  if(req.contains("OPTIONS") || req.contains("Access-Control-Request-Method") || req.contains("Access-Control-Request-Private-Network"))
+  {
+      qDebug()<<"Preflight web request";
+
+      QTextStream answer(s_tcpSocketList[idUser]);
+      answer.setAutoDetectUnicode(true);
+      answer
+        <<"HTTP/1.1 204 No Content\r\n"
+        <<"Connection: keep-alive\r\n"
+        <<"Access-Control-Allow-Origin: *\r\n"
+        <<"Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE\r\n"
+        <<"\r\n";
+      s_tcpSocketList[idUser]->flush();
+      s_tcpSocketList[idUser]->close();
+      s_tcpSocketList.remove(s_tcpSocketList[idUser]->socketDescriptor());
+      return;
+  }
+
   QStringList list = req.split("\n", QString::SkipEmptyParts);
   QRegularExpression regex(R"(method=([a-zA-Z]+))");
   QRegularExpressionMatch match = regex.match(list.at(0));
@@ -179,7 +198,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(match.captured(1) == "hashTx")
                   hashTx = match.captured(2);
           }
-          if(s_id.filter(id).length()){
+          if(!s_id.isEmpty() && s_id.filter(id).length()){
               if(cmd == "GetWallets")
                   doc = getWallets();
               else if(cmd == "GetNetworks")
