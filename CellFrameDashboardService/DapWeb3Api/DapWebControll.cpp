@@ -133,7 +133,7 @@ void DapWebControll::onClientSocketReadyRead()
   QByteArray encodedString = s_tcpSocketList[idUser]->readAll();
   QString req = QUrl::fromPercentEncoding(encodedString);
 
-  if(req.contains("Access-Control-Request-Method") || req.contains("Access-Control-Request-Private-Network"))
+  if(req.contains("OPTIONS") || req.contains("Access-Control-Request-Method") || req.contains("Access-Control-Request-Private-Network"))
   {
       qDebug()<<"Preflight web request";
 
@@ -198,7 +198,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(match.captured(1) == "hashTx")
                   hashTx = match.captured(2);
           }
-          if(s_id.filter(id).length()){
+          if(!s_id.isEmpty() && s_id.filter(id).length()){
               if(cmd == "GetWallets")
                   doc = getWallets();
               else if(cmd == "GetNetworks")
