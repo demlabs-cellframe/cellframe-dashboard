@@ -85,6 +85,9 @@ DapWebControll::DapWebControll(QObject *parent)
 //    QJsonDocument doc = createCertificate("sig_dil", "testCert");
 //    doc = getCertificates(); // OK
 
+//    QJsonDocument doc = getLedgetTxListAll("subzero");
+//    doc = getCertificates(); // OK
+
 //    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
 
 //    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", date, "subzero", "10000");
