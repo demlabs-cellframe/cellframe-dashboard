@@ -235,9 +235,9 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = getCertificates();
               else if(cmd == "CreateCertificate")
                   doc = createCertificate(certType, certName);
-              else if(cmd == "stakeLockTake")
+              else if(cmd == "StakeLockTake")
                   doc = stakeLockTake(name, net, hashTx);
-              else if(cmd == "stakeLockHold")
+              else if(cmd == "StakeLockHold")
                   doc = stakeLockHold(tokenName, certName, name, timeStaking, net, value);
               else if(cmd == "TxCreateJson")
               {
