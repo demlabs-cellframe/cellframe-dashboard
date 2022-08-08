@@ -40,7 +40,16 @@ private:
     QJsonDocument sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net);
     QJsonDocument getTransactions(QString addr, QString net);
     QJsonDocument sendJsonTransaction(QJsonDocument jsonCommand);
-    QJsonDocument getTxHistoryInfo(QString hash, QString net);
+    QJsonDocument getLedgetTxHash(QString hash, QString net);
+    QJsonDocument getLedgetTxListAll(QString net);
+
+    QJsonDocument getCertificates();
+    //    auto args = QString("%1 cert create %2 %3").arg(s_toolPath).arg(certName).arg(signatureType);
+    QJsonDocument createCertificate(QString type, QString name);
+
+    QJsonDocument stakeLockTake(QString walletName, QString net, QString hash);
+    QJsonDocument stakeLockHold(QString tokenName, QString cert, QString walletName,  QString time_staking,  QString net, QString coins);
+
 
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonObject data);
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonArray data);
