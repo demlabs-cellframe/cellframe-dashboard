@@ -1,4 +1,34 @@
 #include "DapWebControll.h"
+#include "CellframeNodeConfig.h"
+#include <QFile>
+#include <QFileInfo>
+#include <QFileInfoList>
+#include <QDir>
+
+class DapCertificateType
+{
+    Q_GADGET
+public:
+    //certificate type access
+    enum AccessKeyType{
+        Public = 0,
+        PublicAndPrivate = 1, // this type is called "Private" !!!
+        Both = 2, // used only for filtering !!!
+        Error = -1
+    };
+    Q_ENUM(AccessKeyType);
+
+    //certificate location dir
+    enum DirType{
+        DefaultDir = 0,
+        ShareDir
+    };
+    Q_ENUM(DirType);
+
+
+protected:
+    explicit DapCertificateType() {  }
+};
 
 QString DapWebControll::send_cmd(QString cmd)
 {
@@ -325,7 +355,7 @@ QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
     return docResult;
 }
 
-QJsonDocument DapWebControll::getTxHistoryInfo(QString hash, QString net)
+QJsonDocument DapWebControll::getLedgetTxHash(QString hash, QString net)
 {
     QString command = QString("%1 ledger tx -tx %2 -net %3")
             .arg(CLI_PATH).arg(hash).arg(net);
@@ -370,3 +400,200 @@ QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
 
     return docResult;
 }
+
+QJsonDocument DapWebControll::getLedgetTxListAll(QString net)
+{
+    QString command = QString("%1 ledger tx -net %2 -all")
+            .arg(CLI_PATH).arg(net);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(!result.isEmpty())
+    {
+        obj.insert("string", result);
+        docResult = processingResult("ok", "", obj);
+    }else{
+        docResult = processingResult("bad", QString("Node is offline"));
+    }
+
+    return docResult;
+}
+
+QJsonDocument DapWebControll::getCertificates()
+{
+    QJsonDocument docResult;
+    QJsonArray result;
+
+    auto parseDir =
+        [&result](const QString& dirPath, const DapCertificateType::DirType& dirType) -> bool
+        {
+            QDir dir(dirPath);
+
+            if (!dir.exists()) {
+                qWarning() << "The directory does not exist:" << dirPath;
+                return false;
+            }
+
+            dir.setFilter(QDir::Files | QDir::Hidden);      //only files in derictory
+            dir.setSorting(QDir::Name);      //set sort by name
+
+            QFileInfoList list = dir.entryInfoList();   // get all QFileInfo for files in dir
+
+            foreach (const QFileInfo& info, list) {
+                if (info.suffix() == "dcert" && dirType == DapCertificateType::DefaultDir) {       //выбираем только файлы сертификатов с расширением dcert
+                    result.append(info.completeBaseName());
+                }
+
+            }
+            return true;
+        };
+
+
+    //предполагаем что в разных папках лежат, разные ключи.
+    parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir );
+
+    for(int i = 0; i < result.count(); i++)
+    {
+        for(int j = 0; j < result.count(); j++)
+        {
+
+            if(result.at(i).toObject().value("fileName").toString() == result.at(j).toObject().value("fileName").toString())
+            {
+                if(result.at(i).toObject().value("dirType").toInt() != result.at(j).toObject().value("dirType").toInt())
+                {
+                    if(result.at(i).toObject().value("dirType").toInt())
+                        result.removeAt(i);
+                    else
+                        result.removeAt(j);
+                    i--;
+                    j--;
+                }
+
+                QString names = result.at(j).toObject().value("fileName").toString();
+                QRegExp exp("[А-Яа-я\\d]*");
+                exp.indexIn(names);
+                auto check = exp.cap(0);
+
+                if(check.isEmpty())
+                    continue;
+                else
+                    result.removeAt(i);
+                i--;
+                j--;
+            }
+        }
+    }
+
+    if(result.count())
+        return docResult = processingResult("ok", "", result);
+    else
+        return docResult = processingResult("bad", "Certificates not found" );
+}
+
+QJsonDocument DapWebControll::createCertificate(QString type, QString name)
+{
+    QFileInfo info(CellframeNodeConfig::instance()->getDefaultCADir() + QString("/%1.dcert").arg(name) );
+
+    QJsonDocument docResult;
+
+
+    if (info.exists())
+        return docResult = processingResult("bad", "Certificate is exists" );
+
+    QProcess process;
+    auto args = QString("%1 cert create %2 %3").arg(TOOLS_PATH).arg(name).arg(type);
+    qInfo() << "command:" << args;
+    process.start(args);
+    process.waitForFinished(-1);
+    qInfo() << "result:" << process.readAll();
+    process.close();
+
+    //QString processResult = QString::fromLatin1(process.readAll());
+
+    info.refresh();
+
+    if (info.exists()) {       //existsCertificate(certName, s_toolPath)
+        QJsonObject obj{{"name",name},
+                        {"type",type}};
+        return docResult = processingResult("ok", "", obj);
+
+    }else
+        return docResult = processingResult("bad", "Certificate not created" );
+
+}
+
+QJsonDocument DapWebControll::stakeLockHold(QString tokenName, QString cert, QString walletName,  QString time_staking,  QString net, QString coins)
+{
+    QString command = QString("%1 stake_lock hold -net %2 -wallet %3 -time_staking %4 "
+                              "-coins %5 -token %6 -cert %7").arg(CLI_PATH);
+
+    command = command.arg(net);
+    command = command.arg(walletName);
+    command = command.arg(time_staking);
+    command = command.arg(coins);
+    command = command.arg(tokenName);
+    command = command.arg(cert);
+
+    QString result = send_cmd(command);
+    QJsonDocument docResult;
+
+    if(!result.isEmpty())
+    {
+        QJsonObject res;
+
+        QRegularExpression rx(R"(Successfully hash=(.+)\n(.+)\nBASE_TX_DATUM_HASH=(.+))");
+        QRegularExpressionMatch match = rx.match(result);
+
+        if(result.contains("successfully"))
+        {
+            res.insert("Successfully hash", match.captured(1));
+            res.insert("BASE_TX_DATUM_HASH", match.captured(3));
+            docResult = processingResult("ok", "", res);
+        }
+        else
+            docResult = processingResult("bad", result);
+
+    }else{
+        docResult = processingResult("bad", "", QString("Node is offline"));
+    }
+
+    return docResult;
+}
+
+QJsonDocument DapWebControll::stakeLockTake(QString walletName, QString net, QString hash)
+{
+    QString command = QString("%1 stake_lock take -net %2 -tx %3 -wallet %4").arg(CLI_PATH);
+
+    command = command.arg(net);
+    command = command.arg(hash);
+    command = command.arg(walletName);
+
+    QString result = send_cmd(command);
+    QJsonDocument docResult;
+
+    if(!result.isEmpty())
+    {
+        QJsonObject res;
+
+        QRegularExpression rx(R"(BURNING_TX_DATUM_HASH=(.+)\nTAKE_TX_DATUM_HASH=(.+))");
+        QRegularExpressionMatch match = rx.match(result);
+
+        if(result.contains("successfully"))
+        {
+            res.insert("BURNING_TX_DATUM_HASH", match.captured(1));
+            res.insert("TAKE_TX_DATUM_HASH", match.captured(2));
+            docResult = processingResult("ok", "", res);
+        }
+        else
+            docResult = processingResult("bad", result);
+
+    }else{
+        docResult = processingResult("bad", "", QString("Node is offline"));
+    }
+    return docResult;
+}
+
+
