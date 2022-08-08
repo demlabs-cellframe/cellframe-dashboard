@@ -54,14 +54,11 @@ void AutocompleteValues::_getNetworks()
     {
         QString s = files[i].remove(".cfg");
         s = files[i].remove(".tpl");
+        s = files[i].remove(".dpkg-new");
         if (s != "." && s != "..")
             networks.append(s);
     }
     networks.removeDuplicates();
-
-
-    //serviceController->requestToService("DapRunCmdCommand", "net list chains");
-    //connect(serviceController, &DapServiceController::cmdRunned, this, &AutocompleteValues::_getChains);
 }
 
 void AutocompleteValues::_getChains()
