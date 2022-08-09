@@ -257,6 +257,16 @@ void CommandCmdController::parseTree(QString command)
         return;
 }
 
+
+/*
+
+llllllllllllllllllll command: "token_decl -net <net_name> -chain <chain_name> -token <token_ticker> -total_supply <total supply> -signs_total <sign total> -signs_emission <signs for emission> -certs <certs_list>"
+llllllllllllllllllll command: "token_decl -net <net_name> -chain <chain_name> -token <token_ticker> -type CF20 -decimals <18> -signs_total <sign total> -signs_emission <signs for emission> -certs <certs_list>"
+llllllllllllllllllll command: "token_decl_sign -net <net_name> -chain <chain_name> -datum <datum_hash> -certs <certs_list>"
+llllllllllllllllllll command: "token_emit {sign | -token <mempool_token_ticker> -emission_value <val>} -net <net_name> [-chain_emission <chain_name>] [-chain_base_tx <chain_name> -addr <addr>] -certs <cert_list>"
+
+ */
+
 void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 {
     QString command = asAnswer.toList()[0].toString();
@@ -278,8 +288,8 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
             if (_commands[i].contains("\r"))
                 _commands[i] = _commands[i].split('\r')[0];
             {
-               // if (_commands[i].contains("-chain <"))
-                    //qDebug() << "llllllllllllllllllll command:" << _commands[i];
+                //if (_commands[i].contains("-certs <"))
+                  //  qDebug() << "llllllllllllllllllll command:" << _commands[i];
 
                 parsedCommands.clear();
                 parseTree(_commands[i]);
@@ -297,8 +307,68 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
     isFirstInit = false;
 }
 
+QVariantList CommandCmdController::getWords(QString value)
+{
+    QString val = value;
+    while (val.endsWith(" "))
+        val.remove(val[val.length() - 1]);
+
+    if (val.endsWith("-certs"))
+    {
+        isCertsList = true;
+    }
+
+    if (isCertsList)
+    {
+        QVariantList resList;
+        QStringList certsList = values->getPrivCerts();
+        QVariantMap map;
+
+        if (!value.endsWith(" "))
+        {
+            for (int i = value.length() - 1; value[i] != " "; --i)
+            {
+                value.remove(i);
+            }
+        }
+
+        for (int i = 0; i < certsList.length(); ++i)
+        {
+            QString str;
+
+            if (val.endsWith("-certs"))
+                str = value + " " + certsList[i];
+            else
+                str = value + ", " + certsList[i];
+
+            map["word"] = QVariant::fromValue(certsList[i]);
+            map["str"] = QVariant::fromValue(str);
+            resList.append(map);
+        }
+
+        return resList;
+    }
+    else
+        return getTreeWords(value);
+}
+
+void CommandCmdController::endCertsList()
+{
+    isCertsList = false;
+}
+
 QVariantList CommandCmdController::getTreeWords(QString value)
 {
+
+    if (value.contains("-certs"))
+    {
+        int idx = value.indexOf("-certs") + 7;
+        while (value[idx] != " " && value[idx + 1] != "-")
+            value.remove(idx);
+
+        value.insert(idx, "<certs list>");
+    }
+
     if (!isDisconnect)
     {
         disconnect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommandsParams);

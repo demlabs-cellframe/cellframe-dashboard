@@ -127,7 +127,11 @@ Page
                 MouseArea
                 {
                     anchors.fill: parent
-                    onClicked: suggestionsBox.model = {}
+                    onClicked:
+                    {
+                        suggestionsBox.model = {}
+                        commandCmdController.endCertsList()
+                    }
                 }
             }
 
@@ -176,7 +180,7 @@ Page
 
                             onSugTextChanged:
                             {
-                                suggestionsBox.model = commandCmdController.getTreeWords(text)
+                                suggestionsBox.model = commandCmdController.getWords(text)
                             }
 
                             onEnterPressed:

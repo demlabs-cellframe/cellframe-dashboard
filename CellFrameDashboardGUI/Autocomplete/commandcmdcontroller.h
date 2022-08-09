@@ -16,6 +16,8 @@ class CommandCmdController : public QObject
     QVariantMap commandsParams;
     AutocompleteValues *values;
 
+    bool isCertsList = false;
+
 
     struct commandTree
     {
@@ -32,6 +34,7 @@ class CommandCmdController : public QObject
     bool isDisconnect = false;
     bool isFirstInit = true;
     void parseTree(QString command);
+    QVariantList getTreeWords(QString value);
 
     QStringList certNames;
 
@@ -44,7 +47,10 @@ public slots:
     void parseAllCommands(const QVariant& asAnswer);
     void parseAllCommandsParams(const QVariant& asAnswer);
 
-    QVariantList getTreeWords(QString value);
+    QVariantList getWords(QString value);
+
+    void endCertsList();
+
     int maxLengthText(QVariantList list);
 
 signals:
