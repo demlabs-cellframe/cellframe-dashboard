@@ -227,7 +227,7 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
-              else if(cmd == "GetLedgetTxHash")
+              else if(cmd == "GetLedgerTxHash")
                   doc = getLedgetTxHash(hashTx, net);
               else if(cmd == "GetLedgerTxListAll")
                   doc = getLedgetTxListAll(net);
