@@ -324,26 +324,40 @@ QVariantList CommandCmdController::getWords(QString value)
         QStringList certsList = values->getPrivCerts();
         QVariantMap map;
 
-        if (!value.endsWith(" "))
+        /*if (!value.endsWith(" "))
         {
             for (int i = value.length() - 1; value[i] != " "; --i)
             {
                 value.remove(i);
             }
-        }
+        }*/
+
+        QStringList list = val.split(" ");
+        QString lastWord = list[list.length() - 1];
 
         for (int i = 0; i < certsList.length(); ++i)
         {
-            QString str;
+            QString str = value + " " + certsList[i];
 
-            if (val.endsWith("-certs"))
-                str = value + " " + certsList[i];
+            if (lastWord == "-certs" || value.endsWith(" "))
+            {
+                map["word"] = QVariant::fromValue(certsList[i]);
+                map["str"] = QVariant::fromValue(str);
+                resList.append(map);
+            }
             else
-                str = value + ", " + certsList[i];
+            if (lastWord != "-certs" && certsList[i].startsWith(lastWord))
+            {
+                for (int j = val.length() - 1; val[j] != " "; --j)
+                {
+                    val.remove(j, 1);
+                }
 
-            map["word"] = QVariant::fromValue(certsList[i]);
-            map["str"] = QVariant::fromValue(str);
-            resList.append(map);
+                str = val + certsList[i];
+                map["word"] = QVariant::fromValue(certsList[i]);
+                map["str"] = QVariant::fromValue(str);
+                resList.append(map);
+            }
         }
 
         return resList;
