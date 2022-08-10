@@ -10,7 +10,7 @@ Rectangle
     property int fontIndent: 3
 
     property string backgroundColor: currTheme.backgroundElements
-    property string gridColor: "#a0a0a0"
+    property string gridColor: "#3E4249"
     property string gridTextColor: "#ffffff"
 
     property real gridWidth: 1
@@ -106,30 +106,27 @@ Rectangle
                     maxY = model.get(i).y
             }
         }
-
-//        print("minX", minX, "minY", minY,
-//              "maxX", maxX, "maxY", maxY)
     }
 
     function drawGrid(ctx)
     {
-        var stepX = (maxX - minX)/8
-        var stepY = (maxY - minY)/8
+        var stepX = (maxX - minX)/20
+        var stepY = (maxY - minY)/64
 
-        for (var i = 1; i < 8; ++i)
+        for (var i = 1; i < 64; ++i)
         {
             if(i % 2 === 0)
             {
-                drawHorizontalLine(ctx, height*i/8)
-                drawVerticalLine(ctx, width*i/8)
+                drawHorizontalLine(ctx, height*i/20)
+                drawVerticalLine(ctx, width*i/64)
             }
-            else
-            {
-                drawHorizontalLineText(ctx, height*i/8,
-                    "y " + (maxY-stepY*i))
-                drawVerticalLineText(ctx, width*i/8,
-                    "x " + (minX+stepX*i))
-            }
+            //else
+            //{
+                //drawHorizontalLineText(ctx, height*i/8,
+                  //  "y " + (maxY-stepY*i))
+                //drawVerticalLineText(ctx, width*i/8,
+                  //  "x " + (minX+stepX*i))
+            //}
         }
     }
 
@@ -146,10 +143,6 @@ Rectangle
                 (model.get(i).x - minX)*coeffX,
                 (maxY - model.get(i).y)*coeffY,
                 color)
-//            print((model.get(i-1).x - minX)*coeffX,
-//                  (maxY - model.get(i-1).y)*coeffY,
-//                  (model.get(i).x - minX)*coeffX,
-//                  (maxY - model.get(i).y)*coeffY)
         }
     }
 
@@ -173,7 +166,7 @@ Rectangle
         ctx.stroke();
     }
 
-    function drawHorizontalLineText(ctx, y, text)
+    /*function drawHorizontalLineText(ctx, y, text)
     {
         ctx.lineWidth = gridWidth;
         ctx.strokeStyle = gridColor;
@@ -184,7 +177,7 @@ Rectangle
         ctx.fillStyle = gridTextColor;
         ctx.fillText(text, fontIndent, y - fontIndent);
         ctx.stroke();
-    }
+    }*/
 
     function drawVerticalLine(ctx, x, text)
     {
@@ -196,7 +189,7 @@ Rectangle
         ctx.stroke();
     }
 
-    function drawVerticalLineText(ctx, x, text)
+    /*function drawVerticalLineText(ctx, x, text)
     {
         ctx.lineWidth = gridWidth;
         ctx.strokeStyle = gridColor;
@@ -207,6 +200,6 @@ Rectangle
         ctx.fillStyle = gridTextColor;
         ctx.fillText(text, x + fontIndent, height - fontIndent);
         ctx.stroke();
-    }
+    }*/
 
 }

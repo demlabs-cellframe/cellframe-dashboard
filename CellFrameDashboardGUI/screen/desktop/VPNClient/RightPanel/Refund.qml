@@ -51,6 +51,7 @@ Item
                 Layout.maximumWidth: 20 * pt
                 Layout.maximumHeight: 20 * pt
                 Layout.topMargin: 10 * pt
+                Layout.bottomMargin: 2 * pt
 
                 height: 20 * pt
                 width: 20 * pt
@@ -115,18 +116,17 @@ Item
                     height: refundDelegateHeight
                     spacing: 10 * pt
 
-                    Widgests.DapCheckBox
+                    Widgests.DapRadioButton
                     {
                         id: refundCheckBox
                         Layout.fillWidth: true
-                        Layout.maximumHeight: 30 * pt
-                        Layout.minimumWidth: 30 * pt
-                        //Layout.alignment: Qt.AlignTop
+                        Layout.minimumHeight: 40 * pt
+                        Layout.minimumWidth: 40 * pt
                         Layout.bottomMargin: 85 * pt
-                        indicatorInnerSize: height
+                        indicatorInnerSize: 40 * pt
                         nameTextColor: currTheme.textColor
                         textFont: mainFont.dapFont.regular16
-                        nameCheckbox: token
+                        textName: token
                         checked: false
                         onToggled:
                         {
@@ -145,8 +145,9 @@ Item
                         Controls.TextField
                         {
                             id: refundField
-                            Layout.fillWidth: true
+                            Layout.minimumWidth: 223 * pt
                             Layout.minimumHeight: 40 * pt
+                            Layout.alignment: Qt.AlignRight
                             placeholderText: "0.0"
                             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                             font: mainFont.dapFont.regular16
@@ -172,51 +173,81 @@ Item
 
                         RowLayout
                         {
+                            id: refundRowLayout
                             Layout.fillWidth: true
+                            Layout.alignment: Qt.AlignRight
                             spacing: 5
 
                             Widgests.DapButton
                             {
-                                Layout.fillWidth: true
-                                Layout.minimumHeight: 30 * pt
+                                id: persentButton25
+                                Layout.minimumWidth: 52
+                                Layout.minimumHeight: 25 * pt
                                 horizontalAligmentText: Text.AlignHCenter
                                 fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("25%")
                                 onClicked:
+                                {
                                     refundField.text = balance*0.25
+                                    //persentButton75.selected = false
+                                    //persentButton100.selected = false
+                                    //persentButton50.selected = false
+                                    //persentButton25.selected = true
+                                }
                             }
 
                             Widgests.DapButton
                             {
-                                Layout.fillWidth: true
-                                Layout.minimumHeight: 30 * pt
+                                id: persentButton50
+                                Layout.minimumWidth: 52
+                                Layout.minimumHeight: 25 * pt
                                 horizontalAligmentText: Text.AlignHCenter
                                 fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("50%")
                                 onClicked:
+                                {
                                     refundField.text = balance*0.5
+                                   // persentButton75.highlighted = false
+                                   // persentButton100.highlighted = false
+                                   // persentButton50.highlighted = true
+                                  //  persentButton25.highlighted = false
+                                }
                             }
 
                             Widgests.DapButton
                             {
-                                Layout.fillWidth: true
-                                Layout.minimumHeight: 30 * pt
+                                id: persentButton75
+                                Layout.minimumWidth: 52
+                                Layout.minimumHeight: 25 * pt
                                 horizontalAligmentText: Text.AlignHCenter
                                 fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("75%")
                                 onClicked:
+                                {
                                     refundField.text = balance*0.75
+                                   // persentButton75.highlighted = true
+                                   // persentButton100.highlighted = false
+                                   // persentButton50.highlighted = false
+                                   // persentButton25.highlighted = false
+                                }
                             }
 
                             Widgests.DapButton
                             {
-                                Layout.fillWidth: true
-                                Layout.minimumHeight: 30 * pt
+                                id: persentButton100
+                                Layout.minimumWidth: 52
+                                Layout.minimumHeight: 25 * pt
                                 horizontalAligmentText: Text.AlignHCenter
                                 fontButton: mainFont.dapFont.regular14
                                 textButton: qsTr("100%")
                                 onClicked:
+                                {
                                     refundField.text = balance
+                                   // persentButton75.hovered = false
+                                  //  persentButton100.hovered = true
+                                  //  persentButton50.hovered = false
+                                   // persentButton25.hovered = false
+                                }
                             }
                         }
 

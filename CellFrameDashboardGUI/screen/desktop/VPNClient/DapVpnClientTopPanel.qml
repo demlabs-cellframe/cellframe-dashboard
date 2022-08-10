@@ -14,14 +14,14 @@ DapTopPanel {
     RowLayout
     {
         anchors.fill: parent
-        anchors.leftMargin: 30*pt
-        anchors.rightMargin: 30*pt
+        anchors.leftMargin: 16 * pt
+        anchors.rightMargin: 30 * pt
 
         Text
         {
             color: currTheme.textColorGray
             font: mainFont.dapFont.regular16
-            text: qsTr("Time Connected:")
+            text: qsTr("Time connected:")
         }
 
         Text

@@ -4,6 +4,7 @@ import QtQuick.Controls.Styles 1.4 as Styles
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import "../../controls"
 
 Item {
     property var receiptsModel: [{"date" : "Today", "transactions" :
@@ -31,19 +32,20 @@ Item {
             height: 42 * pt
             width: parent.width
 
-            DapButton
+            HeaderButtonForRightPanels
             {
                 Layout.maximumWidth: 20 * pt
                 Layout.maximumHeight: 20 * pt
                 Layout.topMargin: 10 * pt
+                Layout.bottomMargin: 2 * pt
 
                 height: 20 * pt
                 width: 20 * pt
-                heightImageButton: 10 * pt
-                widthImageButton: 10 * pt
-                activeFrame: false
-                normalImageButton: "qrc:/resources/icons/"+pathTheme+"/close_icon.png"
-                hoverImageButton:  "qrc:/resources/icons/"+pathTheme+"/close_icon_hover.png"
+                heightImage: 20 * pt
+                widthImage: 20 * pt
+
+                normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
+                hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
                 onClicked: vpnClientNavigator.openVpnOrders()
             }
 
@@ -51,6 +53,7 @@ Item {
             {
                 Layout.fillWidth: true
                 Layout.topMargin: 8
+                Layout.leftMargin: 3
                 verticalAlignment: Qt.AlignVCenter
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColor
@@ -114,11 +117,19 @@ Item {
 
                     Text
                     {
+                        id: textValue
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
                         text: modelData.value
                         x: parent.width - width - 16 * pt
                         y: parent.height * 0.5 - height * 0.5
+                    }
+
+                    Image
+                    {
+                        y: textValue.y + textValue.height * 0.5 - height * 0.5
+                        x: textValue.x + textValue.width + 4 * pt
+                        //sourse:
                     }
 
                     Rectangle

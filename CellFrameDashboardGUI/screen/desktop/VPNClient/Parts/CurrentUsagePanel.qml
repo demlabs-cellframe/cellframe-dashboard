@@ -63,7 +63,7 @@ Item
                         font: mainFont.dapFont.medium14
                         color: currTheme.textColor
 
-                        text: qsTr("Current Usage")
+                        text: qsTr("Current usage")
                     }
 
                     Item
@@ -127,7 +127,7 @@ Item
                     {
                         id: topUpButton
                         height: 26 * pt
-                        width: 141 * pt
+                        width: 135 * pt
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular12
                         textButton: qsTr("Top up")
@@ -139,7 +139,7 @@ Item
                     {
                         id: refundButton
                         height: 26 * pt
-                        width: 141 * pt
+                        width: 135 * pt
                         x: parent.width - width
                         horizontalAligmentText: Text.AlignHCenter
                         fontButton: mainFont.dapFont.regular12
