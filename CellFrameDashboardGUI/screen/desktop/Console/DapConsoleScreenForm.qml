@@ -119,7 +119,7 @@ Page
                 {
                     anchors.centerIn: parent
                     text: "×"
-                    font.pointSize: 20
+                    font.pointSize: 16
                     color: "white"
                     font.bold: true
                 }
@@ -229,6 +229,7 @@ Page
                                     else suggestionsBox.selectedIndex = 0
                                 }
                             }
+                            Keys.onEscapePressed: suggestionsBox.model = {}
                         }
                     }
                 }
