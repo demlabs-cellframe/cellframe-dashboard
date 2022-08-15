@@ -61,19 +61,21 @@ Page
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10
+                anchors.bottomMargin: 7
+                anchors.leftMargin: 21
+                anchors.rightMargin: 13
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20
+                width: 20
+                heightImage: 20
+                widthImage: 20
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
+//                normalImage: "qrc:/resources/icons/other/cross.svg"
+//                hoverImage:  "qrc:/resources/icons/other/cross_hover.svg"
                 onClicked: goToRightHome()
             }
 
@@ -102,7 +104,7 @@ Page
             label: qsTr("Balance:")
             text:
             {
-                if(sellBuySwitch.checked)
+                if(isSell)
                 {
                     if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
@@ -127,78 +129,47 @@ Page
         {
             Layout.fillWidth: true
             Layout.leftMargin: 16
+            Layout.rightMargin: 16
             Layout.topMargin: 12
             spacing: 10
 
-            DapSwitch
+            Text
             {
-                id: sellBuySwitch
-                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                Layout.preferredHeight: 26
-                Layout.preferredWidth: 46
-//                Layout.rightMargin: 15
+                id: textMode
+                Layout.fillWidth: true
+//                Layout.topMargin: 18
+                font: mainFont.dapFont.medium14
+                color: currTheme.textColor
 
-                backgroundColor: currTheme.backgroundMainScreen
-                borderColor: currTheme.reflectionLight
-                shadowColor: currTheme.shadowColor
+                text: qsTr("Buy ") + logicMainApp.token1Name
+            }
+
+            DapSelectorSwitch
+            {
+                height: 35
+                firstName: qsTr("Buy")
+                secondName: qsTr("Sell")
+                firstColor: currTheme.textColorGreen
+                secondColor: currTheme.textColorRed
+                itemHorisontalBorder: 16
 
                 onToggled:
                 {
-                    isSell = !isSell
-                    if (checked)
+                    isSell = secondSelected
+                    if (isSell)
                     {
-                        textBye.color = currTheme.textColorGray
-                        textSell.color = currTheme.textColor
-
-                        textMode.text = qsTr("Sell " + logicMainApp.token1Name)
+                        textMode.text = qsTr("Sell ") + logicMainApp.token1Name
                     }
                     else
                     {
-                        textBye.color = currTheme.textColor
-                        textSell.color = currTheme.textColorGray
-
-                        textMode.text = qsTr("Buy " + logicMainApp.token1Name)
+                        textMode.text = qsTr("Buy ") + logicMainApp.token1Name
 
                     }
                     sellBuyChanged()
                 }
             }
-
-            Text
-            {
-                id: textBye
-                font: mainFont.dapFont.medium14
-                color: currTheme.textColor
-
-                text: qsTr("Buy")
-            }
-            Text
-            {
-                font: mainFont.dapFont.medium14
-                color: currTheme.textColor
-
-                text: qsTr("/")
-            }
-            Text
-            {
-                id: textSell
-                font: mainFont.dapFont.medium14
-                color: currTheme.textColorGray
-
-                text: qsTr("Sell")
-            }
         }
 
-        Text
-        {
-            id: textMode
-            Layout.leftMargin: 16
-            Layout.topMargin: 18
-            font: mainFont.dapFont.medium14
-            color: currTheme.textColor
-
-            text: "Buy " + logicMainApp.token1Name
-        }
 
         RowLayout
         {

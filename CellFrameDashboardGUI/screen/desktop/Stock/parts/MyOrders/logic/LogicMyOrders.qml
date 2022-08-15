@@ -164,8 +164,12 @@ QtObject {
     {
 //        console.log("step 1", type)
         var today = new Date()
-        var yesterday = new Date(new Date().setDate(new Date().getDate()-1))
-        var week = new Date(new Date().setDate(new Date().getDate()-7))
+        var date1Day = new Date(new Date().setDate(new Date().getDate()-1))
+        var date1Week = new Date(new Date().setDate(new Date().getDate()-7))
+        var date1Month = new Date(new Date().setDate(new Date().getDate()-30))
+        var date3Month = new Date(new Date().setDate(new Date().getDate()-90))
+        var date6Month = new Date(new Date().setDate(new Date().getDate()-180))
+        var date1Year = new Date(new Date().setDate(new Date().getDate()-365))
 
 //        console.log("step 2", temporaryModel.count)
         for (var i = 0; i < temporaryModel.count; ++i)
@@ -179,7 +183,9 @@ QtObject {
                     var payDate = new Date(Date.parse(temporaryModel.get(i).date))
 
 //                    console.log("step 5", payDate, currentPeriod, today, yesterday,week)
-                    if (checkDate(payDate, currentPeriod, today, yesterday, week))
+                    if (checkDate(payDate, currentPeriod, today,
+                                  date1Day, date1Week, date1Month,
+                                  date3Month, date6Month, date1Year))
                     {
 //                        console.log("step 6")
                         if(type === "history")
@@ -193,23 +199,33 @@ QtObject {
         }
     }
 
-    function checkDate(date, period, today, yesterday, week)
+    function checkDate(date, period, today,
+                       date1Day, date1Week, date1Month,
+                       date3Month, date6Month, date1Year)
     {
+        print("checkDate", period)
+
         if (period === "All time")
             return true
 
-        if (period === "Today" && isSameDay(today, date))
+        if (period === "1 Day" && (date >= date1Day && date <= today))
             return true
 
-        if (period === "Yesterday" && isSameDay(yesterday, date))
+        if (period === "1 Week" && (date >= date1Week && date <= today))
             return true
 
-        if (period === "Last week" && ((date > week && date < today) ||
-                 isSameDay(week, date) || isSameDay(today, date)))
+        if (period === "1 Month" && (date >= date1Month && date <= today))
             return true
 
-        if (period === "This month" && date.getMonth() === today.getMonth())
+        if (period === "3 Month" && (date >= date3Month && date <= today))
             return true
+
+        if (period === "6 Month" && (date >= date6Month && date <= today))
+            return true
+
+        if (period === "1 Year" && (date >= date1Year && date <= today))
+            return true
+
 
         return false
     }

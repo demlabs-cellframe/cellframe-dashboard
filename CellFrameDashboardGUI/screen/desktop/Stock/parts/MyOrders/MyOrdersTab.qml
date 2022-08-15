@@ -45,7 +45,7 @@ RowLayout
 
         logic.initOrdersModels()
         logic.initPairModelFilter()
-        logic.changeMainPage(openOrders)
+//        logic.changeMainPage(openOrders)
         logic.changeRightPanel(emptyRightPanel)
         initCompleted()
         isInitCompleted = true
