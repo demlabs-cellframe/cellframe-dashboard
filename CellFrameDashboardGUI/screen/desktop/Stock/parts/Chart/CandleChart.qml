@@ -22,9 +22,7 @@ Item
         logic.greenCandleColor = currTheme.textColorGreen
 
 //        stockDataWorker.generatePriceData(1000000)
-        stockDataWorker.generatePriceData(100000)
-
-        stockDataWorker.getMinimumMaximum24h()
+//        stockDataWorker.generatePriceData(100000)
 
         stockDataWorker.setNewCandleWidth(logic.minute)
 
@@ -34,7 +32,7 @@ Item
 
         updateTimer.start()
 
-        generateTimer.start()
+//        generateTimer.start()
 
 //        print("CandleChart", "Component.onCompleted", "END")
     }

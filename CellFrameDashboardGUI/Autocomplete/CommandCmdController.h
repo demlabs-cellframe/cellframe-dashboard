@@ -9,10 +9,14 @@ class CommandCmdController : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool StatusPage MEMBER isOpenPage WRITE setStatus)
+    void setStatus(bool status){isOpenPage = status;};
+
     DapServiceController *dapServiceController;
 
     QVariantList buffer;
     bool rcvDataBuffer;
+    bool isOpenPage;
 
     QTimer *updateValuesTimer;
 public:
@@ -20,6 +24,8 @@ public:
 
 public slots:
     void dapServiceControllerInit(DapServiceController *_dapServiceController);
+
+    int maxLengthText(QVariantList list);
     QVariantList getTreeWords(QString value);
 
 };

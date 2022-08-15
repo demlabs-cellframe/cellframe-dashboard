@@ -19,6 +19,14 @@ Rectangle
         height: parent.height
 
         color: isSell? sellHistogramColor : buyHistogramColor
+
+//        Component.onCompleted:
+//        {
+//            print("isSell", isSell,
+//                  "modelData.total", modelData.total,
+//                  "stockDataWorker.sellMaxTotal", stockDataWorker.sellMaxTotal,
+//                  "stockDataWorker.buyMaxTotal", stockDataWorker.buyMaxTotal)
+//        }
     }
 
     ColumnLayout
@@ -45,7 +53,7 @@ Rectangle
                 Layout.fillWidth: true
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular13
-                text: modelData.amount.toFixed(2)
+                text: modelData.amount.toFixed(4)
             }
 
             Text

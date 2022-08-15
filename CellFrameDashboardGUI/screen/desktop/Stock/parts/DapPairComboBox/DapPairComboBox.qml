@@ -16,17 +16,20 @@ ComboBox {
     property alias logic: logic
     property int maximumPopupHeight: 230
     property int widthPopup: 350
-    property string mainTextRole: "pair"
+//    property string mainTextRole: "pair"
     property string defaultText: qsTr("Undefined")
     property var displayElement
+
+    signal initModelIsCompleted()
     spacing: 0
+
 
     LogicComboBox{id: logic}
     ListModel{id: temporaryModel}
     ListModel{id: mainModel}
 
     displayText: displayElement ?
-                     displayElement.pair :
+                     displayElement.token1 + "/" + displayElement.token2 :
                      defaultText
 
     delegate:
@@ -45,7 +48,9 @@ ComboBox {
                     anchors.left: parent.left
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
-                    text: logic.getModelData(index, mainTextRole)
+                    width: 122
+                    text: logic.getModelData(index, "token1") + "/" +
+                          logic.getModelData(index, "token2")
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
                                currTheme.textColor
@@ -58,8 +63,9 @@ ComboBox {
                 {
                     anchors.left: parent.left
                     anchors.leftMargin: 138
+                    anchors.right: changeText.left
                     anchors.verticalCenter: parent.verticalCenter
-                    text: logic.getModelData(index, "price")
+                    text: logic.getModelData(index, "rate")
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
                                currTheme.textColor
@@ -70,6 +76,7 @@ ComboBox {
 
                 Text
                 {
+                    id: changeText
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.rightMargin: 16
@@ -143,14 +150,14 @@ ComboBox {
             Image{
                 id: coin1
                 mipmap: true
-                source: logic.getIcon(displayElement.pair.split("/")[0])
+//                source: logic.getIcon(displayElement.token1)
                 sourceSize.height: 32
                 sourceSize.width: 32
             }
             Image{
                 id: coin2
                 mipmap: true
-                source: logic.getIcon(displayElement.pair.split("/")[1])
+//                source: logic.getIcon(displayElement.token2)
                 sourceSize.height: 32
                 sourceSize.width: 32
             }
@@ -158,7 +165,7 @@ ComboBox {
             {
                 Layout.leftMargin: 4
                 leftPadding: 0
-                text: displayElement.pair
+                text: displayElement.token1 + "/" + displayElement.token2
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColor
                 elide: Text.ElideLeft
@@ -244,10 +251,8 @@ ComboBox {
                                 text:"Change"
                                 font: mainFont.dapFont.medium12
                                 color: currTheme.textColor
-
                             }
                         }
-
                     }
                 }
             }

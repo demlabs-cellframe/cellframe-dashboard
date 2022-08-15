@@ -62,6 +62,7 @@ ColumnLayout
 
         DapComboBox
         {
+            property bool isInit: false
             id: comboBoxCurrentNetwork
             model: dapNetworkModel
 
@@ -73,15 +74,22 @@ ColumnLayout
 
             font: mainFont.dapFont.regular16
 
+            Component.onCompleted: isInit = true
+
             defaultText: qsTr("Networks")
 
 //            currentIndex: logicMainApp.currentNetwork
 
             onCurrentIndexChanged:
             {
-                dapServiceController.setCurrentNetwork(dapNetworkModel.get(currentIndex).name);
-                dapServiceController.setIndexCurrentNetwork(currentIndex);
-                logicMainApp.currentNetwork = currentIndex
+                if(isInit || (!isInit && logicMainApp.currentNetwork === -1) )
+                {
+                    dapServiceController.setCurrentNetwork(dapNetworkModel.get(currentIndex).name);
+                    dapServiceController.setIndexCurrentNetwork(currentIndex);
+                    logicMainApp.currentNetwork = currentIndex
+                }
+                else
+                    currentIndex = logicMainApp.currentNetwork
             }
         }
     }

@@ -109,6 +109,8 @@ QtObject
         if (stockDataWorker.maxPrice > stockDataWorker.minPrice)
             coefficientPrice = chartDrawHeight/
                     (stockDataWorker.maxPrice - stockDataWorker.minPrice)
+        else
+            coefficientPrice = 0
         if (stockDataWorker.visibleTime > 0)
             coefficientTime = chartWidth/stockDataWorker.visibleTime
 
@@ -365,7 +367,10 @@ QtObject
 
         if (mouseVisible && mouseY <= chartFullHeight)
         {
-            outText = (stockDataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
+            if (stockDataWorker.maxPrice > stockDataWorker.minPrice)
+                outText = (stockDataWorker.maxPrice - (mouseY-chartCandleBegin)/coefficientPrice)
+            else
+                outText = stockDataWorker.maxPrice
 
             drawHorizontalLineText(ctx,
                 mouseY,
@@ -464,6 +469,9 @@ QtObject
         {
             var candle = stockDataWorker.getCandleInfo(i)
 
+            if (candle.open === undefined)
+                continue
+
             var redCandle = true
 
             if (candle.open < candle.close)
@@ -528,12 +536,13 @@ QtObject
 
             var selCandle = stockDataWorker.getCandleInfo(selectedCandleNumber)
 
-            chandleSelected(
-                        selCandle.time,
-                        selCandle.open,
-                        selCandle.maximum,
-                        selCandle.minimum,
-                        selCandle.close)
+            if (candle.open !== undefined)
+                chandleSelected(
+                            selCandle.time,
+                            selCandle.open,
+                            selCandle.maximum,
+                            selCandle.minimum,
+                            selCandle.close)
         }
 
         ctx.lineCap = "butt"
@@ -692,8 +701,8 @@ QtObject
         if (radius > secondRadius)
             radius = secondRadius
 
-        if (radius < 1)
-            radius = 1
+        if (radius < 0.5)
+            radius = 0.5
 
         ctx.strokeStyle = color
         ctx.lineCap = "round"

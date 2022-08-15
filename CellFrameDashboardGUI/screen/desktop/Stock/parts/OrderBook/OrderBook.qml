@@ -110,6 +110,8 @@ Page
                 height: 35
                 font: mainFont.dapFont.regular13
                 mainTextRole: "value"
+                enabled: false
+//                visible: false
 
                 model: accuracyModel
             }
@@ -132,7 +134,7 @@ Page
                     Layout.minimumWidth: 100
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Price(ETH)"
+                    text: "Price("+logicMainApp.token2Name+")"
                 }
 
                 Text
@@ -140,7 +142,7 @@ Page
                     Layout.fillWidth: true
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Amount(CELL)"
+                    text: "Amount("+logicMainApp.token1Name+")"
                 }
 
                 Text
@@ -200,7 +202,7 @@ Page
                 color: currTheme.textColor
                 font: mainFont.dapFont.medium14
 
-                text: logicStock.tokenPriceRounded
+                text: stockDataWorker.currentTokenPrice.toFixed(roundPower)
             }
 
             Rectangle

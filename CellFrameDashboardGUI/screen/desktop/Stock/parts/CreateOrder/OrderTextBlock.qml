@@ -7,7 +7,7 @@ Rectangle
 {
     property alias textValue: textValue.text
     property alias textToken: textToken.text
-    property real realValue: 0.0
+//    property real realValue: 0.0
     property string placeholderText: textValue.placeholderText
 
     border.color: currTheme.borderColor
@@ -16,18 +16,19 @@ Rectangle
 
     signal edited()
 
-    onRealValueChanged:
-    {
-        if (!enabled)
-        {
-            textValue.text = realValue.toFixed(roundPower)
-            if (textValue.text === (0.0).toFixed(roundPower))
-                textValue.text = "0.0"
-            print("onRealValueChanged",
-                  "textValue.text", textValue.text,
-                  "realValue", realValue)
-        }
-    }
+//    onRealValueChanged:
+//    {
+//        if (!enabled)
+//        {
+//            textValue.text = realValue.toFixed(roundPower)
+//            if (textValue.text === (0.0).toFixed(roundPower))
+//                textValue.text = "0.0"
+
+//            print("onRealValueChanged",
+//                  "textValue.text", textValue.text,
+//                  "realValue", realValue)
+//        }
+//    }
 
     RowLayout
     {
@@ -40,7 +41,7 @@ Rectangle
             Layout.fillHeight: true
             horizontalAlignment: Text.AlignLeft
             selectByMouse: true
-            validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
+            validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/}
 
             placeholderText: qsTr("0.0")
             color: parent.enabled? currTheme.textColor: currTheme.textColorGray
@@ -53,10 +54,10 @@ Rectangle
             {
                 if (enabled)
                 {
-                    realValue = parseFloat(text)
-                    print("onTextChanged",
-                          "textValue.text", textValue.text,
-                          "realValue", realValue)
+//                    realValue = parseFloat(text)
+//                    print("onTextChanged",
+//                          "textValue.text", textValue.text,
+//                          "realValue", realValue)
 
                     edited()
                 }
@@ -74,16 +75,15 @@ Rectangle
         }
     }
 
-    function setRealValue(value)
-    {
-        realValue = value
+//    function setRealValue(value)
+//    {
+//        realValue = value
+//        textValue.text = realValue.toFixed(roundPower)
+//        if (textValue.text === (0.0).toFixed(roundPower))
+//            textValue.text = "0.0"
 
-        textValue.text = realValue.toFixed(roundPower)
-        if (textValue.text === (0.0).toFixed(roundPower))
-            textValue.text = "0.0"
-
-        print("setRealValue",
-              "textValue.text", textValue.text,
-              "realValue", realValue)
-    }
+//        print("setRealValue",
+//              "textValue.text", textValue.text,
+//              "realValue", realValue)
+//    }
 }

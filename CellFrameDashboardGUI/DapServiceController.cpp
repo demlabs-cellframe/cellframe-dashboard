@@ -260,6 +260,9 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWordBook("DapGetWordBook",m_DAPRpcSocket))), QString("rcvWordBook")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapXchangeOrderPurchase("DapXchangeOrderPurchase",m_DAPRpcSocket))), QString("rcvXchangePurchase")));
+
+
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
 
@@ -423,19 +426,12 @@ void DapServiceController::registerCommand()
             emit signalTokensListReceived(tokensResult);
             return ;
         }else{
-            json_object *obj = json_object_new_string(tokensResult.toByteArray());
-            json_object *obj2 = json_object_new_string(s_bufferTokensJson);
-
-            if(!json_object_equal(obj, obj2))
+            if(!compareJson(s_bufferTokensJson, tokensResult))
             {
                 s_bufferTokensJson = tokensResult.toByteArray();
-                json_object_put(obj);
-                json_object_put(obj2);
                 emit signalTokensListReceived(tokensResult);
                 return ;
             }
-            json_object_put(obj);
-            json_object_put(obj2);
             emit signalTokensListReceived("isEqual");
         }
     });
@@ -445,28 +441,46 @@ void DapServiceController::registerCommand()
         if(!rcvData.isValid())
             return ;
 
-        if(s_bufferOrdersJson.isEmpty())
+        s_bufferOrdersJson = rcvData.toByteArray();
+        emit signalXchangeOrderListReceived(rcvData);
+
+/*        if(s_bufferOrdersJson.isEmpty())
         {
             s_bufferOrdersJson = rcvData.toByteArray();
             emit signalXchangeOrderListReceived(rcvData);
             return ;
         }else{
-            json_object *obj = json_object_new_string(rcvData.toByteArray());
-            json_object *obj2 = json_object_new_string(s_bufferOrdersJson);
-
-            if(!json_object_equal(obj, obj2))
+            if(!compareJson(s_bufferOrdersJson, rcvData))
             {
                 s_bufferOrdersJson = rcvData.toByteArray();
-                json_object_put(obj);
-                json_object_put(obj2);
                 emit signalXchangeOrderListReceived(rcvData);
                 return ;
             }
-            json_object_put(obj);
-            json_object_put(obj2);
             emit signalXchangeOrderListReceived("isEqual");
+        }*/
+    });
+
+    connect(this, &DapServiceController::rcvXchangeTokenPair, [=] (const QVariant& rcvData)
+    {
+        if(!rcvData.isValid())
+            return ;
+
+        if(s_bufferPairJson.isEmpty())
+        {
+            s_bufferPairJson = rcvData.toByteArray();
+            emit signalXchangeTokenPairReceived(rcvData);
+            return ;
+        }else{
+            if(!compareJson(s_bufferPairJson, rcvData))
+            {
+                s_bufferPairJson = rcvData.toByteArray();
+                emit signalXchangeTokenPairReceived(rcvData);
+                return ;
+            }
+            emit signalXchangeTokenPairReceived("isEqual");
         }
     });
+
 
     registerEmmitedSignal();
 }
@@ -492,6 +506,25 @@ void DapServiceController::findEmittedSignal(const QVariant &aValue)
         }
     }
 }
+
+
+bool DapServiceController::compareJson(QByteArray buff, QVariant data)
+{
+    json_object *obj = json_object_new_string(data.toByteArray());
+    json_object *obj2 = json_object_new_string(buff);
+
+    if(json_object_equal(obj, obj2))
+    {
+        json_object_put(obj);
+        json_object_put(obj2);
+        return true;
+    }
+    json_object_put(obj);
+    json_object_put(obj2);
+
+    return false;
+}
+
 
 /// Register a signal handler for notification results.
 void DapServiceController::registerEmmitedSignal()

@@ -55,6 +55,7 @@
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
 #include "handlers/DapGetWordBook.h"
+#include "handlers/DapXchangeOrderPurchase.h"
 
 class DapServiceController : public QObject
 {
@@ -148,6 +149,7 @@ public:
 
     QByteArray s_bufferTokensJson;
     QByteArray s_bufferOrdersJson;
+    QByteArray s_bufferPairJson;
 
 public slots:
     void requestWalletList();
@@ -246,8 +248,10 @@ signals:
 
     void rcvXchangeOrderList(const QVariant& rcvData);
     void signalXchangeOrderListReceived(const QVariant& rcvData);
+    void rcvXchangePurchase(const QVariant& rcvData);
 
     void rcvXchangeTokenPair(const QVariant& rcvData);
+    void signalXchangeTokenPairReceived(const QVariant& rcvData);
     void rcvXchangeTokenPriceAverage(const QVariant& rcvData);
     void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
 
@@ -271,6 +275,8 @@ private slots:
 private:
     void notifySignalsAttach();
     void notifySignalsDetach();
+
+    bool compareJson(QByteArray, QVariant);
 
 private slots:
     void slotStateSocket(QString state, int isFirst, int isError){emit signalStateSocket(state, isFirst, isError);}

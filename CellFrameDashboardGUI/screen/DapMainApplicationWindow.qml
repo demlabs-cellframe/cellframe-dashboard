@@ -92,8 +92,11 @@ Rectangle {
     signal modelPluginsUpdated()
     signal modelTokensUpdated()
     signal modelXchangeOrdersUpdated()
+    signal modelPairsUpdated()
+    signal modelTokenPriceHistoryUpdated()
     signal checkWebRequest()
     signal openRequests()
+
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -107,8 +110,9 @@ Rectangle {
     ListModel{id: dapModelTokens}
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
-    ListModel{id: pairsModel}
     ListModel{id: dapModelXchangeOrders}
+    ListModel{id: dapPairModel}
+    ListModel{id: dapTokenPriceHistory}
 
     ListModel{id: fakeWallet}
 
@@ -156,8 +160,8 @@ Rectangle {
             bttnIco: "icon_wallet.png",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
-        append ({ tag: "Stock",
-            name: qsTr("Stock"),
+        append ({ tag: "DEX",
+            name: qsTr("DEX"),
             bttnIco: "icon_exchange.png",
             showTab: true,
             page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
@@ -395,20 +399,16 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
 
-        var timeTo = 10
-        var timeFrom = 20
-        var addr = "abcd"
-        var net = "private"
+//        var timeTo = 10
+//        var timeFrom = 20
+//        var addr = "abcd"
+//        var net = "private"
 
+        stockDataWorker.resetPriceData(0.0, true)
+        stockDataWorker.resetBookModel()
 //        //-------//OrdersHistory
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
 
 //        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
@@ -425,12 +425,10 @@ Rectangle {
         //-------//TokenPair
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
 
 
 
         pluginsManager.getListPlugins();
-        logicMainApp.initFakeWallet()
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
@@ -504,13 +502,14 @@ Rectangle {
 
         onSignalXchangeOrderListReceived:
         {
-            print("RcvXchangeOrderList")
+            print("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        onRcvXchangeTokenPair:
+        onSignalXchangeTokenPairReceived:
         {
-//            print("onRcvXchangeTokenPair", rcvData)
+            print("onSignalXchangeTokenPairReceived")
+            logicMainApp.rcvPairsModel(rcvData)
         }
 
         onRcvXchangeTokenPriceAverage:
@@ -521,8 +520,8 @@ Rectangle {
 
         onRcvXchangeTokenPriceHistory:
         {
-//            print("onRcvXchangeTokenPriceHistory", rcvData.result)
-
+            print("onRcvXchangeTokenPriceHistory")
+            logicMainApp.rcvTokenPriceHistory(rcvData)
         }
 
     }

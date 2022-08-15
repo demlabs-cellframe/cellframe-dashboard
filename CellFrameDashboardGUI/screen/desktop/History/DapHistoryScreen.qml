@@ -159,8 +159,10 @@ Page
 
                 Image
                 {
-                    Layout.preferredHeight: 30
-                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 20
+                    Layout.preferredWidth: 20
+
+//                    sourceSize: Qt.size(20,20)
                     mipmap: true
 //                    innerWidth: 20
 //                    innerHeight: 20

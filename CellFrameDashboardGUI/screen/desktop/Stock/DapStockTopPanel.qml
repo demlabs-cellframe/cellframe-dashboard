@@ -13,6 +13,8 @@ Controls.DapTopPanel
 //    radius: currTheme.radiusRectangle
 //    color: currTheme.backgroundPanel
 
+    ListModel{id: stockModelTokens}
+
     RowLayout
     {
         anchors.left: parent.left
@@ -26,7 +28,7 @@ Controls.DapTopPanel
             Layout.rightMargin: 40
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
-            text: qsTr(" <  Stock")
+            text: qsTr(" <  DEX")
             visible: false
 
             MouseArea
@@ -54,7 +56,7 @@ Controls.DapTopPanel
         Label
         {
             id: textNameWallet
-            text: fakeWallet.get(fakeWallet.count - 1).name
+            text: dapModelWallets.get(logicMainApp.currentIndex).name
             Layout.alignment: Qt.AlignVCenter
 
             font: mainFont.dapFont.regular16
@@ -73,26 +75,25 @@ Controls.DapTopPanel
 
         DapComboBox{
             id: tokenComboBox
-
-            property var currentBalance
 //            width: 95
             Layout.minimumWidth: 120
             Layout.maximumWidth: 120
-            model: fakeWallet.get(fakeWallet.count - 1).tokens
             font: mainFont.dapFont.regular16
 
-            Component.onCompleted: {currentIndex = 0; updateBalance()}
+            Component.onCompleted: {
+                updatePair()
+//                currentIndex = 0;
+//                updateBalance()
+            }
 
             onCurrentIndexChanged: updateBalance()
 
-            Connections{
-                target: stockTab
-                onFakeWalletChanged: tokenComboBox.updateBalance()
-            }
+//            Connections{
+//                target: stockTab
+//                onFakeWalletChanged: tokenComboBox.updateBalance()
+//            }
 
-            function updateBalance(){
-                tokenComboBox.currentBalance = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
-            }
+
 
 
             background:
@@ -153,10 +154,93 @@ Controls.DapTopPanel
         {
             id: textWalletBalance
 //            text: "$ 3 050 745.3453289 USD"
-            text: tokenComboBox.currentBalance
+//            text: tokenComboBox.currentBalance
 
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
+        }
+    }
+
+    Connections{
+        target: stockTab
+        onTokenPairChanged:
+        {
+            updatePair()
+        }
+    }
+
+    function updatePair()
+    {
+        var modelWallet = dapModelWallets.get(logicMainApp.currentIndex)
+        stockModelTokens.clear()
+
+        for(var i = 0; i < modelWallet.networks.count; i++)
+        {
+            if(logicMainApp.tokenNetwork === modelWallet.networks.get(i).name)
+            {
+                for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
+                {
+                    if(modelWallet.networks.get(i).tokens.get(k).name
+                            === logicMainApp.token1Name ||
+                       modelWallet.networks.get(i).tokens.get(k).name
+                            === logicMainApp.token2Name)
+                    {
+                        stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
+                    }
+                }
+
+                if(stockModelTokens.count)
+                {
+                    tokenComboBox.model =  stockModelTokens
+                    tokenComboBox.currentIndex = 0
+                }
+
+                break
+            }
+        }
+
+        if(stockModelTokens.count)
+        {
+            tokenComboBox.visible = true
+            textWalletBalance.visible = true
+        }
+        else
+        {
+            tokenComboBox.visible = false
+            textWalletBalance.visible = false
+        }
+    }
+
+    function updateBalance(){
+
+        if(tokenComboBox.count)
+        {
+            textWalletBalance.text = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
+            logicStock.selectedTokenBalanceWallet = textWalletBalance.text
+        }
+
+        if(tokenComboBox.count == 2)
+        {
+            var unselectedIndex = tokenComboBox.currentIndex === 1 ? 0 : 1
+
+            logicStock.unselectedTokenNameWallet = tokenComboBox.getModelData(unselectedIndex,"name")
+            logicStock.unselectedTokenBalanceWallet = tokenComboBox.getModelData(unselectedIndex,"balance_without_zeros")
+        }
+        else if(tokenComboBox.count)
+        {
+            var name = logicStock.selectedTokenNameWallet
+                    === logicMainApp.token1Name ? logicMainApp.token2Name:
+                                                  logicMainApp.token1Name
+            logicStock.unselectedTokenNameWallet = name
+            logicStock.unselectedTokenBalanceWallet = 0
+        }
+        else
+        {
+            logicStock.selectedTokenNameWallet = ""
+            logicStock.selectedTokenBalanceWallet = ""
+            logicStock.unselectedTokenNameWallet = 0
+            logicStock.unselectedTokenBalanceWallet = 0
         }
     }
 

@@ -30,7 +30,8 @@ QtObject {
                                               "network" : walletHistory[q].Network,
                                               "name" : walletHistory[q].Name,
                                               "status" : walletHistory[q].Status,
-                                              "amount" : walletHistory[q].AmountWithoutZeros,
+//                                              "amount" : walletHistory[q].AmountWithoutZeros,
+                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
                                               "date" : walletHistory[q].Date,
                                               "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
                                               "hash": walletHistory[q].Hash})
@@ -47,7 +48,8 @@ QtObject {
                                               "network" : walletHistory[q].Network,
                                               "name" : walletHistory[q].Name,
                                               "status" : walletHistory[q].Status,
-                                              "amount" : walletHistory[q].AmountWithoutZeros,
+//                                              "amount" : walletHistory[q].AmountWithoutZeros,
+                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
                                               "date" : walletHistory[q].Date,
                                               "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
                                               "hash": walletHistory[q].Hash})

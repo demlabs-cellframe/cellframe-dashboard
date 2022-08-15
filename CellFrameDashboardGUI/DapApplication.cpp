@@ -40,6 +40,9 @@ DapApplication::DapApplication(int &argc, char **argv)
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 
+    m_mathBigNumbers = new DapMath();
+    m_mathBigNumbers->test();
+
     this->registerQmlTypes();
     this->setContextProperties();
 
@@ -62,6 +65,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_serviceController->requestWalletList();
     m_serviceController->requestOrdersList();
     m_serviceController->requestNetworksList();
+    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
+    m_serviceController->requestToService("DapGetXchangeOrdersList");
 
 }
 
@@ -149,4 +154,5 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
+    m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
 }
