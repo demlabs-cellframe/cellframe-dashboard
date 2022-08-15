@@ -36,6 +36,9 @@ class CommandCmdController : public QObject
     QStringList certNames;
 
     DapServiceController *dapServiceController;
+
+    QVariantList buffer;
+    bool rcvDataBuffer;
 public:
     explicit CommandCmdController(QObject *parent = nullptr);
 

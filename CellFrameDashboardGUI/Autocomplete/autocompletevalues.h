@@ -21,7 +21,6 @@ class AutocompleteValues : public QObject
     QMap<QString, QStringList> mempoolTokens;
 
     void _getCerts();
-    void _getNetworks();
     void _getChains();
     void _getMempoolTokens();
 

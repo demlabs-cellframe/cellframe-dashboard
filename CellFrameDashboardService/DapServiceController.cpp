@@ -182,6 +182,7 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapGetXchangeTokenPriceHistory("DapGetXchangeTokenPriceHistory", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapGetWordBook("DapGetWordBook", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
 

@@ -7,19 +7,50 @@ CommandCmdController::CommandCmdController(QObject *parent) : QObject(parent)
 
 void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapServiceController)
 {
-    if (isFirstInit)
-    {
-        dapServiceController = _dapServiceController;
 
-        if (dapServiceController)
-        {
-            dapServiceController->requestToService("DapRunCmdCommand", "help");
-            connect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommands);
-            values = new AutocompleteValues(dapServiceController);
-        }
-        else
-            qDebug() << "dapServiceController not connected";
-    }
+    dapServiceController = _dapServiceController;
+
+    dapServiceController->requestToService("DapGetWordBook", "init");
+    rcvDataBuffer = false;
+
+    connect(dapServiceController, &DapServiceController::rcvWordBook, [=] (const QVariant& rcvData)
+    {
+        buffer.clear();
+        QByteArray byteData = QByteArray::fromHex(rcvData.toByteArray());
+        QDataStream streamer(&byteData, QIODevice::ReadOnly);
+        streamer >> buffer;
+        if(!buffer.isEmpty())
+            rcvDataBuffer = true;
+    });
+
+//    dapServiceController->requestToService("DapGetWordBook", "wallet ");
+
+//    connect(dapServiceController, &DapServiceController::rcvWordBook, [=] (const QVariant& rcvData)
+//    {
+//        qDebug()<<"rcv data - " << QByteArray::fromHex(rcvData.toByteArray());
+
+//        QVariantList rcv;
+
+//        QByteArray byteData = QByteArray::fromHex(rcvData.toByteArray());
+//        QDataStream ds(&byteData, QIODevice::ReadOnly);
+//        ds >> rcv;
+//        qDebug()<<rcv;
+
+//    });
+
+//    if (isFirstInit)
+//    {
+//        dapServiceController = _dapServiceController;
+
+//        if (dapServiceController)
+//        {
+//            dapServiceController->requestToService("DapRunCmdCommand", "help");
+//            connect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommands);
+//            values = new AutocompleteValues(dapServiceController);
+//        }
+//        else
+//            qDebug() << "dapServiceController not connected";
+//    }
 }
 
 void CommandCmdController::parseAllCommands(const QVariant &asAnswer)
@@ -157,98 +188,119 @@ void CommandCmdController::parseTree(QString command)
         if (command.contains("<priv_cert_name>"))
         {
             QStringList certsList = values->getPrivCerts();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<priv_cert_name>");
-            QString s = sCommand.remove(idx, 16);
-            for (int i = 0; i < certsList.length(); ++i)
+            if(!certsList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, certsList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<priv_cert_name>");
+                QString s = sCommand.remove(idx, 16);
+                for (int i = 0; i < certsList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, certsList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else
         if (command.contains("<pub_cert_name>"))
         {
             QStringList certsList = values->getPubCerts();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<pub_cert_name>");
-            QString s = sCommand.remove(idx, 15);
-            for (int i = 0; i < certsList.length(); ++i)
+            if(!certsList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, certsList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<pub_cert_name>");
+                QString s = sCommand.remove(idx, 15);
+                for (int i = 0; i < certsList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, certsList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else
         if (command.contains("<net_name>"))
         {
             QStringList netList = values->getNetworks();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<net_name>");
-            QString s = sCommand.remove(idx, 10);
-            for (int i = 0; i < netList.length(); ++i)
+            if(!netList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, netList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<net_name>");
+                QString s = sCommand.remove(idx, 10);
+                for (int i = 0; i < netList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, netList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else
         if (command.contains("<wallet_name>"))
         {
             QStringList walletList = values->getWallets();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<wallet_name>");
-            QString s = sCommand.remove(idx, 13);
-            for (int i = 0; i < walletList.length(); ++i)
+            if(!walletList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, walletList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<wallet_name>");
+                QString s = sCommand.remove(idx, 13);
+                for (int i = 0; i < walletList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, walletList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else
         if (command.contains("<token_ticker>"))
         {
             QStringList tokenList = values->getTokens();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<token_ticker>");
-            QString s = sCommand.remove(idx, 14);
-            for (int i = 0; i < tokenList.length(); ++i)
+            if(!tokenList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, tokenList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<token_ticker>");
+                QString s = sCommand.remove(idx, 14);
+                for (int i = 0; i < tokenList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, tokenList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else
         if (command.contains("<mempool_token_ticker>"))
         {
             QStringList tokenList = values->getAllMempoolTokens();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<mempool_token_ticker>");
-            QString s = sCommand.remove(idx, 22);
-            for (int i = 0; i < tokenList.length(); ++i)
+            if(!tokenList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, tokenList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<mempool_token_ticker>");
+                QString s = sCommand.remove(idx, 22);
+                for (int i = 0; i < tokenList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, tokenList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else
         if (command.contains("<chain_name>"))
         {
             QStringList chaintList = values->getAllChains();
-            QString sCommand = command;
-            int idx = sCommand.indexOf("<chain_name>");
-            QString s = sCommand.remove(idx, 12);
-            for (int i = 0; i < chaintList.length(); ++i)
+            if(!chaintList.isEmpty())
             {
-                QString rS = s;
-                rS = rS.insert(idx, chaintList[i]);
-                parseTree(rS);
+                QString sCommand = command;
+                int idx = sCommand.indexOf("<chain_name>");
+                QString s = sCommand.remove(idx, 12);
+                for (int i = 0; i < chaintList.length(); ++i)
+                {
+                    QString rS = s;
+                    rS = rS.insert(idx, chaintList[i]);
+                    parseTree(rS);
+                }
             }
         }
         else return;
@@ -299,152 +351,163 @@ void CommandCmdController::parseAllCommandsParams(const QVariant &asAnswer)
 
 QVariantList CommandCmdController::getTreeWords(QString value)
 {
-    if (!isDisconnect)
+    dapServiceController->requestToService("DapGetWordBook", value);
+    rcvDataBuffer = false;
+    quint64 savedTime = QDateTime::currentMSecsSinceEpoch();
+
+    while(!rcvDataBuffer)
     {
-        disconnect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommandsParams);
-        isDisconnect = true;
+        if(QDateTime::currentMSecsSinceEpoch() - savedTime >= 100)
+            break;
+        QCoreApplication::processEvents(QEventLoop::AllEvents);
     }
+    return buffer;
+//    if (!isDisconnect)
+//    {
+//        disconnect(dapServiceController, &DapServiceController::cmdRunned, this, &CommandCmdController::parseAllCommandsParams);
+//        isDisconnect = true;
+//    }
 
-    QStringList list = value.split(" ");
+//    QStringList list = value.split(" ");
 
-    QVariantList res;
+//    QVariantList res;
 
-    if (value == "")
-        return res;
+//    if (value == "")
+//        return res;
 
-    QVariantMap map;
+//    QVariantMap map;
 
-    QStringList checkChainList;
+//    QStringList checkChainList;
 
-    if (list.length() == 1)
-    {
-        for (int i = 0; i < commands.length(); ++i)
-            if (commands[i].startsWith(value))
-            {
-                map["word"] = QVariant::fromValue(commands[i]);
-                checkChainList.append(commands[i]);
-                map["str"] = QVariant::fromValue(commands[i] + " ");
-                res.append(map);
-            }
-        return res;
-    }
-
-
-    QString key = list[0];
-    commandTree *tree = &words[key];
-
-    for (int i = 1; i < list.length(); ++i)
-    {
-        for (int j = 0; j < tree->children.length(); ++j)
-            if (tree->children[j]->data == list[i])
-            {
-                tree = tree->children[j];
-                break;
-            }
-    }
-
-    if (!value.endsWith(tree->data))
-    {
-        int k = value.length() - 1;
-        while (value[k] != " ")
-                --k;
-        value = value.left(k);
-    }
-
-    for (int i = 0; i < tree->children.length(); ++i)
-    {
-        QString str = tree->children[i]->data;
-        if (str.startsWith(" "))
-            str.remove(0, 1);
-
-        if (str != "" && str != " " && (str.startsWith(list[list.length() - 1]) || tree->data == list[list.length() - 1]))
-        {
-            map["word"] = QVariant::fromValue(str);
-            checkChainList.append(str);
-            if (!value.endsWith(" "))
-                value += " ";
-            map["str"] = QVariant::fromValue(value + str);
-            res.append(map);
-        }
-    }
+//    if (list.length() == 1)
+//    {
+//        for (int i = 0; i < commands.length(); ++i)
+//            if (commands[i].startsWith(value))
+//            {
+//                map["word"] = QVariant::fromValue(commands[i]);
+//                checkChainList.append(commands[i]);
+//                map["str"] = QVariant::fromValue(commands[i] + " ");
+//                res.append(map);
+//            }
+//        return res;
+//    }
 
 
-    QStringList chainsList = values->getAllChains();
-    bool isEqual = false;
+//    QString key = list[0];
+//    commandTree *tree = &words[key];
 
-    if (checkChainList.length() == chainsList.length() && checkChainList.length() != 0 && value.contains("-net"))
-    {
-        isEqual = true;
-        for (int k = 0; k < checkChainList.length(); ++k)
-            if (!checkChainList.contains(chainsList[k]))
-                isEqual = false;
-    }
+//    for (int i = 1; i < list.length(); ++i)
+//    {
+//        for (int j = 0; j < tree->children.length(); ++j)
+//            if (tree->children[j]->data == list[i])
+//            {
+//                tree = tree->children[j];
+//                break;
+//            }
+//    }
 
-    if (isEqual)
-    {
-        int idx = value.indexOf("-net") + 5;
-        while (value[idx] == " ")
-            ++idx;
+//    if (!value.endsWith(tree->data))
+//    {
+//        int k = value.length() - 1;
+//        while (value[k] != " ")
+//                --k;
+//        value = value.left(k);
+//    }
 
-        QString netName = "";
-        while (value[idx] != " ")
-        {
-            netName.push_back(value[idx]);
-            ++idx;
-        }
+//    for (int i = 0; i < tree->children.length(); ++i)
+//    {
+//        QString str = tree->children[i]->data;
+//        if (str.startsWith(" "))
+//            str.remove(0, 1);
 
-        QStringList netChains = values->getChainsByNetwork(netName);
-        QVariantList chainsRes;
-
-        for (int k = 0; k < res.length(); ++k)
-        {
-            if (netChains.contains(res[k].toMap()["word"].toString()))
-                chainsRes.append(res[k]);
-        }
-
-        return chainsRes;
-
-    }
+//        if (str != "" && str != " " && (str.startsWith(list[list.length() - 1]) || tree->data == list[list.length() - 1]))
+//        {
+//            map["word"] = QVariant::fromValue(str);
+//            checkChainList.append(str);
+//            if (!value.endsWith(" "))
+//                value += " ";
+//            map["str"] = QVariant::fromValue(value + str);
+//            res.append(map);
+//        }
+//    }
 
 
-    QStringList netsList = values->getNetworks();
-    bool isNetEqual = false;
+//    QStringList chainsList = values->getAllChains();
+//    bool isEqual = false;
 
-    if (checkChainList.length() == netsList.length() && checkChainList.length() != 0 && value.contains("-chain"))
-    {
-        isNetEqual = true;
-        for (int k = 0; k < checkChainList.length(); ++k)
-            if (!checkChainList.contains(netsList[k]))
-                isNetEqual = false;
-    }
+//    if (checkChainList.length() == chainsList.length() && checkChainList.length() != 0 && value.contains("-net"))
+//    {
+//        isEqual = true;
+//        for (int k = 0; k < checkChainList.length(); ++k)
+//            if (!checkChainList.contains(chainsList[k]))
+//                isEqual = false;
+//    }
 
-    if (isNetEqual)
-    {
-        int idx = value.indexOf("-chain") + 7;
-        while (value[idx] == " ")
-            ++idx;
+//    if (isEqual)
+//    {
+//        int idx = value.indexOf("-net") + 5;
+//        while (value[idx] == " ")
+//            ++idx;
 
-        QString chainName = "";
-        while (value[idx] != " ")
-        {
-            chainName.push_back(value[idx]);
-            ++idx;
-        }
+//        QString netName = "";
+//        while (value[idx] != " ")
+//        {
+//            netName.push_back(value[idx]);
+//            ++idx;
+//        }
 
-        QStringList chainNets = values->getNetworkByChain(chainName);
-        QVariantList netsRes;
+//        QStringList netChains = values->getChainsByNetwork(netName);
+//        QVariantList chainsRes;
 
-        for (int k = 0; k < res.length(); ++k)
-        {
-            if (chainNets.contains(res[k].toMap()["word"].toString()))
-                netsRes.append(res[k]);
-        }
+//        for (int k = 0; k < res.length(); ++k)
+//        {
+//            if (netChains.contains(res[k].toMap()["word"].toString()))
+//                chainsRes.append(res[k]);
+//        }
 
-        return netsRes;
+//        return chainsRes;
 
-    }
+//    }
 
-    return res;
+
+//    QStringList netsList = values->getNetworks();
+//    bool isNetEqual = false;
+
+//    if (checkChainList.length() == netsList.length() && checkChainList.length() != 0 && value.contains("-chain"))
+//    {
+//        isNetEqual = true;
+//        for (int k = 0; k < checkChainList.length(); ++k)
+//            if (!checkChainList.contains(netsList[k]))
+//                isNetEqual = false;
+//    }
+
+//    if (isNetEqual)
+//    {
+//        int idx = value.indexOf("-chain") + 7;
+//        while (value[idx] == " ")
+//            ++idx;
+
+//        QString chainName = "";
+//        while (value[idx] != " ")
+//        {
+//            chainName.push_back(value[idx]);
+//            ++idx;
+//        }
+
+//        QStringList chainNets = values->getNetworkByChain(chainName);
+//        QVariantList netsRes;
+
+//        for (int k = 0; k < res.length(); ++k)
+//        {
+//            if (chainNets.contains(res[k].toMap()["word"].toString()))
+//                netsRes.append(res[k]);
+//        }
+
+//        return netsRes;
+
+//    }
+
+//    return res;
 }
 
 int CommandCmdController::maxLengthText(QVariantList list)

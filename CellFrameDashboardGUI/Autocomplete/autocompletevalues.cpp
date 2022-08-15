@@ -22,6 +22,52 @@
 #define NETWORKS_PATH QString("/opt/cellframe-node/etc/network/")
 #endif
 
+AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController, QObject *parent)
+    : QObject{parent}
+{
+    serviceController = _serviceController;
+
+    connect(serviceController, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
+    {
+        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
+        QList<DapWallet> tempWallets;
+
+        QDataStream in(&array, QIODevice::ReadOnly);
+        in >> tempWallets;
+
+        auto begin = tempWallets.begin();
+        auto end = tempWallets.end();
+        DapWallet * wallet = nullptr;
+        for(;begin != end; ++begin)
+        {
+            wallet = new DapWallet(*begin);
+            wallets.append(wallet->getName());
+            QList<QObject*> _tokens = wallet->getTokens();
+
+            for (int i = 0; i < _tokens.length(); ++i)
+            {
+                DapToken *token = (DapToken *)(_tokens[i]);
+                tokens.append(token->name());
+            }
+
+            for (int i = 0; i < _tokens.length(); ++i)
+                delete(_tokens[i]);
+        }
+
+        delete(wallet);
+    });
+
+    connect(serviceController, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
+    {
+        if(!networksList.isNull() && networksList.toStringList() != networks)
+            networks = networksList.toStringList();
+    });
+
+    _getCerts();
+    _getChains();
+    _getMempoolTokens();
+}
+
 void AutocompleteValues::_getCerts()
 {
     QDir pubDir(PUB_CERT_PATH);
@@ -43,22 +89,6 @@ void AutocompleteValues::_getCerts()
         if (s != "." && s != "..")
             privCerts.append(s);
     }
-}
-
-void AutocompleteValues::_getNetworks()
-{
-    QDir netDir(NETWORKS_PATH);
-    netDir.setFilter(QDir::Files | QDir::Hidden);
-    QStringList files = netDir.entryList();
-    for (int i = 0; i < files.length(); ++i)
-    {
-        QString s = files[i].remove(".cfg");
-        s = files[i].remove(".tpl");
-        s = files[i].remove(".dpkg-new");
-        if (s != "." && s != "..")
-            networks.append(s);
-    }
-    networks.removeDuplicates();
 }
 
 void AutocompleteValues::_getChains()
@@ -135,48 +165,6 @@ void AutocompleteValues::_getMempoolTokens()
         }
         mempoolTokens.insert(networks[i], resList);
     }
-}
-
-
-AutocompleteValues::AutocompleteValues(DapServiceController *_serviceController, QObject *parent)
-    : QObject{parent}
-{
-    serviceController = _serviceController;
-
-    connect(serviceController, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
-    {
-        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
-        QList<DapWallet> tempWallets;
-
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempWallets;
-
-        auto begin = tempWallets.begin();
-        auto end = tempWallets.end();
-        DapWallet * wallet = nullptr;
-        for(;begin != end; ++begin)
-        {
-            wallet = new DapWallet(*begin);
-            wallets.append(wallet->getName());
-            QList<QObject*> _tokens = wallet->getTokens();
-
-            for (int i = 0; i < _tokens.length(); ++i)
-            {
-                DapToken *token = (DapToken *)(_tokens[i]);
-                tokens.append(token->name());
-            }
-
-            for (int i = 0; i < _tokens.length(); ++i)
-                delete(_tokens[i]);
-        }
-
-        delete(wallet);
-    });
-
-    _getCerts();
-    _getNetworks();
-    _getChains();
-    _getMempoolTokens();
 }
 
 QStringList AutocompleteValues::getPubCerts()

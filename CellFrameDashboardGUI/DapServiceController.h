@@ -54,7 +54,7 @@
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
-
+#include "handlers/DapGetWordBook.h"
 
 class DapServiceController : public QObject
 {
@@ -256,6 +256,8 @@ signals:
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
 //    void replyClientRequestConnect(QString, int);
+
+    void rcvWordBook(const QVariant& rcvData);
 
 private slots:
     /// Register command.
