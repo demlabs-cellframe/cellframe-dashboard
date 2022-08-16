@@ -190,7 +190,7 @@ void DapWebControll::onClientSocketReadyRead()
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
           QString name, net, addr, value, tokenName, id, hashTx, certType,
-                  certName, timeStaking;
+                  certName, timeStaking, reinvest;
 
           while(matchIt.hasNext())
           {
@@ -215,6 +215,8 @@ void DapWebControll::onClientSocketReadyRead()
                   timeStaking = match.captured(2);
               else if(match.captured(1) == "certType")
                   certType = match.captured(2);
+              else if(match.captured(1) == "reinvest")
+                  reinvest = match.captured(2);
           }
           if(!s_id.isEmpty() && s_id.filter(id).length()){
               if(cmd == "GetWallets")
@@ -227,7 +229,7 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
-              else if(cmd == "GetLedgetTxHash")
+              else if(cmd == "GetLedgerTxHash")
                   doc = getLedgetTxHash(hashTx, net);
               else if(cmd == "GetLedgerTxListAll")
                   doc = getLedgetTxListAll(net);
@@ -238,7 +240,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(cmd == "StakeLockTake")
                   doc = stakeLockTake(name, net, hashTx);
               else if(cmd == "StakeLockHold")
-                  doc = stakeLockHold(tokenName, certName, name, timeStaking, net, value);
+                  doc = stakeLockHold(tokenName, certName, name, timeStaking, net, value, reinvest);
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
