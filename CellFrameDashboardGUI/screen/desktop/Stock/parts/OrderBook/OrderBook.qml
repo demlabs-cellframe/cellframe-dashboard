@@ -7,11 +7,15 @@ Page
 {
     id: control
     property var visibleCount
-    property string sellHistogramColor: "#13ff6060"
+    property string sellHistogramColor: "#1aff6060"
     property string buyHistogramColor: "#1300ff00"
 
-    Component.onCompleted: visibleCount = logicStock.getBookVisibleCount(control.height - rowHeader.height - 30)
-    onHeightChanged: visibleCount = logicStock.getBookVisibleCount(control.height - rowHeader.height - 30)
+    Component.onCompleted:
+        visibleCount = logicStock.getBookVisibleCount(
+            control.height - rowHeader.height - 30)
+    onHeightChanged:
+        visibleCount = logicStock.getBookVisibleCount(
+            control.height - rowHeader.height - 30)
 
     background: Rectangle {
         color: "transparent"
@@ -34,6 +38,57 @@ Page
         ListElement {
             value: "0.1"
         }
+        ListElement {
+            value: "1.0"
+        }
+    }
+
+    Connections{
+        target: stockDataWorker
+        onSetNewBookRoundPowerMinimum:
+        {
+            print("onSetNewBookRoundPowerMinimum", power)
+
+            var tempValue = Math.pow(10, -power)
+
+            print(tempValue, tempValue.toFixed(power))
+
+            accuracyModel.clear()
+
+            addPowerToModel(power)
+            addPowerToModel(power-1)
+            addPowerToModel(power-2)
+            addPowerToModel(power-3)
+            addPowerToModel(power-4)
+            addPowerToModel(power-5)
+//            addPowerToModel(power-6)
+//            addPowerToModel(power-7)
+
+//            tempValue = Math.pow(10, -power)
+//            accuracyModel.append({"value": tempValue.toFixed(power)})
+//            tempValue = Math.pow(10, -power+1)
+//            accuracyModel.append({"value": tempValue.toFixed(power-1)})
+//            tempValue = Math.pow(10, -power+2)
+//            accuracyModel.append({"value": tempValue.toFixed(power-2)})
+//            tempValue = Math.pow(10, -power+3)
+//            accuracyModel.append({"value": tempValue.toFixed(power-3)})
+
+            roundPowerComboBox.currentIndex = 0
+
+//            accuracyModel.clear();
+
+
+        }
+    }
+
+    function addPowerToModel(power)
+    {
+        var tempValue = Math.pow(10, -power)
+
+        if (power >= 0)
+            accuracyModel.append({"value": tempValue.toFixed(power)})
+        else
+            accuracyModel.append({"value": tempValue.toString()})
     }
 
     ColumnLayout
@@ -106,14 +161,19 @@ Page
 
             DapComboBox
             {
+                id: roundPowerComboBox
                 Layout.minimumWidth: 128
                 height: 35
                 font: mainFont.dapFont.regular13
                 mainTextRole: "value"
-                enabled: false
-//                visible: false
+                enabled: true
 
                 model: accuracyModel
+
+                onActivated:
+                {
+                    stockDataWorker.setBookRoundPower(currentText)
+                }
             }
         }
 
@@ -175,9 +235,12 @@ Page
 
             model: sellModel
 
-            delegate: OrderBookDelegate{visible: buyView.visible ? index > visibleCount ? false : true : true}
+            delegate: OrderBookDelegate
+            {
+                visible: buyView.visible ?
+                             index > visibleCount ? false : true : true
+            }
         }
-
 
         ColumnLayout
         {
@@ -222,16 +285,22 @@ Page
             Layout.fillHeight: true
             clip: true
             interactive: sellView.visible ? false: true
+//            verticalLayoutDirection: ListView.BottomToTop
 
             ScrollBar.vertical: ScrollBar{
                 active: true
                 visible: buyView.interactive
-                onVisibleChanged: setPosition(buyView.positionViewAtBeginning())
+                onVisibleChanged: setPosition(buyView.positionViewAtBegining())
             }
 
             model: buyModel
 
-            delegate: OrderBookDelegate{isSell: false; visible: sellView.visible ? index > visibleCount ? false : true : true}
+            delegate: OrderBookDelegate
+            {
+                isSell: false
+                visible: sellView.visible ?
+                             index > visibleCount ? false : true : true
+            }
         }
     }
 }

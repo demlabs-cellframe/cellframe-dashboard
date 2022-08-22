@@ -26,6 +26,7 @@ Item
     {
 //        logicStock.initPairModel()
         changeRightPage("OrderBook/OrderBook.qml")
+//        changeRightPage("CreateOrder/OrderCreateDone.qml")
     }
 
     RowLayout

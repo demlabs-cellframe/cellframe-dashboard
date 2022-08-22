@@ -73,11 +73,12 @@ Rectangle {
         id: webPopup
     }
 
-    signal openCopyPopup()
-    onOpenCopyPopup: {
-        component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
-        component.createObject(dapMainWindow);
+    DapPopupInfo
+    {
+        id: popupInfo
     }
+
+    property alias infoItem: popupInfo
 
     signal menuTabChanged()
     onMenuTabChanged: logicMainApp.updateMenuTabStatus()

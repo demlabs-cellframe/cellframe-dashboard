@@ -12,109 +12,88 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 0
+        spacing: 15
 
-        Item {
+        Item
+        {
+            implicitHeight: 100
+        }
 
+        DapImageLoader
+        {
+            id: imageMessage
+            Layout.alignment: Qt.AlignHCenter
+            innerWidth: 52
+            innerHeight: 52
+//            source: "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png"
+        }
+
+        Text
+        {
+            id: textHeader
             Layout.fillWidth: true
-            Layout.fillHeight: true
+//            text: qsTr("Order created\nsuccessfully!")
+            horizontalAlignment: Text.AlignHCenter
+            color: currTheme.textColor
+            font: mainFont.dapFont.medium24
+        }
 
-            Text
-            {
-                id: textMessage
-                text: qsTr("Creating an order")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.topMargin:  150
-                anchors.leftMargin: 46
-                anchors.rightMargin: 50
-                color: currTheme.textColor
-                font: mainFont.dapFont.medium27
-            }
+        Text
+        {
+            id: textMessage
+            Layout.fillWidth: true
+//            Layout.leftMargin: 20
+//            Layout.rightMargin: 20
+            horizontalAlignment: Text.AlignHCenter
+//            text: qsTr("Click on «My orders» to view\nthe status of your order")
+            wrapMode: Text.WordWrap
+            color: currTheme.textColor
+            font: mainFont.dapFont.regular16
+        }
 
-            Text
-            {
-                id: textStatus
-                text: qsTr("Status")
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: textMessage.bottom
-                anchors.topMargin: 36
-                color: "#A4A3C0"
-                font: mainFont.dapFont.regular28
-            }
+        Item
+        {
+            implicitHeight: 100
+        }
 
-            Text
+        DapButton
+        {
+            id: buttonDone
+            Layout.alignment: Qt.AlignHCenter
+            implicitHeight: 36
+            implicitWidth: 132
+            textButton: qsTr("Done")
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
+            fontButton: mainFont.dapFont.regular16
+            onClicked:
             {
-                id: textStatusMessage
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: textStatus.bottom
-//                anchors.topMargin: 8
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular28
-            }
-
-            Text
-            {
-                id: textResult
-                visible: false
-                horizontalAlignment: Text.AlignHCenter
-                anchors.top: textStatusMessage.bottom
-                anchors.topMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                anchors.rightMargin: 20
-                anchors.right: parent.right
-                wrapMode: Text.WordWrap
-//                anchors.topMargin: 8
-                color: currTheme.textColor
-                font: mainFont.dapFont.regular18
-            }
-
-            DapButton
-            {
-                id: buttonDone
-                height: 36
-                width: 132
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: textStatusMessage.bottom
-                anchors.topMargin: 190
-                textButton: qsTr("Done")
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
-                onClicked:
-                {
-                    goToRightHome()
-                }
-            }
-
-            Rectangle
-            {
-                id: rectangleBottomButton
-                height: 190
-                anchors.top: buttonDone.bottom
-                anchors.topMargin: 24
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                color: "transparent"
+                goToRightHome()
             }
         }
+
+        Item
+        {
+            Layout.fillHeight: true
+        }
+
     }
 
     Component.onCompleted:
     {
-        if(logicStock.resultCreate.success)
-            textStatusMessage.text = qsTr("Successfully")
+        if (logicStock.resultCreate.success)
+//        if (false)
+        {
+            imageMessage.source = "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png"
+            textHeader.text = qsTr("Order created\nsuccessfully!")
+            textMessage.text = qsTr("Click on «My orders» to view\nthe status of your order")
+        }
         else
         {
-            textStatusMessage.text = qsTr("Error")
-            textResult.text = qsTr(logicStock.resultCreate.message)
-            textResult.visible = true
+            imageMessage.source = "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png"
+            textHeader.text = qsTr("Order creation\nerror!")
+//            textMessage.text = qsTr("Error message...")
+            textMessage.text = qsTr(logicStock.resultCreate.message)
         }
     }
 }

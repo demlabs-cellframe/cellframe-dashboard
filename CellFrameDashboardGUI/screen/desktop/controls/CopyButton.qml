@@ -34,7 +34,11 @@ Item
 //            popup.opacity = 0
 //            popup.open()
 //            popup.opacity = 1
-            dapMainWindow.openCopyPopup()
+            dapMainWindow.infoItem.showInfo(
+                        dapMainWindow.width*0.5,
+                        8,
+                        qsTr("Address copied"),
+                        "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
             copyClicked()
 //            delay(1000,function() {
 //                popup.opacity = 0;

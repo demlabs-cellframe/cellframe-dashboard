@@ -72,12 +72,19 @@ DapPage
 
     Component.onCompleted:
     {
+        print("DapStockTab Component.onCompleted",
+              logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
+        dapServiceController.requestToService(
+            "DapGetXchangeTokenPriceAverage",
+            logicMainApp.tokenNetwork,
+            logicMainApp.token1Name,
+            logicMainApp.token2Name)
         dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
             logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
-//        print("DapStockTab Component.onCompleted")
-        dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
         dapServiceController.requestToService("DapGetXchangeOrdersList")
+
+        dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
 
 //        logicStock.initPairModel()
 //        logicStock.initBalance()
@@ -146,8 +153,13 @@ DapPage
         target: dapMainWindow
         onModelPairsUpdated:
         {
-//            print("DapStockTab", "onModelPairsUpdated")
+            print("DapStockTab", "onModelPairsUpdated")
 
+            dapServiceController.requestToService(
+                "DapGetXchangeTokenPriceAverage",
+                logicMainApp.tokenNetwork,
+                logicMainApp.token1Name,
+                logicMainApp.token2Name)
         }
     }
 

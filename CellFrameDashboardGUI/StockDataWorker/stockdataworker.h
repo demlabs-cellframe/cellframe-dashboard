@@ -6,15 +6,11 @@
 #include <QVariantMap>
 #include <QQmlContext>
 #include <QJsonDocument>
+#include <QJsonArray>
 
 #include "priceinfo.h"
 #include "candleinfo.h"
 #include "orderinfo.h"
-
-enum class OrderType
-{
-    sell, buy
-};
 
 class StockDataWorker : public QObject
 {
@@ -54,6 +50,8 @@ class StockDataWorker : public QObject
     Q_PROPERTY(double sellMaxTotal READ sellMaxTotal NOTIFY sellMaxTotalChanged)
     Q_PROPERTY(double buyMaxTotal READ buyMaxTotal NOTIFY buyMaxTotalChanged)
 
+    Q_PROPERTY(double bookRoundPower READ bookRoundPower NOTIFY bookRoundPowerChanged)
+
 public:
     explicit StockDataWorker(QObject *parent = nullptr);
 
@@ -71,7 +69,7 @@ public:
 
     Q_INVOKABLE void resetBookModel();
 
-    Q_INVOKABLE void generateBookModel(double price, int length);
+    Q_INVOKABLE void generateBookModel(double price, int length, double step);
 
     Q_INVOKABLE void setBookModel(const QByteArray &json);
 
@@ -104,6 +102,8 @@ public:
     Q_INVOKABLE bool zoomTime(int step);
 
     Q_INVOKABLE void shiftTime(double step);
+
+    Q_INVOKABLE void setBookRoundPower(const QString &text);
 
     qint64 candleWidth() const
         {  return m_candleWidth; }
@@ -163,6 +163,9 @@ public:
     double buyMaxTotal() const
         { return m_buyMaxTotal; }
 
+    double bookRoundPower() const
+        { return m_bookRoundPower; }
+
 public slots:
     void setCandleWidth(qint64 width);
     void setVisibleTime(double time);
@@ -192,24 +195,32 @@ signals:
     void sellMaxTotalChanged(double max);
     void buyMaxTotalChanged(double max);
 
+    void bookRoundPowerChanged(int power);
+
+    void setNewBookRoundPowerMinimum(int power);
+
 private:
+    void checkNewBookRoundPower();
+
+    void updateBookModels();
+
     void insertBookOrder(const OrderType& type, double price, double amount, double total);
 
     void getVariantBookModels();
 
-    void updateBookModels();
+    void sendCurrentBookModels();
 
 private:
     QString token1 {""};
     QString token2 {""};
     QString network {""};
 
-    int bookRoundPower {5};
-
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
     QVector <OrderInfo> sellOrderModel;
     QVector <OrderInfo> buyOrderModel;
+
+    QVector <FullOrderInfo> allOrders;
 
     QVariantList buyModel;
     QVariantList sellModel;
@@ -244,6 +255,10 @@ private:
 
     int m_firstVisibleCandle {0};
     int m_lastVisibleCandle {0};
+
+    int m_bookRoundPower {5};
+
+    int bookRoundPowerMinimum {5};
 
     QVector <int> firstVisibleAverage;
     QVector <int> lastVisibleAverage;

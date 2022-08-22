@@ -6,6 +6,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 
+#include <cmath>
+
 constexpr double visibleDefaultCandles {40};
 constexpr double maxZoom{3.0};
 constexpr double minZoom{0.2};
@@ -14,6 +16,19 @@ constexpr double minAverageStep {0.5};
 //constexpr double averageDelta {20};
 
 constexpr int numberAverageCharts {3};
+
+constexpr int bookRoundPowerDelta {8};
+
+double roundDoubleValue(double value, int round)
+{
+    double p = pow (10, -round);
+
+    value /= p;
+    value = QString::number(value, 'f', 0).toDouble();
+    value *= p;
+
+    return value;
+}
 
 StockDataWorker::StockDataWorker(QObject *parent) :
     QObject(parent)
@@ -59,7 +74,7 @@ void StockDataWorker::setContext(QQmlContext *cont)
 
     //    updateHistogram();
 
-    updateBookModels();
+    sendCurrentBookModels();
 }
 
 void StockDataWorker::setTokenPair(const QString &tok1,
@@ -169,7 +184,7 @@ QVariantMap StockDataWorker::getPriceInfo(int index)
 
 void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 {
-//    qDebug() << "StockDataWorker::setTokenPriceHistory";
+    qDebug() << "StockDataWorker::setTokenPriceHistory";
 
 /*    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
     priceModel.resize(4);
@@ -201,7 +216,7 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 
     QJsonArray history = doc["history"].toArray();
 
-//    qDebug() << "history.size()" << history.size();
+    qDebug() << "history.size()" << history.size();
 
     priceModel.resize(history.size());
 
@@ -212,9 +227,9 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
         double price = history.at(i)["rate"].toString().toDouble();
         qint64 time = date.toLongLong();
 
-//        qDebug() << price
-//                << time
-//                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
+        qDebug() << price
+                << time
+                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
 
         PriceInfo info{time, price};
 
@@ -254,29 +269,31 @@ void StockDataWorker::resetBookModel()
 
     getVariantBookModels();
 
-    updateBookModels();
+    sendCurrentBookModels();
 }
 
-void StockDataWorker::generateBookModel(double price, int length)
+void StockDataWorker::generateBookModel(double price, int length, double step)
 {
     m_sellMaxTotal = 0;
     m_buyMaxTotal = 0;
+
+    sellOrderModel.clear();
+    buyOrderModel.clear();
 
     double temp_price = price;
 
     for (auto i = 0; i < length; i++)
     {
         temp_price +=
-            QRandomGenerator::global()->generateDouble()*0.0001;
+            QRandomGenerator::global()->generateDouble()*step;
         double amount = QRandomGenerator::global()->generateDouble()*1500;
         double total = amount * temp_price;
 
 //        sellOrderModel.append(OrderInfo{temp_price, amount, total});
 
-        insertBookOrder(OrderType::sell, temp_price, amount, total);
+        allOrders.append(FullOrderInfo{OrderType::sell, temp_price, amount, total});
 
-        if (m_sellMaxTotal < total)
-            m_sellMaxTotal = total;
+//        insertBookOrder(OrderType::sell, temp_price, amount, total);
     }
 
     temp_price = price;
@@ -284,21 +301,30 @@ void StockDataWorker::generateBookModel(double price, int length)
     for (auto i = 0; i < length; i++)
     {
         temp_price -=
-            QRandomGenerator::global()->generateDouble()*0.0001;
+            QRandomGenerator::global()->generateDouble()*step;
         double amount = QRandomGenerator::global()->generateDouble()*1500;
         double total = amount * temp_price;
 
 //        buyOrderModel.append(OrderInfo{temp_price, amount, total});
 
-        insertBookOrder(OrderType::buy, temp_price, amount, total);
+        allOrders.append(FullOrderInfo{OrderType::buy, temp_price, amount, total});
 
-        if (m_buyMaxTotal < total)
-            m_buyMaxTotal = total;
+//        insertBookOrder(OrderType::buy, temp_price, amount, total);
     }
+
+    updateBookModels();
+
+/*    for(auto i = 0; i < sellOrderModel.size(); i++)
+        if (m_sellMaxTotal < sellOrderModel.at(i).total)
+            m_sellMaxTotal = sellOrderModel.at(i).total;
+
+    for(auto i = 0; i < buyOrderModel.size(); i++)
+        if (m_buyMaxTotal < buyOrderModel.at(i).total)
+            m_buyMaxTotal = buyOrderModel.at(i).total;
 
     getVariantBookModels();
 
-    updateBookModels();
+    sendCurrentBookModels();*/
 }
 
 void StockDataWorker::setBookModel(const QByteArray &json)
@@ -310,9 +336,7 @@ void StockDataWorker::setBookModel(const QByteArray &json)
     if (!doc.isArray())
         return;
 
-
-    sellOrderModel.clear();
-    buyOrderModel.clear();
+    allOrders.clear();
 
     QJsonArray netArray = doc.array();
 //        qDebug() << "array.size()" << netArray.size();
@@ -386,14 +410,19 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 //                              << "amount" << amount
 //                              << "total" << total;
 
-                    insertBookOrder(type, price, amount, total);
+
+                    allOrders.append(FullOrderInfo{type, price, amount, total});
+
+//                    insertBookOrder(type, price, amount, total);
                 }
             }
         }
 
     }
 
-    m_sellMaxTotal = 0;
+    updateBookModels();
+
+/*    m_sellMaxTotal = 0;
     m_buyMaxTotal = 0;
 
     for(auto i = 0; i < sellOrderModel.size(); i++)
@@ -409,8 +438,7 @@ void StockDataWorker::setBookModel(const QByteArray &json)
 
     getVariantBookModels();
 
-    updateBookModels();
-
+    sendCurrentBookModels();*/
 }
 
 void StockDataWorker::updateAllModels()
@@ -1108,7 +1136,7 @@ void StockDataWorker::dataAnalysis()
 
 void StockDataWorker::setNewPrice(const QString &price)
 {
-//    qDebug() << "StockDataWorker::setNewPrice" << price;
+    qDebug() << "StockDataWorker::setNewPrice" << price;
 
     if (priceModel.isEmpty())
     {
@@ -1129,6 +1157,8 @@ void StockDataWorker::setNewPrice(const QString &price)
     }
 
     getMinimumMaximum24h();
+
+    checkNewBookRoundPower();
 }
 
 void StockDataWorker::generateNewPrice()
@@ -1144,6 +1174,10 @@ void StockDataWorker::generateNewPrice()
 
     emit currentTokenPriceChanged(m_currentTokenPrice);
     emit previousTokenPriceChanged(m_previousTokenPrice);
+
+    getMinimumMaximum24h();
+
+    checkNewBookRoundPower();
 }
 
 void StockDataWorker::generateNewBookState()
@@ -1187,7 +1221,7 @@ void StockDataWorker::generateNewBookState()
 
     getVariantBookModels();
 
-    updateBookModels();
+    sendCurrentBookModels();
 }
 
 bool StockDataWorker::zoomTime(int step)
@@ -1232,6 +1266,40 @@ void StockDataWorker::shiftTime(double step)
 
     if (m_rightTime < m_beginTime + m_visibleTime*0.5)
         m_rightTime = m_beginTime + m_visibleTime*0.5;
+}
+
+void StockDataWorker::setBookRoundPower(const QString &text)
+{
+    double value = text.toDouble();
+
+//    qDebug() << "StockDataWorker::setBookRoundPower" << text << value
+//             << QString::number(value, 'f', 20);
+
+    double power = 20;
+    double test = pow(10, -power);
+
+//    while (QString::number(test, 'f', 20) != QString::number(value, 'f', 20)
+//           && power > -20)
+    while (test < value
+           && power > -20)
+    {
+        --power;
+        test = pow(10, -power);
+
+//        qDebug() << power << test << QString::number(test, 'f', 20);
+    }
+
+    m_bookRoundPower = power;
+
+    qDebug() << "StockDataWorker::setBookRoundPower"
+             << text << m_bookRoundPower;
+
+    updateBookModels();
+//    if (m_bookRoundPower == power)
+//        return;
+
+//    m_bookRoundPower = power;
+//    emit bookRoundPowerChanged(m_bookRoundPower);
 }
 
 void StockDataWorker::setCandleWidth(qint64 width)
@@ -1306,6 +1374,57 @@ void StockDataWorker::setPreviousTokenPrice(double price)
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
+void StockDataWorker::checkNewBookRoundPower()
+{
+    int tempPower = -10;
+    double tempMask = pow (10, tempPower);
+
+    while (tempMask < m_currentTokenPrice && tempPower < 77)
+    {
+        ++tempPower;
+
+        tempMask = pow (10, tempPower);
+    }
+
+    if (- tempPower + bookRoundPowerDelta != bookRoundPowerMinimum)
+    {
+        bookRoundPowerMinimum = - tempPower + bookRoundPowerDelta;
+
+        m_bookRoundPower = bookRoundPowerMinimum;
+
+        emit setNewBookRoundPowerMinimum(bookRoundPowerMinimum);
+
+        updateBookModels();
+    }
+
+}
+
+void StockDataWorker::updateBookModels()
+{
+    sellOrderModel.clear();
+    buyOrderModel.clear();
+
+    for (FullOrderInfo order : allOrders)
+    {
+        insertBookOrder(order.type, order.price, order.amount, order.total);
+    }
+
+    m_sellMaxTotal = 0;
+    m_buyMaxTotal = 0;
+
+    for(auto i = 0; i < sellOrderModel.size(); i++)
+        if (m_sellMaxTotal < sellOrderModel.at(i).total)
+            m_sellMaxTotal = sellOrderModel.at(i).total;
+
+    for(auto i = 0; i < buyOrderModel.size(); i++)
+        if (m_buyMaxTotal < buyOrderModel.at(i).total)
+            m_buyMaxTotal = buyOrderModel.at(i).total;
+
+    getVariantBookModels();
+
+    sendCurrentBookModels();
+}
+
 void StockDataWorker::insertBookOrder(const OrderType& type, double price, double amount, double total)
 {
 //    qDebug() << "StockDataWorker::insertBookOrder";
@@ -1323,9 +1442,41 @@ void StockDataWorker::insertBookOrder(const OrderType& type, double price, doubl
 //        buyOrderModel.append(OrderInfo{price, amount, total});
 //    }
 
-    price = QString::number(price, 'f', bookRoundPower).toDouble();
+//    price = QString::number(price, 'f', m_bookRoundPower).toDouble();
+    price = roundDoubleValue(price, m_bookRoundPower);
 
-    if (type == OrderType::sell)
+    QVector <OrderInfo>& model =
+            type == OrderType::sell ? sellOrderModel : buyOrderModel;
+
+    int index = 0;
+
+    while (index < model.size())
+    {
+        if (price == model.at(index).price)
+        {
+            model[index].amount += amount;
+            model[index].total = model.at(index).amount *
+                    model.at(index).price;
+
+            break;
+        }
+        else
+        {
+            if ((type == OrderType::sell && price < model.at(index).price)
+                || (type == OrderType::buy && price > model.at(index).price))
+            {
+                model.insert(index, OrderInfo{price, amount, total});
+                break;
+            }
+        }
+
+        ++index;
+    }
+
+    if (index == model.size())
+        model.append(OrderInfo{price, amount, total});
+
+/*    if (type == OrderType::sell)
     {
         int index = 0;
 
@@ -1382,7 +1533,7 @@ void StockDataWorker::insertBookOrder(const OrderType& type, double price, doubl
 
         if (index == buyOrderModel.size())
             buyOrderModel.append(OrderInfo{price, amount, total});
-    }
+    }*/
 
 }
 
@@ -1409,7 +1560,7 @@ void StockDataWorker::getVariantBookModels()
         buyModel << QVariant::fromValue(buyOrderModel.at(i));
 }
 
-void StockDataWorker::updateBookModels()
+void StockDataWorker::sendCurrentBookModels()
 {
     emit sellMaxTotalChanged(m_sellMaxTotal);
     emit buyMaxTotalChanged(m_buyMaxTotal);
