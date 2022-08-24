@@ -54,7 +54,7 @@ QVariantList CommandCmdController::getTreeWords(QString value)
 
     while(!rcvDataBuffer)
     {
-        if(QDateTime::currentMSecsSinceEpoch() - savedTime >= 50)
+        if(QDateTime::currentMSecsSinceEpoch() - savedTime >= 30)
             break;
         QCoreApplication::processEvents(QEventLoop::AllEvents);
     }
