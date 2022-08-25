@@ -10,7 +10,7 @@ unix: !mac : !android {
     share_target.path = /opt/cellframe-dashboard/share/
     node_share_target.files = cellframe-node/dist/share/* cellframe-node/dist.linux/share/*
     node_share_target.path = /opt/cellframe-node/share/
-    node_network_target.files = cellframe-node/dist/etc/*
+    node_network_target.files = cellframe-node/dist.linux/etc/*
     node_network_target.path = /opt/cellframe-node/etc/
     node_bin_target.files = cellframe-node/build/cellframe-node
     node_bin_target.path = /opt/cellframe-node/bin/
