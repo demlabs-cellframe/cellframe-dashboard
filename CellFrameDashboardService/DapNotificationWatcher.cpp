@@ -66,7 +66,7 @@ DapNotificationWatcher::DapNotificationWatcher(QObject *parent)
         connect(socket, &QTcpSocket::readyRead, this, &DapNotificationWatcher::socketReadyRead);
 
         ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
-        ((QTcpSocket*)socket)->waitForConnected(10000);
+        ((QTcpSocket*)socket)->waitForConnected(2000);
     }
 }
 
@@ -79,7 +79,7 @@ void DapNotificationWatcher::slotError()
 void DapNotificationWatcher::slotReconnect()
 {
     ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
-    ((QTcpSocket*)socket)->waitForConnected(3000);
+    ((QTcpSocket*)socket)->waitForConnected(2000);
 
     sendNotifyState("Notify socket error");
 
@@ -98,7 +98,7 @@ void DapNotificationWatcher::socketConnected()
 {
     qInfo() << "Notify socket connected";
     m_reconnectTimer->stop();
-    socket->waitForReadyRead(10000);
+    socket->waitForReadyRead(2000);
     sendNotifyState("Notify socket connected");
 }
 
