@@ -48,7 +48,7 @@ private:
     QJsonDocument createCertificate(QString type, QString name);
 
     QJsonDocument stakeLockTake(QString walletName, QString net, QString hash);
-    QJsonDocument stakeLockHold(QString tokenName, QString cert, QString walletName,  QString time_staking,  QString net, QString coins, QString reinvest);
+    QJsonDocument stakeLockHold(QString tokenName, QString walletName,  QString time_staking,  QString net, QString coins, QString reinvest, QString baseFlag);
 
 
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonObject data);

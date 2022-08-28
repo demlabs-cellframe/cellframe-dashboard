@@ -90,7 +90,7 @@ DapWebControll::DapWebControll(QObject *parent)
 
 //    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
 
-//    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", date, "subzero", "10000");
+//    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", "220901", "subzero", "10000", "1", "");
 //    qDebug()<<"";
 }
 
@@ -190,7 +190,7 @@ void DapWebControll::onClientSocketReadyRead()
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
           QString name, net, addr, value, tokenName, id, hashTx, certType,
-                  certName, timeStaking, reinvest;
+                  certName, timeStaking, reinvest, stakeNoBaseFlag = "";
 
           while(matchIt.hasNext())
           {
@@ -217,6 +217,8 @@ void DapWebControll::onClientSocketReadyRead()
                   certType = match.captured(2);
               else if(match.captured(1) == "reinvest")
                   reinvest = match.captured(2);
+              else if(match.captured(1) == "-no_base_tx")
+                  stakeNoBaseFlag = "-no_base_tx";
           }
           if(!s_id.isEmpty() && s_id.filter(id).length()){
               if(cmd == "GetWallets")
@@ -240,7 +242,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(cmd == "StakeLockTake")
                   doc = stakeLockTake(name, net, hashTx);
               else if(cmd == "StakeLockHold")
-                  doc = stakeLockHold(tokenName, certName, name, timeStaking, net, value, reinvest);
+                  doc = stakeLockHold(tokenName, name, timeStaking, net, value, reinvest, stakeNoBaseFlag);
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
