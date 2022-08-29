@@ -17,6 +17,7 @@ constexpr double minAverageStep {0.5};
 
 constexpr int numberAverageCharts {3};
 
+constexpr int commonRoundPowerDelta {9};
 constexpr int bookRoundPowerDelta {8};
 
 double roundDoubleValue(double value, int round)
@@ -1146,6 +1147,7 @@ void StockDataWorker::setNewPrice(const QString &price)
     {
         m_previousTokenPrice = m_currentTokenPrice;
         m_currentTokenPrice = price.toDouble();
+        m_currentTokenPriceText = price;
 
         qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
         PriceInfo info{currentTime, m_currentTokenPrice};
@@ -1154,11 +1156,12 @@ void StockDataWorker::setNewPrice(const QString &price)
 
         emit currentTokenPriceChanged(m_currentTokenPrice);
         emit previousTokenPriceChanged(m_previousTokenPrice);
+        emit currentTokenPriceTextChanged(m_currentTokenPriceText);
     }
 
     getMinimumMaximum24h();
 
-    checkNewBookRoundPower();
+    checkNewRoundPower();
 }
 
 void StockDataWorker::generateNewPrice(double step)
@@ -1166,6 +1169,8 @@ void StockDataWorker::generateNewPrice(double step)
     m_previousTokenPrice = m_currentTokenPrice;
     m_currentTokenPrice +=
         QRandomGenerator::global()->generateDouble()*step - step*0.5;
+    m_currentTokenPriceText = QString::number(m_currentTokenPrice, 'f', 18);
+
 
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
     PriceInfo info{currentTime, m_currentTokenPrice};
@@ -1174,10 +1179,11 @@ void StockDataWorker::generateNewPrice(double step)
 
     emit currentTokenPriceChanged(m_currentTokenPrice);
     emit previousTokenPriceChanged(m_previousTokenPrice);
+    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
 
     getMinimumMaximum24h();
 
-    checkNewBookRoundPower();
+    checkNewRoundPower();
 }
 
 void StockDataWorker::generateNewBookState()
@@ -1374,7 +1380,7 @@ void StockDataWorker::setPreviousTokenPrice(double price)
     emit previousTokenPriceChanged(m_previousTokenPrice);
 }
 
-void StockDataWorker::checkNewBookRoundPower()
+void StockDataWorker::checkNewRoundPower()
 {
     int tempPower = -10;
     double tempMask = pow (10, tempPower);
@@ -1384,6 +1390,21 @@ void StockDataWorker::checkNewBookRoundPower()
         ++tempPower;
 
         tempMask = pow (10, tempPower);
+    }
+
+    if (- tempPower + commonRoundPowerDelta != m_commonRoundPower)
+    {
+        m_commonRoundPower = - tempPower + commonRoundPowerDelta;
+
+        if (m_commonRoundPower > 8)
+            m_commonRoundPower = 8;
+        if (m_commonRoundPower < 0)
+            m_commonRoundPower = 0;
+
+        qDebug() << "StockDataWorker::checkNewBookRoundPower"
+                 << "m_commonRoundPower" << m_commonRoundPower;
+
+        emit commonRoundPowerChanged(m_commonRoundPower);
     }
 
     if (- tempPower + bookRoundPowerDelta != bookRoundPowerMinimum)

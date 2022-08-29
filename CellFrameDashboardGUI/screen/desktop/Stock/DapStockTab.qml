@@ -11,7 +11,7 @@ DapPage
 {
     id: stockTab
 
-    property int roundPower: 6
+    property int roundPower: stockDataWorker.commonRoundPower
     property bool simulationStock: false
 
     signal fakeWalletChanged() //for top panel
@@ -96,9 +96,13 @@ DapPage
 
         if (simulationStock)
         {
-            stockDataWorker.resetPriceData(123.45678901234, false)
+//            var firstPrice = 1234.45678901234
+            var firstPrice = 1234567890.45678901234
+//            var firstPrice = 0.00145678901234
 
-            stockDataWorker.generateBookModel(123.456789, 30, 0.04)
+            stockDataWorker.resetPriceData(firstPrice, false)
+
+            stockDataWorker.generateBookModel(firstPrice, 30, 0.04)
 
             simulationTimer.start()
 

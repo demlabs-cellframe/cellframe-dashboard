@@ -40,6 +40,7 @@ QtObject
     property int maxStepNumberPrice: 8
     property real roundedStepPrice: 0
     property real roundedMaxPrice: 0
+    property int gridPricePower: 8
 
     readonly property real roundedCoefficient: 1
 
@@ -122,6 +123,8 @@ QtObject
 
     function getRoundedStepPrice()
     {
+        print("getRoundedStepPrice")
+
         var realStep = (stockDataWorker.maxPrice - stockDataWorker.minPrice)/
                 maxStepNumberPrice
 
@@ -129,12 +132,12 @@ QtObject
 //        print("maxY - minY", maxY - minY)
 //        print("realStep", realStep)
 
-        var digit = 0.000000000000000001
+        var digit = 0.00000000000000000001
 
         while (digit*10 < realStep)
             digit *= 10
 
-//        print("digit", digit)
+        print("digit", digit)
 
         roundedStepPrice = digit
 
@@ -149,8 +152,24 @@ QtObject
         roundedMaxPrice = stockDataWorker.maxPrice -
                 stockDataWorker.maxPrice%roundedStepPrice
 
+        var test = 0.00000000000000000001
+        var pow = 20
+
+        while (test < digit)
+        {
+            test *= 10
+            --pow
+        }
+
+        gridPricePower = pow+1
+
+        if (gridPricePower < 0)
+            gridPricePower = 0
+
 //        print("roundedStepPrice", roundedStepPrice,
 //              "roundedMaxPrice", roundedMaxPrice)
+//        print("test", test,
+//              "pow", pow)
 
 //        while (roundedMaxY > minY)
 //        {
@@ -344,7 +363,7 @@ QtObject
             drawHorizontalLineText(ctx,
                 (stockDataWorker.maxPrice - currentY)*coefficientPrice +
                                    chartCandleBegin,
-                outText, gridTextColor)
+                outText, gridTextColor, gridPricePower)
 
 //            print(currentY)
             currentY -= roundedStepPrice
@@ -361,9 +380,7 @@ QtObject
 
         if (priceY > 0 && priceY <= chartFullHeight)
             drawHorizontalLineText(ctx,
-                priceY,
-                outText,
-                priceColor, true)
+                priceY, outText, priceColor, roundPower, true)
 
         if (mouseVisible && mouseY <= chartFullHeight)
         {
@@ -373,9 +390,7 @@ QtObject
                 outText = stockDataWorker.maxPrice
 
             drawHorizontalLineText(ctx,
-                mouseY,
-                outText,
-                "white", true)
+                mouseY, outText, "white", roundPower, true)
         }
     }
 
@@ -633,13 +648,13 @@ QtObject
         ctx.stroke()
     }
 
-    function drawHorizontalLineText(ctx, y, text, color, border = false)
+    function drawHorizontalLineText(ctx, y, text, color, power, border = false)
     {
         ctx.font = "normal "+fontSize+"px "+fontFamilies
 
         if (border)
         {
-            var width = ctx.measureText(text.toFixed(roundPower)).width
+            var width = ctx.measureText(text.toFixed(power)).width
 
             ctx.fillStyle = darkBackgroundColor
             ctx.fillRect(chartWidth, y-10,
@@ -647,7 +662,7 @@ QtObject
         }
 
         ctx.fillStyle = color
-        ctx.fillText(text.toFixed(roundPower), chartWidth + fontIndent, y + fontSize*0.3)
+        ctx.fillText(text.toFixed(power), chartWidth + fontIndent, y + fontSize*0.3)
         ctx.stroke()
     }
 

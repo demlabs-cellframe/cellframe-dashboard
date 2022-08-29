@@ -39,6 +39,7 @@ class StockDataWorker : public QObject
 
     Q_PROPERTY(double currentTokenPrice READ currentTokenPrice WRITE setCurrentTokenPrice NOTIFY currentTokenPriceChanged)
     Q_PROPERTY(double previousTokenPrice READ previousTokenPrice WRITE setPreviousTokenPrice NOTIFY previousTokenPriceChanged)
+    Q_PROPERTY(QString currentTokenPriceText READ currentTokenPriceText NOTIFY currentTokenPriceTextChanged)
 
     Q_PROPERTY(int firstVisibleCandle READ firstVisibleCandle)
     Q_PROPERTY(int lastVisibleCandle READ lastVisibleCandle)
@@ -50,7 +51,8 @@ class StockDataWorker : public QObject
     Q_PROPERTY(double sellMaxTotal READ sellMaxTotal NOTIFY sellMaxTotalChanged)
     Q_PROPERTY(double buyMaxTotal READ buyMaxTotal NOTIFY buyMaxTotalChanged)
 
-    Q_PROPERTY(double bookRoundPower READ bookRoundPower NOTIFY bookRoundPowerChanged)
+    Q_PROPERTY(int commonRoundPower READ commonRoundPower NOTIFY commonRoundPowerChanged)
+    Q_PROPERTY(int bookRoundPower READ bookRoundPower NOTIFY bookRoundPowerChanged)
 
 public:
     explicit StockDataWorker(QObject *parent = nullptr);
@@ -145,6 +147,8 @@ public:
         { return m_currentTokenPrice; }
     double previousTokenPrice() const
         { return m_previousTokenPrice; }
+    QString currentTokenPriceText() const
+        { return m_currentTokenPriceText; }
 
     int firstVisibleCandle() const
         { return m_firstVisibleCandle; }
@@ -163,7 +167,9 @@ public:
     double buyMaxTotal() const
         { return m_buyMaxTotal; }
 
-    double bookRoundPower() const
+    int commonRoundPower() const
+        { return m_commonRoundPower; }
+    int bookRoundPower() const
         { return m_bookRoundPower; }
 
 public slots:
@@ -191,16 +197,18 @@ signals:
 
     void currentTokenPriceChanged(double price);
     void previousTokenPriceChanged(double price);
+    void currentTokenPriceTextChanged(QString price);
 
     void sellMaxTotalChanged(double max);
     void buyMaxTotalChanged(double max);
 
+    void commonRoundPowerChanged(int power);
     void bookRoundPowerChanged(int power);
 
     void setNewBookRoundPowerMinimum(int power);
 
 private:
-    void checkNewBookRoundPower();
+    void checkNewRoundPower();
 
     void updateBookModels();
 
@@ -252,9 +260,12 @@ private:
 
     double m_currentTokenPrice {0.0};
     double m_previousTokenPrice {0.0};
+    QString m_currentTokenPriceText {"0.0"};
 
     int m_firstVisibleCandle {0};
     int m_lastVisibleCandle {0};
+
+    int m_commonRoundPower {8};
 
     int m_bookRoundPower {5};
 

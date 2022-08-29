@@ -256,8 +256,7 @@ Item
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.textColorGreen
                 outSymbols: 15
-                fullNumber: stockDataWorker.currentTokenPrice.
-                    toFixed(18)
+                fullNumber: stockDataWorker.currentTokenPriceText
                 copyButtonVisible: true
 
 /*                onCopyButtonClicked:
