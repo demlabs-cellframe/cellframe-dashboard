@@ -67,6 +67,7 @@ SOURCES += \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
@@ -100,6 +101,7 @@ HEADERS += \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \
@@ -144,7 +146,7 @@ win32: nsis_build {
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca/.) $$shell_path($$DESTDIR/dist/share/ca) &&
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/Resources/icon_win32.ico) $$DESTDIR &&
     copyconfig.commands += $(COPY_DIR) \
