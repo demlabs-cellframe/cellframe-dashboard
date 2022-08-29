@@ -46,109 +46,111 @@ Item
             ColumnLayout
             {
                 anchors.fill: parent
-                anchors.leftMargin: 18 * pt
-                anchors.topMargin: 7 * pt
-                anchors.rightMargin: 20 * pt
-                anchors.bottomMargin: 18 * pt
-                spacing: 12 * pt
+                anchors.leftMargin: 16 * pt
+                anchors.rightMargin: 16 * pt
+                anchors.bottomMargin: 16 * pt
+                spacing: 4
 
-                RowLayout
-                {
+                Item{
                     Layout.fillWidth: true
+                    height: 42
 
-                    spacing: 10 * pt
-
-                    Text {
-                        Layout.fillWidth: true
-                        font: mainFont.dapFont.medium14
-                        color: currTheme.textColor
-
-                        text: qsTr("Current usage")
-                    }
-
-                    Item
+                    RowLayout
                     {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        Layout.minimumWidth: 100 * pt
-                        Layout.maximumHeight: 26 * pt
+                        anchors.fill: parent
+//                        spacing: 10 * pt
 
-                    DapComboBox
-                    {
-                        height: parent.height
-                        width: 100 * pt
-                        x: parent.width - width + 10 * pt
-                        font: mainFont.dapFont.regular16
-                        model: vpnClientTokenModel
-                        comboBoxVpnOrdersController: vpnOrdersController
-                        vpnClientTokens: true
-                        defaultText: "   -"
-                    }
-                }
-                }
+                        Text {
+                            Layout.fillWidth: true
+                            font: mainFont.dapFont.medium14
+                            color: currTheme.textColor
 
-                ListView
-                {
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    model: infoModel
-                    delegate:
-                        RowLayout
-                        {
-                            width: parent.width
-                            height: 26 * pt
-
-                            Text
-                            {
-                                Layout.fillWidth: true
-                                color: currTheme.textColor
-                                font: mainFont.dapFont.regular12
-                                text: name
-                            }
-                            Text
-                            {
-                                Layout.fillWidth: true
-                                horizontalAlignment: Qt.AlignRight
-                                color: currTheme.textColor
-                                font: mainFont.dapFont.regular13
-                                text: value
-                            }
+                            text: qsTr("Current usage")
                         }
 
+                        DapComboBox
+                        {
+                            Layout.minimumWidth: 100
+                            Layout.maximumHeight: 18
+                            Layout.alignment: Qt.AlignRight
+                            font: mainFont.dapFont.regular16
+                            model: vpnClientTokenModel
+                            comboBoxVpnOrdersController: vpnOrdersController
+                            vpnClientTokens: true
+                            defaultText: "   -"
+                        }
+                    }
                 }
 
-                Item
-                {
+                Item{
+                    Layout.fillHeight: true
                     Layout.fillWidth: true
-                    height: 26 * pt
 
-                    DapButton
-                    {
-                        id: topUpButton
-                        height: 26 * pt
-                        width: 135 * pt
-                        horizontalAligmentText: Text.AlignHCenter
-                        fontButton: mainFont.dapFont.regular12
-                        textButton: qsTr("Top up")
+                    ColumnLayout{
+                        anchors.fill: parent
+                        spacing: 12
 
-                        onClicked: topUpClicked()
-                    }
+                        Repeater
+                        {
+                            model: infoModel
 
-                    DapButton
-                    {
-                        id: refundButton
-                        height: 26 * pt
-                        width: 135 * pt
-                        x: parent.width - width
-                        horizontalAligmentText: Text.AlignHCenter
-                        fontButton: mainFont.dapFont.regular12
-                        textButton: qsTr("Refund")
+                            delegate:
+                                RowLayout
+                                {
+                                    Layout.fillWidth: true
+                                    height: 15 * pt
 
-                        onClicked: refoundClicked()
+                                    Text
+                                    {
+                                        Layout.fillWidth: true
+                                        color: currTheme.textColor
+                                        font: mainFont.dapFont.regular12
+                                        text: name
+                                    }
+                                    Text
+                                    {
+                                        Layout.fillWidth: true
+                                        horizontalAlignment: Qt.AlignRight
+                                        color: currTheme.textColor
+                                        font: mainFont.dapFont.regular13
+                                        text: value
+                                    }
+                                }
+                        }
+
+                        RowLayout
+                        {
+                            Layout.fillWidth: true
+                            Layout.topMargin: 4
+//                            Layout.minimumHeight: 26 * pt
+                            spacing: 15
+
+                            DapButton
+                            {
+                                id: topUpButton
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                horizontalAligmentText: Text.AlignHCenter
+                                fontButton: mainFont.dapFont.regular12
+                                textButton: qsTr("Top up")
+
+                                onClicked: topUpClicked()
+                            }
+
+                            DapButton
+                            {
+                                id: refundButton
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                horizontalAligmentText: Text.AlignHCenter
+                                fontButton: mainFont.dapFont.regular12
+                                textButton: qsTr("Refund")
+
+                                onClicked: refoundClicked()
+                            }
+                        }
                     }
                 }
-
             }
     }
 }

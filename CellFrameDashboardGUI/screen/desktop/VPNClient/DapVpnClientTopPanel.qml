@@ -2,20 +2,21 @@ import QtQuick 2.4
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
+import "../controls"
 
 DapTopPanel {
 
     property bool _isReceiptsOpen
 
-    anchors.leftMargin: 4 * pt
-    radius: currTheme.radiusRectangle
-    color: currTheme.backgroundPanel
+//    anchors.leftMargin: 24 * pt
+//    radius: currTheme.radiusRectangle
+//    color: currTheme.backgroundPanel
 
     RowLayout
     {
         anchors.fill: parent
-        anchors.leftMargin: 16 * pt
-        anchors.rightMargin: 30 * pt
+        anchors.leftMargin: 24 * pt
+        anchors.rightMargin: 24 * pt
 
         Text
         {
@@ -28,22 +29,21 @@ DapTopPanel {
         {
             Layout.fillWidth: true
             color: currTheme.textColor
-            font: mainFont.dapFont.medium16
+            font: mainFont.dapFont.regular16
             text: "1d 16h 34m 18s"
         }
 
-        DapButton
+        HeaderButtonForRightPanels
         {
-            width: 22 * pt
+            Layout.alignment: Qt.AlignRight
+
             height: 24 * pt
+            width: 24 * pt
+            heightImage: 24 * pt
+            widthImage: 24 * pt
 
-            activeFrame: false
-            heightImageButton: 24 * pt
-            widthImageButton: 22 * pt
-
-            normalImageButton: _isReceiptsOpen ? "qrc:/screen/desktop/VPNClient/Images/page-hov.png" : "qrc:/screen/desktop/VPNClient/Images/page.png"
-
-            hoverImageButton:  "qrc:/screen/desktop/VPNClient/Images/page-hov.png"
+            normalImage: _isReceiptsOpen ? "qrc:/Resources/" + pathTheme + "/icons/other/receipt_hover.svg" : "qrc:/Resources/" + pathTheme + "/icons/other/receipt_normal.svg"
+            hoverImage:  "qrc:/Resources/" + pathTheme + "/icons/other/receipt_hover.svg"
             onClicked: vpnClientNavigator.openVpnReceipts()
         }
     }

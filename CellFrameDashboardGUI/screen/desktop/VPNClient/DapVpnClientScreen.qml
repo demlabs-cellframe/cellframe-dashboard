@@ -17,13 +17,12 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.leftMargin: 7 * pt
-        spacing: 20 * pt
+        spacing: 24 * pt
 
         Item
         {
             Layout.fillWidth: true
-            height: 60
+            height: 52
 
             Item
             {
@@ -61,7 +60,7 @@ Page {
         RowLayout {
             Layout.fillWidth: true
 
-            spacing: 20 * pt
+            spacing: 24 * pt
 
             CurrentUsagePanel
             {
@@ -76,7 +75,6 @@ Page {
                 {
                     vpnClientNavigator.openRefoundItem()
                 }
-
             }
 
             StatisticsPanel
