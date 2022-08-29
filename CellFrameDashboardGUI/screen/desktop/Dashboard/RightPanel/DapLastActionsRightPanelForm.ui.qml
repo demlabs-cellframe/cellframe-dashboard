@@ -65,7 +65,7 @@ Page
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.rightMargin: 20 * pt
+                    anchors.rightMargin: 16 * pt
                     anchors.leftMargin: 16 * pt
 
                     ColumnLayout
@@ -105,14 +105,14 @@ Page
                     }
                     Image
                     {
-                        Layout.preferredHeight: 30
-                        Layout.preferredWidth: 30
+                        Layout.preferredHeight: 20
+                        Layout.preferredWidth: 20
     //                    innerWidth: 20
     //                    innerHeight: 20
 
                         visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
 
-                        source: mouseArea.containsMouse? "qrc:/resources/icons/icon_export_hover.png" : "qrc:/resources/icons/icon_export.png"
+                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
 
                         MouseArea
                         {

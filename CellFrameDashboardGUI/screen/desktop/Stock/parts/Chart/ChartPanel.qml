@@ -13,7 +13,13 @@ Item
 
     property alias candleLogic: chartItem.candleLogic
 
-    property real volume24h: 923673750.32
+    property real volume24h: 0.0
+
+    Component.onCompleted:
+    {
+        print("stockDataWorker.maximum24h", stockDataWorker.maximum24h)
+        print("stockDataWorker.currentTokenPrice", stockDataWorker.currentTokenPrice)
+    }
 
     ColumnLayout
     {
@@ -28,20 +34,71 @@ Item
 
             DapPairComboBox
             {
+                property bool isInit: false
+                property var globalIndex
                 id: pairBox
                 Layout.minimumWidth: 190
                 height: 32
+
+                onInitModelIsCompleted: {
+                    isInit = true
+                    currentIndex = logicMainApp.currentIndexPair
+                    globalIndex = currentIndex
+                    displayElement = dapPairModel.get(globalIndex)
+                    updateInfo(globalIndex)
+                }
+
                 Component.onCompleted:
                 {
-                    logicStock.initPairModel()
-                    logic.setModel(pairModel)
-//                    print("pairModel.count", pairModel.count)
+                    logic.setModel(dapPairModel)
+
                 }
                 onCurrentIndexChanged: {
-                    logicStock.indexPair = currentIndex
-                    logicStock.nameTokenPair = pairModel.get(currentIndex).pair.split("/")[1]
-                    logicStock.tokenPrice = pairModel.get(currentIndex).price
-                    logicStock.tokenChange = pairModel.get(currentIndex).change
+
+                    if(isInit)
+                    {
+                        for(var i = 0; i < dapPairModel.count; i++)
+                        {
+                            if(dapPairModel.get(i).token1 === pairBox.displayElement.token1 &&
+                               dapPairModel.get(i).token2 === pairBox.displayElement.token2)
+                            {
+                                globalIndex = i
+                            }
+                        }
+
+                        if(globalIndex !== -1)
+                            updateInfo(globalIndex)
+                    }
+                }
+
+                function updateInfo(currentIndex)
+                {
+                    logicMainApp.currentIndexPair = currentIndex
+                    logicMainApp.token1Name = dapPairModel.get(currentIndex).token1
+                    logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
+                    logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
+                    logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
+                    logicStock.tokenChange = dapPairModel.get(currentIndex).change
+
+                    stockDataWorker.setTokenPair(logicMainApp.token1Name,
+                        logicMainApp.token2Name, logicMainApp.tokenNetwork)
+
+                    tokenPairChanged()
+                }
+
+                Connections
+                {
+                    target: dapMainWindow
+                    onModelPairsUpdated:
+                    {
+                        if(!pairBox.count)
+                            pairBox.logic.setModel(dapPairModel)
+                        else
+                        {
+                            pairBox.currentIndex = logicMainApp.currentIndexPair
+                            displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                        }
+                    }
                 }
             }
 
@@ -61,7 +118,7 @@ Item
                     id: max24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: stockDataWorker.maximum24h.toFixed(6)
+                    text: stockDataWorker.maximum24h.toFixed(roundPower)
                 }
             }
 
@@ -83,13 +140,14 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: stockDataWorker.minimum24h.toFixed(6)
+                    text: stockDataWorker.minimum24h.toFixed(roundPower)
                 }
             }
 
             ColumnLayout
             {
                 height: 35
+                visible: false
 
                 Text
                 {
@@ -104,7 +162,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: volume24h.toFixed(2) + " " + logicStock.nameTokenPair
+                    text: volume24h.toFixed(2) + " " + logicMainApp.token1Name
                 }
             }
 
@@ -178,7 +236,7 @@ Item
             {
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColor
-                text: pairBox.displayElement.pair + ":"
+                text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
             }
 
             Text
@@ -210,23 +268,27 @@ Item
                 textHigh.text = highValue.toFixed(roundPower)
                 textLow.text = lowValue.toFixed(roundPower)
                 textClose.text = closeValue.toFixed(roundPower)
-                textChange.text = (closeValue/openValue*100 - 100).toFixed(3) + "%"
 
-                if (openValue < closeValue)
-                {
-                    textOpen.textColor = currTheme.textColorGreen
-                    textHigh.textColor = currTheme.textColorGreen
-                    textLow.textColor = currTheme.textColorGreen
-                    textClose.textColor = currTheme.textColorGreen
-                    textChange.textColor = currTheme.textColorGreen
-                }
+                if (openValue > 0.0000000000000000001)
+                    textChange.text = (closeValue/openValue*100 - 100).toFixed(4) + "%"
                 else
+                    textChange.text = "0%"
+
+                if (openValue > closeValue)
                 {
                     textOpen.textColor = currTheme.textColorRed
                     textHigh.textColor = currTheme.textColorRed
                     textLow.textColor = currTheme.textColorRed
                     textClose.textColor = currTheme.textColorRed
                     textChange.textColor = currTheme.textColorRed
+                }
+                else
+                {
+                    textOpen.textColor = currTheme.textColorGreen
+                    textHigh.textColor = currTheme.textColorGreen
+                    textLow.textColor = currTheme.textColorGreen
+                    textClose.textColor = currTheme.textColorGreen
+                    textChange.textColor = currTheme.textColorGreen
                 }
             }
         }
@@ -322,14 +384,27 @@ Item
         }
     }
 
+    Connections
+    {
+        target: stockTab
+
+        onTokenPriceChanged:
+        {
+            updateTokenPrice()
+
+            stockDataWorker.updateAllModels()
+
+            candleLogic.dataAnalysis()
+
+            chartItem.chartCanvas.requestPaint()
+
+//            volume24h += Math.random()*10
+        }
+    }
+
+
     function updateTokenPrice()
     {
-        logicStock.tokenPriceRounded =
-                stockDataWorker.currentTokenPrice.toFixed(roundPower)
-
-        logicStock.tokenPrice = stockDataWorker.currentTokenPrice
-        logicStock.tokenPrevPrice = stockDataWorker.previousTokenPrice
-
         if (stockDataWorker.currentTokenPrice < stockDataWorker.previousTokenPrice)
             tokenPriceText.color = currTheme.textColorRed
         else

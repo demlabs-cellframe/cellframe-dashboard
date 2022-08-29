@@ -266,7 +266,7 @@ Controls.Page {
 
         onClicked:{
 
-            var supply = detailsModel.get(0).current_supply_with_dot
+            var supply = dapMath.balanceToCoins(detailsModel.get(0).current_supply)
 
             if (textInputAmount.text === "" ||
                 logicTokens.testAmount("0.0", textInputAmount.text))

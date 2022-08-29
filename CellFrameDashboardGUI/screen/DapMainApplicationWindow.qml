@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
+import VPNOrdersController 1.0
 
 import "qrc:/screen"
 import "qrc:/widgets"
@@ -42,6 +43,8 @@ Rectangle {
     readonly property string dAppsScreen: path + "/dApps/DapAppsTab.qml"
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
+
+    property var vpnClientTokenModel: new Array()
 
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
@@ -92,8 +95,17 @@ Rectangle {
     signal modelPluginsUpdated()
     signal modelTokensUpdated()
     signal modelXchangeOrdersUpdated()
+    signal modelPairsUpdated()
+    signal modelTokenPriceHistoryUpdated()
     signal checkWebRequest()
     signal openRequests()
+
+    VPNOrdersController
+    {
+        id: vpnOrdersController
+    }
+
+
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -107,8 +119,9 @@ Rectangle {
     ListModel{id: dapModelTokens}
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
-    ListModel{id: pairsModel}
     ListModel{id: dapModelXchangeOrders}
+    ListModel{id: dapPairModel}
+    ListModel{id: dapTokenPriceHistory}
 
     ListModel{id: fakeWallet}
 
@@ -156,8 +169,8 @@ Rectangle {
             bttnIco: "icon_wallet.png",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
-        append ({ tag: "Stock",
-            name: qsTr("Stock"),
+        append ({ tag: "DEX",
+            name: qsTr("DEX"),
             bttnIco: "icon_exchange.png",
             showTab: true,
             page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
@@ -180,6 +193,7 @@ Rectangle {
             name: qsTr("VPN client"),
             bttnIco: "vpn-client_icon.png",
             showTab: true,
+//            page: "qrc:/screen/desktop/VPNClient/DapVpnClientTab.qml"})
             page: "qrc:/screen/desktop/UnderConstructions.qml"})
         append ({ tag: "VPN service",
             name: qsTr("VPN service"),
@@ -395,20 +409,16 @@ Rectangle {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         dapServiceController.requestToService("DapVersionController", "version")
 
-        var timeTo = 10
-        var timeFrom = 20
-        var addr = "abcd"
-        var net = "private"
+//        var timeTo = 10
+//        var timeFrom = 20
+//        var addr = "abcd"
+//        var net = "private"
 
+        stockDataWorker.resetPriceData(0.0, true)
+        stockDataWorker.resetBookModel()
 //        //-------//OrdersHistory
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetClosedOrdersPrivate", net, addr, "", "")
-
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", timeFrom, timeTo)
-//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOpenOrders", net, "", "", "")
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
+//        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
 
 //        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "", net, "", "", "")
@@ -425,12 +435,10 @@ Rectangle {
         //-------//TokenPair
 //        dapServiceController.requestToService("DapGetXchangeTokenPair", "subzero", "full_info")
 //        dapServiceController.requestToService("DapGetXchangeTokenPriceAverage", "subzero", "NCELL", "MILT")
-//        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory", "subzero", "NCELL", "MILT")
 
 
 
         pluginsManager.getListPlugins();
-        logicMainApp.initFakeWallet()
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
@@ -471,6 +479,20 @@ Rectangle {
             modelWalletsUpdated();
         }
 
+        onCurrentNetworkChanged:
+                {
+                    for(var x = 0; x < dapModelWallets.count; x++)
+                    {
+                        if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                            for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
+                            {
+                                if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
+                                    vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
+                            }
+                    }
+                }
+
+
         onWalletReceived:
         {
             print("onWalletReceived")
@@ -504,13 +526,14 @@ Rectangle {
 
         onSignalXchangeOrderListReceived:
         {
-            print("RcvXchangeOrderList")
+            print("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        onRcvXchangeTokenPair:
+        onSignalXchangeTokenPairReceived:
         {
-//            print("onRcvXchangeTokenPair", rcvData)
+            print("onSignalXchangeTokenPairReceived")
+            logicMainApp.rcvPairsModel(rcvData)
         }
 
         onRcvXchangeTokenPriceAverage:
@@ -521,8 +544,8 @@ Rectangle {
 
         onRcvXchangeTokenPriceHistory:
         {
-//            print("onRcvXchangeTokenPriceHistory", rcvData.result)
-
+            print("onRcvXchangeTokenPriceHistory")
+            logicMainApp.rcvTokenPriceHistory(rcvData)
         }
 
     }

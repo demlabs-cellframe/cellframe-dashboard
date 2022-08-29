@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.4
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
@@ -11,8 +12,8 @@ ColumnLayout {
 
     Component.onCompleted:
     {
-        stop.setRealValue(logicStock.tokenPrice)
-        limit.setRealValue(logicStock.tokenPrice)
+        stop.textValue = logicMainApp.tokenPrice
+        limit.textValue = logicMainApp.tokenPrice
     }
 
     Rectangle
@@ -43,8 +44,8 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: tokenName
-        textValue: "0.0"
+        textToken: logicStock.unselectedTokenNameWallet
+        textValue: logicMainApp.tokenPrice
     }
 
     Rectangle
@@ -95,8 +96,8 @@ ColumnLayout {
             Layout.minimumWidth: 215
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-            textToken: tokenName
-            textValue: "0.0"
+            textToken: logicStock.unselectedTokenNameWallet
+            textValue: logicMainApp.tokenPrice
         }
 
         Rectangle
@@ -152,7 +153,7 @@ ColumnLayout {
         Layout.rightMargin: 16
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
-        textToken: "CELL"
+        textToken: logicStock.selectedTokenNameWallet
         textValue: "0.0"
         onEdited:
         {
@@ -188,7 +189,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.25)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.25)
             }
         }
 
@@ -210,7 +211,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.5)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.5)
             }
         }
 
@@ -232,7 +233,7 @@ ColumnLayout {
                 button100.selected = false
 
                 amount.setRealValue(
-                    (logicStock.balanceReal / logicStock.tokenPrice)*0.75)
+                    (logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)*0.75)
             }
         }
 
@@ -254,13 +255,14 @@ ColumnLayout {
                 button100.selected = true
 
                 amount.setRealValue(
-                    logicStock.balanceReal / logicStock.tokenPrice)
+                    logicStock.selectedTokenBalanceWallet / logicMainApp.tokenPrice)
             }
         }
     }
 
     DapButton
     {
+        enabled: false
         Layout.alignment: Qt.AlignCenter
         Layout.topMargin: 22
         implicitHeight: 36
@@ -272,20 +274,18 @@ ColumnLayout {
 
         onClicked:
         {
-            var date = new Date()
+//            var date = new Date()
 
-            logicStock.addNewOrder(
-                date.toLocaleString(Qt.locale("en_EN"),
-                "yyyy-MM-dd hh:mm"),
-                "CELL/"+logicStock.nameTokenPair,
-                currentOrder,
-                sellBuySwitch.checked? "Sell": "Buy",
-                limit.realValue,
-                amount.realValue,
-                expiresModel.get(expiresComboBox.currentIndex).name,
-                sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
-
-            createOrder()
+//            logicStock.addNewOrder(
+//                date.toLocaleString(Qt.locale("en_EN"),
+//                "yyyy-MM-dd hh:mm"),
+//                "CELL/"+logicStock.nameTokenPair,
+//                currentOrder,
+//                sellBuySwitch.checked? "Sell": "Buy",
+//                limit.realValue,
+//                amount.realValue,
+//                expiresModel.get(expiresComboBox.currentIndex).name,
+//                sellBuySwitch.checked? "<=" + stop.textValue :">=" + stop.textValue)
         }
     }
 

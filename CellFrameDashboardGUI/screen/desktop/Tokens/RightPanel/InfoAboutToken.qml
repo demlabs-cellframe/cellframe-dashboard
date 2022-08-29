@@ -2,9 +2,10 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.12
+import "../../controls"
 import "qrc:/widgets"
 import "../parts"
-import "../../controls"
+
 
 Page {
     id: root
@@ -107,12 +108,12 @@ Page {
                 }
                 DetailsText {
                     title.text: "Current supply"
-                    content.text: detailsModel.get(0).current_supply_with_dot
+                    content.text: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Total supply"
-                    content.text: detailsModel.get(0).total_supply_with_dot
+                    content.text: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {

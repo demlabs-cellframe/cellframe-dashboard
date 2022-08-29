@@ -57,6 +57,7 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     Autocomplete/commandcmdcontroller.cpp \
     DapApplication.cpp \
+    DapMath.cpp \
     ImportCertificate/ImportCertificate.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
@@ -66,6 +67,7 @@ SOURCES += \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
@@ -87,6 +89,7 @@ HEADERS += \
     $$PWD/DapServiceController.h \
     Autocomplete/commandcmdcontroller.h \
     DapApplication.h \
+    DapMath.h \
     ImportCertificate/ImportCertificate.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
@@ -98,6 +101,7 @@ HEADERS += \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \
@@ -111,6 +115,7 @@ include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
+include (../cellframe-node/cellframe-sdk/modules/common/common.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
@@ -141,7 +146,7 @@ win32: nsis_build {
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca/.) $$shell_path($$DESTDIR/dist/share/ca) &&
     copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist.linux/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
+        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
     copyconfig.commands += $(COPY_DIR) \
         $$shell_path($$_PRO_FILE_PWD_/Resources/icon_win32.ico) $$DESTDIR &&
     copyconfig.commands += $(COPY_DIR) \

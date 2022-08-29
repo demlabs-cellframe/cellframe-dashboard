@@ -44,34 +44,34 @@ DapWebControll::DapWebControll(QObject *parent)
 
 
 
-    QJsonObject obj3;
-    obj3.insert("type", "in");
-    obj3.insert("prev_hash", "0xB5A01C52D6AFAFD4860172F4057A9BDF5E7AAB5A5AD9BE574EA919DB27EFBC0B");
-    obj3.insert("out_prev_idx", "2");
+//    QJsonObject obj3;
+//    obj3.insert("type", "in");
+//    obj3.insert("prev_hash", "0xB5A01C52D6AFAFD4860172F4057A9BDF5E7AAB5A5AD9BE574EA919DB27EFBC0B");
+//    obj3.insert("out_prev_idx", "2");
 
-    QJsonObject obj4;
-    obj4.insert("type", "out");
-    obj4.insert("value", "12345");
-    obj4.insert("addr", "RpiDC8c1SxrTF3aSu2VL4Pwu8beWMY8ur71TeiR6ViBdnvMQCKudoWkvT8BGFN2ycKnHSaGm5WrNccex2qiZjA4PoEicUmWJNvRQQJYN");
+//    QJsonObject obj4;
+//    obj4.insert("type", "out");
+//    obj4.insert("value", "12345");
+//    obj4.insert("addr", "RpiDC8c1SxrTF3aSu2VL4Pwu8beWMY8ur71TeiR6ViBdnvMQCKudoWkvT8BGFN2ycKnHSaGm5WrNccex2qiZjA4PoEicUmWJNvRQQJYN");
 
-    QJsonObject obj2;
-    obj2.insert("type", "sign");
-    obj2.insert("wallet", "tokenWallet");
-
-
-    QJsonArray arr;
-    arr.push_back(obj3);
-    arr.push_back(obj4);
-    arr.push_back(obj2);
-
-    QJsonObject obj;
-    obj.insert("net", "mileena");
-    obj.insert("chain", "main");
-    obj.insert("items", arr);
+//    QJsonObject obj2;
+//    obj2.insert("type", "sign");
+//    obj2.insert("wallet", "tokenWallet");
 
 
+//    QJsonArray arr;
+//    arr.push_back(obj3);
+//    arr.push_back(obj4);
+//    arr.push_back(obj2);
 
-    QJsonDocument doc(obj);
+//    QJsonObject obj;
+//    obj.insert("net", "mileena");
+//    obj.insert("chain", "main");
+//    obj.insert("items", arr);
+
+
+
+//    QJsonDocument doc(obj);
 
 //    sendJsonTransaction(doc);
 
@@ -81,6 +81,17 @@ DapWebControll::DapWebControll(QObject *parent)
 //    getDataWallets("tokenWallet"); //OK
 //    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL", "mileena"); //OK
 //    getTransactions("tokenWallet", "mileena"); //OK
+
+//    QJsonDocument doc = createCertificate("sig_dil", "testCert");
+//    doc = getCertificates(); // OK
+
+//    QJsonDocument doc = getLedgetTxListAll("subzero");
+//    doc = getCertificates(); // OK
+
+//    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
+
+//    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", "220901", "subzero", "10000", "1", "");
+//    qDebug()<<"";
 }
 
 QString DapWebControll::getRandomString()
@@ -132,6 +143,25 @@ void DapWebControll::onClientSocketReadyRead()
 
   QByteArray encodedString = s_tcpSocketList[idUser]->readAll();
   QString req = QUrl::fromPercentEncoding(encodedString);
+
+  if(req.contains("OPTIONS") || req.contains("Access-Control-Request-Method") || req.contains("Access-Control-Request-Private-Network"))
+  {
+      qDebug()<<"Preflight web request";
+
+      QTextStream answer(s_tcpSocketList[idUser]);
+      answer.setAutoDetectUnicode(true);
+      answer
+        <<"HTTP/1.1 204 No Content\r\n"
+        <<"Connection: keep-alive\r\n"
+        <<"Access-Control-Allow-Origin: *\r\n"
+        <<"Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE\r\n"
+        <<"\r\n";
+      s_tcpSocketList[idUser]->flush();
+      s_tcpSocketList[idUser]->close();
+      s_tcpSocketList.remove(s_tcpSocketList[idUser]->socketDescriptor());
+      return;
+  }
+
   QStringList list = req.split("\n", QString::SkipEmptyParts);
   QRegularExpression regex(R"(method=([a-zA-Z]+))");
   QRegularExpressionMatch match = regex.match(list.at(0));
@@ -159,7 +189,8 @@ void DapWebControll::onClientSocketReadyRead()
 
           QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
-          QString name, net, addr, value, tokenName, id;
+          QString name, net, addr, value, tokenName, id, hashTx, certType,
+                  certName, timeStaking, reinvest, stakeNoBaseFlag = "";
 
           while(matchIt.hasNext())
           {
@@ -176,8 +207,20 @@ void DapWebControll::onClientSocketReadyRead()
                   value = match.captured(2);
               else if(match.captured(1) == "net")
                   net = match.captured(2);
+              else if(match.captured(1) == "hashTx")
+                  hashTx = match.captured(2);
+              else if(match.captured(1) == "certName")
+                  certName = match.captured(2);
+              else if(match.captured(1) == "timeStaking")
+                  timeStaking = match.captured(2);
+              else if(match.captured(1) == "certType")
+                  certType = match.captured(2);
+              else if(match.captured(1) == "reinvest")
+                  reinvest = match.captured(2);
+              else if(match.captured(1) == "-no_base_tx")
+                  stakeNoBaseFlag = "-no_base_tx";
           }
-          if(s_id.filter(id).length()){
+          if(!s_id.isEmpty() && s_id.filter(id).length()){
               if(cmd == "GetWallets")
                   doc = getWallets();
               else if(cmd == "GetNetworks")
@@ -188,6 +231,18 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = sendTransaction(name, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
+              else if(cmd == "GetLedgerTxHash")
+                  doc = getLedgetTxHash(hashTx, net);
+              else if(cmd == "GetLedgerTxListAll")
+                  doc = getLedgetTxListAll(net);
+              else if(cmd == "GetCertificates")
+                  doc = getCertificates();
+              else if(cmd == "CreateCertificate")
+                  doc = createCertificate(certType, certName);
+              else if(cmd == "StakeLockTake")
+                  doc = stakeLockTake(name, net, hashTx);
+              else if(cmd == "StakeLockHold")
+                  doc = stakeLockHold(tokenName, name, timeStaking, net, value, reinvest, stakeNoBaseFlag);
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)

@@ -26,7 +26,12 @@ QtObject {
 
     property int requestsMessageCounter: 0
     property bool isOpenRequests: false
+    property int currentIndexPair: -1
 
+    property string token1Name: ""
+    property string token2Name: ""
+    property string tokenNetwork: ""
+    property real tokenPrice
 
     ///Functions
 
@@ -204,8 +209,10 @@ QtObject {
                 dapNetworkModel.clear()
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
+
+                console.info("Current network: "+dapServiceController.CurrentNetwork)
             }
-            console.info("Current network: "+dapServiceController.CurrentNetwork)
+
         }
     }
 
@@ -244,7 +251,7 @@ QtObject {
                         dapModelWallets.get(i).networks.get(n).tokens.append(
                              {"name": walletList[i].Tokens[t].Name,
                               "full_balance": walletList[i].Tokens[t].FullBalance,
-                              "balance_without_zeros": walletList[i].Tokens[t].BalanceWithoutZeros,
+                              "balance_without_zeros": dapMath.balanceToCoins(walletList[i].Tokens[t].Datoshi),
                               "datoshi": walletList[i].Tokens[t].Datoshi,
                               "network": walletList[i].Tokens[t].Network})
                     }
@@ -315,7 +322,7 @@ QtObject {
                             dapModelWallets.get(i).networks.get(n).tokens.append(
                                  {"name": wallet.Tokens[t].Name,
                                   "full_balance": wallet.Tokens[t].FullBalance,
-                                  "balance_without_zeros": wallet.Tokens[t].BalanceWithoutZeros,
+                                  "balance_without_zeros": dapMath.balanceToCoins(wallet.Tokens[t].Datoshi),
                                   "datoshi": wallet.Tokens[t].Datoshi,
                                   "network": wallet.Tokens[t].Network})
                         }
@@ -367,10 +374,132 @@ QtObject {
     {
         if(rcvData !== "isEqual")
         {
+            stockDataWorker.setBookModel(rcvData)
+
             var jsonDocument = JSON.parse(rcvData)
             dapModelXchangeOrders.clear()
             dapModelXchangeOrders.append(jsonDocument)
             modelXchangeOrdersUpdated()
+/*            print("rcvOpenOrders", dapModelXchangeOrders.count)
+
+            for(var i = 0; i < dapModelXchangeOrders.count; i++)
+            {
+                console.log(dapModelXchangeOrders.get(i).network,
+                            dapModelXchangeOrders.get(i).orders.count)
+
+                for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
+                {
+                    var orderNet = dapModelXchangeOrders.get(i).network
+                    var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
+                    var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
+                    var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
+                    var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
+                    var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
+                    var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
+
+                    console.log(orderBuy,
+                                orderSell,
+                                orderPrice,
+                                orderSellAmount,
+                                orderBuyAmount)
+                }
+            }*/
+
+        }
+    }
+
+    function rcvPairsModel(rcvData)
+    {
+        if(rcvData !== "isEqual")
+        {
+            var jsonDocument = JSON.parse(rcvData)
+
+
+            if(dapPairModel.count > 0)
+            {
+                token1Name = dapPairModel.get(currentIndexPair).token1
+                token2Name = dapPairModel.get(currentIndexPair).token2
+                tokenNetwork = dapPairModel.get(currentIndexPair).network
+
+                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+
+                for(var i = 0; i < dapPairModel.count; i++)
+                {
+                    var token1New = dapPairModel.get(i).token1
+                    var token2New = dapPairModel.get(i).token2
+                    var networkNew = dapPairModel.get(i).network
+
+                    if (token1Name === token1New &&
+                        token2Name === token2New &&
+                        tokenNetwork === networkNew)
+                    {
+                        currentIndexPair = i
+                        modelPairsUpdated()
+                        return
+                    }
+                }
+            }
+            else
+            {
+                dapPairModel.clear()
+                dapPairModel.append(jsonDocument)
+                currentIndexPair = 0
+
+                if(dapPairModel.count > 0)
+                {
+                    token1Name = dapPairModel.get(currentIndexPair).token1
+                    token2Name = dapPairModel.get(currentIndexPair).token2
+                    tokenNetwork = dapPairModel.get(currentIndexPair).network
+                }
+                else
+                {
+                    token1Name = ""
+                    token2Name = ""
+                    tokenNetwork = ""
+                }
+
+                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+
+                modelPairsUpdated()
+            }
+        }
+    }
+
+    function rcvTokenPriceHistory(rcvData)
+    {
+        if(rcvData !== "")
+        {
+            stockDataWorker.setTokenPriceHistory(rcvData)
+
+            var jsonDocument = JSON.parse(rcvData)
+
+//            print("rcvData", rcvData)
+            dapTokenPriceHistory.clear()
+            dapTokenPriceHistory.append(jsonDocument.history)
+
+/*            var jsonDocument = JSON.parse(rcvData)
+
+            print("rcvData", rcvData)
+            dapTokenPriceHistory.clear()
+            dapTokenPriceHistory.append(jsonDocument.history)
+//            modelTokenPriceHistoryUpdated()
+
+
+            print("dapTokenPriceHistory");
+            print(jsonDocument.network,
+                  jsonDocument.token1,
+                  jsonDocument.token2)
+
+            print(dapTokenPriceHistory.count)
+
+            for(var i = 0; i < dapTokenPriceHistory.count; i++)
+            {
+                console.log(dapTokenPriceHistory.get(i).date,
+                            dapTokenPriceHistory.get(i).rate)
+            }*/
         }
     }
 
@@ -513,26 +642,5 @@ QtObject {
     function getDate(format){
         var date = new Date()
         return date.toLocaleString(Qt.locale("en_EN"),format)
-    }
-
-    //////////////////////
-    function initFakeWallet()
-    {
-        fakeWallet.clear()
-        fakeWallet.append({"name": "testWallet",
-                           "tokens": []
-                          })
-        fakeWallet.get(0).tokens.append(
-                    {"name": "CELL",
-                     "full_balance": "1000.000000000000000000",
-                     "balance_without_zeros": "1000",
-                     "datoshi": "1000000000000000000000",
-                     "network": "Backbone"})
-        fakeWallet.get(0).tokens.append(
-                    {"name": "USDT",
-                     "full_balance": "521.000000000000000000",
-                     "balance_without_zeros": "521",
-                     "datoshi": "521000000000000000000",
-                     "network": "Backbone"})
     }
 }

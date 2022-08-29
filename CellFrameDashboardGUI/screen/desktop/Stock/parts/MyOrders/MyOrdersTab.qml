@@ -40,6 +40,9 @@ RowLayout
     onSetCurrentMainScreen: logic.changeMainPage(screen)
 
     Component.onCompleted: {
+
+        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
+
         logic.initOrdersModels()
         logic.initPairModelFilter()
         logic.changeMainPage(openOrders)
