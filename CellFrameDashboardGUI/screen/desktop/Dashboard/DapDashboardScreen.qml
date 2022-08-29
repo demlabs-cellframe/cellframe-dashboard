@@ -260,14 +260,24 @@ Page
                                 }
                             }*/
 
-                            CopyButton
+                            DapCopyButton
                             {
                                 id: networkAddressCopyButton
                                 onCopyClicked: textMetworkAddress.copyFullText()
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.right: parent.right
                                 anchors.rightMargin: 16 * pt
+                                popupText: qsTr("Address copied")
                             }
+
+/*                            CopyButton
+                            {
+                                id: networkAddressCopyButton
+                                onCopyClicked: textMetworkAddress.copyFullText()
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.right: parent.right
+                                anchors.rightMargin: 16 * pt
+                            }*/
                         }
 
                         Repeater

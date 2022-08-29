@@ -46,7 +46,7 @@ QtObject
     property real lastCandleOpen: 0
     property real lastCandleClose: 0
 
-    property real measurementScaleWidth: 60
+    property real measurementScaleWidth: 65
     property real chartTextHeight: 20
     property real chartBorderHeight: 10
     property real measurementScaleHeight: 20

@@ -87,7 +87,7 @@ void StockDataWorker::setTokenPair(const QString &tok1,
 //    qDebug() << "StockDataWorker::setTokenPair" << token1 << token2 << network;
 }
 
-void StockDataWorker::resetPriceData(double price, double init)
+void StockDataWorker::resetPriceData(double price, bool init)
 {
 //    qDebug() << "StockDataWorker::resetPriceData" << price;
 
@@ -952,7 +952,7 @@ void StockDataWorker::resetRightTime()
     if (!candleModel.isEmpty())
         m_rightTime = candleModel.last().time + m_candleWidth/2;
     else
-        m_rightTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
+        m_rightTime = QDateTime::currentDateTime().toMSecsSinceEpoch() + m_candleWidth;
 }
 
 void StockDataWorker::setNewCandleWidth(qint64 width)
@@ -1161,11 +1161,11 @@ void StockDataWorker::setNewPrice(const QString &price)
     checkNewBookRoundPower();
 }
 
-void StockDataWorker::generateNewPrice()
+void StockDataWorker::generateNewPrice(double step)
 {
     m_previousTokenPrice = m_currentTokenPrice;
     m_currentTokenPrice +=
-        QRandomGenerator::global()->generateDouble()*0.00004 - 0.00002;
+        QRandomGenerator::global()->generateDouble()*step - step*0.5;
 
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
     PriceInfo info{currentTime, m_currentTokenPrice};

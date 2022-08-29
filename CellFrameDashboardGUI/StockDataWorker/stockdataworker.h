@@ -60,7 +60,7 @@ public:
     Q_INVOKABLE void setTokenPair(const QString &tok1,
         const QString &tok2, const QString &net);
 
-    Q_INVOKABLE void resetPriceData(double price, double init);
+    Q_INVOKABLE void resetPriceData(double price, bool init);
 
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
@@ -95,7 +95,7 @@ public:
 
     Q_INVOKABLE void setNewPrice(const QString &price);
 
-    Q_INVOKABLE void generateNewPrice();
+    Q_INVOKABLE void generateNewPrice(double step);
 
     Q_INVOKABLE void generateNewBookState();
 

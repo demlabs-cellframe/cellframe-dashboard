@@ -3,13 +3,20 @@ import QtQml 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
+import "qrc:/widgets"
 import "../../controls"
+
+import qmlclipboard 1.0
 
 Popup {
     property alias imgStatus: nameStatus
     property bool isOpen: false
     property real startY: 0
     property real stopY: 0
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     id: popupItem
 
@@ -199,7 +206,21 @@ Popup {
                         staticText.text: "Address: "
                         dynamicText.text: nodeAddress + " "
 
-                        CopyButton
+                        DapCopyButton
+                        {
+                            id: networkAddrCopyButton
+                            anchors.left: parent.dynamicText.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            popupText: qsTr("Address copied")
+
+                            onCopyClicked:
+                            {
+                                clipboard.setText(nodeAddress)
+
+                            }
+                        }
+
+/*                        CopyButton
                         {
                             id: networkAddrCopyButton
                             onCopyClicked: copyStringToClipboard()
@@ -217,7 +238,7 @@ Popup {
                         TextEdit {
                             id: textEdit
                             visible: false
-                        }
+                        }*/
                     }
                     Item {
                         Layout.fillHeight: true

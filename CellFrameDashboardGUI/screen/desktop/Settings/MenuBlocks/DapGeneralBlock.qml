@@ -299,10 +299,18 @@ ColumnLayout
                                     source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                                 }
                             }*/
-                            CopyButton
+/*                            CopyButton
                             {
                                 id: networkAddressCopyButton
                                 onCopyClicked: textMetworkAddress.copyFullText()
+                            }*/
+
+                            DapCopyButton
+                            {
+                                id: networkAddressCopyButton
+                                popupText: qsTr("Address copied")
+                                onCopyClicked:
+                                    textMetworkAddress.copyFullText()
                             }
                         }
                     }

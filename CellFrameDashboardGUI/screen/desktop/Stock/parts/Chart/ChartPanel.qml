@@ -17,8 +17,6 @@ Item
 
     Component.onCompleted:
     {
-        print("stockDataWorker.maximum24h", stockDataWorker.maximum24h)
-        print("stockDataWorker.currentTokenPrice", stockDataWorker.currentTokenPrice)
     }
 
     ColumnLayout
@@ -232,21 +230,52 @@ Item
             Layout.bottomMargin: 8
             spacing: 10
 
-            Text
+            Item
             {
-                font: mainFont.dapFont.medium24
-                color: currTheme.textColor
-                text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
+//                color: "green"
+                height: 30
+                Layout.minimumWidth: textItem.width
+
+                Text
+                {
+                    id: textItem
+                    height: 30
+                    font: mainFont.dapFont.medium24
+                    color: currTheme.textColor
+                    text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
+                    verticalAlignment: Qt.AlignBottom
+                }
+
             }
 
-            Text
+
+            DapBigNumberText
+            {
+                id: tokenPriceText
+                height: 30
+                textFont: mainFont.dapFont.medium24
+                textColor: currTheme.textColorGreen
+                outSymbols: 15
+                fullNumber: stockDataWorker.currentTokenPrice.
+                    toFixed(18)
+                copyButtonVisible: true
+
+/*                onCopyButtonClicked:
+                {
+                    print("DapBigNumberText.onCopyButtonClicked")
+
+                }*/
+
+            }
+
+/*            Text
             {
                 id: tokenPriceText
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColorGreen
                 text: stockDataWorker.currentTokenPrice.
                     toFixed(roundPower)
-            }
+            }*/
         }
 
         CandleChart
@@ -270,7 +299,22 @@ Item
                 textClose.text = closeValue.toFixed(roundPower)
 
                 if (openValue > 0.0000000000000000001)
-                    textChange.text = (closeValue/openValue*100 - 100).toFixed(4) + "%"
+                {
+                    var change = closeValue/openValue*100 - 100
+                    if (change > -0.00001 && change < 0.00001)
+                        textChange.text = change.toFixed(8) + "%"
+                    else
+                    if (change > -0.001 && change < 0.001)
+                        textChange.text = change.toFixed(6) + "%"
+                    else
+                    if (change > -0.1 && change < 0.1)
+                        textChange.text = change.toFixed(4) + "%"
+                    else
+                        textChange.text = change.toFixed(2) + "%"
+
+//                    print("onChandleSelected",
+//                          openValue, closeValue, change, textChange.text)
+                }
                 else
                     textChange.text = "0%"
 
@@ -310,7 +354,7 @@ Item
             ChartTextBlock
             {
                 id: textDate
-                Layout.minimumWidth: 120
+                Layout.minimumWidth: 100
                 labelVisible: false
                 text: "-"
                 textColor: currTheme.textColorGray
@@ -355,35 +399,6 @@ Item
         }
     }
 
-    Timer
-    {
-        id: generateTimer
-        repeat: true
-        interval: 1000
-        onTriggered:
-        {
-            interval = 500 + Math.round(Math.random()*3000)
-
-            stockDataWorker.generateNewPrice()
-
-            stockDataWorker.getMinimumMaximum24h()
-
-            updateTokenPrice()
-
-            stockDataWorker.updateAllModels()
-
-//            stockDataWorker.getCandleModel()
-
-//            stockDataWorker.getAveragedModel()
-
-            candleLogic.dataAnalysis()
-
-            chartItem.chartCanvas.requestPaint()
-
-            volume24h += Math.random()*10
-        }
-    }
-
     Connections
     {
         target: stockTab
@@ -405,10 +420,11 @@ Item
 
     function updateTokenPrice()
     {
-        if (stockDataWorker.currentTokenPrice < stockDataWorker.previousTokenPrice)
-            tokenPriceText.color = currTheme.textColorRed
+        if (stockDataWorker.currentTokenPrice <
+            stockDataWorker.previousTokenPrice)
+            tokenPriceText.textColor = currTheme.textColorRed
         else
-            tokenPriceText.color = currTheme.textColorGreen
+            tokenPriceText.textColor = currTheme.textColorGreen
     }
 
 }
