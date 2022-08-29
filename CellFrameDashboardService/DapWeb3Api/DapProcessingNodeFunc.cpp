@@ -525,17 +525,18 @@ QJsonDocument DapWebControll::createCertificate(QString type, QString name)
 
 }
 
-QJsonDocument DapWebControll::stakeLockHold(QString tokenName, QString cert, QString walletName,  QString time_staking,  QString net, QString coins)
+QJsonDocument DapWebControll::stakeLockHold(QString tokenName, QString walletName,  QString time_staking,  QString net, QString coins, QString reinvest, QString noBaseFlag)
 {
     QString command = QString("%1 stake_lock hold -net %2 -wallet %3 -time_staking %4 "
-                              "-coins %5 -token %6 -cert %7").arg(CLI_PATH);
+                              "-coins %5 -token %6 -reinvest %7 %8").arg(CLI_PATH);
 
     command = command.arg(net);
     command = command.arg(walletName);
     command = command.arg(time_staking);
     command = command.arg(coins);
     command = command.arg(tokenName);
-    command = command.arg(cert);
+    command = command.arg(reinvest);
+    command = command.arg(noBaseFlag);
 
     QString result = send_cmd(command);
     QJsonDocument docResult;

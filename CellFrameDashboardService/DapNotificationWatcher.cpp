@@ -66,7 +66,7 @@ DapNotificationWatcher::DapNotificationWatcher(QObject *parent)
         connect(socket, &QTcpSocket::readyRead, this, &DapNotificationWatcher::socketReadyRead);
 
         ((QTcpSocket*)socket)->connectToHost(m_listenAddr, m_listenPort);
-        ((QTcpSocket*)socket)->waitForConnected(10000);
+        ((QTcpSocket*)socket)->waitForConnected();
     }
 }
 
@@ -98,7 +98,7 @@ void DapNotificationWatcher::socketConnected()
 {
     qInfo() << "Notify socket connected";
     m_reconnectTimer->stop();
-    socket->waitForReadyRead(10000);
+    socket->waitForReadyRead(4000);
     sendNotifyState("Notify socket connected");
 }
 

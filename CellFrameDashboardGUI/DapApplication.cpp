@@ -42,7 +42,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 
     m_mathBigNumbers = new DapMath();
-    m_mathBigNumbers->test();
 
     this->registerQmlTypes();
     this->setContextProperties();
