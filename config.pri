@@ -7,8 +7,8 @@
 }
 
 VER_MAJ = 2
-VER_MIN = 8
-VER_PAT = 24
+VER_MIN = 9
+VER_PAT = 2
 
 
 
