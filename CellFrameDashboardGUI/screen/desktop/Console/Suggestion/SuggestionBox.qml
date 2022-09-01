@@ -82,7 +82,7 @@ Rectangle {
                 id: delegateItem
                 property variant suggestion: model
 
-                height: 25 * pt
+                height: 25 
                 width: container.width
 
                 Rectangle
@@ -101,13 +101,13 @@ Rectangle {
                     color: index == selectedIndex ?  currTheme.hilightTextColorComboBox : currTheme.textColor
                     text: modelData.word
                     y: parent.height * 0.5 - height * 0.5
-                    x: 20 * pt
-                    font: mainFont.dapFont.regular16
+                    x: 20 
+                    font: mainFont.dapFont.regular14
 
                     Component.onCompleted:
                     {
                         if (maxLenIndex == index)
-                            container.width = width + 50 * pt
+                            container.width = width + 50 
                     }
                 }
 

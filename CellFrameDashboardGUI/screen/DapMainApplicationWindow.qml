@@ -113,6 +113,7 @@ Rectangle {
     ListModel{id: dapModelXchangeOrders}
     ListModel{id: dapPairModel}
     ListModel{id: dapTokenPriceHistory}
+    ListModel{id: dapWebSites}
 
     ListModel{id: fakeWallet}
 
@@ -200,16 +201,16 @@ Rectangle {
             bttnIco: "icon_logs.png",
             showTab: true,
             page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
-        append ({ tag: "dApps",
-            name: qsTr("dApps"),
-            bttnIco: "icon_daaps.png",
-            showTab: true,
-            page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
         append ({ tag: "Settings",
             name: qsTr("Settings"),
             bttnIco: "icon_settings.png",
             showTab: true,
             page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
+        append ({ tag: "dApps",
+            name: qsTr("dApps"),
+            bttnIco: "icon_daaps.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
 
             //FOR DEBUG
 //        append ({ tag: "Plugin",
@@ -239,7 +240,7 @@ Rectangle {
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-//            bottomMargin: 6 * pt
+//            bottomMargin: 6
         }
         spacing: 0
 
@@ -279,8 +280,8 @@ Rectangle {
                 Item {
                     id: logo
 //                    Layout.margins: 10
-                    width: parent.width * pt
-                    height: 60 * pt
+                    width: parent.width
+                    height: 60
 
                     Image{
                         source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
@@ -289,7 +290,7 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 23*pt
                         anchors.top: parent.top
-                        anchors.topMargin: 19.86 * pt
+                        anchors.topMargin: 19.86
                     }
                     ToolTip
                     {
@@ -379,7 +380,7 @@ Rectangle {
     DapNetworksPanel
     {
         id: networksPanel
-        height: 40 * pt
+        height: 40
     }
 
     Rectangle {

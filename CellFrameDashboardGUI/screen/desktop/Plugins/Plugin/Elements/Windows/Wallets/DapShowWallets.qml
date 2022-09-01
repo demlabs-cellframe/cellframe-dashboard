@@ -13,7 +13,7 @@ Item {
         id: viewWallets
         anchors.fill: parent
         color: "#363A42"
-        radius: 16 * pt
+        radius: 16 
 
         Rectangle
         {
@@ -38,14 +38,14 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 38 * pt
+                height: 38 
 
                 Text
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    anchors.topMargin: 10 * pt
-                    anchors.bottomMargin: 10 * pt
+                    anchors.leftMargin: 18 
+                    anchors.topMargin: 10 
+                    anchors.bottomMargin: 10 
                     verticalAlignment: Qt.AlignVCenter
                     text: qsTr("Wallets")
                     font.family: "Quicksand"

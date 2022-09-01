@@ -7,13 +7,15 @@ import "qrc:/widgets"
 import "../parts"
 
 
-Page {
+DapRectangleLitAndShaded {
     id: root
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -22,17 +24,12 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10
-                anchors.bottomMargin: 7
-                anchors.leftMargin: 21
-                anchors.rightMargin: 13
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
                 height: 20
@@ -54,12 +51,9 @@ Page {
                 id: textHeader
                 text: qsTr("Info about token")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12
-                anchors.bottomMargin: 8
-                anchors.leftMargin: 52
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -126,19 +120,17 @@ Page {
                 }
             }
         }
-    }
-
-    DapButton
-    {
-        implicitWidth: 165 * pt
-        implicitHeight: 36 * pt
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 24 * pt
-        textButton: qsTr("Emission")
-        fontButton: mainFont.dapFont.medium14
-        horizontalAligmentText:Qt.AlignCenter
-        onClicked: navigator.emission()
+        DapButton
+        {
+            implicitWidth: 163
+            implicitHeight: 36
+            Layout.bottomMargin: 40
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            textButton: qsTr("Emission")
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText:Qt.AlignCenter
+            onClicked: navigator.emission()
+        }
     }
 }
 

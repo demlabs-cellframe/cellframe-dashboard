@@ -6,9 +6,9 @@ import "qrc:/widgets/"
 
 Item {
     id: deleagte
-//    width: 231 * pt
+//    width: 231 
     width: parent.width
-    height: 140 * pt
+    height: 140 
 
     QMLClipboard{
         id: clipboard
@@ -33,7 +33,7 @@ Item {
             }
 
             Text {
-                Layout.leftMargin: 5 * pt
+                Layout.leftMargin: 5 
                 Layout.fillWidth: true
                 text: name
                 font: mainFont.dapFont.regular16
@@ -43,29 +43,29 @@ Item {
 
             DapButton
             {
-                Layout.preferredWidth: 25 * pt
-                Layout.preferredHeight: 25 * pt
+                Layout.preferredWidth: 25 
+                Layout.preferredHeight: 25 
                 Layout.alignment: Qt.AlignHCenter
 
                 normalImageButton: "qrc:/resources/icons/Icon_sync_net_hover.svg"
                 hoverImageButton: "qrc:/resources/icons/Icon_sync_net_hover.svg"
-                widthImageButton: 25 * pt
-                heightImageButton: 25 * pt
-                indentImageLeftButton: 0 * pt
+                widthImageButton: 25 
+                heightImageButton: 25 
+                indentImageLeftButton: 0 
                 enabled: false
             }
 
             DapButton
             {
-                Layout.preferredWidth: 25 * pt
-                Layout.preferredHeight: 25 * pt
+                Layout.preferredWidth: 25 
+                Layout.preferredHeight: 25 
                 Layout.alignment: Qt.AlignHCenter
 
                 normalImageButton: "qrc:/resources/icons/icon_on_off_net_hover.svg"
                 hoverImageButton: "qrc:/resources/icons/icon_on_off_net_hover.svg"
-                widthImageButton: 25 * pt
-                heightImageButton: 25 * pt
-                indentImageLeftButton: 0 * pt
+                widthImageButton: 25 
+                heightImageButton: 25 
+                indentImageLeftButton: 0 
                 enabled: false
             }
         }
@@ -152,15 +152,15 @@ Item {
 
             DapButton
             {
-                Layout.preferredWidth: 20 * pt
-                Layout.preferredHeight: 20 * pt
+                Layout.preferredWidth: 20 
+                Layout.preferredHeight: 20 
                 Layout.alignment: Qt.AlignHCenter
 
                 normalImageButton: "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
                 hoverImageButton: "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png"
-                widthImageButton: 20 * pt
-                heightImageButton: 20 * pt
-                indentImageLeftButton: 0 * pt
+                widthImageButton: 20 
+                heightImageButton: 20 
+                indentImageLeftButton: 0 
 //                transColor: true
                 activeFrame: false
                 onClicked:

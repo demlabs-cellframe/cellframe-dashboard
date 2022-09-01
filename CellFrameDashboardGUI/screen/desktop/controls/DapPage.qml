@@ -35,11 +35,11 @@ Page {
         anchors
         {
             fill: parent
-            margins: 24 * pt
-            bottomMargin: 23 * pt
+            margins: 24 
+            bottomMargin: 23 
         }
 
-        spacing: 24 * pt
+        spacing: 24 
 
         DapScreenPage {
             Layout.fillHeight: true

@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQml 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
@@ -22,14 +23,13 @@ ColumnLayout
     Item
     {
         Layout.fillWidth: true
-        height: 42 * pt
+        height: 42
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 14 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -40,16 +40,15 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        height: 30 * pt
+        height: 30
         color: currTheme.backgroundMainScreen
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 8 * pt
-            anchors.bottomMargin: 8 * pt
-            font: mainFont.dapFont.medium11
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Networks")
@@ -57,7 +56,7 @@ ColumnLayout
     }
 
     Item {
-        height: 60 * pt
+        height: 60
         Layout.fillWidth: true
 
         DapComboBox
@@ -68,9 +67,9 @@ ColumnLayout
 
             anchors.centerIn: parent
             anchors.fill: parent
-            anchors.margins: 10 * pt
+            anchors.margins: 10
             anchors.bottomMargin: 0
-            anchors.leftMargin: 15 * pt
+            anchors.leftMargin: 10
 
             font: mainFont.dapFont.regular16
 
@@ -96,7 +95,7 @@ ColumnLayout
 
     Item
     {
-        height: 50 * pt
+        height: 50
         Layout.fillWidth: true
         Layout.topMargin: -10
         DapCheckBox
@@ -104,8 +103,8 @@ ColumnLayout
             property bool stopUpdate: false
             id: checkBox
             anchors.fill: parent
-            anchors.leftMargin: 10 * pt
-//            anchors.bottomMargin: 10 * pt
+            anchors.leftMargin: 10
+//            anchors.bottomMargin: 10
             indicatorInnerSize: height
             nameTextColor: currTheme.textColor
             nameCheckbox: "Auto online"
@@ -160,18 +159,17 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-//        Layout.topMargin: 1 * pt
-//        Layout.bottomMargin: 1 * pt
-        height: 30 * pt
+//        Layout.topMargin: 1
+//        Layout.bottomMargin: 1
+        height: 30
         color: currTheme.backgroundMainScreen
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 8 * pt
-            anchors.bottomMargin: 8 * pt
-            font: mainFont.dapFont.medium11
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+            font: mainFont.dapFont.medium12
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Choose a wallet")
@@ -203,12 +201,12 @@ ColumnLayout
             id:columnWallets
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 50 * pt
+            height: 50
             onHeightChanged: listWallet.contentHeight = height
 
             Item {
                 id: block
-//                height: 50 * pt
+//                height: 50
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
@@ -222,12 +220,11 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
+                    anchors.leftMargin: 16
+                    anchors.verticalCenter: parent.verticalCenter
                     ColumnLayout
                     {
                         Layout.alignment: Qt.AlignLeft
-                        Layout.leftMargin: 15 * pt
-//                        Layout.topMargin: 4 * pt
-//                        Layout.bottomMargin: 14 * pt
                         spacing: 0
 
                         Text
@@ -245,13 +242,13 @@ ColumnLayout
                         RowLayout
                         {
                             id: rowLay
-                            Layout.preferredHeight: 16 * pt
+                            Layout.preferredHeight: 16
 
-                            spacing: 0 * pt
+                            spacing: 0
                             DapText
                             {
                                id: textMetworkAddress
-                               Layout.preferredWidth: 101 * pt
+                               Layout.preferredWidth: 101
 
                                fontDapText: mainFont.dapFont.regular12
                                color: currTheme.textColorGrayTwo
@@ -284,9 +281,9 @@ ColumnLayout
                             /*MouseArea
                             {
                                 id: networkAddressCopyButton
-//                                Layout.leftMargin: 3 * pt
-                                Layout.preferredHeight: 18 * pt
-                                Layout.preferredWidth: 17 * pt
+//                                Layout.leftMargin: 3
+                                Layout.preferredHeight: 18
+                                Layout.preferredWidth: 17
                                 hoverEnabled: true
 
                                 onClicked: textMetworkAddress.copyFullText()
@@ -315,16 +312,16 @@ ColumnLayout
 //                        signal setWallet(var index)
 
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        Layout.preferredHeight: 46 * pt
-                        Layout.preferredWidth: 46 * pt
-                        Layout.rightMargin: 17 * pt
-                        Layout.topMargin: 2 * pt
+                        Layout.preferredHeight: 46
+                        Layout.preferredWidth: 46
+                        Layout.rightMargin: 17
+                        Layout.topMargin: 2
 
                         ButtonGroup.group: buttonGroup
 
                         nameRadioButton: qsTr("")
-                        indicatorInnerSize: 46 * pt
-                        spaceIndicatorText: 3 * pt
+                        indicatorInnerSize: 46
+                        spaceIndicatorText: 3
                         fontRadioButton: mainFont.dapFont.regular16
                         implicitHeight: indicatorInnerSize
                         checked: index === logicMainApp.currentIndex? true:false
@@ -344,7 +341,7 @@ ColumnLayout
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    height: 1 * pt
+                    height: 1
                     color: currTheme.lineSeparatorColor
 
                 }

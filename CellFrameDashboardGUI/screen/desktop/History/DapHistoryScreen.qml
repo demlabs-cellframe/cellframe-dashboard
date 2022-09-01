@@ -20,7 +20,7 @@ Page
     RowLayout
     {
         anchors.fill: parent
-        spacing: 24 * pt
+        spacing: 24 
 
         DapRectangleLitAndShaded
         {
@@ -59,7 +59,8 @@ Page
             id: historyRightPanel
 
             Layout.fillHeight: true
-            Layout.minimumWidth: 350 * pt
+            Layout.minimumWidth: 350 
+            Layout.maximumWidth: 350
         }
 
     }
@@ -75,7 +76,7 @@ Page
         id: delegateDate
         Rectangle
         {
-            height: 30 * pt
+            height: 30
             width: parent.width
             color: currTheme.backgroundMainScreen
 
@@ -84,8 +85,8 @@ Page
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
+                anchors.leftMargin: 16 
+                anchors.rightMargin: 16 
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor
@@ -101,24 +102,24 @@ Page
         Rectangle
         {
             width:  dapListViewHistory.width
-            height: 50 * pt
+            height: 50 
             color: currTheme.backgroundElements
 
             RowLayout
             {
                 anchors.fill: parent
-                anchors.leftMargin: 20 * pt
-                anchors.rightMargin: 20 * pt
-                spacing: 10 * pt
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
+                spacing: 10 
 
                 // Network name
                 Text
                 {
                     id: textNetworkName
-                    Layout.minimumWidth: 120 * pt
+                    Layout.minimumWidth: 120 
                     text: network
                     color: currTheme.textColor
-                    font:  mainFont.dapFont.regular16
+                    font:  mainFont.dapFont.regular14
                     Layout.alignment: Qt.AlignLeft
                 }
 
@@ -126,10 +127,10 @@ Page
                 Text
                 {
                     id: textTokenName
-                    Layout.minimumWidth: 100 * pt
+                    Layout.minimumWidth: 100 
                     text: name
                     color: currTheme.textColor
-                    font:  mainFont.dapFont.regular16
+                    font:  mainFont.dapFont.regular14
                     Layout.alignment: Qt.AlignLeft
                 }
 
@@ -137,9 +138,9 @@ Page
                 Text
                 {
                     id: textSatus
-                    Layout.minimumWidth: 100 * pt
+                    Layout.minimumWidth: 100 
                     text: status
-                    color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
+                    color: status === "Sent" ? "#FFCD44" : status === "Error" ? "#FF5F5F" : status === "Received"  ? "#CAFC33" : "#FFFFFF"
                     font:  mainFont.dapFont.regular14
                 }
 
@@ -153,8 +154,30 @@ Page
                     property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                     text: sign + amount + " " + name
                     color: currTheme.textColor
-                    font:  mainFont.dapFont.regular16
+                    font:  mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignRight
+                    elide: Text.ElideMiddle
+
+                    ToolTip
+                    {
+                        id:toolTip
+                        visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
+                        text: parent.text
+                        scale: mainWindow.scale
+
+                        contentItem: Text {
+                                text: toolTip.text
+                                font: mainFont.dapFont.regular14
+                                color: currTheme.textColor
+                            }
+                        background: Rectangle{color:currTheme.backgroundPanel}
+                    }
+                    MouseArea
+                    {
+                        id:area
+                        anchors.fill: parent
+                        hoverEnabled: true
+                    }
                 }
 
                 Image
@@ -167,7 +190,7 @@ Page
 //                    innerWidth: 20
 //                    innerHeight: 20
 
-                    visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
+                    visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
 
                     source: mouseArea.containsMouse? "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg" :
                                                      "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
@@ -186,10 +209,10 @@ Page
             //  Underline
             Rectangle
             {
-                x: 20 * pt
-                y: parent.height - 1 * pt
-                width: parent.width - 40 * pt
-                height: 1 * pt
+                x: 16
+                y: parent.height - 1
+                width: parent.width - 32
+                height: 1 
                 color: currTheme.lineSeparatorColor
             }
         }

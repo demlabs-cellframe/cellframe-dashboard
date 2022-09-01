@@ -61,16 +61,16 @@ Page
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10 
+                anchors.bottomMargin: 7 
+                anchors.leftMargin: 21 
+                anchors.rightMargin: 13 
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"

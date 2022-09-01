@@ -18,10 +18,10 @@ DapTopPanel {
         visible: isVisibleSearch
         id: frameIconSearch
         anchors.left: parent.left
-        anchors.leftMargin: 38 * pt
-        y: 21 * pt
-        height: 20 * pt
-        width: 20 * pt
+        anchors.leftMargin: 38 
+        y: 21 
+        height: 20 
+        width: 20 
 //        fillMode: Image.PreserveAspectFit
         verticalAlignment: Image.AlignVCenter
         horizontalAlignment: Image.AlignHCenter
@@ -33,18 +33,18 @@ DapTopPanel {
     SearchInputBox {
         visible: isVisibleSearch
         id: searchBox
-        //x: 38 * pt
+        //x: 38 
 //        x: 0
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: frameIconSearch.right
-        anchors.leftMargin: 7 * pt
+        anchors.leftMargin: 7 
 
         bottomLineVisible: false
         validator: RegExpValidator { regExp:  /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
         placeholderText: qsTr("Search")
-        height: 28 * pt
-//        width: Math.max(Math.min(leftPadding + contentWidth, root.width - searchBox.x * 2), 228 * pt)
+        height: 28 
+//        width: Math.max(Math.min(leftPadding + contentWidth, root.width - searchBox.x * 2), 228 )
 //        color: currTheme.textColor
         font: mainFont.dapFont.regular14
 //        textColor: currTheme.textColorGray
@@ -66,9 +66,9 @@ DapTopPanel {
     Rectangle {
         visible: isVisibleSearch
         width: searchBox.width
-        height: 1 * pt
+        height: 1 
         anchors.top: searchBox.bottom
-        anchors.topMargin: 3 * pt
+        anchors.topMargin: 3 
         anchors.left: frameIconSearch.left
         color: "#393B41" //currTheme.borderColor
     }

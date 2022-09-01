@@ -31,7 +31,7 @@ Page {
 
         Text
         {
-            Layout.topMargin: 36 * pt
+            Layout.topMargin: 36 
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
@@ -60,8 +60,8 @@ Page {
         {
             Layout.alignment: Qt.AlignHCenter
 
-            implicitWidth: 132 * pt
-            implicitHeight: 36 * pt
+            implicitWidth: 132 
+            implicitHeight: 36 
             radius: currTheme.radiusButton
 
             textButton: qsTr("Done")

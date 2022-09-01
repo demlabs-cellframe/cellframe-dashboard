@@ -6,9 +6,9 @@ GridView {
     id: control
 
     property int delegateMargin
-    property int delegateWidth: 300 * pt
-    property int delegateHeight: 164 * pt
-    property int delegateContentMargin: 16 * pt
+    property int delegateWidth: 300 
+    property int delegateHeight: 164 
+    property int delegateContentMargin: 16 
 //    property alias currentIndex_ : currentIndex
 
     signal orderDetailsShow(var index)
@@ -57,7 +57,7 @@ GridView {
                         id: headerFrame
 
                         width: parent.width
-                        height: 30 * pt
+                        height: 30 
 
                         LinearGradient
                         {
@@ -98,7 +98,7 @@ GridView {
                             id: orderIcon
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
-                            anchors.rightMargin: (control.delegateContentMargin / 2) * pt  // / 2 - ic_info_order.svg have space right
+                            anchors.rightMargin: (control.delegateContentMargin / 2)   // / 2 - ic_info_order.svg have space right
                             mipmap: true
                             sourceSize: Qt.size(16, 16)
                             source: cell.GridView.isCurrentItem ? "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info_hover.svg":
@@ -109,7 +109,7 @@ GridView {
                             anchors.top: parent.bottom
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: 1 * pt
+                            height: 1 
                             color: currTheme.lineSeparatorColor
                         }
                     }
@@ -121,7 +121,7 @@ GridView {
                         anchors.margins: control.delegateContentMargin
 
                         Column {
-                            spacing: 12 * pt
+                            spacing: 12 
 
                             DapVPNOrderInfoLine {
                                 width: infoFrame.width

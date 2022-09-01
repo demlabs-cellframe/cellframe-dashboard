@@ -100,10 +100,10 @@ Page {
             Layout.alignment: Qt.AlignRight | Qt.AlignTop
             Layout.topMargin: 14.5
             Layout.rightMargin: 14.5
-            height: 10 * pt
-            width: 10 * pt
-            heightImage: 20 * pt
-            widthImage: 20 * pt
+            height: 10 
+            width: 10 
+            heightImage: 20 
+            widthImage: 20 
             normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
             hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
 
@@ -200,7 +200,7 @@ Page {
             if(dapMessageBuffer.get(i).site === webSite)
             {
                 dapMessageBuffer.remove(i)
-                dapMessageLogBuffer.append({infoText: infoText.text,
+                dapMessageLogBuffer.append({infoText: "The site " + webSite + " requests permission to exchange work with the wallet",
                                             date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
                                             reply: reply})
                 break;

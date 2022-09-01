@@ -9,8 +9,8 @@ Item
 {
     id: buttonDelegate
 
-    width: 180 * pt
-    height: showTab ? 52 * pt : 0
+    width: 180 
+    height: showTab ? 52  : 0
     visible: showTab
 
     property bool isPushed: mainButtonsList.currentIndex === index
@@ -39,8 +39,8 @@ Item
 
         Item {
             id: ico
-            width: 16 * pt
-            height: 16 * pt
+            width: 16 
+            height: 16 
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             DapImageLoader {

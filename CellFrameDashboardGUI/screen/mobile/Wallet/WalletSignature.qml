@@ -59,14 +59,14 @@ Page {
         RowLayout
         {
             Layout.fillWidth: true
-            spacing: 17 * pt
+            spacing: 17 
 
             DapButton
             {
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Back")
@@ -85,8 +85,8 @@ Page {
             {
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Next")

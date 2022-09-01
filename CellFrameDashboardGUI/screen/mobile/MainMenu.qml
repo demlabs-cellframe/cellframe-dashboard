@@ -39,30 +39,30 @@ Drawer {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: 47 * pt
+            Layout.preferredHeight: 47 
 
             RowLayout
             {
                 anchors.fill: parent
-                anchors.leftMargin: 10 * pt
+                anchors.leftMargin: 10 
 
                 Image {
                     smooth: true
-                    Layout.maximumWidth: 30 * pt
-                    Layout.maximumHeight: 30 * pt
+                    Layout.maximumWidth: 30 
+                    Layout.maximumHeight: 30 
                     fillMode: Image.PreserveAspectFit
                     source: "Icons/MenuIconLightGreen.png"
                 }
 //                DapImageLoader {
 //                    Layout.alignment: Qt.AlignVCenter
-//                    innerWidth: 30 * pt
-//                    innerHeight: 30 * pt
+//                    innerWidth: 30 
+//                    innerHeight: 30 
 ////                    fillMode: Image.PreserveAspectFit
 //                    source: "qrc:/mobile/Icons/MenuIconLightGreen.png"
 //                }
                 Text {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                    Layout.leftMargin: 5 * pt
+                    Layout.leftMargin: 5 
                     Layout.fillWidth: true
                     text: qsTr("Cellframe Dashboard")
                     color: currTheme.textColor
@@ -96,7 +96,7 @@ Drawer {
 
             delegate:
                 Item {
-                height: 52 * pt
+                height: 52 
                 anchors.left: parent.left
                 anchors.right: parent.right
 
@@ -114,21 +114,21 @@ Drawer {
                             spacing: 0
                             Image {
                                 smooth: true
-                                Layout.leftMargin: 5 * pt
-                                Layout.maximumWidth: 16 * pt
-                                Layout.maximumHeight: 16 * pt
+                                Layout.leftMargin: 5 
+                                Layout.maximumWidth: 16 
+                                Layout.maximumHeight: 16 
                                 fillMode: Image.PreserveAspectFit
                                 source: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/" + modelData.bttnIco
                             }
 //                            DapImageLoader {
-//                                Layout.leftMargin: 5 * pt
-//                                innerWidth: 16 * pt
-//                                innerHeight: 16 * pt
+//                                Layout.leftMargin: 5 
+//                                innerWidth: 16 
+//                                innerHeight: 16 
 //                                source: "qrc:/resources/icons/" + pathTheme + "/LeftIcons/" + modelData.bttnIco
 //                            }
                             Text {
                                 Layout.fillWidth: true
-                                Layout.leftMargin: 10 * pt
+                                Layout.leftMargin: 10 
                                 horizontalAlignment: Qt.AlignLeft
 
                                 text: qsTr(modelData.name)

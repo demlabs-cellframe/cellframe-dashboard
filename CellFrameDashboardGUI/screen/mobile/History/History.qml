@@ -37,15 +37,15 @@ Page {
         }
     }
 
-    property int outerMargin: 20 * pt
-    property int innerMargin: 15 * pt
+    property int outerMargin: 20 
+    property int innerMargin: 15 
 
     ListView {
         id: historyView
         anchors.fill: parent
-        anchors.topMargin: 10 * pt
-        anchors.bottomMargin: 10 * pt
-//        spacing: 5 * pt
+        anchors.topMargin: 10 
+        anchors.bottomMargin: 10 
+//        spacing: 5 
 
         clip: true
 
@@ -63,7 +63,7 @@ Page {
         Item {
             id: delegateItem
             width: historyView.width - outerMargin*2
-            height: last_in_day ? 35 * pt : 50 * pt
+            height: last_in_day ? 35  : 50 
             anchors.margins: 0
             x: outerMargin
 
@@ -121,8 +121,8 @@ Page {
                 {
                     visible: !last_in_day
                     Layout.fillWidth: true
-                    Layout.topMargin: 5 * pt
-                    Layout.bottomMargin: 10 * pt
+                    Layout.topMargin: 5 
+                    Layout.bottomMargin: 10 
                     height: 1
                     color: "#6B6979"
                 }
@@ -140,7 +140,7 @@ Page {
             id: header
 
             width: parent.width - outerMargin*2
-            height: 60 * pt
+            height: 60 
             x: outerMargin
 
             property date payDate: new Date(Date.parse(section))
@@ -149,8 +149,8 @@ Page {
                 id: itemRect
 
                 anchors.fill: parent
-                anchors.topMargin: 15 * pt
-                anchors.bottomMargin: 15 * pt
+                anchors.topMargin: 15 
+                anchors.bottomMargin: 15 
 
                 color: "#2D3037"
                 radius: 10

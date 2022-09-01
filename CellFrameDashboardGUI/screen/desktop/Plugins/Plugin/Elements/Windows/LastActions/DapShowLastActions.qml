@@ -30,7 +30,7 @@ Rectangle {
         id: viewLastActions
         anchors.fill: parent
         color: "#363A42"
-        radius: 16 * pt
+        radius: 16 
 
         Rectangle
         {
@@ -55,14 +55,14 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 38 * pt
+                height: 38 
 
                 Text
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    anchors.topMargin: 10 * pt
-                    anchors.bottomMargin: 10 * pt
+                    anchors.leftMargin: 18 
+                    anchors.topMargin: 10 
+                    anchors.bottomMargin: 10 
                     verticalAlignment: Qt.AlignVCenter
                     text: qsTr("Last Actions")
                     font.family: "Quicksand"
@@ -97,15 +97,15 @@ Rectangle {
                     id: delegateDate
                     Rectangle
                     {
-                        height: 30 * pt
+                        height: 30 
                         width: parent.width
                         color: "#2E3138"
 
                         Text
                         {
                             anchors.fill: parent
-                            anchors.leftMargin: 16 * pt
-                            anchors.rightMargin: 16 * pt
+                            anchors.leftMargin: 16 
+                            anchors.rightMargin: 16 
                             verticalAlignment: Qt.AlignVCenter
                             horizontalAlignment: Qt.AlignLeft
                             color: "#ffffff"

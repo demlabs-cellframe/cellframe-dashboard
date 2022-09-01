@@ -5,13 +5,13 @@ import "qrc:/widgets"
 import "../../../"
 import "../../controls"
 
-Page
+DapRectangleLitAndShaded
 {
 //    dapButtonClose.normalImageButton: "qrc:/resources/icons/" + pathTheme + "/back_icon.png"
 //    dapButtonClose.hoverImageButton: "qrc:/resources/icons/" + pathTheme + "/back_icon_hover.png"
 
-//    dapButtonClose.heightImageButton: 14 * pt
-//    dapButtonClose.widthImageButton: 13 * pt
+//    dapButtonClose.heightImageButton: 14 
+//    dapButtonClose.widthImageButton: 13 
 
     property alias dapButtonClose: itemButtonClose
 
@@ -25,11 +25,12 @@ Page
 
     property alias dapTextTopMessage: textTopMessage
     property alias dapTextBottomMessage: textBottomMessage
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
-    background: Rectangle {
-        color: "transparent"
-    }
-
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -39,23 +40,18 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 24 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/back.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/back_hover.svg"
@@ -67,12 +63,9 @@ Page
                 id: textHeader
                 text: qsTr("New wallet")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -84,7 +77,7 @@ Page
             id: frameMethod
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Text
             {
                 id: textMethod
@@ -94,18 +87,17 @@ Page
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 16
             }
         }
 
         Item {
-            Layout.preferredHeight: 69 * pt
-            Layout.preferredWidth: 278 * pt
-            Layout.topMargin: 24 * pt
-            Layout.leftMargin: 38 * pt
-            Layout.rightMargin: 34 * pt
+            Layout.preferredHeight: 48
+            Layout.preferredWidth: 255
+            Layout.topMargin: 20
+            Layout.alignment: Qt.AlignHCenter
+//            Layout.leftMargin: 48
+//            Layout.rightMargin: 34
 
             Text
             {
@@ -114,23 +106,24 @@ Page
 
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                color: "#79FFFA"
+                color: "#E4E111"
                 wrapMode: Text.WordWrap
-                font: mainFont.dapFont.regular14
+                font: mainFont.dapFont.regular12
             }
         }
 
         Grid {
             id: wordsGrid
 
-            Layout.topMargin: 24 * pt
-            Layout.minimumHeight: 255 * pt
-            Layout.maximumHeight: 255 * pt
+            Layout.topMargin: 40
+            Layout.minimumHeight: 151
+            Layout.maximumHeight: 151
             Layout.alignment: Qt.AlignHCenter
 
             columns: 2
 
-            columnSpacing: 50 * pt
+            columnSpacing: 50
+//            rowSpacing: 5
 
             horizontalItemAlignment: Grid.AlignHCenter
             verticalItemAlignment: Grid.AlignVCenter
@@ -139,9 +132,8 @@ Page
             Repeater {
                 delegate: Text {
                     text: modelData
-//                        font { bold: true; pixelSize: 12 }
                     color: currTheme.textColor
-                    font: mainFont.dapFont.regular16
+                    font: mainFont.dapFont.regular12
 
                 }
                 model: wordsModel
@@ -151,41 +143,50 @@ Page
         Text
         {
             id: backupFileName
-            Layout.minimumHeight: 100 * pt
-            Layout.alignment: Qt.AlignHCenter
-            Layout.maximumWidth: parent.width - 50 * pt
-            color: "#908D9D"
+            Layout.minimumHeight: 100 
+            Layout.alignment: Qt.AlignLeft
+            Layout.leftMargin: 36
+            Layout.maximumWidth: parent.width - 50
+            color: "#B4B1BD"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font: mainFont.dapFont.regular14
         }
 
+        Rectangle
+        {
+            id: frameBottom
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: "transparent"
+        }
+
         Text
         {
             id: textBottomMessage
-            Layout.minimumHeight: 100 * pt
-            Layout.maximumWidth: parent.width - 50 * pt
-            Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 15 * pt
-            color: "#B3FF00"
+            Layout.minimumHeight: 48
+            Layout.maximumWidth: 244
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.bottomMargin: 30
+            color: "#BEFF00"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            font: mainFont.dapFont.regular14
+            font: mainFont.dapFont.regular12
         }
 
 
         RowLayout {
-            Layout.alignment: Qt.AlignHCenter
-            spacing: 17 * pt
-            Layout.topMargin: 17 * pt
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            spacing: 14
+            Layout.bottomMargin: 40
 
             DapButton
             {
                 id: nextButton
-                implicitHeight: 36 * pt
-                implicitWidth: 132 * pt
+                implicitHeight: 36 
+                implicitWidth: 132 
                 Layout.alignment: Qt.AlignCenter
                 textButton: qsTr("Next")
                 horizontalAligmentText: Text.AlignHCenter
@@ -197,23 +198,14 @@ Page
             DapButton
             {
                 id: actionButton
-                implicitHeight: 36 * pt
-                implicitWidth: 132 * pt
+                implicitHeight: 36 
+                implicitWidth: 132 
                 Layout.alignment: Qt.AlignCenter
                 checkable: true
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
                 fontButton: mainFont.dapFont.regular16
             }
-
-        }
-        Rectangle
-        {
-            id: frameBottom
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            color: "transparent"
         }
     }
-
 }

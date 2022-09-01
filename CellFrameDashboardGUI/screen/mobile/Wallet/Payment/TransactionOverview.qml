@@ -10,9 +10,9 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.margins: 50 * pt
+        anchors.margins: 50 
         width: parent.width
-        spacing: 10 * pt
+        spacing: 10 
 
         Item {
             Layout.fillHeight: true
@@ -24,7 +24,7 @@ Page {
             Text {
                 color: currTheme.textColor
                 font.family: "Quicksand"
-                font.pixelSize: 16 * pt
+                font.pixelSize: 16 
                 font.bold: true
                 text: qsTr("Network: ")
             }
@@ -43,7 +43,7 @@ Page {
             Text {
                 color: currTheme.textColor
                 font.family: "Quicksand"
-                font.pixelSize: 16 * pt
+                font.pixelSize: 16 
                 font.bold: true
                 text: qsTr("Amount: ")
             }
@@ -63,7 +63,7 @@ Page {
                 Layout.alignment: Qt.AlignTop
                 color: currTheme.textColor
                 font.family: "Quicksand"
-                font.pixelSize: 16 * pt
+                font.pixelSize: 16 
                 font.bold: true
                 text: qsTr("To: ")
             }
@@ -88,14 +88,14 @@ Page {
         RowLayout
         {
             Layout.fillWidth: true
-            spacing: 17 * pt
+            spacing: 17 
 
             DapButton
             {
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Back")
@@ -116,8 +116,8 @@ Page {
                 id: next
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
                 enabled: true
 

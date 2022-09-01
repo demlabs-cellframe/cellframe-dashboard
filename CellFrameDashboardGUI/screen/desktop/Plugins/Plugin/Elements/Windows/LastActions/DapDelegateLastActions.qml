@@ -7,20 +7,20 @@ Component
     Item
     {
         width:  parent.width
-        height: 50 * pt
+        height: 50 
 
         RowLayout
         {
             anchors.fill: parent
-            anchors.leftMargin: 20 * pt
-            anchors.rightMargin: 20 * pt
-            spacing: 10 * pt
+            anchors.leftMargin: 20 
+            anchors.rightMargin: 20 
+            spacing: 10 
 
             // Wallet name
             Text
             {
                 id: textWalletName
-                Layout.minimumWidth: 100 * pt
+                Layout.minimumWidth: 100 
                 text: wallet
                 color: "#ffffff"
                 font.family: "Quicksand"
@@ -32,7 +32,7 @@ Component
             Text
             {
                 id: textNetworkName
-                Layout.minimumWidth: 80 * pt
+                Layout.minimumWidth: 80 
                 text: network
                 color: "#ffffff"
                 font.family: "Quicksand"
@@ -44,7 +44,7 @@ Component
             Text
             {
                 id: textTokenName
-                Layout.minimumWidth: 60 * pt
+                Layout.minimumWidth: 60 
                 text: name
                 color: "#ffffff"
                 font.family: "Quicksand"
@@ -56,7 +56,7 @@ Component
             Text
             {
                 id: textSatus
-                Layout.minimumWidth: 60 * pt
+                Layout.minimumWidth: 60 
                 text: status
                 color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
                 font.family: "Quicksand"
@@ -83,10 +83,10 @@ Component
         //  Underline
         Rectangle
         {
-            x: 20 * pt
-            y: parent.height - 1 * pt
-            width: parent.width - 40 * pt
-            height: 1 * pt
+            x: 20 
+            y: parent.height - 1 
+            width: parent.width - 40 
+            height: 1 
             color: "#292929"
         }
     }

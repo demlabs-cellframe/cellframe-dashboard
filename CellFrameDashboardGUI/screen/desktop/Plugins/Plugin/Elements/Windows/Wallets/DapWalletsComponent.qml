@@ -14,7 +14,7 @@ Component {
 
         anchors.left: parent.left
         anchors.right: parent.right
-        height: list.contentHeight + headerFrame.height + 10 * pt
+        height: list.contentHeight + headerFrame.height + 10 
 
         Rectangle {
             id: headerFrame
@@ -22,7 +22,7 @@ Component {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            height: 40 * pt
+            height: 40 
 //            color: "#7930DE"
 
             LinearGradient
@@ -48,7 +48,7 @@ Component {
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 14 * pt
+                anchors.leftMargin: 14 
                 anchors.right: parent.right
                 font.family: "Quicksand"
                 font.pixelSize: 16
@@ -87,7 +87,7 @@ Component {
                 Rectangle
                 {
                     id: stockNameBlock
-                    height: 30 * pt
+                    height: 30 
                     anchors.left: parent.left
                     anchors.right: parent.right
                     color: "#2E3138"
@@ -156,15 +156,15 @@ Component {
                     {
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        height: 50 * pt
+                        height: 50 
                         color: "#363A42"
 
                         RowLayout
                         {
                             anchors.fill: parent
-                            anchors.leftMargin: 20 * pt
-                            anchors.rightMargin: 20 * pt
-                            spacing: 10 * pt
+                            anchors.leftMargin: 20 
+                            anchors.rightMargin: 20 
+                            spacing: 10 
 
                             DapWalletsInfo
                             {
@@ -177,10 +177,10 @@ Component {
                         //  Underline
                         Rectangle
                         {
-                            x: 20 * pt
-                            y: parent.height - 1 * pt
-                            width: parent.width - 40 * pt
-                            height: 1 * pt
+                            x: 20 
+                            y: parent.height - 1 
+                            width: parent.width - 40 
+                            height: 1 
                             color: "#292929"
                         }
                     }

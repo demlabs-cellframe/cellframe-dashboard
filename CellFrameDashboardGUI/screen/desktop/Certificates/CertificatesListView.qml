@@ -1,237 +1,217 @@
 import QtQuick 2.9
 import QtQml 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.3
 import "parts"
 import "qrc:/widgets"
 
 
 
-ListView {
+DapRectangleLitAndShaded {
     id: root
+    property alias model: list.model
     property alias delegateComponent: delegateComponent
     signal selectedIndex(int index)
     signal infoClicked(int index)
 
     property string seletedCertificateAccessType: qsTr("Public")
-//    property alias infoText: infoTitleText
     property bool infoTitleTextVisible: false
     property bool infoTitleTextVisibleClick: false
 
-    //interactive: contentHeight > height
-    headerPositioning: ListView.OverlayHeader
-    spacing: 17 * pt
-    clip: true
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
-    ScrollBar.vertical: ScrollBar {
-        active: true
-    }
+    contentData:
+    ColumnLayout
+    {
+        anchors.fill: parent
+        spacing: 0
 
-    header: Rectangle {
-        width: parent.width
-        height: certificatesTitle.height + tableTitle.height + spacing - 6
-        z:10
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        Item
+        {
+            Layout.fillWidth: true
+            height: 42
 
-        Rectangle {
-            id: certificatesTitle
-            width: parent.width
-            height: 42 * pt
-            color: currTheme.backgroundElements
-            anchors.left: parent.left
-            anchors.leftMargin: 10 * pt
-            anchors.right: parent.right
-            anchors.rightMargin: 10 * pt
-            radius: currTheme.radiusRectangle
-
-            Text {
-                id: certificatesTitleText
-                x: 3 * pt
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
+            Text
+            {
+                anchors.fill: parent
+                anchors.leftMargin: 16
+                anchors.verticalCenter: parent.verticalCenter
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
+                verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Certificates")
             }
         }
 
+        Rectangle
+        {
+            Layout.fillWidth: true
 
-        Rectangle {
-            id: tableTitle
-            width: parent.width
-            height: 30 * pt
-
-            anchors.top: certificatesTitle.bottom
+            height: 30
             color: currTheme.backgroundMainScreen
 
-            Text {
-                x: 15 * pt
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
-                font: mainFont.dapFont.medium11
-                text: root.seletedCertificateAccessType
-                color: currTheme.textColor
-            }
+            RowLayout
+            {
+                anchors.fill: parent
 
-            Text {
-                id: infoTitleText
-                x: 15 * pt
-                anchors {
-                    right: parent.right
-                    rightMargin: 31 * pt
+                Text
+                {
+                    Layout.fillWidth: true
+                    Layout.leftMargin: 16
+                    Layout.alignment: Qt.AlignLeft
+                    font: mainFont.dapFont.medium12
+                    color: currTheme.textColor
+                    verticalAlignment: Qt.AlignVCenter
+                    text: root.seletedCertificateAccessType
                 }
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
-                font: mainFont.dapFont.medium11
-                text: qsTr("Info")
-                opacity: if (root.infoTitleTextVisible || root.infoTitleTextVisibleClick) return 1; else return 0
-                color: currTheme.textColor
 
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 100
+                Text {
+                    id: infoTitleText
+                    Layout.alignment: Qt.AlignRight
+                    Layout.rightMargin: 23
+
+                    verticalAlignment: Text.AlignVCenter
+                    font: mainFont.dapFont.medium12
+                    text: qsTr("Info")
+                    opacity: if (root.infoTitleTextVisible || root.infoTitleTextVisibleClick) return 1; else return 0
+                    color: currTheme.textColor
+
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 100
+                        }
                     }
                 }
             }
         }
 
-    }  //header
 
-    Component {
-        id: delegateComponent
+        ListView
+        {
+            id: list
+            Layout.fillHeight: true
+            Layout.fillWidth: true
 
-        Rectangle {
-            //this property need set from root
-            width: root.width
-            anchors.left: parent.left
-            anchors.leftMargin: 14 * pt
-            anchors.right: parent.right
-            anchors.rightMargin: 14 * pt
-            height: 38 * pt
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            clip: true
 
-            Text {
-                id: certificateNameText
-                //x: 14 * pt
-                width: 597 * pt
-                height: parent.height
-                verticalAlignment: Text.AlignVCenter
-                font: mainFont.dapFont.regular16
-                text: model.completeBaseName   //model.fileName
-                elide: Text.ElideRight
-                maximumLineCount: 1
-                color: currTheme.textColor
-
-                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
-
-                onColorPropertyChanged: textTimer.start()
-
-                Timer {
-                    id: textTimer
-                        interval: 300
-                        onTriggered: certificateNameText.color = certificateNameText.colorProperty
-                    }
+            ScrollBar.vertical: ScrollBar {
+                active: true
             }
 
+            Component {
+                id: delegateComponent
 
-            MouseArea{
-                id: delegateClicked
-                width: parent.width
-                height: parent.height
-                hoverEnabled: true
-                property bool _entered: false
-                onEntered:
-                {
-                    _entered = true
-                }
+                Item{
+                    anchors.left: parent.left
+                    anchors.leftMargin: 16
+                    anchors.right: parent.right
+                    anchors.rightMargin: 16
+                    height: 50
 
-                onExited:
-                {
-                    _entered = false
-                }
-                onClicked: {
-                    root.selectedIndex(model.index)
-                    models.selectedAccessKeyType = model.accessKeyType
-                    root.infoTitleTextVisibleClick = true
-                    if (openedRightPanelPage == "Info" && model.index !== infoIndex)
-                        certificateNavigator.clearRightPanel()
-                }
+                    MouseArea{
+                        id: delegateClicked
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        property bool _entered: false
+                        onEntered:
+                        {
+                            _entered = true
+                        }
 
-                onDoubleClicked: {
-                    root.infoClicked(model.index)
-                    //root.selectedIndex(model.index)
-                }
-            }
+                        onExited:
+                        {
+                            _entered = false
+                        }
+                        onClicked: {
+                            root.selectedIndex(model.index)
+                            models.selectedAccessKeyType = model.accessKeyType
+                            root.infoTitleTextVisibleClick = true
+                            if (openedRightPanelPage == "Info" && model.index !== infoIndex)
+                                certificateNavigator.clearRightPanel()
+                        }
 
-
-            Item {
-                id: infoButton
-                anchors {
-                    right: parent.right
-                }
-                height: parent.height
-                width: 58 * pt
-                opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
-
-                onOpacityChanged: root.infoTitleTextVisible = opacity
-
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 300
+                        onDoubleClicked: {
+                            root.infoClicked(model.index)
+                        }
                     }
-                }
 
-                Image{
-                    anchors.right: infoButton.right
-                    anchors.rightMargin: 14 * pt
-                    y: 3 * pt
-                    width: 30 * pt
-                    height: 30 * pt
-                    mipmap: true
-                    source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
-                }
+                    RowLayout {
+                        //this property need set from root
+                        anchors.fill: parent
 
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked: {
-                        root.infoClicked(model.index)
+                        Text {
+                            id: certificateNameText
+                            //x: 14
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            Layout.alignment: Qt.AlignLeft
+                            verticalAlignment: Text.AlignVCenter
+                            font: mainFont.dapFont.regular16
+                            text: model.completeBaseName   //model.fileName
+                            elide: Text.ElideRight
+                            maximumLineCount: 1
+                            color: currTheme.textColor
+
+                            property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
+
+                            onColorPropertyChanged: textTimer.start()
+
+                            Timer {
+                                id: textTimer
+                                    interval: 300
+                                    onTriggered: certificateNameText.color = certificateNameText.colorProperty
+                                }
+                        }
+
+                        Image{
+
+                            Layout.alignment: Qt.AlignRight
+                            Layout.rightMargin: 4
+
+                            Layout.preferredHeight: 30
+                            Layout.preferredWidth: 30
+
+                            width: 30
+                            height: 30
+                            mipmap: true
+                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
+
+                            opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
+
+                            onOpacityChanged: root.infoTitleTextVisible = opacity
+
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: 300
+                                }
+                            }
+
+                            MouseArea
+                            {
+                                anchors.fill: parent
+                                onClicked: {
+                                    root.infoClicked(model.index)
+                                }
+                            }
+                        }
                     }
-                }
 
-            }  //
+                    Rectangle {
+                        id: bottomLine
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.bottom
+                        height: 1
+                        color: currTheme.lineSeparatorColor
+                    }
+                }  //
+            }  //delegateComponent
+        }
+    }
 
-
-            Rectangle {
-                id: bottomLine
-                //x: certificateNameText.x
-//                y: parent.height
-//                width: 644 * pt
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.bottom
-                //anchors.leftMargin: 14 * pt
-                //anchors.rightMargin: 15 * pt
-                height: 1 * pt
-                color: currTheme.lineSeparatorColor
-            }
-
-        }  //
-
-    }  //delegateComponent
-
-
-
-//    Rectangle {  //border frame
-//        width: parent.width
-//        height: parent.height
-//        border.color: currTheme.backgroundElements
-//        border.width: 1 * pt
-//        radius: 8 * pt
-//        color: "transparent"
-//        z: 1
-//    }
 
 
 }  //root

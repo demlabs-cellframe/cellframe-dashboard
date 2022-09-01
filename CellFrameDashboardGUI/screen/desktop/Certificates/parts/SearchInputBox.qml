@@ -17,12 +17,12 @@ TextField {
     id: root
 
     property alias filtering: filtering
-    property int spacing: 10 * pt
+    property int spacing: 10 
     property bool bottomLineVisible: true
 
 
-    implicitHeight: 27 * pt
-    implicitWidth: 230 * pt
+    implicitHeight: 27 
+    implicitWidth: 230 
     font:mainFont.dapFont.regular14
 
     style:
@@ -43,7 +43,7 @@ TextField {
     Rectangle {
         visible: bottomLineVisible
         width: parent.width
-        height: 1 * pt
+        height: 1 
         y: parent.height
         color: currTheme.borderColor
 

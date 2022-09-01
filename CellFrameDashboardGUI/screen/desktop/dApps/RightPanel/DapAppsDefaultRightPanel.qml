@@ -25,14 +25,14 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-//        anchors.margins: 5 * pt
-        anchors.topMargin: 3 * pt
-        spacing: 0 * pt
+//        anchors.margins: 5 
+        anchors.topMargin: 3 
+        spacing: 0 
 
         Text {
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
-            Layout.leftMargin: 15 * pt
+            Layout.minimumHeight: 35 
+            Layout.maximumHeight: 35 
+            Layout.leftMargin: 15 
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -41,9 +41,9 @@ Item
 
         ColumnLayout
         {
-//            Layout.margins: 3 * pt
-            Layout.leftMargin: 2 * pt
-            Layout.topMargin: 3 * pt
+//            Layout.margins: 3 
+            Layout.leftMargin: 2 
+            Layout.topMargin: 3 
             spacing: 0
 
             DapRadioButton
@@ -51,8 +51,8 @@ Item
                 id: buttonSelectionAllStatuses
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Verified")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -65,9 +65,9 @@ Item
                 id: buttonSelectionPending
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Unverified")
-                Layout.topMargin: 5 * pt
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                Layout.topMargin: 5 
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -80,9 +80,9 @@ Item
                 id: buttonSelectionSent
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Both")
-                Layout.topMargin: 6 * pt
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                Layout.topMargin: 6 
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -93,10 +93,10 @@ Item
         }
 
         Text {
-            Layout.topMargin: 24 * pt
-            Layout.leftMargin: 15 * pt
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
+            Layout.topMargin: 24 
+            Layout.leftMargin: 15 
+            Layout.minimumHeight: 35 
+            Layout.maximumHeight: 35 
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -107,16 +107,16 @@ Item
 
         ColumnLayout
         {
-            Layout.topMargin: 16 * pt
-            spacing: 24 * pt
+            Layout.topMargin: 16 
+            spacing: 24 
 
             DapButton
             {
 
-                Layout.preferredWidth: 350 * pt
+                Layout.preferredWidth: 350 
 
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36 
+                implicitWidth: 350 
 
                 id:loadPlug
                 textButton: "Add dApp"
@@ -148,10 +148,10 @@ Item
             }
             DapButton
             {
-                Layout.preferredWidth: 350 * pt
+                Layout.preferredWidth: 350 
 
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36 
+                implicitWidth: 350 
 
                 id:installPlug
                 textButton: "Activate dApp"
@@ -170,10 +170,10 @@ Item
             }
             DapButton
             {
-                Layout.preferredWidth: 350 * pt
+                Layout.preferredWidth: 350 
 
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36 
+                implicitWidth: 350 
 
                 id:uninstallPlug
                 textButton: "Deactivate dApp"
@@ -196,10 +196,10 @@ Item
             }
             DapButton
             {
-                Layout.preferredWidth: 350 * pt
+                Layout.preferredWidth: 350 
 
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36 
+                implicitWidth: 350 
 
                 id:deletePlug
                 textButton: "Delete dApp"

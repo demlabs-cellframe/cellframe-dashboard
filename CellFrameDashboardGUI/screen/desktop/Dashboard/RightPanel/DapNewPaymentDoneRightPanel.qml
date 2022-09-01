@@ -1,29 +1,32 @@
 import QtQuick 2.4
+import QtQml 2.12
 
-DapNewPaymentDoneRightPanelForm
+import "../../controls"
+
+DapRightPanelDone
 {
-    dapButtonSend.onClicked:
+    hederText: qsTr("Placed to mempool")
+    messageText: qsTr("Pending")
+
+    doneButton.onClicked:
     {
-        console.log("dapButtonSend.onClicked")
-
         dapServiceController.requestToService("DapGetWalletsInfoCommand");
-
         navigator.popPage()
     }
 
     Component.onCompleted:
     {
-//        dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
-
         if(commandResult.success)
         {
-            dapStatusTransaction.text = qsTr("Pending")
-            dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Successfully!")
+            messageImage = iconOk
+            hederText = qsTr("Placed to mempool")
+            messageText = qsTr("Pending")
         }
         else
         {
-            dapStatusTransaction.text = qsTr("Error")
-            dapDashboardScreen.dapFrameTitleCreateWallet.text = qsTr("Unsuccessfully!")
+            messageImage = iconBad
+            hederText = qsTr("Error")
+            messageText = commandResult.errorMessage
         }
     }
 }

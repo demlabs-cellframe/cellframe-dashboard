@@ -102,10 +102,10 @@ bool SingleApplicationTest(const QString &appName)
 const int RESTART_CODE = 12345;
 
 const int MIN_WIDTH = 1280;
-const int MIN_HEIGHT = 770;
+const int MIN_HEIGHT = 720;
 
 const int DEFAULT_WIDTH = 1280;
-const int DEFAULT_HEIGHT = 800;
+const int DEFAULT_HEIGHT = 720;
 
 int main(int argc, char *argv[])
 {

@@ -109,12 +109,12 @@ Item {
         spacing: 0
 
         Image {
-            Layout.leftMargin: isSynch ? 23 * pt : 29 * pt
+            Layout.leftMargin: isSynch ? 23  : 29 
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight:  24 * pt
-            Layout.preferredWidth:  24 * pt
-            height: 24 * pt
-            width: 24 * pt
+            Layout.preferredHeight:  24 
+            Layout.preferredWidth:  24 
+            height: 24 
+            width: 24 
             mipmap: true
 
             source: isSynch ? "qrc:/Resources/"+ pathTheme +"/icons/other/sync.svg" :
@@ -124,7 +124,7 @@ Item {
         Text {
             id: button_caption
             Layout.alignment: Qt.AlignVCenter
-            Layout.rightMargin: isSynch ? 22 * pt : 28 * pt
+            Layout.rightMargin: isSynch ? 22  : 28 
             font: mainFont.dapFont.medium12
             color: currTheme.textColor
             text: isSynch ? qsTr("Sync network") : qsTr("On network")

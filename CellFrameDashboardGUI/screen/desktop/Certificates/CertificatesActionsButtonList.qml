@@ -5,10 +5,7 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 import "qrc:/widgets"
 
-
-
-
-Rectangle {
+Item {
     id: root
 
     signal selectedAccessKeyType(int index)
@@ -24,11 +21,6 @@ Rectangle {
 
     property bool certificateSelected: false
     property bool bothAccessTypeCertificateSelected: false
-    color: currTheme.backgroundMainScreen
-    radius: currTheme.radiusRectangle
-
-    implicitWidth: 270 * pt
-    implicitHeight: 166 * pt
 
     //part animation on created and open
     visible: false
@@ -40,93 +32,80 @@ Rectangle {
         }
     }
 
-    function setAccessTypeSeletedIndex(index) {
-            //TODO выделять нужную кнопку
-    }
-
-
     ButtonGroup {
         id: buttonGroup
     }
 
-    Item
-    {
+    ColumnLayout {
         id:frameRightPanel
         anchors.fill: parent
-//        color: parent.color
-//        radius: parent.radius
-
-        Item {
-            id: radioButtonFrame
-            y: 12 * pt
-            width: parent.width - x
-            height: 166 * pt
-
-            Text {
-                id: filterTitleText
-                x: 15 * pt
-                font: mainFont.dapFont.bold14
-                color: currTheme.textColor
-                text: qsTr("Filter")
-            }
-
-            ColumnLayout {
-                id: certificateAccessTypeLayout
-                spacing: 32 * pt
-                y: filterTitleText.y + filterTitleText.height + 24 * pt
-                x: 3 * pt
-                width: parent.width - x
-
-                Repeater {
-                    id: certificateAccessTypeRepeater
-
-                    DapRadioButton {    //qrc:/screen/desktop/Certificates/CertificatesActionsButtonList.qml:73:17: QML DapRadioButtonForm.ui: Binding loop detected for property "baselineOffset"
-                        id: buttonSelectionNothing
-                        nameRadioButton: model.name
-                        Layout.preferredHeight: 20 * pt
-                        Layout.fillWidth: true
-                        implicitHeight: indicatorInnerSize
-                        indicatorSize: 16 * pt
-                        indicatorInnerSize: 46 * pt
-                        //spaceIndicatorText: 18 * pt
-                        fontRadioButton: mainFont.dapFont.regular16
-                        ButtonGroup.group: buttonGroup
-                        checked: model.selected
-
-                        onClicked: {
-                            root.selectedAccessKeyType(model.index)
-                        }
-                    }  //
-                }  //
-            }
-
-        }  //radioButtonFrame
+        spacing: 0
 
         Text {
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
+            Layout.leftMargin: 16
+            verticalAlignment: Text.AlignVCenter
+            font: mainFont.dapFont.bold14
+            color: currTheme.textColor
+            text: qsTr("Filter")
+        }
+
+        ColumnLayout
+        {
+            Layout.leftMargin: 3
+            Layout.topMargin: 5
+            spacing: 6
+
+            Repeater {
+                id: certificateAccessTypeRepeater
+
+                DapRadioButton {
+                    id: buttonSelectionNothing
+                    nameRadioButton: model.name
+                    Layout.preferredHeight: 46
+                    Layout.fillWidth: true
+                    implicitHeight: indicatorInnerSize
+                    indicatorSize: 16
+                    indicatorInnerSize: 46
+                    //spaceIndicatorText: 18
+                    fontRadioButton: mainFont.dapFont.regular16
+                    ButtonGroup.group: buttonGroup
+                    checked: model.selected
+
+                    onClicked: {
+                        root.selectedAccessKeyType(model.index)
+                    }
+                }  //
+            }  //
+        }
+        Text {
             id: actionsTitleText
-            x: 16 * pt
-            y: radioButtonFrame.y + radioButtonFrame.height + 44 * pt
+            Layout.topMargin: 27
+            Layout.leftMargin: 16
+            Layout.minimumHeight: 18
+            Layout.maximumHeight: 18
+            verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Actions")
         }
 
-
-        ColumnLayout {
-            id: actionButtonsLayout
-            spacing: 24 * pt
-            y: actionsTitleText.y + actionsTitleText.height + 24 * pt
-            width: parent.width
+        ColumnLayout
+        {
+            Layout.leftMargin: 16
+            Layout.topMargin: 24
+            spacing: 20
 
             DapButton {
                 id: createCertificateButton
                 textButton: qsTr("Create certificate")
 
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 36
 
                 Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36
+                implicitWidth: 318
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -136,13 +115,12 @@ Rectangle {
             DapButton {
                 id: importCertificateButton
                 textButton: qsTr("Import certificate")
-    //            Layout.fillWidth: true
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 36
                 visible: true   //TODO need clarification of the requirements
 
                 Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36
+                implicitWidth: 318
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -167,17 +145,15 @@ Rectangle {
                 }
             }
 
-
             DapButton {
                 id: exportPublicCertificateToFileButton
                 textButton: qsTr("Export private certificate to public")
-    //            Layout.fillWidth: true
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 36
 
                 enabled: root.certificateSelected && bothAccessTypeCertificateSelected
                 Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36
+                implicitWidth: 318
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -188,13 +164,12 @@ Rectangle {
             DapButton {
                 id: exportPublicCertificateToMempoolButton
                 textButton: qsTr("Export certificate to mempool") // qsTr("Export public certificate to mempool")
-    //            Layout.fillWidth: true
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 36
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36
+                implicitWidth: 318
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -205,14 +180,13 @@ Rectangle {
             DapButton {
                 id: addSignatureToCertificateButton //#373A42
                 textButton: qsTr("Add signature to certificate")
-    //            Layout.fillWidth: true
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 36
                 visible: false
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36
+                implicitWidth: 318
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
@@ -222,13 +196,12 @@ Rectangle {
             DapButton {
                 id: deleteCertificateButton
                 textButton: qsTr("Delete certificate")
-    //            Layout.fillWidth: true
-                Layout.preferredHeight: 36 * pt
+                Layout.preferredHeight: 36
 
                 enabled: root.certificateSelected
                 Layout.alignment: Qt.AlignHCenter
-                implicitHeight: 36 * pt
-                implicitWidth: 350 * pt
+                implicitHeight: 36
+                implicitWidth: 318
 
                 horizontalAligmentText: Text.AlignHCenter
 
@@ -236,7 +209,9 @@ Rectangle {
                 fontButton: mainFont.dapFont.regular16
             }
 
-
-        }   //actionButtonsLayout
-    } //frameRightPanel
+            Item {
+                Layout.fillHeight: true
+            }
+        }
+    }
 }  //root
