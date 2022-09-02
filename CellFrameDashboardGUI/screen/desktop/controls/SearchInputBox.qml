@@ -18,6 +18,7 @@ TextField {
     property alias filtering: filtering
     property int spacing: 10 
     property bool bottomLineVisible: true
+    property string placeHolderTextColor: currTheme.textColorGray
 
 
     implicitHeight: 27 
@@ -29,7 +30,7 @@ TextField {
         TextFieldStyle
         {
             textColor: currTheme.textColor
-            placeholderTextColor: currTheme.textColorGray
+            placeholderTextColor: placeHolderTextColor
             background:
                 Rectangle
                 {

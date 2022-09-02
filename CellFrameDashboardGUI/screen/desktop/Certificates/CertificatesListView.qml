@@ -71,7 +71,7 @@ DapRectangleLitAndShaded {
                 Text {
                     id: infoTitleText
                     Layout.alignment: Qt.AlignRight
-                    Layout.rightMargin: 23
+                    Layout.rightMargin: 17
 
                     verticalAlignment: Text.AlignVCenter
                     font: mainFont.dapFont.medium12
@@ -169,7 +169,7 @@ DapRectangleLitAndShaded {
                         Image{
 
                             Layout.alignment: Qt.AlignRight
-                            Layout.rightMargin: 4
+                            Layout.rightMargin: -2
 
                             Layout.preferredHeight: 30
                             Layout.preferredWidth: 30

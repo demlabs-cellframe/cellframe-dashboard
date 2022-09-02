@@ -109,7 +109,7 @@ Item {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
             }
 
             DapButton {
@@ -124,7 +124,7 @@ Item {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
 
                 onClicked:
                 {
@@ -157,7 +157,7 @@ Item {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
             }
 
 
@@ -173,7 +173,7 @@ Item {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
             }
 
 
@@ -190,7 +190,7 @@ Item {
 
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
             }
 
             DapButton {
@@ -206,7 +206,7 @@ Item {
                 horizontalAligmentText: Text.AlignHCenter
 
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
             }
 
             Item {

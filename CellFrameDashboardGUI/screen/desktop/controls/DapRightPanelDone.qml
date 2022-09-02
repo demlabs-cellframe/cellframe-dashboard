@@ -31,8 +31,8 @@ DapRectangleLitAndShaded {
             id: imageMessage
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
             Layout.topMargin: 140
-            innerWidth: 64
-            innerHeight: 64
+            innerWidth: 53
+            innerHeight: 53
         }
 
         Text

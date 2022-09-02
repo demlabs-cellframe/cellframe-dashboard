@@ -128,11 +128,11 @@ Item
             ListModel
             {
                 id: periodModel
-                ListElement { name: "today" }
-                ListElement { name: "yesterday" }
-                ListElement { name: "last week" }
+                ListElement { name: "Today" }
+                ListElement { name: "Yesterday" }
+                ListElement { name: "Last week" }
 //                ListElement { name: "this month" }
-                ListElement { name: "custom range"}
+                ListElement { name: "Custom range"}
             }
 
             DapComboBoxCustomRange
@@ -144,6 +144,7 @@ Item
                 anchors.fill: parent
                 anchors.margins: 10 
                 anchors.leftMargin: 15 
+                anchors.rightMargin: 15
 
                 dapIndicatorImageNormal: "qrc:/Resources/"+pathTheme+"/icons/other/icon_arrow_down.png"
                 dapIndicatorImageActive: "qrc:/Resources/"+pathTheme+"/icons/other/ic_arrow_up.png"
@@ -173,7 +174,7 @@ Item
                 dapColorTopNormalDropShadow: "#00000000"
                 dapColorDropShadow: currTheme.shadowColor
                 dapTextFont:  mainFont.dapFont.regular14
-                dapDefaultMainLineText: "all time"
+                dapDefaultMainLineText: "All time"
                 dapIsDefaultNeedToAppend: true
                 dapRangeElementWidth: 74 
                 dapRangeSpacing: 6 

@@ -69,6 +69,7 @@ ColumnLayout
             anchors.fill: parent
             anchors.margins: 10
             anchors.bottomMargin: 0
+            anchors.topMargin: 5
             anchors.leftMargin: 10
 
             font: mainFont.dapFont.regular16
@@ -97,7 +98,7 @@ ColumnLayout
     {
         height: 50
         Layout.fillWidth: true
-        Layout.topMargin: -10
+        Layout.topMargin: -7
         DapCheckBox
         {
             property bool stopUpdate: false
@@ -107,7 +108,7 @@ ColumnLayout
 //            anchors.bottomMargin: 10
             indicatorInnerSize: height
             nameTextColor: currTheme.textColor
-            nameCheckbox: "Auto online"
+            nameCheckbox: "Autoonline"
             property bool isCheck: false
 
             Component.onCompleted:
@@ -159,7 +160,7 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-//        Layout.topMargin: 1
+        Layout.topMargin: 8
 //        Layout.bottomMargin: 1
         height: 30
         color: currTheme.backgroundMainScreen
@@ -225,12 +226,12 @@ ColumnLayout
                     ColumnLayout
                     {
                         Layout.alignment: Qt.AlignLeft
-                        spacing: 0
+                        spacing: 2
 
                         Text
                         {
 
-                            height: 26*pt
+                            height: 14*pt
                             Layout.fillWidth: true
 
                             font: mainFont.dapFont.regular11
@@ -242,13 +243,13 @@ ColumnLayout
                         RowLayout
                         {
                             id: rowLay
-                            Layout.preferredHeight: 16
+                            Layout.preferredHeight: 15
 
                             spacing: 0
                             DapText
                             {
                                id: textMetworkAddress
-                               Layout.preferredWidth: 101
+                               Layout.preferredWidth: 69
 
                                fontDapText: mainFont.dapFont.regular12
                                color: currTheme.textColorGrayTwo
@@ -267,35 +268,9 @@ ColumnLayout
 //                                       textMetworkAddress.update()
                                        textMetworkAddress.updateText()
 //                                       emptyText.copyFullText()
-
                                    }
                                }
-
-//                               DapText
-//                               {
-//                                   id: emptyText
-//                                   visible: false
-//                                   fullText: " "
-//                               }
                             }
-                            /*MouseArea
-                            {
-                                id: networkAddressCopyButton
-//                                Layout.leftMargin: 3
-                                Layout.preferredHeight: 18
-                                Layout.preferredWidth: 17
-                                hoverEnabled: true
-
-                                onClicked: textMetworkAddress.copyFullText()
-
-                                Image{
-                                    id:networkAddressCopyButtonImage
-                                    width: parent.width
-                                    height: parent.height
-                                    mipmap: true
-                                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
-                                }
-                            }*/
                             CopyButton
                             {
                                 id: networkAddressCopyButton
@@ -314,8 +289,8 @@ ColumnLayout
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         Layout.preferredHeight: 46
                         Layout.preferredWidth: 46
-                        Layout.rightMargin: 17
-                        Layout.topMargin: 2
+                        Layout.rightMargin: 11
+//                        Layout.topMargin: 2
 
                         ButtonGroup.group: buttonGroup
 

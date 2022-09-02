@@ -59,6 +59,7 @@ DapRectangleLitAndShaded {
 
         ListView {
             id: certificateDataListView
+            Layout.topMargin: 8
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.leftMargin: 16

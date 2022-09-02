@@ -191,7 +191,7 @@ DapRectangleLitAndShaded
                 textButton: qsTr("Next")
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
                 visible: false
             }
 
@@ -204,7 +204,7 @@ DapRectangleLitAndShaded
                 checkable: true
                 horizontalAligmentText: Text.AlignHCenter
                 indentTextRight: 0
-                fontButton: mainFont.dapFont.regular16
+                fontButton: mainFont.dapFont.medium14
             }
         }
     }

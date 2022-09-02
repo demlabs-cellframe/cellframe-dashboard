@@ -9,8 +9,8 @@ import QtQml 2.12
 Item
 {
     id: root
-    width: 17 
-    height: 18 
+    width: 16
+    height: 17
 
     signal copyClicked()
 

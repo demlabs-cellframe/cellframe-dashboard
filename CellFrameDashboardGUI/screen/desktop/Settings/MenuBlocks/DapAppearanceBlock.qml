@@ -55,7 +55,7 @@ ColumnLayout
         RowLayout
         {
             anchors.fill: parent
-            anchors.topMargin: 20
+            anchors.topMargin: 18
 //            anchors.bottomMargin: 16
             anchors.leftMargin: 16
             anchors.rightMargin: 16
@@ -77,13 +77,14 @@ ColumnLayout
             {
                 id: scaleSpinbox
 
-                Layout.maximumWidth: 100
-                Layout.minimumWidth: 100
+                Layout.alignment: Qt.AlignRight
+                Layout.maximumWidth: 86
+                Layout.minimumWidth: 86
 
                 Layout.minimumHeight: 18
                 Layout.maximumHeight: 18
 
-                font: mainFont.dapFont.regular12
+                font: mainFont.dapFont.regular14
 
                 realFrom: params.minWindowScale
                 realTo: params.maxWindowScale

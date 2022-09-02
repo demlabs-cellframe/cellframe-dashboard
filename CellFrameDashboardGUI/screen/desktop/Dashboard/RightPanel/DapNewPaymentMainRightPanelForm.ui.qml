@@ -209,6 +209,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
             Layout.margins: 10 
 
+            Layout.topMargin: 20
             Layout.leftMargin: 36
             Layout.rightMargin: 16
 
@@ -276,6 +277,7 @@ DapRectangleLitAndShaded
         Rectangle
         {
             id: frameRecipientWallet
+            Layout.topMargin: 10
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
             height: 30 
@@ -386,7 +388,7 @@ DapRectangleLitAndShaded
             textButton: qsTr("Send")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular16
+            fontButton: mainFont.dapFont.medium14
         }
     }
 }

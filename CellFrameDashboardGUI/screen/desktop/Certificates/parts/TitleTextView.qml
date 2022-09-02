@@ -18,6 +18,7 @@ ColumnLayout {
         color: "#B4B1BD"
         width: parent.width
         wrapMode: Text.Wrap
+        height: 15
     }
 
     Text {
@@ -27,5 +28,6 @@ ColumnLayout {
         color: currTheme.textColor
         width: parent.width
         wrapMode: Text.Wrap
+        height: 18
     }
 }   //

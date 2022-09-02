@@ -236,7 +236,7 @@ DapRectangleLitAndShaded {
             id: error
 
             Layout.minimumHeight: 30
-            Layout.maximumHeight: 30
+            Layout.maximumHeight: 80
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             Layout.bottomMargin: 12
             Layout.maximumWidth: 281

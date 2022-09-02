@@ -38,7 +38,7 @@ Controls.DapTopPanel
         id: newPaymentButton
         textButton: "Send"
         anchors.right: parent.right
-        anchors.rightMargin: 16
+        anchors.rightMargin: 24
 
         anchors.verticalCenter: parent.verticalCenter
         implicitHeight: 36

@@ -181,7 +181,7 @@ DapRectangleLitAndShaded {
                 Layout.fillWidth: true
                 Layout.leftMargin: 31
                 Layout.rightMargin: 18
-                Layout.topMargin: 10
+                Layout.topMargin: 5
 
                 onTextChanged: checkRequiredField()
                 onEditingFinished: {
@@ -299,10 +299,10 @@ DapRectangleLitAndShaded {
 
             Layout.bottomMargin: 20
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            textButton: qsTr("Next")
+            textButton: qsTr("Create")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
-            fontButton: mainFont.dapFont.regular16
+            fontButton: mainFont.dapFont.medium14
 
             onClicked: {   //enabled when requiredFieldValid
                 if (checkOptionalField())

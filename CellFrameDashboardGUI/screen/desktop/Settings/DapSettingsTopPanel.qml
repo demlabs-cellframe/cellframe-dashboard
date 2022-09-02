@@ -103,11 +103,9 @@ Controls.DapTopPanel
 
         anchors.right: parent.right
         anchors.rightMargin: 24 
-        anchors.top: parent.top
-        anchors.topMargin: 14 
         anchors.verticalCenter: parent.verticalCenter
 
-        implicitHeight: 38 
+        implicitHeight: 36
         implicitWidth: 163 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter

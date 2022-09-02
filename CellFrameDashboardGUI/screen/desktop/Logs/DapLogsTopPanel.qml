@@ -16,8 +16,9 @@ Controls.DapTopPanel
         id: exportLogButton
         textButton: "Export log"
         anchors.right: parent.right
+        anchors.rightMargin: 24
         anchors.verticalCenter: parent.verticalCenter
-        implicitHeight: 38 
+        implicitHeight: 36
         implicitWidth: 163 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
