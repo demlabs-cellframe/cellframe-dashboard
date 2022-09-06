@@ -176,6 +176,11 @@ Controls.DapTopPanel
         var modelWallet = dapModelWallets.get(logicMainApp.currentIndex)
         stockModelTokens.clear()
 
+//        print("updatePair",
+//              "logicMainApp.token1Name", logicMainApp.token1Name,
+//              "logicMainApp.token2Name", logicMainApp.token2Name,
+//              "logicMainApp.tokenNetwork", logicMainApp.tokenNetwork)
+
         for(var i = 0; i < modelWallet.networks.count; i++)
         {
             if(logicMainApp.tokenNetwork === modelWallet.networks.get(i).name)
@@ -201,6 +206,10 @@ Controls.DapTopPanel
             }
         }
 
+//        print("updatePair",
+//              "stockModelTokens.count", stockModelTokens.count)
+        updateBalance()
+
         if(stockModelTokens.count)
         {
             tokenComboBox.visible = true
@@ -213,7 +222,10 @@ Controls.DapTopPanel
         }
     }
 
-    function updateBalance(){
+    function updateBalance()
+    {
+        print("updateBalance",
+              "tokenComboBox.count", tokenComboBox.count)
 
         if(tokenComboBox.count)
         {
@@ -222,7 +234,7 @@ Controls.DapTopPanel
             logicStock.selectedTokenBalanceWallet = textWalletBalance.text
         }
 
-        if(tokenComboBox.count == 2)
+        if(tokenComboBox.count === 2)
         {
             var unselectedIndex = tokenComboBox.currentIndex === 1 ? 0 : 1
 
