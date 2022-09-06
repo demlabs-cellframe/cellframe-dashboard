@@ -159,7 +159,7 @@ Page
                 Layout.fillWidth: true
             }
 
-            DapComboBox
+            DapCustomComboBox
             {
                 id: roundPowerComboBox
                 Layout.minimumWidth: 128
@@ -170,7 +170,7 @@ Page
 
                 model: accuracyModel
 
-                onActivated:
+                onCurrentIndexChanged:
                 {
                     stockDataWorker.setBookRoundPower(currentText)
                 }

@@ -160,7 +160,7 @@ Controls.Page {
             Layout.fillWidth: true
             height: 139 * pt
 
-            DapComboBox {
+            DapCustomComboBox {
                 id: signatureTypeCertificateComboBox
                 width: 316 * pt
                 height: 42 * pt

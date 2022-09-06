@@ -73,12 +73,14 @@ Controls.DapTopPanel
             color: currTheme.textColor
         }
 
-        DapComboBox{
+        DapCustomComboBox{
             id: tokenComboBox
 //            width: 95
             Layout.minimumWidth: 120
             Layout.maximumWidth: 120
             font: mainFont.dapFont.regular16
+
+            backgroundColor: currTheme.backgroundMainScreen
 
             Component.onCompleted: {
                 updatePair()
@@ -96,7 +98,7 @@ Controls.DapTopPanel
 
 
 
-            background:
+/*            background:
             Item
             {
                 anchors.fill: parent
@@ -135,7 +137,7 @@ Controls.DapTopPanel
                     spread: 0
                     visible: tokenComboBox.popup.visible
                 }
-            }
+            }*/
         }
 
         // Static wallet balance text "Wallet balance"

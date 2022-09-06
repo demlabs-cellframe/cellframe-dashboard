@@ -60,7 +60,7 @@ ColumnLayout
         height: 60 * pt
         Layout.fillWidth: true
 
-        DapComboBox
+        DapCustomComboBox
         {
             property bool isInit: false
             id: comboBoxCurrentNetwork

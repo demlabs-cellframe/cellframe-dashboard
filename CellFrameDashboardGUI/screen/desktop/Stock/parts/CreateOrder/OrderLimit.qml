@@ -97,7 +97,7 @@ ColumnLayout {
             color: "transparent"
             radius: 4
 
-            DapComboBox
+            DapCustomComboBox
             {
                 id: expiresComboBox
                 anchors.fill: parent

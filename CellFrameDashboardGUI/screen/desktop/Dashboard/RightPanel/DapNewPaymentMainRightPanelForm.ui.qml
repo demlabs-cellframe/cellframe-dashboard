@@ -140,7 +140,7 @@ Controls.Page
                 color: "transparent"
                 Layout.fillWidth: true
 
-                DapComboBox
+                DapCustomComboBox
                 {
                     id: comboboxNetwork
 
@@ -241,7 +241,7 @@ Controls.Page
                     height: 40 * pt
                     color: "transparent"
 
-                    DapComboBox
+                    DapCustomComboBox
                     {
                         id: comboboxChain
 
@@ -262,6 +262,7 @@ Controls.Page
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
             height: 30 * pt
+
             Text
             {
                 id: textFrameamountPayment
@@ -328,7 +329,7 @@ Controls.Page
                     width: 125 * pt
                     Layout.leftMargin: 0 * pt
                     Layout.rightMargin: 0 * pt
-                    DapComboBox
+                    DapCustomComboBox
                     {
                         id: comboboxToken
                         anchors.fill: parent

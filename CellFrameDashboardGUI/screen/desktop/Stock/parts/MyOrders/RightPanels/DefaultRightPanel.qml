@@ -89,7 +89,7 @@ Item
             text: qsTr("Pair")
         }
 
-        DapComboBox
+        DapCustomComboBox
         {
             id: comboboxPair
             Layout.topMargin: 16

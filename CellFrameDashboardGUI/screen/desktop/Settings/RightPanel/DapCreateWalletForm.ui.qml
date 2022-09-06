@@ -179,7 +179,7 @@ Controls.Page
 //            width: 350 * pt
             color: "transparent"
             Layout.fillWidth: true
-            DapComboBox
+            DapCustomComboBox
             {
                 id: comboBoxSignatureTypeWallet
                 model: signatureTypeWallet
