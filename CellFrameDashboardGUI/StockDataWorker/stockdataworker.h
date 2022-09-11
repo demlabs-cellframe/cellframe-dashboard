@@ -80,7 +80,6 @@ public:
     Q_INVOKABLE void getCandleModel(bool update);
     Q_INVOKABLE QVariantMap getCandleInfo(int index);
 
-    Q_INVOKABLE void getTempAveragedModel(bool update);
     Q_INVOKABLE void getAveragedModels(bool update);
     Q_INVOKABLE QVariantMap getAveragedInfo(int chart, int index);
 
@@ -233,7 +232,6 @@ private:
     QVariantList buyModel;
     QVariantList sellModel;
 
-    QVector <PriceInfo> tempAverModel;
     QVector <QVector <PriceInfo>> averagedModel;
     QVector <int> averageDelta;
 

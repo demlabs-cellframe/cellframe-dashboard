@@ -180,7 +180,13 @@ ComboBox {
     Popup
     {
         id: popup
-        y: control.height //11 - maket spacing
+//        y: control.height //11 - maket spacing
+
+        scale: mainWindow.scale
+
+        x: -width*(1/scale-1)*0.5
+        y: control.height - height*(1/scale-1)*0.5
+
         width: widthPopup
         implicitHeight: contentItem.implicitHeight/* + 3*/
             //+3 is needed to make ListView less moovable

@@ -45,13 +45,13 @@ StockDataWorker::StockDataWorker(QObject *parent) :
         switch (i)
         {
             case 0:
-                averageDelta.append(10);
+                averageDelta.append(5);
                 break;
             case 1:
-                averageDelta.append(30);
+                averageDelta.append(15);
                 break;
             case 2:
-                averageDelta.append(90);
+                averageDelta.append(45);
                 break;
             default:
                 averageDelta.append(1);
@@ -110,7 +110,7 @@ void StockDataWorker::resetPriceData(double price, bool init)
 
     resetRightTime();
 
-    getTempAveragedModel(false);
+//    getTempAveragedModel(false);
 
     getAveragedModels(false);
 
@@ -187,25 +187,73 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 {
     qDebug() << "StockDataWorker::setTokenPriceHistory";
 
-/*    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    priceModel.resize(4);
-    PriceInfo info;
+//    priceModel.clear();
+//    PriceInfo info;
 
-    info.price = 12.3;
-    info.time = currentTime - 1000*60*10;
-    priceModel[0] = info;
+ /*
+    qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
-    info.price = 24.5;
-    info.time = currentTime - 1000*60*7;
-    priceModel[1] = info;
+    info.price = 2.8;
+    info.time = currentTime - 100000;
+    priceModel.append(info);
 
-    info.price = 18.7;
-    info.time = currentTime - 1000*60*4;
-    priceModel[2] = info;
+    info.price = 3.5;
+    info.time = currentTime - 80000;
+    priceModel.append(info);
 
-    info.price = 31.2;
-    info.time = currentTime - 1000*60*3;
-    priceModel[3] = info;*/
+    info.price = 2.22;
+    info.time = currentTime - 50000;
+    priceModel.append(info);
+
+    info.price = 3.0;
+    info.time = currentTime - 40000;
+    priceModel.append(info);
+
+    info.price = 2.56304;
+    info.time = currentTime - 20000;
+    priceModel.append(info);*/
+
+
+/*    info.price = 2.8;
+    info.time = currentTime - 400000;
+    priceModel.append(info);
+
+    info.price = 3.5;
+    info.time = currentTime - 300000;
+    priceModel.append(info);
+
+    info.price = 2.22;
+    info.time = currentTime - 250000;
+    priceModel.append(info);
+
+    info.price = 3.0;
+    info.time = currentTime - 150000;
+    priceModel.append(info);
+
+    info.price = 2.56304;
+    info.time = currentTime - 50000;
+    priceModel.append(info);*/
+
+
+/*    info.price = 2.8;
+    info.time = 1662023227172;
+    priceModel.append(info);
+
+    info.price = 3.5;
+    info.time = 1662223227172;
+    priceModel.append(info);
+
+    info.price = 2.22;
+    info.time = 1662423227172;
+    priceModel.append(info);
+
+    info.price = 3.0;
+    info.time = 1662523227172;
+    priceModel.append(info);
+
+    info.price = 2.56304;
+    info.time = 1662623227172;
+    priceModel.append(info);*/
 
     QJsonDocument doc = QJsonDocument::fromJson(json);
 
@@ -250,7 +298,7 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 
     resetRightTime();
 
-    getTempAveragedModel(false);
+//    getTempAveragedModel(false);
 
     getAveragedModels(false);
 
@@ -449,7 +497,7 @@ void StockDataWorker::updateAllModels()
 
     getCandleModel(true);
 
-    getTempAveragedModel(true);
+//    getTempAveragedModel(true);
 
     getAveragedModels(true);
 
@@ -481,6 +529,8 @@ void StockDataWorker::getCandleModel(bool update)
     double close = 0;
     double min = 0;
     double max = 0;
+    double sum = 0;
+    int counter = 1;
     qint64 candleBegin = 0;
 
 //    qDebug() << "StockDataWorker::getCandleModel"
@@ -489,7 +539,8 @@ void StockDataWorker::getCandleModel(bool update)
     if (!priceModel.isEmpty())
     {
         candleBegin = priceModel.first().time;
-        open = close = min = max = priceModel.first().price;
+        open = close = min = max = sum =
+                priceModel.first().price;
     }
 
     int candleIndex = 0;
@@ -507,7 +558,7 @@ void StockDataWorker::getCandleModel(bool update)
 
         if (m_lastCandleNumber < candleModel.size())
         {
-            open = close = min = max =
+            open = close = min = max = sum =
                 candleModel.at(m_lastCandleNumber).open;
         }
 
@@ -567,7 +618,7 @@ void StockDataWorker::getCandleModel(bool update)
                 max = currPrice;
 
             CandleInfo info {candleBegin + m_candleWidth/2,
-                            open, close, min, max};
+                            open, close, min, max, sum/counter};
 
             candleModel[candleIndex] = info;
 
@@ -593,6 +644,9 @@ void StockDataWorker::getCandleModel(bool update)
             min = currPrice;
             max = currPrice;
 
+            sum = currPrice;
+            counter = 1;
+
             if (candleBegin > currentTime)
                 break;
         }
@@ -604,6 +658,9 @@ void StockDataWorker::getCandleModel(bool update)
             if (max < currPrice)
                 max = currPrice;
 
+            sum += currPrice;
+            ++counter;
+
             ++index;
 
             if (index < priceModel.size()-1)
@@ -613,48 +670,6 @@ void StockDataWorker::getCandleModel(bool update)
         }
 
     }
-
-/*    for (auto i = priceIndex; i < priceModel.size(); ++i)
-    {
-        double currPrice = priceModel.at(i).price;
-
-        close = currPrice;
-        if (min > currPrice)
-            min = currPrice;
-        if (max < currPrice)
-            max = currPrice;
-
-        if (priceModel.at(i).time > candleBegin + m_candleWidth ||
-            i == priceModel.size()-1)
-        {
-            if (candleIndex >= candleModel.size())
-                candleModel.resize(candleIndex+1);
-
-            CandleInfo info {candleBegin + m_candleWidth/2,
-                            open, close, min, max};
-
-            candleModel[candleIndex] = info;
-
-            qDebug() << "CandleInfo info"
-                     << "priceIndex" << i
-                     << "priceModel.at(i).time" << priceModel.at(i).time
-                     << "candleIndex" << candleIndex
-                     << "candleBegin" << candleBegin
-                     << "open" << open
-                     << "close" << close
-                     << "min" << min
-                     << "max" << max;
-
-            ++candleIndex;
-
-            candleBegin += m_candleWidth;
-
-            open = currPrice;
-            close = currPrice;
-            min = currPrice;
-            max = currPrice;
-        }
-    }*/
 
     if (candleIndex < candleModel.size())
         candleModel.resize(candleIndex);
@@ -690,152 +705,14 @@ QVariantMap StockDataWorker::getCandleInfo(int index)
         return candleModel.at(index).getMap();
 }
 
-void StockDataWorker::getTempAveragedModel(bool update)
-{
-    return;
-
-//    qDebug() << "StockDataWorker::getTempAveragedModel" << "BEGIN"
-//             << QTime::currentTime().toString("hh:mm:ss.zzz");
-    if (priceModel.isEmpty())
-    {
-        tempAverModel.clear();
-        return;
-    }
-
-    int averStep = m_candleWidth * minAverageStep;
-
-    qint64 timeLength = 0;
-
-    if (!priceModel.isEmpty())
-        timeLength = priceModel.last().time - priceModel.first().time;
-
-    int length = timeLength / averStep;
-    if (timeLength % averStep)
-        ++length;
-
-    qint64 averBegin = 0;
-
-    if (!priceModel.isEmpty())
-        averBegin = priceModel.first().time;
-    qint64 averNext = averBegin + averStep;
-
-    int lastAverIndex = tempAverModel.size()-1;
-
-//    qDebug() << "StockDataWorker::getAveragedModel"
-//             << "averStep" << averStep
-//             << "length" << length;
-
-    int averIndex = 0;
-
-    int counter = 0;
-    double summ = 0;
-
-    int priceIndex = 0;
-
-    if (update)
-    {
-        averIndex = lastAverIndex;
-
-//        averBegin += averIndex * averStep;
-        if (averIndex >= 0 && averIndex < tempAverModel.size())
-            averBegin = tempAverModel.at(averIndex).time - averStep/2;
-        averNext = averBegin + averStep;
-
-        priceIndex = priceModel.size()-1;
-
-//        qDebug() << "StockDataWorker::getTempAveragedModel"
-//                 << "averIndex" << averIndex
-//                 << "averBegin" << averBegin
-//                 << "priceIndex" << priceIndex;
-
-        while (priceIndex > 0 &&
-               priceModel.at(priceIndex).time > averBegin)
-        {
-            --priceIndex;
-//            qDebug() << "priceModel.at(priceIndex).time"
-//                     << "averBegin" << averBegin
-//                     << priceModel.at(priceIndex).time
-//                     << "priceIndex" << priceIndex;
-        }
-
-        if (priceIndex < 0)
-            priceIndex = 0;
-
-        if (priceModel.at(priceIndex).time < averBegin)
-            ++priceIndex;
-
-//        qDebug() << "priceIndex END" << priceIndex;
-    }
-
-    tempAverModel.resize(length);
-
-    for (auto i = priceIndex; i < priceModel.size(); ++i)
-    {
-        if (priceModel.at(i).time > averNext ||
-            i == priceModel.size()-1)
-        {
-            if (averIndex >= tempAverModel.size())
-                tempAverModel.resize(averIndex+1);
-
-            PriceInfo info;
-
-            info.time = averBegin + averStep/2;
-
-            if (counter == 0)
-                info.price = priceModel.at(i).price;
-            else
-                info.price = summ/counter;
-
-            tempAverModel[averIndex] = info;
-
-//            qDebug() << "StockDataWorker::getTempAveragedModel"
-//                     << "averIndex" << averIndex
-//                     << "i" << i
-//                     << "info.time" << info.time
-//                     << "info.price" << info.price
-//                     << "counter" << counter
-//                     << "summ" << summ;
-
-            counter = 0;
-            summ = 0;
-
-            averBegin = averNext;
-            averNext = averBegin + averStep;
-
-            ++averIndex;
-        }
-        else
-        {
-            ++counter;
-            summ += priceModel.at(i).price;
-        }
-    }
-
-    if (averIndex < tempAverModel.size())
-        tempAverModel.resize(averIndex);
-
-//    qDebug() << "StockDataWorker::getAveragedModel"
-//             << "tempAverModel.size()" << tempAverModel.size();
-
-//    qDebug() << "StockDataWorker::getTempAveragedModel" << "END"
-//             << QTime::currentTime().toString("hh:mm:ss.zzz");
-}
-
 void StockDataWorker::getAveragedModels(bool update)
 {
-    return;
-
-//    update = false;
-
 //    qDebug() << "StockDataWorker::getAveragedModels" << "BEGIN"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
 
-    int counter = 0;
-    double summ = 0;
-
     for (auto ch = 0; ch < numberAverageCharts; ++ch)
     {
-        averagedModel[ch].resize(tempAverModel.size());
+        averagedModel[ch].resize(candleModel.size());
 
         int tempIndex = 0;
 
@@ -850,33 +727,36 @@ void StockDataWorker::getAveragedModels(bool update)
 //            qDebug() << "tempIndex" << tempIndex;
         }
 
-        for (auto i = tempIndex; i < tempAverModel.size(); ++i)
+
+        for (auto i = tempIndex; i < candleModel.size(); ++i)
         {
-            counter = 0;
-            summ = 0;
+            double value = 0;
+            double valsum = 0;
+            double pricesum = 0;
 
             for (auto k = i - averageDelta.at(ch);
                  k <= i + averageDelta.at(ch); ++k)
             {
                 if (k < 0)
                     continue;
-                if (k >= tempAverModel.size())
+                if (k >= candleModel.size())
                     break;
 
-                ++counter;
-                summ += tempAverModel.at(k).price;
+                if (k < i)
+                    value = averageDelta.at(ch) - (i - k) + 1;
+                else
+                    value = averageDelta.at(ch) + (i - k) + 1;
+
+                valsum += value;
+
+                pricesum += value*candleModel.at(k).average;
+
             }
 
-            PriceInfo info{tempAverModel.at(i).time, summ/counter};
+            PriceInfo info{candleModel.at(i).time, pricesum/valsum};
 
             averagedModel[ch][i] = info;
 
-    //        qDebug() << "StockDataWorker::getAveragedModel"
-    //                 << i
-    //                 << "info.time" << info.time
-    //                 << "info.price" << info.price
-    //                 << "counter" << counter
-    //                 << "summ" << summ;
         }
     }
 
@@ -967,7 +847,7 @@ void StockDataWorker::setNewCandleWidth(qint64 width)
 
     getCandleModel(false);
 
-    getTempAveragedModel(false);
+//    getTempAveragedModel(false);
 
     getAveragedModels(false);
 
@@ -1058,11 +938,16 @@ void StockDataWorker::dataAnalysis()
         m_minTime -= 1;
         m_maxTime += 1;
     }
-    if (m_minPrice == m_maxPrice)
+    if (m_minPrice > m_maxPrice*0.999999999999999999)
     {
         m_minPrice -= 0.00000000000000000001;
         m_maxPrice += 0.00000000000000000001;
     }
+//    if (m_minPrice > m_maxPrice*0.999999999999999)
+//    {
+//        m_minPrice *= 0.999;
+//        m_maxPrice *= 1.001;
+//    }
 
     m_firstVisibleCandle = -1;
     m_lastVisibleCandle = 0;
@@ -1297,8 +1182,8 @@ void StockDataWorker::setBookRoundPower(const QString &text)
 
     m_bookRoundPower = power;
 
-    qDebug() << "StockDataWorker::setBookRoundPower"
-             << text << m_bookRoundPower;
+//    qDebug() << "StockDataWorker::setBookRoundPower"
+//             << text << m_bookRoundPower;
 
     updateBookModels();
 //    if (m_bookRoundPower == power)
@@ -1401,8 +1286,8 @@ void StockDataWorker::checkNewRoundPower()
         if (m_commonRoundPower < 0)
             m_commonRoundPower = 0;
 
-        qDebug() << "StockDataWorker::checkNewBookRoundPower"
-                 << "m_commonRoundPower" << m_commonRoundPower;
+//        qDebug() << "StockDataWorker::checkNewBookRoundPower"
+//                 << "m_commonRoundPower" << m_commonRoundPower;
 
         emit commonRoundPowerChanged(m_commonRoundPower);
     }

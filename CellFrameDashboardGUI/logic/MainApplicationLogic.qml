@@ -414,7 +414,6 @@ QtObject {
         {
             var jsonDocument = JSON.parse(rcvData)
 
-
             if(dapPairModel.count > 0)
             {
                 token1Name = dapPairModel.get(currentIndexPair).token1

@@ -96,11 +96,15 @@ DapPage
 
         if (simulationStock)
         {
-//            var firstPrice = 1234.45678901234
-            var firstPrice = 1234567890.45678901234
+            var firstPrice = 1234.45678901234
+//            var firstPrice = 1234567890.45678901234
 //            var firstPrice = 0.00145678901234
 
             stockDataWorker.resetPriceData(firstPrice, false)
+
+            var rcvData = ""
+
+            stockDataWorker.setTokenPriceHistory(rcvData)
 
             stockDataWorker.generateBookModel(firstPrice, 30, 0.04)
 
@@ -144,10 +148,10 @@ DapPage
         interval: 1000
         onTriggered:
         {
-//            print("updatePriceTimer",
-//                  "dapPairToken1", logicMainApp.token1Name,
-//                  "dapPairToken2", logicMainApp.token2Name,
-//                  "dapPairNetwork", logicMainApp.tokenNetwork)
+            print("updatePriceTimer",
+                  "dapPairToken1", logicMainApp.token1Name,
+                  "dapPairToken2", logicMainApp.token2Name,
+                  "dapPairNetwork", logicMainApp.tokenNetwork)
 
             dapServiceController.requestToService(
                 "DapGetXchangeTokenPriceAverage",
