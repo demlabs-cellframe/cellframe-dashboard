@@ -31,7 +31,7 @@ Page
         id:frameApps
         anchors.fill: parent
 
-        spacing: 24 * pt
+        spacing: 24 
 
         DapRectangleLitAndShaded
         {
@@ -44,29 +44,25 @@ Page
             lightColor: currTheme.reflectionLight
 
             contentData:
-                Item
+                ColumnLayout
                 {
                     anchors.fill: parent
+                    spacing: 0
 
-                    // Title
                     Item
                     {
-                        id: dAppsTitle
-                        anchors.top: parent.top
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        height: 42 * pt
+                        id: tokensShowHeader
+                        Layout.fillWidth: true
+                        height: 42
                         Text
                         {
                             anchors.fill: parent
-                            anchors.leftMargin: 15 * pt
-                            anchors.topMargin: 10 * pt
-                            anchors.bottomMargin: 10 * pt
-
+                            anchors.leftMargin: 16
+                            anchors.verticalCenter: parent.verticalCenter
+                            font: mainFont.dapFont.bold14
+                            color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: qsTr("Available apps")
-                            font:  mainFont.dapFont.bold14
-                            color: currTheme.textColor
                         }
                     }
 
@@ -76,7 +72,7 @@ Page
                         Rectangle {
                             id:controlHighligh
                             property var isHover
-                            width: 180 * pt; height: 40 * pt
+                            width: 180 ; height: 40 
                             color: currTheme.placeHolderTextColor
                             opacity: 0.12
                         }
@@ -85,10 +81,8 @@ Page
                     ListView
                     {
                         id: listViewApps
-                        anchors.top: dAppsTitle.bottom
-                        anchors.bottom: parent.bottom
-                        anchors.left: parent.left
-                        anchors.right: parent.right
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
                         clip: true
                         model: dapAppsModel
 
@@ -108,24 +102,24 @@ Page
                         {
 //                            id: dAppsHeader
                             width:parent.width
-                            height: 30 * pt
+                            height: 30
                             color: currTheme.backgroundMainScreen
                             z:10
 
                             RowLayout
                             {
                                 anchors.fill: parent
-    //                            anchors.leftMargin: 18 * pt
+    //                            anchors.leftMargin: 18 
                                 spacing: 0
 
                                 Item {
-                                    Layout.preferredWidth: 438 * pt
+                                    Layout.preferredWidth: 438 
                                     Layout.fillHeight: true
                                     Layout.fillWidth: true
                                     Text
                                     {
                                         anchors.fill: parent
-                                        anchors.leftMargin: 15 * pt
+                                        anchors.leftMargin: 16
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Name")
@@ -135,13 +129,13 @@ Page
                                 }
 
                                 Item {
-                                    Layout.preferredWidth: 90 * pt
+                                    Layout.preferredWidth: 90 
                                     Layout.fillHeight: true
                                     Layout.fillWidth: true
                                     Text
                                     {
                                         anchors.fill: parent
-                                        anchors.leftMargin: 18 * pt
+                                        anchors.leftMargin: 18 
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Verified")
@@ -150,13 +144,13 @@ Page
                                     }
                                 }
                                 Item {
-                                    Layout.preferredWidth: 149 * pt
+                                    Layout.preferredWidth: 149 
                                     Layout.fillHeight: true
                                     Layout.fillWidth: true
                                     Text
                                     {
                                         anchors.fill: parent
-                                        anchors.leftMargin: 15 * pt
+                                        anchors.leftMargin: 15 
                                         verticalAlignment: Qt.AlignVCenter
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Status")
@@ -177,18 +171,18 @@ Page
                             anchors.left: parent.left
                             anchors.right: parent.right
                             color: "transparent"
-                            height: 50 * pt
+                            height: 50 
 
                             RowLayout
                             {
                                 anchors.fill: parent
-                                anchors.leftMargin: 14 * pt
+                                anchors.leftMargin: 16
                                 spacing: 0
 
                                 // path plugin
                                     Item {
                                         Layout.fillWidth: true
-                                        Layout.preferredWidth: 438 * pt
+                                        Layout.preferredWidth: 438 
                                         Layout.fillHeight: true
                                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
@@ -196,7 +190,7 @@ Page
                                             id:namePlugin
 //                                            anchors.fill: parent
                                             anchors{
-                                                topMargin: 10 * pt
+                                                topMargin: 10 
                                                 top: parent.top
                                                 left: parent.left
                                                 right: parent.right
@@ -213,11 +207,11 @@ Page
                                             id:url
                                             anchors{
                                                 top: namePlugin.bottom
-                                                topMargin: 5 * pt
+                                                topMargin: 5 
                                                 left: parent.left
                                                 right: parent.right
                                                 bottom: parent.bottom
-                                                bottomMargin: 8 * pt
+                                                bottomMargin: 8 
                                             }
                                             elide: Text.ElideMiddle
                                             text: urlPath
@@ -259,14 +253,14 @@ Page
 //                                            anchors.right: parent.right
 //                                            anchors.top: parent.top
 //                                            anchors.bottom: parent.bottom
-//                                            width: 2 * pt
+//                                            width: 2 
 //                                            color: currTheme.lineSeparatorColor
 //                                        }
                                     }
                                 // verifed plugin
                                     Item {
                                         Layout.fillWidth: true
-                                        Layout.preferredWidth: 90 * pt
+                                        Layout.preferredWidth: 90 
                                         Layout.fillHeight: true
                                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
@@ -278,18 +272,18 @@ Page
 
                                                 Layout.minimumHeight: 20
                                                 Layout.minimumWidth: 20
-                                                Layout.leftMargin: 25 * pt
-                                                Layout.rightMargin: 42 * pt
-                                                Layout.topMargin: 17 * pt
-                                                Layout.bottomMargin: 15 * pt
-                                                width: 20 * pt
-                                                height: 20 * pt
+                                                Layout.leftMargin: 25 
+                                                Layout.rightMargin: 42 
+                                                Layout.topMargin: 17 
+                                                Layout.bottomMargin: 15 
+                                                width: 20 
+                                                height: 20 
 
                                                 Image{
                                                     id:indicatorRadioButton
                                                     anchors.fill: parent
-                                                    width: 20 * pt
-                                                    height: 20 * pt
+                                                    width: 20 
+                                                    height: 20 
                                                     mipmap: true
                                                     source: verifed === "0" ? "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png" :
                                                                               "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png"
@@ -300,9 +294,9 @@ Page
                                 // status plugin
                                     Item {
                                         Layout.fillWidth: true
-//                                        Layout.minimumWidth: 100 * pt
-//                                        Layout.maximumWidth: 100 * pt
-                                        Layout.preferredWidth: 149 * pt
+//                                        Layout.minimumWidth: 100 
+//                                        Layout.maximumWidth: 100 
+                                        Layout.preferredWidth: 149 
                                         Layout.fillHeight: true
                                         Text{
                                             id: statusPlugin
@@ -310,8 +304,8 @@ Page
                                             anchors.fill: parent
 //                                            anchors.centerIn: parent
                                             verticalAlignment: Text.AlignLeft
-                                            anchors.topMargin: 16 * pt
-                                            anchors.leftMargin: 14 * pt
+                                            anchors.topMargin: 16 
+                                            anchors.leftMargin: 14 
 //                                            horizontalAlignment: Text.AlignLeft
 
                                             text: status === "1" ? "Activated":"Unactivated"
@@ -325,7 +319,7 @@ Page
                                 anchors.right: parent.right
                                 anchors.left: parent.left
                                 anchors.bottom: parent.bottom
-                                height: 1 * pt
+                                height: 1 
                                 color: currTheme.lineSeparatorColor
                             }
 
@@ -368,7 +362,7 @@ Page
         {
             id:defaultRightPanel
             Layout.fillHeight: true
-            Layout.minimumWidth: 350 * pt
+            Layout.minimumWidth: 350 
 
             Connections
             {
@@ -389,8 +383,8 @@ Page
         {
             id:downloadRightPanel
             Layout.fillHeight: true
-            Layout.minimumWidth: 350 * pt
-            Layout.maximumWidth: 350 * pt
+            Layout.minimumWidth: 350 
+            Layout.maximumWidth: 350 
         }
     }
 }

@@ -184,8 +184,7 @@ DapNewPaymentMainRightPanelForm
         target: dapServiceController
         onTransactionCreated:
         {
-            commandResult.success = aResult.success
-            commandResult.message = aResult.message
+            commandResult = aResult
             updateWalletTimer.start()
             navigator.doneNewPayment()
         }

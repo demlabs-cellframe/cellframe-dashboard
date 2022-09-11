@@ -13,13 +13,12 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.topMargin: 3 * pt
-        spacing: 0 * pt
+        spacing: 0 
 
         Text {
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
-            Layout.leftMargin: 15 * pt
+            Layout.minimumHeight: 35 
+            Layout.maximumHeight: 35 
+            Layout.leftMargin: 16
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -28,10 +27,10 @@ Item
 
         ColumnLayout
         {
-//            Layout.margins: 3 * pt
-            Layout.leftMargin: 2 * pt
-            Layout.topMargin: 3 * pt
-            spacing: 0
+//            Layout.margins: 3 
+            Layout.leftMargin: 3
+            Layout.topMargin: 5
+            spacing: 6
 
             DapRadioButton
             {
@@ -39,8 +38,8 @@ Item
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("All statuses")
                 checked: true
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -53,8 +52,8 @@ Item
                 id: buttonSelectionPending
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Pending")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -67,8 +66,8 @@ Item
                 id: buttonSelectionSent
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Sent")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -81,8 +80,8 @@ Item
                 id: buttonSelectionReceived
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Received")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -95,8 +94,8 @@ Item
                 id: buttonSelectionError
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Error")
-                indicatorInnerSize: 46 * pt
-                spaceIndicatorText: 3 * pt
+                indicatorInnerSize: 46 
+                spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -106,10 +105,10 @@ Item
         }
 
         Text {
-            Layout.topMargin: 24 * pt
-            Layout.leftMargin: 15 * pt
-            Layout.minimumHeight: 35 * pt
-            Layout.maximumHeight: 35 * pt
+            Layout.topMargin: 27
+            Layout.leftMargin: 16
+            Layout.minimumHeight: 18
+            Layout.maximumHeight: 18
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
@@ -120,20 +119,20 @@ Item
         Rectangle
         {
             id: frameComboBoxPeriod
-            Layout.topMargin: 16 * pt
-            implicitHeight: 60 * pt
-//            Layout.maximumHeight: 46 * pt
+            Layout.topMargin: 10
+            implicitHeight: 60
+            Layout.maximumHeight: 60
             Layout.fillWidth: true
             color: "transparent"
 
             ListModel
             {
                 id: periodModel
-                ListElement { name: "today" }
-                ListElement { name: "yesterday" }
-                ListElement { name: "last week" }
-                ListElement { name: "this month" }
-                ListElement { name: "custom range"}
+                ListElement { name: "Today" }
+                ListElement { name: "Yesterday" }
+                ListElement { name: "Last week" }
+//                ListElement { name: "this month" }
+                ListElement { name: "Custom range"}
             }
 
             DapComboBoxCustomRange
@@ -143,13 +142,14 @@ Item
 
                 anchors.centerIn: parent
                 anchors.fill: parent
-                anchors.margins: 10 * pt
-                anchors.leftMargin: 15 * pt
+                anchors.margins: 10 
+                anchors.leftMargin: 15 
+                anchors.rightMargin: 15
 
                 dapIndicatorImageNormal: "qrc:/Resources/"+pathTheme+"/icons/other/icon_arrow_down.png"
                 dapIndicatorImageActive: "qrc:/Resources/"+pathTheme+"/icons/other/ic_arrow_up.png"
-                dapSidePaddingNormal: 10 * pt
-                dapSidePaddingActive: 10 * pt
+                dapSidePaddingNormal: 10 
+                dapSidePaddingActive: 10 
                 dapNormalColorText: currTheme.textColor
                 dapHilightColorText: currTheme.hilightTextColorComboBox
                 dapNormalColorTopText: currTheme.textColor
@@ -158,26 +158,26 @@ Item
                 dapHilightTopColor: currTheme.backgroundElements //"blue" //currTheme.backgroundMainScreen
                 dapNormalColor: currTheme.backgroundElements
                 dapNormalTopColor: currTheme.backgroundElements //"blue" //currTheme.backgroundMainScreen
-                dapWidthPopupComboBoxNormal: 318 * pt
-                dapWidthPopupComboBoxActive: 318 * pt
-                dapHeightComboBoxNormal: 46 * pt
-                dapHeightComboBoxActive: 46 * pt
-    //            dapBottomIntervalListElement: 8 * pt
+                dapWidthPopupComboBoxNormal: 318 
+                dapWidthPopupComboBoxActive: 318 
+                dapHeightComboBoxNormal: 46 
+                dapHeightComboBoxActive: 46 
+    //            dapBottomIntervalListElement: 8 
                 dapTopEffect: false
                 x: popup.visible ? dapSidePaddingActive * (-1) : dapSidePaddingNormal
-                dapPaddingTopItemDelegate: 8 * pt
-                dapHeightListElement: 42 * pt
-    //            dapIntervalListElement: 10 * pt
-                dapIndicatorWidth: 24 * pt
+                dapPaddingTopItemDelegate: 8 
+                dapHeightListElement: 42 
+    //            dapIntervalListElement: 10 
+                dapIndicatorWidth: 24 
                 dapIndicatorHeight: dapIndicatorWidth
-                dapIndicatorLeftInterval: 16 * pt
+                dapIndicatorLeftInterval: 16 
                 dapColorTopNormalDropShadow: "#00000000"
                 dapColorDropShadow: currTheme.shadowColor
                 dapTextFont:  mainFont.dapFont.regular14
-                dapDefaultMainLineText: "all time"
+                dapDefaultMainLineText: "All time"
                 dapIsDefaultNeedToAppend: true
-                dapRangeElementWidth: 74 * pt
-                dapRangeSpacing: 6 * pt
+                dapRangeElementWidth: 74 
+                dapRangeSpacing: 6 
                 dapRangeDefaultText: "dd.mm.yyyy"
                 dapInactiveRangeTextFont:  mainFont.dapFont.regular14
                 dapUnselectedRangeColorTopText: "#ACAAB5"
@@ -187,18 +187,18 @@ Item
                 dapCalendars:
                     DapCalendar
                     {
-                        dapLeftPadding: 16 * pt
-                        dapRightPadding: 16 * pt
-                        dapTopPadding: 0 * pt
-                        dapBottomPadding: 16 * pt
-                        dapTitleTopPadding: 20 * pt
-                        dapTitleBottomPadding: 14 * pt
-                        dapButtonInterval: 8 * pt
-                        dapTitleWidth: 108 * pt
-                        dapDayWidth: 24 * pt
-                        dapDayHeight: 24 * pt
-                        dapDayLeftInterval: 8 * pt
-                        dapDayTopInterval: 2 * pt
+                        dapLeftPadding: 16 
+                        dapRightPadding: 16 
+                        dapTopPadding: 0 
+                        dapBottomPadding: 16 
+                        dapTitleTopPadding: 20 
+                        dapTitleBottomPadding: 14 
+                        dapButtonInterval: 8 
+                        dapTitleWidth: 108 
+                        dapDayWidth: 24 
+                        dapDayHeight: 24 
+                        dapDayLeftInterval: 8 
+                        dapDayTopInterval: 2 
                         dapCalendarFont:  mainFont.dapFont.regular14
 
                         dapCalendarBackgroundColor: currTheme.backgroundMainScreen
@@ -226,12 +226,11 @@ Item
             }
         }
 
-        Rectangle
+        Item
         {
             id: frameBottom
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: "transparent"
         }
     }
 }

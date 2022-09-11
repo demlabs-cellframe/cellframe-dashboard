@@ -10,6 +10,6 @@ TextField {
         anchors.fill: parent
         color: currTheme.backgroundElements
         border.color: currTheme.borderColor
-        radius: 5 * pt
+        radius: 5 
     }
 }

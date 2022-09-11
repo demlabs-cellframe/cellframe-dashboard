@@ -50,7 +50,7 @@ DapRectangleLitAndShaded {
         Item {
 
             Layout.fillWidth: true
-            height: 68 * pt
+            height: 68 
             Layout.alignment: Qt.AlignTop
             Layout.bottomMargin: 0
 
@@ -60,18 +60,18 @@ DapRectangleLitAndShaded {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 42 * pt
+                height: 42 
 
                 HeaderButtonForRightPanels{
-                    Layout.topMargin: 9 * pt
-                    Layout.bottomMargin: 8 * pt
-                    Layout.leftMargin: 24 * pt
+                    Layout.topMargin: 9 
+                    Layout.bottomMargin: 8 
+                    Layout.leftMargin: 24 
 
                     id: buttonClose
-                    height: 20 * pt
-                    width: 20 * pt
-                    heightImage: 20 * pt
-                    widthImage: 20 * pt
+                    height: 20 
+                    width: 20 
+                    heightImage: 20 
+                    widthImage: 20 
 
                     normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                     hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -79,9 +79,9 @@ DapRectangleLitAndShaded {
 
                 Text
                 {
-                    Layout.topMargin: 12 * pt
-                    Layout.bottomMargin: 8 * pt
-//                        Layout.leftMargin: 13 * pt
+                    Layout.topMargin: 12 
+                    Layout.bottomMargin: 8 
+//                        Layout.leftMargin: 13 
 
                     id: textHeader
                     text: qsTr("Activating dApp")
@@ -103,7 +103,7 @@ DapRectangleLitAndShaded {
                 anchors.right: parent.right
 
                 color: currTheme.backgroundMainScreen
-                height: 30 * pt
+                height: 30 
 
                 Text
                 {
@@ -114,7 +114,7 @@ DapRectangleLitAndShaded {
                     horizontalAlignment: Text.AlignLeft
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
-                    anchors.leftMargin: 15 * pt
+                    anchors.leftMargin: 15 
                     anchors.topMargin: 8
                     anchors.bottomMargin: 7
                 }
@@ -126,14 +126,14 @@ DapRectangleLitAndShaded {
             id: bar_progress
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
-            Layout.topMargin: 41 * pt
+            Layout.topMargin: 41 
         }
 
         Text{
 
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-            Layout.topMargin: 5 * pt
+            Layout.topMargin: 5 
 
             id:_errors
             color: currTheme.placeHolderTextColor
@@ -148,12 +148,12 @@ DapRectangleLitAndShaded {
         {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
-            Layout.topMargin: 47 * pt
+            Layout.topMargin: 47 
 
             Item {
-                Layout.preferredHeight: 80 * pt
-                Layout.preferredWidth: 150 * pt
-                Layout.leftMargin: 27 * pt
+                Layout.preferredHeight: 80 
+                Layout.preferredWidth: 150 
+                Layout.leftMargin: 27 
                 //Total
                 Text{
 
@@ -174,7 +174,7 @@ DapRectangleLitAndShaded {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    anchors.topMargin: 7 * pt
+                    anchors.topMargin: 7 
 
                     text: qsTr("TOTAL")
 
@@ -186,9 +186,9 @@ DapRectangleLitAndShaded {
 
             Item
             {
-                Layout.preferredHeight: 80 * pt
-                Layout.preferredWidth: 150 * pt
-                Layout.rightMargin: 25 * pt
+                Layout.preferredHeight: 80 
+                Layout.preferredWidth: 150 
+                Layout.rightMargin: 25 
 
                 //Speed
                 Text{
@@ -209,8 +209,8 @@ DapRectangleLitAndShaded {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    anchors.topMargin: 7 * pt
-                    anchors.rightMargin: 6 * pt
+                    anchors.topMargin: 7 
+                    anchors.rightMargin: 6 
 
                     text: qsTr("SPEED")
 
@@ -228,9 +228,9 @@ DapRectangleLitAndShaded {
 
             Item
             {
-                Layout.preferredHeight: 80 * pt
-                Layout.preferredWidth: 150 * pt
-                Layout.leftMargin: 25 * pt
+                Layout.preferredHeight: 80 
+                Layout.preferredWidth: 150 
+                Layout.leftMargin: 25 
                 //Download
                 Text{
 
@@ -250,7 +250,7 @@ DapRectangleLitAndShaded {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    anchors.topMargin: 7 * pt
+                    anchors.topMargin: 7 
 
                     text: qsTr("DOWNLOAD")
 
@@ -262,9 +262,9 @@ DapRectangleLitAndShaded {
 
             Item
             {
-                Layout.preferredHeight: 80 * pt
-                Layout.preferredWidth: 150 * pt
-                Layout.rightMargin: 25 * pt
+                Layout.preferredHeight: 80 
+                Layout.preferredWidth: 150 
+                Layout.rightMargin: 25 
                 //Time remain
                 Text{
 
@@ -284,8 +284,8 @@ DapRectangleLitAndShaded {
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    anchors.topMargin: 7 * pt
-                    anchors.rightMargin: 4 * pt
+                    anchors.topMargin: 7 
+                    anchors.rightMargin: 4 
 
 
                     text: qsTr("TIME REMAIN")
@@ -301,19 +301,19 @@ DapRectangleLitAndShaded {
         {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            Layout.topMargin: 66 * pt
-            Layout.leftMargin: 2 * pt
-            Layout.bottomMargin: 108 * pt
-            spacing: 17 * pt
+            Layout.topMargin: 66 
+            Layout.leftMargin: 2 
+            Layout.bottomMargin: 108 
+            spacing: 17 
 
             DapButton
             {
-                Layout.preferredHeight: 36 * pt
-                Layout.preferredWidth: 132 * pt
-                Layout.leftMargin: 35 * pt
+                Layout.preferredHeight: 36 
+                Layout.preferredWidth: 132 
+                Layout.leftMargin: 35 
 
-                implicitHeight: 36 * pt
-                implicitWidth: 132 * pt
+                implicitHeight: 36 
+                implicitWidth: 132 
 //                radius: currTheme.radiusRectangle
 
                 id:reloadDownload
@@ -324,11 +324,11 @@ DapRectangleLitAndShaded {
 
             DapButton
             {
-                Layout.preferredHeight: 36 * pt
-                Layout.preferredWidth: 132 * pt
+                Layout.preferredHeight: 36 
+                Layout.preferredWidth: 132 
 
-                implicitHeight: 36 * pt
-                implicitWidth: 132 * pt
+                implicitHeight: 36 
+                implicitWidth: 132 
 //                radius: currTheme.radiusRectangle
 
                 id: canceledDownload

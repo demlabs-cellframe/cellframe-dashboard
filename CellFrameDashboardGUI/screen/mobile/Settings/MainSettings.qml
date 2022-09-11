@@ -17,7 +17,7 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.topMargin: 10 * pt
+        anchors.topMargin: 10 
 
         ListView {
             id: controlList
@@ -37,7 +37,7 @@ Page {
             delegate:
                 Item {
                     width: parent.width
-                    height: 86 * pt
+                    height: 86 
 
                     Item
                     {
@@ -82,8 +82,8 @@ Page {
                         RowLayout
                         {
                             anchors.fill: parent
-                            anchors.leftMargin: 15 * pt
-                            anchors.rightMargin: 15 * pt
+                            anchors.leftMargin: 15 
+                            anchors.rightMargin: 15 
 
                             Label {
                                 id: nameWall
@@ -105,9 +105,9 @@ Page {
 
                             DapButton
                             {
-                                implicitWidth: 50 * pt
-                                implicitHeight: 20 * pt
-                                radius: 5 * pt
+                                implicitWidth: 50 
+                                implicitHeight: 20 
+                                radius: 5 
                                 z: 1
 
                                 textButton: qsTr("Copy")
@@ -170,8 +170,8 @@ Page {
         {
             Layout.alignment: Qt.AlignHCenter
 
-            implicitWidth: 210 * pt
-            implicitHeight: 36 * pt
+            implicitWidth: 210 
+            implicitHeight: 36 
             radius: currTheme.radiusButton
 
             textButton: qsTr("Create new wallet")
@@ -192,10 +192,10 @@ Page {
         {
             visible: true
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 10 * pt
+            Layout.topMargin: 10 
 
-            implicitWidth: 210 * pt
-            implicitHeight: 36 * pt
+            implicitWidth: 210 
+            implicitHeight: 36 
             radius: currTheme.radiusButton
 
             textButton: qsTr("Import an existing wallet")

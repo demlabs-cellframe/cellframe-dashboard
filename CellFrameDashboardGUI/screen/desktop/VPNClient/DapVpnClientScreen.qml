@@ -11,13 +11,13 @@ Page {
     anchors
     {
         top: parent.top
-        topMargin: 24 * pt
+        topMargin: 24 
         right: parent.right
-        rightMargin: 44 * pt
+        rightMargin: 44 
         left: parent.left
-        leftMargin: 24 * pt
+        leftMargin: 24 
         bottom: parent.bottom
-        bottomMargin: 20 * pt
+        bottomMargin: 20 
     }
 
     Rectangle
@@ -31,7 +31,7 @@ Page {
 
         color:"transparent"
         border.color: "green"
-        border.width: 1 * pt
+        border.width: 1 
 
         ColumnLayout
         {
@@ -46,7 +46,7 @@ Page {
 
                 color:"transparent"
                 border.color: "yellow"
-                border.width: 1 * pt
+                border.width: 1 
 
                 Text {
                     id:topText
@@ -61,7 +61,7 @@ Page {
                     id:connectToText
                     anchors.top: topText.bottom
                     anchors.left: parent.left
-                    anchors.topMargin: 10 * pt
+                    anchors.topMargin: 10 
                     text: qsTr("42.112.14.73 (San Juan, Puerto Rico)")
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium18
@@ -73,10 +73,10 @@ Page {
                     anchors.right: parent.right
                     anchors.top: parent.top
 //                    anchors.left: parent.verticalCenter
-//                    anchors.leftMargin: 472 * pt
-                    anchors.topMargin: 17 * pt
-                    implicitHeight: 36 * pt
-                    implicitWidth: 165 * pt
+//                    anchors.leftMargin: 472 
+                    anchors.topMargin: 17 
+                    implicitHeight: 36 
+                    implicitWidth: 165 
                     fontButton: mainFont.dapFont.medium16
                     horizontalAligmentText: Text.AlignHCenter
                 }
@@ -86,29 +86,29 @@ Page {
             {
                 id: frameMidElements
                 Layout.fillWidth: true
-                Layout.topMargin: 50 * pt
+                Layout.topMargin: 50 
 
-                height: 238 * pt
+                height: 238 
 
                 color:"transparent"
                 border.color: "gray"
-                border.width: 1 * pt
+                border.width: 1 
 
                 RowLayout
                 {
                     anchors.fill: parent
-                    spacing: 26 * pt
+                    spacing: 26 
 
                     Rectangle{
-//                        implicitWidth: 308 * pt
-//                        implicitHeight: 238 * pt
+//                        implicitWidth: 308 
+//                        implicitHeight: 238 
                         radius: 16*pt
                         color: currTheme.backgroundElements
                     }
 
                     Rectangle{
-//                        implicitWidth: 308 * pt
-//                        implicitHeight: 238 * pt
+//                        implicitWidth: 308 
+//                        implicitHeight: 238 
                         radius: 16*pt
                         color: currTheme.backgroundElements
                     }

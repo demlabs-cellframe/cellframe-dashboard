@@ -8,22 +8,22 @@ Rectangle{
 
     RowLayout{
         anchors.fill: parent
-//        anchors.leftMargin: 278 * pt
+//        anchors.leftMargin: 278 
 
         Image {
             id: under_cunstruct_img
-            Layout.preferredWidth: 500 * pt
-            Layout.preferredHeight: 210.8 * pt
+            Layout.preferredWidth: 500 
+            Layout.preferredHeight: 210.8 
 
             Layout.alignment: Qt.AlignTop
 
-            Layout.leftMargin: (parent.width - width) / 2 - 18 * pt
-            Layout.topMargin: (parent.height - height) / 2 - 24 * pt
+            Layout.leftMargin: (parent.width - width) / 2 - 18 
+            Layout.topMargin: (parent.height - height) / 2 - 24 
 
             source: "qrc:/Resources/" + pathTheme + "/Illustratons/comingsoon_illustration.png"
             fillMode: Image.PreserveAspectFit
-            sourceSize.width: 500 * pt
-            sourceSize.height: 211 * pt
+            sourceSize.width: 500 
+            sourceSize.height: 211 
 
             ColorOverlay {
                 id: overlay

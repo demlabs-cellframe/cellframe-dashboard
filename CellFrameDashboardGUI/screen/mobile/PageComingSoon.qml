@@ -7,7 +7,7 @@ Page {
 
     Image {
         anchors.fill: parent
-        anchors.margins: 20 * pt
+        anchors.margins: 20 
         fillMode: Image.PreserveAspectFit
         source: "qrc:/screen/mobile/Icons/ComingSoon.png"
 //        anchors.centerIn: parent

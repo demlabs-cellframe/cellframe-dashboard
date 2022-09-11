@@ -15,10 +15,10 @@ TextField {
     property alias placeholderTextView: placeholderTextView
 
     property string smartPlaceHolderText: ""
-    property string placeholderTextColor_: currTheme.textColor    //5.10
+    property string placeholderTextColor_: currTheme.textColorGray    //5.10
 
-    property int borderWidth: 1 * pt
-    property int borderWidthWhenFocus: 2 * pt
+    property int borderWidth: 1 
+    property int borderWidthWhenFocus: 2 
     property int textAndLineSpacing: 0
 
     property color backgroundColor: "transparent"
@@ -30,10 +30,10 @@ TextField {
     verticalAlignment: TextInput.AlignVCenter
     selectByMouse: true
 
-    leftPadding: 12 * pt
-    rightPadding: 6 * pt
-    topPadding: 3 * pt
-    bottomPadding: 6 * pt
+    leftPadding: 12 
+    rightPadding: 6 
+    topPadding: 3 
+    bottomPadding: 6 
 
     Text {
         id: placeholderTextView
@@ -60,7 +60,7 @@ TextField {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: -textAndLineSpacing
         width: parent.width
-        height: 1 * pt
+        height: 1 
         color: currTheme.borderColor
         border.color: root.enabled ? borderColor : borderColorWhenDisabled
         border.width: root.activeFocus ? borderWidthWhenFocus : borderWidth

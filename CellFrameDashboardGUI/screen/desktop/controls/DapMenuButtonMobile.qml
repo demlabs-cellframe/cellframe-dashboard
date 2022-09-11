@@ -7,8 +7,8 @@ ItemDelegate
 {
     id: buttonDelegate
 
-    width: 180 * pt
-    height: 40 * pt
+    width: 180 
+    height: 40 
 
     property bool isPushed: mainButtonsList.currentIndex === index
 
@@ -31,8 +31,8 @@ ItemDelegate
         anchors.leftMargin: 20
         Item {
             id: ico
-            width: 18 * pt
-            height: 18 * pt
+            width: 18 
+            height: 18 
             Layout.alignment: Qt.AlignLeft
             Image {
                 anchors.fill: parent

@@ -10,7 +10,7 @@ import "../models"
 import "../../controls"
 
 
-Controls.Page {
+DapRectangleLitAndShaded {
     id: root
     property alias closeButton: itemButtonClose
     property alias createButton: createButton
@@ -20,9 +20,10 @@ Controls.Page {
 
     property bool requiredFieldValid: false
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
     //part animation on created and open
     visible: false
@@ -89,6 +90,7 @@ Controls.Page {
         return true;
     }
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -97,22 +99,17 @@ Controls.Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -124,12 +121,9 @@ Controls.Page {
                 id: textHeader
                 text: qsTr("Create certificate")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -140,7 +134,7 @@ Controls.Page {
             id: requiredTitle
             color: currTheme.backgroundMainScreen
             Layout.fillWidth: true
-            height: 30 * pt
+            height: 30 
 
             Text {
                 color: currTheme.textColor
@@ -149,24 +143,23 @@ Controls.Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 16
             }
         }
 
-        Item {
+        ColumnLayout {
             id: requiredBody
             Layout.fillWidth: true
-            height: 139 * pt
+            height: 139 
+            spacing: 0
 
             DapCustomComboBox {
                 id: signatureTypeCertificateComboBox
-                width: 316 * pt
-                height: 42 * pt
-                anchors.verticalCenter: undefined
-                x: (parent.width - width) / 2
-                y: 15 * pt
+                height: 42 
+                Layout.topMargin: 10
+                Layout.fillWidth: true
+                Layout.leftMargin: 24
+                Layout.rightMargin: 18
 
                 model: models.signatureType
 
@@ -178,34 +171,46 @@ Controls.Page {
                 font: mainFont.dapFont.regular16
             }
 
-            InputField {
+            TextField
+            {
                 id: titleCertificateTextInput
-                x: parent.width * 0.5 - width * 0.5
-                y: parent. height - height - 33 * pt
-                height: 28 * pt
-                width: 280 * pt
-                leftPadding: 0
-                smartPlaceHolderText: qsTr("Title")
-                validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
-                maximumLength: 39
+                placeholderText: qsTr("Title")
+                font: mainFont.dapFont.regular16
+                horizontalAlignment: Text.AlignLeft
+                height: 28
+                Layout.fillWidth: true
+                Layout.leftMargin: 31
+                Layout.rightMargin: 18
+                Layout.topMargin: 5
 
                 onTextChanged: checkRequiredField()
                 onEditingFinished: {
                         checkRequiredField()
                     }
 
-                font: mainFont.dapFont.regular18
-            }
 
+                validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
+                style:
+                    TextFieldStyle
+                    {
+                        textColor: currTheme.textColor
+                        placeholderTextColor: currTheme.textColorGray
+                        background:
+                            Rectangle
+                            {
+                                border.width: 0
+                                color: currTheme.backgroundElements
+                            }
+                    }
+            }
             Rectangle //bottom line
             {
-                anchors
-                {
-                    left: titleCertificateTextInput.left
-                    right: titleCertificateTextInput.right
-                    top: titleCertificateTextInput.bottom
-                }
-                height: 1 * pt
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignTop
+                Layout.topMargin: 5
+                Layout.leftMargin: 39
+                Layout.rightMargin: 39
+                height: 1
                 color: currTheme.borderColor
             }
         }  //requiredBody
@@ -213,8 +218,9 @@ Controls.Page {
         Rectangle {
             id: optionalTitle
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Layout.fillWidth: true
+            Layout.topMargin: 20
 
             Text {
                 color: currTheme.textColor
@@ -223,11 +229,8 @@ Controls.Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 21 * pt
-                anchors.topMargin: 16 * pt
-                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 16
             }
-
         }   //optionalTitle
 
 
@@ -235,26 +238,30 @@ Controls.Page {
             id: optionalBody
             Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.topMargin: 20
 
             ColumnLayout {
                 id: optionalBodyLayout
-                spacing: 24 * pt
-                y: spacing - 3 * pt
-                //x: 15 * pt
-                width: parent.width - x
+                spacing: 16
+                anchors.left: parent.left
+                anchors.right: parent.right
 
                 Repeater {
                     id: optionalRepeater
                     model: models.createCertificateOptional
 
                     InputField {
-                        Layout.leftMargin: 39 * pt
-                        Layout.preferredHeight: 28 * pt
-                        Layout.preferredWidth: 277 * pt
+                        Layout.leftMargin: 39 
+                        Layout.rightMargin: 39
+                        Layout.preferredHeight: 28 
+//                        Layout.preferredWidth: 277
+                        Layout.fillWidth: true
                         leftPadding: 0
                         smartPlaceHolderText: model.placeHolderText
-                        textAndLineSpacing: 3 * pt
+                        textAndLineSpacing: 3 
                         validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
+
+                        placeholderTextColor: currTheme.textColorGray
 
                         onFocusChanged:
                         {
@@ -275,36 +282,36 @@ Controls.Page {
                         }
                     }
                 }  //
-
-                Item
-                {
-                    Layout.preferredWidth: parent.width
-                    Layout.preferredHeight: createButton.height + 10 * pt
-
-                    DapButton {
-                        id: createButton
-                        textButton: qsTr("Create")
-                        width: 132 * pt
-                        height: 36 * pt
-                        x: parent.width * 0.5 - width * 0.5
-                        y: parent.height - height
-
-                        enabled: root.requiredFieldValid
-
-                        fontButton: mainFont.dapFont.regular16
-                        horizontalAligmentText: Qt.AlignHCenter
-
-                        onClicked: {   //enabled when requiredFieldValid
-                            if (checkOptionalField())
-                                logics.createCertificate(titleCertificateTextInput.text
-                                                         , models.signatureType.get(signatureTypeCertificateComboBox.currentIndex).signature
-                                                         , models.createCertificateOptional.getDataToJson())
-                            else
-                                console.warn("not valid optional field")
-                        }
-                    }
-                }
             }  //optionalBodyeLayout
         }  //optionalBody
+
+        Item{
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        DapButton {
+            id: createButton
+            implicitHeight: 36
+            implicitWidth: 132
+
+            enabled: root.requiredFieldValid
+
+            Layout.bottomMargin: 20
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            textButton: qsTr("Create")
+            horizontalAligmentText: Text.AlignHCenter
+            indentTextRight: 0
+            fontButton: mainFont.dapFont.medium14
+
+            onClicked: {   //enabled when requiredFieldValid
+                if (checkOptionalField())
+                    logics.createCertificate(titleCertificateTextInput.text
+                                             , models.signatureType.get(signatureTypeCertificateComboBox.currentIndex).signature
+                                             , models.createCertificateOptional.getDataToJson())
+                else
+                    console.warn("not valid optional field")
+            }
+        }
     }
 }   //root

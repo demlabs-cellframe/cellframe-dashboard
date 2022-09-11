@@ -9,7 +9,7 @@ Item {
     property alias color: frameInfo.color
 
     implicitWidth: textName.implicitWidth + textValue.implicitWidth - 50
-    implicitHeight: Math.max(textName.implicitHeight, textValue.implicitHeight + 15 * pt)
+    implicitHeight: Math.max(textName.implicitHeight, textValue.implicitHeight + 15 )
 
     Rectangle
     {
@@ -19,7 +19,7 @@ Item {
         Text {
             id: textName
             anchors.left: parent.left
-            anchors.leftMargin: 15 * pt
+            anchors.leftMargin: 15 
             anchors.right: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Qt.AlignVCenter
@@ -35,7 +35,7 @@ Item {
             id: textValue
             anchors.left: parent.horizontalCenter
             anchors.right: parent.right
-            anchors.rightMargin: 15 * pt
+            anchors.rightMargin: 15 
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Qt.AlignVCenter
             height: Math.max(implicitHeight, parent.height)

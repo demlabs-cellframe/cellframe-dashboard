@@ -19,9 +19,11 @@ FocusScope {
         focus: true
         selectByMouse: true
         color: currTheme.textColor
-        font: mainFont.dapFont.regular18
+        font: mainFont.dapFont.regular14
+        wrapMode: TextField.WrapAnywhere
         validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\s*]+/ }
         placeholderText: qsTr("Type here...")
+
         background: Rectangle
         {
             color: currTheme.backgroundElements

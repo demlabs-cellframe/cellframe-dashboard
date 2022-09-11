@@ -36,23 +36,23 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10 
+                anchors.bottomMargin: 7 
+                anchors.leftMargin: 21 
+                anchors.rightMargin: 13 
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -67,9 +67,9 @@ Page {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.topMargin: 12 
+                anchors.bottomMargin: 8 
+                anchors.leftMargin: 52 
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -82,7 +82,7 @@ Page {
             id:frameNameOrder
             color: currTheme.backgroundMainScreen
             Layout.fillWidth: true
-            height: 30 * pt
+            height: 30 
             Text
             {
                 id: textNameOrder
@@ -92,15 +92,15 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 17 
+                anchors.topMargin: 20 
+                anchors.bottomMargin: 5 
             }
         }
         Rectangle
         {
             id: frameInputNameOrder
-            height: 60 * pt
+            height: 60 
             color: "transparent"
             Layout.fillWidth: true
             TextField
@@ -110,8 +110,8 @@ Page {
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
-                anchors.margins: 10 * pt
-                anchors.leftMargin: 29 * pt
+                anchors.margins: 10 
+                anchors.leftMargin: 29 
 
                 validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
                 style:
@@ -132,7 +132,7 @@ Page {
         {
             id: frameRegion
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Layout.fillWidth: true
             Text
             {
@@ -143,16 +143,16 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 21 * pt
-                anchors.topMargin: 16 * pt
-                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 21 
+                anchors.topMargin: 16 
+                anchors.bottomMargin: 7 
             }
         }
         Rectangle
         {
             id: frameSelectRegion
-            height: 60 * pt
-    //            width: 350 * pt
+            height: 60 
+    //            width: 350 
             color: "transparent"
             Layout.fillWidth: true
 
@@ -162,8 +162,8 @@ Page {
 
                 anchors.centerIn: parent
                 anchors.fill: parent
-                anchors.margins: 10 * pt
-                anchors.leftMargin: 15 * pt
+                anchors.margins: 10 
+                anchors.leftMargin: 15 
 
                 font: mainFont.dapFont.regular16
 
@@ -181,7 +181,7 @@ Page {
         {
             id: frameUnits
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Layout.fillWidth: true
             Text
             {
@@ -192,16 +192,16 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 22 * pt
-                anchors.topMargin: 16 * pt
-                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 22 
+                anchors.topMargin: 16 
+                anchors.bottomMargin: 7 
             }
         }
         Rectangle
         {
             id: frameSelectUnits
-            height: 68 * pt
-    //            width: 350 * pt
+            height: 68 
+    //            width: 350 
             color: "transparent"
             Layout.fillWidth: true
 
@@ -209,7 +209,7 @@ Page {
             {
                 id:boxUnits
                 anchors.right: parent.right
-                anchors.rightMargin: 5 * pt
+                anchors.rightMargin: 5 
                 width: comboBoxUnit.widthPopupComboBoxNormal
                 height: parent.height
 
@@ -241,7 +241,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: boxUnits.left
                 anchors.left: parent.left
-                anchors.margins: 25 * pt
+                anchors.margins: 25 
                 from: 0
                 to: 2147483647
             }
@@ -251,7 +251,7 @@ Page {
         {
             id: framePrice
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Layout.fillWidth: true
             Text
             {
@@ -262,23 +262,23 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 22 * pt
-                anchors.topMargin: 16 * pt
-                anchors.bottomMargin: 7 * pt
+                anchors.leftMargin: 22 
+                anchors.topMargin: 16 
+                anchors.bottomMargin: 7 
             }
         }
         Rectangle
         {
             id: frameSelectPrice
-            height: 68 * pt
-    //            width: 350 * pt
+            height: 68 
+    //            width: 350 
             color: "transparent"
             Layout.fillWidth: true
 
             Item {
                 id:boxPrice
                 anchors.right: parent.right
-                anchors.rightMargin: 5 * pt
+                anchors.rightMargin: 5 
                 width: comboBoxPrice.widthPopupComboBoxNormal
                 height: parent.height
 
@@ -315,7 +315,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: boxPrice.left
                 anchors.left: parent.left
-                anchors.margins: 25 * pt
+                anchors.margins: 25 
                 from: 0
                 to: 65535.0
                 decimals: unitsModel.get(comboBoxPrice.currentIndex).decimals
@@ -325,9 +325,9 @@ Page {
         DapButton
         {
             id: buttonCreate
-            implicitHeight: 36 * pt
-            implicitWidth: 132 * pt
-            Layout.topMargin: 58 * pt
+            implicitHeight: 36 
+            implicitWidth: 132 
+            Layout.topMargin: 58 
             Layout.alignment: Qt.AlignHCenter
             textButton: qsTr("Create")
             horizontalAligmentText: Text.AlignHCenter
@@ -357,11 +357,11 @@ Page {
         Text
         {
             id: textOrderNameWarning
-            Layout.minimumHeight: 60 * pt
-            Layout.maximumHeight: 60 * pt
-            Layout.margins: 0 * pt
+            Layout.minimumHeight: 60 
+            Layout.maximumHeight: 60 
+            Layout.margins: 0 
             Layout.alignment: Qt.AlignHCenter
-            Layout.maximumWidth: parent.width - 50 * pt
+            Layout.maximumWidth: parent.width - 50 
             color: "#79FFFA"
             text: qsTr("Enter the order name using Latin letters, dotes, dashes and / or numbers.")
             font: mainFont.dapFont.regular14

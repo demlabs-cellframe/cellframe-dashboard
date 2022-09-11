@@ -32,7 +32,7 @@ Page {
                 color: currTheme.textColor
 //                font: mainFont.dapFont.bold14
                 font.family: "Quicksand"
-                font.pixelSize: 16 * pt
+                font.pixelSize: 16 
                 font.bold: true
                 text: qsTr("Network: ")
             }
@@ -47,14 +47,14 @@ Page {
 
         RowLayout
         {
-            Layout.topMargin: 12 * pt
+            Layout.topMargin: 12 
 //            Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter
             Text {
                 color: currTheme.textColor
 //                font: mainFont.dapFont.bold14
                 font.family: "Quicksand"
-                font.pixelSize: 16 * pt
+                font.pixelSize: 16 
                 font.bold: true
                 text: qsTr("Amount: ")
             }
@@ -117,9 +117,9 @@ Page {
 
             DapButton
             {
-                implicitWidth: 50 * pt
-                implicitHeight: 20 * pt
-                radius: 5 * pt
+                implicitWidth: 50 
+                implicitHeight: 20 
+                radius: 5 
 
                 textButton: qsTr("Paste")
 
@@ -148,14 +148,14 @@ Page {
         {
             Layout.topMargin: 30
             Layout.fillWidth: true
-            spacing: 17 * pt
+            spacing: 17 
 
             DapButton
             {
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Back")
@@ -175,8 +175,8 @@ Page {
                 id: next
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Next")

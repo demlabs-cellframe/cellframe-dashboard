@@ -86,8 +86,8 @@ Controls.DapTopPanel
         {
             right: checkUpdate.left
             top: parent.top
-            rightMargin: 24 * pt
-            topMargin: 23 * pt
+            rightMargin: 24 
+            topMargin: 23 
         }
 
         text: qsTr( "Version " + dapServiceController.Version)
@@ -102,13 +102,11 @@ Controls.DapTopPanel
         textButton: "Check update"
 
         anchors.right: parent.right
-        anchors.rightMargin: 24 * pt
-        anchors.top: parent.top
-        anchors.topMargin: 14 * pt
+        anchors.rightMargin: 24 
         anchors.verticalCenter: parent.verticalCenter
 
-        implicitHeight: 38 * pt
-        implicitWidth: 163 * pt
+        implicitHeight: 36
+        implicitWidth: 163 
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
@@ -138,8 +136,8 @@ Controls.DapTopPanel
         {
             right: vesion.left
             top: parent.top
-            rightMargin: 24 * pt
-            topMargin: 23 * pt
+            rightMargin: 24 
+            topMargin: 23 
         }
 
         Text {
@@ -157,10 +155,10 @@ Controls.DapTopPanel
         Widgets.DapImageLoader {
             id: notifyState
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight: 8 * pt
-            Layout.preferredWidth: 8 * pt
-            innerWidth: 8 * pt
-            innerHeight: 8 * pt
+            Layout.preferredHeight: 8 
+            Layout.preferredWidth: 8 
+            innerWidth: 8 
+            innerHeight: 8 
 
             source: logicMainApp.stateNotify? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
                                               "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"

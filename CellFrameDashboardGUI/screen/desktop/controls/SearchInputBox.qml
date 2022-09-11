@@ -16,12 +16,13 @@ TextField {
     id: root
 
     property alias filtering: filtering
-    property int spacing: 10 * pt
+    property int spacing: 10 
     property bool bottomLineVisible: true
+    property string placeHolderTextColor: currTheme.textColorGray
 
 
-    implicitHeight: 27 * pt
-    implicitWidth: 230 * pt
+    implicitHeight: 27 
+    implicitWidth: 230 
     font:mainFont.dapFont.regular14
     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
@@ -29,7 +30,7 @@ TextField {
         TextFieldStyle
         {
             textColor: currTheme.textColor
-            placeholderTextColor: currTheme.textColorGray
+            placeholderTextColor: placeHolderTextColor
             background:
                 Rectangle
                 {
@@ -43,7 +44,7 @@ TextField {
     Rectangle {
         visible: bottomLineVisible
         width: parent.width
-        height: 1 * pt
+        height: 1 
         y: parent.height
         color: currTheme.borderColor
 

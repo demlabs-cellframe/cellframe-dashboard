@@ -19,15 +19,15 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
-                font: mainFont.dapFont.medium14
+                anchors.leftMargin: 16
+                anchors.verticalCenter: parent.verticalCenter
+
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Requests logs")
@@ -38,18 +38,17 @@ Page {
         {
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Text
             {
-                color: currTheme.textColor
-                text: qsTr("Requests to work with a wallet")
-                font: mainFont.dapFont.medium12
-                horizontalAlignment: Text.AlignLeft
+                anchors.fill: parent
+                anchors.leftMargin: 16
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 16 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+
+                font: mainFont.dapFont.medium12
+                color: currTheme.textColor
+                verticalAlignment: Qt.AlignVCenter
+                text: qsTr("Requests to work with a wallet")
             }
         }
 
@@ -71,12 +70,12 @@ Page {
                     Text
                     {
                         Layout.fillWidth: true
-                        Layout.topMargin: 16
+                        Layout.topMargin: 14
                         Layout.leftMargin: 16
                         Layout.rightMargin: 16
                         text: infoText
                         color: currTheme.textColor
-                        font: mainFont.dapFont.regular13
+                        font: mainFont.dapFont.regular14
                         horizontalAlignment: Text.AlignLeft
                         wrapMode: Text.WordWrap
                     }
@@ -85,19 +84,20 @@ Page {
                         Layout.fillWidth: true
                         Layout.leftMargin: 16
                         Layout.rightMargin: 16
-                        Layout.topMargin: 12
+                        Layout.topMargin: 8
                         spacing: 0
 
                         Text{
                             Layout.alignment: Qt.AlignLeft
                             text: reply
                             color: reply === "Denied" ? currTheme.textColorRed : currTheme.textColorLightGreen
-                            font: mainFont.dapFont.regular13
+                            font: mainFont.dapFont.regular14
                             horizontalAlignment: Text.AlignLeft
 
                         }
 
                         Item{Layout.fillWidth: true}
+
                         Text{
                             Layout.alignment: Qt.AlignRight
                             text: date
@@ -108,9 +108,9 @@ Page {
                     }
                     Rectangle
                     {
-                        Layout.topMargin: 12
+                        Layout.topMargin: 13
                         Layout.fillWidth: true
-                        height: 1 * pt
+                        height: 1 
                         color: currTheme.lineSeparatorColor
                     }
                 }

@@ -18,14 +18,14 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 24 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
+                anchors.leftMargin: 24 
+                anchors.topMargin: 10 
+                anchors.bottomMargin: 10 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
                 verticalAlignment: Qt.AlignVCenter

@@ -5,16 +5,18 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 
-Page
+DapRectangleLitAndShaded
 {
     id:control
 
     property alias dapLastActionsView: lastActionsView
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -23,17 +25,16 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             Text
             {
-                anchors.fill: parent
-                anchors.leftMargin: 14 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
-                verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Last actions")
             }
         }
@@ -56,23 +57,20 @@ Page
             delegate: Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 5 * pt
-                anchors.rightMargin: 5 * pt
-                width: lastActionsView.width
-//                color: currTheme.backgroundElements
-                height: 50 * pt
+
+                height: 50 
 
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.rightMargin: 16 * pt
-                    anchors.leftMargin: 16 * pt
+                    anchors.rightMargin: 16
+                    anchors.leftMargin: 16
 
                     ColumnLayout
                     {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        spacing: 2 * pt
+                        spacing: 3
 
                         Text
                         {
@@ -102,6 +100,31 @@ Page
                         color: currTheme.textColor
                         text: sign + amount + " " + name
                         font: mainFont.dapFont.regular14
+
+                        elide: Text.ElideMiddle
+
+                        ToolTip
+                        {
+                            id:toolTip
+                            visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
+                            text: parent.text
+                            scale: mainWindow.scale
+
+                            contentItem: Text {
+                                    text: toolTip.text
+                                    font: mainFont.dapFont.regular14
+                                    color: currTheme.textColor
+                                }
+                            background: Rectangle{color:currTheme.backgroundPanel}
+                        }
+                        MouseArea
+                        {
+                            id:area
+                            anchors.fill: parent
+                            hoverEnabled: true
+                        }
+
+
                     }
                     Image
                     {
@@ -127,7 +150,7 @@ Page
                 Rectangle
                 {
                     width: parent.width
-                    height: 1 * pt
+                    height: 1 
                     color: currTheme.lineSeparatorColor
                     anchors.bottom: parent.bottom
                 }

@@ -568,6 +568,27 @@ QtObject {
             }
         }
 
+        var isContains = false;
+        for(var j = 0; j < dapWebSites.count; j++)
+        {
+            if(dapWebSites.get(j).site === rcvData[0])
+            {
+                isContains = true
+                if(!dapWebSites.get(j).enabled)
+                {
+                    dapServiceController.notifyService("DapWebConnectRequest",false, rcvData[1])
+                    dapMessageLogBuffer.append({infoText: "The site " + rcvData[0] + " requests permission to exchange work with the wallet",
+                                                date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
+                                                reply: "Denied"})
+                    return
+                }
+            }
+        }
+
+        if(!isContains)
+            dapWebSites.append({site:rcvData[0],
+                                enabled: true})
+
         if(!isEqual)
         {
             requestsMessageCounter++

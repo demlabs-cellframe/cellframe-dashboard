@@ -26,7 +26,7 @@ Page {
             orientation: ListView.Horizontal
             Layout.fillWidth: true
             Layout.leftMargin: 17
-            height: 33 * pt
+            height: 33 
 
             model: mainNetworkModel
 //            spacing: 39
@@ -46,9 +46,9 @@ Page {
 //                width: 80
 
                 Label {
-//                    Layout.topMargin: 5 * pt
-//                    Layout.leftMargin: 15 * pt
-//                    Layout.rightMargin: 15 * pt
+//                    Layout.topMargin: 5 
+//                    Layout.leftMargin: 15 
+//                    Layout.rightMargin: 15 
 //                    Layout.fillWidth: true
                     elide: Text.ElideMiddle
                     text: name
@@ -59,11 +59,11 @@ Page {
 
                 Rectangle
                 {
-                    Layout.topMargin: 11 * pt
+                    Layout.topMargin: 11 
                     Layout.alignment: Qt.AlignCenter
-                    Layout.minimumHeight: 3 * pt
-                    width: 20 * pt
-//                    height: 4 * pt
+                    Layout.minimumHeight: 3 
+                    width: 20 
+//                    height: 4 
                     radius: 2
                     color: index === currentNetwork ? currTheme.hilightColorComboBox : currTheme.textColor
                 }
@@ -90,7 +90,7 @@ Page {
             id: tokenView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.topMargin: 21 * pt
+            Layout.topMargin: 21 
             spacing: 0
 
             clip: true
@@ -104,7 +104,7 @@ Page {
             delegate:
             Item {
                 width: parent.width
-                height: 86 * pt
+                height: 86 
 
                 Item
                 {
@@ -149,8 +149,8 @@ Page {
                     RowLayout
                     {
                         anchors.fill: parent
-                        anchors.leftMargin: 22 * pt
-                        anchors.rightMargin: 22 * pt
+                        anchors.leftMargin: 22 
+                        anchors.rightMargin: 22 
 
                         Text {
                             Layout.fillWidth: true

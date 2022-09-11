@@ -36,7 +36,7 @@ Page {
 
         Text {
             id:addrText
-            Layout.topMargin: 20 * pt
+            Layout.topMargin: 20 
             Layout.alignment: Qt.AlignHCenter
             Layout.fillWidth: true
             verticalAlignment: Text.AlignVCenter
@@ -53,10 +53,10 @@ Page {
         DapButton
         {
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 78 * pt
+            Layout.topMargin: 78 
 
-            implicitWidth: 132 * pt
-            implicitHeight: 36 * pt
+            implicitWidth: 132 
+            implicitHeight: 36 
             radius: currTheme.radiusButton
 
             textButton: qsTr("Copy")

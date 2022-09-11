@@ -5,9 +5,9 @@ GridView {
     id: control
 
     property int delegateMargin
-    property int delegateWidth: 285 * pt
-    property int delegateHeight: 164 * pt
-    property int delegateContentMargin: 16 * pt
+    property int delegateWidth: 285 
+    property int delegateHeight: 164 
+    property int delegateContentMargin: 16 
 
     model: dapModelOrders
 
@@ -41,14 +41,14 @@ GridView {
             color: "#2E3138"
             border.width: pt
             border.color: "#292929"
-            radius: 20 * pt
+            radius: 20 
 //            focus: true
 
             Rectangle {
                 id: headerFrame
 
                 width: parent.width
-                height: 30 * pt
+                height: 30 
 //                color: cell.GridView.isCurrentItem ? "#D01E67" : "#2D3037"
                 radius: parent.radius
                 LinearGradient
@@ -75,7 +75,7 @@ GridView {
                 Rectangle {
                     y: parent.height - height
                     width: parent.width
-                    height: parent.radius - 2 * pt
+                    height: parent.radius - 2 
                     color: parent.color
                     LinearGradient
                     {
@@ -115,7 +115,7 @@ GridView {
                     anchors.top: parent.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    height: 1 * pt
+                    height: 1 
                     color: "#292929"
                 }
             }
@@ -127,7 +127,7 @@ GridView {
                 anchors.margins: control.delegateContentMargin
 
                 Column {
-                    spacing: 12 * pt
+                    spacing: 12 
 
                     DapOrdersInfo {
                         width: infoFrame.width

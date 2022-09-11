@@ -41,7 +41,7 @@ Page {
         }
 
 /*        CustomRadioButton {
-            Layout.topMargin: 14 * pt
+            Layout.topMargin: 14 
             Layout.alignment: Qt.AlignHCenter
             text: qsTr("Use on existing wallet")
         }*/
@@ -49,10 +49,10 @@ Page {
         DapButton
         {
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 14 * pt
+            Layout.topMargin: 14 
 
-            implicitWidth: 132 * pt
-            implicitHeight: 36 * pt
+            implicitWidth: 132 
+            implicitHeight: 36 
             radius: currTheme.radiusButton
 
             textButton: qsTr("Next")

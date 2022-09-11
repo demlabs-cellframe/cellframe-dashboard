@@ -32,7 +32,7 @@ Page {
                 color: currTheme.textColor
 //                font: mainFont.dapFont.bold14
                 font.family: "Quicksand"
-                font.pixelSize: 16 * pt
+                font.pixelSize: 16 
                 font.bold: true
                 text: qsTr("Network: ")
             }
@@ -87,14 +87,14 @@ Page {
         {
             Layout.topMargin: 60
             Layout.fillWidth: true
-            spacing: 17 * pt
+            spacing: 17 
 
             DapButton
             {
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Back")
@@ -114,8 +114,8 @@ Page {
                 id: next
                 Layout.fillWidth: true
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Next")

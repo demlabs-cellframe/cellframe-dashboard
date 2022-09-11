@@ -3,32 +3,31 @@ import QtQuick.Layouts 1.3
 
 
 
-Item {
+ColumnLayout {
     id: root
 
     property alias title: title
     property alias content: content
-    property int verticalSpacing: 10 * pt
 
-    implicitWidth: parent.width - x * 2
-    implicitHeight: title.height + verticalSpacing + content.height
+    spacing: 8
 
     Text {
         id: title
+        Layout.fillWidth: true
         font: mainFont.dapFont.regular12
-        color: currTheme.textColor
+        color: "#B4B1BD"
         width: parent.width
         wrapMode: Text.Wrap
+        height: 15
     }
 
     Text {
         id: content
-        y: title.height + verticalSpacing
+        Layout.fillWidth: true
         font: mainFont.dapFont.regular14
         color: currTheme.textColor
         width: parent.width
         wrapMode: Text.Wrap
+        height: 18
     }
-
-
 }   //
