@@ -25,12 +25,12 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.topMargin: 3
         spacing: 0
 
         Text {
             Layout.minimumHeight: 35
             Layout.maximumHeight: 35
+            Layout.leftMargin: 16
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor

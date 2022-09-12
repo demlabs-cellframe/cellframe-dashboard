@@ -173,7 +173,7 @@ Item
                 dapIndicatorLeftInterval: 16 
                 dapColorTopNormalDropShadow: "#00000000"
                 dapColorDropShadow: currTheme.shadowColor
-                dapTextFont:  mainFont.dapFont.regular14
+                dapTextFont:  mainFont.dapFont.regular16
                 dapDefaultMainLineText: "All time"
                 dapIsDefaultNeedToAppend: true
                 dapRangeElementWidth: 74 

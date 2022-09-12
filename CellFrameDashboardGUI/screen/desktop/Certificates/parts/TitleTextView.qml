@@ -9,7 +9,7 @@ ColumnLayout {
     property alias title: title
     property alias content: content
 
-    spacing: 8
+    spacing: 5
 
     Text {
         id: title

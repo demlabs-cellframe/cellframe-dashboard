@@ -8,15 +8,14 @@ import "../../../controls"
 
 Page
 {
+
+    background: Rectangle{color:"transparent"}
     id: createForm
-    background: Rectangle {
-        color: "transparent"
-    }
+
     property string currentOrder: "Limit"
 
     property bool isSell: false
     signal sellBuyChanged()
-
 
     Connections{
         target: dapServiceController
@@ -58,13 +57,8 @@ Page
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10
-                anchors.bottomMargin: 7
-                anchors.leftMargin: 21
-                anchors.rightMargin: 13
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
                 height: 20
@@ -74,8 +68,6 @@ Page
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
-//                normalImage: "qrc:/resources/icons/other/cross.svg"
-//                hoverImage:  "qrc:/resources/icons/other/cross_hover.svg"
                 onClicked: goToRightHome()
             }
 
@@ -84,12 +76,9 @@ Page
                 id: textHeader
                 text: qsTr("Create order")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12
-                anchors.bottomMargin: 8
-                anchors.leftMargin: 52
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor

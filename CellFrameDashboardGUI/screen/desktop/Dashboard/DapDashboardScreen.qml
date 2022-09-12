@@ -248,9 +248,10 @@ Page
                                 {
                                     id: networkAddressCopyButton
                                     onCopyClicked: textMetworkAddress.copyFullText()
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    anchors.right: parent.right
-                                    anchors.rightMargin: 16
+                                    Layout.alignment: Qt.AlignRight
+//                                    anchors.verticalCenter: parent.verticalCenter
+//                                    anchors.right: parent.right
+//                                    anchors.rightMargin: 16
                                     popupText: qsTr("Address copied")
                                 }
                             }
@@ -304,6 +305,29 @@ Page
 //                                        text: full_balance
 //                                        text: datoshi
                                         horizontalAlignment: Text.AlignRight
+
+                                        elide: Text.ElideMiddle
+
+                                        ToolTip
+                                        {
+                                            id:toolTip
+                                            visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
+                                            text: parent.text
+                                            scale: mainWindow.scale
+
+                                            contentItem: Text {
+                                                    text: toolTip.text
+                                                    font: mainFont.dapFont.regular14
+                                                    color: currTheme.textColor
+                                                }
+                                            background: Rectangle{color:currTheme.backgroundPanel}
+                                        }
+                                        MouseArea
+                                        {
+                                            id:area
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                        }
                                     }
 
                                     Text

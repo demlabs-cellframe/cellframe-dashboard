@@ -53,10 +53,10 @@ Controls.DapTopPanel
                 Text{
                     id: value
                     anchors.fill: parent
-                    anchors.leftMargin: 6
-                    anchors.rightMargin: 6
-                    anchors.topMargin: 2
-                    anchors.bottomMargin: 2
+//                    anchors.leftMargin: 6
+//                    anchors.rightMargin: 6
+//                    anchors.topMargin: 2
+//                    anchors.bottomMargin: 2
                     text: logicMainApp.requestsMessageCounter
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter

@@ -5,14 +5,17 @@ import QtQuick.Controls 2.5
 import "../../controls"
 import "qrc:/widgets"
 
-Page {
-    background: Rectangle {
-        color: "transparent"
-    }
+DapRectangleLitAndShaded {
 
     Component.onCompleted: {logicMainApp.isOpenRequests = true; webPopup.clearAndClose()}
     Component.onDestruction: logicMainApp.isOpenRequests = false
 
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
+
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -68,7 +71,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 16 
+                anchors.leftMargin: 16
             }
         }
 
@@ -146,7 +149,7 @@ Page {
                                 implicitHeight: 26
 
                                 textButton: qsTr("Allow")
-                                fontButton: mainFont.dapFont.regular14
+                                fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 onClicked:{
                                    dapServiceController.notifyService("DapWebConnectRequest",true, indexRequest)
@@ -161,7 +164,7 @@ Page {
                                 implicitHeight: 26
 
                                 textButton: qsTr("Deny")
-                                fontButton: mainFont.dapFont.regular14
+                                fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 onClicked: {
                                     dapServiceController.notifyService("DapWebConnectRequest",false, indexRequest)

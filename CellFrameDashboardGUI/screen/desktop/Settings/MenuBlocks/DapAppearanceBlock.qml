@@ -78,8 +78,8 @@ ColumnLayout
                 id: scaleSpinbox
 
                 Layout.alignment: Qt.AlignRight
-                Layout.maximumWidth: 86
-                Layout.minimumWidth: 86
+                Layout.maximumWidth: 94
+                Layout.minimumWidth: 94
 
                 Layout.minimumHeight: 18
                 Layout.maximumHeight: 18

@@ -18,6 +18,7 @@ Controls.DapTopPanel
     RowLayout
     {
         anchors.left: parent.left
+        anchors.right: parent.right
         anchors.leftMargin: 24
         anchors.verticalCenter: parent.verticalCenter
         spacing: 18
@@ -84,60 +85,9 @@ Controls.DapTopPanel
 
             Component.onCompleted: {
                 updatePair()
-//                currentIndex = 0;
-//                updateBalance()
             }
 
             onCurrentIndexChanged: updateBalance()
-
-//            Connections{
-//                target: stockTab
-//                onFakeWalletChanged: tokenComboBox.updateBalance()
-//            }
-
-
-
-
-/*            background:
-            Item
-            {
-                anchors.fill: parent
-
-                Rectangle
-                {
-                    id: backGrnd
-                    border.width: 0
-                    anchors.fill: parent
-
-                    color: currTheme.backgroundMainScreen
-                }
-
-                DropShadow
-                {
-                    anchors.fill: backGrnd
-                    horizontalOffset: currTheme.hOffset
-                    verticalOffset: currTheme.vOffset
-                    radius: currTheme.radiusShadow
-                    color: currTheme.shadowColor
-                    source: backGrnd
-                    samples: 10
-                    cached: true
-                    visible: tokenComboBox.popup.visible
-                }
-
-                InnerShadow {
-                    anchors.fill: backGrnd
-                    horizontalOffset: 1
-                    verticalOffset: 1
-                    radius: 1
-                    samples: 10
-                    cached: true
-                    color: "#524D64"
-                    source: backGrnd
-                    spread: 0
-                    visible: tokenComboBox.popup.visible
-                }
-            }*/
         }
 
         // Static wallet balance text "Wallet balance"
@@ -155,11 +105,34 @@ Controls.DapTopPanel
         Text
         {
             id: textWalletBalance
-//            text: "$ 3 050 745.3453289 USD"
-//            text: tokenComboBox.currentBalance
+
+            Layout.fillWidth: true
 
             font: mainFont.dapFont.regular16
             color: currTheme.textColor
+
+            elide: Text.ElideMiddle
+
+            ToolTip
+            {
+                id:toolTip
+                visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
+                text: parent.text
+                scale: mainWindow.scale
+
+                contentItem: Text {
+                        text: toolTip.text
+                        font: mainFont.dapFont.regular14
+                        color: currTheme.textColor
+                    }
+                background: Rectangle{color:currTheme.backgroundPanel}
+            }
+            MouseArea
+            {
+                id:area
+                anchors.fill: parent
+                hoverEnabled: true
+            }
         }
     }
 
