@@ -90,41 +90,20 @@ DapRectangleLitAndShaded
                         }
                     }
 
-                    Text
+
+                    DapBigNumberText
                     {
                         property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        horizontalAlignment: Qt.AlignRight
-                        verticalAlignment: Qt.AlignVCenter
-                        color: currTheme.textColor
-                        text: sign + amount + " " + name
-                        font: mainFont.dapFont.regular14
+                        horizontalAlign: Qt.AlignRight
+                        verticalAlign: Qt.AlignVCenter
+                        fullNumber: sign + amount + " " + name
+                        textFont: mainFont.dapFont.regular14
+                        copyButtonVisible: false
+                        isAutoOutText: true
 
-                        elide: Text.ElideMiddle
-
-                        ToolTip
-                        {
-                            id:toolTip
-                            visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
-                            text: parent.text
-                            scale: mainWindow.scale
-
-                            contentItem: Text {
-                                    text: toolTip.text
-                                    font: mainFont.dapFont.regular14
-                                    color: currTheme.textColor
-                                }
-                            background: Rectangle{color:currTheme.backgroundPanel}
-                        }
-                        MouseArea
-                        {
-                            id:area
-                            anchors.fill: parent
-                            hoverEnabled: true
-                        }
-
-
+                        width: 160
                     }
                     Image
                     {
@@ -133,7 +112,7 @@ DapRectangleLitAndShaded
     //                    innerWidth: 20
     //                    innerHeight: 20
 
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
+                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
 
                         source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
 
@@ -142,7 +121,7 @@ DapRectangleLitAndShaded
                             id: mouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
                         }
                     }
                 }

@@ -28,7 +28,6 @@
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
         <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
         <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
-        <file>screen/desktop/Certificates/parts/InputField.qml</file>
         <file>screen/desktop/Certificates/models/FindDelegateModel.qml</file>
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
@@ -133,7 +132,6 @@
         <file>screen/desktop/controls/DapPage.qml</file>
         <file>screen/desktop/controls/DapPageElement.qml</file>
         <file>screen/desktop/controls/DapScreenPage.qml</file>
-        <file>screen/desktop/controls/DapTextField.qml</file>
         <file>screen/desktop/controls/DapTopPanel.qml</file>
         <file>screen/desktop/controls/SearchInputBox.qml</file>
         <file>screen/desktop/controls/TextInputFilter.qml</file>

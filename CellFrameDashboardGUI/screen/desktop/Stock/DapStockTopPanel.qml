@@ -89,6 +89,11 @@ Controls.DapTopPanel
 
             onCurrentIndexChanged: updateBalance()
         }
+        Item{
+            Layout.minimumWidth: 120
+            Layout.maximumWidth: 120
+            visible: !tokenComboBox.visible
+        }
 
         // Static wallet balance text "Wallet balance"
         Label
@@ -102,38 +107,53 @@ Controls.DapTopPanel
         }
 
         // Dynamic wallet balance text
-        Text
-        {
-            id: textWalletBalance
 
+        Item{
             Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignRight
 
-            font: mainFont.dapFont.regular16
-            color: currTheme.textColor
-
-            elide: Text.ElideMiddle
-
-            ToolTip
+            DapBigNumberText
             {
-                id:toolTip
-                visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
-                text: parent.text
-                scale: mainWindow.scale
-
-                contentItem: Text {
-                        text: toolTip.text
-                        font: mainFont.dapFont.regular14
-                        color: currTheme.textColor
-                    }
-                background: Rectangle{color:currTheme.backgroundPanel}
-            }
-            MouseArea
-            {
-                id:area
+                id: textWalletBalance
                 anchors.fill: parent
-                hoverEnabled: true
+                textFont: mainFont.dapFont.regular16
+                copyButtonVisible: false
+                isAutoOutText: true
             }
         }
+//        Text
+//        {
+//            id: textWalletBalance
+
+//            Layout.fillWidth: true
+
+//            font: mainFont.dapFont.regular16
+//            color: currTheme.textColor
+
+//            elide: Text.ElideMiddle
+
+//            ToolTip
+//            {
+//                id:toolTip
+//                visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
+//                text: parent.text
+//                scale: mainWindow.scale
+
+//                contentItem: Text {
+//                        text: toolTip.text
+//                        font: mainFont.dapFont.regular14
+//                        color: currTheme.textColor
+//                    }
+//                background: Rectangle{color:currTheme.backgroundPanel}
+//            }
+//            MouseArea
+//            {
+//                id:area
+//                anchors.fill: parent
+//                hoverEnabled: true
+//            }
+//        }
     }
 
     Connections{
@@ -202,9 +222,9 @@ Controls.DapTopPanel
 
         if(tokenComboBox.count)
         {
-            textWalletBalance.text = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            textWalletBalance.fullNumber = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
             logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
-            logicStock.selectedTokenBalanceWallet = textWalletBalance.text
+            logicStock.selectedTokenBalanceWallet = textWalletBalance.fullNumber
         }
 
         if(tokenComboBox.count === 2)

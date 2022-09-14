@@ -81,7 +81,7 @@ DapRectangleLitAndShaded {
             height: 53 
             color: "transparent"
 
-            TextField
+            DapTextField
             {
                 id: textInputNewTokenName
                 anchors.verticalCenter: parent.verticalCenter
@@ -90,37 +90,21 @@ DapRectangleLitAndShaded {
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
                 anchors.leftMargin: 10
+                anchors.rightMargin: 10
                 anchors.topMargin: 10 
                 anchors.bottomMargin: 10 
 
-                validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
-                style:
-                    TextFieldStyle
-                    {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.textColorGray
-                        background:
-                            Rectangle
-                            {
-                                border.width: 0
-                                color: currTheme.backgroundElements
-                            }
-                    }
-            }
+                bottomLineVisible: true
+                bottomLineSpacing: 6
+                bottomLineLeftRightMargins: 6
 
-            Rectangle
-            {
-                height: 1 
-                width: parent.width - x * 2
-                color: currTheme.borderColor
-                y: textInputNewTokenName.y + textInputNewTokenName.height
-                x: 16
+                validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
             }
         }
 
         Rectangle {
             color: currTheme.backgroundMainScreen
-            Layout.topMargin: 10
+            Layout.topMargin: 20
             Layout.fillWidth: true
             height: 30 
 
@@ -140,7 +124,7 @@ DapRectangleLitAndShaded {
             height: 56 
             Layout.fillWidth: true
 
-            DapComboBox {
+            DapCustomComboBox {
                 id: networks
                 anchors.fill: parent
                 anchors.leftMargin: 16
@@ -173,7 +157,7 @@ DapRectangleLitAndShaded {
             height: 56 
             Layout.fillWidth: true
 
-            DapComboBox {
+            DapCustomComboBox {
                 id: certificates
                 anchors.fill: parent
                 anchors.leftMargin: 16
@@ -219,7 +203,7 @@ DapRectangleLitAndShaded {
                 border.color: "#666E7D"
                 color: "transparent"
 
-                TextField
+                DapTextField
                 {
                     id: textInputAmount
                     anchors.fill: parent
@@ -228,20 +212,9 @@ DapRectangleLitAndShaded {
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
 
-                    style:
-                        TextFieldStyle
-                        {
-                            textColor: currTheme.textColor
-                            placeholderTextColor: currTheme.textColor
-                            background:
-                                Rectangle
-                                {
-                                    border.width: 1
-                                    radius: 4 
-                                    border.color: currTheme.borderColor
-                                    color: currTheme.backgroundElements
-                                }
-                        }
+                    borderWidth: 1
+                    borderRadius: 4
+                    placeholderColor: currTheme.textColor
                 }
             }
         }

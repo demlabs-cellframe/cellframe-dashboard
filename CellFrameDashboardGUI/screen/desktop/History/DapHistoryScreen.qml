@@ -147,36 +147,21 @@ Page
 
                 // Balance
                 //  Token currency
-                Text
-                {
-                    id: lblAmount
+
+                Item{
                     Layout.fillWidth: true
-                    property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
-                    text: sign + amount + " " + name
-                    color: currTheme.textColor
-                    font:  mainFont.dapFont.regular14
-                    horizontalAlignment: Text.AlignRight
-                    elide: Text.ElideMiddle
+                    Layout.fillHeight: true
 
-                    ToolTip
+                    DapBigNumberText
                     {
-                        id:toolTip
-                        visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
-                        text: parent.text
-                        scale: mainWindow.scale
-
-                        contentItem: Text {
-                                text: toolTip.text
-                                font: mainFont.dapFont.regular14
-                                color: currTheme.textColor
-                            }
-                        background: Rectangle{color:currTheme.backgroundPanel}
-                    }
-                    MouseArea
-                    {
-                        id:area
+                        id: lblAmount
+                        property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                         anchors.fill: parent
-                        hoverEnabled: true
+                        textFont: mainFont.dapFont.regular14
+                        fullNumber: sign + amount + " " + name
+                        horizontalAlign: Text.AlignRight
+                        copyButtonVisible: false
+                        isAutoOutText: true
                     }
                 }
 
@@ -200,7 +185,7 @@ Page
                         id: mouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
                     }
                 }
 

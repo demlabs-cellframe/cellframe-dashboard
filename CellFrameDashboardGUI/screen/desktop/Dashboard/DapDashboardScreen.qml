@@ -295,40 +295,23 @@ Page
                                         horizontalAlignment: Text.AlignLeft
                                     }
 
-                                    Text
-                                    {
-                                        id: currencySum
+                                    Item{
                                         Layout.fillWidth: true
-                                        font: mainFont.dapFont.regular14
-                                        color: currTheme.textColor
-                                        text: balance_without_zeros
-//                                        text: full_balance
-//                                        text: datoshi
-                                        horizontalAlignment: Text.AlignRight
+                                        Layout.fillHeight: true
 
-                                        elide: Text.ElideMiddle
-
-                                        ToolTip
+                                        DapBigNumberText
                                         {
-                                            id:toolTip
-                                            visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
-                                            text: parent.text
-                                            scale: mainWindow.scale
-
-                                            contentItem: Text {
-                                                    text: toolTip.text
-                                                    font: mainFont.dapFont.regular14
-                                                    color: currTheme.textColor
-                                                }
-                                            background: Rectangle{color:currTheme.backgroundPanel}
-                                        }
-                                        MouseArea
-                                        {
-                                            id:area
+                                            id: currencySum
                                             anchors.fill: parent
-                                            hoverEnabled: true
+                                            textFont: mainFont.dapFont.regular14
+                                            fullNumber: balance_without_zeros
+                                            horizontalAlign: Text.AlignRight
+                                            copyButtonVisible: false
+                                            isAutoOutText: true
                                         }
                                     }
+
+
 
                                     Text
                                     {

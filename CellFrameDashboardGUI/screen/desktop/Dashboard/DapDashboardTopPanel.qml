@@ -12,23 +12,19 @@ Controls.DapTopPanel
     property alias dapFrameTitle: frameTitleCreateWallet
 
 
-    Text
+    Widgets.DapBigNumberText
     {
         id: frameTitleCreateWallet
         anchors.left: parent.left
         anchors.leftMargin: 24
         anchors.right: newPaymentButton.left
         anchors.rightMargin: 100
-//        anchors.top: parent.top
-//        anchors.bottom: parent.bottom
-
-
-//        anchors.horizontalCenter: parent.horizontalCenter
+        height: 30
         anchors.verticalCenter: parent.verticalCenter
-        font: mainFont.dapFont.medium18
-        color: currTheme.textColor
-        elide: Text.ElideMiddle
-//            text: qsTr("Name of my wallet")
+
+        copyButtonVisible: false
+        isAutoOutText: true
+        textFont: mainFont.dapFont.medium18
     }
 
 

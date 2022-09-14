@@ -113,7 +113,7 @@ DapRectangleLitAndShaded
             height: 69
             color: "transparent"
 
-            TextField
+            DapTextField
             {
                 id: textInputNameWallet
                 anchors.verticalCenter: parent.verticalCenter
@@ -125,27 +125,9 @@ DapRectangleLitAndShaded
                 anchors.bottomMargin: 20
 
                 validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
-                style:
-                    TextFieldStyle
-                    {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.textColorGray
-                        background:
-                            Rectangle
-                            {
-                                border.width: 0
-                                color: currTheme.backgroundElements
-                            }
-                    }
-            }
-
-            Rectangle
-            {
-                height: 1
-                width: parent.width - x * 2
-                color: currTheme.borderColor
-                y: textInputNameWallet.y + textInputNameWallet.height
-                x: 8
+                bottomLineVisible: true
+                bottomLineSpacing: 6
+                bottomLineLeftRightMargins: 7
             }
         }
 

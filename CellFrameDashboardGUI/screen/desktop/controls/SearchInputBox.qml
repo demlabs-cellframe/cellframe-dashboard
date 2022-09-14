@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
+import "qrc:/widgets"
 
 
 /*
@@ -12,50 +13,19 @@ import QtQuick.Controls.Styles 1.4
 
 
 
-TextField {
+DapTextField {
     id: root
 
     property alias filtering: filtering
-    property int spacing: 10 
-    property bool bottomLineVisible: true
-    property string placeHolderTextColor: currTheme.textColorGray
 
+    placeholderColor: currTheme.textColorGray
 
-    implicitHeight: 27 
+    implicitHeight: 30
     implicitWidth: 230 
     font:mainFont.dapFont.regular14
     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
-    style:
-        TextFieldStyle
-        {
-            textColor: currTheme.textColor
-            placeholderTextColor: placeHolderTextColor
-            background:
-                Rectangle
-                {
-                    border.width: 0
-                    color: currTheme.backgroundPanel
-                }
-        }
-
-
-    //bottom line
-    Rectangle {
-        visible: bottomLineVisible
-        width: parent.width
-        height: 1 
-        y: parent.height
-        color: currTheme.borderColor
-
-        Behavior on width {
-            NumberAnimation {
-                duration: 100
-                easing.type: Easing.InOutQuad
-            }
-        }
-    }
-
+    backgroundColor: currTheme.backgroundPanel
 
     onTextChanged: {
         filtering.filter(text)
@@ -91,10 +61,6 @@ TextField {
             //console.log("onAwaitingFinished:", text)
         }
     }
-
-
-
-
 } // root
 
 

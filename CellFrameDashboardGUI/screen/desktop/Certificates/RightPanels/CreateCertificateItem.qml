@@ -171,7 +171,7 @@ DapRectangleLitAndShaded {
                 font: mainFont.dapFont.regular16
             }
 
-            TextField
+            DapTextField
             {
                 id: titleCertificateTextInput
                 placeholderText: qsTr("Title")
@@ -190,18 +190,7 @@ DapRectangleLitAndShaded {
 
 
                 validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
-                style:
-                    TextFieldStyle
-                    {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.textColorGray
-                        background:
-                            Rectangle
-                            {
-                                border.width: 0
-                                color: currTheme.backgroundElements
-                            }
-                    }
+
             }
             Rectangle //bottom line
             {
@@ -250,18 +239,13 @@ DapRectangleLitAndShaded {
                     id: optionalRepeater
                     model: models.createCertificateOptional
 
-                    InputField {
-                        Layout.leftMargin: 39 
-                        Layout.rightMargin: 39
-                        Layout.preferredHeight: 28 
-//                        Layout.preferredWidth: 277
+                    DapTextField {
+                        Layout.leftMargin: 31
+                        Layout.rightMargin: 31
+                        Layout.preferredHeight: 29
                         Layout.fillWidth: true
-                        leftPadding: 0
-                        smartPlaceHolderText: model.placeHolderText
-                        textAndLineSpacing: 3 
+                        placeholderText: model.placeHolderText
                         validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
-
-                        placeholderTextColor: currTheme.textColorGray
 
                         onFocusChanged:
                         {
@@ -280,6 +264,10 @@ DapRectangleLitAndShaded {
                             text = text.trim()
                             optionalRepeater.model.setProperty(model.index, "data", text)
                         }
+
+                        bottomLineVisible: true
+                        bottomLineSpacing: 5
+                        bottomLineLeftRightMargins: 8
                     }
                 }  //
             }  //optionalBodyeLayout

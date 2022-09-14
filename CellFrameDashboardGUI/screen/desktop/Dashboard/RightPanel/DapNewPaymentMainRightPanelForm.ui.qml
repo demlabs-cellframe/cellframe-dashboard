@@ -221,33 +221,21 @@ DapRectangleLitAndShaded
                 Layout.fillWidth: true
                 Layout.margins: 0 
 
-                TextField
+                DapTextField
                 {
                     id: textInputAmountPayment
                     Layout.fillWidth: true
                     width: 171
                     Layout.minimumHeight: 40
                     Layout.maximumHeight: 40
-    //                        placeholderText: "0"
-    //                        placeholderText: "0.0"
+                    placeholderText: qsTr("0.0")
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
 
-                    style:
-                        TextFieldStyle
-                        {
-                            textColor: currTheme.textColor
-                            placeholderTextColor: currTheme.textColor
-                            background:
-                                Rectangle
-                                {
-                                    border.width: 1
-                                    radius: 4 
-                                    border.color: currTheme.borderColor
-                                    color: currTheme.backgroundElements
-                                }
-                        }
+                    borderWidth: 1
+                    borderRadius: 4
+                    placeholderColor: currTheme.textColor
                 }
 
                 Rectangle
@@ -298,49 +286,26 @@ DapRectangleLitAndShaded
         {
             id: frameRecipientWalletAddress
             Layout.fillWidth: true
-            Layout.leftMargin: 36
-            Layout.rightMargin: 36
+            Layout.leftMargin: 28
+            Layout.rightMargin: 28
             height: 53 
             color: "transparent"
 
-            TextField
+            DapTextField
             {
                 id: textInputRecipientWalletAddress
-                Layout.fillWidth: true
                 anchors.verticalCenter: parent.verticalCenter
+                anchors.fill: parent
+                anchors.topMargin: 20
+
                 placeholderText: qsTr("Paste here")
                 validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
-                anchors.fill: parent
-                anchors.topMargin: 20
-                style:
-                    TextFieldStyle
-                    {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.placeHolderTextColor
 
-                        background:
-                            Rectangle
-                            {
-                                border.width: 0
-                                color: currTheme.backgroundElements
-                            }
-                    }
-            }
-
-            Rectangle
-            {
-                id: splitLineRecipientWalletAddress
-                height: 1 
-                width: parent.width
-                color: currTheme.borderColor
-                anchors.top: textInputRecipientWalletAddress.bottom
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.topMargin: 8 
-    //                    anchors.leftMargin: 20 
-    //                    anchors.rightMargin: 20 
+                bottomLineVisible: true
+                bottomLineSpacing: 6
+                bottomLineLeftRightMargins: 7
             }
         }
 
