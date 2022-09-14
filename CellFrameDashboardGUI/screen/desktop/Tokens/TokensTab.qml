@@ -98,7 +98,7 @@ DapPage
         onTriggered:
         {
             console.log("TOKENS TIMER TICK")
-            dapServiceController.requestToService("DapGetListTokensCommand")
+            dapServiceController.requestToService("DapGetListTokensCommand", "update")
         }
     }
     Component.onCompleted:

@@ -410,6 +410,8 @@ QtObject {
 
     function rcvPairsModel(rcvData)
     {
+        console.log("rcvPairsModel", rcvData)
+
         if(rcvData !== "isEqual")
         {
             var jsonDocument = JSON.parse(rcvData)

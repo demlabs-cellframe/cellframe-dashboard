@@ -47,7 +47,7 @@ DapPage
         onTriggered:
         {
 //            console.log("PAIR TIMER TICK")
-            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
+            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info", "update")
         }
     }
 

@@ -147,9 +147,9 @@ public:
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
 
-    QByteArray s_bufferTokensJson;
-    QByteArray s_bufferOrdersJson;
-    QByteArray s_bufferPairJson;
+//    QByteArray s_bufferTokensJson;
+//    QByteArray s_bufferOrdersJson;
+//    QByteArray s_bufferPairJson;
 
 public slots:
     void requestWalletList();
