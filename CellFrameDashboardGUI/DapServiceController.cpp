@@ -417,7 +417,19 @@ void DapServiceController::registerCommand()
         if(!tokensResult.isValid())
             return ;
 
-        if(s_bufferTokensJson.isEmpty())
+//        emit signalTokensListReceived(tokensResult);
+
+        if (tokensResult.toString() == "isEqual")
+        {
+            qDebug() << "tokensListReceived isEqual";
+            emit signalTokensListReceived("isEqual");
+        }
+        else
+        {
+            emit signalTokensListReceived(tokensResult);
+        }
+
+/*        if(s_bufferTokensJson.isEmpty())
         {
             s_bufferTokensJson = tokensResult.toByteArray();
             emit signalTokensListReceived(tokensResult);
@@ -430,15 +442,14 @@ void DapServiceController::registerCommand()
                 return ;
             }
             emit signalTokensListReceived("isEqual");
-        }
+        }*/
     });
 
     connect(this, &DapServiceController::rcvXchangeOrderList, [=] (const QVariant& rcvData)
     {
-        if(!rcvData.isValid())
+        if (!rcvData.isValid())
             return ;
 
-        s_bufferOrdersJson = rcvData.toByteArray();
         emit signalXchangeOrderListReceived(rcvData);
 
 /*        if(s_bufferOrdersJson.isEmpty())
@@ -462,19 +473,14 @@ void DapServiceController::registerCommand()
         if(!rcvData.isValid())
             return ;
 
-        if(s_bufferPairJson.isEmpty())
+        if (rcvData.toString() == "isEqual")
         {
-            s_bufferPairJson = rcvData.toByteArray();
-            emit signalXchangeTokenPairReceived(rcvData);
-            return ;
-        }else{
-            if(!compareJson(s_bufferPairJson, rcvData))
-            {
-                s_bufferPairJson = rcvData.toByteArray();
-                emit signalXchangeTokenPairReceived(rcvData);
-                return ;
-            }
+            qDebug() << "rcvXchangeTokenPair isEqual";
             emit signalXchangeTokenPairReceived("isEqual");
+        }
+        else
+        {
+            emit signalXchangeTokenPairReceived(rcvData);
         }
     });
 
