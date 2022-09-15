@@ -211,12 +211,7 @@ ColumnLayout
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                MouseArea
-                {
-                    anchors.fill: parent
 
-                    onClicked: radioBut.clicked();
-                }
 
                 RowLayout
                 {
@@ -230,10 +225,12 @@ ColumnLayout
 
                         Item{
                             Layout.fillWidth: true
-                            height: 14*pt
+//                            Layout.rightMargin: 110
+                            height: 14
 
                             DapBigNumberText
                             {
+                                id: nameText
                                 anchors.fill: parent
                                 textFont: mainFont.dapFont.regular11
                                 fullNumber: name
@@ -314,6 +311,12 @@ ColumnLayout
                             logicMainApp.currentIndex = index
                         }
                     }
+                }
+                MouseArea
+                {
+                    anchors.fill: parent
+
+                    onClicked: radioBut.clicked();
                 }
                 Rectangle
                 {

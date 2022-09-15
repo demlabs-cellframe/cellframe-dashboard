@@ -446,6 +446,11 @@ Rectangle {
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
                 logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
+            else if(versionResult.message === "Reply node version")
+            {
+                if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
+                logicMainApp.nodeVersion = versionResult.lastVersion
+            }
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")

@@ -40,7 +40,7 @@ DapPage
 
     Timer {
         id: updatePairTimer
-        interval: 1000*60
+        interval: 10000 //10 sec
         running: false
         repeat: true
         onTriggered:

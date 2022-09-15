@@ -7,6 +7,8 @@ QtObject {
     property var  activePlugin: ""
     property var currentNetwork: -1
 
+    property string nodeVersion:""
+
     //wallets create param
     property bool restoreWalletMode: false
     property string currentTab: params.isMobile ? "" : mainScreenStack.currPage
