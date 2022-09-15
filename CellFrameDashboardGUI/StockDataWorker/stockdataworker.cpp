@@ -18,7 +18,7 @@ constexpr double minAverageStep {0.5};
 constexpr int numberAverageCharts {3};
 
 constexpr int commonRoundPowerDelta {9};
-constexpr int bookRoundPowerDelta {8};
+constexpr int bookRoundPowerDelta {7};
 
 double roundDoubleValue(double value, int round)
 {
@@ -88,13 +88,17 @@ void StockDataWorker::setTokenPair(const QString &tok1,
 //    qDebug() << "StockDataWorker::setTokenPair" << token1 << token2 << network;
 }
 
-void StockDataWorker::resetPriceData(double price, bool init)
+void StockDataWorker::resetPriceData(
+        double price, const QString &priceText, bool init)
 {
-//    qDebug() << "StockDataWorker::resetPriceData" << price;
+//    price = 0;
+
+    qDebug() << "StockDataWorker::resetPriceData" << price;
 
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
 
     m_currentTokenPrice = price;
+    m_currentTokenPriceText = priceText;
     m_previousTokenPrice = price;
 
     priceModel.clear();
@@ -117,7 +121,10 @@ void StockDataWorker::resetPriceData(double price, bool init)
     getMinimumMaximum24h();
 
     emit currentTokenPriceChanged(m_currentTokenPrice);
+    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
     emit previousTokenPriceChanged(m_previousTokenPrice);
+
+    checkNewRoundPower();
 
 //    qDebug() << "StockDataWorker::generatePriceData" << "END"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
@@ -135,6 +142,7 @@ void StockDataWorker::generatePriceData(int length)
 //    m_maximum24h = currentPrice;
 
     m_currentTokenPrice = currentPrice;
+    m_currentTokenPriceText = "0.245978";
     m_previousTokenPrice = currentPrice;
 
     if (length < 1)
@@ -169,8 +177,10 @@ void StockDataWorker::generatePriceData(int length)
 //    emit maximum24hChanged(m_maximum24h);
 
     emit currentTokenPriceChanged(m_currentTokenPrice);
+    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
     emit previousTokenPriceChanged(m_previousTokenPrice);
 
+    checkNewRoundPower();
 //    qDebug() << "StockDataWorker::generatePriceData" << "END"
 //             << QTime::currentTime().toString("hh:mm:ss.zzz");
 }
@@ -185,6 +195,8 @@ QVariantMap StockDataWorker::getPriceInfo(int index)
 
 void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 {
+//    return;
+
     qDebug() << "StockDataWorker::setTokenPriceHistory";
 
 //    priceModel.clear();
@@ -274,13 +286,14 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
         QString date = history.at(i)["date"].toString();
 
         double price = history.at(i)["rate"].toString().toDouble();
+        QString priceText = history.at(i)["rate"].toString();
         qint64 time = date.toLongLong();
 
         qDebug() << price
                 << time
                 << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
 
-        PriceInfo info{time, price};
+        PriceInfo info{time, price, priceText};
 
         priceModel[i] = info;
     }
@@ -288,6 +301,7 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
     if (priceModel.size() > 0)
     {
         m_previousTokenPrice = m_currentTokenPrice = priceModel.last().price;
+        m_currentTokenPriceText = priceModel.last().priceText;
     }
     if (priceModel.size() > 1)
     {
@@ -305,7 +319,10 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
     getMinimumMaximum24h();
 
     emit currentTokenPriceChanged(m_currentTokenPrice);
+    emit currentTokenPriceTextChanged(m_currentTokenPriceText);
     emit previousTokenPriceChanged(m_previousTokenPrice);
+
+    checkNewRoundPower();
 }
 
 void StockDataWorker::resetBookModel()
@@ -1022,11 +1039,13 @@ void StockDataWorker::dataAnalysis()
 
 void StockDataWorker::setNewPrice(const QString &price)
 {
+//    return;
+
     qDebug() << "StockDataWorker::setNewPrice" << price;
 
     if (priceModel.isEmpty())
     {
-        resetPriceData(price.toDouble(), false);
+        resetPriceData(price.toDouble(), price, false);
     }
     else
     {
@@ -1035,7 +1054,7 @@ void StockDataWorker::setNewPrice(const QString &price)
         m_currentTokenPriceText = price;
 
         qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-        PriceInfo info{currentTime, m_currentTokenPrice};
+        PriceInfo info{currentTime, m_currentTokenPrice, m_currentTokenPriceText};
 
         priceModel.append(info);
 
@@ -1058,7 +1077,7 @@ void StockDataWorker::generateNewPrice(double step)
 
 
     qint64 currentTime = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    PriceInfo info{currentTime, m_currentTokenPrice};
+    PriceInfo info{currentTime, m_currentTokenPrice, m_currentTokenPriceText};
 
     priceModel.append(info);
 
@@ -1163,8 +1182,8 @@ void StockDataWorker::setBookRoundPower(const QString &text)
 {
     double value = text.toDouble();
 
-//    qDebug() << "StockDataWorker::setBookRoundPower" << text << value
-//             << QString::number(value, 'f', 20);
+    qDebug() << "StockDataWorker::setBookRoundPower" << text << value
+             << QString::number(value, 'f', 20);
 
     double power = 20;
     double test = pow(10, -power);
@@ -1247,24 +1266,6 @@ void StockDataWorker::setRightCandleNumber(int number)
     emit rightCandleNumberChanged(m_rightCandleNumber);
 }
 
-void StockDataWorker::setCurrentTokenPrice(double price)
-{
-    if (m_currentTokenPrice == price)
-        return;
-
-    m_currentTokenPrice = price;
-    emit currentTokenPriceChanged(m_currentTokenPrice);
-}
-
-void StockDataWorker::setPreviousTokenPrice(double price)
-{
-    if (m_previousTokenPrice == price)
-        return;
-
-    m_previousTokenPrice = price;
-    emit previousTokenPriceChanged(m_previousTokenPrice);
-}
-
 void StockDataWorker::checkNewRoundPower()
 {
     int tempPower = -10;
@@ -1277,28 +1278,44 @@ void StockDataWorker::checkNewRoundPower()
         tempMask = pow (10, tempPower);
     }
 
-    if (- tempPower + commonRoundPowerDelta != m_commonRoundPower)
+    qDebug() << "StockDataWorker::checkNewBookRoundPower"
+             << "m_currentTokenPrice" << m_currentTokenPrice
+             << "tempPower" << tempPower;
+
+//    if (tempPower < commonRoundPowerDelta - 8)
+//        tempPower = commonRoundPowerDelta - 8;
+//    if (tempPower > commonRoundPowerDelta)
+//        tempPower = commonRoundPowerDelta;
+
+//    qDebug() << "tempPower" << tempPower
+//             << "- tempPower + commonRoundPowerDelta" << - tempPower + commonRoundPowerDelta
+//             << "m_commonRoundPower" << m_commonRoundPower;
+
+    int tempCommonPower = - tempPower + commonRoundPowerDelta;
+
+    if (tempCommonPower > 8)
+        tempCommonPower = 8;
+    if (tempCommonPower < 0)
+        tempCommonPower = 0;
+
+    if (tempCommonPower != m_commonRoundPower)
     {
-        m_commonRoundPower = - tempPower + commonRoundPowerDelta;
+        m_commonRoundPower = tempCommonPower;
 
-        if (m_commonRoundPower > 8)
-            m_commonRoundPower = 8;
-        if (m_commonRoundPower < 0)
-            m_commonRoundPower = 0;
-
-//        qDebug() << "StockDataWorker::checkNewBookRoundPower"
-//                 << "m_commonRoundPower" << m_commonRoundPower;
+        qDebug() << "m_commonRoundPower" << m_commonRoundPower;
 
         emit commonRoundPowerChanged(m_commonRoundPower);
     }
 
-    if (- tempPower + bookRoundPowerDelta != bookRoundPowerMinimum)
+    if (- tempPower + bookRoundPowerDelta != m_bookRoundPowerMinimum)
     {
-        bookRoundPowerMinimum = - tempPower + bookRoundPowerDelta;
+        m_bookRoundPowerMinimum = - tempPower + bookRoundPowerDelta;
 
-        m_bookRoundPower = bookRoundPowerMinimum;
+        m_bookRoundPower = m_bookRoundPowerMinimum;
 
-        emit setNewBookRoundPowerMinimum(bookRoundPowerMinimum);
+        qDebug() << "m_bookRoundPowerMinimum" << m_bookRoundPowerMinimum;
+
+        emit setNewBookRoundPowerMinimum(m_bookRoundPowerMinimum);
 
         updateBookModels();
     }

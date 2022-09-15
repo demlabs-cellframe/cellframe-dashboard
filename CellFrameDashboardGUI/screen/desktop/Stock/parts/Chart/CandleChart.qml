@@ -24,7 +24,7 @@ Item
 //        stockDataWorker.generatePriceData(1000000)
 //        stockDataWorker.generatePriceData(100000)
 
-        if (simulationStock)
+        if (logicMainApp.simulationStock)
             stockDataWorker.setNewCandleWidth(logic.minute*0.25)
         else
             stockDataWorker.setNewCandleWidth(logic.minute)
@@ -191,7 +191,7 @@ Item
         switch (index)
         {
         default:
-            if (simulationStock)
+            if (logicMainApp.simulationStock)
                 stockDataWorker.setNewCandleWidth(logic.minute*0.25)
             else
                 stockDataWorker.setNewCandleWidth(logic.minute)

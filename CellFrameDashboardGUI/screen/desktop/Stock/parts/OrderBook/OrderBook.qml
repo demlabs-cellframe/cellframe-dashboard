@@ -11,11 +11,30 @@ Page
     property string buyHistogramColor: "#1300ff00"
 
     Component.onCompleted:
+    {
         visibleCount = logicStock.getBookVisibleCount(
             control.height - rowHeader.height - 30)
+
+        var tempIndex = logicMainApp.currentRoundPowerIndex
+
+        print("logicMainApp.currentRoundPowerIndex",
+              logicMainApp.currentRoundPowerIndex)
+
+        setBookRoundPowerMinimum(stockDataWorker.bookRoundPowerMinimum)
+
+        roundPowerComboBox.setCurrentIndex(tempIndex)
+        stockDataWorker.setBookRoundPower(roundPowerComboBox.displayText)
+
+        print("OrderBook.onCompleted",
+              "bookRoundPowerMinimum", stockDataWorker.bookRoundPowerMinimum,
+              "roundPowerComboBox.defaultText", roundPowerComboBox.displayText,
+              "tempIndex", tempIndex)
+    }
     onHeightChanged:
+    {
         visibleCount = logicStock.getBookVisibleCount(
             control.height - rowHeader.height - 30)
+    }
 
     background: Rectangle {
         color: "transparent"
@@ -47,20 +66,27 @@ Page
         target: stockDataWorker
         onSetNewBookRoundPowerMinimum:
         {
-            print("onSetNewBookRoundPowerMinimum", power)
+            setBookRoundPowerMinimum(power)
+        }
+    }
 
-            var tempValue = Math.pow(10, -power)
+    function setBookRoundPowerMinimum(power)
+    {
+        print("onSetNewBookRoundPowerMinimum", power)
 
-            print(tempValue, tempValue.toFixed(power))
+        var tempValue = Math.pow(10, -power)
 
-            accuracyModel.clear()
+        print("tempValue",
+              tempValue)
 
-            addPowerToModel(power)
-            addPowerToModel(power-1)
-            addPowerToModel(power-2)
-            addPowerToModel(power-3)
-            addPowerToModel(power-4)
-            addPowerToModel(power-5)
+        accuracyModel.clear()
+
+        addPowerToModel(power)
+        addPowerToModel(power-1)
+        addPowerToModel(power-2)
+        addPowerToModel(power-3)
+        addPowerToModel(power-4)
+        addPowerToModel(power-5)
 //            addPowerToModel(power-6)
 //            addPowerToModel(power-7)
 
@@ -73,12 +99,9 @@ Page
 //            tempValue = Math.pow(10, -power+3)
 //            accuracyModel.append({"value": tempValue.toFixed(power-3)})
 
-            roundPowerComboBox.currentIndex = 0
+        roundPowerComboBox.currentIndex = 0
 
 //            accuracyModel.clear();
-
-
-        }
     }
 
     function addPowerToModel(power)
@@ -162,7 +185,7 @@ Page
             DapCustomComboBox
             {
                 id: roundPowerComboBox
-                Layout.minimumWidth: 128
+                Layout.minimumWidth: 150
                 height: 35
                 font: mainFont.dapFont.regular13
                 mainTextRole: "value"
@@ -173,6 +196,14 @@ Page
                 onCurrentIndexChanged:
                 {
                     stockDataWorker.setBookRoundPower(currentText)
+                }
+
+                onItemSelected:
+                {
+                    logicMainApp.currentRoundPowerIndex = index
+
+                    print("logicMainApp.currentRoundPowerIndex",
+                          logicMainApp.currentRoundPowerIndex)
                 }
             }
         }

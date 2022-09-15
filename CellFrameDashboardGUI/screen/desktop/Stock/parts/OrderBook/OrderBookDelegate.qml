@@ -92,7 +92,7 @@ Rectangle
             value /= pow
             value = value.toFixed(0)
             value *= pow
-            return value
+            return value.toFixed(0)
         }
     }
 }

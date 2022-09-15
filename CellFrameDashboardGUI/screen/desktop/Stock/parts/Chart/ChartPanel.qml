@@ -76,6 +76,7 @@ Item
                     logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
                     logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
                     logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
+                    logicMainApp.tokenPriceText = dapPairModel.get(currentIndex).rate
                     logicStock.tokenChange = dapPairModel.get(currentIndex).change
 
                     stockDataWorker.setTokenPair(logicMainApp.token1Name,
@@ -300,6 +301,9 @@ Item
                 if (openValue > 0.0000000000000000001)
                 {
                     var change = closeValue/openValue*100 - 100
+                    if (change > -0.000001 && change < 0.000001)
+                        textChange.text = "0%"
+                    else
                     if (change > -0.00001 && change < 0.00001)
                         textChange.text = change.toFixed(8) + "%"
                     else

@@ -12,7 +12,6 @@ DapPage
     id: stockTab
 
     property int roundPower: stockDataWorker.commonRoundPower
-    property bool simulationStock: false
 
     signal fakeWalletChanged() //for top panel
 
@@ -68,23 +67,7 @@ DapPage
     {
         print("DapStockTab Component.onCompleted",
               logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
-/*        dapServiceController.requestToService(
-            "DapGetXchangeTokenPriceAverage",
-            logicMainApp.tokenNetwork,
-            logicMainApp.token1Name,
-            logicMainApp.token2Name)
-        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
-            logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
-        dapServiceController.requestToService("DapGetXchangeOrdersList")
-
-        dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")*/
-
-//        logicStock.initPairModel()
-//        logicStock.initBalance()
-//        logicStock.initBookModels()
-//        logicStock.initOrderLists()
-//        generateTimer.start()
         if (!updatePriceTimer.running)
             updatePriceTimer.start()
 
@@ -94,13 +77,14 @@ DapPage
         if (!updateOrdersListTimer.running)
             updateOrdersListTimer.start()
 
-        if (simulationStock)
+        if (logicMainApp.simulationStock)
         {
             var firstPrice = 1234.45678901234
 //            var firstPrice = 1234567890.45678901234
 //            var firstPrice = 0.00145678901234
 
-            stockDataWorker.resetPriceData(firstPrice, false)
+            stockDataWorker.resetPriceData(
+                        firstPrice, firstPrice.toFixed(10), false)
 
             var rcvData = ""
 
@@ -148,16 +132,17 @@ DapPage
         interval: 1000
         onTriggered:
         {
-            print("updatePriceTimer",
-                  "dapPairToken1", logicMainApp.token1Name,
-                  "dapPairToken2", logicMainApp.token2Name,
-                  "dapPairNetwork", logicMainApp.tokenNetwork)
+//            print("updatePriceTimer",
+//                  "dapPairToken1", logicMainApp.token1Name,
+//                  "dapPairToken2", logicMainApp.token2Name,
+//                  "dapPairNetwork", logicMainApp.tokenNetwork)
 
             dapServiceController.requestToService(
                 "DapGetXchangeTokenPriceAverage",
                 logicMainApp.tokenNetwork,
                 logicMainApp.token1Name,
                 logicMainApp.token2Name)
+
 //            dapServiceController.requestToService(
 //                "DapGetXchangeTokenPriceAverage",
 //                logicMainApp.tokenNetwork,
@@ -197,7 +182,7 @@ DapPage
 //                  logicMainApp.token2Name,
 //                  logicMainApp.tokenNetwork)
 
-            if (!simulationStock)
+            if (!logicMainApp.simulationStock)
             {
                 if (rcvData.rate !== "0" &&
                     rcvData.token1 === logicMainApp.token1Name &&
@@ -207,6 +192,7 @@ DapPage
                     stockDataWorker.setNewPrice(rcvData.rate)
 
                     logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+                    logicMainApp.tokenPriceText = stockDataWorker.currentTokenPriceText
 
                     tokenPriceChanged()
                 }
@@ -227,10 +213,14 @@ DapPage
 
 //        console.log(logicMainApp.tokenPrice)
 
-        stockDataWorker.resetPriceData(logicMainApp.tokenPrice, false)
-        stockDataWorker.resetBookModel()
+        if (!logicMainApp.simulationStock)
+        {
+            stockDataWorker.resetPriceData(
+                logicMainApp.tokenPrice, logicMainApp.tokenPriceText, false)
+            stockDataWorker.resetBookModel()
 
-        tokenPriceChanged()
+            tokenPriceChanged()
+        }
     }
 
     Timer
@@ -245,6 +235,7 @@ DapPage
             stockDataWorker.generateNewPrice(0.004)
 
             logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+            logicMainApp.tokenPriceText = stockDataWorker.currentTokenPriceText
 
             tokenPriceChanged()
         }

@@ -32,6 +32,10 @@ QtObject {
     property string token2Name: ""
     property string tokenNetwork: ""
     property real tokenPrice
+    property string tokenPriceText
+
+    property bool simulationStock: false
+    property int currentRoundPowerIndex: 0
 
     ///Functions
 
@@ -374,7 +378,8 @@ QtObject {
     {
         if(rcvData !== "isEqual")
         {
-            stockDataWorker.setBookModel(rcvData)
+            if (!simulationStock)
+                stockDataWorker.setBookModel(rcvData)
 
             var jsonDocument = JSON.parse(rcvData)
             dapModelXchangeOrders.clear()
@@ -410,7 +415,7 @@ QtObject {
 
     function rcvPairsModel(rcvData)
     {
-        console.log("rcvPairsModel", rcvData)
+//        console.log("rcvPairsModel", rcvData)
 
         if(rcvData !== "isEqual")
         {
@@ -473,7 +478,8 @@ QtObject {
     {
         if(rcvData !== "")
         {
-            stockDataWorker.setTokenPriceHistory(rcvData)
+            if (!simulationStock)
+                stockDataWorker.setTokenPriceHistory(rcvData)
 
             var jsonDocument = JSON.parse(rcvData)
 
