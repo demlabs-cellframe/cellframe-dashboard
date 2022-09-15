@@ -26,7 +26,7 @@ QtObject {
             if(dapModelWallets.count)
             {
                 dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentIndex).networks
-                dashboardTopPanel.dapFrameTitle.text = dapModelWallets.get(logicMainApp.currentIndex).name
+                dashboardTopPanel.dapFrameTitle.fullNumber = dapModelWallets.get(logicMainApp.currentIndex).name
 
                 console.log("dapComboboxWallet.onCurrentIndexChanged")
 

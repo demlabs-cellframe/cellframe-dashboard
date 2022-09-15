@@ -23,6 +23,8 @@ Item
     {
         anchors.fill: parent
         anchors.margins: 10
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
         spacing: 0
 
         RowLayout
@@ -173,9 +175,6 @@ Item
                 name: "1m"
             }
             ListElement {
-                name: "2m"
-            }
-            ListElement {
                 name: "5m"
             }
             ListElement {
@@ -194,10 +193,7 @@ Item
                 name: "12h"
             }
             ListElement {
-                name: "1D"
-            }
-            ListElement {
-                name: "3D"
+                name: "24h"
             }
             ListElement {
                 name: "7D"
@@ -207,6 +203,12 @@ Item
             }
             ListElement {
                 name: "1M"
+            }
+            ListElement {
+                name: "3M"
+            }
+            ListElement {
+                name: "1Y"
             }
         }
 
@@ -231,41 +233,25 @@ Item
             Layout.bottomMargin: 8
             spacing: 10
 
-            Item
+            Text
             {
-//                color: "green"
-                height: 30
-                Layout.minimumWidth: textItem.width
-
-                Text
-                {
-                    id: textItem
-                    height: 30
-                    font: mainFont.dapFont.medium24
-                    color: currTheme.textColor
-                    text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
-                    verticalAlignment: Qt.AlignBottom
-                }
-
+                id: textItem
+                font: mainFont.dapFont.medium24
+                color: currTheme.textColor
+                text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
+                verticalAlignment: Qt.AlignVCenter
             }
-
 
             DapBigNumberText
             {
                 id: tokenPriceText
+//                Layout.fillWidth: true
                 height: 30
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.textColorGreen
                 outSymbols: 15
                 fullNumber: stockDataWorker.currentTokenPriceText
                 copyButtonVisible: true
-
-/*                onCopyButtonClicked:
-                {
-                    print("DapBigNumberText.onCopyButtonClicked")
-
-                }*/
-
             }
 
 /*            Text
@@ -281,7 +267,7 @@ Item
         CandleChart
         {
             id: chartItem
-            Layout.topMargin: 9
+            Layout.topMargin: 8
             Layout.fillWidth: true
             Layout.fillHeight: true
 

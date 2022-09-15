@@ -70,7 +70,7 @@ ColumnLayout {
         {
             id: price
             Layout.fillWidth: true
-            Layout.minimumWidth: 215
+            Layout.minimumWidth: 203
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
             textToken: logicMainApp.token2Name
@@ -92,10 +92,7 @@ ColumnLayout {
             Layout.minimumWidth: 95
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-
-            border.color: currTheme.borderColor
             color: "transparent"
-            radius: 4
 
             DapCustomComboBox
             {
@@ -104,7 +101,7 @@ ColumnLayout {
                 anchors.margins: 2
                 font: mainFont.dapFont.regular16
                 enabled: false
-
+                rightMarginIndicator: 0
                 model: expiresModel
             }
         }

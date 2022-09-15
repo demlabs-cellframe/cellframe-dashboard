@@ -228,18 +228,20 @@ ColumnLayout
                         Layout.alignment: Qt.AlignLeft
                         spacing: 2
 
-                        Text
-                        {
-
-                            height: 14*pt
+                        Item{
                             Layout.fillWidth: true
+                            height: 14*pt
 
-                            font: mainFont.dapFont.regular11
-                            color: currTheme.textColor
-                            verticalAlignment: Qt.AlignVCenter
-                            text: name
-                            elide: Text.ElideMiddle
+                            DapBigNumberText
+                            {
+                                anchors.fill: parent
+                                textFont: mainFont.dapFont.regular11
+                                fullNumber: name
+                                copyButtonVisible: false
+                                isAutoOutText: true
+                            }
                         }
+
                         RowLayout
                         {
                             id: rowLay

@@ -116,15 +116,21 @@ Page
                                     horizontalAlignment: Text.AlignLeft
                                 }
 
-                                Text
-                                {
-                                    id: currencySum
+                                Item{
                                     Layout.fillWidth: true
+                                    Layout.fillHeight: true
 
-                                    font: mainFont.dapFont.regular14
-                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
-                                    text: dapMath.balanceToCoins(current_supply)
-                                    horizontalAlignment: Text.AlignRight
+                                    DapBigNumberText
+                                    {
+                                        id: currencySum
+                                        anchors.fill: parent
+                                        textFont: mainFont.dapFont.regular14
+                                        textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
+                                        fullNumber: dapMath.balanceToCoins(current_supply)
+                                        horizontalAlign: Text.AlignRight
+                                        copyButtonVisible: false
+                                        isAutoOutText: true
+                                    }
                                 }
                             }
 

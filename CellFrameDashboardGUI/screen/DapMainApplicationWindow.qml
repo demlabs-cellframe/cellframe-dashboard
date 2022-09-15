@@ -293,23 +293,16 @@ Rectangle {
                         anchors.top: parent.top
                         anchors.topMargin: 19.86
                     }
-                    ToolTip
-                    {
+
+                    DapCustomToolTip{
                         id:toolTip
                         visible: area.containsMouse? true : false
-                        text: "https://cellframe.net"
-
-                        y:0
-                        x:100
-                        scale: mainWindow.scale
-
-                        contentItem: Text {
-                                text: toolTip.text
-                                font: mainFont.dapFont.regular14
-                                color: currTheme.textColor
-                            }
-                        background: Rectangle{color:currTheme.backgroundPanel}
+                        contentText: "https://cellframe.net"
+                        textFont: mainFont.dapFont.regular14
+                        onVisibleChanged: updatePos()
+                        y: 45
                     }
+
                     MouseArea
                     {
                         id:area

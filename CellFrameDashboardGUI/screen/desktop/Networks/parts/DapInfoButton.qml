@@ -111,11 +111,12 @@ Item {
         Image {
             Layout.leftMargin: isSynch ? 23  : 29 
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight:  24 
-            Layout.preferredWidth:  24 
-            height: 24 
-            width: 24 
+            Layout.preferredHeight:  24
+            Layout.preferredWidth:  24
+            height: 24
+            width: 24
             mipmap: true
+            antialiasing: true
 
             source: isSynch ? "qrc:/Resources/"+ pathTheme +"/icons/other/sync.svg" :
                               "qrc:/Resources/"+ pathTheme +"/icons/other/on_off.svg"

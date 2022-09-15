@@ -27,7 +27,7 @@ DapNewPaymentMainRightPanelForm
         dapComboBoxChainModel = networksModel.
             get(dapComboboxNetwork.currentIndex).chains
 
-        dapTextInputAmountPayment.text = "0.0"
+//        dapTextInputAmountPayment.text = "0.0"
     }
     dapComboboxNetwork.onCurrentIndexChanged:
     {
@@ -66,13 +66,13 @@ DapNewPaymentMainRightPanelForm
                 dapButtonSend.visible = true
             }
 
-            dapTextInputAmountPayment.text = "0.0"
+            dapTextInputAmountPayment.text = ""
         }
     }
 
     dapComboBoxToken.onCurrentIndexChanged:
     {
-        dapTextInputAmountPayment.text = "0.0"
+        dapTextInputAmountPayment.text = ""
     }
 
     dapButtonClose.onClicked:

@@ -35,7 +35,7 @@ Rectangle
         anchors.fill: parent
         spacing: 0
 
-        TextField {
+        DapTextField {
             id: textValue
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -44,13 +44,13 @@ Rectangle
             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/}
 
             placeholderText: qsTr("0.0")
-            color: parent.enabled? currTheme.textColor: currTheme.textColorGray
+            textColor: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
             text: "0.0"
 
-            background: Rectangle{color:"transparent"}
+            backgroundColor: "transparent"
 
-            onTextEdited:
+            onTextChanged:
             {
                 if (enabled)
                 {

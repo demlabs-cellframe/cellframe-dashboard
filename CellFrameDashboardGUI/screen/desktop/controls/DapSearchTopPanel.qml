@@ -28,8 +28,10 @@ DapTopPanel {
 //        border.width: 1
 
         RowLayout{
+            id: rowLay
             anchors.fill: parent
             spacing: 10
+            height: 24
 
             // Frame icon search
             Image
@@ -55,9 +57,9 @@ DapTopPanel {
                 validator: RegExpValidator { regExp:  /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
                 placeholderText: qsTr("Search")
-                height: 24
+                height: 30
 
-                placeHolderTextColor: "#757184"
+                placeholderColor: "#757184"
                 font: mainFont.dapFont.regular16
 
                 onEditingFinished: {
@@ -79,9 +81,10 @@ DapTopPanel {
         Rectangle {
             visible: isVisibleSearch
             height: 1
-            anchors.top: parent.bottom
+            anchors.top: rowLay.bottom
             anchors.left: parent.left
             anchors.right: parent.right
+            anchors.topMargin: 2
             color: "#393B41" //currTheme.borderColor
         }
     }

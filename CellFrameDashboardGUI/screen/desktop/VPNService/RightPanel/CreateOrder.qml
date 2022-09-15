@@ -156,7 +156,7 @@ Page {
             color: "transparent"
             Layout.fillWidth: true
 
-            DapComboBox {
+            DapCustomComboBox {
                 id: comboBoxRegion
                 model: regionOrder
 
@@ -213,7 +213,7 @@ Page {
                 width: comboBoxUnit.widthPopupComboBoxNormal
                 height: parent.height
 
-                DapComboBox {
+                DapCustomComboBox {
                     id: comboBoxUnit
 
                     // TODO откуда брать список
@@ -282,7 +282,7 @@ Page {
                 width: comboBoxPrice.widthPopupComboBoxNormal
                 height: parent.height
 
-                DapComboBox {
+                DapCustomComboBox {
                     id: comboBoxPrice
 
                     // TODO откуда брать список
