@@ -30,6 +30,7 @@ Page
               "roundPowerComboBox.defaultText", roundPowerComboBox.displayText,
               "tempIndex", tempIndex)
     }
+
     onHeightChanged:
     {
         visibleCount = logicStock.getBookVisibleCount(
@@ -99,7 +100,12 @@ Page
 //            tempValue = Math.pow(10, -power+3)
 //            accuracyModel.append({"value": tempValue.toFixed(power-3)})
 
-        roundPowerComboBox.currentIndex = 0
+//        roundPowerComboBox.currentIndex = 0
+
+        var tempIndex = logicMainApp.currentRoundPowerIndex
+
+        roundPowerComboBox.setCurrentIndex(tempIndex)
+        stockDataWorker.setBookRoundPower(roundPowerComboBox.displayText)
 
 //            accuracyModel.clear();
     }
