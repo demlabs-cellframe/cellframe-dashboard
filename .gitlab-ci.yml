@@ -16,7 +16,7 @@ variables:
 #     - cellframe-dashboard
 #    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
 
-cellframe-dashboard_linux:
+.cellframe-dashboard_linux:
     stage: build
     tags:
      - cellframe-dashboard
@@ -24,16 +24,31 @@ cellframe-dashboard_linux:
 
 cellframe-dashboard_mac:
    stage: build
+   artifacts: 
+       paths:
+        - "*.pkg"
    tags:
     - cellframe-dashboard
    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
+   script: ls
 
-cellframe-dashboard_windows:
+.cellframe-dashboard_windows:
    stage: build
    tags:
     - cellframe-dashboard
    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
 
+
+macos-signature:
+   tags:
+     - ci-polygon
+   stage: deploy
+   needs: 
+    - cellframe-dashboard_mac
+   image: demlabs/amd64/debian-bullseye:osxbuilder
+   before_script: /opt/buildtools/prepare_environment.sh osx
+   script: 
+      - /opt/buildtools/osx_codesign_pkg.sh --sign /opt/buildtools/sign/osx/demlabs.sh *.pkg
 # Test
 # run unit-tests
 
