@@ -29,8 +29,9 @@ cellframe-dashboard_mac:
         - "*.pkg"
    tags:
     - cellframe-dashboard
-   script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
-   script: ls
+   script: 
+       - ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
+       - ls
 
 .cellframe-dashboard_windows:
    stage: build
