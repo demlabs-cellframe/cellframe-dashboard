@@ -38,7 +38,7 @@ Controls.DapTopPanel
 
         anchors.verticalCenter: parent.verticalCenter
         implicitHeight: 36
-        implicitWidth: 163 
+        implicitWidth: 164
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
         visible: frameTitleCreateWallet.text === "" ? false : true

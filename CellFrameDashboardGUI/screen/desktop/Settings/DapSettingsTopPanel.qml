@@ -147,7 +147,7 @@ Controls.DapTopPanel
             Layout.alignment: Qt.AlignRight
 
             implicitHeight: 36
-            implicitWidth: 163
+            implicitWidth: 164
             fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
 

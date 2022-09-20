@@ -210,6 +210,11 @@ ColumnLayout
 //                height: 50
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                MouseArea
+                {
+                    anchors.fill: parent
+                    onClicked: radioBut.clicked();
+                }
 
 
 
@@ -312,12 +317,7 @@ ColumnLayout
                         }
                     }
                 }
-                MouseArea
-                {
-                    anchors.fill: parent
 
-                    onClicked: radioBut.clicked();
-                }
                 Rectangle
                 {
 //                    visible: index === listWallet.count - 1? false : true
