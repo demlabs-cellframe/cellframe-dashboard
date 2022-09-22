@@ -151,7 +151,7 @@ DapRectangleLitAndShaded {
                             verticalAlignment: Text.AlignVCenter
                             font: mainFont.dapFont.regular16
                             text: model.completeBaseName   //model.fileName
-                            elide: Text.ElideRight
+                            elide: Text.ElideMiddle
                             maximumLineCount: 1
                             color: currTheme.textColor
 
@@ -164,6 +164,13 @@ DapRectangleLitAndShaded {
                                     interval: 300
                                     onTriggered: certificateNameText.color = certificateNameText.colorProperty
                                 }
+
+                            DapCustomToolTip{
+                                visible: delegateClicked.containsMouse ?  certificateNameText.implicitWidth > certificateNameText.width ? true : false : false
+                                contentText: certificateNameText.text
+                                textFont: certificateNameText.font
+                                onVisibleChanged: updatePos()
+                            }
                         }
 
                         Image{

@@ -188,9 +188,8 @@ Page
 
                                         Text{
                                             id:namePlugin
-//                                            anchors.fill: parent
                                             anchors{
-                                                topMargin: 10 
+                                                topMargin: 10
                                                 top: parent.top
                                                 left: parent.left
                                                 right: parent.right
@@ -199,50 +198,32 @@ Page
                                             text: name
                                             color: currTheme.textColor
                                             font:  mainFont.dapFont.regular11
-    //                                        wrapMode: Text.WordWrap
                                             elide: Text.ElideMiddle
+
+                                            DapCustomToolTip{
+                                                visible: area.containsMouse ?  namePlugin.implicitWidth > namePlugin.width ? true : false : false
+                                                contentText: namePlugin.text
+                                                textFont: namePlugin.font
+                                                onVisibleChanged: updatePos()
+                                            }
                                         }
+
 
                                         Text{
                                             id:url
                                             anchors{
                                                 top: namePlugin.bottom
-                                                topMargin: 5 
+                                                topMargin: 5
                                                 left: parent.left
                                                 right: parent.right
                                                 bottom: parent.bottom
-                                                bottomMargin: 8 
+                                                bottomMargin: 8
                                             }
                                             elide: Text.ElideMiddle
                                             text: urlPath
                                             color: "#B2B2B2"
                                             font:  mainFont.dapFont.light12
-    //                                        wrapMode: Text.WordWrap
                                             verticalAlignment: Qt.AlignVCenter
-
-                                            ToolTip
-                                            {
-                                                id: id_tooltip
-                                                contentItem: Text{
-                                                    color: currTheme.textColor
-                                                    text: urlPath
-                                                    font: mainFont.dapFont.regular12
-                                                }
-                                                background: Rectangle {
-                                                    border.color: currTheme.lineSeparatorColor
-                                                    color: currTheme.backgroundElements
-                                                }
-                                                visible: false
-                                                delay: 500
-                                            }
-                                            MouseArea
-                                            {
-                                                anchors.fill: parent
-                                                hoverEnabled: true
-                                                onEntered: id_tooltip.visible = true;
-                                                onExited: id_tooltip.visible = false
-
-                                            }
                                         }
                                         MouseArea {
                                             anchors.fill: parent
@@ -330,6 +311,7 @@ Page
                                 color: "transparent"
                                 MouseArea
                                 {
+                                    id: area
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     onEntered: {

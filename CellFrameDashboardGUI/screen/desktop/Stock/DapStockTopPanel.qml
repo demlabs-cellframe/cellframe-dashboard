@@ -20,8 +20,9 @@ Controls.DapTopPanel
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: 24
+        anchors.rightMargin: 24
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 18
+        spacing: 0
 
         Label
         {
@@ -51,35 +52,58 @@ Controls.DapTopPanel
             id: textHeaderWallet
             text: qsTr("Wallet: ")
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.textColorGray
             Layout.alignment: Qt.AlignVCenter
         }
-        Label
+        DapBigNumberText
         {
             id: textNameWallet
-            text: dapModelWallets.get(logicMainApp.currentIndex).name
+            height: 42
+//            text: dapModelWallets.get(logicMainApp.currentIndex).name
             Layout.alignment: Qt.AlignVCenter
+            Layout.maximumWidth: 220
+            Layout.minimumWidth: 220
+//            Layout.leftMargin: 4
+            Layout.leftMargin: 19
+            fullNumber: dapModelWallets.get(logicMainApp.currentIndex).name
 
-            font: mainFont.dapFont.regular16
-            color: currTheme.textColor
+            copyButtonVisible: false
+            isAutoOutText: true
+            textFont: mainFont.dapFont.regular14
         }
+
+//        DapCustomComboBox{
+//            id: textNameWallet
+////            width: 95
+//            Layout.minimumWidth: 220
+//            Layout.maximumWidth: 220
+//            font: mainFont.dapFont.regular14
+
+//            currentIndex: logicMainApp.currentIndex
+//            model: dapModelWallets
+
+//            backgroundColor: currTheme.backgroundMainScreen
+
+//            onCurrentIndexChanged: updateBalance()
+//        }
 
         // Static token text "Token: "
         Label
         {
             id: headerWalletToken
-            Layout.leftMargin: 40
+            Layout.leftMargin: 32
             text: "Token: "
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.textColorGray
         }
 
         DapCustomComboBox{
             id: tokenComboBox
 //            width: 95
-            Layout.minimumWidth: 120
-            Layout.maximumWidth: 120
-            font: mainFont.dapFont.regular16
+            Layout.minimumWidth: 160
+            Layout.maximumWidth: 160
+            Layout.leftMargin: 4
+            font: mainFont.dapFont.regular14
 
             backgroundColor: currTheme.backgroundMainScreen
 
@@ -90,8 +114,9 @@ Controls.DapTopPanel
             onCurrentIndexChanged: updateBalance()
         }
         Item{
-            Layout.minimumWidth: 120
-            Layout.maximumWidth: 120
+            Layout.minimumWidth: 160
+            Layout.maximumWidth: 160
+            Layout.leftMargin: 4
             visible: !tokenComboBox.visible
         }
 
@@ -99,10 +124,10 @@ Controls.DapTopPanel
         Label
         {
             id: headerWalletBalance
-            Layout.leftMargin: 40
+            Layout.leftMargin: 32
             text: qsTr("Token balance: ")
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.textColorGray
             Layout.alignment: Qt.AlignVCenter
         }
 
@@ -111,7 +136,8 @@ Controls.DapTopPanel
         Item{
             Layout.fillWidth: true
             Layout.fillHeight: true
-            Layout.alignment: Qt.AlignRight
+            Layout.leftMargin: 19
+            Layout.alignment: Qt.AlignLeft
 
             DapBigNumberText
             {

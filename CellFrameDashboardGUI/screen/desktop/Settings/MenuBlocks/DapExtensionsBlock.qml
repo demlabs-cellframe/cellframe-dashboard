@@ -122,19 +122,18 @@ Page
                                 anchors.leftMargin: 16
                                 anchors.rightMargin: 16
                                 spacing: 0
-            //                    anchors.topMargin: 16
-            //                    anchors.bottomMargin: 16
 
-                                Text
+                                DapBigNumberText
                                 {
+                                    id: nameText
                                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
                                     Layout.maximumWidth: 250
-
-                                    font: mainFont.dapFont.regular14
-                                    color: currTheme.textColor
-                                    verticalAlignment: Qt.AlignVCenter
-                                    text: name
-                                    elide: Text.ElideMiddle
+                                    width: nameText.textElement.implicitWidth
+                                    height: 40
+                                    textFont: mainFont.dapFont.regular14
+                                    fullNumber: name
+                                    copyButtonVisible: false
+                                    isAutoOutText: true
                                 }
 
                                 DapSwitch

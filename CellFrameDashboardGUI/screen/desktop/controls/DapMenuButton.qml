@@ -54,13 +54,20 @@ Item
             id: buttonText
             anchors.left: ico.right
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: 16
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             text: name
             elide: Text.ElideMiddle
             color: currTheme.textColor
             font:mainFont.dapFont.regular13
+
+            DapCustomToolTip{
+                visible: handler.containsMouse ?  buttonText.implicitWidth > buttonText.width ? true : false : false
+                contentText: buttonText.text
+                textFont: buttonText.font
+                onVisibleChanged: updatePos()
+            }
         }
     }
     Timer {

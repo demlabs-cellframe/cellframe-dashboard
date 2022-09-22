@@ -15,7 +15,7 @@ ComboBox {
 
     property alias logic: logic
     property int maximumPopupHeight: 230
-    property int widthPopup: 350
+    property int widthPopup: 296
 //    property string mainTextRole: "pair"
     property string defaultText: qsTr("Undefined")
     property var displayElement
@@ -62,8 +62,8 @@ ComboBox {
                 Text
                 {
                     anchors.left: parent.left
-                    anchors.leftMargin: 138
-                    anchors.right: changeText.left
+                    anchors.leftMargin: 148
+                    anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
                     text: logic.getModelData(index, "rate")
                     color: menuDelegate.highlighted ?
@@ -74,20 +74,20 @@ ComboBox {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                Text
-                {
-                    id: changeText
-                    anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.rightMargin: 16
-                    text: logic.getModelData(index, "change")
-                    color: menuDelegate.highlighted ?
-                               currTheme.hilightTextColorComboBox :
-                               text[0] === "+" ? currTheme.textColorGreen:currTheme.textColorRed
-                    font: mainFont.dapFont.regular13
-                    elide: Text.ElideRight
-                    verticalAlignment: Text.AlignVCenter
-                }
+//                Text
+//                {
+//                    id: changeText
+//                    anchors.right: parent.right
+//                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.rightMargin: 16
+//                    text: logic.getModelData(index, "change")
+//                    color: menuDelegate.highlighted ?
+//                               currTheme.hilightTextColorComboBox :
+//                               text[0] === "+" ? currTheme.textColorGreen:currTheme.textColorRed
+//                    font: mainFont.dapFont.regular13
+//                    elide: Text.ElideRight
+//                    verticalAlignment: Text.AlignVCenter
+//                }
 
                 Rectangle{
                     anchors.left: parent.left
@@ -219,6 +219,7 @@ ComboBox {
                         onFindHandler: {
                             logic.searchElement(text)
 
+//                            if(text === "")
                         }
                     }
 
@@ -244,20 +245,20 @@ ComboBox {
                             }
                             Text{
                                 anchors.left: parent.left
-                                anchors.leftMargin: 122
+                                anchors.leftMargin: 132
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:"Price"
                                 font: mainFont.dapFont.medium12
                                 color: currTheme.textColor
 
                             }
-                            Text{
-                                anchors.right: parent.right
-                                anchors.verticalCenter: parent.verticalCenter
-                                text:"Change"
-                                font: mainFont.dapFont.medium12
-                                color: currTheme.textColor
-                            }
+//                            Text{
+//                                anchors.right: parent.right
+//                                anchors.verticalCenter: parent.verticalCenter
+//                                text:"Change"
+//                                font: mainFont.dapFont.medium12
+//                                color: currTheme.textColor
+//                            }
                         }
                     }
                 }

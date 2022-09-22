@@ -37,7 +37,7 @@ Item
                 property bool isInit: false
                 property var globalIndex
                 id: pairBox
-                Layout.minimumWidth: 190
+                Layout.minimumWidth: 184
                 height: 32
 
                 onInitModelIsCompleted: {
@@ -245,7 +245,7 @@ Item
             DapBigNumberText
             {
                 id: tokenPriceText
-//                Layout.fillWidth: true
+                Layout.fillWidth: true
                 height: 30
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.textColorGreen
@@ -336,14 +336,15 @@ Item
         height: childrenRect.height
 
         color: "#a0363A42"
-//        color: "transparent"
 
         RowLayout
         {
+            spacing: 10
+
             ChartTextBlock
             {
                 id: textDate
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 110
                 labelVisible: false
                 text: "-"
                 textColor: currTheme.textColorGray
@@ -367,21 +368,21 @@ Item
             ChartTextBlock
             {
                 id: textLow
-                Layout.minimumWidth: 90
+                Layout.minimumWidth: 95
                 label: qsTr("Low:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textClose
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 105
                 label: qsTr("Close:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textChange
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 95
                 label: qsTr("Change:")
                 text: "-"
             }

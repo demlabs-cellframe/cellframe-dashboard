@@ -286,5 +286,6 @@
         <file>screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapLinksBlock.qml</file>
         <file>screen/desktop/controls/DapRightPanelDone.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrowDown.svg</file>
     </qresource>
 </RCC>

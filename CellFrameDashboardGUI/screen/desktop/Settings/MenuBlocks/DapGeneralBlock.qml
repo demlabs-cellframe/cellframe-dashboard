@@ -89,7 +89,7 @@ ColumnLayout
                     logicMainApp.currentNetwork = currentIndex
                 }
                 else
-                    currentIndex = logicMainApp.currentNetwork
+                    setCurrentIndex(logicMainApp.currentNetwork)
             }
         }
     }

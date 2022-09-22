@@ -7,6 +7,7 @@ Rectangle
 {
     property alias textValue: textValue.text
     property alias textToken: textToken.text
+    property alias textElement: textValue
 //    property real realValue: 0.0
     property string placeholderText: textValue.placeholderText
 
@@ -36,6 +37,7 @@ Rectangle
         spacing: 0
 
         DapTextField {
+            property bool isInputText: true
             id: textValue
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -46,7 +48,7 @@ Rectangle
             placeholderText: qsTr("0.0")
             textColor: parent.enabled? currTheme.textColor: currTheme.textColorGray
             font: mainFont.dapFont.regular16
-            text: "0.0"
+            text: ""
 
             backgroundColor: "transparent"
 
@@ -59,8 +61,17 @@ Rectangle
 //                          "textValue.text", textValue.text,
 //                          "realValue", realValue)
 
-                    edited()
+                    if(isInputText)
+                        edited()
+                    else
+                        isInputText = true
                 }
+            }
+
+            function setText(text)
+            {
+                isInputText = false
+                textValue.text = text
             }
         }
 

@@ -141,4 +141,11 @@ QtObject
 
         return result
     }
+
+    function walletListUpdate(walletList)
+    {
+        for(var i = 0; i < walletList.length; i++)
+            walletListModel.append({name: walletList[i]})
+
+    }
 }

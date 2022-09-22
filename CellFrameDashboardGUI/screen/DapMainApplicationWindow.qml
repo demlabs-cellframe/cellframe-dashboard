@@ -137,9 +137,9 @@ Rectangle {
         ListElement { tag: "Certificates"
             name: qsTr("Certificates")
             show: true }
-        ListElement { tag: "VPN service"
-            name: qsTr("VPN service")
-            show: true }
+//        ListElement { tag: "VPN service"
+//            name: qsTr("VPN service")
+//            show: true }
         ListElement { tag: "Console"
             name: qsTr("Console")
             show: true }
@@ -182,16 +182,16 @@ Rectangle {
             bttnIco: "icon_tokens.png",
             showTab: true,
             page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
-        append ({ tag: "VPN client",
-            name: qsTr("VPN client"),
-            bttnIco: "vpn-client_icon.png",
-            showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
-        append ({ tag: "VPN service",
-            name: qsTr("VPN service"),
-            bttnIco: "icon_vpn.png",
-            showTab: true,
-            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
+//        append ({ tag: "VPN client",
+//            name: qsTr("VPN client"),
+//            bttnIco: "vpn-client_icon.png",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+//        append ({ tag: "VPN service",
+//            name: qsTr("VPN service"),
+//            bttnIco: "icon_vpn.png",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
         append ({ tag: "Console",
             name: qsTr("Console"),
             bttnIco: "icon_console.png",

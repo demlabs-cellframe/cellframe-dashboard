@@ -74,45 +74,48 @@ DapRectangleLitAndShaded {
             ColumnLayout
             {
                 spacing: 16
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: 16
 
                 DetailsText {
                     title.text: "Name"
-                    content.text: detailsModel.get(0).name
+                    content.fullNumber: detailsModel.get(0).name
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Auth signs"
-                    content.text: detailsModel.get(0).auth_signs
+                    content.fullNumber: detailsModel.get(0).auth_signs
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Type"
-                    content.text: detailsModel.get(0).type
+                    content.fullNumber: detailsModel.get(0).type
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Flags"
-                    content.text: detailsModel.get(0).flags
+                    content.fullNumber: detailsModel.get(0).flags
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Decimals"
-                    content.text: detailsModel.get(0).decimals
+                    content.fullNumber: detailsModel.get(0).decimals
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Current supply"
-                    content.text: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
+                    content.fullNumber: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Total supply"
-                    content.text: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
+                    content.fullNumber: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Total emissions"
-                    content.text: detailsModel.get(0).total_emissions
+                    content.fullNumber: detailsModel.get(0).total_emissions
                     title.color: currTheme.textColorGray
                 }
                 Item{
