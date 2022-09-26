@@ -38,7 +38,7 @@ QString DapWebControll::send_cmd(QString cmd)
     process.waitForFinished(-1);
     QString result = process.readAll();
     result.replace("\t", "");
-    qDebug() << "result:" << result;
+//    qDebug() << "result:" << result;
     return result;
 }
 

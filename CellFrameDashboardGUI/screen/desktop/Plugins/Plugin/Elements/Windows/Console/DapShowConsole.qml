@@ -130,6 +130,8 @@ Item {
                         placeholderText: qsTr("Type here...")
                         selectByMouse: true
                         background: Rectangle{color: "#363A42"}
+                        selectionColor: "#AABCDE"
+                        selectedTextColor: "#2E3138"
 
 
                         font.family: "Quicksand"

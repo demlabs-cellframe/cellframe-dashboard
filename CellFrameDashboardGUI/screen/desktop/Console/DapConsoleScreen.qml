@@ -43,6 +43,8 @@ DapConsoleScreenForm
                 wrapMode: TextEdit.Wrap
                 font:  mainFont.dapFont.regular13
                 color: currTheme.textColor
+                selectionColor: "#AABCDE"
+                selectedTextColor: "#2E3138"
 
             }
         }

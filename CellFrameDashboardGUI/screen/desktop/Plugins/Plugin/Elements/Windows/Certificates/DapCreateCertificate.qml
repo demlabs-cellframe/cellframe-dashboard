@@ -67,6 +67,8 @@ Item {
                         {
                             textColor: "#ffffff"
                             placeholderTextColor: "#B4B1BD"
+                            selectionColor: "#AABCDE"
+                            selectedTextColor: "#2E3138"
                             background:
                                 Rectangle
                                 {
