@@ -265,7 +265,6 @@
         <file>screen/desktop/Tokens/parts/TitleTextView.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/MyOrdersTab.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/DefaultRightPanel.qml</file>
-        <file>screen/desktop/Stock/parts/MyOrders/OpenOrders.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/OrdersHistory.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/parts/HeaderLabel.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml</file>
@@ -287,5 +286,8 @@
         <file>screen/desktop/Settings/MenuBlocks/DapLinksBlock.qml</file>
         <file>screen/desktop/controls/DapRightPanelDone.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_arrowDown.svg</file>
+        <file>screen/desktop/Stock/parts/MyOrders/AllOrders.qml</file>
+        <file>screen/desktop/Stock/parts/MyOrders/MyOrders.qml</file>
+        <file>screen/desktop/Stock/parts/MyOrders/RightPanels/BuySellPanel.qml</file>
     </qresource>
 </RCC>

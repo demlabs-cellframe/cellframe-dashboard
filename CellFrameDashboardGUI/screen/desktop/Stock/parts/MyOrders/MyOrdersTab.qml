@@ -9,8 +9,12 @@ import "logic"
 
 RowLayout
 {
-    property string openOrders: "../OpenOrders.qml"
+    id: myOrdersTab
+
+    property string allOrders: "../AllOrders.qml"
+    property string myOrders: "../MyOrders.qml"
     property string ordersHistory: "../OrdersHistory.qml"
+    property string buysellPanel: "../RightPanels/BuySellPanel.qml"
     property string detailOpen: "../RightPanels/DetailsOpen.qml"
     property string detailHistory: "../RightPanels/DetailsHistory.qml"
 
@@ -20,6 +24,7 @@ RowLayout
     property bool isInitCompleted: false
 
     signal setCurrentMainScreen(var screen)
+//    signal setCurrentSide(var side)
     signal setFilterSide(var side)
     signal setFilterPair(var pair)
     signal setFilterPeriod(var period)
@@ -29,15 +34,82 @@ RowLayout
     ListModel{id: bufferDetails}
     ListModel{id: checkingBufferDetails}
     ListModel{id: pairModelFilter}
-    ListModel{id: openModel}
-    ListModel{id: historyModel}
+
+    ListModel
+    {
+        id: allOrdersModel
+/*        ListElement {
+            price: 12.345678434543544354
+            available: 5678.346
+            limit: 3456789.39
+            side: "buy"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }
+        ListElement {
+            price: 12.345678943089
+            available: 5678.346
+            limit: 345678.39
+            side: "buy"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }
+        ListElement {
+            price: 12.345678
+            available: 5678.346
+            limit: 345678.39
+            side: "buy"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }
+        ListElement {
+            price: 12.345678
+            available: 5678.346
+            limit: 345678.39
+            side: "buy"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }
+        ListElement {
+            price: 123.45678
+            available: 567.8346
+            limit: 3456.7839
+            side: "sell"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }
+        ListElement {
+            price: 123.45678
+            available: 567.8346
+            limit: 3456.7839
+            side: "sell"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }
+        ListElement {
+            price: 123.45678
+            available: 567.8346
+            limit: 3456.7839
+            side: "sell"
+            tokenBuy: "CELL"
+            tokenSell: "USDT"
+        }*/
+    }
+    ListModel
+    {
+        id: myOrdersModel
+    }
+    ListModel
+    {
+        id: historyModel
+    }
+
     Item{id: emptyRightPanel}
 
     LogicMyOrders{id: logic}
 
-    id: myOrdersTab
-
-    onSetCurrentMainScreen: logic.changeMainPage(screen)
+    onSetCurrentMainScreen:
+        logic.changeMainPage(screen)
 
     Component.onCompleted: {
 

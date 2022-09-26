@@ -46,6 +46,24 @@ QtObject {
 
     }
 
+    function openBuySellDialog(data)
+    {
+        print("openBuySellDialog",
+              data.price, data.side, data.tokenBuy, data.tokenSell)
+
+        if(rightFrame.visible){
+            rightStackView.pop()
+            rightStackView.push(buysellPanel)
+        }else{
+            defaultRightPanel.visible = false
+            rightFrame.visible = true
+            rightStackView.push(buysellPanel)
+        }
+
+        rightStackView.currentItem.currentElement = data
+
+    }
+
     function openOrdersDetails(screen, data)
     {
         var isEqual = false

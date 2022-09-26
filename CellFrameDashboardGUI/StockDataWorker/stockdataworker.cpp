@@ -1041,7 +1041,7 @@ void StockDataWorker::setNewPrice(const QString &price)
 {
 //    return;
 
-    qDebug() << "StockDataWorker::setNewPrice" << price;
+//    qDebug() << "StockDataWorker::setNewPrice" << price;
 
     if (priceModel.isEmpty())
     {
@@ -1278,9 +1278,9 @@ void StockDataWorker::checkNewRoundPower()
         tempMask = pow (10, tempPower);
     }
 
-    qDebug() << "StockDataWorker::checkNewBookRoundPower"
-             << "m_currentTokenPrice" << m_currentTokenPrice
-             << "tempPower" << tempPower;
+//    qDebug() << "StockDataWorker::checkNewBookRoundPower"
+//             << "m_currentTokenPrice" << m_currentTokenPrice
+//             << "tempPower" << tempPower;
 
 //    if (tempPower < commonRoundPowerDelta - 8)
 //        tempPower = commonRoundPowerDelta - 8;

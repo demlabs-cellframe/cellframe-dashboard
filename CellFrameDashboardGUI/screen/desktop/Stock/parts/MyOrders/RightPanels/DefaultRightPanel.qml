@@ -20,45 +20,100 @@ Item
 
     Component.onCompleted:
     {
-        setCurrentMainScreen(openOrders)
+        setFilterSide("buy")
+        setCurrentMainScreen(allOrders)
+        buysellbothSelector.selectorListView.currentIndex = 2
     }
 
     ColumnLayout {
         anchors.fill: parent
+        anchors.leftMargin: 16
         spacing: 0
 
         Text {
             Layout.minimumHeight: 35
             Layout.maximumHeight: 35
-            Layout.leftMargin: 16
+//            Layout.leftMargin: 16
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
             text: qsTr("Orders")
         }
 
+        ListModel {
+            id: selectorModel
+            ListElement {
+                name: qsTr("Orders")
+            }
+            ListElement {
+                name: qsTr("My orders")
+            }
+            ListElement {
+                name: qsTr("Order history")
+            }
+        }
 
-        DapSelectorSwitch
+        DapSelector
         {
             height: 35
+//            Layout.fillWidth: true
             Layout.topMargin: 10
-            firstName: qsTr("Open orders")
-            secondName: qsTr("Orders History")
-            itemHorisontalBorder: 16
+            itemHorisontalBorder: 20
 
-            onToggled:
+            selectorModel: selectorModel
+
+            onItemSelected:
             {
-                if (firstSelected)
+//                print("onItemSelected", "currentIndex", currentIndex)
+
+                if (currentIndex === 0)
                 {
-                    setCurrentMainScreen(openOrders)
+                    setFilterSide("buy")
+                    setCurrentMainScreen(allOrders)
+
+                    buysellSelector.setSelected("first")
+                    buysellText.visible = true
+                    buysellSelector.visible = true
+                    buysellbothSelector.visible = false
+                    textPair.visible = false
+                    comboboxPair.visible = false
+                    textSide.visible = false
+                    buttonsSide.visible = false
+                    textPeriod.visible = false
+                    layoutPeriod1.visible = false
+                    layoutPeriod2.visible = false
+                }
+                if (currentIndex === 1)
+                {
+                    setFilterSide("Both")
+                    setCurrentMainScreen(myOrders)
+
+                    buysellbothSelector.selectorListView.currentIndex = 2
+                    buysellText.visible = true
+                    buysellSelector.visible = false
+                    buysellbothSelector.visible = true
+                    textPair.visible = true
+                    comboboxPair.visible = true
+                    textSide.visible = true
+                    buttonsSide.visible = true
                     textPeriod.visible = false
                     layoutPeriod1.visible = false
                     layoutPeriod2.visible = false
                     setFilterPeriod("All time")
                 }
-                else
+                if (currentIndex === 2)
                 {
+                    setFilterSide("Both")
                     setCurrentMainScreen(ordersHistory)
+
+                    buysellbothSelector.selectorListView.currentIndex = 2
+                    buysellText.visible = true
+                    buysellSelector.visible = false
+                    buysellbothSelector.visible = true
+                    textPair.visible = true
+                    comboboxPair.visible = true
+                    textSide.visible = true
+                    buttonsSide.visible = true
                     textPeriod.visible = true
                     layoutPeriod1.visible = true
                     layoutPeriod2.visible = true
@@ -80,6 +135,101 @@ Item
         }
 
         Text {
+            id: buysellText
+            visible: true
+
+            Layout.topMargin: 24
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
+//            Layout.leftMargin: 16
+            verticalAlignment: Text.AlignVCenter
+            font: mainFont.dapFont.bold14
+            color: currTheme.textColor
+            text: qsTr("Side")
+        }
+
+        ListModel {
+            id: sideModel
+            ListElement {
+                name: qsTr("Buy")
+                color: "#84BE00"
+            }
+            ListElement {
+                name: qsTr("Sell")
+                color: "#FF5F5F"
+            }
+            ListElement {
+                name: qsTr("Both")
+                color: "#A361FF"
+            }
+        }
+
+        DapSelector
+        {
+            id: buysellbothSelector
+            visible: false
+            Layout.topMargin: 10
+            height: 35
+            itemHorisontalBorder: 41
+
+            selectorModel: sideModel
+
+            onItemSelected:
+            {
+                if (currentIndex === 0)
+                {
+                    setFilterSide("Buy")
+                }
+                if (currentIndex === 1)
+                {
+                    setFilterSide("Sell")
+                }
+                if (currentIndex === 2)
+                {
+                    setFilterSide("Both")
+                }
+            }
+
+        }
+
+        DapSelectorSwitch
+        {
+            id: buysellSelector
+            visible: true
+
+            Layout.topMargin: 10
+            height: 35
+            firstName: qsTr("Buy")
+            secondName: qsTr("Sell")
+            firstColor: currTheme.textColorGreen
+            secondColor: currTheme.textColorRed
+            itemHorisontalBorder: 68
+
+            onToggled:
+            {
+                if (secondSelected)
+                    setFilterSide("sell")
+                else
+                    setFilterSide("buy")
+//                isSell = secondSelected
+//                if (isSell)
+//                {
+//                    textMode.text = qsTr("Sell ") + logicMainApp.token1Name
+//                }
+//                else
+//                {
+//                    textMode.text = qsTr("Buy ") + logicMainApp.token1Name
+
+//                }
+//                sellBuyChanged()
+            }
+        }
+
+        Text
+        {
+            id: textPair
+            visible: false
+
             Layout.topMargin: 24
             Layout.minimumHeight: 35
             Layout.maximumHeight: 35
@@ -92,6 +242,8 @@ Item
         DapCustomComboBox
         {
             id: comboboxPair
+            visible: false
+
             Layout.topMargin: 16
             Layout.fillWidth: true
             height: 42
@@ -286,7 +438,10 @@ Item
             onCurrentIndexChanged: setFilterPeriod(periodModel.get(currentIndex).name)
         }*/
 
-        Text {
+/*        Text {
+            id: textSide
+            visible: false
+
             Layout.topMargin: 24
             Layout.minimumHeight: 35
             Layout.maximumHeight: 35
@@ -298,6 +453,9 @@ Item
 
         ColumnLayout
         {
+            id: buttonsSide
+            visible: false
+
             Layout.leftMargin: -13
             Layout.topMargin: 10
             spacing: 10
@@ -346,7 +504,7 @@ Item
                     setFilterSide("Both")
                 }
             }
-        }
+        }*/
 
         Rectangle
         {

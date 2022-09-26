@@ -16,7 +16,7 @@ RowLayout {
         id: labelItem
         font: textFont
         color: currTheme.textColorGray
-        Layout.preferredWidth: implicitWidth
+		Layout.preferredWidth: implicitWidth
     }
 
     DapBigNumberText
@@ -24,6 +24,7 @@ RowLayout {
         id: textItem
         Layout.fillWidth: true
         Layout.fillHeight: true
+        Layout.rightMargin: 16
         isAutoOutText: true
         textFont: parent.textFont
         textColor: currTheme.textColorGray

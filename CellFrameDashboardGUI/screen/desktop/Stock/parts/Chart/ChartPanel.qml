@@ -1,6 +1,6 @@
-import QtQuick 2.4
+import QtQuick 2.12
 import QtQml 2.12
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 //import ".."
@@ -175,6 +175,9 @@ Item
                 name: "1m"
             }
             ListElement {
+                name: "2m"
+            }
+            ListElement {
                 name: "5m"
             }
             ListElement {
@@ -204,12 +207,6 @@ Item
             ListElement {
                 name: "1M"
             }
-            ListElement {
-                name: "3M"
-            }
-            ListElement {
-                name: "1Y"
-            }
         }
 
         DapSelector
@@ -236,10 +233,12 @@ Item
             Text
             {
                 id: textItem
+                height: 30
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColor
                 text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
                 verticalAlignment: Qt.AlignVCenter
+                topPadding: 5
             }
 
             DapBigNumberText
@@ -249,7 +248,7 @@ Item
                 height: 30
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.textColorGreen
-                outSymbols: 15
+                outSymbols: 30
                 fullNumber: stockDataWorker.currentTokenPriceText
                 copyButtonVisible: true
             }
@@ -344,7 +343,7 @@ Item
             ChartTextBlock
             {
                 id: textDate
-                Layout.minimumWidth: 110
+                Layout.minimumWidth: 105
                 labelVisible: false
                 text: "-"
                 textColor: currTheme.textColorGray
@@ -353,7 +352,7 @@ Item
             ChartTextBlock
             {
                 id: textOpen
-                Layout.minimumWidth: 100
+                Layout.minimumWidth: 105
                 label: qsTr("Open:")
                 text: "-"
             }
@@ -361,7 +360,7 @@ Item
             ChartTextBlock
             {
                 id: textHigh
-                Layout.minimumWidth: 95
+                Layout.minimumWidth: 100
                 label: qsTr("High:")
                 text: "-"
             }

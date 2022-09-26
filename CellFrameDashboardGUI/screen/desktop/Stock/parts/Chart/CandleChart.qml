@@ -197,40 +197,37 @@ Item
                 stockDataWorker.setNewCandleWidth(logic.minute)
             break
         case 1:
-            stockDataWorker.setNewCandleWidth(logic.minute*5)
+            stockDataWorker.setNewCandleWidth(logic.minute*2)
             break
         case 2:
-            stockDataWorker.setNewCandleWidth(logic.minute*15)
+            stockDataWorker.setNewCandleWidth(logic.minute*5)
             break
         case 3:
-            stockDataWorker.setNewCandleWidth(logic.minute*30)
+            stockDataWorker.setNewCandleWidth(logic.minute*15)
             break
         case 4:
-            stockDataWorker.setNewCandleWidth(logic.hour)
+            stockDataWorker.setNewCandleWidth(logic.minute*30)
             break
         case 5:
-            stockDataWorker.setNewCandleWidth(logic.hour*4)
+            stockDataWorker.setNewCandleWidth(logic.hour)
             break
         case 6:
-            stockDataWorker.setNewCandleWidth(logic.hour*12)
+            stockDataWorker.setNewCandleWidth(logic.hour*4)
             break
         case 7:
-            stockDataWorker.setNewCandleWidth(logic.day)
+            stockDataWorker.setNewCandleWidth(logic.hour*12)
             break
         case 8:
-            stockDataWorker.setNewCandleWidth(logic.day*7)
+            stockDataWorker.setNewCandleWidth(logic.day)
             break
         case 9:
-            stockDataWorker.setNewCandleWidth(logic.day*14)
+            stockDataWorker.setNewCandleWidth(logic.day*7)
             break
         case 10:
-            stockDataWorker.setNewCandleWidth(logic.day*30)
+            stockDataWorker.setNewCandleWidth(logic.day*14)
             break
         case 11:
-            stockDataWorker.setNewCandleWidth(logic.day*90)
-            break
-        case 12:
-            stockDataWorker.setNewCandleWidth(logic.day*365)
+            stockDataWorker.setNewCandleWidth(logic.day*30)
             break
         }
 

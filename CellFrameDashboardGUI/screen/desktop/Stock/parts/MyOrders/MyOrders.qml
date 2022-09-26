@@ -25,7 +25,7 @@ Item
             anchors.bottomMargin: 10
 
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Open orders")
+            text: qsTr("My orders")
             font:  mainFont.dapFont.bold14
             color: currTheme.textColor
         }
@@ -39,7 +39,7 @@ Item
         anchors.left: parent.left
         anchors.right: parent.right
         clip: true
-        model: openModel
+        model: myOrdersModel
 
         highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
         highlightMoveDuration: 0
