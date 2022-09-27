@@ -77,8 +77,8 @@ Item
                     buysellbothSelector.visible = false
                     textPair.visible = false
                     comboboxPair.visible = false
-                    textSide.visible = false
-                    buttonsSide.visible = false
+//                    textSide.visible = false
+//                    buttonsSide.visible = false
                     textPeriod.visible = false
                     layoutPeriod1.visible = false
                     layoutPeriod2.visible = false
@@ -94,8 +94,8 @@ Item
                     buysellbothSelector.visible = true
                     textPair.visible = true
                     comboboxPair.visible = true
-                    textSide.visible = true
-                    buttonsSide.visible = true
+//                    textSide.visible = true
+//                    buttonsSide.visible = true
                     textPeriod.visible = false
                     layoutPeriod1.visible = false
                     layoutPeriod2.visible = false
@@ -112,8 +112,8 @@ Item
                     buysellbothSelector.visible = true
                     textPair.visible = true
                     comboboxPair.visible = true
-                    textSide.visible = true
-                    buttonsSide.visible = true
+//                    textSide.visible = true
+//                    buttonsSide.visible = true
                     textPeriod.visible = true
                     layoutPeriod1.visible = true
                     layoutPeriod2.visible = true
