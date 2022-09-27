@@ -63,6 +63,7 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
+#include "handlers/DapGetWordBook.h"
 
 #include "DapWeb3Api/DapWebControll.h"
 

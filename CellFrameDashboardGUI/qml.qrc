@@ -265,6 +265,7 @@
         <file>screen/desktop/Tokens/RightPanel/InfoAboutToken.qml</file>
         <file>screen/desktop/Tokens/RightPanel/CreateNewToken.qml</file>
         <file>screen/desktop/Tokens/parts/TitleTextView.qml</file>
+        <file>Resources/ui_menu_light.png</file>
         <file>screen/desktop/Stock/parts/MyOrders/MyOrdersTab.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/DefaultRightPanel.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/OpenOrders.qml</file>
@@ -284,6 +285,7 @@
         <file>Resources/BlackTheme/icons/other/Arrow.png</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml</file>
+        <file>Resources/ui_menu_light.png</file>
         <file>screen/desktop/Tokens/parts/DetailsText.qml</file>
         <file>screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml</file>
         <file>screen/desktop/VPNClient/RightPanel/Receipts.qml</file>

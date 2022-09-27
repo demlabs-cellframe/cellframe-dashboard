@@ -20,7 +20,12 @@ DapConsoleScreenForm
         consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
+
+        commandCmdController.StatusPage = true
     }
+
+    Component.onDestruction:
+        commandCmdController.StatusPage = false
 
     ListModel
     {
@@ -33,25 +38,13 @@ DapConsoleScreenForm
         Column
         {
             width: parent.width
-//            Layout.bottomMargin: 20 * pt
-            TextEdit
-            {
-                width: parent.width
-                readOnly: true
-                selectByMouse: true
-                id: textQuery
-                text: "> " + query
-                wrapMode: TextEdit.Wrap
-                font:  mainFont.dapFont.regular18
-                color: currTheme.textColor
 
-            }
             TextEdit
             {
                 readOnly: true
                 selectByMouse: true
                 id: textResponse
-                text: response
+                text: "> " + query + "\n" + response
                 width: parent.width
                 wrapMode: TextEdit.Wrap
                 font:  mainFont.dapFont.regular18

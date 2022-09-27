@@ -73,9 +73,36 @@ Page
                 id: suggestionsBox
                 anchors.bottom: inputCommand.top
                 x: 20 * pt
+                z: 4
 
                 onWordSelected: inputField.text = word
+
+                Rectangle
+                {
+                    width: parent.width
+                    height: 1 * pt
+                    color: currTheme.borderColor
+                }
+
+                Rectangle
+                {
+                    width: 1 * pt
+                    height: parent.height
+                    color: currTheme.borderColor
+                }
             }
+
+            DropShadow {
+                    anchors.fill: suggestionsBox
+                    horizontalOffset: 3
+                    verticalOffset: 3
+                    radius: 8.0
+                    samples: 17
+                    color: "#80000000"
+                    source: suggestionsBox
+                    visible: suggestionsBox.visible
+                    z: 4
+                }
 
             Item
             {
@@ -92,7 +119,7 @@ Page
                 {
                     anchors.centerIn: parent
                     text: "×"
-                    font.pointSize: 20
+                    font.pointSize: 16
                     color: "white"
                     font.bold: true
                 }
@@ -202,6 +229,7 @@ Page
                                     else suggestionsBox.selectedIndex = 0
                                 }
                             }
+                            Keys.onEscapePressed: suggestionsBox.model = {}
                         }
                     }
                 }
