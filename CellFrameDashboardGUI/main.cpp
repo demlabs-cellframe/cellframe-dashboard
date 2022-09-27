@@ -107,10 +107,10 @@ const int MIN_HEIGHT = 720;
 const int DEFAULT_WIDTH = 1280;
 const int DEFAULT_HEIGHT = 720;
 
-#ifdef OS_WIN
-    const int OS_WIN_FLAG = 1;
-#else
+#ifndef Q_OS_WIN
     const int OS_WIN_FLAG = 0;
+#else
+    const int OS_WIN_FLAG = 1;
 #endif
 
 int main(int argc, char *argv[])

@@ -277,7 +277,7 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
 
     QJsonArray history = doc["history"].toArray();
 
-    qDebug() << "history.size()" << history.size();
+//    qDebug() << "history.size()" << history.size();
 
     priceModel.resize(history.size());
 
@@ -289,14 +289,27 @@ void StockDataWorker::setTokenPriceHistory(const QByteArray &json)
         QString priceText = history.at(i)["rate"].toString();
         qint64 time = date.toLongLong();
 
-        qDebug() << price
-                << time
-                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
+//        qDebug() << price
+//                << time
+//                << QDateTime::fromMSecsSinceEpoch(time).toString("dd MM yyyy HH:mm:ss");
 
         PriceInfo info{time, price, priceText};
 
         priceModel[i] = info;
     }
+
+    std::sort (priceModel.begin(), priceModel.end(),
+               [](const PriceInfo& lha, const PriceInfo& rha){
+        return lha.time < rha.time;
+    });
+
+//    qDebug() << "std::sort";
+
+//    for(auto i = 0; i < priceModel.size(); i++)
+//        qDebug() << priceModel.at(i).price
+//                << priceModel.at(i).time
+//                << QDateTime::fromMSecsSinceEpoch(priceModel.at(i).time).toString("dd MM yyyy HH:mm:ss");
+
 
     if (priceModel.size() > 0)
     {
@@ -589,6 +602,7 @@ void StockDataWorker::getCandleModel(bool update)
                priceModel.at(priceIndex).time > candleBegin)
         {
             --priceIndex;
+
 //            qDebug() << "priceModel.at(priceIndex).time"
 //                     << priceModel.at(priceIndex).time;
         }
