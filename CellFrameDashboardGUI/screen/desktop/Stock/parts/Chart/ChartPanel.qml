@@ -238,12 +238,14 @@ Item
                 color: currTheme.textColor
                 text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
                 verticalAlignment: Qt.AlignVCenter
-                topPadding: 5
+                Layout.alignment: Qt.AlignVCenter
+                topPadding: OS_WIN_FLAG ? 5 : 0
             }
 
             DapBigNumberText
             {
                 id: tokenPriceText
+                Layout.alignment: Qt.AlignVCenter
                 Layout.fillWidth: true
                 height: 30
                 textFont: mainFont.dapFont.medium24

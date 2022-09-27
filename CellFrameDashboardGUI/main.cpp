@@ -107,6 +107,12 @@ const int MIN_HEIGHT = 720;
 const int DEFAULT_WIDTH = 1280;
 const int DEFAULT_HEIGHT = 720;
 
+#ifdef OS_WIN
+    const int OS_WIN_FLAG = 1;
+#else
+    const int OS_WIN_FLAG = 0;
+#endif
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -231,6 +237,8 @@ int main(int argc, char *argv[])
 
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
+
+        context->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
 
         app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 

@@ -12,14 +12,16 @@ DapRightPanelDone {
 
     Component.onCompleted:
     {
-        if(commandResult.success)
+        console.log(logicStock.resultCreate.success)
+
+        if(logicStock.resultCreate.success)
         {
             messageImage = iconOk
             headerText = qsTr("Order created\nsuccessfully!")
         }
         else
         {
-            messageImage = iconBad
+            logicStock.resultCreate = iconBad
             headerText = qsTr("Order creation\nerror!")
             messageText = qsTr(logicStock.resultCreate.message)
         }
