@@ -76,7 +76,7 @@ Page {
     header: ToolBar {
         id:headerWindow
         height: 73
-//        contentHeight: 56 * pt
+//        contentHeight: 56 
 
         background:
             Item {
@@ -111,26 +111,26 @@ Page {
         RowLayout
         {
             anchors.fill: parent
-            anchors.leftMargin: 10 * pt
-            anchors.rightMargin: 10 * pt
+            anchors.leftMargin: 10 
+            anchors.rightMargin: 10 
 
             DapButton
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 9 * pt
-                Layout.bottomMargin: 15 * pt
+                Layout.topMargin: 9 
+                Layout.bottomMargin: 15 
 
-                Layout.preferredHeight: 30 * pt
-                Layout.preferredWidth: 30 * pt
+                Layout.preferredHeight: 30 
+                Layout.preferredWidth: 30 
                 id: toolButton
                 normalImageButton: stackView.depth > 1 ? "qrc:/screen/mobile/Icons/Close.png" : "qrc:/screen/mobile/Icons/MenuIcon.png"
                 hoverImageButton: stackView.depth > 1 ? "qrc:/screen/mobile/Icons/Close.png" : "qrc:/screen/mobile/Icons/MenuIcon.png"
                 activeFrame: false
-//                height: 40 * pt
-//                width: 40 * pt
-                widthImageButton: 30 * pt
-                heightImageButton: 30 * pt
-                indentImageLeftButton: 0 * pt
+//                height: 40 
+//                width: 40 
+                widthImageButton: 30 
+                heightImageButton: 30 
+                indentImageLeftButton: 0 
 //                transColor: true
 
                 onClicked: {
@@ -147,8 +147,8 @@ Page {
             ColumnLayout
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 12 * pt
-//                Layout.t: 10 * pt
+                Layout.topMargin: 12 
+//                Layout.t: 10 
 
                 Layout.fillWidth: true
                 spacing: 9
@@ -167,7 +167,7 @@ Page {
                     visible: true
 //                    Layout.alignment: Qt.AlignBottom
                     Layout.fillWidth: true
-//                    Layout.bottomMargin: 7 * pt
+//                    Layout.bottomMargin: 7 
                     text: dapModelWallets.count ? dapModelWallets.get(currentWallet).name : ""
                     font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignHCenter
@@ -178,20 +178,20 @@ Page {
             DapButton
             {
                 Layout.alignment: Qt.AlignTop
-                Layout.topMargin: 9 * pt
-                Layout.bottomMargin: 15 * pt
+                Layout.topMargin: 9 
+                Layout.bottomMargin: 15 
 
-                Layout.preferredHeight: 30 * pt
-                Layout.preferredWidth: 30 * pt
+                Layout.preferredHeight: 30 
+                Layout.preferredWidth: 30 
                 id: toolButton1
                 normalImageButton: stackView.depth > 1 ?  "" : "qrc:/screen/mobile/Icons/NetIcon.png"
                 hoverImageButton: stackView.depth > 1 ?  "" : "qrc:/screen/mobile/Icons/NetIcon.png"
                 activeFrame: false
-//                height: 40 * pt
-//                width: 40 * pt
-                widthImageButton: 30 * pt
-                heightImageButton: 30 * pt
-                indentImageLeftButton: 0 * pt
+//                height: 40 
+//                width: 40 
+                widthImageButton: 30 
+                heightImageButton: 30 
+                indentImageLeftButton: 0 
 //                transColor: true
                 enabled: stackView.depth <= 1
                 onClicked: {

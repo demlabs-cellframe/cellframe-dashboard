@@ -24,15 +24,16 @@ Item
 //        stockDataWorker.generatePriceData(1000000)
 //        stockDataWorker.generatePriceData(100000)
 
-        stockDataWorker.setNewCandleWidth(logic.minute)
+        if (logicMainApp.simulationStock)
+            stockDataWorker.setNewCandleWidth(logic.minute*0.25)
+        else
+            stockDataWorker.setNewCandleWidth(logic.minute)
 
         updateTokenPrice()
 
         logic.dataAnalysis()
 
         updateTimer.start()
-
-//        generateTimer.start()
 
 //        print("CandleChart", "Component.onCompleted", "END")
     }
@@ -190,7 +191,10 @@ Item
         switch (index)
         {
         default:
-            stockDataWorker.setNewCandleWidth(logic.minute)
+            if (logicMainApp.simulationStock)
+                stockDataWorker.setNewCandleWidth(logic.minute*0.25)
+            else
+                stockDataWorker.setNewCandleWidth(logic.minute)
             break
         case 1:
             stockDataWorker.setNewCandleWidth(logic.minute*2)
@@ -217,15 +221,12 @@ Item
             stockDataWorker.setNewCandleWidth(logic.day)
             break
         case 9:
-            stockDataWorker.setNewCandleWidth(logic.day*3)
-            break
-        case 10:
             stockDataWorker.setNewCandleWidth(logic.day*7)
             break
-        case 11:
+        case 10:
             stockDataWorker.setNewCandleWidth(logic.day*14)
             break
-        case 12:
+        case 11:
             stockDataWorker.setNewCandleWidth(logic.day*30)
             break
         }

@@ -23,53 +23,41 @@ Page
     RowLayout
     {
         anchors.fill: parent
-
-        spacing: 24 * pt
-
-        DapRectangleLitAndShaded
-        {
-            id:frameListView
+        spacing: 24 
+        CertificatesListView {
+            id: certificatesListView
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
-            shadowColor: currTheme.shadowColor
-            lightColor: currTheme.reflectionLight
 
-            contentData:
-            CertificatesListView {
-                id: certificatesListView
-                anchors.fill: parent
+            seletedCertificateAccessType: models.certificatesFind.accessKeyTypeIndex == 0 ? qsTr("Public") :
+                                          models.certificatesFind.accessKeyTypeIndex == 1 ? qsTr("Private") : qsTr("Both")
 
-                seletedCertificateAccessType: models.certificatesFind.accessKeyTypeIndex == 0 ? qsTr("Public") :
-                                              models.certificatesFind.accessKeyTypeIndex == 1 ? qsTr("Private") : qsTr("Both")
+            //infoTitleTextVisible: models.certificates.isSelected
+            Component.onCompleted: {
+                models.certificatesFind.delegate = delegateComponent
+                models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
+                models.certificatesFind.update()
+                model = models.certificatesFind  //original
+            }
 
-                //infoTitleTextVisible: models.certificates.isSelected
-                Component.onCompleted: {
-                    models.certificatesFind.delegate = delegateComponent
-                    models.certificatesFind.accessKeyTypeIndex = DapCertificateType.Public           //default open access type is public
-                    models.certificatesFind.update()
-                    model = models.certificatesFind  //original
-                }
+            onSelectedIndex: {
+                  models.certificates.setSelectedIndex(index)
+            }
 
-                onSelectedIndex: {
-                      models.certificates.setSelectedIndex(index)
-                }
+            onInfoClicked: {     //index
+                logics.dumpCertificate(index)
+                if (!(openedRightPanelPage == "Info" && infoIndex == index))
+                    certificateNavigator.openInfoItem(index)
+            }
 
-                onInfoClicked: {     //index
-                    logics.dumpCertificate(index)
-                    if (!(openedRightPanelPage == "Info" && infoIndex == index))
-                        certificateNavigator.openInfoItem(index)
-                }
+        }   //certificatesListView
 
-            }   //certificatesListView
-
-        }
         DapCertificateAtcions
         {
             id:defaultRightPanel
             Layout.fillHeight: true
-            Layout.minimumWidth: 350 * pt
+            Layout.minimumWidth: 350 
+            Layout.maximumWidth: 350
             visible: true
         }
     }

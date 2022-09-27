@@ -12,8 +12,8 @@ Item {
 
     signal clicked
 
-    implicitWidth: 40 * pt
-    implicitHeight: 40 * pt
+    implicitWidth: 40 
+    implicitHeight: 40 
 
     Image {
 //        property alias controlMirror: img.mirror

@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtGraphicalEffects 1.0
 import Qt.labs.settings 1.0
 import QtQuick.Layouts 1.3
+import VPNOrdersController 1.0
 
 import "qrc:/screen"
 import "qrc:/widgets"
@@ -43,6 +44,8 @@ Rectangle {
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
+    property var vpnClientTokenModel: new Array()
+
     MainApplicationLogic{id: logicMainApp}
     Settings {property alias menuTabStates: logicMainApp.menuTabStates}
     Timer {id: timer}
@@ -73,11 +76,12 @@ Rectangle {
         id: webPopup
     }
 
-    signal openCopyPopup()
-    onOpenCopyPopup: {
-        component = Qt.createComponent("qrc:/screen/desktop/controls/CopyPopup.qml");
-        component.createObject(dapMainWindow);
+    DapPopupInfo
+    {
+        id: popupInfo
     }
+
+    property alias infoItem: popupInfo
 
     signal menuTabChanged()
     onMenuTabChanged: logicMainApp.updateMenuTabStatus()
@@ -97,6 +101,12 @@ Rectangle {
     signal checkWebRequest()
     signal openRequests()
 
+    VPNOrdersController
+    {
+        id: vpnOrdersController
+    }
+
+
 
 //    signal keyPressed(var event)
 //    Keys.onPressed: keyPressed(event)
@@ -113,6 +123,7 @@ Rectangle {
     ListModel{id: dapModelXchangeOrders}
     ListModel{id: dapPairModel}
     ListModel{id: dapTokenPriceHistory}
+    ListModel{id: dapWebSites}
 
     ListModel{id: fakeWallet}
 
@@ -135,9 +146,9 @@ Rectangle {
         ListElement { tag: "Certificates"
             name: qsTr("Certificates")
             show: true }
-        ListElement { tag: "VPN service"
-            name: qsTr("VPN service")
-            show: true }
+//        ListElement { tag: "VPN service"
+//            name: qsTr("VPN service")
+//            show: true }
         ListElement { tag: "Console"
             name: qsTr("Console")
             show: true }
@@ -180,16 +191,16 @@ Rectangle {
             bttnIco: "icon_tokens.png",
             showTab: true,
             page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
-        append ({ tag: "VPN client",
-            name: qsTr("VPN client"),
-            bttnIco: "vpn-client_icon.png",
-            showTab: true,
-            page: "qrc:/screen/desktop/UnderConstructions.qml"})
-        append ({ tag: "VPN service",
-            name: qsTr("VPN service"),
-            bttnIco: "icon_vpn.png",
-            showTab: true,
-            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
+//        append ({ tag: "VPN client",
+//            name: qsTr("VPN client"),
+//            bttnIco: "vpn-client_icon.png",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/UnderConstructions.qml"})
+//        append ({ tag: "VPN service",
+//            name: qsTr("VPN service"),
+//            bttnIco: "icon_vpn.png",
+//            showTab: true,
+//            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
         append ({ tag: "Console",
             name: qsTr("Console"),
             bttnIco: "icon_console.png",
@@ -200,16 +211,16 @@ Rectangle {
             bttnIco: "icon_logs.png",
             showTab: true,
             page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
-        append ({ tag: "dApps",
-            name: qsTr("dApps"),
-            bttnIco: "icon_daaps.png",
-            showTab: true,
-            page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
         append ({ tag: "Settings",
             name: qsTr("Settings"),
             bttnIco: "icon_settings.png",
             showTab: true,
             page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
+        append ({ tag: "dApps",
+            name: qsTr("dApps"),
+            bttnIco: "icon_daaps.png",
+            showTab: true,
+            page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
 
             //FOR DEBUG
 //        append ({ tag: "Plugin",
@@ -239,7 +250,7 @@ Rectangle {
             top: parent.top;
             right: parent.right;
             bottom: networksPanel.top
-//            bottomMargin: 6 * pt
+//            bottomMargin: 6
         }
         spacing: 0
 
@@ -279,8 +290,8 @@ Rectangle {
                 Item {
                     id: logo
 //                    Layout.margins: 10
-                    width: parent.width * pt
-                    height: 60 * pt
+                    width: parent.width
+                    height: 60
 
                     Image{
                         source: "/Resources/BlackTheme/cellframe-logo-dashboard.svg"
@@ -289,25 +300,18 @@ Rectangle {
                         anchors.left: parent.left
                         anchors.leftMargin: 23*pt
                         anchors.top: parent.top
-                        anchors.topMargin: 19.86 * pt
+                        anchors.topMargin: 19.86
                     }
-                    ToolTip
-                    {
+
+                    DapCustomToolTip{
                         id:toolTip
                         visible: area.containsMouse? true : false
-                        text: "https://cellframe.net"
-
-                        y:0
-                        x:100
-                        scale: mainWindow.scale
-
-                        contentItem: Text {
-                                text: toolTip.text
-                                font: mainFont.dapFont.regular14
-                                color: currTheme.textColor
-                            }
-                        background: Rectangle{color:currTheme.backgroundPanel}
+                        contentText: "https://cellframe.net"
+                        textFont: mainFont.dapFont.regular14
+                        onVisibleChanged: updatePos()
+                        y: 45
                     }
+
                     MouseArea
                     {
                         id:area
@@ -379,7 +383,7 @@ Rectangle {
     DapNetworksPanel
     {
         id: networksPanel
-        height: 40 * pt
+        height: 40
     }
 
     Rectangle {
@@ -451,6 +455,11 @@ Rectangle {
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
                 logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
+            else if(versionResult.message === "Reply node version")
+            {
+                if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
+                logicMainApp.nodeVersion = versionResult.lastVersion
+            }
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")
@@ -468,6 +477,20 @@ Rectangle {
             logicMainApp.rcvWallets(walletList)
             modelWalletsUpdated();
         }
+
+        onCurrentNetworkChanged:
+                {
+                    for(var x = 0; x < dapModelWallets.count; x++)
+                    {
+                        if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                            for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
+                            {
+                                if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
+                                    vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
+                            }
+                    }
+                }
+
 
         onWalletReceived:
         {

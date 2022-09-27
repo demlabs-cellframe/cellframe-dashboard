@@ -200,7 +200,6 @@ QtObject {
                             modelHistory.append(temporaryModel.get(i))
                     }
                 }
-
             }
         }
 
@@ -229,20 +228,20 @@ QtObject {
 
     function checkDate(date, period, today, yesterday, week)
     {
-        if (period === "all time")
+        if (period === "All time")
             return true
 
-        if (period === "today" && isSameDay(today, date))
+        if (period === "Today" && isSameDay(today, date))
             return true
 
-        if (period === "yesterday" && isSameDay(yesterday, date))
+        if (period === "Yesterday" && isSameDay(yesterday, date))
             return true
 
-        if (period === "last week" && ((date > week && date < today) ||
+        if (period === "Last week" && ((date > week && date < today) ||
                  isSameDay(week, date) || isSameDay(today, date)))
             return true
 
-        if (period === "this month" && date.getMonth() === today.getMonth())
+        if (period === "This month" && date.getMonth() === today.getMonth())
             return true
 
         return false

@@ -132,6 +132,8 @@ DapPage
             if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
                 settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
 
+            if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
+                dapServiceController.requestToService("DapVersionController", "version node")
 //            if(!dapNetworkModel.count)
 //            {
 //                dapServiceController.requestToService("DapGetListNetworksCommand")
@@ -141,7 +143,10 @@ DapPage
     }
 
     Component.onCompleted:
+    {
+        dapServiceController.requestToService("DapVersionController", "version node")
         updateSettingsTimer.start()
+    }
 
     Component.onDestruction:
         updateSettingsTimer.stop()

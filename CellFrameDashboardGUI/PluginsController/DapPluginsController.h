@@ -16,6 +16,7 @@
 #include <QString>
 
 #include "JlCompress.h"
+//#include "..\..\dap-ui-sdk\quazip\JlCompress.h"
 #include "DapNetworkManager.h"
 
 class DapPluginsController : public QWidget

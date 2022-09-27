@@ -9,11 +9,11 @@ Rectangle {
     readonly property int showDelay: 1000
     readonly property int hideDelay: 500
 
-    width: 170 * pt
-    height: 40 * pt
+    width: 170 
+    height: 40 
 
     x: (parent.width - width) * 0.5
-    y: 10 * pt
+    y: 10 
     z: 100
 
     opacity: 1
@@ -34,18 +34,18 @@ Rectangle {
         onTriggered: popup.destroy()
     }
 
-    border.width: 1 * pt
+    border.width: 1 
     border.color: currTheme.lineSeparatorColor
-    radius: 16 * pt
+    radius: 16 
     color: currTheme.backgroundElements
 
     RowLayout
     {
         anchors.fill: parent
-        anchors.leftMargin: 15 * pt
-        anchors.rightMargin: 10 * pt
-        anchors.topMargin: 8 * pt
-        anchors.bottomMargin: 10 * pt
+        anchors.leftMargin: 15 
+        anchors.rightMargin: 10 
+        anchors.topMargin: 8 
+        anchors.bottomMargin: 10 
 
         Text {
             id: dapContentTitle

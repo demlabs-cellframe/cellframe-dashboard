@@ -8,7 +8,7 @@ Button {
     property color textColorHover: "#FFFFFF"
     property color backgroundColor: "#271C4E"
     property color backgroundColorHover: "#D51F5D"
-    property real backgroudRadius: 4 * pt
+    property real backgroudRadius: 4 
     property int borderWidth: 0
     property color borderColor
 

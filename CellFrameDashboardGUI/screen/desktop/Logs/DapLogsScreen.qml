@@ -14,13 +14,13 @@ Page
     id:dapLogsScreenForm
 
     ///@detalis firstMarginList First indent in the delegate to the first word.
-    property int firstMarginList: 16 * pt
+    property int firstMarginList: 16 
     ///@detalis secondMarginList Second indent between the first and second word.
-    property int secondMarginList: 18 * pt
+    property int secondMarginList: 18 
     ///@detalis thirdMarginList Third indent between the second and third word and the following.
-    property int thirdMarginList: 40 * pt
+    property int thirdMarginList: 40 
     ///@detalis fifthMarginList Fifth indent between the second and third word and the following.
-    property int fifthMarginList: 20 * pt
+    property int fifthMarginList: 20 
     ///@detalis Font color.
     property string fontColor: "#070023"
 
@@ -44,38 +44,34 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-            Item
+            ColumnLayout
             {
                 anchors.fill: parent
+                spacing: 0
                 // Title
                 Item
                 {
-                    id: consoleTitle
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 42 * pt
+                    Layout.fillWidth: true
+                    height: 42
+
                     Text
                     {
                         anchors.fill: parent
-                        anchors.leftMargin: 15 * pt
-                        anchors.topMargin: 10 * pt
-                        anchors.bottomMargin: 10 * pt
+                        anchors.leftMargin: 16
+                        anchors.verticalCenter: parent.verticalCenter
 
+                        font: mainFont.dapFont.bold14
+                        color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Node data logs")
-                        font:  mainFont.dapFont.bold14
-                        color: currTheme.textColor
                     }
                 }
 
                 ListView
                 {
                     id: dapLogsList
-                    anchors.top: consoleTitle.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
                     clip: true
                     model: dapLogsModel
                     delegate: delegateLogs
@@ -161,16 +157,17 @@ Page
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 30 * pt
+            height: 30 
             color: currTheme.backgroundMainScreen
             z:10
 
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 15 * pt
+                anchors.leftMargin: 16
+                anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Qt.AlignVCenter
-                font:  mainFont.dapFont.medium11
+                font:  mainFont.dapFont.medium12
                 color: currTheme.textColor
                 text: section
             }
@@ -195,8 +192,8 @@ Page
             RowLayout{
                 id: row
                 anchors.fill: parent
-                anchors.topMargin: 14 * pt
-                anchors.bottomMargin: 13 * pt
+                anchors.topMargin: 14 
+                anchors.bottomMargin: 13 
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
                 spacing: 0
@@ -263,8 +260,8 @@ Page
                 anchors.right: parent.right
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
-//                anchors.topMargin: 13 * pt
-                height: 1 * pt
+//                anchors.topMargin: 13 
+                height: 1 
                 color: currTheme.lineSeparatorColor
             }
 

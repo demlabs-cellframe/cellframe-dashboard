@@ -9,38 +9,35 @@ import "qrc:/widgets"
 import "../parts"
 import "../../controls"
 
-Controls.Page {
+DapRectangleLitAndShaded {
     id: root
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
-        width: parent.width
-//        height: childrenRect.height
+        anchors.fill: parent
+        spacing: 0
 
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/back.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/back_hover.svg"
@@ -57,12 +54,9 @@ Controls.Page {
                 id: textHeader
                 text: qsTr("Emission")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -72,7 +66,7 @@ Controls.Page {
         Rectangle {
             color: currTheme.backgroundMainScreen
             Layout.fillWidth: true
-            height: 30 * pt
+            height: 30 
 
             Text {
                 color: currTheme.textColor
@@ -81,22 +75,20 @@ Controls.Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 16
             }
         }
 
         Item
         {
-            height: 56 * pt
+            height: 56 
             Layout.fillWidth: true
 
-            DapComboBox {
+            DapCustomComboBox {
                 id: certificates
                 anchors.fill: parent
-                anchors.leftMargin: 15 * pt
-                anchors.rightMargin: 15 * pt
+                anchors.leftMargin: 16
+                anchors.rightMargin: 16
                 model: certificatesModel
 
                 mainTextRole: "completeBaseName"
@@ -107,7 +99,7 @@ Controls.Page {
         Rectangle {
             color: currTheme.backgroundMainScreen
             Layout.fillWidth: true
-            height: 30 * pt
+            height: 30 
 
             Text {
                 color: currTheme.textColor
@@ -116,52 +108,41 @@ Controls.Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 16
             }
         }
+
 
         Item
         {
             Layout.fillWidth: true
-            height: 60 * pt
+            Layout.topMargin: 10
+            height: 60
 
             Rectangle
             {
                 anchors.fill: parent
-                anchors.leftMargin: 36 * pt
-                anchors.rightMargin: 36 * pt
-                anchors.topMargin: 16 * pt
-                anchors.bottomMargin: 16 * pt
+                anchors.leftMargin: 33
+                anchors.rightMargin: 33
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
                 border.width: 1
+                radius: 4
                 border.color: "#666E7D"
                 color: "transparent"
 
-                TextField
+                DapTextField
                 {
                     id: textInputAmount
                     anchors.fill: parent
-    //                        placeholderText: "0"
-                            placeholderText: "0.0"
+                    placeholderText: "0.0"
                     validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/ }
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
 
-                    style:
-                        TextFieldStyle
-                        {
-                            textColor: currTheme.textColor
-                            placeholderTextColor: currTheme.textColor
-                            background:
-                                Rectangle
-                                {
-                                    border.width: 1
-                                    radius: 4 * pt
-                                    border.color: currTheme.borderColor
-                                    color: currTheme.backgroundElements
-                                }
-                        }
+                    borderWidth: 1
+                    borderRadius: 4
+                    placeholderColor: currTheme.textColor
                 }
             }
         }
@@ -169,7 +150,8 @@ Controls.Page {
         Rectangle {
             color: currTheme.backgroundMainScreen
             Layout.fillWidth: true
-            height: 30 * pt
+            Layout.topMargin: 10
+            height: 30
 
             Text {
                 color: currTheme.textColor
@@ -178,21 +160,22 @@ Controls.Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 17 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 16
             }
         }
+
+
+
 
         Rectangle
         {
             Layout.fillWidth: true
-            Layout.leftMargin: 20 * pt
-            Layout.rightMargin: 20 * pt
-            height: 53 * pt
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
+            height: 53 
             color: "transparent"
 
-            TextField
+            DapTextField
             {
                 id: textInputRecipientWalletAddress
                 anchors.verticalCenter: parent.verticalCenter
@@ -201,103 +184,89 @@ Controls.Page {
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
                 anchors.fill: parent
-                anchors.topMargin: 26 * pt
-                style:
-                    TextFieldStyle
-                    {
-                        textColor: currTheme.textColor
-                        placeholderTextColor: currTheme.placeHolderTextColor
+                anchors.leftMargin: 10
+                anchors.rightMargin: 10
+                anchors.topMargin: 10
+                anchors.bottomMargin: 10
 
-                        background:
-                            Rectangle
-                            {
-                                border.width: 0
-                                color: currTheme.backgroundElements
-                            }
-                    }
-            }
-
-            Rectangle
-            {
-                height: 1 * pt
-                width: parent.width - x * 2
-                color: currTheme.borderColor
-                y: textInputRecipientWalletAddress.y + textInputRecipientWalletAddress.height + 5 * pt
-                x: 10 * pt
+                bottomLineVisible: true
+                bottomLineSpacing: 5
+                bottomLineLeftRightMargins: 7
             }
         }
 
-        Rectangle
+        Item
         {
-            width: 278*pt
-            height: 69 * pt
-            color: "transparent"
-            Layout.topMargin: 43 * pt
+            id: frameBottom
             Layout.fillWidth: true
-
-            Text
-            {
-                id: error
-                anchors.fill: parent
-                anchors.leftMargin: 37 * pt
-                anchors.rightMargin: 36 * pt
-                color: "#79FFFA"
-                text: qsTr("")
-                font: mainFont.dapFont.regular14
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                wrapMode: Text.WordWrap
-                visible: false
-            }
+            Layout.fillHeight: true
         }
 
-    }
+        Text
+        {
+            id: error
 
-    DapButton
-    {
-        implicitWidth: 165 * pt
-        implicitHeight: 36 * pt
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 24 * pt
-        textButton: qsTr("Emission")
-        fontButton: mainFont.dapFont.medium14
-        horizontalAligmentText:Qt.AlignCenter
+            Layout.minimumHeight: 30
+            Layout.maximumHeight: 80
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.bottomMargin: 12
+            Layout.maximumWidth: 281
 
-        onClicked:{
+            color: "#79FFFA"
+            text: qsTr("")
+            font: mainFont.dapFont.regular14
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            wrapMode: Text.WordWrap
+            visible: false
+        }
 
-            var supply = dapMath.balanceToCoins(detailsModel.get(0).current_supply)
+        DapButton
+        {
+            implicitHeight: 36
+            implicitWidth: 163
 
-            if (textInputAmount.text === "" ||
-                logicTokens.testAmount("0.0", textInputAmount.text))
-            {
-                error.visible = true
-                error.text = qsTr("Zero value.")
-            }
-            else
-            if (!logicTokens.testAmount(supply, textInputAmount.text))
-            {
-                error.visible = true
-                error.text =
-                    qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                    arg(supply).arg(textInputAmount.text)
-            }
-            else
-            if (textInputRecipientWalletAddress.text.length != 104)
-            {
-                error.visible = true
-                error.text = qsTr("Enter a valid wallet address.")
-            }
+            Layout.bottomMargin: 40
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            textButton: qsTr("Emission")
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText:Qt.AlignCenter
 
-            else
-            {
-                error.visible = false
-                dapServiceController.requestToService("DapTokenEmissionCommand", logicTokens.toDatoshi(textInputAmount.text),
-                                                      textInputRecipientWalletAddress.text,
-                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).network,
-                                                      dapModelTokens.get(logicTokens.selectNetworkIndex).tokens.get(logicTokens.selectTokenIndex).name,
-                                                      certificates.displayText)
+            onClicked:{
 
+                var supply = dapMath.balanceToCoins(detailsModel.get(0).current_supply)
+
+                if (textInputAmount.text === "" ||
+                    logicTokens.testAmount("0.0", textInputAmount.text))
+                {
+                    error.visible = true
+                    error.text = qsTr("Zero value.")
+                }
+                else
+                if (!logicTokens.testAmount(supply, textInputAmount.text))
+                {
+                    error.visible = true
+                    error.text =
+                        qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
+                        arg(supply).arg(textInputAmount.text)
+                }
+                else
+                if (textInputRecipientWalletAddress.text.length != 104)
+                {
+                    error.visible = true
+                    error.text = qsTr("Enter a valid wallet address.")
+                }
+
+                else
+                {
+                    error.visible = false
+                    dapServiceController.requestToService("DapTokenEmissionCommand", logicTokens.toDatoshi(textInputAmount.text),
+                                                          textInputRecipientWalletAddress.text,
+                                                          dapModelTokens.get(logicTokens.selectNetworkIndex).network,
+                                                          dapModelTokens.get(logicTokens.selectNetworkIndex).tokens.get(logicTokens.selectTokenIndex).name,
+                                                          certificates.displayText)
+
+                }
             }
         }
     }

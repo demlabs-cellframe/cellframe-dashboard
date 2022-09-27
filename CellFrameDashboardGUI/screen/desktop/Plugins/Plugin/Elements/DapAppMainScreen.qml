@@ -16,7 +16,7 @@ Rectangle {
     anchors.margins: 30
 
     color: "#363A42"
-    radius: 16 * pt
+    radius: 16 
 
     GridLayout
     {

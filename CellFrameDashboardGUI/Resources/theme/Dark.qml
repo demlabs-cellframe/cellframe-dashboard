@@ -39,6 +39,8 @@ QtObject {
     readonly property color textColorLightGreen    : "#CAFC33" // OK
     readonly property color textColorGreen         : "#84BE00" // OK //STOCK
     readonly property color textColorRed           : "#FF5F5F" // OK //STOCK
+    readonly property color textColorGreenHovered  : "#73A500" // OK //STOCK
+    readonly property color textColorRedHovered    : "#EA2626" // OK //STOCK
 
     readonly property color borderColor            : "#666E7D" // OK
 

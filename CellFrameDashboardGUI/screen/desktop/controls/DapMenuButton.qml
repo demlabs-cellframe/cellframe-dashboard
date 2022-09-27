@@ -9,8 +9,8 @@ Item
 {
     id: buttonDelegate
 
-    width: 180 * pt
-    height: showTab ? 52 * pt : 0
+    width: 180 
+    height: showTab ? 52  : 0
     visible: showTab
 
     property bool isPushed: mainButtonsList.currentIndex === index
@@ -39,8 +39,8 @@ Item
 
         Item {
             id: ico
-            width: 16 * pt
-            height: 16 * pt
+            width: 16 
+            height: 16 
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             DapImageLoader {
@@ -54,13 +54,20 @@ Item
             id: buttonText
             anchors.left: ico.right
             anchors.right: parent.right
-            anchors.rightMargin: 10
+            anchors.rightMargin: 16
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             text: name
             elide: Text.ElideMiddle
             color: currTheme.textColor
             font:mainFont.dapFont.regular13
+
+            DapCustomToolTip{
+                visible: handler.containsMouse ?  buttonText.implicitWidth > buttonText.width ? true : false : false
+                contentText: buttonText.text
+                textFont: buttonText.font
+                onVisibleChanged: updatePos()
+            }
         }
     }
     Timer {

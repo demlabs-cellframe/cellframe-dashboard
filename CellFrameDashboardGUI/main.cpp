@@ -102,10 +102,16 @@ bool SingleApplicationTest(const QString &appName)
 const int RESTART_CODE = 12345;
 
 const int MIN_WIDTH = 1280;
-const int MIN_HEIGHT = 770;
+const int MIN_HEIGHT = 720;
 
 const int DEFAULT_WIDTH = 1280;
-const int DEFAULT_HEIGHT = 800;
+const int DEFAULT_HEIGHT = 720;
+
+#ifndef Q_OS_WIN
+    const int OS_WIN_FLAG = 0;
+#else
+    const int OS_WIN_FLAG = 1;
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -231,6 +237,8 @@ int main(int argc, char *argv[])
 
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
+
+        context->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
 
         app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 

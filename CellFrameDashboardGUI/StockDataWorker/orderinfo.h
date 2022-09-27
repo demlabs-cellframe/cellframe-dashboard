@@ -25,4 +25,18 @@ public:
 };
 Q_DECLARE_METATYPE(OrderInfo)
 
+enum class OrderType
+{
+    sell, buy
+};
+
+struct FullOrderInfo
+{
+public:
+    OrderType type;
+    double price;
+    double amount;
+    double total;
+};
+
 #endif // ORDERINFO_H

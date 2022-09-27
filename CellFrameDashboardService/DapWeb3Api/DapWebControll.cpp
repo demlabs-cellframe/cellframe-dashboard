@@ -187,7 +187,7 @@ void DapWebControll::onClientSocketReadyRead()
           }
       }else{
 
-          QRegularExpression regex(R"(&([a-zA-Z]+)=(\w*))");
+          QRegularExpression regex(R"(&([a-zA-Z]+)=([a-zA-Z0-9_\-]+))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
           QString name, net, addr, value, tokenName, id, hashTx, certType,
                   certName, timeStaking, reinvest, stakeNoBaseFlag = "";

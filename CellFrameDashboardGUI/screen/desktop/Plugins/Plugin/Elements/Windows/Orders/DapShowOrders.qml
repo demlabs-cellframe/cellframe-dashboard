@@ -9,7 +9,7 @@ Item {
     {
         id: gridViewOrder
         property int halfMargin: margin * 0.5
-        property int margin: 14 * pt
+        property int margin: 14 
         anchors.fill: parent
         color: "#363A42"
         radius: 16*pt
@@ -32,8 +32,8 @@ Item {
 
             Text {
                 id: textMyVPNOrders
-                x: 18 * pt
-                y: 10 * pt
+                x: 18 
+                y: 10 
                 font.family: "Quicksand"
                 font.pixelSize: 14
                 font.bold: true
@@ -45,8 +45,8 @@ Item {
                 id: vpnOrdersView
 
                 anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
-                anchors.leftMargin: 52 * pt
-                anchors.topMargin: 10 * pt
+                anchors.leftMargin: 52 
+                anchors.topMargin: 10 
                 delegateMargin: gridViewOrder.halfMargin
             }
         }

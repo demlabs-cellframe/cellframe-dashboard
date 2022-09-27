@@ -19,14 +19,15 @@
 
 import QtQuick 2.0
 
-Rectangle {
+Image {
     id: container
 
     // --- properties
-    property var model: undefined
+    property var model: ({})
     property Item delegate
     signal itemSelected(variant item)
     signal wordSelected(var word)
+    source: "qrc:/Resources/ui_menu_light.png"
 
     property int selectedIndex: 0
     property int maxLenIndex: 0
@@ -44,24 +45,38 @@ Rectangle {
 
     // --- behaviours
     z: parent.z + 100
-    visible: model.length > 0 ? true : false
-    height: model.length * 25
-
-
-    // --- defaults
-    color: currTheme.backgroundMainScreen
-    radius: 16
-    border {
-        width: 1
-        color: currTheme.lineSeparatorColor
-    }
+    visible: model.length > 0
+    height: model.length * 30 < 240 * pt ? model.length * 30 : 240 * pt
 
 
     // --- UI
+    property int flickContY: 0
+
+    onSelectedIndexChanged:
+    {
+        if (selectedIndex == model.length - 1)
+            flickContY = model.length * 30 * pt - height
+        else
+        if (selectedIndex == 0)
+            flickContY = 0
+        else
+        if (selectedIndex * 30 > flickContY + height - 30 * pt)
+            flickContY += 30 * pt
+        else
+        if (selectedIndex * 30 - 30 * pt < flickContY)
+            flickContY -= 30 * pt
+    }
+
+    Flickable
+    {
+        anchors.fill: parent
+        contentHeight: container.model.length * 30
+        clip: true
+        contentY: flickContY
     Column {
         id: popup
         clip: true
-        height: model.length * 25
+        height: model.length * 30
         width: parent.width - 6
         anchors.centerIn: parent
 
@@ -74,7 +89,6 @@ Rectangle {
         Behavior on opacity {
             NumberAnimation { }
         }
-
         Repeater {
             id: repeater
             model: container.model
@@ -82,32 +96,28 @@ Rectangle {
                 id: delegateItem
                 property variant suggestion: model
 
-                height: 25 * pt
+                height: 25 
                 width: container.width
 
                 Rectangle
                 {
-                    radius: 16
-                    width: textComponent.width + 18
-                    height: textComponent.height
-                    x: textComponent.x - 9
-                    y: textComponent.y
+                    anchors.fill: parent
                     color: currTheme.hilightColorComboBox
-                    visible: index == selectedIndex
+                    visible: index === selectedIndex
                 }
 
                 Text {
                     id: textComponent
-                    color: index == selectedIndex ?  currTheme.hilightTextColorComboBox : currTheme.textColor
+                    color: index === selectedIndex ?  currTheme.hilightTextColorComboBox : currTheme.textColor
                     text: modelData.word
                     y: parent.height * 0.5 - height * 0.5
-                    x: 20 * pt
-                    font: mainFont.dapFont.regular16
+                    x: 20 
+                    font: mainFont.dapFont.regular14
 
                     Component.onCompleted:
                     {
                         if (maxLenIndex == index)
-                            container.width = width + 50 * pt
+                            container.width = width + 50 
                     }
                 }
 
@@ -116,6 +126,7 @@ Rectangle {
                     onClicked: container.wordSelected(modelData.str)
                 }
             }
+        }
         }
     }
 

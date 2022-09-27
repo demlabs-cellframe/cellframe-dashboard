@@ -11,7 +11,8 @@ struct CandleInfo
             {"open", open},
             {"close", close},
             {"minimum", minimum},
-            {"maximum", maximum} };
+            {"maximum", maximum},
+            {"average", average} };
     }
 
     qint64 time;
@@ -19,6 +20,7 @@ struct CandleInfo
     double close;
     double minimum;
     double maximum;
+    double average;
 };
 
 #endif // CANDLEINFO_H

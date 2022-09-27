@@ -6,40 +6,37 @@ import "qrc:/widgets"
 import "../parts"
 import "../../controls"
 
-Page {
+DapRectangleLitAndShaded {
     id: root
     property alias closeButton: itemButtonClose
     property alias certificateDataListView: certificateDataListView
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 15 * pt
+        spacing: 0
 
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -51,12 +48,9 @@ Page {
                 id: textHeader
                 text: qsTr("Info about certificate")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -65,14 +59,19 @@ Page {
 
         ListView {
             id: certificateDataListView
+            Layout.topMargin: 8
             Layout.fillWidth: true
             Layout.fillHeight: true
-            spacing: 22 * pt
+            Layout.leftMargin: 16
+            Layout.rightMargin: 16
+            spacing: 16
             clip: true
             model: models.certificateInfo
 
             delegate: TitleTextView {
-                x: 18 * pt
+                anchors.left: parent.left
+                anchors.right: parent.right
+
                 title.text: model.keyView
                 content.text:
                 {

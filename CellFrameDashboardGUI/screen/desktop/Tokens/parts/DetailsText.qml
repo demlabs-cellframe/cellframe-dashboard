@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Layouts 1.3
+import "qrc:/widgets"
 
 ColumnLayout {
     id: root
@@ -16,15 +17,15 @@ ColumnLayout {
         font: mainFont.dapFont.regular12
         color: currTheme.textColor
         width: parent.width
-        wrapMode: Text.Wrap
     }
 
-    Text {
+    DapBigText
+    {
         id: content
         Layout.fillWidth: true
-        font: mainFont.dapFont.regular14
-        color: currTheme.textColor
-        width: parent.width
-        wrapMode: Text.Wrap
+        Layout.maximumWidth: 318
+        Layout.minimumWidth: 318
+        height: textElement.implicitHeight
+        textFont: mainFont.dapFont.regular14
     }
 }   //

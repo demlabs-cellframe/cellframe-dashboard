@@ -18,9 +18,11 @@ Controls.DapTopPanel
     RowLayout
     {
         anchors.left: parent.left
+        anchors.right: parent.right
         anchors.leftMargin: 24
+        anchors.rightMargin: 24
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 18
+        spacing: 0
 
         Label
         {
@@ -50,115 +52,130 @@ Controls.DapTopPanel
             id: textHeaderWallet
             text: qsTr("Wallet: ")
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.textColorGray
             Layout.alignment: Qt.AlignVCenter
         }
-        Label
+        DapBigText
         {
             id: textNameWallet
-            text: dapModelWallets.get(logicMainApp.currentIndex).name
+            height: 42
+//            text: dapModelWallets.get(logicMainApp.currentIndex).name
             Layout.alignment: Qt.AlignVCenter
+            Layout.maximumWidth: 220
+            Layout.minimumWidth: 220
+//            Layout.leftMargin: 4
+            Layout.leftMargin: 19
+            fullText: dapModelWallets.get(logicMainApp.currentIndex).name
 
-            font: mainFont.dapFont.regular16
-            color: currTheme.textColor
+            textFont: mainFont.dapFont.regular14
         }
+
+//        DapCustomComboBox{
+//            id: textNameWallet
+////            width: 95
+//            Layout.minimumWidth: 220
+//            Layout.maximumWidth: 220
+//            font: mainFont.dapFont.regular14
+
+//            currentIndex: logicMainApp.currentIndex
+//            model: dapModelWallets
+
+//            backgroundColor: currTheme.backgroundMainScreen
+
+//            onCurrentIndexChanged: updateBalance()
+//        }
 
         // Static token text "Token: "
         Label
         {
             id: headerWalletToken
-            Layout.leftMargin: 40
+            Layout.leftMargin: 32
             text: "Token: "
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.textColorGray
         }
 
-        DapComboBox{
+        DapCustomComboBox{
             id: tokenComboBox
 //            width: 95
-            Layout.minimumWidth: 120
-            Layout.maximumWidth: 120
-            font: mainFont.dapFont.regular16
+            Layout.minimumWidth: 160
+            Layout.maximumWidth: 160
+            Layout.leftMargin: 4
+            font: mainFont.dapFont.regular14
+
+            backgroundColor: currTheme.backgroundMainScreen
 
             Component.onCompleted: {
                 updatePair()
-//                currentIndex = 0;
-//                updateBalance()
             }
 
             onCurrentIndexChanged: updateBalance()
-
-//            Connections{
-//                target: stockTab
-//                onFakeWalletChanged: tokenComboBox.updateBalance()
-//            }
-
-
-
-
-            background:
-            Item
-            {
-                anchors.fill: parent
-
-                Rectangle
-                {
-                    id: backGrnd
-                    border.width: 0
-                    anchors.fill: parent
-
-                    color: currTheme.backgroundMainScreen
-                }
-
-                DropShadow
-                {
-                    anchors.fill: backGrnd
-                    horizontalOffset: currTheme.hOffset
-                    verticalOffset: currTheme.vOffset
-                    radius: currTheme.radiusShadow
-                    color: currTheme.shadowColor
-                    source: backGrnd
-                    samples: 10
-                    cached: true
-                    visible: tokenComboBox.popup.visible
-                }
-
-                InnerShadow {
-                    anchors.fill: backGrnd
-                    horizontalOffset: 1
-                    verticalOffset: 1
-                    radius: 1
-                    samples: 10
-                    cached: true
-                    color: "#524D64"
-                    source: backGrnd
-                    spread: 0
-                    visible: tokenComboBox.popup.visible
-                }
-            }
+        }
+        Item{
+            Layout.minimumWidth: 160
+            Layout.maximumWidth: 160
+            Layout.leftMargin: 4
+            visible: !tokenComboBox.visible
         }
 
         // Static wallet balance text "Wallet balance"
         Label
         {
             id: headerWalletBalance
-            Layout.leftMargin: 40
+            Layout.leftMargin: 32
             text: qsTr("Token balance: ")
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.textColorGray
             Layout.alignment: Qt.AlignVCenter
         }
 
         // Dynamic wallet balance text
-        Text
-        {
-            id: textWalletBalance
-//            text: "$ 3 050 745.3453289 USD"
-//            text: tokenComboBox.currentBalance
 
-            font: mainFont.dapFont.regular16
-            color: currTheme.textColor
+        Item{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.leftMargin: 19
+            Layout.alignment: Qt.AlignLeft
+
+            DapBigText
+            {
+                id: textWalletBalance
+                anchors.fill: parent
+                textFont: mainFont.dapFont.regular16
+            }
         }
+//        Text
+//        {
+//            id: textWalletBalance
+
+//            Layout.fillWidth: true
+
+//            font: mainFont.dapFont.regular16
+//            color: currTheme.textColor
+
+//            elide: Text.ElideMiddle
+
+//            ToolTip
+//            {
+//                id:toolTip
+//                visible: area.containsMouse ?  parent.implicitWidth > parent.width ? true : false : false
+//                text: parent.text
+//                scale: mainWindow.scale
+
+//                contentItem: Text {
+//                        text: toolTip.text
+//                        font: mainFont.dapFont.regular14
+//                        color: currTheme.textColor
+//                    }
+//                background: Rectangle{color:currTheme.backgroundPanel}
+//            }
+//            MouseArea
+//            {
+//                id:area
+//                anchors.fill: parent
+//                hoverEnabled: true
+//            }
+//        }
     }
 
     Connections{
@@ -173,6 +190,11 @@ Controls.DapTopPanel
     {
         var modelWallet = dapModelWallets.get(logicMainApp.currentIndex)
         stockModelTokens.clear()
+
+//        print("updatePair",
+//              "logicMainApp.token1Name", logicMainApp.token1Name,
+//              "logicMainApp.token2Name", logicMainApp.token2Name,
+//              "logicMainApp.tokenNetwork", logicMainApp.tokenNetwork)
 
         for(var i = 0; i < modelWallet.networks.count; i++)
         {
@@ -199,6 +221,10 @@ Controls.DapTopPanel
             }
         }
 
+//        print("updatePair",
+//              "stockModelTokens.count", stockModelTokens.count)
+        updateBalance()
+
         if(stockModelTokens.count)
         {
             tokenComboBox.visible = true
@@ -211,16 +237,19 @@ Controls.DapTopPanel
         }
     }
 
-    function updateBalance(){
+    function updateBalance()
+    {
+        print("updateBalance",
+              "tokenComboBox.count", tokenComboBox.count)
 
         if(tokenComboBox.count)
         {
-            textWalletBalance.text = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
             logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
-            logicStock.selectedTokenBalanceWallet = textWalletBalance.text
+            logicStock.selectedTokenBalanceWallet = textWalletBalance.fullText
         }
 
-        if(tokenComboBox.count == 2)
+        if(tokenComboBox.count === 2)
         {
             var unselectedIndex = tokenComboBox.currentIndex === 1 ? 0 : 1
 

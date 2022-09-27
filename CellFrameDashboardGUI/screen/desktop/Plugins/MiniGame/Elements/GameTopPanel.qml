@@ -6,9 +6,9 @@ ColumnLayout {
 
     ProgressBar
     {
-        Layout.topMargin: 10 * pt
-        Layout.preferredWidth: 300 * pt
-        Layout.preferredHeight: 60 * pt
+        Layout.topMargin: 10 
+        Layout.preferredWidth: 300 
+        Layout.preferredHeight: 60 
         Layout.alignment:  Qt.AlignTop | Qt.AlignHCenter
     }
 
@@ -21,15 +21,15 @@ ColumnLayout {
     RowLayout
     {
         Layout.fillWidth: true
-        Layout.leftMargin: 10 * pt
-        Layout.rightMargin: 10 * pt
-        spacing: 10 * pt
+        Layout.leftMargin: 10 
+        Layout.rightMargin: 10 
+        spacing: 10 
 
         Rectangle
         {
             Layout.alignment: Qt.AlignLeft
-            Layout.preferredHeight: 70 * pt
-            Layout.preferredWidth: 70 * pt
+            Layout.preferredHeight: 70 
+            Layout.preferredWidth: 70 
         }
         Item {
             Layout.fillWidth: true
@@ -37,14 +37,14 @@ ColumnLayout {
         Rectangle
         {
             Layout.alignment: Qt.AlignRight
-            Layout.preferredHeight: 70 * pt
-            Layout.preferredWidth: 70 * pt
+            Layout.preferredHeight: 70 
+            Layout.preferredWidth: 70 
         }
         Rectangle
         {
             Layout.alignment: Qt.AlignRight
-            Layout.preferredHeight: 70 * pt
-            Layout.preferredWidth: 70 * pt
+            Layout.preferredHeight: 70 
+            Layout.preferredWidth: 70 
         }
     }
 

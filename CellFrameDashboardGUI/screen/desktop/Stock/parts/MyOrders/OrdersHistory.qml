@@ -25,7 +25,7 @@ Item
             anchors.bottomMargin: 10
 
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Orders history")
+            text: qsTr("Order history")
             font:  mainFont.dapFont.bold14
             color: currTheme.textColor
         }

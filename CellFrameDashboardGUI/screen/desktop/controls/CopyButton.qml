@@ -9,8 +9,8 @@ import QtQml 2.12
 Item
 {
     id: root
-    width: 17 * pt
-    height: 18 * pt
+    width: 16
+    height: 17
 
     signal copyClicked()
 
@@ -34,7 +34,11 @@ Item
 //            popup.opacity = 0
 //            popup.open()
 //            popup.opacity = 1
-            dapMainWindow.openCopyPopup()
+            dapMainWindow.infoItem.showInfo(
+                        dapMainWindow.width*0.5,
+                        8,
+                        qsTr("Address copied"),
+                        "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
             copyClicked()
 //            delay(1000,function() {
 //                popup.opacity = 0;
@@ -45,13 +49,13 @@ Item
 //    Popup
 //    {
 //        id: popup
-//        width: 140 * pt
-//        height: 40 * pt
+//        width: 140 
+//        height: 40 
 //        scale: mainWindow.scale
 
 ////        parent: root.parent
 
-////        x: root.x + root.width + 5 * pt
+////        x: root.x + root.width + 5 
 ////        y: root.y + root.height * 0.5 - height * 0.5
 
 //    //        parent: root
@@ -67,9 +71,9 @@ Item
 
 //        background: Rectangle
 //        {
-//            border.width: 1 * pt
+//            border.width: 1 
 //            border.color: currTheme.lineSeparatorColor
-//            radius: 16 * pt
+//            radius: 16 
 //            color: currTheme.backgroundElements
 //        }
 
@@ -79,7 +83,7 @@ Item
 //            color: currTheme.textColor
 
 //            y: parent.height * 0.5 - height * 0.5
-//            x: 2 * pt
+//            x: 2 
 //            text: "Address copied"
 //        }
 
@@ -88,7 +92,7 @@ Item
 //            innerWidth: 20
 //            innerHeight: 20
 //            y: parent.height * 0.5 - height * 0.5
-//            x: parent.width - width - 2 * pt
+//            x: parent.width - width - 2 
 ////            mipmap: true
 //            source: "qrc:/resources/icons/" + pathTheme + "/check_icon.png"
 //        }

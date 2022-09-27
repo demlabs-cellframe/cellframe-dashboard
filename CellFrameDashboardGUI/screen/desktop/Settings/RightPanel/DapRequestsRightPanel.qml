@@ -5,14 +5,17 @@ import QtQuick.Controls 2.5
 import "../../controls"
 import "qrc:/widgets"
 
-Page {
-    background: Rectangle {
-        color: "transparent"
-    }
+DapRectangleLitAndShaded {
 
     Component.onCompleted: {logicMainApp.isOpenRequests = true; webPopup.clearAndClose()}
     Component.onDestruction: logicMainApp.isOpenRequests = false
 
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
+
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -21,23 +24,18 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 24 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -51,14 +49,11 @@ Page {
                 id: textHeader
                 text: qsTr("Requests")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
-                font: mainFont.dapFont.medium14
+                font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
         }
@@ -67,7 +62,7 @@ Page {
         {
             color: currTheme.backgroundMainScreen
             Layout.fillWidth: true
-            height: 30 * pt
+            height: 30 
             Text
             {
                 color: currTheme.textColor
@@ -76,9 +71,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 16 * pt
-                anchors.topMargin: 20 * pt
-                anchors.bottomMargin: 5 * pt
+                anchors.leftMargin: 16
             }
         }
 
@@ -156,7 +149,7 @@ Page {
                                 implicitHeight: 26
 
                                 textButton: qsTr("Allow")
-                                fontButton: mainFont.dapFont.regular14
+                                fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 onClicked:{
                                    dapServiceController.notifyService("DapWebConnectRequest",true, indexRequest)
@@ -171,7 +164,7 @@ Page {
                                 implicitHeight: 26
 
                                 textButton: qsTr("Deny")
-                                fontButton: mainFont.dapFont.regular14
+                                fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 onClicked: {
                                     dapServiceController.notifyService("DapWebConnectRequest",false, indexRequest)

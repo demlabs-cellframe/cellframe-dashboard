@@ -5,16 +5,18 @@ import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
 
-Page
+DapRectangleLitAndShaded
 {
     id:control
 
     property alias dapLastActionsView: lastActionsView
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -23,17 +25,16 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             Text
             {
-                anchors.fill: parent
-                anchors.leftMargin: 14 * pt
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 10 * pt
+                verticalAlignment: Qt.AlignLeft
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
-                verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Last actions")
             }
         }
@@ -56,23 +57,20 @@ Page
             delegate: Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: 5 * pt
-                anchors.rightMargin: 5 * pt
-                width: lastActionsView.width
-//                color: currTheme.backgroundElements
-                height: 50 * pt
+
+                height: 50 
 
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.rightMargin: 16 * pt
-                    anchors.leftMargin: 16 * pt
+                    anchors.rightMargin: 16
+                    anchors.leftMargin: 16
 
                     ColumnLayout
                     {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        spacing: 2 * pt
+                        spacing: 3
 
                         Text
                         {
@@ -92,16 +90,18 @@ Page
                         }
                     }
 
-                    Text
+
+                    DapBigText
                     {
                         property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        horizontalAlignment: Qt.AlignRight
-                        verticalAlignment: Qt.AlignVCenter
-                        color: currTheme.textColor
-                        text: sign + amount + " " + name
-                        font: mainFont.dapFont.regular14
+                        horizontalAlign: Qt.AlignRight
+                        verticalAlign: Qt.AlignVCenter
+                        fullText: sign + amount + " " + name
+                        textFont: mainFont.dapFont.regular14
+
+                        width: 160
                     }
                     Image
                     {
@@ -110,7 +110,7 @@ Page
     //                    innerWidth: 20
     //                    innerHeight: 20
 
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena"  ? true : false
+                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
 
                         source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
 
@@ -119,7 +119,7 @@ Page
                             id: mouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + hash)
+                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
                         }
                     }
                 }
@@ -127,7 +127,7 @@ Page
                 Rectangle
                 {
                     width: parent.width
-                    height: 1 * pt
+                    height: 1 
                     color: currTheme.lineSeparatorColor
                     anchors.bottom: parent.bottom
                 }

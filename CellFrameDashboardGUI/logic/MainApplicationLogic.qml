@@ -7,6 +7,8 @@ QtObject {
     property var  activePlugin: ""
     property var currentNetwork: -1
 
+    property string nodeVersion:""
+
     //wallets create param
     property bool restoreWalletMode: false
     property string currentTab: params.isMobile ? "" : mainScreenStack.currPage
@@ -32,6 +34,10 @@ QtObject {
     property string token2Name: ""
     property string tokenNetwork: ""
     property real tokenPrice
+    property string tokenPriceText
+
+    property bool simulationStock: false
+    property int currentRoundPowerIndex: 0
 
     ///Functions
 
@@ -374,7 +380,8 @@ QtObject {
     {
         if(rcvData !== "isEqual")
         {
-            stockDataWorker.setBookModel(rcvData)
+            if (!simulationStock)
+                stockDataWorker.setBookModel(rcvData)
 
             var jsonDocument = JSON.parse(rcvData)
             dapModelXchangeOrders.clear()
@@ -410,10 +417,11 @@ QtObject {
 
     function rcvPairsModel(rcvData)
     {
+//        console.log("rcvPairsModel", rcvData)
+
         if(rcvData !== "isEqual")
         {
             var jsonDocument = JSON.parse(rcvData)
-
 
             if(dapPairModel.count > 0)
             {
@@ -472,7 +480,8 @@ QtObject {
     {
         if(rcvData !== "")
         {
-            stockDataWorker.setTokenPriceHistory(rcvData)
+            if (!simulationStock)
+                stockDataWorker.setTokenPriceHistory(rcvData)
 
             var jsonDocument = JSON.parse(rcvData)
 
@@ -568,6 +577,27 @@ QtObject {
                 break;
             }
         }
+
+        var isContains = false;
+        for(var j = 0; j < dapWebSites.count; j++)
+        {
+            if(dapWebSites.get(j).site === rcvData[0])
+            {
+                isContains = true
+                if(!dapWebSites.get(j).enabled)
+                {
+                    dapServiceController.notifyService("DapWebConnectRequest",false, rcvData[1])
+                    dapMessageLogBuffer.append({infoText: "The site " + rcvData[0] + " requests permission to exchange work with the wallet",
+                                                date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
+                                                reply: "Denied"})
+                    return
+                }
+            }
+        }
+
+        if(!isContains)
+            dapWebSites.append({site:rcvData[0],
+                                enabled: true})
 
         if(!isEqual)
         {

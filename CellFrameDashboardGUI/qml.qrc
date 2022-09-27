@@ -22,14 +22,12 @@
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanelForm.ui.qml</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
         <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
         <file>screen/desktop/Certificates/CertificatesModels.qml</file>
         <file>screen/desktop/Certificates/CertificatesListView.qml</file>
         <file>screen/desktop/Certificates/CertificatesActionsButtonList.qml</file>
         <file>screen/desktop/Certificates/parts/TextInputFilter.qml</file>
-        <file>screen/desktop/Certificates/parts/InputField.qml</file>
         <file>screen/desktop/Certificates/models/FindDelegateModel.qml</file>
         <file>screen/desktop/Certificates/CertificatesLogic.qml</file>
         <file>screen/desktop/Certificates/parts/TitleTextView.qml</file>
@@ -134,7 +132,6 @@
         <file>screen/desktop/controls/DapPage.qml</file>
         <file>screen/desktop/controls/DapPageElement.qml</file>
         <file>screen/desktop/controls/DapScreenPage.qml</file>
-        <file>screen/desktop/controls/DapTextField.qml</file>
         <file>screen/desktop/controls/DapTopPanel.qml</file>
         <file>screen/desktop/controls/SearchInputBox.qml</file>
         <file>screen/desktop/controls/TextInputFilter.qml</file>
@@ -215,7 +212,6 @@
         <file>Resources/BlackTheme/icons/other/on_off.svg</file>
         <file>Resources/BlackTheme/icons/other/radio_btn_off.png</file>
         <file>Resources/BlackTheme/icons/other/radio_btn_on.png</file>
-        <file>Resources/BlackTheme/icons/other/receipt.svg</file>
         <file>Resources/BlackTheme/icons/other/receipt_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/search.svg</file>
         <file>Resources/BlackTheme/icons/other/sync.svg</file>
@@ -266,9 +262,9 @@
         <file>screen/desktop/Tokens/RightPanel/InfoAboutToken.qml</file>
         <file>screen/desktop/Tokens/RightPanel/CreateNewToken.qml</file>
         <file>screen/desktop/Tokens/parts/TitleTextView.qml</file>
+        <file>Resources/ui_menu_light.png</file>
         <file>screen/desktop/Stock/parts/MyOrders/MyOrdersTab.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/DefaultRightPanel.qml</file>
-        <file>screen/desktop/Stock/parts/MyOrders/OpenOrders.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/OrdersHistory.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/parts/HeaderLabel.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml</file>
@@ -285,7 +281,29 @@
         <file>Resources/BlackTheme/icons/other/Arrow.png</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml</file>
+        <file>Resources/ui_menu_light.png</file>
         <file>screen/desktop/Tokens/parts/DetailsText.qml</file>
         <file>screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapLinksBlock.qml</file>
+        <file>screen/desktop/controls/DapRightPanelDone.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrowDown.svg</file>
+        <file>screen/desktop/Stock/parts/MyOrders/AllOrders.qml</file>
+        <file>screen/desktop/Stock/parts/MyOrders/MyOrders.qml</file>
+        <file>screen/desktop/Stock/parts/MyOrders/RightPanels/BuySellPanel.qml</file>
+        <file>screen/desktop/controls/TwoTextBlocks.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/Receipts.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/Refund.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/TopUp.qml</file>
+        <file>screen/desktop/VPNClient/RightPanel/VPNOrders.qml</file>
+        <file>screen/desktop/VPNClient/Parts/ChartPanel.qml</file>
+        <file>screen/desktop/VPNClient/Parts/CheckersPanel.qml</file>
+        <file>screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml</file>
+        <file>screen/desktop/VPNClient/Parts/RightStackView.qml</file>
+        <file>screen/desktop/VPNClient/Parts/StatisticsPanel.qml</file>
+        <file>screen/desktop/VPNClient/Images/check.png</file>
+        <file>screen/desktop/VPNClient/Images/page.png</file>
+        <file>screen/desktop/VPNClient/Images/page-hov.png</file>
+        <file>Resources/BlackTheme/icons/other/receipt_normal.svg</file>
     </qresource>
 </RCC>

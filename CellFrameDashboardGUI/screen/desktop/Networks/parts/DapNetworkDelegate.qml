@@ -19,7 +19,7 @@ Component {
             id:content
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 5 * pt
+            spacing: 5 
 
             Item {
                 Layout.fillWidth: true
@@ -39,10 +39,10 @@ Component {
             Image{
                 id:img
                 Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: 8 * pt
-                Layout.preferredWidth: 8 * pt
-                width: 8 * pt
-                height: 8 * pt
+                Layout.preferredHeight: 8 
+                Layout.preferredWidth: 8 
+                width: 8 
+                height: 8 
                 mipmap: true
 
                 source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :

@@ -11,27 +11,20 @@ Controls.DapTopPanel
     property alias dapNewPayment: newPaymentButton
     property alias dapFrameTitle: frameTitleCreateWallet
 
-    Item
+
+    Widgets.DapBigText
     {
+        id: frameTitleCreateWallet
         anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: 34 * pt
-        anchors.topMargin: 19 * pt
-        anchors.bottomMargin: 18
+        anchors.leftMargin: 24
         anchors.right: newPaymentButton.left
-        anchors.rightMargin: 100 * pt
-        Text
-        {
-            id: frameTitleCreateWallet
-            anchors.fill: parent
-            anchors.horizontalCenter: parent.horizontalCenter
-            font:mainFont.dapFont.medium18
-            color: currTheme.textColor
-            elide: Text.ElideMiddle
-//            text: qsTr("Name of my wallet")
-        }
+        anchors.rightMargin: 100
+        height: 30
+        anchors.verticalCenter: parent.verticalCenter
+
+        textFont: mainFont.dapFont.medium18
     }
+
 
     // Payment button
     Widgets.DapButton
@@ -39,12 +32,11 @@ Controls.DapTopPanel
         id: newPaymentButton
         textButton: "Send"
         anchors.right: parent.right
-        anchors.rightMargin: 24 * pt
-        anchors.top: parent.top
-        anchors.topMargin: 14 * pt
+        anchors.rightMargin: 24
+
         anchors.verticalCenter: parent.verticalCenter
-        implicitHeight: 38 * pt
-        implicitWidth: 163 * pt
+        implicitHeight: 36
+        implicitWidth: 164
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
         visible: frameTitleCreateWallet.text === "" ? false : true

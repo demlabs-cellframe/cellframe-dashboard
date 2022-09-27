@@ -25,22 +25,22 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
                 anchors.right: textHeader.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 10 * pt
-                anchors.bottomMargin: 7 * pt
-                anchors.leftMargin: 21 * pt
-                anchors.rightMargin: 13 * pt
+                anchors.topMargin: 10 
+                anchors.bottomMargin: 7 
+                anchors.leftMargin: 21 
+                anchors.rightMargin: 13 
 
                 id: itemButtonClose
-                height: 20 * pt
-                width: 20 * pt
-                heightImage: 20 * pt
-                widthImage: 20 * pt
+                height: 20 
+                width: 20 
+                heightImage: 20 
+                widthImage: 20 
 
                 normalImage: "qrc:/Resources/"+pathTheme+"/icons/other/cross.svg"
                 hoverImage:  "qrc:/Resources/"+pathTheme+"/icons/other/cross_hover.svg"
@@ -55,9 +55,9 @@ Page {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                anchors.topMargin: 12 * pt
-                anchors.bottomMargin: 8 * pt
-                anchors.leftMargin: 52 * pt
+                anchors.topMargin: 12 
+                anchors.bottomMargin: 8 
+                anchors.leftMargin: 52 
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -68,7 +68,7 @@ Page {
             id:frameUsers
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Text
             {
                 id: textUsers
@@ -78,7 +78,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
+                anchors.leftMargin: 15 
                 anchors.topMargin: 8
                 anchors.bottomMargin: 7
             }
@@ -86,7 +86,7 @@ Page {
         Rectangle
         {
             id: frameTotalUsers
-            height: 41 * pt
+            height: 41 
             color: "transparent"
             Layout.fillWidth: true
             Layout.bottomMargin: 10
@@ -103,7 +103,7 @@ Page {
             id: frameNowUsers
             Layout.fillWidth: true
             Layout.bottomMargin: 10
-            height: 41 * pt
+            height: 41 
             color: "transparent"
             DapOrderPanelButton
             {
@@ -118,7 +118,7 @@ Page {
             id: frameConnectionHistory
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Text
             {
                 id: textRegion
@@ -128,7 +128,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
+                anchors.leftMargin: 15 
                 anchors.topMargin: 8
                 anchors.bottomMargin: 7
             }
@@ -138,7 +138,7 @@ Page {
             id: frameLastConnection
             Layout.fillWidth: true
             Layout.bottomMargin: 10
-            height: 50 * pt
+            height: 50 
             color: "transparent"
 
             DapOrderPanelButton
@@ -154,7 +154,7 @@ Page {
             id: frameLoad
             Layout.fillWidth: true
             color: currTheme.backgroundMainScreen
-            height: 30 * pt
+            height: 30 
             Text
             {
                 id: textUnits
@@ -164,7 +164,7 @@ Page {
                 horizontalAlignment: Text.AlignLeft
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                anchors.leftMargin: 15 * pt
+                anchors.leftMargin: 15 
                 anchors.topMargin: 8
                 anchors.bottomMargin: 7
             }
@@ -174,7 +174,7 @@ Page {
             id: frameAverageLoad
             Layout.fillWidth: true
             Layout.bottomMargin: 10
-            height: 41 * pt
+            height: 41 
             color: "transparent"
 
             DapOrderPanelButton
@@ -190,7 +190,7 @@ Page {
             id: frameAverageReceipt
             Layout.fillWidth: true
             Layout.bottomMargin: 10
-            height: 41 * pt
+            height: 41 
             color: "transparent"
 
             DapOrderPanelButton

@@ -28,7 +28,7 @@ Popup {
     	{
     	    anchors.fill: parent
             color: "transparent"
-            radius: 16 * pt
+            radius: 16 
         }
 }
 

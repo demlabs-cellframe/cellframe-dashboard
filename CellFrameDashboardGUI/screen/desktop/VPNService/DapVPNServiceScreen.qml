@@ -27,10 +27,10 @@ Page {
     {
         id: orderCreateFrame
         anchors.fill: parent
-//        anchors.topMargin: 41 * pt
-        anchors.leftMargin: 301 * pt
-        anchors.rightMargin: 281 * pt
-        anchors.bottomMargin: 131 * pt
+//        anchors.topMargin: 41 
+        anchors.leftMargin: 301 
+        anchors.rightMargin: 281 
+        anchors.bottomMargin: 131 
         anchors.topMargin: 50
 
         color: "transparent"
@@ -38,8 +38,8 @@ Page {
 
         Column
         {
-            y: 50 * pt
-            x: 40 * pt
+            y: 50 
+            x: 40 
             anchors.horizontalCenter: parent.horizontalCenter
 
             Item
@@ -52,15 +52,15 @@ Page {
                     anchors.fill: parent
                     id: iconCreateWallet
                     source: "qrc:/Resources/" + pathTheme + "/Illustratons/illustration_vpn-service.svg"
-                    sourceSize.width: 500 * pt
-                    sourceSize.height: 261 * pt
+                    sourceSize.width: 500 
+                    sourceSize.height: 261 
                     fillMode: Image.PreserveAspectFit
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
             Item
             {
-                height: 30 * pt
+                height: 30 
                 width: parent.width
             }
 
@@ -74,7 +74,7 @@ Page {
             }
             Item
             {
-                height: 21 * pt
+                height: 21 
                 width: parent.width
             }
             DapButton
@@ -83,8 +83,8 @@ Page {
                 id: addOrderButton
 
 
-                implicitWidth: 165 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 165 
+                implicitHeight: 36 
                 anchors.horizontalCenter: parent.horizontalCenter
                 textButton: qsTr("New VPN order")
                 fontButton: mainFont.dapFont.medium14
@@ -117,7 +117,7 @@ Page {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             font.family: "Quiksand"
-            font.pixelSize: 26 * pt
+            font.pixelSize: 26 
             color: currTheme.textColor
             text: qsTr("Creating VPN order in process...")
         }
@@ -128,7 +128,7 @@ Page {
     DapRectangleLitAndShaded
     {
         property int halfMargin: margin * 0.5
-        property int margin: 14 * pt
+        property int margin: 14 
 
         id: gridViewOrder
         anchors.fill: parent
@@ -156,7 +156,7 @@ Page {
                 id: vpnOrdersView
 
                 anchors { left: parent.left; top: textMyVPNOrders.bottom; right: parent.right; bottom: parent.bottom }
-                anchors.leftMargin: 27 * pt
+                anchors.leftMargin: 27 
                 delegateMargin: gridViewOrder.halfMargin
             }
         }

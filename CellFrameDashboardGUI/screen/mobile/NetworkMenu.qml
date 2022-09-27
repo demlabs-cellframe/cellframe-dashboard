@@ -40,12 +40,12 @@ Drawer {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: 47 * pt
+            Layout.preferredHeight: 47 
 
             RowLayout
             {
                 anchors.fill: parent
-                anchors.rightMargin: 10 * pt
+                anchors.rightMargin: 10 
                 Item {
                     Layout.fillWidth: true
                 }
@@ -53,23 +53,23 @@ Drawer {
 
                 Text {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
-                    Layout.rightMargin: 100 * pt
+                    Layout.rightMargin: 100 
                     text: qsTr("Networks")
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium18
                 }
                 Image {
                     smooth: true
-                    Layout.maximumWidth: 30 * pt
-                    Layout.maximumHeight: 30 * pt
+                    Layout.maximumWidth: 30 
+                    Layout.maximumHeight: 30 
                     fillMode: Image.PreserveAspectFit
                     source: "Icons/NetIconLightGreen.png"
                 }
 
 /*                DapImageLoader {
                     Layout.alignment: Qt.AlignVCenter
-                    innerWidth: 30 * pt
-                    innerHeight: 30 * pt
+                    innerWidth: 30 
+                    innerHeight: 30 
 //                    fillMode: Image.PreserveAspectFit
                     source: "qrc:/mobile/Icons/NetIconLightGreen.png"
                 }*/
@@ -96,7 +96,7 @@ Drawer {
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
-            spacing: 20 * pt
+            spacing: 20 
             model: mainNetworkModel
             delegate:NetworkDelegate{}
         }

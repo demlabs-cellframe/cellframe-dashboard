@@ -54,8 +54,8 @@
 #include "handlers/DapGetXchangeTokenPair.h"
 #include "handlers/DapGetXchangeTokenPriceAverage.h"
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
+#include "handlers/DapGetWordBook.h"
 #include "handlers/DapXchangeOrderPurchase.h"
-
 
 class DapServiceController : public QObject
 {
@@ -147,9 +147,9 @@ public:
 
     Q_INVOKABLE void setReadingChains(bool bReadingChains);
 
-    QByteArray s_bufferTokensJson;
-    QByteArray s_bufferOrdersJson;
-    QByteArray s_bufferPairJson;
+//    QByteArray s_bufferTokensJson;
+//    QByteArray s_bufferOrdersJson;
+//    QByteArray s_bufferPairJson;
 
 public slots:
     void requestWalletList();
@@ -260,6 +260,8 @@ signals:
     void notifyReceived(const QVariant& rcvData);
     void dapWebConnectRequest(const QVariant& rcvData);
 //    void replyClientRequestConnect(QString, int);
+
+    void rcvWordBook(const QVariant& rcvData);
 
 private slots:
     /// Register command.
