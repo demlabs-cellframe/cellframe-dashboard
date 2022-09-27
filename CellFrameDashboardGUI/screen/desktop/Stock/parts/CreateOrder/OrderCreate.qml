@@ -85,7 +85,7 @@ Page
             }
         }
 
-        ChartTextBlock
+        TwoTextBlocks
         {
             Layout.fillWidth: true
             Layout.leftMargin: 16

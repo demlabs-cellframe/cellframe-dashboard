@@ -248,7 +248,7 @@ Item
                 height: 30
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.textColorGreen
-                outSymbols: 30
+                outSymbols: 15
                 fullNumber: stockDataWorker.currentTokenPriceText
                 copyButtonVisible: true
             }
@@ -343,7 +343,8 @@ Item
             ChartTextBlock
             {
                 id: textDate
-                Layout.minimumWidth: 105
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 labelVisible: false
                 text: "-"
                 textColor: currTheme.textColorGray
@@ -352,7 +353,8 @@ Item
             ChartTextBlock
             {
                 id: textOpen
-                Layout.minimumWidth: 105
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 label: qsTr("Open:")
                 text: "-"
             }
@@ -360,28 +362,32 @@ Item
             ChartTextBlock
             {
                 id: textHigh
-                Layout.minimumWidth: 100
+                Layout.preferredWidth: 95
+                Layout.fillWidth: true
                 label: qsTr("High:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textLow
-                Layout.minimumWidth: 95
+                Layout.preferredWidth: 90
+                Layout.fillWidth: true
                 label: qsTr("Low:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textClose
-                Layout.minimumWidth: 105
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 label: qsTr("Close:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textChange
-                Layout.minimumWidth: 95
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 label: qsTr("Change:")
                 text: "-"
             }

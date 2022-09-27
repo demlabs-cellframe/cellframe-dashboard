@@ -123,7 +123,7 @@ Page
                                 anchors.rightMargin: 16
                                 spacing: 0
 
-                                DapBigNumberText
+                                DapBigText
                                 {
                                     id: nameText
                                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
@@ -131,9 +131,7 @@ Page
                                     width: nameText.textElement.implicitWidth
                                     height: 40
                                     textFont: mainFont.dapFont.regular14
-                                    fullNumber: name
-                                    copyButtonVisible: false
-                                    isAutoOutText: true
+                                    fullText: name
                                 }
 
                                 DapSwitch

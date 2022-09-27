@@ -12,7 +12,7 @@ Controls.DapTopPanel
     property alias dapFrameTitle: frameTitleCreateWallet
 
 
-    Widgets.DapBigNumberText
+    Widgets.DapBigText
     {
         id: frameTitleCreateWallet
         anchors.left: parent.left
@@ -22,8 +22,6 @@ Controls.DapTopPanel
         height: 30
         anchors.verticalCenter: parent.verticalCenter
 
-        copyButtonVisible: false
-        isAutoOutText: true
         textFont: mainFont.dapFont.medium18
     }
 

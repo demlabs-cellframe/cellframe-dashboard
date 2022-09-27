@@ -62,38 +62,7 @@ DapRectangleLitAndShaded {
             }
         }
 
-/*        RowLayout
-        {
-            Layout.fillWidth: true
-            Layout.leftMargin: 16
-            Layout.topMargin: 10
-
-            Text
-            {
-                id: labelItem
-                text: qsTr("Balance:")
-                font: mainFont.dapFont.regular13
-                color: currTheme.textColorGray
-            }
-
-            DapBigNumberText
-            {
-                id: textItem
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.rightMargin: 16
-                isAutoOutText: true
-                textFont: mainFont.dapFont.regular13
-                textColor: currTheme.textColorGray
-        //        outSymbols: 30
-
-        //        fullNumber: "0"
-                copyButtonVisible: false
-            }
-
-        }*/
-
-        ChartTextBlock
+        TwoTextBlocks
         {
             Layout.fillWidth: true
             Layout.maximumHeight: 20

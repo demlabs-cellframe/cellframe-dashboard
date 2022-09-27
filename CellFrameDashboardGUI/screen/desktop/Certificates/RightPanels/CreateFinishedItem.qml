@@ -15,7 +15,7 @@ DapRightPanelDone {
     property string titleText
     property string contentText
 
-    hederText: titleText
+    headerText: titleText
     messageText: contentText
 
     doneButton.textButton: {if (accept) return qsTr("Done")

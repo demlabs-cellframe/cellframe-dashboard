@@ -5,7 +5,7 @@ import "../../../controls"
 
 DapRightPanelDone {
 
-    hederText: qsTr("Order created\nsuccessfully!")
+    headerText: qsTr("Order created\nsuccessfully!")
     messageText: qsTr("Click on «My orders» to view\nthe status of your order")
 
     doneButton.onClicked: goToRightHome()
@@ -15,12 +15,12 @@ DapRightPanelDone {
         if(commandResult.success)
         {
             messageImage = iconOk
-            hederText = qsTr("Order created\nsuccessfully!")
+            headerText = qsTr("Order created\nsuccessfully!")
         }
         else
         {
             messageImage = iconBad
-            hederText = qsTr("Order creation\nerror!")
+            headerText = qsTr("Order creation\nerror!")
             messageText = qsTr(logicStock.resultCreate.message)
         }
     }

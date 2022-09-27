@@ -233,14 +233,12 @@ ColumnLayout
 //                            Layout.rightMargin: 110
                             height: 14
 
-                            DapBigNumberText
+                            DapBigText
                             {
                                 id: nameText
                                 anchors.fill: parent
                                 textFont: mainFont.dapFont.regular11
-                                fullNumber: name
-                                copyButtonVisible: false
-                                isAutoOutText: true
+                                fullText: name
                             }
                         }
 

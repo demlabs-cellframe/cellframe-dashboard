@@ -55,7 +55,7 @@ Controls.DapTopPanel
             color: currTheme.textColorGray
             Layout.alignment: Qt.AlignVCenter
         }
-        DapBigNumberText
+        DapBigText
         {
             id: textNameWallet
             height: 42
@@ -65,10 +65,8 @@ Controls.DapTopPanel
             Layout.minimumWidth: 220
 //            Layout.leftMargin: 4
             Layout.leftMargin: 19
-            fullNumber: dapModelWallets.get(logicMainApp.currentIndex).name
+            fullText: dapModelWallets.get(logicMainApp.currentIndex).name
 
-            copyButtonVisible: false
-            isAutoOutText: true
             textFont: mainFont.dapFont.regular14
         }
 
@@ -139,13 +137,11 @@ Controls.DapTopPanel
             Layout.leftMargin: 19
             Layout.alignment: Qt.AlignLeft
 
-            DapBigNumberText
+            DapBigText
             {
                 id: textWalletBalance
                 anchors.fill: parent
                 textFont: mainFont.dapFont.regular16
-                copyButtonVisible: false
-                isAutoOutText: true
             }
         }
 //        Text
@@ -248,9 +244,9 @@ Controls.DapTopPanel
 
         if(tokenComboBox.count)
         {
-            textWalletBalance.fullNumber = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
             logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
-            logicStock.selectedTokenBalanceWallet = textWalletBalance.fullNumber
+            logicStock.selectedTokenBalanceWallet = textWalletBalance.fullText
         }
 
         if(tokenComboBox.count === 2)

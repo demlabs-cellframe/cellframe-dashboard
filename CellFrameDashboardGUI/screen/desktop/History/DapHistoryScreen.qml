@@ -152,16 +152,14 @@ Page
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    DapBigNumberText
+                    DapBigText
                     {
                         id: lblAmount
                         property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular14
-                        fullNumber: sign + amount + " " + name
+                        fullText: sign + amount + " " + name
                         horizontalAlign: Text.AlignRight
-                        copyButtonVisible: false
-                        isAutoOutText: true
                     }
                 }
 

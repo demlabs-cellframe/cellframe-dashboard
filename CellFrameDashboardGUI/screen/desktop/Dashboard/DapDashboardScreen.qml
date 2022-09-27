@@ -299,15 +299,13 @@ Page
                                         Layout.fillWidth: true
                                         Layout.fillHeight: true
 
-                                        DapBigNumberText
+                                        DapBigText
                                         {
                                             id: currencySum
                                             anchors.fill: parent
                                             textFont: mainFont.dapFont.regular14
-                                            fullNumber: balance_without_zeros
+                                            fullText: balance_without_zeros
                                             horizontalAlign: Text.AlignRight
-                                            copyButtonVisible: false
-                                            isAutoOutText: true
                                         }
                                     }
 

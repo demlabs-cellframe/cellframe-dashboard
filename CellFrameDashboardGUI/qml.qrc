@@ -289,5 +289,6 @@
         <file>screen/desktop/Stock/parts/MyOrders/AllOrders.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/MyOrders.qml</file>
         <file>screen/desktop/Stock/parts/MyOrders/RightPanels/BuySellPanel.qml</file>
+        <file>screen/desktop/controls/TwoTextBlocks.qml</file>
     </qresource>
 </RCC>

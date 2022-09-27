@@ -178,14 +178,6 @@ Item
                     tokenName: list.model.get(index).side === "buy" ?
                                     list.model.get(index).tokenSell : list.model.get(index).tokenBuy
                     copyButtonVisible: true
-
-                    Component.onCompleted:
-                    {
-                        print("DapBigNumberText1",
-                              side, price, available, limit, tokenSell, tokenBuy)
-                        print("fullNumber",
-                              fullNumber, list.model.get(index).price)
-                    }
                 }
 
                 DapBigNumberText

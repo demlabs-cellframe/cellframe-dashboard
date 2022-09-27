@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.4
 import "qrc:/widgets"
 
 DapRectangleLitAndShaded {
-    property alias hederText: textHeader.text
+    property alias headerText: textHeader.text
     property alias messageText: textMessage.text
     property alias doneButton: buttonDone
     property alias messageImage: imageMessage.source

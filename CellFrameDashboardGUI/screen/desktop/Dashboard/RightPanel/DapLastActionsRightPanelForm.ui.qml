@@ -91,17 +91,15 @@ DapRectangleLitAndShaded
                     }
 
 
-                    DapBigNumberText
+                    DapBigText
                     {
                         property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
                         horizontalAlign: Qt.AlignRight
                         verticalAlign: Qt.AlignVCenter
-                        fullNumber: sign + amount + " " + name
+                        fullText: sign + amount + " " + name
                         textFont: mainFont.dapFont.regular14
-                        copyButtonVisible: false
-                        isAutoOutText: true
 
                         width: 160
                     }

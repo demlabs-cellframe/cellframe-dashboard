@@ -19,7 +19,7 @@ ColumnLayout {
         width: parent.width
     }
 
-    DapBigNumberText
+    DapBigText
     {
         id: content
         Layout.fillWidth: true
@@ -27,7 +27,5 @@ ColumnLayout {
         Layout.minimumWidth: 318
         height: textElement.implicitHeight
         textFont: mainFont.dapFont.regular14
-        copyButtonVisible: false
-        isAutoOutText: true
     }
 }   //

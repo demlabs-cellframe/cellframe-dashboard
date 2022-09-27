@@ -120,16 +120,14 @@ Page
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
 
-                                    DapBigNumberText
+                                    DapBigText
                                     {
                                         id: currencySum
                                         anchors.fill: parent
                                         textFont: mainFont.dapFont.regular14
                                         textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
-                                        fullNumber: dapMath.balanceToCoins(current_supply)
+                                        fullText: dapMath.balanceToCoins(current_supply)
                                         horizontalAlign: Text.AlignRight
-                                        copyButtonVisible: false
-                                        isAutoOutText: true
                                     }
                                 }
                             }

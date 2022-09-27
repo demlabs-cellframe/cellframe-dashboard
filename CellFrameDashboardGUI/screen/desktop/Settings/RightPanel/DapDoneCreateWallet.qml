@@ -5,7 +5,7 @@ import "../../controls"
 
 DapRightPanelDone
 {
-    hederText: qsTr("Wallet created\nsuccessfully")
+    headerText: qsTr("Wallet created\nsuccessfully")
     messageText: qsTr("Now you can manage your\nwallets in Settings")
 
     doneButton.onClicked: navigator.popPage()
@@ -15,12 +15,12 @@ DapRightPanelDone
         if(commandResult.success)
         {
             messageImage = iconOk
-            hederText = qsTr("Wallet created\nsuccessfully")
+            headerText = qsTr("Wallet created\nsuccessfully")
         }
         else
         {
             messageImage = iconBad
-            hederText = qsTr("Creating wallet error")
+            headerText = qsTr("Creating wallet error")
             messageText = qsTr(commandResult.message)
         }
     }
