@@ -29,24 +29,23 @@ FocusScope {
 //            color: currTheme.backgroundElements
 //        }
 
-        Keys.onUpPressed:
-        {
+        Keys.onUpPressed:{
             upButtonPressed()
         }
 
-        Keys.onDownPressed:
-        {
+        Keys.onDownPressed:{
             downButtonPressed()
         }
 
-        Keys.onPressed:
-        {
-            if (event.key == 16777220)
-                enterPressed()
+        Keys.onEnterPressed: {
+            enterPressed()
         }
 
-        onTextChanged:
-        {
+        Keys.onReturnPressed: {
+            enterPressed()
+        }
+
+        onTextChanged:{
             sugTextChanged(text)
         }
     }

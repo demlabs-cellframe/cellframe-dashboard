@@ -4,133 +4,113 @@ import QtQuick.Layouts 1.2
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
 import "../../"
+import "Parts"
 
 Page {
-
     id: dapVpnClientScreen
-    anchors
+
+    background: Rectangle
     {
-        top: parent.top
-        topMargin: 24 
-        right: parent.right
-        rightMargin: 44 
-        left: parent.left
-        leftMargin: 24 
-        bottom: parent.bottom
-        bottomMargin: 20 
+        color: currTheme.backgroundMainScreen
     }
 
-    Rectangle
+    ColumnLayout
     {
-        id:vpnClientFrame
-
         anchors.fill: parent
-        anchors.topMargin: 13*pt
-        anchors.leftMargin: 21*pt
-        anchors.rightMargin: 22*pt
+        spacing: 24 * pt
 
-        color:"transparent"
-        border.color: "green"
-        border.width: 1 
-
-        ColumnLayout
+        Item
         {
-            anchors.fill: parent
+            Layout.fillWidth: true
+            height: 52
 
-            Rectangle
+            Item
             {
-                id: frameTopElements
-                Layout.fillWidth: true
-
-                height: connectToText.height + topText.height + 10*pt
-
-                color:"transparent"
-                border.color: "yellow"
-                border.width: 1 
+                anchors.fill: parent
 
                 Text {
-                    id:topText
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    text: qsTr("Conntected to:")
-                    color: currTheme.textColorGray
+                    id: connectedText
                     font: mainFont.dapFont.regular16
+                    color: currTheme.textColor
+
+                    text: qsTr("Connected to:")
                 }
 
                 Text {
-                    id:connectToText
-                    anchors.top: topText.bottom
-                    anchors.left: parent.left
-                    anchors.topMargin: 10 
-                    text: qsTr("42.112.14.73 (San Juan, Puerto Rico)")
-                    color: currTheme.textColor
                     font: mainFont.dapFont.medium18
-                }
+                    color: currTheme.textColor
+                    y: connectedText.height + 10 * pt
 
-                DapButton
-                {
-                    textButton: "Disconnect"
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-//                    anchors.left: parent.verticalCenter
-//                    anchors.leftMargin: 472 
-                    anchors.topMargin: 17 
-                    implicitHeight: 36 
-                    implicitWidth: 165 
-                    fontButton: mainFont.dapFont.medium16
-                    horizontalAligmentText: Text.AlignHCenter
+                    text: qsTr("42.112.14.73 (San Juan, Puerto Rico)")
                 }
             }
 
-            Rectangle
+            DapButton
             {
-                id: frameMidElements
-                Layout.fillWidth: true
-                Layout.topMargin: 50 
-
-                height: 238 
-
-                color:"transparent"
-                border.color: "gray"
-                border.width: 1 
-
-                RowLayout
-                {
-                    anchors.fill: parent
-                    spacing: 26 
-
-                    Rectangle{
-//                        implicitWidth: 308 
-//                        implicitHeight: 238 
-                        radius: 16*pt
-                        color: currTheme.backgroundElements
-                    }
-
-                    Rectangle{
-//                        implicitWidth: 308 
-//                        implicitHeight: 238 
-                        radius: 16*pt
-                        color: currTheme.backgroundElements
-                    }
-                }
-
-
-
+                y: parent.height * 0.5 - height * 0.5 + 3 * pt
+                x: parent.width - width
+                width: 170 * pt
+                height: 38 * pt
+                horizontalAligmentText: Text.AlignHCenter
+                fontButton: mainFont.dapFont.regular14
+                textButton: qsTr("Disconnect")
             }
         }
+
+        RowLayout {
+            Layout.fillWidth: true
+
+            spacing: 24 * pt
+
+            CurrentUsagePanel
+            {
+                id: currentUsage
+                Layout.fillWidth: true
+
+                onTopUpClicked:
+                {
+                    vpnClientNavigator.openTopUpItem()
+                }
+                onRefoundClicked:
+                {
+                    vpnClientNavigator.openRefoundItem()
+                }
+            }
+
+            StatisticsPanel
+            {
+                Layout.fillWidth: true
+            }
+        }
+
+        DapRectangleLitAndShaded
+        {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            color: currTheme.backgroundElements
+            radius: currTheme.radiusRectangle
+            shadowColor: currTheme.shadowColor
+            lightColor: currTheme.reflectionLight
+
+            contentData:
+                ColumnLayout
+                {
+                    anchors.fill: parent
+                    anchors.margins: 20 * pt
+                    spacing: 5 * pt
+
+                    ChartPanel
+                    {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                    }
+
+                    CheckersPanel
+                    {
+                        Layout.fillWidth: true
+                    }
+                }
+        }
     }
-
-
-
-
-//        RowLayout
-//        {
-//            id:midPlace
-//        }
-//        Layout
-//        {
-//            id:bottomPlace
-//        }
-//    }
-
 }
