@@ -28,7 +28,7 @@ Page
     ColumnLayout
     {
         anchors.fill: parent
-        spacing: 0
+        spacing: 18 * pt
 
         Item
         {

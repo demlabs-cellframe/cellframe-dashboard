@@ -55,7 +55,7 @@ OTHER_FILES += libdap-qt-ui-qml \
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
-    Autocomplete/commandcmdcontroller.cpp \
+    Autocomplete/CommandCmdController.cpp \
     DapApplication.cpp \
     DapMath.cpp \
     ImportCertificate/ImportCertificate.cpp \
@@ -67,6 +67,7 @@ SOURCES += \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
@@ -86,7 +87,7 @@ else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
 
 HEADERS += \
     $$PWD/DapServiceController.h \
-    Autocomplete/commandcmdcontroller.h \
+    Autocomplete/CommandCmdController.h \
     DapApplication.h \
     DapMath.h \
     ImportCertificate/ImportCertificate.h \
@@ -100,6 +101,7 @@ HEADERS += \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \

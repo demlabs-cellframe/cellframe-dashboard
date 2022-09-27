@@ -20,7 +20,12 @@ DapConsoleScreenForm
         consoleHistoryIndex = -1
         //Set focus to console input
         consoleInput.forceActiveFocus()
+
+        commandCmdController.StatusPage = true
     }
+
+    Component.onDestruction:
+        commandCmdController.StatusPage = false
 
     ListModel
     {
