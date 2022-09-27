@@ -97,7 +97,7 @@ Item
                         else
                         {
                             pairBox.currentIndex = logicMainApp.currentIndexPair
-                            displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                            pairBox.displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
                         }
                     }
                 }

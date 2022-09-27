@@ -829,17 +829,22 @@ void StockDataWorker::getMinimumMaximum24h()
 
         for (auto i = priceModel.size()-1; i >= 0; --i)
         {
-            if (priceModel.at(i).time < timeMinus24h)
-                break;
-
             double currPrice = priceModel.at(i).price;
 
             if (m_minimum24h > currPrice)
                 m_minimum24h = currPrice;
             if (m_maximum24h < currPrice)
                 m_maximum24h = currPrice;
+
+//            qDebug() << i << priceModel.at(i).time << priceModel.at(i).price;
+
+            if (priceModel.at(i).time < timeMinus24h)
+                break;
         }
     }
+
+//    qDebug() << "StockDataWorker::getMinimumMaximum24h"
+//             << m_minimum24h << m_maximum24h << timeMinus24h << currentTime;
 
     emit minimum24hChanged(m_minimum24h);
     emit maximum24hChanged(m_maximum24h);
