@@ -6,7 +6,7 @@ import "Elements"
 Rectangle {
     anchors.fill: parent
     color: "#2E3138"
-    radius: 16 * pt
+    radius: 16 
 
     GameMainScreen
     {

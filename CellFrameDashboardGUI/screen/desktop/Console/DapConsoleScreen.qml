@@ -38,17 +38,19 @@ DapConsoleScreenForm
         Column
         {
             width: parent.width
-
             TextEdit
             {
+                width: parent.width
                 readOnly: true
                 selectByMouse: true
-                id: textResponse
+                id: textQuery
                 text: "> " + query + "\n" + response
-                width: parent.width
                 wrapMode: TextEdit.Wrap
-                font:  mainFont.dapFont.regular18
+                font:  mainFont.dapFont.regular13
                 color: currTheme.textColor
+                selectionColor: "#AABCDE"
+                selectedTextColor: "#2E3138"
+
             }
         }
     }

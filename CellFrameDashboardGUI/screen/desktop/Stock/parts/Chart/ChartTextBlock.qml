@@ -6,7 +6,7 @@ RowLayout {
     property alias text: textItem.text
     property alias labelVisible: labelItem.visible
     property alias textColor: textItem.color
-    property var textFont: mainFont.dapFont.regular13
+    property var textFont: mainFont.dapFont.regular12
 
     spacing: 3
     Text

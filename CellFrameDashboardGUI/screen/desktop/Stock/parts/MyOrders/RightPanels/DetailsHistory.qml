@@ -6,13 +6,15 @@ import "qrc:/widgets"
 import "../parts"
 import "../../../../controls"
 
-Page {
+DapRectangleLitAndShaded {
     id: root
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -25,13 +27,8 @@ Page {
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10
-                anchors.bottomMargin: 7
-                anchors.leftMargin: 21
-                anchors.rightMargin: 13
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
                 height: 20
@@ -49,12 +46,9 @@ Page {
                 id: textHeader
                 text: qsTr("Order details")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12
-                anchors.bottomMargin: 8
-                anchors.leftMargin: 52
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -62,10 +56,11 @@ Page {
         }
 
         ScrollView {
+            Layout.topMargin: 8
             Layout.fillWidth: true
             Layout.fillHeight: true
-//            Layout.topMargin: 12
             Layout.leftMargin: 16
+            Layout.rightMargin: 16
             clip: true
 
 //            ScrollBar.vertical.policy: ScrollBar.AlwaysOn

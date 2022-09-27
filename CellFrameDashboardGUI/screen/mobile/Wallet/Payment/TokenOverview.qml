@@ -10,10 +10,10 @@ Page {
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.topMargin: 30 * pt
-        anchors.margins: 17 * pt
+        anchors.topMargin: 30 
+        anchors.margins: 17 
         width: parent.width
-        spacing: 8 * pt
+        spacing: 8 
 
 //        Item {
 //            Layout.fillHeight: true
@@ -46,7 +46,7 @@ Page {
 
         RowLayout
         {
-            Layout.topMargin: 12 * pt
+            Layout.topMargin: 12 
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
@@ -72,7 +72,7 @@ Page {
 
         RowLayout
         {
-            Layout.topMargin: 12 * pt
+            Layout.topMargin: 12 
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
@@ -98,7 +98,7 @@ Page {
 
         RowLayout
         {
-            Layout.topMargin: 12 * pt
+            Layout.topMargin: 12 
             Text {
                 Layout.alignment: Qt.AlignLeft
                 color: currTheme.textColor
@@ -125,15 +125,15 @@ Page {
         RowLayout
         {
             Layout.alignment: Qt.AlignHCenter
-            Layout.topMargin: 30 * pt
-            spacing: 17 * pt
+            Layout.topMargin: 30 
+            spacing: 17 
 
             DapButton
             {
-                Layout.topMargin: 14 * pt
+                Layout.topMargin: 14 
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Receive")
@@ -149,10 +149,10 @@ Page {
 
             DapButton
             {
-                Layout.topMargin: 14 * pt
+                Layout.topMargin: 14 
 
-                implicitWidth: 132 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 132 
+                implicitHeight: 36 
                 radius: currTheme.radiusButton
 
                 textButton: qsTr("Send")

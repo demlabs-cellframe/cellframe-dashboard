@@ -40,18 +40,16 @@ Page
             {
                 id: tokensShowHeader
                 Layout.fillWidth: true
-                height: 42 * pt
+                height: 42 
                 Text
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    anchors.topMargin: 10 * pt
-                    anchors.bottomMargin: 10 * pt
-
+                    anchors.leftMargin: 16
+                    anchors.verticalCenter: parent.verticalCenter
+                    font: mainFont.dapFont.bold14
+                    color: currTheme.textColor
                     verticalAlignment: Qt.AlignVCenter
                     text: qsTr("Tokens")
-                    font:  mainFont.dapFont.bold14
-                    color: currTheme.textColor
                 }
             }
 
@@ -72,16 +70,16 @@ Page
                     Rectangle
                     {
                         id: stockNameBlock
-                        height: 30 * pt
+                        height: 30 
                         width: parent.width
                         color: currTheme.backgroundMainScreen
 
                         Text
                         {
                             anchors.left: parent.left
-                            anchors.leftMargin: 16 * pt
+                            anchors.leftMargin: 16 
                             anchors.verticalCenter: parent.verticalCenter
-                            font: mainFont.dapFont.medium11
+                            font: mainFont.dapFont.medium12
                             color: currTheme.textColor
                             verticalAlignment: Qt.AlignVCenter
                             text: network
@@ -98,15 +96,15 @@ Page
                         {
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: 50 * pt
+                            height: 50 
                             color: currTheme.backgroundElements
 
                             RowLayout
                             {
                                 anchors.fill: parent
-                                anchors.leftMargin: 20 * pt
-                                anchors.rightMargin: 20 * pt
-                                spacing: 10 * pt
+                                anchors.leftMargin: 16
+                                anchors.rightMargin: 16
+                                spacing: 10 
 
                                 Text
                                 {
@@ -114,28 +112,33 @@ Page
                                     font: mainFont.dapFont.regular16
                                     color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
                                     text: name
-                                    width: 172 * pt
+                                    width: 172 
                                     horizontalAlignment: Text.AlignLeft
                                 }
 
-                                Text
-                                {
-                                    id: currencySum
+                                Item{
                                     Layout.fillWidth: true
+                                    Layout.fillHeight: true
 
-                                    font: mainFont.dapFont.regular14
-                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
-                                    text: dapMath.balanceToCoins(current_supply)
-                                    horizontalAlignment: Text.AlignRight
+                                    DapBigText
+                                    {
+                                        id: currencySum
+                                        anchors.fill: parent
+                                        textFont: mainFont.dapFont.regular14
+                                        textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
+                                        fullText: dapMath.balanceToCoins(current_supply)
+                                        horizontalAlign: Text.AlignRight
+                                    }
                                 }
                             }
 
+                            //  Underline
                             Rectangle
                             {
-                                x: 20 * pt
-                                y: parent.height - 1 * pt
-                                width: parent.width - 40 * pt
-                                height: 1 * pt
+                                x: 16
+                                y: parent.height - 1
+                                width: parent.width - 32
+                                height: 1
                                 color: currTheme.lineSeparatorColor
                             }
 

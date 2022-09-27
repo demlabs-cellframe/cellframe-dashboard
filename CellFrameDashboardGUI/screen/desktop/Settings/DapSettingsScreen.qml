@@ -38,13 +38,14 @@ Page
             {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
-                Layout.minimumWidth: 327 * pt
+                Layout.minimumWidth: 327
                 Layout.alignment: Qt.AlignTop
+                spacing: 0
 
                 DapRectangleLitAndShaded
                 {
                     property alias dapContent:content
-                    property int spacing: (72 + 39) * pt
+                    property int spacing: (72 + 39)
 
                     id:generalBlock
                     Layout.fillWidth: true
@@ -65,17 +66,17 @@ Page
                 {
                     id: newWalletButton
 
-                    Layout.minimumWidth: 297 * pt
-                    Layout.maximumWidth: 297 * pt
-                    Layout.minimumHeight: 36 * pt
-                    Layout.maximumHeight: 36 * pt
-                    Layout.topMargin: 20 * pt
+                    Layout.minimumWidth: 297
+                    Layout.maximumWidth: 297
+                    Layout.minimumHeight: 36
+                    Layout.maximumHeight: 36
+                    Layout.topMargin: 23
                     Layout.alignment: Qt.AlignHCenter
 
                     textButton: qsTr("Create a new wallet")
 
-                    implicitHeight: 36 * pt
-                    implicitWidth: 297 * pt
+                    implicitHeight: 36
+                    implicitWidth: 297
                     fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(false)
@@ -86,17 +87,17 @@ Page
                 {
                     id: restoreWalletButton
 
-                    Layout.minimumWidth: 297 * pt
-                    Layout.maximumWidth: 297 * pt
-                    Layout.minimumHeight: 36 * pt
-                    Layout.maximumHeight: 36 * pt
-                    Layout.topMargin: 9 * pt
+                    Layout.minimumWidth: 297
+                    Layout.maximumWidth: 297
+                    Layout.minimumHeight: 36
+                    Layout.maximumHeight: 36
+                    Layout.topMargin: 16
                     Layout.alignment: Qt.AlignHCenter
 
                     textButton: qsTr("Import an existing wallet")
 
-                    implicitHeight: 36 * pt
-                    implicitWidth: 297 * pt
+                    implicitHeight: 36
+                    implicitWidth: 297
                     fontButton: mainFont.dapFont.medium14
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(true)
@@ -111,7 +112,7 @@ Page
                 Layout.maximumHeight: control.height
 
                 id: appearanceBlock
-                Layout.minimumWidth: 327 * pt
+                Layout.minimumWidth: 327
                 Layout.alignment: Qt.AlignTop
                 color: currTheme.backgroundElements
                 radius: currTheme.radiusRectangle

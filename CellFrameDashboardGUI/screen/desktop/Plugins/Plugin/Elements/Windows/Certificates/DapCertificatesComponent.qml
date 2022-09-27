@@ -7,18 +7,18 @@ Component {
     Rectangle {
         //this property need set from root
         anchors.left: parent.left
-        anchors.leftMargin: 10 * pt
+        anchors.leftMargin: 10 
         anchors.right: parent.right
-        anchors.rightMargin: 10 * pt
-        height: 40 * pt
+        anchors.rightMargin: 10 
+        height: 40 
         color: "#363A42"
-        radius: 16 * pt
+        radius: 16 
 
         Text {
             id: certificateNameText
             anchors.fill: parent
             anchors.bottomMargin: 2
-            anchors.leftMargin: 14 * pt
+            anchors.leftMargin: 14 
             verticalAlignment: Text.AlignVCenter
             font.family: "Quicksand"
             font.pixelSize: 16
@@ -34,9 +34,9 @@ Component {
             anchors.top: certificateNameText.bottom
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: 14 * pt
-            anchors.rightMargin: 15 * pt
-            height: 1 * pt
+            anchors.leftMargin: 14 
+            anchors.rightMargin: 15 
+            height: 1 
             color: "#292929"
         }
 

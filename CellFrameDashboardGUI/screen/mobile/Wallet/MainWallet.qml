@@ -39,8 +39,8 @@ Page {
         {
             Layout.alignment: Qt.AlignHCenter
 
-            implicitWidth: 165 * pt
-            implicitHeight: 36 * pt
+            implicitWidth: 165 
+            implicitHeight: 36 
             radius: currTheme.radiusButton
 
             textButton: qsTr("Get started")

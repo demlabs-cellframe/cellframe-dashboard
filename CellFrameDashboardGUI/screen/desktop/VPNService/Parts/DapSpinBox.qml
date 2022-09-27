@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 SpinBox {
     id: control
 
-    padding: 4 * pt
+    padding: 4 
     font:  mainFont.dapFont.medium16
     editable: true
     inputMethodHints: Qt.ImhFormattedNumbersOnly
@@ -33,11 +33,11 @@ SpinBox {
     down.indicator: null
 
     background: Rectangle {
-        implicitWidth: 140 * pt
+        implicitWidth: 140 
         color:"transparent"
         border.width: pt
         border.color: "#B4B1BD"
-        radius: 4 * pt
+        radius: 4 
     }
 
 }

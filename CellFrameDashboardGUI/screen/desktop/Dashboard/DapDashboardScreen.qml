@@ -36,29 +36,29 @@ Page
     {
         id: walletCreateFrame
         anchors.fill: parent
-//        anchors.topMargin: 41 * pt
-        anchors.leftMargin: 301 * pt
-        anchors.rightMargin: 281 * pt
-        anchors.bottomMargin: 131 * pt
+//        anchors.topMargin: 41 
+        anchors.leftMargin: 301 
+        anchors.rightMargin: 281 
+        anchors.bottomMargin: 131 
 
         color: "transparent"
         Column
         {
-            y: 50 * pt
-            x: 40 * pt
+            y: 50 
+            x: 40 
 //            anchors.top: parent.top
 //            anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
 //            Rectangle
 //            {
-//                height: 82.79 * pt
+//                height: 82.79 
 //                width: parent.width
 //                color: "transparent"
 //            }
             Item
             {
-                //width: 450 * pt
-                //height: 450 * pt
+                //width: 450 
+                //height: 450 
                 width: iconCreateWallet.implicitWidth
                 height: iconCreateWallet.implicitHeight
 
@@ -69,22 +69,22 @@ Page
                     anchors.fill: parent
                     id: iconCreateWallet
                     source: "qrc:/Resources/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                    sourceSize.width: 200 * pt
-                    sourceSize.height: 200 * pt
+                    sourceSize.width: 200 
+                    sourceSize.height: 200 
                     fillMode: Image.PreserveAspectFit
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 //            Rectangle
 //            {
-//                height: 45 * pt
+//                height: 45 
 //                width: parent.width
 //                color: "transparent"
 //            }
 
             Item
             {
-                height: 30 * pt
+                height: 30 
                 width: parent.width
             }
 
@@ -98,7 +98,7 @@ Page
             }
             Item
             {
-                height: 21 * pt
+                height: 21 
                 width: parent.width
             }
 
@@ -106,8 +106,8 @@ Page
             {
                 id: addWalletButton
 
-                implicitWidth: 165 * pt
-                implicitHeight: 36 * pt
+                implicitWidth: 165 
+                implicitHeight: 36 
                 anchors.horizontalCenter: parent.horizontalCenter
                 textButton: qsTr("Get started")
                 fontButton: mainFont.dapFont.medium14
@@ -128,8 +128,8 @@ Page
 
         id: frameTitleCreateWallet
         anchors.fill: parent
-        anchors.topMargin: 8 * pt
-        anchors.leftMargin: 2 * pt
+        anchors.topMargin: 8 
+        anchors.leftMargin: 2 
 //        anchors.horizontalCenter: parent.horizontalCenter
         color: "transparent"
 //        anchors.verticalCenter: parent.verticalCenter
@@ -140,7 +140,7 @@ Page
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             font.family: font.name
-            font.pixelSize:26 * pt
+            font.pixelSize:26 
 //            font: mainFont.dapFont.medium26
             color: currTheme.textColor
             text: qsTr("Creating wallet in process...")
@@ -158,39 +158,34 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-            Item
+            ColumnLayout
             {
                 anchors.fill: parent
+                spacing: 0
 
-                // Header
                 Item
                 {
                     id: walletShowHeader
-                    anchors.top: parent.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    height: 42 * pt
+                    Layout.fillWidth: true
+                    height: 42
+
                     Text
                     {
                         anchors.fill: parent
-                        anchors.leftMargin: 18 * pt
-                        anchors.topMargin: 10 * pt
-                        anchors.bottomMargin: 10 * pt
-
+                        anchors.leftMargin: 16
+                        anchors.verticalCenter: parent.verticalCenter
+                        font: mainFont.dapFont.bold14
+                        color: currTheme.textColor
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Tokens")
-                        font:  mainFont.dapFont.bold14
-                        color: currTheme.textColor
                     }
                 }
 
                 ListView
                 {
                     id: listViewWallet
-                    anchors.top: walletShowHeader.bottom
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
                     clip: true
 
                     delegate: delegateTokenView
@@ -209,65 +204,66 @@ Page
                         Rectangle
                         {
                             id: stockNameBlock
-                            height: 30 * pt
+                            height: 30 
                             width: parent.width
                             color: currTheme.backgroundMainScreen
 
-                            Text
+                            RowLayout
                             {
-                                id: stockNameText
-                                anchors.left: parent.left
-                                anchors.leftMargin: 16 * pt
-                                anchors.verticalCenter: parent.verticalCenter
-                                font: mainFont.dapFont.medium11
-                                color: currTheme.textColor
-                                verticalAlignment: Qt.AlignVCenter
-                                text: name
-                            }
+                                anchors.fill: parent
+                                anchors.leftMargin: 16
+                                anchors.rightMargin: 16
+                                spacing: 0
 
-                            DapText
-                            {
-                               id: textMetworkAddress
-                               width: 63 * pt
-                               anchors.right:  networkAddressCopyButton.left
-                               anchors.rightMargin: 4 * pt
-                               anchors.verticalCenter: parent.verticalCenter
-                               fontDapText: mainFont.dapFont.medium11
-                               color: currTheme.textColor
-                               fullText: address
-                               textElide: Text.ElideMiddle
-                               horizontalAlignment: Qt.Alignleft
-                            }
-
-                            /*MouseArea
-                            {
-                                id: networkAddressCopyButton
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.right: parent.right
-                                anchors.rightMargin: 16 * pt
-                                width: 16 * pt
-                                height: 16 * pt
-                                hoverEnabled: true
-
-                                onClicked: textMetworkAddress.copyFullText()
-
-                                Image{
-                                    id:networkAddressCopyButtonImage
-                                    width: parent.width
-                                    height: parent.height
-                                    mipmap: true
-                                    source: parent.containsMouse ? "qrc:/resources/icons/" + pathTheme + "/ic_copy_hover.png" : "qrc:/resources/icons/" + pathTheme + "/ic_copy.png"
+                                Text
+                                {
+                                    Layout.fillWidth: true
+                                    font: mainFont.dapFont.medium12
+                                    color: currTheme.textColor
+                                    verticalAlignment: Qt.AlignVCenter
+                                    text: name
                                 }
-                            }*/
 
-                            CopyButton
+                                Item{Layout.fillWidth: true}
+
+
+                                DapText
+                                {
+                                   id: textMetworkAddress
+                                   Layout.alignment: Qt.AlignRight
+                                   Layout.rightMargin: 5
+                                   Layout.minimumWidth: 68
+                                   Layout.maximumWidth: 68
+                                   Layout.fillHeight: true
+
+                                   fontDapText: mainFont.dapFont.regular12
+                                   color: currTheme.textColor
+                                   fullText: address
+                                   textElide: Text.ElideMiddle
+                                   horizontalAlignment: Qt.AlignLeft
+                                   verticalAlignment: Qt.AlignVCenter
+                                }
+
+                                DapCopyButton
+                                {
+                                    id: networkAddressCopyButton
+                                    onCopyClicked: textMetworkAddress.copyFullText()
+                                    Layout.alignment: Qt.AlignRight
+//                                    anchors.verticalCenter: parent.verticalCenter
+//                                    anchors.right: parent.right
+//                                    anchors.rightMargin: 16
+                                    popupText: qsTr("Address copied")
+                                }
+                            }
+
+/*                            CopyButton
                             {
                                 id: networkAddressCopyButton
                                 onCopyClicked: textMetworkAddress.copyFullText()
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.right: parent.right
                                 anchors.rightMargin: 16 * pt
-                            }
+                            }*/
                         }
 
                         Repeater
@@ -279,15 +275,15 @@ Page
                             {
                                 anchors.left: parent.left
                                 anchors.right: parent.right
-                                height: 50 * pt
+                                height: 50 
                                 color: currTheme.backgroundElements
 
                                 RowLayout
                                 {
                                     anchors.fill: parent
-                                    anchors.leftMargin: 20 * pt
-                                    anchors.rightMargin: 20 * pt
-                                    spacing: 10 * pt
+                                    anchors.leftMargin: 16
+                                    anchors.rightMargin: 16
+                                    spacing: 10 
 
                                     Text
                                     {
@@ -295,21 +291,25 @@ Page
                                         font: mainFont.dapFont.regular16
                                         color: currTheme.textColor
                                         text: name
-                                        width: 172 * pt
+                                        width: 172 
                                         horizontalAlignment: Text.AlignLeft
                                     }
 
-                                    Text
-                                    {
-                                        id: currencySum
+                                    Item{
                                         Layout.fillWidth: true
-                                        font: mainFont.dapFont.regular14
-                                        color: currTheme.textColor
-                                        text: balance_without_zeros
-//                                        text: full_balance
-//                                        text: datoshi
-                                        horizontalAlignment: Text.AlignRight
+                                        Layout.fillHeight: true
+
+                                        DapBigText
+                                        {
+                                            id: currencySum
+                                            anchors.fill: parent
+                                            textFont: mainFont.dapFont.regular14
+                                            fullText: balance_without_zeros
+                                            horizontalAlign: Text.AlignRight
+                                        }
                                     }
+
+
 
                                     Text
                                     {
@@ -324,19 +324,16 @@ Page
                                 //  Underline
                                 Rectangle
                                 {
-                                    x: 20 * pt
-                                    y: parent.height - 1 * pt
-                                    width: parent.width - 40 * pt
-                                    height: 1 * pt
+                                    x: 16
+                                    y: parent.height - 1 
+                                    width: parent.width - 32
+                                    height: 1 
                                     color: currTheme.lineSeparatorColor
                                 }
-
                             }
                         }
                     }
                 }
-
             }
-
     }
 }

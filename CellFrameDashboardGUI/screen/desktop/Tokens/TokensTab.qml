@@ -68,12 +68,10 @@ DapPage
                 id: newTokenButton
                 textButton: "New Token"
                 anchors.right: parent.right
-                anchors.rightMargin: 24 * pt
-                anchors.top: parent.top
-                anchors.topMargin: 14 * pt
+                anchors.rightMargin: 24
                 anchors.verticalCenter: parent.verticalCenter
-                implicitHeight: 38 * pt
-                implicitWidth: 163 * pt
+                implicitHeight: 36
+                implicitWidth: 164
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
@@ -100,7 +98,7 @@ DapPage
         onTriggered:
         {
             console.log("TOKENS TIMER TICK")
-            dapServiceController.requestToService("DapGetListTokensCommand")
+            dapServiceController.requestToService("DapGetListTokensCommand", "update")
         }
     }
     Component.onCompleted:

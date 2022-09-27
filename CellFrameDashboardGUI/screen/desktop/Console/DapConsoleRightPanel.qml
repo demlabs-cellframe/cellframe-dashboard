@@ -14,7 +14,7 @@ Page
     ///@detalis historyQueryIndex Index of command from the command history.
     property string historyQueryIndex
     ///@detalis historySize Num of history command at right panel.
-    property int historySize: 10
+    property int historySize: 20
 
     ListModel
     {
@@ -33,13 +33,14 @@ Page
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             Text
             {
                 id: textHeader
                 anchors.fill: parent
-                anchors.leftMargin: 24 * pt
+                anchors.leftMargin: 16
+                anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Last actions")
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
@@ -54,7 +55,7 @@ Page
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            spacing: 24 * pt
+            spacing: 20
             model: modelHistoryConsole
             ScrollBar.vertical: ScrollBar {
                 active: true
@@ -63,22 +64,22 @@ Page
             delegate:
                 Item
                 {
-                    anchors.leftMargin: 5 * pt
-                    anchors.rightMargin: 5 * pt
+                    anchors.leftMargin: 5 
+                    anchors.rightMargin: 5 
                     width: listViewHistoryConsole.width
-                    height: textCommand.implicitHeight
+                    height: textCommand.implicitHeight + 10
                     Text
                     {
                         anchors.fill: parent
-                        anchors.rightMargin: 20 * pt
-                        anchors.leftMargin: 16 * pt
+                        anchors.rightMargin: 16
+                        anchors.leftMargin: 16 
 
                         id: textCommand
                         text: query
                         color: currTheme.textColor
 
                         wrapMode: Text.Wrap
-                        font: mainFont.dapFont.regular14
+                        font: mainFont.dapFont.regular13
                         //For the automatic sending selected command from history
                         MouseArea
                         {

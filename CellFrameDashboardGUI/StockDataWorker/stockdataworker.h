@@ -6,15 +6,11 @@
 #include <QVariantMap>
 #include <QQmlContext>
 #include <QJsonDocument>
+#include <QJsonArray>
 
 #include "priceinfo.h"
 #include "candleinfo.h"
 #include "orderinfo.h"
-
-enum class OrderType
-{
-    sell, buy
-};
 
 class StockDataWorker : public QObject
 {
@@ -41,8 +37,9 @@ class StockDataWorker : public QObject
     Q_PROPERTY(int lastCandleNumber READ lastCandleNumber WRITE setLastCandleNumber NOTIFY lastCandleNumberChanged)
     Q_PROPERTY(int rightCandleNumber READ rightCandleNumber WRITE setRightCandleNumber NOTIFY rightCandleNumberChanged)
 
-    Q_PROPERTY(double currentTokenPrice READ currentTokenPrice WRITE setCurrentTokenPrice NOTIFY currentTokenPriceChanged)
-    Q_PROPERTY(double previousTokenPrice READ previousTokenPrice WRITE setPreviousTokenPrice NOTIFY previousTokenPriceChanged)
+    Q_PROPERTY(double currentTokenPrice READ currentTokenPrice NOTIFY currentTokenPriceChanged)
+    Q_PROPERTY(double previousTokenPrice READ previousTokenPrice NOTIFY previousTokenPriceChanged)
+    Q_PROPERTY(QString currentTokenPriceText READ currentTokenPriceText NOTIFY currentTokenPriceTextChanged)
 
     Q_PROPERTY(int firstVisibleCandle READ firstVisibleCandle)
     Q_PROPERTY(int lastVisibleCandle READ lastVisibleCandle)
@@ -54,6 +51,10 @@ class StockDataWorker : public QObject
     Q_PROPERTY(double sellMaxTotal READ sellMaxTotal NOTIFY sellMaxTotalChanged)
     Q_PROPERTY(double buyMaxTotal READ buyMaxTotal NOTIFY buyMaxTotalChanged)
 
+    Q_PROPERTY(int commonRoundPower READ commonRoundPower NOTIFY commonRoundPowerChanged)
+    Q_PROPERTY(int bookRoundPower READ bookRoundPower NOTIFY bookRoundPowerChanged)
+    Q_PROPERTY(int bookRoundPowerMinimum READ bookRoundPowerMinimum)
+
 public:
     explicit StockDataWorker(QObject *parent = nullptr);
 
@@ -62,7 +63,8 @@ public:
     Q_INVOKABLE void setTokenPair(const QString &tok1,
         const QString &tok2, const QString &net);
 
-    Q_INVOKABLE void resetPriceData(double price, double init);
+    Q_INVOKABLE void resetPriceData(
+            double price, const QString &priceText, bool init);
 
     Q_INVOKABLE void generatePriceData(int length);
     Q_INVOKABLE QVariantMap getPriceInfo(int index);
@@ -71,7 +73,7 @@ public:
 
     Q_INVOKABLE void resetBookModel();
 
-    Q_INVOKABLE void generateBookModel(double price, int length);
+    Q_INVOKABLE void generateBookModel(double price, int length, double step);
 
     Q_INVOKABLE void setBookModel(const QByteArray &json);
 
@@ -80,7 +82,6 @@ public:
     Q_INVOKABLE void getCandleModel(bool update);
     Q_INVOKABLE QVariantMap getCandleInfo(int index);
 
-    Q_INVOKABLE void getTempAveragedModel(bool update);
     Q_INVOKABLE void getAveragedModels(bool update);
     Q_INVOKABLE QVariantMap getAveragedInfo(int chart, int index);
 
@@ -97,13 +98,15 @@ public:
 
     Q_INVOKABLE void setNewPrice(const QString &price);
 
-    Q_INVOKABLE void generateNewPrice();
+    Q_INVOKABLE void generateNewPrice(double step);
 
     Q_INVOKABLE void generateNewBookState();
 
     Q_INVOKABLE bool zoomTime(int step);
 
     Q_INVOKABLE void shiftTime(double step);
+
+    Q_INVOKABLE void setBookRoundPower(const QString &text);
 
     qint64 candleWidth() const
         {  return m_candleWidth; }
@@ -145,6 +148,8 @@ public:
         { return m_currentTokenPrice; }
     double previousTokenPrice() const
         { return m_previousTokenPrice; }
+    QString currentTokenPriceText() const
+        { return m_currentTokenPriceText; }
 
     int firstVisibleCandle() const
         { return m_firstVisibleCandle; }
@@ -163,6 +168,13 @@ public:
     double buyMaxTotal() const
         { return m_buyMaxTotal; }
 
+    int commonRoundPower() const
+        { return m_commonRoundPower; }
+    int bookRoundPower() const
+        { return m_bookRoundPower; }
+    int bookRoundPowerMinimum() const
+        { return m_bookRoundPowerMinimum; }
+
 public slots:
     void setCandleWidth(qint64 width);
     void setVisibleTime(double time);
@@ -172,9 +184,6 @@ public slots:
 
     void setLastCandleNumber(int number);
     void setRightCandleNumber(int number);
-
-    void setCurrentTokenPrice(double price);
-    void setPreviousTokenPrice(double price);
 
 signals:
     void candleWidthChanged(qint64 width);
@@ -188,33 +197,42 @@ signals:
 
     void currentTokenPriceChanged(double price);
     void previousTokenPriceChanged(double price);
+    void currentTokenPriceTextChanged(QString price);
 
     void sellMaxTotalChanged(double max);
     void buyMaxTotalChanged(double max);
 
+    void commonRoundPowerChanged(int power);
+    void bookRoundPowerChanged(int power);
+
+    void setNewBookRoundPowerMinimum(int power);
+
 private:
+    void checkNewRoundPower();
+
+    void updateBookModels();
+
     void insertBookOrder(const OrderType& type, double price, double amount, double total);
 
     void getVariantBookModels();
 
-    void updateBookModels();
+    void sendCurrentBookModels();
 
 private:
     QString token1 {""};
     QString token2 {""};
     QString network {""};
 
-    int bookRoundPower {5};
-
     QVector <PriceInfo> priceModel;
     QVector <CandleInfo> candleModel;
     QVector <OrderInfo> sellOrderModel;
     QVector <OrderInfo> buyOrderModel;
 
+    QVector <FullOrderInfo> allOrders;
+
     QVariantList buyModel;
     QVariantList sellModel;
 
-    QVector <PriceInfo> tempAverModel;
     QVector <QVector <PriceInfo>> averagedModel;
     QVector <int> averageDelta;
 
@@ -241,9 +259,16 @@ private:
 
     double m_currentTokenPrice {0.0};
     double m_previousTokenPrice {0.0};
+    QString m_currentTokenPriceText {"0.0"};
 
     int m_firstVisibleCandle {0};
     int m_lastVisibleCandle {0};
+
+    int m_commonRoundPower {8};
+
+    int m_bookRoundPower {5};
+
+    int m_bookRoundPowerMinimum {5};
 
     QVector <int> firstVisibleAverage;
     QVector <int> lastVisibleAverage;

@@ -3,6 +3,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.12
 import QtQml 2.12
+import "qrc:/widgets"
 
 
 ColumnLayout
@@ -25,7 +26,7 @@ ColumnLayout
             mipmap: true
         }
 
-        TextField {
+        DapTextField {
             id: searchBox
             property int spacing: 10
 
@@ -37,19 +38,7 @@ ColumnLayout
             placeholderText: qsTr("Search")
             height: 28
             font: mainFont.dapFont.regular14
-
-            style:
-                TextFieldStyle
-                {
-                    textColor: currTheme.textColor
-                    placeholderTextColor: currTheme.textColorGray
-                    background:
-                        Rectangle
-                        {
-                            border.width: 0
-                            color: "transparent"
-                        }
-                }
+            placeholderColor: currTheme.textColorGray
 
             Connections{
                 target: logic

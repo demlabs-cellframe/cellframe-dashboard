@@ -13,14 +13,14 @@ ColumnLayout
     Item
     {
         Layout.fillWidth: true
-        height: 42 * pt
+        height: 42
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 14 * pt
-            anchors.topMargin: 10 * pt
-            anchors.bottomMargin: 10 * pt
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+
             font: mainFont.dapFont.bold14
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
@@ -32,16 +32,16 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        height: 30 * pt
+        height: 30
         color: currTheme.backgroundMainScreen
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 8 * pt
-            anchors.bottomMargin: 8 * pt
-            font: mainFont.dapFont.medium11
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+
+            font: mainFont.dapFont.medium12
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Window scale")
@@ -49,23 +49,23 @@ ColumnLayout
     }
 
     Item {
-        height: 40 * pt
+        height: 40
         Layout.fillWidth: true
 
         RowLayout
         {
             anchors.fill: parent
-            anchors.topMargin: 13 * pt
-            anchors.bottomMargin: 16 * pt
-            anchors.leftMargin: 10 * pt
-            anchors.rightMargin: 10 * pt
+            anchors.topMargin: 18
+//            anchors.bottomMargin: 16
+            anchors.leftMargin: 16
+            anchors.rightMargin: 16
 
             Text
             {
                 Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                Layout.preferredHeight: 25 * pt
+                Layout.preferredHeight: 25
                 Layout.fillWidth: true
-                Layout.leftMargin: 13 * pt
+//                Layout.leftMargin: 13
 
                 font: mainFont.dapFont.regular14
                 color: currTheme.textColor
@@ -77,16 +77,14 @@ ColumnLayout
             {
                 id: scaleSpinbox
 
-//                width: 80 * pt
-//                Layout.fillWidth: true
-//                Layout.leftMargin: 100
-                Layout.maximumWidth: 100
-                Layout.minimumWidth: 100
+                Layout.alignment: Qt.AlignRight
+                Layout.maximumWidth: 94
+                Layout.minimumWidth: 94
 
-                Layout.minimumHeight: 18 * pt
-                Layout.maximumHeight: 18 * pt
+                Layout.minimumHeight: 18
+                Layout.maximumHeight: 18
 
-                font: mainFont.dapFont.regular12
+                font: mainFont.dapFont.regular14
 
                 realFrom: params.minWindowScale
                 realTo: params.maxWindowScale
@@ -94,7 +92,6 @@ ColumnLayout
                 decimals: 2
 
                 maxSym: 4
-
 
                 //defaultValue: mainWindowScale
 
@@ -113,17 +110,16 @@ ColumnLayout
     }
 
     Item {
-        height: 60 * pt
+        height: 26
         Layout.fillWidth: true
+        Layout.topMargin: 20
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
 
         RowLayout
         {
             anchors.fill: parent
-            anchors.topMargin: 13 * pt
-            anchors.bottomMargin: 16 * pt
-            anchors.leftMargin: 10 * pt
-            anchors.rightMargin: 10 * pt
-            spacing: 10 * pt
+            spacing: 10
 
             DapButton
             {
@@ -133,17 +129,15 @@ ColumnLayout
 
                 Layout.fillWidth: true
 
-                Layout.minimumHeight: 36 * pt
-                Layout.maximumHeight: 36 * pt
+                Layout.minimumHeight: 26
+                Layout.maximumHeight: 26
 
                 textButton: qsTr("Reset scale")
 
-                implicitHeight: 36 * pt
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked: {
-                    print("Reset scale")
                     newScale = 1.0
                     restartPopup.smartOpen("Confirm reboot", "You must restart the application to apply the new scale. Do you want to restart now?")
                 }
@@ -157,17 +151,15 @@ ColumnLayout
 
                 Layout.fillWidth: true
 
-                Layout.minimumHeight: 36 * pt
-                Layout.maximumHeight: 36 * pt
+                Layout.minimumHeight: 26
+                Layout.maximumHeight: 26
 
                 textButton: qsTr("Apply scale")
 
-                implicitHeight: 36 * pt
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
                 onClicked: {
-                    print("Apply scale")
                     newScale = scaleSpinbox.realValue
                     restartPopup.smartOpen("Confirm reboot", "You must restart the application to apply the new scale. Do you want to restart now?")
                 }
@@ -183,21 +175,20 @@ ColumnLayout
 
         Layout.fillWidth: true
 
-        Layout.minimumHeight: 36 * pt
-        Layout.maximumHeight: 36 * pt
+        Layout.minimumHeight: 26
+        Layout.maximumHeight: 26
 
-        Layout.leftMargin: 10 * pt
-        Layout.rightMargin: 10 * pt
-        Layout.bottomMargin: 15 * pt
+        Layout.leftMargin: 16
+        Layout.rightMargin: 16
+        Layout.topMargin: 10
+        Layout.bottomMargin: 20
 
         textButton: qsTr("Reset window size")
 
-        implicitHeight: 36 * pt
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
 
         onClicked: {
-            print("Reset size")
             params.resetSize()
         }
     }
@@ -206,16 +197,16 @@ ColumnLayout
     Rectangle
     {
         Layout.fillWidth: true
-        height: 30 * pt
+        height: 30
         color: currTheme.backgroundMainScreen
 
         Text
         {
             anchors.fill: parent
-            anchors.leftMargin: 16 * pt
-            anchors.topMargin: 8 * pt
-            anchors.bottomMargin: 8 * pt
-            font: mainFont.dapFont.medium11
+            anchors.leftMargin: 16
+            anchors.verticalCenter: parent.verticalCenter
+
+            font: mainFont.dapFont.medium12
             color: currTheme.textColor
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Edit menu")
@@ -246,11 +237,11 @@ ColumnLayout
             id:columnMenuTab
             anchors.left: parent.left
             anchors.right: parent.right
-            height: 50 * pt
+            height: 50
             onHeightChanged: listMenuTab.contentHeight = height
 
             Item {
-//                height: 50 * pt
+//                height: 50
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
@@ -258,15 +249,16 @@ ColumnLayout
                 RowLayout
                 {
                     anchors.fill: parent
-                    anchors.topMargin: 13 * pt
-                    anchors.bottomMargin: 16 * pt
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.leftMargin: 16
+                    anchors.rightMargin: 16
 
                     Text
                     {
                         Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                        Layout.preferredHeight: 25 * pt
+//                        Layout.preferredHeight: 25
                         Layout.fillWidth: true
-                        Layout.leftMargin: 13 * pt
+                        Layout.fillHeight: true
 
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
@@ -277,9 +269,9 @@ ColumnLayout
                     {
                         id: switchTab
                         Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                        Layout.preferredHeight: 26 * pt
-                        Layout.preferredWidth: 46 * pt
-                        Layout.rightMargin: 19 * pt
+                        Layout.preferredHeight: 26
+                        Layout.preferredWidth: 46
+//                        Layout.rightMargin: 19
 
                         backgroundColor: currTheme.backgroundMainScreen
                         borderColor: currTheme.reflectionLight
@@ -298,7 +290,7 @@ ColumnLayout
                     anchors.left: parent.left
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    height: 1 * pt
+                    height: 1
                     color: currTheme.lineSeparatorColor
 
                 }
@@ -312,21 +304,21 @@ ColumnLayout
     {
         model: modelMenuTabStates.count
         Item {
-            height: 50 * pt
+            height: 50
             Layout.fillWidth: true
 
             RowLayout
             {
                 anchors.fill: parent
-                anchors.topMargin: 13 * pt
-                anchors.bottomMargin: 16 * pt
+                anchors.topMargin: 13
+                anchors.bottomMargin: 16
 
                 Text
                 {
                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-                    Layout.preferredHeight: 25 * pt
+                    Layout.preferredHeight: 25
                     Layout.fillWidth: true
-                    Layout.leftMargin: 13 * pt
+                    Layout.leftMargin: 13
 
                     font: mainFont.dapFont.regular14
                     color: currTheme.textColor
@@ -337,9 +329,9 @@ ColumnLayout
                 {
                     id: switchTab
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    Layout.preferredHeight: 26 * pt
-                    Layout.preferredWidth: 46 * pt
-                    Layout.rightMargin: 19 * pt
+                    Layout.preferredHeight: 26
+                    Layout.preferredWidth: 46
+                    Layout.rightMargin: 19
 
                     backgroundColor: currTheme.backgroundMainScreen
                     borderColor: currTheme.reflectionLight
@@ -358,7 +350,7 @@ ColumnLayout
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                height: 1 * pt
+                height: 1
                 color: currTheme.lineSeparatorColor
 
             }
@@ -368,13 +360,13 @@ ColumnLayout
 //    Rectangle
 //    {
 //        Layout.fillWidth: true
-//        height: 30 * pt
+//        height: 30
 //        color: currTheme.backgroundMainScreen
 
 //        Text
 //        {
 //            anchors.left: parent.left
-//            anchors.leftMargin: 17 * pt
+//            anchors.leftMargin: 17
 //            anchors.verticalCenter: parent.verticalCenter
 //            font: mainFont.dapFont.medium11
 //            color: currTheme.textColor
@@ -387,8 +379,8 @@ ColumnLayout
 //        model: themes
 
 //        Item {
-//            Layout.preferredHeight: 50 * pt
-//            Layout.preferredWidth: 327 * pt
+//            Layout.preferredHeight: 50
+//            Layout.preferredWidth: 327
 
 //            RowLayout
 //            {
@@ -397,7 +389,7 @@ ColumnLayout
 //                Text
 //                {
 //                    Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
-//                    Layout.leftMargin: 15 * pt
+//                    Layout.leftMargin: 15
 
 //                    font: mainFont.dapFont.regular14
 //                    color: currTheme.textColor
@@ -407,9 +399,9 @@ ColumnLayout
 //                Switch
 //                {
 //                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-//                    Layout.rightMargin: 15 * pt
+//                    Layout.rightMargin: 15
 //                    Layout.preferredHeight: 26*pt
-//                    Layout.preferredWidth: 46 * pt
+//                    Layout.preferredWidth: 46
 //                }
 //            }
 //            Rectangle
@@ -417,7 +409,7 @@ ColumnLayout
 //                anchors.left: parent.left
 //                anchors.right: parent.right
 //                anchors.bottom: parent.bottom
-//                height: 1 * pt
+//                height: 1
 //                color: currTheme.lineSeparatorColor
 //            }
 //        }

@@ -7,13 +7,15 @@ import "qrc:/widgets"
 import "../parts"
 
 
-Page {
+DapRectangleLitAndShaded {
     id: root
 
-    background: Rectangle {
-        color: "transparent"
-    }
+    color: currTheme.backgroundElements
+    radius: currTheme.radiusRectangle
+    shadowColor: currTheme.shadowColor
+    lightColor: currTheme.reflectionLight
 
+    contentData:
     ColumnLayout
     {
         anchors.fill: parent
@@ -22,17 +24,12 @@ Page {
         Item
         {
             Layout.fillWidth: true
-            height: 42 * pt
+            height: 42 
 
             HeaderButtonForRightPanels{
                 anchors.left: parent.left
-                anchors.right: textHeader.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 10
-                anchors.bottomMargin: 7
-                anchors.leftMargin: 21
-                anchors.rightMargin: 13
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 16
 
                 id: itemButtonClose
                 height: 20
@@ -54,12 +51,9 @@ Page {
                 id: textHeader
                 text: qsTr("Info about token")
                 verticalAlignment: Qt.AlignLeft
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                anchors.topMargin: 12
-                anchors.bottomMargin: 8
-                anchors.leftMargin: 52
+                anchors.left: itemButtonClose.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
@@ -80,45 +74,48 @@ Page {
             ColumnLayout
             {
                 spacing: 16
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: 16
 
                 DetailsText {
                     title.text: "Name"
-                    content.text: detailsModel.get(0).name
+                    content.fullText: detailsModel.get(0).name
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Auth signs"
-                    content.text: detailsModel.get(0).auth_signs
+                    content.fullText: detailsModel.get(0).auth_signs
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Type"
-                    content.text: detailsModel.get(0).type
+                    content.fullText: detailsModel.get(0).type
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Flags"
-                    content.text: detailsModel.get(0).flags
+                    content.fullText: detailsModel.get(0).flags
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Decimals"
-                    content.text: detailsModel.get(0).decimals
+                    content.fullText: detailsModel.get(0).decimals
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Current supply"
-                    content.text: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
+                    content.fullText: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Total supply"
-                    content.text: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
+                    content.fullText: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
                     title.color: currTheme.textColorGray
                 }
                 DetailsText {
                     title.text: "Total emissions"
-                    content.text: detailsModel.get(0).total_emissions
+                    content.fullText: detailsModel.get(0).total_emissions
                     title.color: currTheme.textColorGray
                 }
                 Item{
@@ -126,19 +123,17 @@ Page {
                 }
             }
         }
-    }
-
-    DapButton
-    {
-        implicitWidth: 165 * pt
-        implicitHeight: 36 * pt
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 24 * pt
-        textButton: qsTr("Emission")
-        fontButton: mainFont.dapFont.medium14
-        horizontalAligmentText:Qt.AlignCenter
-        onClicked: navigator.emission()
+        DapButton
+        {
+            implicitWidth: 163
+            implicitHeight: 36
+            Layout.bottomMargin: 40
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            textButton: qsTr("Emission")
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText:Qt.AlignCenter
+            onClicked: navigator.emission()
+        }
     }
 }
 

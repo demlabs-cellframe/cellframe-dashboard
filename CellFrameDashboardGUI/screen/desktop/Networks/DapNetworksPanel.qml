@@ -11,7 +11,7 @@ Item {
 
     property int cur_index: 0
     property int visible_count: 4
-    readonly property int item_width: 295 * pt
+    readonly property int item_width: 295 
 
     LogicNetworks{id: logicNet}
     Timer{id: timer}

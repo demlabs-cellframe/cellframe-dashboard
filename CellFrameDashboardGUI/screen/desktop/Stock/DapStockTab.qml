@@ -11,7 +11,7 @@ DapPage
 {
     id: stockTab
 
-    property int roundPower: 6
+    property int roundPower: stockDataWorker.commonRoundPower
 
     signal fakeWalletChanged() //for top panel
 
@@ -21,17 +21,10 @@ DapPage
 
     LogicStock { id: logicStock }
 
-//    StockDataWorker
-//    {
-//        id: dataWorker
-//    }
-
     ListModel { id: sellBookModel }
     ListModel { id: buyBookModel }
     ListModel { id: openOrdersModel }
     ListModel { id: orderHistoryModel }
-
-//    Timer{id: timer}
 
     dapScreen.initialItem: DapStockScreen
     {
@@ -47,13 +40,13 @@ DapPage
 
     Timer {
         id: updatePairTimer
-        interval: 1000*60
+        interval: 10000 //10 sec
         running: false
         repeat: true
         onTriggered:
         {
 //            console.log("PAIR TIMER TICK")
-            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
+            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info", "update")
         }
     }
 
@@ -72,19 +65,9 @@ DapPage
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
-            logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
+        print("DapStockTab Component.onCompleted",
+              logicMainApp.tokenNetwork, logicMainApp.token1Name, logicMainApp.token2Name)
 
-//        print("DapStockTab Component.onCompleted")
-        dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info")
-        dapServiceController.requestToService("DapGetXchangeOrdersList")
-
-//        logicStock.initPairModel()
-//        logicStock.initBalance()
-//        stockDataWorker.generateBookModel(0.245978, 18)
-//        logicStock.initBookModels()
-//        logicStock.initOrderLists()
-//        generateTimer.start()
         if (!updatePriceTimer.running)
             updatePriceTimer.start()
 
@@ -93,6 +76,32 @@ DapPage
 
         if (!updateOrdersListTimer.running)
             updateOrdersListTimer.start()
+
+        if (logicMainApp.simulationStock)
+        {
+            var firstPrice = 1234.45678901234
+//            var firstPrice = 1234567890.45678901234
+//            var firstPrice = 0.00145678901234
+
+            stockDataWorker.resetPriceData(
+                        firstPrice, firstPrice.toFixed(10), false)
+
+            var rcvData = ""
+
+            stockDataWorker.setTokenPriceHistory(rcvData)
+
+            stockDataWorker.generateBookModel(firstPrice, 30, 0.04)
+
+            simulationTimer.start()
+
+/*            stockDataWorker.setNewPrice("123.456789")
+
+            logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+
+            tokenPriceChanged()
+
+            simulationTimer.start()*/
+        }
     }
 
     Component.onDestruction:
@@ -133,6 +142,7 @@ DapPage
                 logicMainApp.tokenNetwork,
                 logicMainApp.token1Name,
                 logicMainApp.token2Name)
+
 //            dapServiceController.requestToService(
 //                "DapGetXchangeTokenPriceAverage",
 //                logicMainApp.tokenNetwork,
@@ -146,8 +156,13 @@ DapPage
         target: dapMainWindow
         onModelPairsUpdated:
         {
-//            print("DapStockTab", "onModelPairsUpdated")
+            print("DapStockTab", "onModelPairsUpdated")
 
+            dapServiceController.requestToService(
+                "DapGetXchangeTokenPriceAverage",
+                logicMainApp.tokenNetwork,
+                logicMainApp.token1Name,
+                logicMainApp.token2Name)
         }
     }
 
@@ -167,16 +182,20 @@ DapPage
 //                  logicMainApp.token2Name,
 //                  logicMainApp.tokenNetwork)
 
-            if (rcvData.rate !== "0" &&
-                rcvData.token1 === logicMainApp.token1Name &&
-                rcvData.token2 === logicMainApp.token2Name &&
-                rcvData.network === logicMainApp.tokenNetwork)
+            if (!logicMainApp.simulationStock)
             {
-                stockDataWorker.setNewPrice(rcvData.rate)
+                if (rcvData.rate !== "0" &&
+                    rcvData.token1 === logicMainApp.token1Name &&
+                    rcvData.token2 === logicMainApp.token2Name &&
+                    rcvData.network === logicMainApp.tokenNetwork)
+                {
+                    stockDataWorker.setNewPrice(rcvData.rate)
 
-                logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+                    logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+                    logicMainApp.tokenPriceText = stockDataWorker.currentTokenPriceText
 
-                tokenPriceChanged()
+                    tokenPriceChanged()
+                }
             }
         }
     }
@@ -194,10 +213,32 @@ DapPage
 
 //        console.log(logicMainApp.tokenPrice)
 
-        stockDataWorker.resetPriceData(logicMainApp.tokenPrice, false)
-        stockDataWorker.resetBookModel()
+        if (!logicMainApp.simulationStock)
+        {
+            stockDataWorker.resetPriceData(
+                logicMainApp.tokenPrice, logicMainApp.tokenPriceText, false)
+            stockDataWorker.resetBookModel()
 
-        tokenPriceChanged()
+            tokenPriceChanged()
+        }
+    }
+
+    Timer
+    {
+        id: simulationTimer
+        repeat: true
+        interval: 1000
+        onTriggered:
+        {
+            interval = 500 + Math.round(Math.random()*3000)
+
+            stockDataWorker.generateNewPrice(0.004)
+
+            logicMainApp.tokenPrice = stockDataWorker.currentTokenPrice
+            logicMainApp.tokenPriceText = stockDataWorker.currentTokenPriceText
+
+            tokenPriceChanged()
+        }
     }
 
 }

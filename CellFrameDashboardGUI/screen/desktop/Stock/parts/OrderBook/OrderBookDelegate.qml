@@ -45,7 +45,9 @@ Rectangle
                 Layout.minimumWidth: 100
                 color: isSell? currTheme.textColorRed : currTheme.textColorGreen
                 font: mainFont.dapFont.regular13
-                text: modelData.price.toFixed(5)
+//                text: modelData.price.toFixed(5)
+                text: roundDoubleValue(modelData.price,
+                    stockDataWorker.bookRoundPower)
             }
 
             Text
@@ -73,6 +75,24 @@ Rectangle
                 delegateRectangle.ListView.view.model.length-1
 
             color: currTheme.lineSeparatorColor
+        }
+    }
+
+    function roundDoubleValue(value, round)
+    {
+//        print("roundDoubleValue", value, round)
+
+        if (round >= 0)
+        {
+            return value.toFixed(round)
+        }
+        else
+        {
+            var pow = Math.pow(10, -round)
+            value /= pow
+            value = value.toFixed(0)
+            value *= pow
+            return value.toFixed(0)
         }
     }
 }

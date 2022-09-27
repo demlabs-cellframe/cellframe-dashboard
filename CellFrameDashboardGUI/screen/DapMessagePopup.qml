@@ -12,8 +12,8 @@ Popup {
     property alias dapButtonOk: buttonOk
     property alias dapButtonCancel: buttonCancel
 
-    width: 300 * pt
-    height: 200 * pt
+    width: 300 
+    height: 200 
 
     parent: Overlay.overlay
     x: (parent.width - width) * 0.5
@@ -28,19 +28,19 @@ Popup {
     background: Rectangle
     {
         border.width: 0
-        radius: 16 * pt
+        radius: 16 
         color: currTheme.backgroundElements
     }
 
     ColumnLayout
     {
         anchors.fill: parent
-        anchors.margins: 10 * pt
+        anchors.margins: 10 
 
         Text {
             id: dapContentTitle
             Layout.fillWidth: true
-//            Layout.margins: 10 * pt
+//            Layout.margins: 10 
             Layout.leftMargin: 5
             Layout.rightMargin: 5
             Layout.topMargin: 5
@@ -54,7 +54,7 @@ Popup {
         Text {
             id: dapContentText
             Layout.fillWidth: true
-            Layout.margins: 5 * pt
+            Layout.margins: 5 
             font: mainFont.dapFont.regular14
             color: currTheme.textColor
             verticalAlignment: Text.AlignVCenter
@@ -64,9 +64,9 @@ Popup {
 
         RowLayout
         {
-            Layout.margins: 10 * pt
-            Layout.bottomMargin: 20 * pt
-            spacing: 10 * pt
+            Layout.margins: 10 
+            Layout.bottomMargin: 20 
+            spacing: 10 
 
             DapButton
             {
@@ -74,12 +74,12 @@ Popup {
 
                 Layout.fillWidth: true
 
-                Layout.minimumHeight: 36 * pt
-                Layout.maximumHeight: 36 * pt
+                Layout.minimumHeight: 36 
+                Layout.maximumHeight: 36 
 
                 textButton: qsTr("Ok")
 
-                implicitHeight: 36 * pt
+                implicitHeight: 36 
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 
@@ -97,12 +97,12 @@ Popup {
                 visible: false
                 Layout.fillWidth: true
 
-                Layout.minimumHeight: 36 * pt
-                Layout.maximumHeight: 36 * pt
+                Layout.minimumHeight: 36 
+                Layout.maximumHeight: 36 
 
                 textButton: qsTr("Cancel")
 
-                implicitHeight: 36 * pt
+                implicitHeight: 36 
                 fontButton: mainFont.dapFont.medium14
                 horizontalAligmentText: Text.AlignHCenter
 

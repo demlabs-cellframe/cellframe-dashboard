@@ -45,7 +45,7 @@ Item {
             Rectangle
             {
                 id: frameInputNameCertificate
-                height: 60 * pt
+                height: 60 
                 color: "transparent"
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignHCenter
@@ -58,8 +58,8 @@ Item {
                     font.pixelSize: 16
                     horizontalAlignment: Text.AlignLeft
                     anchors.fill: parent
-                    anchors.margins: 10 * pt
-                    anchors.leftMargin: 25 * pt
+                    anchors.margins: 10 
+                    anchors.leftMargin: 25 
 
                     validator: RegExpValidator { regExp: /[0-9A-Za-z\.\-]+/ }
                     style:
@@ -67,6 +67,8 @@ Item {
                         {
                             textColor: "#ffffff"
                             placeholderTextColor: "#B4B1BD"
+                            selectionColor: "#AABCDE"
+                            selectedTextColor: "#2E3138"
                             background:
                                 Rectangle
                                 {

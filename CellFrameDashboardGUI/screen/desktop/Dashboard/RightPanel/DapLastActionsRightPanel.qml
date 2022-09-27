@@ -30,7 +30,7 @@ DapLastActionsRightPanelForm
         id: delegateSection
         Rectangle
         {
-            height: 30 * pt
+            height: 30 
             width: parent.width
             color: currTheme.backgroundMainScreen
 
@@ -39,8 +39,8 @@ DapLastActionsRightPanelForm
             Text
             {
                 anchors.fill: parent
-                anchors.leftMargin: 16 * pt
-                anchors.rightMargin: 16 * pt
+                anchors.leftMargin: 16 
+                anchors.rightMargin: 16 
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.textColor

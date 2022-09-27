@@ -8,7 +8,7 @@ Item {
     property alias info_text: infoText
 
     width: root.width
-    height: 40 * pt
+    height: 40 
     anchors.left: parent.left
     anchors.leftMargin: 10
     anchors.right: parent.right
@@ -16,8 +16,8 @@ Item {
 
     Text {
         id: orderText
-        x: 14 * pt
-        width: 612 * pt
+        x: 14 
+        width: 612 
         height: parent.height
         verticalAlignment: Text.AlignVCenter
         font: mainFont.dapFont.regular16
@@ -64,7 +64,7 @@ Item {
         text: qsTr("0")
         height: parent.height
         anchors.right: parent.right
-        anchors.rightMargin: activeBtn? 50 * pt : 10 * pt
+        anchors.rightMargin: activeBtn? 50  : 10 
         color: currTheme.textColor
         font: mainFont.dapFont.regular16
         verticalAlignment: Text.AlignVCenter
@@ -84,12 +84,12 @@ Item {
             id: img
             anchors {
                 right: infoButton.right
-                rightMargin: 14 * pt
+                rightMargin: 14 
                 verticalCenter: parent.verticalCenter
             }
             source: "qrc:/Resources/"+ pathTheme +"/icons/other/back.svg"
-            width: 20 * pt
-            height: 20 * pt
+            width: 20 
+            height: 20 
             mirror: true
         }
     }
@@ -98,8 +98,8 @@ Item {
         id: bottomLine
         x: orderText.x
         y: parent.height
-        width: 648 * pt
-        height: 1 * pt
+        width: 648 
+        height: 1 
         color: currTheme.backgroundMainScreen
     }
 }

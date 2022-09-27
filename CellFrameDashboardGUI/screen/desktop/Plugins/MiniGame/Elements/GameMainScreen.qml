@@ -4,7 +4,7 @@ import QtQuick.Controls 2.5
 
 Rectangle {
 
-    property double speed: 30 * pt
+    property double speed: 30 
 
     id: gameScreen
 
@@ -12,13 +12,13 @@ Rectangle {
     anchors.margins: 30
 
     color: "#363A42"
-    radius: 16 * pt
+    radius: 16 
 
 
     GameTopPanel
     {
         id: topPanel
-        height: 120 * pt
+        height: 120 
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
@@ -41,8 +41,8 @@ Rectangle {
     GamePlayer
     {
         id: player
-        height: 60 * pt
-        width: 100 * pt
+        height: 60 
+        width: 100 
 
         x:parent.width/2 - width/2
         y: parent.height - height

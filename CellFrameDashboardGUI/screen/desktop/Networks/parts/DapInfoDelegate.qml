@@ -3,13 +3,20 @@ import QtQml 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
+import "qrc:/widgets"
 import "../../controls"
+
+import qmlclipboard 1.0
 
 Popup {
     property alias imgStatus: nameStatus
     property bool isOpen: false
     property real startY: 0
     property real stopY: 0
+
+    QMLClipboard{
+        id: clipboard
+    }
 
     id: popupItem
 
@@ -139,13 +146,13 @@ Popup {
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
 
-                    spacing: 8 * pt
+                    spacing: 8
 
                     DapRowInfoText
                     {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
-                        Layout.preferredHeight: 15 * pt
+                        Layout.preferredHeight: 15
 
                         staticText.text: "State: "
                         dynamicText.text: networkState
@@ -159,7 +166,7 @@ Popup {
                         Layout.fillWidth: true
                         Layout.leftMargin: 40
                         Layout.rightMargin: 40
-                        Layout.preferredHeight: 15 * pt
+                        Layout.preferredHeight: 15
                         visible: errorMessage === "" || errorMessage === " "  ? false : true
 
                         text: errorMessage
@@ -173,7 +180,7 @@ Popup {
                     {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
-                        Layout.preferredHeight: 15 * pt
+                        Layout.preferredHeight: 15
 
                         staticText.text: "Target state: "
                         dynamicText.text: targetState
@@ -184,7 +191,7 @@ Popup {
                     {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
-                        Layout.preferredHeight: 15 * pt
+                        Layout.preferredHeight: 15
 
                         staticText.text: "Active links: "
                         dynamicText.text: activeLinksCount + " from " + linksCount
@@ -194,12 +201,26 @@ Popup {
                     {
                         Layout.alignment: Qt.AlignHCenter
                         Layout.preferredWidth: staticText.implicitWidth + dynamicText.implicitWidth
-                        Layout.preferredHeight: 15 * pt
+                        Layout.preferredHeight: 15
 
                         staticText.text: "Address: "
                         dynamicText.text: nodeAddress + " "
 
-                        CopyButton
+                        DapCopyButton
+                        {
+                            id: networkAddrCopyButton
+                            anchors.left: parent.dynamicText.right
+                            anchors.verticalCenter: parent.verticalCenter
+                            popupText: qsTr("Address copied")
+
+                            onCopyClicked:
+                            {
+                                clipboard.setText(nodeAddress)
+
+                            }
+                        }
+
+/*                        CopyButton
                         {
                             id: networkAddrCopyButton
                             onCopyClicked: copyStringToClipboard()
@@ -217,7 +238,7 @@ Popup {
                         TextEdit {
                             id: textEdit
                             visible: false
-                        }
+                        }*/
                     }
                     Item {
                         Layout.fillHeight: true
@@ -227,8 +248,8 @@ Popup {
                         Layout.fillWidth: false
                         Layout.alignment: Qt.AlignHCenter
 
-                        height: 15 * pt
-                        spacing: 5 * pt
+                        height: 15
+                        spacing: 5
                         width: nameText.width + nameStatus.width + spacing
 
                         Text {
@@ -245,10 +266,10 @@ Popup {
                         Image {
                             id: nameStatus
                             Layout.alignment: Qt.AlignVCenter
-                            Layout.preferredHeight: 8 * pt
-                            Layout.preferredWidth: 8 * pt
-                            width: 8 * pt
-                            height: 8 * pt
+                            Layout.preferredHeight: 8
+                            Layout.preferredWidth: 8
+                            width: 8
+                            height: 8
                             mipmap: true
 
                             source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :

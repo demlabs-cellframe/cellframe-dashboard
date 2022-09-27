@@ -27,7 +27,7 @@ DapNewPaymentMainRightPanelForm
         dapComboBoxChainModel = networksModel.
             get(dapComboboxNetwork.currentIndex).chains
 
-        dapTextInputAmountPayment.text = "0.0"
+//        dapTextInputAmountPayment.text = "0.0"
     }
     dapComboboxNetwork.onCurrentIndexChanged:
     {
@@ -66,13 +66,13 @@ DapNewPaymentMainRightPanelForm
                 dapButtonSend.visible = true
             }
 
-            dapTextInputAmountPayment.text = "0.0"
+            dapTextInputAmountPayment.text = ""
         }
     }
 
     dapComboBoxToken.onCurrentIndexChanged:
     {
-        dapTextInputAmountPayment.text = "0.0"
+        dapTextInputAmountPayment.text = ""
     }
 
     dapButtonClose.onClicked:
@@ -113,7 +113,7 @@ DapNewPaymentMainRightPanelForm
                 print("dapWalletMessagePopup.smartOpen")
                 dapWalletMessagePopup.smartOpen(
                             "Confirming the transaction",
-                            "Attention, the transaction fee will be 0.1 " + dapComboBoxToken.displayText )
+                            "Attention, the transaction fee will be 0.05 " + dapComboBoxToken.displayText )
 
             }
         }
@@ -167,7 +167,7 @@ DapNewPaymentMainRightPanelForm
                     console.log("   token:", dapComboBoxToken.displayText)
                     console.log("   amount:", amount)
 
-                    var commission = logicWallet.toDatoshi("0.1")
+                    var commission = logicWallet.toDatoshi("0.05")
 
                     dapServiceController.requestToService("DapCreateTransactionCommand",
                         dapComboboxNetwork.displayText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
@@ -184,8 +184,7 @@ DapNewPaymentMainRightPanelForm
         target: dapServiceController
         onTransactionCreated:
         {
-            commandResult.success = aResult.success
-            commandResult.message = aResult.message
+            commandResult = aResult
             updateWalletTimer.start()
             navigator.doneNewPayment()
         }

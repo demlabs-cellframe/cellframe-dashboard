@@ -2,6 +2,7 @@
 #define PRICEINFO_H
 
 #include <QVariantMap>
+#include <QString>
 
 struct PriceInfo
 {
@@ -12,6 +13,7 @@ struct PriceInfo
 
     qint64 time;
     double price;
+    QString priceText;
 };
 
 #endif // PRICEINFO_H

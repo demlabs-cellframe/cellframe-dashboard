@@ -1,6 +1,6 @@
-import QtQuick 2.4
+import QtQuick 2.12
 import QtQml 2.12
-import QtQuick.Controls 2.4
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.3
 import "qrc:/widgets"
 //import ".."
@@ -17,14 +17,14 @@ Item
 
     Component.onCompleted:
     {
-        print("stockDataWorker.maximum24h", stockDataWorker.maximum24h)
-        print("stockDataWorker.currentTokenPrice", stockDataWorker.currentTokenPrice)
     }
 
     ColumnLayout
     {
         anchors.fill: parent
         anchors.margins: 10
+        anchors.leftMargin: 16
+        anchors.rightMargin: 16
         spacing: 0
 
         RowLayout
@@ -37,7 +37,7 @@ Item
                 property bool isInit: false
                 property var globalIndex
                 id: pairBox
-                Layout.minimumWidth: 190
+                Layout.minimumWidth: 184
                 height: 32
 
                 onInitModelIsCompleted: {
@@ -78,6 +78,7 @@ Item
                     logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
                     logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
                     logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
+                    logicMainApp.tokenPriceText = dapPairModel.get(currentIndex).rate
                     logicStock.tokenChange = dapPairModel.get(currentIndex).change
 
                     stockDataWorker.setTokenPair(logicMainApp.token1Name,
@@ -96,7 +97,7 @@ Item
                         else
                         {
                             pairBox.currentIndex = logicMainApp.currentIndexPair
-                            displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                            pairBox.displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
                         }
                     }
                 }
@@ -195,10 +196,7 @@ Item
                 name: "12h"
             }
             ListElement {
-                name: "1D"
-            }
-            ListElement {
-                name: "3D"
+                name: "24h"
             }
             ListElement {
                 name: "7D"
@@ -234,25 +232,43 @@ Item
 
             Text
             {
+                id: textItem
+                height: 30
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColor
                 text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
+                verticalAlignment: Qt.AlignVCenter
+                Layout.alignment: Qt.AlignVCenter
+                topPadding: OS_WIN_FLAG ? 5 : 0
             }
 
-            Text
+            DapBigNumberText
+            {
+                id: tokenPriceText
+                Layout.alignment: Qt.AlignVCenter
+                Layout.fillWidth: true
+                height: 30
+                textFont: mainFont.dapFont.medium24
+                textColor: currTheme.textColorGreen
+                outSymbols: 15
+                fullNumber: stockDataWorker.currentTokenPriceText
+                copyButtonVisible: true
+            }
+
+/*            Text
             {
                 id: tokenPriceText
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColorGreen
                 text: stockDataWorker.currentTokenPrice.
                     toFixed(roundPower)
-            }
+            }*/
         }
 
         CandleChart
         {
             id: chartItem
-            Layout.topMargin: 9
+            Layout.topMargin: 8
             Layout.fillWidth: true
             Layout.fillHeight: true
 
@@ -270,7 +286,25 @@ Item
                 textClose.text = closeValue.toFixed(roundPower)
 
                 if (openValue > 0.0000000000000000001)
-                    textChange.text = (closeValue/openValue*100 - 100).toFixed(4) + "%"
+                {
+                    var change = closeValue/openValue*100 - 100
+                    if (change > -0.000001 && change < 0.000001)
+                        textChange.text = "0%"
+                    else
+                    if (change > -0.00001 && change < 0.00001)
+                        textChange.text = change.toFixed(8) + "%"
+                    else
+                    if (change > -0.001 && change < 0.001)
+                        textChange.text = change.toFixed(6) + "%"
+                    else
+                    if (change > -0.1 && change < 0.1)
+                        textChange.text = change.toFixed(4) + "%"
+                    else
+                        textChange.text = change.toFixed(2) + "%"
+
+//                    print("onChandleSelected",
+//                          openValue, closeValue, change, textChange.text)
+                }
                 else
                     textChange.text = "0%"
 
@@ -303,14 +337,16 @@ Item
         height: childrenRect.height
 
         color: "#a0363A42"
-//        color: "transparent"
 
         RowLayout
         {
+            spacing: 10
+
             ChartTextBlock
             {
                 id: textDate
-                Layout.minimumWidth: 120
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 labelVisible: false
                 text: "-"
                 textColor: currTheme.textColorGray
@@ -319,7 +355,8 @@ Item
             ChartTextBlock
             {
                 id: textOpen
-                Layout.minimumWidth: 100
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 label: qsTr("Open:")
                 text: "-"
             }
@@ -327,60 +364,35 @@ Item
             ChartTextBlock
             {
                 id: textHigh
-                Layout.minimumWidth: 95
+                Layout.preferredWidth: 95
+                Layout.fillWidth: true
                 label: qsTr("High:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textLow
-                Layout.minimumWidth: 90
+                Layout.preferredWidth: 90
+                Layout.fillWidth: true
                 label: qsTr("Low:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textClose
-                Layout.minimumWidth: 100
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 label: qsTr("Close:")
                 text: "-"
             }
             ChartTextBlock
             {
                 id: textChange
-                Layout.minimumWidth: 100
+                Layout.preferredWidth: 100
+                Layout.fillWidth: true
                 label: qsTr("Change:")
                 text: "-"
             }
-        }
-    }
-
-    Timer
-    {
-        id: generateTimer
-        repeat: true
-        interval: 1000
-        onTriggered:
-        {
-            interval = 500 + Math.round(Math.random()*3000)
-
-            stockDataWorker.generateNewPrice()
-
-            stockDataWorker.getMinimumMaximum24h()
-
-            updateTokenPrice()
-
-            stockDataWorker.updateAllModels()
-
-//            stockDataWorker.getCandleModel()
-
-//            stockDataWorker.getAveragedModel()
-
-            candleLogic.dataAnalysis()
-
-            chartItem.chartCanvas.requestPaint()
-
-            volume24h += Math.random()*10
         }
     }
 
@@ -405,10 +417,11 @@ Item
 
     function updateTokenPrice()
     {
-        if (stockDataWorker.currentTokenPrice < stockDataWorker.previousTokenPrice)
-            tokenPriceText.color = currTheme.textColorRed
+        if (stockDataWorker.currentTokenPrice <
+            stockDataWorker.previousTokenPrice)
+            tokenPriceText.textColor = currTheme.textColorRed
         else
-            tokenPriceText.color = currTheme.textColorGreen
+            tokenPriceText.textColor = currTheme.textColorGreen
     }
 
 }

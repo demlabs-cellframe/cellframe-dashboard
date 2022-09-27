@@ -21,7 +21,7 @@ Control {
     property var textFromValue: function(value, locale) { return Number(value).toLocaleString(locale, 'f', control.decimals) }
     property var valueFromText: function(text, locale) { return Number.fromLocaleString(locale, text) }
 
-    padding: 4 * pt
+    padding: 4 
     font:  mainFont.dapFont.medium16
 
     contentItem: TextInput {
@@ -40,10 +40,10 @@ Control {
     }
 
     background: Rectangle {
-        implicitWidth: 140 * pt
+        implicitWidth: 140 
         color:"transparent"
         border.width: pt
         border.color: "#B4B1BD"
-        radius: 4 * pt
+        radius: 4 
     }
 }

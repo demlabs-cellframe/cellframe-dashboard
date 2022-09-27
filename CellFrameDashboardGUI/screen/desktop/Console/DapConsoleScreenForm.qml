@@ -48,16 +48,18 @@ Page
             {
                 id: listViewConsoleCommand
                 anchors.fill: parent
-                anchors.bottomMargin: 50 * pt
+                anchors.bottomMargin: 40
                 anchors.leftMargin: 20 *pt
-                anchors.topMargin: 24 * pt
+                anchors.topMargin: 24 
                 height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
                             contentHeight :
                             (consoleRectangle.height - inputCommand.height)
                 clip: true
                 model: modelConsoleCommand
                 delegate: delegateConsoleCommand
-                cacheBuffer: 5000
+                cacheBuffer: 10000
+
+                spacing: 0
 
                 currentIndex: count - 1
                 highlightFollowsCurrentItem: true
@@ -72,7 +74,8 @@ Page
             {
                 id: suggestionsBox
                 anchors.bottom: inputCommand.top
-                x: 20 * pt
+
+                x: 20
                 z: 4
 
                 onWordSelected: inputField.text = word
@@ -80,13 +83,13 @@ Page
                 Rectangle
                 {
                     width: parent.width
-                    height: 1 * pt
+                    height: 1
                     color: currTheme.borderColor
                 }
 
                 Rectangle
                 {
-                    width: 1 * pt
+                    width: 1
                     height: parent.height
                     color: currTheme.borderColor
                 }
@@ -107,7 +110,7 @@ Page
             Item
             {
                 id: closeSuggestionBoxButton
-                width: 15 * pt
+                width: 15 
                 height: width
 
                 x: suggestionsBox.x + suggestionsBox.width
@@ -136,9 +139,11 @@ Page
             {
                 clip: true
                 id: inputCommand
-                width: parent.width
+//                width: parent.width
+                anchors.left: parent.left
+                anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                height: contentHeight < 100 * pt ? contentHeight : 100 * pt
+                height: contentHeight < 100  ? contentHeight : 100 
                 contentHeight: consoleCmd.height
 
                 ScrollBar.vertical: ScrollBar {}
@@ -154,8 +159,8 @@ Page
                         id: promt
                         text: ">"
                         color: currTheme.textColor
-                        x: 20 * pt
-                        y: 1 * pt
+                        x: 20 
+                        y: 1 
 
                         font: mainFont.dapFont.regular18
                     }
@@ -163,16 +168,17 @@ Page
                     Item {
                         id: consoleCmd
                         width: parent.width - x
-                        height: 40 * pt
+                        height: 40
                         anchors.bottom: parent.bottom
-                        x: promt.x + promt.width + 5 * pt
+                        x: promt.x + promt.width + 5 
 
                         LineEdit {
                             id: inputField
                             anchors.top: parent.top
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: 30 * pt
+                            height: 30
+
 
                             onSugTextChanged:
                             {

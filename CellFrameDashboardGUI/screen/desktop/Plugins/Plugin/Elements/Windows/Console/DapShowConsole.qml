@@ -23,7 +23,7 @@ Item {
         id: viewConsole
         anchors.fill: parent
         color: "#363A42"
-        radius: 16 * pt
+        radius: 16 
         Rectangle
         {
             anchors.fill: parent
@@ -47,14 +47,14 @@ Item {
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                height: 38 * pt
+                height: 38 
 
                 Text
                 {
                     anchors.fill: parent
-                    anchors.leftMargin: 18 * pt
-                    anchors.topMargin: 10 * pt
-                    anchors.bottomMargin: 10 * pt
+                    anchors.leftMargin: 18 
+                    anchors.topMargin: 10 
+                    anchors.bottomMargin: 10 
                     verticalAlignment: Qt.AlignVCenter
                     text: qsTr("Console")
                     font.family: "Quicksand"
@@ -72,7 +72,7 @@ Item {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 50 * pt
+                anchors.bottomMargin: 50 
                 anchors.leftMargin: 20 *pt
 
                 height: (contentHeight < viewConsole.height - inputCommand.height) ?
@@ -97,7 +97,7 @@ Item {
                 id: inputCommand
                 width: parent.width
                 anchors.bottom: parent.bottom
-                height: contentHeight < 100 * pt ? contentHeight : 100 * pt
+                height: contentHeight < 100  ? contentHeight : 100 
                 contentHeight: consoleCmd.height
                 ScrollBar.vertical: ScrollBar {}
 
@@ -110,8 +110,8 @@ Item {
                     {
                         Layout.fillHeight: true
                         id: promt
-                        x: 20 * pt
-                        y: 5 * pt
+                        x: 20 
+                        y: 5 
 
                         text: ">"
                         font.family: "Quicksand"
@@ -124,12 +124,14 @@ Item {
                         id: consoleCmd
                         width: parent.width - x
                         anchors.bottom: parent.bottom
-                        x: promt.x + promt.width + 5 * pt
+                        x: promt.x + promt.width + 5 
                         wrapMode: TextArea.Wrap
                         validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\s*]+/ }
                         placeholderText: qsTr("Type here...")
                         selectByMouse: true
                         background: Rectangle{color: "#363A42"}
+                        selectionColor: "#AABCDE"
+                        selectedTextColor: "#2E3138"
 
 
                         font.family: "Quicksand"

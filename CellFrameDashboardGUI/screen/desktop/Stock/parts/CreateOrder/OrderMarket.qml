@@ -59,9 +59,9 @@ ColumnLayout {
         textValue: logicMainApp.tokenPrice
         onEdited: {
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
-            if(amount.textValue !== "0")
-                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
-                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+            if(amount.textValue !== "" || amount.textValue !== "0")
+                total.textElement.setText(dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
+                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false))
         }
     }
 
@@ -95,11 +95,11 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: logicMainApp.token1Name
-        textValue: "0.0"
+        textValue: ""
         onEdited:
         {
-            total.textValue = dapMath.multCoins(dapMath.coinsToBalance(textValue),
-                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+            total.textElement.setText(dapMath.multCoins(dapMath.coinsToBalance(textValue),
+                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false))
 
             button25.selected = false
             button50.selected = false
@@ -244,7 +244,7 @@ ColumnLayout {
         Layout.minimumHeight: 40
         Layout.maximumHeight: 40
         textToken: logicMainApp.token2Name
-        textValue: "0.0"
+        textValue: ""
         onEdited:
         {
             button25.selected = false
@@ -252,8 +252,8 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(textValue),
-                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+            amount.textElement.setText(dapMath.divCoins(dapMath.coinsToBalance(textValue),
+                                                dapMath.coinsToBalance(logicMainApp.tokenPrice),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
         onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
@@ -312,8 +312,8 @@ ColumnLayout {
     {
         price.textValue = logicMainApp.tokenPrice
 //        price.setRealValue(logicMainApp.tokenPrice)
-        total.textValue = "0"
-        amount.textValue = "0"
+        total.textValue = ""
+        amount.textValue = ""
         createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
         button25.selected = false
         button50.selected = false

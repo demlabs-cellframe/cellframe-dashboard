@@ -10,7 +10,7 @@ DapRecoveryWalletRightPanelForm
         onSetHashString:
         {
             walletInfo.recovery_hash = hash
-            print("hash = ", walletInfo.recovery_hash)
+//            print("hash = ", walletInfo.recovery_hash)
 
             if (walletInfo.recovery_hash !== "" && logicMainApp.restoreWalletMode)
             {
@@ -55,8 +55,8 @@ DapRecoveryWalletRightPanelForm
 
     Component.onCompleted:
     {
-        print("DapRecoveryWalletRightPanelForm Component.onCompleted")
-        print("logicMainApp.restorelogicMainApp.WalletMode", logicMainApp.restoreWalletMode)
+//        print("DapRecoveryWalletRightPanelForm Component.onCompleted")
+//        print("logicMainApp.restorelogicMainApp.WalletMode", logicMainApp.restoreWalletMode)
 
         dapButtonAction.enabled = true
         dapButtonNext.enabled = false
@@ -93,7 +93,7 @@ DapRecoveryWalletRightPanelForm
         {
             if (!logicMainApp.restoreWalletMode)
             {
-                dapTextTopMessage.color = "#FFFF00"
+                dapTextTopMessage.color = "#E4E111"
                 dapTextTopMessage.text =
                     qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
                 walletHashManager.generateNewWords()
@@ -112,11 +112,12 @@ DapRecoveryWalletRightPanelForm
             {
                 dapTextTopMessage.text =
                     qsTr("Click the 'Save' button and keep backup file in a safe place. They will be required to restore your wallet in case of loss of access to it.")
+                dapTextTopMessage.color = "#59D2C2"
                 walletHashManager.generateNewFile()
             }
             else
             {
-                dapTextTopMessage.color = "#6F9F00"
+                dapTextTopMessage.color = "#BEFF00"
                 dapTextTopMessage.text =
                     qsTr("Click the 'Load' button and select the previously saved backup file.")
             }
@@ -127,7 +128,7 @@ DapRecoveryWalletRightPanelForm
     {
         console.log("Create new wallet " + walletInfo.name);
         console.log(walletInfo.signature_type);
-        print("hash = ", walletInfo.recovery_hash)
+//        print("hash = ", walletInfo.recovery_hash)
         dapServiceController.requestToService("DapAddWalletCommand",
                walletInfo.name,
                walletInfo.signature_type,

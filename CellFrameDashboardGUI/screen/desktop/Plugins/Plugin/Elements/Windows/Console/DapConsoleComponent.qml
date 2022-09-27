@@ -18,6 +18,9 @@ Component
             font.pixelSize: 18
             color: "#ffffff"
 
+            selectionColor: "#AABCDE"
+            selectedTextColor: "#2E3138"
+
         }
         TextEdit
         {
@@ -30,6 +33,8 @@ Component
             font.family: "Quicksand"
             font.pixelSize: 18
             color: "#ffffff"
+            selectionColor: "#AABCDE"
+            selectedTextColor: "#2E3138"
         }
     }
 }
