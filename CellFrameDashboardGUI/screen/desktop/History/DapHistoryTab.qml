@@ -35,7 +35,7 @@ DapPage
 
     Timer {
         id: updateHistoryTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        interval: logicMainApp.autoUpdateHistoryInterval; running: false; repeat: true
         onTriggered:
         {
             console.log("HISTORY TIMER TICK")

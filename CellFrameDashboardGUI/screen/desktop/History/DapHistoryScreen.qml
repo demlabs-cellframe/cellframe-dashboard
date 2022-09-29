@@ -183,7 +183,9 @@ Page
                         id: mouseArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
+                        onClicked:
+                            Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
+
                     }
                 }
 

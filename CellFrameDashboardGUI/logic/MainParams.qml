@@ -88,7 +88,7 @@ QtObject {
               "desktopAvailableHeight", Screen.desktopAvailableHeight)
         print("window size", window.width, window.height)
         print("window position", window.x, window.y)
-        print("mainWindow size", mainWindow.width, mainWindow.height)
+//        print("mainWindow size", mainWindow.width, mainWindow.height)
 
     }
 

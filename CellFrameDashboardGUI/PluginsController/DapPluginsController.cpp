@@ -281,9 +281,9 @@ bool DapPluginsController::zipManage(QString &path)
     //TODO: Make a request to the node to confirm the hash
     QString hash = pkeyHash(path);
 
-    QStringList result = JlCompress::extractDir(path,m_pathPlugins);
+//    bool result = DapZip::fileDecompression(path,m_pathPlugins);
 
-    return !result.isEmpty();
+    return DapZip::fileDecompression(path,m_pathPlugins);
 }
 
 QString DapPluginsController::pkeyHash(QString &path)

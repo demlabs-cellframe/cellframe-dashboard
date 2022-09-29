@@ -15,8 +15,10 @@
 #include <QRegularExpression>
 #include <QString>
 
-#include "JlCompress.h"
+//#include "JlCompress.h"
 //#include "..\..\dap-ui-sdk\quazip\JlCompress.h"
+
+#include "zip/unpackzip.h"
 #include "DapNetworkManager.h"
 
 class DapPluginsController : public QWidget
