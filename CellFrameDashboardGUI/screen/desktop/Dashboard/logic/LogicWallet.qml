@@ -11,7 +11,7 @@ QtObject {
 
     function updateCurrentWallet()
     {
-        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
+//        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
 
         if (logicMainApp.currentIndex !== -1 && logicMainApp.networkArray !== "")
             dapServiceController.requestToService("DapGetWalletInfoCommand",

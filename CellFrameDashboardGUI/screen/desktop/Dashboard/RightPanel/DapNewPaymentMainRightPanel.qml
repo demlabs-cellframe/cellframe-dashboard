@@ -86,6 +86,7 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonSend.onClicked:
     {
+        console.log("aaaaaaaaaaaaaa")
         if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
         {
             console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")

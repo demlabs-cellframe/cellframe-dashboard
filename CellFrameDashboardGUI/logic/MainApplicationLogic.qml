@@ -19,6 +19,7 @@ QtObject {
     property var networkArray: ""
 
     readonly property int autoUpdateInterval: 3000
+    readonly property int autoUpdateHistoryInterval: 4000
 
     property bool stateNotify: false
 

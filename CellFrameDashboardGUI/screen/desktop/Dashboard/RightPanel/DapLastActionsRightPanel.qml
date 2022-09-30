@@ -73,7 +73,7 @@ DapLastActionsRightPanelForm
 
     Timer {
         id: updateLastActionTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
+        interval: logicMainApp.autoUpdateHistoryInterval; running: false; repeat: true
         onTriggered:
         {
             console.log("LAST ACTIONS TICK")
