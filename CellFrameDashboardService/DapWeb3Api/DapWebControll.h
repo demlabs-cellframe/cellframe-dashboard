@@ -42,6 +42,7 @@ private:
     QJsonDocument sendJsonTransaction(QJsonDocument jsonCommand);
     QJsonDocument getLedgetTxHash(QString hash, QString net);
     QJsonDocument getLedgetTxListAll(QString net);
+    QJsonDocument getMempoolList(QString net);
 
     QJsonDocument getCertificates();
     //    auto args = QString("%1 cert create %2 %3").arg(s_toolPath).arg(certName).arg(signatureType);

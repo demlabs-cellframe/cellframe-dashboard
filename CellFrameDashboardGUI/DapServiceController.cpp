@@ -415,6 +415,11 @@ void DapServiceController::registerCommand()
         m_DapNotifyController->rcvData(rcvData);
     });
 
+    connect(this, &DapServiceController::dapWebConnectRequest, [=] (const QVariant& rcvData)
+    {
+        qDebug()<<"Rcv web request " << rcvData.toStringList()[0] << "---" << rcvData.toStringList()[1];
+    });
+
     connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
     {
         if(!tokensResult.isValid())
