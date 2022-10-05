@@ -422,6 +422,27 @@ QJsonDocument DapWebControll::getLedgetTxListAll(QString net)
     return docResult;
 }
 
+QJsonDocument DapWebControll::getMempoolList(QString net)
+{
+    QString command = QString("%1 mempool_list -net %2")
+            .arg(CLI_PATH).arg(net);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(!result.isEmpty())
+    {
+        obj.insert("string", result);
+        docResult = processingResult("ok", "", obj);
+    }else{
+        docResult = processingResult("bad", QString("Node is offline"));
+    }
+
+    return docResult;
+}
+
 QJsonDocument DapWebControll::getCertificates()
 {
     QJsonDocument docResult;

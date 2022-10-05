@@ -408,7 +408,7 @@ Rectangle {
 //        var addr = "abcd"
 //        var net = "private"
 
-        stockDataWorker.resetPriceData(0.0, true)
+        stockDataWorker.resetPriceData(0.0,"0.0", true)
         stockDataWorker.resetBookModel()
 //        //-------//OrdersHistory
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
@@ -479,17 +479,17 @@ Rectangle {
         }
 
         onCurrentNetworkChanged:
-                {
-                    for(var x = 0; x < dapModelWallets.count; x++)
+        {
+            for(var x = 0; x < dapModelWallets.count; x++)
+            {
+                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                    for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
                     {
-                        if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
-                            for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
-                            {
-                                if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
-                                    vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
-                            }
+                        if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
+                            vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
                     }
-                }
+            }
+        }
 
 
         onWalletReceived:

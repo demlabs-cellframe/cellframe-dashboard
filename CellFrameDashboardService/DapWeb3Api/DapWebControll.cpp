@@ -91,6 +91,7 @@ DapWebControll::DapWebControll(QObject *parent)
 //    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
 
 //    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", "220901", "subzero", "10000", "1", "");
+//    QJsonDocument doc = getMempoolList("Backbone");
 //    qDebug()<<"";
 }
 
@@ -243,6 +244,8 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = stakeLockTake(name, net, hashTx);
               else if(cmd == "StakeLockHold")
                   doc = stakeLockHold(tokenName, name, timeStaking, net, value, reinvest, stakeNoBaseFlag);
+              else if(cmd == "GetMempoolList")
+                  doc = getMempoolList(net);//          mempool_list -net kelvpn-minkowski
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
