@@ -1,18 +1,23 @@
-QT += core network
+QT += gui
+QT += core
+CONFIG += c++11
+QMAKE_CFLAGS += -std=gnu11
 
-CONFIG += c++11 console #nsis_build
-CONFIG -= app_bundle
-
-
-LIBS += -ldl
-#LIBS+=-lz #-lz -lrt -lm -lpthread   -lrt -lm -lpthread
-#+LIBS+=-lrt
 include(../config.pri)
 
-TARGET = $${BRAND}Service
+QT += core network
+
+!win32 {
+    CONFIG += console
+}
+
+LIBS += -ldl
+
+TARGET = $$OUT_PWD/$${BRAND}Service
 
 win32 {
     CONFIG -= console
+    DEFINES += HAVE_STRNDUP
 }
 
 android: {
@@ -27,13 +32,6 @@ android: {
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
-#DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
@@ -59,20 +57,37 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
                $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 unix: !mac : !android {
-    service_target.files = $${BRAND}Service
-    service_target.path = /opt/$${BRAND_LO}/bin/
-    INSTALLS += service_target
+    
     BUILD_FLAG = static
+
+    service_target.files = $$TARGET
+    service_target.path = /opt/$${BRAND_LO}/bin/
+    service_target.CONFIG += no_check_exist
+    
+    INSTALLS += service_target
 }
 
 win32 {
+
     INCLUDEPATH += $$PWD/platforms/win32/service/
     HEADERS += platforms/win32/service/Service.h
     SOURCES += platforms/win32/service/Service.cpp
-}
 
-defined(BUILD_FLAG,var){
-    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+
+    CONFIG(debug, debug|release) {
+        DESTDIR = /
+    }
+    CONFIG(release, debug|release) {
+        DESTDIR = /
+    }
+    
+    
+   service_target.files = $${TARGET}.exe
+   service_target.path = /opt/$${BRAND_LO}/bin/
+   #force qmake generate installs in makefiles for unbuilded targets
+    service_target.CONFIG += no_check_exist
+   INSTALLS += service_target
+   
 }
 
 RESOURCES += \
@@ -90,4 +105,12 @@ android {
     CONFIG += dll
     QT += androidextras
     TARGET = DashboardService
+}
+
+unix: !mac : !android {
+
+    share_target.files = $$PWD/../os/debian/share/
+    share_target.path = /opt/cellframe-dashboard/
+   
+    INSTALLS += share_target
 }
