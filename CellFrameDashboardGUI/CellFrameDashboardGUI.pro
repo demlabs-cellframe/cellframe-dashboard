@@ -2,15 +2,16 @@ QT += qml quick widgets svg network
 !android {
     TEMPLATE = app
 }
-CONFIG += c++11 #nsis_build
-CONFIG += node_build
+CONFIG += c++11
+
 
 LIBS += -ldl
 include(../config.pri)
 
-TARGET = $${BRAND}
+TARGET = $$OUT_PWD/$${BRAND}
 
 win32 {
+    DEFINES += HAVE_STRNDUP
     RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
 
@@ -113,6 +114,11 @@ HEADERS += \
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
+
+!win32 {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+}
+
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-node/cellframe-sdk/modules/common/common.pri)
@@ -127,38 +133,50 @@ unix: !mac : !android {
 }
 
 defined(BUILD_FLAG,var){
-    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+    
 }
 
-unix: !mac : !android : node_build {
-    node_build.commands = $$PWD/../prod_build/linux/debian/scripts/compile_node.sh \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
-    QMAKE_EXTRA_TARGETS += node_build
-    POST_TARGETDEPS += node_build
+#it always win32 even if build with 64bit mingw
+win32  { 
+
+
+    CONFIG(debug, debug|release) {
+        DESTDIR = /
+    }
+    CONFIG(release, debug|release) {
+        DESTDIR = /
+    }
+
+
+   gui_target.files = $${TARGET}.exe
+   gui_target.path = /opt/$${BRAND_LO}/bin/
+   #force qmake generate installs in makefiles for unbuilded targets
+    gui_target.CONFIG += no_check_exist
+   INSTALLS += gui_target
+   
 }
 
-win32: nsis_build {
-    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32)
-    build_node.commands = $$PWD/../cellframe-node/prod_build/windows/scripts/compile.bat \
-        $$DESTDIR $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/configs/.) $$shell_path($$DESTDIR/dist/etc) &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca/.) $$shell_path($$DESTDIR/dist/share/ca) &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/Resources/icon_win32.ico) $$DESTDIR &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/build.nsi) $$DESTDIR &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/modifyConfig.nsh) $$DESTDIR
-    nsis.commands += (echo !define APP_NAME \"$$BRAND\" && echo !define APP_VERSION \"$${VERSION}.0\" && echo !define APP_VER \"$${VER_MAJ}.$${VER_MIN}-$${VER_PAT}\") \
-        > $$shell_path($$DESTDIR/Nsis.defines.nsh)
+win32 {
+    
+    nsisfmt.commands +=   (echo !define APP_NAME       \"$$BRAND\" && \
+                        echo !define APP_VERSION    \"$${VERSION}.0\" && \
+                        echo !define APP_VER \"$${VER_MAJ}.$${VER_MIN}-$${VER_PAT}\") \
+        > $$shell_path($$OUT_PWD/nsis.defines.nsh)
 
-    QMAKE_EXTRA_TARGETS += build_node copyconfig nsis
-    POST_TARGETDEPS += build_node copyconfig nsis
-    QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
+    QMAKE_EXTRA_TARGETS += nsisfmt
+    POST_TARGETDEPS += nsisfmt
+    
+    nsisfmt_target.files = $$OUT_PWD/nsis.defines.nsh  
+    nsisfmt_target.path = /
+    nsisfmt_target.CONFIG += no_check_exist
+
+    nsis_target.files = $$PWD/../os/windows/*
+    nsis_target.path = /
+
+    icon_target.files = $$RC_ICONS
+    icon_target.path = /
+    
+    INSTALLS += nsis_target nsisfmt_target icon_target
 }
 
 android {
