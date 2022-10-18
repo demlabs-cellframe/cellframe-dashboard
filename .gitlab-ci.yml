@@ -48,6 +48,10 @@ windows-amd64:
     script:
       - ./prod_build/build.sh --target windows release
       - ./prod_build/pack.sh --target windows release
+    artifacts:
+      paths:
+        - build_*/*.exe
+
 
 deploy:
   extends: .deploy
