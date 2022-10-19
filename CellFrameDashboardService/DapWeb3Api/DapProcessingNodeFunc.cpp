@@ -367,8 +367,12 @@ QJsonDocument DapWebControll::getLedgetTxHash(QString hash, QString net)
 
     if(!result.isEmpty())
     {
-        obj.insert("string", result);
-        docResult = processingResult("ok", "", obj);
+        if(result.contains("transaction: hash:")){
+            obj.insert("string", result);
+            docResult = processingResult("ok", "", obj);
+        }else{
+            docResult = processingResult("bad", "", result);
+        }
     }else{
         docResult = processingResult("bad", QString("Node is offline"));
     }
@@ -648,8 +652,7 @@ QJsonDocument DapWebControll::getNodeStatus()
 
     if(s_nodeStatus != "Offline")
     {
-        obj.insert("string", s_nodeStatus);
-        docResult = processingResult("ok", "", obj);
+        docResult = processingResult("ok", "", s_nodeStatus);
     }else{
         docResult = processingResult("bad", s_nodeStatus);
     }
@@ -672,11 +675,10 @@ QJsonDocument DapWebControll::createCondTx(QString net, QString tokenName, QStri
         if(result.contains("succefully")){
             QRegExp rxHash("hash=0x(\\w+)");
             rxHash.indexIn(result, 0);
-            obj.insert("transfer", rxHash.cap(1));
+            obj.insert("hash", rxHash.cap(1));
             docResult = processingResult("ok", "", obj);
         }else{
-            obj.insert("string", result);
-            docResult = processingResult("bad", "", obj);
+            docResult = processingResult("bad", result);
         }
     }else{
         docResult = processingResult("bad", QString("Node is offline"));

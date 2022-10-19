@@ -20,6 +20,8 @@ DapWebControll::DapWebControll(QObject *parent)
     s_pathJsonCmd =  QString("%1/%2/data/").arg(regWGetUsrPath()).arg(DAP_BRAND);
 #endif
 
+    s_nodeStatus = "Service Initialization";
+
 
     //FOR TEST
 
@@ -92,7 +94,9 @@ DapWebControll::DapWebControll(QObject *parent)
 
 //    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", "220901", "subzero", "10000", "1", "");
 //    QJsonDocument doc = getMempoolList("Backbone");
-//    qDebug()<<"";
+    QJsonDocument doc = getLedgetTxHash("0xE9F238D24E6C39DF38A18C393F6CF9E5A92544CC1078EE01544D8E2D5045AA32", "mileena");
+    QString res = doc.toJson();
+    qDebug()<<"";
 }
 
 QString DapWebControll::getRandomString()
