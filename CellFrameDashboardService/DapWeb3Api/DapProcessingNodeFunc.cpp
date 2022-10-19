@@ -371,7 +371,7 @@ QJsonDocument DapWebControll::getLedgetTxHash(QString hash, QString net)
             obj.insert("string", result);
             docResult = processingResult("ok", "", obj);
         }else{
-            docResult = processingResult("bad", "", result);
+            docResult = processingResult("bad", result);
         }
     }else{
         docResult = processingResult("bad", QString("Node is offline"));
