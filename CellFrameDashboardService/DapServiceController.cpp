@@ -66,6 +66,7 @@ bool DapServiceController::start()
         registerCommand();
         // Send data from notify socket to client
         connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
+        connect(watcher, SIGNAL(rcvNotify(QVariant)), m_web3Controll, SLOT(rcvNodeStatus(QVariant)));
         // Channel req\rep for web 3 API
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver, SIGNAL(clientResponded(QVariant)), this, SLOT(rcvReplyFromClient(QVariant)));

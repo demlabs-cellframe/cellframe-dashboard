@@ -357,7 +357,7 @@ QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
 
 QJsonDocument DapWebControll::getLedgetTxHash(QString hash, QString net)
 {
-    QString command = QString("%1 ledger tx -tx %2 -net %3")
+    QString command = QString("%1 ledger info -hash %2 -net %3")
             .arg(CLI_PATH).arg(hash).arg(net);
 
     QString result = send_cmd(command);
@@ -618,4 +618,70 @@ QJsonDocument DapWebControll::stakeLockTake(QString walletName, QString net, QSt
     return docResult;
 }
 
+QJsonDocument DapWebControll::getMempoolTxHash(QString hash, QString net)
+{
+    QString command = QString("%1 mempool_check -datum %2 -net %3")
+            .arg(CLI_PATH).arg(hash).arg(net);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(!result.isEmpty())
+    {
+        if(result.contains("is present"))
+            docResult = processingResult("ok", "", result);
+        else
+            docResult = processingResult("bad", result);
+    }else{
+        docResult = processingResult("bad", QString("Node is offline"));
+    }
+
+    return docResult;
+}
+
+QJsonDocument DapWebControll::getNodeStatus()
+{
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(s_nodeStatus != "Offline")
+    {
+        obj.insert("string", s_nodeStatus);
+        docResult = processingResult("ok", "", obj);
+    }else{
+        docResult = processingResult("bad", s_nodeStatus);
+    }
+
+    return docResult;
+}
+
+QJsonDocument DapWebControll::createCondTx(QString net, QString tokenName, QString walletName, QString cert, QString value, QString unit, QString srv_uid)
+{
+    QString command = QString("%1 tx_cond_create -net %2 -token %3 -wallet %4 -cert %5 -value %6 -unit %7 -srv_uid %8")
+            .arg(CLI_PATH).arg(net).arg(tokenName).arg(walletName).arg(cert).arg(value).arg(unit).arg(srv_uid);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(!result.isEmpty())
+    {
+        if(result.contains("succefully")){
+            QRegExp rxHash("hash=0x(\\w+)");
+            rxHash.indexIn(result, 0);
+            obj.insert("transfer", rxHash.cap(1));
+            docResult = processingResult("ok", "", obj);
+        }else{
+            obj.insert("string", result);
+            docResult = processingResult("bad", "", obj);
+        }
+    }else{
+        docResult = processingResult("bad", QString("Node is offline"));
+    }
+
+    return docResult;
+}
 
