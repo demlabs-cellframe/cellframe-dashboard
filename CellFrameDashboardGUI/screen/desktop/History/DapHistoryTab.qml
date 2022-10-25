@@ -39,7 +39,7 @@ DapPage
         onTriggered:
         {
             console.log("HISTORY TIMER TICK")
-            logicExplorer.updateWalletHistory(false)
+            logicExplorer.updateWalletHistory(false, 0)
         }
     }
 
@@ -83,7 +83,7 @@ DapPage
 
     Component.onCompleted:
     {
-        logicExplorer.updateWalletHistory()
+        logicExplorer.updateWalletHistory(false, 1)
 
         if (!updateHistoryTimer.running)
             updateHistoryTimer.start()

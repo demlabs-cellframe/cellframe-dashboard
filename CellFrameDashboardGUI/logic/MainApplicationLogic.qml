@@ -537,12 +537,14 @@ QtObject {
         }
     }
 
-    function getAllWalletHistory(index)
+    function getAllWalletHistory(index, update)
     {
         if (index < 0 || index >= dapModelWallets.count)
             return
 
         var network_array = ""
+
+        var name = dapModelWallets.get(index).name
 
         var model = dapModelWallets.get(index).networks
 
@@ -553,18 +555,16 @@ QtObject {
                 for (var j = 0; j < model.get(i).chains.count; ++j)
                 {
                     network_array += model.get(i).name + ":"
-                    network_array += model.get(i).chains.get(j).name + ":"
-                    network_array += model.get(i).address + "/"
+                    network_array += name + "/"
                 }
             }
             else
             {
                 network_array += model.get(i).name + ":"
-                network_array += "zero" + ":"
-                network_array += model.get(i).address + "/"
+                network_array += name + "/"
             }
         }
-        dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array);
+        dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update);
     }
 
     function rcvWebConnectRequest(rcvData)

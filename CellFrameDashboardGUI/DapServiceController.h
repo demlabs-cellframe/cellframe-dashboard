@@ -219,7 +219,7 @@ signals:
 
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
 
-    void allWalletHistoryReceived(const QList<QObject*>& walletHistory);
+    void allWalletHistoryReceived(const QVariant& walletHistory);
     /// The signal is emitted when the command is executed by the cli node command handler.
     /// @param asAnswer The response of the cli node command handler.
     void cmdRunned(const QVariant& asAnswer);

@@ -35,20 +35,24 @@ Item
 
     Item {
         anchors.fill: parent
-        anchors.leftMargin: 26
+        anchors.leftMargin: 24
 
-        Item {
-            id: ico
-            width: 16 
-            height: 16 
-            anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
-            DapImageLoader {
-                innerWidth: parent.width
-                innerHeight: parent.height
+//        Item {
+//            id: ico
+//            width: 16
+//            height: 16
+//            anchors.left: parent.left
+//            anchors.verticalCenter: parent.verticalCenter
+            Image {
+                id: ico
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                mipmap: true
+//                innerWidth: parent.width
+//                innerHeight: parent.height
                 source: "qrc:/Resources/" + pathTheme + "/icons/navigation/" + bttnIco
             }
-        }
+//        }
 
         Text {
             id: buttonText

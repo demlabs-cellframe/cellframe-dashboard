@@ -305,5 +305,16 @@
         <file>screen/desktop/VPNClient/Images/page.png</file>
         <file>screen/desktop/VPNClient/Images/page-hov.png</file>
         <file>Resources/BlackTheme/icons/other/receipt_normal.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_wallet.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_vpn_service.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_vpn_client.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_tokens.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_settings.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_logs.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_history.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_exchange.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_daaps.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_console.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_certificates.svg</file>
     </qresource>
 </RCC>
