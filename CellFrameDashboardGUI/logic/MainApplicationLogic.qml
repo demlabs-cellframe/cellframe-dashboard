@@ -13,6 +13,7 @@ QtObject {
     property bool restoreWalletMode: false
     property string currentTab: params.isMobile ? "" : mainScreenStack.currPage
     property string walletRecoveryType: "Nothing"
+    property string walletType: "Standart"
     //
 
     property string menuTabStates: ""
@@ -237,30 +238,34 @@ QtObject {
         {
             dapModelWallets.append({ "name" : walletList[i].Name,
                                   "icon" : walletList[i].Icon,
+                                  "status": walletList[i].Status,
                                   "networks" : []})
 
-            for (var n = 0; n < Object.keys(walletList[i].Networks).length; ++n)
+            if(walletList[i].Status === "" || walletList[i].Status === "Active")
             {
-                dapModelWallets.get(i).networks.append({"name": walletList[i].Networks[n],
-                      "address": walletList[i].findAddress(walletList[i].Networks[n]),
-                      "chains": [],
-                      "tokens": []})
-
-                var chains = walletList[i].getChains(walletList[i].Networks[n])
-
-                for (var c = 0; c < chains.length; ++c)
-                    dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
-
-                for (var t = 0; t < Object.keys(walletList[i].Tokens).length; ++t)
+                for (var n = 0; n < Object.keys(walletList[i].Networks).length; ++n)
                 {
-                    if(walletList[i].Tokens[t].Network === walletList[i].Networks[n])
+                    dapModelWallets.get(i).networks.append({"name": walletList[i].Networks[n],
+                          "address": walletList[i].findAddress(walletList[i].Networks[n]),
+                          "chains": [],
+                          "tokens": []})
+
+                    var chains = walletList[i].getChains(walletList[i].Networks[n])
+
+                    for (var c = 0; c < chains.length; ++c)
+                        dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+
+                    for (var t = 0; t < Object.keys(walletList[i].Tokens).length; ++t)
                     {
-                        dapModelWallets.get(i).networks.get(n).tokens.append(
-                             {"name": walletList[i].Tokens[t].Name,
-                              "full_balance": walletList[i].Tokens[t].FullBalance,
-                              "balance_without_zeros": dapMath.balanceToCoins(walletList[i].Tokens[t].Datoshi),
-                              "datoshi": walletList[i].Tokens[t].Datoshi,
-                              "network": walletList[i].Tokens[t].Network})
+                        if(walletList[i].Tokens[t].Network === walletList[i].Networks[n])
+                        {
+                            dapModelWallets.get(i).networks.get(n).tokens.append(
+                                 {"name": walletList[i].Tokens[t].Name,
+                                  "full_balance": walletList[i].Tokens[t].FullBalance,
+                                  "balance_without_zeros": dapMath.balanceToCoins(walletList[i].Tokens[t].Datoshi),
+                                  "datoshi": walletList[i].Tokens[t].Datoshi,
+                                  "network": walletList[i].Tokens[t].Network})
+                        }
                     }
                 }
             }
@@ -309,29 +314,33 @@ QtObject {
             if (dapModelWallets.get(i).name === wallet.Name)
             {
                 dapModelWallets.get(i).networks.clear()
+                dapModelWallets.get(i).append({"status": wallet.Status})
 
-                for (var n = 0; n < Object.keys(wallet.Networks).length; ++n)
+                if(wallet.Status === "" || wallet.Status === "Active")
                 {
-                    dapModelWallets.get(i).networks.append({"name": wallet.Networks[n],
-                          "address": wallet.findAddress(wallet.Networks[n]),
-                          "chains": [],
-                          "tokens": []})
-
-                    var chains = wallet.getChains(wallet.Networks[n])
-
-                    for (var c = 0; c < chains.length; ++c)
-                        dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
-
-                    for (var t = 0; t < Object.keys(wallet.Tokens).length; ++t)
+                    for (var n = 0; n < Object.keys(wallet.Networks).length; ++n)
                     {
-                        if(wallet.Tokens[t].Network === wallet.Networks[n])
+                        dapModelWallets.get(i).networks.append({"name": wallet.Networks[n],
+                              "address": wallet.findAddress(wallet.Networks[n]),
+                              "chains": [],
+                              "tokens": []})
+
+                        var chains = wallet.getChains(wallet.Networks[n])
+
+                        for (var c = 0; c < chains.length; ++c)
+                            dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+
+                        for (var t = 0; t < Object.keys(wallet.Tokens).length; ++t)
                         {
-                            dapModelWallets.get(i).networks.get(n).tokens.append(
-                                 {"name": wallet.Tokens[t].Name,
-                                  "full_balance": wallet.Tokens[t].FullBalance,
-                                  "balance_without_zeros": dapMath.balanceToCoins(wallet.Tokens[t].Datoshi),
-                                  "datoshi": wallet.Tokens[t].Datoshi,
-                                  "network": wallet.Tokens[t].Network})
+                            if(wallet.Tokens[t].Network === wallet.Networks[n])
+                            {
+                                dapModelWallets.get(i).networks.get(n).tokens.append(
+                                     {"name": wallet.Tokens[t].Name,
+                                      "full_balance": wallet.Tokens[t].FullBalance,
+                                      "balance_without_zeros": dapMath.balanceToCoins(wallet.Tokens[t].Datoshi),
+                                      "datoshi": wallet.Tokens[t].Datoshi,
+                                      "network": wallet.Tokens[t].Network})
+                            }
                         }
                     }
                 }

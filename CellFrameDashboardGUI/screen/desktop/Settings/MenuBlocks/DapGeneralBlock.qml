@@ -310,8 +310,27 @@ ColumnLayout
                         {
 //                            if(!checked)
 //                                checked = true
-                            dapCurrentWallet = index
-                            logicMainApp.currentIndex = index
+                            if(status === "Active" || status === "")
+                            {
+                                dapCurrentWallet = index
+                                logicMainApp.currentIndex = index
+                            }
+                            else
+                                walletActivatePopup.show(name)
+                        }
+
+                        Connections{
+                            target: walletActivatePopup
+                            onActivatingSignal:{
+                                if(nameWallet === name)
+                                {
+                                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
+                                    walletActivatePopup.hide()
+                                    dapCurrentWallet = index
+                                    logicMainApp.currentIndex = index
+//                                    console.log(networks.get(dapServiceController.IndexCurrentNetwork).address
+                                }
+                            }
                         }
                     }
                 }

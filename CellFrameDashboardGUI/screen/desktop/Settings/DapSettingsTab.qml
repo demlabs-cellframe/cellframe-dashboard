@@ -32,7 +32,8 @@ DapPage
         "network": "",
         "chain": "",
         "signature_type": "",
-        "recovery_hash": ""
+        "recovery_hash": "",
+        "password": ""
     }
     property var commandResult:
     {
