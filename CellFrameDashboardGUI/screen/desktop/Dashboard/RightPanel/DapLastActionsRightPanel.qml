@@ -55,9 +55,10 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onAllWalletHistoryReceived:
         {
-            console.log("aaaaaaaa")
-            console.log(walletHistory)
-            logicExplorer.rcvAllWalletHistory(walletHistory, 1)
+            if (walletHistory !== "isEqual")
+            {
+                logicExplorer.rcvAllWalletHistory(walletHistory, true)
+            }
         }
 
     }

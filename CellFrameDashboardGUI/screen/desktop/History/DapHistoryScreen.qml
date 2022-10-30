@@ -126,9 +126,10 @@ Page
                 // Token name
                 Text
                 {
+                    visible: false
                     id: textTokenName
                     Layout.minimumWidth: 100 
-                    text: name
+                    text: token
                     color: currTheme.textColor
                     font:  mainFont.dapFont.regular14
                     Layout.alignment: Qt.AlignLeft
@@ -158,10 +159,27 @@ Page
                         property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular14
-                        fullText: sign + amount + " " + name
+                        fullText: sign + value + " " + token
                         horizontalAlign: Text.AlignRight
                     }
                 }
+
+                Item{
+                    visible: fee !== "0.0"
+                    Layout.minimumWidth: 100
+                    Layout.fillHeight: true
+
+                    DapBigText
+                    {
+                        id: lblFee
+                        anchors.fill: parent
+                        textFont: mainFont.dapFont.regular12
+                        textColor: currTheme.textColorGrayTwo
+                        fullText: qsTr("fee:") + fee + " " + token
+                        horizontalAlign: Text.AlignRight
+                    }
+                }
+
 
                 Image
                 {
@@ -184,7 +202,7 @@ Page
                         anchors.fill: parent
                         hoverEnabled: true
                         onClicked:
-                            Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
+                            Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
 
                     }
                 }

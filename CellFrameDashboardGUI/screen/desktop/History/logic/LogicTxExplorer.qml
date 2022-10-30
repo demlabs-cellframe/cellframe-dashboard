@@ -6,35 +6,63 @@ QtObject {
 
     function rcvAllWalletHistory(walletHistory, isLastActions)
     {
-        if (walletHistory.length !== lastHistoryLength)
+        console.log("onAllWalletHistoryReceived")
+        console.log(walletHistory)
+//        console.log("walletHistory.length", walletHistory.length)
+
+        var jsonDocument = JSON.parse(walletHistory)
+        temporaryModel.clear()
+        temporaryModel.append(jsonDocument)
+
+        console.log("temporaryModel.count", temporaryModel.count)
+
+        if (temporaryModel.count > 0)
+            console.log(temporaryModel.get(0).tx_status,
+                        temporaryModel.get(0).tx_hash)
+
+        if (temporaryModel.count !== lastHistoryLength)
         {
-            print("onAllWalletHistoryReceived",
-                  "walletHistory.length", walletHistory.length,
+            console.log("onAllWalletHistoryReceived",
+                  "temporaryModel.count", temporaryModel.count,
                   "lastHistoryLength", lastHistoryLength)
 
-            if (walletHistory.length < lastHistoryLength)
+            if (temporaryModel.count < lastHistoryLength)
             {
-                print("ERROR! walletHistory.length < lastHistoryLength",
-                      walletHistory.length, lastHistoryLength)
+                console.error("ERROR! temporaryModel.count < lastHistoryLength",
+                      temporaryModel.count, lastHistoryLength)
             }
             else
             {
-                lastHistoryLength = walletHistory.length
+                lastHistoryLength = temporaryModel.count
 
-                temporaryModel.clear()
+/*                temporaryModel.clear()
 
-                for (var q = 0; q < walletHistory.length; ++q)
+                for (var q = 0; q < walletHistory.count; ++q)
                 {
                     if (temporaryModel.count === 0)
-                        temporaryModel.append({"wallet" : walletHistory[q].Wallet,
-                                              "network" : walletHistory[q].Network,
-                                              "name" : walletHistory[q].Name,
-                                              "status" : walletHistory[q].Status,
-//                                              "amount" : walletHistory[q].AmountWithoutZeros,
-                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
-                                              "date" : walletHistory[q].Date,
-                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-                                              "hash": walletHistory[q].Hash})
+                        temporaryModel.append(
+                             {"tx_status" : walletHistory[q].tx_status,
+                              "tx_hash" : walletHistory[q].tx_hash,
+                              "atom" : walletHistory[q].atom,
+                              "network" : walletHistory[q].network,
+                              "wallet_name" : walletHistory[q].wallet_name,
+                              "date" : walletHistory[q].date,
+                              "date_to_secs" : walletHistory[q].date_to_secs,
+                              "address" : walletHistory[q].address,
+                              "status" : walletHistory[q].status,
+                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
+                              "token" : walletHistory[q].token,
+                              "direction" : walletHistory[q].direction,
+                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
+//                        temporaryModel.append({"wallet" : walletHistory[q].wallet_name,
+//                                              "network" : walletHistory[q].network,
+//                                              "name" : walletHistory[q].token,
+//                                              "status" : walletHistory[q].Status,
+////                                              "amount" : walletHistory[q].AmountWithoutZeros,
+//                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
+//                                              "date" : walletHistory[q].Date,
+//                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
+//                                              "hash": walletHistory[q].Hash})
                     else
                     {
                         var j = 0;
@@ -44,19 +72,45 @@ QtObject {
                             if (j >= temporaryModel.count)
                                 break;
                         }
-                        temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
-                                              "network" : walletHistory[q].Network,
-                                              "name" : walletHistory[q].Name,
-                                              "status" : walletHistory[q].Status,
-//                                              "amount" : walletHistory[q].AmountWithoutZeros,
-                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
-                                              "date" : walletHistory[q].Date,
-                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-                                              "hash": walletHistory[q].Hash})
+                        temporaryModel.insert(j,
+                             {"tx_status" : walletHistory[q].tx_status,
+                              "tx_hash" : walletHistory[q].tx_hash,
+                              "atom" : walletHistory[q].atom,
+                              "network" : walletHistory[q].network,
+                              "wallet_name" : walletHistory[q].wallet_name,
+                              "date" : walletHistory[q].date,
+                              "date_to_secs" : walletHistory[q].date_to_secs,
+                              "address" : walletHistory[q].address,
+                              "status" : walletHistory[q].status,
+                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
+                              "token" : walletHistory[q].token,
+                              "direction" : walletHistory[q].direction,
+                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
                     }
                     if(isLastActions)
                     {
-                        var currDate = new Date(Date.parse(walletHistory[q].Date))
+                        var currDate = new Date(Date.parse(
+                            temporaryModel.get(temporaryModel.count-1).date))
+
+                        if (lastDate === new Date(0))
+                        {
+                            lastDate = currDate
+                            prevDate = currDate
+                        }
+                        if (lastDate < currDate)
+                        {
+                            prevDate = lastDate
+                            lastDate = currDate
+                        }
+                    }
+                }*/
+
+                for (var q = 0; q < temporaryModel.count; ++q)
+                {
+                    if(isLastActions)
+                    {
+                        var currDate = new Date(Date.parse(
+                            temporaryModel.get(q).date))
 
                         if (lastDate === new Date(0))
                         {
@@ -93,7 +147,7 @@ QtObject {
                 {
                     if(isLastActions)
                     {
-                        print("New model != Previous model")
+                        console.log("New model != Previous model")
 
                         today = new Date()
                         yesterday = new Date(new Date().setDate(new Date().getDate()-1))
@@ -108,9 +162,9 @@ QtObject {
                                 modelLastActions.append(temporaryModel.get(m))
                         }
 
-                        print("modelLastActions.count", modelLastActions.count)
+                        console.log("modelLastActions.count", modelLastActions.count)
 
-                        print("Reset position")
+                        console.log("Reset position")
                         dapLastActionsView.positionViewAtBeginning()
                     }
                     else
@@ -136,7 +190,9 @@ QtObject {
 
     function compareHistoryElements(elem1, elem2)
     {
-        if (elem1.wallet !== elem2.wallet)
+        if (elem1.tx_hash !== elem2.tx_hash)
+            return false
+/*        if (elem1.wallet !== elem2.wallet)
             return false
         if (elem1.network !== elem2.network)
             return false
@@ -149,7 +205,7 @@ QtObject {
         if (elem1.date !== elem2.date)
             return false
         if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
-            return false
+            return false*/
 
         return true
     }

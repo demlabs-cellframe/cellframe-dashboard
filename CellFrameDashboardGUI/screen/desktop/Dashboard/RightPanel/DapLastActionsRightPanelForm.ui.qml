@@ -90,19 +90,41 @@ DapRectangleLitAndShaded
                         }
                     }
 
-
-                    DapBigText
+                    ColumnLayout
                     {
-                        property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        horizontalAlign: Qt.AlignRight
-                        verticalAlign: Qt.AlignVCenter
-                        fullText: sign + amount + " " + name
-                        textFont: mainFont.dapFont.regular14
+                        spacing: 0
 
-                        width: 160
+                        DapBigText
+                        {
+                            property string sign: (status === "Sent") ? "- " : "+ "
+//                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            height: 20
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignVCenter
+                            fullText: sign + value + " " + token
+                            textFont: mainFont.dapFont.regular14
+
+                            width: 160
+                        }
+                        DapBigText
+                        {
+                            visible: fee !== "0.0"
+//                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            height: 15
+                            textColor: currTheme.textColorGrayTwo
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignVCenter
+                            fullText: qsTr("fee:") + fee + " " + token
+                            textFont: mainFont.dapFont.regular10
+
+                            width: 160
+                        }
                     }
+
                     Image
                     {
                         Layout.preferredHeight: 20
@@ -119,7 +141,7 @@ DapRectangleLitAndShaded
                             id: mouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
+                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
                         }
                     }
                 }
