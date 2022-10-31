@@ -11,81 +11,71 @@ QtObject {
 //        console.log("walletHistory.length", walletHistory.length)
 
         var jsonDocument = JSON.parse(walletHistory)
-        temporaryModel.clear()
-        temporaryModel.append(jsonDocument)
+//        temporaryModel.clear()
+//        temporaryModel.append(jsonDocument)
 
-        console.log("temporaryModel.count", temporaryModel.count)
+        console.log("jsonDocument.length", jsonDocument.length)
+//        if (jsonDocument.length > 0)
+//        {
+//            console.log(jsonDocument[0].tx_status,
+//                        jsonDocument[0].tx_hash)
+//            temporaryModel.clear()
+//            temporaryModel.append(jsonDocument[0])
+//            console.log(temporaryModel.get(0).tx_status,
+//                        temporaryModel.get(0).tx_hash)
 
-        if (temporaryModel.count > 0)
-            console.log(temporaryModel.get(0).tx_status,
-                        temporaryModel.get(0).tx_hash)
+//        }
 
-        if (temporaryModel.count !== lastHistoryLength)
+//        console.log("temporaryModel.count", temporaryModel.count)
+
+//        if (temporaryModel.count > 0)
+//            console.log(temporaryModel.get(0).tx_status,
+//                        temporaryModel.get(0).tx_hash)
+
+        if (jsonDocument.length !== lastHistoryLength)
         {
             console.log("onAllWalletHistoryReceived",
-                  "temporaryModel.count", temporaryModel.count,
+                  "jsonDocument.length", jsonDocument.length,
                   "lastHistoryLength", lastHistoryLength)
 
-            if (temporaryModel.count < lastHistoryLength)
+            if (jsonDocument.length < lastHistoryLength)
             {
-                console.error("ERROR! temporaryModel.count < lastHistoryLength",
-                      temporaryModel.count, lastHistoryLength)
+                console.error("ERROR! jsonDocument.length < lastHistoryLength",
+                      jsonDocument.length, lastHistoryLength)
             }
             else
             {
-                lastHistoryLength = temporaryModel.count
+                lastHistoryLength = jsonDocument.length
 
-/*                temporaryModel.clear()
+                temporaryModel.clear()
 
-                for (var q = 0; q < walletHistory.count; ++q)
+                for (var q = 0; q < jsonDocument.length; ++q)
                 {
                     if (temporaryModel.count === 0)
-                        temporaryModel.append(
-                             {"tx_status" : walletHistory[q].tx_status,
-                              "tx_hash" : walletHistory[q].tx_hash,
-                              "atom" : walletHistory[q].atom,
-                              "network" : walletHistory[q].network,
-                              "wallet_name" : walletHistory[q].wallet_name,
-                              "date" : walletHistory[q].date,
-                              "date_to_secs" : walletHistory[q].date_to_secs,
-                              "address" : walletHistory[q].address,
-                              "status" : walletHistory[q].status,
-                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
-                              "token" : walletHistory[q].token,
-                              "direction" : walletHistory[q].direction,
-                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
-//                        temporaryModel.append({"wallet" : walletHistory[q].wallet_name,
-//                                              "network" : walletHistory[q].network,
-//                                              "name" : walletHistory[q].token,
-//                                              "status" : walletHistory[q].Status,
-////                                              "amount" : walletHistory[q].AmountWithoutZeros,
-//                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
-//                                              "date" : walletHistory[q].Date,
-//                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-//                                              "hash": walletHistory[q].Hash})
+                        temporaryModel.append(jsonDocument[q])
+//                             {"tx_status" : walletHistory[q].tx_status,
+//                              "tx_hash" : walletHistory[q].tx_hash,
+//                              "atom" : walletHistory[q].atom,
+//                              "network" : walletHistory[q].network,
+//                              "wallet_name" : walletHistory[q].wallet_name,
+//                              "date" : walletHistory[q].date,
+//                              "date_to_secs" : walletHistory[q].date_to_secs,
+//                              "address" : walletHistory[q].address,
+//                              "status" : walletHistory[q].status,
+//                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
+//                              "token" : walletHistory[q].token,
+//                              "direction" : walletHistory[q].direction,
+//                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
                     else
                     {
                         var j = 0;
-                        while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
+                        while (temporaryModel.get(j).date_to_secs > jsonDocument[q].date_to_secs)
                         {
                             ++j;
                             if (j >= temporaryModel.count)
                                 break;
                         }
-                        temporaryModel.insert(j,
-                             {"tx_status" : walletHistory[q].tx_status,
-                              "tx_hash" : walletHistory[q].tx_hash,
-                              "atom" : walletHistory[q].atom,
-                              "network" : walletHistory[q].network,
-                              "wallet_name" : walletHistory[q].wallet_name,
-                              "date" : walletHistory[q].date,
-                              "date_to_secs" : walletHistory[q].date_to_secs,
-                              "address" : walletHistory[q].address,
-                              "status" : walletHistory[q].status,
-                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
-                              "token" : walletHistory[q].token,
-                              "direction" : walletHistory[q].direction,
-                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
+                        temporaryModel.insert(j, jsonDocument[q])
                     }
                     if(isLastActions)
                     {
@@ -103,9 +93,9 @@ QtObject {
                             lastDate = currDate
                         }
                     }
-                }*/
+                }
 
-                for (var q = 0; q < temporaryModel.count; ++q)
+/*                for (var q = 0; q < temporaryModel.count; ++q)
                 {
                     if(isLastActions)
                     {
@@ -123,7 +113,7 @@ QtObject {
                             lastDate = currDate
                         }
                     }
-                }
+                }*/
 
                 var test = true
 
@@ -191,6 +181,12 @@ QtObject {
     function compareHistoryElements(elem1, elem2)
     {
         if (elem1.tx_hash !== elem2.tx_hash)
+            return false
+        if (elem1.tx_status !== elem2.tx_status)
+            return false
+        if (elem1.status !== elem2.status)
+            return false
+        if (elem1.date_to_secs !== elem2.date_to_secs)
             return false
 /*        if (elem1.wallet !== elem2.wallet)
             return false
