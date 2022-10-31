@@ -311,5 +311,12 @@
         <file>Resources/BlackTheme/icons/other/icon_eyeHide.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_infoGray.svg</file>
         <file>screen/desktop/controls/DapActivateWalletPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_deactivateHover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_deactivate.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_activateHover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_activate.svg</file>
+        <file>screen/desktop/controls/DapDeactivateWalletPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_walletUnlocked.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_walletLocked.svg</file>
     </qresource>
 </RCC>

@@ -294,7 +294,9 @@ DapRectangleLitAndShaded
                         anchors.right: parent.right
                         anchors.rightMargin: 16
                         anchors.verticalCenter: parent.verticalCenter
-                        contentText: qsTr("Remember the password for further activation of the wallet")
+                        contentText: !logicMainApp.restoreWalletMode? qsTr("Remember the password for further activation of the wallet"):
+                                    qsTr("If you enter the password incorrectly, a new wallet will be created. To gain access to a protected wallet, you must enter the correct password")
+
                     }
                 }
 

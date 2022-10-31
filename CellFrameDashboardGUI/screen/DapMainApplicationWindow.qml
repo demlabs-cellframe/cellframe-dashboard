@@ -45,6 +45,7 @@ Rectangle {
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
     property alias walletActivatePopup: walletActivatePopup
+    property alias walletDeactivatePopup: walletDeactivatePopup
 
     property var vpnClientTokenModel: new Array()
 
@@ -85,6 +86,13 @@ Rectangle {
 
     DapActivateWalletPopup{
         id: walletActivatePopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapDeactivateWalletPopup{
+        id: walletDeactivatePopup
         anchors.fill: parent
         visible: false
         z: 10

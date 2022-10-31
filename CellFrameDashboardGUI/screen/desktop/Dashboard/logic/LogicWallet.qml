@@ -200,10 +200,8 @@ QtObject {
             for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
             {
                 networksModel.get(i).chains.append(
-                    { "name" : tempNetworks.get(i).chains.get(k).name})
+                    {"name" : tempNetworks.get(i).chains.get(k).name})
             }
         }
-
     }
-
 }

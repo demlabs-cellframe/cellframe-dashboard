@@ -19,7 +19,7 @@ QtObject {
     property string menuTabStates: ""
     property var networkArray: ""
 
-    readonly property int autoUpdateInterval: 3000
+    readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
 
     property bool stateNotify: false
@@ -314,7 +314,7 @@ QtObject {
             if (dapModelWallets.get(i).name === wallet.Name)
             {
                 dapModelWallets.get(i).networks.clear()
-                dapModelWallets.get(i).append({"status": wallet.Status})
+                dapModelWallets.get(i).status = wallet.Status
 
                 if(wallet.Status === "" || wallet.Status === "Active")
                 {
