@@ -236,12 +236,14 @@ DapPage
             }
             else
             {
-                if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                {
-                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
-                }
-
                 logicWallet.updateCurrentWallet()
+
+                if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
+                else if(dapModelWallets.get(logicMainApp.currentIndex).status === "Active" && walletActivatePopup.isOpen)
+                    walletActivatePopup.hide()
+
+
             }
         }
     }

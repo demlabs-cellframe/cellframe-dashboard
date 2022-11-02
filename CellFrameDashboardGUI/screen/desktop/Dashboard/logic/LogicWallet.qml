@@ -13,7 +13,7 @@ QtObject {
     {
 //        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
 
-        if (logicMainApp.currentIndex !== -1 && logicMainApp.networkArray !== "")
+        if (logicMainApp.currentIndex !== -1 && (logicMainApp.networkArray !== "" || dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active"))
             dapServiceController.requestToService("DapGetWalletInfoCommand",
                 dapModelWallets.get(logicMainApp.currentIndex).name,
                 logicMainApp.networkArray);

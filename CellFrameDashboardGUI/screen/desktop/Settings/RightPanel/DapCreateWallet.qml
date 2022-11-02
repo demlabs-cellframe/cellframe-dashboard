@@ -39,7 +39,7 @@ DapCreateWalletForm
                 qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
             console.warn("Empty wallet name")
         }
-        else if(logicMainApp.walletType === "Protected" && dapTextInputPassword.length < 3)
+        else if(logicMainApp.walletType === "Protected" && dapTextInputPassword.length < 4)
         {
             dapWalletNameWarning.text =
                 qsTr("Wallet password must contain at least 4 characters")

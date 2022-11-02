@@ -303,11 +303,18 @@ QtObject {
 
     function rcvWallet(wallet)
     {
+        console.log("rcv wallet")
+
+        console.log("rcv name ",wallet.name)
+        console.log("rcv Status ",wallet.Status)
+        console.log("model len ",dapModelWallets.count)
+
         if(!Object.keys(wallet.Networks).length)
         {
             dapModelWallets.clear()
             return
         }
+
 
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
@@ -315,6 +322,8 @@ QtObject {
             {
                 dapModelWallets.get(i).networks.clear()
                 dapModelWallets.get(i).status = wallet.Status
+
+                console.log("rcv Status ",wallet.Status)
 
                 if(wallet.Status === "" || wallet.Status === "Active")
                 {
