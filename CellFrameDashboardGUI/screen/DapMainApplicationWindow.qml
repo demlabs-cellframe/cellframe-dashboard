@@ -489,10 +489,16 @@ Rectangle {
 
         onWalletsReceived:
         {
-            print("onWalletsReceived")
+            console.log("onWalletsReceived")
             console.log("Wallets length:", walletList.length)
             logicMainApp.rcvWallets(walletList)
-            modelWalletsUpdated();
+//            modelWalletsUpdated();
+        }
+        onWalletReceived:
+        {
+            console.log("onWalletReceived")
+            console.log("Wallet name:", wallet.Name)
+            logicMainApp.rcvWallet(wallet)
         }
 
         onCurrentNetworkChanged:
@@ -509,18 +515,11 @@ Rectangle {
         }
 
 
-        onWalletReceived:
-        {
-            print("onWalletReceived")
-            console.log("Wallet name:", wallet.Name)
-            logicMainApp.rcvWallet(wallet)
 
-            dapModelOrders.clear()
-        }
 
         onOrdersReceived:
         {
-            print("onOrdersReceived")
+            console.log("onOrdersReceived")
             console.log("Orders count:", orderList.length)
             logicMainApp.rcvOrders(orderList)
             modelOrdersUpdated();
@@ -528,7 +527,7 @@ Rectangle {
 
         onSignalTokensListReceived:
         {
-            print("TokensListReceived")
+            console.log("TokensListReceived")
             logicMainApp.rcvTokens(tokensResult)
         }
 
@@ -536,19 +535,19 @@ Rectangle {
 
         onRcvXchangeTxList:
         {
-            print("onRcvXchangeTxList")
+            console.log("onRcvXchangeTxList")
             console.log(rcvData)
         }
 
         onSignalXchangeOrderListReceived:
         {
-            print("onSignalXchangeOrderListReceived")
+            console.log("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
         onSignalXchangeTokenPairReceived:
         {
-            print("onSignalXchangeTokenPairReceived")
+            console.log("onSignalXchangeTokenPairReceived")
             logicMainApp.rcvPairsModel(rcvData)
         }
 
@@ -560,7 +559,7 @@ Rectangle {
 
         onRcvXchangeTokenPriceHistory:
         {
-            print("onRcvXchangeTokenPriceHistory")
+            console.log("onRcvXchangeTokenPriceHistory")
             logicMainApp.rcvTokenPriceHistory(rcvData)
         }
 
@@ -570,7 +569,7 @@ Rectangle {
         target: pluginsManager
         onRcvListPlugins:
         {
-            print("onRcvListPlugins")
+            console.log("onRcvListPlugins")
             console.log("Plugins count:", m_pluginsList.length)
             logicMainApp.rcvPlugins(m_pluginsList)
 

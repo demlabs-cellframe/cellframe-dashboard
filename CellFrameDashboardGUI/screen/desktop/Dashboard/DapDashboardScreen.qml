@@ -304,7 +304,7 @@ Page
                                             id: currencySum
                                             anchors.fill: parent
                                             textFont: mainFont.dapFont.regular14
-                                            fullText: balance_without_zeros
+                                            fullText: fullBalance
                                             horizontalAlign: Text.AlignRight
                                         }
                                     }

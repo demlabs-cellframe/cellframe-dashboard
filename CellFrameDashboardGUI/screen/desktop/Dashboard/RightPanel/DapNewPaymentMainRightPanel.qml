@@ -150,7 +150,7 @@ DapNewPaymentMainRightPanelForm
                     print("Not enough tokens")
                     dapTextNotEnoughTokensWarning.text =
                         qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
+                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).fullBalance).arg(amountWithCommission)
                 }
                 else
                 {

@@ -125,7 +125,7 @@ Page {
                 colorTextButton: "#FFFFFF"
                 onClicked:
                 {
-                    var balance = dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).balance_without_zeros
+                    var balance = dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).fullBalance
 
                     print("balance",
                           balance)

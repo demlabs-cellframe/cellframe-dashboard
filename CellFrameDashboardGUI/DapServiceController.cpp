@@ -195,9 +195,9 @@ void DapServiceController::registerCommand()
     // The team to create a new wallet on the Dashboard tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapAddWalletCommand("DapAddWalletCommand", m_DAPRpcSocket))), QString("walletCreated")));
     // The command to get an wallet info
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletInfoCommand("DapGetWalletInfoCommand", m_DAPRpcSocket))), QString("walletInfoReceived")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletInfoCommand("DapGetWalletInfoCommand", m_DAPRpcSocket))), QString("walletReceived")));
     // The command to get a list of available wallets
-    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_DAPRpcSocket))), QString("walletsInfoReceived")));
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_DAPRpcSocket))), QString("walletsReceived")));
     // Command to save data from the Logs tab
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapExportLogCommand("DapExportLogCommand",m_DAPRpcSocket))), QString("exportLogs")));
     // The command to get a list of available networks
@@ -268,41 +268,41 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
 
-    connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
-    {
-        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
-        QList<DapWallet> tempWallets;
+//    connect(this, &DapServiceController::walletsInfoReceived, [=] (const QVariant& walletList)
+//    {
+////        QByteArray  array = QByteArray::fromHex(walletList.toByteArray());
+////        QList<DapWallet> tempWallets;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempWallets;
+////        QDataStream in(&array, QIODevice::ReadOnly);
+////        in >> tempWallets;
 
-        QList<QObject*> wallets;
-        auto begin = tempWallets.begin();
-        auto end = tempWallets.end();
-        DapWallet * wallet = nullptr;
-        for(;begin != end; ++begin)
-        {
-            wallet = new DapWallet(*begin);
-            wallets.append(wallet);
-        }
+////        QList<QObject*> wallets;
+////        auto begin = tempWallets.begin();
+////        auto end = tempWallets.end();
+////        DapWallet * wallet = nullptr;
+////        for(;begin != end; ++begin)
+////        {
+////            wallet = new DapWallet(*begin);
+////            wallets.append(wallet);
+////        }
 
-        emit walletsReceived(wallets);
-    });
+//        emit walletsReceived(walletList);
+//    });
 
-    connect(this, &DapServiceController::walletInfoReceived, [=] (const QVariant& wallet_arg)
-    {
-        QByteArray  array = QByteArray::fromHex(wallet_arg.toByteArray());
-        DapWallet wallet;
+//    connect(this, &DapServiceController::walletInfoReceived, [=] (const QVariant& wallet_arg)
+//    {
+//        QByteArray  array = QByteArray::fromHex(wallet_arg.toByteArray());
+//        DapWallet wallet;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> wallet;
+//        QDataStream in(&array, QIODevice::ReadOnly);
+//        in >> wallet;
 
-//        qDebug() << "walletInfoReceived" << wallet.getName();
+////        qDebug() << "walletInfoReceived" << wallet.getName();
 
-        DapWallet * outWallet = new DapWallet(wallet);
+//        DapWallet * outWallet = new DapWallet(wallet);
 
-        emit walletReceived(outWallet);
-    });
+//        emit walletReceived(outWallet);
+//    });
 
     connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
     {
