@@ -93,13 +93,13 @@ Item
             {
                 id: buttonSelectionError
                 Layout.fillWidth: true
-                nameRadioButton: qsTr("Error")
+                nameRadioButton: qsTr("Declined")
                 indicatorInnerSize: 46 
                 spaceIndicatorText: 3 
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
-                    currentStatusSelected("Error")
+                    currentStatusSelected("Declined")
                 }
             }
         }

@@ -55,7 +55,10 @@ DapLastActionsRightPanelForm
         target: dapServiceController
         onAllWalletHistoryReceived:
         {
-            logicExplorer.rcvAllWalletHistory(walletHistory, true)
+            if (walletHistory !== "isEqual")
+            {
+                logicExplorer.rcvAllWalletHistory(walletHistory, true)
+            }
         }
 
     }
@@ -67,7 +70,7 @@ DapLastActionsRightPanelForm
         {
             lastHistoryLength = 0
 
-            logicExplorer.updateWalletHistory(true)
+            logicExplorer.updateWalletHistory(true, 1)
         }
     }
 
@@ -77,14 +80,14 @@ DapLastActionsRightPanelForm
         onTriggered:
         {
             console.log("LAST ACTIONS TICK")
-            logicExplorer.updateWalletHistory(true)
+            logicExplorer.updateWalletHistory(true, 0)
         }
     }
 
     Component.onCompleted:
     {
         lastHistoryLength = 0
-        logicExplorer.updateWalletHistory(true)
+        logicExplorer.updateWalletHistory(true, 1)
 
         if (!updateLastActionTimer.running)
             updateLastActionTimer.start()

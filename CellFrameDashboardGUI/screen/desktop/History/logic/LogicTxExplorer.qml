@@ -3,124 +3,166 @@ import QtQml 2.12
 
 QtObject {
 
+    property int selectTxIndex: -1
+
+    property var commandResult
+
+    function initDetailsModel()
+    {
+        detailsModel.clear()
+        detailsModel.append(modelHistory.get(selectTxIndex))
+    }
 
     function rcvAllWalletHistory(walletHistory, isLastActions)
     {
-        if (walletHistory.length !== lastHistoryLength)
+
+//        console.log("walletHistory.length", walletHistory.length)
+
+        if(walletHistory !== "isEqual")
         {
-            print("onAllWalletHistoryReceived",
-                  "walletHistory.length", walletHistory.length,
-                  "lastHistoryLength", lastHistoryLength)
 
-            if (walletHistory.length < lastHistoryLength)
+            console.log("onAllWalletHistoryReceived")
+            console.log("jsonDocument.length", walletHistory.length)
+//            console.log(walletHistory)
+
+        var jsonDocument = JSON.parse(walletHistory)
+//        temporaryModel.clear()
+//        temporaryModel.append(jsonDocument)
+
+
+//        if (jsonDocument.length > 0)
+//        {
+//            console.log(jsonDocument[0].tx_status,
+//                        jsonDocument[0].tx_hash)
+//            temporaryModel.clear()
+//            temporaryModel.append(jsonDocument[0])
+//            console.log(temporaryModel.get(0).tx_status,
+//                        temporaryModel.get(0).tx_hash)
+
+//        }
+
+//        console.log("temporaryModel.count", temporaryModel.count)
+
+//        if (temporaryModel.count > 0)
+//            console.log(temporaryModel.get(0).tx_status,
+//                        temporaryModel.get(0).tx_hash)
+
+            if (jsonDocument.length !== lastHistoryLength)
             {
-                print("ERROR! walletHistory.length < lastHistoryLength",
-                      walletHistory.length, lastHistoryLength)
-            }
-            else
-            {
-                lastHistoryLength = walletHistory.length
+                console.log("onAllWalletHistoryReceived",
+                      "jsonDocument.length", jsonDocument.length,
+                      "lastHistoryLength", lastHistoryLength)
 
-                temporaryModel.clear()
-
-                for (var q = 0; q < walletHistory.length; ++q)
+                if (jsonDocument.length < lastHistoryLength)
                 {
-                    if (temporaryModel.count === 0)
-                        temporaryModel.append({"wallet" : walletHistory[q].Wallet,
-                                              "network" : walletHistory[q].Network,
-                                              "name" : walletHistory[q].Name,
-                                              "status" : walletHistory[q].Status,
-//                                              "amount" : walletHistory[q].AmountWithoutZeros,
-                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
-                                              "date" : walletHistory[q].Date,
-                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-                                              "hash": walletHistory[q].Hash})
-                    else
-                    {
-                        var j = 0;
-                        while (temporaryModel.get(j).SecsSinceEpoch > walletHistory[q].SecsSinceEpoch)
-                        {
-                            ++j;
-                            if (j >= temporaryModel.count)
-                                break;
-                        }
-                        temporaryModel.insert(j, {"wallet" : walletHistory[q].Wallet,
-                                              "network" : walletHistory[q].Network,
-                                              "name" : walletHistory[q].Name,
-                                              "status" : walletHistory[q].Status,
-//                                              "amount" : walletHistory[q].AmountWithoutZeros,
-                                              "amount" : dapMath.balanceToCoins(walletHistory[q].Datoshi),
-                                              "date" : walletHistory[q].Date,
-                                              "SecsSinceEpoch" : walletHistory[q].SecsSinceEpoch,
-                                              "hash": walletHistory[q].Hash})
-                    }
-                    if(isLastActions)
-                    {
-                        var currDate = new Date(Date.parse(walletHistory[q].Date))
-
-                        if (lastDate === new Date(0))
-                        {
-                            lastDate = currDate
-                            prevDate = currDate
-                        }
-                        if (lastDate < currDate)
-                        {
-                            prevDate = lastDate
-                            lastDate = currDate
-                        }
-                    }
+                    console.error("ERROR! jsonDocument.length < lastHistoryLength",
+                          jsonDocument.length, lastHistoryLength)
                 }
-
-                var test = true
-
-                if (previousModel.count !== temporaryModel.count)
-                    test = false
                 else
                 {
-                    for (var i = 0; i < previousModel.count; ++i)
-                        if (!logicExplorer.compareHistoryElements(temporaryModel.get(i), previousModel.get(i)))
-                        {
-                            test = false
-                            break
-                        }
-                }
+                    lastHistoryLength = jsonDocument.length
 
-                previousModel.clear()
-                for (var k = 0; k < temporaryModel.count; ++k)
-                    previousModel.append(temporaryModel.get(k))
+                    temporaryModel.clear()
 
-                if (!test)
-                {
-                    if(isLastActions)
+                    for (var q = 0; q < jsonDocument.length; ++q)
                     {
-                        print("New model != Previous model")
-
-                        today = new Date()
-                        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
-
-                        modelLastActions.clear()
-
-                        for (var m = 0; m < temporaryModel.count; ++m)
+                        if (temporaryModel.count === 0)
+                            temporaryModel.append(jsonDocument[q])
+    //                             {"tx_status" : walletHistory[q].tx_status,
+    //                              "tx_hash" : walletHistory[q].tx_hash,
+    //                              "atom" : walletHistory[q].atom,
+    //                              "network" : walletHistory[q].network,
+    //                              "wallet_name" : walletHistory[q].wallet_name,
+    //                              "date" : walletHistory[q].date,
+    //                              "date_to_secs" : walletHistory[q].date_to_secs,
+    //                              "address" : walletHistory[q].address,
+    //                              "status" : walletHistory[q].status,
+    //                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
+    //                              "token" : walletHistory[q].token,
+    //                              "direction" : walletHistory[q].direction,
+    //                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
+                        else
                         {
-                            var payDate = new Date(Date.parse(temporaryModel.get(m).date))
 
-                            if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
-                                modelLastActions.append(temporaryModel.get(m))
+                            var j = 0;
+                            while (temporaryModel.get(j).date_to_secs > jsonDocument[q].date_to_secs)
+                            {
+                                ++j;
+                                if (j >= temporaryModel.count)
+                                    break;
+                            }
+                            temporaryModel.insert(j, jsonDocument[q])
+
+                            if(isLastActions)
+                            {
+                                var currDate = new Date(Date.parse(
+                                    temporaryModel.get(j).date))
+
+                                if (lastDate === new Date(0))
+                                {
+                                    lastDate = currDate
+                                    prevDate = currDate
+                                }
+                                if (lastDate < currDate)
+                                {
+                                    prevDate = lastDate
+                                    lastDate = currDate
+                                }
+                            }
                         }
-
-                        print("modelLastActions.count", modelLastActions.count)
-
-                        print("Reset position")
-                        dapLastActionsView.positionViewAtBeginning()
                     }
+
+                    var test = true
+
+                    if (previousModel.count !== temporaryModel.count)
+                        test = false
                     else
-                        outNewModel()
+                    {
+                        for (var i = 0; i < previousModel.count; ++i)
+                            if (!logicExplorer.compareHistoryElements(temporaryModel.get(i), previousModel.get(i)))
+                            {
+                                test = false
+                                break
+                            }
+                    }
+
+                    previousModel.clear()
+                    for (var k = 0; k < temporaryModel.count; ++k)
+                        previousModel.append(temporaryModel.get(k))
+
+                    if (!test)
+                    {
+                        if(isLastActions)
+                        {
+                            console.log("New model != Previous model")
+
+                            today = new Date()
+                            yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+                            modelLastActions.clear()
+
+                            for (var m = 0; m < temporaryModel.count; ++m)
+                            {
+                                var payDate = new Date(Date.parse(temporaryModel.get(m).date))
+
+                                if (isSameDay(lastDate, payDate) || isSameDay(prevDate, payDate))
+                                    modelLastActions.append(temporaryModel.get(m))
+                            }
+
+                            console.log("modelLastActions.count", modelLastActions.count)
+
+                            console.log("Reset position")
+                            dapLastActionsView.positionViewAtBeginning()
+                        }
+                        else
+                            outNewModel()
+                    }
                 }
             }
         }
     }
 
-    function updateWalletHistory(isLastActions)
+    function updateWalletHistory(isLastActions, update)
     {
         if (logicMainApp.currentIndex >= 0)
         {
@@ -130,13 +172,21 @@ QtObject {
                 prevDate = new Date(0)
             }
 
-            logicMainApp.getAllWalletHistory(logicMainApp.currentIndex)
+            logicMainApp.getAllWalletHistory(logicMainApp.currentIndex, update)
         }
     }
 
     function compareHistoryElements(elem1, elem2)
     {
-        if (elem1.wallet !== elem2.wallet)
+        if (elem1.tx_hash !== elem2.tx_hash)
+            return false
+        if (elem1.tx_status !== elem2.tx_status)
+            return false
+        if (elem1.status !== elem2.status)
+            return false
+        if (elem1.date_to_secs !== elem2.date_to_secs)
+            return false
+/*        if (elem1.wallet !== elem2.wallet)
             return false
         if (elem1.network !== elem2.network)
             return false
@@ -149,7 +199,7 @@ QtObject {
         if (elem1.date !== elem2.date)
             return false
         if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
-            return false
+            return false*/
 
         return true
     }
@@ -184,7 +234,9 @@ QtObject {
         {
             if (currentString === "" || checkText(temporaryModel.get(i), currentString))
             {
-                if (currentStatus === "All statuses" || temporaryModel.get(i).status === currentStatus)
+                var status = temporaryModel.get(i).tx_status === "ACCEPTED" ? temporaryModel.get(i).status : "Declined"
+
+                if (currentStatus === "All statuses" || status === currentStatus)
                 {
                     var payDate = new Date(Date.parse(temporaryModel.get(i).date))
 
@@ -203,7 +255,7 @@ QtObject {
             }
         }
 
-//        print("Reset position")
+        //        print("Reset position")
         dapHistoryScreen.dapListViewHistory.positionViewAtBeginning()
     }
 
@@ -211,16 +263,20 @@ QtObject {
     {
         var fstr = line.toLocaleLowerCase()
 
+        if(!item.network || !item.token || !item.tx_status || !item.status || !item.value || !item.date)
+            return false
+
         if (item.network.toLowerCase().indexOf(fstr) >= 0)
             return true
 
-        if (item.name.toLowerCase().indexOf(fstr) >= 0)
+        if (item.token.toLowerCase().indexOf(fstr) >= 0)
             return true
 
-        if (item.status.toLowerCase().indexOf(fstr) >= 0)
+        var statusStr = item.tx_status === "ACCEPTED" ? item.status : "Declined"
+        if (statusStr.toLowerCase().indexOf(fstr) >= 0)
             return true
 
-        if (item.amount.toString().toLowerCase().indexOf(fstr) >= 0)
+        if (item.value.toString().toLowerCase().indexOf(fstr) >= 0)
             return true
 
         return false

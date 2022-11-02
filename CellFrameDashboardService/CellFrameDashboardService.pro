@@ -53,6 +53,7 @@ include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-node/cellframe-sdk/modules/common/common.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
