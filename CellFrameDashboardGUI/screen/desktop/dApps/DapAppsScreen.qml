@@ -332,7 +332,6 @@ Page
                                         frameDelegate.color = "transparent";
                                         frameDelegate.opacity = 1;
                                     }
-
                                 }
                             }
                         }

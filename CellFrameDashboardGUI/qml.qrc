@@ -316,5 +316,7 @@
         <file>Resources/BlackTheme/icons/navigation/icon_daaps.svg</file>
         <file>Resources/BlackTheme/icons/navigation/icon_console.svg</file>
         <file>Resources/BlackTheme/icons/navigation/icon_certificates.svg</file>
+        <file>screen/desktop/History/DapHistoryRightPanelInfoTx.qml</file>
+        <file>screen/desktop/History/TextDetailsTx.qml</file>
     </qresource>
 </RCC>

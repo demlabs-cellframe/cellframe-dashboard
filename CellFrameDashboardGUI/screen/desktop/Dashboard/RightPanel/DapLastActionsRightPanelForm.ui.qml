@@ -84,7 +84,7 @@ DapRectangleLitAndShaded
                         Text
                         {
                             Layout.fillWidth: true
-                            text: status
+                            text: tx_status === "ACCEPTED" ? status : "Declined"
                             color: currTheme.textColorGrayTwo
                             font: mainFont.dapFont.regular12
                         }
@@ -111,15 +111,15 @@ DapRectangleLitAndShaded
                         }
                         DapBigText
                         {
-                            visible: fee !== "0.0"
+//                            visible: fee !== "0.0"
 //                            Layout.fillHeight: true
                             Layout.fillWidth: true
                             height: 15
                             textColor: currTheme.textColorGrayTwo
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
-                            fullText: qsTr("fee:") + fee + " " + token
-                            textFont: mainFont.dapFont.regular10
+                            fullText: qsTr("fee: ") + fee + " " + token
+                            textFont: mainFont.dapFont.regular12
 
                             width: 160
                         }
@@ -141,7 +141,7 @@ DapRectangleLitAndShaded
                             id: mouseArea
                             anchors.fill: parent
                             hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                            onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
                         }
                     }
                 }

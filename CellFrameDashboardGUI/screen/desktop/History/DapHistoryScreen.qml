@@ -1,6 +1,6 @@
-import QtQuick 2.4
+import QtQuick 2.12
 import QtQml 2.12
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
@@ -50,6 +50,7 @@ Page
                     id: historyVerticalScrollBar
                     active: true
                 }
+                currentIndex: logicExplorer.selectTxIndex
             }
 
         }
@@ -103,7 +104,7 @@ Page
         {
             width:  dapListViewHistory.width
             height: 50 
-            color: currTheme.backgroundElements
+            color: listViewHistory.currentIndex === index? "#474B53" : currTheme.backgroundElements
 
             RowLayout
             {
@@ -116,20 +117,8 @@ Page
                 Text
                 {
                     id: textNetworkName
-                    Layout.minimumWidth: 120 
+                    Layout.minimumWidth: 190
                     text: network
-                    color: currTheme.textColor
-                    font:  mainFont.dapFont.regular14
-                    Layout.alignment: Qt.AlignLeft
-                }
-
-                // Token name
-                Text
-                {
-                    visible: false
-                    id: textTokenName
-                    Layout.minimumWidth: 100 
-                    text: token
                     color: currTheme.textColor
                     font:  mainFont.dapFont.regular14
                     Layout.alignment: Qt.AlignLeft
@@ -139,9 +128,14 @@ Page
                 Text
                 {
                     id: textSatus
-                    Layout.minimumWidth: 100 
-                    text: status
-                    color: status === "Sent" ? "#FFCD44" : status === "Error" ? "#FF5F5F" : status === "Received"  ? "#CAFC33" : "#FFFFFF"
+                    Layout.minimumWidth: 80
+                    text: tx_status === "ACCEPTED" ? status : "Declined"
+                    color: text === "Sent" ?      currTheme.textColorYellow :
+                           text === "Error" ||
+                           text === "Declined" ?  currTheme.textColorRed :
+                           text === "Received"  ? currTheme.textColorLightGreen :
+                                                  currTheme.textColor
+
                     font:  mainFont.dapFont.regular14
                 }
 
@@ -165,8 +159,8 @@ Page
                 }
 
                 Item{
-                    visible: fee !== "0.0"
-                    Layout.minimumWidth: 100
+//                    visible: fee !== "0.0"
+                    Layout.minimumWidth: 142
                     Layout.fillHeight: true
 
                     DapBigText
@@ -175,38 +169,49 @@ Page
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular12
                         textColor: currTheme.textColorGrayTwo
-                        fullText: qsTr("fee:") + fee + " " + token
+                        fullText: qsTr("fee: ") + fee + " " + token
                         horizontalAlign: Text.AlignRight
                     }
                 }
 
+                Item{
+                    Layout.preferredHeight: 32
+                    Layout.preferredWidth: 32
 
-                Image
-                {
-                    Layout.preferredHeight: 20
-                    Layout.preferredWidth: 20
-
-//                    sourceSize: Qt.size(20,20)
-                    mipmap: true
-//                    innerWidth: 20
-//                    innerHeight: 20
-
-                    visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
-
-                    source: mouseArea.containsMouse? "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg" :
-                                                     "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
-
-                    MouseArea
+                    Image
                     {
-                        id: mouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked:
-                            Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                        anchors.centerIn: parent
 
+                        mipmap: true
+
+                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
+
+                        source: mouseArea.containsMouse? "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg" :
+                                                         "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+
+                        MouseArea
+                        {
+                            id: mouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                        }
+                    }
+
+                }
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    if(mouseArea.containsMouse)
+                        Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+                    else if(logicExplorer.selectTxIndex !== index)
+                    {
+                        logicExplorer.selectTxIndex = index
+                        logicExplorer.initDetailsModel()
+                        navigator.txInfo()
                     }
                 }
-
             }
 
             //  Underline
