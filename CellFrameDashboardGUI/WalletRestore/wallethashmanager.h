@@ -31,25 +31,25 @@ signals:
 
 // 24 words
 public slots:
-    void generateNewWords();
+    void generateNewWords(QString password);
 
     void clearWords();
 
-    void getHashForWords();
+    void getHashForWords(QString password);
 
     void copyWordsToClipboard();
 
-    void pasteWordsFromClipboard();
+    void pasteWordsFromClipboard(QString password);
 
 // backup file
 public slots:
-    void generateNewFile();
+    void generateNewFile(QString password);
 
-    void getHashForFile();
+    void getHashForFile(QString password);
 
     void saveFile(const QString &fileName);
 
-    void openFile(const QString &fileName);
+    void openFile(const QString &fileName, QString password);
 
 private:
     void updateWordsModelAndHash();

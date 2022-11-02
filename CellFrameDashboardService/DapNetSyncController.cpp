@@ -52,7 +52,7 @@ void DapNetSyncController::goSyncNet(QString net)
     QProcess process;
     QString command(QString("%1 net -net %2 go sync").arg(CLI_PATH).arg(net));
     process.start(command);
-    process.waitForFinished(-1);
+    process.waitForFinished(10);
     QString result = QString::fromLatin1(process.readAll());
     qInfo() << "result:" << result;
 }

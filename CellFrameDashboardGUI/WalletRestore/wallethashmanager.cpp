@@ -20,11 +20,11 @@ void WalletHashManager::setContext(QQmlContext *cont)
     updateWordsModelAndHash();
 }
 
-void WalletHashManager::generateNewWords()
+void WalletHashManager::generateNewWords(QString pass)
 {
     currentWords = randomWords.getRandomWords(words_number);
 
-    getHashForWords();
+    getHashForWords(pass);
 
     qDebug() << "WalletHashManager::generateNewWords" << currentWords;
 
@@ -42,12 +42,15 @@ void WalletHashManager::clearWords()
     updateWordsModelAndHash();
 }
 
-void WalletHashManager::getHashForWords()
+void WalletHashManager::getHashForWords(QString pass)
 {
     cryptographicHash.reset();
 
     for (auto word: currentWords)
         cryptographicHash.addData(word.toLocal8Bit());
+
+    if(!pass.isEmpty())
+        cryptographicHash.addData(pass.toLocal8Bit());
 
     currentHash = "0x" + cryptographicHash.result().toHex();
 
@@ -63,7 +66,7 @@ void WalletHashManager::copyWordsToClipboard()
     clipboard->setText(allWords);
 }
 
-void WalletHashManager::pasteWordsFromClipboard()
+void WalletHashManager::pasteWordsFromClipboard(QString pass)
 {
     QString allWords = clipboard->text();
 
@@ -77,7 +80,7 @@ void WalletHashManager::pasteWordsFromClipboard()
         emit clipboardError();
     }
     else
-        getHashForWords();
+        getHashForWords(pass);
 
     qDebug() << "WalletHashManager::pasteWordsFromClipboard" << currentWords;
 
@@ -85,20 +88,23 @@ void WalletHashManager::pasteWordsFromClipboard()
     updateWordsModelAndHash();
 }
 
-void WalletHashManager::generateNewFile()
+void WalletHashManager::generateNewFile(QString pass)
 {
     currentData = randomFile.generateRandomData();
 
-    getHashForFile();
+    getHashForFile(pass);
 
     emit setHashString(currentHash);
 }
 
-void WalletHashManager::getHashForFile()
+void WalletHashManager::getHashForFile(QString pass)
 {
     cryptographicHash.reset();
 
     cryptographicHash.addData(currentData);
+
+    if(!pass.isEmpty())
+        cryptographicHash.addData(pass.toLocal8Bit());
 
     currentHash = "0x" + cryptographicHash.result().toHex();
 
@@ -123,7 +129,7 @@ void WalletHashManager::saveFile(const QString &fileName)
         emit setFileName(tempName);
 }
 
-void WalletHashManager::openFile(const QString &fileName)
+void WalletHashManager::openFile(const QString &fileName, QString pass)
 {
     QString tempName = fileName;
 
@@ -147,7 +153,7 @@ void WalletHashManager::openFile(const QString &fileName)
 
     currentData = data;
 
-    getHashForFile();
+    getHashForFile(pass);
 
     emit setHashString(currentHash);
 }

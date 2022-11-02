@@ -32,7 +32,8 @@ DapPage
         "network": "",
         "chain": "",
         "signature_type": "",
-        "recovery_hash": ""
+        "recovery_hash": "",
+        "password": ""
     }
     property var commandResult:
     {
@@ -162,12 +163,12 @@ DapPage
         }
         onWalletsListReceived:
         {
-            if(dapModelWallets)
-            {
-                if(walletsList.length !== dapModelWallets.count)
-                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
-            }
-            else
+//            if(dapModelWallets)
+//            {
+//                if(walletsList.length !== dapModelWallets.count)
+//                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
+//            }
+//            else
                 dapServiceController.requestToService("DapGetWalletsInfoCommand")
         }
         onVersionControllerResult:
