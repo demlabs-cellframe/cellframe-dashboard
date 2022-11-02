@@ -247,6 +247,8 @@ ColumnLayout
                             id: rowLay
                             Layout.preferredHeight: 15
 
+                            visible: status === "Active" || status === ""
+
                             spacing: 0
                             DapText
                             {
@@ -255,7 +257,7 @@ ColumnLayout
 
                                fontDapText: mainFont.dapFont.regular12
                                color: currTheme.textColorGrayTwo
-                               fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
+                               fullText: rowLay.visible ? networks.get(dapServiceController.IndexCurrentNetwork).address : ""
 
                                textElide: Text.ElideMiddle
                                horizontalAlignment: Qt.Alignleft
@@ -265,7 +267,7 @@ ColumnLayout
                                    target:dapServiceController
                                    onIndexCurrentNetworkChanged:
                                    {
-                                       textMetworkAddress.fullText = networks.get(dapServiceController.IndexCurrentNetwork).address
+                                       textMetworkAddress.fullText = rowLay.visible ? networks.get(dapServiceController.IndexCurrentNetwork).address : ""
                                        textMetworkAddress.checkTextElide()
 //                                       textMetworkAddress.update()
                                        textMetworkAddress.updateText()
@@ -283,6 +285,31 @@ ColumnLayout
                             }
                         }
                     }
+
+                    DapToolTipInfo{
+                        id: activeStatus
+                        Layout.rightMargin: 3
+                        Layout.preferredHeight: 24
+                        Layout.preferredWidth: 24
+                        visible: model.status !== ""
+                        text.wrapMode: Text.NoWrap
+
+                        toolTip.width: text.implicitWidth + 16
+                        toolTip.x: -toolTip.width/2 + 8
+
+                        contentText: model.status === "Active" ? "Deactivate wallet" : "Activate wallet"
+
+                        indicatorSrcNormal: model.status === "Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg":
+                                                                        "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                        indicatorSrcHover: model.status === "Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_activateHover.svg":
+                                                                       "qrc:/Resources/BlackTheme/icons/other/icon_deactivateHover.svg"
+
+                        onClicked:
+                            model.status === "Active" ? walletDeactivatePopup.show(name):
+                                                               walletActivatePopup.show(name, false)
+                    }
+
+
 
 
                     DapRadioButton
@@ -308,10 +335,24 @@ ColumnLayout
 
                         onClicked:
                         {
-//                            if(!checked)
-//                                checked = true
-                            dapCurrentWallet = index
-                            logicMainApp.currentIndex = index
+                            if(status === "Active" || status === "")
+                            {
+                                dapCurrentWallet = index
+                                logicMainApp.currentIndex = index
+                            }
+                            else
+                                walletActivatePopup.show(name, false)
+                        }
+
+                        Connections{
+                            target: walletActivatePopup
+                            onActivatingSignal:{
+                                if(nameWallet === name && statusRequest)
+                                {
+                                    dapCurrentWallet = index
+                                    logicMainApp.currentIndex = index
+                                }
+                            }
                         }
                     }
                 }
@@ -324,7 +365,6 @@ ColumnLayout
                     anchors.bottom: parent.bottom
                     height: 1
                     color: currTheme.lineSeparatorColor
-
                 }
             }
         }

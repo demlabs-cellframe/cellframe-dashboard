@@ -13,7 +13,7 @@ QtObject {
     {
 //        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
 
-        if (logicMainApp.currentIndex !== -1 && logicMainApp.networkArray !== "")
+        if (logicMainApp.currentIndex !== -1 && (logicMainApp.networkArray !== "" || dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active"))
             dapServiceController.requestToService("DapGetWalletInfoCommand",
                 dapModelWallets.get(logicMainApp.currentIndex).name,
                 logicMainApp.networkArray);
@@ -200,10 +200,8 @@ QtObject {
             for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
             {
                 networksModel.get(i).chains.append(
-                    { "name" : tempNetworks.get(i).chains.get(k).name})
+                    {"name" : tempNetworks.get(i).chains.get(k).name})
             }
         }
-
     }
-
 }

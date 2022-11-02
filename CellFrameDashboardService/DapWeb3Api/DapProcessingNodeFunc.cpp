@@ -95,7 +95,7 @@ QJsonDocument DapWebControll::getWallets()
 
         QJsonArray jsonArr;
 
-        QRegularExpression rx("wallet:\\s(.+)\\s", QRegularExpression::MultilineOption);
+        QRegularExpression rx(R"(^Wallet: (\S+)( (\S+))?)", QRegularExpression::MultilineOption);
         QRegularExpressionMatchIterator itr = rx.globalMatch(result);
         if(itr.hasNext()){
             while (itr.hasNext()){
