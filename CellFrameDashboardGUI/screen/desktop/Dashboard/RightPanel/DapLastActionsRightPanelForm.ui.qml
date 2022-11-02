@@ -65,6 +65,7 @@ DapRectangleLitAndShaded
                     anchors.fill: parent
                     anchors.rightMargin: 16
                     anchors.leftMargin: 16
+                    spacing: 12
 
                     ColumnLayout
                     {
@@ -125,25 +126,43 @@ DapRectangleLitAndShaded
                         }
                     }
 
-                    Image
-                    {
-                        Layout.preferredHeight: 20
-                        Layout.preferredWidth: 20
-    //                    innerWidth: 20
-    //                    innerHeight: 20
+                    DapToolTipInfo{
+                        id: explorerIcon
+                        Layout.preferredHeight: 18
+                        Layout.preferredWidth: 18
+                        contentText: qsTr("Explorer")
 
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
+                        visible: tx_status === "DECLINED" ? false : network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
 
-                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
+                        toolTip.width: text.implicitWidth + 16
+                        toolTip.x: -toolTip.width/2 + 8
 
-                        MouseArea
-                        {
-                            id: mouseArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
-                        }
+                        indicatorSrcNormal: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+
+                        indicatorSrcHover: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+                        onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+
                     }
+
+//                    Image
+//                    {
+//                        Layout.preferredHeight: 20
+//                        Layout.preferredWidth: 20
+//    //                    innerWidth: 20
+//    //                    innerHeight: 20
+
+//                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
+
+//                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
+
+//                        MouseArea
+//                        {
+//                            id: mouseArea
+//                            anchors.fill: parent
+//                            hoverEnabled: true
+//                            onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+//                        }
+//                    }
                 }
 
                 Rectangle

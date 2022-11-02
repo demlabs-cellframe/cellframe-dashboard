@@ -111,7 +111,7 @@ Page
                 anchors.fill: parent
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
-                spacing: 10 
+                spacing: 10
 
                 // Network name
                 Text
@@ -174,36 +174,27 @@ Page
                     }
                 }
 
-                Item{
-                    Layout.preferredHeight: 32
-                    Layout.preferredWidth: 32
+                DapToolTipInfo{
+                    id: explorerIcon
+                    Layout.preferredHeight: 18
+                    Layout.preferredWidth: 18
+                    contentText: qsTr("Explorer")
 
-                    Image
-                    {
-                        anchors.centerIn: parent
+                    visible: tx_status === "DECLINED" ? false : network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
 
-                        mipmap: true
+                    toolTip.width: text.implicitWidth + 16
+                    toolTip.x: -toolTip.width/2 + 8
 
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
+                    indicatorSrcNormal: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
 
-                        source: mouseArea.containsMouse? "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg" :
-                                                         "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
-
-                        MouseArea
-                        {
-                            id: mouseArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                        }
-                    }
-
+                    indicatorSrcHover: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
                 }
             }
 
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if(mouseArea.containsMouse)
+                    if(explorerIcon.mouseArea.containsMouse)
                         Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
                     else if(logicExplorer.selectTxIndex !== index)
                     {

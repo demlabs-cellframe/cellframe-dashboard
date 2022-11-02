@@ -78,69 +78,69 @@ DapRectangleLitAndShaded {
 
                 TextDetailsTx {
                     title.text: "Network"
-                    content.fullText: detailsModel.get(0).network
+                    content.text: detailsModel.get(0).network
                     title.color: currTheme.textColorGray
                 }
                 TextDetailsTx {
                     title.text: "TX hash"
-                    content.fullText: detailsModel.get(0).tx_hash
+                    content.text: detailsModel.get(0).tx_hash
                     title.color: currTheme.textColorGray
                     copyButton.visible: true
                     copyButton.popupText: "Hash copied"
                 }
                 TextDetailsTx {
                     title.text: "TX status"
-                    content.fullText: detailsModel.get(0).tx_status
+                    content.text: detailsModel.get(0).tx_status
                     title.color: currTheme.textColorGray
 
-                    content.textColor: detailsModel.get(0).tx_status === "DECLINED" ?
+                    content.color: detailsModel.get(0).tx_status === "DECLINED" ?
                                            currTheme.textColorRed :
                                            currTheme.textColorLightGreen
                 }
                 TextDetailsTx {
                     title.text: "Date"
-                    content.fullText: detailsModel.get(0).date
+                    content.text: detailsModel.get(0).date
                     title.color: currTheme.textColorGray
                 }
                 TextDetailsTx {
                     title.text: "Status"
-                    content.fullText: detailsModel.get(0).status
+                    content.text: detailsModel.get(0).status
                     title.color: currTheme.textColorGray
-                    content.textColor: detailsModel.get(0).status === "Sent"  ?  currTheme.textColorYellow :
+                    content.color: detailsModel.get(0).status === "Sent"  ?  currTheme.textColorYellow :
                                        detailsModel.get(0).status === "Error" ?  currTheme.textColorRed :
                                        detailsModel.get(0).status === "Received"  ? currTheme.textColorLightGreen :
                                                                                 currTheme.textColor
                 }
                 TextDetailsTx {
                     title.text: "From"
-                    content.fullText: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).wallet_name : detailsModel.get(0).address
+                    content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).wallet_name : detailsModel.get(0).address
                     title.color: currTheme.textColorGray
                     copyButton.visible: detailsModel.get(0).status === "Sent" ? false : detailsModel.get(0).address.length === 104 ? true : false
                 }
                 TextDetailsTx {
                     title.text: "To"
-                    content.fullText: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
+                    content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
                     title.color: currTheme.textColorGray
                     copyButton.visible: detailsModel.get(0).status === "Sent" ? true : false
                 }
                 TextDetailsTx {
                     title.text: "Token"
-                    content.fullText: detailsModel.get(0).token
+                    content.text: detailsModel.get(0).token
                     title.color: currTheme.textColorGray
                 }
                 TextDetailsTx {
                     title.text: "Value"
-                    content.fullText: detailsModel.get(0).value + " " + detailsModel.get(0).token
+                    content.text: detailsModel.get(0).value + " " + detailsModel.get(0).token
                     title.color: currTheme.textColorGray
                 }
                 TextDetailsTx {
                     title.text: "Fee"
-                    content.fullText: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
+                    content.text: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
                     title.color: currTheme.textColorGray
                 }
                 TextDetailsTx {
                     title.text: "Atom"
-                    content.fullText: detailsModel.get(0).atom
+                    content.text: detailsModel.get(0).atom
                     title.color: currTheme.textColorGray
                     copyButton.visible: true
                     copyButton.popupText: "Atom copied"
