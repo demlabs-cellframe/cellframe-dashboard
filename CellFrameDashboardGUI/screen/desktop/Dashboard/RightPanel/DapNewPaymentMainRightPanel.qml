@@ -142,7 +142,7 @@ DapNewPaymentMainRightPanelForm
             {
                 var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
                 print("amountWithCommission", amountWithCommission)
-                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).full_balance
+                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
                 print("full_balance", full_balance)
 
                 if (!logicWallet.testAmount(full_balance, amountWithCommission))
@@ -150,7 +150,7 @@ DapNewPaymentMainRightPanelForm
                     print("Not enough tokens")
                     dapTextNotEnoughTokensWarning.text =
                         qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).fullBalance).arg(amountWithCommission)
+                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins).arg(amountWithCommission)
                 }
                 else
                 {

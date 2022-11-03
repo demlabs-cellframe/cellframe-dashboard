@@ -326,7 +326,7 @@ Page {
         for (var i = 0; i < tempModel.count; ++i)
         {
             tokenModel.append({"name" : tempModel.get(i).name,
-                               "balance" : tempModel.get(i).fullBalance})
+                               "balance" : tempModel.get(i).coins})
         }
     }
 

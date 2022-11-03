@@ -239,10 +239,10 @@ Rectangle {
             showTab: true,
             page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
 
-            //FOR DEBUG
+//            FOR DEBUG
 //        append ({ tag: "Plugin",
 //            name: qsTr("Plugin"),
-//            bttnIco: "icon_settings.png",
+//            bttnIco: "icon_settings.svg",
 //            showTab: true,
 //            page: "qrc:/screen/desktop/Plugins/Plugin/DapApp.qml"})
 
@@ -490,7 +490,6 @@ Rectangle {
         onWalletsReceived:
         {
             console.log("onWalletsReceived")
-            console.log("Wallets length:", walletList.length)
             logicMainApp.rcvWallets(walletList)
 //            modelWalletsUpdated();
         }

@@ -43,7 +43,7 @@ QtObject
         if(order.side === "Buy")
         {
             value = balanceReal + order.amount * logicMainApp.tokenPrice
-            fakeWallet.get(0).tokens.get(1).fullBalance = value.toString()
+            fakeWallet.get(0).tokens.get(1).coins = value.toString()
             balanceReal = value
 
             fakeWalletChanged() //for top panel

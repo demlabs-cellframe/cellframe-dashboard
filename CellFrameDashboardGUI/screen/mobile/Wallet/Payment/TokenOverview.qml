@@ -34,7 +34,7 @@ Page {
                 Layout.alignment: Qt.AlignRight
                 color: currTheme.textColor
                 font: mainFont.dapFont.regular14
-                text: qsTr(dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).fullBalance.toString())
+                text: qsTr(dapModelWallets.get(currentWallet).networks.get(currentNetwork).tokens.get(currentToken).coins.toString())
             }
         }
         Rectangle

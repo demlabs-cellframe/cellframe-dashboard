@@ -193,7 +193,7 @@ QtObject {
                 networksModel.get(i).tokens.append(
                     { "name" : tempNetworks.get(i).tokens.get(j).name,
                       "datoshi": tempNetworks.get(i).tokens.get(j).datoshi,
-                      "full_balance": tempNetworks.get(i).tokens.get(j).full_balance})
+                      "coins": tempNetworks.get(i).tokens.get(j).coins})
             }
 
             for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
