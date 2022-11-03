@@ -143,8 +143,7 @@ Item{
 
                     anchors.verticalCenter: parent.verticalCenter
                     placeholderText: qsTr("Password")
-                    font: echoMode === TextInput.Password && length ? mainFont.dapFont.regular8 :
-                                                                      mainFont.dapFont.regular16
+                    font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignLeft
                     anchors.fill: parent
                     anchors.leftMargin: echoMode === TextInput.Password && length ? 6 : 0

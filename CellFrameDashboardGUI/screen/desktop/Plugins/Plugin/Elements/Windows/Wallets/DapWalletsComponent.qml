@@ -170,7 +170,7 @@ Component {
                             {
                                 Layout.fillWidth: true
                                 name: model.name
-                                value: model.balance_without_zeros
+                                value: model.coins
                                 color: "transparent"
                             }
                         }

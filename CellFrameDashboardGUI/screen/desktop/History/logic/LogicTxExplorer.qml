@@ -15,37 +15,13 @@ QtObject {
 
     function rcvAllWalletHistory(walletHistory, isLastActions)
     {
-
-//        console.log("walletHistory.length", walletHistory.length)
-
         if(walletHistory !== "isEqual")
         {
 
             console.log("onAllWalletHistoryReceived")
             console.log("jsonDocument.length", walletHistory.length)
-//            console.log(walletHistory)
 
-        var jsonDocument = JSON.parse(walletHistory)
-//        temporaryModel.clear()
-//        temporaryModel.append(jsonDocument)
-
-
-//        if (jsonDocument.length > 0)
-//        {
-//            console.log(jsonDocument[0].tx_status,
-//                        jsonDocument[0].tx_hash)
-//            temporaryModel.clear()
-//            temporaryModel.append(jsonDocument[0])
-//            console.log(temporaryModel.get(0).tx_status,
-//                        temporaryModel.get(0).tx_hash)
-
-//        }
-
-//        console.log("temporaryModel.count", temporaryModel.count)
-
-//        if (temporaryModel.count > 0)
-//            console.log(temporaryModel.get(0).tx_status,
-//                        temporaryModel.get(0).tx_hash)
+            var jsonDocument = JSON.parse(walletHistory)
 
             if (jsonDocument.length !== lastHistoryLength)
             {
@@ -68,19 +44,6 @@ QtObject {
                     {
                         if (temporaryModel.count === 0)
                             temporaryModel.append(jsonDocument[q])
-    //                             {"tx_status" : walletHistory[q].tx_status,
-    //                              "tx_hash" : walletHistory[q].tx_hash,
-    //                              "atom" : walletHistory[q].atom,
-    //                              "network" : walletHistory[q].network,
-    //                              "wallet_name" : walletHistory[q].wallet_name,
-    //                              "date" : walletHistory[q].date,
-    //                              "date_to_secs" : walletHistory[q].date_to_secs,
-    //                              "address" : walletHistory[q].address,
-    //                              "status" : walletHistory[q].status,
-    //                              "value" : dapMath.balanceToCoins(walletHistory[q].value),
-    //                              "token" : walletHistory[q].token,
-    //                              "direction" : walletHistory[q].direction,
-    //                              "fee" : dapMath.balanceToCoins(walletHistory[q].fee)})
                         else
                         {
 
@@ -186,21 +149,6 @@ QtObject {
             return false
         if (elem1.date_to_secs !== elem2.date_to_secs)
             return false
-/*        if (elem1.wallet !== elem2.wallet)
-            return false
-        if (elem1.network !== elem2.network)
-            return false
-        if (elem1.name !== elem2.name)
-            return false
-        if (elem1.status !== elem2.status)
-            return false
-        if (elem1.amount !== elem2.amount)
-            return false
-        if (elem1.date !== elem2.date)
-            return false
-        if (elem1.SecsSinceEpoch !== elem2.SecsSinceEpoch)
-            return false*/
-
         return true
     }
 
