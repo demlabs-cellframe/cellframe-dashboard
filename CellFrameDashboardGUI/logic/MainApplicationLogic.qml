@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQml 2.12
 
 QtObject {
-    property var  currentIndex: -1
+    property var  currentWalletIndex: -1
     property var  prevIndex: -1
     property var  activePlugin: ""
     property var currentNetwork: -1
@@ -16,6 +16,8 @@ QtObject {
     //
 
     property string menuTabStates: ""
+    property string currentWalletName: ""
+    property string currentNetworkName: ""
     property var networkArray: ""
 
     readonly property int autoUpdateInterval: 3000
@@ -194,18 +196,35 @@ QtObject {
             console.error("networksList is empty")
         else
         {
+            var nameIndex = -1
+
+            for (var i = 0; i < networksList.length; ++i)
+            {
+//                dapNetworkModel.append({ "name" : networksList[i]})
+                if (networksList[i] === currentNetworkName)
+                    nameIndex = i
+            }
+
+            if (nameIndex >= 0)
+                currentNetwork = nameIndex
+
             if (networksModel.count !== networksList.length)
             {
                 dapServiceController.requestToService("DapGetNetworksStateCommand")
             }
 
-            if(dapNetworkModel.count !== networksList.length)
+            if (dapNetworkModel.count !== networksList.length)
             {
-                if(currentNetwork === -1)
+                console.log("rcvNetList", "currentNetworkName", currentNetworkName)
+
+                console.info("dapNetworkModel.count", dapNetworkModel.count,
+                             "networksList.length", networksList.length)
+
+                if (currentNetwork === -1)
                 {
                     dapServiceController.setCurrentNetwork(networksList[0]);
                     dapServiceController.setIndexCurrentNetwork(0);
-                    logicMainApp.currentNetwork = dapServiceController.IndexCurrentNetwork
+                    currentNetwork = dapServiceController.IndexCurrentNetwork
                 }
                 else
                 {
@@ -217,7 +236,7 @@ QtObject {
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
 
-                console.info("Current network: "+dapServiceController.CurrentNetwork)
+                console.info("Current network:", dapServiceController.CurrentNetwork)
             }
 
         }
@@ -233,11 +252,18 @@ QtObject {
 
         dapModelWallets.clear()
 
+        var nameIndex = -1
+
+        console.log("rcvWallets", "currentWalletName", currentWalletName)
+
         for (var i = 0; i < walletList.length; ++i)
         {
             dapModelWallets.append({ "name" : walletList[i].Name,
                                   "icon" : walletList[i].Icon,
                                   "networks" : []})
+
+            if (walletList[i].Name === currentWalletName)
+                nameIndex = i
 
             for (var n = 0; n < Object.keys(walletList[i].Networks).length; ++n)
             {
@@ -266,16 +292,26 @@ QtObject {
             }
         }
 
-        if (currentIndex < 0 && dapModelWallets.count > 0)
-            currentIndex = 0
+//        console.log("rcvWallets", "nameIndex", nameIndex)
+
+        if (nameIndex >= 0)
+            currentWalletIndex = nameIndex
+
+        if (currentWalletIndex < 0 && dapModelWallets.count > 0)
+            currentWalletIndex = 0
         if (dapModelWallets.count < 0)
-            currentIndex = -1
+            currentWalletIndex = -1
 
         networkArray = ""
 
-        if (currentIndex >= 0)
+        console.log("rcvWallets", "currentWalletIndex", currentWalletIndex)
+
+        if (currentWalletIndex >= 0)
         {
-            var model = dapModelWallets.get(currentIndex).networks
+            if (currentWalletName !== dapModelWallets.get(currentWalletIndex).name)
+                currentWalletName = dapModelWallets.get(currentWalletIndex).name
+
+            var model = dapModelWallets.get(currentWalletIndex).networks
 
             for (var j = 0; j < model.count; ++j)
             {

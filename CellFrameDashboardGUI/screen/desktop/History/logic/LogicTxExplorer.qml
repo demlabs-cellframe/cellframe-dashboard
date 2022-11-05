@@ -122,7 +122,7 @@ QtObject {
 
     function updateWalletHistory(isLastActions)
     {
-        if (logicMainApp.currentIndex >= 0)
+        if (logicMainApp.currentWalletIndex >= 0)
         {
             if(isLastActions)
             {
@@ -130,7 +130,7 @@ QtObject {
                 prevDate = new Date(0)
             }
 
-            logicMainApp.getAllWalletHistory(logicMainApp.currentIndex)
+            logicMainApp.getAllWalletHistory(logicMainApp.currentWalletIndex)
         }
     }
 
