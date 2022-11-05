@@ -235,7 +235,16 @@ DapPage
                 logicWallet.updateAllWallets()
             }
             else
+            {
                 logicWallet.updateCurrentWallet()
+
+                if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+                else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
+                    walletActivatePopup.hide()
+
+
+            }
         }
     }
 
@@ -266,6 +275,11 @@ DapPage
 
         if (!updateWalletTimer.running)
             updateWalletTimer.start()
+
+        if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+        {
+            walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+        }
     }
 
     Component.onDestruction:

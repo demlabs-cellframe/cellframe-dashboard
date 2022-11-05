@@ -42,7 +42,7 @@ Item
 
                 onInitModelIsCompleted: {
                     isInit = true
-                    currentIndex = logicMainApp.currentIndexPair
+                    currentIndex = logicMainApp.currentWalletIndexPair
                     globalIndex = currentIndex
                     displayElement = dapPairModel.get(globalIndex)
                     updateInfo(globalIndex)
@@ -73,7 +73,7 @@ Item
 
                 function updateInfo(currentIndex)
                 {
-                    logicMainApp.currentIndexPair = currentIndex
+                    logicMainApp.currentWalletIndexPair = currentIndex
                     logicMainApp.token1Name = dapPairModel.get(currentIndex).token1
                     logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
                     logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
@@ -96,8 +96,8 @@ Item
                             pairBox.logic.setModel(dapPairModel)
                         else
                         {
-                            pairBox.currentIndex = logicMainApp.currentIndexPair
-                            pairBox.displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                            pairBox.currentIndex = logicMainApp.currentWalletIndexPair
+                            pairBox.displayElement = dapPairModel.get(logicMainApp.currentWalletIndexPair)
                         }
                     }
                 }

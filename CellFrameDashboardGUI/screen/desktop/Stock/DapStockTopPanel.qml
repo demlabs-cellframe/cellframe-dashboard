@@ -244,7 +244,7 @@ Controls.DapTopPanel
 
         if(tokenComboBox.count)
         {
-            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"coins")
             logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
             logicStock.selectedTokenBalanceWallet = textWalletBalance.fullText
         }
@@ -254,7 +254,7 @@ Controls.DapTopPanel
             var unselectedIndex = tokenComboBox.currentIndex === 1 ? 0 : 1
 
             logicStock.unselectedTokenNameWallet = tokenComboBox.getModelData(unselectedIndex,"name")
-            logicStock.unselectedTokenBalanceWallet = tokenComboBox.getModelData(unselectedIndex,"balance_without_zeros")
+            logicStock.unselectedTokenBalanceWallet = tokenComboBox.getModelData(unselectedIndex,"coins")
         }
         else if(tokenComboBox.count)
         {
