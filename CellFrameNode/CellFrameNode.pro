@@ -13,7 +13,7 @@ win32 {
 
 mac {
     node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target osx 
-    node_targets.files = $$OUT_PWD/build_osx_release/dist/opt
+    node_targets.files = $$OUT_PWD/build_osx_release/dist/Users/root/Applications/Cellframe.app
 }
 
 QMAKE_EXTRA_TARGETS += node_build

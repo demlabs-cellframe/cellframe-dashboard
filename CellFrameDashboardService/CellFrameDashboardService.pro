@@ -13,7 +13,7 @@ QT += core network
 
 LIBS += -ldl
 
-TARGET = $$OUT_PWD/$${BRAND}Service
+TARGET = $${BRAND}Service
 
 win32 {
     CONFIG -= console
@@ -60,11 +60,15 @@ unix: !mac : !android {
     
     BUILD_FLAG = static
 
-    service_target.files = $$TARGET
+    service_target.files = $$OUT_PWD/$$TARGET
     service_target.path = /opt/$${BRAND_LO}/bin/
     service_target.CONFIG += no_check_exist
     
     INSTALLS += service_target
+}
+
+!win32 {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
 }
 
 win32 {
@@ -73,22 +77,35 @@ win32 {
     HEADERS += platforms/win32/service/Service.h
     SOURCES += platforms/win32/service/Service.cpp
 
-
     CONFIG(debug, debug|release) {
-        DESTDIR = /
+        TARGET_PATH = $$OUT_PWD/debug/$${TARGET}.exe
     }
     CONFIG(release, debug|release) {
-        DESTDIR = /
+        TARGET_PATH = $$OUT_PWD/release/$${TARGET}.exe
     }
-    
-    
-   service_target.files = $${TARGET}.exe
+
+   service_target.files = $$TARGET_PATH
    service_target.path = /opt/$${BRAND_LO}/bin/
    #force qmake generate installs in makefiles for unbuilded targets
     service_target.CONFIG += no_check_exist
    INSTALLS += service_target
    
 }
+
+mac {
+    
+    
+    QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
+    QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
+    LIBS += -framework Security -framework Carbon -lobjc
+    
+    service_target.files = $${OUT_PWD}/$${TARGET}.app
+    service_target.path = /
+    service_target.CONFIG += no_check_exist
+    
+    INSTALLS += service_target
+}
+
 
 RESOURCES += \
     $$PWD/CellFrameDashboardService.qrc
