@@ -15,9 +15,7 @@ QtObject {
     property string walletRecoveryType: "Nothing"
     property string walletType: "Standart"
     //
-
     property string menuTabStates: ""
-    property var networkArray: ""
 
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
@@ -247,22 +245,19 @@ QtObject {
 
     function rcvWallet(wallet)
     {
-        var jsonDocument = JSON.parse(walletList)
+        var jsonDocument = JSON.parse(wallet)
 
-        if(!jsonDocument.length || jsonDocument.networks.length)
+        if(!jsonDocument)
         {
-            dapModelWallets.clear()
             return
         }
-
-        dapModelWallets.append(jsonDocument)
 
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
             if (dapModelWallets.get(i).name === jsonDocument.name)
             {
-                dapModelWallets.get(i).networks.clear()
                 dapModelWallets.get(i).status = jsonDocument.status
+                dapModelWallets.get(i).networks.clear();
 
                 if(jsonDocument.status === "" || jsonDocument.status === "Active")
                 {
@@ -479,12 +474,15 @@ QtObject {
 
         var model = dapModelWallets.get(index).networks
 
-        for (var i = 0; i < model.count; ++i)
+        if(model)
         {
-            network_array += model.get(i).name + ":"
-            network_array += name + "/"
+            for (var i = 0; i < model.count; ++i)
+            {
+                network_array += model.get(i).name + ":"
+                network_array += name + "/"
+            }
+            dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update);
         }
-        dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update);
     }
 
     function rcvWebConnectRequest(rcvData)

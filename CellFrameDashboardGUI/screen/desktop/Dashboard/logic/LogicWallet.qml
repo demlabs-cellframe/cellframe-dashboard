@@ -11,12 +11,11 @@ QtObject {
 
     function updateCurrentWallet()
     {
-//        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
+//        print("updateCurrentWallet", logicMainApp.currentIndex, dapModelWallets.get(logicMainApp.currentIndex).status )
 
-        if (logicMainApp.currentIndex !== -1 && (logicMainApp.networkArray !== "" || dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active"))
+        if (logicMainApp.currentIndex !== -1)
             dapServiceController.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(logicMainApp.currentIndex).name,
-                logicMainApp.networkArray);
+                dapModelWallets.get(logicMainApp.currentIndex).name);
     }
 
     function updateComboBox()

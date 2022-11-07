@@ -276,10 +276,10 @@ DapPage
         if (!updateWalletTimer.running)
             updateWalletTimer.start()
 
-        if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-        {
-            walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
-        }
+        if(dapModelWallets.count)
+            if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
+
     }
 
     Component.onDestruction:
