@@ -33,6 +33,9 @@ macos-amd64:
     script:
       - ./prod_build/build.sh --target osx release
       - ./prod_build/pack.sh --target osx release
+    artifacts:
+      paths:
+        - build_*/*.pkg
 
 linux-amd64-debian-buster:
     extends: .build
