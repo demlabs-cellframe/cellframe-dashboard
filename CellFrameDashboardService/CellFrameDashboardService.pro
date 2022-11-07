@@ -67,8 +67,12 @@ unix: !mac : !android {
     INSTALLS += service_target
 }
 
-!win32 {
+
+!win32: !mac {
     include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+}
+mac {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c-darwin/json-c.pri)
 }
 
 win32 {

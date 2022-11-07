@@ -4,7 +4,6 @@ QT += qml quick widgets svg network
 }
 CONFIG += c++11
 
-
 LIBS += -ldl
 include(../config.pri)
 
@@ -109,8 +108,11 @@ include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 
-!win32 {
+!win32: !mac {
     include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+}
+mac {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c-darwin/json-c.pri)
 }
 
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
