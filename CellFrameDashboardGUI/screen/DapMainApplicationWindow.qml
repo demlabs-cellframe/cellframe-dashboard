@@ -491,12 +491,10 @@ Rectangle {
         {
             console.log("onWalletsReceived")
             logicMainApp.rcvWallets(walletList)
-//            modelWalletsUpdated();
         }
         onWalletReceived:
         {
             console.log("onWalletReceived")
-            console.log("Wallet name:", wallet.Name)
             logicMainApp.rcvWallet(wallet)
         }
 
@@ -512,9 +510,6 @@ Rectangle {
                     }
             }
         }
-
-
-
 
         onOrdersReceived:
         {
