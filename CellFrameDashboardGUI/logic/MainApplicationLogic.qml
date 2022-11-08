@@ -245,6 +245,8 @@ QtObject {
 
     function rcvWallets(walletList)
     {
+        console.log("rcvWallets", walletList)
+
         var jsonDocument = JSON.parse(walletList)
 
         if(!jsonDocument.length)

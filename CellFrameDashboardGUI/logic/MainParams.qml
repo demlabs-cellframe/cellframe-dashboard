@@ -236,6 +236,9 @@ QtObject {
             component = Qt.createComponent("qrc:/screen/mobile/MainMobileWindow.qml");
         else
             component = Qt.createComponent("qrc:/screen/DapMainApplicationWindow.qml");
+
+        console.log("initScreen", "component.status", component.status === Component.Ready)
+
         mainWindow = component.createObject(window);
     }
 }

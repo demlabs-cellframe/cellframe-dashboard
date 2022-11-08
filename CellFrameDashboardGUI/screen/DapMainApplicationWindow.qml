@@ -490,7 +490,7 @@ Rectangle {
             else if(versionResult.message === "Reply node version")
             {
                 if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
-                logicMainApp.nodeVersion = versionResult.lastVersion
+                    logicMainApp.nodeVersion = versionResult.lastVersion
             }
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
@@ -519,10 +519,10 @@ Rectangle {
         {
             for(var x = 0; x < dapModelWallets.count; x++)
             {
-                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentWalletIndextIndex).name)
+                if (dapModelWallets.get(x).name === dapModelWallets.get(logicMainApp.currentWalletIndex).name)
                     for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
                     {
-                        if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
+                        if (dapModelWallets.get(x).networks.get(j).name === dapServiceController.CurrentNetwork)
                             vpnClientTokenModel = dapModelWallets.get(x).networks.get(j).tokens
                     }
             }

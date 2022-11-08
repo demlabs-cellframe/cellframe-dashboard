@@ -40,6 +40,10 @@ ApplicationWindow
         property real window_scale: 1.0
     }
 
+//    DapMainApplicationWindow
+//    {
+
+//    }
 
     visible: true
     width: params.defaultWidth
