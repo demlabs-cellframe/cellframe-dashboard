@@ -184,8 +184,7 @@ QtObject {
         for (var i = 0; i < tempNetworks.count; ++i)
         {
             networksModel.append(
-                        { "tokens" : [],
-                          "chains" : [] })
+                        { "tokens" : []})
 
             for (var j = 0; j < tempNetworks.get(i).tokens.count; ++j)
             {
@@ -193,12 +192,6 @@ QtObject {
                     { "name" : tempNetworks.get(i).tokens.get(j).name,
                       "datoshi": tempNetworks.get(i).tokens.get(j).datoshi,
                       "coins": tempNetworks.get(i).tokens.get(j).coins})
-            }
-
-            for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
-            {
-                networksModel.get(i).chains.append(
-                    {"name" : tempNetworks.get(i).chains.get(k).name})
             }
         }
     }
