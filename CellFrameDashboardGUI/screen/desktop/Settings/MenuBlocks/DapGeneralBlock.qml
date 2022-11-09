@@ -14,7 +14,7 @@ ColumnLayout
     anchors.fill: parent
 
     property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: logicMainApp.currentIndex
+//    property int dapCurrentWallet: logicMainApp.currentWalletIndex
     property alias dapNetworkComboBox: comboBoxCurrentNetwork
     property alias dapAutoOnlineCheckBox: checkBox
 
@@ -61,8 +61,10 @@ ColumnLayout
 
         DapCustomComboBox
         {
-            property bool isInit: false
             id: comboBoxCurrentNetwork
+
+            property bool isInit: false
+
             model: dapNetworkModel
 
             anchors.centerIn: parent
@@ -74,7 +76,8 @@ ColumnLayout
 
             font: mainFont.dapFont.regular16
 
-            Component.onCompleted: isInit = true
+            Component.onCompleted:
+                isInit = true
 
             defaultText: qsTr("Networks")
 
@@ -90,6 +93,8 @@ ColumnLayout
                 }
                 else
                     setCurrentIndex(logicMainApp.currentNetwork)
+
+                logicMainApp.currentNetworkName = dapNetworkModel.get(currentIndex).name
             }
         }
     }
@@ -191,7 +196,6 @@ ColumnLayout
         model: dapModelWallets
         clip: true
         delegate: delegateList
-
     }
 
     Component{
@@ -331,26 +335,28 @@ ColumnLayout
                         spaceIndicatorText: 3
                         fontRadioButton: mainFont.dapFont.regular16
                         implicitHeight: indicatorInnerSize
-                        checked: index === logicMainApp.currentIndex? true:false
+                        checked: index === logicMainApp.currentWalletIndex? true:false
 
                         onClicked:
                         {
                             if(status === "Active" || status === "")
                             {
-                                dapCurrentWallet = index
-                                logicMainApp.currentIndex = index
+                                logicMainApp.currentWalletName = name
+                                logicMainApp.currentWalletIndex = index
                             }
                             else
                                 walletActivatePopup.show(name, false)
                         }
+
+                        Component.onCompleted: if(name === logicMainApp.currentWalletName) clicked()
 
                         Connections{
                             target: walletActivatePopup
                             onActivatingSignal:{
                                 if(nameWallet === name && statusRequest)
                                 {
-                                    dapCurrentWallet = index
-                                    logicMainApp.currentIndex = index
+                                    logicMainApp.currentWalletName = name
+                                    logicMainApp.currentWalletIndex = index
                                 }
                             }
                         }

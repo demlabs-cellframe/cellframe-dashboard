@@ -60,7 +60,16 @@ DapLastActionsRightPanelForm
                 logicExplorer.rcvAllWalletHistory(walletHistory, true)
             }
         }
+    }
 
+    Connections{
+        target: dashboardTopPanel
+        onChangeWallet: {
+            lastHistoryLength = 0
+            temporaryModel.clear()
+            modelLastActions.clear()
+            logicExplorer.updateWalletHistory(true, 1)
+        }
     }
 
     Connections

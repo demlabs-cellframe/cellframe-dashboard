@@ -59,13 +59,13 @@ Controls.DapTopPanel
         {
             id: textNameWallet
             height: 42
-//            text: dapModelWallets.get(logicMainApp.currentIndex).name
+//            text: dapModelWallets.get(logicMainApp.currentWalletIndex).name
             Layout.alignment: Qt.AlignVCenter
             Layout.maximumWidth: 220
             Layout.minimumWidth: 220
 //            Layout.leftMargin: 4
             Layout.leftMargin: 19
-            fullText: dapModelWallets.get(logicMainApp.currentIndex).name
+            fullText: dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
             textFont: mainFont.dapFont.regular14
         }
@@ -77,7 +77,7 @@ Controls.DapTopPanel
 //            Layout.maximumWidth: 220
 //            font: mainFont.dapFont.regular14
 
-//            currentIndex: logicMainApp.currentIndex
+//            currentIndex: logicMainApp.currentWalletIndex
 //            model: dapModelWallets
 
 //            backgroundColor: currTheme.backgroundMainScreen
@@ -188,7 +188,7 @@ Controls.DapTopPanel
 
     function updatePair()
     {
-        var modelWallet = dapModelWallets.get(logicMainApp.currentIndex)
+        var modelWallet = dapModelWallets.get(logicMainApp.currentWalletIndex)
         stockModelTokens.clear()
 
 //        print("updatePair",
