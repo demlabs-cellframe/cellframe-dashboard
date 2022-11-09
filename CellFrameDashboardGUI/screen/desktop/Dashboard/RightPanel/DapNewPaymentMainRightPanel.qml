@@ -8,7 +8,7 @@ DapNewPaymentMainRightPanelForm
     {
         updateWalletTimer.stop()
 
-        walletName = dapModelWallets.get(logicMainApp.currentIndex).name
+        walletName = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
         logicWallet.initNetworks()
 

@@ -127,19 +127,32 @@ DapRectangleLitAndShaded
                     }
 
                     DapToolTipInfo{
+                        property string normalIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+                        property string hoverIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+                        property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
                         id: explorerIcon
                         Layout.preferredHeight: 18
                         Layout.preferredWidth: 18
                         contentText: qsTr("Explorer")
 
-                        visible: tx_status === "DECLINED" ? false : network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
-
                         toolTip.width: text.implicitWidth + 16
                         toolTip.x: -toolTip.width/2 + 8
 
-                        indicatorSrcNormal: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+                        enabled: tx_status === "DECLINED" ? false :
+                                    network === "subzero" || network === "Backbone" ||
+                                    network === "mileena" || network === "kelvpn-minkowski"  ?
+                                    true : false
 
-                        indicatorSrcHover: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+                        indicatorSrcNormal: tx_status === "DECLINED" ? disabledIcon :
+                                                network === "subzero" || network === "Backbone" ||
+                                                network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                normalIcon : disabledIcon
+
+                        indicatorSrcHover: tx_status === "DECLINED" ? disabledIcon :
+                                                                      network === "subzero" || network === "Backbone" ||
+                                                                      network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                                      hoverIcon : disabledIcon
+
                         onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
 
                     }

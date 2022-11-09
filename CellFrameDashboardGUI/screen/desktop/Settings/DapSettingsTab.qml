@@ -20,7 +20,7 @@ DapPage
     readonly property string requestsPanel: path + "/Settings/RightPanel/DapRequestsRightPanel.qml"
 
     id: settingsTab
-    property int dapIndexCurrentWallet: -1
+//    property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
     property bool sendRequest: false
 
@@ -159,7 +159,7 @@ DapPage
 
         onWalletCreated:
         {
-            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
+//            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
         }
         onWalletsListReceived:
         {

@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQml 2.12
 
 QtObject {
-    property var  currentIndex: -1
+    property var  currentWalletIndex: -1
     property var  prevIndex: -1
     property var  activePlugin: ""
     property var currentNetwork: -1
@@ -16,6 +16,9 @@ QtObject {
     property string walletType: "Standart"
     //
     property string menuTabStates: ""
+
+    property string currentWalletName: ""
+    property string currentNetworkName: ""
 
     readonly property int autoUpdateInterval: 4000
     readonly property int autoUpdateHistoryInterval: 4000
@@ -193,18 +196,35 @@ QtObject {
             console.error("networksList is empty")
         else
         {
+            var nameIndex = -1
+
+            for (var i = 0; i < networksList.length; ++i)
+            {
+//                dapNetworkModel.append({ "name" : networksList[i]})
+                if (networksList[i] === currentNetworkName)
+                    nameIndex = i
+            }
+
+            if (nameIndex >= 0)
+                currentNetwork = nameIndex
+
             if (networksModel.count !== networksList.length)
             {
                 dapServiceController.requestToService("DapGetNetworksStateCommand")
             }
 
-            if(dapNetworkModel.count !== networksList.length)
+            if (dapNetworkModel.count !== networksList.length)
             {
-                if(currentNetwork === -1)
+                console.log("rcvNetList", "currentNetworkName", currentNetworkName)
+
+                console.info("dapNetworkModel.count", dapNetworkModel.count,
+                             "networksList.length", networksList.length)
+
+                if (currentNetwork === -1)
                 {
                     dapServiceController.setCurrentNetwork(networksList[0]);
                     dapServiceController.setIndexCurrentNetwork(0);
-                    logicMainApp.currentNetwork = dapServiceController.IndexCurrentNetwork
+                    currentNetwork = dapServiceController.IndexCurrentNetwork
                 }
                 else
                 {
@@ -216,7 +236,7 @@ QtObject {
                 for (var i = 0; i < networksList.length; ++i)
                     dapNetworkModel.append({ "name" : networksList[i]})
 
-                console.info("Current network: "+dapServiceController.CurrentNetwork)
+                console.info("Current network:", dapServiceController.CurrentNetwork)
             }
 
         }
@@ -235,10 +255,55 @@ QtObject {
         dapModelWallets.clear()
         dapModelWallets.append(jsonDocument)
 
-        if (currentIndex < 0 && dapModelWallets.count > 0)
-            currentIndex = 0
+        var nameIndex = -1
+
+        console.log("rcvWallets", "currentWalletName", currentWalletName)
+
+        for (var i = 0; i < walletList.length; ++i)
+        {
+            dapModelWallets.append({ "name" : walletList[i].Name,
+                                  "icon" : walletList[i].Icon,
+                                  "networks" : []})
+
+            if (walletList[i].Name === currentWalletName)
+                nameIndex = i
+
+            for (var n = 0; n < Object.keys(walletList[i].Networks).length; ++n)
+            {
+                dapModelWallets.get(i).networks.append({"name": walletList[i].Networks[n],
+                      "address": walletList[i].findAddress(walletList[i].Networks[n]),
+                      "chains": [],
+                      "tokens": []})
+
+                var chains = walletList[i].getChains(walletList[i].Networks[n])
+
+                for (var c = 0; c < chains.length; ++c)
+                    dapModelWallets.get(i).networks.get(n).chains.append({"name": chains[c]})
+
+                for (var t = 0; t < Object.keys(walletList[i].Tokens).length; ++t)
+                {
+                    if(walletList[i].Tokens[t].Network === walletList[i].Networks[n])
+                    {
+                        dapModelWallets.get(i).networks.get(n).tokens.append(
+                             {"name": walletList[i].Tokens[t].Name,
+                              "full_balance": walletList[i].Tokens[t].FullBalance,
+                              "balance_without_zeros": dapMath.balanceToCoins(walletList[i].Tokens[t].Datoshi),
+                              "datoshi": walletList[i].Tokens[t].Datoshi,
+                              "network": walletList[i].Tokens[t].Network})
+                    }
+                }
+            }
+        }
+
+//        console.log("rcvWallets", "nameIndex", nameIndex)
+
+        if (nameIndex >= 0)
+            currentWalletIndex = nameIndex
+
+        if (currentWalletIndex < 0 && dapModelWallets.count > 0)
+            currentWalletIndex = 0
         if (dapModelWallets.count < 0)
-            currentIndex = -1
+            currentWalletIndex = -1
 
         modelWalletsUpdated()
     }

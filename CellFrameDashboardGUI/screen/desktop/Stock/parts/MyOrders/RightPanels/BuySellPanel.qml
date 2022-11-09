@@ -350,7 +350,7 @@ DapRectangleLitAndShaded {
 /*                var net = logicMainApp.tokenNetwork
                 var tokenSell = isSell ? logicMainApp.token1Name : logicMainApp.token2Name
                 var tokenBuy = isSell ? logicMainApp.token2Name : logicMainApp.token1Name
-                var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
+                var currentWallet = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
                 var amountBuy = isSell ? dapMath.coinsToBalance(total.textValue) :
                                           dapMath.coinsToBalance(amount.textValue)

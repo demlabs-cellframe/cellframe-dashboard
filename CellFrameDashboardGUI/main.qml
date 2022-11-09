@@ -19,7 +19,7 @@ ApplicationWindow
     property bool currThemeVal: true
     property var currTheme: currThemeVal ? darkTheme : lightTheme
     property alias mainFont: quicksandFonts
-    property alias mainWindow : params.mainWindow
+    property alias mainWindow : mainWindow
 
 
     id: window
@@ -67,13 +67,18 @@ ApplicationWindow
         visible: false
     }
 
+    DapMainApplicationWindow{
+        id: mainWindow
+    }
+
     onClosing: {
         close.accepted = false
         Qt.quit()
     }
 
     Component.onCompleted: {
-        params.initScreen()
+        params.mainWindow = mainWindow
+//        params.initScreen()
         params.initSize()
     }
 

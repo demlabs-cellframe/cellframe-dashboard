@@ -13,21 +13,21 @@ QtObject {
     {
 //        print("updateCurrentWallet", logicMainApp.currentIndex, dapModelWallets.get(logicMainApp.currentIndex).status )
 
-        if (logicMainApp.currentIndex !== -1)
+        if (logicMainApp.currentWalletIndex !== -1)
             dapServiceController.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(logicMainApp.currentIndex).name);
+                dapModelWallets.get(logicMainApp.currentWalletIndex).name);
     }
 
-    function updateComboBox()
+    function updateWalletModel()
     {
-        if(logicMainApp.currentIndex !== -1)
+        if(logicMainApp.currentWalletIndex !== -1)
         {
             if(dapModelWallets.count)
             {
-                dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentIndex).networks
-                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentIndex).name
+                dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentWalletIndex).networks
+//                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
-                console.log("dapComboboxWallet.onCurrentIndexChanged")
+//                console.log("dapComboboxWallet.onCurrentIndexChanged")
 
                 dashboardTab.state = "WALLETSHOW"
             }
@@ -179,7 +179,7 @@ QtObject {
         networksModel.clear()
 
         var tempNetworks = dapModelWallets.
-            get(logicMainApp.currentIndex).networks
+            get(logicMainApp.currentWalletIndex).networks
 
         for (var i = 0; i < tempNetworks.count; ++i)
         {
