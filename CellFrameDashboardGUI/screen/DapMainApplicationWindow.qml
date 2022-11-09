@@ -57,14 +57,14 @@ Rectangle {
         property alias menuTabStates: logicMainApp.menuTabStates
         property string currentWalletName: logicMainApp.currentWalletName
         property string currentNetworkName: logicMainApp.currentNetworkName
-        property string currentWalletIndex: logicMainApp.currentWalletIndex
+        //property string currentWalletIndex: logicMainApp.currentWalletIndex
 
         Component.onCompleted:
         {
             console.log("Settings", "currentWalletName", currentWalletName)
             console.log("Settings", "currentNetworkName", currentNetworkName)
 
-            logicMainApp.currentWalletName = currentWalletName
+            //logicMainApp.currentWalletName = currentWalletName
             logicMainApp.currentNetworkName = currentNetworkName
             logicMainApp.currentWalletIndex = currentWalletIndex
 
