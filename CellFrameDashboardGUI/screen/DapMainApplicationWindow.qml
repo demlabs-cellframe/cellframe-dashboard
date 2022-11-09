@@ -46,11 +46,30 @@ Rectangle {
 
     property alias walletActivatePopup: walletActivatePopup
     property alias walletDeactivatePopup: walletDeactivatePopup
+    property alias settingsWallet:settingsWallet
 
     property var vpnClientTokenModel: new Array()
 
     MainApplicationLogic{id: logicMainApp}
-    Settings {property alias menuTabStates: logicMainApp.menuTabStates}
+    Settings
+    {
+        id: settingsWallet
+        property alias menuTabStates: logicMainApp.menuTabStates
+        property string currentWalletName: logicMainApp.currentWalletName
+        property string currentNetworkName: logicMainApp.currentNetworkName
+        property string currentWalletIndex: logicMainApp.currentWalletIndex
+
+        Component.onCompleted:
+        {
+            console.log("Settings", "currentWalletName", currentWalletName)
+            console.log("Settings", "currentNetworkName", currentNetworkName)
+
+            logicMainApp.currentWalletName = currentWalletName
+            logicMainApp.currentNetworkName = currentNetworkName
+            logicMainApp.currentWalletIndex = currentWalletIndex
+
+        }
+    }
     Timer {id: timer}
 
     ListModel {id: networksModel}
@@ -502,7 +521,7 @@ Rectangle {
         {
             for(var x = 0; x < dapModelWallets.count; x++)
             {
-                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentWalletIndextIndex).name)
                     for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
                     {
                         if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
