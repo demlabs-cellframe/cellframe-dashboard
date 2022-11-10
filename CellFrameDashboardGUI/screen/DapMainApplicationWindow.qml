@@ -64,9 +64,9 @@ Rectangle {
             console.log("Settings", "currentWalletName", currentWalletName)
             console.log("Settings", "currentNetworkName", currentNetworkName)
 
-            //logicMainApp.currentWalletName = currentWalletName
+            logicMainApp.currentWalletName = currentWalletName
             logicMainApp.currentNetworkName = currentNetworkName
-            logicMainApp.currentWalletIndex = currentWalletIndex
+//            logicMainApp.currentWalletIndex = currentWalletIndex
 
         }
     }

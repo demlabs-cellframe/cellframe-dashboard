@@ -44,6 +44,10 @@ private:
     QJsonDocument getLedgetTxListAll(QString net);
     QJsonDocument getMempoolList(QString net);
 
+    QJsonDocument getMempoolTxHash(QString net, QString hash);
+    QJsonDocument createCondTx(QString net, QString tokenName, QString walletName, QString cert, QString value, QString unit, QString srv_uid);
+    QJsonDocument getNodeStatus();
+
     QJsonDocument getCertificates();
     //    auto args = QString("%1 cert create %2 %3").arg(s_toolPath).arg(certName).arg(signatureType);
     QJsonDocument createCertificate(QString type, QString name);
@@ -67,6 +71,7 @@ private:
 private:
     QString s_pathJsonCmd;
     bool s_connectFrontendStatus;
+    QString s_nodeStatus;
 
 //    QMap <int,QString> s_id;
     QStringList s_id;
@@ -82,6 +87,7 @@ public slots:
     void rcvAccept(QString accept, int index);
 
     void rcvFrontendConnectStatus(bool status) {s_connectFrontendStatus = status;};
+    void rcvNodeStatus(QVariant);
 
 };
 

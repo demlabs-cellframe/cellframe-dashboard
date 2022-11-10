@@ -237,10 +237,11 @@ DapPage
             else
             {
                 logicWallet.updateCurrentWallet()
+//                console.log(!walletActivatePopup.isOpen, dapModelWallets.get(logicMainApp.currentWalletIndex).status)
 
-                if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
-                else if(dapModelWallets.get(logicMainApp.currentIndex).status === "Active" && walletActivatePopup.isOpen)
+                if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+                else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
                     walletActivatePopup.hide()
 
 
@@ -277,8 +278,8 @@ DapPage
             updateWalletTimer.start()
 
         if(dapModelWallets.count)
-            if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
+            if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
 
     }
 
