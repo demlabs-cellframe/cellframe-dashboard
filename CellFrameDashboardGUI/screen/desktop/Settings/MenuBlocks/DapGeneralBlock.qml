@@ -309,8 +309,10 @@ ColumnLayout
                                                                        "qrc:/Resources/BlackTheme/icons/other/icon_deactivateHover.svg"
 
                         onClicked:
+                        {
                             model.status === "Active" ? walletDeactivatePopup.show(name):
                                                                walletActivatePopup.show(name, false)
+                        }
                     }
 
 
@@ -345,7 +347,10 @@ ColumnLayout
                                 logicMainApp.currentWalletIndex = index
                             }
                             else
+                            {
+                                console.log("click radio")
                                 walletActivatePopup.show(name, false)
+                            }
                         }
 
                         Component.onCompleted: if(name === logicMainApp.currentWalletName) clicked()

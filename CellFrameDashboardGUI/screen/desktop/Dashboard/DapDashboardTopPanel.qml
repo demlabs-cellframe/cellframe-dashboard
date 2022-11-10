@@ -54,7 +54,7 @@ Controls.DapTopPanel
     //        anchors.right: comboBoxCurrentWallet.left
 
             font: mainFont.dapFont.regular14
-            backgroundColor: currTheme.backgroundMainScreen
+            backgroundColor: currTheme.backgroundPanel
 
             model: dapModelWallets
 
@@ -65,6 +65,9 @@ Controls.DapTopPanel
 //                setCurrentIndex(logicMainApp.currentWalletIndex)
 //            }
 //            currentIndex: logicMainApp.currentWalletIndex
+
+            enabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+            disabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
 
             Component.onCompleted:
             {
