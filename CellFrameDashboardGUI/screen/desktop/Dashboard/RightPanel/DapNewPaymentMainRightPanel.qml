@@ -8,7 +8,7 @@ DapNewPaymentMainRightPanelForm
     {
         updateWalletTimer.stop()
 
-        walletName = dapModelWallets.get(logicMainApp.currentIndex).name
+        walletName = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
         logicWallet.initNetworks()
 
@@ -125,18 +125,16 @@ DapNewPaymentMainRightPanelForm
 
         if (accept)
         {
-            if (dapComboBoxTokenModel === null || dapComboBoxChainModel === null ||
-                dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex ||
-                dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
+            if (dapComboBoxTokenModel === null || dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
             {
                 if (dapComboBoxTokenModel === null)
                     console.warn("dapComboBoxTokenModel === null")
-                if (dapComboBoxChainModel === null)
-                    console.warn("dapComboBoxChainModel === null")
+//                if (dapComboBoxChainModel === null)
+//                    console.warn("dapComboBoxChainModel === null")
                 if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
                     console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
-                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
-                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
+//                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
+//                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
             }
             else
             {
@@ -161,7 +159,7 @@ DapNewPaymentMainRightPanelForm
 
                     console.log("DapCreateTransactionCommand:")
                     console.log("   network:", dapComboboxNetwork.displayText)
-                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
+//                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
                     console.log("   wallet from:", walletName)
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                     console.log("   token:", dapComboBoxToken.displayText)
@@ -170,7 +168,7 @@ DapNewPaymentMainRightPanelForm
                     var commission = logicWallet.toDatoshi("0.05")
 
                     dapServiceController.requestToService("DapCreateTransactionCommand",
-                        dapComboboxNetwork.displayText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
+                        dapComboboxNetwork.displayText,
                         walletName,
                         dapTextInputRecipientWalletAddress.text,
                         dapComboBoxToken.displayText, amount, commission)

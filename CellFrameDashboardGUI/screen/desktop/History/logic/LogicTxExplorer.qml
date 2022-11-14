@@ -17,7 +17,6 @@ QtObject {
     {
         if(walletHistory !== "isEqual")
         {
-
             console.log("onAllWalletHistoryReceived")
             console.log("jsonDocument.length", walletHistory.length)
 
@@ -127,15 +126,14 @@ QtObject {
 
     function updateWalletHistory(isLastActions, update)
     {
-        if (logicMainApp.currentIndex >= 0)
+        if (logicMainApp.currentWalletIndex >= 0)
         {
             if(isLastActions)
             {
                 lastDate = new Date(0)
                 prevDate = new Date(0)
             }
-
-            logicMainApp.getAllWalletHistory(logicMainApp.currentIndex, update)
+            logicMainApp.getAllWalletHistory(logicMainApp.currentWalletIndex, update)
         }
     }
 

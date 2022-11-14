@@ -84,7 +84,7 @@ DapPage
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
-                walletInfo.name = dapModelWallets.get(logicMainApp.currentIndex).name
+                walletInfo.name = dapModelWallets.get(logicMainApp.currentWalletIndex).name
                 dapRightPanel.pop()
                 navigator.newPayment()
             }
@@ -160,16 +160,16 @@ DapPage
                 target: dapHeaderFrame
                 visible: true
             }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapNewPayment
-                visible: true
-            }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapFrameTitle
-                visible: true
-            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapNewPayment
+//                visible: true
+//            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapFrameTitle
+//                visible: true
+//            }
             PropertyChanges
             {
                 target: dashboardScreen.dapFrameTitleCreateWallet;
@@ -199,16 +199,16 @@ DapPage
                 target: dapHeaderFrame
                 visible: true
             }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapNewPayment
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapFrameTitle
-                visible: false
-            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapNewPayment
+//                visible: false
+//            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapFrameTitle
+//                visible: false
+//            }
             PropertyChanges
             {
                 target: dashboardScreen.dapFrameTitleCreateWallet;
@@ -237,10 +237,11 @@ DapPage
             else
             {
                 logicWallet.updateCurrentWallet()
+//                console.log(!walletActivatePopup.isOpen, dapModelWallets.get(logicMainApp.currentWalletIndex).status)
 
-                if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
-                else if(dapModelWallets.get(logicMainApp.currentIndex).status === "Active" && walletActivatePopup.isOpen)
+                if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+                else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
                     walletActivatePopup.hide()
 
 
@@ -253,7 +254,7 @@ DapPage
         target: dapMainWindow
         onModelWalletsUpdated:
         {
-            logicWallet.updateComboBox()
+            logicWallet.updateWalletModel()
 
             // FOR DEBUG
 //            logicWallet.updateCurrentWallet()
@@ -271,15 +272,15 @@ DapPage
 
     Component.onCompleted:
     {
-        logicWallet.updateComboBox()
+        logicWallet.updateWalletModel()
 
         if (!updateWalletTimer.running)
             updateWalletTimer.start()
 
-        if(dapModelWallets.get(logicMainApp.currentIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-        {
-            walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentIndex).name, true)
-        }
+        if(dapModelWallets.count)
+            if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+
     }
 
     Component.onDestruction:

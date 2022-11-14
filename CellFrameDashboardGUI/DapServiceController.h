@@ -199,7 +199,7 @@ signals:
 
     void walletsReceived(const QVariant& walletList);
 
-    void walletReceived(QObject* wallet);
+    void walletReceived(const QVariant& wallet);
 
     void networksListReceived(const QVariant& networksList);
 
