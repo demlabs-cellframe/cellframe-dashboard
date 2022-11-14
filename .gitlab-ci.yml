@@ -57,16 +57,30 @@ windows-amd64:
         - build_*/*.exe
 
 
-deploy:
+deploy-linux:
   extends: .deploy
   needs: 
     - linux-amd64-debian-buster 
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
+    
+    
+deploy-macos:
+  extends: .deploy
+  needs: 
+    - macos-amd64
+   
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.pkg
+    
+deploy-windows:
+  extends: .deploy
+  needs: 
     - windows-amd64
    
   script: 
-    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
     - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe 
-    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.pkg
+    
     
 
 
