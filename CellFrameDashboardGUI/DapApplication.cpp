@@ -18,6 +18,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
+    , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -37,6 +38,13 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
+
+    connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
+            stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
+    connect(m_serviceController, &DapServiceController::signalXchangeOrderListReceived,
+            stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
+    connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
+            stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
@@ -72,7 +80,10 @@ DapApplication::DapApplication(int &argc, char **argv)
 
 DapApplication::~DapApplication()
 {
+    delete stockDataWorker;
+
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
+
     m_serviceController->disconnectAll();
 }
 

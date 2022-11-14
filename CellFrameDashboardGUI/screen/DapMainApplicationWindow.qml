@@ -157,8 +157,8 @@ Rectangle {
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: dapModelXchangeOrders}
-    ListModel{id: dapPairModel}
-    ListModel{id: dapTokenPriceHistory}
+//    ListModel{id: dapPairModel}
+//    ListModel{id: dapTokenPriceHistory}
     ListModel{id: dapWebSites}
 
     ListModel{id: fakeWallet}
@@ -444,8 +444,8 @@ Rectangle {
 //        var addr = "abcd"
 //        var net = "private"
 
-        stockDataWorker.resetPriceData(0.0,"0.0", true)
-        stockDataWorker.resetBookModel()
+        candleChartWorker.resetPriceData(0.0,"0.0", true)
+        orderBookWorker.resetBookModel()
 //        //-------//OrdersHistory
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
@@ -546,11 +546,11 @@ Rectangle {
 
         onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
 
-        onRcvXchangeTxList:
-        {
-            console.log("onRcvXchangeTxList")
-            console.log(rcvData)
-        }
+//        onRcvXchangeTxList:
+//        {
+//            console.log("onRcvXchangeTxList")
+//            console.log(rcvData)
+//        }
 
         onSignalXchangeOrderListReceived:
         {
@@ -561,20 +561,20 @@ Rectangle {
         onSignalXchangeTokenPairReceived:
         {
             console.log("onSignalXchangeTokenPairReceived")
-            logicMainApp.rcvPairsModel(rcvData)
+//            logicMainApp.rcvPairsModel(rcvData)
         }
 
-        onRcvXchangeTokenPriceAverage:
-        {
-//            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
-//            console.log(rcvData)
-        }
+//        onRcvXchangeTokenPriceAverage:
+//        {
+////            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
+////            console.log(rcvData)
+//        }
 
-        onRcvXchangeTokenPriceHistory:
-        {
-            console.log("onRcvXchangeTokenPriceHistory")
-            logicMainApp.rcvTokenPriceHistory(rcvData)
-        }
+//        onRcvXchangeTokenPriceHistory:
+//        {
+//            console.log("onRcvXchangeTokenPriceHistory")
+//            logicMainApp.rcvTokenPriceHistory(rcvData)
+//        }
 
     }
 

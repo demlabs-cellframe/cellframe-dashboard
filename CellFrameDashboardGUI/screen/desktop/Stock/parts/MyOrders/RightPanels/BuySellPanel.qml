@@ -73,14 +73,14 @@ DapRectangleLitAndShaded {
             {
                 if(isBuy)
                 {
-                    if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
+                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
                     else
                         return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
                 }
                 else
                 {
-                    if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
+                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
                         return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
                     else
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
@@ -126,7 +126,7 @@ DapRectangleLitAndShaded {
                       currentElement.tokenSell :
                       currentElement.tokenBuy
             textValue: currentElement.price
-//            textToken: logicMainApp.token2Name
+//            textToken: tokenPairsWorker.tokenSell
 //            textValue: logicMainApp.tokenPrice
             onEdited: {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
@@ -165,7 +165,7 @@ DapRectangleLitAndShaded {
             Layout.rightMargin: 16
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-            textToken: logicMainApp.token1Name
+            textToken: tokenPairsWorker.tokenBuy
             textValue: "0.0"
             onEdited:
             {
@@ -314,7 +314,7 @@ DapRectangleLitAndShaded {
             Layout.rightMargin: 16
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
-            textToken: logicMainApp.token2Name
+            textToken: tokenPairsWorker.tokenSell
             textValue: "0.0"
             onEdited:
             {
@@ -351,6 +351,7 @@ DapRectangleLitAndShaded {
                 var tokenSell = isSell ? logicMainApp.token1Name : logicMainApp.token2Name
                 var tokenBuy = isSell ? logicMainApp.token2Name : logicMainApp.token1Name
                 var currentWallet = dapModelWallets.get(logicMainApp.currentWalletIndex).name
+>>>>>>> 04b3a0bdd7e314a710a5aff7e1f5d26907280ca8
 
                 var amountBuy = isSell ? dapMath.coinsToBalance(total.textValue) :
                                           dapMath.coinsToBalance(amount.textValue)
