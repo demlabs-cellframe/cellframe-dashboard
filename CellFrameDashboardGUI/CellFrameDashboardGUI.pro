@@ -2,8 +2,7 @@ QT += qml quick widgets svg network
 !android {
     TEMPLATE = app
 }
-CONFIG += c++11 #nsis_build
-CONFIG += node_build
+CONFIG += c++11
 
 LIBS += -ldl
 include(../config.pri)
@@ -11,6 +10,7 @@ include(../config.pri)
 TARGET = $${BRAND}
 
 win32 {
+    DEFINES += HAVE_STRNDUP
     RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
 
@@ -21,7 +21,8 @@ win32 {
 DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\"
 DEFINES += DAP_SETTINGS_FILE=\\\"settings.json\\\"
-macx {
+
+mac {
     ICON = Resources/CellframeDashboard.icns
 }
 else: !win32 {
@@ -38,13 +39,6 @@ else: !win32 {
     OBJECTS_DIR = obj
     RCC_DIR = rcc
     UI_DIR = uic
-
-
-    CONFIG(debug, debug|release) {
-        DESTDIR = bin/debug
-    } else {
-        DESTDIR = bin/release
-    }
 }
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
@@ -86,7 +80,7 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${BRAND_LO}/bin
+else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
@@ -122,6 +116,14 @@ HEADERS += \
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
+
+!win32: !mac {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+}
+mac {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c-darwin/json-c.pri)
+}
+
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-node/cellframe-sdk/modules/common/common.pri)
@@ -129,45 +131,86 @@ include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
-    gui_target.files = $${BRAND}
+    gui_target.files = $$OUT_PWD/$${BRAND}
     gui_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += gui_target
     BUILD_FLAG = static
 }
 
-defined(BUILD_FLAG,var){
-    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+
+#it always win32 even if build with 64bit mingw
+win32  { 
+    CONFIG(debug, debug|release) {
+            TARGET_PATH = $$OUT_PWD/debug/$${TARGET}.exe
+    }
+    CONFIG(release, debug|release) {
+            TARGET_PATH = $$OUT_PWD/release/$${TARGET}.exe
+    }
+
+    gui_target.files = $$TARGET_PATH
+   gui_target.path = /opt/$${BRAND_LO}/bin/
+   #force qmake generate installs in makefiles for unbuilded targets
+    gui_target.CONFIG += no_check_exist
+   INSTALLS += gui_target
+   
 }
 
-unix: !mac : !android : node_build {
-    node_build.commands = $$PWD/../prod_build/linux/debian/scripts/compile_node.sh \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
-    QMAKE_EXTRA_TARGETS += node_build
-    POST_TARGETDEPS += node_build
+win32 {
+    
+    nsisfmt.commands +=   (echo !define APP_NAME       \"$$BRAND\" && \
+                        echo !define APP_VERSION    \"$${VERSION}.0\" && \
+                        echo !define APP_VER \"$${VER_MAJ}.$${VER_MIN}-$${VER_PAT}\") \
+        > $$shell_path($$OUT_PWD/nsis.defines.nsh)
+
+    QMAKE_EXTRA_TARGETS += nsisfmt
+    POST_TARGETDEPS += nsisfmt
+    
+    nsisfmt_target.files = $$OUT_PWD/nsis.defines.nsh  
+    nsisfmt_target.path = /
+    nsisfmt_target.CONFIG += no_check_exist
+
+    nsis_target.files = $$PWD/../os/windows/*
+    nsis_target.path = /
+
+    icon_target.files = $$RC_ICONS
+    icon_target.path = /
+    
+    INSTALLS += nsis_target nsisfmt_target icon_target
 }
 
-win32: nsis_build {
-    DESTDIR = $$shell_path($$_PRO_FILE_PWD_/../build_win32)
-    build_node.commands = $$PWD/../cellframe-node/prod_build/windows/scripts/compile.bat \
-        $$DESTDIR $$shell_path($$_PRO_FILE_PWD_/../cellframe-node)
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/configs/.) $$shell_path($$DESTDIR/dist/etc) &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/share/ca/.) $$shell_path($$DESTDIR/dist/share/ca) &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../cellframe-node/dist/etc/network/.) $$shell_path($$DESTDIR/dist/etc/network) &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/Resources/icon_win32.ico) $$DESTDIR &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/build.nsi) $$DESTDIR &&
-    copyconfig.commands += $(COPY_DIR) \
-        $$shell_path($$_PRO_FILE_PWD_/../prod_build/windows/scripts/modifyConfig.nsh) $$DESTDIR
-    nsis.commands += (echo !define APP_NAME \"$$BRAND\" && echo !define APP_VERSION \"$${VERSION}.0\" && echo !define APP_VER \"$${VER_MAJ}.$${VER_MIN}-$${VER_PAT}\") \
-        > $$shell_path($$DESTDIR/Nsis.defines.nsh)
+mac {
+    
+        QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
+        QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
+        LIBS += -framework Security -framework Carbon -lobjc
+        
+        QMAKE_INFO_PLIST = $$_PRO_FILE_PWD_/../os/macos/Info.plist
+        QMAKE_PROVISIONING_PROFILE=1677e600-eb71-4cab-a38f-13b4aa7bd976
+        QMAKE_DEVELOPMENT_TEAM=5W95PVWDQ3
+        
+        gui_target.files = $${OUT_PWD}/$${TARGET}.app
+        gui_target.path = /
+        gui_target.CONFIG += no_check_exist
+        INSTALLS += gui_target
 
-    QMAKE_EXTRA_TARGETS += build_node copyconfig nsis
-    POST_TARGETDEPS += build_node copyconfig nsis
-    QMAKE_POST_LINK += makensis.exe $$shell_path($$DESTDIR/build.nsi)
+
+        DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cellframe-uninstaller
+        DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/com.demlabs.Cellframe-DashboardService.plist
+        DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/com.demlabs.cellframe-node.plist
+        DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/uninstall
+        DASHBOARD_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/uninstall_icon.rsrc
+        DASHBOARD_RESOURCES.path = Contents/Resources 
+
+        DASHBOARD_CLEANUP_RESOURCES.files += $$_PRO_FILE_PWD_/../os/macos/cleanup/
+        DASHBOARD_CLEANUP_RESOURCES.path = Contents/Resources/cleunup/
+        
+        QMAKE_BUNDLE_DATA += DASHBOARD_RESOURCES DASHBOARD_CLEANUP_RESOURCES
+
+        pkginstall.files = $$_PRO_FILE_PWD_/../os/macos/PKGINSTALL/
+        pkginstall.path = /
+        
+        INSTALLS += pkginstall
+
 }
 
 android {

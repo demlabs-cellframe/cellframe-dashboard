@@ -196,9 +196,9 @@ void ServiceImitator::DapGetXchangeTokenPair(
 
 //    qDebug() << "ServiceImitator::DapGetXchangeTokenPair" << "update" << update;
 
-//    if (update)
-//        emit signalXchangeTokenPairReceived(QVariant(QString("isEqual")));
-//    else
+    if (update)
+        emit signalXchangeTokenPairReceived(QVariant(QString("isEqual")));
+    else
         emit signalXchangeTokenPairReceived(docResult.toJson());
 }
 
