@@ -3,16 +3,10 @@ VER_MAJ = $$fromfile(version.mk, VERSION_MAJOR)
 VER_MIN = $$fromfile(version.mk, VERSION_MINOR)
 VER_PAT = $$fromfile(version.mk, VERSION_PATCH)
 
-<<<<<<< HEAD
 BRAND_BASE = Cellframe
 BRAND_BASE_LO = cellframe
 BRAND = Cellframe-Dashboard
 BRAND_LO = cellframe-dashboard
-=======
-VER_MAJ = 2
-VER_MIN = 10
-VER_PAT = 6
->>>>>>> 04b3a0bdd7e314a710a5aff7e1f5d26907280ca8
 
 DEFINES += DAP_BRAND=\\\"$$BRAND\\\"
 DEFINES += DAP_BRAND_BASE_LO=\\\"$$BRAND_BASE_LO\\\"
