@@ -30,11 +30,11 @@ QtObject {
 
     property int requestsMessageCounter: 0
     property bool isOpenRequests: false
-    property int currentIndexPair: -1
+    property int currentIndexPair: 0
 
-    property string token1Name: ""
-    property string token2Name: ""
-    property string tokenNetwork: ""
+//    property string token1Name: ""
+//    property string token2Name: ""
+//    property string tokenNetwork: ""
     property real tokenPrice
     property string tokenPriceText
 
@@ -310,40 +310,17 @@ QtObject {
 
     function rcvOpenOrders(rcvData)
     {
+//        console.log("rcvOpenOrders", rcvData)
+
         if(rcvData !== "isEqual")
         {
-            if (!simulationStock)
-                stockDataWorker.setBookModel(rcvData)
+//            if (!simulationStock)
+//                orderBookWorker.setBookModel(rcvData)
 
             var jsonDocument = JSON.parse(rcvData)
             dapModelXchangeOrders.clear()
             dapModelXchangeOrders.append(jsonDocument)
             modelXchangeOrdersUpdated()
-/*            print("rcvOpenOrders", dapModelXchangeOrders.count)
-
-            for(var i = 0; i < dapModelXchangeOrders.count; i++)
-            {
-                console.log(dapModelXchangeOrders.get(i).network,
-                            dapModelXchangeOrders.get(i).orders.count)
-
-                for(var j = 0; j < dapModelXchangeOrders.get(i).orders.count; j++)
-                {
-                    var orderNet = dapModelXchangeOrders.get(i).network
-                    var orderBuy = dapModelXchangeOrders.get(i).orders.get(j).buy_token
-                    var orderSell = dapModelXchangeOrders.get(i).orders.get(j).sell_token
-                    var orderPrice = parseFloat(dapModelXchangeOrders.get(i).orders.get(j).rate)
-                    var orderSellAmount = dapModelXchangeOrders.get(i).orders.get(j).sell_amount
-                    var orderBuyAmount = dapModelXchangeOrders.get(i).orders.get(j).buy_amount
-                    var orderHash = dapModelXchangeOrders.get(i).orders.get(j).order_hash
-
-                    console.log(orderBuy,
-                                orderSell,
-                                orderPrice,
-                                orderSellAmount,
-                                orderBuyAmount)
-                }
-            }*/
-
         }
     }
 
@@ -361,7 +338,7 @@ QtObject {
                 token2Name = dapPairModel.get(currentIndexPair).token2
                 tokenNetwork = dapPairModel.get(currentIndexPair).network
 
-                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+                orderBookWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
 
                 dapPairModel.clear()
                 dapPairModel.append(jsonDocument)
@@ -401,48 +378,29 @@ QtObject {
                     tokenNetwork = ""
                 }
 
-                stockDataWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
+                orderBookWorker.setTokenPair(token1Name, token2Name, tokenNetwork)
 
                 modelPairsUpdated()
             }
         }
     }
 
-    function rcvTokenPriceHistory(rcvData)
-    {
-        if(rcvData !== "")
-        {
-            if (!simulationStock)
-                stockDataWorker.setTokenPriceHistory(rcvData)
+//    function rcvTokenPriceHistory(rcvData)
+//    {
+////        console.log("rcvTokenPriceHistory", rcvData)
 
-            var jsonDocument = JSON.parse(rcvData)
+//        if(rcvData !== "")
+//        {
+//            if (!simulationStock)
+//                candleChartWorker.setTokenPriceHistory(rcvData)
 
-//            print("rcvData", rcvData)
-            dapTokenPriceHistory.clear()
-            dapTokenPriceHistory.append(jsonDocument.history)
+//            var jsonDocument = JSON.parse(rcvData)
 
-/*            var jsonDocument = JSON.parse(rcvData)
-
-            print("rcvData", rcvData)
-            dapTokenPriceHistory.clear()
-            dapTokenPriceHistory.append(jsonDocument.history)
-//            modelTokenPriceHistoryUpdated()
-
-
-            print("dapTokenPriceHistory");
-            print(jsonDocument.network,
-                  jsonDocument.token1,
-                  jsonDocument.token2)
-
-            print(dapTokenPriceHistory.count)
-
-            for(var i = 0; i < dapTokenPriceHistory.count; i++)
-            {
-                console.log(dapTokenPriceHistory.get(i).date,
-                            dapTokenPriceHistory.get(i).rate)
-            }*/
-        }
-    }
+////            print("rcvData", rcvData)
+////            dapTokenPriceHistory.clear()
+////            dapTokenPriceHistory.append(jsonDocument.history)
+//        }
+//    }
 
     function rcvStateNotify(isError, isFirst)
     {

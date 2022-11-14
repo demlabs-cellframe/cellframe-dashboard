@@ -46,8 +46,6 @@
 
 #include "WalletRestore/wallethashmanager.h"
 
-#include "StockDataWorker/stockdataworker.h"
-
 bool SingleApplicationTest(const QString &appName)
 {
     static QSystemSemaphore semaphore("<"+appName+" uniq semaphore id>", 1);
@@ -151,8 +149,6 @@ int main(int argc, char *argv[])
             filePlugin.close();
     }
 
-//    qmlRegisterType<StockDataWorker>("StockDataWorker", 1,0, "StockDataWorker");
-
     int result = RESTART_CODE;
 
     while (result == RESTART_CODE)
@@ -222,9 +218,9 @@ int main(int argc, char *argv[])
         context->setContextProperty("importCertificate", &importCertifiacte);
 
         // For Stock
-        StockDataWorker stockDataWorker;
-        context->setContextProperty("stockDataWorker", &stockDataWorker);
-        stockDataWorker.setContext(context);
+//        StockDataWorker stockDataWorker(context);
+//        context->setContextProperty("stockDataWorker", &stockDataWorker);
+//        stockDataWorker.setContext(context);
 
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
 

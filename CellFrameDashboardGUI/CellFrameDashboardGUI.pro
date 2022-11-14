@@ -63,7 +63,10 @@ SOURCES += \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \
     PluginsController/DapPluginsController.cpp \
+    StockDataWorker/candlechartworker.cpp \
+    StockDataWorker/orderbookworker.cpp \
     StockDataWorker/stockdataworker.cpp \
+    StockDataWorker/tokenpairsworker.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -71,6 +74,7 @@ SOURCES += \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
     resizeimageprovider.cpp \
+    serviceimitator.cpp \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
@@ -94,10 +98,14 @@ HEADERS += \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
+    StockDataWorker/candlechartworker.h \
     StockDataWorker/candleinfo.h \
+    StockDataWorker/orderbookworker.h \
     StockDataWorker/orderinfo.h \
     StockDataWorker/priceinfo.h \
     StockDataWorker/stockdataworker.h \
+    StockDataWorker/tokenpairinfo.h \
+    StockDataWorker/tokenpairsworker.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
@@ -106,6 +114,7 @@ HEADERS += \
     mobile/testcontroller.h \
     quickcontrols/qrcodequickitem.h \
     resizeimageprovider.h \
+    serviceimitator.h \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h

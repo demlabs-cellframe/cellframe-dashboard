@@ -36,13 +36,13 @@ Item {
         mainModel.clear()
         for(var i = 0; i < temporaryModel.count; i++)
         {
-            var token1 = temporaryModel.get(i).token1
-            var token2 = temporaryModel.get(i).token2
-            var rate = temporaryModel.get(i).rate
+            var tokenBuy = temporaryModel.get(i).tokenBuy
+            var tokenSell = temporaryModel.get(i).tokenSell
+            var rate = temporaryModel.get(i).priceText
             var change = temporaryModel.get(i).change
 
-            if(token1.toLowerCase().indexOf(fstr) >= 0 ||
-               token2.toLowerCase().indexOf(fstr) >= 0 ||
+            if(tokenBuy.toLowerCase().indexOf(fstr) >= 0 ||
+               tokenSell.toLowerCase().indexOf(fstr) >= 0 ||
                rate.toLowerCase().indexOf(fstr) >= 0 ||
                change.toLowerCase().indexOf(fstr) >= 0)
             {
@@ -59,8 +59,8 @@ Item {
     {
         temporaryModel.clear()
         mainModel.clear();
-        for(var i = 0; i < model.count; i++)
-            temporaryModel.append(model.get(i))
+        for(var i = 0; i < model.length; i++)
+            temporaryModel.append(model[i])
 
         for (var i = 0; i < temporaryModel.count; ++i)
             mainModel.append(temporaryModel.get(i))

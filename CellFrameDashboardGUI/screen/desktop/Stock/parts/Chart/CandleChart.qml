@@ -21,13 +21,13 @@ Item
         logic.redCandleColor = currTheme.textColorRed
         logic.greenCandleColor = currTheme.textColorGreen
 
-//        stockDataWorker.generatePriceData(1000000)
-//        stockDataWorker.generatePriceData(100000)
+//        candleChartWorker.generatePriceData(1000000)
+//        candleChartWorker.generatePriceData(100000)
 
         if (logicMainApp.simulationStock)
-            stockDataWorker.setNewCandleWidth(logic.minute*0.25)
+            candleChartWorker.setNewCandleWidth(logic.minute*0.25)
         else
-            stockDataWorker.setNewCandleWidth(logic.minute)
+            candleChartWorker.setNewCandleWidth(logic.minute)
 
         updateTokenPrice()
 
@@ -192,42 +192,42 @@ Item
         {
         default:
             if (logicMainApp.simulationStock)
-                stockDataWorker.setNewCandleWidth(logic.minute*0.25)
+                candleChartWorker.setNewCandleWidth(logic.minute*0.25)
             else
-                stockDataWorker.setNewCandleWidth(logic.minute)
+                candleChartWorker.setNewCandleWidth(logic.minute)
             break
         case 1:
-            stockDataWorker.setNewCandleWidth(logic.minute*2)
+            candleChartWorker.setNewCandleWidth(logic.minute*2)
             break
         case 2:
-            stockDataWorker.setNewCandleWidth(logic.minute*5)
+            candleChartWorker.setNewCandleWidth(logic.minute*5)
             break
         case 3:
-            stockDataWorker.setNewCandleWidth(logic.minute*15)
+            candleChartWorker.setNewCandleWidth(logic.minute*15)
             break
         case 4:
-            stockDataWorker.setNewCandleWidth(logic.minute*30)
+            candleChartWorker.setNewCandleWidth(logic.minute*30)
             break
         case 5:
-            stockDataWorker.setNewCandleWidth(logic.hour)
+            candleChartWorker.setNewCandleWidth(logic.hour)
             break
         case 6:
-            stockDataWorker.setNewCandleWidth(logic.hour*4)
+            candleChartWorker.setNewCandleWidth(logic.hour*4)
             break
         case 7:
-            stockDataWorker.setNewCandleWidth(logic.hour*12)
+            candleChartWorker.setNewCandleWidth(logic.hour*12)
             break
         case 8:
-            stockDataWorker.setNewCandleWidth(logic.day)
+            candleChartWorker.setNewCandleWidth(logic.day)
             break
         case 9:
-            stockDataWorker.setNewCandleWidth(logic.day*7)
+            candleChartWorker.setNewCandleWidth(logic.day*7)
             break
         case 10:
-            stockDataWorker.setNewCandleWidth(logic.day*14)
+            candleChartWorker.setNewCandleWidth(logic.day*14)
             break
         case 11:
-            stockDataWorker.setNewCandleWidth(logic.day*30)
+            candleChartWorker.setNewCandleWidth(logic.day*30)
             break
         }
 

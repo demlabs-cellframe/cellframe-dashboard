@@ -192,20 +192,20 @@ Controls.DapTopPanel
         stockModelTokens.clear()
 
 //        print("updatePair",
-//              "logicMainApp.token1Name", logicMainApp.token1Name,
-//              "logicMainApp.token2Name", logicMainApp.token2Name,
-//              "logicMainApp.tokenNetwork", logicMainApp.tokenNetwork)
+//              "tokenPairsWorker.tokenBuy", tokenPairsWorker.tokenBuy,
+//              "tokenPairsWorker.tokenSell", tokenPairsWorker.tokenSell,
+//              "tokenPairsWorker.tokenNetwork", tokenPairsWorker.tokenNetwork)
 
         for(var i = 0; i < modelWallet.networks.count; i++)
         {
-            if(logicMainApp.tokenNetwork === modelWallet.networks.get(i).name)
+            if(tokenPairsWorker.tokenNetwork === modelWallet.networks.get(i).name)
             {
                 for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
                 {
                     if(modelWallet.networks.get(i).tokens.get(k).name
-                            === logicMainApp.token1Name ||
+                            === tokenPairsWorker.tokenBuy ||
                        modelWallet.networks.get(i).tokens.get(k).name
-                            === logicMainApp.token2Name)
+                            === tokenPairsWorker.tokenSell)
                     {
                         stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
                     }
@@ -259,8 +259,8 @@ Controls.DapTopPanel
         else if(tokenComboBox.count)
         {
             var name = logicStock.selectedTokenNameWallet
-                    === logicMainApp.token1Name ? logicMainApp.token2Name:
-                                                  logicMainApp.token1Name
+                    === tokenPairsWorker.tokenBuy ? tokenPairsWorker.tokenSell:
+                                                  tokenPairsWorker.tokenBuy
             logicStock.unselectedTokenNameWallet = name
             logicStock.unselectedTokenBalanceWallet = 0
         }

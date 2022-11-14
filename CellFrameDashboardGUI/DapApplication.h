@@ -12,6 +12,8 @@
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
 
+#include "StockDataWorker/stockdataworker.h"
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #endif
@@ -51,6 +53,8 @@ private:
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
     DapMath *m_mathBigNumbers;
+
+    StockDataWorker *stockDataWorker;
 };
 
 #endif // DAPAPPLICATION_H

@@ -29,7 +29,7 @@ ComboBox {
     ListModel{id: mainModel}
 
     displayText: displayElement ?
-                     displayElement.token1 + "/" + displayElement.token2 :
+                     displayElement.tokenBuy + "/" + displayElement.tokenSell :
                      defaultText
 
     delegate:
@@ -49,8 +49,8 @@ ComboBox {
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     width: 122
-                    text: logic.getModelData(index, "token1") + "/" +
-                          logic.getModelData(index, "token2")
+                    text: logic.getModelData(index, "tokenBuy") + "/" +
+                          logic.getModelData(index, "tokenSell")
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
                                currTheme.textColor
@@ -65,7 +65,7 @@ ComboBox {
                     anchors.leftMargin: 148
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
-                    text: logic.getModelData(index, "rate")
+                    text: logic.getModelData(index, "price")
                     color: menuDelegate.highlighted ?
                                currTheme.hilightTextColorComboBox :
                                currTheme.textColor
@@ -150,14 +150,14 @@ ComboBox {
             Image{
                 id: coin1
                 mipmap: true
-//                source: logic.getIcon(displayElement.token1)
+//                source: logic.getIcon(displayElement.tokenBuy)
                 sourceSize.height: 32
                 sourceSize.width: 32
             }
             Image{
                 id: coin2
                 mipmap: true
-//                source: logic.getIcon(displayElement.token2)
+//                source: logic.getIcon(displayElement.tokenSell)
                 sourceSize.height: 32
                 sourceSize.width: 32
             }
@@ -165,7 +165,7 @@ ComboBox {
             {
                 Layout.leftMargin: 4
                 leftPadding: 0
-                text: displayElement.token1 + "/" + displayElement.token2
+                text: displayElement.tokenBuy + "/" + displayElement.tokenSell
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColor
                 elide: Text.ElideLeft

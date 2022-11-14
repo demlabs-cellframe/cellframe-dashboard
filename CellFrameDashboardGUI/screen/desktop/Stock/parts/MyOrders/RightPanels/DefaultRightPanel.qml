@@ -214,11 +214,11 @@ Item
 //                isSell = secondSelected
 //                if (isSell)
 //                {
-//                    textMode.text = qsTr("Sell ") + logicMainApp.token1Name
+//                    textMode.text = qsTr("Sell ") + tokenPairsWorker.tokenBuy
 //                }
 //                else
 //                {
-//                    textMode.text = qsTr("Buy ") + logicMainApp.token1Name
+//                    textMode.text = qsTr("Buy ") + tokenPairsWorker.tokenBuy
 
 //                }
 //                sellBuyChanged()
