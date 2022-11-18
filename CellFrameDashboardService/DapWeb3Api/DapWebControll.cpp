@@ -94,9 +94,9 @@ DapWebControll::DapWebControll(QObject *parent)
 
 //    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", "220901", "subzero", "10000", "1", "");
 //    QJsonDocument doc = getMempoolList("Backbone");
-    QJsonDocument doc = getLedgetTxHash("0xE9F238D24E6C39DF38A18C393F6CF9E5A92544CC1078EE01544D8E2D5045AA32", "mileena");
-    QString res = doc.toJson();
-    qDebug()<<"";
+//    QJsonDocument doc = getLedgetTxHash("0xE9F238D24E6C39DF38A18C393F6CF9E5A92544CC1078EE01544D8E2D5045AA32", "mileena");
+//    QString res = doc.toJson();
+//    qDebug()<<"";
 }
 
 QString DapWebControll::getRandomString()
