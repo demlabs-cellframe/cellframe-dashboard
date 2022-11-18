@@ -20,6 +20,7 @@
 #include <QFile>
 #include <QTextCodec>
 #include <QUrl>
+#include <QtNetwork>
 
 class DapWebControll : public QObject
 {
