@@ -7,8 +7,14 @@ linux {
 }
 
 win32 {
-    node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target windows 
-    node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
+    contains(QMAKE_HOST.os, "Windows") {
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.bat 
+        node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
+    }
+    else {
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target windows 
+        node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
+    }
 }
 
 mac {
