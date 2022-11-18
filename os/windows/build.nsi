@@ -160,22 +160,23 @@ Section "${APP_NAME}" CORE
 !insertmacro varPaths
 	InitPluginsDir
 	SetOutPath "$PLUGINSDIR"
-	File /r "opt/cellframe-node/etc/*"
+
+	SetOutPath "$ConfigPath\etc"
+	File /r "opt/cellframe-node/etc/"
+
+	SetOutPath "$ConfigPath\share"
 	File /r "opt/cellframe-node/share/*"
-	;SetOutPath "$ConfigPath"
-	#CopyFiles "$PLUGINSDIR\etc" "$ConfigPath"
-	#CopyFiles "$PLUGINSDIR\share" "$ConfigPath"
-	Rename "$ConfigPath\etc\${NODE_NAME}.cfg.tpl" "$ConfigPath\etc\${NODE_NAME}.cfg"
+	
+	CopyFiles "$ConfigPath\share\configs\${NODE_NAME}.cfg.tpl" "$ConfigPath\etc\${NODE_NAME}.cfg"
 	StrCpy $net1 "Backbone"
 	StrCpy $net2 "mileena"
 	StrCpy $net3 "subzero"
 	StrCpy $net4 "kelvpn-minkowski"
-	;Delete "$ConfigPath\etc\network\$net1.cfg"
-	Rename "$ConfigPath\etc\network\$net1.cfg.tpl" "$ConfigPath\etc\network\$net1.cfg"
-	;Delete "$ConfigPath\etc\network\$net2.cfg"
-	Rename "$ConfigPath\etc\network\$net2.cfg.tpl" "$ConfigPath\etc\network\$net2.cfg"
-	Rename "$ConfigPath\etc\network\$net3.cfg.tpl" "$ConfigPath\etc\network\$net3.cfg"
-	Rename "$ConfigPath\etc\network\$net4.cfg.tpl" "$ConfigPath\etc\network\$net4.cfg"
+	
+	CopyFiles "$ConfigPath\etc\network\$net1.cfg.tpl" "$ConfigPath\etc\network\$net1.cfg"
+	CopyFiles "$ConfigPath\etc\network\$net2.cfg.tpl" "$ConfigPath\etc\network\$net2.cfg"
+	CopyFiles "$ConfigPath\etc\network\$net3.cfg.tpl" "$ConfigPath\etc\network\$net3.cfg"
+	CopyFiles "$ConfigPath\etc\network\$net4.cfg.tpl" "$ConfigPath\etc\network\$net4.cfg"
 !insertmacro modifyConfigFiles
 	WriteRegStr HKLM "${UNINSTALL_PATH}" "DisplayName" "${APP_NAME} ${APP_VER}"
 	WriteRegStr HKLM "${UNINSTALL_PATH}" "UninstallString" "$INSTDIR\Uninstall.exe"
@@ -196,7 +197,7 @@ Section "${APP_NAME}" CORE
 SectionEnd
 
 Section -startNode
-	Call EnableMSMQ
+	#Call EnableMSMQ
 	Exec '"$INSTDIR\${NODE_NAME}.exe"'
 	;Exec '"$INSTDIR\${APP_NAME}Service.exe"'
 	nsExec::ExecToLog /OEM '"$INSTDIR\${APP_NAME}Service.exe" install'
