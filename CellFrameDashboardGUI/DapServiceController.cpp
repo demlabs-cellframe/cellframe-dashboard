@@ -86,7 +86,7 @@ void DapServiceController::setReadingChains(bool bReadingChains)
 
 void DapServiceController::requestWalletList()
 {
-    this->requestToService("DapGetWalletsInfoCommand");
+    this->requestToService("DapGetWalletsInfoCommand",1);
 }
 
 /*void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
