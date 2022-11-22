@@ -14,14 +14,14 @@ ColumnLayout {
 
     Connections{
         target: createForm
-        onSellBuyChanged:{
+        function onSellBuyChanged(){
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
 //            updateForms()
         }
     }
     Connections{
         target: stockTab
-        onTokenPairChanged:{
+        function onTokenPairChanged(){
             updateForms()
         }
     }

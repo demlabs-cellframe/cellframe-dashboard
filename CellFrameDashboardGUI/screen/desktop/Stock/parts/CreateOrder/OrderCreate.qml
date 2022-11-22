@@ -19,11 +19,11 @@ Page
 
     Connections{
         target: dapServiceController
-        onRcvXchangeCreate:{
+        function onRcvXchangeCreate(rcvData){
             logicStock.resultCreate = rcvData
             goToDoneCreate()
         }
-        onRcvXchangePurchase:{
+        function onRcvXchangePurchase(rcvData){
             logicStock.resultCreate = rcvData
             goToDoneCreate()
         }

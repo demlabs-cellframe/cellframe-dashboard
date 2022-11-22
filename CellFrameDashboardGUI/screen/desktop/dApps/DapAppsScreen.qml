@@ -168,8 +168,7 @@ Page
                         id:delegateApp
                         Rectangle
                         {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
+                            width: listViewApps.width
                             color: "transparent"
                             height: 50 
 
@@ -348,12 +347,12 @@ Page
             Connections
             {
                 target:dapAppsTab
-                onUpdateButtons:
+                function onUpdateButtons()
                 {
                     defaultRightPanel.setEnableButtons()
                 }
             }
-            onCurrentStatusSelected:
+            function onCurrentStatusSelected(status)
             {
                 currentFiltr = status
                 updateFiltr(status)

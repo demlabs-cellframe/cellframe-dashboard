@@ -10,7 +10,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
 
     dapServiceController = _dapServiceController;
 
-    dapServiceController->requestToService("DapGetWordBook", "init");
+//    dapServiceController->requestToService("DapGetWordBook", "init");
     rcvDataBuffer = false;
     isOpenPage = false;
 
@@ -27,7 +27,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
     updateValuesTimer = new QTimer(this);
     connect(updateValuesTimer, &QTimer::timeout, [=] (){
         if(isOpenPage)
-            dapServiceController->requestToService("DapGetWordBook", "init");
+            dapServiceController->requestToService("DapGetWordBook", "updateValues");
     });
     updateValuesTimer->start(10000);
 }

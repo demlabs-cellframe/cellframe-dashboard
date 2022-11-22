@@ -244,6 +244,10 @@ QtObject {
 
     function rcvWallets(walletList)
     {
+        if(walletList == "isEqual")
+            return
+
+
         var jsonDocument = JSON.parse(walletList)
 
         if(!jsonDocument)
@@ -251,6 +255,8 @@ QtObject {
             dapModelWallets.clear()
             return
         }
+
+
 
         dapModelWallets.clear()
         dapModelWallets.append(jsonDocument)

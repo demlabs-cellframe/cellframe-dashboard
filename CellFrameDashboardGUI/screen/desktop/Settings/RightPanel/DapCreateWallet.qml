@@ -101,7 +101,7 @@ DapCreateWalletForm
     Connections
     {
         target: dapServiceController
-        onWalletCreated:
+        function onWalletCreated(wallet)
         {
 //            nextActivated("doneWallet");
 //            console.log(wallet.success, wallet.message)

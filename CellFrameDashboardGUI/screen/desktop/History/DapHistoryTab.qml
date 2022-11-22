@@ -101,7 +101,7 @@ DapPage
     Connections
     {
         target: dapServiceController
-        onAllWalletHistoryReceived:
+        function onAllWalletHistoryReceived(walletHistory)
         {
             logicExplorer.rcvAllWalletHistory(walletHistory, false)
         }

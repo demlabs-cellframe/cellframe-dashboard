@@ -285,7 +285,7 @@ DapRectangleLitAndShaded {
 
     Connections{
         target: dapServiceController
-        onResponseDeclToken:
+        function onResponseDeclToken(resultDecl)
         {
             logicTokens.commandResult = resultDecl
             navigator.done()

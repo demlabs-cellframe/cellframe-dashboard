@@ -28,7 +28,7 @@ Controls.DapTopPanel
     Connections
     {
         target: exportLogButton
-        onClicked:
+        function onClicked()
         {
             grub();
             exportLogButton.colorBackgroundNormal = "#D2145D"

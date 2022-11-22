@@ -170,12 +170,12 @@ Item {
     {
         target: dapServiceController
 
-        onSignalNetState:
+        function onSignalNetState(netState)
         {
             logicNet.notifyModelUpdate(netState)
         }
 
-        onNetworksStatesReceived:
+        function onNetworksStatesReceived(networksStatesList)
         {
             if (!logicNet.isNetworkListsEqual(networksModel, networksStatesList)) {
                 networkList.closePopups()

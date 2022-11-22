@@ -136,7 +136,7 @@ Page
     Connections
     {
         target: dapServiceController
-        onLogUpdated:
+        function onLogUpdated(logs)
         {
 //            dapLogsList.enabled = false
             isModelLoaded = false;

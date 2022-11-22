@@ -53,7 +53,7 @@ DapLastActionsRightPanelForm
     Connections
     {
         target: dapServiceController
-        onAllWalletHistoryReceived:
+        function onAllWalletHistoryReceived(walletHistory)
         {
             if (walletHistory !== "isEqual")
             {
@@ -64,7 +64,7 @@ DapLastActionsRightPanelForm
 
     Connections{
         target: dashboardTopPanel
-        onChangeWallet: {
+        function onChangeWallet() {
             lastHistoryLength = 0
             temporaryModel.clear()
             modelLastActions.clear()
@@ -75,7 +75,7 @@ DapLastActionsRightPanelForm
     Connections
     {
         target: dapMainWindow
-        onModelWalletsUpdated:
+        function onModelWalletsUpdated()
         {
             lastHistoryLength = 0
 

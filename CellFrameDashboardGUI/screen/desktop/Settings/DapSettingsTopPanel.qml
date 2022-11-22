@@ -76,7 +76,7 @@ Controls.DapTopPanel
             Connections
             {
                 target: dapMainWindow
-                onOpenRequests: navigator.openRequests()
+                function onOpenRequests(){ navigator.openRequests()}
             }
         }
 

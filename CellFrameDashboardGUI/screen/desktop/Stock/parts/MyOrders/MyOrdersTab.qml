@@ -144,7 +144,7 @@ RowLayout
     {
         target: dapServiceController
 
-        onRcvXchangeTxList:
+        function onRcvXchangeTxList(rcvData)
         {
             console.log("onRcvXchangeTxList")
             console.log(rcvData)

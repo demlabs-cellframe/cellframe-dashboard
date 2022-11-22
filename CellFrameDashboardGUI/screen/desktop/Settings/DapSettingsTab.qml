@@ -157,21 +157,21 @@ DapPage
     {
         target: dapServiceController
 
-        onWalletCreated:
+        function onWalletCreated()
         {
 //            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
         }
-        onWalletsListReceived:
+        function onWalletsListReceived(walletsList)
         {
 //            if(dapModelWallets)
 //            {
 //                if(walletsList.length !== dapModelWallets.count)
-//                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
+//                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
 //            }
 //            else
                 dapServiceController.requestToService("DapGetWalletsInfoCommand")
         }
-        onVersionControllerResult:
+        function onVersionControllerResult(versionResult)
         {
             if(sendRequest)
             {
@@ -189,6 +189,6 @@ DapPage
     Connections
     {
         target: messagePopupVersion
-        onClick: sendRequest = false
+        function onClick() {sendRequest = false}
     }
 }

@@ -188,7 +188,7 @@ Page {
         target: dapServiceController
 
 
-        onWalletsReceived: {
+        function onWalletsReceived(walletList) {
             logicMainApp.rcvWallets(walletList)
             nameWallet.text = dapModelWallets.get(currentWallet).name
             updateTokenModel()

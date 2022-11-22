@@ -6,7 +6,7 @@ QtObject {
     function updateAllWallets()
     {
         dapModelWallets.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
     }
 
     function updateCurrentWallet()

@@ -224,17 +224,17 @@ Page {
     Connections {
         target: dapServiceController
 
-        onNetworksStatesReceived:
+        function onNetworksStatesReceived(networksStatesList)
         {
             logicMobile.modelUpdate(networksStatesList)
             logicMobile.updateContentInAllOpenedPopups(networksModel)
         }
-        onSignalNetState:
+        function onSignalNetState(netState)
         {
             logicMobile.notifyModelUpdate(netState)
         }
 
-        onWalletsReceived: {
+        function onWalletsReceived(walletList) {
             logicMainApp.rcvWallets(walletList)
             nameWallet.text = dapModelWallets.get(currentWallet).name
 //            updateNetworkModel()
