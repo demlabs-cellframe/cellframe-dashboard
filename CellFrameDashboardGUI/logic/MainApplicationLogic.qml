@@ -244,6 +244,10 @@ QtObject {
 
     function rcvWallets(walletList)
     {
+        if(walletList == "isEqual")
+            return
+
+
         var jsonDocument = JSON.parse(walletList)
 
         if(!jsonDocument)
@@ -251,6 +255,8 @@ QtObject {
             dapModelWallets.clear()
             return
         }
+
+
 
         dapModelWallets.clear()
         dapModelWallets.append(jsonDocument)
@@ -296,7 +302,11 @@ QtObject {
 
                 if(jsonDocument.status === "" || jsonDocument.status === "Active")
                 {
-                    dapModelWallets.get(i).networks = jsonDocument.networks
+                    console.log(jsonDocument.networks)
+                    dapModelWallets.get(i).networks.clear()
+                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
+//                    dapModelWallets.get(i).networks = jsonDocument.networks
+                    console.log(dapModelWallets.get(i).networks)
                 }
             }
         }

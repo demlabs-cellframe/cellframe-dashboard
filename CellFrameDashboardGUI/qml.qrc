@@ -281,7 +281,6 @@
         <file>Resources/BlackTheme/icons/other/Arrow.png</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml</file>
-        <file>Resources/ui_menu_light.png</file>
         <file>screen/desktop/Tokens/parts/DetailsText.qml</file>
         <file>screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapLinksBlock.qml</file>

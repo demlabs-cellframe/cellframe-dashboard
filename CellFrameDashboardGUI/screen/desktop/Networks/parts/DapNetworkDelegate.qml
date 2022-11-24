@@ -71,7 +71,7 @@ Component {
         Connections
         {
             target: networkList
-            onClosePopups:{
+            function onClosePopups (){
                 info.isOpen = false
                 info.close()
             }

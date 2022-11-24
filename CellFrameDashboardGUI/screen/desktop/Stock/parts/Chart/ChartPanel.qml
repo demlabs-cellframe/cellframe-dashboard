@@ -96,7 +96,7 @@ Item
                 Connections
                 {
                     target: tokenPairsWorker
-                    onPairModelUpdated:
+                    function onPairModelUpdated(dapPairModel)
                     {
                         if(!pairBox.count)
                             pairBox.logic.setModel(dapPairModel)
@@ -406,7 +406,7 @@ Item
     {
         target: stockTab
 
-        onTokenPriceChanged:
+        function onTokenPriceChanged()
         {
             updateTokenPrice()
 

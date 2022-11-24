@@ -59,7 +59,7 @@ DapPage
         onTriggered:
         {
             dapServiceController.requestToService("DapGetXchangeOrdersList")
-            dapServiceController.requestToService("DapGetWalletsInfoCommand");
+            dapServiceController.requestToService("DapGetWalletsInfoCommand",1);
         }
     }
 
@@ -148,7 +148,7 @@ DapPage
 
     Connections{
         target: tokenPairsWorker
-        onPairModelUpdated:
+        function onPairModelUpdated()
         {
             console.log("DapStockTab", "onPairModelUpdated")
 
@@ -173,7 +173,7 @@ DapPage
     {
         target: dapServiceController
 
-        onRcvXchangeTokenPriceAverage:
+        function onRcvXchangeTokenPriceAverage(rcvData)
         {
 //            console.log("DapStockTab TokenPriceAverage", rcvData.rate)
 

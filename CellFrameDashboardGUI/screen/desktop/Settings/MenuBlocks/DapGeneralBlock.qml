@@ -204,8 +204,7 @@ ColumnLayout
         ColumnLayout
         {
             id:columnWallets
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: listWallet.width
             height: 50
             onHeightChanged: listWallet.contentHeight = height
 
@@ -269,7 +268,7 @@ ColumnLayout
                                Connections
                                {
                                    target:dapServiceController
-                                   onIndexCurrentNetworkChanged:
+                                   function onIndexCurrentNetworkChanged()
                                    {
                                        textMetworkAddress.fullText = rowLay.visible ? networks.get(dapServiceController.IndexCurrentNetwork).address : ""
                                        textMetworkAddress.checkTextElide()
@@ -357,7 +356,7 @@ ColumnLayout
 
                         Connections{
                             target: walletActivatePopup
-                            onActivatingSignal:{
+                            function onActivatingSignal(nameWallet, statusRequest){
                                 if(nameWallet === name && statusRequest)
                                 {
                                     logicMainApp.currentWalletName = name

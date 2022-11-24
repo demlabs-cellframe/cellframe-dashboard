@@ -189,7 +189,7 @@ DapRectangleLitAndShaded {
                     }
 
 
-                validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
+                validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\.\s*]+/ }
 
             }
             Rectangle //bottom line

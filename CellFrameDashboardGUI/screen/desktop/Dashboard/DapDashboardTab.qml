@@ -252,7 +252,7 @@ DapPage
     Connections
     {
         target: dapMainWindow
-        onModelWalletsUpdated:
+        function onModelWalletsUpdated()
         {
             logicWallet.updateWalletModel()
 
@@ -264,7 +264,7 @@ DapPage
     Connections
     {
         target: dapServiceController
-        onWalletCreated:
+        function onWalletCreated()
         {
             logicWallet.updateAllWallets()
         }

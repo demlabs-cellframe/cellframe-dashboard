@@ -189,7 +189,7 @@ Item
 
     Connections{
         target: myOrdersTab
-        onClosedDetailsSignal:{
+        function onClosedDetailsSignal(){
             list.currentIndex = -1
         }
     }

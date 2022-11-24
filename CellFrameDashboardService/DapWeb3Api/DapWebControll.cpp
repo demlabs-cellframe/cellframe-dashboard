@@ -202,9 +202,9 @@ void DapWebControll::onClientSocketReadyRead()
               QRegularExpressionMatch match = matchIt.next();
               if(match.captured(1) == "id")
                   id = match.captured(2);
-              else if(match.captured(1) == "walletName" | match.captured(1) == "nameWallet" )
+              else if(match.captured(1) == "walletName" || match.captured(1) == "nameWallet" )
                   walletName = match.captured(2);
-              else if(match.captured(1) == "toAddr" | match.captured(1) == "addr")
+              else if(match.captured(1) == "toAddr" || match.captured(1) == "addr")
                   addr = match.captured(2);
               else if(match.captured(1) == "tokenName")
                   tokenName = match.captured(2);
@@ -229,7 +229,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(match.captured(1) == "-no_base_tx")
                   stakeNoBaseFlag = "-no_base_tx";
           }
-          if(!s_id.isEmpty() && s_id.filter(id).length()){
+          if(!s_id.isEmpty() && (s_id.indexOf(id) != -1)){
               if(cmd == "GetWallets")
                   doc = getWallets();
               else if(cmd == "GetNetworks")

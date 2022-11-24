@@ -273,7 +273,7 @@ DapRectangleLitAndShaded {
 
     Connections{
         target: dapServiceController
-        onResponseEmissionToken:
+        function onResponseEmissionToken(resultEmission)
         {
             logicTokens.commandResult = resultEmission
             navigator.done()

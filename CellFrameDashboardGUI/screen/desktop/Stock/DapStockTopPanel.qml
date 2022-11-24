@@ -180,7 +180,7 @@ Controls.DapTopPanel
 
     Connections{
         target: stockTab
-        onTokenPairChanged:
+        function onTokenPairChanged()
         {
             updatePair()
         }

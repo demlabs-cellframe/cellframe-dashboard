@@ -116,7 +116,7 @@ DapPage
 
     Connections{
         target: dapServiceController
-        onCertificateManagerOperationResult:{
+        function onCertificateManagerOperationResult(result){
             var certList = result.data
 
             for (var i = 0; i < certList.length; ++i) {

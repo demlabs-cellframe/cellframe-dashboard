@@ -169,7 +169,7 @@ DapPage {
     Connections
     {
         target: dapMainWindow
-        onModelOrdersUpdated:
+        function onModelOrdersUpdated()
         {
             if(dapModelOrders.count > 0)
                 state = "ORDERSHOW"
