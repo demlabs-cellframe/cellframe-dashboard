@@ -64,7 +64,6 @@ QtObject {
                         }
                         else
                         {
-
                             var j = 0;
                             while (temporaryModel.get(j).date_to_secs > jsonDocument[q].date_to_secs)
                             {
