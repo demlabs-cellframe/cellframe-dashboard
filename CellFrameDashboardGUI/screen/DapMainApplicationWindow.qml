@@ -552,7 +552,7 @@ Rectangle {
 //            console.log(rcvData)
 //        }
 
-        function onSignalXchangeOrderListReceived()
+        function onSignalXchangeOrderListReceived(rcvData)
         {
             console.log("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)

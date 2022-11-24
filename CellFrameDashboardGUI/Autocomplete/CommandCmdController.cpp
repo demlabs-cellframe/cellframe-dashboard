@@ -27,7 +27,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
     updateValuesTimer = new QTimer(this);
     connect(updateValuesTimer, &QTimer::timeout, [=] (){
         if(isOpenPage)
-            dapServiceController->requestToService("DapGetWordBook", "updateValues");
+            dapServiceController->requestToService("DapGetWordBook", "init");
     });
     updateValuesTimer->start(10000);
 }
