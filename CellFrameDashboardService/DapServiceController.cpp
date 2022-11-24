@@ -72,6 +72,8 @@ bool DapServiceController::start()
         connect(transceiver, SIGNAL(clientResponded(QVariant)), this, SLOT(rcvReplyFromClient(QVariant)));
         connect(m_web3Controll, SIGNAL(signalConnectRequest(QString, int)), this, SLOT(sendConnectRequest(QString, int)));
 
+        DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
+        initBook->respondToClient("init");
     }
 #endif
     else

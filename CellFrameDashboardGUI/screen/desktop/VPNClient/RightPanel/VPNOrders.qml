@@ -29,7 +29,7 @@ Item
     {
         target: vpnOrdersController
 
-        onVpnOrdersReceived:
+        function onVpnOrdersReceived(doc)
         {
             var json = JSON.parse(doc)
             ordersListView.model = json
@@ -38,7 +38,7 @@ Item
             errorItem.visible = false
         }
 
-        onConnectionError:
+        function onConnectionError()
         {
             vpnOrdersLayout.visible = false
             connectingText.visible = false

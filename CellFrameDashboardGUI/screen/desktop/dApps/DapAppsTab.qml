@@ -45,7 +45,7 @@ DapPage {
 
     Connections{
         target: dapMainWindow
-        onModelPluginsUpdated:
+        function onModelPluginsUpdated()
         {
             dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
         }
@@ -53,11 +53,11 @@ DapPage {
 
     Connections{
         target:pluginsManager
-        onRcvProgressDownload:
+        function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
         {
             dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
         }
-        onRcvAbort:
+        function onRcvAbort()
         {
             dAppsLogic.rcvAbort()
         }

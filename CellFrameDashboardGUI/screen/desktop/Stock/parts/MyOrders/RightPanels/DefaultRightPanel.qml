@@ -517,6 +517,6 @@ Item
 
     Connections{
         target: myOrdersTab
-        onInitCompleted: comboboxPair.model = pairModelFilter
+        function onInitCompleted(){ comboboxPair.model = pairModelFilter}
     }
 }

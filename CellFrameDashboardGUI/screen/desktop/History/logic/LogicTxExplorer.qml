@@ -42,10 +42,28 @@ QtObject {
                     for (var q = 0; q < jsonDocument.length; ++q)
                     {
                         if (temporaryModel.count === 0)
+                        {
                             temporaryModel.append(jsonDocument[q])
+
+                            if(isLastActions)
+                            {
+                                var currDate = new Date(Date.parse(
+                                    temporaryModel.get(j).date))
+
+                                if (lastDate === new Date(0))
+                                {
+                                    lastDate = currDate
+                                    prevDate = currDate
+                                }
+                                if (lastDate < currDate)
+                                {
+                                    prevDate = lastDate
+                                    lastDate = currDate
+                                }
+                            }
+                        }
                         else
                         {
-
                             var j = 0;
                             while (temporaryModel.get(j).date_to_secs > jsonDocument[q].date_to_secs)
                             {
@@ -102,6 +120,7 @@ QtObject {
                             yesterday = new Date(new Date().setDate(new Date().getDate()-1))
 
                             modelLastActions.clear()
+                            console.log("Temporary model count", temporaryModel.count)
 
                             for (var m = 0; m < temporaryModel.count; ++m)
                             {

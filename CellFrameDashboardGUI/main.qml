@@ -86,7 +86,7 @@ ApplicationWindow
     {
         target: dapServiceController
 
-        onClientActivated:
+        function onClientActivated()
         {
             if(window.visibility === Window.Hidden)
                 params.restoreWindow()

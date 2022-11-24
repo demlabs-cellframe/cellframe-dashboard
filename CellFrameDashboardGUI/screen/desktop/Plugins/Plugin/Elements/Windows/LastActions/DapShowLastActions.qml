@@ -123,7 +123,7 @@ Rectangle {
     Component.onCompleted:
     {
         modelLastActions.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
     }
 
     InnerShadow {

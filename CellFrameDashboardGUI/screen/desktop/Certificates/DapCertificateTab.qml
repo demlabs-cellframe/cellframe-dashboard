@@ -92,7 +92,7 @@ DapPage
 
     Connections{
         target:importCertificate
-        onSignalImportFinished:
+        function onSignalImportFinished(status)
         {
             if(status)
                 dapServiceController.requestToService(DapCertificateCommands.serviceName

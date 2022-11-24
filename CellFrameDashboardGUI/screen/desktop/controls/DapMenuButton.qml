@@ -88,7 +88,7 @@ Item
     Connections
     {
         target: dapMainWindow
-        onCheckWebRequest:{
+        function onCheckWebRequest(page) {
             if(page === settingsScreenPath)
             {
                 if(!buttonDelegate.isPushed)

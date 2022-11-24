@@ -18,7 +18,7 @@ Item {
     {
         target: dapServiceController
 
-        onCertificateManagerOperationResult: {
+        function onCertificateManagerOperationResult(result) {
             if (!result) {
                 console.error("result is empty")
                 return

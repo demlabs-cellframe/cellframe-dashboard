@@ -484,10 +484,10 @@ Rectangle {
     {
         target: dapServiceController
 
-        onNetworksListReceived: logicMainApp.rcvNetList(networksList)
-        onSignalStateSocket: logicMainApp.rcvStateNotify(isError, isFirst)
+        function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
+        function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
 
-        onVersionControllerResult:
+        function onVersionControllerResult(versionResult)
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
                 logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
@@ -506,18 +506,18 @@ Rectangle {
 //            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
         }
 
-        onWalletsReceived:
+        function onWalletsReceived(walletList)
         {
             console.log("onWalletsReceived")
             logicMainApp.rcvWallets(walletList)
         }
-        onWalletReceived:
+        function onWalletReceived(wallet)
         {
             console.log("onWalletReceived")
             logicMainApp.rcvWallet(wallet)
         }
 
-        onCurrentNetworkChanged:
+        function onCurrentNetworkChanged()
         {
             for(var x = 0; x < dapModelWallets.count; x++)
             {
@@ -530,7 +530,7 @@ Rectangle {
             }
         }
 
-        onOrdersReceived:
+        function onOrdersReceived(orderList)
         {
             console.log("onOrdersReceived")
             console.log("Orders count:", orderList.length)
@@ -538,13 +538,13 @@ Rectangle {
             modelOrdersUpdated();
         }
 
-        onSignalTokensListReceived:
+        function onSignalTokensListReceived(tokensResult)
         {
             console.log("TokensListReceived")
             logicMainApp.rcvTokens(tokensResult)
         }
 
-        onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
+        function onDapWebConnectRequest(rcvData) { logicMainApp.rcvWebConnectRequest(rcvData)}
 
 //        onRcvXchangeTxList:
 //        {
@@ -552,13 +552,13 @@ Rectangle {
 //            console.log(rcvData)
 //        }
 
-        onSignalXchangeOrderListReceived:
+        function onSignalXchangeOrderListReceived(rcvData)
         {
             console.log("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        onSignalXchangeTokenPairReceived:
+        function onSignalXchangeTokenPairReceived()
         {
             console.log("onSignalXchangeTokenPairReceived")
 //            logicMainApp.rcvPairsModel(rcvData)
@@ -580,7 +580,7 @@ Rectangle {
 
     Connections{
         target: pluginsManager
-        onRcvListPlugins:
+        function onRcvListPlugins(m_pluginsList)
         {
             console.log("onRcvListPlugins")
             console.log("Plugins count:", m_pluginsList.length)

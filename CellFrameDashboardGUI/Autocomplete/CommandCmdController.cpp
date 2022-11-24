@@ -10,7 +10,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
 
     dapServiceController = _dapServiceController;
 
-    dapServiceController->requestToService("DapGetWordBook", "init");
+//    dapServiceController->requestToService("DapGetWordBook", "init");
     rcvDataBuffer = false;
     isOpenPage = false;
 

@@ -331,7 +331,7 @@ Item{
                 onClicked:
                 {
                     dapServiceController.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"activate", textInputPasswordWallet.text, ttl)
-                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
+                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
 //                    activatingSignal(nameWallet)
 
 //                    hide()
@@ -340,7 +340,7 @@ Item{
 
             Connections{
                 target: dapServiceController
-                onRcvActivateOrDeactivateReply:{
+                function onRcvActivateOrDeactivateReply(rcvData){
                     if(rcvData.cmd === "activate")
                     {
                         if(rcvData.success){

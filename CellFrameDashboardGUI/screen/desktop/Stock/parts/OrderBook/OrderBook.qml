@@ -65,7 +65,7 @@ Page
 
     Connections{
         target: orderBookWorker
-        onSetNewBookRoundPowerMinimum:
+        function onSetNewBookRoundPowerMinimum(power)
         {
             setBookRoundPowerMinimum(power)
         }

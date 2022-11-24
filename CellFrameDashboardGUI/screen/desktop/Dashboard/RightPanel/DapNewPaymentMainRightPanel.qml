@@ -180,7 +180,7 @@ DapNewPaymentMainRightPanelForm
     Connections
     {
         target: dapServiceController
-        onTransactionCreated:
+        function onTransactionCreated(aResult)
         {
             commandResult = aResult
             updateWalletTimer.start()

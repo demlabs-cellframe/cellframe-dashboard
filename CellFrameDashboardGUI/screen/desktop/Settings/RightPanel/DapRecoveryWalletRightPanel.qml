@@ -7,7 +7,7 @@ DapRecoveryWalletRightPanelForm
     {
         target: walletHashManager
 
-        onSetHashString:
+        function onSetHashString(hash)
         {
             walletInfo.recovery_hash = hash
 //            print("hash = ", walletInfo.recovery_hash)
@@ -18,7 +18,7 @@ DapRecoveryWalletRightPanelForm
             }
         }
 
-        onClipboardError:
+        function onClipboardError()
         {
             dapTextBottomMessage.color = "#FF0300"
             dapTextBottomMessage.text =
@@ -29,7 +29,7 @@ DapRecoveryWalletRightPanelForm
             dapButtonNext.visible = false
         }
 
-        onFileError:
+        function onFileError()
         {
             dapTextBottomMessage.color = "#FF0300"
             if (!logicMainApp.restoreWalletMode)
@@ -44,7 +44,7 @@ DapRecoveryWalletRightPanelForm
             dapButtonNext.visible = false
         }
 
-        onSetFileName:
+        function onSetFileName(fileName)
         {
             if (!logicMainApp.restoreWalletMode)
                 dapBackupFileName.text = qsTr("File saved to:\n") + fileName
@@ -234,7 +234,7 @@ DapRecoveryWalletRightPanelForm
     Connections
     {
         target: dapServiceController
-        onWalletCreated:
+        function onWalletCreated(wallet)
         {
             commandResult.success = wallet.success
             commandResult.message = wallet.message

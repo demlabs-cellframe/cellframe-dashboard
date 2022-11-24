@@ -55,8 +55,7 @@ DapRectangleLitAndShaded
             section.delegate: delegateSection
 
             delegate: Item {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                width: lastActionsView.width
 
                 height: 50 
 

@@ -123,7 +123,7 @@ Controls.DapTopPanel
     Connections
     {
         target: dapMainWindow
-        onModelWalletsUpdated:
+        function onModelWalletsUpdated()
         {
             console.log("DapDashboardTopPanel onModelWalletsUpdated",
                         "currentWalletName", logicMainApp.currentWalletName,

@@ -105,116 +105,120 @@ DapRectangleLitAndShaded {
                 id: delegateComponent
 
                 Item{
-                    anchors.left: parent.left
-                    anchors.leftMargin: 16
-                    anchors.right: parent.right
-                    anchors.rightMargin: 16
+                    width: list.width
                     height: 50
 
-                    MouseArea{
-                        id: delegateClicked
+                    Item{
                         anchors.fill: parent
-                        hoverEnabled: true
-                        property bool _entered: false
-                        onEntered:
-                        {
-                            _entered = true
-                        }
+                        anchors.leftMargin: 16
+                        anchors.rightMargin: 16
 
-                        onExited:
-                        {
-                            _entered = false
-                        }
-                        onClicked: {
-                            root.selectedIndex(model.index)
-                            models.selectedAccessKeyType = model.accessKeyType
-                            root.infoTitleTextVisibleClick = true
-                            if (openedRightPanelPage == "Info" && model.index !== infoIndex)
-                                certificateNavigator.clearRightPanel()
-                        }
 
-                        onDoubleClicked: {
-                            root.infoClicked(model.index)
-                        }
-                    }
-
-                    RowLayout {
-                        //this property need set from root
-                        anchors.fill: parent
-
-                        Text {
-                            id: certificateNameText
-                            //x: 14
-                            Layout.fillWidth: true
-                            Layout.fillHeight: true
-                            Layout.alignment: Qt.AlignLeft
-                            verticalAlignment: Text.AlignVCenter
-                            font: mainFont.dapFont.regular16
-                            text: model.completeBaseName   //model.fileName
-                            elide: Text.ElideMiddle
-                            maximumLineCount: 1
-                            color: currTheme.textColor
-
-                            property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
-
-                            onColorPropertyChanged: textTimer.start()
-
-                            Timer {
-                                id: textTimer
-                                    interval: 300
-                                    onTriggered: certificateNameText.color = certificateNameText.colorProperty
-                                }
-
-                            DapCustomToolTip{
-                                visible: delegateClicked.containsMouse ?  certificateNameText.implicitWidth > certificateNameText.width ? true : false : false
-                                contentText: certificateNameText.text
-                                textFont: certificateNameText.font
-                                onVisibleChanged: updatePos()
-                            }
-                        }
-
-                        Image{
-
-                            Layout.alignment: Qt.AlignRight
-                            Layout.rightMargin: -2
-
-                            Layout.preferredHeight: 30
-                            Layout.preferredWidth: 30
-
-                            width: 30
-                            height: 30
-                            mipmap: true
-                            source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
-
-                            opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
-
-                            onOpacityChanged: root.infoTitleTextVisible = opacity
-
-                            Behavior on opacity {
-                                NumberAnimation {
-                                    duration: 300
-                                }
-                            }
-
-                            MouseArea
+                        MouseArea{
+                            id: delegateClicked
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            property bool _entered: false
+                            onEntered:
                             {
-                                anchors.fill: parent
-                                onClicked: {
-                                    root.infoClicked(model.index)
+                                _entered = true
+                            }
+
+                            onExited:
+                            {
+                                _entered = false
+                            }
+                            onClicked: {
+                                root.selectedIndex(model.index)
+                                models.selectedAccessKeyType = model.accessKeyType
+                                root.infoTitleTextVisibleClick = true
+                                if (openedRightPanelPage == "Info" && model.index !== infoIndex)
+                                    certificateNavigator.clearRightPanel()
+                            }
+
+                            onDoubleClicked: {
+                                root.infoClicked(model.index)
+                            }
+                        }
+
+                        RowLayout {
+                            //this property need set from root
+                            anchors.fill: parent
+
+                            Text {
+                                id: certificateNameText
+                                //x: 14
+                                Layout.fillWidth: true
+                                Layout.fillHeight: true
+                                Layout.alignment: Qt.AlignLeft
+                                verticalAlignment: Text.AlignVCenter
+                                font: mainFont.dapFont.regular16
+                                text: model.completeBaseName   //model.fileName
+                                elide: Text.ElideMiddle
+                                maximumLineCount: 1
+                                color: currTheme.textColor
+
+                                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
+
+                                onColorPropertyChanged: textTimer.start()
+
+                                Timer {
+                                    id: textTimer
+                                        interval: 300
+                                        onTriggered: certificateNameText.color = certificateNameText.colorProperty
+                                    }
+
+                                DapCustomToolTip{
+                                    visible: delegateClicked.containsMouse ?  certificateNameText.implicitWidth > certificateNameText.width ? true : false : false
+                                    contentText: certificateNameText.text
+                                    textFont: certificateNameText.font
+                                    onVisibleChanged: updatePos()
+                                }
+                            }
+
+                            Image{
+
+                                Layout.alignment: Qt.AlignRight
+                                Layout.rightMargin: -2
+
+                                Layout.preferredHeight: 30
+                                Layout.preferredWidth: 30
+
+                                width: 30
+                                height: 30
+                                mipmap: true
+                                source: "qrc:/Resources/"+ pathTheme +"/icons/other/ic_info.png"
+
+                                opacity: if (model.selected || delegateClicked._entered) return 1; else return 0
+
+                                onOpacityChanged: root.infoTitleTextVisible = opacity
+
+                                Behavior on opacity {
+                                    NumberAnimation {
+                                        duration: 300
+                                    }
+                                }
+
+                                MouseArea
+                                {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        root.infoClicked(model.index)
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    Rectangle {
-                        id: bottomLine
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        anchors.top: parent.bottom
-                        height: 1
-                        color: currTheme.lineSeparatorColor
-                    }
-                }  //
+                        Rectangle {
+                            id: bottomLine
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.top: parent.bottom
+                            height: 1
+                            color: currTheme.lineSeparatorColor
+                        }
+                    }  //
+                }
             }  //delegateComponent
         }
     }
