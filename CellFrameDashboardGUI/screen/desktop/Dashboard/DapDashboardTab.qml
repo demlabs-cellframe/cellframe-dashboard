@@ -240,7 +240,9 @@ DapPage
 //                console.log(!walletActivatePopup.isOpen, dapModelWallets.get(logicMainApp.currentWalletIndex).status)
 
                 if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                {
                     walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+                }
                 else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
                     walletActivatePopup.hide()
 

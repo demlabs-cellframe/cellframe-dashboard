@@ -86,7 +86,7 @@ Item{
 
             Text{
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Activate wallet")
+                text: "Activate " + "'" + nameWallet + "'" + " wallet"
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }

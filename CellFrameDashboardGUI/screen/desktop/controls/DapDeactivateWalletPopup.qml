@@ -71,7 +71,7 @@ Item{
 
             Text{
                 Layout.alignment: Qt.AlignHCenter
-                text: qsTr("Deactivate wallet")
+                text: "Deactivate " + "'" + nameWallet + "'" + " wallet"
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
             }
