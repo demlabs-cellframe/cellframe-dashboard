@@ -245,8 +245,6 @@ DapPage
                 }
                 else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
                     walletActivatePopup.hide()
-
-
             }
         }
     }
