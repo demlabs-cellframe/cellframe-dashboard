@@ -12,6 +12,7 @@ DapPage
     property string currentStatus: "All statuses"
     property string currentPeriod: "all time"
     property bool isCurrentRange: false
+    readonly property string infoAboutTx: path + "/History/DapHistoryRightPanelInfoTx.qml"
 
     ////@ Variables to calculate Today, Yesterdat etc.
     property date today: new Date()
@@ -27,6 +28,29 @@ DapPage
     ListModel{id: modelHistory}
     ListModel{id: temporaryModel}
     ListModel{id: previousModel}
+    ListModel{id: detailsModel}
+
+    Component{id: emptyRightPanel; Item{}}
+
+    QtObject {
+        id: navigator
+
+        function txInfo()
+        {
+            historyScreen.dapHistoryRightPanel.visible = false
+            dapRightPanelFrame.visible = true
+            dapRightPanel.pop()
+            dapRightPanel.push(infoAboutTx)
+        }
+
+        function clear()
+        {
+            dapRightPanel.clear()
+            dapRightPanelFrame.visible = false
+            dapRightPanel.push(emptyRightPanel)
+            historyScreen.dapHistoryRightPanel.visible = true
+        }
+    }
 
     LogicTxExplorer
     {
@@ -39,7 +63,7 @@ DapPage
         onTriggered:
         {
             console.log("HISTORY TIMER TICK")
-            logicExplorer.updateWalletHistory(false)
+            logicExplorer.updateWalletHistory(false, 0)
         }
     }
 
@@ -47,6 +71,7 @@ DapPage
         {
             id:historyTopPanel
             onFindHandler: {
+                console.log(text)
                 currentString = text
                 logicExplorer.filterResults(false)
             }
@@ -70,12 +95,13 @@ DapPage
             }
     }
 
-    onRightPanel: false
+    dapRightPanelFrame.visible: false
+    dapRightPanel.initialItem: emptyRightPanel
 
     Connections
     {
         target: dapServiceController
-        onAllWalletHistoryReceived:
+        function onAllWalletHistoryReceived(walletHistory)
         {
             logicExplorer.rcvAllWalletHistory(walletHistory, false)
         }
@@ -83,7 +109,7 @@ DapPage
 
     Component.onCompleted:
     {
-        logicExplorer.updateWalletHistory()
+        logicExplorer.updateWalletHistory(false, 1)
 
         if (!updateHistoryTimer.running)
             updateHistoryTimer.start()

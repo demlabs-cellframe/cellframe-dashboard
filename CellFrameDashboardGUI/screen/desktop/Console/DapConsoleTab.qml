@@ -46,7 +46,7 @@ DapPage
     Connections
     {
         target: dapServiceController
-        onCmdRunned:
+        function onCmdRunned(asAnswer)
         {
             if (isConsoleRequest)
             {
@@ -55,7 +55,7 @@ DapPage
                 consoleScreen.listView.positionViewAtEnd()
             }
         }
-        onHistoryExecutedCmdReceived:
+        function onHistoryExecutedCmdReceived(aHistory)
         {
             for(var x=0; x < aHistory.length; ++x)
             {

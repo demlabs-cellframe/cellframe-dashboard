@@ -3,7 +3,7 @@ import QtQml 2.12
 
 QtObject
 {
-    property string tokenChange: ""
+//    property string tokenChange: ""
     property real balanceReal
     property real cellBalanceReal
 //    property string balanceText: balanceReal.toFixed(roundPower)
@@ -43,7 +43,7 @@ QtObject
         if(order.side === "Buy")
         {
             value = balanceReal + order.amount * logicMainApp.tokenPrice
-            fakeWallet.get(0).tokens.get(1).balance_without_zeros = value.toString()
+            fakeWallet.get(0).tokens.get(1).coins = value.toString()
             balanceReal = value
 
             fakeWalletChanged() //for top panel
@@ -85,7 +85,7 @@ QtObject
 
                     if(orderBuy === tokenSell && orderSell === tokenBuy)
                     {
-                        if(logicMainApp.token1Name === tokenBuy)
+                        if(tokenPairsWorker.tokenBuy === tokenBuy)
                         {
                             if(1/orderPrice === price &&
                                orderSellAmount >= amountBuy)
@@ -119,10 +119,10 @@ QtObject
         var balanceToken
 
         if(isSell)
-            balanceToken = selectedTokenNameWallet === logicMainApp.token1Name ?
+            balanceToken = selectedTokenNameWallet === tokenPairsWorker.tokenBuy ?
                            selectedTokenBalanceWallet : unselectedTokenBalanceWallet
         else
-            balanceToken = selectedTokenNameWallet === logicMainApp.token1Name ?
+            balanceToken = selectedTokenNameWallet === tokenPairsWorker.tokenBuy ?
                            unselectedTokenBalanceWallet : selectedTokenBalanceWallet
 
         var balanceDatoshi = dapMath.coinsToBalance(balanceToken)

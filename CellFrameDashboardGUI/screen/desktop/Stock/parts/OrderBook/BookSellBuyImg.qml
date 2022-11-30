@@ -23,7 +23,7 @@ Image {
 
     Connections{
         target: parent
-        onSetActive:{
+        function onSetActive(ind){
             if(ind === index )
                 isActive = true
             else

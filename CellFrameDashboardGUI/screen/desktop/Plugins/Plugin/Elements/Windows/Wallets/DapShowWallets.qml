@@ -74,7 +74,7 @@ Item {
     }
 
     Component.onCompleted: {
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
 
     }
 
@@ -107,40 +107,15 @@ Item {
         target: dapServiceController
         onWalletsReceived:
         {
-            dapWallets.splice(0,dapWallets.length)
+            var jsonDocument = JSON.parse(walletList)
+
+            if(!jsonDocument.length)
+            {
+                dapModelWallets.clear()
+                return
+            }
             dapModelWallets.clear()
-
-            for (var q = 0; q < walletList.length; ++q)
-            {
-                dapWallets.push(walletList[q])
-            }
-
-            for (var i = 0; i < dapWallets.length; ++i)
-            {
-                dapModelWallets.append({ "name" : dapWallets[i].Name,
-                                      "icon" : dapWallets[i].Icon,
-                                      "networks" : []})
-
-                for (var n = 0; n < Object.keys(dapWallets[i].Networks).length; ++n)
-                {
-                    dapModelWallets.get(i).networks.append({"name": dapWallets[i].Networks[n],
-                          "address": dapWallets[i].findAddress(dapWallets[i].Networks[n]),
-                          "tokens": []})
-
-                    for (var t = 0; t < Object.keys(dapWallets[i].Tokens).length; ++t)
-                    {
-                        if(dapWallets[i].Tokens[t].Network === dapWallets[i].Networks[n])
-                        {
-                            dapModelWallets.get(i).networks.get(n).tokens.append(
-                                 {"name": dapWallets[i].Tokens[t].Name,
-                                  "full_balance": dapWallets[i].Tokens[t].FullBalance,
-                                  "balance_without_zeros": dapMath.balanceToCoins(dapWallets[i].Tokens[t].Datoshi),
-                                  "datoshi": dapWallets[i].Tokens[t].Datoshi,
-                                  "network": dapWallets[i].Tokens[t].Network})
-                        }
-                    }
-                }
-            }
+            dapModelWallets.append(jsonDocument)
         }
     }
 }

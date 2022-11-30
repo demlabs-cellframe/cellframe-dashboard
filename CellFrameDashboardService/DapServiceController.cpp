@@ -66,11 +66,14 @@ bool DapServiceController::start()
         registerCommand();
         // Send data from notify socket to client
         connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
+        connect(watcher, SIGNAL(rcvNotify(QVariant)), m_web3Controll, SLOT(rcvNodeStatus(QVariant)));
         // Channel req\rep for web 3 API
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
         connect(transceiver, SIGNAL(clientResponded(QVariant)), this, SLOT(rcvReplyFromClient(QVariant)));
         connect(m_web3Controll, SIGNAL(signalConnectRequest(QString, int)), this, SLOT(sendConnectRequest(QString, int)));
 
+        DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
+        initBook->respondToClient("init");
     }
 #endif
     else
@@ -185,6 +188,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapGetWordBook("DapGetWordBook", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapXchangeOrderPurchase("DapXchangeOrderPurchase", m_pServer));
+
+    m_pServer->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand", m_pServer, CLI_PATH));
 
 
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));

@@ -84,7 +84,7 @@ DapPage
             id: dashboardTopPanel
             dapNewPayment.onClicked:
             {
-                walletInfo.name = dapModelWallets.get(logicMainApp.currentIndex).name
+                walletInfo.name = dapModelWallets.get(logicMainApp.currentWalletIndex).name
                 dapRightPanel.pop()
                 navigator.newPayment()
             }
@@ -160,16 +160,16 @@ DapPage
                 target: dapHeaderFrame
                 visible: true
             }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapNewPayment
-                visible: true
-            }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapFrameTitle
-                visible: true
-            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapNewPayment
+//                visible: true
+//            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapFrameTitle
+//                visible: true
+//            }
             PropertyChanges
             {
                 target: dashboardScreen.dapFrameTitleCreateWallet;
@@ -199,16 +199,16 @@ DapPage
                 target: dapHeaderFrame
                 visible: true
             }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapNewPayment
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardTopPanel.dapFrameTitle
-                visible: false
-            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapNewPayment
+//                visible: false
+//            }
+//            PropertyChanges
+//            {
+//                target: dashboardTopPanel.dapFrameTitle
+//                visible: false
+//            }
             PropertyChanges
             {
                 target: dashboardScreen.dapFrameTitleCreateWallet;
@@ -235,16 +235,26 @@ DapPage
                 logicWallet.updateAllWallets()
             }
             else
+            {
                 logicWallet.updateCurrentWallet()
+//                console.log(!walletActivatePopup.isOpen, dapModelWallets.get(logicMainApp.currentWalletIndex).status)
+
+                if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                {
+                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+                }
+                else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
+                    walletActivatePopup.hide()
+            }
         }
     }
 
     Connections
     {
         target: dapMainWindow
-        onModelWalletsUpdated:
+        function onModelWalletsUpdated()
         {
-            logicWallet.updateComboBox()
+            logicWallet.updateWalletModel()
 
             // FOR DEBUG
 //            logicWallet.updateCurrentWallet()
@@ -254,7 +264,7 @@ DapPage
     Connections
     {
         target: dapServiceController
-        onWalletCreated:
+        function onWalletCreated()
         {
             logicWallet.updateAllWallets()
         }
@@ -262,10 +272,15 @@ DapPage
 
     Component.onCompleted:
     {
-        logicWallet.updateComboBox()
+        logicWallet.updateWalletModel()
 
         if (!updateWalletTimer.running)
             updateWalletTimer.start()
+
+        if(dapModelWallets.count)
+            if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
+                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+
     }
 
     Component.onDestruction:

@@ -224,17 +224,17 @@ Page {
     Connections {
         target: dapServiceController
 
-        onNetworksStatesReceived:
+        function onNetworksStatesReceived(networksStatesList)
         {
             logicMobile.modelUpdate(networksStatesList)
             logicMobile.updateContentInAllOpenedPopups(networksModel)
         }
-        onSignalNetState:
+        function onSignalNetState(netState)
         {
             logicMobile.notifyModelUpdate(netState)
         }
 
-        onWalletsReceived: {
+        function onWalletsReceived(walletList) {
             logicMainApp.rcvWallets(walletList)
             nameWallet.text = dapModelWallets.get(currentWallet).name
 //            updateNetworkModel()
@@ -326,7 +326,7 @@ Page {
         for (var i = 0; i < tempModel.count; ++i)
         {
             tokenModel.append({"name" : tempModel.get(i).name,
-                               "balance" : tempModel.get(i).balance_without_zeros})
+                               "balance" : tempModel.get(i).coins})
         }
     }
 

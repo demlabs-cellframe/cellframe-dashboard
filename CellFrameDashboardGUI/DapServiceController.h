@@ -56,6 +56,9 @@
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
 #include "handlers/DapGetWordBook.h"
 #include "handlers/DapXchangeOrderPurchase.h"
+#include "handlers/DapWalletActivateOrDeactivateCommand.h"
+
+#include "serviceimitator.h"
 
 class DapServiceController : public QObject
 {
@@ -81,6 +84,9 @@ class DapServiceController : public QObject
     QVector<QPair<DapAbstractCommand*, QString>>      m_transceivers;
     /// RPC socket.
     DapRpcSocket    * m_DAPRpcSocket {nullptr};
+
+    ServiceImitator *imitator;
+
     /// Standard constructor.
     /// @param apParent Parent.
     explicit DapServiceController(QObject *apParent = nullptr);
@@ -191,9 +197,9 @@ signals:
     void walletInfoReceived(const QVariant& walletInfo);
     void walletsInfoReceived(const QVariant& walletList);
 
-    void walletsReceived(QList<QObject*> walletList);
+    void walletsReceived(const QVariant& walletList);
 
-    void walletReceived(QObject* wallet);
+    void walletReceived(const QVariant& wallet);
 
     void networksListReceived(const QVariant& networksList);
 
@@ -219,7 +225,7 @@ signals:
 
     void walletHistoryReceived(const QList<QObject*>& walletHistory);
 
-    void allWalletHistoryReceived(const QList<QObject*>& walletHistory);
+    void allWalletHistoryReceived(const QVariant& walletHistory);
     /// The signal is emitted when the command is executed by the cli node command handler.
     /// @param asAnswer The response of the cli node command handler.
     void cmdRunned(const QVariant& asAnswer);
@@ -254,6 +260,8 @@ signals:
     void signalXchangeTokenPairReceived(const QVariant& rcvData);
     void rcvXchangeTokenPriceAverage(const QVariant& rcvData);
     void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
+
+    void rcvActivateOrDeactivateReply(const QVariant& rcvData);
 
 
     void dapRcvNotify(const QVariant& rcvData);

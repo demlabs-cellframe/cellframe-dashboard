@@ -19,11 +19,11 @@ Page
 
     Connections{
         target: dapServiceController
-        onRcvXchangeCreate:{
+        function onRcvXchangeCreate(rcvData){
             logicStock.resultCreate = rcvData
             goToDoneCreate()
         }
-        onRcvXchangePurchase:{
+        function onRcvXchangePurchase(rcvData){
             logicStock.resultCreate = rcvData
             goToDoneCreate()
         }
@@ -95,14 +95,14 @@ Page
             {
                 if(isSell)
                 {
-                    if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
+                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
                     else
                         return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
                 }
                 else
                 {
-                    if(logicStock.selectedTokenNameWallet === logicMainApp.token2Name)
+                    if(logicStock.selectedTokenNameWallet === tokenPairsWorker.tokenSell)
                         return logicStock.selectedTokenBalanceWallet + " " + logicStock.selectedTokenNameWallet
                     else
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
@@ -130,7 +130,7 @@ Page
                 font: mainFont.dapFont.medium14
                 color: currTheme.textColor
 
-                text: qsTr("Buy ") + logicMainApp.token1Name
+                text: qsTr("Buy ") + tokenPairsWorker.tokenBuy
             }
 
             DapSelectorSwitch
@@ -147,11 +147,11 @@ Page
                     isSell = secondSelected
                     if (isSell)
                     {
-                        textMode.text = qsTr("Sell ") + logicMainApp.token1Name
+                        textMode.text = qsTr("Sell ") + tokenPairsWorker.tokenBuy
                     }
                     else
                     {
-                        textMode.text = qsTr("Buy ") + logicMainApp.token1Name
+                        textMode.text = qsTr("Buy ") + tokenPairsWorker.tokenBuy
 
                     }
                     sellBuyChanged()
@@ -260,8 +260,8 @@ Page
                                                    dapMath.coinsToBalance(price),false):
                                   total
 
-        var nameToken = isSell ? logicMainApp.token1Name :
-                                 logicMainApp.token2Name
+        var nameToken = isSell ? tokenPairsWorker.tokenBuy :
+                                 tokenPairsWorker.tokenSell
         var str;
 
 

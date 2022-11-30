@@ -7,7 +7,7 @@ import "qrc:/widgets"
 
 Page
 {
-    anchors.fill: parent
+//    anchors.fill: parent
 
     background: Rectangle {
         color: "transparent"

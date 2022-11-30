@@ -14,8 +14,8 @@ Rectangle
     Rectangle
     {
         anchors.right: parent.right
-        width: isSell ? parent.width*modelData.total/stockDataWorker.sellMaxTotal :
-                        parent.width*modelData.total/stockDataWorker.buyMaxTotal
+        width: isSell ? parent.width*modelData.total/orderBookWorker.sellMaxTotal :
+                        parent.width*modelData.total/orderBookWorker.buyMaxTotal
         height: parent.height
 
         color: isSell? sellHistogramColor : buyHistogramColor
@@ -24,8 +24,8 @@ Rectangle
 //        {
 //            print("isSell", isSell,
 //                  "modelData.total", modelData.total,
-//                  "stockDataWorker.sellMaxTotal", stockDataWorker.sellMaxTotal,
-//                  "stockDataWorker.buyMaxTotal", stockDataWorker.buyMaxTotal)
+//                  "orderBookWorker.sellMaxTotal", orderBookWorker.sellMaxTotal,
+//                  "orderBookWorker.buyMaxTotal", orderBookWorker.buyMaxTotal)
 //        }
     }
 
@@ -47,7 +47,7 @@ Rectangle
                 font: mainFont.dapFont.regular13
 //                text: modelData.price.toFixed(5)
                 text: roundDoubleValue(modelData.price,
-                    stockDataWorker.bookRoundPower)
+                    orderBookWorker.bookRoundPower)
             }
 
             Text

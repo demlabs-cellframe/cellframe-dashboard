@@ -30,7 +30,7 @@ Page {
     Connections
     {
         target: dapServiceController
-        onWalletHistoryReceived:
+        function onWalletHistoryReceived()
         {
             print("onWalletHistoryReceived")
             updateModel()

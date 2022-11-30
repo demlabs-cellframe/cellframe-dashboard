@@ -42,7 +42,7 @@ ColumnLayout
 
             Connections{
                 target: logic
-                onAwaitingFinished: root.findHandler(text)
+                function onAwaitingFinished(text){ root.findHandler(text)}
             }
 
             onTextChanged: logic.filter(text)

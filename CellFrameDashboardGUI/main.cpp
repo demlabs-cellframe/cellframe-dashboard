@@ -14,12 +14,12 @@
 #include <QAndroidIntent>
 #endif
 
-#include "DapHelper.h"
-#include "serviceClient/DapServiceClient.h"
-#include "DapServiceController.h"
+//#include "DapHelper.h"
+//#include "serviceClient/DapServiceClient.h"
+//#include "DapServiceController.h"
 #include "DapLogger.h"
-#include "DapLogMessage.h"
-#include "DapWallet.h"
+//#include "DapLogMessage.h"
+//#include "DapWallet.h"
 #include "DapApplication.h"
 #include "PluginsController/DapPluginsController.h"
 #include "ImportCertificate/ImportCertificate.h"
@@ -45,8 +45,6 @@
 //#endif
 
 #include "WalletRestore/wallethashmanager.h"
-
-#include "StockDataWorker/stockdataworker.h"
 
 bool SingleApplicationTest(const QString &appName)
 {
@@ -121,13 +119,9 @@ int main(int argc, char *argv[])
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+//    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+    dapLogger.setLogLevel(L_DEBUG);
     qDebug() << "debug_dashboard_mode" << debug_mode;
-
-    if (debug_mode)
-        dapLogger.setLogLevel(L_DEBUG);
-    else
-        dapLogger.setLogLevel(L_INFO);
 
     //dApps config file
     QString filePluginConfig;
@@ -150,8 +144,6 @@ int main(int argc, char *argv[])
         if(filePlugin.open(QIODevice::WriteOnly))
             filePlugin.close();
     }
-
-//    qmlRegisterType<StockDataWorker>("StockDataWorker", 1,0, "StockDataWorker");
 
     int result = RESTART_CODE;
 
@@ -222,9 +214,9 @@ int main(int argc, char *argv[])
         context->setContextProperty("importCertificate", &importCertifiacte);
 
         // For Stock
-        StockDataWorker stockDataWorker;
-        context->setContextProperty("stockDataWorker", &stockDataWorker);
-        stockDataWorker.setContext(context);
+//        StockDataWorker stockDataWorker(context);
+//        context->setContextProperty("stockDataWorker", &stockDataWorker);
+//        stockDataWorker.setContext(context);
 
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
 

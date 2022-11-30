@@ -35,6 +35,7 @@ Item
 //            popup.open()
 //            popup.opacity = 1
             dapMainWindow.infoItem.showInfo(
+                        0,0,
                         dapMainWindow.width*0.5,
                         8,
                         qsTr("Address copied"),

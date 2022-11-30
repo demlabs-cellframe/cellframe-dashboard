@@ -103,6 +103,10 @@ RowLayout
     {
         id: historyModel
     }
+    ListModel
+    {
+        id: openModel
+    }
 
     Item{id: emptyRightPanel}
 
@@ -112,8 +116,21 @@ RowLayout
         logic.changeMainPage(screen)
 
     Component.onCompleted: {
+        var net = tokenPairsWorker.tokenNetwork
+        var address = ""
 
-        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
+        var model = dapModelWallets.get(logicMainApp.currentIndex).networks
+
+        for (var i = 0; i < model.count; ++i)
+        {
+            if (model.get(i).name === net)
+                address = model.get(i).address
+        }
+
+        console.log("dapServiceController.requestToService", "DapGetXchangeTxList",
+                    net, address)
+        dapServiceController.requestToService("DapGetXchangeTxList",
+            "GetOrdersPrivate", net, address, "", "")
 
         logic.initOrdersModels()
         logic.initPairModelFilter()
@@ -121,6 +138,21 @@ RowLayout
         logic.changeRightPanel(emptyRightPanel)
         initCompleted()
         isInitCompleted = true
+    }
+
+    Connections
+    {
+        target: dapServiceController
+
+        function onRcvXchangeTxList(rcvData)
+        {
+            console.log("onRcvXchangeTxList")
+            console.log(rcvData)
+
+            var jsonDocument = JSON.parse(rcvData)
+            allOrdersModel.clear()
+            allOrdersModel.append(jsonDocument)
+        }
     }
 
     onSetFilterPair: {

@@ -21,7 +21,7 @@ Component
             {
                 id: textWalletName
                 Layout.minimumWidth: 100 
-                text: wallet
+                text: wallet_name
                 color: "#ffffff"
                 font.family: "Quicksand"
                 font.pixelSize: 14
@@ -32,7 +32,8 @@ Component
             Text
             {
                 id: textNetworkName
-                Layout.minimumWidth: 80 
+                Layout.minimumWidth: 120
+                Layout.maximumWidth: 120
                 text: network
                 color: "#ffffff"
                 font.family: "Quicksand"
@@ -45,7 +46,7 @@ Component
             {
                 id: textTokenName
                 Layout.minimumWidth: 60 
-                text: name
+                text: token
                 color: "#ffffff"
                 font.family: "Quicksand"
                 font.pixelSize: 14
@@ -57,8 +58,11 @@ Component
             {
                 id: textSatus
                 Layout.minimumWidth: 60 
-                text: status
-                color: status === "Sent" ? "#4B8BEB" : status === "Error" ? "#EB4D4B" : status === "Received"  ? "#6F9F00" : "#FFBC00"
+                text: tx_status === "ACCEPTED" ? status : "Declined"
+                color: text === "Sent" ?      "#FFCD44" :
+                       text === "Error" ||
+                       text === "Declined" ?  "#FF5F5F" :
+                       text === "Received"  ? "#CAFC33" : "#ffffff"
                 font.family: "Quicksand"
                 font.pixelSize: 14
             }
@@ -71,7 +75,7 @@ Component
                 id: lblAmount
                 Layout.fillWidth: true
                 property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
-                text: sign + amount + " " + name
+                text: sign + value + " " + token
                 color: "#ffffff"
                 font.family: "Quicksand"
                 font.pixelSize: 14

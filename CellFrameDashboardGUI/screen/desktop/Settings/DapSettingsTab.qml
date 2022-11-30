@@ -20,7 +20,7 @@ DapPage
     readonly property string requestsPanel: path + "/Settings/RightPanel/DapRequestsRightPanel.qml"
 
     id: settingsTab
-    property int dapIndexCurrentWallet: -1
+//    property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
     property bool sendRequest: false
 
@@ -32,7 +32,8 @@ DapPage
         "network": "",
         "chain": "",
         "signature_type": "",
-        "recovery_hash": ""
+        "recovery_hash": "",
+        "password": ""
     }
     property var commandResult:
     {
@@ -156,21 +157,21 @@ DapPage
     {
         target: dapServiceController
 
-        onWalletCreated:
+        function onWalletCreated()
         {
-            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
+//            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
         }
-        onWalletsListReceived:
+        function onWalletsListReceived(walletsList)
         {
-            if(dapModelWallets)
-            {
-                if(walletsList.length !== dapModelWallets.count)
-                    dapServiceController.requestToService("DapGetWalletsInfoCommand")
-            }
-            else
+//            if(dapModelWallets)
+//            {
+//                if(walletsList.length !== dapModelWallets.count)
+//                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
+//            }
+//            else
                 dapServiceController.requestToService("DapGetWalletsInfoCommand")
         }
-        onVersionControllerResult:
+        function onVersionControllerResult(versionResult)
         {
             if(sendRequest)
             {
@@ -188,6 +189,6 @@ DapPage
     Connections
     {
         target: messagePopupVersion
-        onClick: sendRequest = false
+        function onClick() {sendRequest = false}
     }
 }

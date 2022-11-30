@@ -39,12 +39,19 @@ DapCreateWalletForm
                 qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
             console.warn("Empty wallet name")
         }
+        else if(logicMainApp.walletType === "Protected" && dapTextInputPassword.length < 4)
+        {
+            dapWalletNameWarning.text =
+                qsTr("Wallet password must contain at least 4 characters")
+            console.warn("Invalid password")
+        }
         else
         {
             dapWalletNameWarning.text = ""
 
             walletInfo.name = dapTextInputNameWallet.text
             walletInfo.signature_type = dapSignatureTypeWallet
+            walletInfo.password = dapTextInputPassword.text
 
             if (logicMainApp.walletRecoveryType !== "Nothing")
             {
@@ -56,13 +63,20 @@ DapCreateWalletForm
             }
             else
             {
-//                dapNextRightPanel = doneWallet
-
                 console.log("Create new wallet " + walletInfo.name);
                 console.log(walletInfo.signature_type);
-                dapServiceController.requestToService("DapAddWalletCommand",
-                       walletInfo.name,
-                       walletInfo.signature_type)
+
+                if(logicMainApp.walletType === "Protected")
+                    dapServiceController.requestToService("DapAddWalletCommand",
+                           walletInfo.name,
+                           walletInfo.signature_type,
+                           "",
+                           walletInfo.password)
+                else
+                    dapServiceController.requestToService("DapAddWalletCommand",
+                           walletInfo.name,
+                           walletInfo.signature_type)
+
             }
 
         }
@@ -87,7 +101,7 @@ DapCreateWalletForm
     Connections
     {
         target: dapServiceController
-        onWalletCreated:
+        function onWalletCreated(wallet)
         {
 //            nextActivated("doneWallet");
 //            console.log(wallet.success, wallet.message)

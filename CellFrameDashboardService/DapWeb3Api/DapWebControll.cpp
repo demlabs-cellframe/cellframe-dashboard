@@ -20,6 +20,8 @@ DapWebControll::DapWebControll(QObject *parent)
     s_pathJsonCmd =  QString("%1/%2/data/").arg(regWGetUsrPath()).arg(DAP_BRAND);
 #endif
 
+    s_nodeStatus = "Service Initialization";
+
 
     //FOR TEST
 
@@ -92,6 +94,8 @@ DapWebControll::DapWebControll(QObject *parent)
 
 //    QJsonDocument doc = stakeLockHold("tRUB", "myCert", "tokenWallet", "220901", "subzero", "10000", "1", "");
 //    QJsonDocument doc = getMempoolList("Backbone");
+//    QJsonDocument doc = getLedgetTxHash("0xE9F238D24E6C39DF38A18C393F6CF9E5A92544CC1078EE01544D8E2D5045AA32", "mileena");
+//    QString res = doc.toJson();
 //    qDebug()<<"";
 }
 
@@ -188,19 +192,19 @@ void DapWebControll::onClientSocketReadyRead()
           }
       }else{
 
-          QRegularExpression regex(R"(&([a-zA-Z]+)=([a-zA-Z0-9_\-]+))");
+          QRegularExpression regex(R"(&([a-zA-Z_\-]+)=([a-zA-Z0-9_\-]+))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
-          QString name, net, addr, value, tokenName, id, hashTx, certType,
-                  certName, timeStaking, reinvest, stakeNoBaseFlag = "";
+          QString walletName, net, addr, value, tokenName, id, hashTx, certType,
+                  certName, timeStaking, reinvest, stakeNoBaseFlag = "", srv_uid, unit;
 
           while(matchIt.hasNext())
           {
               QRegularExpressionMatch match = matchIt.next();
               if(match.captured(1) == "id")
                   id = match.captured(2);
-              else if(match.captured(1) == "walletName" | match.captured(1) == "nameWallet" )
-                  name = match.captured(2);
-              else if(match.captured(1) == "toAddr" | match.captured(1) == "addr")
+              else if(match.captured(1) == "walletName" || match.captured(1) == "nameWallet" )
+                  walletName = match.captured(2);
+              else if(match.captured(1) == "toAddr" || match.captured(1) == "addr")
                   addr = match.captured(2);
               else if(match.captured(1) == "tokenName")
                   tokenName = match.captured(2);
@@ -218,18 +222,22 @@ void DapWebControll::onClientSocketReadyRead()
                   certType = match.captured(2);
               else if(match.captured(1) == "reinvest")
                   reinvest = match.captured(2);
+              else if(match.captured(1) == "unit")
+                  unit = match.captured(2);
+              else if(match.captured(1) == "srv_uid")
+                  srv_uid = match.captured(2);
               else if(match.captured(1) == "-no_base_tx")
                   stakeNoBaseFlag = "-no_base_tx";
           }
-          if(!s_id.isEmpty() && s_id.filter(id).length()){
+          if(!s_id.isEmpty() && (s_id.indexOf(id) != -1)){
               if(cmd == "GetWallets")
                   doc = getWallets();
               else if(cmd == "GetNetworks")
                   doc = getNetworks();
               else if(cmd == "GetDataWallet")
-                  doc = getDataWallets(name);
+                  doc = getDataWallets(walletName);
               else if(cmd == "SendTransaction")
-                  doc = sendTransaction(name, addr, value, tokenName, net);
+                  doc = sendTransaction(walletName, addr, value, tokenName, net);
               else if(cmd == "GetTransactions")
                   doc = getTransactions(addr, net);
               else if(cmd == "GetLedgerTxHash")
@@ -241,11 +249,18 @@ void DapWebControll::onClientSocketReadyRead()
               else if(cmd == "CreateCertificate")
                   doc = createCertificate(certType, certName);
               else if(cmd == "StakeLockTake")
-                  doc = stakeLockTake(name, net, hashTx);
+                  doc = stakeLockTake(walletName, net, hashTx);
               else if(cmd == "StakeLockHold")
-                  doc = stakeLockHold(tokenName, name, timeStaking, net, value, reinvest, stakeNoBaseFlag);
+                  doc = stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag);
               else if(cmd == "GetMempoolList")
-                  doc = getMempoolList(net);//          mempool_list -net kelvpn-minkowski
+                  doc = getMempoolList(net);
+
+              else if(cmd == "GetNodeStatus")
+                  doc = getNodeStatus();
+              else if(cmd == "CondTxCreate")
+                  doc = createCondTx(net, tokenName, walletName, certName, value, unit, srv_uid);
+              else if(cmd == "GetMempoolTxHash")
+                  doc = getMempoolTxHash(net, hashTx); //need datum hash
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
@@ -306,5 +321,22 @@ void DapWebControll::rcvAccept(QString accept, int index)
             doc = processingResult("bad", "The User declined the request");
 
         sendResponce(doc, s_tcpSocketList[index]);
+    }
+}
+
+void DapWebControll::rcvNodeStatus(QVariant nodeStatus)
+{
+    QVariantMap map = nodeStatus.toMap();
+    for(auto it=map.begin(); it!=map.end(); it++)
+    {
+        if(it.key()=="connect_state")
+        {
+            if(it.value().toString() == QAbstractSocket::SocketState::ConnectedState)
+                s_nodeStatus = "Online";
+            else if(it.value().toString() == QAbstractSocket::SocketState::ConnectingState)
+                s_nodeStatus = "Connecting";
+            else
+                s_nodeStatus = "Offline";
+        }
     }
 }

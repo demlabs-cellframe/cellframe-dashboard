@@ -40,7 +40,7 @@ Page {
 
     Connections{
         target: dapMainWindow
-        onChangeHeight: {
+        function onChangeHeight() {
             startY = parent.height
             if(isOpen)
                 timer.start()

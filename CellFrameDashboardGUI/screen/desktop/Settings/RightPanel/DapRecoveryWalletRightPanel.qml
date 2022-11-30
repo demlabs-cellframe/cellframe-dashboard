@@ -7,7 +7,7 @@ DapRecoveryWalletRightPanelForm
     {
         target: walletHashManager
 
-        onSetHashString:
+        function onSetHashString(hash)
         {
             walletInfo.recovery_hash = hash
 //            print("hash = ", walletInfo.recovery_hash)
@@ -18,7 +18,7 @@ DapRecoveryWalletRightPanelForm
             }
         }
 
-        onClipboardError:
+        function onClipboardError()
         {
             dapTextBottomMessage.color = "#FF0300"
             dapTextBottomMessage.text =
@@ -29,7 +29,7 @@ DapRecoveryWalletRightPanelForm
             dapButtonNext.visible = false
         }
 
-        onFileError:
+        function onFileError()
         {
             dapTextBottomMessage.color = "#FF0300"
             if (!logicMainApp.restoreWalletMode)
@@ -44,7 +44,7 @@ DapRecoveryWalletRightPanelForm
             dapButtonNext.visible = false
         }
 
-        onSetFileName:
+        function onSetFileName(fileName)
         {
             if (!logicMainApp.restoreWalletMode)
                 dapBackupFileName.text = qsTr("File saved to:\n") + fileName
@@ -96,7 +96,7 @@ DapRecoveryWalletRightPanelForm
                 dapTextTopMessage.color = "#E4E111"
                 dapTextTopMessage.text =
                     qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
-                walletHashManager.generateNewWords()
+                walletHashManager.generateNewWords(walletInfo.password)
             }
             else
             {
@@ -113,7 +113,7 @@ DapRecoveryWalletRightPanelForm
                 dapTextTopMessage.text =
                     qsTr("Click the 'Save' button and keep backup file in a safe place. They will be required to restore your wallet in case of loss of access to it.")
                 dapTextTopMessage.color = "#59D2C2"
-                walletHashManager.generateNewFile()
+                walletHashManager.generateNewFile(walletInfo.password)
             }
             else
             {
@@ -129,10 +129,17 @@ DapRecoveryWalletRightPanelForm
         console.log("Create new wallet " + walletInfo.name);
         console.log(walletInfo.signature_type);
 //        print("hash = ", walletInfo.recovery_hash)
-        dapServiceController.requestToService("DapAddWalletCommand",
-               walletInfo.name,
-               walletInfo.signature_type,
-               walletInfo.recovery_hash)
+        if(walletInfo.password === "")
+            dapServiceController.requestToService("DapAddWalletCommand",
+                   walletInfo.name,
+                   walletInfo.signature_type,
+                   walletInfo.recovery_hash)
+        else
+            dapServiceController.requestToService("DapAddWalletCommand",
+                   walletInfo.name,
+                   walletInfo.signature_type,
+                   walletInfo.recovery_hash,
+                   walletInfo.password)
     }
 
     dapButtonAction.onClicked:
@@ -153,7 +160,7 @@ DapRecoveryWalletRightPanelForm
             }
             else
             {
-                walletHashManager.pasteWordsFromClipboard()
+                walletHashManager.pasteWordsFromClipboard(walletInfo.password)
             }
 
         }
@@ -207,7 +214,7 @@ DapRecoveryWalletRightPanelForm
         onAccepted:
         {
             var path = openFileDialog.file.toString();
-            walletHashManager.openFile(path)
+            walletHashManager.openFile(path, walletInfo.password)
         }
         onRejected:
         {
@@ -227,11 +234,8 @@ DapRecoveryWalletRightPanelForm
     Connections
     {
         target: dapServiceController
-        onWalletCreated:
+        function onWalletCreated(wallet)
         {
-//            nextActivated("doneWallet");
-//            console.log(wallet.success, wallet.message)
-
             commandResult.success = wallet.success
             commandResult.message = wallet.message
 

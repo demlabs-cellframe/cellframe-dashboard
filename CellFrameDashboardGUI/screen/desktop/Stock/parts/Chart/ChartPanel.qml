@@ -42,9 +42,9 @@ Item
 
                 onInitModelIsCompleted: {
                     isInit = true
-                    currentIndex = logicMainApp.currentIndexPair
+                    currentIndex = tokenPairsWorker.currentPairIndex
                     globalIndex = currentIndex
-                    displayElement = dapPairModel.get(globalIndex)
+                    displayElement = dapPairModel[globalIndex]
                     updateInfo(globalIndex)
                 }
 
@@ -57,10 +57,10 @@ Item
 
                     if(isInit)
                     {
-                        for(var i = 0; i < dapPairModel.count; i++)
+                        for(var i = 0; i < dapPairModel.length; i++)
                         {
-                            if(dapPairModel.get(i).token1 === pairBox.displayElement.token1 &&
-                               dapPairModel.get(i).token2 === pairBox.displayElement.token2)
+                            if(dapPairModel[i].tokenBuy === pairBox.displayElement.tokenBuy &&
+                               dapPairModel[i].tokenSell === pairBox.displayElement.tokenSell)
                             {
                                 globalIndex = i
                             }
@@ -73,31 +73,37 @@ Item
 
                 function updateInfo(currentIndex)
                 {
-                    logicMainApp.currentIndexPair = currentIndex
-                    logicMainApp.token1Name = dapPairModel.get(currentIndex).token1
-                    logicMainApp.token2Name = dapPairModel.get(currentIndex).token2
-                    logicMainApp.tokenNetwork = dapPairModel.get(currentIndex).network
-                    logicMainApp.tokenPrice = dapPairModel.get(currentIndex).rate
-                    logicMainApp.tokenPriceText = dapPairModel.get(currentIndex).rate
-                    logicStock.tokenChange = dapPairModel.get(currentIndex).change
+//                    tokenPairsWorker.currentPairIndex = currentIndex
 
-                    stockDataWorker.setTokenPair(logicMainApp.token1Name,
-                        logicMainApp.token2Name, logicMainApp.tokenNetwork)
+                    tokenPairsWorker.setCurrentPairIndex(currentIndex)
+
+                    console.log("updateInfo",
+                                tokenPairsWorker.currentPairIndex,
+                                dapPairModel.length,
+                                dapPairModel[currentIndex].tokenBuy,
+                                dapPairModel[currentIndex].tokenSell,
+                                tokenPairsWorker.tokenBuy,
+                                tokenPairsWorker.tokenSell)
+
+                    logicMainApp.tokenPrice = tokenPairsWorker.tokenPrice
+                    logicMainApp.tokenPriceText = tokenPairsWorker.tokenPriceText
+//                    logicMainApp.tokenPrice = dapPairModel[currentIndex].price
+//                    logicMainApp.tokenPriceText = dapPairModel[currentIndex].priceText
 
                     tokenPairChanged()
                 }
 
                 Connections
                 {
-                    target: dapMainWindow
-                    onModelPairsUpdated:
+                    target: tokenPairsWorker
+                    function onPairModelUpdated(dapPairModel)
                     {
                         if(!pairBox.count)
                             pairBox.logic.setModel(dapPairModel)
                         else
                         {
-                            pairBox.currentIndex = logicMainApp.currentIndexPair
-                            pairBox.displayElement = dapPairModel.get(logicMainApp.currentIndexPair)
+                            pairBox.currentIndex = tokenPairsWorker.currentPairIndex
+                            pairBox.displayElement = dapPairModel[tokenPairsWorker.currentPairIndex]
                         }
                     }
                 }
@@ -119,7 +125,7 @@ Item
                     id: max24hText
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
-                    text: stockDataWorker.maximum24h.toFixed(roundPower)
+                    text: candleChartWorker.maximum24h.toFixed(roundPower)
                 }
             }
 
@@ -141,7 +147,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: stockDataWorker.minimum24h.toFixed(roundPower)
+                    text: candleChartWorker.minimum24h.toFixed(roundPower)
                 }
             }
 
@@ -163,7 +169,7 @@ Item
                     font: mainFont.dapFont.regular12
                     color: currTheme.textColor
 
-                    text: volume24h.toFixed(2) + " " + logicMainApp.token1Name
+                    text: volume24h.toFixed(2) + " " + tokenPairsWorker.tokenBuy
                 }
             }
 
@@ -236,7 +242,7 @@ Item
                 height: 30
                 font: mainFont.dapFont.medium24
                 color: currTheme.textColor
-                text: pairBox.displayElement.token1 + "/" + pairBox.displayElement.token2 + ":"
+                text: pairBox.displayElement.tokenBuy + "/" + pairBox.displayElement.tokenSell + ":"
                 verticalAlignment: Qt.AlignVCenter
                 Layout.alignment: Qt.AlignVCenter
                 topPadding: OS_WIN_FLAG ? 5 : 0
@@ -251,7 +257,7 @@ Item
                 textFont: mainFont.dapFont.medium24
                 textColor: currTheme.textColorGreen
                 outSymbols: 15
-                fullNumber: stockDataWorker.currentTokenPriceText
+                fullNumber: candleChartWorker.currentTokenPriceText
                 copyButtonVisible: true
             }
 
@@ -400,11 +406,11 @@ Item
     {
         target: stockTab
 
-        onTokenPriceChanged:
+        function onTokenPriceChanged()
         {
             updateTokenPrice()
 
-            stockDataWorker.updateAllModels()
+            candleChartWorker.updateAllModels()
 
             candleLogic.dataAnalysis()
 
@@ -417,8 +423,8 @@ Item
 
     function updateTokenPrice()
     {
-        if (stockDataWorker.currentTokenPrice <
-            stockDataWorker.previousTokenPrice)
+        if (candleChartWorker.currentTokenPrice <
+            candleChartWorker.previousTokenPrice)
             tokenPriceText.textColor = currTheme.textColorRed
         else
             tokenPriceText.textColor = currTheme.textColorGreen

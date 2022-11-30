@@ -9,8 +9,8 @@ QtObject {
 
         for(var i = 0; i < dapPairModel.count; i++)
         {
-            if(dapPairModel.get(i).network === logicMainApp.tokenNetwork)
-            pairModelFilter.append({"pair": dapPairModel.get(i).token1 + "/" + dapPairModel.get(i).token2})
+            if(dapPairModel.get(i).network === tokenPairsWorker.tokenNetwork)
+            pairModelFilter.append({"pair": dapPairModel.get(i).tokenBuy + "/" + dapPairModel.get(i).tokenSell})
         }
     }
 

@@ -17,16 +17,16 @@ Page
 
         var tempIndex = logicMainApp.currentRoundPowerIndex
 
-        print("logicMainApp.currentRoundPowerIndex",
+        console.log("logicMainApp.currentRoundPowerIndex",
               logicMainApp.currentRoundPowerIndex)
 
-        setBookRoundPowerMinimum(stockDataWorker.bookRoundPowerMinimum)
+        setBookRoundPowerMinimum(orderBookWorker.bookRoundPowerMinimum)
 
         roundPowerComboBox.setCurrentIndex(tempIndex)
-        stockDataWorker.setBookRoundPower(roundPowerComboBox.displayText)
+        orderBookWorker.setBookRoundPower(roundPowerComboBox.displayText)
 
-        print("OrderBook.onCompleted",
-              "bookRoundPowerMinimum", stockDataWorker.bookRoundPowerMinimum,
+        console.log("OrderBook.onCompleted",
+              "bookRoundPowerMinimum", orderBookWorker.bookRoundPowerMinimum,
               "roundPowerComboBox.defaultText", roundPowerComboBox.displayText,
               "tempIndex", tempIndex)
     }
@@ -64,8 +64,8 @@ Page
     }
 
     Connections{
-        target: stockDataWorker
-        onSetNewBookRoundPowerMinimum:
+        target: orderBookWorker
+        function onSetNewBookRoundPowerMinimum(power)
         {
             setBookRoundPowerMinimum(power)
         }
@@ -73,11 +73,14 @@ Page
 
     function setBookRoundPowerMinimum(power)
     {
-        print("onSetNewBookRoundPowerMinimum", power)
+        console.log("onSetNewBookRoundPowerMinimum", power)
+
+//        console.log("buyModel.count", buyModel.length,
+//                    "buyView.model.count", buyView.model.length)
 
         var tempValue = Math.pow(10, -power)
 
-        print("tempValue",
+        console.log("tempValue",
               tempValue)
 
         accuracyModel.clear()
@@ -105,7 +108,7 @@ Page
         var tempIndex = logicMainApp.currentRoundPowerIndex
 
         roundPowerComboBox.setCurrentIndex(tempIndex)
-        stockDataWorker.setBookRoundPower(roundPowerComboBox.displayText)
+        orderBookWorker.setBookRoundPower(roundPowerComboBox.displayText)
 
 //            accuracyModel.clear();
     }
@@ -143,7 +146,7 @@ Page
                 text: qsTr("Orders")
             }
 
-            BookSellByuImg
+            BookSellBuyImg
             {
                 id: sellBuy
                 Layout.leftMargin: 16
@@ -157,7 +160,7 @@ Page
                 }
             }
 
-            BookSellByuImg
+            BookSellBuyImg
             {
                 id: buy
                 Layout.leftMargin: 8
@@ -170,7 +173,7 @@ Page
                 }
             }
 
-            BookSellByuImg
+            BookSellBuyImg
             {
                 id: sell
                 Layout.leftMargin: 8
@@ -201,14 +204,14 @@ Page
 
                 onCurrentIndexChanged:
                 {
-                    stockDataWorker.setBookRoundPower(currentText)
+                    orderBookWorker.setBookRoundPower(currentText)
                 }
 
                 onItemSelected:
                 {
                     logicMainApp.currentRoundPowerIndex = index
 
-                    print("logicMainApp.currentRoundPowerIndex",
+                    console.log("logicMainApp.currentRoundPowerIndex",
                           logicMainApp.currentRoundPowerIndex)
                 }
             }
@@ -231,7 +234,7 @@ Page
                     Layout.minimumWidth: 100
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Price("+logicMainApp.token2Name+")"
+                    text: "Price("+tokenPairsWorker.tokenSell+")"
                 }
 
                 Text
@@ -239,7 +242,7 @@ Page
                     Layout.fillWidth: true
                     color: currTheme.textColor
                     font: mainFont.dapFont.medium12
-                    text: "Amount("+logicMainApp.token1Name+")"
+                    text: "Amount("+tokenPairsWorker.tokenBuy+")"
                 }
 
                 Text
@@ -302,7 +305,7 @@ Page
                 color: currTheme.textColor
                 font: mainFont.dapFont.medium14
 
-                text: stockDataWorker.currentTokenPrice.toFixed(roundPower)
+                text: orderBookWorker.currentTokenPrice.toFixed(roundPower)
             }
 
             Rectangle

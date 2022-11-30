@@ -14,7 +14,7 @@ ColumnLayout
     anchors.fill: parent
 
     property alias dapWalletsButtons : buttonGroup
-    property int dapCurrentWallet: logicMainApp.currentIndex
+//    property int dapCurrentWallet: logicMainApp.currentWalletIndex
     property alias dapNetworkComboBox: comboBoxCurrentNetwork
     property alias dapAutoOnlineCheckBox: checkBox
 
@@ -61,8 +61,10 @@ ColumnLayout
 
         DapCustomComboBox
         {
-            property bool isInit: false
             id: comboBoxCurrentNetwork
+
+            property bool isInit: false
+
             model: dapNetworkModel
 
             anchors.centerIn: parent
@@ -74,7 +76,8 @@ ColumnLayout
 
             font: mainFont.dapFont.regular16
 
-            Component.onCompleted: isInit = true
+            Component.onCompleted:
+                isInit = true
 
             defaultText: qsTr("Networks")
 
@@ -90,6 +93,8 @@ ColumnLayout
                 }
                 else
                     setCurrentIndex(logicMainApp.currentNetwork)
+
+                logicMainApp.currentNetworkName = dapNetworkModel.get(currentIndex).name
             }
         }
     }
@@ -191,7 +196,6 @@ ColumnLayout
         model: dapModelWallets
         clip: true
         delegate: delegateList
-
     }
 
     Component{
@@ -200,8 +204,7 @@ ColumnLayout
         ColumnLayout
         {
             id:columnWallets
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: listWallet.width
             height: 50
             onHeightChanged: listWallet.contentHeight = height
 
@@ -247,6 +250,8 @@ ColumnLayout
                             id: rowLay
                             Layout.preferredHeight: 15
 
+                            visible: status === "Active" || status === ""
+
                             spacing: 0
                             DapText
                             {
@@ -255,7 +260,7 @@ ColumnLayout
 
                                fontDapText: mainFont.dapFont.regular12
                                color: currTheme.textColorGrayTwo
-                               fullText: networks.get(dapServiceController.IndexCurrentNetwork).address
+                               fullText: rowLay.visible ? networks.get(dapServiceController.IndexCurrentNetwork).address : ""
 
                                textElide: Text.ElideMiddle
                                horizontalAlignment: Qt.Alignleft
@@ -263,9 +268,9 @@ ColumnLayout
                                Connections
                                {
                                    target:dapServiceController
-                                   onIndexCurrentNetworkChanged:
+                                   function onIndexCurrentNetworkChanged()
                                    {
-                                       textMetworkAddress.fullText = networks.get(dapServiceController.IndexCurrentNetwork).address
+                                       textMetworkAddress.fullText = rowLay.visible ? networks.get(dapServiceController.IndexCurrentNetwork).address : ""
                                        textMetworkAddress.checkTextElide()
 //                                       textMetworkAddress.update()
                                        textMetworkAddress.updateText()
@@ -283,6 +288,33 @@ ColumnLayout
                             }
                         }
                     }
+
+                    DapToolTipInfo{
+                        id: activeStatus
+                        Layout.rightMargin: 3
+                        Layout.preferredHeight: 24
+                        Layout.preferredWidth: 24
+                        visible: model.status !== ""
+                        text.wrapMode: Text.NoWrap
+
+                        toolTip.width: text.implicitWidth + 16
+                        toolTip.x: -toolTip.width/2 + 8
+
+                        contentText: model.status === "Active" ? "Deactivate wallet" : "Activate wallet"
+
+                        indicatorSrcNormal: model.status === "Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg":
+                                                                        "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                        indicatorSrcHover: model.status === "Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_activateHover.svg":
+                                                                       "qrc:/Resources/BlackTheme/icons/other/icon_deactivateHover.svg"
+
+                        onClicked:
+                        {
+                            model.status === "Active" ? walletDeactivatePopup.show(name):
+                                                               walletActivatePopup.show(name, false)
+                        }
+                    }
+
+
 
 
                     DapRadioButton
@@ -304,14 +336,33 @@ ColumnLayout
                         spaceIndicatorText: 3
                         fontRadioButton: mainFont.dapFont.regular16
                         implicitHeight: indicatorInnerSize
-                        checked: index === logicMainApp.currentIndex? true:false
+                        checked: index === logicMainApp.currentWalletIndex? true:false
 
                         onClicked:
                         {
-//                            if(!checked)
-//                                checked = true
-                            dapCurrentWallet = index
-                            logicMainApp.currentIndex = index
+                            if(status === "Active" || status === "")
+                            {
+                                logicMainApp.currentWalletName = name
+                                logicMainApp.currentWalletIndex = index
+                            }
+                            else
+                            {
+                                console.log("click radio")
+                                walletActivatePopup.show(name, false)
+                            }
+                        }
+
+                        Component.onCompleted: if(name === logicMainApp.currentWalletName) clicked()
+
+                        Connections{
+                            target: walletActivatePopup
+                            function onActivatingSignal(nameWallet, statusRequest){
+                                if(nameWallet === name && statusRequest)
+                                {
+                                    logicMainApp.currentWalletName = name
+                                    logicMainApp.currentWalletIndex = index
+                                }
+                            }
                         }
                     }
                 }
@@ -324,7 +375,6 @@ ColumnLayout
                     anchors.bottom: parent.bottom
                     height: 1
                     color: currTheme.lineSeparatorColor
-
                 }
             }
         }

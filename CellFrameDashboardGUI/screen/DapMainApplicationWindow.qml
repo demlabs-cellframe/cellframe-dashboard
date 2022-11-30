@@ -44,10 +44,32 @@ Rectangle {
 
     readonly property string underConstructionsScreenPath: path + "/UnderConstructions.qml"
 
+    property alias walletActivatePopup: walletActivatePopup
+    property alias walletDeactivatePopup: walletDeactivatePopup
+    property alias settingsWallet:settingsWallet
+
     property var vpnClientTokenModel: new Array()
 
     MainApplicationLogic{id: logicMainApp}
-    Settings {property alias menuTabStates: logicMainApp.menuTabStates}
+    Settings
+    {
+        id: settingsWallet
+        property alias menuTabStates: logicMainApp.menuTabStates
+        property string currentWalletName: logicMainApp.currentWalletName
+        property string currentNetworkName: logicMainApp.currentNetworkName
+        //property string currentWalletIndex: logicMainApp.currentWalletIndex
+
+        Component.onCompleted:
+        {
+            console.log("Settings", "currentWalletName", currentWalletName)
+            console.log("Settings", "currentNetworkName", currentNetworkName)
+
+            logicMainApp.currentWalletName = currentWalletName
+            logicMainApp.currentNetworkName = currentNetworkName
+//            logicMainApp.currentWalletIndex = currentWalletIndex
+
+        }
+    }
     Timer {id: timer}
 
     ListModel {id: networksModel}
@@ -79,6 +101,20 @@ Rectangle {
     DapPopupInfo
     {
         id: popupInfo
+    }
+
+    DapActivateWalletPopup{
+        id: walletActivatePopup
+        anchors.fill: parent
+        visible: false
+        z: 10
+    }
+
+    DapDeactivateWalletPopup{
+        id: walletDeactivatePopup
+        anchors.fill: parent
+        visible: false
+        z: 10
     }
 
     property alias infoItem: popupInfo
@@ -121,8 +157,8 @@ Rectangle {
     ListModel{id: dapMessageBuffer}
     ListModel{id: dapMessageLogBuffer}
     ListModel{id: dapModelXchangeOrders}
-    ListModel{id: dapPairModel}
-    ListModel{id: dapTokenPriceHistory}
+//    ListModel{id: dapPairModel}
+//    ListModel{id: dapTokenPriceHistory}
     ListModel{id: dapWebSites}
 
     ListModel{id: fakeWallet}
@@ -168,64 +204,64 @@ Rectangle {
         {
         append ({ tag: "Wallet",
             name: qsTr("Wallet"),
-            bttnIco: "icon_wallet.png",
+            bttnIco: "icon_wallet.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Dashboard/DapDashboardTab.qml"})
         append ({ tag: "DEX",
             name: qsTr("DEX"),
-            bttnIco: "icon_exchange.png",
+            bttnIco: "icon_exchange.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Stock/DapStockTab.qml"})
         append ({ tag: "TX explorer",
             name: qsTr("TX explorer"),
-            bttnIco: "icon_history.png",
+            bttnIco: "icon_history.svg",
             showTab: true,
             page: "qrc:/screen/desktop/History/DapHistoryTab.qml"})
         append ({ tag: "Certificates",
             name: qsTr("Certificates"),
-            bttnIco: "icon_certificates.png",
+            bttnIco: "icon_certificates.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Certificates/DapCertificateTab.qml"})
         append ({ tag: "Tokens",
             name: qsTr("Tokens"),
-            bttnIco: "icon_tokens.png",
+            bttnIco: "icon_tokens.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Tokens/TokensTab.qml"})
 //        append ({ tag: "VPN client",
 //            name: qsTr("VPN client"),
-//            bttnIco: "vpn-client_icon.png",
+//            bttnIco: "icon_vpn_client.svg",
 //            showTab: true,
 //            page: "qrc:/screen/desktop/UnderConstructions.qml"})
 //        append ({ tag: "VPN service",
 //            name: qsTr("VPN service"),
-//            bttnIco: "icon_vpn.png",
+//            bttnIco: "icon_vpn_service.svg",
 //            showTab: true,
 //            page: "qrc:/screen/desktop/VPNService/DapVPNServiceTab.qml"})
         append ({ tag: "Console",
             name: qsTr("Console"),
-            bttnIco: "icon_console.png",
+            bttnIco: "icon_console.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Console/DapConsoleTab.qml"})
         append ({ tag: "Logs",
             name: qsTr("Logs"),
-            bttnIco: "icon_logs.png",
+            bttnIco: "icon_logs.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Logs/DapLogsTab.qml"})
         append ({ tag: "Settings",
             name: qsTr("Settings"),
-            bttnIco: "icon_settings.png",
+            bttnIco: "icon_settings.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Settings/DapSettingsTab.qml"})
         append ({ tag: "dApps",
             name: qsTr("dApps"),
-            bttnIco: "icon_daaps.png",
+            bttnIco: "icon_daaps.svg",
             showTab: true,
             page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
 
-            //FOR DEBUG
+//            FOR DEBUG
 //        append ({ tag: "Plugin",
 //            name: qsTr("Plugin"),
-//            bttnIco: "icon_settings.png",
+//            bttnIco: "icon_settings.svg",
 //            showTab: true,
 //            page: "qrc:/screen/desktop/Plugins/Plugin/DapApp.qml"})
 
@@ -408,8 +444,8 @@ Rectangle {
 //        var addr = "abcd"
 //        var net = "private"
 
-        stockDataWorker.resetPriceData(0.0,"0.0", true)
-        stockDataWorker.resetBookModel()
+        candleChartWorker.resetPriceData(0.0,"0.0", true)
+        orderBookWorker.resetBookModel()
 //        //-------//OrdersHistory
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, timeFrom, timeTo)
 //        dapServiceController.requestToService("DapGetXchangeTxList", "GetOrdersPrivate", net, addr, "", "")
@@ -448,10 +484,10 @@ Rectangle {
     {
         target: dapServiceController
 
-        onNetworksListReceived: logicMainApp.rcvNetList(networksList)
-        onSignalStateSocket: logicMainApp.rcvStateNotify(isError, isFirst)
+        function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
+        function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
 
-        onVersionControllerResult:
+        function onVersionControllerResult(versionResult)
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
                 logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
@@ -470,19 +506,22 @@ Rectangle {
 //            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
         }
 
-        onWalletsReceived:
+        function onWalletsReceived(walletList)
         {
-            print("onWalletsReceived")
-            console.log("Wallets length:", walletList.length)
+            console.log("onWalletsReceived")
             logicMainApp.rcvWallets(walletList)
-            modelWalletsUpdated();
+        }
+        function onWalletReceived(wallet)
+        {
+            console.log("onWalletReceived")
+            logicMainApp.rcvWallet(wallet)
         }
 
-        onCurrentNetworkChanged:
+        function onCurrentNetworkChanged()
         {
             for(var x = 0; x < dapModelWallets.count; x++)
             {
-                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentIndex).name)
+                if (dapModelWallets.get(x).name == dapModelWallets.get(logicMainApp.currentWalletIndextIndex).name)
                     for(var j = 0; j < dapModelWallets.get(x).networks.count; j++)
                     {
                         if (dapModelWallets.get(x).networks.get(j).name == dapServiceController.CurrentNetwork)
@@ -491,69 +530,59 @@ Rectangle {
             }
         }
 
-
-        onWalletReceived:
+        function onOrdersReceived(orderList)
         {
-            print("onWalletReceived")
-            console.log("Wallet name:", wallet.Name)
-            logicMainApp.rcvWallet(wallet)
-
-            dapModelOrders.clear()
-        }
-
-        onOrdersReceived:
-        {
-            print("onOrdersReceived")
+            console.log("onOrdersReceived")
             console.log("Orders count:", orderList.length)
             logicMainApp.rcvOrders(orderList)
             modelOrdersUpdated();
         }
 
-        onSignalTokensListReceived:
+        function onSignalTokensListReceived(tokensResult)
         {
-            print("TokensListReceived")
+            console.log("TokensListReceived")
             logicMainApp.rcvTokens(tokensResult)
         }
 
-        onDapWebConnectRequest: logicMainApp.rcvWebConnectRequest(rcvData)
+        function onDapWebConnectRequest(rcvData) { logicMainApp.rcvWebConnectRequest(rcvData)}
 
-        onRcvXchangeTxList:
-        {
-            print("onRcvXchangeTxList")
-            console.log(rcvData)
-        }
+//        onRcvXchangeTxList:
+//        {
+//            console.log("onRcvXchangeTxList")
+//            console.log(rcvData)
+//        }
 
-        onSignalXchangeOrderListReceived:
+        function onSignalXchangeOrderListReceived(rcvData)
         {
-            print("onSignalXchangeOrderListReceived")
+            console.log("onSignalXchangeOrderListReceived")
             logicMainApp.rcvOpenOrders(rcvData)
         }
 
-        onSignalXchangeTokenPairReceived:
+        function onSignalXchangeTokenPairReceived()
         {
-            print("onSignalXchangeTokenPairReceived")
-            logicMainApp.rcvPairsModel(rcvData)
+            console.log("onSignalXchangeTokenPairReceived")
+//            logicMainApp.rcvPairsModel(rcvData)
         }
 
-        onRcvXchangeTokenPriceAverage:
-        {
-//            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
-//            console.log(rcvData)
-        }
+//        onRcvXchangeTokenPriceAverage:
+//        {
+////            print("onRcvXchangeTokenPriceAverage", rcvData.rate)
+////            console.log(rcvData)
+//        }
 
-        onRcvXchangeTokenPriceHistory:
-        {
-            print("onRcvXchangeTokenPriceHistory")
-            logicMainApp.rcvTokenPriceHistory(rcvData)
-        }
+//        onRcvXchangeTokenPriceHistory:
+//        {
+//            console.log("onRcvXchangeTokenPriceHistory")
+//            logicMainApp.rcvTokenPriceHistory(rcvData)
+//        }
 
     }
 
     Connections{
         target: pluginsManager
-        onRcvListPlugins:
+        function onRcvListPlugins(m_pluginsList)
         {
-            print("onRcvListPlugins")
+            console.log("onRcvListPlugins")
             console.log("Plugins count:", m_pluginsList.length)
             logicMainApp.rcvPlugins(m_pluginsList)
 

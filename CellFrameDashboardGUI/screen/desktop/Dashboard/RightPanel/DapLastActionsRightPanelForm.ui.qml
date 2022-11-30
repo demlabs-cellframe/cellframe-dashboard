@@ -55,8 +55,7 @@ DapRectangleLitAndShaded
             section.delegate: delegateSection
 
             delegate: Item {
-                anchors.left: parent.left
-                anchors.right: parent.right
+                width: lastActionsView.width
 
                 height: 50 
 
@@ -65,6 +64,7 @@ DapRectangleLitAndShaded
                     anchors.fill: parent
                     anchors.rightMargin: 16
                     anchors.leftMargin: 16
+                    spacing: 12
 
                     ColumnLayout
                     {
@@ -84,44 +84,97 @@ DapRectangleLitAndShaded
                         Text
                         {
                             Layout.fillWidth: true
-                            text: status
+                            text: tx_status === "ACCEPTED" ? status : "Declined"
                             color: currTheme.textColorGrayTwo
                             font: mainFont.dapFont.regular12
                         }
                     }
 
-
-                    DapBigText
+                    ColumnLayout
                     {
-                        property string sign: (status === "Sent") ? "- " : "+ "
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        horizontalAlign: Qt.AlignRight
-                        verticalAlign: Qt.AlignVCenter
-                        fullText: sign + amount + " " + name
-                        textFont: mainFont.dapFont.regular14
+                        spacing: 0
 
-                        width: 160
-                    }
-                    Image
-                    {
-                        Layout.preferredHeight: 20
-                        Layout.preferredWidth: 20
-    //                    innerWidth: 20
-    //                    innerHeight: 20
-
-                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
-
-                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
-
-                        MouseArea
+                        DapBigText
                         {
-                            id: mouseArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: Qt.openUrlExternally("https://test-explorer.cellframe.net/transaction/" + network + "/" + hash)
+                            property string sign: (status === "Sent") ? "- " : "+ "
+//                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            height: 20
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignVCenter
+                            fullText: sign + value + " " + token
+                            textFont: mainFont.dapFont.regular14
+
+                            width: 160
+                        }
+                        DapBigText
+                        {
+//                            visible: fee !== "0.0"
+//                            Layout.fillHeight: true
+                            Layout.fillWidth: true
+                            height: 15
+                            textColor: currTheme.textColorGrayTwo
+                            horizontalAlign: Qt.AlignRight
+                            verticalAlign: Qt.AlignVCenter
+                            fullText: qsTr("fee: ") + fee + " " + token
+                            textFont: mainFont.dapFont.regular12
+
+                            width: 160
                         }
                     }
+
+                    DapToolTipInfo{
+                        property string normalIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser.svg"
+                        property string hoverIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_hover.svg"
+                        property string disabledIcon: "qrc:/Resources/"+ pathTheme +"/icons/other/browser_disabled.svg"
+                        id: explorerIcon
+                        Layout.preferredHeight: 18
+                        Layout.preferredWidth: 18
+                        contentText: qsTr("Explorer")
+
+                        toolTip.width: text.implicitWidth + 16
+                        toolTip.x: -toolTip.width/2 + 8
+
+                        enabled: tx_status === "DECLINED" ? false :
+                                    network === "subzero" || network === "Backbone" ||
+                                    network === "mileena" || network === "kelvpn-minkowski"  ?
+                                    true : false
+
+                        indicatorSrcNormal: tx_status === "DECLINED" ? disabledIcon :
+                                                network === "subzero" || network === "Backbone" ||
+                                                network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                normalIcon : disabledIcon
+
+                        indicatorSrcHover: tx_status === "DECLINED" ? disabledIcon :
+                                                                      network === "subzero" || network === "Backbone" ||
+                                                                      network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                                      hoverIcon : disabledIcon
+
+                        onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+
+                    }
+
+//                    Image
+//                    {
+//                        Layout.preferredHeight: 20
+//                        Layout.preferredWidth: 20
+//    //                    innerWidth: 20
+//    //                    innerHeight: 20
+
+//                        visible: network === "subzero" || network === "Backbone" || network === "mileena" || network === "kelvpn-minkowski"  ? true : false
+
+//                        source: mouseArea.containsMouse? "qrc:/Resources/BlackTheme/icons/other/browser_hover.svg" : "qrc:/Resources/BlackTheme/icons/other/browser.svg"
+
+//                        MouseArea
+//                        {
+//                            id: mouseArea
+//                            anchors.fill: parent
+//                            hoverEnabled: true
+//                            onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
+//                        }
+//                    }
                 }
 
                 Rectangle

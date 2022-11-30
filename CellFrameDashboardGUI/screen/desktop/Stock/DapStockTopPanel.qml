@@ -59,13 +59,13 @@ Controls.DapTopPanel
         {
             id: textNameWallet
             height: 42
-//            text: dapModelWallets.get(logicMainApp.currentIndex).name
+//            text: dapModelWallets.get(logicMainApp.currentWalletIndex).name
             Layout.alignment: Qt.AlignVCenter
             Layout.maximumWidth: 220
             Layout.minimumWidth: 220
 //            Layout.leftMargin: 4
             Layout.leftMargin: 19
-            fullText: dapModelWallets.get(logicMainApp.currentIndex).name
+            fullText: dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
             textFont: mainFont.dapFont.regular14
         }
@@ -77,7 +77,7 @@ Controls.DapTopPanel
 //            Layout.maximumWidth: 220
 //            font: mainFont.dapFont.regular14
 
-//            currentIndex: logicMainApp.currentIndex
+//            currentIndex: logicMainApp.currentWalletIndex
 //            model: dapModelWallets
 
 //            backgroundColor: currTheme.backgroundMainScreen
@@ -180,7 +180,7 @@ Controls.DapTopPanel
 
     Connections{
         target: stockTab
-        onTokenPairChanged:
+        function onTokenPairChanged()
         {
             updatePair()
         }
@@ -188,24 +188,24 @@ Controls.DapTopPanel
 
     function updatePair()
     {
-        var modelWallet = dapModelWallets.get(logicMainApp.currentIndex)
+        var modelWallet = dapModelWallets.get(logicMainApp.currentWalletIndex)
         stockModelTokens.clear()
 
 //        print("updatePair",
-//              "logicMainApp.token1Name", logicMainApp.token1Name,
-//              "logicMainApp.token2Name", logicMainApp.token2Name,
-//              "logicMainApp.tokenNetwork", logicMainApp.tokenNetwork)
+//              "tokenPairsWorker.tokenBuy", tokenPairsWorker.tokenBuy,
+//              "tokenPairsWorker.tokenSell", tokenPairsWorker.tokenSell,
+//              "tokenPairsWorker.tokenNetwork", tokenPairsWorker.tokenNetwork)
 
         for(var i = 0; i < modelWallet.networks.count; i++)
         {
-            if(logicMainApp.tokenNetwork === modelWallet.networks.get(i).name)
+            if(tokenPairsWorker.tokenNetwork === modelWallet.networks.get(i).name)
             {
                 for(var k = 0; k < modelWallet.networks.get(i).tokens.count; k++)
                 {
                     if(modelWallet.networks.get(i).tokens.get(k).name
-                            === logicMainApp.token1Name ||
+                            === tokenPairsWorker.tokenBuy ||
                        modelWallet.networks.get(i).tokens.get(k).name
-                            === logicMainApp.token2Name)
+                            === tokenPairsWorker.tokenSell)
                     {
                         stockModelTokens.append(modelWallet.networks.get(i).tokens.get(k))
                     }
@@ -244,7 +244,7 @@ Controls.DapTopPanel
 
         if(tokenComboBox.count)
         {
-            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"balance_without_zeros")
+            textWalletBalance.fullText = tokenComboBox.getModelData(tokenComboBox.currentIndex,"coins")
             logicStock.selectedTokenNameWallet = tokenComboBox.getModelData(tokenComboBox.currentIndex,"name")
             logicStock.selectedTokenBalanceWallet = textWalletBalance.fullText
         }
@@ -254,13 +254,13 @@ Controls.DapTopPanel
             var unselectedIndex = tokenComboBox.currentIndex === 1 ? 0 : 1
 
             logicStock.unselectedTokenNameWallet = tokenComboBox.getModelData(unselectedIndex,"name")
-            logicStock.unselectedTokenBalanceWallet = tokenComboBox.getModelData(unselectedIndex,"balance_without_zeros")
+            logicStock.unselectedTokenBalanceWallet = tokenComboBox.getModelData(unselectedIndex,"coins")
         }
         else if(tokenComboBox.count)
         {
             var name = logicStock.selectedTokenNameWallet
-                    === logicMainApp.token1Name ? logicMainApp.token2Name:
-                                                  logicMainApp.token1Name
+                    === tokenPairsWorker.tokenBuy ? tokenPairsWorker.tokenSell:
+                                                  tokenPairsWorker.tokenBuy
             logicStock.unselectedTokenNameWallet = name
             logicStock.unselectedTokenBalanceWallet = 0
         }

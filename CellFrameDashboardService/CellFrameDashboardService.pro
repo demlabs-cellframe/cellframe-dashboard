@@ -1,18 +1,23 @@
+QT += gui
+QT += core
+CONFIG += c++11
+QMAKE_CFLAGS += -std=gnu11
+
+include(../config.pri)
+
 QT += core network
 
-CONFIG += c++11 console #nsis_build
-CONFIG -= app_bundle
-
+!win32 {
+    CONFIG += console
+}
 
 LIBS += -ldl
-#LIBS+=-lz #-lz -lrt -lm -lpthread   -lrt -lm -lpthread
-#+LIBS+=-lrt
-include(../config.pri)
 
 TARGET = $${BRAND}Service
 
 win32 {
     CONFIG -= console
+    DEFINES += HAVE_STRNDUP
 }
 
 android: {
@@ -27,13 +32,6 @@ android: {
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
-#DEFINES += DAP_VERSION=\\\"$$VERSION\\\"
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     $$PWD/DapServiceController.cpp \
@@ -53,27 +51,66 @@ include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+include (../cellframe-node/cellframe-sdk/modules/common/common.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
                $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 unix: !mac : !android {
-    service_target.files = $${BRAND}Service
-    service_target.path = /opt/$${BRAND_LO}/bin/
-    INSTALLS += service_target
+    
     BUILD_FLAG = static
+
+    service_target.files = $$OUT_PWD/$$TARGET
+    service_target.path = /opt/$${BRAND_LO}/bin/
+    service_target.CONFIG += no_check_exist
+    
+    INSTALLS += service_target
+}
+
+
+!win32: !mac {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+}
+mac {
+    include (../cellframe-node/cellframe-sdk/3rdparty/json-c-darwin/json-c.pri)
 }
 
 win32 {
+
     INCLUDEPATH += $$PWD/platforms/win32/service/
     HEADERS += platforms/win32/service/Service.h
     SOURCES += platforms/win32/service/Service.cpp
+
+    CONFIG(debug, debug|release) {
+        TARGET_PATH = $$OUT_PWD/debug/$${TARGET}.exe
+    }
+    CONFIG(release, debug|release) {
+        TARGET_PATH = $$OUT_PWD/release/$${TARGET}.exe
+    }
+
+   service_target.files = $$TARGET_PATH
+   service_target.path = /opt/$${BRAND_LO}/bin/
+   #force qmake generate installs in makefiles for unbuilded targets
+    service_target.CONFIG += no_check_exist
+   INSTALLS += service_target
+   
 }
 
-defined(BUILD_FLAG,var){
-    LIBS += -L/usr/lib/icu-static -licuuc -licui18n -licudata
+mac {
+    
+    
+    QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
+    QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
+    LIBS += -framework Security -framework Carbon -lobjc
+    
+    service_target.files = $${OUT_PWD}/$${TARGET}.app
+    service_target.path = /
+    service_target.CONFIG += no_check_exist
+    
+    INSTALLS += service_target
 }
+
 
 RESOURCES += \
     $$PWD/CellFrameDashboardService.qrc
@@ -90,4 +127,12 @@ android {
     CONFIG += dll
     QT += androidextras
     TARGET = DashboardService
+}
+
+unix: !mac : !android {
+
+    share_target.files = $$PWD/../os/debian/share/
+    share_target.path = /opt/cellframe-dashboard/
+   
+    INSTALLS += share_target
 }

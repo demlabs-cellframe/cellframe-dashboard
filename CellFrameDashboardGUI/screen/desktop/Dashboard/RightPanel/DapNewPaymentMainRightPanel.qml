@@ -8,7 +8,7 @@ DapNewPaymentMainRightPanelForm
     {
         updateWalletTimer.stop()
 
-        walletName = dapModelWallets.get(logicMainApp.currentIndex).name
+        walletName = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
         logicWallet.initNetworks()
 
@@ -86,32 +86,31 @@ DapNewPaymentMainRightPanelForm
 
     dapButtonSend.onClicked:
     {
-        console.log("aaaaaaaaaaaaaa")
         if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
         {
             console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
         }
         else
         {
-            print("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi)
-            print("amount:", dapTextInputAmountPayment.text)
-            print("wallet address:", dapTextInputRecipientWalletAddress.text.length)
+            console.log("balance:", dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi)
+            console.log("amount:", dapTextInputAmountPayment.text)
+            console.log("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
             if (dapTextInputAmountPayment.text === "" ||
                 logicWallet.testAmount("0.0", dapTextInputAmountPayment.text))
             {
-                print("Zero value")
+                console.log("Zero value")
                 dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
             }
             else
             if (dapTextInputRecipientWalletAddress.text.length != 104)
             {
-                print("Wrong address length")
+                console.log("Wrong address length")
                 dapTextNotEnoughTokensWarning.text = qsTr("Enter a valid wallet address.")
             }
             else
             {
-                print("dapWalletMessagePopup.smartOpen")
+                console.log("dapWalletMessagePopup.smartOpen")
                 dapWalletMessagePopup.smartOpen(
                             "Confirming the transaction",
                             "Attention, the transaction fee will be 0.05 " + dapComboBoxToken.displayText )
@@ -126,24 +125,22 @@ DapNewPaymentMainRightPanelForm
 
         if (accept)
         {
-            if (dapComboBoxTokenModel === null || dapComboBoxChainModel === null ||
-                dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex ||
-                dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
+            if (dapComboBoxTokenModel === null || dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
             {
                 if (dapComboBoxTokenModel === null)
                     console.warn("dapComboBoxTokenModel === null")
-                if (dapComboBoxChainModel === null)
-                    console.warn("dapComboBoxChainModel === null")
+//                if (dapComboBoxChainModel === null)
+//                    console.warn("dapComboBoxChainModel === null")
                 if (dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex)
                     console.warn("dapComboBoxTokenModel.count <= dapComboBoxToken.currentIndex")
-                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
-                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
+//                if (dapComboBoxChainModel.count <= dapComboboxChain.currentIndex)
+//                    console.warn("dapComboBoxChainModel.count <= dapComboboxChain.currentIndex")
             }
             else
             {
                 var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
                 print("amountWithCommission", amountWithCommission)
-                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).full_balance
+                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
                 print("full_balance", full_balance)
 
                 if (!logicWallet.testAmount(full_balance, amountWithCommission))
@@ -151,7 +148,7 @@ DapNewPaymentMainRightPanelForm
                     print("Not enough tokens")
                     dapTextNotEnoughTokensWarning.text =
                         qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
-                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).balance_without_zeros).arg(amountWithCommission)
+                        arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins).arg(amountWithCommission)
                 }
                 else
                 {
@@ -162,7 +159,7 @@ DapNewPaymentMainRightPanelForm
 
                     console.log("DapCreateTransactionCommand:")
                     console.log("   network:", dapComboboxNetwork.displayText)
-                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
+//                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
                     console.log("   wallet from:", walletName)
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                     console.log("   token:", dapComboBoxToken.displayText)
@@ -171,7 +168,7 @@ DapNewPaymentMainRightPanelForm
                     var commission = logicWallet.toDatoshi("0.05")
 
                     dapServiceController.requestToService("DapCreateTransactionCommand",
-                        dapComboboxNetwork.displayText, dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name,
+                        dapComboboxNetwork.displayText,
                         walletName,
                         dapTextInputRecipientWalletAddress.text,
                         dapComboBoxToken.displayText, amount, commission)
@@ -183,7 +180,7 @@ DapNewPaymentMainRightPanelForm
     Connections
     {
         target: dapServiceController
-        onTransactionCreated:
+        function onTransactionCreated(aResult)
         {
             commandResult = aResult
             updateWalletTimer.start()

@@ -35,7 +35,7 @@
         <file>screen/desktop/UnderConstructions.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.ui.qml</file>
+        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
@@ -251,7 +251,7 @@
         <file>screen/desktop/Stock/icons/sellBuy_icon.png</file>
         <file>screen/desktop/Stock/icons/buyIcon.png</file>
         <file>screen/desktop/Stock/parts/OrderBook/OrderBook.qml</file>
-        <file>screen/desktop/Stock/parts/OrderBook/BookSellByuImg.qml</file>
+        <file>screen/desktop/Stock/parts/OrderBook/BookSellBuyImg.qml</file>
         <file>screen/desktop/Stock/parts/OrderBook/OrderBookDelegate.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderTextBlock.qml</file>
         <file>screen/desktop/Stock/parts/CreateOrder/OrderCreateDone.qml</file>
@@ -281,7 +281,6 @@
         <file>Resources/BlackTheme/icons/other/Arrow.png</file>
         <file>screen/desktop/Logs/DapLogsRightPanel.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml</file>
-        <file>Resources/ui_menu_light.png</file>
         <file>screen/desktop/Tokens/parts/DetailsText.qml</file>
         <file>screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml</file>
         <file>screen/desktop/Settings/MenuBlocks/DapLinksBlock.qml</file>
@@ -305,5 +304,32 @@
         <file>screen/desktop/VPNClient/Images/page.png</file>
         <file>screen/desktop/VPNClient/Images/page-hov.png</file>
         <file>Resources/BlackTheme/icons/other/receipt_normal.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_wallet.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_vpn_service.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_vpn_client.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_tokens.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_settings.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_logs.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_history.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_exchange.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_daaps.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_console.svg</file>
+        <file>Resources/BlackTheme/icons/navigation/icon_certificates.svg</file>
+        <file>screen/desktop/History/DapHistoryRightPanelInfoTx.qml</file>
+        <file>screen/desktop/History/TextDetailsTx.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_eyeShowHover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_eyeShow.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_eyeHideHover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_eyeHide.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_infoGray.svg</file>
+        <file>screen/desktop/controls/DapActivateWalletPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_deactivateHover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_deactivate.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_activateHover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_activate.svg</file>
+        <file>screen/desktop/controls/DapDeactivateWalletPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_walletUnlocked.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_walletLocked.svg</file>
+        <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
     </qresource>
 </RCC>

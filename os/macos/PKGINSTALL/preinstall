@@ -1,0 +1,75 @@
+#!/bin/bash
+
+echo "Installing time!" >> /tmp/debug_vpn.txt
+
+APP_NAME=Cellframe-Dashboard
+
+NODE=com.demlabs.cellframe-node
+SERVICE=com.demlabs.Cellframe-DashboardService
+
+launchctl stop $NODE
+launchctl stop $SERVICE
+
+RET=0
+echo "Installation logs" > /tmp/"$APP_NAME"_Install_Logs.txt
+
+echo "Gui_check" >> /tmp/debug_dashboard.txt
+if pgrep -x ""$APP_NAME"" > /dev/null
+then
+    	echo "Gui is Running" >> /tmp/"$APP_NAME"_Install_Logs.txt
+    	./cmdAlert.app/Contents/MacOS/cmdAlert
+	RET=$?
+else
+    	echo "Gui Stopped" >> /tmp/"$APP_NAME"_Install_Logs.txt
+fi
+
+echo "RET from asking user = $RET" >> /tmp/"$APP_NAME"_Install_Logs.txt
+if [ "$RET" -eq "0" ]; then
+	echo "Continue install" >> /tmp/"$APP_NAME"_Install_Logs.txt
+elif [ "$RET" -eq "1" ]; then
+	echo "Stop install" >> /tmp/"$APP_NAME"_Install_Logs.txt
+	exit 1
+fi
+
+
+#### Kill all opened "$APP_NAME" gui clients
+GuiPIDs=$(pgrep -x ""$APP_NAME"")
+while read -r GuiPID; do
+    	echo "... $GuiPID ..." >> /tmp/"$APP_NAME"_Install_Logs.txt
+	if [ "$GuiPID" != "" ]; then
+		echo ""$APP_NAME" is set! Kill It!!!" >> /tmp/"$APP_NAME"_Install_Logs.txt
+		sudo kill $GuiPID
+	fi
+done <<< "$GuiPIDs"
+
+echo "unloading the weirdo deps" >> /tmp/debug_dashboard.txt
+
+
+[ -e /Library/LaunchDaemons/com.demlabs."$APP_NAME"Service.plist ] && launchctl unload -w /Users/$USER/Library/LaunchAgents/com.demlabs."$APP_NAME"Service.plist
+[ -e /Library/LaunchDaemons/com.demlabs.cellframe-node.plist ] && launchctl unload -w /Users/$USER/Library/LaunchAgents/com.demlabs.cellframe-node.plist
+
+#udo rm -fr /Applications/${BRAND}.app
+
+
+
+#delete "$APP_NAME"s from com.apple.dock.plist
+echo "path to dock /Users/$USER/Library/Preferences/com.apple.dock.plist" >> /tmp/"$APP_NAME"_Install_Logs.txt
+dockApps=$(defaults read /Users/$USER/Library/Preferences/com.apple.dock.plist persistent-apps | nl | grep file-label | awk '/"$APP_NAME"/  {print NR}')
+cnt=1
+while read -r app; do
+	app=$[$app-$cnt]
+	cnt=$[$cnt+1]
+	if [ "$app" -ne "-1" ]; then
+		echo "app in dock exists" >> /tmp/"$APP_NAME"_Install_Logs.txt
+		sudo -u $USER /usr/libexec/PlistBuddy -c "Delete persistent-apps:$app" /Users/$USER/Library/Preferences/com.apple.dock.plist
+	else
+		echo "app in dock don't exists" >> /tmp/"$APP_NAME"_Install_Logs.txt
+	fi
+done <<< "$dockApps"
+osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
+osascript -e 'delay 2' -e 'tell Application "Dock"' -e 'quit' -e 'end tell'
+exit 0
+
+echo "cleanup done" >> /tmp/debug_dashboard.txt
+
+#	<domains enable_localSystem="false" enable_anywhere="true" enable_currentUserHome="true"/>

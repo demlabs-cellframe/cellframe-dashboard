@@ -1,41 +1,86 @@
-#before_build:
-
-stages:
-    - prepare
-    - build
-    - test
-    - deploy
-
 variables:
     GIT_SUBMODULE_STRATEGY: recursive
 
+stages:
+    - build
+    - deploy
 
-#cellframe-dashboard_android:
-#    stage: build
-#    tags:
-#     - cellframe-dashboard
-#    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard android
+.ci-polygon:
+  tags:
+     - ci-polygon
+  
+.build:  
+  extends: .ci-polygon
+  stage: build
+  timeout: 3 hours 30 minutes
+  dependencies: []
+  artifacts:
+    paths:
+      - build_*/*.deb
 
-cellframe-dashboard_linux:
-    stage: build
-    tags:
-     - cellframe-dashboard
-    script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard linux
+.deploy:
+  extends: .ci-polygon
+  image: demlabs/amd64/debian-bullseye:cellframe-node
+  stage: deploy
+  before_script: /opt/buildtools/prepare_environment.sh 
 
-cellframe-dashboard_mac:
-   stage: build
-   tags:
-    - cellframe-dashboard
-   script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard mac
 
-cellframe-dashboard_windows:
-   stage: build
-   tags:
-    - cellframe-dashboard
-   script: ~/production-docker/integration/gitlab-CI/build_all_handler.sh cellframe-dashboard windows
 
-# Test
-# run unit-tests
+macos-amd64:
+    extends: .build
+    image: demlabs/amd64/debian-bullseye:osxbuilder
+    before_script: /opt/buildtools/prepare_environment.sh amd64-osx
+    script:
+      - ./prod_build/build.sh --target osx release
+      - ./prod_build/pack.sh --target osx release
+    artifacts:
+      paths:
+        - build_*/*.pkg
 
-# Deploy
-# cp to builds folder
+linux-amd64-debian-buster:
+    extends: .build
+    image: demlabs/amd64/debian-buster:linuxbuilder
+    before_script: /opt/buildtools/prepare_environment.sh amd64-linux
+    script: 
+      - ./prod_build/build.sh --target linux release
+      - ./prod_build/pack.sh --target linux release
+
+windows-amd64:
+    extends: .build
+    image: demlabs/amd64/debian-bullseye:windowsbuilder
+    before_script: /opt/buildtools/prepare_environment.sh amd64-linux
+    script:
+      - ./prod_build/build.sh --target windows release
+      - ./prod_build/pack.sh --target windows release
+    artifacts:
+      paths:
+        - build_*/*.exe
+
+
+deploy-linux:
+  extends: .deploy
+  needs: 
+    - linux-amd64-debian-buster 
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
+    
+    
+deploy-macos:
+  extends: .deploy
+  needs: 
+    - macos-amd64
+   
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.pkg
+    
+deploy-windows:
+  extends: .deploy
+  needs: 
+    - windows-amd64
+   
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe 
+    
+    
+
+

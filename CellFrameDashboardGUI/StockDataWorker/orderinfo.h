@@ -14,6 +14,7 @@ public:
     double price;
     double amount;
     double total;
+
     OrderInfo(double price = 0.0,
          double amount = 0.0,
          double total = 0.0)

@@ -6,29 +6,28 @@ QtObject {
     function updateAllWallets()
     {
         dapModelWallets.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand");
+        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
     }
 
     function updateCurrentWallet()
     {
-//        print("updateCurrentWallet", "networkArray", logicMainApp.networkArray)
+//        print("updateCurrentWallet", logicMainApp.currentIndex, dapModelWallets.get(logicMainApp.currentIndex).status )
 
-        if (logicMainApp.currentIndex !== -1 && logicMainApp.networkArray !== "")
+        if (logicMainApp.currentWalletIndex !== -1)
             dapServiceController.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(logicMainApp.currentIndex).name,
-                logicMainApp.networkArray);
+                dapModelWallets.get(logicMainApp.currentWalletIndex).name);
     }
 
-    function updateComboBox()
+    function updateWalletModel()
     {
-        if(logicMainApp.currentIndex !== -1)
+        if(logicMainApp.currentWalletIndex !== -1)
         {
             if(dapModelWallets.count)
             {
-                dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentIndex).networks
-                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentIndex).name
+                dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentWalletIndex).networks
+//                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 
-                console.log("dapComboboxWallet.onCurrentIndexChanged")
+//                console.log("dapComboboxWallet.onCurrentIndexChanged")
 
                 dashboardTab.state = "WALLETSHOW"
             }
@@ -180,30 +179,20 @@ QtObject {
         networksModel.clear()
 
         var tempNetworks = dapModelWallets.
-            get(logicMainApp.currentIndex).networks
+            get(logicMainApp.currentWalletIndex).networks
 
         for (var i = 0; i < tempNetworks.count; ++i)
         {
             networksModel.append(
-                        { "tokens" : [],
-                          "chains" : [] })
+                        { "tokens" : []})
 
             for (var j = 0; j < tempNetworks.get(i).tokens.count; ++j)
             {
                 networksModel.get(i).tokens.append(
                     { "name" : tempNetworks.get(i).tokens.get(j).name,
                       "datoshi": tempNetworks.get(i).tokens.get(j).datoshi,
-                      "full_balance": tempNetworks.get(i).tokens.get(j).full_balance,                    
-                      "balance_without_zeros": tempNetworks.get(i).tokens.get(j).balance_without_zeros})
-            }
-
-            for (var k = 0; k < tempNetworks.get(i).chains.count; ++k)
-            {
-                networksModel.get(i).chains.append(
-                    { "name" : tempNetworks.get(i).chains.get(k).name})
+                      "coins": tempNetworks.get(i).tokens.get(j).coins})
             }
         }
-
     }
-
 }
