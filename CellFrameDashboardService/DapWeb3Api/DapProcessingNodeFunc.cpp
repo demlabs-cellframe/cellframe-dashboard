@@ -235,7 +235,7 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
 QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net)
 {
     QString txCommand = QString("%1 tx_create -net %2 -chain %3 -from_wallet %4 "
-                              "-to_addr %5 -token %6 -value %7").arg(CLI_PATH);
+                              "-to_addr %5 -token %6 -value %7 -fee 50000000000000000").arg(CLI_PATH);
 
     QString chain;
 

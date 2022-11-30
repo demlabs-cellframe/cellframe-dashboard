@@ -183,8 +183,9 @@ Page
         //Frame delegate
         Rectangle
         {
-            anchors.left: parent.left
-            anchors.right: parent.right
+//            anchors.left: parent.left
+//            anchors.right: parent.right
+            width: dapLogsList.width
             color: "transparent"
             height: row.implicitHeight < 36 ? 50 : row.implicitHeight + 27
 
