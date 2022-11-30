@@ -302,11 +302,11 @@ QtObject {
 
                 if(jsonDocument.status === "" || jsonDocument.status === "Active")
                 {
-                    console.log(jsonDocument.networks)
+//                    console.log(jsonDocument.networks)
                     dapModelWallets.get(i).networks.clear()
                     dapModelWallets.get(i).networks.append(jsonDocument.networks)
 //                    dapModelWallets.get(i).networks = jsonDocument.networks
-                    console.log(dapModelWallets.get(i).networks)
+//                    console.log(dapModelWallets.get(i).networks)
                 }
             }
         }
