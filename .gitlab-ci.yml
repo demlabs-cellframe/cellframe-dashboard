@@ -93,6 +93,7 @@ publish-linux:
   extends: .publish
   needs: 
     - linux-amd64-debian-buster 
+    - deploy-linux
   script: 
     - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
     - anybadge -l "pub linux" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
@@ -102,6 +103,7 @@ publish-windows:
   extends: .publish
   needs: 
     - windows-amd64 
+    - deploy-windows
   script: 
     - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-from windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
     - anybadge -l "pub windows" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
@@ -111,6 +113,7 @@ publish-macos:
   extends: .publish
   needs: 
     - macos-amd64
+    - deploy-macos
   script: 
     - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.pkg --redirect-from macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
     - anybadge -l "pub macos" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
