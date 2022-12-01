@@ -56,7 +56,8 @@ void ServiceMain(int argc, char *argv[]) {
         DapConfigReader configReader;
         bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
         qDebug() << "debug_dashboard_mode" << debug_mode;
-        dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+//        dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+        dapLogger.setLogLevel(L_DEBUG);
 
         ServiceProcClass *s = ServiceProcClass::me();
         s->serviceStatusHandle = RegisterServiceCtrlHandler(ServiceProcClass::serviceName, (LPHANDLER_FUNCTION)ControlHandler);
@@ -164,6 +165,7 @@ int main(int argc, char *argv[])
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
     qDebug() << "debug_dashboard_mode" << debug_mode;
 //    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+    dapLogger.setLogLevel(L_DEBUG);
 
     //plugins path
     dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));

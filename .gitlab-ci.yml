@@ -4,7 +4,7 @@ variables:
 stages:
     - build
     - deploy
-
+    - publish
 .ci-polygon:
   tags:
      - ci-polygon
@@ -20,11 +20,15 @@ stages:
 
 .deploy:
   extends: .ci-polygon
-  image: demlabs/amd64/debian-bullseye:cellframe-node
+  image: demlabs/amd64/debian-buster:linuxbuilder
   stage: deploy
   before_script: /opt/buildtools/prepare_environment.sh 
 
-
+.publish:
+  extends: .deploy
+  stage: publish
+  when: manual
+  allow_failure: true
 
 macos-amd64:
     extends: .build
@@ -44,6 +48,9 @@ linux-amd64-debian-buster:
     script: 
       - ./prod_build/build.sh --target linux release
       - ./prod_build/pack.sh --target linux release
+      - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
+      - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
+      
 
 windows-amd64:
     extends: .build
@@ -80,7 +87,34 @@ deploy-windows:
    
   script: 
     - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.exe 
+  
+  #=================PUBLISH KELVPN===================
+publish-linux:
+  extends: .publish
+  needs: 
+    - linux-amd64-debian-buster 
+    - deploy-linux
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.deb --redirect-from linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
+    - anybadge -l "pub linux" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
+    - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg
     
-    
+publish-windows:
+  extends: .publish
+  needs: 
+    - windows-amd64 
+    - deploy-windows
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.exe  --redirect-from windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
+    - anybadge -l "pub windows" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
+    - /opt/buildtools/deploy_files.sh pub_cellframe windows/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg    
 
-
+publish-macos:
+  extends: .publish
+  needs: 
+    - macos-amd64
+    - deploy-macos
+  script: 
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/  build_*/*.pkg --redirect-from macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest --just-redirect
+    - anybadge -l "pub macos" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c green
+    - /opt/buildtools/deploy_files.sh pub_cellframe macos/cellframe-dashboard/$CI_COMMIT_REF_NAME/latest ./version-badge.svg    

@@ -14,12 +14,12 @@
 #include <QAndroidIntent>
 #endif
 
-#include "DapHelper.h"
-#include "serviceClient/DapServiceClient.h"
-#include "DapServiceController.h"
+//#include "DapHelper.h"
+//#include "serviceClient/DapServiceClient.h"
+//#include "DapServiceController.h"
 #include "DapLogger.h"
-#include "DapLogMessage.h"
-#include "DapWallet.h"
+//#include "DapLogMessage.h"
+//#include "DapWallet.h"
 #include "DapApplication.h"
 #include "PluginsController/DapPluginsController.h"
 #include "ImportCertificate/ImportCertificate.h"
@@ -45,30 +45,6 @@
 //#endif
 
 #include "WalletRestore/wallethashmanager.h"
-
-void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
-{
-    QByteArray localMsg = msg.toLocal8Bit();
-    const char *file = context.file ? context.file : "";
-    const char *function = context.function ? context.function : "";
-    switch (type) {
-    case QtDebugMsg:
-        fprintf(stderr, "Debug: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-        break;
-    case QtInfoMsg:
-        fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-        break;
-    case QtWarningMsg:
-        fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-        break;
-    case QtCriticalMsg:
-        fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-        break;
-    case QtFatalMsg:
-        fprintf(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), file, context.line, function);
-        break;
-    }
-}
 
 bool SingleApplicationTest(const QString &appName)
 {
@@ -143,13 +119,9 @@ int main(int argc, char *argv[])
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+//    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+    dapLogger.setLogLevel(L_DEBUG);
     qDebug() << "debug_dashboard_mode" << debug_mode;
-
-    if (debug_mode)
-        dapLogger.setLogLevel(L_DEBUG);
-    else
-        dapLogger.setLogLevel(L_INFO);
 
     //dApps config file
     QString filePluginConfig;

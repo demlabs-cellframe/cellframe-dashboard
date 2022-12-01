@@ -85,10 +85,15 @@ Item{
             spacing: 0
 
             Text{
+                Layout.fillWidth: true
+                Layout.leftMargin: 50
+                Layout.rightMargin: 50
                 Layout.alignment: Qt.AlignHCenter
+                horizontalAlignment: Text.AlignHCenter
                 text: "Activate " + "'" + nameWallet + "'" + " wallet"
                 font: mainFont.dapFont.bold14
                 color: currTheme.textColor
+                elide: Text.ElideMiddle
             }
 
             Text{

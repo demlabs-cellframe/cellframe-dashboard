@@ -234,23 +234,10 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
 
 QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net)
 {
-    QString txCommand = QString("%1 tx_create -net %2 -chain %3 -from_wallet %4 "
-                              "-to_addr %5 -token %6 -value %7").arg(CLI_PATH);
-
-    QString chain;
-
-    if(net != "private")
-    {
-        if(net != "subzero")
-            chain = "main";
-        else
-            chain = "support";
-    }
-    else
-        chain = "zero";
+    QString txCommand = QString("%1 tx_create -net %2 -from_wallet %3 "
+                              "-to_addr %4 -token %5 -value %6 -fee 50000000000000000").arg(CLI_PATH);
 
     txCommand = txCommand.arg(net);
-    txCommand = txCommand.arg(chain);
     txCommand = txCommand.arg(walletName);
     txCommand = txCommand.arg(to);
     txCommand = txCommand.arg(tokenName);
@@ -284,21 +271,9 @@ QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QS
 
 QJsonDocument DapWebControll::getTransactions(QString addr, QString net)
 {
-    QString txHistoryCommand = QString("%1 tx_history -net %2 -chain %3 -addr %4").arg(CLI_PATH);
-
-    QString chain;
-    if(net != "private")
-    {
-        if(net != "subzero")
-            chain = "main";
-        else
-            chain = "support";
-    }
-    else
-        chain = "zero";
+    QString txHistoryCommand = QString("%1 tx_history -net %2 -addr %3").arg(CLI_PATH);
 
     txHistoryCommand = txHistoryCommand.arg(net);
-    txHistoryCommand = txHistoryCommand.arg(chain);
     txHistoryCommand = txHistoryCommand.arg(addr);
 
     QString result = send_cmd(txHistoryCommand);
