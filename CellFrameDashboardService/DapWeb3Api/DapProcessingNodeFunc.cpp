@@ -235,7 +235,7 @@ QJsonDocument DapWebControll::getDataWallets(QString walletName)
 QJsonDocument DapWebControll::sendTransaction(QString walletName, QString to, QString value, QString tokenName, QString net)
 {
     QString txCommand = QString("%1 tx_create -net %2 -from_wallet %3 "
-                              "-to_addr %4 -token %5 -value %6 -fee 50000000000000000").arg(CLI_PATH);
+                                "-to_addr %4 -token %5 -value %6 -fee 50000000000000000").arg(CLI_PATH);
 
     txCommand = txCommand.arg(net);
     txCommand = txCommand.arg(walletName);
@@ -422,7 +422,7 @@ QJsonDocument DapWebControll::getMempoolList(QString net)
     return docResult;
 }
 
-QJsonDocument DapWebControll::getCertificates()
+QJsonDocument DapWebControll::getCertificates(QString categoryCert)
 {
     QJsonDocument docResult;
     QJsonArray result;
@@ -443,23 +443,28 @@ QJsonDocument DapWebControll::getCertificates()
             QFileInfoList list = dir.entryInfoList();   // get all QFileInfo for files in dir
 
             foreach (const QFileInfo& info, list) {
-                if (info.suffix() == "dcert" && dirType == DapCertificateType::DefaultDir) {       //выбираем только файлы сертификатов с расширением dcert
+                if (info.suffix() == "dcert"/* && dirType == DapCertificateType::DefaultDir*/) {       //выбираем только файлы сертификатов с расширением dcert
                     result.append(info.completeBaseName());
                 }
 
             }
             return true;
         };
-
-
     //предполагаем что в разных папках лежат, разные ключи.
-    parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir );
+    if(categoryCert == "all" || categoryCert == ""){
+        parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir );
+        parseDir(CellframeNodeConfig::instance()->getShareCADir(), DapCertificateType::ShareDir );
+    } else if (categoryCert == "private"){
+        parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir );
+    } else if(categoryCert == "public"){
+        parseDir(CellframeNodeConfig::instance()->getShareCADir(), DapCertificateType::ShareDir );
+    }
+
 
     for(int i = 0; i < result.count(); i++)
     {
         for(int j = 0; j < result.count(); j++)
         {
-
             if(result.at(i).toObject().value("fileName").toString() == result.at(j).toObject().value("fileName").toString())
             {
                 if(result.at(i).toObject().value("dirType").toInt() != result.at(j).toObject().value("dirType").toInt())
@@ -473,7 +478,7 @@ QJsonDocument DapWebControll::getCertificates()
                 }
 
                 QString names = result.at(j).toObject().value("fileName").toString();
-                QRegExp exp("[А-Яа-я\\d]*");
+                QRegExp exp("[А-Яа-я]*");
                 exp.indexIn(names);
                 auto check = exp.cap(0);
 
@@ -493,12 +498,11 @@ QJsonDocument DapWebControll::getCertificates()
         return docResult = processingResult("bad", "Certificates not found" );
 }
 
-QJsonDocument DapWebControll::createCertificate(QString type, QString name)
+QJsonDocument DapWebControll::createCertificate(QString type, QString name, QString categoryCert)
 {
     QFileInfo info(CellframeNodeConfig::instance()->getDefaultCADir() + QString("/%1.dcert").arg(name) );
 
     QJsonDocument docResult;
-
 
     if (info.exists())
         return docResult = processingResult("bad", "Certificate is exists" );
@@ -510,16 +514,47 @@ QJsonDocument DapWebControll::createCertificate(QString type, QString name)
     process.waitForFinished(-1);
     qInfo() << "result:" << process.readAll();
     process.close();
+    QString newCertName;
+
+    if(categoryCert == "public")
+    {
+        newCertName = name+"_public";
+        //WARNING сертификат с публичным ключом создается в папке обычных сертификатов
+        QString filePath = QString("%1/%2.dcert").arg(CellframeNodeConfig::instance()->getDefaultCADir()).arg(newCertName);
+        QFileInfo info(filePath);
+
+        if (info.exists()) {
+            return docResult = processingResult("bad", "Public certificate is exists");
+        }
+
+        QProcess process;
+        QString args(QString("%1 cert create_cert_pkey %2 %3").arg(TOOLS_PATH).arg(name).arg(newCertName));
+        qInfo() << "command:" << args;
+        process.start(args);
+        process.waitForFinished(-1);
+
+        QString result(process.readAll());
+        qInfo() << "result:" << result;
+        info.refresh();
+    }
 
     //QString processResult = QString::fromLatin1(process.readAll());
 
     info.refresh();
 
     if (info.exists()) {       //existsCertificate(certName, s_toolPath)
-        QJsonObject obj{{"name",name},
-                        {"type",type}};
-        return docResult = processingResult("ok", "", obj);
-
+        if(categoryCert == "public"){
+            QJsonObject obj{{"name",name},
+                            {"public_name", newCertName},
+                            {"type",type}};
+            return docResult = processingResult("ok", "", obj);
+        }
+        else
+        {
+            QJsonObject obj{{"name",name},
+                            {"type",type}};
+            return docResult = processingResult("ok", "", obj);
+        }
     }else
         return docResult = processingResult("bad", "Certificate not created" );
 
@@ -654,6 +689,128 @@ QJsonDocument DapWebControll::createCondTx(QString net, QString tokenName, QStri
             docResult = processingResult("ok", "", obj);
         }else{
             docResult = processingResult("bad", result);
+        }
+    }else{
+        docResult = processingResult("bad", QString("Node is offline"));
+    }
+
+    return docResult;
+}
+
+QJsonDocument DapWebControll::getOrdersList(QString net, QString direction, QString srv_uid, QString unit, QString tokenName, QString price_min, QString price_max)
+{
+    QString command = QString("%1 net_srv -net %2 order find").arg(CLI_PATH).arg(net);
+
+    if(!direction.isEmpty())
+        command += QString(" -direction %1").arg(direction);
+    if(!srv_uid.isEmpty())
+        command += QString(" -srv_uid %1").arg(srv_uid);
+    if(!unit.isEmpty())
+        command += QString(" -price_unit %1").arg(unit);
+    if(!tokenName.isEmpty())
+        command += QString(" -price_token %1").arg(tokenName);
+    if(!price_min.isEmpty())
+        command += QString(" -price_min %1").arg(price_min);
+    if(!price_max.isEmpty())
+        command += QString(" -price_max %1").arg(price_max);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonArray arrOrders;
+
+    if(!result.isEmpty())
+    {
+        if(result.contains("Found 0 orders:"))
+            return docResult = processingResult("ok","", QString("Found 0 orders"));
+        else{
+
+            QStringList resultSplit = result.split("== Order");
+
+            if(resultSplit.length() < 2)
+                return docResult = processingResult("bad", result);
+
+            resultSplit.removeAt(0);
+
+            for(QString data : resultSplit)
+            {
+                QStringList dataList = data.split("\n");
+
+                QJsonObject obj;
+                obj.insert("hash",dataList[0].remove(" =="));
+                dataList.removeAt(0);
+
+                for(QString str : dataList)
+                {
+                    str.remove("\r");
+                    str.remove(" ");
+                    if(str.isEmpty())
+                        continue;
+
+                    if(str.contains("node_addr"))
+                    {
+                        str.remove("node_addr:");
+                        obj.insert("node_addr",str);
+                    }
+                    else
+                    {
+                        QStringList data = str.split(":");
+                        obj.insert(data[0],data[1]);
+                    }
+                }
+                arrOrders.append(obj);
+            }
+            return docResult = processingResult("ok", "", arrOrders);
+        }
+    }else{
+        return docResult = processingResult("bad", QString("Node is offline"));
+    }
+}
+
+QJsonDocument DapWebControll::createOrder(QString net, QString direction, QString srv_uid, QString price, QString unit, QString tokenName,
+                                          QString node_addr, QString tx_cond,QString expires, QString certName,
+                                          QString ext, QString region, QString continent)
+{
+    QString command = QString("%1 net_srv -net %2 order create").arg(CLI_PATH).arg(net);
+
+    command += QString(" -direction %1").arg(direction);
+    command += QString(" -srv_uid %1").arg(srv_uid);
+    command += QString(" -price %1").arg(price);
+    command += QString(" -price_unit %1").arg(unit);
+    command += QString(" -price_token %1").arg(tokenName);
+    command += QString(" -cert %1").arg(certName);
+
+
+    if(!node_addr.isEmpty())
+        command += QString(" -node_addr %1").arg(node_addr);
+    if(!tx_cond.isEmpty())
+        command += QString(" -tx_cond %1").arg(tx_cond);
+    if(!expires.isEmpty())
+        command += QString(" -expires %1").arg(expires);
+    if(!ext.isEmpty())
+        command += QString(" -ext %1").arg(ext);
+    if(!region.isEmpty())
+        command += QString(" -region %1").arg(region);
+    if(!continent.isEmpty())
+        command += QString(" -continent %1").arg(continent);
+
+    QString result = send_cmd(command);
+
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    if(!result.isEmpty())
+    {
+        if(result.contains("Error"))
+            return docResult = processingResult("bad", result);
+
+        if(result.contains("Created order")){
+            QRegExp rxHash("Created order (\\w+)");
+            rxHash.indexIn(result, 0);
+            obj.insert("hash", rxHash.cap(1));
+            return docResult = processingResult("ok", "", obj);
+        }else{
+            return docResult = processingResult("bad", result);
         }
     }else{
         docResult = processingResult("bad", QString("Node is offline"));

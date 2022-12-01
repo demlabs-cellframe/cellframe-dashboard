@@ -49,12 +49,16 @@ private:
     QJsonDocument createCondTx(QString net, QString tokenName, QString walletName, QString cert, QString value, QString unit, QString srv_uid);
     QJsonDocument getNodeStatus();
 
-    QJsonDocument getCertificates();
-    //    auto args = QString("%1 cert create %2 %3").arg(s_toolPath).arg(certName).arg(signatureType);
-    QJsonDocument createCertificate(QString type, QString name);
+    QJsonDocument getCertificates(QString categoryCert);
+    QJsonDocument createCertificate(QString type, QString name, QString categoryCert);
 
     QJsonDocument stakeLockTake(QString walletName, QString net, QString hash);
     QJsonDocument stakeLockHold(QString tokenName, QString walletName,  QString time_staking,  QString net, QString coins, QString reinvest, QString baseFlag);
+
+    QJsonDocument getOrdersList(QString net, QString direction, QString srv_uid, QString unit, QString tokenName, QString price_min, QString price_max);
+    QJsonDocument createOrder(QString net, QString direction, QString srv_uid, QString value, QString unit, QString tokenName,
+                              QString addr, QString hashTx,QString expires, QString certName,
+                              QString ext, QString region, QString continent);
 
 
     QJsonDocument processingResult(QString status, QString errorMsg, QJsonObject data);

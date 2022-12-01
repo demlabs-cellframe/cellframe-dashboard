@@ -81,14 +81,14 @@ DapWebControll::DapWebControll(QObject *parent)
 //    getNetworks(); //OK
 //    getWallets(); //OK
 //    getDataWallets("tokenWallet"); //OK
-//    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL", "mileena"); //OK
+//    sendTransaction("tokenWallet", "mWNv7A43YnqRHCWVFHQJXMgc5QZhbEFDqvWouBUAtowyRBwWgAFNkt3SNZLniGuPZPrX6koNsTUMj43abbcTp8Dx2UVESfbGSTtCYZPj", "1", "tMIL", "mileena", "LP", "1", "2", "3",""); //OK
 //    getTransactions("tokenWallet", "mileena"); //OK
 
 //    QJsonDocument doc = createCertificate("sig_dil", "testCert");
 //    doc = getCertificates(); // OK
 
 //    QJsonDocument doc = getLedgetTxListAll("subzero");
-//    doc = getCertificates(); // OK
+//    /*doc = */getCertificates("public"); // OK
 
 //    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
 
@@ -97,6 +97,20 @@ DapWebControll::DapWebControll(QObject *parent)
 //    QJsonDocument doc = getLedgetTxHash("0xE9F238D24E6C39DF38A18C393F6CF9E5A92544CC1078EE01544D8E2D5045AA32", "mileena");
 //    QString res = doc.toJson();
 //    qDebug()<<"";
+
+//    getOrdersList("kelvpn-minkowsk","","","","","","");
+//    getOrdersList("kelvpn-minkowski","sell","1","mb","tKEL","1","1000000000");
+//    getOrdersList("kelvpn-minkowski","buy","1","mb","tKEL","1","10000000000");
+
+
+//    SERV_UNIT_UNDEFINED = 0 ,
+//    SERV_UNIT_MB = 0x00000001, // megabytes
+//    SERV_UNIT_SEC = 0x00000002, // seconds
+//    SERV_UNIT_DAY = 0x00000003,  // days
+//    SERV_UNIT_KB = 0x00000010,  // kilobytes
+//    SERV_UNIT_B = 0x00000011,   // bytes
+//    SERV_UNIT_PCS = 0x00000022  // pieces
+//    createOrder("mileena","sell","1","10","10","tMIL","","","","myCert","","China","Asia");
 }
 
 QString DapWebControll::getRandomString()
@@ -195,7 +209,8 @@ void DapWebControll::onClientSocketReadyRead()
           QRegularExpression regex(R"(&([a-zA-Z_\-]+)=([a-zA-Z0-9_\-]+))");
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
           QString walletName, net, addr, value, tokenName, id, hashTx, certType,
-                  certName, timeStaking, reinvest, stakeNoBaseFlag = "", srv_uid, unit;
+                  certName, timeStaking, reinvest, stakeNoBaseFlag = "", srv_uid, unit,
+                  categoryCert, direction, price_min, price_max, expires, ext, region, continent;
 
           while(matchIt.hasNext())
           {
@@ -226,8 +241,24 @@ void DapWebControll::onClientSocketReadyRead()
                   unit = match.captured(2);
               else if(match.captured(1) == "srv_uid")
                   srv_uid = match.captured(2);
+              else if(match.captured(1) == "direction")
+                  direction = match.captured(2);
+              else if(match.captured(1) == "price_min")
+                  price_min = match.captured(2);
+              else if(match.captured(1) == "price_max")
+                  price_max = match.captured(2);
               else if(match.captured(1) == "-no_base_tx")
                   stakeNoBaseFlag = "-no_base_tx";
+              else if(match.captured(1) == "categoryCert")
+                  categoryCert = match.captured(2);
+              else if(match.captured(1) == "expires")
+                  expires = match.captured(2);
+              else if(match.captured(1) == "ext")
+                  ext = match.captured(2);
+              else if(match.captured(1) == "region")
+                  region = match.captured(2);
+              else if(match.captured(1) == "continent")
+                  continent = match.captured(2);
           }
           if(!s_id.isEmpty() && (s_id.indexOf(id) != -1)){
               if(cmd == "GetWallets")
@@ -245,9 +276,9 @@ void DapWebControll::onClientSocketReadyRead()
               else if(cmd == "GetLedgerTxListAll")
                   doc = getLedgetTxListAll(net);
               else if(cmd == "GetCertificates")
-                  doc = getCertificates();
+                  doc = getCertificates(categoryCert);
               else if(cmd == "CreateCertificate")
-                  doc = createCertificate(certType, certName);
+                  doc = createCertificate(certType, certName,categoryCert);
               else if(cmd == "StakeLockTake")
                   doc = stakeLockTake(walletName, net, hashTx);
               else if(cmd == "StakeLockHold")
@@ -261,6 +292,10 @@ void DapWebControll::onClientSocketReadyRead()
                   doc = createCondTx(net, tokenName, walletName, certName, value, unit, srv_uid);
               else if(cmd == "GetMempoolTxHash")
                   doc = getMempoolTxHash(net, hashTx); //need datum hash
+              else if(cmd == "GetOrdersList")
+                  doc = getOrdersList(net, direction, srv_uid, unit, tokenName, price_min, price_max);
+              else if(cmd == "CreateOrder")
+                  doc = createOrder(net, direction, srv_uid, value, unit, tokenName, addr, hashTx, expires, certName, ext, region, continent);
               else if(cmd == "TxCreateJson")
               {
 //                 all simbols -       &([a-zA-Z]+)=(([\s\S]*)$)
