@@ -91,7 +91,7 @@ signals:
 public slots:
     void rcvAccept(QString accept, int index);
 
-    void rcvFrontendConnectStatus(bool status) {s_connectFrontendStatus = status;};
+    void rcvFrontendConnectStatus(bool status) {s_connectFrontendStatus = status; if(!status) s_id.clear();};
     void rcvNodeStatus(QVariant);
 
 };
