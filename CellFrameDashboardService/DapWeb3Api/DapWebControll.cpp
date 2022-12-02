@@ -111,6 +111,8 @@ DapWebControll::DapWebControll(QObject *parent)
 //    SERV_UNIT_B = 0x00000011,   // bytes
 //    SERV_UNIT_PCS = 0x00000022  // pieces
 //    createOrder("mileena","sell","1","10","10","tMIL","","","","myCert","","China","Asia");
+
+    getMempoolList("mileena","","main");
 }
 
 QString DapWebControll::getRandomString()
@@ -210,7 +212,8 @@ void DapWebControll::onClientSocketReadyRead()
           QRegularExpressionMatchIterator matchIt = regex.globalMatch(list.at(0));
           QString walletName, net, addr, value, tokenName, id, hashTx, certType,
                   certName, timeStaking, reinvest, stakeNoBaseFlag = "", srv_uid, unit,
-                  categoryCert, direction, price_min, price_max, expires, ext, region, continent;
+                  categoryCert, direction, price_min, price_max, expires, ext, region, continent,
+                  chain;
 
           while(matchIt.hasNext())
           {
@@ -259,6 +262,8 @@ void DapWebControll::onClientSocketReadyRead()
                   region = match.captured(2);
               else if(match.captured(1) == "continent")
                   continent = match.captured(2);
+              else if(match.captured(1) == "chain")
+                  chain = match.captured(2);
           }
           if(!s_id.isEmpty() && (s_id.indexOf(id) != -1)){
               if(cmd == "GetWallets")
@@ -284,7 +289,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(cmd == "StakeLockHold")
                   doc = stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag);
               else if(cmd == "GetMempoolList")
-                  doc = getMempoolList(net, addr);
+                  doc = getMempoolList(net, addr, chain);
 
               else if(cmd == "GetNodeStatus")
                   doc = getNodeStatus();

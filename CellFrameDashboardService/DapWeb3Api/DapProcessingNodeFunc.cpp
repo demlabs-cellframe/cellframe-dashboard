@@ -446,13 +446,15 @@ QJsonDocument DapWebControll::getLedgetTxListAll(QString net)
     return docResult;
 }
 
-QJsonDocument DapWebControll::getMempoolList(QString net, QString addr)
+QJsonDocument DapWebControll::getMempoolList(QString net, QString addr, QString chain)
 {
     QString command = QString("%1 mempool_list -net %2")
             .arg(CLI_PATH).arg(net);
 
     if(!addr.isEmpty())
         command += QString(" -addr %1").arg(addr);
+    if(!chain.isEmpty())
+        command += QString(" -chain %1").arg(chain);
 
     QString result = send_cmd(command);
 
