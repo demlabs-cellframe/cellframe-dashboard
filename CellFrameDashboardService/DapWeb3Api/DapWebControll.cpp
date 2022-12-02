@@ -88,7 +88,7 @@ DapWebControll::DapWebControll(QObject *parent)
 //    doc = getCertificates(); // OK
 
 //    QJsonDocument doc = getLedgetTxListAll("subzero");
-//    /*doc = */getCertificates("public"); // OK
+//    /*doc = */getCertificates(""); // OK
 
 //    QString date = "\"Fri, 05 Aug 22 03:35:41\"";
 
@@ -284,7 +284,7 @@ void DapWebControll::onClientSocketReadyRead()
               else if(cmd == "StakeLockHold")
                   doc = stakeLockHold(tokenName, walletName, timeStaking, net, value, reinvest, stakeNoBaseFlag);
               else if(cmd == "GetMempoolList")
-                  doc = getMempoolList(net);
+                  doc = getMempoolList(net, addr);
 
               else if(cmd == "GetNodeStatus")
                   doc = getNodeStatus();

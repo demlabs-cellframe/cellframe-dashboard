@@ -4,6 +4,11 @@
 #include <QFileInfo>
 #include <QFileInfoList>
 #include <QDir>
+#include <iostream>
+
+#include <QString>
+#include "dap_cert.h"
+#include "dap_cert_file.h"
 
 class DapCertificateType
 {
@@ -26,16 +31,56 @@ public:
     Q_ENUM(DirType);
 
 
-protected:
+public:
     explicit DapCertificateType() {  }
+    AccessKeyType getAccessKeyType(const QString &certFile);
+    QJsonObject getSimpleCertificateInfo(const QFileInfo &info, const DapCertificateType::DirType& dirType);
 };
+
+DapCertificateType::AccessKeyType DapCertificateType::getAccessKeyType(const QString &certFilePath)
+{
+    dap_cert_t* certFile = dap_cert_file_load(qPrintable(certFilePath));
+    if (certFile == nullptr){
+        qCritical() << "file not open" << certFilePath;
+        return DapCertificateType::Error;
+        //WARNING нужна более продвинутая обработка ошибок, но по умолчанию вызов этой функции проиходит сразу после получение списка файлов
+    }
+
+    AccessKeyType result;
+
+    int privateKeySize = certFile->enc_key->priv_key_data_size;
+    int publicKeySize = certFile->enc_key->pub_key_data_size;
+
+    if (privateKeySize == 0 && publicKeySize > 0)
+        result =  DapCertificateType::Public;
+    else
+    if (privateKeySize > 0 && publicKeySize > 0)
+        result =  DapCertificateType::PublicAndPrivate;
+    else
+        result = DapCertificateType::Error;
+
+    dap_cert_delete(certFile);
+
+    return result;
+}
+
+QJsonObject DapCertificateType::getSimpleCertificateInfo(const QFileInfo &info, const DapCertificateType::DirType& dirType)
+{
+    return QJsonObject({
+                            { "fileName", info.fileName() }
+                          , { "completeBaseName", info.completeBaseName() }
+                          , { "filePath", info.filePath() }
+                          , { "dirType", dirType }
+                          , { "accessKeyType", getAccessKeyType(info.filePath()) }
+                      });
+}
 
 QString DapWebControll::send_cmd(QString cmd)
 {
     QProcess process;
     qDebug() << "command:" << cmd;
     process.start(cmd);
-    process.waitForFinished(-1);
+    process.waitForFinished(5000);
     QString result = process.readAll();
     result.replace("\t", "");
 //    qDebug() << "result:" << result;
@@ -401,10 +446,13 @@ QJsonDocument DapWebControll::getLedgetTxListAll(QString net)
     return docResult;
 }
 
-QJsonDocument DapWebControll::getMempoolList(QString net)
+QJsonDocument DapWebControll::getMempoolList(QString net, QString addr)
 {
     QString command = QString("%1 mempool_list -net %2")
             .arg(CLI_PATH).arg(net);
+
+    if(!addr.isEmpty())
+        command += QString(" -addr %1").arg(addr);
 
     QString result = send_cmd(command);
 
@@ -426,10 +474,12 @@ QJsonDocument DapWebControll::getCertificates(QString categoryCert)
 {
     QJsonDocument docResult;
     QJsonArray result;
+    QJsonArray items;
 
     auto parseDir =
-        [&result](const QString& dirPath, const DapCertificateType::DirType& dirType) -> bool
+        [&result](const QString& dirPath, const DapCertificateType::DirType& dirType, const QString& categoryCert) -> bool
         {
+            DapCertificateType check;
             QDir dir(dirPath);
 
             if (!dir.exists()) {
@@ -444,22 +494,20 @@ QJsonDocument DapWebControll::getCertificates(QString categoryCert)
 
             foreach (const QFileInfo& info, list) {
                 if (info.suffix() == "dcert"/* && dirType == DapCertificateType::DefaultDir*/) {       //выбираем только файлы сертификатов с расширением dcert
-                    result.append(info.completeBaseName());
-                }
 
+                    if(check.getAccessKeyType(info.filePath()) == DapCertificateType::Public && categoryCert == "public")
+                        result.append(check.getSimpleCertificateInfo(info, dirType));
+                    else if(check.getAccessKeyType(info.filePath()) == DapCertificateType::PublicAndPrivate && categoryCert == "private")
+                        result.append(check.getSimpleCertificateInfo(info, dirType));
+                    else if(categoryCert == "" || categoryCert == "all")
+                        result.append(check.getSimpleCertificateInfo(info, dirType));
+                }
             }
             return true;
         };
     //предполагаем что в разных папках лежат, разные ключи.
-    if(categoryCert == "all" || categoryCert == ""){
-        parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir );
-        parseDir(CellframeNodeConfig::instance()->getShareCADir(), DapCertificateType::ShareDir );
-    } else if (categoryCert == "private"){
-        parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir );
-    } else if(categoryCert == "public"){
-        parseDir(CellframeNodeConfig::instance()->getShareCADir(), DapCertificateType::ShareDir );
-    }
-
+    parseDir(CellframeNodeConfig::instance()->getDefaultCADir(), DapCertificateType::DefaultDir, categoryCert);
+    parseDir(CellframeNodeConfig::instance()->getShareCADir(), DapCertificateType::ShareDir, categoryCert);
 
     for(int i = 0; i < result.count(); i++)
     {
@@ -492,8 +540,11 @@ QJsonDocument DapWebControll::getCertificates(QString categoryCert)
         }
     }
 
+    for(auto item : result)
+        items.append(item.toObject().value("completeBaseName").toString());
+
     if(result.count())
-        return docResult = processingResult("ok", "", result);
+        return docResult = processingResult("ok", "", items);
     else
         return docResult = processingResult("bad", "Certificates not found" );
 }
@@ -632,7 +683,7 @@ QJsonDocument DapWebControll::stakeLockTake(QString walletName, QString net, QSt
     return docResult;
 }
 
-QJsonDocument DapWebControll::getMempoolTxHash(QString hash, QString net)
+QJsonDocument DapWebControll::getMempoolTxHash(QString net, QString hash)
 {
     QString command = QString("%1 mempool_check -datum %2 -net %3")
             .arg(CLI_PATH).arg(hash).arg(net);

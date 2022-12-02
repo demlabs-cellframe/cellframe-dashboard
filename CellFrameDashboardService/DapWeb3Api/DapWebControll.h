@@ -43,7 +43,7 @@ private:
     QJsonDocument sendJsonTransaction(QJsonDocument jsonCommand);
     QJsonDocument getLedgetTxHash(QString hash, QString net);
     QJsonDocument getLedgetTxListAll(QString net);
-    QJsonDocument getMempoolList(QString net);
+    QJsonDocument getMempoolList(QString net, QString addr);
 
     QJsonDocument getMempoolTxHash(QString net, QString hash);
     QJsonDocument createCondTx(QString net, QString tokenName, QString walletName, QString cert, QString value, QString unit, QString srv_uid);
