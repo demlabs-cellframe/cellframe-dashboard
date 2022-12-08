@@ -27,16 +27,15 @@ stages:
 .publish:
   extends: .deploy
   stage: publish
-  when: manual
   allow_failure: true
 
 macos-amd64:
     extends: .build
-    image: demlabs/amd64/debian-bullseye:osxbuilder
+    image: demlabs/amd64/debian-bullseye:osxbuilderssl
     before_script: /opt/buildtools/prepare_environment.sh amd64-osx
     script:
       - ./prod_build/build.sh --target osx release
-      - ./prod_build/pack.sh --target osx release
+      - ./prod_build/pack.sh --target osx release --sign /opt/buildtools/sign/macos/demlabs.sh
     artifacts:
       paths:
         - build_*/*.pkg
