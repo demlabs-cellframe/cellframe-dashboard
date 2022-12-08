@@ -27,7 +27,6 @@ stages:
 .publish:
   extends: .deploy
   stage: publish
-  when: manual
   allow_failure: true
 
 macos-amd64:
