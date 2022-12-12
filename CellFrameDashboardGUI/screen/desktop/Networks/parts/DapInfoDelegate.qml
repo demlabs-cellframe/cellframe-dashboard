@@ -108,7 +108,13 @@ Popup {
                         Layout.fillHeight: true
 //                        height: 24
                         isSynch: true
-                        onClicked: dapServiceController.requestToService("DapNetworkSingleSyncCommand", name)
+                        onClicked:
+                        {
+                            dapServiceController.requestToService("DapNetworkSingleSyncCommand", name)
+
+                            if(!USING_NOTIFY)
+                                dapServiceController.requestToService("DapGetNetworksStateCommand")
+                        }
                     }
 
                     DapInfoButton {
@@ -123,6 +129,9 @@ Popup {
                                 dapServiceController.requestToService("DapNetworkGoToCommand", name, true)
                             else
                                 dapServiceController.requestToService("DapNetworkGoToCommand", name, false)
+
+                            if(!USING_NOTIFY)
+                                dapServiceController.requestToService("DapGetNetworksStateCommand")
                         }
 
                         function setText()
