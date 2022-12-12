@@ -35,7 +35,7 @@ done
 sudo chmod +x $EXEC_PREFIX/create_configs.sh
 sudo chmod +x $EXEC_PREFIX/create_configs_from_tpl.sh
 
-$EXEC_PREFIX/create_configs.sh
+$EXEC_PREFIX/create_configs.sh /Applications/Cellframe-Dashboard.app/
 
  mkdir -p /Users/$USER/Library/LaunchAgents
  launchctl stop $SERVICE 
