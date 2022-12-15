@@ -125,8 +125,8 @@ int main(int argc, char *argv[])
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-//    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
-    dapLogger.setLogLevel(L_INFO);
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+//    dapLogger.setLogLevel(L_DEBUG);
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
     //dApps config file

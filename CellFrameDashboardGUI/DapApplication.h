@@ -12,6 +12,12 @@
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
 
+#include "DapLogger.h"
+#include "DapDataLocal.h"
+#include "DapLogHandler.h"
+#include <iostream>
+
+
 #include "StockDataWorker/stockdataworker.h"
 
 #ifdef Q_OS_ANDROID
@@ -28,6 +34,8 @@ public:
     DapApplication(int &argc, char **argv);
 
     ~DapApplication();
+
+    void createDapLogger();
 
     DapNetworksList *networks();
 
