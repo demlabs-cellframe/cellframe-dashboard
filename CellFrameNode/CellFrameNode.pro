@@ -1,4 +1,3 @@
-
 TEMPLATE = aux
 
 linux {
@@ -18,7 +17,7 @@ win32 {
 }
 
 mac {
-    node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target osx 
+    node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target osx rwd
     node_targets.files = $$OUT_PWD/build_osx_release/dist/Users/root/Applications/Cellframe.app
 }
 
