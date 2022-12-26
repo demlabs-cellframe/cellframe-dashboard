@@ -24,7 +24,11 @@ Item {
     Timer {
         id: idNetworkPanelTimer
         interval: /*logicMainApp.autoUpdateInterval*/5000; running: true; repeat: true
-        onTriggered: dapServiceController.requestToService("DapGetListNetworksCommand")
+        onTriggered: {
+            if(!USING_NOTIFY)
+                dapServiceController.requestToService("DapGetNetworksStateCommand")
+            dapServiceController.requestToService("DapGetListNetworksCommand")
+        }
     }
 
     Item
@@ -172,7 +176,8 @@ Item {
 
         function onSignalNetState(netState)
         {
-            logicNet.notifyModelUpdate(netState)
+            if(USING_NOTIFY)
+                logicNet.notifyModelUpdate(netState)
         }
 
         function onNetworksStatesReceived(networksStatesList)

@@ -37,12 +37,13 @@ void DapNotifyController::rcvData(QVariant data)
         {
 //            TODO: notify net update disabled
             if(it.value().toString() == "Wallet")
-                qDebug()<<"";
+            {
+                  //qDebug()<<"";
+            }
             else if(it.value().toString() == "NetStates")
             {
-                emit netStates(map);
+                    emit netStates(map);
             }
-
         }
     }
 }

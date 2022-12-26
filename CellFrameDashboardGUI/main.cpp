@@ -111,6 +111,12 @@ const int DEFAULT_HEIGHT = 720;
     const int OS_WIN_FLAG = 1;
 #endif
 
+#ifdef Q_OS_MAC
+    const int USING_NOTIFY = 0;
+#else
+    const int USING_NOTIFY = 1;
+#endif
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -119,8 +125,8 @@ int main(int argc, char *argv[])
 
     DapConfigReader configReader;
     bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-//    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
-    dapLogger.setLogLevel(L_DEBUG);
+    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
+//    dapLogger.setLogLevel(L_DEBUG);
     qDebug() << "debug_dashboard_mode" << debug_mode;
 
     //dApps config file
@@ -230,7 +236,10 @@ int main(int argc, char *argv[])
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
 
+
         context->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
+
+        context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
 
         app.qmlEngine()->load(QUrl("qrc:/main.qml"));
 
