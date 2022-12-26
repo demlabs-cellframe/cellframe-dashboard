@@ -11,6 +11,10 @@ sudo killall -HUP mDNSResponder
 
 EXEC_PREFIX=/Applications/$APP_NAME.app/Contents/Resources
 
+#log dirs
+mkdir -p /var/log/cellframe-dashboard/ || true
+chmod -R 777 /var/log/cellframe-dashboard/ || true
+
 mkdir -p $DAP_PREFIX
 sudo mv -f /Applications/$APP_NAME.app/Contents/Resources/etc $DAP_PREFIX
 sudo mv -f /Applications/$APP_NAME.app/Contents/Resources/share $DAP_PREFIX
@@ -35,7 +39,7 @@ done
 sudo chmod +x $EXEC_PREFIX/create_configs.sh
 sudo chmod +x $EXEC_PREFIX/create_configs_from_tpl.sh
 
-$EXEC_PREFIX/create_configs.sh
+$EXEC_PREFIX/create_configs.sh /Applications/Cellframe-Dashboard.app/
 
  mkdir -p /Users/$USER/Library/LaunchAgents
  launchctl stop $SERVICE 
