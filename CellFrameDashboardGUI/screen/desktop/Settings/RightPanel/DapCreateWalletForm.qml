@@ -240,7 +240,7 @@ DapRectangleLitAndShaded
                         {
                             id: buttonSelectionStandart
                             Layout.fillWidth: true
-                            nameRadioButton: qsTr("Standart")
+                            nameRadioButton: qsTr("Standard")
                             checked: true
                             indicatorInnerSize: 46
                             spaceIndicatorText: 3
@@ -248,7 +248,7 @@ DapRectangleLitAndShaded
                             implicitHeight: indicatorInnerSize
                             onClicked:
                             {
-                                logicMainApp.walletType = "Standart"
+                                logicMainApp.walletType = "Standard"
                                 frameWalletPassword.visible = false
                             }
                         }
@@ -395,7 +395,7 @@ DapRectangleLitAndShaded
                         {
                             id: buttonSelectionExportToFile
                             Layout.fillWidth: true
-                            nameRadioButton: logicMainApp.restoreWalletMode ? qsTr("Import backup file") : qsTr("Export to file")
+                            nameRadioButton: logicMainApp.restoreWalletMode ? qsTr("Import from file") : qsTr("Export to file")
                             indicatorInnerSize: 46
                             spaceIndicatorText: 3
                             implicitHeight: indicatorInnerSize

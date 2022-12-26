@@ -116,7 +116,7 @@ DapRectangleLitAndShaded {
                             wrapMode: Text.WordWrap
                             font: mainFont.dapFont.regular14
                             color: currTheme.textColor
-                            text: "The site " + site + " requests permission to exchange work with the wallet"
+                            text: "The site " + site + " requests permission to work with your wallet"
 
                         }
 
