@@ -125,6 +125,7 @@ DapRectangleLitAndShaded {
         }
         DapButton
         {
+            enabled: false
             implicitWidth: 163
             implicitHeight: 36
             Layout.bottomMargin: 40
