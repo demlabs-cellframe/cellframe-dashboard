@@ -25,7 +25,7 @@ DapPage
 
     id: historyTab
 
-    ListModel{id: modelHistory}
+//    ListModel{id: modelHistory}
     ListModel{id: temporaryModel}
     ListModel{id: previousModel}
     ListModel{id: detailsModel}
@@ -83,7 +83,8 @@ DapPage
         dapHistoryRightPanel.onCurrentStatusSelected: {
 
                 currentStatus = status
-                logicExplorer.filterResults()
+//                logicExplorer.filterResults()
+                historyWorker.setCurrentStatus(status)
         }
 
         dapHistoryRightPanel.onCurrentPeriodSelected: {
@@ -91,24 +92,47 @@ DapPage
                 currentPeriod = period
                 isCurrentRange = isRange
 
-                logicExplorer.filterResults()
+//                logicExplorer.filterResults()
+                historyWorker.setCurrentPeriod(period)
             }
     }
 
     dapRightPanelFrame.visible: false
     dapRightPanel.initialItem: emptyRightPanel
 
+//    Connections
+//    {
+//        target: dapServiceController
+//        function onAllWalletHistoryReceived(walletHistory)
+//        {
+//            logicExplorer.rcvAllWalletHistory(walletHistory, false)
+//        }
+//    }
+
     Connections
     {
-        target: dapServiceController
-        function onAllWalletHistoryReceived(walletHistory)
+        target: dapMainWindow
+        function onModelWalletsUpdated()
         {
-            logicExplorer.rcvAllWalletHistory(walletHistory, false)
+            if (logicMainApp.currentWalletIndex >=0 ||
+                logicMainApp.currentWalletIndex < dapModelWallets.count)
+                historyWorker.setWalletName(
+                    dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+
+            logicExplorer.updateWalletHistory(false, true)
         }
     }
 
     Component.onCompleted:
     {
+        historyWorker.setCurrentStatus(currentStatus)
+
+        historyWorker.setLastActions(false)
+        if (logicMainApp.currentWalletIndex >=0 ||
+            logicMainApp.currentWalletIndex < dapModelWallets.count)
+            historyWorker.setWalletName(
+                dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+
         logicExplorer.updateWalletHistory(false, 1)
 
         if (!updateHistoryTimer.running)

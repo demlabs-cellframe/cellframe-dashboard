@@ -11,6 +11,7 @@
 #include "mobile/testcontroller.h"
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
+#include "HistoryWorker/historyworker.h"
 
 #include "DapLogger.h"
 #include "DapDataLocal.h"
@@ -63,6 +64,7 @@ private:
     DapMath *m_mathBigNumbers;
 
     StockDataWorker *stockDataWorker;
+    HistoryWorker * m_historyWorker;
 };
 
 #endif // DAPAPPLICATION_H

@@ -43,6 +43,7 @@ Item
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
+//                    historyWorker.setCurrentStatus("All statuses")
                     currentStatusSelected("All statuses")
                 }
             }
@@ -57,6 +58,7 @@ Item
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
+//                    historyWorker.setCurrentStatus("Pending")
                     currentStatusSelected("Pending")
                 }
             }
@@ -71,6 +73,7 @@ Item
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
+//                    historyWorker.setCurrentStatus("Sent")
                     currentStatusSelected("Sent")
                 }
             }
@@ -86,6 +89,7 @@ Item
                 implicitHeight: indicatorInnerSize
                 onClicked: {
                     currentStatusSelected("Received")
+//                    historyWorker.setCurrentStatus("Received")
                 }
             }
 
@@ -99,7 +103,8 @@ Item
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
-                    currentStatusSelected("Declined")
+                    currentStatusSelected("Error")
+//                    historyWorker.setCurrentStatus("Declined")
                 }
             }
         }
@@ -132,7 +137,7 @@ Item
                 ListElement { name: "Yesterday" }
                 ListElement { name: "Last week" }
 //                ListElement { name: "this month" }
-                ListElement { name: "Custom range"}
+//                ListElement { name: "Custom range"}
             }
 
             DapComboBoxCustomRange
