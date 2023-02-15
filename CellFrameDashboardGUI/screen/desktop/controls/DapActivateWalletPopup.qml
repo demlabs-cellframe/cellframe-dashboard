@@ -156,8 +156,8 @@ Item{
                     anchors.bottomMargin: 29
                     anchors.rightMargin: 24
 
-
-                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*]+/ }
+                    validator: RegExpValidator { regExp: /[^а-яё\s\-]+/}
+//                    validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*]+/ }
                     bottomLineVisible: true
                     bottomLineSpacing: 8
 
