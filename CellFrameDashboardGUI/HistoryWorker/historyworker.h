@@ -67,7 +67,7 @@ private:
     bool m_isLastActions {true};
     QString m_walletName {""};
     QString m_currentStatus {"All statuses"};
-    QString m_filterString;
+    QString m_filterString {""};
     QString m_currentPeriod {"All time"};
     bool m_isRange {false};
     bool m_historyMore15 {false};
