@@ -30,7 +30,8 @@ protected:
   Q_PROPERTY (QString network       READ network       WRITE setNetwork       NOTIFY networkChanged)
   Q_PROPERTY (QString wallet_name   READ wallet_name   WRITE setWallet_name   NOTIFY wallet_nameChanged)
   Q_PROPERTY (QString date          READ date          WRITE setDate          NOTIFY dateChanged)
-  Q_PROPERTY (qint64 date_to_secs  READ date_to_secs  WRITE setDate_to_secs  NOTIFY date_to_secsChanged)
+  Q_PROPERTY (qint64 date_to_secs   READ date_to_secs  WRITE setDate_to_secs  NOTIFY date_to_secsChanged)
+  Q_PROPERTY (QString time          READ time          WRITE setTime          NOTIFY timeChanged)
   Q_PROPERTY (QString address       READ address       WRITE setAddress       NOTIFY addressChanged)
   Q_PROPERTY (QString status        READ status        WRITE setStatus        NOTIFY statusChanged)
   Q_PROPERTY (QString token         READ token         WRITE setToken         NOTIFY tokenChanged)
@@ -87,6 +88,9 @@ public:
   Q_INVOKABLE qint64 date_to_secs() const;
   Q_INVOKABLE void setDate_to_secs (qint64 date_to_secs);
 
+  Q_INVOKABLE QString time() const;
+  Q_INVOKABLE void setTime (const QString &time);
+
   Q_INVOKABLE QString address() const;
   Q_INVOKABLE void setAddress (const QString &address);
 
@@ -124,6 +128,7 @@ signals:
   void wallet_nameChanged();
   void dateChanged();
   void date_to_secsChanged();
+  void timeChanged();
   void addressChanged();
   void statusChanged();
   void tokenChanged();
@@ -175,6 +180,7 @@ public:
     wallet_name,
     date,
     date_to_secs,
+    time,
     address,
     status,
     token,
@@ -195,6 +201,7 @@ public:
     QString wallet_name;
     QString date;
     qint64 date_to_secs;
+    QString time;
     QString address;
     QString status;
     QString token;

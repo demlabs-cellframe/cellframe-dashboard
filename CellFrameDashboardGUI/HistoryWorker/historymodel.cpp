@@ -32,6 +32,7 @@ static const QHash<QString, HistoryModel::HistoryModel::FieldId> s_fieldIdMap =
     {"wallet_name",  HistoryModel::FieldId::wallet_name},
     {"date",         HistoryModel::FieldId::date},
     {"date_to_secs", HistoryModel::FieldId::date_to_secs},
+    {"time",         HistoryModel::FieldId::time},
     {"address",      HistoryModel::FieldId::address},
     {"status",       HistoryModel::FieldId::status},
     {"token",        HistoryModel::FieldId::token},
@@ -373,6 +374,7 @@ QVariant HistoryModel::_getValue (const HistoryModel::Item &a_item, int a_fieldI
     case HistoryModel::FieldId::wallet_name:   return a_item.wallet_name;
     case HistoryModel::FieldId::date:          return a_item.date;
     case HistoryModel::FieldId::date_to_secs:  return a_item.date_to_secs;
+    case HistoryModel::FieldId::time:          return a_item.time;
     case HistoryModel::FieldId::address:       return a_item.address;
     case HistoryModel::FieldId::status:        return a_item.status;
     case HistoryModel::FieldId::token:         return a_item.token;
@@ -398,6 +400,7 @@ void HistoryModel::_setValue (HistoryModel::Item &a_item, int a_fieldId, const Q
     case HistoryModel::FieldId::wallet_name:   a_item.wallet_name  = a_value.toString(); break;
     case HistoryModel::FieldId::date:          a_item.date         = a_value.toString(); break;
     case HistoryModel::FieldId::date_to_secs:  a_item.date_to_secs = a_value.toString().toLongLong(); break;
+    case HistoryModel::FieldId::time:          a_item.time         = a_value.toString(); break;
     case HistoryModel::FieldId::address:       a_item.address      = a_value.toString(); break;
     case HistoryModel::FieldId::status:        a_item.status       = a_value.toString(); break;
     case HistoryModel::FieldId::token:         a_item.token        = a_value.toString(); break;
@@ -460,6 +463,7 @@ HistoryModel::Item _dummy()
       QString(),
       QString(),
       QString(),
+      QString(),
       QString()
   };
 }
@@ -487,6 +491,8 @@ ItemBridge::ItemBridge (ItemBridge::Data *a_data)
            this, &ItemBridge::dateChanged);
   connect (d->model, &QAbstractTableModel::dataChanged,
            this, &ItemBridge::date_to_secsChanged);
+  connect (d->model, &QAbstractTableModel::dataChanged,
+           this, &ItemBridge::timeChanged);
   connect (d->model, &QAbstractTableModel::dataChanged,
            this, &ItemBridge::addressChanged);
   connect (d->model, &QAbstractTableModel::dataChanged,
@@ -608,7 +614,7 @@ void ItemBridge::setDate (const QString &date)
     return;
   d->item->date = date;
   emit dateChanged();
-  dateChanged();
+  _endSetValue();
 }
 
 qint64 ItemBridge::date_to_secs() const
@@ -622,6 +628,20 @@ void ItemBridge::setDate_to_secs (qint64 date_to_secs)
     return;
   d->item->date_to_secs = date_to_secs;
   emit date_to_secsChanged();
+  _endSetValue();
+}
+
+QString ItemBridge::time() const
+{
+    return (d && d->item) ? d->item->time : QString();
+}
+
+void ItemBridge::setTime (const QString &time)
+{
+  if (!_beginSetValue())
+    return;
+  d->item->time = time;
+  emit timeChanged();
   _endSetValue();
 }
 

@@ -103,6 +103,11 @@ DapRectangleLitAndShaded {
                     title.color: currTheme.textColorGray
                 }
                 TextDetailsTx {
+                    title.text: "Time"
+                    content.text: detailsModel.get(0).time
+                    title.color: currTheme.textColorGray
+                }
+                TextDetailsTx {
                     title.text: "Status"
                     content.text: detailsModel.get(0).status
                     title.color: currTheme.textColorGray

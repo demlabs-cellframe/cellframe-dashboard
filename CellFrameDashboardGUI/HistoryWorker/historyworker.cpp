@@ -85,6 +85,10 @@ void HistoryWorker::setHistoryModel(const QVariant &rcvData)
         itemHistory.tx_hash      = historyArray.at(i)["tx_hash"].toString();
         itemHistory.tx_status    = historyArray.at(i)["tx_status"].toString();
 
+        QDateTime time = QDateTime::fromSecsSinceEpoch(itemHistory.date_to_secs);
+        itemHistory.time = time.toString("hh:mm:ss");
+
+
         int index = fullModel.indexOfTime(itemHistory.date_to_secs);
 
 //        qDebug() << "index" << index
@@ -146,13 +150,27 @@ void HistoryWorker::setCurrentStatus(QString str)
     }
 }
 
-void HistoryWorker::setCurrentPeriod(QString str)
+void HistoryWorker::setFilterString(QString str)
+{
+    qDebug() << "HistoryWorker::setFilterString" << str;
+
+    if (m_filterString != str)
+    {
+        m_filterString = str;
+
+        sendCurrentHistoryModel();
+    }
+}
+
+void HistoryWorker::setCurrentPeriod(QVariant str)
 {
     qDebug() << "HistoryWorker::setCurrentPeriod" << str;
 
-    if (m_currentPeriod != str)
+    if (m_currentPeriod != str.toStringList()[0] || m_isRange != (str.toStringList()[1] == "true" ))
     {
-        m_currentPeriod = str;
+
+        m_currentPeriod = str.toStringList()[0];
+        m_isRange = str.toStringList()[1] == "true";
 
         sendCurrentHistoryModel();
     }
@@ -222,6 +240,22 @@ void HistoryWorker::sendCurrentHistoryModel()
 
     m_historyMore15 = false;
 
+    QDateTime begin, end;
+
+    if (m_isRange)
+    {
+        int index = m_currentPeriod.indexOf('-');
+
+        auto getDate =
+            [](const QString& date) -> QDateTime{
+                return QDateTime::fromString(date, "dd.MM.yyyy");
+            };
+
+        begin = getDate(m_currentPeriod.mid(0, index));
+        end = getDate(m_currentPeriod.mid(index+1));
+        end = end.addMSecs(86399999); // 00:00:00 + 23:59:59:9999
+    }
+
     for (auto i = 0; i < fullModel.size(); ++i)
     {
         const HistoryModel::Item &item = fullModel.getItem(i);
@@ -253,19 +287,52 @@ void HistoryWorker::sendCurrentHistoryModel()
         }
         else
         {
-            if (m_currentStatus == "All statuses" || m_currentStatus == status)
+            auto checkText =
+                [](const HistoryModel::Item& item, const QString& str) -> bool{
+
+                    QString fstr = str.toLower();
+
+                    if(item.network.isEmpty() || item.token.isEmpty() || item.tx_status.isEmpty() ||
+                       item.status.isEmpty() || item.value.isEmpty() || item.date.isEmpty())
+                        return false;
+
+                    if (item.network.toLower().indexOf(fstr) >= 0)
+                        return true;
+
+                    if (item.token.toLower().indexOf(fstr) >= 0)
+                        return true;
+
+                    QString statusStr = item.tx_status == "ACCEPTED" ? item.status : "Declined";
+                    if (statusStr.toLower().indexOf(fstr) >= 0)
+                        return true;
+
+                    if (item.value.toLower().indexOf(fstr) >= 0)
+                        return true;
+
+                    return false;
+                };
+
+            if(m_filterString == "" || checkText(item,m_filterString))
             {
-                if (m_currentPeriod == "All time" ||
-                    (m_currentPeriod == "Today" &&
-                     item.date == today) ||
-                    (m_currentPeriod == "Yesterday" &&
-                     item.date == yesterday) ||
-                    (m_currentPeriod == "Last week" &&
-                     weekSet.contains(item.date)) )
-                s_historyModel->add(item);
+                if (m_currentStatus == "All statuses" || m_currentStatus == status)
+                {
+                    if(m_isRange)
+                    {
+                        QDateTime payDay = QDateTime::fromSecsSinceEpoch(item.date_to_secs);
+                        if(payDay >= begin && payDay <= end)
+                            s_historyModel->add(item);
+                    }else
+                     if (m_currentPeriod == "All time" ||
+                        (m_currentPeriod == "Today" &&
+                         item.date == today) ||
+                        (m_currentPeriod == "Yesterday" &&
+                         item.date == yesterday) ||
+                        (m_currentPeriod == "Last week" &&
+                         weekSet.contains(item.date)) )
+                        s_historyModel->add(item);
+                }
             }
         }
-
     }
 
     if (lastDateUsed)

@@ -11,13 +11,14 @@ class HistoryWorker : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool isLastActions READ isLastActions WRITE setLastActions)
-    Q_PROPERTY(QString walletName READ walletName WRITE setWalletName)
-    Q_PROPERTY(QString currentStatus READ currentStatus WRITE setCurrentStatus)
-    Q_PROPERTY(QString currentPeriod READ currentPeriod WRITE setCurrentPeriod)
-    Q_PROPERTY(bool historyMore15 READ historyMore15 NOTIFY historyMore15Changed)
-    Q_PROPERTY(int sectionNumber READ sectionNumber)
-    Q_PROPERTY(int elementNumber READ elementNumber)
+    Q_PROPERTY(bool isLastActions     READ isLastActions   WRITE setLastActions)
+    Q_PROPERTY(QString walletName     READ walletName      WRITE setWalletName)
+    Q_PROPERTY(QString currentStatus  READ currentStatus   WRITE setCurrentStatus)
+    Q_PROPERTY(QString filterString   READ filterString    WRITE setFilterString)
+    Q_PROPERTY(QString currentPeriod  READ currentPeriod   WRITE setCurrentPeriod)
+    Q_PROPERTY(bool historyMore15     READ historyMore15   NOTIFY historyMore15Changed)
+    Q_PROPERTY(int sectionNumber      READ sectionNumber)
+    Q_PROPERTY(int elementNumber      READ elementNumber)
 
 public:
     explicit HistoryWorker(QQmlContext *cont, QObject *parent = nullptr);
@@ -26,6 +27,8 @@ public:
         { return m_isLastActions; }
     QString walletName() const
         { return m_walletName; }
+    QString filterString() const
+        { return m_filterString; }
     QString currentStatus() const
         { return m_currentStatus; }
     QString currentPeriod() const
@@ -48,7 +51,8 @@ public slots:
     void setLastActions(bool flag);
     void setWalletName(QString str);
     void setCurrentStatus(QString str);
-    void setCurrentPeriod(QString str);
+    void setFilterString(QString str);
+    void setCurrentPeriod(QVariant str);
 
 private:
     void sendCurrentHistoryModel();
@@ -63,7 +67,9 @@ private:
     bool m_isLastActions {true};
     QString m_walletName {""};
     QString m_currentStatus {"All statuses"};
+    QString m_filterString;
     QString m_currentPeriod {"All time"};
+    bool m_isRange {false};
     bool m_historyMore15 {false};
     int m_sectionNumber {0};
     int m_elementNumber {0};

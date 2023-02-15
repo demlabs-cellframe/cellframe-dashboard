@@ -73,7 +73,8 @@ DapPage
             onFindHandler: {
                 console.log(text)
                 currentString = text
-                logicExplorer.filterResults(false)
+//                logicExplorer.filterResults(false)
+                historyWorker.setFilterString(text)
             }
         }
 
@@ -92,8 +93,10 @@ DapPage
                 currentPeriod = period
                 isCurrentRange = isRange
 
+                var data = [period, isRange]
+
 //                logicExplorer.filterResults()
-                historyWorker.setCurrentPeriod(period)
+                historyWorker.setCurrentPeriod(data)
             }
     }
 

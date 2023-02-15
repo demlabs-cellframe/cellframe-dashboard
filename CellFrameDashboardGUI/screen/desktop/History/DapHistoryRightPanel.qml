@@ -137,7 +137,7 @@ Item
                 ListElement { name: "Yesterday" }
                 ListElement { name: "Last week" }
 //                ListElement { name: "this month" }
-//                ListElement { name: "Custom range"}
+                ListElement { name: "Custom range"}
             }
 
             DapComboBoxCustomRange
