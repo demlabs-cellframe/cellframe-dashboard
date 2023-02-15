@@ -19,6 +19,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
+    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
 {
     this->setOrganizationName("Cellframe Network");
@@ -47,6 +48,10 @@ DapApplication::DapApplication(int &argc, char **argv)
             stockDataWorker, &StockDataWorker::signalXchangeOrderListReceived);
     connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
             stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
+
+    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
+            m_historyWorker, &HistoryWorker::setHistoryModel,
+            Qt::QueuedConnection);
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
@@ -208,4 +213,5 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
     m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
+    m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
 }

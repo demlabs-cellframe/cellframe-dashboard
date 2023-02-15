@@ -87,6 +87,9 @@ Controls.DapTopPanel
 
                 logicWallet.updateWalletModel()
                 changeWallet(logicMainApp.currentWalletIndex)
+
+                historyWorker.setWalletName(
+                    dapModelWallets.get(logicMainApp.currentWalletIndex).name)
             }
 
             defaultText: qsTr("Wallets")

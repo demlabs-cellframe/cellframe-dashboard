@@ -272,7 +272,10 @@ DapPage
 
     Component.onCompleted:
     {
-        logicWallet.updateWalletModel()
+
+        logicWallet.updateWalletModel() 
+
+//        console.log(logicMainApp.currentWalletIndex, dapModelWallets.count, dapModelWallets.get(logicMainApp.currentWalletIndex).name, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
 
         if (!updateWalletTimer.running)
             updateWalletTimer.start()

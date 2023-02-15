@@ -466,7 +466,7 @@ QtObject {
         }
     }
 
-    function getAllWalletHistory(index, update)
+    function getAllWalletHistory(index, update, isLastActions)
     {
         if (index < 0 || index >= dapModelWallets.count)
             return
@@ -484,7 +484,7 @@ QtObject {
                 network_array += model.get(i).name + ":"
                 network_array += name + "/"
             }
-            dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update);
+            dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update, isLastActions);
         }
     }
 
