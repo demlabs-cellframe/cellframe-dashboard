@@ -203,7 +203,7 @@ Popup {
                         Layout.preferredHeight: 15
 
                         staticText.text: "Active links: "
-                        dynamicText.text: activeLinksCount + " from " + linksCount
+                        dynamicText.text: activeLinksCount + " of " + linksCount
                     }
 
                     DapRowInfoText

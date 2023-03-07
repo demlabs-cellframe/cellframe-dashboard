@@ -331,5 +331,7 @@
         <file>Resources/BlackTheme/icons/other/icon_walletUnlocked.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_walletLocked.svg</file>
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticTab.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticScreen.qml</file>
     </qresource>
 </RCC>

@@ -52,6 +52,8 @@ SOURCES += \
     Autocomplete/CommandCmdController.cpp \
     DapApplication.cpp \
     DapMath.cpp \
+    DiagnosticWorker/diagnosticworker.cpp \
+    DiagnosticWorker/linuxdiahnostic.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
@@ -90,6 +92,8 @@ HEADERS += \
     Autocomplete/CommandCmdController.h \
     DapApplication.h \
     DapMath.h \
+    DiagnosticWorker/diagnosticworker.h \
+    DiagnosticWorker/linuxdiahnostic.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \

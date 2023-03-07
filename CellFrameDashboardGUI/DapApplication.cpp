@@ -19,8 +19,9 @@ DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
-    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
+    , m_diagnosticWorker(new DiagnosticWorker(this))
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
+    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -41,6 +42,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
+    m_diagnosticWorker->start();
 
     connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
             stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
@@ -214,4 +216,6 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
     m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
     m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
+
+    m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
 }
