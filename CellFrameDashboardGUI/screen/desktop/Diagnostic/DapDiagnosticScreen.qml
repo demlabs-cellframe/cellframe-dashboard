@@ -102,7 +102,7 @@ Page
                                     Text{
                                         font: mainFont.dapFont.medium12
                                         color: currTheme.textColor
-                                        text: system.uptime.time
+                                        text: system.uptime
                                     }
                                 }
 

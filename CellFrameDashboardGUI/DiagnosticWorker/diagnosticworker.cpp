@@ -41,9 +41,14 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     //insert uptime dashboard into system info
     QJsonObject obj = data.object();
     QJsonObject system = data["system"].toObject();
+    QJsonObject proc = data["process"].toObject();
+
     system.insert("uptime_dashboard", s_uptime);
     obj.insert("system",system);
 
+    if(proc["status"].toString() == "Offline") //if node offline - clear version
+        m_node_version = "";
+    else
     if(m_node_version.isEmpty())
     {
         m_service->requestToService("DapVersionController", "version node");
@@ -55,7 +60,6 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
         });
     }
 
-    QJsonObject proc = data["process"].toObject();
     proc.insert("version", m_node_version);
     obj.insert("process",proc);
     data.setObject(obj);

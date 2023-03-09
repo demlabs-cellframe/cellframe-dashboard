@@ -113,34 +113,14 @@ QJsonArray LinuxDiahnostic::get_mac_array()
 
 QJsonObject LinuxDiahnostic::get_sys_info()
 {
-    QJsonObject obj_sys_data, obj_uptime, obj_cpu, obj_memory;
-    struct sysinfo info;
+    QJsonObject obj_sys_data, obj_cpu, obj_memory;
 
-    //get uptime system
-    if (sysinfo(&info) != 0){
-        qWarning()<<"sysinfo: error reading system statistics";
-        obj_uptime.insert("time", "00:00:00");
-        obj_uptime.insert("uptime_error", "error reading system statistics");
-    }else{
+    ifstream stat_stream;
+    string buff;
 
-//        QDateTime datetime = QDateTime::fromSecsSinceEpoch(info.uptime);
-//        QTime time(0, 0);
-//        time = time.addSecs(info.uptime);
-//        int days = QDateTime::fromSecsSinceEpoch(0).daysTo(datetime);
-
-        QString uptime = get_uptime_string(info.uptime);
-
-
-//        QDateTime date_time(0,);
-
-//        QString uptime=time.toString("hh:mm:ss");
-
-        obj_uptime.insert("time", uptime);
-        obj_uptime.insert("uptime_error", "");
-    }
+    //-------
 
     //get cpu info
-
     size_t idle_time, total_time;
     get_cpu_times(idle_time, total_time);
 
@@ -151,10 +131,6 @@ QJsonObject LinuxDiahnostic::get_sys_info()
     previous_idle_time = idle_time;
     previous_total_time = total_time;
 
-    ifstream stat_stream;
-    string buff;
-
-    QString memory, memory_used, memory_free;
     stat_stream.open("/proc/cpuinfo");
     for(int i = 0; i < 16;i++) stat_stream >> buff;
     getline(stat_stream,buff);
@@ -163,44 +139,37 @@ QJsonObject LinuxDiahnostic::get_sys_info()
     obj_cpu.insert("model", QString::fromStdString(buff));
     stat_stream.close();
 
-    //get memory data
-
-    stat_stream.open("/proc/meminfo");
-    stat_stream >> buff; stat_stream >> buff;
-    int num = atoi(buff.c_str());
-    memory = get_memory_string(num);
-
-    int free = 0;
-    for (int i = 0 ; i < 3 ; i++) {
-        stat_stream >> buff; stat_stream >> buff; stat_stream >> buff;
-        free += atoi(buff.c_str());
-    }
+    //get uptime system
+    stat_stream.open("/proc/uptime");
+    stat_stream >> buff;
+    QString uptime = get_uptime_string(atoi(buff.c_str()));
     stat_stream.close();
 
+    //get memory data
+    stat_stream.open("/proc/meminfo");
+    QString memory, memory_used, memory_free;
+    string total,free,available;
+    stat_stream >> buff >> total >> buff >> buff >> free >> buff >> buff >> available;
+    stat_stream.close();
 
-    memory_used = QString::number((num - free) *100 / num);
-    memory_free = get_memory_string(free);
+    int total_value = atoi(total.c_str());
+    int available_value = atoi(available.c_str());
+
+    memory = get_memory_string(total_value);
+    memory_used = QString::number((total_value - available_value) *100 / total_value);
+    memory_free = get_memory_string(available_value);
 
     obj_memory.insert("total", memory);
     obj_memory.insert("free", memory_free);
     obj_memory.insert("load", memory_used);
 
-    obj_sys_data.insert("uptime", obj_uptime);
+    //-------
+
+    obj_sys_data.insert("uptime", uptime);
     obj_sys_data.insert("CPU", obj_cpu);
     obj_sys_data.insert("memory", obj_memory);
 
     return obj_sys_data;
-}
-
-QString LinuxDiahnostic::get_uptime_string(int sec)
-{
-    QTime time(0, 0);
-    time = time.addSecs(sec);
-    int fullHours = sec/3600;
-
-    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
-
-    return uptime;
 }
 
 QString LinuxDiahnostic::get_running(char* pid)
@@ -279,6 +248,17 @@ QString LinuxDiahnostic::get_memory_string(int num)
        result += QString::number(kb) + QString(" Kb ");
 
     return result;
+}
+
+QString LinuxDiahnostic::get_uptime_string(int sec)
+{
+    QTime time(0, 0);
+    time = time.addSecs(sec);
+    int fullHours = sec/3600;
+
+    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
+
+    return uptime;
 }
 
 /// ---------------------------------------------------------------
