@@ -323,8 +323,8 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
        time = time.addSecs(uptime_sec);
        QString uptime=time.toString("hh:mm:ss");
 
-       QString path = NODE_DIR_PATH;
-       QString node_dir = NODE_PATH;
+       QString path = NODE_PATH;
+       QString node_dir = NODE_DIR_PATH;
 
 //       process_info.insert("PPID",QString::fromLocal8Bit(ppid.c_str()));
 //       process_info.insert("priory",QString::fromLocal8Bit(priority.c_str()));
@@ -341,7 +341,7 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
        QStringList arguments;
        arguments << "version";
        proc.start(program, arguments);
-       proc.waitForFinished(1000);
+       proc.waitForFinished(5000);
 
        QString result = QString::fromLatin1(proc.readAll());
 
