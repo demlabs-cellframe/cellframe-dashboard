@@ -1,7 +1,7 @@
 TEMPLATE = aux
 
 linux {
-    node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=ON
+    node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=ON -DCREATE_DEFAULT_CONFIG=OFF
     node_targets.files = $$OUT_PWD/build_linux_release/dist/opt
 }
 

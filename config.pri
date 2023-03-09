@@ -14,7 +14,8 @@ DEFINES += DAP_BRAND_LO=\\\"$$BRAND_LO\\\"
 
 unix: !mac: !android {
     VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
-    DEFINES += NODE_PATH=\\\"/opt/$${BRAND_BASE_LO}-node\\\"
+    DEFINES += NODE_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node\\\"
+    DEFINES += NODE_DIR_PATH=\\\"/opt/$${BRAND_BASE_LO}-node\\\"
     DEFINES += CLI_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-cli\\\"
     DEFINES += TOOLS_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-tool\\\"
     DEFINES += CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\"

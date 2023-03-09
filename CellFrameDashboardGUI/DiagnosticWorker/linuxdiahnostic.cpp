@@ -87,7 +87,7 @@ void LinuxDiahnostic::info_update(){
 long LinuxDiahnostic::get_pid()
 {
     long pid;
-    QString path = QString("%1/var/run/cellframe-node.pid").arg(NODE_PATH);
+    QString path = QString("%1/var/run/cellframe-node.pid").arg(NODE_DIR_PATH);
 
     QFile file(path);
     QByteArray data;
@@ -215,7 +215,7 @@ QString LinuxDiahnostic::get_running(char* pid)
 }
 
 
-QString LinuxDiahnostic::get_proc_path(long pid)
+QString LinuxDiahnostic::get_proc_path(long pid) // work with root
 {
     char exePath[PATH_MAX];
     char arg1[20];
@@ -323,9 +323,8 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
        time = time.addSecs(uptime_sec);
        QString uptime=time.toString("hh:mm:ss");
 
-       QString path = get_proc_path(proc_id);
-       QString node_dir = path;
-       node_dir.remove("/bin/cellframe-node");
+       QString path = NODE_DIR_PATH;
+       QString node_dir = NODE_PATH;
 
 //       process_info.insert("PPID",QString::fromLocal8Bit(ppid.c_str()));
 //       process_info.insert("priory",QString::fromLocal8Bit(priority.c_str()));
@@ -338,7 +337,7 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
        process_info.insert("chain_size", get_memory_string(get_file_size("chain", node_dir) / 1024));
        process_info.insert("status", "Online");
 
-       QString program = node_dir + "/bin/cellframe-node-cli";
+       QString program = "cellframe-node-cli";
        QStringList arguments;
        arguments << "version";
        proc.start(program, arguments);
