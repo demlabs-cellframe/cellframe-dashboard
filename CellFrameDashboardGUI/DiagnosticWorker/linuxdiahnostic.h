@@ -63,6 +63,9 @@ private:
     quint64 get_file_size(QString flag, QString path);
     QJsonArray get_mac_array();
 
+public:
+    QString get_uptime_string(int sec);
+
 private slots:
     void info_update();
 

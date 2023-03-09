@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTimer>
 #include <QElapsedTimer>
+#include "../DapServiceController.h"
 
 #ifdef Q_OS_LINUX
     #include <unistd.h>
@@ -20,10 +21,12 @@ class DiagnosticWorker : public QThread
 {
     Q_OBJECT
 public:
-    explicit DiagnosticWorker(QObject *parent = nullptr);
+    explicit DiagnosticWorker(DapServiceController * service, QObject *parent = nullptr);
     ~DiagnosticWorker();
 
 private:
+    DapServiceController * m_service;
+    QString m_node_version{""};
 
 #ifdef Q_OS_LINUX
     LinuxDiahnostic* m_diagnostic;

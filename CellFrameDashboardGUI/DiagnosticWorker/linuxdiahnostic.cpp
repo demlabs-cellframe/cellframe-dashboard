@@ -123,9 +123,17 @@ QJsonObject LinuxDiahnostic::get_sys_info()
         obj_uptime.insert("uptime_error", "error reading system statistics");
     }else{
 
-        QTime time(0, 0);
-        time = time.addSecs(info.uptime);
-        QString uptime=time.toString("hh:mm:ss");
+//        QDateTime datetime = QDateTime::fromSecsSinceEpoch(info.uptime);
+//        QTime time(0, 0);
+//        time = time.addSecs(info.uptime);
+//        int days = QDateTime::fromSecsSinceEpoch(0).daysTo(datetime);
+
+        QString uptime = get_uptime_string(info.uptime);
+
+
+//        QDateTime date_time(0,);
+
+//        QString uptime=time.toString("hh:mm:ss");
 
         obj_uptime.insert("time", uptime);
         obj_uptime.insert("uptime_error", "");
@@ -182,6 +190,17 @@ QJsonObject LinuxDiahnostic::get_sys_info()
     obj_sys_data.insert("memory", obj_memory);
 
     return obj_sys_data;
+}
+
+QString LinuxDiahnostic::get_uptime_string(int sec)
+{
+    QTime time(0, 0);
+    time = time.addSecs(sec);
+    int fullHours = sec/3600;
+
+    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
+
+    return uptime;
 }
 
 QString LinuxDiahnostic::get_running(char* pid)
@@ -319,9 +338,7 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
    {
        int uptime_sec = rx.match(res).captured(0).toInt();
 
-       QTime time(0, 0);
-       time = time.addSecs(uptime_sec);
-       QString uptime=time.toString("hh:mm:ss");
+       QString uptime= get_uptime_string(uptime_sec);
 
        QString path = NODE_PATH;
        QString node_dir = NODE_DIR_PATH;
@@ -336,21 +353,6 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
        process_info.insert("DB_size", get_memory_string(get_file_size("DB", node_dir) / 1024));
        process_info.insert("chain_size", get_memory_string(get_file_size("chain", node_dir) / 1024));
        process_info.insert("status", "Online");
-
-       QString program = "cellframe-node-cli";
-       QStringList arguments;
-       arguments << "version";
-       proc.start(program, arguments);
-       proc.waitForFinished(5000);
-
-       QString result = QString::fromLatin1(proc.readAll());
-
-       if(result.contains("cellframe-node version"))
-       {
-           result = result.split("version")[1];
-           result = result.split('\n', Qt::SkipEmptyParts)[0].trimmed();
-           process_info.insert("version", result);
-       }
    }
 
    return process_info;

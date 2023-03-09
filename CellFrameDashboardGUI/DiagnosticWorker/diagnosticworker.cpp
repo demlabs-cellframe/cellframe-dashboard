@@ -1,8 +1,10 @@
 #include "diagnosticworker.h"
 
-DiagnosticWorker::DiagnosticWorker(QObject * parent)
-    : QThread{parent}
+DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * parent)
+    : QThread{parent},
+      m_service(service)
 {
+
 
     s_uptime_timer = new QTimer(this);
     connect(s_uptime_timer, &QTimer::timeout,
@@ -42,6 +44,20 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     system.insert("uptime_dashboard", s_uptime);
     obj.insert("system",system);
 
+    if(m_node_version.isEmpty())
+    {
+        m_service->requestToService("DapVersionController", "version node");
+        connect(m_service, &DapServiceController::versionControllerResult, [=] (const QVariant& versionResult)
+        {
+            QJsonObject obj_result = versionResult.toJsonObject();
+            if(obj_result["message"] == "Reply node version")
+                m_node_version = obj_result["lastVersion"].toString();
+        });
+    }
+
+    QJsonObject proc = data["process"].toObject();
+    proc.insert("version", m_node_version);
+    obj.insert("process",proc);
     data.setObject(obj);
 
     emit signalDiagnosticData(data.toJson());
@@ -50,7 +66,8 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
 
 void DiagnosticWorker::slot_uptime()
 {
-    QTime time(0, 0);
-    time = time.addMSecs(s_elapsed_timer->elapsed());
-    s_uptime = time.toString("hh:mm:ss");
+    s_uptime = m_diagnostic->get_uptime_string(s_elapsed_timer->elapsed()/1000);
+//    QTime time(0, 0);
+//    time = time.addMSecs(s_elapsed_timer->elapsed());
+//    s_uptime = time.toString("hh:mm:ss");
 }
