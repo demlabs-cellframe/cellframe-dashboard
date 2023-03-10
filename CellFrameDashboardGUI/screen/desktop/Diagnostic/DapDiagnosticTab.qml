@@ -2,17 +2,25 @@ import QtQuick 2.4
 import "qrc:/"
 import "../../"
 import "../controls"
+import "Parts"
 
 DapPage
 {
     id: diagnosticTab
 
-    Component{id: emptyRightPanel; Item{}}
+    property alias topPanel: topPanel
 
-    dapHeader.initialItem: DapTopPanel{}
+    property bool checkSysUptime:  false
+    property bool checkDashUptime: false
+    property bool checkMemUptime:  false
+    property bool checkMemFUptime: false
+
+    Component{id: emptyRightPanel; Rectangle{}}
+
+    dapHeader.initialItem: DapDiagnosticTopPanel{id: topPanel}
     dapScreen.initialItem: DapDiagnosticScreen{}
 
-    dapRightPanelFrame.visible: false
+//    dapRightPanelFrame.visible: false
     dapRightPanel.initialItem: emptyRightPanel
 
 
@@ -23,6 +31,19 @@ DapPage
 
     Component.onDestruction:
     {
+//        popupInfo.show(false)
         console.log("Diagnostic tab close")
+    }
+
+    PopupInfoPanel{
+        id: popupInfo
+    }
+
+    Connections{
+        target: topPanel
+        function onShowInfo(flag){
+            popupInfo.show(flag)
+
+        }
     }
 }

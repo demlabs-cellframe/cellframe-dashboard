@@ -333,5 +333,11 @@
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
         <file>screen/desktop/Diagnostic/DapDiagnosticTab.qml</file>
         <file>screen/desktop/Diagnostic/DapDiagnosticScreen.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticTopPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TextElement.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_up_green.svg</file>
+        <file>screen/desktop/Diagnostic/Parts/PopupInfoPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/ProgressBarDiagnostic.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TextInfoElement.qml</file>
     </qresource>
 </RCC>

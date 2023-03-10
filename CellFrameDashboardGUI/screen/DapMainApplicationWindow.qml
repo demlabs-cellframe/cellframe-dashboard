@@ -195,8 +195,8 @@ Rectangle {
         ListElement { tag: "dApps"
             name: qsTr("dApps")
             show: true }
-        ListElement { tag: "Diagnostic"
-            name: qsTr("Diagnostic")
+        ListElement { tag: "Diagnostics"
+            name: qsTr("Diagnostics")
             show: true }
     }
 
@@ -261,8 +261,8 @@ Rectangle {
             bttnIco: "icon_daaps.svg",
             showTab: true,
             page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
-        append ({ tag: "Diagnostic",
-            name: qsTr("Diagnostic"),
+        append ({ tag: "Diagnostics",
+            name: qsTr("Diagnostics"),
             bttnIco: "icon_settings.svg",
             showTab: true,
             page: "qrc:/screen/desktop/Diagnostic/DapDiagnosticTab.qml"})

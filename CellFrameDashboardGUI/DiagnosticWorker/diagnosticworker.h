@@ -27,6 +27,9 @@ public:
 private:
     DapServiceController * m_service;
     QString m_node_version{""};
+    QSettings m_settings;
+
+    bool m_flag_stop_send_data{false};
 
 #ifdef Q_OS_LINUX
     LinuxDiahnostic* m_diagnostic;
@@ -47,8 +50,36 @@ public:
     QElapsedTimer *s_elapsed_timer;
     QString s_uptime{"00:00:00"};
 
+    Q_PROPERTY(bool flagSendData        READ flagSendData       WRITE setflagSendData       NOTIFY flagSendDataChanged)
+    Q_PROPERTY(bool flagSendSysTime     READ flagSendSysTime    WRITE setFlagSendSysTime    NOTIFY flagSendSysTimeChanged)
+    Q_PROPERTY(bool flagSendDahsTime    READ flagSendDahsTime   WRITE setFlagSendDahsTime   NOTIFY flagSendDahsTimeChanged)
+    Q_PROPERTY(bool flagSendMemory      READ flagSendMemory     WRITE setFlagSendMemory     NOTIFY flagSendMemoryChanged)
+    Q_PROPERTY(bool flagSendMemoryFree  READ flagSendMemoryFree WRITE setFlagSendMemoryFree NOTIFY flagSendMemoryFreeChanged)
+
+    Q_INVOKABLE bool flagSendData() const;
+    Q_INVOKABLE void setflagSendData(const bool &flagSendData);
+
+    Q_INVOKABLE bool flagSendSysTime() const;
+    Q_INVOKABLE void setFlagSendSysTime(const bool &flagSendSysTime);
+
+    Q_INVOKABLE bool flagSendDahsTime() const;
+    Q_INVOKABLE void setFlagSendDahsTime(const bool &flagSendDahsTime);
+
+    Q_INVOKABLE bool flagSendMemory() const;
+    Q_INVOKABLE void setFlagSendMemory(const bool &flagSendMemory);
+
+    Q_INVOKABLE bool flagSendMemoryFree() const;
+    Q_INVOKABLE void setFlagSendMemoryFree(const bool &flagSendMemoryFree);
+
+
 signals:
     void signalDiagnosticData(QByteArray);
+
+    void flagSendSysTimeChanged();
+    void flagSendDahsTimeChanged();
+    void flagSendMemoryChanged();
+    void flagSendMemoryFreeChanged();
+    void flagSendDataChanged();
 };
 
 #endif // DIAGNOSTICWORKER_H

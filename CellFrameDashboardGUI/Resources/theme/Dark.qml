@@ -27,6 +27,12 @@ QtObject {
     readonly property color buttonColorNormalPosition1    : "#9580FF"
 
     readonly property color lineSeparatorColor     : "#292929"
+    readonly property color lineSeparatorColor2     : "#363A42"
+
+
+    readonly property color progressBarColor1     : "#A9E81C"
+    readonly property color progressBarColor2     : "#FFCD43"
+    readonly property color progressBarColor3     : "#FF5F5F"
 
     //Text colors
     readonly property color textColor              : "#ffffff" // OK
