@@ -6,6 +6,7 @@ import "qrc:/widgets"
 RowLayout{
     property alias title: title.text
     property alias content: content.text
+    property alias contentColor: content.color
     property alias progress: progress
     property alias _switch: _switch
 

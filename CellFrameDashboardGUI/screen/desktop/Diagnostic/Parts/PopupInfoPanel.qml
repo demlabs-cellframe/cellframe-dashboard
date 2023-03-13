@@ -26,7 +26,7 @@ Item {
     }
     Rectangle{
         id: contentPanel
-        width: parent.width - 281 - 21 - 21
+        width: parent.width - 257 - 21 - 21
         height: 346
         x: 21
         y: -500
@@ -234,6 +234,9 @@ Item {
                         TextInfoElement{
                             title: qsTr("Node status: ")
                             content: process.status
+                            contentColor: process.status === "Online" ? currTheme.progressBarColor1
+                                                                      : currTheme.progressBarColor3
+
                         }
                         Item{Layout.fillHeight: true}
                     }

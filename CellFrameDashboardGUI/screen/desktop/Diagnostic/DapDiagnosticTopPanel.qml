@@ -87,6 +87,7 @@ Controls.DapTopPanel {
 
                 anchors.left: parent.left
                 anchors.right: image.left
+                anchors.rightMargin: 8
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 text: qsTr("More")
@@ -125,7 +126,7 @@ Controls.DapTopPanel {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        anchors.rightMargin: 24
+//        anchors.rightMargin: 24
         width: 274
         spacing: 24
 
@@ -157,8 +158,8 @@ Controls.DapTopPanel {
 
             onCheckedChanged: diagnostic.flagSendData = swithSendData.checked
             Component.onCompleted: if(diagnostic.flagSendData)swithSendData.toggle()
-
-
         }
+
+        Item{width: 24}
     }
 }
