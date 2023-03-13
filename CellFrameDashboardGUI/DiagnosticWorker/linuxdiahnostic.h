@@ -58,7 +58,7 @@ private:
     std::vector<size_t> get_cpu_times();
     QString get_running(char* pid);
     QString get_proc_path(long pid);
-    QJsonObject get_process_info(long pid);
+    QJsonObject get_process_info(long pid, int totalRam);
 
     quint64 get_file_size(QString flag, QString path);
     QJsonArray get_mac_array();

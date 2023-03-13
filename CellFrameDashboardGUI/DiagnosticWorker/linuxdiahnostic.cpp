@@ -71,10 +71,13 @@ void LinuxDiahnostic::info_update(){
 //    }
 //    closedir(proc);
 
-    proc_info = get_process_info(get_pid());
 
     sys_info = get_sys_info();
     sys_info.insert("mac_list", get_mac_array());
+    QJsonObject obj = sys_info["memory"].toObject();
+    int mem = obj["total_value"].toInt();
+
+    proc_info = get_process_info(get_pid(), mem);
 
     full_info.insert("system", sys_info);
     full_info.insert("process", proc_info);
@@ -160,6 +163,7 @@ QJsonObject LinuxDiahnostic::get_sys_info()
     memory_free = get_memory_string(available_value);
 
     obj_memory.insert("total", memory);
+    obj_memory.insert("total_value", total_value);
     obj_memory.insert("free", memory_free);
     obj_memory.insert("load", memory_used);
 
@@ -264,7 +268,7 @@ QString LinuxDiahnostic::get_uptime_string(int sec)
 /// ---------------------------------------------------------------
 ///        Process info
 /// ---------------------------------------------------------------
-QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
+QJsonObject LinuxDiahnostic::get_process_info(long proc_id, int totalRam)
 {
    using std::ios_base;
    using std::ifstream;
@@ -298,9 +302,11 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
 
    stat_stream.close();
 
-//   long page_size_kb = sysconf(_SC_PAGE_SIZE) / 1024; // in case x86-64 is configured to use 2MB pages
+   long page_size_kb = sysconf(_SC_PAGE_SIZE) / 1024; // in case x86-64 is configured to use 2MB pages
 //   vm_usage     = (vsize/1024.0);
-//   resident_set = rss * page_size_kb;
+   long resident_set = rss * page_size_kb;
+
+   int precentUseRss = (resident_set * 100) / totalRam;
 
    QProcess proc;
    QString program = "ps";
@@ -313,27 +319,55 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id)
    static QRegularExpression rx(R"([0-9]+)");
 
    QJsonObject process_info;
+   QString status = "Offline";
    process_info.insert("status", "Offline");
+
+   QString path = NODE_PATH;
+   QString node_dir = NODE_DIR_PATH;
+
+
+   QString log_size, db_size, chain_size;
+   log_size = get_memory_string(get_file_size("log", node_dir) / 1024);
+   db_size = get_memory_string(get_file_size("DB", node_dir) / 1024);
+   chain_size = get_memory_string(get_file_size("chain", node_dir) / 1024);
+
+   if(log_size.isEmpty()) log_size = "0 Kb";
+   if(db_size.isEmpty()) db_size = "0 Kb";
+   if(chain_size.isEmpty()) chain_size = "0 Kb";
+
+   process_info.insert("log_size", log_size);
+   process_info.insert("DB_size", db_size);
+   process_info.insert("chain_size", chain_size);
+
    if(QString::fromLocal8Bit(comm.c_str()).contains("cellframe-node"))
    {
        int uptime_sec = rx.match(res).captured(0).toInt();
 
        QString uptime= get_uptime_string(uptime_sec);
 
-       QString path = NODE_PATH;
-       QString node_dir = NODE_DIR_PATH;
+       QString memory_use_value = get_memory_string(resident_set);
 
 //       process_info.insert("PPID",QString::fromLocal8Bit(ppid.c_str()));
 //       process_info.insert("priory",QString::fromLocal8Bit(priority.c_str()));
 //       process_info.insert("start_time",QString::number(((starttime/100)/60)));
+       process_info.insert("memory_use",precentUseRss);
+       process_info.insert("memory_use_value",memory_use_value);
        process_info.insert("uptime",uptime);
        process_info.insert("name","cellframe-node");
-       process_info.insert("path", path);
-       process_info.insert("log_size", get_memory_string(get_file_size("log", node_dir) / 1024));
-       process_info.insert("DB_size", get_memory_string(get_file_size("DB", node_dir) / 1024));
-       process_info.insert("chain_size", get_memory_string(get_file_size("chain", node_dir) / 1024));
-       process_info.insert("status", "Online");
+
+       status = "Online";
    }
+
+   if(status == "Offline")
+   {
+       process_info.insert("memory_use","0");
+       process_info.insert("memory_use_value","0 Kb");
+       process_info.insert("uptime","00:00:00");
+
+   }
+
+   process_info.insert("status", status);
+   process_info.insert("path", path);
 
    return process_info;
 }

@@ -10,18 +10,11 @@ DapPage
 
     property alias topPanel: topPanel
 
-    property bool checkSysUptime:  false
-    property bool checkDashUptime: false
-    property bool checkMemUptime:  false
-    property bool checkMemFUptime: false
-
-    Component{id: emptyRightPanel; Rectangle{}}
-
     dapHeader.initialItem: DapDiagnosticTopPanel{id: topPanel}
     dapScreen.initialItem: DapDiagnosticScreen{}
 
-//    dapRightPanelFrame.visible: false
-    dapRightPanel.initialItem: emptyRightPanel
+    dapRightPanelFrame.background: Item{}
+    dapRightPanel.initialItem: DapDiagnosticRightPanel{id: rightPanel}
 
 
     Component.onCompleted:
@@ -31,7 +24,6 @@ DapPage
 
     Component.onDestruction:
     {
-//        popupInfo.show(false)
         console.log("Diagnostic tab close")
     }
 
@@ -43,7 +35,6 @@ DapPage
         target: topPanel
         function onShowInfo(flag){
             popupInfo.show(flag)
-
         }
     }
 }

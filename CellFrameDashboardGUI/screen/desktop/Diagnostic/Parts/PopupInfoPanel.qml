@@ -27,7 +27,7 @@ Item {
     Rectangle{
         id: contentPanel
         width: parent.width - 257 - 21 - 21
-        height: 346
+        height: 374
         x: 21
         y: -500
         radius: 12
@@ -218,8 +218,8 @@ Item {
 
                         Layout.minimumWidth: panelLayout.width/2 - 32
                         Layout.maximumWidth: panelLayout.width/2 - 32
-                        Layout.minimumHeight: 112
-                        Layout.maximumHeight: 112
+                        Layout.minimumHeight: 148
+                        Layout.maximumHeight: 148
 
                         spacing: 16
 
@@ -238,6 +238,13 @@ Item {
                                                                       : currTheme.progressBarColor3
 
                         }
+                        TextInfoElement{
+                            title: qsTr("Node RSS: ")
+                            content: process.memory_use + " %"
+                            progress.visible: true
+                            progress.value: process.memory_use
+                        }
+
                         Item{Layout.fillHeight: true}
                     }
 
@@ -249,8 +256,8 @@ Item {
 
                         Layout.minimumWidth: panelLayout.width/2 - 32
                         Layout.maximumWidth: panelLayout.width/2 - 32
-                        Layout.minimumHeight: 112
-                        Layout.maximumHeight: 112
+                        Layout.minimumHeight: 148
+                        Layout.maximumHeight: 148
 
                         spacing: 16
 
@@ -265,6 +272,10 @@ Item {
                         TextInfoElement{
                             title: qsTr("Chain size: ")
                             content: process.chain_size
+                        }
+                        TextInfoElement{
+                            title: qsTr("Node RSS: ")
+                            content: process.memory_use_value
                         }
                         Item{Layout.fillHeight: true}
                     }

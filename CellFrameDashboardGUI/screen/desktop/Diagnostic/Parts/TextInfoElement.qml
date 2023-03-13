@@ -10,11 +10,13 @@ RowLayout{
     property alias progress: progress
     property alias _switch: _switch
 
+    property int widthTitle: 135
+
     Layout.fillWidth: true
     Text{
         id: title
-        Layout.minimumWidth: 135
-        Layout.maximumWidth: 135
+        Layout.minimumWidth: widthTitle
+        Layout.maximumWidth: widthTitle
         font: mainFont.dapFont.regular14
         color: currTheme.textColorGray
 
