@@ -36,9 +36,9 @@ private:
 #ifdef Q_OS_LINUX
     LinuxDiahnostic* m_diagnostic;
 #elif defined Q_OS_WIN
-    WinDiahnostic* m_diagnostic;
+    WinDiagnostic* m_diagnostic;
 #elif defined Q_OS_MAC
-    MacDiahnostic* m_diagnostic;
+    MacDiagnostic* m_diagnostic;
 
 #endif
 
