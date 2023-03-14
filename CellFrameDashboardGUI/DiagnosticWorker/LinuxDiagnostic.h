@@ -1,5 +1,5 @@
-#ifndef LINUXDIAHNOSTIC_H
-#define LINUXDIAHNOSTIC_H
+#ifndef LINUXDIAGNOSTIC_H
+#define LINUXDIAGNOSTIC_H
 
 #include <QObject>
 #include "qtimer.h"
@@ -38,12 +38,12 @@
 using namespace std;
 
 
-class LinuxDiahnostic : public QObject
+class LinuxDiagnostic : public QObject
 {
     Q_OBJECT
 public:
-    explicit LinuxDiahnostic(QObject * parent = nullptr);
-    ~LinuxDiahnostic();
+    explicit LinuxDiagnostic(QObject * parent = nullptr);
+    ~LinuxDiagnostic();
 
 //    QMap<QString,QStringList>  get_proc_info();
 //    QMap<QString,QStringList> process_info;
@@ -88,4 +88,4 @@ signals:
 
 };
 
-#endif // LINUXDIAHNOSTIC_H
+#endif // LINUXDIAGNOSTIC_H

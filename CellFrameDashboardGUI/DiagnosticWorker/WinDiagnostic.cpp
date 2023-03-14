@@ -1,4 +1,4 @@
-#include "windiagnostic.h"
+#include "WinDiagnostic.h"
 
 WinDiagnostic::WinDiagnostic(QObject *parent)
     : QObject{parent}

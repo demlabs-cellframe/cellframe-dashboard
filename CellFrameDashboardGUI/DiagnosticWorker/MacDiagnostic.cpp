@@ -1,4 +1,4 @@
-#include "macdiagnostic.h"
+#include "MacDiagnostic.h"
 
 MacDiagnostic::MacDiagnostic(QObject *parent)
     : QObject{parent}

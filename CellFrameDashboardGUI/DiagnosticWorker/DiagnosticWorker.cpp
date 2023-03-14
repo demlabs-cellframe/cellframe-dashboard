@@ -1,4 +1,4 @@
-#include "diagnosticworker.h"
+#include "DiagnosticWorker.h"
 
 namespace sendFlagsData
 {
@@ -34,9 +34,9 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
     s_elapsed_timer->start();
 
 #ifdef Q_OS_LINUX
-    m_diagnostic = new LinuxDiahnostic(this);
+    m_diagnostic = new LinuxDiagnostic(this);
 
-    connect(m_diagnostic, &LinuxDiahnostic::data_updated,
+    connect(m_diagnostic, &LinuxDiagnostic::data_updated,
             this, &DiagnosticWorker::slot_diagnostic_data,
             Qt::QueuedConnection);
 #elif defined Q_OS_WIN

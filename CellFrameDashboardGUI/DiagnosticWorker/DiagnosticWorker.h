@@ -11,11 +11,11 @@
     #include <stdlib.h>
     #include <stdio.h>
     #include <string.h>
-    #include "linuxdiahnostic.h"
+    #include "LinuxDiagnostic.h"
 #elif defined Q_OS_WIN
-    #include "windiagnostic.h"
+    #include "WinDiagnostic.h"
 #elif defined Q_OS_MAC
-    #include "macdiagnostic.h"
+    #include "MacDiagnostic.h"
 #endif
 
 
@@ -34,7 +34,7 @@ private:
     bool m_flag_stop_send_data{false};
 
 #ifdef Q_OS_LINUX
-    LinuxDiahnostic* m_diagnostic;
+    LinuxDiagnostic* m_diagnostic;
 #elif defined Q_OS_WIN
     WinDiagnostic* m_diagnostic;
 #elif defined Q_OS_MAC

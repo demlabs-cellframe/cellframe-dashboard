@@ -1,38 +1,38 @@
-#include "linuxdiahnostic.h"
+#include "LinuxDiagnostic.h"
 
 
-LinuxDiahnostic::LinuxDiahnostic(QObject *parent)
+LinuxDiagnostic::LinuxDiagnostic(QObject *parent)
     : QObject{parent}
 {
     s_timer_update = new QTimer();
 
     connect(s_timer_update, &QTimer::timeout,
-            this, &LinuxDiahnostic::info_update,
+            this, &LinuxDiagnostic::info_update,
             Qt::QueuedConnection);
 }
 
-LinuxDiahnostic::~LinuxDiahnostic()
+LinuxDiagnostic::~LinuxDiagnostic()
 {
     delete s_timer_update;
 }
 
-void LinuxDiahnostic::set_timeout(int timeout){
+void LinuxDiagnostic::set_timeout(int timeout){
     s_timer_update->stop();
     s_timeout = timeout;
     s_timer_update->start(s_timeout);
 }
 
-void LinuxDiahnostic::start_diagnostic()
+void LinuxDiagnostic::start_diagnostic()
 {
     s_timer_update->start(s_timeout);
 }
 
-void LinuxDiahnostic::stop_diagnostic()
+void LinuxDiagnostic::stop_diagnostic()
 {
     s_timer_update->stop();
 }
 
-void LinuxDiahnostic::info_update(){
+void LinuxDiagnostic::info_update(){
 
     QJsonObject proc_info;
     QJsonObject sys_info;
@@ -87,7 +87,7 @@ void LinuxDiahnostic::info_update(){
     emit data_updated(s_full_info);
 }
 
-long LinuxDiahnostic::get_pid()
+long LinuxDiagnostic::get_pid()
 {
     long pid;
     QString path = QString("%1/var/run/cellframe-node.pid").arg(NODE_DIR_PATH);
@@ -102,7 +102,7 @@ long LinuxDiahnostic::get_pid()
     return pid;
 }
 
-QJsonArray LinuxDiahnostic::get_mac_array()
+QJsonArray LinuxDiagnostic::get_mac_array()
 {
     QJsonArray mac_arr;
 
@@ -114,7 +114,7 @@ QJsonArray LinuxDiahnostic::get_mac_array()
     return mac_arr;
 }
 
-QJsonObject LinuxDiahnostic::get_sys_info()
+QJsonObject LinuxDiagnostic::get_sys_info()
 {
     QJsonObject obj_sys_data, obj_cpu, obj_memory;
 
@@ -176,7 +176,7 @@ QJsonObject LinuxDiahnostic::get_sys_info()
     return obj_sys_data;
 }
 
-QString LinuxDiahnostic::get_running(char* pid)
+QString LinuxDiagnostic::get_running(char* pid)
 {
     char tbuf[32];
     char *cp;
@@ -207,7 +207,7 @@ QString LinuxDiahnostic::get_running(char* pid)
 }
 
 
-QString LinuxDiahnostic::get_proc_path(long pid) // work with root
+QString LinuxDiagnostic::get_proc_path(long pid) // work with root
 {
     char exePath[PATH_MAX];
     char arg1[20];
@@ -219,7 +219,7 @@ QString LinuxDiahnostic::get_proc_path(long pid) // work with root
     return QString::fromUtf8(exePath);
 }
 
-std::vector<size_t> LinuxDiahnostic::get_cpu_times() {
+std::vector<size_t> LinuxDiagnostic::get_cpu_times() {
     std::ifstream proc_stat("/proc/stat");
     proc_stat.ignore(5, ' '); // Skip the 'cpu' prefix.
     std::vector<size_t> times;
@@ -227,7 +227,7 @@ std::vector<size_t> LinuxDiahnostic::get_cpu_times() {
     return times;
 }
 
-bool LinuxDiahnostic::get_cpu_times(size_t &idle_time, size_t &total_time) {
+bool LinuxDiagnostic::get_cpu_times(size_t &idle_time, size_t &total_time) {
     const std::vector<size_t> cpu_times = get_cpu_times();
     if (cpu_times.size() < 4)
         return false;
@@ -236,7 +236,7 @@ bool LinuxDiahnostic::get_cpu_times(size_t &idle_time, size_t &total_time) {
     return true;
 }
 
-QString LinuxDiahnostic::get_memory_string(int num)
+QString LinuxDiagnostic::get_memory_string(int num)
 {
     QString result;
     int gb = (num / 1024) / 1024;
@@ -254,7 +254,7 @@ QString LinuxDiahnostic::get_memory_string(int num)
     return result;
 }
 
-QString LinuxDiahnostic::get_uptime_string(int sec)
+QString LinuxDiagnostic::get_uptime_string(int sec)
 {
     QTime time(0, 0);
     time = time.addSecs(sec);
@@ -268,7 +268,7 @@ QString LinuxDiahnostic::get_uptime_string(int sec)
 /// ---------------------------------------------------------------
 ///        Process info
 /// ---------------------------------------------------------------
-QJsonObject LinuxDiahnostic::get_process_info(long proc_id, int totalRam)
+QJsonObject LinuxDiagnostic::get_process_info(long proc_id, int totalRam)
 {
    using std::ios_base;
    using std::ifstream;
@@ -372,7 +372,7 @@ QJsonObject LinuxDiahnostic::get_process_info(long proc_id, int totalRam)
    return process_info;
 }
 
-quint64 LinuxDiahnostic::get_file_size (QString flag, QString path ) {
+quint64 LinuxDiagnostic::get_file_size (QString flag, QString path ) {
 
     if(flag == "log")
         path += "/var/log";

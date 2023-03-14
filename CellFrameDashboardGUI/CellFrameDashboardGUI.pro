@@ -46,13 +46,15 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
 OTHER_FILES += libdap-qt-ui-qml \
                libdap-qt-ui-chain-wallet
 
+
+
 SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     Autocomplete/CommandCmdController.cpp \
     DapApplication.cpp \
     DapMath.cpp \
-    DiagnosticWorker/diagnosticworker.cpp \
+    DiagnosticWorker/DiagnosticWorker.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
@@ -82,7 +84,7 @@ HEADERS += \
     Autocomplete/CommandCmdController.h \
     DapApplication.h \
     DapMath.h \
-    DiagnosticWorker/diagnosticworker.h \
+    DiagnosticWorker/DiagnosticWorker.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
@@ -111,19 +113,20 @@ HEADERS += \
     windowframerect.h
 
 unix: !mac{
-SOURCES += $$PWD/DiagnosticWorker/linuxdiahnostic.cpp
-HEADERS += $$PWD/DiagnosticWorker/linuxdiahnostic.h
+HEADERS += $$PWD/DiagnosticWorker/LinuxDiagnostic.h
+SOURCES += $$PWD/DiagnosticWorker/LinuxDiagnostic.cpp
 }
 
 win32 {
-SOURCES += $$PWD/DiagnosticWorker/windiahnostic.cpp
-HEADERS += $$PWD/DiagnosticWorker/windiahnostic.h
+HEADERS += $$PWD/DiagnosticWorker/WinDiagnostic.h
+SOURCES += $$PWD/DiagnosticWorker/WinDiagnostic.cpp
 }
 
 mac {
-SOURCES += $$PWD/DiagnosticWorker/macdiahnostic.cpp
-HEADERS += $$PWD/DiagnosticWorker/macdiahnostic.h
+HEADERS += $$PWD/DiagnosticWorker/MacDiagnostic.h
+SOURCES += $$PWD/DiagnosticWorker/MacDiagnostic.cpp
 }
+
 
 RESOURCES += $$PWD/qml.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc

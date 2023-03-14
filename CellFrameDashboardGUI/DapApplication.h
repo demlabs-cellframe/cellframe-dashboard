@@ -3,7 +3,7 @@
 
 #include <QApplication>
 #include "DapNetworksList.h"
-#include "DiagnosticWorker/diagnosticworker.h"
+#include "DiagnosticWorker/DiagnosticWorker.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
