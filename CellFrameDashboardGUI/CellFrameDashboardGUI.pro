@@ -53,7 +53,6 @@ SOURCES += \
     DapApplication.cpp \
     DapMath.cpp \
     DiagnosticWorker/diagnosticworker.cpp \
-    DiagnosticWorker/linuxdiahnostic.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
@@ -76,16 +75,7 @@ SOURCES += \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
-RESOURCES += $$PWD/qml.qrc
-RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
-!isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
     $$PWD/DapServiceController.h \
@@ -93,7 +83,6 @@ HEADERS += \
     DapApplication.h \
     DapMath.h \
     DiagnosticWorker/diagnosticworker.h \
-    DiagnosticWorker/linuxdiahnostic.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
@@ -120,6 +109,32 @@ HEADERS += \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h
+
+unix: !mac{
+SOURCES += $$PWD/DiagnosticWorker/linuxdiahnostic.cpp
+HEADERS += $$PWD/DiagnosticWorker/linuxdiahnostic.h
+}
+
+win32 {
+SOURCES += $$PWD/DiagnosticWorker/windiahnostic.cpp
+HEADERS += $$PWD/DiagnosticWorker/windiahnostic.h
+}
+
+mac {
+SOURCES += $$PWD/DiagnosticWorker/macdiahnostic.cpp
+HEADERS += $$PWD/DiagnosticWorker/macdiahnostic.h
+}
+
+RESOURCES += $$PWD/qml.qrc
+RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
+!isEmpty(target.path): INSTALLS += target
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)

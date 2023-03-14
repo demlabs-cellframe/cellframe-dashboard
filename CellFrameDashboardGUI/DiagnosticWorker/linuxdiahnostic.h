@@ -16,7 +16,6 @@
 #include <QJsonArray>
 #include <QDir>
 #include <QNetworkInterface>
-#include <QThread>
 
 #include <unistd.h>
 #include <fcntl.h>

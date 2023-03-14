@@ -13,7 +13,9 @@
     #include <string.h>
     #include "linuxdiahnostic.h"
 #elif defined Q_OS_WIN
-
+    #include "windiagnostic.h"
+#elif defined Q_OS_MAC
+    #include "macdiagnostic.h"
 #endif
 
 
@@ -34,6 +36,9 @@ private:
 #ifdef Q_OS_LINUX
     LinuxDiahnostic* m_diagnostic;
 #elif defined Q_OS_WIN
+    WinDiahnostic* m_diagnostic;
+#elif defined Q_OS_MAC
+    MacDiahnostic* m_diagnostic;
 
 #endif
 

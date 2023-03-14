@@ -39,6 +39,20 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
     connect(m_diagnostic, &LinuxDiahnostic::data_updated,
             this, &DiagnosticWorker::slot_diagnostic_data,
             Qt::QueuedConnection);
+#elif defined Q_OS_WIN
+    m_diagnostic = new WinDiahnostic(this);
+
+    connect(m_diagnostic, &WinDiahnostic::data_updated,
+            this, &DiagnosticWorker::slot_diagnostic_data,
+            Qt::QueuedConnection);
+
+#elif defined Q_OS_MAC
+    m_diagnostic = new MacDiahnostic(this);
+
+    connect(m_diagnostic, &MacDiahnostic::data_updated,
+            this, &DiagnosticWorker::slot_diagnostic_data,
+            Qt::QueuedConnection);
+
 #endif
 
     m_diagnostic->start_diagnostic();
