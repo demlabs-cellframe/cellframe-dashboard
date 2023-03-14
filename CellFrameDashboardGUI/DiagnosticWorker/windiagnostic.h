@@ -35,6 +35,9 @@ signals:
     void data_updated(QJsonDocument);
 
 public:
+    QString get_uptime_string(int sec);
+
+public:
     void start_diagnostic();
     void stop_diagnostic();
     void set_timeout(int timeout);

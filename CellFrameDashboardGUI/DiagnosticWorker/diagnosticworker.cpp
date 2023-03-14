@@ -40,16 +40,16 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
             this, &DiagnosticWorker::slot_diagnostic_data,
             Qt::QueuedConnection);
 #elif defined Q_OS_WIN
-    m_diagnostic = new WinDiahnostic(this);
+    m_diagnostic = new WinDiagnostic(this);
 
-    connect(m_diagnostic, &WinDiahnostic::data_updated,
+    connect(m_diagnostic, &WinDiagnostic::data_updated,
             this, &DiagnosticWorker::slot_diagnostic_data,
             Qt::QueuedConnection);
 
 #elif defined Q_OS_MAC
-    m_diagnostic = new MacDiahnostic(this);
+    m_diagnostic = new MacDiagnostic(this);
 
-    connect(m_diagnostic, &MacDiahnostic::data_updated,
+    connect(m_diagnostic, &MacDiagnostic::data_updated,
             this, &DiagnosticWorker::slot_diagnostic_data,
             Qt::QueuedConnection);
 

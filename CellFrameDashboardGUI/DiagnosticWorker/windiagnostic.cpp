@@ -53,3 +53,14 @@ void WinDiagnostic::info_update(){
 //    emit data_updated(s_full_info);
 }
 
+QString WinDiagnostic::get_uptime_string(int sec)
+{
+    QTime time(0, 0);
+    time = time.addSecs(sec);
+    int fullHours = sec/3600;
+
+    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
+
+    return uptime;
+}
+
