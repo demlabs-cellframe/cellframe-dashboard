@@ -4,6 +4,8 @@
 #include <windows.h>
 #include <psapi.h>
 #include <tlhelp32.h>
+#include "registry.h"
+#include "pdh.h"
 
 #include <QDebug>
 #include <QDesktopServices>
@@ -21,8 +23,6 @@
 #include <QTimer>
 #include <QUrl>
 
-#include "pdh.h"
-#include "wid_dll_func.h"
 
 enum PLATFORM { WINNT1, WIN2K_XP1, WIN9X1, UNKNOWN1 };
 
@@ -35,9 +35,10 @@ class WinDiagnostic : public QObject {
 private:
     QJsonObject get_sys_info();
     QJsonArray get_mac_array();
-    long get_pid(QString proc_name);
     QJsonObject get_process_info(int totalRam);
 
+    quint64 get_file_size (QString flag, QString path );
+    long get_memory_size(HANDLE hProc);
     ULONGLONG ft2ull(FILETIME &ft);
     BOOL SetPrivilege(    HANDLE hToken,          // access token handle
                           LPCTSTR lpszPrivilege,  // name of privilege to enable/disable

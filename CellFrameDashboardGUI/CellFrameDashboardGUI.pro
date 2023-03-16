@@ -86,7 +86,6 @@ HEADERS += \
     DapApplication.h \
     DapMath.h \
     DiagnosticWorker/DiagnosticWorker.h \
-    DiagnosticWorker/wid_dll_func.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \

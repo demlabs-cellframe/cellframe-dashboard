@@ -51,47 +51,11 @@ void WinDiagnostic::info_update()
     proc_info = get_process_info(mem);
 
     full_info.insert("system", sys_info);
-//    full_info.insert("process", proc_info);
+    full_info.insert("process", proc_info);
 
     s_full_info.setObject(full_info);
 
     emit data_updated(s_full_info);
-}
-
-long WinDiagnostic::get_pid(QString proc_name)
-{
-    HANDLE hSnapshot;
-    PROCESSENTRY32 pe;
-    long pid = 0;
-    BOOL hResult;
-
-    // snapshot of all processes in the system
-    hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (INVALID_HANDLE_VALUE == hSnapshot) return 0;
-
-    // initializing size: needed for using Process32First
-    pe.dwSize = sizeof(PROCESSENTRY32);
-
-    // info about first process encountered in a system snapshot
-    hResult = Process32First(hSnapshot, &pe);
-
-    // retrieve information about the processes
-    // and exit if unsuccessful
-    while (hResult) {
-        // if we find the process: return process ID
-
-        std::wstring string(pe.szExeFile);
-        std::string str(string.begin(), string.end());
-        QString s = QString::fromStdString(str);
-
-        if(!proc_name.compare(s)){
-            pid = pe.th32ProcessID;
-            break;
-        }
-        hResult = Process32Next(hSnapshot, &pe);
-    }
-
-    return pid;
 }
 
 QString WinDiagnostic::get_uptime_string(int sec)
@@ -187,6 +151,16 @@ QJsonObject WinDiagnostic::get_sys_info()
 
 }
 
+long WinDiagnostic::get_memory_size(HANDLE hProc)
+{
+    PROCESS_MEMORY_COUNTERS pmcInfo;
+
+    if (GetProcessMemoryInfo(hProc, &pmcInfo, sizeof(pmcInfo)))
+        return pmcInfo.WorkingSetSize/1024;
+    else return 0;
+
+}
+
 ULONGLONG WinDiagnostic::ft2ull(FILETIME &ft) {
     ULARGE_INTEGER ul;
     ul.HighPart = ft.dwHighDateTime;
@@ -264,7 +238,6 @@ BOOL WinDiagnostic::SetPrivilege(
 
 QJsonObject WinDiagnostic::get_process_info(int totalRam)
 {
-    QJsonObject test;
     // refresh snaphot
     refresh_win_snapshot();
 
@@ -273,11 +246,7 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
     // vars for get process time
     FILETIME lpCreation, lpExit, lpKernel, lpUser;
     SYSTEMTIME stCreation, stExit, stKernel, stUser;
-
-    // process params
-    QStringList proc_names_list,proc_pid_list,proc_thread_count_list,
-            proc_parents_id_list,proc_priory_list,proc_creation_time,proc_work_time,
-            proc_memory,proc_path;
+    long memory_size;
 
     HANDLE hSnapshot;
     PROCESSENTRY32 pe;
@@ -286,7 +255,6 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
 
     // snapshot of all processes in the system
     hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
-    if (INVALID_HANDLE_VALUE == hSnapshot) return test; //TODO
 
     // initializing size: needed for using Process32First
     pe.dwSize = sizeof(PROCESSENTRY32);
@@ -294,8 +262,7 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
     // info about first process encountered in a system snapshot
     hResult = Process32First(hSnapshot, &pe);
 
-    // retrieve information about the processes
-    // and exit if unsuccessful
+
     QString proc_name = "cellframe-node.exe";
     while (hResult) {
         // if we find the process: return process ID
@@ -309,113 +276,140 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
             pid = pe.th32ProcessID;
 
             HANDLE hToken = NULL;
-            OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken);
 
-            BOOL res = SetPrivilege(&hToken, SE_DEBUG_NAME, TRUE);
-            // get process descriptor
-            HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION  | PROCESS_VM_READ, FALSE, pe.th32ProcessID);
+            if (!OpenProcessToken(GetCurrentProcess(),
+              TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
+              printf("OpenProcessToken error: %u\n", GetLastError() );
 
-            qDebug() << "OpenProcess error: " << GetLastError() ;
 
-            SetPrivilege(&hToken, SE_DEBUG_NAME, FALSE);
-
-            // get process times info
-            bool ok = GetProcessTimes(hProcess,&lpCreation, &lpExit, &lpKernel, &lpUser);
-            if(ok)
+            if(SetPrivilege(&hToken, SE_DEBUG_NAME, TRUE))
             {
-                  FileTimeToSystemTime(&lpCreation, &stCreation);
-                  FileTimeToSystemTime(&lpExit, &stExit);
-                  FileTimeToSystemTime(&lpUser, &stUser);
-                  FileTimeToSystemTime(&lpKernel, &stKernel);
+                // get process descriptor
+                HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION  | PROCESS_VM_READ, FALSE, pe.th32ProcessID);
+
+                printf("OpenProcess error: %u\n", GetLastError() );
+
+                SetPrivilege(&hToken, SE_DEBUG_NAME, FALSE);
+
+                // get process times info
+                bool ok = GetProcessTimes(hProcess,&lpCreation, &lpExit, &lpKernel, &lpUser);
+                if(ok)
+                {
+                      FileTimeToSystemTime(&lpCreation, &stCreation);
+                      FileTimeToSystemTime(&lpExit, &stExit);
+                      FileTimeToSystemTime(&lpUser, &stUser);
+                      FileTimeToSystemTime(&lpKernel, &stKernel);
+                }
+                memory_size = get_memory_size(hProcess);
+
+                //TODO CPU processing
+
+    //            wchar_t* a="C:\Program Files\Cellframe-Dashboard\cellframe-node.exe";
+    //            wchar_t test = PrintVersionStringInfo((wchar_t)("C:\\Program Files\\Cellframe-Dashboard\\cellframe-node.exe"));
+
+                CloseHandle(hProcess);
             }
-
-            // get proc memory info
-        //        proc_memory.append(QString::number(get_memory_size(hProcess))+" кб");
-
-
-            // get process priory
-            switch (GetPriorityClass(hProcess))
-            {
-                case HIGH_PRIORITY_CLASS:
-                    proc_priory_list.append("Hight");
-                    break;
-                case IDLE_PRIORITY_CLASS:
-                    proc_priory_list.append("Low");
-                    break;
-                case NORMAL_PRIORITY_CLASS:
-                    proc_priory_list.append("Middle");
-                    break;
-                case REALTIME_PRIORITY_CLASS:
-                    proc_priory_list.append("Real time");
-                    break;
-                case 0:
-                    proc_priory_list.append("-");
-                    break;
-                case 16384:
-                    proc_priory_list.append("Lower-middle");
-                    break;
-
-                case 32768:
-                    proc_priory_list.append("Upper-middle");
-                    break;
-
-            }
-
-
-            // get and store process NAME
-            QString proc_name=QString::fromWCharArray(ProcessEntry.szExeFile);
-            proc_names_list.append(proc_name);
-
-
-            // store process PID
-            proc_pid_list.append(QString::number(ProcessEntry.th32ProcessID));
-
-            //store process thread count
-            proc_thread_count_list.append(QString::number(ProcessEntry.cntThreads));
-
-            // store process parent process id
-            proc_parents_id_list.append(QString::number(ProcessEntry.th32ParentProcessID));
-
-            // store process creation time
-            proc_creation_time.append(QString::number(stCreation.wMinute));
-
-            // store process work time
-            proc_work_time.append(QString::number(stUser.wMinute));
-
-
-            // get proc path
-        //        proc_path.append(get_proc_path(hProcess));
-
-//            wchar_t* a="C:\Program Files\Cellframe-Dashboard\cellframe-node.exe";
-//            wchar_t test = PrintVersionStringInfo((wchar_t)("C:\\Program Files\\Cellframe-Dashboard\\cellframe-node.exe"));
-
-            CloseHandle(hProcess);
 
             break;
         }
         hResult = Process32Next(hSnapshot, &pe);
     }
 
-    // Close the handle
     CloseHandle( hProcessSnapShot );
 
-    // check the PROCESSENTRY32 for other members.
+    QJsonObject process_info;
 
-    // fill QMap array
-//    proc_info.insert("Name",proc_names_list);
-//    proc_info.insert("PID",proc_pid_list);
-//    proc_info.insert("Thread count",proc_thread_count_list);
-//    proc_info.insert("Parent PID",proc_parents_id_list);
-//    proc_info.insert("Priory",proc_priory_list);
-//    proc_info.insert("Create time",proc_creation_time);
-//    proc_info.insert("Work time",proc_work_time);
-//    proc_info.insert("Memory",proc_memory);
-//    proc_info.insert("Path",proc_path);
+    QString status = "Offline";
+//    QString path = NODE_PATH;
+    QString node_dir = QString("%1/cellframe-node/").arg(regGetUsrPath());
+
+    QString log_size, db_size, chain_size;
+    log_size = get_memory_string(get_file_size("log", node_dir) / 1024);
+    db_size = get_memory_string(get_file_size("DB", node_dir) / 1024);
+    chain_size = get_memory_string(get_file_size("chain", node_dir) / 1024);
+
+    if(log_size.isEmpty()) log_size = "0 Kb";
+    if(db_size.isEmpty()) db_size = "0 Kb";
+    if(chain_size.isEmpty()) chain_size = "0 Kb";
+
+    process_info.insert("log_size", log_size);
+    process_info.insert("DB_size", db_size);
+    process_info.insert("chain_size", chain_size);
 
 
+    if(pid){
+
+//        stUser.wSecond; //Work time
+//        stCreation.wSecond; //Create time
+//        memory_size;
+//        totalRam;
+
+//        int uptime_sec = rx.match(res).captured(0).toInt();
+//        QString uptime= get_uptime_string(uptime_sec);
+//        QString memory_use_value = get_memory_string(resident_set);
+
+        process_info.insert("memory_use",0);
+        process_info.insert("memory_use_value","---");
+        process_info.insert("uptime","---");
+        process_info.insert("name","cellframe-node");
+
+        status = "Online";
+
+    }else{
+
+        process_info.insert("memory_use",0);
+        process_info.insert("memory_use_value","0 Kb");
+        process_info.insert("uptime","00:00:00");
+    }
+
+    process_info.insert("status", status);
+//    process_info.insert("path", path);
 
 
-    return test;
+    return process_info;
+}
 
+quint64 WinDiagnostic::get_file_size (QString flag, QString path ) {
+
+    if(flag == "log")
+        path += "/var/log";
+    else
+    if (flag == "DB")
+        path += "/var/lib/global_db";
+    else
+    if (flag == "chain")
+        path += "/var/lib/network";
+    else
+        path += "";
+
+    QDir currentFolder( path );
+
+    quint64 totalsize = 0;
+
+    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
+    currentFolder.setSorting( QDir::Name );
+
+    QFileInfoList folderitems( currentFolder.entryInfoList() );
+
+    foreach ( QFileInfo i, folderitems ) {
+        QString iname( i.fileName() );
+        if ( iname == "." || iname == ".." || iname.isEmpty() )
+            continue;
+        if(flag == "log" && i.suffix() != "log" && !i.isDir())
+            continue;
+        else
+        if(flag == "DB" && (i.suffix() != "dat" && !i.suffix().isEmpty()) && !i.isDir())
+            continue;
+        else
+        if(flag == "chain" && i.suffix() != "dchaincell" && !i.isDir())
+            continue;
+
+        if ( i.isDir() )
+            totalsize += get_file_size("", path+"/"+iname);
+        else
+            totalsize += i.size();
+    }
+
+    return totalsize;
 }
 
