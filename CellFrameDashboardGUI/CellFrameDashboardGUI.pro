@@ -11,6 +11,7 @@ TARGET = $${BRAND}
 
 win32 {
     DEFINES += HAVE_STRNDUP
+    LIBS +=-lpsapi
     RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
 
@@ -85,6 +86,7 @@ HEADERS += \
     DapApplication.h \
     DapMath.h \
     DiagnosticWorker/DiagnosticWorker.h \
+    DiagnosticWorker/wid_dll_func.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \

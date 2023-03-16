@@ -1,34 +1,61 @@
 #ifndef WINDIAGNOSTIC_H
 #define WINDIAGNOSTIC_H
 
+#include <windows.h>
+#include <psapi.h>
+#include <tlhelp32.h>
 
-#include <QObject>
 #include <QDebug>
-#include <QTimer>
 #include <QDesktopServices>
-#include <QUrl>
+#include <QDir>
 #include <QFileInfo>
-#include <QProcess>
-#include <QString>
-#include <QRegularExpression>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
-#include <QDir>
-#include <QNetworkInterface>
+#include <QNetworkInterface>+
+#include <QObject>
+#include <QProcess>
+#include <QRegularExpression>
+#include <QString>
+#include <QTime>
+#include <QTimer>
+#include <QUrl>
 
-class WinDiagnostic: public QObject
-{
+#include "pdh.h"
+#include "wid_dll_func.h"
+
+enum PLATFORM { WINNT1, WIN2K_XP1, WIN9X1, UNKNOWN1 };
+
+class WinDiagnostic : public QObject {
     Q_OBJECT
-public:
-    explicit WinDiagnostic(QObject * parent = nullptr);
+    public:
+    explicit WinDiagnostic(QObject* parent = nullptr);
     ~WinDiagnostic();
 
 private:
-    QTimer * s_timer_update;
+    QJsonObject get_sys_info();
+    QJsonArray get_mac_array();
+    long get_pid(QString proc_name);
+    QJsonObject get_process_info(int totalRam);
+
+    ULONGLONG ft2ull(FILETIME &ft);
+    BOOL SetPrivilege(    HANDLE hToken,          // access token handle
+                          LPCTSTR lpszPrivilege,  // name of privilege to enable/disable
+                          BOOL bEnablePrivilege);
+
+private:
+    QTimer* s_timer_update;
     int s_timeout{1000};
+    QJsonDocument s_full_info;
+
+    HANDLE hProcessSnapShot;
+    PROCESSENTRY32 ProcessEntry;
+    FILETIME s_prev_idle, s_prev_kernel, s_prev_user;
+
+
 
 private slots:
+    void refresh_win_snapshot();
     void info_update();
 
 signals:
@@ -36,11 +63,14 @@ signals:
 
 public:
     QString get_uptime_string(int sec);
+    QString get_memory_string(int num);
 
 public:
     void start_diagnostic();
     void stop_diagnostic();
     void set_timeout(int timeout);
+
+    QJsonDocument get_full_info(){return s_full_info;};
 };
 
-#endif // WINDIAGNOSTIC_H
+#endif  // WINDIAGNOSTIC_H
