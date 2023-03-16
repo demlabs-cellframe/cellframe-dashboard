@@ -35,13 +35,9 @@ void WinDiagnostic::stop_diagnostic()
 
 void WinDiagnostic::info_update()
 {
-    // refresh snaphot
-    refresh_win_snapshot();
-
     QJsonObject proc_info;
     QJsonObject sys_info;
     QJsonObject full_info;
-
 
     sys_info = get_sys_info();
     sys_info.insert("mac_list", get_mac_array());
@@ -187,58 +183,8 @@ void WinDiagnostic::refresh_win_snapshot()
     }
 }
 
-BOOL WinDiagnostic::SetPrivilege(
-    HANDLE hToken,          // access token handle
-    LPCTSTR lpszPrivilege,  // name of privilege to enable/disable
-    BOOL bEnablePrivilege   // to enable or disable privilege
-    )
-{
-    TOKEN_PRIVILEGES tp;
-    LUID luid;
-
-    if ( !LookupPrivilegeValue(
-            NULL,            // lookup privilege on local system
-            lpszPrivilege,   // privilege to lookup
-            &luid ) )        // receives LUID of privilege
-    {
-        printf("LookupPrivilegeValue error: %u\n", GetLastError() );
-        return FALSE;
-    }
-
-    tp.PrivilegeCount = 1;
-    tp.Privileges[0].Luid = luid;
-    if (bEnablePrivilege)
-        tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
-    else
-        tp.Privileges[0].Attributes = 0;
-
-    // Enable the privilege or disable all privileges.
-
-    if ( !AdjustTokenPrivileges(
-           hToken,
-           FALSE,
-           &tp,
-           sizeof(TOKEN_PRIVILEGES),
-           (PTOKEN_PRIVILEGES) NULL,
-           (PDWORD) NULL) )
-    {
-          printf("AdjustTokenPrivileges error: %u\n", GetLastError() );
-          return FALSE;
-    }
-
-    if (GetLastError() == ERROR_NOT_ALL_ASSIGNED)
-
-    {
-          printf("The token does not have the specified privilege. \n");
-          return FALSE;
-    }
-
-    return TRUE;
-}
-
 QJsonObject WinDiagnostic::get_process_info(int totalRam)
 {
-    // refresh snaphot
     refresh_win_snapshot();
 
     hProcessSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPALL, 0);
@@ -275,37 +221,23 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
         if(!proc_name.compare(s)){
             pid = pe.th32ProcessID;
 
-            HANDLE hToken = NULL;
+            // get process descriptor
+            HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION , FALSE, pe.th32ProcessID);
 
-            if (!OpenProcessToken(GetCurrentProcess(),
-              TOKEN_ADJUST_PRIVILEGES | TOKEN_QUERY, &hToken))
-              printf("OpenProcessToken error: %u\n", GetLastError() );
-
-
-            if(SetPrivilege(&hToken, SE_DEBUG_NAME, TRUE))
+            if(hProcess)
             {
-                // get process descriptor
-                HANDLE hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION  | PROCESS_VM_READ, FALSE, pe.th32ProcessID);
-
-                printf("OpenProcess error: %u\n", GetLastError() );
-
-                SetPrivilege(&hToken, SE_DEBUG_NAME, FALSE);
-
                 // get process times info
-                bool ok = GetProcessTimes(hProcess,&lpCreation, &lpExit, &lpKernel, &lpUser);
-                if(ok)
+                if(GetProcessTimes(hProcess,&lpCreation, &lpExit, &lpKernel, &lpUser))
                 {
                       FileTimeToSystemTime(&lpCreation, &stCreation);
                       FileTimeToSystemTime(&lpExit, &stExit);
                       FileTimeToSystemTime(&lpUser, &stUser);
                       FileTimeToSystemTime(&lpKernel, &stKernel);
                 }
+
                 memory_size = get_memory_size(hProcess);
 
                 //TODO CPU processing
-
-    //            wchar_t* a="C:\Program Files\Cellframe-Dashboard\cellframe-node.exe";
-    //            wchar_t test = PrintVersionStringInfo((wchar_t)("C:\\Program Files\\Cellframe-Dashboard\\cellframe-node.exe"));
 
                 CloseHandle(hProcess);
             }
@@ -339,18 +271,29 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
 
     if(pid){
 
-//        stUser.wSecond; //Work time
-//        stCreation.wSecond; //Create time
-//        memory_size;
-//        totalRam;
+        QDateTime dateStart;
+        dateStart.setMSecsSinceEpoch(0);
+        dateStart = dateStart.addYears(stCreation.wYear - 1970);
+        dateStart = dateStart.addMonths(stCreation.wMonth - 1);
+        dateStart = dateStart.addDays(stCreation.wDay - 1);
+        dateStart = dateStart.addSecs(stCreation.wHour * 60 * 60 + stCreation.wMinute * 60 + stCreation.wSecond);
 
-//        int uptime_sec = rx.match(res).captured(0).toInt();
-//        QString uptime= get_uptime_string(uptime_sec);
-//        QString memory_use_value = get_memory_string(resident_set);
+        QDateTime dateNow = QDateTime::currentDateTime();
 
-        process_info.insert("memory_use",0);
-        process_info.insert("memory_use_value","---");
-        process_info.insert("uptime","---");
+        quint64 sec_start = dateStart.toSecsSinceEpoch();
+        quint64 sec_now = dateNow.toSecsSinceEpoch();
+
+        quint64 result_uptime = sec_now - sec_start;
+
+        QString uptime = get_uptime_string(result_uptime);
+
+        int precentUseRss = (memory_size * 100) / totalRam;
+        QString memory_use_value = get_memory_string(memory_size);
+
+
+        process_info.insert("memory_use",precentUseRss);
+        process_info.insert("memory_use_value",memory_use_value);
+        process_info.insert("uptime",uptime);
         process_info.insert("name","cellframe-node");
 
         status = "Online";

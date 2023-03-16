@@ -40,9 +40,6 @@ private:
     quint64 get_file_size (QString flag, QString path );
     long get_memory_size(HANDLE hProc);
     ULONGLONG ft2ull(FILETIME &ft);
-    BOOL SetPrivilege(    HANDLE hToken,          // access token handle
-                          LPCTSTR lpszPrivilege,  // name of privilege to enable/disable
-                          BOOL bEnablePrivilege);
 
 private:
     QTimer* s_timer_update;
