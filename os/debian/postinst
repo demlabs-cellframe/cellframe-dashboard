@@ -24,7 +24,7 @@ case "$1" in
 	cp -f /opt/cellframe-dashboard/share/CellFrameDashboard.ico	/usr/share/pixmaps/CellFrameDashboard.ico
     update-menus
 
-    systemtcl restart cellframe-dashboard
+    systemctl restart cellframe-dashboard
     
 #    echo "For start CellFrame Dashboard Service - run 'systemctl start cellframe-dashboard'"
 ;;
@@ -37,7 +37,7 @@ case "$1" in
 esac
 
 sleep 5
-systemtcl restart cellframe-dashboard
+systemctl restart cellframe-dashboard
 
 echo "Done"
 
