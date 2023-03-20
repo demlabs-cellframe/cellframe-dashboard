@@ -90,6 +90,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 DapApplication::~DapApplication()
 {
     delete stockDataWorker;
+    delete m_diagnosticWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
