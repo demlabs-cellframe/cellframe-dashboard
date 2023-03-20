@@ -11,6 +11,7 @@ TARGET = $${BRAND}
 
 win32 {
     DEFINES += HAVE_STRNDUP
+    LIBS +=-lpsapi
     RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
 
