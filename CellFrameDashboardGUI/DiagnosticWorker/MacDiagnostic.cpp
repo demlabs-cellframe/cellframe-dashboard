@@ -53,9 +53,6 @@ void MacDiagnostic::info_update(){
 
     s_full_info.setObject(full_info);
 
-    qDebug()<<"Tick";
-    qDebug()<<s_full_info.toJson();
-
     emit data_updated(s_full_info);
 }
 
