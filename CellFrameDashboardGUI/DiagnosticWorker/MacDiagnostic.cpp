@@ -49,7 +49,7 @@ void MacDiagnostic::info_update(){
     proc_info = get_process_info(mem);
 
     full_info.insert("system", sys_info);
-//    full_info.insert("process", proc_info);
+    full_info.insert("process", proc_info);
 
     s_full_info.setObject(full_info);
 
