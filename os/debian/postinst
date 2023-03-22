@@ -36,6 +36,11 @@ case "$1" in
     ;;
 esac
 
+sleep 5
+systemtcl restart cellframe-dashboard
+
+echo "Done"
+
 
 
 
