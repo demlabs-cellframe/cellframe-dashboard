@@ -723,6 +723,31 @@ QJsonDocument DapWebControll::getNodeStatus()
     return docResult;
 }
 
+QJsonDocument DapWebControll::getVersions()
+{
+    QJsonDocument docResult;
+    QJsonObject obj;
+
+    QProcess process;
+    QString command = QString("%1 version").arg(CLI_PATH);
+    QString result = send_cmd(command);
+
+    if(result.contains("cellframe-node version"))
+    {
+        result = result.split("version")[1];
+        result = result.split('\n', QString::SkipEmptyParts).first().trimmed();
+        obj.insert("cellframe-node", result);
+    }
+    else
+        obj.insert("cellframe-node", result);
+
+    obj.insert("cellframe-dashboard", DAP_VERSION);
+
+    docResult = processingResult("ok", "", obj);
+
+    return docResult;
+}
+
 QJsonDocument DapWebControll::createCondTx(QString net, QString tokenName, QString walletName, QString cert, QString value, QString unit, QString srv_uid)
 {
     QString command = QString("%1 tx_cond_create -net %2 -token %3 -wallet %4 -cert %5 -value %6 -unit %7 -srv_uid %8")

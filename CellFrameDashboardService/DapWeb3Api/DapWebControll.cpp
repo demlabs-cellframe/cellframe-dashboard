@@ -293,6 +293,8 @@ void DapWebControll::onClientSocketReadyRead()
 
               else if(cmd == "GetNodeStatus")
                   doc = getNodeStatus();
+              else if(cmd == "GetVersions")
+                  doc = getVersions();
               else if(cmd == "CondTxCreate")
                   doc = createCondTx(net, tokenName, walletName, certName, value, unit, srv_uid);
               else if(cmd == "GetMempoolTxHash")

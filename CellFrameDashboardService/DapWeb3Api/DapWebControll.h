@@ -48,6 +48,7 @@ private:
     QJsonDocument getMempoolTxHash(QString net, QString hash);
     QJsonDocument createCondTx(QString net, QString tokenName, QString walletName, QString cert, QString value, QString unit, QString srv_uid);
     QJsonDocument getNodeStatus();
+    QJsonDocument getVersions();
 
     QJsonDocument getCertificates(QString categoryCert);
     QJsonDocument createCertificate(QString type, QString name, QString categoryCert);
