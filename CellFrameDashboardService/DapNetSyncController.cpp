@@ -65,7 +65,7 @@ void DapNetSyncController::rcvNotifState(QString state)
         {
             m_timerSync->stop();
             updateTick();
-            m_timerSync->start(1000 * 60 * 20);
+            m_timerSync->start(1000 * 60 * 5);
         }
     }
     m_nodeState = state;
