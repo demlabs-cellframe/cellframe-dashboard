@@ -1,36 +1,13 @@
 #include "WinDiagnostic.h"
 
-WinDiagnostic::WinDiagnostic(QObject *parent)
-    : QObject{parent}
+WinDiagnostic::WinDiagnostic(AbstractDiagnostic *parent)
+    : AbstractDiagnostic{parent}
 {
-    s_timer_update = new QTimer();
-
     connect(s_timer_update, &QTimer::timeout,
             this, &WinDiagnostic::info_update,
             Qt::QueuedConnection);
 
     GetSystemTimes(&s_prev_idle, &s_prev_kernel, &s_prev_user);
-}
-
-WinDiagnostic::~WinDiagnostic()
-{
-    delete s_timer_update;
-}
-
-void WinDiagnostic::set_timeout(int timeout){
-    s_timer_update->stop();
-    s_timeout = timeout;
-    s_timer_update->start(s_timeout);
-}
-
-void WinDiagnostic::start_diagnostic()
-{
-    s_timer_update->start(s_timeout);
-}
-
-void WinDiagnostic::stop_diagnostic()
-{
-    s_timer_update->stop();
 }
 
 void WinDiagnostic::info_update()
@@ -40,7 +17,7 @@ void WinDiagnostic::info_update()
     QJsonObject full_info;
 
     sys_info = get_sys_info();
-    sys_info.insert("mac_list", get_mac_array());
+    sys_info.insert("mac_list", s_mac_list);
     QJsonObject obj = sys_info["memory"].toObject();
     int mem = obj["total_value"].toInt();
 
@@ -52,47 +29,6 @@ void WinDiagnostic::info_update()
     s_full_info.setObject(full_info);
 
     emit data_updated(s_full_info);
-}
-
-QString WinDiagnostic::get_uptime_string(int sec)
-{
-    QTime time(0, 0);
-    time = time.addSecs(sec);
-    int fullHours = sec/3600;
-
-    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
-
-    return uptime;
-}
-
-QString WinDiagnostic::get_memory_string(int num)
-{
-    QString result;
-    int gb = (num / 1024) / 1024;
-    int mb = (num-gb*1024*1024) /1024;
-    int kb = (num - (gb*1024*1024+mb*1024));
-    if (gb > 0)
-       result = QString::number(gb) + QString(" Gb ");
-    else
-       result = QString("");
-    if (mb > 0)
-       result += QString::number(mb) + QString(" Mb ");
-    if (kb > 0)
-       result += QString::number(kb) + QString(" Kb ");
-
-    return result;
-}
-
-QJsonArray WinDiagnostic::get_mac_array()
-{
-    QJsonArray mac_arr;
-
-    QList<QNetworkInterface>list = QNetworkInterface::allInterfaces();
-
-    foreach (QNetworkInterface i_face, list)
-        mac_arr.append(i_face.hardwareAddress());
-
-    return mac_arr;
 }
 
 QJsonObject WinDiagnostic::get_sys_info()
@@ -147,7 +83,7 @@ QJsonObject WinDiagnostic::get_sys_info()
 
 }
 
-long WinDiagnostic::get_memory_size(HANDLE hProc)
+long WinDiagnostic::get_memory_size(Qt::HANDLE hProc)
 {
     PROCESS_MEMORY_COUNTERS pmcInfo;
 
@@ -283,7 +219,7 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
         quint64 sec_start = dateStart.toSecsSinceEpoch();
         quint64 sec_now = dateNow.toSecsSinceEpoch();
 
-        quint64 result_uptime = sec_now - sec_start;
+        long result_uptime = sec_now - sec_start;
 
         QString uptime = get_uptime_string(result_uptime);
 
@@ -310,49 +246,5 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
 
 
     return process_info;
-}
-
-quint64 WinDiagnostic::get_file_size (QString flag, QString path ) {
-
-    if(flag == "log")
-        path += "/var/log";
-    else
-    if (flag == "DB")
-        path += "/var/lib/global_db";
-    else
-    if (flag == "chain")
-        path += "/var/lib/network";
-    else
-        path += "";
-
-    QDir currentFolder( path );
-
-    quint64 totalsize = 0;
-
-    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
-    currentFolder.setSorting( QDir::Name );
-
-    QFileInfoList folderitems( currentFolder.entryInfoList() );
-
-    foreach ( QFileInfo i, folderitems ) {
-        QString iname( i.fileName() );
-        if ( iname == "." || iname == ".." || iname.isEmpty() )
-            continue;
-        if(flag == "log" && i.suffix() != "log" && !i.isDir())
-            continue;
-        else
-        if(flag == "DB" && (i.suffix() != "dat" && !i.suffix().isEmpty()) && !i.isDir())
-            continue;
-        else
-        if(flag == "chain" && i.suffix() != "dchaincell" && !i.isDir())
-            continue;
-
-        if ( i.isDir() )
-            totalsize += get_file_size("", path+"/"+iname);
-        else
-            totalsize += i.size();
-    }
-
-    return totalsize;
 }
 

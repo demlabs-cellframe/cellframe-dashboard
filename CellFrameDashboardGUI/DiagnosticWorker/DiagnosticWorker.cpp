@@ -34,28 +34,19 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
     s_elapsed_timer->start();
 
 #ifdef Q_OS_LINUX
-    m_diagnostic = new LinuxDiagnostic(this);
-
-    connect(m_diagnostic, &LinuxDiagnostic::data_updated,
-            this, &DiagnosticWorker::slot_diagnostic_data,
-            Qt::QueuedConnection);
+    m_diagnostic = new LinuxDiagnostic();
 #elif defined Q_OS_WIN
-    m_diagnostic = new WinDiagnostic(this);
-
-    connect(m_diagnostic, &WinDiagnostic::data_updated,
-            this, &DiagnosticWorker::slot_diagnostic_data,
-            Qt::QueuedConnection);
-
+    m_diagnostic = new WinDiagnostic();
 #elif defined Q_OS_MAC
-    m_diagnostic = new MacDiagnostic(this);
-
-    connect(m_diagnostic, &MacDiagnostic::data_updated,
-            this, &DiagnosticWorker::slot_diagnostic_data,
-            Qt::QueuedConnection);
-
+    m_diagnostic = new MacDiagnostic();
 #endif
 
+    connect(m_diagnostic, &AbstractDiagnostic::data_updated,
+            this, &DiagnosticWorker::slot_diagnostic_data,
+            Qt::QueuedConnection);
+
     m_diagnostic->start_diagnostic();
+    m_diagnostic->start_write(sendFlagsData::flagSendData);
 }
 DiagnosticWorker::~DiagnosticWorker()
 {
@@ -111,8 +102,12 @@ bool DiagnosticWorker::flagSendData() const
 
 void DiagnosticWorker::setflagSendData (const bool &flagSendData)
 {
+    if(sendFlagsData::flagSendData == flagSendData)
+        return;
+
     sendFlagsData::flagSendData = flagSendData;
     m_settings.setValue("SendData", flagSendData);
+    m_diagnostic->start_write(sendFlagsData::flagSendData);
     emit flagSendDataChanged();
 }
 

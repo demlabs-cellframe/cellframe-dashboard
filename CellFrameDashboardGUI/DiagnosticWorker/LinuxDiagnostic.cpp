@@ -1,36 +1,13 @@
 #include "LinuxDiagnostic.h"
 
-
-LinuxDiagnostic::LinuxDiagnostic(QObject *parent)
-    : QObject{parent}
+LinuxDiagnostic::LinuxDiagnostic(AbstractDiagnostic *parent)
+    : AbstractDiagnostic{parent}
 {
-    s_timer_update = new QTimer();
-
     connect(s_timer_update, &QTimer::timeout,
             this, &LinuxDiagnostic::info_update,
             Qt::QueuedConnection);
 }
 
-LinuxDiagnostic::~LinuxDiagnostic()
-{
-    delete s_timer_update;
-}
-
-void LinuxDiagnostic::set_timeout(int timeout){
-    s_timer_update->stop();
-    s_timeout = timeout;
-    s_timer_update->start(s_timeout);
-}
-
-void LinuxDiagnostic::start_diagnostic()
-{
-    s_timer_update->start(s_timeout);
-}
-
-void LinuxDiagnostic::stop_diagnostic()
-{
-    s_timer_update->stop();
-}
 
 void LinuxDiagnostic::info_update(){
 
@@ -38,42 +15,8 @@ void LinuxDiagnostic::info_update(){
     QJsonObject sys_info;
     QJsonObject full_info;
 
-//    // open proc dir
-//    DIR* proc = opendir("/proc");
-//    struct dirent* ent=0;
-//    long pid;
-
-//    // if open error
-//    if(proc == NULL) {
-//        qWarning()<<"opendir(/proc) error";
-//        return;
-//    }
-
-//    // read proc dir
-//    while((ent = readdir(proc)))
-//    {
-//        // read proc ids
-//        if(!isdigit(*ent->d_name))
-//            continue;
-
-//        // process id
-//        pid = strtol(ent->d_name, NULL, 10);
-//        pid = get_pid();
-
-//        double vm, rss;
-
-//        proc_info = get_process_info(vm, rss,pid);
-
-//        if(proc_info.isEmpty())
-//            continue;
-//        else
-//            break;
-//    }
-//    closedir(proc);
-
-
     sys_info = get_sys_info();
-    sys_info.insert("mac_list", get_mac_array());
+    sys_info.insert("mac_list", s_mac_list);
     QJsonObject obj = sys_info["memory"].toObject();
     int mem = obj["total_value"].toInt();
 
@@ -86,6 +29,7 @@ void LinuxDiagnostic::info_update(){
 
     emit data_updated(s_full_info);
 }
+
 
 long LinuxDiagnostic::get_pid()
 {
@@ -100,18 +44,6 @@ long LinuxDiagnostic::get_pid()
     pid = data.toLong();
 
     return pid;
-}
-
-QJsonArray LinuxDiagnostic::get_mac_array()
-{
-    QJsonArray mac_arr;
-
-    QList<QNetworkInterface>list = QNetworkInterface::allInterfaces();
-
-    foreach (QNetworkInterface interface, list)
-        mac_arr.append(interface.hardwareAddress());
-
-    return mac_arr;
 }
 
 QJsonObject LinuxDiagnostic::get_sys_info()
@@ -236,34 +168,6 @@ bool LinuxDiagnostic::get_cpu_times(size_t &idle_time, size_t &total_time) {
     return true;
 }
 
-QString LinuxDiagnostic::get_memory_string(int num)
-{
-    QString result;
-    int gb = (num / 1024) / 1024;
-    int mb = (num-gb*1024*1024) /1024;
-    int kb = (num - (gb*1024*1024+mb*1024));
-    if (gb > 0)
-       result = QString::number(gb) + QString(" Gb ");
-    else
-       result = QString("");
-    if (mb > 0)
-       result += QString::number(mb) + QString(" Mb ");
-    if (kb > 0)
-       result += QString::number(kb) + QString(" Kb ");
-
-    return result;
-}
-
-QString LinuxDiagnostic::get_uptime_string(int sec)
-{
-    QTime time(0, 0);
-    time = time.addSecs(sec);
-    int fullHours = sec/3600;
-
-    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
-
-    return uptime;
-}
 
 /// ---------------------------------------------------------------
 ///        Process info
@@ -372,46 +276,4 @@ QJsonObject LinuxDiagnostic::get_process_info(long proc_id, int totalRam)
    return process_info;
 }
 
-quint64 LinuxDiagnostic::get_file_size (QString flag, QString path ) {
 
-    if(flag == "log")
-        path += "/var/log";
-    else
-    if (flag == "DB")
-        path += "/var/lib/global_db";
-    else
-    if (flag == "chain")
-        path += "/var/lib/network";
-    else
-        path += "";
-
-    QDir currentFolder( path );
-
-    quint64 totalsize = 0;
-
-    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
-    currentFolder.setSorting( QDir::Name );
-
-    QFileInfoList folderitems( currentFolder.entryInfoList() );
-
-    foreach ( QFileInfo i, folderitems ) {
-        QString iname( i.fileName() );
-        if ( iname == "." || iname == ".." || iname.isEmpty() )
-            continue;
-        if(flag == "log" && i.suffix() != "log" && !i.isDir())
-            continue;
-        else
-        if(flag == "DB" && i.suffix() != "dat" && !i.isDir())
-            continue;
-        else
-        if(flag == "chain" && i.suffix() != "dchaincell" && !i.isDir())
-            continue;
-
-        if ( i.isDir() )
-            totalsize += get_file_size("", path+"/"+iname);
-        else
-            totalsize += i.size();
-    }
-
-    return totalsize;
-}

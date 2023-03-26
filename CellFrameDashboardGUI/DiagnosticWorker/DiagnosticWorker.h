@@ -33,17 +33,7 @@ private:
 
     bool m_flag_stop_send_data{false};
 
-#ifdef Q_OS_LINUX
-    LinuxDiagnostic* m_diagnostic;
-#elif defined Q_OS_WIN
-    WinDiagnostic* m_diagnostic;
-#elif defined Q_OS_MAC
-    MacDiagnostic* m_diagnostic;
-
-#endif
-
-//public slots:
-//    void diagnostic_data(QJsonDocument);
+    AbstractDiagnostic* m_diagnostic;
 
 private slots:
     void slot_diagnostic_data(QJsonDocument);

@@ -3,35 +3,12 @@
 static unsigned long long _previousTotalTicks = 0;
 static unsigned long long _previousIdleTicks = 0;
 
-MacDiagnostic::MacDiagnostic(QObject *parent)
-    : QObject{parent}
+MacDiagnostic::MacDiagnostic(AbstractDiagnostic *parent)
+    : AbstractDiagnostic{parent}
 {
-    s_timer_update = new QTimer();
-
     connect(s_timer_update, &QTimer::timeout,
             this, &MacDiagnostic::info_update,
             Qt::QueuedConnection);
-}
-
-MacDiagnostic::~MacDiagnostic()
-{
-    delete s_timer_update;
-}
-
-void MacDiagnostic::set_timeout(int timeout){
-    s_timer_update->stop();
-    s_timeout = timeout;
-    s_timer_update->start(s_timeout);
-}
-
-void MacDiagnostic::start_diagnostic()
-{
-    s_timer_update->start(s_timeout);
-}
-
-void MacDiagnostic::stop_diagnostic()
-{
-    s_timer_update->stop();
 }
 
 void MacDiagnostic::info_update(){
@@ -42,7 +19,7 @@ void MacDiagnostic::info_update(){
 
 
     sys_info = get_sys_info();
-    sys_info.insert("mac_list", get_mac_array());
+    sys_info.insert("mac_list", s_mac_list);
     QJsonObject obj = sys_info["memory"].toObject();
     int mem = obj["total_value"].toInt();
 
@@ -54,18 +31,6 @@ void MacDiagnostic::info_update(){
     s_full_info.setObject(full_info);
 
     emit data_updated(s_full_info);
-}
-
-QJsonArray MacDiagnostic::get_mac_array()
-{
-    QJsonArray mac_arr;
-
-    QList<QNetworkInterface>list = QNetworkInterface::allInterfaces();
-
-    foreach (QNetworkInterface interface, list)
-        mac_arr.append(interface.hardwareAddress());
-
-    return mac_arr;
 }
 
 QJsonObject MacDiagnostic::get_sys_info()
@@ -168,35 +133,6 @@ float MacDiagnostic::calculate_cpu_load(unsigned long long idleTicks, unsigned l
 
 }
 
-QString MacDiagnostic::get_memory_string(int num)
-{
-    QString result;
-    int gb = (num / 1024) / 1024;
-    int mb = (num-gb*1024*1024) /1024;
-    int kb = (num - (gb*1024*1024+mb*1024));
-    if (gb > 0)
-       result = QString::number(gb) + QString(" Gb ");
-    else
-       result = QString("");
-    if (mb > 0)
-       result += QString::number(mb) + QString(" Mb ");
-    if (kb > 0)
-       result += QString::number(kb) + QString(" Kb ");
-
-    return result;
-}
-
-QString MacDiagnostic::get_uptime_string(int sec)
-{
-    QTime time(0, 0);
-    time = time.addSecs(sec);
-    int fullHours = sec/3600;
-
-    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
-
-    return uptime;
-}
-
 /// ---------------------------------------------------------------
 ///        Process info
 /// ---------------------------------------------------------------
@@ -275,48 +211,4 @@ QJsonObject MacDiagnostic::get_process_info(int totalRam)
 
 
    return process_info;
-}
-
-quint64 MacDiagnostic::get_file_size (QString flag, QString path ) {
-
-    if(flag == "log")
-        path += "/var/log";
-    else
-    if (flag == "DB")
-        path += "/var/lib/global_db";
-    else
-    if (flag == "chain")
-        path += "/var/lib/network";
-    else
-        path += "";
-
-    QDir currentFolder( path );
-
-    quint64 totalsize = 0;
-
-    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
-    currentFolder.setSorting( QDir::Name );
-
-    QFileInfoList folderitems( currentFolder.entryInfoList() );
-
-    foreach ( QFileInfo i, folderitems ) {
-        QString iname( i.fileName() );
-        if ( iname == "." || iname == ".." || iname.isEmpty() )
-            continue;
-        if(flag == "log" && i.suffix() != "log" && !i.isDir())
-            continue;
-        else
-        if(flag == "DB" && (i.suffix() != "dat" && !i.suffix().isEmpty()) && !i.isDir())
-            continue;
-        else
-        if(flag == "chain" && i.suffix() != "dchaincell" && !i.isDir())
-            continue;
-
-        if ( i.isDir() )
-            totalsize += get_file_size("", path+"/"+iname);
-        else
-            totalsize += i.size();
-    }
-
-    return totalsize;
 }

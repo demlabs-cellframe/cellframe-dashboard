@@ -56,6 +56,7 @@ SOURCES += \
     DapApplication.cpp \
     DapMath.cpp \
     DiagnosticWorker/DiagnosticWorker.cpp \
+    DiagnosticWorker/AbstractDiagnostic.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
@@ -78,14 +79,13 @@ SOURCES += \
     systemtray.cpp \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
 
-
-
 HEADERS += \
     $$PWD/DapServiceController.h \
     Autocomplete/CommandCmdController.h \
     DapApplication.h \
     DapMath.h \
     DiagnosticWorker/DiagnosticWorker.h \
+    DiagnosticWorker/AbstractDiagnostic.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
