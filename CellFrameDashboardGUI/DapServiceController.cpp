@@ -86,7 +86,7 @@ void DapServiceController::setReadingChains(bool bReadingChains)
 
 void DapServiceController::requestWalletList()
 {
-    this->requestToService("DapGetWalletsInfoCommand", 1);
+    this->requestToService("DapGetWalletsInfoCommand", QStringList() << "true");
 }
 
 /*void DapServiceController::requestWalletInfo(const QString &a_walletName, const QStringList &a_networks)
@@ -96,17 +96,17 @@ void DapServiceController::requestWalletList()
 
 void DapServiceController::requestNetworkStatus(QString a_networkName)
 {
-    this->requestToService("DapGetNetworkStatusCommand", a_networkName);
+    this->requestToService("DapGetNetworkStatusCommand", QStringList() << a_networkName);
 }
 
 void DapServiceController::changeNetworkStateToOffline(QString a_networkName)
 {
-    this->requestToService("DapGetNetworkStatusCommand", a_networkName, "offline");
+    this->requestToService("DapGetNetworkStatusCommand", QStringList() << a_networkName << "offline");
 }
 
 void DapServiceController::changeNetworkStateToOnline(QString a_networkName)
 {
-    this->requestToService("DapNetworkGoToCommand", a_networkName, "online");
+    this->requestToService("DapNetworkGoToCommand", QStringList() << a_networkName << "online");
 }
 
 void DapServiceController::requestOrdersList()
@@ -147,12 +147,8 @@ void DapServiceController::disconnectAll()
 /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
 /// @param asServiceName Service name.
 /// @param arg1...arg10 Parametrs.
-void DapServiceController::requestToService(const QString &asServiceName, const QVariant &arg1,
-                                            const QVariant &arg2, const QVariant &arg3, const QVariant &arg4,
-                                            const QVariant &arg5, const QVariant &arg6, const QVariant &arg7,
-                                            const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
+void DapServiceController::requestToService(const QString &asServiceName, const QVariant &args)
 {
-
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
 //    qDebug() << "DapServiceController::requestToService, asServiceName:"
 //             << asServiceName << arg1.toString() << arg2.toString()
@@ -161,10 +157,10 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
     Q_ASSERT(transceiver);
     disconnect(transceiver, SIGNAL(serviceResponded(QVariant)), this, SLOT(findEmittedSignal(QVariant)));
     connect(transceiver, SIGNAL(serviceResponded(QVariant)), SLOT(findEmittedSignal(QVariant)));
-    transceiver->requestToService(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+    transceiver->requestToService(args);
 
 #ifdef SERVICE_IMITATOR
-    imitator->requestToService(asServiceName, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+    imitator->requestToService(asServiceName, args);
 #endif
 }
 
@@ -172,17 +168,14 @@ void DapServiceController::requestToService(const QString &asServiceName, const 
 /// @details In this case, only a notification is sent to the service, the answer should not be expected.
 /// @param asServiceName Service name.
 /// @param arg1...arg10 Parametrs.
-void DapServiceController::notifyService(const QString &asServiceName, const QVariant &arg1,
-                                         const QVariant &arg2, const QVariant &arg3, const QVariant &arg4,
-                                         const QVariant &arg5, const QVariant &arg6, const QVariant &arg7,
-                                         const QVariant &arg8, const QVariant &arg9, const QVariant &arg10)
+void DapServiceController::notifyService(const QString &asServiceName, const QVariant &args)
 {
-    qDebug() << "DapServiceController::notifyService" << asServiceName << arg1 << arg2 << arg3 << arg4 << arg5;
+    qDebug() << "DapServiceController::notifyService" << asServiceName << args;
     DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->findService(asServiceName));
 
     Q_ASSERT(transceiver);
 
-    transceiver->notifyToService(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10);
+    transceiver->notifyToService(args);
 }
 
 /// Register command.
@@ -480,7 +473,7 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::dapWebConnectRequest, [=] (const QVariant& rcvData)
     {
-        qDebug()<<"Rcv web request " << rcvData.toStringList()[0] << "---" << rcvData.toStringList()[1];
+        qDebug()<<"Rcv web request " << rcvData;
     });
 
     connect(this, &DapServiceController::tokensListReceived, [=] (const QVariant& tokensResult)
@@ -556,6 +549,25 @@ void DapServiceController::registerCommand()
             emit signalXchangeTokenPairReceived(rcvData);
         }
     });
+
+//    DapUpdateLogsCommand("DapUpdateLogsCommand", m_DAPRpcSocket))), QString("logUpdated")));
+//    connect(this, &DapServiceController::logUpdated, [=] (const QVariant& rcvData)
+//    {
+//        qDebug() << "DapServiceController::rcvXchangeTokenPair";
+
+//        if(!rcvData.isValid())
+//            return ;
+
+//        if (rcvData.toString() == "isEqual")
+//        {
+//            qDebug() << "rcvXchangeTokenPair isEqual";
+//            emit signalXchangeTokenPairReceived("isEqual");
+//        }
+//        else
+//        {
+//            emit signalXchangeTokenPairReceived(rcvData);
+//        }
+//    });
 
 
     registerEmmitedSignal();

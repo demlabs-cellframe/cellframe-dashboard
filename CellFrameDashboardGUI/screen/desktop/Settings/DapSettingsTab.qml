@@ -127,14 +127,14 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
-            dapServiceController.requestToService("DapGetListWalletsCommand")
+            logicMainApp.requestToService("DapGetListWalletsCommand")
 //            dapServiceController.requestToService("DapGetListNetworksCommand")
 
             if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
                 settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
 
             if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
-                dapServiceController.requestToService("DapVersionController", "version node")
+                logicMainApp.requestToService("DapVersionController", "version node")
 //            if(!dapNetworkModel.count)
 //            {
 //                dapServiceController.requestToService("DapGetListNetworksCommand")
@@ -145,7 +145,7 @@ DapPage
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapVersionController", "version node")
+        logicMainApp.requestToService("DapVersionController", "version node")
         updateSettingsTimer.start()
     }
 
@@ -166,10 +166,10 @@ DapPage
 //            if(dapModelWallets)
 //            {
 //                if(walletsList.length !== dapModelWallets.count)
-//                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
+//                    dapServiceController.requestToService("DapGetWalletsInfoCommand","true")
 //            }
 //            else
-                dapServiceController.requestToService("DapGetWalletsInfoCommand")
+                logicMainApp.requestToService("DapGetWalletsInfoCommand","")
         }
         function onVersionControllerResult(versionResult)
         {

@@ -274,7 +274,7 @@ DapRectangleLitAndShaded {
                 else
                 {
                     error.visible = false
-                    dapServiceController.requestToService("DapTokenDeclCommand", logicTokens.toDatoshi(supply),
+                    logicMainApp.requestToService("DapTokenDeclCommand", logicTokens.toDatoshi(supply),
                                                           networks.displayText,
                                                           textInputNewTokenName.text,
                                                           certificates.displayText)

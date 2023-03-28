@@ -46,7 +46,7 @@ DapPage
         onTriggered:
         {
 //            console.log("PAIR TIMER TICK")
-            dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info", "update")
+            logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
         }
     }
 
@@ -58,8 +58,8 @@ DapPage
         repeat: true
         onTriggered:
         {
-            dapServiceController.requestToService("DapGetXchangeOrdersList")
-            dapServiceController.requestToService("DapGetWalletsInfoCommand",1);
+            logicMainApp.requestToService("DapGetXchangeOrdersList")
+            logicMainApp.requestToService("DapGetWalletsInfoCommand","true");
         }
     }
 
@@ -68,7 +68,7 @@ DapPage
         console.log("DapStockTab Component.onCompleted",
               tokenPairsWorker.tokenNetwork, tokenPairsWorker.tokenBuy, tokenPairsWorker.tokenSell)
 
-        dapServiceController.requestToService("DapGetXchangeTokenPair", "full_info", "update")
+        logicMainApp.requestToService("DapGetXchangeTokenPair", "full_info", "update")
 
         if (!updatePriceTimer.running)
             updatePriceTimer.start()
@@ -117,7 +117,7 @@ DapPage
 //                  "dapPairToken2", tokenPairsWorker.tokenSell,
 //                  "dapPairNetwork", tokenPairsWorker.tokenNetwork)
 
-            dapServiceController.requestToService(
+            logicMainApp.requestToService(
                 "DapGetXchangeTokenPriceAverage",
                 tokenPairsWorker.tokenNetwork,
                 tokenPairsWorker.tokenBuy,
@@ -161,7 +161,7 @@ DapPage
                         dapPairModel[0].tokenBuy,
                         dapPairModel[0].tokenSell)
 
-            dapServiceController.requestToService(
+            logicMainApp.requestToService(
                 "DapGetXchangeTokenPriceAverage",
                 tokenPairsWorker.tokenNetwork,
                 tokenPairsWorker.tokenBuy,
@@ -208,7 +208,7 @@ DapPage
         console.log("DapStockTab onTokenPairChanged")
 
         updateOrdersListTimer.stop()
-        dapServiceController.requestToService("DapGetXchangeOrdersList")
+        logicMainApp.requestToService("DapGetXchangeOrdersList")
         updateOrdersListTimer.start()
 
 //        console.log(logicMainApp.tokenPrice)
@@ -224,7 +224,7 @@ DapPage
             tokenPriceChanged()
         }
 
-        dapServiceController.requestToService("DapGetXchangeTokenPriceHistory",
+        logicMainApp.requestToService("DapGetXchangeTokenPriceHistory",
             tokenPairsWorker.tokenNetwork, tokenPairsWorker.tokenBuy, tokenPairsWorker.tokenSell)
     }
 

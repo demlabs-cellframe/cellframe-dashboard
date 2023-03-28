@@ -6,7 +6,7 @@ QtObject {
     function updateAllWallets()
     {
         dapModelWallets.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
+        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
     }
 
     function updateCurrentWallet()
@@ -14,7 +14,7 @@ QtObject {
 //        print("updateCurrentWallet", logicMainApp.currentIndex, dapModelWallets.get(logicMainApp.currentIndex).status )
 
         if (logicMainApp.currentWalletIndex !== -1)
-            dapServiceController.requestToService("DapGetWalletInfoCommand",
+            logicMainApp.requestToService("DapGetWalletInfoCommand",
                 dapModelWallets.get(logicMainApp.currentWalletIndex).name);
     }
 

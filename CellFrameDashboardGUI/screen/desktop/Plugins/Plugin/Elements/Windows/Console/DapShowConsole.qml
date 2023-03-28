@@ -169,7 +169,7 @@ Item {
 
     onRunCommand:
     {
-        dapServiceController.requestToService("DapRunCmdCommand", command);
+        logicMainApp.requestToService("DapRunCmdCommand", command);
     }
 
     Component.onCompleted: {

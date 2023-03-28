@@ -90,7 +90,7 @@ signals:
     void signalConnectRequest(QString site, int index);
 
 public slots:
-    void rcvAccept(QString accept, int index);
+    void rcvAccept(bool accept, int index);
 
     void rcvFrontendConnectStatus(bool status) {s_connectFrontendStatus = status; if(!status) s_id.clear();};
     void rcvNodeStatus(QVariant);

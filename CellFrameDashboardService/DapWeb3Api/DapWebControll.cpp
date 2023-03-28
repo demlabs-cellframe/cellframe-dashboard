@@ -112,7 +112,7 @@ DapWebControll::DapWebControll(QObject *parent)
 //    SERV_UNIT_PCS = 0x00000022  // pieces
 //    createOrder("mileena","sell","1","10","10","tMIL","","","","myCert","","China","Asia");
 
-    getMempoolList("mileena","","main");
+//    getMempoolList("mileena","","main");
 }
 
 QString DapWebControll::getRandomString()
@@ -348,12 +348,12 @@ void DapWebControll::sendResponce(QJsonDocument data, QTcpSocket* socket)
     s_tcpSocketList.remove(socket->socketDescriptor());
 }
 
-void DapWebControll::rcvAccept(QString accept, int index)
+void DapWebControll::rcvAccept(bool accept, int index)
 {
     if(s_tcpSocketList.contains(index))
     {
         QJsonDocument doc;
-        if(accept == "true"){
+        if(accept){
             QString newId = getNewId();
             s_id.append(newId);
             QJsonObject obj;

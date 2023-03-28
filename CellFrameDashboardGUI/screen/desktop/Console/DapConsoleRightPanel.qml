@@ -101,7 +101,7 @@ Page
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetHistoryExecutedCmdCommand", historySize);
+        logicMainApp.requestToService("DapGetHistoryExecutedCmdCommand", historySize);
     }
 
     //Returns true if item 'someElement' is already exist at list 'someModel'.

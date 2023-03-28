@@ -67,13 +67,13 @@ DapCreateWalletForm
                 console.log(walletInfo.signature_type);
 
                 if(logicMainApp.walletType === "Protected")
-                    dapServiceController.requestToService("DapAddWalletCommand",
+                    logicMainApp.requestToService("DapAddWalletCommand",
                            walletInfo.name,
                            walletInfo.signature_type,
                            "",
                            walletInfo.password)
                 else
-                    dapServiceController.requestToService("DapAddWalletCommand",
+                    logicMainApp.requestToService("DapAddWalletCommand",
                            walletInfo.name,
                            walletInfo.signature_type)
 

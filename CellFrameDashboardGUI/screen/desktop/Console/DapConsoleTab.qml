@@ -29,8 +29,8 @@ DapPage
             onRunCommand:
             {
                 isConsoleRequest = true
-                dapServiceController.requestToService("DapRunCmdCommand", command, "isConsole");
-                dapServiceController.notifyService("DapSaveHistoryExecutedCmdCommand", command);
+                logicMainApp.requestToService("DapRunCmdCommand", command, "isConsole");
+                logicMainApp.notifyService("DapSaveHistoryExecutedCmdCommand", command);
             }
         }
 

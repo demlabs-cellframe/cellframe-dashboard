@@ -260,7 +260,7 @@ DapRectangleLitAndShaded {
                 else
                 {
                     error.visible = false
-                    dapServiceController.requestToService("DapTokenEmissionCommand", logicTokens.toDatoshi(textInputAmount.text),
+                    logicMainApp.requestToService("DapTokenEmissionCommand", logicTokens.toDatoshi(textInputAmount.text),
                                                           textInputRecipientWalletAddress.text,
                                                           dapModelTokens.get(logicTokens.selectNetworkIndex).network,
                                                           dapModelTokens.get(logicTokens.selectNetworkIndex).tokens.get(logicTokens.selectTokenIndex).name,

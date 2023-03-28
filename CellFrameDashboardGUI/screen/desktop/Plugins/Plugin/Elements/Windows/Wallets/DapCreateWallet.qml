@@ -103,7 +103,7 @@ Item {
 
                 onClicked:
                 {
-                    dapServiceController.requestToService("DapAddWalletCommand",
+                    logicMainApp.requestToService("DapAddWalletCommand",
                            textInputNameWallet.text,
                            signatureTypeWallet.get(0).sign)
 

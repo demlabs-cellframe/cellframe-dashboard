@@ -45,6 +45,10 @@ public:
     Q_INVOKABLE void setClipboardText(const QString &text);
 //    Q_INVOKABLE DapWallet *currentWallet() const;
     Q_INVOKABLE void startService();
+
+    Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
+    Q_INVOKABLE void notifyService(QVariant sName, QVariantList sArgs);
+
     DapVpnOrdersModel* getVpnOrdersModel();
     CommandCmdController *commandCmdController;
 

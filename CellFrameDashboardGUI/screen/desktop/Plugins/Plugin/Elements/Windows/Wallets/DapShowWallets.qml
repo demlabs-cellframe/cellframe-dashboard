@@ -74,7 +74,7 @@ Item {
     }
 
     Component.onCompleted: {
-        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
+        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
 
     }
 

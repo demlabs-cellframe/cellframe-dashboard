@@ -210,7 +210,7 @@ QtObject {
 
             if (networksModel.count !== networksList.length)
             {
-                dapServiceController.requestToService("DapGetNetworksStateCommand")
+                logicMainApp.requestToService("DapGetNetworksStateCommand")
             }
 
             if (dapNetworkModel.count !== networksList.length)
@@ -461,7 +461,7 @@ QtObject {
                 console.info("CONNECT SOCKET")
 
             if(!stateNotify) //TODO with notify
-                dapServiceController.requestToService("DapGetNetworksStateCommand")
+                logicMainApp.requestToService("DapGetNetworksStateCommand")
             stateNotify = true
         }
     }
@@ -484,17 +484,19 @@ QtObject {
                 network_array += model.get(i).name + ":"
                 network_array += name + "/"
             }
-            dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update, isLastActions);
+            logicMainApp.requestToService("DapGetAllWalletHistoryCommand", network_array, update ? "true": "false", isLastActions ? "true": "false");
         }
     }
 
     function rcvWebConnectRequest(rcvData)
     {
+        var data = JSON.parse(rcvData)
+        console.log(data, rcvData, data[0], data[1], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         var isEqual = false
         //filtering equeal sites requests
         for(var i = 0; i < dapMessageBuffer.count; i++)
         {
-            if(dapMessageBuffer.get(i).site === rcvData[0]){
+            if(dapMessageBuffer.get(i).site === data[0]){
                 isEqual = true
                 break;
             }
@@ -503,13 +505,14 @@ QtObject {
         var isContains = false;
         for(var j = 0; j < dapWebSites.count; j++)
         {
-            if(dapWebSites.get(j).site === rcvData[0])
+            if(dapWebSites.get(j).site === data[0])
             {
                 isContains = true
                 if(!dapWebSites.get(j).enabled)
                 {
-                    dapServiceController.notifyService("DapWebConnectRequest",false, rcvData[1])
-                    dapMessageLogBuffer.append({infoText: "The site " + rcvData[0] + " requests permission to work with your wallet",
+//                    var rcv = [false, data[1]]
+                    notifyService("DapWebConnectRequest",false, data[1])
+                    dapMessageLogBuffer.append({infoText: "The site " + data[0] + " requests permission to work with your wallet",
                                                 date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
                                                 reply: "Denied"})
                     return
@@ -518,14 +521,14 @@ QtObject {
         }
 
         if(!isContains)
-            dapWebSites.append({site:rcvData[0],
+            dapWebSites.append({site:data[0],
                                 enabled: true})
 
         if(!isEqual)
         {
             requestsMessageCounter++
-            dapMessageBuffer.append({indexRequest: rcvData[1],
-                                     site: rcvData[0],
+            dapMessageBuffer.append({indexRequest: data[1],
+                                     site: data[0],
                                      date: getDate("yyyy-MM-dd, hh:mm ap")})
 
             if(!isOpenRequests)
@@ -537,7 +540,7 @@ QtObject {
                     webPopup.setDisplayText(isSingle, requestsMessageCounter, -1)
                 }else{
                     isSingle = true
-                    webPopup.setDisplayText(isSingle, rcvData[0], rcvData[1])
+                    webPopup.setDisplayText(isSingle, data[0], data[1])
                 }
                 if(!webPopup.isOpen)
                     webPopup.open()
@@ -594,5 +597,55 @@ QtObject {
     function getDate(format){
         var date = new Date()
         return date.toLocaleString(Qt.locale("en_EN"),format)
+    }
+
+    function requestToService()
+    {
+        var service
+        var args = []
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(i == 0)
+                service = arguments[i]
+            else
+            {
+                args.push(arguments[i])
+            }
+        }
+
+        var count  = args.length ? 10 - args.length : 0
+        while(count)
+        {
+            args.push("");
+            count--;
+        }
+
+        app.requestToService(service, args);
+    }
+
+    function notifyService()
+    {
+        var service
+        var args = []
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(i == 0)
+                service = arguments[i]
+            else
+            {
+                args.push(arguments[i])
+            }
+        }
+
+        var count  = args.length ? 10 - args.length : 0
+        while(count)
+        {
+            args.push("");
+            count--;
+        }
+
+        app.notifyService(service, args);
     }
 }

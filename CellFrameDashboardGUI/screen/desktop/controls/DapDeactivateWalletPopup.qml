@@ -179,8 +179,8 @@ Item{
                 enabled: textInputPasswordWallet.text.length
                 onClicked:
                 {
-                    dapServiceController.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
-                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
+                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
+                    logicMainApp.requestToService("DapGetWalletsInfoCommand","true")
                 }
             }
 

@@ -1,4 +1,6 @@
 #include "DapNotifyController.h"
+#include "qjsondocument.h"
+#include "qjsonobject.h"
 
 DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 {
@@ -9,8 +11,8 @@ DapNotifyController::DapNotifyController(QObject * parent) : QObject(parent)
 void DapNotifyController::rcvData(QVariant data)
 {
 
-//    qDebug() << data;
-    QVariantMap map = data.toMap();
+    QJsonDocument doc = QJsonDocument::fromJson(data.toString().toUtf8());
+    QVariantMap map = doc.object().toVariantMap();
 
     for(auto it=map.begin(); it!=map.end(); it++)
     {
@@ -25,7 +27,7 @@ void DapNotifyController::rcvData(QVariant data)
                     isFirst = true;
 
                 m_connectState = it.value().toInt();
-                emit socketState(m_connectState, isFirst, true);
+                emit socketState(m_connectState, true, isFirst);
             }
             else
             {
