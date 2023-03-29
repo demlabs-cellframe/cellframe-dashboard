@@ -121,12 +121,22 @@ include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 
-!win32: !mac {
-    include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+
+unix: !mac  {
+    INCLUDEPATH += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/include/json-c/
+ #   LIBS += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
 }
-mac {
-    include (../cellframe-node/cellframe-sdk/3rdparty/json-c-darwin/json-c.pri)
-}
+
+#win32 {
+#    INCLUDEPATH += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/include/json-c/
+#    LIBS += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+#}
+
+#mac {
+#    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
+#    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+#}
+
 
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)

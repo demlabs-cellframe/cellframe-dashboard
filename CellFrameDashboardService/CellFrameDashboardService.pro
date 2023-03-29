@@ -68,13 +68,21 @@ unix: !mac : !android {
     INSTALLS += service_target
 }
 
+unix: !mac  {
+    INCLUDEPATH += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/include/json-c/
+    LIBS += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+}
 
-!win32: !mac {
-    include (../cellframe-node/cellframe-sdk/3rdparty/json-c/json-c.pri)
+win32 {
+    INCLUDEPATH += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/include/json-c/
+    LIBS += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
 }
-mac {
-    include (../cellframe-node/cellframe-sdk/3rdparty/json-c-darwin/json-c.pri)
-}
+
+#mac {
+#    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
+#    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+#}
+
 
 win32 {
 
