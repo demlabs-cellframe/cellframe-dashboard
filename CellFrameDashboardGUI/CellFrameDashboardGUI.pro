@@ -124,18 +124,18 @@ include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 
 unix: !mac  {
     INCLUDEPATH += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/include/json-c/
- #   LIBS += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+    LIBS += ../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
 }
 
-#win32 {
-#    INCLUDEPATH += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/include/json-c/
-#    LIBS += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
-#}
+win32 {
+    INCLUDEPATH += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/include/json-c/
+    LIBS += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+}
 
-#mac {
-#    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
-#    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
-#}
+mac {
+    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
+    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+}
 
 
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)

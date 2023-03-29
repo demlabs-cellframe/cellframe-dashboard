@@ -51,7 +51,16 @@ include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/net/libdap-net.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/crypto/libdap-crypto.pri)
+
+#include (../cellframe-node/cellframe-sdk/modules/service/stake_lock/stake_lock.pri)
+#include (../cellframe-node/cellframe-sdk/modules/net/srv/srv.pri)
+#include (../cellframe-node/cellframe-sdk/modules/channel/chain-net-srv/chain-net-srv.pri)
+#include (../cellframe-node/cellframe-sdk/modules/wallet/wallet.pri)
+#include (../cellframe-node/cellframe-sdk/modules/mempool/mempool.pri)
+#include(../cellframe-node/cellframe-sdk/3rdparty/crc32c_adler/crc32c_adler.pri)
+
 include (../cellframe-node/cellframe-sdk/modules/common/common.pri)
+
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/
@@ -78,10 +87,10 @@ win32 {
     LIBS += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
 }
 
-#mac {
-#    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
-#    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
-#}
+mac {
+    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
+    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
+}
 
 
 win32 {
