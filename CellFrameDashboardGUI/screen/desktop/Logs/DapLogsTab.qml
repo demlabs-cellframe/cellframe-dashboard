@@ -27,21 +27,20 @@ DapPage
            onTriggered:
            {
                console.log("LOG TIMER TICK")
-               dapServiceController.notifyService("DapUpdateLogsCommand", 100);
+               logicMainApp.requestToService("DapUpdateLogsCommand", "100");
            }
     }
 
     Component.onCompleted:
     {
         console.log("Log tab open")
-        dapServiceController.notifyService("DapUpdateLogsCommand", 100);
+        logicMainApp.requestToService("DapUpdateLogsCommand", "100");
         updLogTimer.start()
     }
 
     Component.onDestruction:
     {
         console.log("Log tab close")
-        dapServiceController.notifyService("DapUpdateLogsCommand","stop");
         updLogTimer.stop()
     }
 }

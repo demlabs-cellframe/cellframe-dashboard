@@ -14,3 +14,7 @@
 	path = cellframe-node
 	url = https://gitlab.demlabs.net/cellframe/cellframe-node
 	branch = master
+[submodule "web3_api"]
+	path = web3_api
+	url = https://gitlab.demlabs.net/cellframe/web3_api.git
+    branch = master

@@ -142,7 +142,7 @@ ColumnLayout
                     if (accept)
                     {
                         var val = (checkBox.checkState === 2)
-                        dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
+                        logicMainApp.requestToService("DapNodeConfigController", "AddNewValue", val);
                         popup.close()
                     }
                     else

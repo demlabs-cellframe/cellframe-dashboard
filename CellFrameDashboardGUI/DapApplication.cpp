@@ -132,7 +132,6 @@ void DapApplication::createDapLogger()
 #endif
 }
 
-
 DapNetworksList *DapApplication::networks()
 {
     return &m_networks;
@@ -201,6 +200,16 @@ void DapApplication::startService()
     QtAndroid::androidContext().callMethod<void>("startService", "()V");
 #endif
 }
+
+void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
+{
+    m_serviceController->requestToService(sName.toString(), sArgs);
+}
+void DapApplication::notifyService(QVariant sName, QVariantList sArgs)
+{
+    m_serviceController->notifyService(sName.toString(), sArgs);
+}
+
 
 void DapApplication::setContextProperties()
 {

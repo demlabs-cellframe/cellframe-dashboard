@@ -129,7 +129,7 @@ RowLayout
 
         console.log("dapServiceController.requestToService", "DapGetXchangeTxList",
                     net, address)
-        dapServiceController.requestToService("DapGetXchangeTxList",
+        logicMainApp.requestToService("DapGetXchangeTxList",
             "GetOrdersPrivate", net, address, "", "")
 
         logic.initOrdersModels()

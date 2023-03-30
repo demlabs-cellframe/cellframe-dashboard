@@ -134,9 +134,13 @@ void DapNotificationWatcher::socketReadyRead()
             qWarning()<<"Notify parse error. " << error.errorString();
         }
         else{
+            QJsonObject obj = reply.object();
+            obj.insert("connect_state", m_socketState);
+            reply.setObject(obj);
+
             QVariantMap map = reply.object().toVariantMap();
             map["connect_state"] = QVariant::fromValue(m_socketState);
-            emit rcvNotify(map);
+            emit rcvNotify(reply.toVariant());
         }
     }
 }
@@ -170,7 +174,9 @@ void DapNotificationWatcher::frontendConnected()
 
 void DapNotificationWatcher::sendNotifyState(QVariant msg)
 {
-    QVariantMap sendMsg = msg.toMap();
-    sendMsg["connect_state"] = QVariant::fromValue(m_socketState);
-    emit rcvNotify(sendMsg);
+    QJsonObject obj;
+    obj.insert("connect_state", m_socketState);
+    QJsonDocument doc;
+    doc.setObject(obj);
+    emit rcvNotify(doc.toVariant());
 }

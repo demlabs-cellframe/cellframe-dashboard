@@ -2,4 +2,3 @@ TEMPLATE = subdirs
 SUBDIRS = CellFrameNode CellFrameDashboardGUI CellFrameDashboardService
 CellFrameDashboardGUI.depends = CellFrameDashboardService
 CellFrameDashboardService.depends = CellFrameNode
-

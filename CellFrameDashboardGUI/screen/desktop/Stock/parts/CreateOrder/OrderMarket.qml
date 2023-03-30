@@ -296,10 +296,10 @@ ColumnLayout {
             var hash = logicStock.searchOrder(net, tokenSell, tokenBuy, priceValue, amountSell, amountBuy)
 
             if(hash !== "0")
-                dapServiceController.requestToService("DapXchangeOrderPurchase", hash,
+                logicMainApp.requestToService("DapXchangeOrderPurchase", hash,
                                                       net, currentWallet, amountSell)
             else
-                dapServiceController.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
+                logicMainApp.requestToService("DapXchangeOrderCreate", net, tokenSell, tokenBuy,
                                                       currentWallet, amountSell, priceValue)
         }
     }

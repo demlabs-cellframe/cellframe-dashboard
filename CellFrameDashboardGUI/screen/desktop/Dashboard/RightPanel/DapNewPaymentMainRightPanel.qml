@@ -167,7 +167,7 @@ DapNewPaymentMainRightPanelForm
 
                     var commission = logicWallet.toDatoshi("0.05")
 
-                    dapServiceController.requestToService("DapCreateTransactionCommand",
+                    logicMainApp.requestToService("DapCreateTransactionCommand",
                         dapComboboxNetwork.displayText,
                         walletName,
                         dapTextInputRecipientWalletAddress.text,

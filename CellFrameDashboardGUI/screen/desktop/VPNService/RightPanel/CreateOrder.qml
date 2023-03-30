@@ -349,7 +349,7 @@ Page {
                     console.log("Unit "+dapUnitOrder);
                     console.log("Price "+dapPriceOrder);
                     console.log("Network "+dapServiceController.CurrentNetwork)
-                    dapServiceController.requestToService();
+                    logicMainApp.requestToService();
                 }
             }
         }

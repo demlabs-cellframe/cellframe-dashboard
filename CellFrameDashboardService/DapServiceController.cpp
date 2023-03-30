@@ -97,12 +97,15 @@ void DapServiceController::sendConnectRequest(QString site, int index)
     QJsonArray arr;
     arr.push_back(site);
     arr.push_back(index);
-    transceiver->notifyToClient(arr);
+    QJsonDocument doc; doc.setArray(arr);
+    transceiver->notifyToClient(doc.toVariant());
 }
 
 void DapServiceController::rcvReplyFromClient(QVariant result)
 {
-    m_web3Controll->rcvAccept(result.toJsonArray()[0].toString(), result.toJsonArray()[1].toInt());
+    QJsonDocument doc = QJsonDocument::fromJson(result.toString().toUtf8());
+    QJsonArray arr = doc.array();
+    m_web3Controll->rcvAccept(arr.at(0).toBool(), arr.at(1).toInt());
 }
 
 /// Register command.

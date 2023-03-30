@@ -152,7 +152,7 @@ DapRectangleLitAndShaded {
                                 fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 onClicked:{
-                                   dapServiceController.notifyService("DapWebConnectRequest",true, indexRequest)
+                                   logicMainApp.notifyService("DapWebConnectRequest",true, indexRequest)
                                    delegateItem.eventMessage("Allowed")
                                 }
                             }
@@ -167,7 +167,7 @@ DapRectangleLitAndShaded {
                                 fontButton: mainFont.dapFont.medium14
                                 horizontalAligmentText: Text.AlignHCenter
                                 onClicked: {
-                                    dapServiceController.notifyService("DapWebConnectRequest",false, indexRequest)
+                                    logicMainApp.notifyService("DapWebConnectRequest",false, indexRequest)
                                     delegateItem.eventMessage("Denied")
                                 }
                             }

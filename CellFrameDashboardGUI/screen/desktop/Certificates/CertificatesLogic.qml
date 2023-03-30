@@ -9,7 +9,7 @@ Item {
 //    property bool requestRunning: false
 
     Component.onCompleted: {
-        dapServiceController.requestToService(DapCertificateCommands.serviceName
+        logicMainApp.requestToService(DapCertificateCommands.serviceName
                                               , DapCertificateCommands.GetSertificateList
                                               );
     }
@@ -146,11 +146,11 @@ Item {
     function createCertificate(certName, certType, metaData){     //metaData  is array of { type, , value }
         console.info("FLOWPOINT createCertificate", certName, certType)
 
-        dapServiceController.requestToService(DapCertificateCommands.serviceName
+        logicMainApp.requestToService(DapCertificateCommands.serviceName
                                               , DapCertificateCommands.CreateCertificate
                                               , certName, certType
                                               , JSON.stringify(metaData));
-        dapServiceController.requestToService(DapCertificateCommands.serviceName
+        logicMainApp.requestToService(DapCertificateCommands.serviceName
                                               , DapCertificateCommands.GetSertificateList
                                               );
     }
@@ -162,7 +162,7 @@ Item {
         console.info("FLOWPOINT dumpCertificate, index", index)
 
         if (cert) {
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.DumpCertifiacate
                                                   , cert.completeBaseName, cert.filePath);   //completeBaseName
         } else
@@ -176,10 +176,10 @@ Item {
 
         if (cert) {
             var certName = cert.completeBaseName
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.ExportPublicCertificateToFile
                                                   , certName, certName + "_public" );
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.GetSertificateList
                                                   );
         } else
@@ -193,10 +193,10 @@ Item {
 
         if (cert && dapServiceController.CurrentNetwork !== "") {
 //            requestRunning = true           //долгий запрос, требует индикации
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.ExportPublicCertificateToMempool
                                                   , dapServiceController.CurrentNetwork, cert.completeBaseName);
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.GetSertificateList
                                                   );
         } else
@@ -211,10 +211,10 @@ Item {
 
         if (cert)
         {
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.DeleteCertificate
                                                   , cert.filePath);
-            dapServiceController.requestToService(DapCertificateCommands.serviceName
+            logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                   , DapCertificateCommands.GetSertificateList
                                                   );
         }

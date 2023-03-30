@@ -110,10 +110,10 @@ Popup {
                         isSynch: true
                         onClicked:
                         {
-                            dapServiceController.requestToService("DapNetworkSingleSyncCommand", name)
+                            logicMainApp.requestToService("DapNetworkSingleSyncCommand", name)
 
                             if(!USING_NOTIFY)
-                                dapServiceController.requestToService("DapGetNetworksStateCommand")
+                                logicMainApp.requestToService("DapGetNetworksStateCommand")
                         }
                     }
 
@@ -126,12 +126,12 @@ Popup {
                         Component.onCompleted: setText()
                         onClicked: {
                             if (targetState !== "ONLINE" && networkState !== "ONLINE" )
-                                dapServiceController.requestToService("DapNetworkGoToCommand", name, true)
+                                logicMainApp.requestToService("DapNetworkGoToCommand", name, true)
                             else
-                                dapServiceController.requestToService("DapNetworkGoToCommand", name, false)
+                                logicMainApp.requestToService("DapNetworkGoToCommand", name, false)
 
                             if(!USING_NOTIFY)
-                                dapServiceController.requestToService("DapGetNetworksStateCommand")
+                                logicMainApp.requestToService("DapGetNetworksStateCommand")
                         }
 
                         function setText()

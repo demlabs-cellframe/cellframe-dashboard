@@ -103,22 +103,12 @@ public:
     /// @details In this case, a request is sent to the service to which it is obliged to respond. Expect an answer.
     /// @param asServiceName Service name.
     /// @param arg1...arg10 Parametrs.
-    Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &arg1 = QVariant(),
-                         const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
-                         const QVariant &arg4 = QVariant(), const QVariant &arg5 = QVariant(),
-                         const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
-                         const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
-                         const QVariant &arg10 = QVariant());
+    Q_INVOKABLE void requestToService(const QString& asServiceName, const QVariant &args = QVariant());
     /// Notify service.
     /// @details In this case, only a notification is sent to the service, the answer should not be expected.
     /// @param asServiceName Service name.
     /// @param arg1...arg10 Parametrs.
-    Q_INVOKABLE void notifyService(const QString& asServiceName, const QVariant &arg1 = QVariant(),
-                         const QVariant &arg2 = QVariant(), const QVariant &arg3 = QVariant(),
-                         const QVariant &arg4 = QVariant(), const QVariant &arg5 = QVariant(),
-                         const QVariant &arg6 = QVariant(), const QVariant &arg7 = QVariant(),
-                         const QVariant &arg8 = QVariant(), const QVariant &arg9 = QVariant(),
-                         const QVariant &arg10 = QVariant());
+    Q_INVOKABLE void notifyService(const QString& asServiceName, const QVariant &args = QVariant());
     
     /// Brand company.
     Q_PROPERTY(QString Brand MEMBER m_sBrand READ getBrand NOTIFY brandChanged)

@@ -138,6 +138,7 @@ Page
         target: dapServiceController
         function onLogUpdated(logs)
         {
+            console.log("Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 //            dapLogsList.enabled = false
             isModelLoaded = false;
             isModelLoaded = updateLogsModel(logs);
@@ -293,34 +294,38 @@ Page
 
     function updateLogsModel(logList)
     {
-        dapLogsModel.clear();
-        var count = Object.keys(logList).length
-        console.log(count);
-        var thisDay = new Date();
-        var privateDate = {'today' : thisDay,
-                            'todayDay': thisDay.getDate(),
-                            'todayMonth': thisDay.getMonth(),
-                            'todayYear': thisDay.getFullYear()};
-
-        for (var ind = count-1; ind >= 0; ind--)
+        if(logList.length > 0)
         {
-            var arrLogString = TimeFunction.parceStringFromLog(logList[ind]);
-            var stringTime = TimeFunction.parceTime(arrLogString[1]);
+            dapLogsModel.clear();
+            var count = Object.keys(logList).length
+            console.log(count);
+            var thisDay = new Date();
+            var privateDate = {'today' : thisDay,
+                                'todayDay': thisDay.getDate(),
+                                'todayMonth': thisDay.getMonth(),
+                                'todayYear': thisDay.getFullYear()};
 
-            if(stringTime !== "error" && arrLogString[2] !== "")
+            for (var ind = count-1; ind >= 0; ind--)
             {
-                var info = arrLogString[4]
-                if(info[0] === " ")
-                    info = info.substring(1)
+                var arrLogString = TimeFunction.parceStringFromLog(logList[ind]);
+                var stringTime = TimeFunction.parceTime(arrLogString[1]);
 
-                dapLogsModel.append({"type": arrLogString[2],
-                                     "info": info,
-                                     "file": arrLogString[3],
-                                     "time": TimeFunction.getTime(stringTime),
-                                     "date": TimeFunction.getDay(stringTime, privateDate),
-                                     "momentTime": stringTime});
+                if(stringTime !== "error" && arrLogString[2] !== "")
+                {
+                    var info = arrLogString[4]
+                    if(info[0] === " ")
+                        info = info.substring(1)
+
+                    dapLogsModel.append({"type": arrLogString[2],
+                                         "info": info,
+                                         "file": arrLogString[3],
+                                         "time": TimeFunction.getTime(stringTime),
+                                         "date": TimeFunction.getDay(stringTime, privateDate),
+                                         "momentTime": stringTime});
+                }
             }
+            return true
         }
-        return true
+        return false
     }
 }

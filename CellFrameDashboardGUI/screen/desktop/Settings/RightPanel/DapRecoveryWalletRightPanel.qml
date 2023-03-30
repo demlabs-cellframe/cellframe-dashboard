@@ -130,12 +130,12 @@ DapRecoveryWalletRightPanelForm
         console.log(walletInfo.signature_type);
 //        print("hash = ", walletInfo.recovery_hash)
         if(walletInfo.password === "")
-            dapServiceController.requestToService("DapAddWalletCommand",
+            logicMainApp.requestToService("DapAddWalletCommand",
                    walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash)
         else
-            dapServiceController.requestToService("DapAddWalletCommand",
+            logicMainApp.requestToService("DapAddWalletCommand",
                    walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash,
