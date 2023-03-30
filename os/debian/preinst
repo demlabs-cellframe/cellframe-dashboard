@@ -1,2 +1,2 @@
 #! /bin/bash -e
-systemctl stop cellframe-dashboard
+service cellframe-dashboard stop || true
