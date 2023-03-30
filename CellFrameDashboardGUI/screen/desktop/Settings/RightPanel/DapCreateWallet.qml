@@ -7,25 +7,6 @@ DapCreateWalletForm
 
     property string dapSignatureTypeWallet
 
-    Component.onCompleted:
-    {
-//        if (logicMainApp.currentTab === dashboardScreenPath)
-//          dapPreviousRightPanel = lastActionsWallet
-//        if (logicMainApp.currentTab === settingsScreenPath)
-//          dapPreviousRightPanel = emptyRightPanel
-
-        if (!logicMainApp.restoreWalletMode)
-        {
-            dapTextHeader.text = qsTr("New wallet")
-            dapButtonSelectionNothing.visible = true
-        }
-        else
-        {
-            dapTextHeader.text = qsTr("Restore a wallet")
-            dapButtonSelectionNothing.visible = false
-        }
-    }
-
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
     {
         dapSignatureTypeWallet = dapSignatureTypeWalletModel.get(dapComboBoxSignatureTypeWallet.currentIndex).sign
@@ -53,32 +34,9 @@ DapCreateWalletForm
             walletInfo.signature_type = dapSignatureTypeWallet
             walletInfo.password = dapTextInputPassword.text
 
-            if (logicMainApp.walletRecoveryType !== "Nothing")
-            {
-                print("walletRecoveryType", logicMainApp.walletRecoveryType)
+            print("walletRecoveryType", logicMainApp.walletRecoveryType)
 
-//                dapNextRightPanel = recoveryWallet
-//                nextActivated("recoveryWallet");
-                navigator.recoveryWalletFunc()
-            }
-            else
-            {
-                console.log("Create new wallet " + walletInfo.name);
-                console.log(walletInfo.signature_type);
-
-                if(logicMainApp.walletType === "Protected")
-                    logicMainApp.requestToService("DapAddWalletCommand",
-                           walletInfo.name,
-                           walletInfo.signature_type,
-                           "",
-                           walletInfo.password)
-                else
-                    logicMainApp.requestToService("DapAddWalletCommand",
-                           walletInfo.name,
-                           walletInfo.signature_type)
-
-            }
-
+            navigator.recoveryWalletFunc()
         }
 
     }
@@ -86,15 +44,6 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
-//        if (logicMainApp.currentTab === dashboardScreenPath)
-//            previousActivated(lastActionsWallet)
-//        if (logicMainApp.currentTab === settingsScreenPath)
-//        {
-//            previousActivated(emptyRightPanel)
-//            dapSettingsRightPanel.visible = false
-//            dapSettingsRightPanel.width = 0
-//            dapSettingsScreen.dapExtensionsBlock.visible = true
-//        }
         navigator.popPage()
     }
 
@@ -103,9 +52,6 @@ DapCreateWalletForm
         target: dapServiceController
         function onWalletCreated(wallet)
         {
-//            nextActivated("doneWallet");
-//            console.log(wallet.success, wallet.message)
-
             commandResult.success = wallet.success
             commandResult.message = wallet.message
 

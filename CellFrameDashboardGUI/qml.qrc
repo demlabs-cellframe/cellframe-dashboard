@@ -284,5 +284,7 @@
         <file>Resources/BlackTheme/icons/other/icon_walletUnlocked.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_walletLocked.svg</file>
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_checkbox_on.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_checkbox_off.svg</file>
     </qresource>
 </RCC>

@@ -14,7 +14,6 @@ DapRectangleLitAndShaded
     property alias dapButtonNext: buttonNext
     property alias dapWalletNameWarning: textWalletNameWarning
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
-    property alias dapButtonSelectionNothing: buttonSelectionNothing
     property alias dapTextInputPassword: textInputPasswordWallet
 
     color: currTheme.backgroundElements
@@ -402,18 +401,6 @@ DapRectangleLitAndShaded
                             implicitHeight: indicatorInnerSize
                             fontRadioButton: mainFont.dapFont.regular16
                             onClicked: logicMainApp.walletRecoveryType = "File"
-                        }
-
-                        DapRadioButton
-                        {
-                            id: buttonSelectionNothing
-                            Layout.fillWidth: true
-                            nameRadioButton: qsTr("Nothing")
-                            indicatorInnerSize: 46
-                            spaceIndicatorText: 3
-                            implicitHeight: indicatorInnerSize
-                            fontRadioButton: mainFont.dapFont.regular16
-                            onClicked: logicMainApp.walletRecoveryType = "Nothing"
                         }
                         Item {
                             Layout.fillHeight: true
