@@ -13,7 +13,7 @@ QtObject {
     property bool restoreWalletMode: false
     property string currentTab: params.isMobile ? "" : mainScreenStack.currPage
     property string walletRecoveryType: "Nothing"
-    property string walletType: "Standart"
+    property string walletType: "Standard"
     //
     property string menuTabStates: ""
 
@@ -466,7 +466,7 @@ QtObject {
         }
     }
 
-    function getAllWalletHistory(index, update)
+    function getAllWalletHistory(index, update, isLastActions)
     {
         if (index < 0 || index >= dapModelWallets.count)
             return
@@ -484,7 +484,7 @@ QtObject {
                 network_array += model.get(i).name + ":"
                 network_array += name + "/"
             }
-            dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update);
+            dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update, isLastActions);
         }
     }
 
@@ -509,7 +509,7 @@ QtObject {
                 if(!dapWebSites.get(j).enabled)
                 {
                     dapServiceController.notifyService("DapWebConnectRequest",false, rcvData[1])
-                    dapMessageLogBuffer.append({infoText: "The site " + rcvData[0] + " requests permission to exchange work with the wallet",
+                    dapMessageLogBuffer.append({infoText: "The site " + rcvData[0] + " requests permission to work with your wallet",
                                                 date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
                                                 reply: "Denied"})
                     return

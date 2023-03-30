@@ -200,7 +200,7 @@ Page {
             if(dapMessageBuffer.get(i).site === webSite)
             {
                 dapMessageBuffer.remove(i)
-                dapMessageLogBuffer.append({infoText: "The site " + webSite + " requests permission to exchange work with the wallet",
+                dapMessageLogBuffer.append({infoText: "The site " + webSite + " requests permission to work with your wallet",
                                             date: logicMainApp.getDate("yyyy-MM-dd, hh:mm ap"),
                                             reply: reply})
                 break;
@@ -217,13 +217,13 @@ Page {
             checkButton.visible = false
             webSite = text
             indexUser = index
-            infoText.text = "The site " + text + " requests permission to exchange work with the wallet"
+            infoText.text = "The site " + text + " requests permission to work with your wallet"
         }
         else
         {
             buttonsLayout.visible = false
             checkButton.visible = true
-            infoText.text = "You have " + text + " requests permission to exchange work with the wallet"
+            infoText.text = "You have " + text + " requests permission to work with your wallet"
 
             if(isOpen)
                 y = stopY

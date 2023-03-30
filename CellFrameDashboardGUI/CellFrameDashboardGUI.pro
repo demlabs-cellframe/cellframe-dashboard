@@ -52,6 +52,8 @@ SOURCES += \
     Autocomplete/CommandCmdController.cpp \
     DapApplication.cpp \
     DapMath.cpp \
+    HistoryWorker/historymodel.cpp \
+    HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
@@ -88,6 +90,8 @@ HEADERS += \
     Autocomplete/CommandCmdController.h \
     DapApplication.h \
     DapMath.h \
+    HistoryWorker/historymodel.h \
+    HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \

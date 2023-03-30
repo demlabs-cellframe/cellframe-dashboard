@@ -240,7 +240,7 @@ DapRectangleLitAndShaded
                         {
                             id: buttonSelectionStandart
                             Layout.fillWidth: true
-                            nameRadioButton: qsTr("Standart")
+                            nameRadioButton: qsTr("Standard")
                             checked: true
                             indicatorInnerSize: 46
                             spaceIndicatorText: 3
@@ -248,7 +248,7 @@ DapRectangleLitAndShaded
                             implicitHeight: indicatorInnerSize
                             onClicked:
                             {
-                                logicMainApp.walletType = "Standart"
+                                logicMainApp.walletType = "Standard"
                                 frameWalletPassword.visible = false
                             }
                         }
@@ -326,7 +326,8 @@ DapRectangleLitAndShaded
                         anchors.bottomMargin: 20
                         anchors.rightMargin: 24
 
-                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*]+/ }
+                        validator: RegExpValidator { regExp: /[^а-яёъьА-ЯЁЪЬ\s\-]+/}
+//                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\{\}\%\<\>\,\.\*\;\:\'\"\[\]\/\?\"\|\\\^\&\*\!\$\#]+/ }
                         bottomLineVisible: true
                         bottomLineSpacing: 6
 
@@ -395,7 +396,7 @@ DapRectangleLitAndShaded
                         {
                             id: buttonSelectionExportToFile
                             Layout.fillWidth: true
-                            nameRadioButton: logicMainApp.restoreWalletMode ? qsTr("Import backup file") : qsTr("Export to file")
+                            nameRadioButton: logicMainApp.restoreWalletMode ? qsTr("Import from file") : qsTr("Export to file")
                             indicatorInnerSize: 46
                             spaceIndicatorText: 3
                             implicitHeight: indicatorInnerSize

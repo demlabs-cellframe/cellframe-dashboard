@@ -11,6 +11,13 @@
 #include "mobile/testcontroller.h"
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
+#include "HistoryWorker/historyworker.h"
+
+#include "DapLogger.h"
+#include "DapDataLocal.h"
+#include "DapLogHandler.h"
+#include <iostream>
+
 
 #include "StockDataWorker/stockdataworker.h"
 
@@ -28,6 +35,8 @@ public:
     DapApplication(int &argc, char **argv);
 
     ~DapApplication();
+
+    void createDapLogger();
 
     DapNetworksList *networks();
 
@@ -55,6 +64,7 @@ private:
     DapMath *m_mathBigNumbers;
 
     StockDataWorker *stockDataWorker;
+    HistoryWorker * m_historyWorker;
 };
 
 #endif // DAPAPPLICATION_H

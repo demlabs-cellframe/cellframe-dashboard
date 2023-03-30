@@ -14,11 +14,11 @@ DapLastActionsRightPanelForm
     property date lastDate: new Date(0)
     property date prevDate: new Date(0)
 
-    property alias dapModelLastActions: modelLastActions
+//    property alias dapModelLastActions: modelLastActions
 
     property int lastHistoryLength: 0
 
-    ListModel{id: modelLastActions}
+//    ListModel{id: modelLastActions}
     ListModel{id: newModelLastActions}
     ListModel{id: temporaryModel}
     ListModel{id: previousModel}
@@ -50,25 +50,25 @@ DapLastActionsRightPanelForm
         }
     }
 
-    Connections
-    {
-        target: dapServiceController
-        function onAllWalletHistoryReceived(walletHistory)
-        {
-            if (walletHistory !== "isEqual")
-            {
-                logicExplorer.rcvAllWalletHistory(walletHistory, true)
-            }
-        }
-    }
+//    Connections
+//    {
+//        target: dapServiceController
+//        function onAllWalletHistoryReceived(walletHistory)
+//        {
+//            if (walletHistory !== "isEqual")
+//            {
+//                logicExplorer.rcvAllWalletHistory(walletHistory, true, true)
+//            }
+//        }
+//    }
 
     Connections{
         target: dashboardTopPanel
         function onChangeWallet() {
-            lastHistoryLength = 0
-            temporaryModel.clear()
-            modelLastActions.clear()
-            logicExplorer.updateWalletHistory(true, 1)
+//            lastHistoryLength = 0
+//            temporaryModel.clear()
+//            modelLastActions.clear()
+            logicExplorer.updateWalletHistory(true, 1, true)
         }
     }
 
@@ -79,7 +79,12 @@ DapLastActionsRightPanelForm
         {
             lastHistoryLength = 0
 
-            logicExplorer.updateWalletHistory(true, 1)
+            logicExplorer.updateWalletHistory(true, 1,true)
+
+            if (logicMainApp.currentWalletIndex >=0 &&
+                logicMainApp.currentWalletIndex < dapModelWallets.count)
+                historyWorker.setWalletName(
+                    dapModelWallets.get(logicMainApp.currentWalletIndex).name)
         }
     }
 
@@ -89,14 +94,19 @@ DapLastActionsRightPanelForm
         onTriggered:
         {
             console.log("LAST ACTIONS TICK")
-            logicExplorer.updateWalletHistory(true, 0)
+            logicExplorer.updateWalletHistory(true, 0, true)
         }
     }
 
     Component.onCompleted:
     {
+        historyWorker.setLastActions(true)
+        if (logicMainApp.currentWalletIndex >=0 &&
+            logicMainApp.currentWalletIndex < dapModelWallets.count)
+            historyWorker.setWalletName(
+                dapModelWallets.get(logicMainApp.currentWalletIndex).name)
         lastHistoryLength = 0
-        logicExplorer.updateWalletHistory(true, 1)
+        logicExplorer.updateWalletHistory(true, 1, true)
 
         if (!updateLastActionTimer.running)
             updateLastActionTimer.start()
