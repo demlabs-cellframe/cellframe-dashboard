@@ -121,8 +121,22 @@ include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
 
-LIBS += -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/core/ -ldap_core
-PRE_TARGETDEPS += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/core/libdap_core.a
+
+unix: !mac  {
+    NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
+}
+
+win32 {
+    NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_windows_release/build/
+}
+
+mac {
+    NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_osx_release/build/
+}
+
+
+LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/ -ldap_core
+PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/libdap_core.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/
@@ -130,19 +144,19 @@ DEPENDPATH += INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/
     $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/
 
-LIBS += -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/client/ -ldap_client \
-    -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/core/ -ldap_server_core \
-    -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/enc_server/ -ldap_enc_server \
-    -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/http_server/ -ldap_http_server \
-    -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
-    -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/notify_server/ -ldap_notify_srv
+LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/client/ -ldap_client \
+    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/core/ -ldap_server_core \
+    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/enc_server/ -ldap_enc_server \
+    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/http_server/ -ldap_http_server \
+    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
+    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/notify_server/ -ldap_notify_srv
 
-PRE_TARGETDEPS += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/client/libdap_client.a \
-    $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/core/libdap_server_core.a \
-    $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/enc_server/libdap_enc_server.a \
-    $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/http_server/libdap_http_server.a \
-    $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
-    $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/net/server/notify_server/libdap_notify_srv.a
+PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/client/libdap_client.a \
+    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/core/libdap_server_core.a \
+    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/enc_server/libdap_enc_server.a \
+    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/http_server/libdap_http_server.a \
+    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
+    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/notify_server/libdap_notify_srv.a
 
 
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/client/include/ \
@@ -168,13 +182,13 @@ DEPENDPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/client/include/ 
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/stream/stream/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/stream/session/include/
 
-LIBS += -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/modules/common/ -ldap_chain_common
-PRE_TARGETDEPS += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/modules/common/libdap_chain_common.a
+LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/modules/common/ -ldap_chain_common
+PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/modules/common/libdap_chain_common.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/modules/common/include/
 DEPENDPATH += $$PWD/../cellframe-node/cellframe-sdk/modules/common/include/
 
-LIBS += -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/crypto/ -ldap_crypto
-PRE_TARGETDEPS += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/dap-sdk/crypto/libdap_crypto.a
+LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/crypto/ -ldap_crypto
+PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/crypto/libdap_crypto.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/rand/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/ \
@@ -189,22 +203,13 @@ DEPENDPATH += += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/XKCP/lib/high/common \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/XKCP/lib/common
 
-unix: !mac  {
-    INCLUDEPATH += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/include/json-c/
-    DEPENDPATH += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/include/json-c/
-    LIBS += -L$$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/lib/ -ldap_json-c
-    PRE_TARGETDEPS += $$OUT_PWD/../CellFrameNode/build_linux_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
-}
 
-win32 {
-    INCLUDEPATH += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/include/json-c/
-    LIBS += ../CellFrameNode/build_windows_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
-}
+INCLUDEPATH += $$NODE_BUILD_PATH/cellframe-sdk/deps/include/json-c/
+DEPENDPATH += $$NODE_BUILD_PATH/cellframe-sdk/deps/include/json-c/
+LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/deps/lib/ -ldap_json-c
+PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
 
-mac {
-    INCLUDEPATH += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/include/json-c/
-    LIBS += ../CellFrameNode/build_osx_release/build/cellframe-sdk/deps/lib/libdap_json-c.a
-}
+
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
