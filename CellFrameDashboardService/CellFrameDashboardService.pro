@@ -38,7 +38,7 @@ android {
 
 darwin {
     QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing
-    DEFINES += DAP_OS_DARWIN DAP_OS_BSD
+    DEFINES += DAP_OS_DARWIN DAP_OS_BSD DAP_OS_UNIX
     QMAKE_CXXFLAGS += -Wno-deprecated-declarations -Wno-unused-local-typedefs -Wno-unused-function -Wno-implicit-fallthrough -Wno-unused-variable -Wno-unused-parameter -Wno-unused-but-set-variable
 
     QMAKE_CFLAGS_DEBUG += -gdwarf-2
