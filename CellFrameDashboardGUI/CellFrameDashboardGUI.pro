@@ -16,10 +16,11 @@ LIBS += -ldl
 TARGET = $${BRAND}
 
 unix {
-    DAP_OS_UNIX
+    DEFINES += DAP_OS_UNIX
 }
 
 win32 {
+    DEFINES += DAP_OS_WINDOWS
     DEFINES += HAVE_STRNDUP
     RC_ICONS = $$PWD/Resources/icon_win32.ico
 }
@@ -156,7 +157,22 @@ LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/ -ldap_core
 PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/libdap_core.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/
+
+
+unix {
+INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
+    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
+    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/ \
+}
+
+win32 {
+    LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/src/win32/ -ldap_core_win32
+    INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
+    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
+    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/win32/ \
+    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/wepoll/
+}
+
 DEPENDPATH += INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/

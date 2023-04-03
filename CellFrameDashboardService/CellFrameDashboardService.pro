@@ -24,8 +24,9 @@ win32 {
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3
 }
 
-unix {
+unix: !mac {
     DEFINES += DAP_OS_UNIX _GNU_SOURCE
+    LIBS += -lrt
 }
 
 android {
@@ -83,9 +84,25 @@ PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/libdap_core.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
     $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/
+
+unix {
+INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
+    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
+    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/ \
+}
+
+win32 {
+    LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/src/win32/ -ldap_core_win32
+    INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
+    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
+    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/win32/ \
+    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/wepoll/
+}
+
 DEPENDPATH += INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
     $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/
+    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/ \ 
+
 
 LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/client/ -ldap_client \
     -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/core/ -ldap_server_core \
@@ -196,7 +213,7 @@ win32 {
 mac {
     QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
     QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
-    LIBS += -framework Security -framework Carbon -lobjc -lrt
+    LIBS += -framework Security -framework Carbon -lobjc 
     QMAKE_LIBDIR += /usr/local/lib
 
     service_target.files = $${OUT_PWD}/$${TARGET}.app
