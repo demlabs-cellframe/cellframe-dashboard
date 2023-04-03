@@ -32,7 +32,7 @@ case "$1" in
         exit 2
     ;;
 esac
-systemctl start cellframe-dashboard
+service cellframe-dashboard start || true
 
 
 

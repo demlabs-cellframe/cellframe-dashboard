@@ -24,11 +24,6 @@ win32 {
     QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3
 }
 
-unix: !mac {
-    DEFINES += DAP_OS_UNIX _GNU_SOURCE
-    LIBS += -lrt
-}
-
 android {
     QT += core androidextras
     TEMPLATE = lib
@@ -221,6 +216,11 @@ mac {
     service_target.CONFIG += no_check_exist
 
     INSTALLS += service_target
+}
+
+unix: !mac {
+    DEFINES += DAP_OS_UNIX _GNU_SOURCE
+    LIBS += -lrt
 }
 
 
