@@ -2,6 +2,8 @@ QT += gui
 QT += core
 CONFIG += c++11
 QMAKE_CFLAGS += -std=gnu11
+QMAKE_CFLAGS_DEBUG += -DDAP_DEBUG
+QMAKE_CXXFLAGS +=  -std=c++11
 
 include(../config.pri)
 
@@ -17,14 +19,29 @@ TARGET = $${BRAND}Service
 
 win32 {
     CONFIG -= console
-    DEFINES += HAVE_STRNDUP
+    DEFINES += HAVE_STRNDUP DAP_OS_WINDOWS
+    LIBS += -lntdll -lpsapi -ljson-c -lmagic -lmqrt -lshlwapi -lregex -ltre -lintl -liconv -lbcrypt -lcrypt32 -lsecur32 -luser32 -lws2_32 -lole32
+    QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3
 }
 
-android: {
+unix {
+    DEFINES += DAP_OS_UNIX _GNU_SOURCE
+}
+
+android {
     QT += core androidextras
     TEMPLATE = lib
     CONFIG += dll
     TARGET = DashboardService
+}
+
+darwin {
+    QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing
+    DEFINES += DAP_OS_DARWIN DAP_OS_BSD
+    QMAKE_CXXFLAGS += -Wno-deprecated-declarations -Wno-unused-local-typedefs -Wno-unused-function -Wno-implicit-fallthrough -Wno-unused-variable -Wno-unused-parameter -Wno-unused-but-set-variable
+
+    QMAKE_CFLAGS_DEBUG += -gdwarf-2
+    QMAKE_CXXFLAGS_DEBUG += -gdwarf-2
 }
 
 # The following define makes your compiler emit warnings if you use
@@ -46,10 +63,6 @@ HEADERS += \
     DapNetSyncController.h \
     DapNotificationWatcher.h \
     DapWeb3Api/DapWebControll.h
-
-include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
-
-
 
 unix: !mac  {
     NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
@@ -155,10 +168,12 @@ unix: !mac : !android {
     INSTALLS += service_target
 }
 
-
+linux-* {
+    DEFINES += DAP_OS_LINUX
+}
 
 win32 {
-
+    QMAKE_CFLAGS_DEBUG += -Wall -ggdb -g3
     INCLUDEPATH += $$PWD/platforms/win32/service/
     HEADERS += platforms/win32/service/Service.h
     SOURCES += platforms/win32/service/Service.cpp
@@ -179,16 +194,15 @@ win32 {
 }
 
 mac {
-    
-    
     QMAKE_LFLAGS += -F /System/Library/Frameworks/Security.framework/
     QMAKE_LFLAGS_SONAME  = -Wl,-install_name,@executable_path/../Frameworks/
-    LIBS += -framework Security -framework Carbon -lobjc
-    
+    LIBS += -framework Security -framework Carbon -lobjc -lrt
+    QMAKE_LIBDIR += /usr/local/lib
+
     service_target.files = $${OUT_PWD}/$${TARGET}.app
     service_target.path = /
     service_target.CONFIG += no_check_exist
-    
+
     INSTALLS += service_target
 }
 

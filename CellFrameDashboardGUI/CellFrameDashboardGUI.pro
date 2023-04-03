@@ -1,13 +1,23 @@
 QT += qml quick widgets svg network
+
+include(../config.pri)
+
+QMAKE_CXXFLAGS_DEBUG += -DDAP_DEBUG
+QMAKE_CXXFLAGS +=  -std=c++11
+QMAKE_CFLAGS +=  -std=gnu11
+
 !android {
     TEMPLATE = app
 }
 CONFIG += c++11
 
 LIBS += -ldl
-include(../config.pri)
 
 TARGET = $${BRAND}
+
+unix {
+    DAP_OS_UNIX
+}
 
 win32 {
     DEFINES += HAVE_STRNDUP
@@ -27,6 +37,15 @@ mac {
 }
 else: !win32 {
     ICON = qrc:/Resources/icon.ico
+}
+
+darwin {
+    QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing
+    DEFINES += DAP_OS_DARWIN DAP_OS_BSD
+    QMAKE_CXXFLAGS += -Wno-deprecated-declarations -Wno-unused-local-typedefs -Wno-unused-function -Wno-implicit-fallthrough -Wno-unused-variable -Wno-unused-parameter -Wno-unused-but-set-variable
+
+    QMAKE_CFLAGS_DEBUG += -gdwarf-2
+    QMAKE_CXXFLAGS_DEBUG += -gdwarf-2
 }
 
 # You can also make your code fail to compile if you use deprecated APIs.
@@ -119,8 +138,6 @@ HEADERS += \
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
-include (../cellframe-node/cellframe-sdk/dap-sdk/core/libdap.pri)
-
 
 unix: !mac  {
     NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
@@ -215,15 +232,24 @@ include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
 include (../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.pri)
 
 unix: !mac : !android {
+    QMAKE_LFLAGS_DEBUG += -pg
+    DEFINES += _GNU_SOURCE
+    LIBS += -lrt -lmagic
+    QMAKE_CXXFLAGS_DEBUG += -Wall -Wno-deprecated-declarations -Wno-unused-local-typedefs -Wno-unused-function -Wno-implicit-fallthrough -Wno-unused-variable -Wno-unused-parameter -Wno-unused-but-set-variable -pg -g3 -ggdb -fno-eliminate-unused-debug-symbols -fno-strict-aliasing
+
     gui_target.files = $$OUT_PWD/$${BRAND}
     gui_target.path = /opt/$${BRAND_LO}/bin/
     INSTALLS += gui_target
     BUILD_FLAG = static
 }
 
+linux-* {
+    DEFINES += DAP_OS_LINUX
+}
 
-#it always win32 even if build with 64bit mingw
-win32  { 
+win32  {
+    LIBS += -lntdll -lpsapi -ljson-c -lmagic -lmqrt -lshlwapi -lregex -ltre -lintl -liconv -lbcrypt -lcrypt32 -lsecur32 -luser32 -lws2_32 -lole32
+    QMAKE_CXXFLAGS_DEBUG += -Wall -ggdb -g3
     CONFIG(debug, debug|release) {
             TARGET_PATH = $$OUT_PWD/debug/$${TARGET}.exe
     }
@@ -236,10 +262,6 @@ win32  {
    #force qmake generate installs in makefiles for unbuilded targets
     gui_target.CONFIG += no_check_exist
    INSTALLS += gui_target
-   
-}
-
-win32 {
     
     nsisfmt.commands +=   (echo !define APP_NAME       \"$$BRAND\" && \
                         echo !define APP_VERSION    \"$${VERSION}.0\" && \
