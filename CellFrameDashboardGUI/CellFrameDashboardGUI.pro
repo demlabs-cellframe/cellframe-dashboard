@@ -7,70 +7,7 @@ TARGET = $${BRAND}
 DEFINES += DAP_SERVICE_NAME=\\\"$${BRAND}Service\\\" \
     DAP_SETTINGS_FILE=\\\"settings.json\\\"
 
-win32 {
-    RC_ICONS = $$PWD/Resources/icon_win32.ico
-}
-
-mac {
-    ICON = Resources/CellframeDashboard.icns
-}
-else: !win32 {
-    ICON = qrc:/Resources/icon.ico
-}
-
-!android {
-    MOC_DIR = moc
-    OBJECTS_DIR = obj
-    RCC_DIR = rcc
-    UI_DIR = uic
-}
-
-INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
-
-OTHER_FILES += libdap-qt-ui-qml \
-               libdap-qt-ui-chain-wallet
-
-SOURCES += \
-    $$PWD/main.cpp \
-    $$PWD/DapServiceController.cpp \
-    Autocomplete/CommandCmdController.cpp \
-    DapApplication.cpp \
-    DapMath.cpp \
-    HistoryWorker/historymodel.cpp \
-    HistoryWorker/historyworker.cpp \
-    ImportCertificate/ImportCertificate.cpp \
-    NotifyController/DapNotifyController.cpp \
-    PluginsController/DapFilesFunctions.cpp \
-    PluginsController/DapNetworkManager.cpp \
-    PluginsController/DapPluginsController.cpp \
-    StockDataWorker/candlechartworker.cpp \
-    StockDataWorker/orderbookworker.cpp \
-    StockDataWorker/stockdataworker.cpp \
-    StockDataWorker/tokenpairsworker.cpp \
-    WalletRestore/randomfile.cpp \
-    WalletRestore/randomwords.cpp \
-    WalletRestore/wallethashmanager.cpp \
-    dapvpnorderscontroller.cpp \
-    mobile/testcontroller.cpp \
-    quickcontrols/qrcodequickitem.cpp \
-    resizeimageprovider.cpp \
-    serviceimitator.cpp \
-    systemtray.cpp \
-    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
-
-RESOURCES += $$PWD/qml.qrc
-RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-#QML_IMPORT_PATH =
-
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
-!isEmpty(target.path): INSTALLS += target
-
-HEADERS += \
-    $$PWD/DapServiceController.h \
+HEADERS += $$PWD/DapServiceController.h \
     Autocomplete/CommandCmdController.h \
     DapApplication.h \
     DapMath.h \
@@ -100,6 +37,67 @@ HEADERS += \
     systemtray.h \
     thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.h \
     windowframerect.h
+
+SOURCES += $$PWD/main.cpp \
+    $$PWD/DapServiceController.cpp \
+    Autocomplete/CommandCmdController.cpp \
+    DapApplication.cpp \
+    DapMath.cpp \
+    HistoryWorker/historymodel.cpp \
+    HistoryWorker/historyworker.cpp \
+    ImportCertificate/ImportCertificate.cpp \
+    NotifyController/DapNotifyController.cpp \
+    PluginsController/DapFilesFunctions.cpp \
+    PluginsController/DapNetworkManager.cpp \
+    PluginsController/DapPluginsController.cpp \
+    StockDataWorker/candlechartworker.cpp \
+    StockDataWorker/orderbookworker.cpp \
+    StockDataWorker/stockdataworker.cpp \
+    StockDataWorker/tokenpairsworker.cpp \
+    WalletRestore/randomfile.cpp \
+    WalletRestore/randomwords.cpp \
+    WalletRestore/wallethashmanager.cpp \
+    dapvpnorderscontroller.cpp \
+    mobile/testcontroller.cpp \
+    quickcontrols/qrcodequickitem.cpp \
+    resizeimageprovider.cpp \
+    serviceimitator.cpp \
+    systemtray.cpp \
+    thirdPartyLibs/QRCodeGenerator/QRCodeGenerator.cpp
+
+win32 {
+    RC_ICONS = $$PWD/Resources/icon_win32.ico
+}
+
+mac {
+    ICON = Resources/CellframeDashboard.icns
+}
+else: !win32 {
+    ICON = qrc:/Resources/icon.ico
+}
+
+!android {
+    MOC_DIR = moc
+    OBJECTS_DIR = obj
+    RCC_DIR = rcc
+    UI_DIR = uic
+}
+
+INCLUDEPATH += $$_PRO_FILE_PWD_/../dapRPCProtocol/
+
+OTHER_FILES += libdap-qt-ui-qml \
+               libdap-qt-ui-chain-wallet
+
+RESOURCES += $$PWD/qml.qrc
+RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+#QML_IMPORT_PATH =
+
+# Default rules for deployment.
+qnx: target.path = /tmp/$${TARGET}/bin
+else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
+!isEmpty(target.path): INSTALLS += target
 
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
