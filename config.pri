@@ -26,7 +26,14 @@ unix {
     linux-* {
         VERSION = $$VER_MAJ\.$$VER_MIN\-$$VER_PAT
 
-        NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
+		CONFIG(debug, debug|release) {
+	      	NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_rwd/build/
+    	}
+    	CONFIG(release, debug|release) {
+        	NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_linux_release/build/
+	    }
+
+    
 
         DEFINES += DAP_OS_LINUX _GNU_SOURCE \
 	    CLI_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-cli\\\" \
