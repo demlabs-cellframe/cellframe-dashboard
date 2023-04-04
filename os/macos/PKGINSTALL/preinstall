@@ -10,7 +10,7 @@ SERVICE=com.demlabs.Cellframe-DashboardService
 launchctl stop $NODE
 launchctl stop $SERVICE
 
- rm -r /Users/$USER/Applications/"$APP_NAME".app/Contents/Resources/etc/
+rm -r /Users/$USER/Applications/"$APP_NAME".app/Contents/Resources/etc/ || true
 
 RET=0
 echo "Installation logs" > /tmp/"$APP_NAME"_Install_Logs.txt
