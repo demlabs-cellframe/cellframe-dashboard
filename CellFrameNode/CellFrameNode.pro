@@ -6,14 +6,14 @@ linux {
 }
 
 win32 {
-    #contains(QMAKE_HOST.os, "Windows") {
-    #    node_build.commands = $$PWD/../cellframe-node/prod_build/build.bat
-    #    node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
-    #}
-    #else {
-#        node_build.commands = "$$shell_path($$PWD/../cellframe-node/prod_build/build.sh)" --target windows
-#        node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
-    #}
+    contains(QMAKE_HOST.os, "Windows") {
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.bat
+        node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
+    }
+    else {
+        node_build.commands = "$$shell_path($$PWD/../cellframe-node/prod_build/build.sh)" --target windows
+        node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
+    }
 }
 
 mac {
@@ -21,10 +21,10 @@ mac {
     node_targets.files = $$OUT_PWD/build_osx_release/dist/Users/root/Applications/Cellframe.app
 }
 
-#QMAKE_EXTRA_TARGETS += node_build
-#PRE_TARGETDEPS = node_build
+QMAKE_EXTRA_TARGETS += node_build
+PRE_TARGETDEPS = node_build
 
-#node_targets.path = /
-#node_targets.CONFIG += no_check_exist
+node_targets.path = /
+node_targets.CONFIG += no_check_exist
 
-#INSTALLS += node_targets
+INSTALLS += node_targets

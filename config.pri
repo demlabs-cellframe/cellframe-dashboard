@@ -83,7 +83,7 @@ win32 {
     DEFINES += DAP_OS_WINDOWS \
         CLI_PATH=\\\"$${BRAND_BASE_LO}-node-cli.exe\\\" \
 	TOOLS_PATH=\\\"$${BRAND_BASE_LO}-node-tool.exe\\\" \
-	DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
+        DAP_VERSION=\\\"$${VER_MAJ}.$${VER_MIN}-$$VER_PAT\\\" \
 	HAVE_STRNDUP
 
     NODE_BUILD_PATH = $$OUT_PWD/../CellFrameNode/build_windows_release/build/
