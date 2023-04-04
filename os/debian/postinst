@@ -32,6 +32,10 @@ case "$1" in
         exit 2
     ;;
 esac
+
+rm -r /opt/cellframe-node/var/lib/network/
+rm -r /opt/cellframe-node/var/lib/global_db/
+
 service cellframe-dashboard start || true
 
 

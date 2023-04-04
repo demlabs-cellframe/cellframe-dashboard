@@ -60,7 +60,8 @@ sudo chmod 644 /Applications/"$APP_NAME".app/Contents/Resources/$NODE.plist
  sudo -u $USER launchctl load -w /Users/$USER/Library/LaunchAgents/$NODE.plist
  sudo -u $USER launchctl load -w /Users/$USER/Library/LaunchAgents/$SERVICE.plist
 
- rm -r /Users/$USER/Applications/"$APP_NAME".app/Contents/Resources/var/lib/global_db/gdb-cdb/
+ rm -r /Users/$USER/Applications/"$APP_NAME".app/Contents/Resources/var/lib/global_db/
+ rm -r /Users/$USER/Applications/"$APP_NAME".app/Contents/Resources/var/lib/network/
 
  sudo -u $USER launchctl start $NODE
  sudo -u $USER launchctl start $SERVICE
