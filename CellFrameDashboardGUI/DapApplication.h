@@ -18,8 +18,9 @@
 #include "DapLogHandler.h"
 #include <iostream>
 
-
 #include "StockDataWorker/stockdataworker.h"
+
+#include "ConfigWorker/configworker.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -69,6 +70,7 @@ private:
 
     StockDataWorker *stockDataWorker;
     HistoryWorker * m_historyWorker;
+    ConfigWorker *configWorker;
 };
 
 #endif // DAPAPPLICATION_H
