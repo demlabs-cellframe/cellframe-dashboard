@@ -13,13 +13,13 @@ RowLayout {
     {
         id: labelItem
         font: textFont
-        color: currTheme.textColorGray
+        color: currTheme.gray
     }
     Text
     {
         id: textItem
         font: textFont
-        color: currTheme.textColorGray
+        color: currTheme.gray
     }
     Item {
         Layout.fillWidth: true

@@ -19,7 +19,7 @@ DapRectangleLitAndShaded {
     property bool infoTitleTextVisibleClick: false
 
     color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 

@@ -277,7 +277,7 @@ Rectangle {
     width: parent.width / scale
     height: parent.height / scale
     scale: 1.0
-    color:currTheme.backgroundPanel
+    color:currTheme.mainBackground
 
     RowLayout {
         id: mainRowLayout
@@ -296,14 +296,14 @@ Rectangle {
             Layout.bottomMargin: 7
             width: 180
             radius: 20
-            color: currTheme.backgroundPanel
+            color: currTheme.mainBackground
 
             //hide bottom radius element
             Rectangle
             {
                 z:0
                 width: leftMenuBackGrnd.radius
-                color: currTheme.backgroundPanel
+                color: currTheme.mainBackground
                 anchors.bottom: leftMenuBackGrnd.bottom
                 anchors.left: leftMenuBackGrnd.left
                 anchors.top: leftMenuBackGrnd.top
@@ -311,11 +311,11 @@ Rectangle {
             //hide top radius element
             Rectangle{
                 z:0
-                height: currTheme.radiusRectangle
+                height: currTheme.frameRadius
                 anchors.top:leftMenuBackGrnd.top
                 anchors.right: leftMenuBackGrnd.right
                 anchors.left: leftMenuBackGrnd.left
-                color: currTheme.backgroundPanel
+                color: currTheme.mainBackground
             }
 
             ColumnLayout {
@@ -380,7 +380,7 @@ Rectangle {
             id: mainScreen
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
 
             StackView {
                 property string currPage: dashboardScreenPath
@@ -429,7 +429,7 @@ Rectangle {
         height: 2
 
         gradient: Gradient {
-            GradientStop { position: 0.0; color: currTheme.backgroundPanel }
+            GradientStop { position: 0.0; color: currTheme.mainBackground }
             GradientStop { position: 1.0; color: currTheme.reflectionLight }
         }
     }

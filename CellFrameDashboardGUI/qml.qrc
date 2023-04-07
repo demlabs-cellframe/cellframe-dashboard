@@ -286,5 +286,6 @@
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_checkbox_on.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_checkbox_off.svg</file>
+        <file>Resources/theme/Black.qml</file>
     </qresource>
 </RCC>

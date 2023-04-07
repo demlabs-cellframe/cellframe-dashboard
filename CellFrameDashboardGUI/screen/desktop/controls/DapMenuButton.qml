@@ -63,7 +63,7 @@ Item
             anchors.verticalCenter: parent.verticalCenter
             text: name
             elide: Text.ElideMiddle
-            color: currTheme.textColor
+            color: currTheme.white
             font:mainFont.dapFont.regular13
 
             DapCustomToolTip{

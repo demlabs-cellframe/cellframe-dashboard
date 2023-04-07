@@ -44,8 +44,8 @@ DapRectangleLitAndShaded
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -91,7 +91,7 @@ DapRectangleLitAndShaded
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -100,12 +100,12 @@ DapRectangleLitAndShaded
         {
             id: frameSenderWallet
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textFrameSenderWallet
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("From")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -139,6 +139,7 @@ DapRectangleLitAndShaded
                     anchors.fill: parent
                     anchors.leftMargin: 5 
                     anchors.rightMargin: 5
+                    backgroundColor: currTheme.secondaryBackground
 
                     font: mainFont.dapFont.regular16
 
@@ -158,7 +159,7 @@ DapRectangleLitAndShaded
                 Text
                 {
                     Layout.fillWidth: true
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: qsTr("Chain:")
                     font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignLeft
@@ -188,12 +189,12 @@ DapRectangleLitAndShaded
         {
             id: frameAmountPayment
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textFrameamountPayment
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Amount")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -235,7 +236,7 @@ DapRectangleLitAndShaded
 
                     borderWidth: 1
                     borderRadius: 4
-                    placeholderColor: currTheme.textColor
+                    placeholderColor: currTheme.white
                 }
 
                 Rectangle
@@ -252,6 +253,7 @@ DapRectangleLitAndShaded
                         anchors.fill: parent
 
                         defaultText: qsTr("Tokens")
+                        backgroundColor: currTheme.secondaryBackground
 
                         font: mainFont.dapFont.regular16
                     }
@@ -267,12 +269,12 @@ DapRectangleLitAndShaded
             id: frameRecipientWallet
             Layout.topMargin: 10
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textRecipientWallet
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("To")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -331,7 +333,7 @@ DapRectangleLitAndShaded
             Layout.maximumWidth: 281
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
 
-            color: "#79FFFA"
+            color: currTheme.neon
             text: qsTr("Not enough available tokens. Enter a lower value.")
             font: mainFont.dapFont.regular14
             horizontalAlignment: Text.AlignHCenter

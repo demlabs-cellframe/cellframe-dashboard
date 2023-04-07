@@ -40,7 +40,7 @@ Item{
         width: 328
         height: textError.visible ? 289 : 265
         color: currTheme.buttonColorNoActive
-        radius: currTheme.radiusRectangle
+        radius: currTheme.frameRadius
 
         MouseArea{
             anchors.fill: parent

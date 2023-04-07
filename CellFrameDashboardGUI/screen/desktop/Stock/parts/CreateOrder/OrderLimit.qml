@@ -29,11 +29,11 @@ ColumnLayout {
     Rectangle
     {
         Layout.fillWidth: true
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         height: 30
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Price")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
@@ -45,7 +45,7 @@ ColumnLayout {
         }
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Expires in")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignRight
@@ -103,6 +103,7 @@ ColumnLayout {
                 enabled: false
                 rightMarginIndicator: 0
                 model: expiresModel
+                backgroundColor: currTheme.secondaryBackground
             }
         }
     }
@@ -111,11 +112,11 @@ ColumnLayout {
     {
         Layout.fillWidth: true
         Layout.topMargin: 12
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         height: 30
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Amount")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
@@ -261,11 +262,11 @@ ColumnLayout {
     {
         Layout.fillWidth: true
         Layout.topMargin: 12
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         height: 30
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Total")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft

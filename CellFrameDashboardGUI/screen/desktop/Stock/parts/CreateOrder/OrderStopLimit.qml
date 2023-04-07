@@ -19,11 +19,11 @@ ColumnLayout {
     Rectangle
     {
         Layout.fillWidth: true
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         height: 30
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Stop")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
@@ -52,11 +52,11 @@ ColumnLayout {
     {
         Layout.fillWidth: true
         Layout.topMargin: 12
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         height: 30
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Limit")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft
@@ -68,7 +68,7 @@ ColumnLayout {
         }
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Expires in")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignRight
@@ -108,7 +108,7 @@ ColumnLayout {
             Layout.minimumHeight: 40
             Layout.maximumHeight: 40
 
-            border.color: currTheme.borderColor
+            border.color: currTheme.mainBackground
             color: "transparent"
             radius: 4
 
@@ -118,6 +118,7 @@ ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 2
                 font: mainFont.dapFont.regular16
+                backgroundColor: currTheme.secondaryBackground
 
                 model: expiresModel
             }
@@ -128,11 +129,11 @@ ColumnLayout {
     {
         Layout.fillWidth: true
         Layout.topMargin: 12
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         height: 30
         Text
         {
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Amount")
             font: mainFont.dapFont.medium12
             horizontalAlignment: Text.AlignLeft

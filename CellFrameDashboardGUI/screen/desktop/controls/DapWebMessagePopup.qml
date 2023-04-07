@@ -59,7 +59,7 @@ Page {
             height: parent.height
             visible: true
             color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            radius: currTheme.frameRadius
         }
 
         DropShadow {

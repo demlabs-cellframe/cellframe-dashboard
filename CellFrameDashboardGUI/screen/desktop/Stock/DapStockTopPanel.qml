@@ -10,7 +10,7 @@ import "qrc:/widgets"
 Controls.DapTopPanel
 {
     anchors.leftMargin: 4
-//    radius: currTheme.radiusRectangle
+//    radius: currTheme.frameRadius
 //    color: currTheme.backgroundPanel
 
     ListModel{id: stockModelTokens}
@@ -29,7 +29,7 @@ Controls.DapTopPanel
             id: backToStock
             Layout.rightMargin: 40
             font: mainFont.dapFont.regular16
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr(" <  DEX")
             visible: false
 
@@ -52,7 +52,7 @@ Controls.DapTopPanel
             id: textHeaderWallet
             text: qsTr("Wallet: ")
             font: mainFont.dapFont.regular14
-            color: currTheme.textColorGray
+            color: currTheme.gray
             Layout.alignment: Qt.AlignVCenter
         }
         DapBigText
@@ -92,7 +92,7 @@ Controls.DapTopPanel
             Layout.leftMargin: 32
             text: "Token: "
             font: mainFont.dapFont.regular14
-            color: currTheme.textColorGray
+            color: currTheme.gray
         }
 
         DapCustomComboBox{
@@ -102,8 +102,6 @@ Controls.DapTopPanel
             Layout.maximumWidth: 160
             Layout.leftMargin: 4
             font: mainFont.dapFont.regular14
-
-            backgroundColor: currTheme.backgroundMainScreen
 
             Component.onCompleted: {
                 updatePair()
@@ -125,7 +123,7 @@ Controls.DapTopPanel
             Layout.leftMargin: 32
             text: qsTr("Token balance: ")
             font: mainFont.dapFont.regular14
-            color: currTheme.textColorGray
+            color: currTheme.gray
             Layout.alignment: Qt.AlignVCenter
         }
 

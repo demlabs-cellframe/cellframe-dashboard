@@ -30,7 +30,7 @@ DapRectangleLitAndShaded
     property alias dapTextTopMessage: textTopMessage
 //    property alias dapTextBottomMessage: textBottomMessage
     color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 

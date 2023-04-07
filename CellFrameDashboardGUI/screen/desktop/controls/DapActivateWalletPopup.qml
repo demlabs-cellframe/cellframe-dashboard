@@ -54,7 +54,7 @@ Item{
 
 
         color: currTheme.buttonColorNoActive
-        radius: currTheme.radiusRectangle
+        radius: currTheme.frameRadius
 
         MouseArea{
             anchors.fill: parent

@@ -12,7 +12,7 @@ DapRectangleLitAndShaded {
     id: root
 
     color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
     property alias canceledButton: canceledDownload
@@ -314,7 +314,7 @@ DapRectangleLitAndShaded {
 
                 implicitHeight: 36 
                 implicitWidth: 132 
-//                radius: currTheme.radiusRectangle
+//                radius: currTheme.frameRadius
 
                 id:reloadDownload
                 textButton: "Reload"
@@ -329,7 +329,7 @@ DapRectangleLitAndShaded {
 
                 implicitHeight: 36 
                 implicitWidth: 132 
-//                radius: currTheme.radiusRectangle
+//                radius: currTheme.frameRadius
 
                 id: canceledDownload
                 textButton: "Cancel"

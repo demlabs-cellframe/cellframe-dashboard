@@ -11,7 +11,7 @@ Rectangle
 //    property real realValue: 0.0
     property string placeholderText: textValue.placeholderText
 
-    border.color: currTheme.borderColor
+    border.color: currTheme.input
     color: "transparent"
     radius: 4
 
@@ -46,7 +46,7 @@ Rectangle
             validator: RegExpValidator { regExp: /[0-9]*\.?[0-9]{0,18}/}
 
             placeholderText: qsTr("0.0")
-            textColor: parent.enabled? currTheme.textColor: currTheme.textColorGray
+            textColor: parent.enabled? currTheme.white: currTheme.gray
             font: mainFont.dapFont.regular16
             text: ""
 
@@ -81,7 +81,7 @@ Rectangle
             Layout.fillHeight: true
             Layout.rightMargin: 10
             verticalAlignment: Qt.AlignVCenter
-            color: parent.enabled? currTheme.textColor: currTheme.textColorGray
+            color: parent.enabled? currTheme.white: currTheme.gray
             font: mainFont.dapFont.regular16
         }
     }

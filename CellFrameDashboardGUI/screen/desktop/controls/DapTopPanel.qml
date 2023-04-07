@@ -15,8 +15,8 @@ Page
         id: beckgrndRect
         anchors.fill: parent
         anchors.leftMargin: 3
-        radius: 20
-        color: currTheme.backgroundPanel
+        radius: 16
+        color: currTheme.mainBackground
 
         Rectangle {
             height: control.height

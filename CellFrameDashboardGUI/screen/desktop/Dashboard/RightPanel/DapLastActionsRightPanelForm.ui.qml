@@ -11,8 +11,8 @@ DapRectangleLitAndShaded
 
     property alias dapLastActionsView: lastActionsView
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -34,7 +34,7 @@ DapRectangleLitAndShaded
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.leftMargin: 16
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Last actions")
             }
         }
@@ -76,7 +76,7 @@ DapRectangleLitAndShaded
                         {
                             Layout.fillWidth: true
                             text: network
-                            color: currTheme.textColor
+                            color: currTheme.white
                             font: mainFont.dapFont.regular11
                             elide: Text.ElideRight
                         }
@@ -85,7 +85,7 @@ DapRectangleLitAndShaded
                         {
                             Layout.fillWidth: true
                             text: tx_status === "ACCEPTED" ? status : "Declined"
-                            color: currTheme.textColorGrayTwo
+                            color: currTheme.gray
                             font: mainFont.dapFont.regular12
                         }
                     }
@@ -115,7 +115,7 @@ DapRectangleLitAndShaded
 //                            Layout.fillHeight: true
                             Layout.fillWidth: true
                             height: 15
-                            textColor: currTheme.textColorGrayTwo
+                            textColor: currTheme.gray
                             horizontalAlign: Qt.AlignRight
                             verticalAlign: Qt.AlignVCenter
                             fullText: qsTr("fee: ") + fee + " " + token
@@ -181,7 +181,7 @@ DapRectangleLitAndShaded
                 {
                     width: parent.width
                     height: 1 
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
                     anchors.bottom: parent.bottom
                 }
             }

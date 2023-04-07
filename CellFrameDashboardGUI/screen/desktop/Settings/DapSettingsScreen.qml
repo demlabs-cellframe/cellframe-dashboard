@@ -52,7 +52,7 @@ Page
                     Layout.preferredHeight: content.implicitHeight
                     Layout.maximumHeight: control.height - spacing
                     color: currTheme.backgroundElements
-                    radius: currTheme.radiusRectangle
+                    radius: currTheme.frameRadius
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
@@ -115,7 +115,7 @@ Page
                 Layout.minimumWidth: 327
                 Layout.alignment: Qt.AlignTop
                 color: currTheme.backgroundElements
-                radius: currTheme.radiusRectangle
+                radius: currTheme.frameRadius
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 

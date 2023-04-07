@@ -29,7 +29,7 @@ Page
             Layout.preferredHeight: contentData.implicitHeight
 
             color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
 
@@ -203,7 +203,7 @@ Page
             Layout.preferredHeight: contentData.implicitHeight
 
             color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
 
