@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <QDataStream>
 #include <QJsonDocument>
-#include "json-c/json.h"
+#include "json.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
