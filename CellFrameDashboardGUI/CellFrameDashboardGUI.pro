@@ -13,6 +13,8 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
     DapMath.h \
+    DiagnosticWorker/DiagnosticWorker.h \
+    DiagnosticWorker/AbstractDiagnostic.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
@@ -47,6 +49,8 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
     DapMath.cpp \
+    DiagnosticWorker/DiagnosticWorker.cpp \
+    DiagnosticWorker/AbstractDiagnostic.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
@@ -71,14 +75,22 @@ SOURCES += $$PWD/main.cpp \
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
+    HEADERS += $$PWD/DiagnosticWorker/WinDiagnostic.h
+    SOURCES += $$PWD/DiagnosticWorker/WinDiagnostic.cpp
 }
 
 mac {
     ICON = Resources/CellframeDashboard.icns
+    HEADERS += $$PWD/DiagnosticWorker/MacDiagnostic.h
+    SOURCES += $$PWD/DiagnosticWorker/MacDiagnostic.cpp
 }
 else: !win32 {
     ICON = qrc:/Resources/icon.ico
+
+    HEADERS += $$PWD/DiagnosticWorker/LinuxDiagnostic.h
+    SOURCES += $$PWD/DiagnosticWorker/LinuxDiagnostic.cpp
 }
+
 
 !android {
     MOC_DIR = moc
