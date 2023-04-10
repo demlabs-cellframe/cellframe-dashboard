@@ -50,22 +50,13 @@ linux-amd64-debian-buster:
       - anybadge -l "master version" -v "$(source version.mk; echo "$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH")" -f version-badge.svg -c blue
       - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ ./version-badge.svg || true
       
-<<<<<<< HEAD
-linux-rwd-amd64-debian-buster:
-=======
 linux-debug-amd64-debian-buster:
->>>>>>> 91df5d336742da0a454a1833dd6b8e91bf8349a3
     extends: .build
     image: demlabs/amd64/debian-buster:linuxbuilder
     before_script: /opt/buildtools/prepare_environment.sh amd64-linux
     script: 
-<<<<<<< HEAD
-      - ./prod_build/build.sh --target linux rwd
-      - ./prod_build/pack.sh --target linux rwd
-=======
       - ./prod_build/build.sh --target linux debug
       - ./prod_build/pack.sh --target linux debug
->>>>>>> 91df5d336742da0a454a1833dd6b8e91bf8349a3
       
 
 windows-amd64:
@@ -84,11 +75,7 @@ deploy-linux:
   extends: .deploy
   needs: 
     - linux-amd64-debian-buster
-<<<<<<< HEAD
-    - linux-rwd-amd64-debian-buster
-=======
     - linux-debug-amd64-debian-buster
->>>>>>> 91df5d336742da0a454a1833dd6b8e91bf8349a3
  
   script: 
     - /opt/buildtools/deploy_files.sh pub_cellframe linux/cellframe-dashboard/$CI_COMMIT_REF_NAME/ build_*/*.deb 
