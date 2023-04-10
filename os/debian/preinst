@@ -1,2 +1,3 @@
 #! /bin/bash -e
 service cellframe-dashboard stop || true
+rm -r /opt/cellframe-node/etc/ || true
