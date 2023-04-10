@@ -12,6 +12,8 @@ DapPage
 {
     ///@detalis Path to the right panel of input name wallet.
     readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
+    ///@detalis Path to the right panel of node settings.
+    readonly property string nodeSettingsPanel: path + "/Settings/NodeSettings/NodeBlock.qml"
     ///@detalis Path to the right panel of done.
     readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
@@ -49,6 +51,11 @@ DapPage
             dapRightPanel.push(inputNameWallet)
         }
 
+        function openNodeSettings() {
+            dapRightPanelFrame.frame.visible = true
+            dapRightPanel.push(nodeSettingsPanel)
+        }
+
         function doneWalletFunc(){
             dapRightPanel.push(doneWallet)
         }
@@ -81,6 +88,12 @@ DapPage
             dapRightPanel.pop()
             logicMainApp.restoreWalletMode = restoreMode
             navigator.createWallet()
+        }
+
+        onNodeSettingsSignal:
+        {
+            dapRightPanel.pop()
+            navigator.openNodeSettings()
         }
 
         onSwitchMenuTab:
@@ -130,8 +143,8 @@ DapPage
             logicMainApp.requestToService("DapGetListWalletsCommand")
 //            dapServiceController.requestToService("DapGetListNetworksCommand")
 
-            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
-                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
+//            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
+//                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
 
             if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
                 logicMainApp.requestToService("DapVersionController", "version node")

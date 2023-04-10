@@ -21,6 +21,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_serviceController(&DapServiceController::getInstance())
     , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
+    , configWorker(new ConfigWorker(this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -88,6 +89,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 DapApplication::~DapApplication()
 {
     delete stockDataWorker;
+    delete configWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
@@ -223,4 +225,6 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
     m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
     m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
+
+    m_engine.rootContext()->setContextProperty("configWorker", configWorker);
 }

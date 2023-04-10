@@ -194,6 +194,8 @@ void DapServiceController::registerCommand()
 
     m_pServer->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand", m_pServer, CLI_PATH));
 
+    m_pServer->addService(new DapNodeRestart("DapNodeRestart", m_pServer, CLI_PATH));
+
 
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
 

@@ -50,6 +50,8 @@ SOURCES += \
     $$PWD/main.cpp \
     $$PWD/DapServiceController.cpp \
     Autocomplete/CommandCmdController.cpp \
+    ConfigWorker/configfile.cpp \
+    ConfigWorker/configworker.cpp \
     DapApplication.cpp \
     DapMath.cpp \
     HistoryWorker/historymodel.cpp \
@@ -88,6 +90,8 @@ else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
 HEADERS += \
     $$PWD/DapServiceController.h \
     Autocomplete/CommandCmdController.h \
+    ConfigWorker/configfile.h \
+    ConfigWorker/configworker.h \
     DapApplication.h \
     DapMath.h \
     HistoryWorker/historymodel.h \

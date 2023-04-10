@@ -286,5 +286,15 @@
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_checkbox_on.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_checkbox_off.svg</file>
+        <file>screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/HeaderItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/NodeBlock.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/ResetUpdateButtons.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/SettingsArrowItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/SettingsCheckBoxItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/TextEditPopupItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/WarningPopupItem.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_rightChevron.svg</file>
+        <file>screen/desktop/Settings/NodeSettings/PageHeaderItem.qml</file>
     </qresource>
 </RCC>
