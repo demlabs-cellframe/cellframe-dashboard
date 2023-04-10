@@ -16,7 +16,7 @@ ColumnLayout
     property alias dapWalletsButtons : buttonGroup
 //    property int dapCurrentWallet: logicMainApp.currentWalletIndex
     property alias dapNetworkComboBox: comboBoxCurrentNetwork
-    property alias dapAutoOnlineCheckBox: checkBox
+//    property alias dapAutoOnlineCheckBox: checkBox
 
     spacing: 0
 
@@ -99,7 +99,7 @@ ColumnLayout
         }
     }
 
-    Item
+/*    Item
     {
         height: 50
         Layout.fillWidth: true
@@ -159,7 +159,7 @@ ColumnLayout
                     checkBox.stopUpdate = false
             }
         }
-    }
+    }*/
 
 
     Rectangle
