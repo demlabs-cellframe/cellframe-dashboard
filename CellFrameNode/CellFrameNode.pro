@@ -1,17 +1,26 @@
 TEMPLATE = aux
 
+
+
+
 linux {
-    node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=ON
-    node_targets.files = $$OUT_PWD/build_linux_release/dist/opt
+    CONFIG(debug, debug|release) {
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux rwd -DBUILD_WITH_PYTHON_ENV=ON
+        node_targets.files = $$OUT_PWD/build_linux_rwd/dist/opt        
+    }
+    CONFIG(release, debug|release) {
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=ON
+        node_targets.files = $$OUT_PWD/build_linux_release/dist/opt
+    }
 }
 
 win32 {
     contains(QMAKE_HOST.os, "Windows") {
-        node_build.commands = $$PWD/../cellframe-node/prod_build/build.bat 
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.bat
         node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
     }
     else {
-        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target windows 
+        node_build.commands = "$$shell_path($$PWD/../cellframe-node/prod_build/build.sh)" --target windows
         node_targets.files = $$OUT_PWD/build_windows_release/dist/opt
     }
 }

@@ -417,7 +417,7 @@ QJsonDocument DapWebControll::sendJsonTransaction(QJsonDocument jsonCommand)
     QJsonDocument docResult;
     if(result.isEmpty())
         docResult = processingResult("bad", QString("Node is offline"));
-    else if(result.contains("No valid items"))
+    else if(result.contains("No valid items") || result.contains("Can't create") || result.contains("Not found") || result.contains("error") || result.contains("Error"))
         docResult = processingResult("bad", result);
     else
         docResult = processingResult("ok", "", result);
@@ -542,8 +542,16 @@ QJsonDocument DapWebControll::getCertificates(QString categoryCert)
         }
     }
 
-    for(auto item : result)
-        items.append(item.toObject().value("completeBaseName").toString());
+    for(auto item : result){
+        QJsonObject certOjb;
+
+        certOjb.insert("name", item.toObject().value("completeBaseName").toString());
+        certOjb.insert("fileName", item.toObject().value("fileName").toString());
+        certOjb.insert("path", item.toObject().value("filePath").toString());
+        certOjb.insert("type", item.toObject().value("dirType").toInt());
+
+        items.append(certOjb);
+    }
 
     if(result.count())
         return docResult = processingResult("ok", "", items);

@@ -9,7 +9,7 @@ DapNetSyncController::DapNetSyncController(DapNotificationWatcher* watcher, QObj
 
     m_timerSync = new QTimer(this);
     connect(m_timerSync, SIGNAL(timeout()), this, SLOT(updateTick()));
-    m_timerSync->start(1000 * 60 * 5); //5 min timer
+    m_timerSync->start(1000 * 60 * 10); //5 min timer
 
     connect(m_notifWatch, SIGNAL(changeConnectState(QString)), this, SLOT(rcvNotifState(QString)));
 }
@@ -29,7 +29,7 @@ QStringList DapNetSyncController::getNetworkList()
     QProcess process;
     QString command = QString("%1 net list").arg(CLI_PATH);
     process.start(command);
-    process.waitForFinished(-1);
+    process.waitForFinished(1000);
     QString result = QString::fromLatin1(process.readAll());
 
     QStringList list;
@@ -52,7 +52,7 @@ void DapNetSyncController::goSyncNet(QString net)
     QProcess process;
     QString command(QString("%1 net -net %2 go sync").arg(CLI_PATH).arg(net));
     process.start(command);
-    process.waitForFinished(10);
+    process.waitForFinished(1000);
     QString result = QString::fromLatin1(process.readAll());
     qInfo() << "result:" << result;
 }
@@ -65,7 +65,7 @@ void DapNetSyncController::rcvNotifState(QString state)
         {
             m_timerSync->stop();
             updateTick();
-            m_timerSync->start(1000 * 60 * 20);
+            m_timerSync->start(1000 * 60 * 10);
         }
     }
     m_nodeState = state;
