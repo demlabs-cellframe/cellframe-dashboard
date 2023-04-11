@@ -1,5 +1,9 @@
 #include "AbstractDiagnostic.h"
 
+#include "qnetworkconfigmanager.h"
+#include "qnetworksession.h"
+#include <QNetworkConfiguration>
+
 static QString group = "global.users.statistic";
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
@@ -40,10 +44,50 @@ QJsonArray AbstractDiagnostic::get_mac_array()
 {
     QJsonArray mac_arr;
 
-    QList<QNetworkInterface>list = QNetworkInterface::allInterfaces();
+//    QList<QNetworkInterface>list = QNetworkInterface::allInterfaces();
 
-    foreach (QNetworkInterface interface, list)
-        mac_arr.append(interface.hardwareAddress());
+    QNetworkConfiguration nc;
+    QNetworkConfigurationManager ncm;
+    QList<QNetworkConfiguration> configsForEth,configsForWLAN,allConfigs;
+    // getting all the configs we can
+    foreach (nc,ncm.allConfigurations(QNetworkConfiguration::Active))
+    {
+        if(nc.type() == QNetworkConfiguration::InternetAccessPoint)
+        {
+            // selecting the bearer type here
+            if(nc.bearerType() == QNetworkConfiguration::BearerWLAN)
+            {
+                configsForWLAN.append(nc);
+            }
+            if(nc.bearerType() == QNetworkConfiguration::BearerEthernet)
+            {
+                configsForEth.append(nc);
+            }
+        }
+    }
+    // further in the code WLAN's and Eth's were treated differently
+    allConfigs.append(configsForWLAN);
+    allConfigs.append(configsForEth);
+    QString MAC;
+    foreach(nc,allConfigs)
+    {
+        QNetworkSession networkSession(nc);
+        QNetworkInterface netInterface = networkSession.interface();
+        // these last two conditions are for omiting the virtual machines' MAC
+        // works pretty good since no one changes their adapter name
+        if(!(netInterface.flags() & QNetworkInterface::IsLoopBack)
+                && !netInterface.humanReadableName().toLower().contains("vmware")
+                && !netInterface.humanReadableName().toLower().contains("virtual"))
+        {
+            MAC = QString(netInterface.hardwareAddress());
+            break;
+        }
+    }
+
+    mac_arr.append(MAC);
+
+//    foreach (QNetworkInterface interface, list)
+//        mac_arr.append(MAC);
 
     return mac_arr;
 }
