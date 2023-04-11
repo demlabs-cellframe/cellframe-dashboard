@@ -38,18 +38,25 @@ private:
 private slots:
     void slot_diagnostic_data(QJsonDocument);
     void slot_uptime();
+    void slot_update_node_list();
 
 public:
 
-    QTimer *s_uptime_timer;
+    QTimer *s_uptime_timer, *s_node_list_timer;
     QElapsedTimer *s_elapsed_timer;
     QString s_uptime{"00:00:00"};
+
+    QJsonDocument s_node_list, s_node_list_selected, s_data_selected_nodes;
 
     Q_PROPERTY(bool flagSendData        READ flagSendData       WRITE setflagSendData       NOTIFY flagSendDataChanged)
     Q_PROPERTY(bool flagSendSysTime     READ flagSendSysTime    WRITE setFlagSendSysTime    NOTIFY flagSendSysTimeChanged)
     Q_PROPERTY(bool flagSendDahsTime    READ flagSendDahsTime   WRITE setFlagSendDahsTime   NOTIFY flagSendDahsTimeChanged)
     Q_PROPERTY(bool flagSendMemory      READ flagSendMemory     WRITE setFlagSendMemory     NOTIFY flagSendMemoryChanged)
     Q_PROPERTY(bool flagSendMemoryFree  READ flagSendMemoryFree WRITE setFlagSendMemoryFree NOTIFY flagSendMemoryFreeChanged)
+
+    Q_PROPERTY(QByteArray nodeList          READ nodeList           NOTIFY nodeListChanged);
+    Q_PROPERTY(QByteArray nodeListSelected  READ nodeListSelected   NOTIFY nodeListSelectedChanged);
+    Q_PROPERTY(QByteArray dataSelectedNodes READ dataSelectedNodes  NOTIFY dataSelectedNodesChanged);
 
     Q_INVOKABLE bool flagSendData() const;
     Q_INVOKABLE void setflagSendData(const bool &flagSendData);
@@ -66,6 +73,13 @@ public:
     Q_INVOKABLE bool flagSendMemoryFree() const;
     Q_INVOKABLE void setFlagSendMemoryFree(const bool &flagSendMemoryFree);
 
+    Q_INVOKABLE QByteArray nodeList() const;
+    Q_INVOKABLE QByteArray nodeListSelected() const;
+    Q_INVOKABLE QByteArray dataSelectedNodes() const;
+
+    Q_INVOKABLE void addNodeToList(QString mac);
+    Q_INVOKABLE void removeNodeFromList(QString mac);
+
 
 signals:
     void signalDiagnosticData(QByteArray);
@@ -75,6 +89,10 @@ signals:
     void flagSendMemoryChanged();
     void flagSendMemoryFreeChanged();
     void flagSendDataChanged();
+
+    void nodeListChanged();
+    void nodeListSelectedChanged();
+    void dataSelectedNodesChanged();
 };
 
 #endif // DIAGNOSTICWORKER_H

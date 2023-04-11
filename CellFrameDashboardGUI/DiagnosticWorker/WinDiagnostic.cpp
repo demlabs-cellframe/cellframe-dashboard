@@ -17,7 +17,7 @@ void WinDiagnostic::info_update()
     QJsonObject full_info;
 
     sys_info = get_sys_info();
-    sys_info.insert("mac_list", s_mac_list);
+    sys_info.insert("mac", s_mac);
     QJsonObject obj = sys_info["memory"].toObject();
     int mem = obj["total_value"].toInt();
 

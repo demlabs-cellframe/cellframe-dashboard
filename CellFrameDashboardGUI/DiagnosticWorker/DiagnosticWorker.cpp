@@ -22,13 +22,19 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
     sendFlagsData::flagSendDahsTime   = m_settings.value("SendDahsTime").toBool();
     sendFlagsData::flagSendMemory     = m_settings.value("SendMemory").toBool();
     sendFlagsData::flagSendMemoryFree = m_settings.value("SendMemoryFree").toBool();
+    s_node_list_selected              = m_settings.value("s_node_list_selected").toJsonDocument();
 
     s_uptime_timer = new QTimer(this);
     connect(s_uptime_timer, &QTimer::timeout,
             this, &DiagnosticWorker::slot_uptime,
             Qt::QueuedConnection);
-
     s_uptime_timer->start(1000);
+
+    s_node_list_timer = new QTimer(this);
+    connect(s_node_list_timer, &QTimer::timeout,
+            this, &DiagnosticWorker::slot_update_node_list,
+            Qt::QueuedConnection);
+    s_node_list_timer->start(5000);
 
     s_elapsed_timer = new QElapsedTimer();
     s_elapsed_timer->start();
@@ -47,6 +53,9 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
 
     m_diagnostic->start_diagnostic();
     m_diagnostic->start_write(sendFlagsData::flagSendData);
+
+    slot_update_node_list();
+    m_diagnostic->set_node_list(s_node_list_selected);
 }
 DiagnosticWorker::~DiagnosticWorker()
 {
@@ -66,6 +75,8 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     QJsonObject proc = data["process"].toObject();
 
     system.insert("uptime_dashboard", s_uptime);
+    system.insert("time_update_unix", QDateTime::currentSecsSinceEpoch());
+    system.insert("time_update", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
     obj.insert("system",system);
 
     if(proc["status"].toString() == "Offline") //if node offline - clear version
@@ -86,6 +97,8 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     obj.insert("process",proc);
     data.setObject(obj);
 
+    m_diagnostic->s_full_info.setObject(obj);
+
     if(!m_flag_stop_send_data)
         emit signalDiagnosticData(data.toJson());
 }
@@ -93,6 +106,70 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
 void DiagnosticWorker::slot_uptime()
 {
     s_uptime = m_diagnostic->get_uptime_string(s_elapsed_timer->elapsed()/1000);
+}
+void DiagnosticWorker::slot_update_node_list()
+{
+    QJsonDocument buff = m_diagnostic->get_list_nodes();
+    if(buff.toJson() != s_node_list.toJson())
+        s_node_list = buff;
+    emit nodeListChanged();
+
+    buff = m_diagnostic->read_data();
+    if(buff.toJson() != s_data_selected_nodes.toJson())
+        s_data_selected_nodes = buff;
+    emit dataSelectedNodesChanged();
+}
+
+void DiagnosticWorker::addNodeToList(QString mac)
+{
+    QJsonArray arr = s_node_list_selected.array();
+    QJsonObject obj;
+    obj.insert("mac", mac);
+    arr.append(obj);
+    s_node_list_selected.setArray(arr);
+
+    m_settings.setValue("s_node_list_selected", s_node_list_selected);
+    m_diagnostic->set_node_list(s_node_list_selected);
+
+    emit nodeListSelectedChanged();
+    slot_update_node_list();
+}
+
+void DiagnosticWorker::removeNodeFromList(QString mac)
+{
+    QJsonArray arr = s_node_list_selected.array();
+
+    for (auto itr = arr.begin(); itr != arr.end(); itr++) {
+        QJsonObject obj = itr->toObject();
+        if(obj["mac"].toString() == mac)
+        {
+            arr.removeAt(itr.i);
+            break;
+        }
+    }
+
+    s_node_list_selected.setArray(arr);
+
+    m_settings.setValue("s_node_list_selected", s_node_list_selected);
+    m_diagnostic->set_node_list(s_node_list_selected);
+
+    emit nodeListSelectedChanged();
+    slot_update_node_list();
+}
+
+QByteArray DiagnosticWorker::nodeListSelected() const
+{
+    return s_node_list_selected.toJson();
+}
+
+QByteArray DiagnosticWorker::nodeList() const
+{
+    return s_node_list.toJson();
+}
+
+QByteArray DiagnosticWorker::dataSelectedNodes() const
+{
+    return s_data_selected_nodes.toJson();
 }
 
 bool DiagnosticWorker::flagSendData() const
@@ -110,7 +187,6 @@ void DiagnosticWorker::setflagSendData (const bool &flagSendData)
     m_diagnostic->start_write(sendFlagsData::flagSendData);
     emit flagSendDataChanged();
 }
-
 
 bool DiagnosticWorker::flagSendSysTime() const
 {

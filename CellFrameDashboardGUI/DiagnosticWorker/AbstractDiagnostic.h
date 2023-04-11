@@ -32,7 +32,7 @@ public:
     quint64 get_file_size(QString flag, QString path);
     QString get_uptime_string(long sec);
     QString get_memory_string(long num);
-    QJsonArray get_mac_array();
+    QJsonValue get_mac();
 
     QJsonDocument get_full_info(){return s_full_info;};
 
@@ -40,30 +40,32 @@ public:
     QTimer * s_timer_update;
     int s_timeout{1000};
     QJsonDocument s_full_info;
-    QJsonArray s_mac_list;
+    QJsonValue s_mac;
 
 signals:
     void data_updated(QJsonDocument);
 
 
 /// ---------------------------------------------------------------
-///        Npde process
+///        Node process
 /// ---------------------------------------------------------------
 public:
-
     void start_write(bool isStart);
+    QJsonDocument get_list_nodes();
+    QJsonDocument read_data();
+
+    void set_node_list(QJsonDocument);
+    bool check_contains(QJsonArray array, QString item, QString flag);
 
 private slots:
     void write_data();
-    QJsonDocument read_data();
-
-    QJsonArray get_list_nodes();
+    void remove_data();
 
 public:
     QTimer *s_timer_write, *s_timer_read;
 
     QJsonArray s_selected_nodes_list;
-    QJsonArray s_all_nodes_list;
+    QJsonDocument s_all_nodes_list;
 
 /// ---------------------------------------------------------------
 

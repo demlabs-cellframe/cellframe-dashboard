@@ -14,13 +14,22 @@ Page
 
     background: Rectangle { color: currTheme.backgroundMainScreen}
 
-    ListModel{
-        id: testModel
+    ListModel{id: nodeListModel}
 
-        Component.onCompleted: {
+    function updateModel(){
+        var obj = JSON.parse(diagnostic.dataSelectedNodes)
 
-            testModel.append(diagnosticDataModel.get(0))
-            testModel.append(diagnosticDataModel.get(0))
+        nodeListModel.clear()
+        nodeListModel.append(obj)
+
+    }
+
+    Component.onCompleted: updateModel()
+
+    Connections{
+        target: diagnostic
+        function onDataSelectedNodesChanged(){
+            updateModel()
         }
     }
 
@@ -62,7 +71,7 @@ Page
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 clip: true
-                model: testModel
+                model: nodeListModel
 
                 delegate:
                     ColumnLayout{
@@ -89,7 +98,7 @@ Page
                                 color: currTheme.textColor
                                 verticalAlignment: Text.AlignVCenter
 
-                                text: system.mac_list.length > 1 ? system.mac_list[1]: system.mac_list[0]
+                                text: system.mac
 
                             }
 
@@ -125,7 +134,7 @@ Page
 
                             TextInfoElement{
                                 title: qsTr("MAC address: ")
-                                content: system.mac_list.length > 1 ? system.mac_list[1]: system.mac_list[0]
+                                content: system.mac
                                 widthTitle: 156
                             }
 

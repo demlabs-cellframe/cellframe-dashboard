@@ -10,15 +10,21 @@ ColumnLayout {
 
     spacing: 0
 
-    ListModel{
-        id: testModel
+    ListModel{id: nodeListModel}
 
-        Component.onCompleted: {
+    function updateModel(){
+        var obj = JSON.parse(diagnostic.nodeListSelected)
 
-            testModel.append(diagnosticDataModel.get(0))
-            testModel.append(diagnosticDataModel.get(0))
-            testModel.append(diagnosticDataModel.get(0))
-            testModel.append(diagnosticDataModel.get(0))
+        nodeListModel.clear()
+        nodeListModel.append(obj)
+    }
+
+    Component.onCompleted: updateModel()
+
+    Connections{
+        target: diagnostic
+        function onNodeListSelectedChanged(){
+            updateModel()
         }
     }
 
@@ -38,7 +44,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.textColorGray
-            text: "("+testModel.count+")"
+            text: "("+nodeListModel.count+")"
             verticalAlignment: Text.AlignVCenter
         }
         Item{Layout.fillWidth: true}
@@ -104,7 +110,7 @@ ColumnLayout {
         Layout.fillHeight: true
         Layout.fillWidth: true
         clip: true
-        model: testModel
+        model: nodeListModel
 
         delegate:Item{
             width: view.width
@@ -134,7 +140,7 @@ ColumnLayout {
                 anchors.leftMargin: 16
                 font: mainFont.dapFont.regular14
                 color: currTheme.textColor
-                text: system.mac_list.length > 1 ? system.mac_list[1]: system.mac_list[0]
+                text: mac
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
             }
@@ -154,6 +160,11 @@ ColumnLayout {
                     source: "qrc:/Resources/"+ pathTheme +"/icons/other/icon_arrow.svg"
                     mipmap: true
                     anchors.centerIn: parent
+                }
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: diagnostic.removeNodeFromList(mac)
                 }
             }
         }

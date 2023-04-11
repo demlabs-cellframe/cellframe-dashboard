@@ -145,7 +145,7 @@ Item {
 
                         TextInfoElement{
                             title: qsTr("MAC address: ")
-                            content: system.mac_list.length > 1 ? system.mac_list[1]: system.mac_list[0]
+                            content: system.mac
                         }
 
                         TextInfoElement{

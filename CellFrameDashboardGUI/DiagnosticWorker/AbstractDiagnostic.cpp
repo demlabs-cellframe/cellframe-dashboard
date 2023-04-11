@@ -16,7 +16,7 @@ AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
             this, &AbstractDiagnostic::write_data,
             Qt::QueuedConnection);
 
-    s_mac_list = get_mac_array();
+    s_mac = get_mac();
 }
 
 AbstractDiagnostic::~AbstractDiagnostic()
@@ -40,12 +40,8 @@ void AbstractDiagnostic::stop_diagnostic()
     s_timer_update->stop();
 }
 
-QJsonArray AbstractDiagnostic::get_mac_array()
+QJsonValue AbstractDiagnostic::get_mac()
 {
-    QJsonArray mac_arr;
-
-//    QList<QNetworkInterface>list = QNetworkInterface::allInterfaces();
-
     QNetworkConfiguration nc;
     QNetworkConfigurationManager ncm;
     QList<QNetworkConfiguration> configsForEth,configsForWLAN,allConfigs;
@@ -68,7 +64,7 @@ QJsonArray AbstractDiagnostic::get_mac_array()
     // further in the code WLAN's and Eth's were treated differently
     allConfigs.append(configsForWLAN);
     allConfigs.append(configsForEth);
-    QString MAC;
+    QString MAC{"unknown"};
     foreach(nc,allConfigs)
     {
         QNetworkSession networkSession(nc);
@@ -84,12 +80,10 @@ QJsonArray AbstractDiagnostic::get_mac_array()
         }
     }
 
-    mac_arr.append(MAC);
-
 //    foreach (QNetworkInterface interface, list)
 //        mac_arr.append(MAC);
 
-    return mac_arr;
+    return MAC;
 }
 
 QString AbstractDiagnostic::get_uptime_string(long sec)
@@ -167,19 +161,35 @@ QString AbstractDiagnostic::get_memory_string(long num)
 
 void AbstractDiagnostic::start_write(bool isStart)
 {
-    qDebug()<<"AbstractDiagnostic::start_write";
+    qDebug()<<"AbstractDiagnostic::start_write " << isStart;
 
     if(isStart && !s_timer_write->isActive()){
         write_data();
         s_timer_write->start(5000);
     }else{
         s_timer_write->stop();
+        remove_data();
     }
-
 }
 
-QJsonArray AbstractDiagnostic::get_list_nodes()
+void AbstractDiagnostic::remove_data()
 {
+    QString key = s_mac.toString();
+    QProcess proc;
+    QString program = "cellframe-node-cli";
+    QStringList arguments;
+    arguments << "global_db" << "delete" << "-group" << QString(group) << "-key" << QString(key);
+    proc.start(program, arguments);
+    proc.waitForFinished(5000);
+    QString res = proc.readAll();
+
+    qDebug()<<res;
+}
+
+QJsonDocument AbstractDiagnostic::get_list_nodes()
+{
+    QJsonDocument nodes;
+
     qDebug()<<"AbstractDiagnostic::get_list_nodes";
 
     QProcess proc;
@@ -190,15 +200,35 @@ QJsonArray AbstractDiagnostic::get_list_nodes()
     proc.waitForFinished(5000);
     QString res = proc.readAll();
 
-    qDebug()<<res;
+    QStringList resSplit = res.split("\n", Qt::SkipEmptyParts);
+
+    static QRegExp re = QRegExp(R"(^[\da-fA-F]{2}(:[\da-fA-F]{2}){5}$)");
+
+    QJsonArray nodes_array;
+
+
+    foreach (QString node, resSplit)
+    {
+        if(node != s_mac.toString()
+                && re.exactMatch(node)
+                && !check_contains(s_selected_nodes_list, node, "mac"))
+        {
+            QJsonObject obj;
+            obj.insert("mac", node);
+            nodes_array.append(obj);
+        }
+    }
+
+    nodes.setArray(nodes_array);
+
+    return nodes;
 }
 
 void AbstractDiagnostic::write_data()
 {
     qDebug()<<"AbstractDiagnostic::write_data";
 
-    QString key = s_mac_list.count() > 1 ? s_mac_list.at(1).toString()
-                                         : s_mac_list.at(0).toString();
+    QString key = s_mac.toString();
 
     QProcess proc;
     QString program = "cellframe-node-cli";
@@ -221,21 +251,39 @@ QJsonDocument AbstractDiagnostic::read_data()
 
     for(QJsonValue mac : s_selected_nodes_list)
     {
-        QString key = mac.toString();
+        QString key = mac["mac"].toString();
 
         QProcess proc;
         QString program = "cellframe-node-cli";
         QStringList arguments;
         arguments << "global_db" << "read" << "-group" << QString(group)
-                  << "-key" << key;
+                  << "-key" << QString(key);
         proc.start(program, arguments);
         proc.waitForFinished(5000);
         QString res = proc.readAll();
 
-        //TODO nodes_array insert res
+        QJsonDocument doc = QJsonDocument::fromJson(res.split("data:\n")[1].toStdString().data());
+
+        nodes_array.append(doc.object());
     }
 
     nodes_doc.setArray(nodes_array);
 
     return nodes_doc;
+}
+
+void AbstractDiagnostic::set_node_list(QJsonDocument arr){
+    s_selected_nodes_list = arr.array();
+}
+
+bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString flag)
+{
+    for (auto itr = array.begin(); itr != array.end(); itr++)
+    {
+        QJsonObject obj = itr->toObject();
+        if(obj[flag].toString() == item)
+            return true;
+    }
+
+    return false;
 }

@@ -156,8 +156,8 @@ Controls.DapTopPanel {
             borderColor: currTheme.reflectionLight
             shadowColor: currTheme.shadowColor
 
-            onCheckedChanged: diagnostic.flagSendData = swithSendData.checked
-            Component.onCompleted: if(diagnostic.flagSendData)swithSendData.toggle()
+            onToggled: diagnostic.flagSendData = swithSendData.checked
+            Component.onCompleted: swithSendData.state = diagnostic.flagSendData ? "on" : "off"
         }
 
         Item{width: 24}
