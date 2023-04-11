@@ -1,6 +1,6 @@
 #include "AbstractDiagnostic.h"
 
-static QString group = "user_statistic";
+static QString group = "global.users.statistic";
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
     :QObject(parent)
@@ -141,15 +141,16 @@ QJsonArray AbstractDiagnostic::get_list_nodes()
     QProcess proc;
     QString program = "cellframe-node-cli";
     QStringList arguments;
-    arguments << "global_db" << "get keys" << "-group" << group;
-//    proc.start(program, arguments);
-//    proc.waitForFinished(1000);
-//    QString res = proc.readAll();
+    arguments << "global_db" << "get_keys" << "-group" << QString(group);
+    proc.start(program, arguments);
+    proc.waitForFinished(5000);
+    QString res = proc.readAll();
+
+    qDebug()<<res;
 }
 
 void AbstractDiagnostic::write_data()
 {
-//    "global_db write -group <group_name> -key <key_name> -value <value>"
     qDebug()<<"AbstractDiagnostic::write_data";
 
     QString key = s_mac_list.count() > 1 ? s_mac_list.at(1).toString()
@@ -159,16 +160,16 @@ void AbstractDiagnostic::write_data()
     QString program = "cellframe-node-cli";
     QStringList arguments;
     arguments << "global_db" << "write" << "-group" << group
-              << "-key" << key << "-value" << s_full_info.toJson();
-//    proc.start(program, arguments);
-//    proc.waitForFinished(1000);
-//    QString res = proc.readAll();
+              << "-key" << QString(key) << "-value" << QByteArray(s_full_info.toJson());
+    proc.start(program, arguments);
+    proc.waitForFinished(5000);
+    QString res = proc.readAll();
+
+    qDebug()<<res;
 }
 
 QJsonDocument AbstractDiagnostic::read_data()
 {
-//    "global_db read -group <group_name> -key <key_name>"
-
     QJsonArray nodes_array;
     QJsonDocument nodes_doc;
 
@@ -181,11 +182,11 @@ QJsonDocument AbstractDiagnostic::read_data()
         QProcess proc;
         QString program = "cellframe-node-cli";
         QStringList arguments;
-        arguments << "global_db" << "read" << "-group" << group
+        arguments << "global_db" << "read" << "-group" << QString(group)
                   << "-key" << key;
-//        proc.start(program, arguments);
-//        proc.waitForFinished(1000);
-//        QString res = proc.readAll();
+        proc.start(program, arguments);
+        proc.waitForFinished(5000);
+        QString res = proc.readAll();
 
         //TODO nodes_array insert res
     }
