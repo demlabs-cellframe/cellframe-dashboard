@@ -13,6 +13,7 @@
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
 #include "HistoryWorker/historyworker.h"
+#include "DiagnosticWorker/models/NodeModel.h"
 
 #include "DapLogger.h"
 #include "DapDataLocal.h"

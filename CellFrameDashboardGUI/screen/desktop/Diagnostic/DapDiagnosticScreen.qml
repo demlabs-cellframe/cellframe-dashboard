@@ -14,25 +14,6 @@ Page
 
     background: Rectangle { color: currTheme.backgroundMainScreen}
 
-    ListModel{id: nodeListModel}
-
-    function updateModel(){
-        var obj = JSON.parse(diagnostic.dataSelectedNodes)
-
-        nodeListModel.clear()
-        nodeListModel.append(obj)
-
-    }
-
-    Component.onCompleted: updateModel()
-
-    Connections{
-        target: diagnostic
-        function onDataSelectedNodesChanged(){
-            updateModel()
-        }
-    }
-
     DapRectangleLitAndShaded
     {
         id: mainFrame
@@ -66,23 +47,25 @@ Page
             }
 
             ListView
-            {
+            {   
                 id: listViewDiagnostic
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 clip: true
-                model: nodeListModel
+                model: diagnosticNodeModel
+
+                ScrollBar.vertical: ScrollBar{}
 
                 delegate:
-                    ColumnLayout{
+                ColumnLayout{
+                    property bool isShow: true
 
                     id: layout
                     width: listViewDiagnostic.width
-                    height: header.isShow ? 482 : 40
+                    height: isShow ? 482 : 40
                     spacing: 20
 
                     Rectangle{
-                        property bool isShow: true
                         id: header
                         Layout.fillWidth: true
                         height: 40
@@ -98,14 +81,25 @@ Page
                                 color: currTheme.textColor
                                 verticalAlignment: Text.AlignVCenter
 
-                                text: system.mac
+                                text: system_mac
+
+                            }
+
+                            Text{
+                                Layout.alignment: Qt.AlignRight
+                                Layout.leftMargin: 16
+                                font: mainFont.dapFont.medium13
+                                color: currTheme.textColorGrayTwo
+                                verticalAlignment: Text.AlignVCenter
+
+                                text: qsTr("Last update: ") + system_time_update
 
                             }
 
                             Image{
                                 Layout.alignment: Qt.AlignRight
                                 Layout.rightMargin: 16
-                                rotation: header.isShow? 180 : 0
+                                rotation: layout.isShow? 180 : 0
                                 source: "qrc:/Resources/" + pathTheme + "/icons/other/icon_arrowDown.svg"
                                 mipmap: true
                                 Behavior on rotation {NumberAnimation{duration: 200}}
@@ -115,14 +109,13 @@ Page
                         MouseArea{
                             anchors.fill: parent
                             onClicked: {
-                                header.isShow = !header.isShow
+                                layout.isShow = !layout.isShow
                             }
                         }
-
                     }
 
                     Item{
-                        visible: header.isShow
+                        visible: layout.isShow
                         Layout.preferredHeight: 236
                         Layout.fillWidth: true
 
@@ -134,52 +127,52 @@ Page
 
                             TextInfoElement{
                                 title: qsTr("MAC address: ")
-                                content: system.mac
+                                content: system_mac
                                 widthTitle: 156
                             }
 
                             TextInfoElement{
                                 title: qsTr("System uptime: ")
-                                content: system.uptime
+                                content: system_uptime
                                 widthTitle: 156
                             }
                             TextInfoElement{
                                 title: qsTr("Dashboard uptime: ")
-                                content: system.uptime_dashboard
+                                content: system_uptime_dashboard
                                 widthTitle: 156
 
                             }
                             TextInfoElement{
                                 title: qsTr("CPU load: ")
-                                content: system.CPU.load + " %"
+                                content: system_CPU_load + " %"
                                 progress.visible: true
-                                progress.value: system.CPU.load
+                                progress.value: system_CPU_load
                                 widthTitle: 156
                             }
 
                             TextInfoElement{
                                 title: qsTr("Memory usage: ")
-                                content: system.memory.load + " %"
+                                content: system_memory_load + " %"
                                 progress.visible: true
-                                progress.value: system.memory.load
+                                progress.value: system_memory_load
                                 widthTitle: 156
                             }
 
                             TextInfoElement{
                                 title: qsTr("Memory: ")
-                                content: system.memory.total
+                                content: system_memory_total
                                 widthTitle: 156
                             }
                             TextInfoElement{
                                 title: qsTr("Memory free: ")
-                                content: system.memory.free
+                                content: system_memory_free
                                 widthTitle: 156
                             }
                         }
                     }
 
                     Rectangle{
-                        visible: header.isShow
+                        visible: layout.isShow
                         Layout.fillWidth: true
                         height: 1
                         color:currTheme.lineSeparatorColor
@@ -187,7 +180,7 @@ Page
                     }
 
                     RowLayout{
-                        visible: header.isShow
+                        visible: layout.isShow
                         Layout.preferredHeight: 128
                         Layout.fillWidth: true
                         Layout.leftMargin: 16
@@ -201,27 +194,27 @@ Page
 
                             TextInfoElement{
                                 title: qsTr("Node version: ")
-                                content: process.version
+                                content: proc_version
                                 widthTitle: 156
                             }
                             TextInfoElement{
                                 title: qsTr("Node uptime: ")
-                                content: process.uptime
+                                content: proc_uptime
                                 widthTitle: 156
                             }
                             TextInfoElement{
                                 widthTitle: 156
                                 title: qsTr("Node status: ")
-                                content: process.status
-                                contentColor: process.status === "Online" ? currTheme.progressBarColor1
-                                                                          : currTheme.progressBarColor3
+                                content: proc_status
+                                contentColor: proc_status === "Online" ? currTheme.progressBarColor1
+                                                                       : currTheme.progressBarColor3
 
                             }
                             TextInfoElement{
                                 title: qsTr("Node RSS: ")
-                                content: process.memory_use + " %"
+                                content: proc_memory_use + " %"
                                 progress.visible: true
-                                progress.value: process.memory_use
+                                progress.value: proc_memory_use
                                 widthTitle: 156
                             }
 
@@ -237,22 +230,22 @@ Page
                             TextInfoElement{
                                 Layout.fillWidth: true
                                 title: qsTr("Log size: ")
-                                content: process.log_size
+                                content: proc_log_size
                                 widthTitle: 156
                             }
                             TextInfoElement{
                                 title: qsTr("DB size: ")
-                                content: process.DB_size
+                                content: proc_DB_size
                                 widthTitle: 156
                             }
                             TextInfoElement{
                                 widthTitle: 156
                                 title: qsTr("Chain size: ")
-                                content: process.chain_size
+                                content: proc_chain_size
                             }
                             TextInfoElement{
                                 title: qsTr("Node RSS: ")
-                                content: process.memory_use_value
+                                content: proc_memory_use_value
                                 widthTitle: 156
                             }
 

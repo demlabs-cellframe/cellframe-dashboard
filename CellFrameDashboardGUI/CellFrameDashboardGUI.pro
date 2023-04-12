@@ -15,6 +15,8 @@ HEADERS += $$PWD/DapServiceController.h \
     DapMath.h \
     DiagnosticWorker/DiagnosticWorker.h \
     DiagnosticWorker/AbstractDiagnostic.h \
+    DiagnosticWorker/models/AbstractNodeModel.h \
+    DiagnosticWorker/models/NodeModel.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
@@ -51,6 +53,8 @@ SOURCES += $$PWD/main.cpp \
     DapMath.cpp \
     DiagnosticWorker/DiagnosticWorker.cpp \
     DiagnosticWorker/AbstractDiagnostic.cpp \
+    DiagnosticWorker/models/AbstractNodeModel.cpp \
+    DiagnosticWorker/models/NodeModel.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \

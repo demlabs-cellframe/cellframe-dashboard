@@ -54,8 +54,8 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
     m_diagnostic->start_diagnostic();
     m_diagnostic->start_write(sendFlagsData::flagSendData);
 
-    slot_update_node_list();
     m_diagnostic->set_node_list(s_node_list_selected);
+    slot_update_node_list();
 }
 DiagnosticWorker::~DiagnosticWorker()
 {
@@ -116,8 +116,10 @@ void DiagnosticWorker::slot_update_node_list()
 
     buff = m_diagnostic->read_data();
     if(buff.toJson() != s_data_selected_nodes.toJson())
+    {
         s_data_selected_nodes = buff;
-    emit dataSelectedNodesChanged();
+        NodeModel().setModel(&s_data_selected_nodes);
+    }
 }
 
 void DiagnosticWorker::addNodeToList(QString mac)
@@ -139,7 +141,8 @@ void DiagnosticWorker::removeNodeFromList(QString mac)
 {
     QJsonArray arr = s_node_list_selected.array();
 
-    for (auto itr = arr.begin(); itr != arr.end(); itr++) {
+    for (auto itr = arr.begin(); itr != arr.end(); itr++)
+    {
         QJsonObject obj = itr->toObject();
         if(obj["mac"].toString() == mac)
         {

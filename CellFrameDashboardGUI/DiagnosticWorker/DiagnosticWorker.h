@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include "../DapServiceController.h"
+#include "models/NodeModel.h"
 
 #ifdef Q_OS_LINUX
     #include <unistd.h>

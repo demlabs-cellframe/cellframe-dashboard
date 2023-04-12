@@ -231,4 +231,5 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
     m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
+    m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }
