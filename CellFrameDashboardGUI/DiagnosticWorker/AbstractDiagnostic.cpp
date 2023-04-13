@@ -1,9 +1,5 @@
 #include "AbstractDiagnostic.h"
 
-#include "qnetworkconfigmanager.h"
-#include "qnetworksession.h"
-#include <QNetworkConfiguration>
-
 static QString group = "global.users.statistic";
 
 AbstractDiagnostic::AbstractDiagnostic(QObject *parent)
@@ -42,46 +38,20 @@ void AbstractDiagnostic::stop_diagnostic()
 
 QJsonValue AbstractDiagnostic::get_mac()
 {
-    QNetworkConfiguration nc;
-    QNetworkConfigurationManager ncm;
-    QList<QNetworkConfiguration> configsForEth,configsForWLAN,allConfigs;
-    // getting all the configs we can
-    foreach (nc,ncm.allConfigurations(QNetworkConfiguration::Active))
-    {
-        if(nc.type() == QNetworkConfiguration::InternetAccessPoint)
-        {
-            // selecting the bearer type here
-            if(nc.bearerType() == QNetworkConfiguration::BearerWLAN)
-            {
-                configsForWLAN.append(nc);
-            }
-            if(nc.bearerType() == QNetworkConfiguration::BearerEthernet)
-            {
-                configsForEth.append(nc);
-            }
-        }
-    }
-    // further in the code WLAN's and Eth's were treated differently
-    allConfigs.append(configsForWLAN);
-    allConfigs.append(configsForEth);
     QString MAC{"unknown"};
-    foreach(nc,allConfigs)
+    foreach(QNetworkInterface netInterface, QNetworkInterface::allInterfaces())
     {
-        QNetworkSession networkSession(nc);
-        QNetworkInterface netInterface = networkSession.interface();
-        // these last two conditions are for omiting the virtual machines' MAC
-        // works pretty good since no one changes their adapter name
-        if(!(netInterface.flags() & QNetworkInterface::IsLoopBack)
-                && !netInterface.humanReadableName().toLower().contains("vmware")
-                && !netInterface.humanReadableName().toLower().contains("virtual"))
+        // Return only the first non-loopback MAC Address
+        if (!(netInterface.flags() & QNetworkInterface::IsLoopBack))
         {
-            MAC = QString(netInterface.hardwareAddress());
-            break;
+            qDebug()<<netInterface.hardwareAddress();
+            if(!netInterface.hardwareAddress().isEmpty())
+            {
+                MAC = netInterface.hardwareAddress();
+                break;
+            }
         }
     }
-
-//    foreach (QNetworkInterface interface, list)
-//        mac_arr.append(MAC);
 
     return MAC;
 }
@@ -176,7 +146,7 @@ void AbstractDiagnostic::remove_data()
 {
     QString key = s_mac.toString();
     QProcess proc;
-    QString program = "cellframe-node-cli";
+    QString program = QString(CLI_PATH);
     QStringList arguments;
     arguments << "global_db" << "delete" << "-group" << QString(group) << "-key" << QString(key);
     proc.start(program, arguments);
@@ -193,7 +163,7 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
     qDebug()<<"AbstractDiagnostic::get_list_nodes";
 
     QProcess proc;
-    QString program = "cellframe-node-cli";
+    QString program = QString(CLI_PATH);
     QStringList arguments;
     arguments << "global_db" << "get_keys" << "-group" << QString(group);
     proc.start(program, arguments);
@@ -233,7 +203,7 @@ void AbstractDiagnostic::write_data()
     QString key = s_mac.toString();
 
     QProcess proc;
-    QString program = "cellframe-node-cli";
+    QString program = QString(CLI_PATH);
     QStringList arguments;
     arguments << "global_db" << "write" << "-group" << group
               << "-key" << QString(key) << "-value" << QByteArray(s_full_info.toJson());
@@ -256,7 +226,7 @@ QJsonDocument AbstractDiagnostic::read_data()
         QString key = mac["mac"].toString();
 
         QProcess proc;
-        QString program = "cellframe-node-cli";
+        QString program = QString(CLI_PATH);
         QStringList arguments;
         arguments << "global_db" << "read" << "-group" << QString(group)
                   << "-key" << QString(key);
