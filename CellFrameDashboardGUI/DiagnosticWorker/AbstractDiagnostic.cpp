@@ -251,7 +251,7 @@ QJsonDocument AbstractDiagnostic::read_data()
         proc.waitForFinished(5000);
         QString res = proc.readAll().simplified();
 
-        if(res.contains("not found"))
+        if(res.isEmpty() || res.contains("not found") || res.contains("error") || res.contains("err"))
         {
             qWarning() << res;
             continue;

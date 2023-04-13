@@ -451,14 +451,14 @@ QtObject {
         {
             if(isFirst)
                 messagePopup.smartOpen("Notify socket", qsTr("Lost connection to the Node. Reconnecting..."))
-            console.warn("ERROR SOCKET")
+            console.warn("ERROR NOTIFY SOCKET")
             stateNotify = false
         }
         else
         {
             messagePopup.close()
             if(isFirst)
-                console.info("CONNECT SOCKET")
+                console.info("CONNECT TO NOTIFY SOCKET")
 
             if(!stateNotify) //TODO with notify
                 logicMainApp.requestToService("DapGetNetworksStateCommand")
