@@ -1,8 +1,6 @@
 TEMPLATE = aux
 
 
-
-
 linux {
     CONFIG(debug, debug|release) {
         node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux rwd -DBUILD_WITH_PYTHON_ENV=ON

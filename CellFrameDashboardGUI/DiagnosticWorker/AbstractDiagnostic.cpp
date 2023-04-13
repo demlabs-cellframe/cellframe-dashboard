@@ -202,10 +202,12 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 
     QStringList resSplit = res.split("\n", Qt::SkipEmptyParts);
 
+    for(int i = 0; i < resSplit.count(); i++)
+        resSplit[i] = resSplit[i].simplified();
+
     static QRegExp re = QRegExp(R"(^[\da-fA-F]{2}(:[\da-fA-F]{2}){5}$)");
 
     QJsonArray nodes_array;
-
 
     foreach (QString node, resSplit)
     {
@@ -260,9 +262,15 @@ QJsonDocument AbstractDiagnostic::read_data()
                   << "-key" << QString(key);
         proc.start(program, arguments);
         proc.waitForFinished(5000);
-        QString res = proc.readAll();
+        QString res = proc.readAll().simplified();
 
-        QJsonDocument doc = QJsonDocument::fromJson(res.split("data:\n")[1].toStdString().data());
+        if(res.contains("not found"))
+        {
+            qWarning() << res;
+            continue;
+        }
+
+        QJsonDocument doc = QJsonDocument::fromJson(res.split("data:")[1].toStdString().data());
 
         nodes_array.append(doc.object());
     }

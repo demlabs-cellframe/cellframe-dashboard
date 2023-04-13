@@ -1,4 +1,4 @@
-QT += core gui network
+QT += core network
 
 include(../config.pri)
 
