@@ -44,7 +44,6 @@ QJsonValue AbstractDiagnostic::get_mac()
         // Return only the first non-loopback MAC Address
         if (!(netInterface.flags() & QNetworkInterface::IsLoopBack))
         {
-            qDebug()<<netInterface.hardwareAddress();
             if(!netInterface.hardwareAddress().isEmpty())
             {
                 MAC = netInterface.hardwareAddress();
@@ -52,7 +51,6 @@ QJsonValue AbstractDiagnostic::get_mac()
             }
         }
     }
-
     return MAC;
 }
 
@@ -179,6 +177,25 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 
     QJsonArray nodes_array;
 
+    for(int i = 0; i < s_selected_nodes_list.count(); i++ )
+    {
+        bool isContains = false;
+        for(int j = 0; j < resSplit.count(); j++)
+        {
+            if(re.exactMatch(resSplit[j]))
+            {
+                if(resSplit[j] == s_selected_nodes_list.at(i).toObject()["mac"].toString())
+                {
+                    isContains = true;
+                    break;
+                }
+            }
+        }
+        if(!isContains)
+            s_selected_nodes_list.removeAt(i);
+
+    }
+
     foreach (QString node, resSplit)
     {
         if(node != s_mac.toString()
@@ -205,7 +222,7 @@ void AbstractDiagnostic::write_data()
     QProcess proc;
     QString program = QString(CLI_PATH);
     QStringList arguments;
-    arguments << "global_db" << "write" << "-group" << group
+    arguments << "global_db" << "write" << "-group" << QString(group)
               << "-key" << QString(key) << "-value" << QByteArray(s_full_info.toJson());
     proc.start(program, arguments);
     proc.waitForFinished(5000);

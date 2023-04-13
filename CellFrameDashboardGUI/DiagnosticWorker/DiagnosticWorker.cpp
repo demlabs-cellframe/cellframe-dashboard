@@ -56,6 +56,14 @@ DiagnosticWorker::DiagnosticWorker(DapServiceController * service, QObject * par
 
     m_diagnostic->set_node_list(s_node_list_selected);
     slot_update_node_list();
+
+    m_service->requestToService("DapVersionController", "version node");
+    connect(m_service, &DapServiceController::versionControllerResult, [=] (const QVariant& versionResult)
+    {
+        QJsonObject obj_result = versionResult.toJsonObject();
+        if(obj_result["message"] == "Reply node version")
+            m_node_version = obj_result["lastVersion"].toString();
+    });
 }
 DiagnosticWorker::~DiagnosticWorker()
 {
@@ -72,26 +80,32 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     //insert uptime dashboard into system info
     QJsonObject obj = data.object();
     QJsonObject system = data["system"].toObject();
+    QJsonObject sys_mem = system["memory"].toObject();
     QJsonObject proc = data["process"].toObject();
 
     system.insert("uptime_dashboard", s_uptime);
+
+    if(!sendFlagsData::flagSendDahsTime)
+        system.insert("uptime_dashboard", "blocked");
+    if(!sendFlagsData::flagSendSysTime)
+        system.insert("uptime", "blocked");
+    if(!sendFlagsData::flagSendMemory)
+        sys_mem.insert("total_value", 0);
+    if(!sendFlagsData::flagSendMemory)
+        sys_mem.insert("total", "blocked");
+    if(!sendFlagsData::flagSendMemoryFree)
+        sys_mem.insert("free", "blocked");
+
+
     system.insert("time_update_unix", QDateTime::currentSecsSinceEpoch());
     system.insert("time_update", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
+    system.insert("memory",sys_mem);
     obj.insert("system",system);
 
     if(proc["status"].toString() == "Offline") //if node offline - clear version
         m_node_version = "";
-    else
-    if(m_node_version.isEmpty())
-    {
+    else if(m_node_version.isEmpty())
         m_service->requestToService("DapVersionController", "version node");
-        connect(m_service, &DapServiceController::versionControllerResult, [=] (const QVariant& versionResult)
-        {
-            QJsonObject obj_result = versionResult.toJsonObject();
-            if(obj_result["message"] == "Reply node version")
-                m_node_version = obj_result["lastVersion"].toString();
-        });
-    }
 
     proc.insert("version", m_node_version);
     obj.insert("process",proc);
@@ -99,8 +113,7 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
 
     m_diagnostic->s_full_info.setObject(obj);
 
-    if(!m_flag_stop_send_data)
-        emit signalDiagnosticData(data.toJson());
+    emit signalDiagnosticData(data.toJson()); // sig update gui local data
 }
 
 void DiagnosticWorker::slot_uptime()
@@ -113,6 +126,14 @@ void DiagnosticWorker::slot_update_node_list()
     if(buff.toJson() != s_node_list.toJson())
         s_node_list = buff;
     emit nodeListChanged();
+
+
+    buff.setArray(m_diagnostic->s_selected_nodes_list);
+    if(buff.toJson() != s_node_list_selected.toJson())
+    {
+        s_node_list_selected = buff;
+        emit nodeListSelectedChanged();
+    }
 
     buff = m_diagnostic->read_data();
     if(buff.toJson() != s_data_selected_nodes.toJson())
