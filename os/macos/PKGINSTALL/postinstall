@@ -77,4 +77,6 @@ SetFile -a C /Applications/cellframe-uninstaller
 echo "node agent: $(launchctl list | grep cell)" > /tmp/cellframe-dashboard_install_logs.txt
 echo "service agent: $(launchctl list | grep cell)" > /tmp/cellframe-dashboard_install_logs.txt
 
+chmod 666 -R /opt/cellframe-node/etc/
+
 cd $wd
