@@ -43,6 +43,7 @@ protected:
   Q_PROPERTY (quint64 system_time_update_unix   READ system_time_update_unix    WRITE setSystem_time_update_unix    NOTIFY system_time_update_unixChanged)
   Q_PROPERTY (QString system_uptime             READ system_uptime              WRITE setSystem_uptime              NOTIFY system_uptimeChanged)
   Q_PROPERTY (QString system_uptime_dashboard   READ system_uptime_dashboard    WRITE setSystem_uptime_dashboard    NOTIFY system_uptime_dashboardChanged)
+  Q_PROPERTY (QString system_node_name          READ system_node_name           WRITE setSystem_node_name           NOTIFY system_node_nameChanged)
   /// @}
 
   /****************************************//**
@@ -127,6 +128,9 @@ public:
 
   Q_INVOKABLE QString system_uptime_dashboard() const;
   Q_INVOKABLE void setSystem_uptime_dashboard (const QString &system_uptime_dashboard);
+
+  Q_INVOKABLE QString system_node_name() const;
+  Q_INVOKABLE void setSystem_node_name (const QString &system_node_name);
 protected:
   bool _beginSetValue();
   void _endSetValue();
@@ -156,6 +160,7 @@ signals:
   void system_time_update_unixChanged();
   void system_uptimeChanged();
   void system_uptime_dashboardChanged();
+  void system_node_nameChanged();
   /// @}
 
   /****************************************//**
@@ -212,6 +217,7 @@ public:
     system_time_update_unix,
     system_uptime,
     system_uptime_dashboard,
+    system_node_name,
   };
   Q_ENUM(FieldId)
 
@@ -237,6 +243,7 @@ public:
       quint64 system_time_update_unix;
       QString system_uptime;
       QString system_uptime_dashboard;
+      QString system_node_name;
   };
 
   typedef QList<AbstractNodeModel::Item>::Iterator Iterator;

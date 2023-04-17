@@ -81,7 +81,7 @@ Page
                                 color: currTheme.textColor
                                 verticalAlignment: Text.AlignVCenter
 
-                                text: system_mac
+                                text: system_node_name === "" ? system_mac : system_node_name
 
                             }
 

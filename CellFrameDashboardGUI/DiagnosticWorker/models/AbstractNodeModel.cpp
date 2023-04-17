@@ -45,6 +45,7 @@ static const QHash<QString, AbstractNodeModel::AbstractNodeModel::FieldId> s_fie
     {"system_time_update_unix",    AbstractNodeModel::FieldId::system_time_update_unix},
     {"system_uptime",              AbstractNodeModel::FieldId::system_uptime},
     {"system_uptime_dashboard",    AbstractNodeModel::FieldId::system_uptime_dashboard},
+    {"system_node_name",           AbstractNodeModel::FieldId::system_node_name}
 };
 
 /* LINKS */
@@ -391,6 +392,7 @@ QVariant AbstractNodeModel::_getValue (const AbstractNodeModel::Item &a_item, in
     case AbstractNodeModel::FieldId::system_time_update_unix   :  return a_item.system_time_update_unix;
     case AbstractNodeModel::FieldId::system_uptime             :  return a_item.system_uptime;
     case AbstractNodeModel::FieldId::system_uptime_dashboard   :  return a_item.system_uptime_dashboard;
+    case AbstractNodeModel::FieldId::system_node_name          :  return a_item.system_node_name;
     }
 
   return QVariant();
@@ -421,6 +423,7 @@ void AbstractNodeModel::_setValue (AbstractNodeModel::Item &a_item, int a_fieldI
     case AbstractNodeModel::FieldId::system_time_update_unix   :  a_item.system_time_update_unix   = a_value.toString().toLong(); break;
     case AbstractNodeModel::FieldId::system_uptime             :  a_item.system_uptime             = a_value.toString(); break;
     case AbstractNodeModel::FieldId::system_uptime_dashboard   :  a_item.system_uptime_dashboard   = a_value.toString(); break;
+    case AbstractNodeModel::FieldId::system_node_name          :  a_item.system_node_name          = a_value.toString(); break;
     }
 }
 
@@ -481,6 +484,7 @@ AbstractNodeModel::Item _dummy()
       QString(),
       0,
       QString(),
+      QString(),
       QString()
   };
 }
@@ -532,6 +536,8 @@ ItemNodeBridge::ItemNodeBridge (ItemNodeBridge::Data *a_data)
            this, &ItemNodeBridge::system_uptimeChanged);
   connect (d->model, &QAbstractTableModel::dataChanged,
            this, &ItemNodeBridge::system_uptime_dashboardChanged);
+  connect (d->model, &QAbstractTableModel::dataChanged,
+           this, &ItemNodeBridge::system_node_nameChanged);
 
 }
 
@@ -825,6 +831,20 @@ void ItemNodeBridge::setSystem_uptime_dashboard (const QString &system_uptime_da
   _endSetValue();
 }
 
+QString ItemNodeBridge::system_node_name() const
+{
+  return (d && d->item) ? d->item->system_node_name : QString();
+}
+
+void ItemNodeBridge::setSystem_node_name (const QString &system_node_name)
+{
+  if (!_beginSetValue())
+    return;
+  d->item->system_node_name   = system_node_name;
+  emit system_node_nameChanged();
+  _endSetValue();
+}
+
 bool ItemNodeBridge::_beginSetValue()
 {
   if (!d || !d->model || !d->item)
@@ -875,6 +895,7 @@ QVariant ItemNodeBridge::operator[] (const QString &a_valueName)
     case AbstractNodeModel::FieldId::system_time_update_unix   :  return system_time_update_unix(); break;
     case AbstractNodeModel::FieldId::system_uptime             :  return system_uptime(); break;
     case AbstractNodeModel::FieldId::system_uptime_dashboard   :  return system_uptime_dashboard(); break;
+    case AbstractNodeModel::FieldId::system_node_name          :  return system_node_name(); break;
 
     case AbstractNodeModel::FieldId::invalid:
      default:

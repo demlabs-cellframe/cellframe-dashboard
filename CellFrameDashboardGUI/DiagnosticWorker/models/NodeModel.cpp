@@ -25,8 +25,8 @@ void NodeModel::setModel(QJsonDocument *doc)
         g->endResetModel();
     }
     else
-    for(int i = 0; i < items.count(); i++)
-        g->set(i,items[i]);
+        for(int i = 0; i < items.count(); i++)
+            g->set(i,items[i]);
 }
 
 AbstractNodeModel::Item NodeModel::getItem(QJsonObject obj)
@@ -55,6 +55,7 @@ AbstractNodeModel::Item NodeModel::getItem(QJsonObject obj)
     itm.system_time_update_unix   = system["time_update_unix"].toVariant().toLongLong();
     itm.system_uptime             = system["uptime"].toString();
     itm.system_uptime_dashboard   = system["uptime_dashboard"].toString();
+    itm.system_node_name          = system["name"].toString();
 
     quint64 timeUpdate            = system["time_update_unix"].toVariant().toLongLong();
     itm.system_time_update        = QDateTime::fromSecsSinceEpoch(timeUpdate).toString("dd.MM.yyyy-hh:mm");
