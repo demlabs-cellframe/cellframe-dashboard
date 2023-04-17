@@ -208,7 +208,7 @@ QtObject {
             if (nameIndex >= 0)
                 currentNetwork = nameIndex
 
-            if (networksModel.count !== networksList.length)
+            if (networksModel.count !== networksList.length || !stateNotify)
             {
                 logicMainApp.requestToService("DapGetNetworksStateCommand")
             }
