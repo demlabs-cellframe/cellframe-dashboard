@@ -34,7 +34,8 @@ DapCreateWalletForm
             walletInfo.signature_type = dapSignatureTypeWallet
             walletInfo.password = dapTextInputPassword.text
 
-            print("walletRecoveryType", logicMainApp.walletRecoveryType)
+            console.log("dapTextInputNameWallet.text", dapTextInputNameWallet.text)
+            console.log("walletRecoveryType", logicMainApp.walletRecoveryType)
 
             navigator.recoveryWalletFunc()
         }
