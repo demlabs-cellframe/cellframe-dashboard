@@ -37,7 +37,11 @@ DapPage
         "signature_type": "",
         "recovery_hash": ""
     }
-    property var commandResult
+    property var commandResult:
+    {
+        "success": "",
+        "message": ""
+    }
 
     ListModel {id: networksModel}
     LogicWallet{id: logicWallet}
@@ -53,6 +57,7 @@ DapPage
 
         function doneWalletFunc(){
             dapRightPanel.push(doneWallet)
+            dashboardTopPanel.dapNewPayment.enabled = true
         }
 
         function recoveryWalletFunc()
@@ -99,6 +104,7 @@ DapPage
                 logicMainApp.restoreWalletMode = false
                 navigator.createWallet()
                 dashboardScreen.dapWalletCreateFrame.visible = false
+                dashboardTopPanel.dapNewPayment.enabled = false
             }
         }
 
