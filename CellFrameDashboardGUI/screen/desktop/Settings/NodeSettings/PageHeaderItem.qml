@@ -13,6 +13,8 @@ Item
     Layout.fillWidth: true
     height: 42
 
+    signal closePage()
+
     HeaderButtonForRightPanels
     {
         id: itemButtonClose
@@ -30,6 +32,8 @@ Item
 
         onClicked:
         {
+            closePage()
+
             if (exitToRoot)
                 navigator.popPage()
             else

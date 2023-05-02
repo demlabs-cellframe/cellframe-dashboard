@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include "DapNetworksList.h"
+#include "DiagnosticWorker/DiagnosticWorker.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
@@ -12,6 +13,7 @@
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
 #include "HistoryWorker/historyworker.h"
+#include "DiagnosticWorker/models/NodeModel.h"
 
 #include "DapLogger.h"
 #include "DapDataLocal.h"
@@ -67,6 +69,7 @@ private:
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
     DapMath *m_mathBigNumbers;
+    DiagnosticWorker *m_diagnosticWorker;
 
     StockDataWorker *stockDataWorker;
     HistoryWorker * m_historyWorker;

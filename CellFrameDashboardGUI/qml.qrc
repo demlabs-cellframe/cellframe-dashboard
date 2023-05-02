@@ -296,5 +296,17 @@
         <file>screen/desktop/Settings/NodeSettings/WarningPopupItem.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_rightChevron.svg</file>
         <file>screen/desktop/Settings/NodeSettings/PageHeaderItem.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticTab.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticScreen.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticTopPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TextElement.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_up_green.svg</file>
+        <file>screen/desktop/Diagnostic/Parts/PopupInfoPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/ProgressBarDiagnostic.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TextInfoElement.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticRightPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TrackedNodesBlock.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/AllNodesBlock.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrow.svg</file>
     </qresource>
 </RCC>

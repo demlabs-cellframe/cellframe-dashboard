@@ -29,6 +29,8 @@ DapRectangleLitAndShaded
     {
         console.log("NodeBlock.onCompleted")
 
+        configWorker.resetAllChanges()
+
         var netList = configWorker.getNetworkList()
 
         for(var i = 0; i < netList.length; ++i)
@@ -43,6 +45,12 @@ DapRectangleLitAndShaded
 
 //        mainPage.updateAll()
     }
+
+//    Component.onDestroyed:
+//    {
+//        console.log("NodeBlock", "onDestroyed")
+//        configWorker.resetAllChanges()
+//    }
 
     ComboBoxPopupItem
     {
@@ -107,6 +115,12 @@ DapRectangleLitAndShaded
         {
             exitToRoot: true
             headerName: qsTr("Node settings")
+
+            onClosePage:
+            {
+                console.log("NodeBlock", "onClosePage")
+                configWorker.resetAllChanges()
+            }
         }
 
         Flickable

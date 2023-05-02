@@ -73,6 +73,7 @@ Rectangle {
     Timer {id: timer}
 
     ListModel {id: networksModel}
+    ListModel {id: diagnosticDataModel}
 
 //    CopyPopup{id: copyPopup}
     DapMessagePopup{ id: messagePopup}
@@ -194,6 +195,9 @@ Rectangle {
         ListElement { tag: "dApps"
             name: qsTr("dApps")
             show: true }
+        ListElement { tag: "Diagnostics"
+            name: qsTr("Diagnostics")
+            show: true }
     }
 
     ListModel
@@ -257,6 +261,11 @@ Rectangle {
             bttnIco: "icon_daaps.svg",
             showTab: true,
             page: "qrc:/screen/desktop/dApps/DapAppsTab.qml"})
+        append ({ tag: "Diagnostics",
+            name: qsTr("Diagnostics"),
+            bttnIco: "icon_settings.svg",
+            showTab: true,
+            page: "qrc:/screen/desktop/Diagnostic/DapDiagnosticTab.qml"})
 
 //            FOR DEBUG
 //        append ({ tag: "Plugin",
@@ -576,6 +585,15 @@ Rectangle {
 //            logicMainApp.rcvTokenPriceHistory(rcvData)
 //        }
 
+    }
+
+    Connections{
+        target: diagnostic
+        function onSignalDiagnosticData(diagnosticData){
+            var jsonDocument = JSON.parse(diagnosticData)
+            diagnosticDataModel.clear();
+            diagnosticDataModel.append(jsonDocument);
+        }
     }
 
     Connections{

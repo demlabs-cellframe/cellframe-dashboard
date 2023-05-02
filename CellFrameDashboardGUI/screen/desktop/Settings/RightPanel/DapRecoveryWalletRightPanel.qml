@@ -56,11 +56,15 @@ DapRecoveryWalletRightPanelForm
 
     Component.onCompleted:
     {
-//        print("DapRecoveryWalletRightPanelForm Component.onCompleted")
+        console.log("DapRecoveryWalletRightPanelForm Component.onCompleted")
+        console.log("walletInfo.name", walletInfo.name)
 //        print("logicMainApp.restorelogicMainApp.WalletMode", logicMainApp.restoreWalletMode)
 
         if(logicMainApp.restoreWalletMode)
+        {
             acceptedLayout.visible = false
+            dapButtonAction.enabled = true
+        }
 
         walletInfo.recovery_hash = ""
 
@@ -75,6 +79,9 @@ DapRecoveryWalletRightPanelForm
 
             dapWordsGrid.visible = true
             dapBackupFileName.visible = false
+
+            dapWarningText1.text = qsTr("I'm aware that a wallet seed phrase can't be generated after wallet creation")
+            dapWarningText2.text = qsTr("I'm aware that unless I save the seed phrase correctly I will lose access to my wallet after deleting it")
         }
         if (logicMainApp.walletRecoveryType === "File")
         {
@@ -87,6 +94,9 @@ DapRecoveryWalletRightPanelForm
 
             dapWordsGrid.visible = false
             dapBackupFileName.visible = true
+
+            dapWarningText1.text = qsTr("I'm aware that a wallet backup file can't be generated after wallet creation")
+            dapWarningText2.text = qsTr("I'm aware that unless I have an undamaged backup file I will lose access to my wallet after deleting it")
         }
 
 
@@ -145,6 +155,8 @@ DapRecoveryWalletRightPanelForm
         {
             if (!logicMainApp.restoreWalletMode)
             {
+                dapButtonNext.enabled = true
+
                 walletHashManager.copyWordsToClipboard()
 
                 dapMainWindow.infoItem.showInfo(
@@ -157,6 +169,7 @@ DapRecoveryWalletRightPanelForm
             else
             {
                 dapButtonNext.enabled = true
+
                 walletHashManager.pasteWordsFromClipboard(walletInfo.password)
             }
         }
@@ -186,6 +199,7 @@ DapRecoveryWalletRightPanelForm
         onAccepted:
         {
             var path = saveFileDialog.file.toString();
+            dapButtonNext.enabled = true
             walletHashManager.saveFile(path)
         }
     }

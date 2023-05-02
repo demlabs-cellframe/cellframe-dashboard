@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-const QString update_extention = ".dpkg-new";
+const QString update_extention = ".new";
 
 ConfigFile::ConfigFile(const QString &file_name) :
     fileName(file_name)
