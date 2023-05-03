@@ -259,6 +259,18 @@ DapRectangleLitAndShaded
 
             }
 
+            Text{
+                id: warnMtoken
+                Layout.fillWidth: true
+                height: 32
+                visible: comboboxToken.currentText === "mCELL" && comboboxNetwork.currentText === "Backbone"
+                text: qsTr("Warning! To unstake you need to have the exact amount of mCELL in the wallet you staked")
+                font: mainFont.dapFont.regular12
+                horizontalAlignment: Text.AlignLeft
+                wrapMode: Text.WordWrap
+                color: "#FFCD44"
+            }
+
         }
 
         // Recipient wallet
@@ -290,6 +302,7 @@ DapRectangleLitAndShaded
             Layout.rightMargin: 28
             height: 53 
             color: "transparent"
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
             DapTextField
             {
@@ -309,16 +322,16 @@ DapRectangleLitAndShaded
             }
         }
 
-        Rectangle
-        {
-            width: 278*pt
-            height: 69 
-            color: "transparent"
-            Layout.topMargin: 43 
-            Layout.fillWidth: true
+//        Rectangle
+//        {
+//            width: 278*pt
+//            height: 69
+//            color: "transparent"
+//            Layout.topMargin: 43
+//            Layout.fillWidth: true
 
 
-        }
+//        }
 
         Item{Layout.fillHeight: true}
 
@@ -333,7 +346,7 @@ DapRectangleLitAndShaded
 
             color: "#79FFFA"
             text: qsTr("Not enough available tokens. Enter a lower value.")
-            font: mainFont.dapFont.regular14
+            font: mainFont.dapFont.regular12
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             wrapMode: Text.WordWrap
