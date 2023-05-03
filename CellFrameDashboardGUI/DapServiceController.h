@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <QDataStream>
 #include <QJsonDocument>
-#include "json-c/json.h"
+#include "json.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -57,6 +57,7 @@
 #include "handlers/DapGetWordBook.h"
 #include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
+#include "handlers/DapNodeRestart.h"
 
 #include "serviceimitator.h"
 
@@ -260,6 +261,8 @@ signals:
 //    void replyClientRequestConnect(QString, int);
 
     void rcvWordBook(const QVariant& rcvData);
+
+    void nodeRestart();
 
 private slots:
     /// Register command.

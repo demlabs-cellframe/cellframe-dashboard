@@ -166,6 +166,9 @@ void DapNotificationWatcher::reconnectFunc()
 
 void DapNotificationWatcher::frontendConnected()
 {
+    if(m_socketState != ((QTcpSocket*)socket)->state())
+        m_socketState = ((QTcpSocket*)socket)->state();
+
     if(m_socketState == QAbstractSocket::SocketState::ConnectedState)
         sendNotifyState("Notify socket connected");
     else

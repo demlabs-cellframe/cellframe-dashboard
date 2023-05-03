@@ -233,6 +233,8 @@ void DapServiceController::registerCommand()
     // Save cmd command in file
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand",m_DAPRpcSocket))), QString()));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapNodeRestart("DapNodeRestart",m_DAPRpcSocket))), QString("nodeRestart")));
+
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRcvNotify("DapRcvNotify",m_DAPRpcSocket))), QString("dapRcvNotify")));
 
@@ -243,7 +245,6 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapTokenEmissionCommand("DapTokenEmissionCommand",m_DAPRpcSocket))), QString("responseEmissionToken")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapTokenDeclCommand("DapTokenDeclCommand",m_DAPRpcSocket))), QString("responseDeclToken")));
-
 
 #ifdef SERVICE_IMITATOR
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_DAPRpcSocket))), QString("walletsReceived1")));

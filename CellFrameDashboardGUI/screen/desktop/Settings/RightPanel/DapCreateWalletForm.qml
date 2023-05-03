@@ -143,7 +143,8 @@ DapRectangleLitAndShaded
                         anchors.topMargin: 20
                         anchors.bottomMargin: 20
 
-                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
+//                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\:\(\)\?\@\s*]+/ }
+                        validator: RegExpValidator { regExp: /[0-9A-Za-z\_\-*]+/ }
                         bottomLineVisible: true
                         bottomLineSpacing: 6
                         bottomLineLeftRightMargins: 7

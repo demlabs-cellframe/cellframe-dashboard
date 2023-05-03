@@ -24,6 +24,9 @@ DapRectangleLitAndShaded
 
     property alias dapTextMethod: textMethod
 
+    property alias dapWarningText1: warningText1
+    property alias dapWarningText2: warningText2
+
     property alias dapWordsGrid: wordsGrid
     property alias dapBackupFileName: backupFileName
 
@@ -191,10 +194,11 @@ DapRectangleLitAndShaded
                     Layout.preferredHeight: 40
                     spacing: 0
 
-                    Image{
+                    Image
+                    {
+                        id: checkBox1
                         Layout.alignment: Qt.AlignTop
                         Layout.topMargin: -10
-                        id: checkBox1
                         sourceSize.width: 50
                         sourceSize.height: 50
                         property bool isChecked: false
@@ -203,19 +207,31 @@ DapRectangleLitAndShaded
 
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: checkBox1.isChecked = !checkBox1.isChecked
+                            onClicked:
+                            {
+                                checkBox1.isChecked = !checkBox1.isChecked
+                                if (!checkBox1.isChecked)
+                                    nextButton.enabled = false
+                            }
                         }
                     }
 
-                    Text{
+                    Text
+                    {
+                        id: warningText1
                         Layout.fillWidth: true
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
-                        text: qsTr("I'm aware that a wallet seed phrase can't be generated after wallet creation")
+                        text: ""
                         wrapMode: Text.WordWrap
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: checkBox1.isChecked = !checkBox1.isChecked
+                            onClicked:
+                            {
+                                checkBox1.isChecked = !checkBox1.isChecked
+                                if (!checkBox1.isChecked)
+                                    nextButton.enabled = false
+                            }
                         }
                     }
                 }
@@ -226,10 +242,11 @@ DapRectangleLitAndShaded
                     Layout.preferredHeight: 60
                     spacing: 0
 
-                    Image{
+                    Image
+                    {
+                        id: checkBox2
                         Layout.alignment: Qt.AlignTop
                         Layout.topMargin: -10
-                        id: checkBox2
                         sourceSize.width: 50
                         sourceSize.height: 50
                         property bool isChecked: false
@@ -238,19 +255,31 @@ DapRectangleLitAndShaded
 
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: checkBox2.isChecked = !checkBox2.isChecked
+                            onClicked:
+                            {
+                                checkBox2.isChecked = !checkBox2.isChecked
+                                if (!checkBox2.isChecked)
+                                    nextButton.enabled = false
+                            }
                         }
                     }
 
-                    Text{
+                    Text
+                    {
+                        id: warningText2
                         Layout.fillWidth: true
                         font: mainFont.dapFont.regular14
                         color: currTheme.textColor
-                        text: qsTr("I'm aware that unless I save the seed phrase correctly I will lose access to my wallet after deleting it")
+                        text: ""
                         wrapMode: Text.WordWrap
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: checkBox2.isChecked = !checkBox2.isChecked
+                            onClicked:
+                            {
+                                checkBox2.isChecked = !checkBox2.isChecked
+                                if (!checkBox2.isChecked)
+                                    nextButton.enabled = false
+                            }
                         }
                     }
                 }
@@ -266,28 +295,32 @@ DapRectangleLitAndShaded
 
                 DapButton
                 {
+                    id: actionButton
+
                     Layout.bottomMargin: 40
                     Layout.topMargin: 20
                     Layout.alignment: Qt.AlignHCenter
 
-                    id: actionButton
                     implicitHeight: 36
                     implicitWidth: 132
                     checkable: true
                     horizontalAligmentText: Text.AlignHCenter
                     indentTextRight: 0
                     fontButton: mainFont.dapFont.medium14
+
+                    enabled: checkBox1.isChecked && checkBox2.isChecked
                 }
 
                 DapButton
                 {
+                    id: nextButton
+
+                    enabled: false
+
                     Layout.bottomMargin: 40
                     Layout.topMargin: 20
                     Layout.alignment: Qt.AlignHCenter
 
-                    enabled: checkBox1.isChecked && checkBox2.isChecked
-
-                    id: nextButton
                     implicitHeight: 36
                     implicitWidth: 132
                     textButton: qsTr("Next")

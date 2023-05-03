@@ -112,7 +112,7 @@ Popup {
                         {
                             logicMainApp.requestToService("DapNetworkSingleSyncCommand", name)
 
-                            if(!USING_NOTIFY)
+                            if(!USING_NOTIFY || !logicMainApp.stateNotify)
                                 logicMainApp.requestToService("DapGetNetworksStateCommand")
                         }
                     }
@@ -130,7 +130,7 @@ Popup {
                             else
                                 logicMainApp.requestToService("DapNetworkGoToCommand", name, false)
 
-                            if(!USING_NOTIFY)
+                            if(!USING_NOTIFY || !logicMainApp.stateNotify)
                                 logicMainApp.requestToService("DapGetNetworksStateCommand")
                         }
 
@@ -203,7 +203,7 @@ Popup {
                         Layout.preferredHeight: 15
 
                         staticText.text: "Active links: "
-                        dynamicText.text: activeLinksCount + " from " + linksCount
+                        dynamicText.text: activeLinksCount + " of " + linksCount
                     }
 
                     DapRowInfoText
