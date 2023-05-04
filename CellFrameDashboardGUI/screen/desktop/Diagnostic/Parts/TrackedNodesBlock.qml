@@ -6,14 +6,21 @@ import "qrc:/widgets"
 import "../../controls"
 
 ColumnLayout {
+
+    property string filtr:""
     anchors.fill: parent
 
     spacing: 0
 
     ListModel{id: nodeListModel}
 
-    function updateModel(){
-        var obj = JSON.parse(diagnostic.nodeListSelected)
+    function updateModel(data){
+        var obj;
+
+        if(data)
+            obj = JSON.parse(data)
+        else
+            obj = JSON.parse(diagnostic.nodeListSelected)
 
         nodeListModel.clear()
         nodeListModel.append(obj)
@@ -25,6 +32,11 @@ ColumnLayout {
         target: diagnostic
         function onNodeListSelectedChanged(){
             updateModel()
+            if(filtr != "")
+                diagnostic.searchSelectedNodes(filtr)
+        }
+        function onFiltrSelectedNodesDone(data){
+            updateModel(data)
         }
     }
 
@@ -44,7 +56,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.textColorGray
-            text: "("+nodeListModel.count+")"
+            text: "("+(diagnostic? diagnostic.trackedNodesCount : 0) +")"
             verticalAlignment: Text.AlignVCenter
         }
         Item{Layout.fillWidth: true}
@@ -84,11 +96,15 @@ ColumnLayout {
             onEditingFinished: {
                 filtering.clear()
 //                root.findHandler(text)
+                diagnostic.searchSelectedNodes(text)
+                filtr = text
             }
 
             filtering.waitInputInterval: 100
             filtering.minimumSymbol: 0
             filtering.onAwaitingFinished: {
+                diagnostic.searchSelectedNodes(text)
+                filtr = text
 //                root.findHandler(text)
             }
 

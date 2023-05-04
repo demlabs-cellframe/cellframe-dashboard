@@ -59,6 +59,9 @@ public:
     Q_PROPERTY(QByteArray nodeListSelected  READ nodeListSelected   NOTIFY nodeListSelectedChanged);
     Q_PROPERTY(QByteArray dataSelectedNodes READ dataSelectedNodes  NOTIFY dataSelectedNodesChanged);
 
+    Q_PROPERTY(int trackedNodesCount  READ trackedNodesCount   NOTIFY nodesCountChanged);
+    Q_PROPERTY(int allNodesCount      READ allNodesCount  NOTIFY nodesCountChanged);
+
     Q_INVOKABLE bool flagSendData() const;
     Q_INVOKABLE void setflagSendData(const bool &flagSendData);
 
@@ -78,8 +81,14 @@ public:
     Q_INVOKABLE QByteArray nodeListSelected() const;
     Q_INVOKABLE QByteArray dataSelectedNodes() const;
 
+    Q_INVOKABLE int trackedNodesCount() const;
+    Q_INVOKABLE int allNodesCount() const;
+
     Q_INVOKABLE void addNodeToList(QString mac);
     Q_INVOKABLE void removeNodeFromList(QString mac);
+
+    Q_INVOKABLE void searchSelectedNodes(QString filtr);
+    Q_INVOKABLE void searchAllNodes(QString filtr);
 
 
 signals:
@@ -94,6 +103,12 @@ signals:
     void nodeListChanged();
     void nodeListSelectedChanged();
     void dataSelectedNodesChanged();
+    void nodesCountChanged();
+
+
+
+    void filtrSelectedNodesDone(QByteArray);
+    void filtrAllNodesDone(QByteArray);
 };
 
 #endif // DIAGNOSTICWORKER_H
