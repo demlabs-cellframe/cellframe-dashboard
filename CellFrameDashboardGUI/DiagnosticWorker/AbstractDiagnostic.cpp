@@ -169,9 +169,10 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
     QString res = proc.readAll();
 
     QStringList resSplit = res.split("\n", Qt::SkipEmptyParts);
-
     for(int i = 0; i < resSplit.count(); i++)
         resSplit[i] = resSplit[i].simplified();
+
+    resSplit.sort();
 
     static QRegExp re = QRegExp(R"(^[\da-fA-F]{2}(:[\da-fA-F]{2}){5}$)");
 

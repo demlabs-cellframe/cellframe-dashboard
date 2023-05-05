@@ -124,8 +124,10 @@ void DiagnosticWorker::slot_update_node_list()
 {
     QJsonDocument buff = m_diagnostic->get_list_nodes();
     if(buff.toJson() != s_node_list.toJson())
+    {
         s_node_list = buff;
-    emit nodeListChanged();
+        emit nodeListChanged();
+    }
 
 
     buff.setArray(m_diagnostic->s_selected_nodes_list);
@@ -141,6 +143,8 @@ void DiagnosticWorker::slot_update_node_list()
         s_data_selected_nodes = buff;
         NodeModel().setModel(&s_data_selected_nodes);
     }
+
+    emit nodesCountChanged();
 }
 
 void DiagnosticWorker::addNodeToList(QString mac)
@@ -181,6 +185,47 @@ void DiagnosticWorker::removeNodeFromList(QString mac)
     slot_update_node_list();
 }
 
+void DiagnosticWorker::searchSelectedNodes(QString filtr)
+{
+    QJsonArray arr = s_node_list_selected.array();
+
+    for (auto itr = arr.begin(); itr != arr.end(); itr++)
+    {
+        QJsonObject obj = itr->toObject();
+
+        if(!obj["mac"].toString().toLower().contains(filtr.toLower()))
+        {
+            arr.removeAt(itr.i);
+            itr--;
+        }
+    }
+
+    QJsonDocument result;
+    result.setArray(arr);
+    emit filtrSelectedNodesDone(result.toJson());
+}
+
+void DiagnosticWorker::searchAllNodes(QString filtr)
+{
+    QJsonArray arr = s_node_list.array();
+
+    for (auto itr = arr.begin(); itr != arr.end(); itr++)
+    {
+        QJsonObject obj = itr->toObject();
+
+        if(!obj["mac"].toString().toLower().contains(filtr.toLower()))
+        {
+            arr.removeAt(itr.i);
+            itr--;
+        }
+    }
+
+    QJsonDocument result;
+    result.setArray(arr);
+    emit filtrAllNodesDone(result.toJson());
+
+}
+
 QByteArray DiagnosticWorker::nodeListSelected() const
 {
     return s_node_list_selected.toJson();
@@ -195,6 +240,17 @@ QByteArray DiagnosticWorker::dataSelectedNodes() const
 {
     return s_data_selected_nodes.toJson();
 }
+
+int DiagnosticWorker::trackedNodesCount() const
+{
+    return s_node_list_selected.array().count();
+}
+
+int DiagnosticWorker::allNodesCount() const
+{
+    return s_node_list.array().count();
+}
+
 
 bool DiagnosticWorker::flagSendData() const
 {
