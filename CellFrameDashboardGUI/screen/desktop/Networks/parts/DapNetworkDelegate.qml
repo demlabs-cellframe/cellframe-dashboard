@@ -30,7 +30,7 @@ Component {
                 Layout.fillWidth: true
                 Layout.maximumWidth: item_width/2
                 font: mainFont.dapFont.bold12
-                color: currTheme.textColor
+                color: currTheme.white
                 elide: Text.ElideMiddle
 
                 text: name

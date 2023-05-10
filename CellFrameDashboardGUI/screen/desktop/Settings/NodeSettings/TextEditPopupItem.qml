@@ -18,7 +18,7 @@ DapRectangleLitAndShaded
 
     signal confirm()
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.radiusRectangle
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight

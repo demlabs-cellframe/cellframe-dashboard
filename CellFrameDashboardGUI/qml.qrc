@@ -309,5 +309,9 @@
         <file>screen/desktop/Diagnostic/Parts/TrackedNodesBlock.qml</file>
         <file>screen/desktop/Diagnostic/Parts/AllNodesBlock.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_arrow.svg</file>
+        <file>screen/desktop/Networks/parts/DapInfoContent.qml</file>
+        <file>Resources/BlackTheme/icons/other/indicator_online.svg</file>
+        <file>Resources/BlackTheme/icons/other/indicator_offline.svg</file>
+        <file>Resources/BlackTheme/icons/other/indicator_error.svg</file>
     </qresource>
 </RCC>

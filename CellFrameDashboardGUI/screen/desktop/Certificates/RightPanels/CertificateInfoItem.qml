@@ -11,7 +11,7 @@ DapRectangleLitAndShaded {
     property alias closeButton: itemButtonClose
     property alias certificateDataListView: certificateDataListView
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -53,7 +53,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -82,7 +82,7 @@ DapRectangleLitAndShaded {
                     }
                     else return model.value
                 }
-                title.color: currTheme.textColorGray
+                title.color: currTheme.gray
             }
         }
     }

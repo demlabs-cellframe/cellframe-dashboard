@@ -51,6 +51,6 @@ Item
         anchors.leftMargin: 10
 
         font: mainFont.dapFont.bold14
-        color: currTheme.textColor
+        color: currTheme.white
     }
 }

@@ -11,7 +11,7 @@ import "../../controls"
 DapRectangleLitAndShaded {
     id: root
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -53,17 +53,17 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Name of token")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -103,13 +103,13 @@ DapRectangleLitAndShaded {
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.topMargin: 20
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Select network")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -130,6 +130,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
                 model: dapModelTokens
+                backgroundColor: currTheme.secondaryBackground
 
                 mainTextRole: "network"
                 font: mainFont.dapFont.regular16
@@ -137,12 +138,12 @@ DapRectangleLitAndShaded {
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Select certificate")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -163,6 +164,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
                 model: certificatesModel
+                backgroundColor: currTheme.secondaryBackground
 
                 mainTextRole: "completeBaseName"
                 font: mainFont.dapFont.regular16
@@ -170,12 +172,12 @@ DapRectangleLitAndShaded {
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Total supply")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -214,7 +216,7 @@ DapRectangleLitAndShaded {
 
                     borderWidth: 1
                     borderRadius: 4
-                    placeholderColor: currTheme.textColor
+                    placeholderColor: currTheme.white
                 }
             }
         }

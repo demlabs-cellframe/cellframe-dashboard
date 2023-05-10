@@ -10,7 +10,7 @@ DapRectangleLitAndShaded {
     Component.onCompleted: {logicMainApp.isOpenRequests = true; webPopup.clearAndClose()}
     Component.onDestruction: logicMainApp.isOpenRequests = false
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -54,18 +54,18 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
         Rectangle
         {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
             Text
             {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Requests to work with a wallet")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -115,7 +115,7 @@ DapRectangleLitAndShaded {
                             horizontalAlignment: Text.AlignLeft
                             wrapMode: Text.WordWrap
                             font: mainFont.dapFont.regular14
-                            color: currTheme.textColor
+                            color: currTheme.white
                             text: "The site " + site + " requests permission to work with your wallet"
 
                         }
@@ -128,7 +128,7 @@ DapRectangleLitAndShaded {
                             Layout.fillWidth: true
                             horizontalAlignment: Text.AlignLeft
                             wrapMode: Text.WordWrap
-                            color: currTheme.textColorGrayThree
+                            color: currTheme.gray
                             font: mainFont.dapFont.regular13
                             text: date
 
@@ -176,7 +176,7 @@ DapRectangleLitAndShaded {
                             Layout.fillWidth: true
                             Layout.topMargin: 16
                             height: 1
-                            color: currTheme.lineSeparatorColor
+                            color: currTheme.mainBackground
                         }
 
                         function eventMessage(reply)

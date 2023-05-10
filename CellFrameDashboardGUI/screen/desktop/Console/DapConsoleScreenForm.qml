@@ -27,14 +27,14 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     DapRectangleLitAndShaded
     {
         id: consoleRectangle
         anchors.fill: parent
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
         radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
@@ -84,14 +84,14 @@ Page
                 {
                     width: parent.width
                     height: 1
-                    color: currTheme.borderColor
+                    color: currTheme.reflection
                 }
 
                 Rectangle
                 {
                     width: 1
                     height: parent.height
-                    color: currTheme.borderColor
+                    color: currTheme.reflection
                 }
             }
 
@@ -150,7 +150,7 @@ Page
 
                 Rectangle
                 {
-                    color: currTheme.backgroundElements
+                    color: currTheme.secondaryBackground
                     anchors.fill: parent
 
                     Text
@@ -158,7 +158,7 @@ Page
                         Layout.fillHeight: true
                         id: promt
                         text: ">"
-                        color: currTheme.textColor
+                        color: currTheme.white
                         x: 20 
                         y: 1 
 

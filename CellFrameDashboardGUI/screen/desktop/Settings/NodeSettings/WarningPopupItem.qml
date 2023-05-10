@@ -12,7 +12,7 @@ DapRectangleLitAndShaded
     signal save()
     signal reset()
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.radiusRectangle
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -39,7 +39,7 @@ DapRectangleLitAndShaded
 
             text: qsTr(
 "Are you sure you want to change the node settings? After saving the settings, the node will be rebooted.")
-            color: currTheme.textColorGrayTwo
+            color: currTheme.gray
             font: mainFont.dapFont.regular15
 
             wrapMode: Text.WordWrap

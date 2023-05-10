@@ -13,7 +13,7 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     property string bitCoinImagePath: "qrc:/resources/icons/tkn1_icon_light.png"
@@ -25,7 +25,7 @@ Page
     {
         id: mainFrameTokens
         anchors.fill: parent
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
         radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
@@ -47,7 +47,7 @@ Page
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     font: mainFont.dapFont.bold14
-                    color: currTheme.textColor
+                    color: currTheme.white
                     verticalAlignment: Qt.AlignVCenter
                     text: qsTr("Tokens")
                 }
@@ -72,7 +72,7 @@ Page
                         id: stockNameBlock
                         height: 30 
                         width: parent.width
-                        color: currTheme.backgroundMainScreen
+                        color: currTheme.mainBackground
 
                         Text
                         {
@@ -80,7 +80,7 @@ Page
                             anchors.leftMargin: 16 
                             anchors.verticalCenter: parent.verticalCenter
                             font: mainFont.dapFont.medium12
-                            color: currTheme.textColor
+                            color: currTheme.white
                             verticalAlignment: Qt.AlignVCenter
                             text: network
                         }
@@ -97,7 +97,7 @@ Page
                             anchors.left: parent.left
                             anchors.right: parent.right
                             height: 50 
-                            color: currTheme.backgroundElements
+                            color: currTheme.secondaryBackground
 
                             RowLayout
                             {
@@ -110,7 +110,7 @@ Page
                                 {
                                     id: currencyName
                                     font: mainFont.dapFont.regular16
-                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
+                                    color: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
                                     text: name
                                     width: 172 
                                     horizontalAlignment: Text.AlignLeft
@@ -125,7 +125,7 @@ Page
                                         id: currencySum
                                         anchors.fill: parent
                                         textFont: mainFont.dapFont.regular14
-                                        textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.hilightColorComboBox : currTheme.textColor
+                                        textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
                                         fullText: dapMath.balanceToCoins(current_supply)
                                         horizontalAlign: Text.AlignRight
                                     }
@@ -139,7 +139,7 @@ Page
                                 y: parent.height - 1
                                 width: parent.width - 32
                                 height: 1
-                                color: currTheme.lineSeparatorColor
+                                color: currTheme.mainBackground
                             }
 
                             MouseArea

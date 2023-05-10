@@ -31,7 +31,7 @@ Item {
         x: 21
         y: -500
         radius: 12
-        color:currTheme.backgroundElements
+        color: currTheme.backgroundElements
 
         Behavior on y {NumberAnimation{duration: 200}}
 

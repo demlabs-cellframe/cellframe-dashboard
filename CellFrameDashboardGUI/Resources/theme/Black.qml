@@ -37,6 +37,8 @@ QtObject {
 
     //Params
     readonly property real frameRadius                    : 12
+    readonly property real popupRadius                    : 16
+    readonly property real radiusButton                   : 30
 
 
     //Shadows

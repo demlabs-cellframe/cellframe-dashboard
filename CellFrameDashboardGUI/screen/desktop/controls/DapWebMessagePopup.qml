@@ -58,7 +58,7 @@ Page {
             width: parent.width
             height: parent.height
             visible: true
-            color: currTheme.backgroundElements
+            color: currTheme.secondaryBackground
             radius: currTheme.frameRadius
         }
 
@@ -118,7 +118,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Request to work with a wallet")
             font: mainFont.dapFont.medium14
-            color: currTheme.textColor
+            color: currTheme.white
         }
 
         Text{
@@ -131,7 +131,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.white
         }
 
         DapButton{

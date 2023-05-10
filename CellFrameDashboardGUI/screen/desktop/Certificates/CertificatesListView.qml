@@ -18,7 +18,7 @@ DapRectangleLitAndShaded {
     property bool infoTitleTextVisible: false
     property bool infoTitleTextVisibleClick: false
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -40,7 +40,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
                 anchors.verticalCenter: parent.verticalCenter
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Certificates")
             }
@@ -51,7 +51,7 @@ DapRectangleLitAndShaded {
             Layout.fillWidth: true
 
             height: 30
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
 
             RowLayout
             {
@@ -63,7 +63,7 @@ DapRectangleLitAndShaded {
                     Layout.leftMargin: 16
                     Layout.alignment: Qt.AlignLeft
                     font: mainFont.dapFont.medium12
-                    color: currTheme.textColor
+                    color: currTheme.white
                     verticalAlignment: Qt.AlignVCenter
                     text: root.seletedCertificateAccessType
                 }
@@ -77,7 +77,7 @@ DapRectangleLitAndShaded {
                     font: mainFont.dapFont.medium12
                     text: qsTr("Info")
                     opacity: if (root.infoTitleTextVisible || root.infoTitleTextVisibleClick) return 1; else return 0
-                    color: currTheme.textColor
+                    color: currTheme.white
 
                     Behavior on opacity {
                         NumberAnimation {
@@ -156,9 +156,9 @@ DapRectangleLitAndShaded {
                                 text: model.completeBaseName   //model.fileName
                                 elide: Text.ElideMiddle
                                 maximumLineCount: 1
-                                color: currTheme.textColor
+                                color: currTheme.white
 
-                                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.hilightColorComboBox : currTheme.textColor
+                                property string colorProperty: (model.selected || delegateClicked._entered) ? currTheme.lime : currTheme.white
 
                                 onColorPropertyChanged: textTimer.start()
 
@@ -215,7 +215,7 @@ DapRectangleLitAndShaded {
                             anchors.right: parent.right
                             anchors.top: parent.bottom
                             height: 1
-                            color: currTheme.lineSeparatorColor
+                            color: currTheme.mainBackground
                         }
                     }  //
                 }

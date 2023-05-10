@@ -28,7 +28,7 @@ Page
             Layout.maximumHeight: (parent.height - parent.spacing) / 2
             Layout.preferredHeight: contentData.implicitHeight
 
-            color: currTheme.backgroundElements
+            color: currTheme.secondaryBackground
             radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
@@ -51,7 +51,7 @@ Page
                         anchors.leftMargin: 16
                         anchors.verticalCenter: parent.verticalCenter
                         font: mainFont.dapFont.bold14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Extensions")
                     }
@@ -60,7 +60,7 @@ Page
                 {
                     Layout.fillWidth: true
                     height: 30
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
 
                     Text
                     {
@@ -68,7 +68,7 @@ Page
                         anchors.leftMargin: 16
                         anchors.verticalCenter: parent.verticalCenter
                         font: mainFont.dapFont.medium12
-                        color: currTheme.textColor
+                        color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Manage dApps")
                     }
@@ -141,7 +141,7 @@ Page
                                     Layout.preferredHeight: 26
                                     Layout.preferredWidth: 46
 
-                                    backgroundColor: currTheme.backgroundMainScreen
+                                    backgroundColor: currTheme.mainBackground
                                     borderColor: currTheme.reflectionLight
                                     shadowColor: currTheme.shadowColor
 
@@ -175,7 +175,7 @@ Page
                                 anchors.right: parent.right
                                 anchors.bottom: parent.bottom
                                 height: 1
-                                color: currTheme.lineSeparatorColor
+                                color: currTheme.mainBackground
 
                             }
                         }
@@ -202,7 +202,7 @@ Page
 
             Layout.preferredHeight: contentData.implicitHeight
 
-            color: currTheme.backgroundElements
+            color: currTheme.secondaryBackground
             radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight

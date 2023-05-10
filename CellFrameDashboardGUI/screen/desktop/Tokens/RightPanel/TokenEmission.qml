@@ -12,7 +12,7 @@ import "../../controls"
 DapRectangleLitAndShaded {
     id: root
 
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -59,17 +59,17 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Select certificate")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -97,12 +97,12 @@ DapRectangleLitAndShaded {
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Emission value")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -142,19 +142,19 @@ DapRectangleLitAndShaded {
 
                     borderWidth: 1
                     borderRadius: 4
-                    placeholderColor: currTheme.textColor
+                    placeholderColor: currTheme.white
                 }
             }
         }
 
         Rectangle {
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             Layout.topMargin: 10
             height: 30
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Wallet")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft

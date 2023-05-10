@@ -32,7 +32,7 @@ DapRectangleLitAndShaded
 
     property alias dapTextTopMessage: textTopMessage
 //    property alias dapTextBottomMessage: textBottomMessage
-    color: currTheme.backgroundElements
+    color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
@@ -75,7 +75,7 @@ DapRectangleLitAndShaded
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
         //Body
@@ -83,12 +83,12 @@ DapRectangleLitAndShaded
         {
             id: frameMethod
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textMethod
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Recovery method: 24 words")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -138,7 +138,7 @@ DapRectangleLitAndShaded
                 delegate: Text {
                     Layout.fillWidth: true
                     text: modelData
-                    color: currTheme.textColor
+                    color: currTheme.white
                     font: mainFont.dapFont.regular12
 
                 }
@@ -185,7 +185,7 @@ DapRectangleLitAndShaded
                 Rectangle{
                     Layout.fillWidth: true
                     height: 1
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                 }
 
                 RowLayout{
@@ -221,7 +221,7 @@ DapRectangleLitAndShaded
                         id: warningText1
                         Layout.fillWidth: true
                         font: mainFont.dapFont.regular14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: ""
                         wrapMode: Text.WordWrap
                         MouseArea{
@@ -269,7 +269,7 @@ DapRectangleLitAndShaded
                         id: warningText2
                         Layout.fillWidth: true
                         font: mainFont.dapFont.regular14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: ""
                         wrapMode: Text.WordWrap
                         MouseArea{
