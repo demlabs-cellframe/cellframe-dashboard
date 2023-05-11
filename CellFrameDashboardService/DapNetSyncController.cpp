@@ -33,14 +33,20 @@ QStringList DapNetSyncController::getNetworkList()
 
     QStringList list;
 
-    result.remove(' ');
-    result.remove('\r');
-    result.remove('\t');
-    result.remove("Networks:");
-
-    if(!(result.isEmpty() || result.isNull() || result.contains('\'')))
-        list = result.split('\n', QString::SkipEmptyParts);
+    if (!result.contains("Socket connection err") &&
+        result.contains("Networks:"))
+    {
+        result.remove(' ');
+        result.remove('\r');
+        result.remove('\t');
+        result.remove("Networks:");
+        if(!(result.isEmpty() || result.isNull() || result.contains('\'')))
+            list = result.split('\n', QString::SkipEmptyParts);
+    }
     else
+        qWarning() << "Net list ERROR! Result:" << result;
+
+    if (list.isEmpty())
         qWarning()<<"Empty network lsit";
 
     return list;
