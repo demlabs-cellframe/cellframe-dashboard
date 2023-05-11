@@ -15,47 +15,64 @@ Component {
                    networkList.width / networksModel.count
         height: 40
 
-        RowLayout {
-            id:content
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            spacing: 5 
 
-            Item {
-                Layout.fillWidth: true
+        Rectangle{
+            anchors.centerIn: parent
+            width: 295
+            height: parent.height
+            color: area.containsMouse? currTheme.rowHover : "transparent"
+
+            MouseArea
+            {
+                id: area
+                anchors.fill: parent
+                hoverEnabled: true
             }
 
-            Text {
-                id: txt_left
-                Layout.fillWidth: true
-                Layout.maximumWidth: item_width/2
-                font: mainFont.dapFont.bold12
-                color: currTheme.white
-                elide: Text.ElideMiddle
+            RowLayout {
+                id:content
+                anchors.centerIn: parent
+                spacing: 5
 
-                text: name
+                Item {
+                    Layout.fillWidth: true
+                }
+
+                Text {
+                    id: txt_left
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: item_width/2
+                    font: mainFont.dapFont.bold12
+                    color: currTheme.white
+                    elide: Text.ElideMiddle
+
+                    text: name
+                }
+
+                Image{
+                    id:img
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredHeight: 8
+                    Layout.preferredWidth: 8
+                    width: 8
+                    height: 8
+                    mipmap: true
+
+                    source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
+                            networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png":
+                                                        "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.png"
+
+                    opacity: networkState !== targetState? animationController.opacity : 1
+                }
+
+                Item {
+                    Layout.fillWidth: true
+                }
             }
 
-            Image{
-                id:img
-                Layout.alignment: Qt.AlignVCenter
-                Layout.preferredHeight: 8 
-                Layout.preferredWidth: 8 
-                width: 8 
-                height: 8 
-                mipmap: true
-
-                source: networkState === "ONLINE" ? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png" :
-                        networkState === "ERROR" ?  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png":
-                                                    "qrc:/Resources/" + pathTheme + "/icons/other/indicator_offline.png"
-
-                opacity: networkState !== targetState? animationController.opacity : 1
-            }
-
-            Item {
-                Layout.fillWidth: true
-            }
         }
+
+
 
         DapInfoDelegate
         {
@@ -78,7 +95,10 @@ Component {
         }
 
         MouseArea {
-            anchors.fill: parent
+            anchors.centerIn: parent
+            width: 295
+            height: parent.height
+
             onClicked: {
 //                console.log("CLICK NET", info.y)
                 if(info.isOpen)
