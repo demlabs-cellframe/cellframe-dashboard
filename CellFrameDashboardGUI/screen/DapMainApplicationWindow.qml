@@ -349,7 +349,7 @@ Rectangle {
                     }
 
                     DapCustomToolTip{
-                        id:toolTip
+                        id: toolTip
                         visible: area.containsMouse? true : false
                         contentText: "https://cellframe.net"
                         textFont: mainFont.dapFont.regular14
@@ -364,7 +364,8 @@ Rectangle {
                         hoverEnabled: true
 
                         onClicked:
-                            Qt.openUrlExternally(toolTip.text);
+                            Qt.openUrlExternally(toolTip.contentText)
+
                     }
                 }
 
