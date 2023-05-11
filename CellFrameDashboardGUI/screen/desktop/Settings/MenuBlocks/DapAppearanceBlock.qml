@@ -22,7 +22,7 @@ ColumnLayout
             anchors.verticalCenter: parent.verticalCenter
 
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Appearance")
         }
@@ -33,7 +33,7 @@ ColumnLayout
     {
         Layout.fillWidth: true
         height: 30
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
 
         Text
         {
@@ -42,7 +42,7 @@ ColumnLayout
             anchors.verticalCenter: parent.verticalCenter
 
             font: mainFont.dapFont.medium12
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Window scale")
         }
@@ -68,7 +68,7 @@ ColumnLayout
 //                Layout.leftMargin: 13
 
                 font: mainFont.dapFont.regular14
-                color: currTheme.textColor
+                color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Scale value")
             }
@@ -198,7 +198,7 @@ ColumnLayout
     {
         Layout.fillWidth: true
         height: 30
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
 
         Text
         {
@@ -207,7 +207,7 @@ ColumnLayout
             anchors.verticalCenter: parent.verticalCenter
 
             font: mainFont.dapFont.medium12
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Edit menu")
         }
@@ -261,7 +261,7 @@ ColumnLayout
                         Layout.fillHeight: true
 
                         font: mainFont.dapFont.regular14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
                         text: name
                     }
@@ -273,7 +273,7 @@ ColumnLayout
                         Layout.preferredWidth: 46
 //                        Layout.rightMargin: 19
 
-                        backgroundColor: currTheme.backgroundMainScreen
+                        backgroundColor: currTheme.mainBackground
                         borderColor: currTheme.reflectionLight
                         shadowColor: currTheme.shadowColor
 
@@ -291,7 +291,7 @@ ColumnLayout
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     height: 1
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
 
                 }
 

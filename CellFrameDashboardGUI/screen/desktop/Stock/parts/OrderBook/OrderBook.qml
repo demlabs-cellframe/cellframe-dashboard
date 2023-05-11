@@ -7,8 +7,8 @@ Page
 {
     id: control
     property var visibleCount
-    property string sellHistogramColor: "#1aff6060"
-    property string buyHistogramColor: "#1300ff00"
+    property color sellHistogramColor: "#1aff6060"
+    property color buyHistogramColor: "#1300ff00"
 
     Component.onCompleted:
     {
@@ -141,7 +141,7 @@ Page
 
             Text {
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
 
                 text: qsTr("Orders")
             }
@@ -200,6 +200,8 @@ Page
                 mainTextRole: "value"
                 enabled: true
 
+                backgroundColor: currTheme.secondaryBackground
+
                 model: accuracyModel
 
                 onCurrentIndexChanged:
@@ -220,7 +222,7 @@ Page
         Rectangle
         {
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30
 
             RowLayout
@@ -232,7 +234,7 @@ Page
                 Text
                 {
                     Layout.minimumWidth: 100
-                    color: currTheme.textColor
+                    color: currTheme.white
                     font: mainFont.dapFont.medium12
                     text: "Price("+tokenPairsWorker.tokenSell+")"
                 }
@@ -240,7 +242,7 @@ Page
                 Text
                 {
                     Layout.fillWidth: true
-                    color: currTheme.textColor
+                    color: currTheme.white
                     font: mainFont.dapFont.medium12
                     text: "Amount("+tokenPairsWorker.tokenBuy+")"
                 }
@@ -248,7 +250,7 @@ Page
                 Text
                 {
                     horizontalAlignment: Qt.AlignRight
-                    color: currTheme.textColor
+                    color: currTheme.white
                     font: mainFont.dapFont.medium12
                     text: "Total"
                 }
@@ -292,7 +294,7 @@ Page
             {
                 Layout.fillWidth: true
                 height: 1
-                color: currTheme.lineSeparatorColor
+                color: currTheme.mainBackground
             }
 
             Text
@@ -302,7 +304,7 @@ Page
                 Layout.leftMargin: 16
                 Layout.rightMargin: 16
 
-                color: currTheme.textColor
+                color: currTheme.white
                 font: mainFont.dapFont.medium14
 
                 text: orderBookWorker.currentTokenPrice.toFixed(roundPower)
@@ -313,7 +315,7 @@ Page
                 Layout.fillWidth: true
                 Layout.topMargin: 12
                 height: 1
-                color: currTheme.lineSeparatorColor
+                color: currTheme.mainBackground
             }
         }
 

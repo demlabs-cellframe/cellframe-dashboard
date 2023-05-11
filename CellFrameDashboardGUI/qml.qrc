@@ -286,6 +286,7 @@
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_checkbox_on.svg</file>
         <file>Resources/BlackTheme/icons/other/ic_checkbox_off.svg</file>
+        <file>Resources/theme/Black.qml</file>
         <file>screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml</file>
         <file>screen/desktop/Settings/NodeSettings/HeaderItem.qml</file>
         <file>screen/desktop/Settings/NodeSettings/NodeBlock.qml</file>
@@ -308,5 +309,10 @@
         <file>screen/desktop/Diagnostic/Parts/TrackedNodesBlock.qml</file>
         <file>screen/desktop/Diagnostic/Parts/AllNodesBlock.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_arrow.svg</file>
+        <file>screen/desktop/Networks/parts/DapInfoContent.qml</file>
+        <file>Resources/BlackTheme/icons/other/indicator_online.svg</file>
+        <file>Resources/BlackTheme/icons/other/indicator_offline.svg</file>
+        <file>Resources/BlackTheme/icons/other/indicator_error.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrow_hover.svg</file>
     </qresource>
 </RCC>

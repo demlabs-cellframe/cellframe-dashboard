@@ -13,7 +13,7 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     // Paths to currency emblems
@@ -46,23 +46,11 @@ Page
         {
             y: 50 
             x: 40 
-//            anchors.top: parent.top
-//            anchors.fill: parent
             anchors.horizontalCenter: parent.horizontalCenter
-//            Rectangle
-//            {
-//                height: 82.79 
-//                width: parent.width
-//                color: "transparent"
-//            }
             Item
             {
-                //width: 450 
-                //height: 450 
                 width: iconCreateWallet.implicitWidth
                 height: iconCreateWallet.implicitHeight
-
-                //anchors.centerIn: parent
 
                 Image
                 {
@@ -75,12 +63,6 @@ Page
                 }
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-//            Rectangle
-//            {
-//                height: 45 
-//                width: parent.width
-//                color: "transparent"
-//            }
 
             Item
             {
@@ -92,7 +74,7 @@ Page
             {
                 id: titleTextWalletCreate
                 font: mainFont.dapFont.medium26
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Create a new wallet")
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -142,7 +124,7 @@ Page
             font.family: font.name
             font.pixelSize:26 
 //            font: mainFont.dapFont.medium26
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Creating wallet in process...")
         }
     }
@@ -152,8 +134,8 @@ Page
     {
         id: mainFrameDashboard
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        color: currTheme.secondaryBackground
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
 
@@ -175,7 +157,7 @@ Page
                         anchors.leftMargin: 16
                         anchors.verticalCenter: parent.verticalCenter
                         font: mainFont.dapFont.bold14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Tokens")
                     }
@@ -206,7 +188,7 @@ Page
                             id: stockNameBlock
                             height: 30 
                             width: parent.width
-                            color: currTheme.backgroundMainScreen
+                            color: currTheme.mainBackground
 
                             RowLayout
                             {
@@ -219,7 +201,7 @@ Page
                                 {
                                     Layout.fillWidth: true
                                     font: mainFont.dapFont.medium12
-                                    color: currTheme.textColor
+                                    color: currTheme.white
                                     verticalAlignment: Qt.AlignVCenter
                                     text: name
                                 }
@@ -237,7 +219,7 @@ Page
                                    Layout.fillHeight: true
 
                                    fontDapText: mainFont.dapFont.regular12
-                                   color: currTheme.textColor
+                                   color: currTheme.white
                                    fullText: address
                                    textElide: Text.ElideMiddle
                                    horizontalAlignment: Qt.AlignLeft
@@ -276,7 +258,7 @@ Page
                                 anchors.left: parent.left
                                 anchors.right: parent.right
                                 height: 50 
-                                color: currTheme.backgroundElements
+                                color: currTheme.secondaryBackground
 
                                 RowLayout
                                 {
@@ -289,7 +271,7 @@ Page
                                     {
                                         id: currencyName
                                         font: mainFont.dapFont.regular16
-                                        color: currTheme.textColor
+                                        color: currTheme.white
                                         text: name
                                         width: 172 
                                         horizontalAlignment: Text.AlignLeft
@@ -315,7 +297,7 @@ Page
                                     {
                                         id: currencyCode
                                         font: mainFont.dapFont.regular14
-                                        color: currTheme.textColor
+                                        color: currTheme.white
                                         text: name
                                         horizontalAlignment: Text.AlignRight
                                     }
@@ -328,7 +310,7 @@ Page
                                     y: parent.height - 1 
                                     width: parent.width - 32
                                     height: 1 
-                                    color: currTheme.lineSeparatorColor
+                                    color: currTheme.mainBackground
                                 }
                             }
                         }

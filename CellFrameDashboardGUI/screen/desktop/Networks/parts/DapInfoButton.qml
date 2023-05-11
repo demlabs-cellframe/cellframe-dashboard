@@ -29,7 +29,9 @@ Item {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: currTheme.buttonNetworkColorNoActive
+        color: currTheme.mainBackground
+        radius: 8
+        antialiasing: true
         LinearGradient
         {
             anchors.fill: parent
@@ -37,45 +39,103 @@ Item {
             start: Qt.point(0,parent.height/2)
             end: Qt.point(parent.width,parent.height/2)
             gradient:
+            Gradient {
+                GradientStop
+                {
+                    id: grad1
+                    position: 0;
+                    color: /*mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :*/
+                                             currTheme.mainBackground
+                }
+                GradientStop
+                {
+                    id: grad2
+                    position: 1;
+                    color: /*mouseArea.containsMouse ? currTheme.buttonColorNormalPosition1 :*/
+                                             currTheme.mainBackground
+                }
+            }
+        }
+
+        Rectangle{
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: 8
+            color: currTheme.mainBackground
+            LinearGradient
+            {
+                anchors.fill: parent
+                source: parent
+                start: Qt.point(0,parent.height/2)
+                end: Qt.point(parent.width,parent.height/2)
+                gradient:
                 Gradient {
                     GradientStop
                     {
-                        id: grad1
+                        id: grad1_
                         position: 0;
                         color: /*mouseArea.containsMouse ? currTheme.buttonColorNormalPosition0 :*/
-                                                 currTheme.buttonNetworkColorNoActive
+                                                 currTheme.mainBackground
                     }
                     GradientStop
                     {
-                        id: grad2
+                        id: grad2_
                         position: 1;
                         color: /*mouseArea.containsMouse ? currTheme.buttonColorNormalPosition1 :*/
-                                                 currTheme.buttonNetworkColorNoActive
+                                                 currTheme.mainBackground
                     }
                 }
+            }
+        }
+
+        Rectangle{
+            id: block
+            anchors.top: parent.top
+            width: 8
+            height: 8
+            color: {
+                if(control.enabled)
+                    return mouseArea.containsMouse && isSynch  ? currTheme.mainButtonColorNormal1 :
+                           mouseArea.containsMouse && !isSynch ? currTheme.mainButtonColorNormal0
+                                                               : currTheme.mainBackground
+                else
+                    return currTheme.mainBackground
+            }
+
+            Component.onCompleted: {
+                if(isSynch)
+                    block.anchors.right = parent.right
+                else
+                    block.anchors.left = parent.left
+            }
+
+            Behavior on color{
+                PropertyAnimation{duration: 100}
+            }
         }
 
         ParallelAnimation {
             id: mouseEnterAnim
             PropertyAnimation {
-                target: grad1
+                targets: [grad1, grad1_]
                 properties: "color"
-                to: currTheme.buttonColorNormalPosition0
+                to: currTheme.mainButtonColorNormal0
                 duration: 100
             }
             PropertyAnimation {
-                target: grad2
+                targets: [grad2, grad2_]
                 properties: "color"
-                to: currTheme.buttonColorNormalPosition1
+                to: currTheme.mainButtonColorNormal1
                 duration: 100
             }
         }
         ParallelAnimation {
             id: mouseExitedAnim
             PropertyAnimation {
-                targets: [grad1, grad2]
+                targets: [grad1, grad2, grad1_, grad2_]
                 properties: "color"
-                to: currTheme.buttonNetworkColorNoActive
+                to: currTheme.mainBackground
                 duration: 100
             }
         }
@@ -85,22 +145,13 @@ Item {
         id: shadow
         anchors.fill: background
         source: background
-        color: currTheme.shadowColor
+        color: currTheme.shadowMain
         horizontalOffset: 5
         verticalOffset: 5
         radius: 10
         samples: 20
-    }
-    InnerShadow {
-        anchors.fill: background
-        source: shadow
-        color: currTheme.reflection
-        horizontalOffset: 1
-        verticalOffset: 0
-        radius: 0
-        samples: 20
+        opacity: 0.42
         cached: true
-        visible: !isSynch
     }
 
     RowLayout
@@ -109,14 +160,13 @@ Item {
         spacing: 0
 
         Image {
-            Layout.leftMargin: isSynch ? 23  : 29 
+            Layout.leftMargin: isSynch ? 23  : 29
             Layout.alignment: Qt.AlignVCenter
-            Layout.preferredHeight:  24
-            Layout.preferredWidth:  24
-            height: 24
-            width: 24
-            mipmap: true
+
+            sourceSize: Qt.size(24,24)
+            smooth: false
             antialiasing: true
+            fillMode: Image.PreserveAspectFit
 
             source: isSynch ? "qrc:/Resources/"+ pathTheme +"/icons/other/sync.svg" :
                               "qrc:/Resources/"+ pathTheme +"/icons/other/on_off.svg"
@@ -125,9 +175,9 @@ Item {
         Text {
             id: button_caption
             Layout.alignment: Qt.AlignVCenter
-            Layout.rightMargin: isSynch ? 22  : 28 
+            Layout.rightMargin: isSynch ? 22  : 28
             font: mainFont.dapFont.medium12
-            color: currTheme.textColor
+            color: currTheme.white
             text: isSynch ? qsTr("Sync network") : qsTr("On network")
         }
     }

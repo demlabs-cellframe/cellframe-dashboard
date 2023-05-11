@@ -8,8 +8,8 @@ import "qrc:/widgets"
 DapRectangleLitAndShaded {
     id: root
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -54,7 +54,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -79,74 +79,74 @@ DapRectangleLitAndShaded {
                 TextDetailsTx {
                     title.text: "Network"
                     content.text: detailsModel.get(0).network
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: "TX hash"
                     content.text: detailsModel.get(0).tx_hash
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                     copyButton.visible: true
                     copyButton.popupText: "Hash copied"
                 }
                 TextDetailsTx {
                     title.text: "TX status"
                     content.text: detailsModel.get(0).tx_status
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
 
                     content.color: detailsModel.get(0).tx_status === "DECLINED" ?
-                                           currTheme.textColorRed :
-                                           currTheme.textColorLightGreen
+                                           currTheme.red :
+                                           currTheme.green
                 }
                 TextDetailsTx {
                     title.text: "Date"
                     content.text: detailsModel.get(0).date
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: "Time"
                     content.text: detailsModel.get(0).time
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: "Status"
                     content.text: detailsModel.get(0).status
-                    title.color: currTheme.textColorGray
-                    content.color: detailsModel.get(0).status === "Sent"  ?  currTheme.textColorYellow :
-                                       detailsModel.get(0).status === "Error" ?  currTheme.textColorRed :
-                                       detailsModel.get(0).status === "Received"  ? currTheme.textColorLightGreen :
-                                                                                currTheme.textColor
+                    title.color: currTheme.gray
+                    content.color: detailsModel.get(0).status === "Sent"  ?  currTheme.orange :
+                                       detailsModel.get(0).status === "Error" ?  currTheme.red :
+                                       detailsModel.get(0).status === "Received"  ? currTheme.lightGreen :
+                                                                                currTheme.white
                 }
                 TextDetailsTx {
                     title.text: "From"
                     content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).wallet_name : detailsModel.get(0).address
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                     copyButton.visible: detailsModel.get(0).status === "Sent" ? false : detailsModel.get(0).address.length === 104 ? true : false
                 }
                 TextDetailsTx {
                     title.text: "To"
                     content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                     copyButton.visible: detailsModel.get(0).status === "Sent" ? true : false
                 }
                 TextDetailsTx {
                     title.text: "Token"
                     content.text: detailsModel.get(0).token
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: "Value"
                     content.text: detailsModel.get(0).value + " " + detailsModel.get(0).token
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: "Fee"
                     content.text: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 TextDetailsTx {
                     title.text: "Atom"
                     content.text: detailsModel.get(0).atom
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                     copyButton.visible: true
                     copyButton.popupText: "Atom copied"
                 }

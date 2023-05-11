@@ -116,7 +116,7 @@ Item
                 Text
                 {
                     font: mainFont.dapFont.medium12
-                    color: currTheme.textColorGray
+                    color: currTheme.gray
                     text: qsTr("24h Hight")
                 }
 
@@ -124,7 +124,7 @@ Item
                 {
                     id: max24hText
                     font: mainFont.dapFont.regular12
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: candleChartWorker.maximum24h.toFixed(roundPower)
                 }
             }
@@ -136,7 +136,7 @@ Item
                 Text
                 {
                     font: mainFont.dapFont.medium12
-                    color: currTheme.textColorGray
+                    color: currTheme.gray
 
                     text: qsTr("24h Low")
                 }
@@ -145,7 +145,7 @@ Item
                 {
                     id: min24hText
                     font: mainFont.dapFont.regular12
-                    color: currTheme.textColor
+                    color: currTheme.white
 
                     text: candleChartWorker.minimum24h.toFixed(roundPower)
                 }
@@ -159,7 +159,7 @@ Item
                 Text
                 {
                     font: mainFont.dapFont.medium12
-                    color: currTheme.textColorGray
+                    color: currTheme.gray
 
                     text: qsTr("24h Volume")
                 }
@@ -167,7 +167,7 @@ Item
                 Text
                 {
                     font: mainFont.dapFont.regular12
-                    color: currTheme.textColor
+                    color: currTheme.white
 
                     text: volume24h.toFixed(2) + " " + tokenPairsWorker.tokenBuy
                 }
@@ -241,7 +241,7 @@ Item
                 id: textItem
                 height: 30
                 font: mainFont.dapFont.medium24
-                color: currTheme.textColor
+                color: currTheme.white
                 text: pairBox.displayElement.tokenBuy + "/" + pairBox.displayElement.tokenSell + ":"
                 verticalAlignment: Qt.AlignVCenter
                 Layout.alignment: Qt.AlignVCenter
@@ -255,7 +255,7 @@ Item
                 Layout.fillWidth: true
                 height: 30
                 textFont: mainFont.dapFont.medium24
-                textColor: currTheme.textColorGreen
+                textColor: currTheme.green
                 outSymbols: 15
                 fullNumber: candleChartWorker.currentTokenPriceText
                 copyButtonVisible: true
@@ -316,19 +316,19 @@ Item
 
                 if (openValue > closeValue)
                 {
-                    textOpen.textColor = currTheme.textColorRed
-                    textHigh.textColor = currTheme.textColorRed
-                    textLow.textColor = currTheme.textColorRed
-                    textClose.textColor = currTheme.textColorRed
-                    textChange.textColor = currTheme.textColorRed
+                    textOpen.textColor = currTheme.red
+                    textHigh.textColor = currTheme.red
+                    textLow.textColor = currTheme.red
+                    textClose.textColor = currTheme.red
+                    textChange.textColor = currTheme.red
                 }
                 else
                 {
-                    textOpen.textColor = currTheme.textColorGreen
-                    textHigh.textColor = currTheme.textColorGreen
-                    textLow.textColor = currTheme.textColorGreen
-                    textClose.textColor = currTheme.textColorGreen
-                    textChange.textColor = currTheme.textColorGreen
+                    textOpen.textColor = currTheme.green
+                    textHigh.textColor = currTheme.green
+                    textLow.textColor = currTheme.green
+                    textClose.textColor = currTheme.green
+                    textChange.textColor = currTheme.green
                 }
             }
         }
@@ -355,7 +355,7 @@ Item
                 Layout.fillWidth: true
                 labelVisible: false
                 text: "-"
-                textColor: currTheme.textColorGray
+                textColor: currTheme.gray
             }
 
             ChartTextBlock
@@ -425,9 +425,9 @@ Item
     {
         if (candleChartWorker.currentTokenPrice <
             candleChartWorker.previousTokenPrice)
-            tokenPriceText.textColor = currTheme.textColorRed
+            tokenPriceText.textColor = currTheme.red
         else
-            tokenPriceText.textColor = currTheme.textColorGreen
+            tokenPriceText.textColor = currTheme.green
     }
 
 }

@@ -17,7 +17,7 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     RowLayout

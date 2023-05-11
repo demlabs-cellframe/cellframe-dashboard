@@ -20,8 +20,8 @@ DapRectangleLitAndShaded {
 
     property bool requiredFieldValid: false
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -126,18 +126,18 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
         Rectangle {
             id: requiredTitle
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             Layout.fillWidth: true
             height: 30 
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Required")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -160,6 +160,7 @@ DapRectangleLitAndShaded {
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
                 Layout.rightMargin: 18
+                backgroundColor: currTheme.secondaryBackground
 
                 model: models.signatureType
 
@@ -200,19 +201,19 @@ DapRectangleLitAndShaded {
                 Layout.leftMargin: 39
                 Layout.rightMargin: 39
                 height: 1
-                color: currTheme.borderColor
+                color: currTheme.input
             }
         }  //requiredBody
 
         Rectangle {
             id: optionalTitle
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Layout.fillWidth: true
             Layout.topMargin: 20
 
             Text {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Optional")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft

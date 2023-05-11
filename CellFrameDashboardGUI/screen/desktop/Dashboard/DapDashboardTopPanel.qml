@@ -18,25 +18,10 @@ Controls.DapTopPanel
     {
         anchors.fill: parent
 
-/*        Widgets.DapBigText
-        {
-            id: frameTitleCreateWallet
-            Layout.fillHeight: true
-            Layout.leftMargin: 24
-//            anchors.left: parent.left
-//            anchors.leftMargin: 24
-//            anchors.right: comboBoxCurrentWallet.left
-//            anchors.rightMargin: 100
-            height: 30
-//            anchors.verticalCenter: parent.verticalCenter
-
-            textFont: mainFont.dapFont.medium18
-        }*/
-
         Text{
             text: "Wallet:"
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.gray
             Layout.leftMargin: 24
         }
 
@@ -49,22 +34,10 @@ Controls.DapTopPanel
             Layout.bottomMargin: 9
             Layout.leftMargin: 4
             width: 220
-//            anchors.left: frameTitleCreateWallet.right
-//            anchors.leftMargin: 24
-    //        anchors.right: comboBoxCurrentWallet.left
 
             font: mainFont.dapFont.regular14
-            backgroundColor: currTheme.backgroundPanel
 
             model: dapModelWallets
-
-//            currentIndex: logicMainApp.currentWalletIndex
-
-//            onModelChanged:
-//            {
-//                setCurrentIndex(logicMainApp.currentWalletIndex)
-//            }
-//            currentIndex: logicMainApp.currentWalletIndex
 
             enabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
             disabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
@@ -105,20 +78,15 @@ Controls.DapTopPanel
         Widgets.DapButton
         {
             id: newPaymentButton
-//            Layout.fillHeight: true
             Layout.rightMargin: 24
 
             textButton: "Send"
-//            anchors.right: parent.right
-//            anchors.rightMargin: 24
 
-//            anchors.verticalCenter: parent.verticalCenter
             implicitHeight: 36
             implicitWidth: 164
             fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
-//            visible: frameTitleCreateWallet.text === "" ? false : true
-    //        visible: false
+            visible: dapModelWallets.count
         }
 
     }
@@ -135,5 +103,4 @@ Controls.DapTopPanel
             comboBoxCurrentWallet.setCurrentIndex(logicMainApp.currentWalletIndex)
         }
     }
-
 }

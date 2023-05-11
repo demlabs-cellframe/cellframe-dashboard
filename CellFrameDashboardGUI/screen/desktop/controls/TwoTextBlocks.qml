@@ -15,7 +15,7 @@ RowLayout {
     {
         id: labelItem
         font: textFont
-        color: currTheme.textColorGray
+        color: currTheme.gray
         Layout.preferredWidth: implicitWidth
     }
 
@@ -26,7 +26,7 @@ RowLayout {
         Layout.fillHeight: true
         Layout.rightMargin: 16
         textFont: parent.textFont
-        textColor: currTheme.textColorGray
+        textColor: currTheme.gray
 //        outSymbols: 30
 
 //        fullNumber: "0"

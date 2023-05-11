@@ -59,7 +59,7 @@ DapTopPanel {
                 placeholderText: qsTr("Search")
                 height: 30
 
-                placeholderColor: "#757184"
+                placeholderColor: currTheme.gray
                 font: mainFont.dapFont.regular16
 
                 onEditingFinished: {
@@ -85,7 +85,7 @@ DapTopPanel {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.topMargin: 2
-            color: "#393B41" //currTheme.borderColor
+            color: currTheme.input //currTheme.borderColor
         }
     }
 

@@ -6,18 +6,24 @@ import "qrc:/widgets"
 import "../../controls"
 
 ColumnLayout {
+
+    property string filtr:""
     anchors.fill: parent
 
     spacing: 0
 
     ListModel{id: nodeListModel}
 
-    function updateModel(){
-        var obj = JSON.parse(diagnostic.nodeList)
+    function updateModel(data){
+        var obj;
+
+        if(data)
+            obj = JSON.parse(data)
+        else
+            obj = JSON.parse(diagnostic.nodeList)
 
         nodeListModel.clear()
         nodeListModel.append(obj)
-
     }
 
     Component.onCompleted: updateModel()
@@ -26,6 +32,11 @@ ColumnLayout {
         target: diagnostic
         function onNodeListChanged(){
             updateModel()
+            if(filtr != "")
+                diagnostic.searchAllNodes(filtr)
+        }
+        function onFiltrAllNodesDone(data){
+            updateModel(data)
         }
     }
 
@@ -38,14 +49,14 @@ ColumnLayout {
 
         Text{
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("All nodes ")
             verticalAlignment: Text.AlignVCenter
         }
         Text{
             font: mainFont.dapFont.bold14
-            color: currTheme.textColorGray
-            text: "("+nodeListModel.count+")"
+            color: currTheme.gray
+            text: "("+(diagnostic? diagnostic.allNodesCount : 0)+")"
             verticalAlignment: Text.AlignVCenter
         }
         Item{Layout.fillWidth: true}
@@ -76,7 +87,7 @@ ColumnLayout {
             bottomLineVisible: false
 
             backgroundColor: "transparent"
-            placeholderColor: currTheme.textColorGrayTwo
+            placeholderColor: currTheme.gray
             font: mainFont.dapFont.regular14
 
             placeholderText: qsTr("Search node by mac address")
@@ -84,12 +95,16 @@ ColumnLayout {
 
             onEditingFinished: {
                 filtering.clear()
+                diagnostic.searchAllNodes(text)
+                filtr = text
 //                root.findHandler(text)
             }
 
             filtering.waitInputInterval: 100
             filtering.minimumSymbol: 0
             filtering.onAwaitingFinished: {
+                diagnostic.searchAllNodes(text)
+                filtr = text
 //                root.findHandler(text)
             }
 
@@ -102,7 +117,7 @@ ColumnLayout {
         Layout.fillWidth: true
 //        Layout.topMargin: -2
         height: 1
-        color: "#757184" //currTheme.borderColor
+        color: currTheme.gray //currTheme.borderColor
     }
 
     ListView{
@@ -119,13 +134,24 @@ ColumnLayout {
 
             Rectangle{
                 anchors.fill: parent
-                color: area.containsMouse? "#474B53":"transparent"
+                color: area.containsMouse? currTheme.rowHover:"transparent"
             }
 
             MouseArea{
                 id: area
                 anchors.fill: parent
                 hoverEnabled: true
+
+                MouseArea{
+                    id: childArea
+                    width: rectImg.width
+                    height: rectImg.height
+                    x: rectImg.x
+                    y: rectImg.y
+                    hoverEnabled: true
+                    onClicked: diagnostic.addNodeToList(mac)
+
+                }
             }
 
             Rectangle{
@@ -133,37 +159,36 @@ ColumnLayout {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 height: 1
-                color: currTheme.backgroundMainScreen
+                color: currTheme.mainBackground
             }
 
             Text{
                 anchors.fill: parent
                 anchors.leftMargin: 16
                 font: mainFont.dapFont.regular14
-                color: currTheme.textColor
+                color: currTheme.white
                 text: mac
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
             }
 
             Rectangle{
+                id: rectImg
                 visible: area.containsMouse
                 width: 32
                 height: 32
                 anchors.right: parent.right
                 anchors.rightMargin: 16
                 anchors.verticalCenter: parent.verticalCenter
-                color: currTheme.backgroundMainScreen
+                color: childArea.containsMouse ? currTheme.lime
+                                               : currTheme.mainBackground
                 radius: 4
 
                 Image{
-                    source: "qrc:/Resources/"+ pathTheme +"/icons/other/icon_arrow.svg"
+                    source: childArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/icon_arrow_hover.svg"
+                                                    : "qrc:/Resources/"+ pathTheme +"/icons/other/icon_arrow.svg"
                     mipmap: true
                     anchors.centerIn: parent
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: diagnostic.addNodeToList(mac)
-                    }
                 }
             }
         }

@@ -14,7 +14,7 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     RowLayout
@@ -27,8 +27,8 @@ Page
             Layout.fillWidth: true
             Layout.fillHeight: true
 //            anchors.fill: parent
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
 
@@ -79,7 +79,7 @@ Page
         {
             height: 30
             width: parent.width
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
 
             property date payDate: new Date(Date.parse(section))
 
@@ -90,7 +90,7 @@ Page
                 anchors.rightMargin: 16 
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: currTheme.textColor
+                color: currTheme.white
                 text: logicExplorer.getDateString(payDate)
                 font: mainFont.dapFont.regular12
             }
@@ -104,7 +104,7 @@ Page
         {
             width:  dapListViewHistory.width
             height: 50 
-            color: listViewHistory.currentIndex === index? "#474B53" : currTheme.backgroundElements
+            color: listViewHistory.currentIndex === index? currTheme.rowHover : currTheme.secondaryBackground
 
             RowLayout
             {
@@ -119,7 +119,7 @@ Page
                     id: textNetworkName
                     Layout.minimumWidth: 190
                     text: network
-                    color: currTheme.textColor
+                    color: currTheme.white
                     font:  mainFont.dapFont.regular14
                     Layout.alignment: Qt.AlignLeft
                 }
@@ -130,11 +130,11 @@ Page
                     id: textSatus
                     Layout.minimumWidth: 80
                     text: tx_status === "ACCEPTED" ? status : "Declined"
-                    color: text === "Sent" ?      currTheme.textColorYellow :
+                    color: text === "Sent" ?      currTheme.orange :
                            text === "Error" ||
-                           text === "Declined" ?  currTheme.textColorRed :
-                           text === "Received"  ? currTheme.textColorLightGreen :
-                                                  currTheme.textColor
+                           text === "Declined" ?  currTheme.red :
+                           text === "Received"  ? currTheme.lightGreen :
+                                                  currTheme.white
 
                     font:  mainFont.dapFont.regular14
                 }
@@ -168,7 +168,7 @@ Page
                         id: lblFee
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular12
-                        textColor: currTheme.textColorGrayTwo
+                        textColor: currTheme.gray
                         fullText: qsTr("fee: ") + fee + " " + token
                         horizontalAlign: Text.AlignRight
                     }
@@ -225,7 +225,7 @@ Page
                 y: parent.height - 1
                 width: parent.width - 32
                 height: 1 
-                color: currTheme.lineSeparatorColor
+                color: currTheme.mainBackground
             }
         }
     }

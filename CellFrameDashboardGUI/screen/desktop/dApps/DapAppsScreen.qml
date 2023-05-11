@@ -23,7 +23,7 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     RowLayout
@@ -38,8 +38,8 @@ Page
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
 
@@ -60,7 +60,7 @@ Page
                             anchors.leftMargin: 16
                             anchors.verticalCenter: parent.verticalCenter
                             font: mainFont.dapFont.bold14
-                            color: currTheme.textColor
+                            color: currTheme.white
                             verticalAlignment: Qt.AlignVCenter
                             text: qsTr("Available apps")
                         }
@@ -73,7 +73,7 @@ Page
                             id:controlHighligh
                             property var isHover
                             width: 180 ; height: 40 
-                            color: currTheme.placeHolderTextColor
+                            color: currTheme.gray
                             opacity: 0.12
                         }
                     }
@@ -89,7 +89,7 @@ Page
                         delegate: delegateApp
 
 //                        highlight: highlight
-                        highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
+                        highlight: Rectangle{color: currTheme.gray; opacity: 0.12}
                         highlightMoveDuration: 0
 
                         onCurrentIndexChanged:
@@ -103,7 +103,7 @@ Page
 //                            id: dAppsHeader
                             width:parent.width
                             height: 30
-                            color: currTheme.backgroundMainScreen
+                            color: currTheme.mainBackground
                             z:10
 
                             RowLayout
@@ -124,7 +124,7 @@ Page
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Name")
                                         font:  mainFont.dapFont.medium11
-                                        color: currTheme.textColor
+                                        color: currTheme.white
                                     }
                                 }
 
@@ -140,7 +140,7 @@ Page
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Verified")
                                         font:  mainFont.dapFont.medium11
-                                        color: currTheme.textColor
+                                        color: currTheme.white
                                     }
                                 }
                                 Item {
@@ -155,7 +155,7 @@ Page
         //                                horizontalAlignment: Qt.AlignLeft
                                         text: qsTr("Status")
                                         font:  mainFont.dapFont.medium11
-                                        color: currTheme.textColor
+                                        color: currTheme.white
                                     }
 
                                 }
@@ -195,7 +195,7 @@ Page
                                             }
 
                                             text: name
-                                            color: currTheme.textColor
+                                            color: currTheme.white
                                             font:  mainFont.dapFont.regular11
                                             elide: Text.ElideMiddle
 
@@ -289,7 +289,7 @@ Page
 //                                            horizontalAlignment: Text.AlignLeft
 
                                             text: status === "1" ? "Activated":"Unactivated"
-                                            color: currTheme.textColor
+                                            color: currTheme.white
                                             font:  mainFont.dapFont.regular12
                                         }
                                     }
@@ -300,7 +300,7 @@ Page
                                 anchors.left: parent.left
                                 anchors.bottom: parent.bottom
                                 height: 1 
-                                color: currTheme.lineSeparatorColor
+                                color: currTheme.mainBackground
                             }
 
                             Rectangle
@@ -316,7 +316,7 @@ Page
                                     onEntered: {
                                         if(listViewApps.currentIndex !== index)
                                         {
-                                            frameDelegate.color = currTheme.placeHolderTextColor;
+                                            frameDelegate.color = currTheme.gray;
                                             frameDelegate.opacity = 0.12;
                                         }
                                     }
@@ -352,7 +352,7 @@ Page
                     defaultRightPanel.setEnableButtons()
                 }
             }
-            function onCurrentStatusSelected(status)
+            onCurrentStatusSelected:
             {
                 currentFiltr = status
                 updateFiltr(status)

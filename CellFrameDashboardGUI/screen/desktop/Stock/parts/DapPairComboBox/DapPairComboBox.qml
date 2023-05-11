@@ -52,8 +52,8 @@ ComboBox {
                     text: logic.getModelData(index, "tokenBuy") + "/" +
                           logic.getModelData(index, "tokenSell")
                     color: menuDelegate.highlighted ?
-                               currTheme.hilightTextColorComboBox :
-                               currTheme.textColor
+                               currTheme.mainBackground :
+                               currTheme.white
                     font: mainFont.dapFont.regular13
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
@@ -67,8 +67,8 @@ ComboBox {
                     anchors.verticalCenter: parent.verticalCenter
                     text: logic.getModelData(index, "price")
                     color: menuDelegate.highlighted ?
-                               currTheme.hilightTextColorComboBox :
-                               currTheme.textColor
+                               currTheme.mainBackground :
+                               currTheme.white
                     font: mainFont.dapFont.regular13
                     elide: Text.ElideRight
                     verticalAlignment: Text.AlignVCenter
@@ -94,7 +94,7 @@ ComboBox {
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     height: 1
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
                 }
 
                 MouseArea
@@ -116,8 +116,8 @@ ComboBox {
             {
                 anchors.fill: parent
                 color: menuDelegate.highlighted ?
-                           currTheme.hilightColorComboBox :
-                           currTheme.backgroundElements
+                           currTheme.lime :
+                           currTheme.secondaryBackground
             }
 
             hoverEnabled: true
@@ -167,7 +167,7 @@ ComboBox {
                 leftPadding: 0
                 text: displayElement.tokenBuy + "/" + displayElement.tokenSell
                 font: mainFont.dapFont.medium14
-                color: currTheme.textColor
+                color: currTheme.white
                 elide: Text.ElideLeft
             }
 
@@ -207,7 +207,7 @@ ComboBox {
                 width: popup.width
                 height: 71
                 z:2
-                color: currTheme.backgroundElements
+                color: currTheme.secondaryBackground
 
                 ColumnLayout{
                     anchors.fill: parent
@@ -227,7 +227,7 @@ ComboBox {
                     {
                         Layout.fillHeight: true
                         Layout.fillWidth: true
-                        color: currTheme.backgroundPanel
+                        color: currTheme.mainBackground
 
                         Item
                         {
@@ -240,7 +240,7 @@ ComboBox {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:"Pair"
                                 font: mainFont.dapFont.medium12
-                                color: currTheme.textColor
+                                color: currTheme.white
 
                             }
                             Text{
@@ -249,7 +249,7 @@ ComboBox {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text:"Price"
                                 font: mainFont.dapFont.medium12
-                                color: currTheme.textColor
+                                color: currTheme.white
 
                             }
 //                            Text{
@@ -290,7 +290,7 @@ ComboBox {
                     border.width: 0
                     anchors.fill: parent
 
-                    color: currTheme.backgroundElements
+                    color: currTheme.secondaryBackground
                 }
 
                 DropShadow

@@ -25,7 +25,7 @@ ColumnLayout {
         id: content
         Layout.fillWidth: true
         font: mainFont.dapFont.regular14
-        color: currTheme.textColor
+        color: currTheme.white
         width: parent.width
         wrapMode: Text.Wrap
         height: 18

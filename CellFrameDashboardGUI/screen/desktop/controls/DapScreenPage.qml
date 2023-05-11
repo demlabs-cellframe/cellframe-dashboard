@@ -12,8 +12,8 @@ Page {
     background: DapRectangleLitAndShaded {
         id: back
 
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        color: currTheme.secondaryBackground
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
     }

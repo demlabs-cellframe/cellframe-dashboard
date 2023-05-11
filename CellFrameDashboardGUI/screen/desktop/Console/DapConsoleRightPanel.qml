@@ -45,7 +45,7 @@ Page
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -76,7 +76,7 @@ Page
 
                         id: textCommand
                         text: query
-                        color: currTheme.textColor
+                        color: currTheme.white
 
                         wrapMode: Text.Wrap
                         font: mainFont.dapFont.regular13
