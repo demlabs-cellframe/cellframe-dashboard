@@ -12,7 +12,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
         radius: 12
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
@@ -24,7 +24,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
 
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
         radius: 12
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight

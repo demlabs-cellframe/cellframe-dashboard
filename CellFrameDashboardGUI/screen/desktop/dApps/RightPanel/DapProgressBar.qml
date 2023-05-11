@@ -11,8 +11,8 @@ Canvas {
 
 //    property color primaryColor: "orange"
 //    property color secondaryColor: "lightblue"
-    property color primaryColor: currTheme.textColor
-    property color secondaryColor: currTheme.buttonColorHover
+    property color primaryColor: currTheme.white
+    property color secondaryColor: currTheme.mainButtonColorHover0
 
     property real centerWidth: width / 2
     property real centerHeight: height / 2
@@ -80,7 +80,7 @@ Canvas {
         anchors.centerIn: parent
 
         text: canvas.text
-        color: currTheme.textColor
+        color: currTheme.white
         font:  mainFont.dapFont.bold14
     }
 

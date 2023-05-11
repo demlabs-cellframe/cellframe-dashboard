@@ -313,5 +313,6 @@
         <file>Resources/BlackTheme/icons/other/indicator_online.svg</file>
         <file>Resources/BlackTheme/icons/other/indicator_offline.svg</file>
         <file>Resources/BlackTheme/icons/other/indicator_error.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrow_hover.svg</file>
     </qresource>
 </RCC>

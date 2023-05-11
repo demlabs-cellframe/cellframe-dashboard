@@ -35,7 +35,7 @@ Item
             Layout.leftMargin: 15 
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Filter")
         }
 
@@ -99,7 +99,7 @@ Item
             Layout.maximumHeight: 35 
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Actions")
         }
 

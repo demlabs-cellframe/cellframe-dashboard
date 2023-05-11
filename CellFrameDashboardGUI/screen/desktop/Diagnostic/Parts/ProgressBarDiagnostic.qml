@@ -15,9 +15,9 @@ ProgressBar {
             implicitHeight: 10
         }
         progress: Rectangle {
-            color: progressBar.value < 40 ? currTheme.progressBarColor1
-                 : progressBar.value < 80 ? currTheme.progressBarColor2
-                                          : currTheme.progressBarColor3
+            color: progressBar.value < 40 ? currTheme.lightGreen
+                 : progressBar.value < 80 ? currTheme.orange
+                                          : currTheme.red
             radius: 2
         }
     }

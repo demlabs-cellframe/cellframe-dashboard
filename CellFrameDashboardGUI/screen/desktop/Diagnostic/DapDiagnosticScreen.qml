@@ -12,14 +12,14 @@ Page
 {
     id: dapDiagnosticScreen
 
-    background: Rectangle { color: currTheme.backgroundMainScreen}
+    background: Rectangle { color: currTheme.mainBackground}
 
     DapRectangleLitAndShaded
     {
         id: mainFrame
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        color: currTheme.secondaryBackground
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
 
@@ -40,7 +40,7 @@ Page
                     anchors.leftMargin: 16
                     anchors.verticalCenter: parent.verticalCenter
                     font: mainFont.dapFont.bold14
-                    color: currTheme.textColor
+                    color: currTheme.white
                     verticalAlignment: Qt.AlignVCenter
                     text: qsTr("Diagnostics")
                 }
@@ -69,7 +69,7 @@ Page
                         id: header
                         Layout.fillWidth: true
                         height: 40
-                        color: currTheme.backgroundMainScreen
+                        color: currTheme.mainBackground
 
                         RowLayout{
                             anchors.fill: parent
@@ -78,7 +78,7 @@ Page
                                 Layout.alignment: Qt.AlignLeft
                                 Layout.leftMargin: 16
                                 font: mainFont.dapFont.medium13
-                                color: currTheme.textColor
+                                color: currTheme.white
                                 verticalAlignment: Text.AlignVCenter
 
                                 text: system_node_name === "" ? system_mac : system_node_name
@@ -89,7 +89,7 @@ Page
                                 Layout.alignment: Qt.AlignRight
                                 Layout.leftMargin: 16
                                 font: mainFont.dapFont.medium13
-                                color: currTheme.textColorGrayTwo
+                                color: currTheme.gray
                                 verticalAlignment: Text.AlignVCenter
 
                                 text: qsTr("Last update: ") + system_time_update
@@ -175,7 +175,7 @@ Page
                         visible: layout.isShow
                         Layout.fillWidth: true
                         height: 1
-                        color:currTheme.lineSeparatorColor
+                        color:currTheme.mainBackground
 
                     }
 
@@ -206,8 +206,8 @@ Page
                                 widthTitle: 156
                                 title: qsTr("Node status: ")
                                 content: proc_status
-                                contentColor: proc_status === "Online" ? currTheme.progressBarColor1
-                                                                       : currTheme.progressBarColor3
+                                contentColor: proc_status === "Online" ? currTheme.lightGreen
+                                                                       : currTheme.red
 
                             }
                             TextInfoElement{

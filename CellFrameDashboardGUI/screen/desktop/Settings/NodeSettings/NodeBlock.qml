@@ -16,7 +16,7 @@ DapRectangleLitAndShaded
     signal reset(var node_flag, var network_name)
 
     color: currTheme.secondaryBackground
-    radius: currTheme.radiusRectangle
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 

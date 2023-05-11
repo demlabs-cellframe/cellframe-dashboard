@@ -11,7 +11,7 @@ Item {
     Rectangle{
         id: background
         anchors.fill: parent
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         opacity: 0
 
         Behavior on opacity {NumberAnimation{duration: 200}}
@@ -31,7 +31,7 @@ Item {
         x: 21
         y: -500
         radius: 12
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
 
         Behavior on y {NumberAnimation{duration: 200}}
 
@@ -58,7 +58,7 @@ Item {
             Rectangle{
                 height: 42
                 Layout.fillWidth: true
-                color: currTheme.backgroundMainScreen
+                color: currTheme.mainBackground
 
                 //header
                 RowLayout{
@@ -73,13 +73,13 @@ Item {
 
                         text: qsTr("System information ")
                         font: mainFont.dapFont.bold14
-                        color: currTheme.textColor
+                        color: currTheme.white
 
                     }
                     Text{
                         text: qsTr("(You can select information you allow to send)")
                         font: mainFont.dapFont.bold14
-                        color: currTheme.textColorGray
+                        color: currTheme.gray
 
                     }
                     Item{Layout.fillWidth: true}
@@ -103,7 +103,7 @@ Item {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
                 }
                 //horizontal line
                 Rectangle{
@@ -112,7 +112,7 @@ Item {
                     anchors.right: parent.right
                     anchors.top: parent.top
                     anchors.topMargin: 171
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
                 }
 
                 delegate:
@@ -234,8 +234,8 @@ Item {
                         TextInfoElement{
                             title: qsTr("Node status: ")
                             content: process.status
-                            contentColor: process.status === "Online" ? currTheme.progressBarColor1
-                                                                      : currTheme.progressBarColor3
+                            contentColor: process.status === "Online" ? currTheme.lightGreen
+                                                                      : currTheme.red
 
                         }
                         TextInfoElement{

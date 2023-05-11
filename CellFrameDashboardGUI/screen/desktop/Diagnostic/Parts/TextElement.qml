@@ -20,7 +20,7 @@ RowLayout {
         id: title
 
         font: mainFont.dapFont.regular14
-        color: currTheme.textColorGray
+        color: currTheme.gray
         verticalAlignment: Qt.AlignVCenter
     }
 
@@ -31,7 +31,7 @@ RowLayout {
         id: content
 
         font: mainFont.dapFont.regular14
-        color: currTheme.textColor
+        color: currTheme.white
         elide: Text.ElideRight
         horizontalAlignment: Qt.AlignLeft
         verticalAlignment: Qt.AlignVCenter
