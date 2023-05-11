@@ -548,18 +548,18 @@ QtObject {
         }
     }
 
-    function rcvNewVersion(currVer, lastVer, isHasUpdate, url)
+    function rcvNewVersion(currVer, data)
     {
-        lastVersion = lastVer
-        hasUpdate = isHasUpdate
-        urlDownload = url
+        lastVersion = data.lastVersion
+        hasUpdate = data.hasUpdate
+        urlDownload = data.url
 
         messagePopupVersion.dapButtonCancel.visible = true
         messagePopupVersion.dapButtonOk.textButton = "Update"
         messagePopupVersion.dapButtonCancel.textButton = "Cancel"
 
         messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + currVer +"\n"+
-                                                   "Last version - " + lastVer +"\n" +
+                                                   "Last version - " + lastVersion +"\n" +
                                                    "Go to website to download?"))
     }
 

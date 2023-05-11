@@ -499,12 +499,14 @@ Rectangle {
         function onVersionControllerResult(versionResult)
         {
             if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.url, versionResult.message)
+                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult)
             else if(versionResult.message === "Reply node version")
             {
                 if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
                 logicMainApp.nodeVersion = versionResult.lastVersion
             }
+            else
+                console.log(versionResult.message)
 //            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
 //                logicMainApp.rcvReplyVersion()
 //            else if(versionResult.message !== "Reply version")

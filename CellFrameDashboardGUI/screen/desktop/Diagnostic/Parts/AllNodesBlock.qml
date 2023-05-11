@@ -6,18 +6,24 @@ import "qrc:/widgets"
 import "../../controls"
 
 ColumnLayout {
+
+    property string filtr:""
     anchors.fill: parent
 
     spacing: 0
 
     ListModel{id: nodeListModel}
 
-    function updateModel(){
-        var obj = JSON.parse(diagnostic.nodeList)
+    function updateModel(data){
+        var obj;
+
+        if(data)
+            obj = JSON.parse(data)
+        else
+            obj = JSON.parse(diagnostic.nodeList)
 
         nodeListModel.clear()
         nodeListModel.append(obj)
-
     }
 
     Component.onCompleted: updateModel()
@@ -26,6 +32,11 @@ ColumnLayout {
         target: diagnostic
         function onNodeListChanged(){
             updateModel()
+            if(filtr != "")
+                diagnostic.searchAllNodes(filtr)
+        }
+        function onFiltrAllNodesDone(data){
+            updateModel(data)
         }
     }
 
@@ -45,7 +56,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.gray
-            text: "("+nodeListModel.count+")"
+            text: "("+(diagnostic? diagnostic.allNodesCount : 0)+")"
             verticalAlignment: Text.AlignVCenter
         }
         Item{Layout.fillWidth: true}
@@ -84,12 +95,16 @@ ColumnLayout {
 
             onEditingFinished: {
                 filtering.clear()
+                diagnostic.searchAllNodes(text)
+                filtr = text
 //                root.findHandler(text)
             }
 
             filtering.waitInputInterval: 100
             filtering.minimumSymbol: 0
             filtering.onAwaitingFinished: {
+                diagnostic.searchAllNodes(text)
+                filtr = text
 //                root.findHandler(text)
             }
 
