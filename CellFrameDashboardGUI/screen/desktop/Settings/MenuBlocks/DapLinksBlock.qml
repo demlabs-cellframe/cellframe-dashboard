@@ -26,7 +26,7 @@ ColumnLayout
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Linked")
         }
@@ -36,7 +36,7 @@ ColumnLayout
     {
         Layout.fillWidth: true
         height: 30
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
 
         Text
         {
@@ -44,7 +44,7 @@ ColumnLayout
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             font: mainFont.dapFont.medium12
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Linked with wallet")
         }
@@ -93,7 +93,7 @@ ColumnLayout
                         elide: Text.ElideMiddle
 
                         font: mainFont.dapFont.regular14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
                         text: site
 
@@ -107,9 +107,9 @@ ColumnLayout
                             contentItem: Text {
                                     text: toolTip.text
                                     font: mainFont.dapFont.regular14
-                                    color: currTheme.textColor
+                                    color: currTheme.white
                                 }
-                            background: Rectangle{color:currTheme.backgroundPanel}
+                            background: Rectangle{color:currTheme.mainBackground}
                         }
                         MouseArea
                         {
@@ -125,7 +125,7 @@ ColumnLayout
                         Layout.preferredHeight: 26
                         Layout.preferredWidth: 46
 
-                        backgroundColor: currTheme.backgroundMainScreen
+                        backgroundColor: currTheme.secondaryBackground
                         borderColor: currTheme.reflectionLight
                         shadowColor: currTheme.shadowColor
 
@@ -141,7 +141,7 @@ ColumnLayout
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     height: 1
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
                 }
             }
         }

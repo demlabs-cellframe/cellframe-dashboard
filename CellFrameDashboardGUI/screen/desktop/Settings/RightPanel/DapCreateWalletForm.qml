@@ -16,8 +16,8 @@ DapRectangleLitAndShaded
     property alias dapSignatureTypeWalletModel: signatureTypeWallet
     property alias dapTextInputPassword: textInputPasswordWallet
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -81,7 +81,7 @@ DapRectangleLitAndShaded
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -108,13 +108,13 @@ DapRectangleLitAndShaded
                 Rectangle
                 {
                     id: frameNameWallet
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                     Layout.fillWidth: true
                     height: 30
                     Text
                     {
                         id: textNameWallet
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: qsTr("Name of wallet")
                         font: mainFont.dapFont.medium12
                         horizontalAlignment: Text.AlignLeft
@@ -154,14 +154,14 @@ DapRectangleLitAndShaded
                 Rectangle
                 {
                     id: frameChooseSignatureType
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                     height: 30
                     Layout.fillWidth: true
         //            Layout.topMargin: 20
                     Text
                     {
                         id: textChooseSignatureType
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: qsTr("Choose signature type")
                         font: mainFont.dapFont.medium12
                         horizontalAlignment: Text.AlignLeft
@@ -188,6 +188,7 @@ DapRectangleLitAndShaded
                         anchors.margins: 10
                         anchors.leftMargin: 22
                         anchors.rightMargin: 18
+                        backgroundColor: currTheme.secondaryBackground
 
                         font: mainFont.dapFont.regular16
 
@@ -198,13 +199,13 @@ DapRectangleLitAndShaded
                 Rectangle
                 {
                     id: frameTypeWallet
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                     height: 30
                     Layout.fillWidth: true
                     Text
                     {
                         id: textTypeWallet
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: qsTr("Type of wallet")
                         font: mainFont.dapFont.medium12
                         horizontalAlignment: Text.AlignLeft
@@ -273,7 +274,7 @@ DapRectangleLitAndShaded
                 Rectangle
                 {
                     id: frameWalletPassword
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                     height: 30
                     Layout.fillWidth: true
                     visible: false
@@ -281,7 +282,7 @@ DapRectangleLitAndShaded
                     Text
                     {
                         id: textWalletPassword
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: qsTr("Wallet password")
                         font: mainFont.dapFont.medium12
                         horizontalAlignment: Text.AlignLeft
@@ -346,14 +347,14 @@ DapRectangleLitAndShaded
                 Rectangle
                 {
                     id: frameRecoveryMethod
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                     height: 30
                     Layout.topMargin: frameWalletPassword.visible ? 0 : 13
                     Layout.fillWidth: true
                     Text
                     {
                         id: textRecoveryMethod
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: qsTr("Recovery method")
                         font: mainFont.dapFont.medium12
                         horizontalAlignment: Text.AlignLeft

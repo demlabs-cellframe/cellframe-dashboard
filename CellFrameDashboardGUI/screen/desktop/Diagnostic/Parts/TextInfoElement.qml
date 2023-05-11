@@ -18,7 +18,7 @@ RowLayout{
         Layout.minimumWidth: widthTitle
         Layout.maximumWidth: widthTitle
         font: mainFont.dapFont.regular14
-        color: currTheme.textColorGray
+        color: currTheme.gray
 
         verticalAlignment: Text.AlignVCenter
     }
@@ -27,7 +27,7 @@ RowLayout{
         Layout.minimumWidth: 35
         Layout.maximumWidth: 35
         font: mainFont.dapFont.regular14
-        color: currTheme.textColor
+        color: currTheme.white
         verticalAlignment: Text.AlignVCenter
     }
     ProgressBarDiagnostic{
@@ -46,7 +46,7 @@ RowLayout{
         Layout.preferredWidth: 46
 //        Layout.rightMargin: 16
 
-        backgroundColor: currTheme.backgroundMainScreen
+        backgroundColor: currTheme.mainBackground
         borderColor: currTheme.reflectionLight
         shadowColor: currTheme.shadowColor
 

@@ -11,7 +11,7 @@ Rectangle
 
     Layout.fillWidth: true
     height: 30
-    color: currTheme.backgroundMainScreen
+    color: currTheme.mainBackground
 
     Text
     {
@@ -19,7 +19,7 @@ Rectangle
         anchors.leftMargin: 16
         anchors.verticalCenter: parent.verticalCenter
         font: mainFont.dapFont.medium12
-        color: currTheme.textColor
+        color: currTheme.white
         verticalAlignment: Qt.AlignVCenter
         text: headerName
     }

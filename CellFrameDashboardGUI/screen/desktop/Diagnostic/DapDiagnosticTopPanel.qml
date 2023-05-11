@@ -22,7 +22,7 @@ Controls.DapTopPanel {
         Text{
             text: qsTr("System information:")
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
         }
 
         ListView{
@@ -92,7 +92,7 @@ Controls.DapTopPanel {
                 anchors.bottom: parent.bottom
                 text: qsTr("More")
                 font: mainFont.dapFont.regular14
-                color: currTheme.hilightColorComboBox
+                color: currTheme.lime
 
                 verticalAlignment: Text.AlignVCenter
             }
@@ -136,14 +136,14 @@ Controls.DapTopPanel {
             Layout.fillHeight: true
             Layout.topMargin: 8
             Layout.bottomMargin: 8
-            color: currTheme.lineSeparatorColor2
+            color: currTheme.grid
         }
 
         Text{
             Layout.alignment: Qt.AlignLeft
             text: qsTr("Send System Information")
             font: mainFont.dapFont.medium13
-            color: currTheme.textColor
+            color: currTheme.white
         }
 
         DapSwitch{
@@ -152,7 +152,7 @@ Controls.DapTopPanel {
             Layout.preferredHeight: 26
             Layout.preferredWidth: 46
 
-            backgroundColor: currTheme.backgroundMainScreen
+            backgroundColor: currTheme.mainBackground
             borderColor: currTheme.reflectionLight
             shadowColor: currTheme.shadowColor
 

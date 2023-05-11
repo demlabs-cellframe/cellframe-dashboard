@@ -13,8 +13,8 @@ DapRectangleLitAndShaded {
     property string iconOk:"qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png"
     property string iconBad:"qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png"
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -40,7 +40,7 @@ DapRectangleLitAndShaded {
             id: textHeader
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
-            color: currTheme.textColor
+            color: currTheme.white
             font: mainFont.dapFont.medium24
         }
 
@@ -50,7 +50,7 @@ DapRectangleLitAndShaded {
             Layout.fillWidth: true
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            color: "#DADADA"
+            color: currTheme.gray
             font: mainFont.dapFont.regular16
 
             onTextChanged: {

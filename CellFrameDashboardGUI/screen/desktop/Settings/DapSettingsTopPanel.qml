@@ -36,7 +36,7 @@ Controls.DapTopPanel
                     id: requestsBut
                     text: qsTr("Requests")
                     font: mainFont.dapFont.medium14
-                    color: mouseArea.containsMouse ? currTheme.textColorYellow : logicMainApp.requestsMessageCounter > 0 ? currTheme.hilightColorComboBox : currTheme.textColor
+                    color: mouseArea.containsMouse ? currTheme.darkYellow : logicMainApp.requestsMessageCounter > 0 ? currTheme.lime : currTheme.white
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
 
@@ -48,7 +48,7 @@ Controls.DapTopPanel
                     width: value.implicitWidth > 8 ? value.implicitWidth + 12  : 20
                     radius: 20
                     visible: logicMainApp.requestsMessageCounter > 0
-                    color: mouseArea.containsMouse ? currTheme.textColorYellow : currTheme.hilightColorComboBox
+                    color: mouseArea.containsMouse ? currTheme.darkYellow : currTheme.lime
 
                     Text{
                         id: value
@@ -60,7 +60,7 @@ Controls.DapTopPanel
                         text: logicMainApp.requestsMessageCounter
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        color: currTheme.hilightTextColorComboBox
+                        color: currTheme.boxes
                         font: mainFont.dapFont.regular13
                     }
                 }
@@ -94,7 +94,7 @@ Controls.DapTopPanel
 
                 text: qsTr( "Node connection status:" )
                 font: mainFont.dapFont.regular13
-                color: currTheme.textColor
+                color: currTheme.white
                 elide: Text.ElideMiddle
             }
 
@@ -125,7 +125,7 @@ Controls.DapTopPanel
 
                 text: qsTr( "Dashboard version " + dapServiceController.Version)
                 font: mainFont.dapFont.regular13
-                color: currTheme.textColorGray
+                color: currTheme.gray
 
             }
             Text {
@@ -135,7 +135,7 @@ Controls.DapTopPanel
 
                 text: qsTr( "Node version " + logicMainApp.nodeVersion)
                 font: mainFont.dapFont.regular13
-                color: currTheme.textColorGray
+                color: currTheme.gray
 
             }
         }

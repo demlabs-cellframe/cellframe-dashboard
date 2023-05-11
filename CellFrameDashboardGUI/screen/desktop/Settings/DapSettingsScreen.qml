@@ -22,7 +22,7 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     Item
@@ -52,8 +52,8 @@ Page
                     Layout.fillWidth: true
                     Layout.preferredHeight: content.implicitHeight
                     Layout.maximumHeight: control.height - spacing
-                    color: currTheme.backgroundElements
-                    radius: currTheme.radiusRectangle
+                    color: currTheme.secondaryBackground
+                    radius: currTheme.frameRadius
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
@@ -136,8 +136,8 @@ Page
                 id: appearanceBlock
                 Layout.minimumWidth: 327
                 Layout.alignment: Qt.AlignTop
-                color: currTheme.backgroundElements
-                radius: currTheme.radiusRectangle
+                color: currTheme.secondaryBackground
+                radius: currTheme.frameRadius
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 

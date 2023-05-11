@@ -18,8 +18,8 @@ DapRectangleLitAndShaded
 
     signal confirm()
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -103,7 +103,7 @@ Light — Synchronize only local wallets\n
 Master — Allow to store values in chains and take commission, sync all shards that will need to be synced\n
 Archive — sync all the network\n
 Root — special predefined root nodes, usually produces zerochain and acts like archive as well")
-            color: currTheme.textColorGrayTwo
+            color: currTheme.gray
             font: mainFont.dapFont.regular13
 
             wrapMode: Text.WordWrap

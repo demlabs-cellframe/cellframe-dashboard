@@ -102,13 +102,13 @@ Image {
                 Rectangle
                 {
                     anchors.fill: parent
-                    color: currTheme.hilightColorComboBox
+                    color: currTheme.lime
                     visible: index === selectedIndex
                 }
 
                 Text {
                     id: textComponent
-                    color: index === selectedIndex ?  currTheme.hilightTextColorComboBox : currTheme.textColor
+                    color: index === selectedIndex ?  currTheme.boxes : currTheme.white
                     text: modelData.word
                     y: parent.height * 0.5 - height * 0.5
                     x: 20 

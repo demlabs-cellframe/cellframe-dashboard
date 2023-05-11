@@ -105,7 +105,7 @@ Page {
         anchors.horizontalCenter: parent.horizontalCenter
 
         color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
         visible: false
@@ -135,7 +135,7 @@ Page {
         anchors.horizontalCenter: parent.horizontalCenter
 
         color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
         visible: false

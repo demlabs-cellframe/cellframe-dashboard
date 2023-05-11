@@ -27,7 +27,7 @@ Item
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("My orders")
             font:  mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
         }
     }
 
@@ -41,14 +41,14 @@ Item
         clip: true
         model: myOrdersModel
 
-        highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
+        highlight: Rectangle{color: currTheme.inputActive; opacity: 0.12}
         highlightMoveDuration: 0
 
         headerPositioning: ListView.OverlayHeader
         header: Rectangle{
             width:parent.width
             height: 30
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             z:10
 
             RowLayout{
@@ -108,7 +108,7 @@ Item
                 }
                 onEntered:
                     if(list.currentIndex !== index)
-                        frameDelegate.color = currTheme.placeHolderTextColor;
+                        frameDelegate.color = currTheme.inputActive;
                 onExited:
                         frameDelegate.color = "transparent";
 
@@ -137,7 +137,7 @@ Item
                     Layout.minimumWidth: 61
                     label.text: side
                     label.font: mainFont.dapFont.regular13
-                    label.color: side === "Sell" ? currTheme.textColorRed : currTheme.textColorGreen
+                    label.color: side === "Sell" ? currTheme.red : currTheme.green
                 }
                 HeaderLabel{
                     Layout.minimumWidth: 150
@@ -156,8 +156,8 @@ Item
                     label.text: qsTr("Cancel")
                     label.font: mainFont.dapFont.regular13
                     label.color: mouseArea.containsMouse ?
-                                     currTheme.textColorRed :
-                                     currTheme.hilightColorComboBox
+                                     currTheme.red :
+                                     currTheme.lime
                     MouseArea{
                         id: mouseArea
                         anchors.fill: parent
@@ -182,7 +182,7 @@ Item
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
                 height: 1
-                color: currTheme.lineSeparatorColor
+                color: currTheme.input
             }
         }
     }

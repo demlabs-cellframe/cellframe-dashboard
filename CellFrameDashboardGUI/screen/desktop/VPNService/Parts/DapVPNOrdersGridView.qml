@@ -43,7 +43,7 @@ GridView {
             height: parent.height - y * 2
 
             color: currTheme.backgroundMainScreen
-            radius: currTheme.radiusRectangle
+            radius: currTheme.frameRadius
             shadowColor: currTheme.reflectionLight
             lightColor: currTheme.shadowColor
 

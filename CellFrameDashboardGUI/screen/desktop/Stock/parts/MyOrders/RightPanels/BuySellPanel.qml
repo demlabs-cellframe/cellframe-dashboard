@@ -11,8 +11,8 @@ import "../../CreateOrder"
 DapRectangleLitAndShaded {
     id: root
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.mainBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -58,7 +58,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -86,7 +86,7 @@ DapRectangleLitAndShaded {
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
                 }
             }
-            textColor: currTheme.textColor
+            textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
 //            font: mainFont.dapFont.regular14
 
@@ -96,11 +96,11 @@ DapRectangleLitAndShaded {
         {
             Layout.fillWidth: true
             Layout.topMargin: 12
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30
             Text
             {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Price")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -140,11 +140,11 @@ DapRectangleLitAndShaded {
         {
             Layout.fillWidth: true
             Layout.topMargin: 12
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30
             Text
             {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Amount")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -289,11 +289,11 @@ DapRectangleLitAndShaded {
         {
             Layout.fillWidth: true
             Layout.topMargin: 12
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30
             Text
             {
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Total")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft

@@ -21,7 +21,7 @@ Item
             Layout.leftMargin: 16
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Status")
         }
 
@@ -116,7 +116,7 @@ Item
             Layout.maximumHeight: 18
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             text: qsTr("Period")
         }
 
@@ -155,14 +155,14 @@ Item
                 dapIndicatorImageActive: "qrc:/Resources/"+pathTheme+"/icons/other/ic_arrow_up.png"
                 dapSidePaddingNormal: 10 
                 dapSidePaddingActive: 10 
-                dapNormalColorText: currTheme.textColor
-                dapHilightColorText: currTheme.hilightTextColorComboBox
-                dapNormalColorTopText: currTheme.textColor
-                dapHilightColorTopText: currTheme.textColor
-                dapHilightColor: currTheme.hilightColorComboBox
-                dapHilightTopColor: currTheme.backgroundElements //"blue" //currTheme.backgroundMainScreen
-                dapNormalColor: currTheme.backgroundElements
-                dapNormalTopColor: currTheme.backgroundElements //"blue" //currTheme.backgroundMainScreen
+                dapNormalColorText: currTheme.white
+                dapHilightColorText: currTheme.mainBackground
+                dapNormalColorTopText: currTheme.white
+                dapHilightColorTopText: currTheme.white
+                dapHilightColor: currTheme.lime
+                dapHilightTopColor: currTheme.secondaryBackground //"blue" //currTheme.backgroundMainScreen
+                dapNormalColor: currTheme.secondaryBackground
+                dapNormalTopColor: currTheme.secondaryBackground //"blue" //currTheme.backgroundMainScreen
                 dapWidthPopupComboBoxNormal: 318 
                 dapWidthPopupComboBoxActive: 318 
                 dapHeightComboBoxNormal: 46 
@@ -187,7 +187,7 @@ Item
                 dapInactiveRangeTextFont:  mainFont.dapFont.regular14
                 dapUnselectedRangeColorTopText: "#ACAAB5"
                 dapActiveRangeTextFont:  mainFont.dapFont.medium14
-                dapSelectedRangeColorTopText: "#FFFFFF"
+                dapSelectedRangeColorTopText: currTheme.white
 
                 dapCalendars:
                     DapCalendar
@@ -206,13 +206,13 @@ Item
                         dapDayTopInterval: 2 
                         dapCalendarFont:  mainFont.dapFont.regular14
 
-                        dapCalendarBackgroundColor: currTheme.backgroundMainScreen
-                        dapNormalTextColor: currTheme.textColor
-                        dapSelectedTextColor: currTheme.textColor
+                        dapCalendarBackgroundColor: currTheme.mainBackground
+                        dapNormalTextColor: currTheme.white
+                        dapSelectedTextColor: currTheme.white
                         dapInvalidTextColor: "#908D9D"
 
-                        dapNormalBackgroundColor: currTheme.backgroundMainScreen
-                        dapSelectedBackgroundColor: currTheme.buttonColorNormal
+                        dapNormalBackgroundColor: currTheme.secondaryBackground
+                        dapSelectedBackgroundColor: currTheme.mainButtonColorNormal0
 
                         dapDayOfWeeksFormat: Locale.NarrowFormat
 //                        dapPreviousYearButtonImage: "qrc:/resources/icons/previous_year_icon.png"

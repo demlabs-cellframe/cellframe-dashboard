@@ -45,7 +45,7 @@ Item
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Orders")
             font:  mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
         }
     }
 
@@ -62,7 +62,7 @@ Item
         highlight:
             Rectangle
             {
-                color: currTheme.placeHolderTextColor
+                color: currTheme.inputActive
                 opacity: 0.12
             }
         highlightMoveDuration: 0
@@ -74,7 +74,7 @@ Item
             {
                 width:parent.width
                 height: 30
-                color: currTheme.backgroundMainScreen
+                color: currTheme.mainBackground
                 z: 10
 
                 RowLayout{
@@ -235,6 +235,7 @@ Item
                         anchors.centerIn: parent
                         implicitWidth: 100
                         implicitHeight: 25
+                        //TODO: need update colors
                         defaultColorNormal0:
                             side == "buy" ?
                                 currTheme.textColorGreen :
@@ -309,7 +310,7 @@ Item
                 anchors.left: parent.left
                 anchors.bottom: parent.bottom
                 height: 1
-                color: currTheme.lineSeparatorColor
+                color: currTheme.input
             }
         }
     }

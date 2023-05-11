@@ -70,7 +70,7 @@ Item
             Layout.bottomMargin: 5
 
             text: mainTextMessage
-            color: currTheme.textColor
+            color: currTheme.white
             font: mainFont.dapFont.regular14
 
             verticalAlignment: Text.AlignVCenter
@@ -85,7 +85,7 @@ Item
             Layout.margins: 0
 
             text: secondTextMessage
-            color: currTheme.textColorGrayTwo
+            color: currTheme.gray
             font: mainFont.dapFont.regular12
 
             wrapMode: Text.WordWrap
@@ -130,7 +130,7 @@ Item
         anchors.rightMargin: 16
 
         text: checked ? qsTr("Enabled") : qsTr("Disabled")
-        color: currTheme.textColor
+        color: currTheme.white
         font: mainFont.dapFont.regular14
 
         verticalAlignment: Text.AlignVCenter
@@ -144,7 +144,7 @@ Item
         anchors.bottom: parent.bottom
         height: 1
 
-        color: currTheme.lineSeparatorColor
+        color: currTheme.mainBackground
     }
 
     function updateAll()

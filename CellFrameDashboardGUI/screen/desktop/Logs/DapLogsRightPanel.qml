@@ -28,7 +28,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Requests logs")
             }
@@ -37,7 +37,7 @@ Page {
         Rectangle
         {
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
@@ -46,7 +46,7 @@ Page {
                 anchors.verticalCenter: parent.verticalCenter
 
                 font: mainFont.dapFont.medium12
-                color: currTheme.textColor
+                color: currTheme.white
                 verticalAlignment: Qt.AlignVCenter
                 text: qsTr("Requests to work with a wallet")
             }
@@ -74,7 +74,7 @@ Page {
                         Layout.leftMargin: 16
                         Layout.rightMargin: 16
                         text: infoText
-                        color: currTheme.textColor
+                        color: currTheme.white
                         font: mainFont.dapFont.regular14
                         horizontalAlignment: Text.AlignLeft
                         wrapMode: Text.WordWrap
@@ -90,7 +90,7 @@ Page {
                         Text{
                             Layout.alignment: Qt.AlignLeft
                             text: reply
-                            color: reply === "Denied" ? currTheme.textColorRed : currTheme.textColorLightGreen
+                            color: reply === "Denied" ? currTheme.red : currTheme.lightGreen
                             font: mainFont.dapFont.regular14
                             horizontalAlignment: Text.AlignLeft
 
@@ -101,7 +101,7 @@ Page {
                         Text{
                             Layout.alignment: Qt.AlignRight
                             text: date
-                            color: currTheme.textColorGrayThree
+                            color: currTheme.gray
                             font: mainFont.dapFont.regular13
                             horizontalAlignment: Text.AlignRight
                         }
@@ -111,7 +111,7 @@ Page {
                         Layout.topMargin: 13
                         Layout.fillWidth: true
                         height: 1 
-                        color: currTheme.lineSeparatorColor
+                        color: currTheme.mainBackground
                     }
                 }
             }

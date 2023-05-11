@@ -27,7 +27,7 @@ Page {
     property bool onRightPanel: true
 
     background: Rectangle {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     RowLayout {
