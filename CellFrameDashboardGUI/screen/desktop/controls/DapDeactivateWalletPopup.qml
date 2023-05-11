@@ -214,14 +214,14 @@ Item{
         }
     }
 
-    DropShadow {
+    InnerShadow {
         anchors.fill: farmeActivate
         source: farmeActivate
         color: currTheme.reflection
-        horizontalOffset: -1
-        verticalOffset: -1
+        horizontalOffset: 1
+        verticalOffset: 1
         radius: 0
-        samples: 0
+        samples: 10
         opacity: farmeActivate.opacity
         fast: true
         cached: true
@@ -235,6 +235,7 @@ Item{
         radius: 10
         samples: 20
         opacity: farmeActivate.opacity ? 0.42 : 0
+        cached: true
     }
 
     function hide(){
