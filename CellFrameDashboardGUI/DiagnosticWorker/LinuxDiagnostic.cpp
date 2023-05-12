@@ -18,9 +18,10 @@ void LinuxDiagnostic::info_update(){
     sys_info = get_sys_info();
     sys_info.insert("mac", s_mac);
     QJsonObject obj = sys_info["memory"].toObject();
-    int mem = obj["total_value"].toInt();
+    int mem = obj["total"].toString().toUInt();
 
     proc_info = get_process_info(get_pid(), mem);
+    proc_info.insert("roles", roles_processing());
 
     full_info.insert("system", sys_info);
     full_info.insert("process", proc_info);
@@ -90,12 +91,13 @@ QJsonObject LinuxDiagnostic::get_sys_info()
     int total_value = atoi(total.c_str());
     int available_value = atoi(available.c_str());
 
-    memory = get_memory_string(total_value);
+    memory      = QString::number(total_value);
     memory_used = QString::number((total_value - available_value) *100 / total_value);
-    memory_free = get_memory_string(available_value);
+    memory_free = QString::number(available_value);
 
+//    obj_memory.insert("total", memory);
     obj_memory.insert("total", memory);
-    obj_memory.insert("total_value", total_value);
+//    obj_memory.insert("total_value", total_value);
     obj_memory.insert("free", memory_free);
     obj_memory.insert("load", memory_used);
 
@@ -229,15 +231,14 @@ QJsonObject LinuxDiagnostic::get_process_info(long proc_id, int totalRam)
    QString path = NODE_PATH;
    QString node_dir = NODE_DIR_PATH;
 
-
    QString log_size, db_size, chain_size;
-   log_size = get_memory_string(get_file_size("log", node_dir) / 1024);
-   db_size = get_memory_string(get_file_size("DB", node_dir) / 1024);
-   chain_size = get_memory_string(get_file_size("chain", node_dir) / 1024);
+   log_size   = QString::number(get_file_size("log", node_dir) / 1024);
+   db_size    = QString::number(get_file_size("DB", node_dir) / 1024);
+   chain_size = QString::number(get_file_size("chain", node_dir) / 1024);
 
-   if(log_size.isEmpty()) log_size = "0 Kb";
-   if(db_size.isEmpty()) db_size = "0 Kb";
-   if(chain_size.isEmpty()) chain_size = "0 Kb";
+   if(log_size.isEmpty()) log_size = "0";
+   if(db_size.isEmpty()) db_size = "0";
+   if(chain_size.isEmpty()) chain_size = "0";
 
    process_info.insert("log_size", log_size);
    process_info.insert("DB_size", db_size);
@@ -249,7 +250,7 @@ QJsonObject LinuxDiagnostic::get_process_info(long proc_id, int totalRam)
 
        QString uptime= get_uptime_string(uptime_sec);
 
-       QString memory_use_value = get_memory_string(resident_set);
+       QString memory_use_value = QString::number(resident_set);
 
 //       process_info.insert("PPID",QString::fromLocal8Bit(ppid.c_str()));
 //       process_info.insert("priory",QString::fromLocal8Bit(priority.c_str()));
@@ -264,8 +265,8 @@ QJsonObject LinuxDiagnostic::get_process_info(long proc_id, int totalRam)
 
    if(status == "Offline")
    {
-       process_info.insert("memory_use","0");
-       process_info.insert("memory_use_value","0 Kb");
+       process_info.insert("memory_use","0"); //precent
+       process_info.insert("memory_use_value","0"); //val
        process_info.insert("uptime","00:00:00");
 
    }

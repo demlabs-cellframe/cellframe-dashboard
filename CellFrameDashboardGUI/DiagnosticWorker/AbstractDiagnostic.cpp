@@ -59,8 +59,14 @@ QString AbstractDiagnostic::get_uptime_string(long sec)
     QTime time(0, 0);
     time = time.addSecs(sec);
     int fullHours = sec/3600;
+    QString uptime;
 
-    QString uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
+    if(!fullHours)
+        uptime = QString("00:") + time.toString("mm:ss");
+    else if(!(int)(fullHours /10))
+        uptime = QString("0%1:").arg(fullHours) + time.toString("mm:ss");
+    else
+        uptime = QString("%1:").arg(fullHours) + time.toString("mm:ss");
 
     return uptime;
 }
@@ -111,20 +117,37 @@ quint64 AbstractDiagnostic::get_file_size (QString flag, QString path ) {
 
 QString AbstractDiagnostic::get_memory_string(long num)
 {
-    QString result;
-    int gb = (num / 1024) / 1024;
-    int mb = (num-gb*1024*1024) /1024;
-    int kb = (num - (gb*1024*1024+mb*1024));
-    if (gb > 0)
-       result = QString::number(gb) + QString(" Gb ");
-    else
-       result = QString("");
-    if (mb > 0)
-       result += QString::number(mb) + QString(" Mb ");
-    if (kb > 0)
-       result += QString::number(kb) + QString(" Kb ");
+    qreal bytes = num * 1024;
+    if (bytes == 0) return "0 KB";
+    int k = 1024,
+        dm = 2,
+        i = qFloor(qLn(bytes) / qLn(k));
 
-    return result;
+    QStringList sizes = QStringList()<< "Bytes"<< "KB"<< "MB"<< "GB"<< "TB"<< "PB"<< "EB"<< "ZB"<< "YB";
+
+    QString res_val = QString::number((bytes / qPow(k, i)), 'f', dm);
+    QString res_m = sizes[i];
+
+    if (res_val.isEmpty())
+        return "Unknown";
+
+    return QString(res_val + " " + res_m);
+
+
+//    QString result;
+//    int gb = (num / 1024) / 1024;
+//    int mb = (num-gb*1024*1024) /1024;
+//    int kb = (num - (gb*1024*1024+mb*1024));
+//    if (gb > 0)
+//       result = QString::number(gb) + QString(" Gb ");
+//    else
+//       result = QString("");
+//    if (mb > 0)
+//       result += QString::number(mb) + QString(" Mb ");
+//    if (kb > 0)
+//       result += QString::number(kb) + QString(" Kb ");
+
+//    return result;
 }
 
 void AbstractDiagnostic::start_write(bool isStart)
@@ -258,9 +281,36 @@ QJsonDocument AbstractDiagnostic::read_data()
             continue;
         }
 
-        QJsonDocument doc = QJsonDocument::fromJson(res.split("data:")[1].toStdString().data());
+        QJsonParseError err;
+        QJsonDocument doc = QJsonDocument::fromJson(res.split("data:")[1].toStdString().data(), &err);
+        if(err.error == QJsonParseError::NoError && !doc.isEmpty())
+        {
+            // calculate sizes
 
-        nodes_array.append(doc.object());
+            QJsonObject obj = doc.object();
+            QJsonObject system = doc["system"].toObject();
+            QJsonObject sys_mem = system["memory"].toObject();
+            QJsonObject proc = doc["process"].toObject();
+
+            if(sys_mem["total"].toString() != "blocked")
+                sys_mem.insert("total", get_memory_string(sys_mem["total"].toString().toUInt()));
+            if(sys_mem["free"].toString() != "blocked")
+                sys_mem.insert("free", get_memory_string(sys_mem["free"].toString().toUInt()));
+
+            proc.insert("memory_use_value", get_memory_string(proc["memory_use_value"].toString().toUInt()));
+            proc.insert("log_size", get_memory_string(proc["log_size"].toString().toUInt()));
+            proc.insert("DB_size", get_memory_string(proc["DB_size"].toString().toUInt()));
+            proc.insert("chain_size", get_memory_string(proc["chain_size"].toString().toUInt()));
+
+            system.insert("memory",sys_mem);
+            obj.insert("system",system);
+            obj.insert("process",proc);
+            doc.setObject(obj);
+
+            nodes_array.append(doc.object());
+        }
+        else
+            qWarning()<<err.errorString();
     }
 
     nodes_doc.setArray(nodes_array);
@@ -282,4 +332,30 @@ bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString 
     }
 
     return false;
+}
+
+QJsonObject AbstractDiagnostic::roles_processing()
+{
+    QJsonObject rolesObject;
+
+    QDir currentFolder("/opt/cellframe-node/etc/network");
+
+    currentFolder.setFilter( QDir::Dirs | QDir::Files | QDir::NoSymLinks );
+    currentFolder.setSorting( QDir::Name );
+
+    QFileInfoList folderitems( currentFolder.entryInfoList() );
+
+    foreach ( QFileInfo i, folderitems ) {
+        QString iname( i.fileName() );
+        if ( iname == "." || iname == ".." || iname.isEmpty() )
+            continue;
+        if(i.suffix() == "cfg" && !i.isDir())
+        {
+            QSettings config(i.absoluteFilePath(), QSettings::IniFormat);
+
+            rolesObject.insert(i.completeBaseName(), config.value("node-role", "unknown").toString());
+        }
+    }
+
+    return rolesObject;
 }

@@ -7,6 +7,7 @@
 #include "qjsonarray.h"
 #include "qjsonobject.h"
 #include "qjsondocument.h"
+#include <QtMath>
 
 #include "AbstractNodeModel.h"
 

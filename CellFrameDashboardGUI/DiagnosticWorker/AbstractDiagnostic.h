@@ -14,6 +14,8 @@
 #include <QProcess>
 #include <QString>
 #include <QRegularExpression>
+#include <QtMath>
+#include <QSettings>
 
 #include <QDir>
 #include <QNetworkInterface>
@@ -35,6 +37,8 @@ public:
     QJsonValue get_mac();
 
     QJsonDocument get_full_info(){return s_full_info;};
+
+    QJsonObject roles_processing();
 
 public:
     QTimer * s_timer_update;

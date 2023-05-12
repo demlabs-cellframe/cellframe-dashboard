@@ -19,9 +19,10 @@ void WinDiagnostic::info_update()
     sys_info = get_sys_info();
     sys_info.insert("mac", s_mac);
     QJsonObject obj = sys_info["memory"].toObject();
-    int mem = obj["total_value"].toInt();
+    int mem = obj["total"].toString().toUInt();;
 
     proc_info = get_process_info(mem);
+    proc_info.insert("roles", roles_processing());
 
     full_info.insert("system", sys_info);
     full_info.insert("process", proc_info);
@@ -59,15 +60,15 @@ QJsonObject WinDiagnostic::get_sys_info()
 
     QString memory, memory_used, memory_free;
 
-    memory = get_memory_string(memory_status.ullTotalPhys / 1024);
+    memory = QString::number(memory_status.ullTotalPhys / 1024);
     int total_value = memory_status.ullTotalPhys / 1024;
     int available_value = memory_status.ullAvailPhys / 1024;
-    memory_free = get_memory_string(memory_status.ullAvailPhys / 1024);
+    memory_free = QString::number(memory_status.ullAvailPhys / 1024);
 
     memory_used = QString::number((total_value - available_value) *100 / total_value);
 
     obj_memory.insert("total", memory);
-    obj_memory.insert("total_value", total_value);
+//    obj_memory.insert("total_value", total_value);
     obj_memory.insert("free", memory_free);
     obj_memory.insert("load", memory_used);
 
@@ -192,13 +193,13 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
     QString node_dir = QString("%1/cellframe-node/").arg(regGetUsrPath());
 
     QString log_size, db_size, chain_size;
-    log_size = get_memory_string(get_file_size("log", node_dir) / 1024);
-    db_size = get_memory_string(get_file_size("DB", node_dir) / 1024);
-    chain_size = get_memory_string(get_file_size("chain", node_dir) / 1024);
+    log_size = QString::number(get_file_size("log", node_dir) / 1024);
+    db_size = QString::number(get_file_size("DB", node_dir) / 1024);
+    chain_size = QString::number(get_file_size("chain", node_dir) / 1024);
 
-    if(log_size.isEmpty()) log_size = "0 Kb";
-    if(db_size.isEmpty()) db_size = "0 Kb";
-    if(chain_size.isEmpty()) chain_size = "0 Kb";
+    if(log_size.isEmpty()) log_size = "0";
+    if(db_size.isEmpty()) db_size = "0";
+    if(chain_size.isEmpty()) chain_size = "0";
 
     process_info.insert("log_size", log_size);
     process_info.insert("DB_size", db_size);
@@ -224,7 +225,7 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
         QString uptime = get_uptime_string(result_uptime);
 
         int precentUseRss = (memory_size * 100) / totalRam;
-        QString memory_use_value = get_memory_string(memory_size);
+        QString memory_use_value = QString::number(memory_size);
 
 
         process_info.insert("memory_use",precentUseRss);
@@ -237,7 +238,7 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
     }else{
 
         process_info.insert("memory_use",0);
-        process_info.insert("memory_use_value","0 Kb");
+        process_info.insert("memory_use_value","0");
         process_info.insert("uptime","00:00:00");
     }
 

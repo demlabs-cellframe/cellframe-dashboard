@@ -53,6 +53,7 @@ Page
                 Layout.fillHeight: true
                 clip: true
                 model: diagnosticNodeModel
+                cacheBuffer: 30000
 
                 ScrollBar.vertical: ScrollBar{}
 
