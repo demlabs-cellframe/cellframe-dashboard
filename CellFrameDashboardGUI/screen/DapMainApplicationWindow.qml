@@ -57,15 +57,23 @@ Rectangle {
         property alias menuTabStates: logicMainApp.menuTabStates
         property string currentWalletName: logicMainApp.currentWalletName
         property string currentNetworkName: logicMainApp.currentNetworkName
+        property int currentLanguageIndex: logicMainApp.currentLanguageIndex
+        property string currentLanguageName: logicMainApp.currentLanguageName
         //property string currentWalletIndex: logicMainApp.currentWalletIndex
 
         Component.onCompleted:
         {
+//            translator.setLanguage(
+//                        modelLanguages.get(currentLanguageIndex).tag)
+
             console.log("Settings", "currentWalletName", currentWalletName)
             console.log("Settings", "currentNetworkName", currentNetworkName)
+            console.log("Settings", "currentLanguageIndex", currentLanguageIndex)
+            console.log("Settings", "currentLanguageName", currentLanguageName)
 
             logicMainApp.currentWalletName = currentWalletName
             logicMainApp.currentNetworkName = currentNetworkName
+            logicMainApp.currentLanguageIndex = currentLanguageIndex
 //            logicMainApp.currentWalletIndex = currentWalletIndex
 
         }
@@ -279,6 +287,16 @@ Rectangle {
         }
     }
 
+    ListModel
+    {
+        id: modelLanguages
+        ListElement { tag: "en"
+            name: "English"}
+        ListElement { tag: "ru"
+            name: "Russian - русский"}
+    }
+
+
     //----------------------//
 
 
@@ -446,6 +464,7 @@ Rectangle {
 
     Component.onCompleted:
     {
+//        translator.setLanguage("ru")
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         logicMainApp.requestToService("DapVersionController", "version")
 
@@ -520,12 +539,12 @@ Rectangle {
 
         function onWalletsReceived(walletList)
         {
-            console.log("onWalletsReceived")
+//            console.log("onWalletsReceived", walletList)
             logicMainApp.rcvWallets(walletList)
         }
         function onWalletReceived(wallet)
         {
-            console.log("onWalletReceived")
+//            console.log("onWalletReceived", wallet)
             logicMainApp.rcvWallet(wallet)
         }
 

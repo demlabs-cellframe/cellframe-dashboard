@@ -19,7 +19,7 @@ Controls.DapTopPanel
         anchors.fill: parent
 
         Text{
-            text: "Wallet:"
+            text: qsTr("Wallet:")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
             Layout.leftMargin: 24

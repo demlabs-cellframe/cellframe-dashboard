@@ -31,6 +31,7 @@ HEADERS += $$PWD/DapServiceController.h \
     StockDataWorker/stockdataworker.h \
     StockDataWorker/tokenpairinfo.h \
     StockDataWorker/tokenpairsworker.h \
+    Translator/qmltranslator.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
@@ -66,6 +67,7 @@ SOURCES += $$PWD/main.cpp \
     StockDataWorker/orderbookworker.cpp \
     StockDataWorker/stockdataworker.cpp \
     StockDataWorker/tokenpairsworker.cpp \
+    Translator/qmltranslator.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
@@ -110,6 +112,9 @@ OTHER_FILES += libdap-qt-ui-qml \
 
 RESOURCES += $$PWD/qml.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
+
+TRANSLATIONS += \
+    Resources/Translations/Translation_ru.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 #QML_IMPORT_PATH =

@@ -24,6 +24,8 @@
 
 #include "ConfigWorker/configworker.h"
 
+#include "Translator/qmltranslator.h"
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #endif
@@ -74,6 +76,8 @@ private:
     StockDataWorker *stockDataWorker;
     HistoryWorker * m_historyWorker;
     ConfigWorker *configWorker;
+
+    QMLTranslator * translator;
 };
 
 #endif // DAPAPPLICATION_H

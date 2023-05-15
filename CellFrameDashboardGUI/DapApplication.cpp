@@ -20,13 +20,20 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
-    , configWorker(new ConfigWorker(this))
     , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
+    , configWorker(new ConfigWorker(this))
+    , translator(new QMLTranslator(&m_engine, this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     this->setApplicationName(DAP_BRAND);
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
+
+    QString lang = QSettings().value("currentLanguageName", "en").toString();
+    qDebug() << "DapApplication"
+             << "currentLanguageName" << lang;
+
+    translator->setLanguage(lang);
 
     qDebug()<<QString(DAP_SERVICE_NAME);
     createDapLogger();
@@ -229,6 +236,7 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
 
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
+    m_engine.rootContext()->setContextProperty("translator", translator);
     m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
     m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }
