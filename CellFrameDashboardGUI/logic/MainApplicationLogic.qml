@@ -468,6 +468,7 @@ QtObject {
 
     function getAllWalletHistory(index, update, isLastActions)
     {
+
         if (index < 0 || index >= dapModelWallets.count)
             return
 
@@ -482,9 +483,11 @@ QtObject {
             for (var i = 0; i < model.count; ++i)
             {
                 network_array += model.get(i).name + ":"
+                network_array += model.get(i).address + ":"
                 network_array += name + "/"
             }
-            logicMainApp.requestToService("DapGetAllWalletHistoryCommand", network_array, update ? "true": "false", isLastActions ? "true": "false");
+            requestToService("DapGetAllWalletHistoryCommand",
+                             network_array, update ? "true": "false", isLastActions ? "true": "false")
         }
     }
 

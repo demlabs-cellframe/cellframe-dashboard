@@ -84,8 +84,13 @@ DapRectangleLitAndShaded
                         Text
                         {
                             Layout.fillWidth: true
-                            text: tx_status === "ACCEPTED" ? status : "Declined"
-                            color: currTheme.gray
+                            text: tx_status === "ACCEPTED" || tx_status === "PROCESSING" ? status : "Declined"
+                            color: text === "Sent" ?      currTheme.orange :
+                                   text === "Pending" ?   currTheme.neon :
+                                   text === "Error" ||
+                                   text === "Declined" ?  currTheme.red :
+                                   text === "Received"  ? currTheme.lightGreen :
+                                                          currTheme.white
                             font: mainFont.dapFont.regular12
                         }
                     }
@@ -98,7 +103,7 @@ DapRectangleLitAndShaded
 
                         DapBigText
                         {
-                            property string sign: (status === "Sent") ? "- " : "+ "
+                            property string sign: direction === "to"? "- " : "+ "
 //                            Layout.fillHeight: true
                             Layout.fillWidth: true
                             height: 20
@@ -137,20 +142,20 @@ DapRectangleLitAndShaded
                         toolTip.width: text.implicitWidth + 16
                         toolTip.x: -toolTip.width/2 + 8
 
-                        enabled: tx_status === "DECLINED" ? false :
-                                    network === "subzero" || network === "Backbone" ||
-                                    network === "mileena" || network === "kelvpn-minkowski"  ?
-                                    true : false
+                        enabled: tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
+                                  network === "subzero" || network === "Backbone" ||
+                                  network === "mileena" || network === "kelvpn-minkowski"  ?
+                                  true : false
 
-                        indicatorSrcNormal: tx_status === "DECLINED" ? disabledIcon :
+                        indicatorSrcNormal: tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
                                                 network === "subzero" || network === "Backbone" ||
                                                 network === "mileena" || network === "kelvpn-minkowski"  ?
                                                 normalIcon : disabledIcon
 
-                        indicatorSrcHover: tx_status === "DECLINED" ? disabledIcon :
-                                                                      network === "subzero" || network === "Backbone" ||
-                                                                      network === "mileena" || network === "kelvpn-minkowski"  ?
-                                                                      hoverIcon : disabledIcon
+                        indicatorSrcHover: tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
+                                                network === "subzero" || network === "Backbone" ||
+                                                network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                hoverIcon : disabledIcon
 
                         onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)
 
