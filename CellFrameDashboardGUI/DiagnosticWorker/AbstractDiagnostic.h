@@ -14,6 +14,9 @@
 #include <QProcess>
 #include <QString>
 #include <QRegularExpression>
+#include <QtMath>
+#include <QSettings>
+#include <QTime>
 
 #include <QDir>
 #include <QNetworkInterface>
@@ -31,10 +34,12 @@ public:
     void set_timeout(int timeout);
     quint64 get_file_size(QString flag, QString path);
     QString get_uptime_string(long sec);
-    QString get_memory_string(long num);
+    QString get_memory_string(size_t num);
     QJsonValue get_mac();
 
     QJsonDocument get_full_info(){return s_full_info;};
+
+    QJsonObject roles_processing();
 
 public:
     QTimer * s_timer_update;
