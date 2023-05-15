@@ -115,9 +115,9 @@ quint64 AbstractDiagnostic::get_file_size (QString flag, QString path ) {
     return totalsize;
 }
 
-QString AbstractDiagnostic::get_memory_string(long num)
+QString AbstractDiagnostic::get_memory_string(size_t num)
 {
-    qreal bytes = num * 1024;
+    size_t bytes = num * 1024;
     if (bytes == 0) return "0 KB";
     int k = 1024,
         dm = 2,

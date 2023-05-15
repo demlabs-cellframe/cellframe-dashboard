@@ -61,8 +61,8 @@ QJsonObject WinDiagnostic::get_sys_info()
     QString memory, memory_used, memory_free;
 
     memory = QString::number(memory_status.ullTotalPhys / 1024);
-    int total_value = memory_status.ullTotalPhys / 1024;
-    int available_value = memory_status.ullAvailPhys / 1024;
+    size_t total_value = memory_status.ullTotalPhys / 1024;
+    size_t available_value = memory_status.ullAvailPhys / 1024;
     memory_free = QString::number(memory_status.ullAvailPhys / 1024);
 
     memory_used = QString::number((total_value - available_value) *100 / total_value);

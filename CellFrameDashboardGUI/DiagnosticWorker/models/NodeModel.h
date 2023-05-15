@@ -8,6 +8,7 @@
 #include "qjsonobject.h"
 #include "qjsondocument.h"
 #include <QtMath>
+#include <QDateTime>
 
 #include "AbstractNodeModel.h"
 
