@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <QGuiApplication>
 
-#define TRANSLATION_DEBUG
+//#define TRANSLATION_DEBUG
 
 QMLTranslator::QMLTranslator(QQmlEngine *engine, QObject *parent) :
     QObject(parent),
