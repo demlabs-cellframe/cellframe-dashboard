@@ -80,55 +80,55 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
 
                 DetailsText {
-                    title.text: "Name"
+                    title.text: qsTr("Name")
                     content: detailsModel.get(0).name
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Auth signs"
+                    title.text: qsTr("Auth signs")
                     content: detailsModel.get(0).auth_signs
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Type"
+                    title.text: qsTr("Type")
                     content: detailsModel.get(0).type
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Flags"
+                    title.text: qsTr("Flags")
                     content: detailsModel.get(0).flags
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Decimals"
+                    title.text: qsTr("Decimals")
                     content: detailsModel.get(0).decimals
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Current supply"
+                    title.text: qsTr("Current supply")
                     content: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Total supply"
+                    title.text: qsTr("Total supply")
                     content: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
                     title.color: currTheme.gray
                 }
                 DetailsText {
-                    title.text: "Total emissions"
+                    title.text: qsTr("Total emissions")
                     content: detailsModel.get(0).total_emissions
                     title.color: currTheme.gray
                 }
 
                 DetailsText {
                     visible: detailsModel.get(0).tsd.tsd_ticker_from !== ""
-                    title.text: "Ticker from"
+                    title.text: qsTr("Ticker from")
                     content: detailsModel.get(0).tsd.tsd_ticker_from
                     title.color: currTheme.gray
                 }
                 DetailsText {
                     visible: detailsModel.get(0).tsd.tsd_rate !== ""
-                    title.text: "Ticker rate"
+                    title.text: qsTr("Ticker rate")
                     content: detailsModel.get(0).tsd.tsd_rate
                     title.color: currTheme.gray
                 }
@@ -149,7 +149,7 @@ DapRectangleLitAndShaded {
                         verticalAlignment: Text.AlignVCenter
                         font: mainFont.dapFont.medium12
                         color: currTheme.white
-                        text: "Signatures"
+                        text: qsTr("Signatures")
                     }
                 }
 
@@ -162,18 +162,18 @@ DapRectangleLitAndShaded {
                         spacing: 16
 
                         DetailsText {
-                            title.text: "KEY"
+                            title.text: qsTr("KEY")
                             content: model.sign_key
                             title.color: currTheme.gray
                             copyButton.visible: true
                         }
                         DetailsText {
-                            title.text: "TYPE"
+                            title.text: qsTr("TYPE")
                             content: model.sign_type
                             title.color: currTheme.gray
                         }
                         DetailsText {
-                            title.text: "Size"
+                            title.text: qsTr("Size")
                             content: model.sign_size
                             title.color: currTheme.gray
                         }

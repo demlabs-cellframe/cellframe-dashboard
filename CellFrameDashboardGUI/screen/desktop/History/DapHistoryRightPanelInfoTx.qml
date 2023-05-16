@@ -77,19 +77,19 @@ DapRectangleLitAndShaded {
                 anchors.rightMargin: 16
 
                 TextDetailsTx {
-                    title.text: "Network"
+                    title.text: qsTr("Network")
                     content.text: detailsModel.get(0).network
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "TX hash"
+                    title.text: qsTr("TX hash")
                     content.text: detailsModel.get(0).tx_hash
                     title.color: currTheme.gray
                     copyButton.visible: true
-                    copyButton.popupText: "Hash copied"
+                    copyButton.popupText: qsTr("Hash copied")
                 }
                 TextDetailsTx {
-                    title.text: "TX status"
+                    title.text: qsTr("TX status")
                     content.text: detailsModel.get(0).tx_status
                     title.color: currTheme.gray
 
@@ -98,17 +98,17 @@ DapRectangleLitAndShaded {
                                            currTheme.green
                 }
                 TextDetailsTx {
-                    title.text: "Date"
+                    title.text: qsTr("Date")
                     content.text: detailsModel.get(0).date
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "Time"
+                    title.text: qsTr("Time")
                     content.text: detailsModel.get(0).time
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "Status"
+                    title.text: qsTr("Status")
                     content.text: detailsModel.get(0).status
                     title.color: currTheme.gray
                     content.color: detailsModel.get(0).status === "Sent"  ?  currTheme.orange :
@@ -117,38 +117,38 @@ DapRectangleLitAndShaded {
                                                                                 currTheme.white
                 }
                 TextDetailsTx {
-                    title.text: "From"
+                    title.text: qsTr("From")
                     content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).wallet_name : detailsModel.get(0).address
                     title.color: currTheme.gray
                     copyButton.visible: detailsModel.get(0).status === "Sent" ? false : detailsModel.get(0).address.length === 104 ? true : false
                 }
                 TextDetailsTx {
-                    title.text: "To"
+                    title.text: qsTr("To")
                     content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
                     title.color: currTheme.gray
                     copyButton.visible: detailsModel.get(0).status === "Sent" ? true : false
                 }
                 TextDetailsTx {
-                    title.text: "Token"
+                    title.text: qsTr("Token")
                     content.text: detailsModel.get(0).token
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "Value"
+                    title.text: qsTr("Value")
                     content.text: detailsModel.get(0).value + " " + detailsModel.get(0).token
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "Fee"
+                    title.text: qsTr("Fee")
                     content.text: detailsModel.get(0).fee + " " + detailsModel.get(0).fee_token
                     title.color: currTheme.gray
                 }
                 TextDetailsTx {
-                    title.text: "Atom"
+                    title.text: qsTr("Atom")
                     content.text: detailsModel.get(0).atom
                     title.color: currTheme.gray
                     copyButton.visible: true
-                    copyButton.popupText: "Atom copied"
+                    copyButton.popupText: qsTr("Atom copied")
                 }
                 Item{
                     height: 10

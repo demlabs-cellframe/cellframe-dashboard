@@ -143,7 +143,7 @@ Controls.DapTopPanel
         Widgets.DapButton
         {
             id: checkUpdate
-            textButton: "Check update"
+            textButton: qsTr("Check update")
             Layout.alignment: Qt.AlignRight
 
             implicitHeight: 36

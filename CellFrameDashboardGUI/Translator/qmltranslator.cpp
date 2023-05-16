@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QGuiApplication>
 
+//#define TRANSLATION_DEBUG
+
 QMLTranslator::QMLTranslator(QQmlEngine *engine, QObject *parent) :
     QObject(parent),
     _engine(engine)
@@ -16,7 +18,13 @@ void QMLTranslator::setLanguage(QString language)
 
     qDebug() << "QMLTranslator::setLanguage" << language << fileName;
 
-    if (!_translator.load(fileName, ":/Resources/Translations/") )
+#ifndef TRANSLATION_DEBUG
+    QString filePath(":/Resources/Translations/");
+#else
+    QString filePath("./");
+#endif
+
+    if (!_translator.load(fileName, filePath) )
     {
         qDebug() << "Failed to load" << fileName << ", switch to English";
     }

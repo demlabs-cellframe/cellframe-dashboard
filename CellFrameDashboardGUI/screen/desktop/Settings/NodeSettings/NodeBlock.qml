@@ -147,13 +147,13 @@ DapRectangleLitAndShaded
 
                 HeaderItem
                 {
-                    headerName: "Node config"
+                    headerName: qsTr("Node config")
                 }
 
                 SettingsCheckBoxItem
                 {
-                    mainTextMessage: "Auto online"
-                    secondTextMessage: "Bring up links automatically and go to the online network state"
+                    mainTextMessage: qsTr("Auto online")
+                    secondTextMessage: qsTr("Bring up links automatically and go to the online network state")
                     checked: true
                     node: true
                     groupName: "general"
@@ -163,7 +163,7 @@ DapRectangleLitAndShaded
 
                 SettingsCheckBoxItem
                 {
-                    mainTextMessage: "Debug mode or logs"
+                    mainTextMessage: qsTr("Debug mode or logs")
                     checked: true
                     node: true
                     groupName: "general"
@@ -173,7 +173,7 @@ DapRectangleLitAndShaded
 
                 SettingsCheckBoxItem
                 {
-                    mainTextMessage: "Accept connections"
+                    mainTextMessage: qsTr("Accept connections")
                     checked: true
                     node: true
                     groupName: "server"
@@ -183,7 +183,7 @@ DapRectangleLitAndShaded
 
                 SettingsArrowItem
                 {
-                    mainTextMessage: "Server address to listen on"
+                    mainTextMessage: qsTr("Server address to listen on")
 
                     node: true
                     groupName: "server"
@@ -192,7 +192,7 @@ DapRectangleLitAndShaded
 
                     onClicked:
                     {
-                        textEditPopup.parameterName = "Server address"
+                        textEditPopup.parameterName = qsTr("Server address")
                         textEditPopup.parameterValue = secondTextMessage
                         textEditPopup.node = node
                         textEditPopup.groupName = groupName
@@ -204,7 +204,7 @@ DapRectangleLitAndShaded
 
                 SettingsArrowItem
                 {
-                    mainTextMessage: "Server port to listen on"
+                    mainTextMessage: qsTr("Server port to listen on")
 
                     node: true
                     groupName: "server"
@@ -213,7 +213,7 @@ DapRectangleLitAndShaded
 
                     onClicked:
                     {
-                        textEditPopup.parameterName = "Server port"
+                        textEditPopup.parameterName = qsTr("Server port")
                         textEditPopup.parameterValue = secondTextMessage
                         textEditPopup.node = node
                         textEditPopup.groupName = groupName
@@ -225,7 +225,7 @@ DapRectangleLitAndShaded
 
                 SettingsArrowItem
                 {
-                    mainTextMessage: "Notify server address to listen on"
+                    mainTextMessage: qsTr("Notify server address to listen on")
 
                     node: true
                     groupName: "notify_server"
@@ -234,7 +234,7 @@ DapRectangleLitAndShaded
 
                     onClicked:
                     {
-                        textEditPopup.parameterName = "Notify server address"
+                        textEditPopup.parameterName = qsTr("Notify server address")
                         textEditPopup.parameterValue = secondTextMessage
                         textEditPopup.node = node
                         textEditPopup.groupName = groupName
@@ -246,7 +246,7 @@ DapRectangleLitAndShaded
 
                 SettingsArrowItem
                 {
-                    mainTextMessage: "Notify server port to listen on"
+                    mainTextMessage: qsTr("Notify server port to listen on")
 
                     node: true
                     groupName: "notify_server"
@@ -255,7 +255,7 @@ DapRectangleLitAndShaded
 
                     onClicked:
                     {
-                        textEditPopup.parameterName = "Notify server port"
+                        textEditPopup.parameterName = qsTr("Notify server port")
                         textEditPopup.parameterValue = secondTextMessage
                         textEditPopup.node = node
                         textEditPopup.groupName = groupName
@@ -267,8 +267,8 @@ DapRectangleLitAndShaded
 
                 SettingsCheckBoxItem
                 {
-                    mainTextMessage: "Python plugins"
-                    secondTextMessage: "Enable Python plugins"
+                    mainTextMessage: qsTr("Python plugins")
+                    secondTextMessage: qsTr("Enable Python plugins")
                     checked: true
                     node: true
                     groupName: "plugins"
@@ -373,14 +373,14 @@ DapRectangleLitAndShaded
             HeaderItem
             {
                 Layout.topMargin: 0
-                headerName: name + " network"
+                headerName: name + qsTr(" network")
             }
 
             SettingsCheckBoxItem
             {
                 id: networkStatusItem
-                mainTextMessage: name + ": Enable network"
-                secondTextMessage: "Enable network auto load on start"
+                mainTextMessage: name + qsTr(": Enable network")
+                secondTextMessage: qsTr("Enable network auto load on start")
                 checked: true
                 node: false
                 networkStatus: true
@@ -391,7 +391,7 @@ DapRectangleLitAndShaded
             SettingsArrowItem
             {
                 id: networkNodeRoleItem
-                mainTextMessage: name + " node role"
+                mainTextMessage: name + qsTr(" node role")
 //                secondTextMessage: "Archive"
 
                 node: false

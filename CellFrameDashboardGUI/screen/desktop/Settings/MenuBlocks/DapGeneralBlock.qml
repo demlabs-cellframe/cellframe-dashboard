@@ -137,7 +137,7 @@ ColumnLayout
             {
                 id: popup
                 dapButtonCancel.visible: true
-                dapButtonOk.textButton: "Accept"
+                dapButtonOk.textButton: qsTr("Accept")
                 onSignalAccept:
                 {
                     if (accept)
@@ -301,7 +301,7 @@ ColumnLayout
                         toolTip.width: text.implicitWidth + 16
                         toolTip.x: -toolTip.width/2 + 8
 
-                        contentText: model.status === "Active" ? "Deactivate wallet" : "Activate wallet"
+                        contentText: model.status === "Active" ? qsTr("Deactivate wallet") : qsTr("Activate wallet")
 
                         indicatorSrcNormal: model.status === "Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg":
                                                                         "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"

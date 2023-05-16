@@ -267,6 +267,11 @@
         <source>Both</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/Certificates/CertificatesModels.qml" line="98"/>
+        <source>Recommended</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChartPanel</name>
@@ -283,6 +288,66 @@
     <message>
         <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="164"/>
         <source>24h Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="181"/>
+        <source>1m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="184"/>
+        <source>2m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="187"/>
+        <source>5m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="190"/>
+        <source>15m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="193"/>
+        <source>30m</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="196"/>
+        <source>1h</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="199"/>
+        <source>4h</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="202"/>
+        <source>12h</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="205"/>
+        <source>24h</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="208"/>
+        <source>7D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="211"/>
+        <source>14D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/Chart/ChartPanel.qml" line="214"/>
+        <source>1M</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -332,8 +397,39 @@
 <context>
     <name>ComboBoxPopupItem</name>
     <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="30"/>
+        <source>Full</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="33"/>
+        <source>Light</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="36"/>
+        <source>Master</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="39"/>
+        <source>Archive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="42"/>
+        <source>Root</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="67"/>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="72"/>
         <source> node role</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml" line="72"/>
+        <source>Select </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -373,6 +469,13 @@ Root — special predefined root nodes, usually produces zerochain and acts like
 </context>
 <context>
     <name>CreateCertificateItem</name>
+    <message>
+        <location filename="../../screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml" line="47"/>
+        <location filename="../../screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml" line="71"/>
+        <location filename="../../screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml" line="82"/>
+        <source>Certificate not created.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml" line="48"/>
         <location filename="../../screen/desktop/Certificates/RightPanels/CreateCertificateItem.qml" line="72"/>
@@ -554,6 +657,31 @@ Root — special predefined root nodes, usually produces zerochain and acts like
 <context>
     <name>CurrentUsagePanel</name>
     <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml" line="16"/>
+        <source>Escrow payment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml" line="20"/>
+        <source>Escrow spent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml" line="24"/>
+        <source>Escrow left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml" line="28"/>
+        <source>Summary spent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml" line="32"/>
+        <source>Summary left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/VPNClient/Parts/CurrentUsagePanel.qml" line="68"/>
         <source>Current usage</source>
         <translation type="unfinished"></translation>
@@ -571,6 +699,16 @@ Root — special predefined root nodes, usually produces zerochain and acts like
 </context>
 <context>
     <name>DapActivateWalletPopup</name>
+    <message>
+        <location filename="../../screen/desktop/controls/DapActivateWalletPopup.qml" line="93"/>
+        <source>Activate </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/controls/DapActivateWalletPopup.qml" line="93"/>
+        <source> wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../screen/desktop/controls/DapActivateWalletPopup.qml" line="109"/>
         <source>Secure session time expired. Please enter your password to continue</source>
@@ -628,6 +766,44 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     </message>
 </context>
 <context>
+    <name>DapAppMainScreen</name>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="39"/>
+        <source>Get Wallets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="40"/>
+        <source>Create Wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="58"/>
+        <source>Get Certificates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="59"/>
+        <source>Create Certificate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="77"/>
+        <source>Open Orders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="92"/>
+        <source>Open Last Actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml" line="106"/>
+        <source>Open Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DapAppearanceBlock</name>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="27"/>
@@ -640,32 +816,32 @@ Root — special predefined root nodes, usually produces zerochain and acts like
         <translation type="unfinished">Язык интерфейса (language)</translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="110"/>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="121"/>
         <source>Window scale</source>
         <translation type="unfinished">Масштаб окна</translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="136"/>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="147"/>
         <source>Scale value</source>
         <translation type="unfinished">Значение масштаба</translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="198"/>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="209"/>
         <source>Reset scale</source>
         <translation type="unfinished">Сбросить</translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="220"/>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="231"/>
         <source>Apply scale</source>
         <translation type="unfinished">Применить</translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="249"/>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="260"/>
         <source>Reset window size</source>
         <translation type="unfinished">Сбросить размер окна</translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="275"/>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="286"/>
         <source>Edit menu</source>
         <translation type="unfinished">Редактировать меню</translation>
     </message>
@@ -698,6 +874,11 @@ Root — special predefined root nodes, usually produces zerochain and acts like
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml" line="122"/>
+        <source>Add dApp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml" line="130"/>
         <source>Please choose a *.zip file</source>
         <translation type="unfinished"></translation>
@@ -705,6 +886,21 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml" line="133"/>
         <source>Zip files (*.zip)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml" line="157"/>
+        <source>Activate dApp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml" line="179"/>
+        <source>Deactivate dApp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDefaultRightPanel.qml" line="205"/>
+        <source>Delete dApp</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -738,6 +934,16 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml" line="291"/>
         <source>TIME REMAIN</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml" line="320"/>
+        <source>Reload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/dApps/RightPanel/DapAppsDownloadRightPanel.qml" line="335"/>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -837,12 +1043,22 @@ Root — special predefined root nodes, usually produces zerochain and acts like
         <source>Input name of certificate</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Certificates/DapCreateCertificate.qml" line="94"/>
+        <source>Create</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DapCreateWallet</name>
     <message>
         <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml" line="58"/>
         <source>Input name of wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapCreateWallet.qml" line="96"/>
+        <source>Create</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -858,6 +1074,11 @@ Root — special predefined root nodes, usually produces zerochain and acts like
 </context>
 <context>
     <name>DapCreateWalletForm</name>
+    <message>
+        <location filename="../../screen/desktop/Settings/RightPanel/DapCreateWalletForm.qml" line="32"/>
+        <source>Recommended</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../screen/desktop/Settings/RightPanel/DapCreateWalletForm.qml" line="77"/>
         <source>Create new wallet</source>
@@ -997,9 +1218,24 @@ Root — special predefined root nodes, usually produces zerochain and acts like
         <source>Wallets</source>
         <translation type="unfinished">Кошельки</translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/Dashboard/DapDashboardTopPanel.qml" line="83"/>
+        <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DapDeactivateWalletPopup</name>
+    <message>
+        <location filename="../../screen/desktop/controls/DapDeactivateWalletPopup.qml" line="78"/>
+        <source>Deactivate </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/controls/DapDeactivateWalletPopup.qml" line="78"/>
+        <source> wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../screen/desktop/controls/DapDeactivateWalletPopup.qml" line="87"/>
         <source>Enter password to deactivate wallet</source>
@@ -1217,6 +1453,16 @@ wallets in Settings</source>
         <translation type="unfinished">Адрес скопирован</translation>
     </message>
     <message>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="304"/>
+        <source>Deactivate wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="304"/>
+        <source>Activate wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="335"/>
         <source></source>
         <translation></translation>
@@ -1259,12 +1505,107 @@ wallets in Settings</source>
         <source>Period</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="136"/>
+        <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="137"/>
+        <source>Yesterday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="138"/>
+        <source>Last week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="140"/>
+        <source>Custom range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="182"/>
+        <source>All time</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DapHistoryRightPanelInfoTx</name>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="50"/>
         <source>Transaction details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="80"/>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="85"/>
+        <source>TX hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="89"/>
+        <source>Hash copied</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="92"/>
+        <source>TX status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="101"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="106"/>
+        <source>Time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="111"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="120"/>
+        <source>From</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="126"/>
+        <source>To</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="132"/>
+        <source>Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="137"/>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="142"/>
+        <source>Fee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="147"/>
+        <source>Atom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryRightPanelInfoTx.qml" line="151"/>
+        <source>Atom copied</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1278,6 +1619,14 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="185"/>
         <source>Explorer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DapHistoryTab</name>
+    <message>
+        <location filename="../../screen/desktop/History/DapHistoryTab.qml" line="13"/>
+        <source>All time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1304,6 +1653,26 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Networks/parts/DapInfoContent.qml" line="154"/>
         <source>Off network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Networks/parts/DapInfoContent.qml" line="168"/>
+        <source>State: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Networks/parts/DapInfoContent.qml" line="195"/>
+        <source>Target state: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Networks/parts/DapInfoContent.qml" line="206"/>
+        <source>Active links: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Networks/parts/DapInfoContent.qml" line="216"/>
+        <source>Address: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1365,65 +1734,78 @@ wallets in Settings</source>
     </message>
 </context>
 <context>
+    <name>DapLogsTopPanel</name>
+    <message>
+        <location filename="../../screen/desktop/Logs/DapLogsTopPanel.qml" line="17"/>
+        <source>Export log</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Logs/DapLogsTopPanel.qml" line="55"/>
+        <source>Save the file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DapMainApplicationWindow</name>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="170"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="178"/>
         <source>Dark theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="181"/>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="230"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="189"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="238"/>
         <source>Tokens</source>
         <translation type="unfinished">Токены</translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="184"/>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="225"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="192"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="233"/>
         <source>Certificates</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="190"/>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="245"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="198"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="253"/>
         <source>Console</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="193"/>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="250"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="201"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="258"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="196"/>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="260"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="204"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="268"/>
         <source>dApps</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="199"/>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="265"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="207"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="273"/>
         <source>Diagnostics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="210"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="218"/>
         <source>Wallet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="215"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="223"/>
         <source>DEX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="220"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="228"/>
         <source>TX explorer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/DapMainApplicationWindow.qml" line="255"/>
+        <location filename="../../screen/DapMainApplicationWindow.qml" line="263"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1672,6 +2054,11 @@ wallets in Settings</source>
 <context>
     <name>DapOrdersGrid</name>
     <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersGrid.qml" line="111"/>
+        <source>VPN Order </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Orders/DapOrdersGrid.qml" line="134"/>
         <source>Location </source>
         <translation type="unfinished"></translation>
@@ -1706,6 +2093,16 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml" line="20"/>
         <source>Undefined</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml" line="241"/>
+        <source>Pair</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/DapPairComboBox/DapPairComboBox.qml" line="250"/>
+        <source>Price</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1859,12 +2256,22 @@ wallets in Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="151"/>
+        <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="119"/>
+        <source>The site </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="120"/>
+        <source> requests permission to work with your wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="152"/>
         <source>Allow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="166"/>
+        <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="167"/>
         <source>Deny</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2041,6 +2448,11 @@ wallets in Settings</source>
         <source>Node connection status:</source>
         <translation type="unfinished">Статус соединения с нодой:</translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/DapSettingsTopPanel.qml" line="146"/>
+        <source>Check update</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DapShowCertificates</name>
@@ -2097,6 +2509,11 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Stock/DapStockTopPanel.qml" line="53"/>
         <source>Wallet: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/DapStockTopPanel.qml" line="93"/>
+        <source>Token: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2158,6 +2575,11 @@ wallets in Settings</source>
 <context>
     <name>DapVPNOrdersGridView</name>
     <message>
+        <location filename="../../screen/desktop/VPNService/Parts/DapVPNOrdersGridView.qml" line="94"/>
+        <source>VPN Order </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/VPNService/Parts/DapVPNOrdersGridView.qml" line="128"/>
         <source>Location </source>
         <translation type="unfinished"></translation>
@@ -2197,6 +2619,14 @@ wallets in Settings</source>
     </message>
 </context>
 <context>
+    <name>DapVPNServiceTopPanel</name>
+    <message>
+        <location filename="../../screen/desktop/VPNService/DapVPNServiceTopPanel.qml" line="14"/>
+        <source>New VPN order</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DapVpnClientScreen</name>
     <message>
         <location filename="../../screen/desktop/VPNClient/DapVpnClientScreen.qml" line="36"/>
@@ -2219,6 +2649,19 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/VPNClient/DapVpnClientTopPanel.qml" line="25"/>
         <source>Time connected:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/DapVpnClientTopPanel.qml" line="33"/>
+        <source>1d 16h 34m 18s</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DapWalletsComponent</name>
+    <message>
+        <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapWalletsComponent.qml" line="111"/>
+        <source>Click to Copy Address</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2347,12 +2790,122 @@ wallets in Settings</source>
         <source>Order details</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="75"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="80"/>
+        <source>Closed date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="85"/>
+        <source>Pair</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="90"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="95"/>
+        <source>Side</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="100"/>
+        <source>Average price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="105"/>
+        <source>Price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="110"/>
+        <source>Filled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="115"/>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="120"/>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="125"/>
+        <source>Trigger condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsHistory.qml" line="130"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DetailsOpen</name>
     <message>
         <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="46"/>
         <source>Order details</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="72"/>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="77"/>
+        <source>Pair</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="82"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="87"/>
+        <source>Side</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="92"/>
+        <source>Price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="97"/>
+        <source>Filled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="102"/>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="107"/>
+        <source>Total</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="112"/>
+        <source>Trigger condition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/MyOrders/RightPanels/DetailsOpen.qml" line="117"/>
+        <source>Expires in</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2372,6 +2925,76 @@ wallets in Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="83"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="88"/>
+        <source>Auth signs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="93"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="98"/>
+        <source>Flags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="103"/>
+        <source>Decimals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="108"/>
+        <source>Current supply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="113"/>
+        <source>Total supply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="118"/>
+        <source>Total emissions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="125"/>
+        <source>Ticker from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="131"/>
+        <source>Ticker rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="152"/>
+        <source>Signatures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="165"/>
+        <source>KEY</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="171"/>
+        <source>TYPE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="176"/>
+        <source>Size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/Tokens/RightPanel/InfoAboutToken.qml" line="203"/>
         <source>Emission</source>
         <translation type="unfinished"></translation>
@@ -2386,27 +3009,52 @@ wallets in Settings</source>
     </message>
 </context>
 <context>
+    <name>LogicStock</name>
+    <message>
+        <location filename="../../screen/desktop/Stock/LogicStock.qml" line="38"/>
+        <source>Cancelled</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LogicTxExplorer</name>
     <message>
+        <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="252"/>
+        <source>All time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="255"/>
         <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="305"/>
         <source>Today</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="258"/>
         <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="309"/>
         <source>Yesterday</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="261"/>
+        <source>Last week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/History/logic/LogicTxExplorer.qml" line="265"/>
+        <source>This month</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainApplicationLogic</name>
     <message>
-        <location filename="../../logic/MainApplicationLogic.qml" line="453"/>
+        <location filename="../../logic/MainApplicationLogic.qml" line="456"/>
         <source>Lost connection to the Node. Reconnecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../logic/MainApplicationLogic.qml" line="571"/>
+        <location filename="../../logic/MainApplicationLogic.qml" line="574"/>
         <source>You have the latest version installed.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2462,6 +3110,81 @@ wallets in Settings</source>
         <translation type="unfinished">Настройки ноды</translation>
     </message>
     <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="150"/>
+        <source>Node config</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="155"/>
+        <source>Auto online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="156"/>
+        <source>Bring up links automatically and go to the online network state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="166"/>
+        <source>Debug mode or logs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="176"/>
+        <source>Accept connections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="186"/>
+        <source>Server address to listen on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="195"/>
+        <source>Server address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="207"/>
+        <source>Server port to listen on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="216"/>
+        <source>Server port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="228"/>
+        <source>Notify server address to listen on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="237"/>
+        <source>Notify server address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="249"/>
+        <source>Notify server port to listen on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="258"/>
+        <source>Notify server port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="270"/>
+        <source>Python plugins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="271"/>
+        <source>Enable Python plugins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="342"/>
         <source>Save node settings</source>
         <translation type="unfinished"></translation>
@@ -2471,12 +3194,47 @@ wallets in Settings</source>
         <source>Edit node settings</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="376"/>
+        <source> network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="382"/>
+        <source>: Enable network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="383"/>
+        <source>Enable network auto load on start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="394"/>
+        <source> node role</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>OrderBook</name>
     <message>
         <location filename="../../screen/desktop/Stock/parts/OrderBook/OrderBook.qml" line="146"/>
         <source>Orders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/OrderBook/OrderBook.qml" line="239"/>
+        <source>Price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/OrderBook/OrderBook.qml" line="247"/>
+        <source>Amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Stock/parts/OrderBook/OrderBook.qml" line="255"/>
+        <source>Total</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2879,6 +3637,46 @@ error!</source>
 <context>
     <name>ReceiptsDetails</name>
     <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="18"/>
+        <source>Service type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="24"/>
+        <source>Units</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="30"/>
+        <source>Value Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="36"/>
+        <source>Service public key hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="42"/>
+        <source>Client public key hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="48"/>
+        <source>Max value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="54"/>
+        <source>Region, Country</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="60"/>
+        <source>Min speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/VPNClient/RightPanel/ReceiptsDetails.qml" line="158"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
@@ -2917,6 +3715,11 @@ error!</source>
         <source>100%</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/Refund.qml" line="261"/>
+        <source>Available </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ResetUpdateButtons</name>
@@ -2949,6 +3752,39 @@ error!</source>
     <message>
         <location filename="../../screen/desktop/Settings/NodeSettings/SettingsCheckBoxItem.qml" line="132"/>
         <source>Disabled</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>StatisticsPanel</name>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/StatisticsPanel.qml" line="13"/>
+        <source>Download speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/StatisticsPanel.qml" line="17"/>
+        <source>Upload speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/StatisticsPanel.qml" line="21"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/StatisticsPanel.qml" line="25"/>
+        <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/StatisticsPanel.qml" line="29"/>
+        <source>Packets received</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/Parts/StatisticsPanel.qml" line="33"/>
+        <source>Packets sent</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2991,6 +3827,11 @@ error!</source>
     <message>
         <location filename="../../screen/desktop/Settings/NodeSettings/TextEditPopupItem.qml" line="36"/>
         <source> to listen on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/Settings/NodeSettings/TextEditPopupItem.qml" line="41"/>
+        <source>Input </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3077,6 +3918,14 @@ error!</source>
     </message>
 </context>
 <context>
+    <name>TokensTab</name>
+    <message>
+        <location filename="../../screen/desktop/Tokens/TokensTab.qml" line="69"/>
+        <source>New Token</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TopUp</name>
     <message>
         <location filename="../../screen/desktop/VPNClient/RightPanel/TopUp.qml" line="59"/>
@@ -3089,6 +3938,11 @@ error!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/TopUp.qml" line="156"/>
+        <source>5m 12d 13h at the current price</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../screen/desktop/VPNClient/RightPanel/TopUp.qml" line="173"/>
         <source>Auto balance replenishment</source>
         <translation type="unfinished"></translation>
@@ -3096,6 +3950,11 @@ error!</source>
     <message>
         <location filename="../../screen/desktop/VPNClient/RightPanel/TopUp.qml" line="193"/>
         <source>Auto top up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/TopUp.qml" line="217"/>
+        <source>Limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3124,6 +3983,16 @@ error!</source>
 </context>
 <context>
     <name>VPNOrders</name>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/VPNOrders.qml" line="55"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../screen/desktop/VPNClient/RightPanel/VPNOrders.qml" line="70"/>
+        <source>Connection error</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../../screen/desktop/VPNClient/RightPanel/VPNOrders.qml" line="74"/>
         <source>Retry</source>

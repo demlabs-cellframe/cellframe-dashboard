@@ -249,20 +249,20 @@ QtObject {
 
     function checkDate(date, period, today, yesterday, week)
     {
-        if (period === "All time")
+        if (period === qsTr("All time"))
             return true
 
-        if (period === "Today" && isSameDay(today, date))
+        if (period === qsTr("Today") && isSameDay(today, date))
             return true
 
-        if (period === "Yesterday" && isSameDay(yesterday, date))
+        if (period === qsTr("Yesterday") && isSameDay(yesterday, date))
             return true
 
-        if (period === "Last week" && ((date > week && date < today) ||
+        if (period === qsTr("Last week") && ((date > week && date < today) ||
                  isSameDay(week, date) || isSameDay(today, date)))
             return true
 
-        if (period === "This month" && date.getMonth() === today.getMonth())
+        if (period === qsTr("This month") && date.getMonth() === today.getMonth())
             return true
 
         return false

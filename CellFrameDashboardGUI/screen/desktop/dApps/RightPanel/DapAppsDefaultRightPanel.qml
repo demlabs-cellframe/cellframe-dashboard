@@ -119,7 +119,7 @@ Item
                 implicitWidth: 350 
 
                 id:loadPlug
-                textButton: "Add dApp"
+                textButton: qsTr("Add dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -154,7 +154,7 @@ Item
                 implicitWidth: 350 
 
                 id:installPlug
-                textButton: "Activate dApp"
+                textButton: qsTr("Activate dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -176,7 +176,7 @@ Item
                 implicitWidth: 350 
 
                 id:uninstallPlug
-                textButton: "Deactivate dApp"
+                textButton: qsTr("Deactivate dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter
@@ -202,7 +202,7 @@ Item
                 implicitWidth: 350 
 
                 id:deletePlug
-                textButton: "Delete dApp"
+                textButton: qsTr("Delete dApp")
 
                 fontButton: mainFont.dapFont.regular16
                 horizontalAligmentText: Text.AlignHCenter

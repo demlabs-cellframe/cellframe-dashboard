@@ -95,7 +95,7 @@ Item {
         {
             name: "Crystal-Dylithium"
             signature: "sig_dil"
-            secondname: "Recommended"
+            secondname: qsTr("Recommended")
         }
         ListElement
         {

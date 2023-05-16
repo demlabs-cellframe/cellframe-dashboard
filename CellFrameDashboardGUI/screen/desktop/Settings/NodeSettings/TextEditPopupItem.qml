@@ -38,7 +38,7 @@ DapRectangleLitAndShaded
 
         HeaderItem
         {
-            headerName: "Input " + parameterName.toLowerCase()
+            headerName: qsTr("Input ") + parameterName.toLowerCase()
         }
 
         DapTextField

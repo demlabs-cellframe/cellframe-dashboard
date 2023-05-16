@@ -29,7 +29,7 @@ DapRectangleLitAndShaded
         {
             name: "Dilithium"
             sign: "sig_dil"
-            secondname: "Recommended"
+            secondname: qsTr("Recommended")
         }
         ListElement
         {
@@ -40,7 +40,7 @@ DapRectangleLitAndShaded
         ListElement
         {
             name: "Picnic"
-            sign: " sig_picnic"
+            sign: "sig_picnic"
             secondname: ""
         }
     }

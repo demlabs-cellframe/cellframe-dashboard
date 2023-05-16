@@ -80,7 +80,7 @@ Controls.DapTopPanel
             id: newPaymentButton
             Layout.rightMargin: 24
 
-            textButton: "Send"
+            textButton: qsTr("Send")
 
             implicitHeight: 36
             implicitWidth: 164
