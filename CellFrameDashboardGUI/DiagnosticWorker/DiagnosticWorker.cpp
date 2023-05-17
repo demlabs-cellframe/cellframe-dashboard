@@ -89,8 +89,6 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
         system.insert("uptime_dashboard", "blocked");
     if(!sendFlagsData::flagSendSysTime)
         system.insert("uptime", "blocked");
-//    if(!sendFlagsData::flagSendMemory)
-//        sys_mem.insert("total_value", 0);
     if(!sendFlagsData::flagSendMemory)
         sys_mem.insert("total", "blocked");
     if(!sendFlagsData::flagSendMemoryFree)

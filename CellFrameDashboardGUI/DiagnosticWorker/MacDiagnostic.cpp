@@ -78,7 +78,6 @@ QJsonObject MacDiagnostic::get_sys_info()
     QString memory_used = QString::number((physical_memory - free_memory) *100 / physical_memory);
 
     obj_memory.insert("total", memtotal);
-//    obj_memory.insert("total_value", physical_memory/1024);
     obj_memory.insert("free", memfree);
     obj_memory.insert("load", memory_used);
 

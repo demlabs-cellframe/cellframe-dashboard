@@ -68,7 +68,6 @@ QJsonObject WinDiagnostic::get_sys_info()
     memory_used = QString::number((total_value - available_value) *100 / total_value);
 
     obj_memory.insert("total", memory);
-//    obj_memory.insert("total_value", total_value);
     obj_memory.insert("free", memory_free);
     obj_memory.insert("load", memory_used);
 
@@ -226,7 +225,6 @@ QJsonObject WinDiagnostic::get_process_info(int totalRam)
 
         int precentUseRss = (memory_size * 100) / totalRam;
         QString memory_use_value = QString::number(memory_size);
-
 
         process_info.insert("memory_use",precentUseRss);
         process_info.insert("memory_use_value",memory_use_value);
