@@ -9,8 +9,8 @@ import "../../../../controls"
 DapRectangleLitAndShaded {
     id: root
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -51,7 +51,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -74,62 +74,62 @@ DapRectangleLitAndShaded {
                 DetailsText {
                     title.text: "Date"
                     content.text: bufferDetails.get(0).date
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Closed date"
                     content.text: bufferDetails.get(0).closedDate
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Pair"
                     content.text: bufferDetails.get(0).pair
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Type"
                     content.text: bufferDetails.get(0).type
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Side"
                     content.text: bufferDetails.get(0).side
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Average price"
                     content.text: bufferDetails.get(0).averagePrice
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Price"
                     content.text: bufferDetails.get(0).price
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Filled"
                     content.text: bufferDetails.get(0).filled
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Amount"
                     content.text: bufferDetails.get(0).amount
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Total"
                     content.text: bufferDetails.get(0).total
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Trigger condition"
                     content.text: bufferDetails.get(0).triggerCondition
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Status"
                     content.text: bufferDetails.get(0).status
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 Item{
                     height: 10

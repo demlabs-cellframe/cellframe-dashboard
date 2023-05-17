@@ -36,6 +36,8 @@ unix {
     
 
         DEFINES += DAP_OS_LINUX _GNU_SOURCE \
+            NODE_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node\\\" \
+            NODE_DIR_PATH=\\\"/opt/$${BRAND_BASE_LO}-node\\\" \
 	    CLI_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-cli\\\" \
 	    TOOLS_PATH=\\\"/opt/$${BRAND_BASE_LO}-node/bin/$${BRAND_BASE_LO}-node-tool\\\" \
 	    CMD_HISTORY=\\\"/opt/$${BRAND_LO}/data/cmd_history.txt\\\" \
@@ -43,6 +45,7 @@ unix {
 	    LOG_FILE=\\\"/opt/$${BRAND_BASE_LO}-node/var/log/$${BRAND_BASE_LO}-node.log\\\" \
 	    DATA_PATH=\\\"/opt/$${BRAND_LO}/data/\\\" \
 	    DAP_VERSION=\\\"$$VERSION\\\"
+
 
         QMAKE_CXXFLAGS_DEBUG += -Wall \
 	    -Wno-deprecated-declarations \

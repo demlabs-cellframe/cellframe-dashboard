@@ -95,7 +95,7 @@ DapPage
         function onSignalImportFinished(status)
         {
             if(status)
-                dapServiceController.requestToService(DapCertificateCommands.serviceName
+                logicMainApp.requestToService(DapCertificateCommands.serviceName
                                                       , DapCertificateCommands.GetSertificateList
                                                       );
         }

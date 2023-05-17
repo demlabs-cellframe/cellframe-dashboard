@@ -46,8 +46,8 @@ Item
                 Layout.fillWidth: true
                 Layout.fillHeight: true
 
-                color: currTheme.backgroundElements
-                radius: currTheme.radiusRectangle
+                color: currTheme.secondaryBackground
+                radius: currTheme.frameRadius
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 
@@ -108,8 +108,8 @@ Item
             Layout.minimumWidth: 350
             Layout.fillHeight: true
 
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
 

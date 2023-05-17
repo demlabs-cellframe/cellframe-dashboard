@@ -25,7 +25,7 @@ RowLayout {
         Layout.alignment: Qt.AlignLeft
         Layout.fillHeight: true
         font: mainFont.dapFont.regular12
-        color: currTheme.textColor
+        color: currTheme.white
         Layout.maximumWidth: 138
         Layout.minimumWidth: 138
     }
@@ -41,7 +41,7 @@ RowLayout {
         id: content
 
         font: mainFont.dapFont.regular13
-        color: currTheme.textColor
+        color: currTheme.white
 
         elide: Text.ElideRight
 
@@ -69,7 +69,7 @@ RowLayout {
                 {
                     id: text
                     anchors.fill: parent
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: content.text
                     font: content.font
                     horizontalAlignment: Qt.AlignHCenter
@@ -84,7 +84,7 @@ RowLayout {
                     id: backgroundToolTip
                     anchors.fill: parent
                     radius: 4
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
                 }
                 DropShadow {
                     anchors.fill: backgroundToolTip

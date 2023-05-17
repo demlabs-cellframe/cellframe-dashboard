@@ -58,8 +58,8 @@ Page {
             width: parent.width
             height: parent.height
             visible: true
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
         }
 
         DropShadow {
@@ -118,7 +118,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
             text: qsTr("Request to work with a wallet")
             font: mainFont.dapFont.medium14
-            color: currTheme.textColor
+            color: currTheme.white
         }
 
         Text{
@@ -131,7 +131,7 @@ Page {
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.white
         }
 
         DapButton{
@@ -170,7 +170,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked:{
-                    dapServiceController.notifyService("DapWebConnectRequest",true, indexUser)
+                    logicMainApp.notifyService("DapWebConnectRequest",true, indexUser)
                     eventMessage("Allowed")
                 }
             }
@@ -185,7 +185,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: {
-                    dapServiceController.notifyService("DapWebConnectRequest",false, indexUser)
+                    logicMainApp.notifyService("DapWebConnectRequest",true, indexUser)
                     eventMessage("Denied")
                 }
             }

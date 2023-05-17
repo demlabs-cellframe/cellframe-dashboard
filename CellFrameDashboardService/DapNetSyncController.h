@@ -21,6 +21,7 @@ private:
     QTimer* m_timerSync;
     DapNotificationWatcher* m_notifWatch;
     QString m_nodeState;
+    qint64 m_syncTime{1000*60*10};
 
 private:
     QStringList getNetworkList();
@@ -29,6 +30,7 @@ private:
 private slots:
     void updateTick();
     void rcvNotifState(QString);
+
 
 signals:
 

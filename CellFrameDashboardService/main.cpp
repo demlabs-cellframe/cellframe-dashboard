@@ -158,7 +158,7 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     a.setApplicationName(DAP_BRAND "Service");
 
-//    DapLogger *dapLogger = new DapLogger(QCoreApplication::instance(), "Service");
+    DapLogger *dapLogger = new DapLogger(QCoreApplication::instance(), "Service");
     DapPluginsPathControll dapPlugins;
 
     DapConfigReader configReader;

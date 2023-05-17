@@ -29,7 +29,7 @@ Popup {
     {
         border.width: 0
         radius: 16 
-        color: currTheme.backgroundElements
+        color: currTheme.secondaryBackground
     }
 
     ColumnLayout
@@ -45,7 +45,7 @@ Popup {
             Layout.rightMargin: 5
             Layout.topMargin: 5
             font: mainFont.dapFont.medium16
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
@@ -56,7 +56,7 @@ Popup {
             Layout.fillWidth: true
             Layout.margins: 5 
             font: mainFont.dapFont.regular14
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap

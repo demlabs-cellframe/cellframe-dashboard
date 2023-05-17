@@ -1,4 +1,4 @@
-QT += core gui network
+QT += core network
 
 include(../config.pri)
 
@@ -19,15 +19,12 @@ SOURCES += \
     $$PWD/DapServiceController.cpp \
     $$PWD/main.cpp \
     DapNetSyncController.cpp \
-    DapNotificationWatcher.cpp \
-    DapWeb3Api/DapProcessingNodeFunc.cpp \
-    DapWeb3Api/DapWebControll.cpp
+    DapNotificationWatcher.cpp
 
 HEADERS += \
     $$PWD/DapServiceController.h \
     DapNetSyncController.h \
-    DapNotificationWatcher.h \
-    DapWeb3Api/DapWebControll.h
+    DapNotificationWatcher.h
 
 LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/ -ldap_core
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/libdap_core.a
@@ -87,6 +84,7 @@ INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/include/ \
 
 include (../dap-ui-sdk/core/libdap-qt.pri)
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
+include (../web3_api/web3_api.pri)
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/ \
                $$_PRO_FILE_PWD_/../dapRPCProtocol/

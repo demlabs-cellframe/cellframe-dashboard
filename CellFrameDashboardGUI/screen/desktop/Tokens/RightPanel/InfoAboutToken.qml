@@ -10,8 +10,8 @@ import "../parts"
 DapRectangleLitAndShaded {
     id: root
 
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -56,7 +56,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -82,55 +82,55 @@ DapRectangleLitAndShaded {
                 DetailsText {
                     title.text: "Name"
                     content: detailsModel.get(0).name
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Auth signs"
                     content: detailsModel.get(0).auth_signs
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Type"
                     content: detailsModel.get(0).type
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Flags"
                     content: detailsModel.get(0).flags
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Decimals"
                     content: detailsModel.get(0).decimals
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Current supply"
                     content: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Total supply"
                     content: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Total emissions"
                     content: detailsModel.get(0).total_emissions
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
 
                 DetailsText {
                     visible: detailsModel.get(0).tsd.tsd_ticker_from !== ""
                     title.text: "Ticker from"
                     content: detailsModel.get(0).tsd.tsd_ticker_from
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
                 DetailsText {
                     visible: detailsModel.get(0).tsd.tsd_rate !== ""
                     title.text: "Ticker rate"
                     content: detailsModel.get(0).tsd.tsd_rate
-                    title.color: currTheme.textColorGray
+                    title.color: currTheme.gray
                 }
 
                 Rectangle{
@@ -138,7 +138,7 @@ DapRectangleLitAndShaded {
                     Layout.rightMargin: -16
                     Layout.fillWidth: true
                     height: 30
-                    color: currTheme.backgroundMainScreen
+                    color: currTheme.mainBackground
 
                     Text {
                         anchors.fill: parent
@@ -148,7 +148,7 @@ DapRectangleLitAndShaded {
                         horizontalAlignment: Text.AlignLeft
                         verticalAlignment: Text.AlignVCenter
                         font: mainFont.dapFont.medium12
-                        color: currTheme.textColor
+                        color: currTheme.white
                         text: "Signatures"
                     }
                 }
@@ -164,25 +164,25 @@ DapRectangleLitAndShaded {
                         DetailsText {
                             title.text: "KEY"
                             content: model.sign_key
-                            title.color: currTheme.textColorGray
+                            title.color: currTheme.gray
                             copyButton.visible: true
                         }
                         DetailsText {
                             title.text: "TYPE"
                             content: model.sign_type
-                            title.color: currTheme.textColorGray
+                            title.color: currTheme.gray
                         }
                         DetailsText {
                             title.text: "Size"
                             content: model.sign_size
-                            title.color: currTheme.textColorGray
+                            title.color: currTheme.gray
                         }
                         Rectangle{
                             Layout.leftMargin: -16
                             Layout.rightMargin: -16
                             Layout.fillWidth: true
                             height: 1
-                            color: currTheme.lineSeparatorColor
+                            color: currTheme.mainBackground
                         }
                     }
                 }

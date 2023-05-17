@@ -76,52 +76,6 @@
         <file>screen/desktop/Console/DapConsoleScreen.qml</file>
         <file>screen/DapMessagePopup.qml</file>
         <file>logic/MainParams.qml</file>
-        <file>screen/mobile/History/History.qml</file>
-        <file>screen/mobile/Icons/Close.png</file>
-        <file>screen/mobile/Icons/ComingSoon.png</file>
-        <file>screen/mobile/Icons/Copy.png</file>
-        <file>screen/mobile/Icons/IconCertificates.png</file>
-        <file>screen/mobile/Icons/IconExchange.png</file>
-        <file>screen/mobile/Icons/IconHistory.png</file>
-        <file>screen/mobile/Icons/IconLogs.png</file>
-        <file>screen/mobile/Icons/IconSettings.png</file>
-        <file>screen/mobile/Icons/IconTokens.png</file>
-        <file>screen/mobile/Icons/IconVPNclient.png</file>
-        <file>screen/mobile/Icons/IconVPNservice.png</file>
-        <file>screen/mobile/Icons/IconWallet.png</file>
-        <file>screen/mobile/Icons/indicator_error.png</file>
-        <file>screen/mobile/Icons/indicator_offline.png</file>
-        <file>screen/mobile/Icons/indicator_online.png</file>
-        <file>screen/mobile/Icons/MenuIcon.png</file>
-        <file>screen/mobile/Icons/MenuIconLight.png</file>
-        <file>screen/mobile/Icons/MenuIconLightGreen.png</file>
-        <file>screen/mobile/Icons/NetIcon.png</file>
-        <file>screen/mobile/Icons/NetIconLight.png</file>
-        <file>screen/mobile/Icons/NetIconLightGreen.png</file>
-        <file>screen/mobile/Icons/Power.png</file>
-        <file>screen/mobile/Icons/Reload.png</file>
-        <file>screen/mobile/Icons/Wallet.png</file>
-        <file>screen/mobile/Settings/MainSettings.qml</file>
-        <file>screen/mobile/Wallet/Payment/ReceiveToken.qml</file>
-        <file>screen/mobile/Wallet/Payment/TokenAddress.qml</file>
-        <file>screen/mobile/Wallet/Payment/TokenAmount.qml</file>
-        <file>screen/mobile/Wallet/Payment/TokenOverview.qml</file>
-        <file>screen/mobile/Wallet/Payment/TransactionOverview.qml</file>
-        <file>screen/mobile/Wallet/Payment/TransactionSuccessfully.qml</file>
-        <file>screen/mobile/Wallet/CustomRadioButton.qml</file>
-        <file>screen/mobile/Wallet/MainWallet.qml</file>
-        <file>screen/mobile/Wallet/TokenWallet.qml</file>
-        <file>screen/mobile/Wallet/Wallet24Words.qml</file>
-        <file>screen/mobile/Wallet/WalletName.qml</file>
-        <file>screen/mobile/Wallet/WalletRecovery.qml</file>
-        <file>screen/mobile/Wallet/WalletSignature.qml</file>
-        <file>screen/mobile/Wallet/WalletSuccessfully.qml</file>
-        <file>screen/mobile/MainMenu.qml</file>
-        <file>screen/mobile/MainMobileWindow.qml</file>
-        <file>screen/mobile/MainStackView.qml</file>
-        <file>screen/mobile/NetworkDelegate.qml</file>
-        <file>screen/mobile/NetworkMenu.qml</file>
-        <file>screen/mobile/PageComingSoon.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppButton.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppMainScreen.qml</file>
         <file>screen/desktop/Plugins/Plugin/Elements/DapAppRow.qml</file>
@@ -158,7 +112,6 @@
         <file>screen/desktop/History/logic/LogicTxExplorer.qml</file>
         <file>screen/desktop/Dashboard/logic/LogicWallet.qml</file>
         <file>screen/desktop/controls/CopyButton.qml</file>
-        <file>screen/mobile/logic/LogicMobile.qml</file>
         <file>screen/desktop/Networks/DapNetworksPanel.qml</file>
         <file>screen/desktop/Networks/logic/LogicNetworks.qml</file>
         <file>screen/desktop/Networks/parts/DapNetworkButton.qml</file>
@@ -331,5 +284,35 @@
         <file>Resources/BlackTheme/icons/other/icon_walletUnlocked.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_walletLocked.svg</file>
         <file>Resources/BlackTheme/icons/other/browser_disabled.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_checkbox_on.svg</file>
+        <file>Resources/BlackTheme/icons/other/ic_checkbox_off.svg</file>
+        <file>Resources/theme/Black.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/ComboBoxPopupItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/HeaderItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/NodeBlock.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/ResetUpdateButtons.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/SettingsArrowItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/SettingsCheckBoxItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/TextEditPopupItem.qml</file>
+        <file>screen/desktop/Settings/NodeSettings/WarningPopupItem.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_rightChevron.svg</file>
+        <file>screen/desktop/Settings/NodeSettings/PageHeaderItem.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticTab.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticScreen.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticTopPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TextElement.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_up_green.svg</file>
+        <file>screen/desktop/Diagnostic/Parts/PopupInfoPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/ProgressBarDiagnostic.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TextInfoElement.qml</file>
+        <file>screen/desktop/Diagnostic/DapDiagnosticRightPanel.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/TrackedNodesBlock.qml</file>
+        <file>screen/desktop/Diagnostic/Parts/AllNodesBlock.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrow.svg</file>
+        <file>screen/desktop/Networks/parts/DapInfoContent.qml</file>
+        <file>Resources/BlackTheme/icons/other/indicator_online.svg</file>
+        <file>Resources/BlackTheme/icons/other/indicator_offline.svg</file>
+        <file>Resources/BlackTheme/icons/other/indicator_error.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_arrow_hover.svg</file>
     </qresource>
 </RCC>

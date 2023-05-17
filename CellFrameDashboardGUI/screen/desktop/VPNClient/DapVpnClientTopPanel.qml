@@ -9,7 +9,7 @@ DapTopPanel {
     property bool _isReceiptsOpen
 
 //    anchors.leftMargin: 24 * pt
-//    radius: currTheme.radiusRectangle
+//    radius: currTheme.frameRadius
 //    color: currTheme.backgroundPanel
 
     RowLayout

@@ -8,20 +8,21 @@ QtObject
     property string fontFamilies: "Quicksand"
     property int fontIndent: 3
 
-    property string gridColor: "#a0a0a0"
-    property string gridTextColor: "#a0a0a0"
-    property string backgroundColor: "#404040"
-    property string darkBackgroundColor: "#303030"
+    //TODO: need update colors
+    property color gridColor: "#a0a0a0"
+    property color gridTextColor: "#a0a0a0"
+    property color backgroundColor: "#404040"
+    property color darkBackgroundColor: "#303030"
 
-    property string labelColor: "#ffffff"
-    property string labelBackgroundColor: "#40303030"
-    property string labelLineColor: "#40ffffff"
+    property color labelColor: "#ffffff"
+    property color labelBackgroundColor: "#40303030"
+    property color labelLineColor: "#40ffffff"
     property real labelLineLength: 30
 
-    property string redCandleColor: "#80ff0000"
-    property string greenCandleColor: "#8000ff00"
+    property color redCandleColor: "#80ff0000"
+    property color greenCandleColor: "#8000ff00"
 
-    property string sightColor: "#60ffffff"
+    property color sightColor: "#60ffffff"
 
     property real gridWidth: 0.2
     property real candleLineWidth: 2

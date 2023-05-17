@@ -19,8 +19,9 @@ DapApplication::DapApplication(int &argc, char **argv)
     :QApplication(argc, argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
-    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
+    , configWorker(new ConfigWorker(this))
+    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -41,6 +42,8 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
+    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
+    m_diagnosticWorker->start();
 
     connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
             stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
@@ -82,12 +85,13 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_serviceController->requestNetworksList();
 //    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
-
 }
 
 DapApplication::~DapApplication()
 {
     delete stockDataWorker;
+    delete configWorker;
+    delete m_diagnosticWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
@@ -131,7 +135,6 @@ void DapApplication::createDapLogger()
   });
 #endif
 }
-
 
 DapNetworksList *DapApplication::networks()
 {
@@ -202,6 +205,16 @@ void DapApplication::startService()
 #endif
 }
 
+void DapApplication::requestToService(QVariant sName, QVariantList sArgs)
+{
+    m_serviceController->requestToService(sName.toString(), sArgs);
+}
+void DapApplication::notifyService(QVariant sName, QVariantList sArgs)
+{
+    m_serviceController->notifyService(sName.toString(), sArgs);
+}
+
+
 void DapApplication::setContextProperties()
 {
     m_engine.rootContext()->setContextProperty("app", this);
@@ -214,4 +227,8 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
     m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
     m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
+
+    m_engine.rootContext()->setContextProperty("configWorker", configWorker);
+    m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
+    m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }

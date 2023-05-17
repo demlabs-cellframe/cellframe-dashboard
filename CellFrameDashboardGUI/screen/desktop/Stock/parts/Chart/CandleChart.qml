@@ -17,9 +17,9 @@ Item
     Component.onCompleted:
     {
 //        print("CandleChart", "Component.onCompleted", "BEGIN")
-        logic.backgroundColor = currTheme.backgroundElements
-        logic.redCandleColor = currTheme.textColorRed
-        logic.greenCandleColor = currTheme.textColorGreen
+        logic.backgroundColor = currTheme.secondaryBackground
+        logic.redCandleColor = currTheme.red
+        logic.greenCandleColor = currTheme.green
 
 //        candleChartWorker.generatePriceData(1000000)
 //        candleChartWorker.generatePriceData(100000)

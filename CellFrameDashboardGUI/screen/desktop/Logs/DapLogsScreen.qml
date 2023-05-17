@@ -32,14 +32,14 @@ Page
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     DapRectangleLitAndShaded
     {
         anchors.fill: parent
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        color: currTheme.secondaryBackground
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
 
@@ -61,7 +61,7 @@ Page
                         anchors.verticalCenter: parent.verticalCenter
 
                         font: mainFont.dapFont.bold14
-                        color: currTheme.textColor
+                        color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
                         text: qsTr("Node data logs")
                     }
@@ -79,7 +79,7 @@ Page
                     section.criteria: ViewSection.FullString
                     section.delegate: delegateLogsHeader
                     cacheBuffer: 15000
-                    highlight: Rectangle{color: currTheme.placeHolderTextColor; opacity: 0.12}
+                    highlight: Rectangle{color: currTheme.gray; opacity: 0.12}
                     highlightMoveDuration: 0
 
                     ScrollBar.vertical: ScrollBar {
@@ -158,7 +158,7 @@ Page
             anchors.left: parent.left
             anchors.right: parent.right
             height: 30 
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             z:10
 
             Text
@@ -168,7 +168,7 @@ Page
                 anchors.verticalCenter: parent.verticalCenter
                 verticalAlignment: Qt.AlignVCenter
                 font:  mainFont.dapFont.medium12
-                color: currTheme.textColor
+                color: currTheme.white
                 text: section
             }
         }
@@ -208,10 +208,10 @@ Page
 //                    width: 34
                     verticalAlignment: Qt.AlignVCenter
                     font:  mainFont.dapFont.regular14
-                    color: type === "WRN" ? currTheme.textColorYellow :
-                           type === "ERR" ? currTheme.textColorRed :
+                    color: type === "WRN" ? currTheme.darkYellow :
+                           type === "ERR" ? currTheme.red :
                            type === "INF" || type === " * " ?
-                           currTheme.textColorLightBlue : currTheme.textColor
+                           currTheme.neon : currTheme.white
                     text: type
                 }
 
@@ -225,7 +225,7 @@ Page
                     verticalAlignment: Qt.AlignVCenter
                     wrapMode: Text.WrapAnywhere
                     font:  mainFont.dapFont.regular14
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: info
                 }
 
@@ -237,7 +237,7 @@ Page
                     Layout.leftMargin: 40
                     verticalAlignment: Qt.AlignVCenter
                     font:  mainFont.dapFont.regular13
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: file
                 }
 
@@ -250,7 +250,7 @@ Page
                     Layout.alignment: Qt.AlignLeft
                     verticalAlignment: Qt.AlignVCenter
                     font:  mainFont.dapFont.regular14
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: time
                 }
             }
@@ -263,7 +263,7 @@ Page
                 anchors.bottom: parent.bottom
 //                anchors.topMargin: 13 
                 height: 1 
-                color: currTheme.lineSeparatorColor
+                color: currTheme.mainBackground
             }
 
             MouseArea
@@ -293,34 +293,38 @@ Page
 
     function updateLogsModel(logList)
     {
-        dapLogsModel.clear();
-        var count = Object.keys(logList).length
-        console.log(count);
-        var thisDay = new Date();
-        var privateDate = {'today' : thisDay,
-                            'todayDay': thisDay.getDate(),
-                            'todayMonth': thisDay.getMonth(),
-                            'todayYear': thisDay.getFullYear()};
-
-        for (var ind = count-1; ind >= 0; ind--)
+        if(logList.length > 0)
         {
-            var arrLogString = TimeFunction.parceStringFromLog(logList[ind]);
-            var stringTime = TimeFunction.parceTime(arrLogString[1]);
+            dapLogsModel.clear();
+            var count = Object.keys(logList).length
+            console.log(count);
+            var thisDay = new Date();
+            var privateDate = {'today' : thisDay,
+                                'todayDay': thisDay.getDate(),
+                                'todayMonth': thisDay.getMonth(),
+                                'todayYear': thisDay.getFullYear()};
 
-            if(stringTime !== "error" && arrLogString[2] !== "")
+            for (var ind = count-1; ind >= 0; ind--)
             {
-                var info = arrLogString[4]
-                if(info[0] === " ")
-                    info = info.substring(1)
+                var arrLogString = TimeFunction.parceStringFromLog(logList[ind]);
+                var stringTime = TimeFunction.parceTime(arrLogString[1]);
 
-                dapLogsModel.append({"type": arrLogString[2],
-                                     "info": info,
-                                     "file": arrLogString[3],
-                                     "time": TimeFunction.getTime(stringTime),
-                                     "date": TimeFunction.getDay(stringTime, privateDate),
-                                     "momentTime": stringTime});
+                if(stringTime !== "error" && arrLogString[2] !== "")
+                {
+                    var info = arrLogString[4]
+                    if(info[0] === " ")
+                        info = info.substring(1)
+
+                    dapLogsModel.append({"type": arrLogString[2],
+                                         "info": info,
+                                         "file": arrLogString[3],
+                                         "time": TimeFunction.getTime(stringTime),
+                                         "date": TimeFunction.getDay(stringTime, privateDate),
+                                         "momentTime": stringTime});
+                }
             }
+            return true
         }
-        return true
+        return false
     }
 }

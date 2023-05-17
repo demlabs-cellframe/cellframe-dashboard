@@ -65,7 +65,7 @@ Controls.DapTopPanel
                 var resultAddres = String(currentFile).replace(/file:\/\//,"");
                 resultAddres = resultAddres.replace(/\.([$A-Za-z0-9]{2,4})/,"");
                 resultAddres += "." + selectedNameFilter.extensions[0];
-                dapServiceController.requestToService("DapExportLogCommand",resultAddres,sendLogToFile());
+                logicMainApp.requestToService("DapExportLogCommand",resultAddres,sendLogToFile());
 
             }
             onRejected:

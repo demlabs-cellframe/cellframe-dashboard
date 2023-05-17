@@ -43,7 +43,7 @@ Rectangle
             Text
             {
                 Layout.minimumWidth: 100
-                color: isSell? currTheme.textColorRed : currTheme.textColorGreen
+                color: isSell? currTheme.red : currTheme.green
                 font: mainFont.dapFont.regular13
 //                text: modelData.price.toFixed(5)
                 text: roundDoubleValue(modelData.price,
@@ -53,7 +53,7 @@ Rectangle
             Text
             {
                 Layout.fillWidth: true
-                color: currTheme.textColor
+                color: currTheme.white
                 font: mainFont.dapFont.regular13
                 text: modelData.amount.toFixed(4)
             }
@@ -61,7 +61,7 @@ Rectangle
             Text
             {
                 horizontalAlignment: Qt.AlignRight
-                color: currTheme.textColor
+                color: currTheme.white
                 font: mainFont.dapFont.regular13
                 text: modelData.total.toFixed(4)
             }
@@ -74,7 +74,7 @@ Rectangle
             visible: isSell? index !== 0 : index <
                 delegateRectangle.ListView.view.model.length-1
 
-            color: currTheme.lineSeparatorColor
+            color: currTheme.mainBackground
         }
     }
 

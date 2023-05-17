@@ -81,7 +81,7 @@ Page
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
 
@@ -108,7 +108,7 @@ Page
                         return logicStock.unselectedTokenBalanceWallet + " " + logicStock.unselectedTokenNameWallet
                 }
             }
-            textColor: currTheme.textColor
+            textColor: currTheme.white
             textFont: mainFont.dapFont.regular14
 //            font: mainFont.dapFont.regular14
 
@@ -128,7 +128,7 @@ Page
                 Layout.fillWidth: true
 //                Layout.topMargin: 18
                 font: mainFont.dapFont.medium14
-                color: currTheme.textColor
+                color: currTheme.white
 
                 text: qsTr("Buy ") + tokenPairsWorker.tokenBuy
             }
@@ -138,8 +138,8 @@ Page
                 height: 35
                 firstName: qsTr("Buy")
                 secondName: qsTr("Sell")
-                firstColor: currTheme.textColorGreen
-                secondColor: currTheme.textColorRed
+                firstColor: currTheme.green
+                secondColor: currTheme.red
                 itemHorisontalBorder: 16
 
                 onToggled:

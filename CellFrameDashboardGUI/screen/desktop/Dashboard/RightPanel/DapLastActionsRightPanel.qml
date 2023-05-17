@@ -32,7 +32,7 @@ DapLastActionsRightPanelForm
         {
             height: 30 
             width: parent.width
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
 
             property date payDate: new Date(Date.parse(section))
 
@@ -43,7 +43,7 @@ DapLastActionsRightPanelForm
                 anchors.rightMargin: 16 
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
-                color: currTheme.textColor
+                color: currTheme.white
                 text: logicExplorer.getDateString(payDate)
                 font: mainFont.dapFont.medium12
             }

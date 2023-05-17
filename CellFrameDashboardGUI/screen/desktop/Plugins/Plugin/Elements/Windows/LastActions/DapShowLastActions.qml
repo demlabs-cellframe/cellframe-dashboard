@@ -123,7 +123,7 @@ Rectangle {
     Component.onCompleted:
     {
         modelLastActions.clear()
-        dapServiceController.requestToService("DapGetWalletsInfoCommand", 1);
+        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
     }
 
     InnerShadow {
@@ -226,6 +226,6 @@ Rectangle {
             network_array += model.get(i).name + ":"
             network_array += name + "/"
         }
-        dapServiceController.requestToService("DapGetAllWalletHistoryCommand", network_array, update);
+        logicMainApp.requestToService("DapGetAllWalletHistoryCommand", network_array, update ? "true": "false", "false");
     }
 }
