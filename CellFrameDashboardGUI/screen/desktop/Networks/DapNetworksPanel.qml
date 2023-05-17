@@ -26,8 +26,8 @@ Item {
         interval: /*logicMainApp.autoUpdateInterval*/5000; running: true; repeat: true
         onTriggered: {
             if(!USING_NOTIFY)
-                dapServiceController.requestToService("DapGetNetworksStateCommand")
-            dapServiceController.requestToService("DapGetListNetworksCommand")
+                logicMainApp.requestToService("DapGetNetworksStateCommand")
+            logicMainApp.requestToService("DapGetListNetworksCommand")
         }
     }
 
@@ -168,7 +168,7 @@ Item {
         networkList.closePopups()
     }
 
-    Component.onCompleted: dapServiceController.requestToService("DapGetListNetworksCommand")
+    Component.onCompleted: logicMainApp.requestToService("DapGetListNetworksCommand")
 
     Connections
     {

@@ -17,7 +17,7 @@ Item{
         anchors.fill: parent
         visible: opacity
 
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
         opacity: 0.0
 
         MouseArea{
@@ -39,8 +39,8 @@ Item{
 
         width: 328
         height: textError.visible ? 289 : 265
-        color: currTheme.buttonColorNoActive
-        radius: currTheme.radiusRectangle
+        color: currTheme.popup
+        radius: currTheme.popupRadius
 
         MouseArea{
             anchors.fill: parent
@@ -77,7 +77,7 @@ Item{
                 horizontalAlignment: Text.AlignHCenter
                 text: "Deactivate " + "'" + nameWallet + "'" + " wallet"
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
                 elide: Text.ElideMiddle
             }
 
@@ -86,18 +86,18 @@ Item{
                 Layout.alignment: Qt.AlignHCenter
                 text: qsTr("Enter password to deactivate wallet")
                 font: mainFont.dapFont.medium12
-                color: currTheme.textColor
+                color: currTheme.white
             }
 
             Rectangle
             {
-                color: currTheme.backgroundMainScreen
+                color: currTheme.mainBackground
                 Layout.fillWidth: true
                 Layout.topMargin: 20
                 height: 30
                 Text
                 {
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: qsTr("Wallet password")
                     font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
@@ -157,7 +157,7 @@ Item{
                 Layout.topMargin: -12
                 Layout.bottomMargin: 20
 
-                color: currTheme.textColorRed
+                color: currTheme.red
                 text: qsTr("Invalid password")
                 font: mainFont.dapFont.regular12
                 horizontalAlignment: Text.AlignHCenter
@@ -179,8 +179,8 @@ Item{
                 enabled: textInputPasswordWallet.text.length
                 onClicked:
                 {
-                    dapServiceController.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
-                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
+                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
+                    logicMainApp.requestToService("DapGetWalletsInfoCommand","true")
                 }
             }
 
@@ -190,7 +190,7 @@ Item{
                     if(rcvData.cmd !== "activate")
                     {
                         if(rcvData.success){
-                            textInputPasswordWallet.bottomLine.color = currTheme.borderColor
+                            textInputPasswordWallet.bottomLine.color = currTheme.input
                             textError.visible = false
                             deactivatingSignal(nameWallet, true)
 
@@ -204,7 +204,7 @@ Item{
 
                             hide()
                         }else{
-                            textInputPasswordWallet.bottomLine.color = currTheme.textColorRed
+                            textInputPasswordWallet.bottomLine.color = currTheme.red
                             textError.visible = true
                             deactivatingSignal(nameWallet, false)
                         }
@@ -214,14 +214,14 @@ Item{
         }
     }
 
-    DropShadow {
+    InnerShadow {
         anchors.fill: farmeActivate
         source: farmeActivate
         color: currTheme.reflection
-        horizontalOffset: -1
-        verticalOffset: -1
+        horizontalOffset: 1
+        verticalOffset: 1
         radius: 0
-        samples: 0
+        samples: 10
         opacity: farmeActivate.opacity
         fast: true
         cached: true
@@ -229,12 +229,13 @@ Item{
     DropShadow {
         anchors.fill: farmeActivate
         source: farmeActivate
-        color: currTheme.shadowColor
+        color: currTheme.shadowMain
         horizontalOffset: 5
         verticalOffset: 5
         radius: 10
         samples: 20
-        opacity: farmeActivate.opacity
+        opacity: farmeActivate.opacity ? 0.42 : 0
+        cached: true
     }
 
     function hide(){
@@ -244,7 +245,7 @@ Item{
     }
 
     function show(name_wallet){
-        textInputPasswordWallet.bottomLine.color = currTheme.borderColor
+        textInputPasswordWallet.bottomLine.color = currTheme.input
         textError.visible = false
         visible = true
         nameWallet = name_wallet

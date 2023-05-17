@@ -8,16 +8,15 @@ import windowframerect 1.0
 
 import "Resources/theme"
 import "qrc:/resources/QML"
-import "screen/mobile"
 import "screen"
 import "logic"
 
 ApplicationWindow
 {
-    property string path: params.isMobile ? "qrc:/screen/mobile" : "qrc:/screen/desktop"
+    property string path: "qrc:/screen/desktop"
     property string pathTheme: currThemeVal ? "BlackTheme" : "LightTheme"
     property bool currThemeVal: true
-    property var currTheme: currThemeVal ? darkTheme : lightTheme
+    property var currTheme: currThemeVal ? blackTheme : lightTheme
     property alias mainFont: quicksandFonts
     property alias mainWindow : mainWindow
 
@@ -29,6 +28,7 @@ ApplicationWindow
     MainParams{ id: params}
     Dark {id: darkTheme}
     Light {id: lightTheme}
+    Black {id: blackTheme}
     DapFontQuicksand { id: quicksandFonts }
 
     Settings {

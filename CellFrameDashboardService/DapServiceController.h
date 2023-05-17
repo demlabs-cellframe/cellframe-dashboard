@@ -65,8 +65,9 @@ typedef class DapRpcLocalServer DapUiService;
 #include "handlers/DapGetXchangeTokenPriceHistory.h"
 #include "handlers/DapGetWordBook.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
+#include "handlers/DapNodeRestart.h"
 
-#include "DapWeb3Api/DapWebControll.h"
+#include "DapWebControll.h"
 
 #include "DapNotificationWatcher.h"
 #include "DapNetSyncController.h"

@@ -15,13 +15,14 @@ Page
     property alias dapGeneralBlock: generalBlock
 
     signal createWalletSignal(bool restoreMode)
+    signal nodeSettingsSignal()
     signal switchMenuTab(string tag, bool state)
     signal switchAppsTab(string tag, string name, bool state)
 
 
     background: Rectangle
     {
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
     }
 
     Item
@@ -45,18 +46,18 @@ Page
                 DapRectangleLitAndShaded
                 {
                     property alias dapContent:content
-                    property int spacing: (72 + 39)
+                    property int spacing: (72 + 39 + 55)
 
                     id:generalBlock
                     Layout.fillWidth: true
                     Layout.preferredHeight: content.implicitHeight
                     Layout.maximumHeight: control.height - spacing
-                    color: currTheme.backgroundElements
-                    radius: currTheme.radiusRectangle
+                    color: currTheme.secondaryBackground
+                    radius: currTheme.frameRadius
                     shadowColor: currTheme.shadowColor
                     lightColor: currTheme.reflectionLight
 
-                    Layout.minimumHeight: 240
+                    Layout.minimumHeight: 140
 
                     contentData: DapGeneralBlock{id:content}
                 }
@@ -102,6 +103,27 @@ Page
                     horizontalAligmentText: Text.AlignHCenter
                     onClicked: createWalletSignal(true)
                 }
+
+                // Node settings
+                DapButton
+                {
+                    id: nodeSettingsButton
+
+                    Layout.minimumWidth: 297
+                    Layout.maximumWidth: 297
+                    Layout.minimumHeight: 36
+                    Layout.maximumHeight: 36
+                    Layout.topMargin: 16
+                    Layout.alignment: Qt.AlignHCenter
+
+                    textButton: qsTr("Node settings")
+
+                    implicitHeight: 36
+                    implicitWidth: 297
+                    fontButton: mainFont.dapFont.medium14
+                    horizontalAligmentText: Text.AlignHCenter
+                    onClicked: nodeSettingsSignal()
+                }
             }
             DapRectangleLitAndShaded
             {
@@ -114,8 +136,8 @@ Page
                 id: appearanceBlock
                 Layout.minimumWidth: 327
                 Layout.alignment: Qt.AlignTop
-                color: currTheme.backgroundElements
-                radius: currTheme.radiusRectangle
+                color: currTheme.secondaryBackground
+                radius: currTheme.frameRadius
                 shadowColor: currTheme.shadowColor
                 lightColor: currTheme.reflectionLight
 

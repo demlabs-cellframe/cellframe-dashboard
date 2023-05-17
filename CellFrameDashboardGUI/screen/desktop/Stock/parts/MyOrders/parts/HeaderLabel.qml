@@ -13,6 +13,6 @@ Item {
         anchors.fill: parent
         verticalAlignment: Qt.AlignVCenter
         font:  mainFont.dapFont.medium12
-        color: currTheme.textColor
+        color: currTheme.white
     }
 }

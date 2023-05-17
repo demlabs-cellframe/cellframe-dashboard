@@ -13,6 +13,10 @@ DapRectangleLitAndShaded
 //    dapButtonClose.heightImageButton: 14 
 //    dapButtonClose.widthImageButton: 13 
 
+    property alias checkBox1: checkBox1
+    property alias checkBox2: checkBox2
+    property alias acceptedLayout: acceptedLayout
+
     property alias dapButtonClose: itemButtonClose
 
     property alias dapButtonAction: actionButton
@@ -20,13 +24,16 @@ DapRectangleLitAndShaded
 
     property alias dapTextMethod: textMethod
 
+    property alias dapWarningText1: warningText1
+    property alias dapWarningText2: warningText2
+
     property alias dapWordsGrid: wordsGrid
     property alias dapBackupFileName: backupFileName
 
     property alias dapTextTopMessage: textTopMessage
-    property alias dapTextBottomMessage: textBottomMessage
-    color: currTheme.backgroundElements
-    radius: currTheme.radiusRectangle
+//    property alias dapTextBottomMessage: textBottomMessage
+    color: currTheme.secondaryBackground
+    radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
@@ -68,7 +75,7 @@ DapRectangleLitAndShaded
                 anchors.leftMargin: 10
 
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
             }
         }
         //Body
@@ -76,12 +83,12 @@ DapRectangleLitAndShaded
         {
             id: frameMethod
             Layout.fillWidth: true
-            color: currTheme.backgroundMainScreen
+            color: currTheme.mainBackground
             height: 30 
             Text
             {
                 id: textMethod
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Recovery method: 24 words")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignLeft
@@ -92,12 +99,10 @@ DapRectangleLitAndShaded
         }
 
         Item {
-            Layout.preferredHeight: 48
-            Layout.preferredWidth: 255
-            Layout.topMargin: 20
+            Layout.fillWidth: true
+            Layout.preferredHeight: 60
+            Layout.margins: 16
             Layout.alignment: Qt.AlignHCenter
-//            Layout.leftMargin: 48
-//            Layout.rightMargin: 34
 
             Text
             {
@@ -105,22 +110,22 @@ DapRectangleLitAndShaded
                 anchors.fill: parent
 
                 verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                color: "#E4E111"
+                horizontalAlignment: Text.AlignLeft
+                color: "#79FFFA"
                 wrapMode: Text.WordWrap
-                font: mainFont.dapFont.regular12
+                font: mainFont.dapFont.regular14
             }
         }
 
         Grid {
             id: wordsGrid
 
-            Layout.topMargin: 40
-            Layout.minimumHeight: 151
-            Layout.maximumHeight: 151
+            Layout.topMargin: 4
+            Layout.minimumHeight: 120
+            Layout.maximumHeight: 120
             Layout.alignment: Qt.AlignHCenter
 
-            columns: 2
+            columns: 3
 
             columnSpacing: 50
 //            rowSpacing: 5
@@ -131,8 +136,9 @@ DapRectangleLitAndShaded
 
             Repeater {
                 delegate: Text {
+                    Layout.fillWidth: true
                     text: modelData
-                    color: currTheme.textColor
+                    color: currTheme.white
                     font: mainFont.dapFont.regular12
 
                 }
@@ -143,68 +149,185 @@ DapRectangleLitAndShaded
         Text
         {
             id: backupFileName
-            Layout.minimumHeight: 100 
-            Layout.alignment: Qt.AlignLeft
-            Layout.leftMargin: 36
-            Layout.maximumWidth: parent.width - 50
-            color: "#B4B1BD"
+            Layout.fillWidth: true
+            Layout.preferredHeight: 40
+            Layout.leftMargin: 16
+
+            color: "#C7C6CE"
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font: mainFont.dapFont.regular14
         }
 
-        Rectangle
+        Item
         {
             id: frameBottom
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: "transparent"
         }
 
-        Text
-        {
-            id: textBottomMessage
-            Layout.minimumHeight: 48
-            Layout.maximumWidth: 244
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            Layout.bottomMargin: 30
-            color: "#BEFF00"
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.WordWrap
-            font: mainFont.dapFont.regular12
-        }
+        ColumnLayout{
+            id: bottomPlace
+            Layout.alignment: Qt.AlignBottom
+//            Layout.topMargin: 20
+            Layout.fillWidth: true
+            height: 262
+            spacing: 20
 
+            ColumnLayout{
+                id: acceptedLayout
+                Layout.fillWidth: true
+                height: 165
+                Layout.rightMargin: 16
+                spacing: 0
 
-        RowLayout {
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            spacing: 14
-            Layout.bottomMargin: 40
+                Rectangle{
+                    Layout.fillWidth: true
+                    height: 1
+                    color: currTheme.mainBackground
+                }
 
-            DapButton
-            {
-                id: nextButton
-                implicitHeight: 36 
-                implicitWidth: 132 
-                Layout.alignment: Qt.AlignCenter
-                textButton: qsTr("Next")
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: mainFont.dapFont.medium14
-                visible: false
+                RowLayout{
+                    Layout.topMargin: 16
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 40
+                    spacing: 0
+
+                    Image
+                    {
+                        id: checkBox1
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: -10
+                        sourceSize.width: 50
+                        sourceSize.height: 50
+                        property bool isChecked: false
+                        source: isChecked ? "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_on.png"
+                                          : "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_off.png"
+
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                checkBox1.isChecked = !checkBox1.isChecked
+                                if (!checkBox1.isChecked)
+                                    nextButton.enabled = false
+                            }
+                        }
+                    }
+
+                    Text
+                    {
+                        id: warningText1
+                        Layout.fillWidth: true
+                        font: mainFont.dapFont.regular14
+                        color: currTheme.white
+                        text: ""
+                        wrapMode: Text.WordWrap
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                checkBox1.isChecked = !checkBox1.isChecked
+                                if (!checkBox1.isChecked)
+                                    nextButton.enabled = false
+                            }
+                        }
+                    }
+                }
+
+                RowLayout{
+                    Layout.topMargin: 16
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 60
+                    spacing: 0
+
+                    Image
+                    {
+                        id: checkBox2
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: -10
+                        sourceSize.width: 50
+                        sourceSize.height: 50
+                        property bool isChecked: false
+                        source: isChecked ? "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_on.png"
+                                          : "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_off.png"
+
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                checkBox2.isChecked = !checkBox2.isChecked
+                                if (!checkBox2.isChecked)
+                                    nextButton.enabled = false
+                            }
+                        }
+                    }
+
+                    Text
+                    {
+                        id: warningText2
+                        Layout.fillWidth: true
+                        font: mainFont.dapFont.regular14
+                        color: currTheme.white
+                        text: ""
+                        wrapMode: Text.WordWrap
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                checkBox2.isChecked = !checkBox2.isChecked
+                                if (!checkBox2.isChecked)
+                                    nextButton.enabled = false
+                            }
+                        }
+                    }
+                }
             }
 
-            DapButton
-            {
-                id: actionButton
-                implicitHeight: 36 
-                implicitWidth: 132 
-                Layout.alignment: Qt.AlignCenter
-                checkable: true
-                horizontalAligmentText: Text.AlignHCenter
-                indentTextRight: 0
-                fontButton: mainFont.dapFont.medium14
+            RowLayout {
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth: true
+                Layout.preferredHeight: 96
+                Layout.leftMargin: 36
+                Layout.rightMargin: 35
+                spacing: 14
+
+                DapButton
+                {
+                    id: actionButton
+
+                    Layout.bottomMargin: 40
+                    Layout.topMargin: 20
+                    Layout.alignment: Qt.AlignHCenter
+
+                    implicitHeight: 36
+                    implicitWidth: 132
+                    checkable: true
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.medium14
+
+                    enabled: checkBox1.isChecked && checkBox2.isChecked
+                }
+
+                DapButton
+                {
+                    id: nextButton
+
+                    enabled: false
+
+                    Layout.bottomMargin: 40
+                    Layout.topMargin: 20
+                    Layout.alignment: Qt.AlignHCenter
+
+                    implicitHeight: 36
+                    implicitWidth: 132
+                    textButton: qsTr("Next")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.medium14
+                }
             }
         }
     }

@@ -184,7 +184,7 @@ DapPage {
         onTriggered:
         {
             console.log("ORDER TIMER TICK")
-            dapServiceController.requestToService("DapGetListOrdersCommand");
+            logicMainApp.requestToService("DapGetListOrdersCommand");
         }
     }
 

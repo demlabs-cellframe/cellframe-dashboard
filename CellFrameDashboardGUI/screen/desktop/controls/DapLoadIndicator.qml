@@ -7,7 +7,7 @@ BusyIndicator {
     property var elementSize: 4
     property var elementRadius: 5
     property var countElements: 5
-    property var colorElement: currTheme.hilightColorComboBox
+    property var colorElement: currTheme.lime
 
     id: control
 

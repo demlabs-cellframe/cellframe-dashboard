@@ -138,7 +138,7 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-                var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.1).toString()
+                var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.05).toString()
                 print("amountWithCommission", amountWithCommission)
                 var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
                 print("full_balance", full_balance)
@@ -167,7 +167,7 @@ DapNewPaymentMainRightPanelForm
 
                     var commission = logicWallet.toDatoshi("0.05")
 
-                    dapServiceController.requestToService("DapCreateTransactionCommand",
+                    logicMainApp.requestToService("DapCreateTransactionCommand",
                         dapComboboxNetwork.displayText,
                         walletName,
                         dapTextInputRecipientWalletAddress.text,

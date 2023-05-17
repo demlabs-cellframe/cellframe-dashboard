@@ -18,14 +18,14 @@ DapTextField {
 
     property alias filtering: filtering
 
-    placeholderColor: currTheme.textColorGray
+    placeholderColor: currTheme.gray
 
     implicitHeight: 30
     implicitWidth: 230 
     font:mainFont.dapFont.regular14
     validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\,\(\)\?\@\s*]+/ }
 
-    backgroundColor: currTheme.backgroundPanel
+    backgroundColor: currTheme.mainBackground
 
     onTextChanged: {
         filtering.filter(text)

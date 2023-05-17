@@ -27,7 +27,7 @@ void CommandCmdController::dapServiceControllerInit(DapServiceController *_dapSe
     updateValuesTimer = new QTimer(this);
     connect(updateValuesTimer, &QTimer::timeout, [=] (){
         if(isOpenPage)
-            dapServiceController->requestToService("DapGetWordBook", "init");
+            dapServiceController->requestToService("DapGetWordBook", QStringList()<<"init");
     });
     updateValuesTimer->start(10000);
 }
@@ -47,7 +47,7 @@ int CommandCmdController::maxLengthText(QVariantList list)
 
 QVariantList CommandCmdController::getTreeWords(QString value)
 {
-    dapServiceController->requestToService("DapGetWordBook", value);
+    dapServiceController->requestToService("DapGetWordBook", QStringList()<<value);
     rcvDataBuffer = false;
     buffer.clear();
     quint64 savedTime = QDateTime::currentMSecsSinceEpoch();

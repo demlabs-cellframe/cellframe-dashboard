@@ -38,7 +38,7 @@ ColumnLayout
             placeholderText: qsTr("Search")
             height: 28
             font: mainFont.dapFont.regular14
-            placeholderColor: currTheme.textColorGray
+            placeholderColor: currTheme.gray
 
             Connections{
                 target: logic
@@ -63,7 +63,7 @@ ColumnLayout
         Layout.leftMargin: 16
         Layout.rightMargin: 16
         height: 1
-        color: "#757184"
+        color: currTheme.input
     }
 }
 

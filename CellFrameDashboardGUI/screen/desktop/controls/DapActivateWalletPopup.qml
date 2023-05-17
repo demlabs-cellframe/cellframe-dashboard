@@ -22,7 +22,7 @@ Item{
         anchors.fill: parent
         visible: opacity
 
-        color: currTheme.backgroundMainScreen
+        color: currTheme.popup
         opacity: 0.0
 
         MouseArea{
@@ -53,8 +53,8 @@ Item{
         }
 
 
-        color: currTheme.buttonColorNoActive
-        radius: currTheme.radiusRectangle
+        color: currTheme.popup
+        radius: currTheme.popupRadius
 
         MouseArea{
             anchors.fill: parent
@@ -92,7 +92,7 @@ Item{
                 horizontalAlignment: Text.AlignHCenter
                 text: "Activate " + "'" + nameWallet + "'" + " wallet"
                 font: mainFont.dapFont.bold14
-                color: currTheme.textColor
+                color: currTheme.white
                 elide: Text.ElideMiddle
             }
 
@@ -105,7 +105,7 @@ Item{
                 Layout.leftMargin: 24
                 Layout.rightMargin: 24
 
-                color: currTheme.textColor
+                color: currTheme.white
                 text: qsTr("Secure session time expired. Please enter your password to continue")
                 font: mainFont.dapFont.medium12
                 horizontalAlignment: Text.AlignHCenter
@@ -115,13 +115,13 @@ Item{
 
             Rectangle
             {
-                color: currTheme.backgroundMainScreen
+                color: currTheme.mainBackground
                 Layout.fillWidth: true
                 Layout.topMargin: isExpired? 20 : 16
                 height: 30
                 Text
                 {
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: qsTr("Wallet password")
                     font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
@@ -180,7 +180,7 @@ Item{
                 Layout.topMargin: -12
                 Layout.bottomMargin: 16
 
-                color: currTheme.textColorRed
+                color: currTheme.red
                 text: qsTr("Invalid password")
                 font: mainFont.dapFont.regular12
                 horizontalAlignment: Text.AlignHCenter
@@ -189,13 +189,13 @@ Item{
 
             Rectangle
             {
-                color: currTheme.backgroundMainScreen
+                color: currTheme.mainBackground
                 Layout.fillWidth: true
 //                Layout.topMargin: 16
                 height: 30
                 Text
                 {
-                    color: currTheme.textColor
+                    color: currTheme.white
                     text: qsTr("Secure session time")
                     font: mainFont.dapFont.medium12
                     horizontalAlignment: Text.AlignLeft
@@ -315,7 +315,7 @@ Item{
                     Layout.fillHeight: true
                     text: qsTr("The session may end earlier if the node service detects inactivity")
                     font: mainFont.dapFont.medium12
-                    color: currTheme.textColorGrayThree
+                    color: currTheme.gray
                     wrapMode: Text.WordWrap
                 }
             }
@@ -335,8 +335,8 @@ Item{
                 enabled: textInputPasswordWallet.text.length
                 onClicked:
                 {
-                    dapServiceController.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"activate", textInputPasswordWallet.text, ttl)
-                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
+                    logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"activate", textInputPasswordWallet.text, ttl)
+                    logicMainApp.requestToService("DapGetWalletsInfoCommand","true")
 //                    activatingSignal(nameWallet)
 
 //                    hide()
@@ -349,7 +349,7 @@ Item{
                     if(rcvData.cmd === "activate")
                     {
                         if(rcvData.success){
-                            textInputPasswordWallet.bottomLine.color = currTheme.borderColor
+                            textInputPasswordWallet.bottomLine.color = currTheme.input
                             textError.visible = false
                             activatingSignal(nameWallet, true)
 
@@ -361,7 +361,7 @@ Item{
                                         "qrc:/Resources/" + pathTheme + "/icons/other/icon_walletUnlocked.svg")
                             hide()
                         }else{
-                            textInputPasswordWallet.bottomLine.color = currTheme.textColorRed
+                            textInputPasswordWallet.bottomLine.color = currTheme.red
                             textError.visible = true
                             activatingSignal(nameWallet, false)
                         }
@@ -371,14 +371,14 @@ Item{
         }
     }
 
-    DropShadow {
+    InnerShadow {
         anchors.fill: farmeActivate
         source: farmeActivate
         color: currTheme.reflection
-        horizontalOffset: -1
-        verticalOffset: -1
+        horizontalOffset: 1
+        verticalOffset: 1
         radius: 0
-        samples: 0
+        samples: 10
         opacity: farmeActivate.opacity
         fast: true
         cached: true
@@ -386,12 +386,13 @@ Item{
     DropShadow {
         anchors.fill: farmeActivate
         source: farmeActivate
-        color: currTheme.shadowColor
+        color: currTheme.shadowMain
         horizontalOffset: 5
         verticalOffset: 5
         radius: 10
         samples: 20
-        opacity: farmeActivate.opacity
+        opacity: farmeActivate.opacity ? 0.42 : 0
+        cached: true
     }
 
     function hide(){
@@ -404,7 +405,7 @@ Item{
     function show(name_wallet, expired){
         isExpired = expired
         isOpen = true
-        textInputPasswordWallet.bottomLine.color = currTheme.borderColor
+        textInputPasswordWallet.bottomLine.color = currTheme.input
         textError.visible = false
         visible = true
         nameWallet = name_wallet

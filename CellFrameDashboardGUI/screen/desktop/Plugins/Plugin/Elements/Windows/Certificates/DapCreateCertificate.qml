@@ -101,7 +101,7 @@ Item {
 
                 onClicked:
                 {
-                    dapServiceController.requestToService("DapCertificateManagerCommands"
+                    logicMainApp.requestToService("DapCertificateManagerCommands"
                                                           , 2 //create cert command into service
                                                           , textInputNameCertificate.text, signatureTypeWallet.get(0).sign
                                                           , getDataToJson());

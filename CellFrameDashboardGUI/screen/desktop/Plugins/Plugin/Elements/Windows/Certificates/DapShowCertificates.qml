@@ -72,7 +72,7 @@ Item {
     }
 
     Component.onCompleted: {
-        dapServiceController.requestToService("DapCertificateManagerCommands", 1); // 1 - Get List Certificates
+        logicMainApp.requestToService("DapCertificateManagerCommands", 1); // 1 - Get List Certificates
     }
 
     InnerShadow {

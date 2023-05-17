@@ -36,11 +36,11 @@ QtObject {
             }
             if(error === "Connected")
             {
-                 dAppsScreen.dapDownloadPanel.errors.color = currTheme.placeHolderTextColor
+                 dAppsScreen.dapDownloadPanel.errors.color = currTheme.lightGreen
             }
             else
             {
-                 dAppsScreen.dapDownloadPanel.errors.color = currTheme.buttonColorNormal
+                 dAppsScreen.dapDownloadPanel.errors.color = currTheme.red
             }
         }
         else

@@ -129,7 +129,7 @@ RowLayout
 
         console.log("dapServiceController.requestToService", "DapGetXchangeTxList",
                     net, address)
-        dapServiceController.requestToService("DapGetXchangeTxList",
+        logicMainApp.requestToService("DapGetXchangeTxList",
             "GetOrdersPrivate", net, address, "", "")
 
         logic.initOrdersModels()
@@ -185,8 +185,8 @@ RowLayout
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            color: currTheme.backgroundElements
-            radius: currTheme.radiusRectangle
+            color: currTheme.secondaryBackground
+            radius: currTheme.frameRadius
             shadowColor: currTheme.shadowColor
             lightColor: currTheme.reflectionLight
 
@@ -214,8 +214,8 @@ RowLayout
         Layout.minimumWidth: 350
         Layout.fillHeight: true
 
-        color: currTheme.backgroundElements
-        radius: currTheme.radiusRectangle
+        color: currTheme.secondaryBackground
+        radius: currTheme.frameRadius
         shadowColor: currTheme.shadowColor
         lightColor: currTheme.reflectionLight
 

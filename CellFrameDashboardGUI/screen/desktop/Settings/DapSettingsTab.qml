@@ -12,6 +12,8 @@ DapPage
 {
     ///@detalis Path to the right panel of input name wallet.
     readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
+    ///@detalis Path to the right panel of node settings.
+    readonly property string nodeSettingsPanel: path + "/Settings/NodeSettings/NodeBlock.qml"
     ///@detalis Path to the right panel of done.
     readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
@@ -49,6 +51,11 @@ DapPage
             dapRightPanel.push(inputNameWallet)
         }
 
+        function openNodeSettings() {
+            dapRightPanelFrame.frame.visible = true
+            dapRightPanel.push(nodeSettingsPanel)
+        }
+
         function doneWalletFunc(){
             dapRightPanel.push(doneWallet)
         }
@@ -81,6 +88,12 @@ DapPage
             dapRightPanel.pop()
             logicMainApp.restoreWalletMode = restoreMode
             navigator.createWallet()
+        }
+
+        onNodeSettingsSignal:
+        {
+            dapRightPanel.pop()
+            navigator.openNodeSettings()
         }
 
         onSwitchMenuTab:
@@ -127,14 +140,14 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
-            dapServiceController.requestToService("DapGetListWalletsCommand")
+            logicMainApp.requestToService("DapGetListWalletsCommand")
 //            dapServiceController.requestToService("DapGetListNetworksCommand")
 
-            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
-                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
+//            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
+//                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
 
             if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
-                dapServiceController.requestToService("DapVersionController", "version node")
+                logicMainApp.requestToService("DapVersionController", "version node")
 //            if(!dapNetworkModel.count)
 //            {
 //                dapServiceController.requestToService("DapGetListNetworksCommand")
@@ -145,7 +158,7 @@ DapPage
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapVersionController", "version node")
+        logicMainApp.requestToService("DapVersionController", "version node")
         updateSettingsTimer.start()
     }
 
@@ -166,10 +179,10 @@ DapPage
 //            if(dapModelWallets)
 //            {
 //                if(walletsList.length !== dapModelWallets.count)
-//                    dapServiceController.requestToService("DapGetWalletsInfoCommand",1)
+//                    dapServiceController.requestToService("DapGetWalletsInfoCommand","true")
 //            }
 //            else
-                dapServiceController.requestToService("DapGetWalletsInfoCommand")
+                logicMainApp.requestToService("DapGetWalletsInfoCommand","")
         }
         function onVersionControllerResult(versionResult)
         {
@@ -179,10 +192,12 @@ DapPage
                 timeout.stop()
                 if(!versionResult.hasUpdate && versionResult.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
-                else if(versionResult.message !== "")
+                else if(versionResult.message !== "" && versionResult.hasUpdate)
+                {
                     messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + dapServiceController.Version +"\n"+
                                                                            "Last version - " + versionResult.lastVersion +"\n" +
                                                                            "Go to website to download?"))
+                }
             }
         }
     }

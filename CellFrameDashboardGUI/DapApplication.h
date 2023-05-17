@@ -3,6 +3,7 @@
 
 #include <QApplication>
 #include "DapNetworksList.h"
+#include "DiagnosticWorker/DiagnosticWorker.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
@@ -12,14 +13,16 @@
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
 #include "HistoryWorker/historyworker.h"
+#include "DiagnosticWorker/models/NodeModel.h"
 
 #include "DapLogger.h"
 #include "DapDataLocal.h"
 #include "DapLogHandler.h"
 #include <iostream>
 
-
 #include "StockDataWorker/stockdataworker.h"
+
+#include "ConfigWorker/configworker.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -45,6 +48,10 @@ public:
     Q_INVOKABLE void setClipboardText(const QString &text);
 //    Q_INVOKABLE DapWallet *currentWallet() const;
     Q_INVOKABLE void startService();
+
+    Q_INVOKABLE void requestToService(QVariant sName, QVariantList sArgs);
+    Q_INVOKABLE void notifyService(QVariant sName, QVariantList sArgs);
+
     DapVpnOrdersModel* getVpnOrdersModel();
     CommandCmdController *commandCmdController;
 
@@ -62,9 +69,11 @@ private:
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
     DapMath *m_mathBigNumbers;
+    DiagnosticWorker *m_diagnosticWorker;
 
     StockDataWorker *stockDataWorker;
     HistoryWorker * m_historyWorker;
+    ConfigWorker *configWorker;
 };
 
 #endif // DAPAPPLICATION_H

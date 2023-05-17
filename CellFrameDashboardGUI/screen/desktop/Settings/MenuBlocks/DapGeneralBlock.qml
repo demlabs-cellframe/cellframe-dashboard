@@ -16,7 +16,7 @@ ColumnLayout
     property alias dapWalletsButtons : buttonGroup
 //    property int dapCurrentWallet: logicMainApp.currentWalletIndex
     property alias dapNetworkComboBox: comboBoxCurrentNetwork
-    property alias dapAutoOnlineCheckBox: checkBox
+//    property alias dapAutoOnlineCheckBox: checkBox
 
     spacing: 0
 
@@ -31,7 +31,7 @@ ColumnLayout
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             font: mainFont.dapFont.bold14
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("General settings")
         }
@@ -41,7 +41,7 @@ ColumnLayout
     {
         Layout.fillWidth: true
         height: 30
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
 
         Text
         {
@@ -49,7 +49,7 @@ ColumnLayout
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             font: mainFont.dapFont.medium12
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Networks")
         }
@@ -73,6 +73,7 @@ ColumnLayout
             anchors.bottomMargin: 0
             anchors.topMargin: 5
             anchors.leftMargin: 10
+            backgroundColor: currTheme.secondaryBackground
 
             font: mainFont.dapFont.regular16
 
@@ -99,7 +100,7 @@ ColumnLayout
         }
     }
 
-    Item
+/*    Item
     {
         height: 50
         Layout.fillWidth: true
@@ -142,7 +143,7 @@ ColumnLayout
                     if (accept)
                     {
                         var val = (checkBox.checkState === 2)
-                        dapServiceController.requestToService("DapNodeConfigController", "AddNewValue", val);
+                        logicMainApp.requestToService("DapNodeConfigController", "AddNewValue", val);
                         popup.close()
                     }
                     else
@@ -159,7 +160,7 @@ ColumnLayout
                     checkBox.stopUpdate = false
             }
         }
-    }
+    }*/
 
 
     Rectangle
@@ -168,7 +169,7 @@ ColumnLayout
         Layout.topMargin: 8
 //        Layout.bottomMargin: 1
         height: 30
-        color: currTheme.backgroundMainScreen
+        color: currTheme.mainBackground
 
         Text
         {
@@ -176,7 +177,7 @@ ColumnLayout
             anchors.leftMargin: 16
             anchors.verticalCenter: parent.verticalCenter
             font: mainFont.dapFont.medium12
-            color: currTheme.textColor
+            color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
             text: qsTr("Choose a wallet")
         }
@@ -259,7 +260,7 @@ ColumnLayout
                                Layout.preferredWidth: 69
 
                                fontDapText: mainFont.dapFont.regular12
-                               color: currTheme.textColorGrayTwo
+                               color: currTheme.gray
                                fullText: rowLay.visible ? networks.get(dapServiceController.IndexCurrentNetwork).address : ""
 
                                textElide: Text.ElideMiddle
@@ -374,7 +375,7 @@ ColumnLayout
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     height: 1
-                    color: currTheme.lineSeparatorColor
+                    color: currTheme.mainBackground
                 }
             }
         }

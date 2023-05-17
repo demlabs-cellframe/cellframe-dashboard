@@ -21,7 +21,7 @@ Item {
 
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapGetListOrdersCommand");
+        logicMainApp.requestToService("DapGetListOrdersCommand");
     }
 
     Connections

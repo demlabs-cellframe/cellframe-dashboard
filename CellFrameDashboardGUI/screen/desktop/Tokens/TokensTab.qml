@@ -98,13 +98,13 @@ DapPage
         onTriggered:
         {
             console.log("TOKENS TIMER TICK")
-            dapServiceController.requestToService("DapGetListTokensCommand", "update")
+            logicMainApp.requestToService("DapGetListTokensCommand", "update")
         }
     }
     Component.onCompleted:
     {
-        dapServiceController.requestToService("DapCertificateManagerCommands", 1)
-        dapServiceController.requestToService("DapGetListTokensCommand")
+        logicMainApp.requestToService("DapCertificateManagerCommands", 1)
+        logicMainApp.requestToService("DapGetListTokensCommand","")
         if (!updateTokensTimer.running)
             updateTokensTimer.start()
     }
