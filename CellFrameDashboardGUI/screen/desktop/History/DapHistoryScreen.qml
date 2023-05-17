@@ -129,12 +129,14 @@ Page
                 {
                     id: textSatus
                     Layout.minimumWidth: 80
-                    text: tx_status === "ACCEPTED" ? status : "Declined"
-                    color: text === "Sent" ?      currTheme.orange :
-                           text === "Error" ||
-                           text === "Declined" ?  currTheme.red :
-                           text === "Received"  ? currTheme.lightGreen :
-                                                  currTheme.white
+                    text: getStatusName(tx_status, status)
+                    color: getStatusColor(tx_status, status)
+//                    text: tx_status === "ACCEPTED" ? status : "Declined"
+//                    color: text === "Sent" ?      currTheme.orange :
+//                           text === "Error" ||
+//                           text === "Declined" ?  currTheme.red :
+//                           text === "Received"  ? currTheme.lightGreen :
+//                                                  currTheme.white
 
                     font:  mainFont.dapFont.regular14
                 }
@@ -228,5 +230,31 @@ Page
                 color: currTheme.mainBackground
             }
         }
+    }
+
+    function getStatusName(tx_status, status)
+    {
+        if (tx_status !== "ACCEPTED")
+            return qsTr("Declined")
+        if (status === "Sent")
+            return qsTr("Sent")
+        if (status === "Error")
+            return qsTr("Error")
+        if (status === "Declined")
+            return qsTr("Declined")
+        if (status === "Received")
+            return qsTr("Received")
+        return status
+    }
+
+    function getStatusColor(tx_status, status)
+    {
+        if (tx_status !== "ACCEPTED" || status === "Error")
+            return currTheme.red
+        if (status === "Sent")
+            return currTheme.orange
+        if (status === "Received")
+            return currTheme.lightGreen
+        return currTheme.white
     }
 }

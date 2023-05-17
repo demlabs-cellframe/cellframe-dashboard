@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AllNodesBlock</name>
     <message>
@@ -456,7 +456,7 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/controls/CopyButton.qml" line="41"/>
         <source>Address copied</source>
-        <translation type="unfinished">Адрес скопирован</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -464,7 +464,7 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/controls/CopyPopup.qml" line="57"/>
         <source>Address copied</source>
-        <translation type="unfinished">Адрес скопирован</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -808,42 +808,42 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="27"/>
         <source>Appearance</source>
-        <translation type="unfinished">Внешний вид</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="46"/>
         <source>GUI language</source>
-        <translation type="unfinished">Язык интерфейса (language)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="121"/>
         <source>Window scale</source>
-        <translation type="unfinished">Масштаб окна</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="147"/>
         <source>Scale value</source>
-        <translation type="unfinished">Значение масштаба</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="209"/>
         <source>Reset scale</source>
-        <translation type="unfinished">Сбросить</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="231"/>
         <source>Apply scale</source>
-        <translation type="unfinished">Применить</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="260"/>
         <source>Reset window size</source>
-        <translation type="unfinished">Сбросить размер окна</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapAppearanceBlock.qml" line="286"/>
         <source>Edit menu</source>
-        <translation type="unfinished">Редактировать меню</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1033,7 +1033,7 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/Console/DapConsoleRightPanel.qml" line="44"/>
         <source>Last actions</source>
-        <translation type="unfinished">Последние действия</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1183,27 +1183,27 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardScreen.qml" line="78"/>
         <source>Create a new wallet</source>
-        <translation type="unfinished">Создать новый кошелёк</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardScreen.qml" line="94"/>
         <source>Get started</source>
-        <translation type="unfinished">Начать</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardScreen.qml" line="128"/>
         <source>Creating wallet in process...</source>
-        <translation type="unfinished">Создание кошелька в процессе...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardScreen.qml" line="162"/>
         <source>Tokens</source>
-        <translation type="unfinished">Токены</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardScreen.qml" line="237"/>
         <source>Address copied</source>
-        <translation type="unfinished">Адрес скопирован</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1211,12 +1211,12 @@ Root — special predefined root nodes, usually produces zerochain and acts like
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardTopPanel.qml" line="22"/>
         <source>Wallet:</source>
-        <translation type="unfinished">Кошелёк:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardTopPanel.qml" line="68"/>
         <source>Wallets</source>
-        <translation type="unfinished">Кошельки</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/DapDashboardTopPanel.qml" line="83"/>
@@ -1458,23 +1458,23 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="36"/>
         <source>General settings</source>
-        <translation type="unfinished">Главные настройки</translation>
+        <translation type="unfinished">常规设置</translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="54"/>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="83"/>
         <source>Networks</source>
-        <translation type="unfinished">Сети</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="182"/>
         <source>Choose a wallet</source>
-        <translation type="unfinished">Выберите кошелёк</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="286"/>
         <source>Address copied</source>
-        <translation type="unfinished">Адрес скопирован</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/MenuBlocks/DapGeneralBlock.qml" line="304"/>
@@ -1512,17 +1512,17 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="70"/>
         <source>Sent</source>
-        <translation type="unfinished">Отправлено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="85"/>
         <source>Received</source>
-        <translation type="unfinished">Получено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="100"/>
         <source>Declined</source>
-        <translation type="unfinished">Отклонено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryRightPanel.qml" line="120"/>
@@ -1638,7 +1638,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="174"/>
         <source>fee: </source>
-        <translation type="unfinished">взнос: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="187"/>
@@ -1649,22 +1649,22 @@ wallets in Settings</source>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="238"/>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="244"/>
         <source>Declined</source>
-        <translation type="unfinished">Отклонено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="240"/>
         <source>Sent</source>
-        <translation type="unfinished">Отправлено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="242"/>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/History/DapHistoryScreen.qml" line="246"/>
         <source>Received</source>
-        <translation type="unfinished">Получено</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1723,7 +1723,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Networks/parts/DapInfoContent.qml" line="224"/>
         <source>Address copied</source>
-        <translation type="unfinished">Адрес скопирован</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1731,12 +1731,12 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="153"/>
         <source>Last actions</source>
-        <translation type="unfinished">Последние действия</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="237"/>
         <source>fee: </source>
-        <translation type="unfinished">взнос: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="251"/>
@@ -1747,49 +1747,22 @@ wallets in Settings</source>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="313"/>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="319"/>
         <source>Declined</source>
-        <translation type="unfinished">Отклонено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="315"/>
         <source>Sent</source>
-        <translation type="unfinished">Отправлено</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="317"/>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapLastActionsRightPanel.qml" line="321"/>
         <source>Received</source>
-        <translation type="unfinished">Получено</translation>
-    </message>
-</context>
-<context>
-    <name>DapLastActionsRightPanelForm.ui</name>
-    <message>
-        <source>Last actions</source>
-        <translation type="obsolete">Последние действия 1</translation>
-    </message>
-    <message>
-        <source>fee: </source>
-        <translation type="obsolete">взнос: </translation>
-    </message>
-    <message>
-        <source>Declined</source>
-        <translation type="obsolete">Отклонено 1</translation>
-    </message>
-    <message>
-        <source>Sent</source>
-        <translation type="obsolete">Отправлено 1</translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="obsolete">Ошибка 1</translation>
-    </message>
-    <message>
-        <source>Received</source>
-        <translation type="obsolete">Получено 1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1850,7 +1823,7 @@ wallets in Settings</source>
         <location filename="../../screen/DapMainApplicationWindow.qml" line="189"/>
         <location filename="../../screen/DapMainApplicationWindow.qml" line="238"/>
         <source>Tokens</source>
-        <translation type="unfinished">Токены</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/DapMainApplicationWindow.qml" line="192"/>
@@ -1933,7 +1906,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/controls/DapMainButtonsMenu.qml" line="107"/>
         <source>Tokens</source>
-        <translation type="unfinished">Токены</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/controls/DapMainButtonsMenu.qml" line="111"/>
@@ -2004,7 +1977,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml" line="28"/>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2040,7 +2013,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml" line="146"/>
         <source>Networks</source>
-        <translation type="unfinished">Сети</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml" line="163"/>
@@ -2060,7 +2033,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml" line="255"/>
         <source>Tokens</source>
-        <translation type="unfinished">Токены</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml" line="269"/>
@@ -2341,7 +2314,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="50"/>
         <source>Requests</source>
-        <translation type="unfinished">Запросы</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/RightPanel/DapRequestsRightPanel.qml" line="69"/>
@@ -2508,17 +2481,17 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsScreen.qml" line="77"/>
         <source>Create a new wallet</source>
-        <translation type="unfinished">Создать новый кошелёк</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsScreen.qml" line="98"/>
         <source>Import an existing wallet</source>
-        <translation type="unfinished">Импорт существующего кошелька</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsScreen.qml" line="119"/>
         <source>Node settings</source>
-        <translation type="unfinished">Настройки ноды</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2526,7 +2499,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsTab.qml" line="133"/>
         <source>Service not found</source>
-        <translation type="unfinished">Сервис не найден</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2534,12 +2507,12 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsTopPanel.qml" line="37"/>
         <source>Requests</source>
-        <translation type="unfinished">Запросы</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsTopPanel.qml" line="95"/>
         <source>Node connection status:</source>
-        <translation type="unfinished">Статус соединения с нодой:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/DapSettingsTopPanel.qml" line="146"/>
@@ -2589,7 +2562,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Plugins/Plugin/Elements/Windows/Wallets/DapShowWallets.qml" line="50"/>
         <source>Wallets</source>
-        <translation type="unfinished">Кошельки</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3200,7 +3173,7 @@ wallets in Settings</source>
     <message>
         <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="117"/>
         <source>Node settings</source>
-        <translation type="unfinished">Настройки ноды</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../screen/desktop/Settings/NodeSettings/NodeBlock.qml" line="150"/>
@@ -3912,7 +3885,7 @@ error!</source>
     <message>
         <location filename="../../screen/desktop/History/TextDetailsTx.qml" line="119"/>
         <source>Address copied</source>
-        <translation type="unfinished">Адрес скопирован</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3999,7 +3972,7 @@ error!</source>
     <message>
         <location filename="../../screen/desktop/Tokens/RightPanel/TokenOperationsDone.qml" line="29"/>
         <source>Error</source>
-        <translation type="unfinished">Ошибка</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4007,7 +3980,7 @@ error!</source>
     <message>
         <location filename="../../screen/desktop/Tokens/TokensScreen.qml" line="52"/>
         <source>Tokens</source>
-        <translation type="unfinished">Токены</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

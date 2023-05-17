@@ -114,7 +114,11 @@ RESOURCES += $$PWD/qml.qrc
 RESOURCES += $$PWD/../cellframe-ui-sdk/ui/chain/wallet/libdap-qt-ui-chain-wallet.qrc
 
 TRANSLATIONS += \
-    Resources/Translations/Translation_ru.ts
+    Resources/Translations/Translation_ru.ts \
+    Resources/Translations/Translation_zh.ts \
+    Resources/Translations/Translation_cs.ts \
+    Resources/Translations/Translation_pt.ts \
+    Resources/Translations/Translation_nl.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 #QML_IMPORT_PATH =
