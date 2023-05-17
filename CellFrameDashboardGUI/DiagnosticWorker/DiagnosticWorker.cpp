@@ -90,15 +90,12 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     if(!sendFlagsData::flagSendSysTime)
         system.insert("uptime", "blocked");
     if(!sendFlagsData::flagSendMemory)
-        sys_mem.insert("total_value", 0);
-    if(!sendFlagsData::flagSendMemory)
         sys_mem.insert("total", "blocked");
     if(!sendFlagsData::flagSendMemoryFree)
         sys_mem.insert("free", "blocked");
 
 
     system.insert("time_update_unix", QDateTime::currentSecsSinceEpoch());
-    system.insert("time_update", QDateTime::currentDateTime().toString("dd.MM.yyyy hh:mm"));
     system.insert("memory",sys_mem);
     obj.insert("system",system);
 
@@ -112,6 +109,23 @@ void DiagnosticWorker::slot_diagnostic_data(QJsonDocument data)
     data.setObject(obj);
 
     m_diagnostic->s_full_info.setObject(obj);
+
+    // calculate sizes
+
+    if(sys_mem["total"].toString() != "blocked")
+        sys_mem.insert("total", m_diagnostic->get_memory_string(sys_mem["total"].toString().toUInt()));
+    if(sys_mem["free"].toString() != "blocked")
+        sys_mem.insert("free", m_diagnostic->get_memory_string(sys_mem["free"].toString().toUInt()));
+
+    proc.insert("memory_use_value", m_diagnostic->get_memory_string(proc["memory_use_value"].toString().toUInt()));
+    proc.insert("log_size", m_diagnostic->get_memory_string(proc["log_size"].toString().toUInt()));
+    proc.insert("DB_size", m_diagnostic->get_memory_string(proc["DB_size"].toString().toUInt()));
+    proc.insert("chain_size", m_diagnostic->get_memory_string(proc["chain_size"].toString().toUInt()));
+
+    system.insert("memory",sys_mem);
+    obj.insert("system",system);
+    obj.insert("process",proc);
+    data.setObject(obj);
 
     emit signalDiagnosticData(data.toJson()); // sig update gui local data
 }

@@ -21,9 +21,16 @@ void MacDiagnostic::info_update(){
     sys_info = get_sys_info();
     sys_info.insert("mac", s_mac);
     QJsonObject obj = sys_info["memory"].toObject();
+<<<<<<< HEAD
     int mem = obj["total_value"].toInt();
 
     proc_info = get_process_info(mem);
+=======
+    int mem = obj["total"].toString().toUInt();;
+
+    proc_info = get_process_info(mem);
+    proc_info.insert("roles", roles_processing());
+>>>>>>> 3f8fb65ecf82f7b8b60dac8d9c260f7607c8b3ab
 
     full_info.insert("system", sys_info);
     full_info.insert("process", proc_info);
@@ -70,14 +77,23 @@ QJsonObject MacDiagnostic::get_sys_info()
 //                                 (int64_t)vm_stats.wire_count) *  (int64_t)page_size;
     }
 
+<<<<<<< HEAD
     QString memtotal = get_memory_string(physical_memory/1024);
     QString memfree = get_memory_string(free_memory/1024);
+=======
+    QString memtotal = QString::number(physical_memory/1024);
+    QString memfree  = QString::number(free_memory/1024);
+>>>>>>> 3f8fb65ecf82f7b8b60dac8d9c260f7607c8b3ab
 //    QString memused = get_memory_string(used_memory/1024);
 
     QString memory_used = QString::number((physical_memory - free_memory) *100 / physical_memory);
 
     obj_memory.insert("total", memtotal);
+<<<<<<< HEAD
     obj_memory.insert("total_value", physical_memory/1024);
+=======
+//    obj_memory.insert("total_value", physical_memory/1024);
+>>>>>>> 3f8fb65ecf82f7b8b60dac8d9c260f7607c8b3ab
     obj_memory.insert("free", memfree);
     obj_memory.insert("load", memory_used);
 
@@ -163,6 +179,7 @@ QJsonObject MacDiagnostic::get_process_info(int totalRam)
     QString node_dir = QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/").arg(getenv("USER")); //todo: create define
 
     QString log_size, db_size, chain_size;
+<<<<<<< HEAD
     log_size = get_memory_string(get_file_size("log", node_dir) / 1024);
     db_size = get_memory_string(get_file_size("DB", node_dir) / 1024);
     chain_size = get_memory_string(get_file_size("chain", node_dir) / 1024);
@@ -170,6 +187,15 @@ QJsonObject MacDiagnostic::get_process_info(int totalRam)
     if(log_size.isEmpty()) log_size = "0 Kb";
     if(db_size.isEmpty()) db_size = "0 Kb";
     if(chain_size.isEmpty()) chain_size = "0 Kb";
+=======
+    log_size   = QString::number(get_file_size("log", node_dir) / 1024);
+    db_size    = QString::number(get_file_size("DB", node_dir) / 1024);
+    chain_size = QString::number(get_file_size("chain", node_dir) / 1024);
+
+    if(log_size.isEmpty()) log_size = "0";
+    if(db_size.isEmpty()) db_size = "0";
+    if(chain_size.isEmpty()) chain_size = "0";
+>>>>>>> 3f8fb65ecf82f7b8b60dac8d9c260f7607c8b3ab
 
     process_info.insert("log_size", log_size);
     process_info.insert("DB_size", db_size);
@@ -179,7 +205,11 @@ QJsonObject MacDiagnostic::get_process_info(int totalRam)
     if(string.isEmpty())
     {
         process_info.insert("memory_use","0");
+<<<<<<< HEAD
         process_info.insert("memory_use_value","0 Kb");
+=======
+        process_info.insert("memory_use_value","0");
+>>>>>>> 3f8fb65ecf82f7b8b60dac8d9c260f7607c8b3ab
         process_info.insert("uptime","00:00:00");
     }
     else
@@ -197,7 +227,11 @@ QJsonObject MacDiagnostic::get_process_info(int totalRam)
         uptime = parseString[2];
         path = parseString[3];
 
+<<<<<<< HEAD
         QString memory_use_value = get_memory_string(rss);
+=======
+        QString memory_use_value = QString::number(rss);
+>>>>>>> 3f8fb65ecf82f7b8b60dac8d9c260f7607c8b3ab
         int precentUseRss = rss *100 / totalRam;
 
         process_info.insert("memory_use",precentUseRss);

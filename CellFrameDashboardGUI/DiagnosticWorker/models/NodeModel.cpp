@@ -50,9 +50,8 @@ AbstractNodeModel::Item NodeModel::getItem(QJsonObject obj)
     itm.system_memory_free        = system["memory"].toObject()["free"].toString();
     itm.system_memory_load        = system["memory"].toObject()["load"].toVariant().toInt();
     itm.system_memory_total       = system["memory"].toObject()["total"].toString();
-    itm.system_memory_total_value = system["memory"].toObject()["total_value"].toVariant().toInt();
+//    itm.system_memory_total_value = system["memory"].toObject()["total_value"].toVariant().toInt();
     itm.system_mac                = system["mac"].toString();
-    itm.system_time_update_unix   = system["time_update_unix"].toVariant().toLongLong();
     itm.system_uptime             = system["uptime"].toString();
     itm.system_uptime_dashboard   = system["uptime_dashboard"].toString();
     itm.system_node_name          = system["name"].toString();
