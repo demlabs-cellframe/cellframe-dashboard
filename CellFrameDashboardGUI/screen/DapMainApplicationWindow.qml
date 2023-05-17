@@ -292,8 +292,16 @@ Rectangle {
         id: modelLanguages
         ListElement { tag: "en"
             name: "English"}
+        ListElement { tag: "zh"
+            name: "Chinese"}
+        ListElement { tag: "cs"
+            name: "Czech"}
+        ListElement { tag: "nl"
+            name: "Dutch"}
+        ListElement { tag: "pt"
+            name: "Portuguese"}
         ListElement { tag: "ru"
-            name: "Russian - русский"}
+            name: "Russian"}
     }
 
 
@@ -464,6 +472,8 @@ Rectangle {
 
     Component.onCompleted:
     {
+//        console.log("Component.onCompleted", "modelLanguages", modelLanguages)
+
 //        translator.setLanguage("ru")
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
         logicMainApp.requestToService("DapVersionController", "version")
