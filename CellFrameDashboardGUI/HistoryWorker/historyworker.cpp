@@ -260,7 +260,7 @@ void HistoryWorker::sendCurrentHistoryModel()
     {
         const HistoryModel::Item &item = fullModel.getItem(i);
 
-        QString status = item.tx_status == "ACCEPTED" ?
+        QString status = item.tx_status == "ACCEPTED" || item.tx_status == "PROCESSING" ?
                     item.status : "Error";
 
         if (m_isLastActions)
@@ -302,7 +302,7 @@ void HistoryWorker::sendCurrentHistoryModel()
                     if (item.token.toLower().indexOf(fstr) >= 0)
                         return true;
 
-                    QString statusStr = item.tx_status == "ACCEPTED" ? item.status : "Declined";
+                    QString statusStr = item.tx_status == "ACCEPTED" || item.tx_status == "PROCESSING"  ? item.status : "Declined";
                     if (statusStr.toLower().indexOf(fstr) >= 0)
                         return true;
 

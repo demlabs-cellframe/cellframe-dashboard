@@ -35,7 +35,6 @@ public:
     quint64 get_file_size(QString flag, QString path);
     QString get_uptime_string(long sec);
     QString get_memory_string(size_t num);
-
     QJsonValue get_mac();
 
     QJsonDocument get_full_info(){return s_full_info;};
