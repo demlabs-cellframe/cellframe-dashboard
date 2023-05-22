@@ -3,6 +3,8 @@ import QtQml 2.12
 
 QtObject {
 
+    property bool restoreWalletMode: false
+
     function updateAllWallets()
     {
         dapModelWallets.clear()
@@ -14,8 +16,16 @@ QtObject {
 //        print("updateCurrentWallet", logicMainApp.currentIndex, dapModelWallets.get(logicMainApp.currentIndex).status )
 
         if (logicMainApp.currentWalletIndex !== -1)
+        {
+            if(logicMainApp.currentWalletIndex < dapModelWallets.count)
+            {
+                logicMainApp.currentWalletIndex--
+                return
+            }
+
             logicMainApp.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(logicMainApp.currentWalletIndex).name);
+                dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+        }
     }
 
     function updateWalletModel()

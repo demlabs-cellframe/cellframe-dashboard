@@ -9,20 +9,21 @@ import "qrc:/widgets" as Widgets
 
 Controls.DapTopPanel
 {
-    property alias dapNewPayment: newPaymentButton
-    property alias comboBoxCurrentWallet: comboBoxCurrentWallet
+    property alias layout: layout
 
     signal changeWallet(var indexWallet)
 
     RowLayout
     {
+        id: layout
         anchors.fill: parent
 
         Text{
-            text: "Wallet:"
+            text: qsTr("Wallet:")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
-            Layout.leftMargin: 24
+            Layout.leftMargin: 21
+//            visible: comboBoxCurrentWallet.visible
         }
 
         Widgets.DapCustomComboBox
@@ -68,6 +69,34 @@ Controls.DapTopPanel
             defaultText: qsTr("Wallets")
         }
 
+        Widgets.DapButton
+        {
+            Layout.leftMargin: 24
+
+            textButton: qsTr("Import wallet")
+
+            implicitHeight: 36
+            implicitWidth: 164
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText: Text.AlignHCenter
+            selected: false
+            onClicked: navigator.restoreWalletFunc()
+        }
+
+        Widgets.DapButton
+        {
+            Layout.leftMargin: 16
+
+            textButton: qsTr("Create new wallet")
+
+            implicitHeight: 36
+            implicitWidth: 164
+            fontButton: mainFont.dapFont.medium14
+            horizontalAligmentText: Text.AlignHCenter
+            selected: false
+            onClicked: navigator.createWallet()
+        }
+
         Item
         {
             Layout.fillWidth: true
@@ -80,13 +109,18 @@ Controls.DapTopPanel
             id: newPaymentButton
             Layout.rightMargin: 24
 
-            textButton: "Send"
+            textButton: qsTr("Send")
 
             implicitHeight: 36
             implicitWidth: 164
             fontButton: mainFont.dapFont.medium14
             horizontalAligmentText: Text.AlignHCenter
-            visible: dapModelWallets.count
+
+            onClicked: {
+                walletInfo.name = dapModelWallets.get(logicMainApp.currentWalletIndex).name
+                dapRightPanel.pop()
+                navigator.newPayment()
+            }
         }
 
     }

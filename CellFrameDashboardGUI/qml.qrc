@@ -314,5 +314,13 @@
         <file>Resources/BlackTheme/icons/other/indicator_offline.svg</file>
         <file>Resources/BlackTheme/icons/other/indicator_error.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_arrow_hover.svg</file>
+        <file>screen/desktop/Dashboard/DapDashboardNoWalletsScreen.qml</file>
+        <file>screen/desktop/Dashboard/DapDashboardWalletsShowScreen.qml</file>
+        <file>Resources/BlackTheme/Illustratons/wallet_illustration.svg</file>
+        <file>screen/desktop/Dashboard/DapDashboardCreateWalletsScreen.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapCreateWalletForm.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>
     </qresource>
 </RCC>

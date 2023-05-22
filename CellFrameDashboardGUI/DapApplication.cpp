@@ -85,6 +85,9 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_serviceController->requestNetworksList();
 //    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
+
+
+    s_modules = new DapModulesController(qmlEngine(), m_serviceController);
 }
 
 DapApplication::~DapApplication()

@@ -288,26 +288,34 @@ QtObject {
     {
         var jsonDocument = JSON.parse(wallet)
 
-        if(!jsonDocument)
+        console.log("AAAAAAAAAAAAA", dapModelWallets.count, wallet)
+
+        if(!jsonDocument || (!jsonDocument.status && !jsonDocument.networks.length))
         {
             dapModelWallets.clear()
             return
         }
 
+
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
             if (dapModelWallets.get(i).name === jsonDocument.name)
             {
-                dapModelWallets.get(i).status = jsonDocument.status
+                dapModelWallets.set(i, jsonDocument)
 
-                if(jsonDocument.status === "" || jsonDocument.status === "Active")
-                {
-//                    console.log(jsonDocument.networks)
-                    dapModelWallets.get(i).networks.clear()
-                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
-//                    dapModelWallets.get(i).networks = jsonDocument.networks
-//                    console.log(dapModelWallets.get(i).networks)
-                }
+                return
+
+
+//                dapModelWallets.get(i).status = jsonDocument.status
+
+//                if(jsonDocument.status === "" || jsonDocument.status === "Active")
+//                {
+////                    console.log(jsonDocument.networks)
+//                    dapModelWallets.get(i).networks.clear()
+//                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
+////                    dapModelWallets.get(i).networks = jsonDocument.networks
+////                    console.log(dapModelWallets.get(i).networks)
+//                }
             }
         }
     }

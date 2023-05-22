@@ -12,17 +12,17 @@ DapPage
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: path + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string createNewWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
+    readonly property string createNewWallet:          path + "/Dashboard/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
+    readonly property string recoveryWallet:           path + "/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml"
     ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
+    readonly property string doneWallet:               path + "/Dashboard/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of last actions.
-    readonly property string lastActionsWallet: path + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
+    readonly property string lastActionsWallet:        path + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
     ///@detalis Path to the right panel of new payment.
-    readonly property string newPaymentMain: path + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
+    readonly property string newPaymentMain:           path + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
     ///@detalis Path to the right panel of new payment done.
-    readonly property string newPaymentDone: path + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
+    readonly property string newPaymentDone:           path + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
 
     id: dashboardTab
 
@@ -49,15 +49,25 @@ DapPage
     QtObject {
         id: navigator
 
-        function createWallet() {
-            if(state !== "WALLETSHOW")
-                state = "WALLETCREATE"
+        function createWallet()
+        {
+            state = "WALLETCREATE"
+
+            logicWallet.restoreWalletMode = false
             dapRightPanel.push(createNewWallet)
         }
 
-        function doneWalletFunc(){
+        function doneWalletFunc()
+        {
             dapRightPanel.push(doneWallet)
-            dashboardTopPanel.dapNewPayment.enabled = true
+        }
+
+        function restoreWalletFunc()
+        {
+            state = "WALLETCREATE"
+
+            logicWallet.restoreWalletMode = true
+            dapRightPanel.push(createNewWallet)
         }
 
         function recoveryWalletFunc()
@@ -81,31 +91,22 @@ DapPage
 
             if(!dapModelWallets.count)
                 state = "WALLETDEFAULT"
+            else
+                state = "WALLETSHOW"
+
         }
     }
 
-    dapHeader.initialItem: DapDashboardTopPanel
+    dapHeader.initialItem:
+        DapDashboardTopPanel
         {
             id: dashboardTopPanel
-            dapNewPayment.onClicked:
-            {
-                walletInfo.name = dapModelWallets.get(logicMainApp.currentWalletIndex).name
-                dapRightPanel.pop()
-                navigator.newPayment()
-            }
         }
 
     dapScreen.initialItem:
         DapDashboardScreen
         {
             id: dashboardScreen
-            dapAddWalletButton.onClicked:
-            {
-                logicMainApp.restoreWalletMode = false
-                navigator.createWallet()
-                dashboardScreen.dapWalletCreateFrame.visible = false
-                dashboardTopPanel.dapNewPayment.enabled = false
-            }
         }
 
     dapRightPanel.initialItem: DapLastActionsRightPanel{id: lastActions}
@@ -119,27 +120,24 @@ DapPage
             name: "WALLETDEFAULT"
             PropertyChanges
             {
-                target: dashboardScreen.dapWalletCreateFrame;
+                target: dashboardScreen.walletDefaultFrame
                 visible: true
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapMainFrameDashboard;
+                target: dashboardScreen.walletShowFrame
                 visible: false
             }
             PropertyChanges
             {
-                target: dapRightPanelFrame;
+                target: dashboardTopPanel.layout
                 visible: false
             }
+
+            //...
             PropertyChanges
             {
-                target: dapHeaderFrame
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapFrameTitleCreateWallet;
+                target: dashboardScreen.walletCreateFrame;
                 visible: false
             }
         },
@@ -148,37 +146,25 @@ DapPage
             name: "WALLETSHOW"
             PropertyChanges
             {
-                target: dashboardScreen.dapWalletCreateFrame;
+                target: dashboardScreen.walletDefaultFrame
                 visible: false
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapMainFrameDashboard;
+                target: dashboardScreen.walletShowFrame
                 visible: true
             }
+
             PropertyChanges
             {
-                target: dapRightPanelFrame;
+                target: dashboardTopPanel.layout
                 visible: true
             }
+
+            //...
             PropertyChanges
             {
-                target: dapHeaderFrame
-                visible: true
-            }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapNewPayment
-//                visible: true
-//            }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapFrameTitle
-//                visible: true
-//            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapFrameTitleCreateWallet;
+                target: dashboardScreen.walletCreateFrame;
                 visible: false
             }
         },
@@ -187,37 +173,24 @@ DapPage
             name: "WALLETCREATE"
             PropertyChanges
             {
-                target: dashboardScreen.dapWalletCreateFrame;
-                visible: true
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapMainFrameDashboard;
+                target: dashboardScreen.walletDefaultFrame;
                 visible: false
             }
             PropertyChanges
             {
-                target: dapRightPanelFrame;
-                visible: true
+                target: dashboardScreen.walletShowFrame
+                visible: false
             }
             PropertyChanges
             {
-                target: dapHeaderFrame
-                visible: true
+                target: dashboardTopPanel.layout
+                visible: false
             }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapNewPayment
-//                visible: false
-//            }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapFrameTitle
-//                visible: false
-//            }
+
+            //...
             PropertyChanges
             {
-                target: dashboardScreen.dapFrameTitleCreateWallet;
+                target: dashboardScreen.walletCreateFrame;
                 visible: true
             }
         }

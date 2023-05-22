@@ -25,114 +25,28 @@ Page
 //    property alias dapButtonNewPayment: buttonNewPayment
     property alias dapListViewWallet: listViewWallet
 //    property alias dapNameWalletTitle: titleText
-    property alias dapWalletCreateFrame: walletCreateFrame
+    property alias walletDefaultFrame: walletDefaultFrame
 //    property alias dapTitleBlock: titleBlock
-    property alias dapAddWalletButton: addWalletButton
-    property alias dapFrameTitleCreateWallet: frameTitleCreateWallet
-    property alias dapMainFrameDashboard : mainFrameDashboard
+    property alias walletCreateFrame: walletCreateFrame
+    property alias walletShowFrame : walletShowFrame
 
 
-    Rectangle
+    DapDashboardNoWalletsScreen
+    {
+        id: walletDefaultFrame
+        anchors.fill: parent
+    }
+
+    DapDashboardCreateWalletsScreen
     {
         id: walletCreateFrame
         anchors.fill: parent
-//        anchors.topMargin: 41 
-        anchors.leftMargin: 301 
-        anchors.rightMargin: 281 
-        anchors.bottomMargin: 131 
-
-        color: "transparent"
-        Column
-        {
-            y: 50 
-            x: 40 
-            anchors.horizontalCenter: parent.horizontalCenter
-            Item
-            {
-                width: iconCreateWallet.implicitWidth
-                height: iconCreateWallet.implicitHeight
-
-                Image
-                {
-                    anchors.fill: parent
-                    id: iconCreateWallet
-                    source: "qrc:/Resources/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                    sourceSize.width: 200 
-                    sourceSize.height: 200 
-                    fillMode: Image.PreserveAspectFit
-                }
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            Item
-            {
-                height: 30 
-                width: parent.width
-            }
-
-            Text
-            {
-                id: titleTextWalletCreate
-                font: mainFont.dapFont.medium26
-                color: currTheme.white
-                text: qsTr("Create a new wallet")
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-            Item
-            {
-                height: 21 
-                width: parent.width
-            }
-
-            DapButton
-            {
-                id: addWalletButton
-
-                implicitWidth: 165 
-                implicitHeight: 36 
-                anchors.horizontalCenter: parent.horizontalCenter
-                textButton: qsTr("Get started")
-                fontButton: mainFont.dapFont.medium14
-                horizontalAligmentText:Qt.AlignCenter
-            }
-            Item
-            {
-                height: Layout.fillHeight
-                width: parent.width
-            }
-        }
-    }
-    Rectangle
-    {
-        FontLoader{id: font; source: "qrc:/resources/fonts/Quicksand/Quicksand-Medium.ttf"}
-        property alias text: textTitle.text
-
-
-        id: frameTitleCreateWallet
-        anchors.fill: parent
-        anchors.topMargin: 8 
-        anchors.leftMargin: 2 
-//        anchors.horizontalCenter: parent.horizontalCenter
-        color: "transparent"
-//        anchors.verticalCenter: parent.verticalCenter
-        Text
-        {
-            id:textTitle
-//            anchors.fill: parent
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            font.family: font.name
-            font.pixelSize:26 
-//            font: mainFont.dapFont.medium26
-            color: currTheme.white
-            text: qsTr("Creating wallet in process...")
-        }
     }
 
 
     DapRectangleLitAndShaded
     {
-        id: mainFrameDashboard
+        id: walletShowFrame
         anchors.fill: parent
         color: currTheme.secondaryBackground
         radius: currTheme.frameRadius

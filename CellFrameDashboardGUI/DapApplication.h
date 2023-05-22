@@ -24,6 +24,8 @@
 
 #include "ConfigWorker/configworker.h"
 
+#include "Modules/DapModulesController.h"
+
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
 #endif
@@ -54,6 +56,8 @@ public:
 
     DapVpnOrdersModel* getVpnOrdersModel();
     CommandCmdController *commandCmdController;
+
+    DapModulesController *s_modules;
 
 signals:
 //    void currentWalletChanged(DapWallet* a_currentWallet);
