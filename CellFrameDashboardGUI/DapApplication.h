@@ -4,6 +4,7 @@
 #include <QApplication>
 #include "DapNetworksList.h"
 #include "DiagnosticWorker/DiagnosticWorker.h"
+#include "Modules/DapModulesInit.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
@@ -23,8 +24,6 @@
 #include "StockDataWorker/stockdataworker.h"
 
 #include "ConfigWorker/configworker.h"
-
-#include "Modules/DapModulesController.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -57,7 +56,7 @@ public:
     DapVpnOrdersModel* getVpnOrdersModel();
     CommandCmdController *commandCmdController;
 
-    DapModulesController *s_modules;
+    DapModulesInit *s_modulesInit;
 
 signals:
 //    void currentWalletChanged(DapWallet* a_currentWallet);

@@ -87,7 +87,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
 
 
-    s_modules = new DapModulesController(qmlEngine(), m_serviceController);
+    s_modulesInit = new DapModulesInit(qmlEngine());
 }
 
 DapApplication::~DapApplication()

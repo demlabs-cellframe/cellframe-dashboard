@@ -1,12 +1,14 @@
 #include "DapModulesController.h"
 
-
-DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController *serviceCtrl, QObject *parent)
-    : QObject(parent),
-      s_appEngine(appEngine),
-      s_serviceCtrl(serviceCtrl)
+DapModulesController::DapModulesController(QObject *parent)
+    : QObject(parent)
+    , s_serviceCtrl(&DapServiceController::getInstance())
 {
 
-    m_wallet = new DapModuleWallet(s_appEngine, s_serviceCtrl);
+}
 
+DapModulesController &DapModulesController::getInstance()
+{
+    static DapModulesController instance;
+    return instance;
 }

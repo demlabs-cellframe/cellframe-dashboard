@@ -1,22 +1,70 @@
 #include "DapModuleWallet.h"
 
-DapModuleWallet::DapModuleWallet(QQmlApplicationEngine *appEngine, DapServiceController *serviceCtrl, QObject *parent)
-    : QObject(parent),
-      s_appEngine(appEngine),
-      s_serviceCtrl(serviceCtrl)
+DapModuleWallet::DapModuleWallet(DapModulesController *modulesCtrl, DapAbstractModule *parent)
+    : DapAbstractModule(parent)
+    , s_serviceCtrl(&DapServiceController::getInstance())
+    , s_modulesCtrl(modulesCtrl)
 {
+    setName("walletModule");
+    initConnect();
 
-    connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModuleWallet::test);
-
-    getWalletList();
 }
 
-void DapModuleWallet::getWalletList()
+void DapModuleWallet::initConnect()
 {
-    s_serviceCtrl->requestToService("DapGetListWalletsCommand");
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+    connect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
+    connect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvHistory);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
 }
 
-void DapModuleWallet::test(const QVariant &test)
+void DapModuleWallet::getWalletsInfo(QStringList args)
 {
-    qDebug()<<test;
+    s_serviceCtrl->requestToService("DapGetWalletsInfoCommand");
+}
+
+void DapModuleWallet::getWalletInfo(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapGetWalletInfoCommand");
+}
+
+void DapModuleWallet::createTx(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapCreateTransactionCommand");
+}
+
+void DapModuleWallet::createWallet(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapAddWalletCommand");
+}
+
+void DapModuleWallet::getTxHistory(QStringList args)
+{
+    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand");
+}
+
+void DapModuleWallet::rcvWalletsInfo(const QVariant &rcvData)
+{
+
+}
+
+void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
+{
+
+}
+
+void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
+{
+
+}
+
+void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
+{
+
+}
+
+void DapModuleWallet::rcvHistory(const QVariant &rcvData)
+{
+
 }

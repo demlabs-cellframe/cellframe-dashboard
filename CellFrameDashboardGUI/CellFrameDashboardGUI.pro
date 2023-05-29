@@ -20,7 +20,10 @@ HEADERS += $$PWD/DapServiceController.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
+    Modules/DapAbstractModule.h \
     Modules/DapModulesController.h \
+    Modules/DapModulesInit.h \
+    Modules/Test/DapModuleTest.h \
     Modules/Wallet/DapModuleWallet.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
@@ -60,7 +63,10 @@ SOURCES += $$PWD/main.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
+    Modules/DapAbstractModule.cpp \
     Modules/DapModulesController.cpp \
+    Modules/DapModulesInit.cpp \
+    Modules/Test/DapModuleTest.cpp \
     Modules/Wallet/DapModuleWallet.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \

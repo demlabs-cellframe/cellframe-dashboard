@@ -6,19 +6,20 @@
 #include <QDebug>
 
 #include "DapServiceController.h"
-#include "Wallet/DapModuleWallet.h"
 
 class DapModulesController : public QObject
 {
     Q_OBJECT
 public:
-    explicit DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController * serviceCtrl, QObject *parent = nullptr);
+    explicit DapModulesController(QObject *parent = nullptr);
 
-    QQmlApplicationEngine *s_appEngine;
     DapServiceController  *s_serviceCtrl;
 
-    //Modules
-    DapModuleWallet * m_wallet;
+    static DapModulesController &getInstance();
+
+    QString testData{"test data"};
+
+
 };
 
 #endif // DAPMODULESCONTROLLER_H
