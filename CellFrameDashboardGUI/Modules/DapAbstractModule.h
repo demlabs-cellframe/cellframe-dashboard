@@ -17,7 +17,7 @@ public:
     void setName(QString name);
     QString getName();
 
-public:
+private:
     bool m_statusProcessing;
     QString m_name;
 

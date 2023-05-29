@@ -20,11 +20,20 @@ HEADERS += $$PWD/DapServiceController.h \
     HistoryWorker/historymodel.h \
     HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
+    Modules/Certificates/DapModuleCertificates.h \
+    Modules/Console/DapModuleConsole.h \
     Modules/DapAbstractModule.h \
     Modules/DapModulesController.h \
     Modules/DapModulesInit.h \
+    Modules/Dex/DapModuleDex.h \
+    Modules/Diagnostics/DapModuledDiagnostics.h \
+    Modules/Logs/DapModuleLogs.h \
+    Modules/Settings/DapModuleSettings.h \
     Modules/Test/DapModuleTest.h \
+    Modules/Tokens/DapModuleTokens.h \
+    Modules/TxExplorer/DapModuleTxExplorer.h \
     Modules/Wallet/DapModuleWallet.h \
+    Modules/dApps/DapModuledApps.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
@@ -63,11 +72,20 @@ SOURCES += $$PWD/main.cpp \
     HistoryWorker/historymodel.cpp \
     HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
+    Modules/Certificates/DapModuleCertificates.cpp \
+    Modules/Console/DapModuleConsole.cpp \
     Modules/DapAbstractModule.cpp \
     Modules/DapModulesController.cpp \
     Modules/DapModulesInit.cpp \
+    Modules/Dex/DapModuleDex.cpp \
+    Modules/Diagnostics/DapModuledDiagnostics.cpp \
+    Modules/Logs/DapModuleLogs.cpp \
+    Modules/Settings/DapModuleSettings.cpp \
     Modules/Test/DapModuleTest.cpp \
+    Modules/Tokens/DapModuleTokens.cpp \
+    Modules/TxExplorer/DapModuleTxExplorer.cpp \
     Modules/Wallet/DapModuleWallet.cpp \
+    Modules/dApps/DapModuledApps.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \

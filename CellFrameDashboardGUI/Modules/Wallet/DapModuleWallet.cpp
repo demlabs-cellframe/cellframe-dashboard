@@ -5,9 +5,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *modulesCtrl, DapAbstractM
     , s_serviceCtrl(&DapServiceController::getInstance())
     , s_modulesCtrl(modulesCtrl)
 {
-    setName("walletModule");
     initConnect();
-
 }
 
 void DapModuleWallet::initConnect()

@@ -8,8 +8,17 @@
 
 #include "DapAbstractModule.h"
 #include "Wallet/DapModuleWallet.h"
-#include "Test/DapModuleTest.h"
+#include "Dex/DapModuleDex.h"
+#include "TxExplorer/DapModuleTxExplorer.h"
+#include "Certificates/DapModuleCertificates.h"
+#include "Tokens/DapModuleTokens.h"
+#include "Console/DapModuleConsole.h"
+#include "Logs/DapModuleLogs.h"
+#include "Settings/DapModuleSettings.h"
+#include "dApps/DapModuledApps.h"
+#include "Diagnostics/DapModuledDiagnostics.h"
 
+#include "Test/DapModuleTest.h"
 
 class DapModulesInit : public QObject
 {
@@ -20,8 +29,17 @@ public:
     QQmlApplicationEngine *s_appEngine;
 
     //Modules
-    QList<DapAbstractModule*> m_listModules;
-    DapModuleWallet * m_wallet;
+    QMap<QString, DapAbstractModule*> m_listModules;
+    DapModuleWallet       * m_wallet;
+    DapModuleDex          * m_dex;
+    DapModuleTxExplorer   * m_txExplorer;
+    DapModuleCertificates * m_certificates;
+    DapModuleTokens       * m_tokens;
+    DapModuleConsole      * m_console;
+    DapModuleLogs         * m_logs;
+    DapModuleSettings     * m_settings;
+    DapModuledApps        * m_dApps;
+    DapModuledDiagnostics * m_diagnostics;
 
     DapModuleTest * m_test;
 

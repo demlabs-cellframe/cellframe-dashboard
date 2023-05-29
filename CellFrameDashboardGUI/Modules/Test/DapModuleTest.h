@@ -13,13 +13,13 @@ class DapModuleTest : public DapAbstractModule
 {
     Q_OBJECT
 public:
-    explicit DapModuleTest(DapModulesController * modulesCtrl, DapModuleWallet* moduleWallet, DapAbstractModule *parent = nullptr);
+    explicit DapModuleTest(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
 
+    void test();
 
 private:
     DapServiceController  *s_serviceCtrl;
     DapModulesController  *s_modulesCtrl;
-    DapModuleWallet       *m_walletModule;
 };
 
 #endif // DAPMODULETEST_H

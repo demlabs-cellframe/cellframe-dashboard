@@ -6,6 +6,7 @@
 #include <QDebug>
 
 #include "DapServiceController.h"
+#include "DapAbstractModule.h"
 
 class DapModulesController : public QObject
 {
@@ -13,11 +14,16 @@ class DapModulesController : public QObject
 public:
     explicit DapModulesController(QObject *parent = nullptr);
 
+public:
     DapServiceController  *s_serviceCtrl;
-
-    static DapModulesController &getInstance();
+    QMap<QString, DapAbstractModule*> m_listModules;
 
     QString testData{"test data"};
+
+public:
+    static DapModulesController &getInstance();
+    void setListModules(QMap<QString, DapAbstractModule*> &list);
+    QMap<QString, DapAbstractModule*> getListModules();
 
 
 };
