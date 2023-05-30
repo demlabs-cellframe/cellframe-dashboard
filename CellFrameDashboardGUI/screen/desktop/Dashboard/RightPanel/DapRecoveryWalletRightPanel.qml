@@ -136,17 +136,20 @@ DapRecoveryWalletRightPanelForm
         console.log("Create new wallet " + walletInfo.name);
         console.log(walletInfo.signature_type);
 //        print("hash = ", walletInfo.recovery_hash)
+        var argsRequest
         if(walletInfo.password === "")
-            logicMainApp.requestToService("DapAddWalletCommand",
+            argsRequest = logicMainApp.createRequestToService("DapAddWalletCommand",
                    walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash)
         else
-            logicMainApp.requestToService("DapAddWalletCommand",
+            argsRequest = logicMainApp.createRequestToService("DapAddWalletCommand",
                    walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash,
                    walletInfo.password)
+
+        M_wallet.createWallet(argsRequest);
     }
 
     dapButtonAction.onClicked:
@@ -228,8 +231,8 @@ DapRecoveryWalletRightPanelForm
 
     Connections
     {
-        target: dapServiceController
-        function onWalletCreated(wallet)
+        target: M_wallet
+        function onSigWalletCreate(wallet)
         {
             commandResult.success = wallet.success
             commandResult.message = wallet.message

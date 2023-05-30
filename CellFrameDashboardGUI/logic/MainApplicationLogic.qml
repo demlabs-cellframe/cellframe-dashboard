@@ -610,6 +610,31 @@ QtObject {
         return date.toLocaleString(Qt.locale("en_EN"),format)
     }
 
+    function createRequestToService()
+    {
+        var service
+        var args = []
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(i == 0)
+                service = arguments[i]
+            else
+            {
+                args.push(arguments[i])
+            }
+        }
+
+        var count  = args.length ? 10 - args.length : 0
+        while(count)
+        {
+            args.push("");
+            count--;
+        }
+
+        return args;
+    }
+
     function requestToService()
     {
         var service

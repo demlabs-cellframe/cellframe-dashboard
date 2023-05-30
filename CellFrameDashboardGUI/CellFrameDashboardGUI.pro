@@ -26,7 +26,7 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/DapModulesController.h \
     Modules/DapModulesInit.h \
     Modules/Dex/DapModuleDex.h \
-    Modules/Diagnostics/DapModuledDiagnostics.h \
+    Modules/Diagnostics/DapModuleDiagnostics.h \
     Modules/Logs/DapModuleLogs.h \
     Modules/Settings/DapModuleSettings.h \
     Modules/Test/DapModuleTest.h \
@@ -78,7 +78,7 @@ SOURCES += $$PWD/main.cpp \
     Modules/DapModulesController.cpp \
     Modules/DapModulesInit.cpp \
     Modules/Dex/DapModuleDex.cpp \
-    Modules/Diagnostics/DapModuledDiagnostics.cpp \
+    Modules/Diagnostics/DapModuleDiagnostics.cpp \
     Modules/Logs/DapModuleLogs.cpp \
     Modules/Settings/DapModuleSettings.cpp \
     Modules/Test/DapModuleTest.cpp \

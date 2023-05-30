@@ -3,10 +3,10 @@
 
 #include <QObject>
 #include <QDebug>
+#include "DapServiceController.h"
+#include "../../Models/AbstractModels/DapAbstractModelWallets.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
-
-#include "DapServiceController.h"
 
 class DapModuleWallet : public DapAbstractModule
 {
@@ -14,6 +14,9 @@ class DapModuleWallet : public DapAbstractModule
 public:
     explicit DapModuleWallet(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
 
+    Q_PROPERTY (QByteArray m_walletsModel READ getWalletsModel NOTIFY walletsModelChanged)
+    Q_INVOKABLE QByteArray getWalletsModel();
+    QByteArray m_walletsModel;
 
 private:
     DapServiceController  *s_serviceCtrl;
@@ -25,12 +28,21 @@ public:
     QString testWal{"testWal"};
 
 
-private:
-    void getWalletsInfo(QStringList args);
-    void getWalletInfo(QStringList args);
-    void createTx(QStringList args);
-    void createWallet(QStringList args);
-    void getTxHistory(QStringList args);
+public:
+    Q_INVOKABLE void getWalletsInfo(QStringList args);
+    Q_INVOKABLE void getWalletInfo(QStringList args);
+    Q_INVOKABLE void createTx(QStringList args);
+    Q_INVOKABLE void createWallet(QStringList args);
+    Q_INVOKABLE void getTxHistory(QStringList args);
+
+signals:
+    void sigWalletInfo(const QVariant& result);
+    void sigWalletsInfo(const QVariant& result);
+    void sigTxCreate(const QVariant& result);
+    void sigWalletCreate(const QVariant& result);
+    void sigHistory(const QVariant& result);
+
+    void walletsModelChanged();
 
 
 private slots:

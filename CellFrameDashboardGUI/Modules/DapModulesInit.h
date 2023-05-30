@@ -16,7 +16,7 @@
 #include "Logs/DapModuleLogs.h"
 #include "Settings/DapModuleSettings.h"
 #include "dApps/DapModuledApps.h"
-#include "Diagnostics/DapModuledDiagnostics.h"
+#include "Diagnostics/DapModuleDiagnostics.h"
 
 #include "Test/DapModuleTest.h"
 
@@ -39,7 +39,7 @@ public:
     DapModuleLogs         * m_logs;
     DapModuleSettings     * m_settings;
     DapModuledApps        * m_dApps;
-    DapModuledDiagnostics * m_diagnostics;
+    DapModuleDiagnostics * m_diagnostics;
 
     DapModuleTest * m_test;
 

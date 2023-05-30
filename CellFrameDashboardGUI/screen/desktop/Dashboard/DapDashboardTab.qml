@@ -230,6 +230,18 @@ DapPage
 
     Connections
     {
+        target: M_wallet
+        function onSigWalletInfo(model)
+        {
+            logicWallet.updateWalletsModel(model)
+
+            // FOR DEBUG
+//            logicWallet.updateCurrentWallet()
+        }
+    }
+
+    Connections
+    {
         target: dapMainWindow
         function onModelWalletsUpdated()
         {

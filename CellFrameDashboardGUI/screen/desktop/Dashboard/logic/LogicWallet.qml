@@ -30,15 +30,66 @@ QtObject {
 
     function updateWalletModel()
     {
+//        if(logicMainApp.currentWalletIndex !== -1)
+//        {
+//            if(dapModelWallets.count)
+//            {
+//                console.log("AAAAAAAAAAAAAAa", M_wallet.walletsModel)
+//                dashboardScreen.dapListViewWallet.model = M_wallet.walletsModel[logicMainApp.currentWalletIndex].networks
+
+////                dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentWalletIndex).networks
+////                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentWalletIndex).name
+
+////                console.log("dapComboboxWallet.onCurrentIndexChanged")
+
+//                dashboardTab.state = "WALLETSHOW"
+//            }
+//        }
+    }
+
+    function updateWalletsModel(model)
+    {
+        console.log(model)
+        if(model == "isEqual")
+            return
+
+
+        var jsonDocument = JSON.parse(model)
+
+        if(!jsonDocument)
+        {
+            dapModelWallets.clear()
+            return
+        }
+
+        dapModelWallets.clear()
+        dapModelWallets.append(jsonDocument)
+
+        console.log("rcvWallets", "currentWalletName", logicMainApp.currentWalletName)
+
+        var nameIndex = -1
+
+        for (var i = 0; i < dapModelWallets.count; ++i)
+        {
+            if (dapModelWallets.get(i).name === logicMainApp.currentWalletName)
+                nameIndex = i
+        }
+
+        console.log("rcvWallets", "nameIndex", nameIndex)
+
+        if (nameIndex >= 0)
+            logicMainApp.currentWalletIndex = nameIndex
+
+        if (logicMainApp.currentWalletIndex < 0 && dapModelWallets.count > 0)
+            logicMainApp.currentWalletIndex = 0
+        if (dapModelWallets.count < 0)
+            logicMainApp.currentWalletIndex = -1
+
         if(logicMainApp.currentWalletIndex !== -1)
         {
             if(dapModelWallets.count)
             {
                 dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentWalletIndex).networks
-//                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentWalletIndex).name
-
-//                console.log("dapComboboxWallet.onCurrentIndexChanged")
-
                 dashboardTab.state = "WALLETSHOW"
             }
         }

@@ -9,7 +9,7 @@ DapModuleTest::DapModuleTest(DapModulesController *modulesCtrl, DapAbstractModul
 
 void DapModuleTest::test()
 {
-    DapModuleWallet *wal = (DapModuleWallet*)s_modulesCtrl->getListModules().find("wallet").value();
+    DapModuleWallet *wal = (DapModuleWallet*)s_modulesCtrl->getListModules().find("M_wallet").value();
 
     qDebug()<< wal->testWal << s_modulesCtrl->testData;
 }

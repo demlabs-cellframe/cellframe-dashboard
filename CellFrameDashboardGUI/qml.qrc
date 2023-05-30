@@ -322,5 +322,6 @@
         <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWalletForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapDoneCreateWallet.qml</file>
     </qresource>
 </RCC>
