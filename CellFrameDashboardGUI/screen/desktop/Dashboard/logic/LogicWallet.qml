@@ -44,7 +44,7 @@ QtObject {
         }
     }
 
-    function testAmount(balance, amount)
+/*    function testAmount(balance, amount)
     {
         balance = clearZeros(balance)
         amount = clearZeros(amount)
@@ -182,7 +182,7 @@ QtObject {
         str = str.slice(i, str.length)
 
         return str
-    }
+    }*/
 
     function initNetworks()
     {

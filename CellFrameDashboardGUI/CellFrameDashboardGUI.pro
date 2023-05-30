@@ -22,6 +22,7 @@ HEADERS += $$PWD/DapServiceController.h \
     ImportCertificate/ImportCertificate.h \
     Modules/DapModulesController.h \
     Modules/Wallet/DapModuleWallet.h \
+    Modules/stringworker.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
     PluginsController/DapPluginsController.h \
@@ -62,6 +63,7 @@ SOURCES += $$PWD/main.cpp \
     ImportCertificate/ImportCertificate.cpp \
     Modules/DapModulesController.cpp \
     Modules/Wallet/DapModuleWallet.cpp \
+    Modules/stringworker.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
     PluginsController/DapNetworkManager.cpp \

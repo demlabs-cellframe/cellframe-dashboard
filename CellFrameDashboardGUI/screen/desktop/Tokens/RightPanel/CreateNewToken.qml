@@ -268,7 +268,7 @@ DapRectangleLitAndShaded {
                     error.text = qsTr("Empty token name")
                 }
                 else
-                if (supply === "" || logicTokens.testAmount("0.0", supply))
+                if (supply === "" || stringWorker.testAmount("0.0", supply))
                 {
                     error.visible = true
                     error.text = qsTr("Zero supply.")
@@ -276,7 +276,7 @@ DapRectangleLitAndShaded {
                 else
                 {
                     error.visible = false
-                    logicMainApp.requestToService("DapTokenDeclCommand", logicTokens.toDatoshi(supply),
+                    logicMainApp.requestToService("DapTokenDeclCommand", stringWorker.toDatoshi(supply),
                                                           networks.displayText,
                                                           textInputNewTokenName.text,
                                                           certificates.displayText)

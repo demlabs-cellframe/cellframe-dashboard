@@ -20,8 +20,8 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
-    , configWorker(new ConfigWorker(this))
     , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
+    , configWorker(new ConfigWorker(this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");

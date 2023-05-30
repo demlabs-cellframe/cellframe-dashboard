@@ -22,7 +22,7 @@ QtObject
         detailsModel.append(dapModelTokens.get(logicTokens.selectNetworkIndex).tokens.get(logicTokens.selectTokenIndex))
     }
 
-    function testAmount(balance, amount)
+/*    function testAmount(balance, amount)
     {
         balance = clearZeros(balance)
         amount = clearZeros(amount)
@@ -159,7 +159,7 @@ QtObject
         str = str.slice(i, str.length)
 
         return str
-    }
+    }*/
 
     //TODO: needed filtering
 //    function modelUpdate()
