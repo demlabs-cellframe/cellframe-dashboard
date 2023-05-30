@@ -50,18 +50,6 @@ DapLastActionsRightPanelForm
         }
     }
 
-//    Connections
-//    {
-//        target: dapServiceController
-//        function onAllWalletHistoryReceived(walletHistory)
-//        {
-//            if (walletHistory !== "isEqual")
-//            {
-//                logicExplorer.rcvAllWalletHistory(walletHistory, true, true)
-//            }
-//        }
-//    }
-
     Connections{
         target: dashboardTopPanel
         function onChangeWallet() {

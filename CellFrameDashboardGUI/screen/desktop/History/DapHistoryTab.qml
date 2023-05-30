@@ -73,7 +73,6 @@ DapPage
             onFindHandler: {
                 console.log(text)
                 currentString = text
-//                logicExplorer.filterResults(false)
                 historyWorker.setFilterString(text)
             }
         }
@@ -84,7 +83,6 @@ DapPage
         dapHistoryRightPanel.onCurrentStatusSelected: {
 
                 currentStatus = status
-//                logicExplorer.filterResults()
                 historyWorker.setCurrentStatus(status)
         }
 
@@ -95,22 +93,12 @@ DapPage
 
                 var data = [period, isRange]
 
-//                logicExplorer.filterResults()
                 historyWorker.setCurrentPeriod(data)
             }
     }
 
     dapRightPanelFrame.visible: false
     dapRightPanel.initialItem: emptyRightPanel
-
-//    Connections
-//    {
-//        target: dapServiceController
-//        function onAllWalletHistoryReceived(walletHistory)
-//        {
-//            logicExplorer.rcvAllWalletHistory(walletHistory, false)
-//        }
-//    }
 
     Connections
     {

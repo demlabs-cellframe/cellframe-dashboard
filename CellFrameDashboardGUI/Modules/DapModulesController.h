@@ -3,25 +3,28 @@
 
 #include <QObject>
 #include <QQmlApplicationEngine>
-#include <QDebug>
 
-#include "DapServiceController.h"
-#include "Wallet/DapModuleWallet.h"
-#include "stringworker.h"
+#include "DapAbstractModule.h"
 
 class DapModulesController : public QObject
 {
     Q_OBJECT
 public:
-    explicit DapModulesController(QQmlApplicationEngine *appEngine, DapServiceController * serviceCtrl, QObject *parent = nullptr);
+    DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent = nullptr);
+
     ~DapModulesController();
 
+    void initModules();
+
+    void addModule(const QString &key, DapAbstractModule *p_module);
+
+    DapAbstractModule* getModule(const QString &key);
+
+private:
     QQmlApplicationEngine *s_appEngine;
-    DapServiceController  *s_serviceCtrl;
 
     //Modules
-    DapModuleWallet * m_wallet;
-    StringWorker *m_stringWorker;
+    QMap<QString, DapAbstractModule*> m_listModules;
 };
 
 #endif // DAPMODULESCONTROLLER_H

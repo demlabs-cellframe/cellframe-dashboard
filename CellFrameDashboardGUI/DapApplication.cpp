@@ -22,6 +22,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
     , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , configWorker(new ConfigWorker(this))
+    , stringWorker(new StringWorker(this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -87,7 +88,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
 
 
-    s_modules = new DapModulesController(qmlEngine(), m_serviceController);
+    s_modulesInit = new DapModulesController(qmlEngine());
 }
 
 DapApplication::~DapApplication()
@@ -95,6 +96,7 @@ DapApplication::~DapApplication()
     delete stockDataWorker;
     delete configWorker;
     delete m_diagnosticWorker;
+    delete stringWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
@@ -232,6 +234,7 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
 
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
+    m_engine.rootContext()->setContextProperty("stringWorker", stringWorker);
     m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
     m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }

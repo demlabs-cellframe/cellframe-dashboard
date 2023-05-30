@@ -2,29 +2,36 @@
 #define DAPMODULEWALLET_H
 
 #include <QObject>
-#include <QQmlApplicationEngine>
 #include <QDebug>
+#include "../DapAbstractModule.h"
 
-#include "DapServiceController.h"
-
-class DapModuleWallet : public QObject
+class DapModuleWallet : public DapAbstractModule
 {
     Q_OBJECT
 public:
-    explicit DapModuleWallet(QQmlApplicationEngine *appEngine, DapServiceController * serviceCtrl, QObject *parent = nullptr);
-
-private:
-    QQmlApplicationEngine *s_appEngine;
-    DapServiceController  *s_serviceCtrl;
+    explicit DapModuleWallet(QObject *parent = nullptr);
 
 
 public:
-    void getWalletList();
+    void initConnect();
 
-public slots:
-    void test(const QVariant &test);
+    QString testWal{"testWal"};
 
 
+private:
+    void getWalletsInfo(QStringList args);
+    void getWalletInfo(QStringList args);
+    void createTx(QStringList args);
+    void createWallet(QStringList args);
+    void getTxHistory(QStringList args);
+
+
+private slots:
+    void rcvWalletsInfo(const QVariant &rcvData);
+    void rcvWalletInfo(const QVariant &rcvData);
+    void rcvCreateTx(const QVariant &rcvData);
+    void rcvCreateWallet(const QVariant &rcvData);
+    void rcvHistory(const QVariant &rcvData);
 };
 
 #endif // DAPMODULEWALLET_H
