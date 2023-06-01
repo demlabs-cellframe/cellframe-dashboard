@@ -53,6 +53,7 @@ void DapModuleWallet::createTx(QStringList args)
 
 void DapModuleWallet::createWallet(QStringList args)
 {
+    m_timerUpdateWallet->stop();
     s_serviceCtrl->requestToService("DapAddWalletCommand", args);
 }
 
@@ -73,32 +74,33 @@ QByteArray DapModuleWallet::getWalletsModel()
 
 void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 {
-    qDebug()<<rcvData;
+//    qDebug()<<rcvData;
     emit sigWalletInfo(rcvData);
 }
 
 void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 {
-    qDebug()<<rcvData;
+//    qDebug()<<rcvData;
     emit sigTxCreate(rcvData);
 }
 
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
 {
-    qDebug()<<rcvData;
-    m_modulesCtrl->restoreIndex();
+//    qDebug()<<rcvData;
+    m_modulesCtrl->getWalletList();
+    m_timerUpdateWallet->start(2000);
     emit sigWalletCreate(rcvData);
 }
 
 void DapModuleWallet::rcvHistory(const QVariant &rcvData)
 {
-    qDebug()<<rcvData;
+//    qDebug()<<rcvData;
     emit sigHistory(rcvData);
 }
 
 void DapModuleWallet::slotUpdateWallet()
 {
-    qDebug()<<"slotUpdateWallet";
+//    qDebug()<<"slotUpdateWallet";
     if(m_modulesCtrl->m_walletList.isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
         return ;
 

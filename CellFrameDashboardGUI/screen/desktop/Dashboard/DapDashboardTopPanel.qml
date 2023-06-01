@@ -24,7 +24,6 @@ Controls.DapTopPanel
             font: mainFont.dapFont.regular14
             color: currTheme.gray
             Layout.leftMargin: 21
-//            visible: comboBoxCurrentWallet.visible
         }
 
         Widgets.DapCustomComboBox
@@ -155,13 +154,11 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
 
             onClicked: {
-//                console.log("AAAAAAAAAAAAAa", modulesController.currentWalletName)
                 walletInfo.name = modulesController.currentWalletName
                 dapRightPanel.pop()
                 navigator.newPayment()
             }
         }
-
     }
 
     Connections
@@ -174,6 +171,7 @@ Controls.DapTopPanel
                         "currentWalletIndex", modulesController.currentWalletIndex)
 
             comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
+
         }
     }
 }

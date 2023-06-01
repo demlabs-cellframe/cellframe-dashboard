@@ -230,15 +230,10 @@ DapPage
         {
             logicWallet.updateWallet(model)
         }
-        function onSigWalletCreate(data)
-        {
-            walletModule.getWalletsInfo("true")
-        }
     }
 
     Component.onCompleted:
     {
         walletModule.getWalletsInfo("true")
     }
-
 }

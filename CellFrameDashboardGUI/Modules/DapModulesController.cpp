@@ -94,34 +94,34 @@ void DapModulesController::getNetworkList()
 
 void DapModulesController::rcvWalletList(const QVariant &rcvData)
 {
-    qDebug()<<"rcvWalletList";
+//    qDebug()<<"rcvWalletList";
     if(m_walletList != rcvData.toList())
     {
+        if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
+        {
+            m_walletList = rcvData.toList();
+
+            //--------------------------------------//
+            /* The first load of the settings.
+             * As long as there is no wallet data,
+             * initialization is not necessary
+             */
+
+            if(!m_firstDataLoad)
+            {
+                restoreIndex();
+                m_firstDataLoad = true;
+                emit initDone();
+            }
+            //--------------------------------------//
+        }
+        else
+            m_walletList = rcvData.toList();
+
+        restoreIndex();
         static_cast<DapModuleWallet*>(m_listModules.value("walletModule"))
             ->getWalletsInfo(QStringList()<<"true");
-        restoreIndex();
     }
-
-    if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
-    {
-        m_walletList = rcvData.toList();
-
-        //--------------------------------------//
-        /* The first load of the settings.
-         * As long as there is no wallet data,
-         * initialization is not necessary
-         */
-
-        if(!m_firstDataLoad)
-        {
-            restoreIndex();
-            m_firstDataLoad = true;
-            emit initDone();
-        }
-        //--------------------------------------//
-    }else
-        m_walletList = rcvData.toList();
-
 
     emit walletsListUpdated(); //todo
 }
@@ -134,7 +134,7 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
 
 void DapModulesController::setCurrentWalletIndex(int newIndex)
 {
-    qDebug()<<"setCurrentWalletIndex";
+//    qDebug()<<"setCurrentWalletIndex";
     if(m_walletList.count() - 1 < newIndex
         || m_walletList.isEmpty()
         || newIndex == m_currentWalletIndex)
@@ -151,13 +151,11 @@ void DapModulesController::setCurrentWalletIndex(int newIndex)
 
 void DapModulesController::restoreIndex()
 {
-    qDebug()<<"restoreIndex";
+//    qDebug()<<"restoreIndex";
     QString prevName = s_settings->value("walletName", "").toString();
 
     if(!prevName.isEmpty())
     {
-        if(prevName == m_currentWalletName) return;
-
         for(int i = 0; i < m_walletList.count(); i++)
         {
             if(m_walletList.at(i).toString() == prevName)
@@ -173,6 +171,6 @@ void DapModulesController::restoreIndex()
 
 QString DapModulesController::getComission(QString token, QString network)
 {
-    qDebug()<<"get comisson" << token << network;
+//    qDebug()<<"get comisson" << token << network;
     return "0.05";
 }

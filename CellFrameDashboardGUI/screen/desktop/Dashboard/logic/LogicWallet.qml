@@ -26,33 +26,33 @@ QtObject {
 
 //        console.log("rcvWallets", "currentWalletName", modulesController.currentWalletName)
 
-        var nameIndex = -1
+//        var nameIndex = -1
 
-        for (var i = 0; i < dapModelWallets.count; ++i)
-        {
-            if (dapModelWallets.get(i).name === modulesController.currentWalletName)
-                nameIndex = i
-        }
+//        for (var i = 0; i < dapModelWallets.count; ++i)
+//        {
+//            if (dapModelWallets.get(i).name === modulesController.currentWalletName)
+//                nameIndex = i
+//        }
 
 //        console.log("rcvWallets", "nameIndex", nameIndex)
 
-        if (nameIndex >= 0)
-            modulesController.currentWalletIndex = nameIndex
+//        if (nameIndex >= 0)
+//            modulesController.currentWalletIndex = nameIndex
 
-        if (modulesController.currentWalletIndex < 0 && dapModelWallets.count > 0)
-            modulesController.currentWalletIndex = 0
-        if (dapModelWallets.count < 0)
-            modulesController.currentWalletIndex = -1
+//        if (modulesController.currentWalletIndex < 0 && dapModelWallets.count > 0)
+//            modulesController.currentWalletIndex = 0
+//        if (dapModelWallets.count < 0)
+//            modulesController.currentWalletIndex = -1
 
-        if(modulesController.currentWalletIndex !== -1)
+//        if(modulesController.currentWalletIndex !== -1)
+//        {
+        if(dapModelWallets.count)
         {
-            if(dapModelWallets.count)
-            {
-                dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
-                if(dashboardTab.state != "WALLETCREATE")
-                    dashboardTab.state = "WALLETSHOW"
-            }
+            dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+            if(dashboardTab.state != "WALLETCREATE")
+                dashboardTab.state = "WALLETSHOW"
         }
+//        }
     }
 
     function updateWallet(wallet)

@@ -10,7 +10,7 @@ DapRightPanelDone
 
     doneButton.onClicked:
     {
-        logicMainApp.requestToService("DapGetWalletsInfoCommand", "");
+//        logicMainApp.requestToService("DapGetWalletsInfoCommand", "");
         navigator.popPage()
     }
 

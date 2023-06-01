@@ -48,9 +48,11 @@ private:
 
     bool m_firstDataLoad{false};
 
-private slots:
+public slots:
     void getWalletList();
     void getNetworkList();
+
+private slots:
 
     void rcvWalletList(const QVariant &rcvData);
     void rcvNetList(const QVariant &rcvData);
