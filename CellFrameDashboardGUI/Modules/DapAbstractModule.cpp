@@ -27,3 +27,9 @@ QString DapAbstractModule::getName()
 {
     return m_name;
 }
+
+void DapAbstractModule::setStatusInit(bool status)
+{
+    m_statusInit = status;
+    emit statusInitChanged();
+}

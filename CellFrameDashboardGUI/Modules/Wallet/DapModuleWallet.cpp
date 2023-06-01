@@ -9,8 +9,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     {
         initConnect();
         m_timerUpdateWallet->start(2000);
-        m_statusInit = true;
-        statusInitChanged();
+        setStatusInit(true);
     });
 }
 

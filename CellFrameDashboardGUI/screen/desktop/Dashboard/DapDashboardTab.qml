@@ -93,7 +93,7 @@ DapPage
 
             if(!dapModelWallets.count)
                 state = "WALLETDEFAULT"
-            else if (state != "WALLETCREATE")
+            else
                 state = "WALLETSHOW"
 
         }
