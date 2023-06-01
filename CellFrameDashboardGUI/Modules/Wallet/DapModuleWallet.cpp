@@ -86,6 +86,7 @@ void DapModuleWallet::rcvCreateTx(const QVariant &rcvData)
 void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
 {
     qDebug()<<rcvData;
+    m_modulesCtrl->restoreIndex();
     emit sigWalletCreate(rcvData);
 }
 
@@ -97,6 +98,7 @@ void DapModuleWallet::rcvHistory(const QVariant &rcvData)
 
 void DapModuleWallet::slotUpdateWallet()
 {
+    qDebug()<<"slotUpdateWallet";
     if(m_modulesCtrl->m_walletList.isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
         return ;
 

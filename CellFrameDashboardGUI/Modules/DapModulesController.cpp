@@ -94,9 +94,13 @@ void DapModulesController::getNetworkList()
 
 void DapModulesController::rcvWalletList(const QVariant &rcvData)
 {
+    qDebug()<<"rcvWalletList";
     if(m_walletList != rcvData.toList())
+    {
         static_cast<DapModuleWallet*>(m_listModules.value("walletModule"))
             ->getWalletsInfo(QStringList()<<"true");
+        restoreIndex();
+    }
 
     if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
     {
@@ -108,24 +112,9 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
          * initialization is not necessary
          */
 
-        QString prevName = s_settings->value("walletName", "").toString();
-
         if(!m_firstDataLoad)
         {
-            if(!prevName.isEmpty())
-            {
-                for(int i = 0; i < m_walletList.count(); i++)
-                {
-                    if(m_walletList.at(i).toString() == prevName)
-                    {
-                        setCurrentWalletIndex(i);
-                        break;
-                    }
-                }
-            }
-            else
-                setCurrentWalletIndex(0);
-
+            restoreIndex();
             m_firstDataLoad = true;
             emit initDone();
         }
@@ -145,13 +134,45 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
 
 void DapModulesController::setCurrentWalletIndex(int newIndex)
 {
-
-    if(m_walletList.count() < newIndex || m_walletList.isEmpty())
+    qDebug()<<"setCurrentWalletIndex";
+    if(m_walletList.count() - 1 < newIndex
+        || m_walletList.isEmpty()
+        || newIndex == m_currentWalletIndex)
         return ;
+
     m_currentWalletIndex = newIndex;
     m_currentWalletName = m_walletList.at(newIndex).toString();
 
     s_settings->setValue("walletName", m_currentWalletName);
     emit currentWalletIndexChanged();
     emit currentWalletNameChanged();
+}
+
+
+void DapModulesController::restoreIndex()
+{
+    qDebug()<<"restoreIndex";
+    QString prevName = s_settings->value("walletName", "").toString();
+
+    if(!prevName.isEmpty())
+    {
+        if(prevName == m_currentWalletName) return;
+
+        for(int i = 0; i < m_walletList.count(); i++)
+        {
+            if(m_walletList.at(i).toString() == prevName)
+            {
+                setCurrentWalletIndex(i);
+                return ;
+            }
+        }
+    }
+
+    setCurrentWalletIndex(0);
+}
+
+QString DapModulesController::getComission(QString token, QString network)
+{
+    qDebug()<<"get comisson" << token << network;
+    return "0.05";
 }

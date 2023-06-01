@@ -71,15 +71,24 @@ Controls.DapTopPanel
             radius: 4
             color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
 
-            visible: dapModelWallets.get(modulesController.currentWalletIndex).status !== ""
+            visible:
+            {
+                if(!dapModelWallets.count)
+                    return false
+                else{
+                    if(dapModelWallets.get(modulesController.currentWalletIndex).status === "")
+                        return false
+                    else
+                        return true
+                }
+            }
 
             Image{
                 anchors.centerIn: parent
-                source: {
-                    dapModelWallets.get(modulesController.currentWalletIndex).status === "non-Active" ?
+                source: dapModelWallets.get(modulesController.currentWalletIndex).status === "non-Active" ?
                                                 "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
                                               : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
-                }
+
                 mipmap: true
             }
 

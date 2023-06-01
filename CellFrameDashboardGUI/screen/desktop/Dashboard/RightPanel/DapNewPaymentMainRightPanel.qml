@@ -138,10 +138,18 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-                var amountWithCommission = (parseFloat(stringWorker.clearZeros(dapTextInputAmountPayment.text)) + 0.05).toString()
-                console.log("amountWithCommission", amountWithCommission)
+
+                var amount = dapMath.coinsToBalance(dapTextInputAmountPayment.text)
+                var commission = modulesController.getComission(dapComboBoxToken.displayText, dapComboboxNetwork.displayText)
+                var amountWithCommission = dapMath.sumCoins(dapTextInputAmountPayment.text, commission, false)
+
+                commission = dapMath.coinsToBalance(commission)
                 var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
-                console.log("full_balance", full_balance)
+
+                console.log("amount_datoshi", amount)
+                console.log("comission_datoshi", commission)
+                console.log("amountWithCommission_coins", amountWithCommission)
+                console.log("full_balance_coins", full_balance)
 
                 if (!stringWorker.testAmount(full_balance, amountWithCommission))
                 {
@@ -155,17 +163,15 @@ DapNewPaymentMainRightPanelForm
                     console.log("Enough tokens. Correct address length.")
                     dapTextNotEnoughTokensWarning.text = ""
 
-                    var amount = stringWorker.toDatoshi(dapTextInputAmountPayment.text)
-
                     console.log("DapCreateTransactionCommand:")
                     console.log("   network:", dapComboboxNetwork.displayText)
-//                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
                     console.log("   wallet from:", walletInfo.name)
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                     console.log("   token:", dapComboBoxToken.displayText)
                     console.log("   amount:", amount)
+                    console.log("   comission:", commission)
 
-                    var commission = stringWorker.toDatoshi("0.05")
+
 
                     var argsRequest = logicMainApp.createRequestToService("DapCreateTransactionCommand",
                         dapComboboxNetwork.displayText,

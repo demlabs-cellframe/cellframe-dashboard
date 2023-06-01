@@ -30,10 +30,13 @@ public:
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;};
 
+    Q_INVOKABLE QString getComission(QString token, QString network);
+
     QString testData{"test data"};
 
 public:
     void initModules();
+    void restoreIndex();
 
     void addModule(const QString &key, DapAbstractModule *p_module);
     DapAbstractModule* getModule(const QString &key);
