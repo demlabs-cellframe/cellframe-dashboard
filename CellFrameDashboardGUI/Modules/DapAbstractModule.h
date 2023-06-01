@@ -2,7 +2,8 @@
 #define DAPABSTRACTMODULE_H
 
 #include <QObject>
-#include <QTimer>
+
+#include "DapServiceController.h"
 
 class DapAbstractModule : public QObject
 {
@@ -11,21 +12,24 @@ public:
 
     explicit DapAbstractModule(QObject *parent = nullptr);
 
+    Q_PROPERTY(bool statusInit READ statusInit NOTIFY statusInitChanged)
+    Q_INVOKABLE bool statusInit(){return m_statusInit;};
+
     void setStatusProcessing(bool status);
     bool getStatusProcessing();
 
     void setName(QString name);
     QString getName();
 
-private:
     bool m_statusProcessing;
+    bool m_statusInit{false};
     QString m_name;
-
+    DapServiceController *s_serviceCtrl;
 
 signals:
-    void initDone(bool status);
-
-
+    void initDone(const QString &name, bool status);
+    void statusChanged();
+    void statusInitChanged();
 };
 
 #endif // DAPABSTRACTMODULE_H

@@ -43,6 +43,8 @@ DapPage
         "message": ""
     }
 
+    signal walletsUpdated()
+
     ListModel {id: networksModel}
     LogicWallet{id: logicWallet}
 
@@ -91,7 +93,7 @@ DapPage
 
             if(!dapModelWallets.count)
                 state = "WALLETDEFAULT"
-            else
+            else if (state != "WALLETCREATE")
                 state = "WALLETSHOW"
 
         }
@@ -101,6 +103,12 @@ DapPage
         DapDashboardTopPanel
         {
             id: dashboardTopPanel
+            onChangeWalletIndex:{
+                dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+                lastActions.logicExplorer.updateWalletHistory(true, 1, true)
+                historyWorker.setWalletName(modulesController.currentWalletName)
+                navigator.popPage()
+            }
         }
 
     dapScreen.initialItem:
@@ -109,7 +117,11 @@ DapPage
             id: dashboardScreen
         }
 
-    dapRightPanel.initialItem: DapLastActionsRightPanel{id: lastActions}
+    dapRightPanel.initialItem:
+        DapLastActionsRightPanel
+        {
+            id: lastActions
+        }
 
     state: "WALLETDEFAULT"
 
@@ -196,12 +208,13 @@ DapPage
         }
     ]
 
-    Timer {
-        id: updateWalletTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
-        onTriggered:
+
+    Connections
+    {
+        target: walletModule
+        function onSigWalletsInfo(model)
         {
-            console.log("WALLETS TIMER TICK")
+            logicWallet.updateWalletsModel(model)
 
             if(!dapModelWallets.count)
             {
@@ -210,75 +223,22 @@ DapPage
                     state = "WALLETDEFAULT"
                     navigator.popPage()
                 }
-
-                logicWallet.updateAllWallets()
             }
-            else
-            {
-                logicWallet.updateCurrentWallet()
-//                console.log(!walletActivatePopup.isOpen, dapModelWallets.get(logicMainApp.currentWalletIndex).status)
-
-                if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                {
-                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
-                }
-                else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
-                    walletActivatePopup.hide()
-            }
+            walletsUpdated()
         }
-    }
-
-    Connections
-    {
-        target: M_wallet
         function onSigWalletInfo(model)
         {
-            logicWallet.updateWalletsModel(model)
-
-            // FOR DEBUG
-//            logicWallet.updateCurrentWallet()
+            logicWallet.updateWallet(model)
         }
-    }
-
-    Connections
-    {
-        target: dapMainWindow
-        function onModelWalletsUpdated()
+        function onSigWalletCreate(data)
         {
-            logicWallet.updateWalletModel()
-
-            // FOR DEBUG
-//            logicWallet.updateCurrentWallet()
-        }
-    }
-
-    Connections
-    {
-        target: dapServiceController
-        function onWalletCreated()
-        {
-            logicWallet.updateAllWallets()
+            walletModule.getWalletsInfo("true")
         }
     }
 
     Component.onCompleted:
     {
-
-        logicWallet.updateWalletModel() 
-
-//        console.log(logicMainApp.currentWalletIndex, dapModelWallets.count, dapModelWallets.get(logicMainApp.currentWalletIndex).name, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
-
-        if (!updateWalletTimer.running)
-            updateWalletTimer.start()
-
-        if(dapModelWallets.count)
-            if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
-
+        walletModule.getWalletsInfo("true")
     }
 
-    Component.onDestruction:
-    {
-        updateWalletTimer.stop()
-    }
 }

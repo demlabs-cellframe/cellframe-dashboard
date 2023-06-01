@@ -3,8 +3,6 @@
 
 #include <QObject>
 #include <QDebug>
-#include "DapServiceController.h"
-#include "../../Models/AbstractModels/DapAbstractModelWallets.h"
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
 
@@ -12,19 +10,20 @@ class DapModuleWallet : public DapAbstractModule
 {
     Q_OBJECT
 public:
-    explicit DapModuleWallet(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
+    explicit DapModuleWallet(DapModulesController *parent);
 
-    Q_PROPERTY (QByteArray m_walletsModel READ getWalletsModel NOTIFY walletsModelChanged)
+//    Q_PROPERTY (QByteArray m_walletsModel READ getWalletsModel NOTIFY walletsModelChanged)
     Q_INVOKABLE QByteArray getWalletsModel();
-    QByteArray m_walletsModel;
+    QJsonDocument m_walletsModel;
+
+    Q_INVOKABLE void timerUpdateFlag(bool flag);
 
 private:
-    DapServiceController  *s_serviceCtrl;
-    DapModulesController  *s_modulesCtrl;
+    DapModulesController* m_modulesCtrl;
+    QTimer *m_timerUpdateWallet;
 
 public:
     void initConnect();
-
     QString testWal{"testWal"};
 
 
@@ -51,6 +50,8 @@ private slots:
     void rcvCreateTx(const QVariant &rcvData);
     void rcvCreateWallet(const QVariant &rcvData);
     void rcvHistory(const QVariant &rcvData);
+
+    void slotUpdateWallet();
 };
 
 #endif // DAPMODULEWALLET_H

@@ -2,6 +2,7 @@
 
 DapAbstractModule::DapAbstractModule(QObject *parent)
     :QObject(parent)
+    , s_serviceCtrl(&DapServiceController::getInstance())
 {
 
 }
@@ -9,6 +10,7 @@ DapAbstractModule::DapAbstractModule(QObject *parent)
 void DapAbstractModule::setStatusProcessing(bool status)
 {
     m_statusProcessing = status;
+    emit statusChanged();
 }
 
 bool DapAbstractModule::getStatusProcessing()

@@ -24,7 +24,6 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/Console/DapModuleConsole.h \
     Modules/DapAbstractModule.h \
     Modules/DapModulesController.h \
-    Modules/DapModulesInit.h \
     Modules/Dex/DapModuleDex.h \
     Modules/Diagnostics/DapModuleDiagnostics.h \
     Modules/Logs/DapModuleLogs.h \
@@ -48,6 +47,7 @@ HEADERS += $$PWD/DapServiceController.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    Workers/stringworker.h \
     dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
@@ -76,7 +76,6 @@ SOURCES += $$PWD/main.cpp \
     Modules/Console/DapModuleConsole.cpp \
     Modules/DapAbstractModule.cpp \
     Modules/DapModulesController.cpp \
-    Modules/DapModulesInit.cpp \
     Modules/Dex/DapModuleDex.cpp \
     Modules/Diagnostics/DapModuleDiagnostics.cpp \
     Modules/Logs/DapModuleLogs.cpp \
@@ -97,6 +96,7 @@ SOURCES += $$PWD/main.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    Workers/stringworker.cpp \
     dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \

@@ -5,6 +5,8 @@ DapCreateWalletForm
 //    dapNextRightPanel: recoveryWallet
 //    dapPreviousRightPanel: ""
 
+    Component.onCompleted: walletModule.timerUpdateFlag(false);
+
     property string dapSignatureTypeWallet
 
     dapComboBoxSignatureTypeWallet.onCurrentIndexChanged:
@@ -20,7 +22,7 @@ DapCreateWalletForm
                 qsTr("Enter the wallet name using Latin letters, dotes, dashes and / or numbers.")
             console.warn("Empty wallet name")
         }
-        else if(logicMainApp.walletType === "Protected" && dapTextInputPassword.length < 4)
+        else if(logicWallet.walletType === "Protected" && dapTextInputPassword.length < 4)
         {
             dapWalletNameWarning.text =
                 qsTr("Wallet password must contain at least 4 characters")
@@ -35,7 +37,7 @@ DapCreateWalletForm
             walletInfo.password = dapTextInputPassword.text
 
             console.log("dapTextInputNameWallet.text", dapTextInputNameWallet.text)
-            console.log("walletRecoveryType", logicMainApp.walletRecoveryType)
+            console.log("walletRecoveryType", logicWallet.walletRecoveryType)
 
             navigator.recoveryWalletFunc()
         }
@@ -45,18 +47,7 @@ DapCreateWalletForm
     dapButtonClose.onClicked:
     {
         dapWalletNameWarning.text = ""
+        walletModule.timerUpdateFlag(true);
         navigator.popPage()
-    }
-
-    Connections
-    {
-        target: dapServiceController
-        function onWalletCreated(wallet)
-        {
-            commandResult.success = wallet.success
-            commandResult.message = wallet.message
-
-            navigator.doneWalletFunc()
-        }
     }
 }

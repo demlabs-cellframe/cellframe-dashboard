@@ -1,15 +1,21 @@
 #include "DapModuleTest.h"
 
-DapModuleTest::DapModuleTest(DapModulesController *modulesCtrl, DapAbstractModule *parent)
+#include <QDebug>
+#include "../Wallet/DapModuleWallet.h"
+
+DapModuleTest::DapModuleTest(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
-    , s_modulesCtrl(modulesCtrl)
+    , modules(parent)
 {
 }
 
 void DapModuleTest::test()
 {
-    DapModuleWallet *wal = (DapModuleWallet*)s_modulesCtrl->getListModules().find("M_wallet").value();
+    DapModuleWallet *wal = static_cast<DapModuleWallet*>
+            (modules->getModule("walletModule"));
 
-    qDebug()<< wal->testWal << s_modulesCtrl->testData;
+    if (wal == nullptr)
+        qDebug() << "ERROR nullptr";
+
+    qDebug()<< wal->testWal;
 }

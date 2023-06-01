@@ -93,7 +93,7 @@ DapRectangleLitAndShaded
             Layout.fillWidth: true
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-//            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
+            ScrollBar.vertical.policy: ScrollBar.AlwaysOn
             clip: true
 
             contentData:
@@ -249,7 +249,7 @@ DapRectangleLitAndShaded
                             implicitHeight: indicatorInnerSize
                             onClicked:
                             {
-                                logicMainApp.walletType = "Standard"
+                                logicWallet.walletType = "Standard"
                                 frameWalletPassword.visible = false
                             }
                         }
@@ -264,7 +264,7 @@ DapRectangleLitAndShaded
                             implicitHeight: indicatorInnerSize
                             fontRadioButton: mainFont.dapFont.regular16
                             onClicked:{
-                                logicMainApp.walletType = "Protected"
+                                logicWallet.walletType = "Protected"
                                 frameWalletPassword.visible = true
                             }
                         }
@@ -295,7 +295,7 @@ DapRectangleLitAndShaded
                         anchors.right: parent.right
                         anchors.rightMargin: 16
                         anchors.verticalCenter: parent.verticalCenter
-                        contentText: !logicMainApp.restoreWalletMode? qsTr("Remember the password for further activation of the wallet"):
+                        contentText: !logicWallet.restoreWalletMode? qsTr("Remember the password for further activation of the wallet"):
                                     qsTr("If you enter the password incorrectly, a new wallet will be created. To gain access to a protected wallet, you must enter the correct password")
 
                     }
@@ -390,22 +390,80 @@ DapRectangleLitAndShaded
                             spaceIndicatorText: 3
                             fontRadioButton: mainFont.dapFont.regular16
                             implicitHeight: indicatorInnerSize
-                            onClicked: logicMainApp.walletRecoveryType = "Words"
+                            onClicked: logicWallet.walletRecoveryType = "Words"
                         }
 
                         DapRadioButton
                         {
                             id: buttonSelectionExportToFile
                             Layout.fillWidth: true
-                            nameRadioButton: logicMainApp.restoreWalletMode ? qsTr("Import from file") : qsTr("Export to file")
+                            nameRadioButton: logicWallet.restoreWalletMode ? qsTr("Import from file") : qsTr("Export to file")
                             indicatorInnerSize: 46
                             spaceIndicatorText: 3
                             implicitHeight: indicatorInnerSize
                             fontRadioButton: mainFont.dapFont.regular16
-                            onClicked: logicMainApp.walletRecoveryType = "File"
+                            onClicked: logicWallet.walletRecoveryType = "File"
                         }
                         Item {
                             Layout.fillHeight: true
+                        }
+                    }
+                }
+
+                Rectangle
+                {
+                    color: currTheme.mainBackground
+                    height: 30
+                    Layout.topMargin: 13
+                    Layout.fillWidth: true
+                    Text
+                    {
+                        color: currTheme.white
+                        text: qsTr("Reminder")
+                        font: mainFont.dapFont.medium12
+                        horizontalAlignment: Text.AlignLeft
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 16
+                    }
+                }
+
+                RowLayout{
+                    Layout.topMargin: 23
+                    Layout.maximumWidth: 291
+                    Layout.leftMargin: 23
+                    Layout.rightMargin: 36
+                    spacing: 3
+
+                    Image
+                    {
+                        id: checkBox
+                        Layout.alignment: Qt.AlignTop
+                        Layout.topMargin: -10
+                        sourceSize.width: 46
+                        sourceSize.height: 46
+                        property bool isChecked: false
+                        source: isChecked ? "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_on.png"
+                                          : "qrc:/Resources/" + pathTheme + "/icons/other/ic_checkbox_off.png"
+
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: checkBox.isChecked = !checkBox.isChecked
+                        }
+                    }
+
+                    Text
+                    {
+                        id: warningText
+                        Layout.fillWidth: true
+                        font: mainFont.dapFont.regular14
+                        color: currTheme.white
+                        text: logicWallet.restoreWalletMode ? "I understand that if I enter my\npassword incorrectly, I will not be\nable to restore my wallet"
+                                                            : "I understand that if I lose my\npassword, I will not be able to restore \nmy wallet"
+                        wrapMode: Text.WordWrap
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: checkBox.isChecked = !checkBox.isChecked
                         }
                     }
                 }
@@ -421,12 +479,12 @@ DapRectangleLitAndShaded
                 {
                     id: textWalletNameWarning
 
-                    Layout.minimumHeight: 40
-                    Layout.maximumHeight: 40
+                    Layout.minimumHeight: 64
+                    Layout.maximumHeight: 64
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
                     Layout.bottomMargin: 12
                     Layout.maximumWidth: 281
-                    color: "#79FFFA"
+                    color: currTheme.neon
                     text: ""
                     font: mainFont.dapFont.regular14
                     horizontalAlignment: Text.AlignHCenter
@@ -440,6 +498,7 @@ DapRectangleLitAndShaded
                     id: buttonNext
                     implicitHeight: 36
                     implicitWidth: 132
+                    enabled: checkBox.isChecked
 
                     Layout.bottomMargin: 40
                     Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
@@ -450,8 +509,8 @@ DapRectangleLitAndShaded
                 }
 
                 Component.onCompleted:{
-                    logicMainApp.walletRecoveryType = "Words"
-                    logicMainApp.walletType = "Standart"
+                    logicWallet.walletRecoveryType = "Words"
+                    logicWallet.walletType = "Standart"
                     textInputPasswordWallet.text = ""
                 }
             }

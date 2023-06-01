@@ -237,13 +237,13 @@ DapRectangleLitAndShaded {
                 var supply = dapMath.balanceToCoins(detailsModel.get(0).current_supply)
 
                 if (textInputAmount.text === "" ||
-                    logicTokens.testAmount("0.0", textInputAmount.text))
+                    stringWorker.testAmount("0.0", textInputAmount.text))
                 {
                     error.visible = true
                     error.text = qsTr("Zero value.")
                 }
                 else
-                if (!logicTokens.testAmount(supply, textInputAmount.text))
+                if (!stringWorker.testAmount(supply, textInputAmount.text))
                 {
                     error.visible = true
                     error.text =
@@ -260,7 +260,7 @@ DapRectangleLitAndShaded {
                 else
                 {
                     error.visible = false
-                    logicMainApp.requestToService("DapTokenEmissionCommand", logicTokens.toDatoshi(textInputAmount.text),
+                    logicMainApp.requestToService("DapTokenEmissionCommand", stringWorker.toDatoshi(textInputAmount.text),
                                                           textInputRecipientWalletAddress.text,
                                                           dapModelTokens.get(logicTokens.selectNetworkIndex).network,
                                                           dapModelTokens.get(logicTokens.selectNetworkIndex).tokens.get(logicTokens.selectTokenIndex).name,

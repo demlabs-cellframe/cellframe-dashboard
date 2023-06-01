@@ -23,65 +23,100 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-        ColumnLayout
+        Item
         {
             anchors.fill: parent
-            anchors.bottomMargin: 67
-            spacing: 0
 
-            Item{Layout.fillHeight: true}
-
-            Image
+            ColumnLayout
             {
-                Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/Resources/" + pathTheme + "/Illustratons/wallet_illustration.png"
-                mipmap: true
-                fillMode: Image.PreserveAspectFit
-            }
+                anchors.fill: parent
+                anchors.bottomMargin: 67
+                spacing: 0
+                visible: walletModule.statusInit
 
-            DapButton
-            {
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: 48
+                Item{Layout.fillHeight: true}
 
-                id: addWalletButton
-
-                implicitWidth: 184
-                implicitHeight: 36
-                textButton: qsTr("Create wallet")
-                fontButton: mainFont.dapFont.medium14
-                horizontalAligmentText:Qt.AlignCenter
-                onClicked: navigator.createWallet()
-            }
-
-            RowLayout{
-                Layout.fillWidth: true
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: 24
-                spacing: 4
-
-                Text
+                Image
                 {
-                    font: mainFont.dapFont.medium14
-                    color: currTheme.white
-                    text: qsTr("Already have a wallet ?")
+                    Layout.alignment: Qt.AlignHCenter
+                    source: "qrc:/Resources/" + pathTheme + "/Illustratons/wallet_illustration.png"
+                    mipmap: true
+                    fillMode: Image.PreserveAspectFit
                 }
-                Text
-                {
-                    font: mainFont.dapFont.medium14
-                    color: area.containsMouse ? currTheme.orange
-                                              : currTheme.lime
-                    text: qsTr("Import")
 
-                    MouseArea{
-                        id: area
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        onClicked: navigator.restoreWalletFunc()
+                DapButton
+                {
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 48
+
+                    id: addWalletButton
+
+                    implicitWidth: 184
+                    implicitHeight: 36
+                    textButton: qsTr("Create wallet")
+                    fontButton: mainFont.dapFont.medium14
+                    horizontalAligmentText:Qt.AlignCenter
+                    onClicked: navigator.createWallet()
+                }
+
+                RowLayout{
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignHCenter
+                    Layout.topMargin: 24
+                    spacing: 4
+
+                    Text
+                    {
+                        font: mainFont.dapFont.medium14
+                        color: currTheme.white
+                        text: qsTr("Already have a wallet ?")
+                    }
+                    Text
+                    {
+                        font: mainFont.dapFont.medium14
+                        color: area.containsMouse ? currTheme.orange
+                                                  : currTheme.lime
+                        text: qsTr("Import")
+
+                        MouseArea{
+                            id: area
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: navigator.restoreWalletFunc()
+                        }
                     }
                 }
+                Item{Layout.fillHeight: true}
             }
-            Item{Layout.fillHeight: true}
+
+            ColumnLayout{
+                anchors.fill: parent
+                spacing: 16
+                visible: !walletModule.statusInit
+
+                Item{Layout.fillHeight: true}
+
+                DapLoadIndicator {
+                    Layout.alignment: Qt.AlignHCenter
+
+                    indicatorSize: 64
+                    countElements: 8
+                    elementSize: 10
+
+                    running: !walletModule.statusInit
+                }
+
+
+                Text
+                {
+                    Layout.alignment: Qt.AlignHCenter
+
+                    font: mainFont.dapFont.medium18
+                    color: currTheme.white
+                    text: qsTr("Wallet data loading...")
+                }
+                Item{Layout.fillHeight: true}
+            }
         }
     }
 }

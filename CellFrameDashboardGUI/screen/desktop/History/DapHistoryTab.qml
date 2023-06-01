@@ -73,7 +73,6 @@ DapPage
             onFindHandler: {
                 console.log(text)
                 currentString = text
-//                logicExplorer.filterResults(false)
                 historyWorker.setFilterString(text)
             }
         }
@@ -84,7 +83,6 @@ DapPage
         dapHistoryRightPanel.onCurrentStatusSelected: {
 
                 currentStatus = status
-//                logicExplorer.filterResults()
                 historyWorker.setCurrentStatus(status)
         }
 
@@ -95,7 +93,6 @@ DapPage
 
                 var data = [period, isRange]
 
-//                logicExplorer.filterResults()
                 historyWorker.setCurrentPeriod(data)
             }
     }
@@ -103,24 +100,15 @@ DapPage
     dapRightPanelFrame.visible: false
     dapRightPanel.initialItem: emptyRightPanel
 
-//    Connections
-//    {
-//        target: dapServiceController
-//        function onAllWalletHistoryReceived(walletHistory)
-//        {
-//            logicExplorer.rcvAllWalletHistory(walletHistory, false)
-//        }
-//    }
-
     Connections
     {
         target: dapMainWindow
         function onModelWalletsUpdated()
         {
-            if (logicMainApp.currentWalletIndex >=0 ||
-                logicMainApp.currentWalletIndex < dapModelWallets.count)
+            if (modulesController.currentWalletIndex >=0 ||
+                modulesController.currentWalletIndex < dapModelWallets.count)
                 historyWorker.setWalletName(
-                    dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+                    dapModelWallets.get(modulesController.currentWalletIndex).name)
 
             logicExplorer.updateWalletHistory(false, true)
         }
@@ -131,10 +119,10 @@ DapPage
         historyWorker.setCurrentStatus(currentStatus)
 
         historyWorker.setLastActions(false)
-        if (logicMainApp.currentWalletIndex >=0 ||
-            logicMainApp.currentWalletIndex < dapModelWallets.count)
+        if (modulesController.currentWalletIndex >=0 ||
+            modulesController.currentWalletIndex < dapModelWallets.count)
             historyWorker.setWalletName(
-                dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+                dapModelWallets.get(modulesController.currentWalletIndex).name)
 
         logicExplorer.updateWalletHistory(false, 1)
 
