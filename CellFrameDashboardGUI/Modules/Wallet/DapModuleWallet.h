@@ -17,6 +17,7 @@ public:
     QJsonDocument m_walletsModel;
 
     Q_INVOKABLE void timerUpdateFlag(bool flag);
+    Q_INVOKABLE void updateCurrentWallet(){slotUpdateWallet();};
 
 private:
     DapModulesController* m_modulesCtrl;

@@ -81,7 +81,7 @@ DapRectangleLitAndShaded
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
-            visible: dapModelWallets.get(modulesController.currentWalletIndex).status !== "non-Active"
+            visible: logicWallet.walletStatus !== "non-Active"
 
             delegate: delegateTokenView
         }

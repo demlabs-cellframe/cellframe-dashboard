@@ -40,6 +40,8 @@ public:
     int elementNumber() const
         { return m_elementNumber; }
 
+    Q_INVOKABLE void clearHistory();
+
 signals:
     void updateHistoryModel();
 

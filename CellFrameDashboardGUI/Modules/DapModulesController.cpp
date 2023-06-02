@@ -95,7 +95,7 @@ void DapModulesController::getNetworkList()
 void DapModulesController::rcvWalletList(const QVariant &rcvData)
 {
 //    qDebug()<<"rcvWalletList";
-    if(m_walletList != rcvData.toList())
+    if(rcvData.toList().isEmpty() || m_walletList != rcvData.toList())
     {
         if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
         {

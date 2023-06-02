@@ -113,6 +113,13 @@ void HistoryWorker::setHistoryModel(const QVariant &rcvData)
     //    emit pairModelUpdated();
 }
 
+void HistoryWorker::clearHistory()
+{
+    s_historyModel->clear();
+//    sendCurrentHistoryModel();
+}
+
+
 void HistoryWorker::setLastActions(bool flag)
 {
     qDebug() << "HistoryWorker::setLastActions" << flag;

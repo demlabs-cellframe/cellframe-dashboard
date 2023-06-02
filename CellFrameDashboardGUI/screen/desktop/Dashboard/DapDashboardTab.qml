@@ -108,6 +108,7 @@ DapPage
                 lastActions.logicExplorer.updateWalletHistory(true, 1, true)
                 historyWorker.setWalletName(modulesController.currentWalletName)
                 navigator.popPage()
+                logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
             }
         }
 
@@ -222,13 +223,16 @@ DapPage
                 {
                     state = "WALLETDEFAULT"
                     navigator.popPage()
+                    historyWorker.clearHistory()
                 }
             }
             walletsUpdated()
+            logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
         }
         function onSigWalletInfo(model)
         {
             logicWallet.updateWallet(model)
+            logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
         }
     }
 

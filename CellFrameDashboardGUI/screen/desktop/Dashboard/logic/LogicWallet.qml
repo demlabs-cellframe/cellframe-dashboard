@@ -6,6 +6,7 @@ QtObject {
     property bool restoreWalletMode: false
     property string walletType: "Standart"
     property string walletRecoveryType: "Words"
+    property string walletStatus: ""
 
     function updateWalletsModel(model)
     {
@@ -71,18 +72,20 @@ QtObject {
         {
             if (dapModelWallets.get(i).name === jsonDocument.name)
             {
-//                dapModelWallets.set(i, jsonDocument)
-//                return
-
                 dapModelWallets.get(i).status = jsonDocument.status
 
                 if(jsonDocument.status === "" || jsonDocument.status === "Active")
                 {
+                    if(!dapModelWallets.get(i).networks)
+                        dapModelWallets.get(i).networks.append(jsonDocument.networks)
+                    else
+                    {
 //                    console.log(jsonDocument.networks)
                     dapModelWallets.get(i).networks.clear()
                     dapModelWallets.get(i).networks.append(jsonDocument.networks)
 //                    dapModelWallets.get(i).networks = jsonDocument.networks
 //                    console.log(dapModelWallets.get(i).networks)
+                    }
                 }
                 return
             }

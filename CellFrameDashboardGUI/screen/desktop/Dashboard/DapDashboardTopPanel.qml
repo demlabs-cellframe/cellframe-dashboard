@@ -64,30 +64,19 @@ Controls.DapTopPanel
         }
 
         Rectangle{
+            id: buttonActivate
             Layout.leftMargin: 2
             width: 32
             height: 32
             radius: 4
             color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
 
-            visible:
-            {
-                if(!dapModelWallets.count)
-                    return false
-                else{
-                    if(dapModelWallets.get(modulesController.currentWalletIndex).status === "")
-                        return false
-                    else
-                        return true
-                }
-            }
-
+            visible: !dapModelWallets.count ? false : logicWallet.walletStatus === "" ?
+                                              false : true
             Image{
                 anchors.centerIn: parent
-                source: dapModelWallets.get(modulesController.currentWalletIndex).status === "non-Active" ?
-                                                "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
-                                              : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
-
+                source: logicWallet.walletStatus === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                                                               : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
                 mipmap: true
             }
 
@@ -98,7 +87,7 @@ Controls.DapTopPanel
                 anchors.fill: parent
 
                 onClicked: {
-                    if(dapModelWallets.get(modulesController.currentWalletIndex).status === "non-Active")
+                    if(logicWallet.walletStatus === "non-Active")
                         walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
                     else
                         walletDeactivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name)
@@ -171,7 +160,6 @@ Controls.DapTopPanel
                         "currentWalletIndex", modulesController.currentWalletIndex)
 
             comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
-
         }
     }
 }
