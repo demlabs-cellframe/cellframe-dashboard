@@ -5,5 +5,6 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *modulesCtrl, DapA
     , s_serviceCtrl(&DapServiceController::getInstance())
     , s_modulesCtrl(modulesCtrl)
 {
+
 }
 

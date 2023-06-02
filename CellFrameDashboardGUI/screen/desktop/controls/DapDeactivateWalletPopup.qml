@@ -180,7 +180,7 @@ Item{
                 onClicked:
                 {
                     logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
-                    walletModule.updateCurrentWallet()
+                    walletModule.getWalletsInfo("true")
                 }
             }
 
