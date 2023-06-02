@@ -25,6 +25,7 @@
 
 #include "ConfigWorker/configworker.h"
 #include "Workers/stringworker.h"
+#include "Workers/dateworker.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -79,6 +80,7 @@ private:
     HistoryWorker * m_historyWorker;
     ConfigWorker *configWorker;
     StringWorker *stringWorker;
+    DateWorker   *dateWorker;
 };
 
 #endif // DAPAPPLICATION_H

@@ -14,10 +14,6 @@ DapPage
     property bool isCurrentRange: false
     readonly property string infoAboutTx: path + "/History/DapHistoryRightPanelInfoTx.qml"
 
-    ////@ Variables to calculate Today, Yesterdat etc.
-    property date today: new Date()
-    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
-
     property int lastHistoryLength: 0
 
     property alias dapHistoryTopPanel: historyTopPanel
@@ -25,7 +21,6 @@ DapPage
 
     id: historyTab
 
-//    ListModel{id: modelHistory}
     ListModel{id: temporaryModel}
     ListModel{id: previousModel}
     ListModel{id: detailsModel}
@@ -57,23 +52,13 @@ DapPage
         id: logicExplorer
     }
 
-    Timer {
-        id: updateHistoryTimer
-        interval: logicMainApp.autoUpdateHistoryInterval; running: false; repeat: true
-        onTriggered:
-        {
-            console.log("HISTORY TIMER TICK")
-            logicExplorer.updateWalletHistory(false, 0)
-        }
-    }
-
     dapHeader.initialItem: DapSearchTopPanel
         {
             id:historyTopPanel
             onFindHandler: {
                 console.log(text)
                 currentString = text
-                historyWorker.setFilterString(text)
+                txExplorerModule.setFilterString(text)
             }
         }
 
@@ -83,7 +68,7 @@ DapPage
         dapHistoryRightPanel.onCurrentStatusSelected: {
 
                 currentStatus = status
-                historyWorker.setCurrentStatus(status)
+                txExplorerModule.setCurrentStatus(status)
         }
 
         dapHistoryRightPanel.onCurrentPeriodSelected: {
@@ -93,7 +78,7 @@ DapPage
 
                 var data = [period, isRange]
 
-                historyWorker.setCurrentPeriod(data)
+                txExplorerModule.setCurrentPeriod(data)
             }
     }
 
@@ -102,36 +87,22 @@ DapPage
 
     Connections
     {
-        target: dapMainWindow
-        function onModelWalletsUpdated()
+        target: modulesController
+        function onWalletsListUpdated()
         {
-            if (modulesController.currentWalletIndex >=0 ||
-                modulesController.currentWalletIndex < dapModelWallets.count)
-                historyWorker.setWalletName(
-                    dapModelWallets.get(modulesController.currentWalletIndex).name)
+            logicExplorer.historyUpdate()
+        }
 
-            logicExplorer.updateWalletHistory(false, true)
+        function onCurrentWalletNameChanged()
+        {
+            logicExplorer.historyUpdate()
         }
     }
 
     Component.onCompleted:
     {
-        historyWorker.setCurrentStatus(currentStatus)
-
-        historyWorker.setLastActions(false)
-        if (modulesController.currentWalletIndex >=0 ||
-            modulesController.currentWalletIndex < dapModelWallets.count)
-            historyWorker.setWalletName(
-                dapModelWallets.get(modulesController.currentWalletIndex).name)
-
-        logicExplorer.updateWalletHistory(false, 1)
-
-        if (!updateHistoryTimer.running)
-            updateHistoryTimer.start()
-    }
-
-    Component.onDestruction:
-    {
-        updateHistoryTimer.stop()
+        txExplorerModule.setCurrentStatus(currentStatus)
+        txExplorerModule.setLastActions(false)
+        logicExplorer.historyUpdate()
     }
 }

@@ -1,16 +1,16 @@
-#ifndef HISTORYMODEL_H
-#define HISTORYMODEL_H
+#ifndef DAPHISTORYMODEL_H
+#define DAPHISTORYMODEL_H
 
 #include <QAbstractTableModel>
 
 /* DEFS */
-class HistoryModel;
+class DapHistoryModel;
 
-class ItemBridge : public QObject
+class ItemHistoryBridge : public QObject
 {
   Q_OBJECT
 
-  friend class HistoryModel;
+  friend class DapHistoryModel;
 
   /****************************************//**
    * @name DEFS
@@ -54,12 +54,12 @@ protected:
    *******************************************/
   /// @{
 protected:
-  ItemBridge (Data *a_data);
+  ItemHistoryBridge (Data *a_data);
 public:
-  ItemBridge (QObject *a_parent = nullptr);
-  ItemBridge (const ItemBridge &a_src);
-  ItemBridge (ItemBridge &&a_src);
-  ~ItemBridge();
+  ItemHistoryBridge (QObject *a_parent = nullptr);
+  ItemHistoryBridge (const ItemHistoryBridge &a_src);
+  ItemHistoryBridge (ItemHistoryBridge &&a_src);
+  ~ItemHistoryBridge();
   /// @}
 
   /****************************************//**
@@ -144,13 +144,13 @@ signals:
   /// @{
 public:
   QVariant operator [] (const QString &a_valueName);
-  ItemBridge &operator = (const ItemBridge &a_src);
-  ItemBridge &operator = (ItemBridge &&a_src);
+  ItemHistoryBridge &operator = (const ItemHistoryBridge &a_src);
+  ItemHistoryBridge &operator = (ItemHistoryBridge &&a_src);
   /// @}
 };
-Q_DECLARE_METATYPE (ItemBridge);
+Q_DECLARE_METATYPE (ItemHistoryBridge);
 
-class HistoryModel : public QAbstractTableModel
+class DapHistoryModel : public QAbstractTableModel
 {
   Q_OBJECT
 
@@ -212,8 +212,8 @@ public:
 
   };
 
-  typedef QList<HistoryModel::Item>::Iterator Iterator;
-  typedef QList<HistoryModel::Item>::ConstIterator ConstIterator;
+  typedef QList<DapHistoryModel::Item>::Iterator Iterator;
+  typedef QList<DapHistoryModel::Item>::ConstIterator ConstIterator;
   /// @}
 
   /****************************************//**
@@ -221,7 +221,7 @@ public:
    *******************************************/
   /// @{
 protected:
-  QList<HistoryModel::Item> *m_items;
+  QList<DapHistoryModel::Item> *m_items;
   /// @}
 
   /****************************************//**
@@ -229,10 +229,10 @@ protected:
    *******************************************/
   /// @{
 public:
-  explicit HistoryModel (QObject *a_parent = nullptr);
-  explicit HistoryModel (const HistoryModel &a_src);
-  explicit HistoryModel (HistoryModel &&a_src);
-  ~HistoryModel();
+  explicit DapHistoryModel (QObject *a_parent = nullptr);
+  explicit DapHistoryModel (const DapHistoryModel &a_src);
+  explicit DapHistoryModel (DapHistoryModel &&a_src);
+  ~DapHistoryModel();
   /// @}
 
   /****************************************//**
@@ -253,21 +253,21 @@ public:
   /// @{
 public:
   /// get global singleton instance
-  Q_INVOKABLE static HistoryModel *global();
+  Q_INVOKABLE static DapHistoryModel *global();
   /// add new item to the end
-  Q_INVOKABLE int add (const HistoryModel::Item &a_item);
+  Q_INVOKABLE int add (const DapHistoryModel::Item &a_item);
   /// add new item in the middle of the list
-  Q_INVOKABLE void insert(int a_index, const HistoryModel::Item &a_item);
+  Q_INVOKABLE void insert(int a_index, const DapHistoryModel::Item &a_item);
   /// remove one item
   Q_INVOKABLE void remove (int a_index);
   /// find item with the same name and return it's index. otherwise returns -1
-  Q_INVOKABLE int indexOf (const HistoryModel::Item &a_item) const;
+  Q_INVOKABLE int indexOf (const DapHistoryModel::Item &a_item) const;
 
   Q_INVOKABLE int indexOfTime (qint64 time) const;
   /// access item by index
-  Q_INVOKABLE const HistoryModel::Item &at (int a_index) const;
+  Q_INVOKABLE const DapHistoryModel::Item &at (int a_index) const;
   /// get copy of item at provided index
-  Q_INVOKABLE HistoryModel::Item value (int a_index) const;
+  Q_INVOKABLE DapHistoryModel::Item value (int a_index) const;
   /// get amount of users
   Q_INVOKABLE int size() const;
   /// get true if no users exists
@@ -279,9 +279,9 @@ public:
   /// get item by index
   Q_INVOKABLE const QVariant get (int a_index) const;
   /// replace item by index
-  Q_INVOKABLE void set (int a_index, const HistoryModel::Item &a_item);
+  Q_INVOKABLE void set (int a_index, const DapHistoryModel::Item &a_item);
   /// emplace item by index
-  Q_INVOKABLE void set (int a_index, HistoryModel::Item &&a_item);
+  Q_INVOKABLE void set (int a_index, DapHistoryModel::Item &&a_item);
 //  /// get item field value
 //  Q_INVOKABLE QVariant getValue (int a_index, int a_fieldId) const;
 //  /// set item field value
@@ -292,7 +292,7 @@ public:
 //  Q_INVOKABLE void setProperty (int a_index, const QString &a_fieldName, const QVariant &a_value);
   Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
-  const HistoryModel::Item &getItem(int a_index) const;
+  const DapHistoryModel::Item &getItem(int a_index) const;
 
   Iterator begin();
   ConstIterator cbegin() const;
@@ -300,10 +300,10 @@ public:
   ConstIterator cend();
 protected:
   /// get item by index
-  HistoryModel::Item &_get (int a_index);
-  const HistoryModel::Item &_get (int a_index) const;
-  static QVariant _getValue (const HistoryModel::Item &a_item, int a_fieldId);
-  static void _setValue (HistoryModel::Item &a_item, int a_fieldId, const QVariant &a_value);
+  DapHistoryModel::Item &_get (int a_index);
+  const DapHistoryModel::Item &_get (int a_index) const;
+  static QVariant _getValue (const DapHistoryModel::Item &a_item, int a_fieldId);
+  static void _setValue (DapHistoryModel::Item &a_item, int a_fieldId, const QVariant &a_value);
   /// @}
 
   /****************************************//**
@@ -325,12 +325,11 @@ signals:
 public:
   Q_INVOKABLE QVariant operator [](int a_index);
   Q_INVOKABLE const QVariant operator[] (int a_index) const;
-  Q_INVOKABLE HistoryModel &operator= (const HistoryModel &a_src);
-  Q_INVOKABLE HistoryModel &operator= (HistoryModel &&a_src);
+  Q_INVOKABLE DapHistoryModel &operator= (const DapHistoryModel &a_src);
+  Q_INVOKABLE DapHistoryModel &operator= (DapHistoryModel &&a_src);
   /// @}
 };
 
 /*-----------------------------------------*/
 
-#endif // HISTORYMODEL_H
-
+#endif // DAPHISTORYMODEL_H

@@ -66,12 +66,6 @@ Page
 
     }
 
-    Component.onCompleted:
-    {
-        today = new Date()
-        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
-    }
-
     Component
     {
         id: delegateDate
@@ -81,7 +75,7 @@ Page
             width: parent.width
             color: currTheme.mainBackground
 
-            property date payDate: new Date(Date.parse(section))
+//            property date payDate: new Date(Date.parse(section))
 
             Text
             {
@@ -91,7 +85,7 @@ Page
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.white
-                text: logicExplorer.getDateString(payDate)
+                text: dateWorker.getDateString(section)
                 font: mainFont.dapFont.regular12
             }
         }

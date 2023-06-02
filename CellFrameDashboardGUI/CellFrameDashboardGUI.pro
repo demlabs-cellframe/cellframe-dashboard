@@ -17,9 +17,8 @@ HEADERS += $$PWD/DapServiceController.h \
     DiagnosticWorker/AbstractDiagnostic.h \
     DiagnosticWorker/models/AbstractNodeModel.h \
     DiagnosticWorker/models/NodeModel.h \
-    HistoryWorker/historymodel.h \
-    HistoryWorker/historyworker.h \
     ImportCertificate/ImportCertificate.h \
+    Models/DapHistoryModel.h \
     Modules/Certificates/DapModuleCertificates.h \
     Modules/Console/DapModuleConsole.h \
     Modules/DapAbstractModule.h \
@@ -47,6 +46,7 @@ HEADERS += $$PWD/DapServiceController.h \
     WalletRestore/randomfile.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
+    Workers/dateworker.h \
     Workers/stringworker.h \
     dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
@@ -69,9 +69,8 @@ SOURCES += $$PWD/main.cpp \
     DiagnosticWorker/AbstractDiagnostic.cpp \
     DiagnosticWorker/models/AbstractNodeModel.cpp \
     DiagnosticWorker/models/NodeModel.cpp \
-    HistoryWorker/historymodel.cpp \
-    HistoryWorker/historyworker.cpp \
     ImportCertificate/ImportCertificate.cpp \
+    Models/DapHistoryModel.cpp \
     Modules/Certificates/DapModuleCertificates.cpp \
     Modules/Console/DapModuleConsole.cpp \
     Modules/DapAbstractModule.cpp \
@@ -96,6 +95,7 @@ SOURCES += $$PWD/main.cpp \
     WalletRestore/randomfile.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
+    Workers/dateworker.cpp \
     Workers/stringworker.cpp \
     dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \

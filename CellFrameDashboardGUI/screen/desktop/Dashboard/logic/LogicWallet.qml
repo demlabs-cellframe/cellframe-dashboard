@@ -76,14 +76,6 @@ QtObject {
 
                 if(jsonDocument.status === "" || jsonDocument.status === "Active")
                 {
-//                    if(!dapModelWallets.get(i).networks)
-//                    {
-//                        dapModelWallets.set(i, jsonDocument)
-//                        dapModelWallets.get(i).networks.clear()
-//                        dapModelWallets.get(i).networks.append(jsonDocument.networks)
-//                    }
-//                    else
-//                    {
 //                    console.log(jsonDocument.networks)
 
                     dapModelWallets.get(i).networks.clear()

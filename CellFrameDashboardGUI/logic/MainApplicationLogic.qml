@@ -474,30 +474,30 @@ QtObject {
         }
     }
 
-    function getAllWalletHistory(index, update, isLastActions)
-    {
+//    function getAllWalletHistory(index, update, isLastActions)
+//    {
 
-        if (index < 0 || index >= dapModelWallets.count)
-            return
+//        if (index < 0 || index >= dapModelWallets.count)
+//            return
 
-        var network_array = ""
+//        var network_array = ""
 
-        var name = dapModelWallets.get(index).name
+//        var name = dapModelWallets.get(index).name
 
-        var model = dapModelWallets.get(index).networks
+//        var model = dapModelWallets.get(index).networks
 
-        if(model)
-        {
-            for (var i = 0; i < model.count; ++i)
-            {
-                network_array += model.get(i).name + ":"
-                network_array += model.get(i).address + ":"
-                network_array += name + "/"
-            }
-            requestToService("DapGetAllWalletHistoryCommand",
-                             network_array, update ? "true": "false", isLastActions ? "true": "false")
-        }
-    }
+//        if(model)
+//        {
+//            for (var i = 0; i < model.count; ++i)
+//            {
+//                network_array += model.get(i).name + ":"
+//                network_array += model.get(i).address + ":"
+//                network_array += name + "/"
+//            }
+//            requestToService("DapGetAllWalletHistoryCommand",
+//                             network_array, update ? "true": "false", isLastActions ? "true": "false")
+//        }
+//    }
 
     function rcvWebConnectRequest(rcvData)
     {

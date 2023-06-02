@@ -54,7 +54,7 @@ void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
 //    addModule("dexModule", new DapModuleDex(s_modulesCtrl));
-//    addModule("txExplorerModule", new DapModuleTxExplorer(s_modulesCtrl));
+    addModule("txExplorerModule", new DapModuleTxExplorer(this));
 //    addModule("certificatesModule", new DapModuleCertificates(s_modulesCtrl));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
 //    addModule("consoleModule", new DapModuleConsole(s_modulesCtrl));
@@ -121,9 +121,9 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
         restoreIndex();
         static_cast<DapModuleWallet*>(m_listModules.value("walletModule"))
             ->getWalletsInfo(QStringList()<<"true");
-    }
 
-    emit walletsListUpdated(); //todo
+        emit walletsListUpdated();
+    }
 }
 
 void DapModulesController::rcvNetList(const QVariant &rcvData)

@@ -14,7 +14,7 @@ public:
     DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent = nullptr);
     ~DapModulesController();
 
-
+    QQmlApplicationEngine *s_appEngine;
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
 
@@ -43,7 +43,6 @@ public:
 
 private:
     QTimer *m_timerUpdateData;
-    QQmlApplicationEngine *s_appEngine;
     QSettings *s_settings;
 
     bool m_firstDataLoad{false};

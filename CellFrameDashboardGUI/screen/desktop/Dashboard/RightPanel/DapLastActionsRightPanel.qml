@@ -7,25 +7,11 @@ import "../../History/logic"
 
 DapLastActionsRightPanelForm
 {
-    ////@ Variables to calculate Today, Yesterdat etc.
-    property date today: new Date()
-    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
-
-    property date lastDate: new Date(0)
-    property date prevDate: new Date(0)
-
-//    property alias dapModelLastActions: modelLastActions
-
     property int lastHistoryLength: 0
-
-    property alias logicExplorer: logicExplorer
-
 //    ListModel{id: modelLastActions}
     ListModel{id: newModelLastActions}
     ListModel{id: temporaryModel}
     ListModel{id: previousModel}
-
-    LogicTxExplorer{id: logicExplorer}
 
     Component
     {
@@ -36,8 +22,6 @@ DapLastActionsRightPanelForm
             width: parent.width
             color: currTheme.mainBackground
 
-            property date payDate: new Date(Date.parse(section))
-
             Text
             {
                 anchors.fill: parent
@@ -46,7 +30,7 @@ DapLastActionsRightPanelForm
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.white
-                text: logicExplorer.getDateString(payDate)
+                text: dateWorker.getDateString(section)
                 font: mainFont.dapFont.medium12
             }
         }
@@ -61,37 +45,20 @@ DapLastActionsRightPanelForm
 
             if (modulesController.currentWalletIndex >=0 &&
                 modulesController.currentWalletIndex < dapModelWallets.count)
-                historyWorker.setWalletName(modulesController.currentWalletName)
+                txExplorerModule.setWalletName(modulesController.currentWalletName)
 
-            logicExplorer.updateWalletHistory(true, 1,true)
-        }
-    }
-
-    Timer {
-        id: updateLastActionTimer
-        interval: logicMainApp.autoUpdateHistoryInterval; running: false; repeat: true
-        onTriggered:
-        {
-            console.log("LAST ACTIONS TICK")
-            logicExplorer.updateWalletHistory(true, 0, true)
+            txExplorerModule.updateHistory(true)
         }
     }
 
     Component.onCompleted:
     {
-        historyWorker.setLastActions(true)
+        txExplorerModule.setLastActions(true)
         if (modulesController.currentWalletIndex >=0 &&
             modulesController.currentWalletIndex < dapModelWallets.count)
-            historyWorker.setWalletName(modulesController.currentWalletName)
+            txExplorerModule.setWalletName(modulesController.currentWalletName)
         lastHistoryLength = 0
-        logicExplorer.updateWalletHistory(true, 1, true)
-
-        if (!updateLastActionTimer.running)
-            updateLastActionTimer.start()
+        txExplorerModule.updateHistory(true)
     }
 
-    Component.onDestruction:
-    {
-        updateLastActionTimer.stop()
-    }
 }

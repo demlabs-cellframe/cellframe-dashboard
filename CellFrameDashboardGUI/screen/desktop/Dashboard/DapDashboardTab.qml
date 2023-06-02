@@ -105,8 +105,8 @@ DapPage
             id: dashboardTopPanel
             onChangeWalletIndex:{
                 dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
-                lastActions.logicExplorer.updateWalletHistory(true, 1, true)
-                historyWorker.setWalletName(modulesController.currentWalletName)
+                txExplorerModule.setWalletName(modulesController.currentWalletName)
+                txExplorerModule.updateHistory(true)
                 navigator.popPage()
                 logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
             }
@@ -223,7 +223,7 @@ DapPage
                 {
                     state = "WALLETDEFAULT"
                     navigator.popPage()
-                    historyWorker.clearHistory()
+                    txExplorerModule.clearHistory()
                 }
             }
             walletsUpdated()
