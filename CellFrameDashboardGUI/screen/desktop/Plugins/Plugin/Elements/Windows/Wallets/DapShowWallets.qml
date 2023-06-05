@@ -73,10 +73,10 @@ Item {
         }
     }
 
-    Component.onCompleted: {
-        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
+//    Component.onCompleted: {
+//        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
 
-    }
+//    }
 
     InnerShadow {
         id: topLeftSadow

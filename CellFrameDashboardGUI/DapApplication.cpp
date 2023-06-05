@@ -20,9 +20,10 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
-    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
+//    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , configWorker(new ConfigWorker(this))
     , stringWorker(new StringWorker(this))
+    , dateWorker(new DateWorker(this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -53,9 +54,9 @@ DapApplication::DapApplication(int &argc, char **argv)
     connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
             stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
 
-    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
-            m_historyWorker, &HistoryWorker::setHistoryModel,
-            Qt::QueuedConnection);
+//    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
+//            m_historyWorker, &HistoryWorker::setHistoryModel,
+//            Qt::QueuedConnection);
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
@@ -231,10 +232,12 @@ void DapApplication::setContextProperties()
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
     m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
-    m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
+//    m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
 
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
     m_engine.rootContext()->setContextProperty("stringWorker", stringWorker);
+    m_engine.rootContext()->setContextProperty("dateWorker", dateWorker);
+
     m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
     m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }

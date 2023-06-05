@@ -231,6 +231,37 @@ Item
             }
         }
 
+        //TODO
+//        Text {
+//            Layout.topMargin: 40
+//            Layout.leftMargin: 16
+//            Layout.minimumHeight: 18
+//            Layout.maximumHeight: 18
+//            verticalAlignment: Text.AlignVCenter
+//            font: mainFont.dapFont.bold14
+//            color: currTheme.white
+//            text: qsTr("Network")
+//        }
+
+//        DapCustomComboBox
+//        {
+//            id: comboboxNetwork
+//            Layout.fillWidth: true
+//            Layout.topMargin: 20
+//            Layout.leftMargin: 15
+//            Layout.rightMargin: 15
+//            height: 40
+
+//            backgroundColorShow: currTheme.secondaryBackground
+//            backgroundColorNormal: currTheme.secondaryBackground
+//            background.radius: 4
+//            model: dapNetworkModel
+
+//            font: mainFont.dapFont.regular16
+
+//            defaultText: qsTr("Networks")
+//        }
+
         Item
         {
             id: frameBottom

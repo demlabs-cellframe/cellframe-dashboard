@@ -4,42 +4,87 @@ import QtQml 2.12
 QtObject {
 
     property bool restoreWalletMode: false
+    property string walletType: "Standart"
+    property string walletRecoveryType: "Words"
+    property string walletStatus: ""
 
-    function updateAllWallets()
+    function updateWalletsModel(model)
     {
-        dapModelWallets.clear()
-        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
-    }
+//        console.log(model)
+        if(model == "isEqual")
+            return
 
-    function updateCurrentWallet()
-    {
-//        print("updateCurrentWallet", logicMainApp.currentIndex, dapModelWallets.get(logicMainApp.currentIndex).status )
+        var jsonDocument = JSON.parse(model)
 
-        if (logicMainApp.currentWalletIndex !== -1)
+        if(!jsonDocument)
         {
-            if(logicMainApp.currentWalletIndex < dapModelWallets.count)
-            {
-                logicMainApp.currentWalletIndex--
-                return
-            }
-
-            logicMainApp.requestToService("DapGetWalletInfoCommand",
-                dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+            dapModelWallets.clear()
+            return
         }
+
+        dapModelWallets.clear()
+        dapModelWallets.append(jsonDocument)
+
+//        console.log("rcvWallets", "currentWalletName", modulesController.currentWalletName)
+
+//        var nameIndex = -1
+
+//        for (var i = 0; i < dapModelWallets.count; ++i)
+//        {
+//            if (dapModelWallets.get(i).name === modulesController.currentWalletName)
+//                nameIndex = i
+//        }
+
+//        console.log("rcvWallets", "nameIndex", nameIndex)
+
+//        if (nameIndex >= 0)
+//            modulesController.currentWalletIndex = nameIndex
+
+//        if (modulesController.currentWalletIndex < 0 && dapModelWallets.count > 0)
+//            modulesController.currentWalletIndex = 0
+//        if (dapModelWallets.count < 0)
+//            modulesController.currentWalletIndex = -1
+
+//        if(modulesController.currentWalletIndex !== -1)
+//        {
+        if(dapModelWallets.count)
+        {
+            dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+            if(dashboardTab.state != "WALLETCREATE")
+                dashboardTab.state = "WALLETSHOW"
+        }
+//        }
     }
 
-    function updateWalletModel()
+    function updateWallet(wallet)
     {
-        if(logicMainApp.currentWalletIndex !== -1)
+        var jsonDocument = JSON.parse(wallet)
+
+//        console.log("AAAAAAAAAAAAA", dapModelWallets.count, wallet, jsonDocument)
+
+        if(!jsonDocument || (!jsonDocument.status && !jsonDocument.networks.length))
         {
-            if(dapModelWallets.count)
+            dapModelWallets.clear()
+            return
+        }
+
+        for (var i = 0; i < dapModelWallets.count; ++i)
+        {
+            if (dapModelWallets.get(i).name === jsonDocument.name)
             {
-                dashboardScreen.dapListViewWallet.model = dapModelWallets.get(logicMainApp.currentWalletIndex).networks
-//                dashboardTopPanel.dapFrameTitle.fullText = dapModelWallets.get(logicMainApp.currentWalletIndex).name
+                dapModelWallets.get(i).status = jsonDocument.status
 
-//                console.log("dapComboboxWallet.onCurrentIndexChanged")
+                if(jsonDocument.status === "" || jsonDocument.status === "Active")
+                {
+//                    console.log(jsonDocument.networks)
 
-                dashboardTab.state = "WALLETSHOW"
+                    dapModelWallets.get(i).networks.clear()
+                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
+//                    dapModelWallets.get(i).networks = jsonDocument.networks
+//                    console.log(dapModelWallets.get(i).networks)
+//                    }
+                }
+                return
             }
         }
     }
@@ -49,7 +94,7 @@ QtObject {
         networksModel.clear()
 
         var tempNetworks = dapModelWallets.
-            get(logicMainApp.currentWalletIndex).networks
+            get(modulesController.currentWalletIndex).networks
 
         for (var i = 0; i < tempNetworks.count; ++i)
         {
