@@ -518,16 +518,16 @@ Rectangle {
 //            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
         }
 
-        function onWalletsReceived(walletList)
-        {
-            console.log("onWalletsReceived")
-            logicMainApp.rcvWallets(walletList)
-        }
-        function onWalletReceived(wallet)
-        {
-            console.log("onWalletReceived")
-            logicMainApp.rcvWallet(wallet)
-        }
+//        function onWalletsReceived(walletList)
+//        {
+//            console.log("onWalletsReceived")
+//            logicMainApp.rcvWallets(walletList)
+//        }
+//        function onWalletReceived(wallet)
+//        {
+//            console.log("onWalletReceived")
+//            logicMainApp.rcvWallet(wallet)
+//        }
 
         function onCurrentNetworkChanged()
         {

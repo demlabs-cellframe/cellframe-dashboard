@@ -58,9 +58,9 @@ DapRecoveryWalletRightPanelForm
     {
         console.log("DapRecoveryWalletRightPanelForm Component.onCompleted")
         console.log("walletInfo.name", walletInfo.name)
-//        print("logicMainApp.restorelogicMainApp.WalletMode", logicMainApp.restoreWalletMode)
+//        print("logicWallet.restorelogicMainApp.WalletMode", logicWallet.restoreWalletMode)
 
-        if(logicMainApp.restoreWalletMode)
+        if(logicWallet.restoreWalletMode)
         {
             acceptedLayout.visible = false
             dapButtonAction.enabled = true
@@ -68,11 +68,11 @@ DapRecoveryWalletRightPanelForm
 
         walletInfo.recovery_hash = ""
 
-        if (logicMainApp.walletRecoveryType === "Words")
+        if (logicWallet.walletRecoveryType === "Words")
         {
             dapTextMethod.text = qsTr("Recovery method: 24 words")
 
-            if (!logicMainApp.restoreWalletMode)
+            if (!logicWallet.restoreWalletMode)
                 dapButtonAction.textButton = qsTr("Copy")
             else
                 dapButtonAction.textButton = qsTr("Paste")
@@ -83,11 +83,11 @@ DapRecoveryWalletRightPanelForm
             dapWarningText1.text = qsTr("I'm aware that a wallet seed phrase can't be generated after wallet creation")
             dapWarningText2.text = qsTr("I'm aware that unless I save the seed phrase correctly I will lose access to my wallet after deleting it")
         }
-        if (logicMainApp.walletRecoveryType === "File")
+        if (logicWallet.walletRecoveryType === "File")
         {
             dapTextMethod.text = qsTr("Recovery method: Backup file")
 
-            if (!logicMainApp.restoreWalletMode)
+            if (!logicWallet.restoreWalletMode)
                 dapButtonAction.textButton = qsTr("Save")
             else
                 dapButtonAction.textButton = qsTr("Load")
@@ -100,9 +100,9 @@ DapRecoveryWalletRightPanelForm
         }
 
 
-        if (logicMainApp.walletRecoveryType === "Words")
+        if (logicWallet.walletRecoveryType === "Words")
         {
-            if (!logicMainApp.restoreWalletMode)
+            if (!logicWallet.restoreWalletMode)
             {
                 dapTextTopMessage.text =
                     qsTr("Keep these words in a safe place. They will be required to restore your wallet in case of loss of access to it.")
@@ -115,9 +115,9 @@ DapRecoveryWalletRightPanelForm
                 walletHashManager.clearWords()
             }
         }
-        if (logicMainApp.walletRecoveryType === "File")
+        if (logicWallet.walletRecoveryType === "File")
         {
-            if (!logicMainApp.restoreWalletMode)
+            if (!logicWallet.restoreWalletMode)
             {
                 dapTextTopMessage.text =
                     qsTr("Click the 'Save' button and keep backup file in a safe place. They will be required to restore your wallet in case of loss of access to it.")
@@ -136,24 +136,27 @@ DapRecoveryWalletRightPanelForm
         console.log("Create new wallet " + walletInfo.name);
         console.log(walletInfo.signature_type);
 //        print("hash = ", walletInfo.recovery_hash)
+        var argsRequest
         if(walletInfo.password === "")
-            logicMainApp.requestToService("DapAddWalletCommand",
+            argsRequest = logicMainApp.createRequestToService("DapAddWalletCommand",
                    walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash)
         else
-            logicMainApp.requestToService("DapAddWalletCommand",
+            argsRequest = logicMainApp.createRequestToService("DapAddWalletCommand",
                    walletInfo.name,
                    walletInfo.signature_type,
                    walletInfo.recovery_hash,
                    walletInfo.password)
+
+        walletModule.createWallet(argsRequest);
     }
 
     dapButtonAction.onClicked:
     {
-        if (logicMainApp.walletRecoveryType === "Words")
+        if (logicWallet.walletRecoveryType === "Words")
         {
-            if (!logicMainApp.restoreWalletMode)
+            if (!logicWallet.restoreWalletMode)
             {
                 dapButtonNext.enabled = true
 
@@ -174,9 +177,9 @@ DapRecoveryWalletRightPanelForm
             }
         }
 
-        if (logicMainApp.walletRecoveryType === "File")
+        if (logicWallet.walletRecoveryType === "File")
         {
-            if (!logicMainApp.restoreWalletMode)
+            if (!logicWallet.restoreWalletMode)
             {
                 saveFileDialog.open()
             }
@@ -228,11 +231,12 @@ DapRecoveryWalletRightPanelForm
 
     Connections
     {
-        target: dapServiceController
-        function onWalletCreated(wallet)
+        target: walletModule
+        function onSigWalletCreate(wallet)
         {
             commandResult.success = wallet.success
             commandResult.message = wallet.message
+            walletModule.timerUpdateFlag(true);
 
             navigator.doneWalletFunc()
         }

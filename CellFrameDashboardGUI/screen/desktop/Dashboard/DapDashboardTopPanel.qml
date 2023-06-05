@@ -11,19 +11,19 @@ Controls.DapTopPanel
 {
     property alias layout: layout
 
-    signal changeWallet(var indexWallet)
+    signal changeWalletIndex()
 
     RowLayout
     {
         id: layout
         anchors.fill: parent
+        spacing: 0
 
         Text{
             text: qsTr("Wallet:")
             font: mainFont.dapFont.regular14
             color: currTheme.gray
             Layout.leftMargin: 21
-//            visible: comboBoxCurrentWallet.visible
         }
 
         Widgets.DapCustomComboBox
@@ -46,32 +46,58 @@ Controls.DapTopPanel
             Component.onCompleted:
             {
                 console.log("DapDashboardTopPanel onCompleted",
-                            "logicMainApp.currentWalletIndex", logicMainApp.currentWalletIndex)
-                setCurrentIndex(logicMainApp.currentWalletIndex)
+                            "logicMainApp.currentWalletIndex", modulesController.currentWalletIndex)
+                setCurrentIndex(modulesController.currentWalletIndex)
             }
 
             onItemSelected:
             {
-                logicMainApp.currentWalletName = currentText
-                logicMainApp.currentWalletIndex = currentIndex
+                modulesController.currentWalletIndex = currentIndex
 
                 console.log("DapDashboardTopPanel onItemSelected",
-                            "currentWalletName", logicMainApp.currentWalletName,
-                            "currentWalletIndex", logicMainApp.currentWalletIndex)
-
-                logicWallet.updateWalletModel()
-                changeWallet(logicMainApp.currentWalletIndex)
-
-                historyWorker.setWalletName(
-                    dapModelWallets.get(logicMainApp.currentWalletIndex).name)
+                            "currentWalletName", modulesController.currentWalletName,
+                            "currentWalletIndex", modulesController.currentWalletIndex)
+                changeWalletIndex()
             }
 
             defaultText: qsTr("Wallets")
         }
 
+        Rectangle{
+            id: buttonActivate
+            Layout.leftMargin: 2
+            width: 32
+            height: 32
+            radius: 4
+            color: area.containsMouse ? currTheme.rowHover : currTheme.secondaryBackground
+
+            visible: !dapModelWallets.count ? false : logicWallet.walletStatus === "" ?
+                                              false : true
+            Image{
+                anchors.centerIn: parent
+                source: logicWallet.walletStatus === "non-Active" ? "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
+                                                               : "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
+                mipmap: true
+            }
+
+
+            MouseArea{
+                id: area
+                hoverEnabled: true
+                anchors.fill: parent
+
+                onClicked: {
+                    if(logicWallet.walletStatus === "non-Active")
+                        walletActivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name, false)
+                    else
+                        walletDeactivatePopup.show(dapModelWallets.get(modulesController.currentWalletIndex).name)
+                }
+            }
+        }
+
         Widgets.DapButton
         {
-            Layout.leftMargin: 24
+            Layout.leftMargin: 29
 
             textButton: qsTr("Import wallet")
 
@@ -117,24 +143,23 @@ Controls.DapTopPanel
             horizontalAligmentText: Text.AlignHCenter
 
             onClicked: {
-                walletInfo.name = dapModelWallets.get(logicMainApp.currentWalletIndex).name
+                walletInfo.name = modulesController.currentWalletName
                 dapRightPanel.pop()
                 navigator.newPayment()
             }
         }
-
     }
 
     Connections
     {
-        target: dapMainWindow
-        function onModelWalletsUpdated()
+        target: dashboardTab
+        function onWalletsUpdated()
         {
             console.log("DapDashboardTopPanel onModelWalletsUpdated",
-                        "currentWalletName", logicMainApp.currentWalletName,
-                        "currentWalletIndex", logicMainApp.currentWalletIndex)
+                        "currentWalletName", modulesController.currentWalletName,
+                        "currentWalletIndex", modulesController.currentWalletIndex)
 
-            comboBoxCurrentWallet.setCurrentIndex(logicMainApp.currentWalletIndex)
+            comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
         }
     }
 }

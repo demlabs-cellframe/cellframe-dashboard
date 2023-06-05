@@ -20,7 +20,7 @@
         <file>screen/desktop/Console/DapConsoleTab.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
         <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
@@ -322,5 +322,6 @@
         <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWalletForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapDoneCreateWallet.qml</file>
     </qresource>
 </RCC>

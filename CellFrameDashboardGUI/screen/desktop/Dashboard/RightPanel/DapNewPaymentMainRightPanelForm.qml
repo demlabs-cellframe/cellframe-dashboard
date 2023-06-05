@@ -44,6 +44,10 @@ DapRectangleLitAndShaded
     /// @param dapTextInputRecipientWalletAddress Recipient wallet address input field.
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
+    property alias balance: balance
+
+//    signal calculatePrecentAmount(var precent)
+
     color: currTheme.secondaryBackground
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
@@ -190,17 +194,50 @@ DapRectangleLitAndShaded
             id: frameAmountPayment
             Layout.fillWidth: true
             color: currTheme.mainBackground
-            height: 30 
-            Text
-            {
-                id: textFrameamountPayment
-                color: currTheme.white
-                text: qsTr("Amount")
-                font: mainFont.dapFont.medium12
-                horizontalAlignment: Text.AlignLeft
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 16
+            height: 30
+
+            RowLayout{
+                anchors.fill: parent
+                spacing: 0
+
+                Text
+                {
+                    Layout.alignment:  Qt.AlignLeft | Qt.AlignVCenter
+                    Layout.leftMargin: 16
+
+                    color: currTheme.white
+                    text: qsTr("Amount")
+                    font: mainFont.dapFont.medium12
+                    horizontalAlignment: Text.AlignLeft
+                }
+
+                RowLayout{
+                    Layout.alignment:  Qt.AlignRight | Qt.AlignVCenter
+                    Layout.maximumWidth: 150
+                    spacing: 0
+
+                    Text
+                    {
+                        Layout.alignment:  Qt.AlignRight | Qt.AlignVCenter
+                        color: currTheme.gray
+                        text: qsTr("Balance: ")
+                        font: mainFont.dapFont.medium12
+                        horizontalAlignment: Text.AlignLeft
+                    }
+
+                    DapBigText
+                    {
+                        id: balance
+                        textElement.horizontalAlignment: Text.AlignRight
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.alignment:  Qt.AlignRight | Qt.AlignVCenter
+                        Layout.rightMargin: 16
+                        textFont: mainFont.dapFont.medium12
+                        textColor: currTheme.white
+                    }
+
+                }
             }
         }
 
@@ -220,10 +257,13 @@ DapRectangleLitAndShaded
             {
                 id: frameAmountField
                 Layout.fillWidth: true
-                Layout.margins: 0 
+                Layout.margins: 0
 
                 DapTextField
                 {
+                    property string realAmount: "0.00"
+                    property string abtAmount: "0.00"
+
                     id: textInputAmountPayment
                     Layout.fillWidth: true
                     width: 171
@@ -234,6 +274,9 @@ DapRectangleLitAndShaded
                     font: mainFont.dapFont.regular16
                     horizontalAlignment: Text.AlignRight
 
+//                    text: hovered || focus ? realAmount : abtAmount
+//                    onEditingFinished: realAmount = text
+
                     borderWidth: 1
                     borderRadius: 4
                     placeholderColor: currTheme.white
@@ -243,10 +286,10 @@ DapRectangleLitAndShaded
                 {
                     id: frameSenderWalletToken
                     color: "transparent"
-                    height: 42 
-                    width: 125 
+                    height: 42
+                    width: 125
                     Layout.leftMargin: 5
-                    Layout.rightMargin: 0 
+                    Layout.rightMargin: 0
                     DapCustomComboBox
                     {
                         id: comboboxToken
@@ -256,9 +299,122 @@ DapRectangleLitAndShaded
                         backgroundColor: currTheme.secondaryBackground
 
                         font: mainFont.dapFont.regular16
+
+                        onCurrentTextChanged: {
+                            button25.selected = false
+                            button50.selected = false
+                            button75.selected = false
+                            button100.selected = false
+                        }
                     }
                 }
 
+            }
+
+            RowLayout
+            {
+                Layout.fillWidth: true
+                Layout.rightMargin: 20
+
+                DapButton
+                {
+                    id: button25
+                    Layout.fillWidth: true
+                    implicitHeight: 26
+                    textButton: qsTr("25%")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.medium12
+                    selected: false
+                    onClicked:
+                    {
+                        button25.selected = true
+                        button50.selected = false
+                        button75.selected = false
+                        button100.selected = false
+
+                        var res = calculatePrecentAmount(0.25)
+                        textInputAmountPayment.text = res[0]
+                        textInputAmountPayment.realAmount = res[0]
+                        textInputAmountPayment.abtAmount = res[1]
+                        textInputAmountPayment.cursorPosition = 0
+                    }
+                }
+
+                DapButton
+                {
+                    id: button50
+                    Layout.fillWidth: true
+                    implicitHeight: 26
+                    textButton: qsTr("50%")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.medium12
+                    selected: false
+                    onClicked:
+                    {
+                        button25.selected = false
+                        button50.selected = true
+                        button75.selected = false
+                        button100.selected = false
+
+                        var res = calculatePrecentAmount(0.5)
+                        textInputAmountPayment.text = res[0]
+                        textInputAmountPayment.realAmount = res[0]
+                        textInputAmountPayment.abtAmount = res[1]
+                        textInputAmountPayment.cursorPosition = 0
+                    }
+                }
+
+                DapButton
+                {
+                    id: button75
+                    Layout.fillWidth: true
+                    implicitHeight: 26
+                    textButton: qsTr("75%")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.medium12
+                    selected: false
+                    onClicked:
+                    {
+                        button25.selected = false
+                        button50.selected = false
+                        button75.selected = true
+                        button100.selected = false
+
+                        var res = calculatePrecentAmount(0.75)
+                        textInputAmountPayment.text = res[0]
+                        textInputAmountPayment.realAmount = res[0]
+                        textInputAmountPayment.abtAmount = res[1]
+                        textInputAmountPayment.cursorPosition = 0
+                    }
+                }
+
+                DapButton
+                {
+                    id: button100
+                    Layout.fillWidth: true
+                    implicitHeight: 26
+                    textButton: qsTr("100%")
+                    horizontalAligmentText: Text.AlignHCenter
+                    indentTextRight: 0
+                    fontButton: mainFont.dapFont.medium12
+                    selected: false
+                    onClicked:
+                    {
+                        button25.selected = false
+                        button50.selected = false
+                        button75.selected = false
+                        button100.selected = true
+
+                        var res = calculatePrecentAmount(1)
+                        textInputAmountPayment.text = res[0]
+                        textInputAmountPayment.realAmount = res[0]
+                        textInputAmountPayment.abtAmount = res[1]
+                        textInputAmountPayment.cursorPosition = 0
+                    }
+                }
             }
 
             Text{
@@ -313,7 +469,7 @@ DapRectangleLitAndShaded
                 anchors.fill: parent
                 anchors.topMargin: 20
 
-                placeholderText: qsTr("Paste here")
+                placeholderText: qsTr("nTSTphWddAcMUpSNXEOTztqLUifmLuhbZMycDbGNVZCdQEelLewojIrlyQtRvwZtIFYuLEKOMoulwTEyotCdUjdZnzBEqkLnaGpQxp")
                 validator: RegExpValidator { regExp: /[0-9A-Za-z]+/ }
                 font: mainFont.dapFont.regular16
                 horizontalAlignment: Text.AlignLeft
@@ -323,17 +479,6 @@ DapRectangleLitAndShaded
                 bottomLineLeftRightMargins: 7
             }
         }
-
-//        Rectangle
-//        {
-//            width: 278*pt
-//            height: 69
-//            color: "transparent"
-//            Layout.topMargin: 43
-//            Layout.fillWidth: true
-
-
-//        }
 
         Item{Layout.fillHeight: true}
 
@@ -361,14 +506,34 @@ DapRectangleLitAndShaded
             id: buttonSend
 
             implicitHeight: 36
-            implicitWidth: 132
+            Layout.fillWidth: true
+            Layout.leftMargin: 36
+            Layout.rightMargin: 36
 
             Layout.bottomMargin: 40
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-            textButton: qsTr("Send")
             horizontalAligmentText: Text.AlignHCenter
             indentTextRight: 0
             fontButton: mainFont.dapFont.medium14
+            textButton: ""
+
+            Text
+            {
+                anchors.fill: parent
+                anchors.leftMargin: 6
+                anchors.rightMargin: 6
+
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font: mainFont.dapFont.medium14
+                color: currTheme.white
+
+                text: textInputAmountPayment.text === "" ? qsTr("Send") + " 0 " + comboboxToken.displayText
+                                                         : qsTr("Send") + " " + textInputAmountPayment.text + " " + comboboxToken.displayText
+
+                elide: Text.ElideMiddle
+
+            }
         }
     }
 }

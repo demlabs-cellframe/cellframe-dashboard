@@ -13,7 +13,6 @@
 #include "mobile/testcontroller.h"
 #include "Autocomplete/CommandCmdController.h"
 #include "DapMath.h"
-#include "HistoryWorker/historyworker.h"
 #include "DiagnosticWorker/models/NodeModel.h"
 
 #include "DapLogger.h"
@@ -25,6 +24,7 @@
 
 #include "ConfigWorker/configworker.h"
 #include "Workers/stringworker.h"
+#include "Workers/dateworker.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -76,9 +76,9 @@ private:
     DiagnosticWorker *m_diagnosticWorker;
 
     StockDataWorker *stockDataWorker;
-    HistoryWorker * m_historyWorker;
     ConfigWorker *configWorker;
     StringWorker *stringWorker;
+    DateWorker   *dateWorker;
 };
 
 #endif // DAPAPPLICATION_H
