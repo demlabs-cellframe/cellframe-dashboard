@@ -160,7 +160,7 @@ DapRectangleLitAndShaded {
                 Layout.fillWidth: true
                 Layout.leftMargin: 24
                 Layout.rightMargin: 18
-                backgroundColorNormal: currTheme.secondaryBackground
+                backgroundColorShow: currTheme.secondaryBackground
 
                 model: models.signatureType
 

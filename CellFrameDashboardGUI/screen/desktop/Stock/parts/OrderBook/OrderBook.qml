@@ -200,7 +200,7 @@ Page
                 mainTextRole: "value"
                 enabled: true
 
-                backgroundColorNormal: currTheme.secondaryBackground
+                backgroundColorShow: currTheme.secondaryBackground
 
                 model: accuracyModel
 

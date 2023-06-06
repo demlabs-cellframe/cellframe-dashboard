@@ -73,7 +73,7 @@ ColumnLayout
             anchors.bottomMargin: 0
             anchors.topMargin: 5
             anchors.leftMargin: 10
-            backgroundColorNormal: currTheme.secondaryBackground
+            backgroundColorShow: currTheme.secondaryBackground
 
             font: mainFont.dapFont.regular16
 
