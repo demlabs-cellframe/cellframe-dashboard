@@ -103,7 +103,7 @@ ColumnLayout {
                 enabled: false
                 rightMarginIndicator: 0
                 model: expiresModel
-                backgroundColor: currTheme.secondaryBackground
+                backgroundColorNormal: currTheme.secondaryBackground
             }
         }
     }

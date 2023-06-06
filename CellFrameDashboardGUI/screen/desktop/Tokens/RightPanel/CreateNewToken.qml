@@ -130,7 +130,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
                 model: dapModelTokens
-                backgroundColor: currTheme.secondaryBackground
+                backgroundColorNormal: currTheme.secondaryBackground
 
                 mainTextRole: "network"
                 font: mainFont.dapFont.regular16
@@ -164,7 +164,7 @@ DapRectangleLitAndShaded {
                 anchors.leftMargin: 16
                 anchors.rightMargin: 16
                 model: certificatesModel
-                backgroundColor: currTheme.secondaryBackground
+                backgroundColorNormal: currTheme.secondaryBackground
 
                 mainTextRole: "completeBaseName"
                 font: mainFont.dapFont.regular16

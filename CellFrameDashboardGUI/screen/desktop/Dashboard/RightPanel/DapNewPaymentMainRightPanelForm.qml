@@ -143,7 +143,7 @@ DapRectangleLitAndShaded
                     anchors.fill: parent
                     anchors.leftMargin: 5 
                     anchors.rightMargin: 5
-                    backgroundColor: currTheme.secondaryBackground
+                    backgroundColorNormal: currTheme.secondaryBackground
 
                     font: mainFont.dapFont.regular16
 
@@ -296,7 +296,7 @@ DapRectangleLitAndShaded
                         anchors.fill: parent
 
                         defaultText: qsTr("Tokens")
-                        backgroundColor: currTheme.secondaryBackground
+                        backgroundColorNormal: currTheme.secondaryBackground
 
                         font: mainFont.dapFont.regular16
 

@@ -188,7 +188,7 @@ DapRectangleLitAndShaded
                         anchors.margins: 10
                         anchors.leftMargin: 22
                         anchors.rightMargin: 18
-                        backgroundColor: currTheme.secondaryBackground
+                        backgroundColorNormal: currTheme.secondaryBackground
 
                         font: mainFont.dapFont.regular16
 
