@@ -1,16 +1,16 @@
-#ifndef ABSTRACTNODEMODEL_H
-#define ABSTRACTNODEMODEL_H
+#ifndef DAPABSTRACTDIAGNOSTICMODEL_H
+#define DAPABSTRACTDIAGNOSTICMODEL_H
 
 #include <QAbstractTableModel>
 
 /* DEFS */
-class AbstractNodeModel;
+class DapAbstractDiagnosticModel;
 
-class ItemNodeBridge : public QObject
+class ItemDiagnosticBridge : public QObject
 {
   Q_OBJECT
 
-  friend class AbstractNodeModel;
+  friend class DapAbstractDiagnosticModel;
 
   /****************************************//**
    * @name DEFS
@@ -59,12 +59,12 @@ protected:
    *******************************************/
   /// @{
 protected:
-  ItemNodeBridge (Data *a_data);
+  ItemDiagnosticBridge (Data *a_data);
 public:
-  ItemNodeBridge (QObject *a_parent = nullptr);
-  ItemNodeBridge (const ItemNodeBridge &a_src);
-  ItemNodeBridge (ItemNodeBridge &&a_src);
-  ~ItemNodeBridge();
+  ItemDiagnosticBridge (QObject *a_parent = nullptr);
+  ItemDiagnosticBridge (const ItemDiagnosticBridge &a_src);
+  ItemDiagnosticBridge (ItemDiagnosticBridge &&a_src);
+  ~ItemDiagnosticBridge();
   /// @}
 
   /****************************************//**
@@ -169,17 +169,17 @@ signals:
   /// @{
 public:
   QVariant operator [] (const QString &a_valueName);
-  ItemNodeBridge &operator = (const ItemNodeBridge &a_src);
-  ItemNodeBridge &operator = (ItemNodeBridge &&a_src);
+  ItemDiagnosticBridge &operator = (const ItemDiagnosticBridge &a_src);
+  ItemDiagnosticBridge &operator = (ItemDiagnosticBridge &&a_src);
   /// @}
 };
-Q_DECLARE_METATYPE (ItemNodeBridge);
+Q_DECLARE_METATYPE (ItemDiagnosticBridge);
 
-class AbstractNodeModel : public QAbstractTableModel
+class DapAbstractDiagnosticModel : public QAbstractTableModel
 {
   Q_OBJECT
 
-  friend class NodeModel;
+  friend class DapDiagnosticModel;
 
   /****************************************//**
    * @name PROPERTIES
@@ -246,8 +246,8 @@ public:
       QString system_node_name;
   };
 
-  typedef QList<AbstractNodeModel::Item>::Iterator Iterator;
-  typedef QList<AbstractNodeModel::Item>::ConstIterator ConstIterator;
+  typedef QList<DapAbstractDiagnosticModel::Item>::Iterator Iterator;
+  typedef QList<DapAbstractDiagnosticModel::Item>::ConstIterator ConstIterator;
   /// @}
 
   /****************************************//**
@@ -255,7 +255,7 @@ public:
    *******************************************/
   /// @{
 protected:
-  QList<AbstractNodeModel::Item> *m_items;
+  QList<DapAbstractDiagnosticModel::Item> *m_items;
   /// @}
 
   /****************************************//**
@@ -263,10 +263,10 @@ protected:
    *******************************************/
   /// @{
 public:
-  explicit AbstractNodeModel (QObject *a_parent = nullptr);
-  explicit AbstractNodeModel (const AbstractNodeModel &a_src);
-  explicit AbstractNodeModel (AbstractNodeModel &&a_src);
-  ~AbstractNodeModel();
+  explicit DapAbstractDiagnosticModel (QObject *a_parent = nullptr);
+  explicit DapAbstractDiagnosticModel (const DapAbstractDiagnosticModel &a_src);
+  explicit DapAbstractDiagnosticModel (DapAbstractDiagnosticModel &&a_src);
+  ~DapAbstractDiagnosticModel();
   /// @}
 
   /****************************************//**
@@ -287,21 +287,21 @@ public:
   /// @{
 public:
   /// get global singleton instance
-  Q_INVOKABLE static AbstractNodeModel *global();
+  Q_INVOKABLE static DapAbstractDiagnosticModel *global();
   /// add new item to the end
-  Q_INVOKABLE int add (const AbstractNodeModel::Item &a_item);
+  Q_INVOKABLE int add (const DapAbstractDiagnosticModel::Item &a_item);
   /// add new item in the middle of the list
-  Q_INVOKABLE void insert(int a_index, const AbstractNodeModel::Item &a_item);
+  Q_INVOKABLE void insert(int a_index, const DapAbstractDiagnosticModel::Item &a_item);
   /// remove one item
   Q_INVOKABLE void remove (int a_index);
   /// find item with the same name and return it's index. otherwise returns -1
-  Q_INVOKABLE int indexOf (const AbstractNodeModel::Item &a_item) const;
+  Q_INVOKABLE int indexOf (const DapAbstractDiagnosticModel::Item &a_item) const;
 
   Q_INVOKABLE int indexOfTime (qint64 time) const;
   /// access item by index
-  Q_INVOKABLE const AbstractNodeModel::Item &at (int a_index) const;
+  Q_INVOKABLE const DapAbstractDiagnosticModel::Item &at (int a_index) const;
   /// get copy of item at provided index
-  Q_INVOKABLE AbstractNodeModel::Item value (int a_index) const;
+  Q_INVOKABLE DapAbstractDiagnosticModel::Item value (int a_index) const;
   /// get amount of users
   Q_INVOKABLE int size() const;
   /// get true if no users exists
@@ -313,9 +313,9 @@ public:
   /// get item by index
   Q_INVOKABLE const QVariant get (int a_index) const;
   /// replace item by index
-  Q_INVOKABLE void set (int a_index, const AbstractNodeModel::Item &a_item);
+  Q_INVOKABLE void set (int a_index, const DapAbstractDiagnosticModel::Item &a_item);
   /// emplace item by index
-  Q_INVOKABLE void set (int a_index, AbstractNodeModel::Item &&a_item);
+  Q_INVOKABLE void set (int a_index, DapAbstractDiagnosticModel::Item &&a_item);
 //  /// get item field value
 //  Q_INVOKABLE QVariant getValue (int a_index, int a_fieldId) const;
 //  /// set item field value
@@ -326,7 +326,7 @@ public:
 //  Q_INVOKABLE void setProperty (int a_index, const QString &a_fieldName, const QVariant &a_value);
   Q_INVOKABLE int fieldId (const QString &a_fieldName) const;
 
-  const AbstractNodeModel::Item &getItem(int a_index) const;
+  const DapAbstractDiagnosticModel::Item &getItem(int a_index) const;
 
   Iterator begin();
   ConstIterator cbegin() const;
@@ -334,10 +334,10 @@ public:
   ConstIterator cend();
 protected:
   /// get item by index
-  AbstractNodeModel::Item &_get (int a_index);
-  const AbstractNodeModel::Item &_get (int a_index) const;
-  static QVariant _getValue (const AbstractNodeModel::Item &a_item, int a_fieldId);
-  static void _setValue (AbstractNodeModel::Item &a_item, int a_fieldId, const QVariant &a_value);
+  DapAbstractDiagnosticModel::Item &_get (int a_index);
+  const DapAbstractDiagnosticModel::Item &_get (int a_index) const;
+  static QVariant _getValue (const DapAbstractDiagnosticModel::Item &a_item, int a_fieldId);
+  static void _setValue (DapAbstractDiagnosticModel::Item &a_item, int a_fieldId, const QVariant &a_value);
   /// @}
 
   /****************************************//**
@@ -359,8 +359,8 @@ signals:
 public:
   Q_INVOKABLE QVariant operator [](int a_index);
   Q_INVOKABLE const QVariant operator[] (int a_index) const;
-  Q_INVOKABLE AbstractNodeModel &operator= (const AbstractNodeModel &a_src);
-  Q_INVOKABLE AbstractNodeModel &operator= (AbstractNodeModel &&a_src);
+  Q_INVOKABLE DapAbstractDiagnosticModel &operator= (const DapAbstractDiagnosticModel &a_src);
+  Q_INVOKABLE DapAbstractDiagnosticModel &operator= (DapAbstractDiagnosticModel &&a_src);
   /// @}
 };
 
@@ -368,4 +368,4 @@ public:
 
 
 
-#endif // ABSTRACTNODEMODEL_H
+#endif // DAPABSTRACTDIAGNOSTICMODEL_H

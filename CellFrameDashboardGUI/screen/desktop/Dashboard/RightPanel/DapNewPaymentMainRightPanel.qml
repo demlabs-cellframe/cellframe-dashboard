@@ -139,11 +139,11 @@ DapNewPaymentMainRightPanelForm
             else
             {
 
-                var amount = dapMath.coinsToBalance(dapTextInputAmountPayment.text)
+                var amount = mathWorker.coinsToBalance(dapTextInputAmountPayment.text)
                 var commission = modulesController.getComission(dapComboBoxToken.displayText, dapComboboxNetwork.displayText)
-                var amountWithCommission = dapMath.sumCoins(dapTextInputAmountPayment.text, commission, false)
+                var amountWithCommission = mathWorker.sumCoins(dapTextInputAmountPayment.text, commission, false)
 
-                commission = dapMath.coinsToBalance(commission)
+                commission = mathWorker.coinsToBalance(commission)
                 var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
 
                 console.log("amount_datoshi", amount)
@@ -192,12 +192,12 @@ DapNewPaymentMainRightPanelForm
             return "0.00"
 
         var balanceDatoshi = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi
-        var precentDatoshi = dapMath.coinsToBalance(percent)
-        var comissionDatoshi = dapMath.coinsToBalance(commission)
+        var precentDatoshi = mathWorker.coinsToBalance(percent)
+        var comissionDatoshi = mathWorker.coinsToBalance(commission)
 
-        var availBalance = dapMath.subCoins(balanceDatoshi, comissionDatoshi, true)
+        var availBalance = mathWorker.subCoins(balanceDatoshi, comissionDatoshi, true)
 
-        var resAmount = dapMath.multCoins(availBalance, precentDatoshi, false)
+        var resAmount = mathWorker.multCoins(availBalance, precentDatoshi, false)
 
 
         //down fixed

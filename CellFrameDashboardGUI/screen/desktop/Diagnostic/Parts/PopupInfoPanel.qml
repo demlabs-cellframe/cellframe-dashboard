@@ -182,29 +182,29 @@ Item {
                             title: qsTr("System uptime: ")
                             content: system.uptime
                             _switch.visible: true
-                            _switch.onCheckedChanged: diagnostic.flagSendSysTime = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnostic.flagSendSysTime
+                            _switch.onCheckedChanged: diagnosticsModule.flagSendSysTime = _switch.checked
+                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendSysTime
                         }
                         TextInfoElement{
                             title: qsTr("Dashboard uptime: ")
                             content: system.uptime_dashboard
                             _switch.visible: true
-                            _switch.onCheckedChanged: diagnostic.flagSendDahsTime = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnostic.flagSendDahsTime
+                            _switch.onCheckedChanged: diagnosticsModule.flagSendDahsTime = _switch.checked
+                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendDahsTime
                         }
                         TextInfoElement{
                             title: qsTr("Memory: ")
                             content: system.memory.total
                             _switch.visible: true
-                            _switch.onCheckedChanged: diagnostic.flagSendMemory = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnostic.flagSendMemory
+                            _switch.onCheckedChanged: diagnosticsModule.flagSendMemory = _switch.checked
+                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendMemory
                         }
                         TextInfoElement{
                             title: qsTr("Memory free: ")
                             content: system.memory.free
                             _switch.visible: true
-                            _switch.onCheckedChanged: diagnostic.flagSendMemoryFree = _switch.checked
-                            Component.onCompleted: _switch.checked = diagnostic.flagSendMemoryFree
+                            _switch.onCheckedChanged: diagnosticsModule.flagSendMemoryFree = _switch.checked
+                            Component.onCompleted: _switch.checked = diagnosticsModule.flagSendMemoryFree
                         }
 
                         Item{Layout.fillHeight: true}

@@ -323,5 +323,6 @@
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWalletForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapDoneCreateWallet.qml</file>
+        <file>Resources/BlackTheme/Illustratons/lock_illustration.svg</file>
     </qresource>
 </RCC>

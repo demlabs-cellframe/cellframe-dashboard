@@ -1,17 +1,17 @@
-#ifndef DAPMATH_H
-#define DAPMATH_H
+#ifndef MATHWORKER_H
+#define MATHWORKER_H
 
 #include <QObject>
 #include <QDebug>
 
 #include <dap_chain_common.h>
 
-class DapMath : public QObject
+class MathWorker : public QObject
 {
     Q_OBJECT
 
 public:
-    DapMath(QObject *parent = nullptr);
+    MathWorker(QObject *parent = nullptr);
 
     Q_INVOKABLE QVariant multCoins(QVariant arg1, QVariant arg2,  QVariant getDatoshi);
     Q_INVOKABLE QVariant multDatoshi(QVariant arg1, QVariant arg2,   QVariant getDatoshi);
@@ -31,4 +31,4 @@ public:
 
 };
 
-#endif // DAPMATH_H
+#endif // MATHWORKER_H

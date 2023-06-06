@@ -19,11 +19,11 @@
 
 DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
     : QObject(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
     , s_appEngine(appEngine)
+    , s_serviceCtrl(&DapServiceController::getInstance())
     , s_settings(new QSettings(this))
 {
-
+    initWorkers();
     initModules();
 
     m_timerUpdateData = new QTimer(this);
@@ -61,10 +61,18 @@ void DapModulesController::initModules()
 //    addModule("logsModule", new DapModuleLogs(s_modulesCtrl));
 //    addModule("settingsModule", new DapModuleSettings(s_modulesCtrl));
 //    addModule("dAppsModule", new DapModuledApps(s_modulesCtrl));
-//    addModule("diagnosticsModule", new DapModuleDiagnostics(s_modulesCtrl));
+    addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("testModule", new DapModuleTest(this));
 
+    s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
     s_appEngine->rootContext()->setContextProperty("modulesController", this);
+}
+
+void DapModulesController::initWorkers()
+{
+    addWorker("dateWorker", new DateWorker(this));
+    addWorker("stringWorker", new StringWorker(this));
+    addWorker("mathWorker", new MathWorker(this));
 }
 
 void DapModulesController::addModule(const QString &key, DapAbstractModule *p_module)
@@ -72,6 +80,12 @@ void DapModulesController::addModule(const QString &key, DapAbstractModule *p_mo
     m_listModules.insert(key, p_module);
     s_appEngine->rootContext()->setContextProperty(key, p_module);
     p_module->setName(key);
+}
+
+void DapModulesController::addWorker(const QString &key, QObject *p_worker)
+{
+    m_listWorkers.insert(key, p_worker);
+    s_appEngine->rootContext()->setContextProperty(key, p_worker);
 }
 
 DapAbstractModule *DapModulesController::getModule(const QString &key)

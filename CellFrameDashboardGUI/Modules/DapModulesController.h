@@ -4,6 +4,10 @@
 #include <QObject>
 #include <QQmlApplicationEngine>
 
+#include "Workers/dateworker.h"
+#include "Workers/stringworker.h"
+#include "Workers/mathworker.h"
+
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
 
@@ -17,6 +21,7 @@ public:
     QQmlApplicationEngine *s_appEngine;
     //Modules
     QMap<QString, DapAbstractModule*> m_listModules;
+    QMap<QString, QObject*> m_listWorkers;
 
     DapServiceController *s_serviceCtrl;
 
@@ -34,12 +39,23 @@ public:
 
     QString testData{"test data"};
 
+
+    //workers
+    DateWorker * m_dateWorker;
+    StringWorker * m_stringWorker;
+    MathWorker * m_mathWorker;
+
 public:
     void initModules();
+    void initWorkers();
     void restoreIndex();
 
     void addModule(const QString &key, DapAbstractModule *p_module);
     DapAbstractModule* getModule(const QString &key);
+
+    void addWorker(const QString &key, QObject *p_worker);
+    QObject* getWorker(const QString &key);
+
 
 private:
     QTimer *m_timerUpdateData;

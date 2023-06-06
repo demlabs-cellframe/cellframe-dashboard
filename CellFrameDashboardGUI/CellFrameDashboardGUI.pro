@@ -12,18 +12,16 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
-    DapMath.h \
-    DiagnosticWorker/DiagnosticWorker.h \
-    DiagnosticWorker/AbstractDiagnostic.h \
-    DiagnosticWorker/models/AbstractNodeModel.h \
-    DiagnosticWorker/models/NodeModel.h \
     ImportCertificate/ImportCertificate.h \
+    Models/AbstractModels/DapAbstractDiagnosticModel.h \
+    Models/DapDiagnosticModel.h \
     Models/DapHistoryModel.h \
     Modules/Certificates/DapModuleCertificates.h \
     Modules/Console/DapModuleConsole.h \
     Modules/DapAbstractModule.h \
     Modules/DapModulesController.h \
     Modules/Dex/DapModuleDex.h \
+    Modules/Diagnostics/AbstractDiagnostic.h \
     Modules/Diagnostics/DapModuleDiagnostics.h \
     Modules/Logs/DapModuleLogs.h \
     Modules/Settings/DapModuleSettings.h \
@@ -47,6 +45,7 @@ HEADERS += $$PWD/DapServiceController.h \
     WalletRestore/randomwords.h \
     WalletRestore/wallethashmanager.h \
     Workers/dateworker.h \
+    Workers/mathworker.h \
     Workers/stringworker.h \
     dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
@@ -64,18 +63,16 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
-    DapMath.cpp \
-    DiagnosticWorker/DiagnosticWorker.cpp \
-    DiagnosticWorker/AbstractDiagnostic.cpp \
-    DiagnosticWorker/models/AbstractNodeModel.cpp \
-    DiagnosticWorker/models/NodeModel.cpp \
     ImportCertificate/ImportCertificate.cpp \
+    Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
+    Models/DapDiagnosticModel.cpp \
     Models/DapHistoryModel.cpp \
     Modules/Certificates/DapModuleCertificates.cpp \
     Modules/Console/DapModuleConsole.cpp \
     Modules/DapAbstractModule.cpp \
     Modules/DapModulesController.cpp \
     Modules/Dex/DapModuleDex.cpp \
+    Modules/Diagnostics/AbstractDiagnostic.cpp \
     Modules/Diagnostics/DapModuleDiagnostics.cpp \
     Modules/Logs/DapModuleLogs.cpp \
     Modules/Settings/DapModuleSettings.cpp \
@@ -96,6 +93,7 @@ SOURCES += $$PWD/main.cpp \
     WalletRestore/randomwords.cpp \
     WalletRestore/wallethashmanager.cpp \
     Workers/dateworker.cpp \
+    Workers/mathworker.cpp \
     Workers/stringworker.cpp \
     dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
@@ -107,20 +105,20 @@ SOURCES += $$PWD/main.cpp \
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
-    HEADERS += $$PWD/DiagnosticWorker/WinDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/WinDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/WinDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/WinDiagnostic.cpp
 }
 
 mac {
     ICON = Resources/CellframeDashboard.icns
-    HEADERS += $$PWD/DiagnosticWorker/MacDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/MacDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/MacDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/MacDiagnostic.cpp
 }
 else: !win32 {
     ICON = qrc:/Resources/icon.ico
 
-    HEADERS += $$PWD/DiagnosticWorker/LinuxDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/LinuxDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/LinuxDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/LinuxDiagnostic.cpp
 }
 
 

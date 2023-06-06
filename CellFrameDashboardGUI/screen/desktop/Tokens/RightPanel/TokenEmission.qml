@@ -234,7 +234,7 @@ DapRectangleLitAndShaded {
 
             onClicked:{
 
-                var supply = dapMath.balanceToCoins(detailsModel.get(0).current_supply)
+                var supply = mathWorker.balanceToCoins(detailsModel.get(0).current_supply)
 
                 if (textInputAmount.text === "" ||
                     stringWorker.testAmount("0.0", textInputAmount.text))

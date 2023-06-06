@@ -1,5 +1,5 @@
-#ifndef NODEMODEL_H
-#define NODEMODEL_H
+#ifndef DAPDIAGNOSTICMODEL_H
+#define DAPDIAGNOSTICMODEL_H
 
 
 /* INCLUDES */
@@ -10,7 +10,7 @@
 #include <QtMath>
 #include <QDateTime>
 
-#include "AbstractNodeModel.h"
+#include "AbstractModels/DapAbstractDiagnosticModel.h"
 
 /****************************************//**
  * @brief users model demo
@@ -19,7 +19,7 @@
  * instance with objects
  *******************************************/
 
-class NodeModel : public AbstractNodeModel
+class DapDiagnosticModel : public DapAbstractDiagnosticModel
 {
     Q_OBJECT
 
@@ -36,7 +36,7 @@ class NodeModel : public AbstractNodeModel
     *******************************************/
     /// @{
 public:
-    explicit NodeModel (QObject *a_parent = nullptr);
+    explicit DapDiagnosticModel (QObject *a_parent = nullptr);
     /// @}
 
     /****************************************//**
@@ -51,4 +51,4 @@ private:
     /// @}
 };
 
-#endif // NODEMODEL_H
+#endif // DAPDIAGNOSTICMODEL_H
