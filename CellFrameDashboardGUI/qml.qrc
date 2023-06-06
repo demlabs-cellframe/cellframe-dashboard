@@ -324,5 +324,8 @@
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapDoneCreateWallet.qml</file>
         <file>Resources/BlackTheme/Illustratons/lock_illustration.svg</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapSupportBlock.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_link.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_linkHover.svg</file>
     </qresource>
 </RCC>

@@ -10,14 +10,8 @@ import "MenuBlocks"
 
 DapPage
 {
-    ///@detalis Path to the right panel of input name wallet.
-    readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of node settings.
     readonly property string nodeSettingsPanel: path + "/Settings/NodeSettings/NodeBlock.qml"
-    ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
-    ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
     ///@detalis Path to the right panel of requests.
     readonly property string requestsPanel: path + "/Settings/RightPanel/DapRequestsRightPanel.qml"
 
@@ -46,24 +40,9 @@ DapPage
     QtObject {
         id: navigator
 
-        function createWallet() {
-            dapRightPanelFrame.frame.visible = true
-            dapRightPanel.push(inputNameWallet)
-        }
-
         function openNodeSettings() {
             dapRightPanelFrame.frame.visible = true
             dapRightPanel.push(nodeSettingsPanel)
-        }
-
-        function doneWalletFunc(){
-            dapRightPanel.push(doneWallet)
-        }
-
-        function recoveryWalletFunc()
-        {
-            dapRightPanelFrame.frame.visible = true
-            dapRightPanel.push(recoveryWallet)
         }
 
         function openRequests() {
@@ -140,19 +119,9 @@ DapPage
         interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
         onTriggered:
         {
-            logicMainApp.requestToService("DapGetListWalletsCommand")
-//            dapServiceController.requestToService("DapGetListNetworksCommand")
-
-//            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
-//                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
-
             if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
                 logicMainApp.requestToService("DapVersionController", "version node")
-//            if(!dapNetworkModel.count)
-//            {
-//                dapServiceController.requestToService("DapGetListNetworksCommand")
-////                dapNetworkComboBox.mainLineText = dapNetworkModel.get(logicMainApp.currentNetwork).name
-//            }
+
         }
     }
 
@@ -170,20 +139,6 @@ DapPage
     {
         target: dapServiceController
 
-        function onWalletCreated()
-        {
-//            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
-        }
-        function onWalletsListReceived(walletsList)
-        {
-//            if(dapModelWallets)
-//            {
-//                if(walletsList.length !== dapModelWallets.count)
-//                    dapServiceController.requestToService("DapGetWalletsInfoCommand","true")
-//            }
-//            else
-                logicMainApp.requestToService("DapGetWalletsInfoCommand","")
-        }
         function onVersionControllerResult(versionResult)
         {
             if(sendRequest)
