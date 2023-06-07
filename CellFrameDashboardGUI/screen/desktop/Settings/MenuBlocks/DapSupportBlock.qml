@@ -52,6 +52,8 @@ ColumnLayout
     }
 
     Item {
+        id: tgFrame
+        property string tgLink: "https://t.me/cellframetechsupport"
         Layout.fillWidth: true
         height: 50
 
@@ -82,11 +84,20 @@ ColumnLayout
             }
         }
 
+        DapCustomToolTip{
+            id: toolTip
+            visible: area.containsMouse? true : false
+            contentText: tgFrame.tgLink
+            textFont: mainFont.dapFont.regular14
+            onVisibleChanged: updatePos()
+//            y: 0
+        }
+
         MouseArea{
             id: area
             anchors.fill: parent
             hoverEnabled: true
-            onClicked: console.log("open telegram")
+            onClicked: Qt.openUrlExternally(tgFrame.tgLink)
         }
     }
 
@@ -109,6 +120,8 @@ ColumnLayout
     }
 
     ColumnLayout{
+        property string bugreportLink: "https://cellframe.net/feedback-form/"
+        id: bugreportBlock
         Layout.fillWidth: true
         spacing: 12
 
@@ -136,7 +149,7 @@ ColumnLayout
             horizontalAligmentText: Text.AlignHCenter
             textButton: qsTr("Contact us")
 
-            onClicked: console.log("open form contact")
+            onClicked: Qt.openUrlExternally(bugreportBlock.bugreportLink)
         }
     }
 }
