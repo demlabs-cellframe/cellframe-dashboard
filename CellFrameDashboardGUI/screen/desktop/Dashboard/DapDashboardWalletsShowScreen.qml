@@ -52,7 +52,7 @@ DapRectangleLitAndShaded
             Image
             {
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/Resources/" + pathTheme + "/Illustratons/wallet_illustration.png"
+                source: "qrc:/Resources/" + pathTheme + "/Illustratons/lock_illustration.svg"
                 mipmap: true
                 fillMode: Image.PreserveAspectFit
             }

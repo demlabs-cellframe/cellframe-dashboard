@@ -593,14 +593,14 @@ Rectangle {
 
     }
 
-    Connections{
-        target: diagnostic
-        function onSignalDiagnosticData(diagnosticData){
-            var jsonDocument = JSON.parse(diagnosticData)
-            diagnosticDataModel.clear();
-            diagnosticDataModel.append(jsonDocument);
-        }
-    }
+//    Connections{
+//        target: diagnostic
+//        function onSignalDiagnosticData(diagnosticData){
+//            var jsonDocument = JSON.parse(diagnosticData)
+//            diagnosticDataModel.clear();
+//            diagnosticDataModel.append(jsonDocument);
+//        }
+//    }
 
     Connections{
         target: pluginsManager

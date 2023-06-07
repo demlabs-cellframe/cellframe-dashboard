@@ -1,12 +1,12 @@
-#include "NodeModel.h"
+#include "DapDiagnosticModel.h"
 
-NodeModel::NodeModel (QObject *a_parent)
-  : AbstractNodeModel (a_parent)
+DapDiagnosticModel::DapDiagnosticModel (QObject *a_parent)
+  : DapAbstractDiagnosticModel (a_parent)
 {
 
 }
 
-void NodeModel::setModel(QJsonDocument *doc)
+void DapDiagnosticModel::setModel(QJsonDocument *doc)
 {
     QList <Item> items;
     QJsonArray arr = doc->array();
@@ -29,7 +29,7 @@ void NodeModel::setModel(QJsonDocument *doc)
             g->set(i,items[i]);
 }
 
-AbstractNodeModel::Item NodeModel::getItem(QJsonObject obj)
+DapAbstractDiagnosticModel::Item DapDiagnosticModel::getItem(QJsonObject obj)
 {
     Item itm;
 

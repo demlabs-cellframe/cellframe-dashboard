@@ -20,7 +20,7 @@ ColumnLayout {
         if(data)
             obj = JSON.parse(data)
         else
-            obj = JSON.parse(diagnostic.nodeListSelected)
+            obj = JSON.parse(diagnosticsModule.nodeListSelected)
 
         nodeListModel.clear()
         nodeListModel.append(obj)
@@ -29,11 +29,11 @@ ColumnLayout {
     Component.onCompleted: updateModel()
 
     Connections{
-        target: diagnostic
+        target: diagnosticsModule
         function onNodeListSelectedChanged(){
             updateModel()
             if(filtr != "")
-                diagnostic.searchSelectedNodes(filtr)
+                diagnosticsModule.searchSelectedNodes(filtr)
         }
         function onFiltrSelectedNodesDone(data){
             updateModel(data)
@@ -56,7 +56,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.gray
-            text: "("+(diagnostic? diagnostic.trackedNodesCount : 0) +")"
+            text: "("+(diagnosticsModule? diagnosticsModule.trackedNodesCount : 0) +")"
             verticalAlignment: Text.AlignVCenter
         }
         Item{Layout.fillWidth: true}
@@ -96,14 +96,14 @@ ColumnLayout {
             onEditingFinished: {
                 filtering.clear()
 //                root.findHandler(text)
-                diagnostic.searchSelectedNodes(text)
+                diagnosticsModule.searchSelectedNodes(text)
                 filtr = text
             }
 
             filtering.waitInputInterval: 100
             filtering.minimumSymbol: 0
             filtering.onAwaitingFinished: {
-                diagnostic.searchSelectedNodes(text)
+                diagnosticsModule.searchSelectedNodes(text)
                 filtr = text
 //                root.findHandler(text)
             }
@@ -149,7 +149,7 @@ ColumnLayout {
                     x: rectImg.x
                     y: rectImg.y
                     hoverEnabled: true
-                    onClicked: diagnostic.removeNodeFromList(mac)
+                    onClicked: diagnosticsModule.removeNodeFromList(mac)
 
                 }
             }

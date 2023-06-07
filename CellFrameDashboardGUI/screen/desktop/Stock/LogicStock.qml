@@ -125,18 +125,18 @@ QtObject
             balanceToken = selectedTokenNameWallet === tokenPairsWorker.tokenBuy ?
                            unselectedTokenBalanceWallet : selectedTokenBalanceWallet
 
-        var balanceDatoshi = dapMath.coinsToBalance(balanceToken)
-        var percentDatoshi = dapMath.coinsToBalance(percent)
-        var priceDatoshi = dapMath.coinsToBalance(price)
+        var balanceDatoshi = mathWorker.coinsToBalance(balanceToken)
+        var percentDatoshi = mathWorker.coinsToBalance(percent)
+        var priceDatoshi = mathWorker.coinsToBalance(price)
 
-        var multRes = dapMath.multCoins(balanceDatoshi, percentDatoshi, false)
+        var multRes = mathWorker.multCoins(balanceDatoshi, percentDatoshi, false)
 
         var result = [2]
 
-        result[0] = isSell? multRes: dapMath.divCoins(dapMath.coinsToBalance(multRes),
+        result[0] = isSell? multRes: mathWorker.divCoins(mathWorker.coinsToBalance(multRes),
                                                       priceDatoshi, false)
 
-        result[1] = isSell? dapMath.multCoins(dapMath.coinsToBalance(multRes),
+        result[1] = isSell? mathWorker.multCoins(mathWorker.coinsToBalance(multRes),
                                               priceDatoshi, false) : multRes
 
         return result

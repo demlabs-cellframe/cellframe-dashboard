@@ -1,12 +1,12 @@
-#include "DapMath.h"
+#include "mathworker.h"
 
-DapMath::DapMath(QObject *parent) :
+MathWorker::MathWorker(QObject *parent) :
     QObject(parent)
 {
 //    test();
 }
 
-void DapMath::test()
+void MathWorker::test()
 {
     QString testStr =  "1000000000000000000000999";
     QString testStr2 = "1000000000000000000000888";
@@ -46,7 +46,7 @@ void DapMath::test()
               "Sub: "  << strSub;
 }
 
-QVariant DapMath::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
+QVariant MathWorker::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
@@ -63,7 +63,7 @@ QVariant DapMath::multCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
         return dap_chain_balance_to_coins(accum);
 }
 
-QVariant DapMath::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
+QVariant MathWorker::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
@@ -81,7 +81,7 @@ QVariant DapMath::divCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
         return dap_chain_balance_to_coins(accum);
 }
 
-QVariant DapMath::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
+QVariant MathWorker::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
@@ -98,7 +98,7 @@ QVariant DapMath::multDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi
         return dap_chain_balance_to_coins(accum);
 }
 
-QVariant DapMath::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
+QVariant MathWorker::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty() ||
        arg1.toString() == "0" || arg2.toString() == "0") return "0";
@@ -116,7 +116,7 @@ QVariant DapMath::divDatoshi(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
         return dap_chain_balance_to_coins(accum);
 }
 
-QVariant DapMath::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
+QVariant MathWorker::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return "0";
 
@@ -132,7 +132,7 @@ QVariant DapMath::sumCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
         return dap_chain_balance_to_coins(accum);
 }
 
-QVariant DapMath::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
+QVariant MathWorker::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return "0";
 
@@ -148,7 +148,7 @@ QVariant DapMath::subCoins(QVariant  arg1, QVariant arg2, QVariant getDatoshi)
         return dap_chain_balance_to_coins(accum);
 }
 
-QVariant DapMath::isEqual(QVariant arg1, QVariant arg2)
+QVariant MathWorker::isEqual(QVariant arg1, QVariant arg2)
 {
     if(arg1.toString().isEmpty() || arg2.toString().isEmpty()) return true;
 
@@ -158,7 +158,7 @@ QVariant DapMath::isEqual(QVariant arg1, QVariant arg2)
     return EQUAL_256(arg1_256, arg2_256);
 }
 
-QVariant DapMath::coinsToBalance(QVariant coins)
+QVariant MathWorker::coinsToBalance(QVariant coins)
 {
     if(coins.toString().isEmpty()) return "0";
 
@@ -173,7 +173,7 @@ QVariant DapMath::coinsToBalance(QVariant coins)
     return dap_chain_balance_print(convert);
 }
 
-QVariant DapMath::balanceToCoins(QVariant balance)
+QVariant MathWorker::balanceToCoins(QVariant balance)
 {
     if(balance.toString().isEmpty()) return "0";
 

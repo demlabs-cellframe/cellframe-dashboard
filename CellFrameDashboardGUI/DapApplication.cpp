@@ -44,8 +44,8 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
-    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
-    m_diagnosticWorker->start();
+//    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
+//    m_diagnosticWorker->start();
 
     connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
             stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
@@ -61,7 +61,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 
-    m_mathBigNumbers = new DapMath();
+//    m_mathBigNumbers = new DapMath();
 
     this->registerQmlTypes();
     this->setContextProperties();
@@ -96,7 +96,7 @@ DapApplication::~DapApplication()
 {
     delete stockDataWorker;
     delete configWorker;
-    delete m_diagnosticWorker;
+//    delete m_diagnosticWorker;
     delete stringWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
@@ -227,17 +227,9 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     m_engine.rootContext()->setContextProperty("pt", 1);
 
-    m_engine.rootContext()->setContextProperty("networks", this->networks());
-    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
+//    m_engine.rootContext()->setContextProperty("networks", this->networks());
+//    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
-    m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
-//    m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
-
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
-    m_engine.rootContext()->setContextProperty("stringWorker", stringWorker);
-    m_engine.rootContext()->setContextProperty("dateWorker", dateWorker);
-
-    m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
-    m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }

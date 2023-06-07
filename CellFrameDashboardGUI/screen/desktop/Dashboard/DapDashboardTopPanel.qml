@@ -134,6 +134,7 @@ Controls.DapTopPanel
         {
             id: newPaymentButton
             Layout.rightMargin: 24
+            enabled: logicWallet.walletStatus !== "non-Active"
 
             textButton: qsTr("Send")
 

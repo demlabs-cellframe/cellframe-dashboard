@@ -80,8 +80,8 @@ ColumnLayout {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
 
                 if(amount.textValue !== "" || amount.textValue !== "0")
-                    total.textElement.setText(dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
-                                                    dapMath.coinsToBalance(textValue),false))
+                    total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
+                                                    mathWorker.coinsToBalance(textValue),false))
             }
         }
 
@@ -142,8 +142,8 @@ ColumnLayout {
         onEdited:
         {
 
-            total.textElement.setText(dapMath.multCoins(dapMath.coinsToBalance(textValue),
-                                                dapMath.coinsToBalance(price.textValue),false))
+            total.textElement.setText(mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
+                                                mathWorker.coinsToBalance(price.textValue),false))
 
             button25.selected = false
             button50.selected = false
@@ -296,8 +296,8 @@ ColumnLayout {
             button75.selected = false
             button100.selected = false
 
-            amount.textElement.setText(dapMath.divCoins(dapMath.coinsToBalance(textValue),
-                                                dapMath.coinsToBalance(price.textValue),false))
+            amount.textElement.setText(mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
+                                                mathWorker.coinsToBalance(price.textValue),false))
             createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
         }
 
@@ -323,11 +323,11 @@ ColumnLayout {
             var tokenBuy = isSell ? tokenPairsWorker.tokenSell : tokenPairsWorker.tokenBuy
             var currentWallet = dapModelWallets.get(logicMainApp.currentIndex).name
 
-            var amountBuy = isSell ? dapMath.coinsToBalance(total.textValue) :
-                                      dapMath.coinsToBalance(amount.textValue)
+            var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
+                                      mathWorker.coinsToBalance(amount.textValue)
 
-            var amountSell = isSell ? dapMath.coinsToBalance(amount.textValue) :
-                                     dapMath.coinsToBalance(total.textValue)
+            var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
+                                     mathWorker.coinsToBalance(total.textValue)
 
             var priceValue = isSell? price.textValue : 1/price.textValue
 

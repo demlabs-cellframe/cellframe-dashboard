@@ -3,7 +3,7 @@
 
 #include <QApplication>
 #include "DapNetworksList.h"
-#include "DiagnosticWorker/DiagnosticWorker.h"
+//#include "DiagnosticWorker/DiagnosticWorker.h"
 #include "Modules/DapModulesController.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
@@ -12,8 +12,8 @@
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
 #include "Autocomplete/CommandCmdController.h"
-#include "DapMath.h"
-#include "DiagnosticWorker/models/NodeModel.h"
+//#include "DapMath.h"
+//#include "DiagnosticWorker/models/NodeModel.h"
 
 #include "DapLogger.h"
 #include "DapDataLocal.h"
@@ -23,8 +23,8 @@
 #include "StockDataWorker/stockdataworker.h"
 
 #include "ConfigWorker/configworker.h"
-#include "Workers/stringworker.h"
-#include "Workers/dateworker.h"
+//#include "Workers/stringworker.h"
+//#include "Workers/dateworker.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -72,8 +72,8 @@ private:
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
-    DapMath *m_mathBigNumbers;
-    DiagnosticWorker *m_diagnosticWorker;
+//    DapMath *m_mathBigNumbers;
+//    DiagnosticWorker *m_diagnosticWorker;
 
     StockDataWorker *stockDataWorker;
     ConfigWorker *configWorker;

@@ -106,12 +106,12 @@ DapRectangleLitAndShaded {
                 }
                 DetailsText {
                     title.text: "Current supply"
-                    content: dapMath.balanceToCoins(detailsModel.get(0).current_supply)
+                    content: mathWorker.balanceToCoins(detailsModel.get(0).current_supply)
                     title.color: currTheme.gray
                 }
                 DetailsText {
                     title.text: "Total supply"
-                    content: dapMath.balanceToCoins(detailsModel.get(0).total_supply)
+                    content: mathWorker.balanceToCoins(detailsModel.get(0).total_supply)
                     title.color: currTheme.gray
                 }
                 DetailsText {
