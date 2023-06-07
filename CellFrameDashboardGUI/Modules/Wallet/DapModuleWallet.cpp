@@ -12,6 +12,18 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
         setStatusInit(true);
     });
 }
+DapModuleWallet::~DapModuleWallet()
+{
+    delete m_timerUpdateWallet;
+
+    disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
+    disconnect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
+    disconnect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
+    disconnect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+
+    disconnect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
+}
 
 void DapModuleWallet::initConnect()
 {

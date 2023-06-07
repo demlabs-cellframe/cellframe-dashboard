@@ -112,8 +112,10 @@ DapNewPaymentMainRightPanelForm
             {
                 console.log("dapWalletMessagePopup.smartOpen")
                 dapWalletMessagePopup.smartOpen(
-                            "Confirming the transaction",
-                            "Attention, the transaction fee will be 0.05 " + dapComboBoxToken.displayText )
+                            qsTr("Confirming the transaction"),
+                            qsTr("Attention, the transaction fee will be ")
+                            + modulesController.getComission("","")
+                            + " " + dapComboBoxToken.displayText )
 
             }
         }

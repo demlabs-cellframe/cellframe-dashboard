@@ -36,7 +36,7 @@ Controls.DapTopPanel
                     id: requestsBut
                     text: qsTr("Requests")
                     font: mainFont.dapFont.medium14
-                    color: mouseArea.containsMouse ? currTheme.darkYellow : logicMainApp.requestsMessageCounter > 0 ? currTheme.lime : currTheme.white
+                    color: mouseArea.containsMouse ? currTheme.orange : logicMainApp.requestsMessageCounter > 0 ? currTheme.lime : currTheme.white
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
 
@@ -48,7 +48,7 @@ Controls.DapTopPanel
                     width: value.implicitWidth > 8 ? value.implicitWidth + 12  : 20
                     radius: 20
                     visible: logicMainApp.requestsMessageCounter > 0
-                    color: mouseArea.containsMouse ? currTheme.darkYellow : currTheme.lime
+                    color: mouseArea.containsMouse ? currTheme.orange : currTheme.lime
 
                     Text{
                         id: value
@@ -153,7 +153,9 @@ Controls.DapTopPanel
                         id: clearArea
                         anchors.fill: parent
                         hoverEnabled: true
-                        onClicked: console.log("Clead node data")
+                        onClicked: clearMessagePopup.smartOpen(
+                                       qsTr("Clear node data"),
+                                       qsTr("Confirming will clear all chain and GDB data. It will take time to reload data and synchronize"))
                     }
                 }
             }
@@ -171,7 +173,7 @@ Controls.DapTopPanel
                 Layout.alignment: Qt.AlignLeft
                 horizontalAlignment: Text.AlignLeft
 
-                text: qsTr( "Dashboard version " + dapServiceController.Version)
+                text: qsTr( "Dashboard version " + settingsModule.dashboardVersion)
                 font: mainFont.dapFont.regular13
                 color: currTheme.gray
 
@@ -181,7 +183,7 @@ Controls.DapTopPanel
                 Layout.alignment: Qt.AlignLeft
                 horizontalAlignment: Text.AlignLeft
 
-                text: qsTr( "Node version " + logicMainApp.nodeVersion)
+                text: qsTr( "Node version " + settingsModule.nodeVersion)
                 font: mainFont.dapFont.regular13
                 color: currTheme.gray
 
@@ -211,12 +213,11 @@ Controls.DapTopPanel
                 countElements: 5
                 elementSize: 4
 
-                running: sendRequest
+                running: settingsModule.guiRequest
             }
             onClicked:
             {
-                sendRequest = true
-                logicMainApp.requestToService("DapVersionController", "version")
+                settingsModule.guiVersionRequest()
             }
         }
 

@@ -11,6 +11,7 @@ class DapModuleWallet : public DapAbstractModule
     Q_OBJECT
 public:
     explicit DapModuleWallet(DapModulesController *parent);
+    ~DapModuleWallet();
 
 //    Q_PROPERTY (QByteArray m_walletsModel READ getWalletsModel NOTIFY walletsModelChanged)
     Q_INVOKABLE QByteArray getWalletsModel();

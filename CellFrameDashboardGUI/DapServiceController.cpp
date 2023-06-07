@@ -1,5 +1,6 @@
 #include "DapServiceController.h"
 
+
 #include "DapNetworkStr.h"
 
 #include "dapconfigreader.h"
@@ -287,6 +288,9 @@ void DapServiceController::registerCommand()
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand",m_DAPRpcSocket))), QString("rcvActivateOrDeactivateReply")));
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",m_DAPRpcSocket))), QString("rcvRemoveResult")));
+
 
 
 #ifdef SERVICE_IMITATOR

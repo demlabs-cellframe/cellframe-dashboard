@@ -46,6 +46,7 @@ Page
                 DapRectangleLitAndShaded
                 {
                     property alias dapContent:content
+                    visible: false
 
                     id:generalBlock
                     Layout.fillWidth: true

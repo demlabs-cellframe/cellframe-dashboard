@@ -34,11 +34,6 @@
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
         <file>screen/desktop/UnderConstructions.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
         <file>WalletRestore/english_words.txt</file>
         <file>screen/desktop/VPNClient/DapVpnClientScreen.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTab.qml</file>
