@@ -5,6 +5,7 @@
 #include <QDebug>
 #include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
+#include "WalletRestore/wallethashmanager.h"
 
 class DapModuleWallet : public DapAbstractModule
 {
@@ -20,6 +21,7 @@ public:
     Q_INVOKABLE void timerUpdateFlag(bool flag);
     Q_INVOKABLE void updateCurrentWallet(){slotUpdateWallet();};
 
+
 private:
     DapModulesController* m_modulesCtrl;
     QTimer *m_timerUpdateWallet;
@@ -27,6 +29,7 @@ private:
 public:
     void initConnect();
     QString testWal{"testWal"};
+    WalletHashManager* m_walletHashManager;
 
 
 public:

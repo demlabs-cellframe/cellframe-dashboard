@@ -44,8 +44,6 @@
 //#include <windows.h>
 //#endif
 
-#include "WalletRestore/wallethashmanager.h"
-
 bool SingleApplicationTest(const QString &appName)
 {
     static QSystemSemaphore semaphore("<"+appName+" uniq semaphore id>", 1);
@@ -203,12 +201,6 @@ int main(int argc, char *argv[])
 
 //        SystemTray * systemTray = new SystemTray();
 //        context->setContextProperty("systemTray", systemTray);
-
-        // For wallet restore
-        WalletHashManager walletHashManager;
-
-        context->setContextProperty("walletHashManager", &walletHashManager);
-        walletHashManager.setContext(context);
 
         //For plugins
         DapPluginsController pluginsManager(filePluginConfig,pluginPath);

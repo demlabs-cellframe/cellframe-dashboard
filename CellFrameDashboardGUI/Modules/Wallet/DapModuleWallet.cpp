@@ -4,9 +4,13 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
     : DapAbstractModule(parent)
     , m_modulesCtrl(parent)
     , m_timerUpdateWallet(new QTimer())
+    , m_walletHashManager(new WalletHashManager())
 {
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
+        m_walletHashManager->setContext(m_modulesCtrl->s_appEngine->rootContext());
+        m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("walletHashManager", m_walletHashManager);
+
         initConnect();
         m_timerUpdateWallet->start(2000);
         setStatusInit(true);
@@ -15,6 +19,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 DapModuleWallet::~DapModuleWallet()
 {
     delete m_timerUpdateWallet;
+    delete m_walletHashManager;
 
     disconnect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
     disconnect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
