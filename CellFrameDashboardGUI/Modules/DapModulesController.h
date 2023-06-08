@@ -10,6 +10,7 @@
 
 #include "DapAbstractModule.h"
 #include "../DapServiceController.h"
+#include "qsettings.h"
 
 class DapModulesController : public QObject
 {

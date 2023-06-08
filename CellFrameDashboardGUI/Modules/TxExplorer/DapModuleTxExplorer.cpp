@@ -10,14 +10,13 @@
 
 static DapHistoryModel *s_historyModel = DapHistoryModel::global();
 
-DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *modulesCtrl, DapAbstractModule *parent)
+DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     : DapAbstractModule(parent)
-    , s_serviceCtrl(&DapServiceController::getInstance())
-    , s_modulesCtrl(modulesCtrl)
+    , m_modulesCtrl(parent)
     , m_timerHistoryUpdate(new QTimer(this))
 {
-    s_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", s_historyModel);
-    s_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelHistory", s_historyModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", s_historyModel);
+    m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelHistory", s_historyModel);
 
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
             this, &DapModuleTxExplorer::setHistoryModel,
@@ -26,8 +25,11 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *modulesCtrl, DapA
             this, &DapModuleTxExplorer::slotHistoryUpdate,
             Qt::QueuedConnection);
 
-    updateHistory(true);
-    m_timerHistoryUpdate->start(5000);
+    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    {
+        updateHistory(true);
+        setStatusInit(true);
+    });
 }
 
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
@@ -380,6 +382,6 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
     m_timerHistoryUpdate->stop();
-    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<s_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
+    s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
     m_timerHistoryUpdate->start(5000);
 }

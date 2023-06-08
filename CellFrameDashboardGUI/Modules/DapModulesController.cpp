@@ -46,6 +46,10 @@ DapModulesController::~DapModulesController()
     for(;it != m_listModules.end(); ++it)
         delete it.value();
 
+    QMap<QString, QObject*>::iterator it_w = m_listWorkers.begin();
+    for(;it_w != m_listWorkers.end(); ++it)
+        delete it.value();
+
     delete m_timerUpdateData;
     delete s_settings;
 }
@@ -59,7 +63,7 @@ void DapModulesController::initModules()
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
 //    addModule("consoleModule", new DapModuleConsole(s_modulesCtrl));
 //    addModule("logsModule", new DapModuleLogs(s_modulesCtrl));
-//    addModule("settingsModule", new DapModuleSettings(s_modulesCtrl));
+    addModule("settingsModule", new DapModuleSettings(this));
 //    addModule("dAppsModule", new DapModuledApps(s_modulesCtrl));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("testModule", new DapModuleTest(this));
@@ -138,6 +142,8 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
 
         emit walletsListUpdated();
     }
+    else
+        restoreIndex();
 }
 
 void DapModulesController::rcvNetList(const QVariant &rcvData)

@@ -4,8 +4,6 @@
 #include <QObject>
 #include <QDebug>
 
-#include "DapServiceController.h"
-#include "../DapAbstractModule.h"
 #include "../DapModulesController.h"
 #include "Models/DapHistoryModel.h"
 
@@ -22,7 +20,7 @@ class DapModuleTxExplorer : public DapAbstractModule
     Q_PROPERTY(int sectionNumber      READ sectionNumber)
     Q_PROPERTY(int elementNumber      READ elementNumber)
 public:
-    explicit DapModuleTxExplorer(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
+    explicit DapModuleTxExplorer(DapModulesController * modulesCtrl);
 
     bool isLastActions() const
         { return m_isLastActions; }
@@ -45,8 +43,7 @@ public:
     Q_INVOKABLE void updateHistory(bool flag);
 
 private:
-    DapServiceController  *s_serviceCtrl;
-    DapModulesController  *s_modulesCtrl;
+    DapModulesController  *m_modulesCtrl;
     QTimer *m_timerHistoryUpdate;
 
 signals:

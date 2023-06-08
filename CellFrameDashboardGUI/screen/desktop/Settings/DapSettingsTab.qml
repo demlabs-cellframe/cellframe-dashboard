@@ -18,24 +18,8 @@ DapPage
     id: settingsTab
 //    property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
-    property bool sendRequest: false
 
     Timer{id:timer}
-
-    property var walletInfo:
-    {
-        "name": "",
-        "network": "",
-        "chain": "",
-        "signature_type": "",
-        "recovery_hash": "",
-        "password": ""
-    }
-    property var commandResult:
-    {
-        "success": "",
-        "message": ""
-    }
 
     QtObject {
         id: navigator
@@ -61,13 +45,6 @@ DapPage
 
     dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
-
-        onCreateWalletSignal:
-        {
-            dapRightPanel.pop()
-            logicMainApp.restoreWalletMode = restoreMode
-            navigator.createWallet()
-        }
 
         onNodeSettingsSignal:
         {
@@ -103,62 +80,43 @@ DapPage
     dapRightPanelFrame.visible: true
     dapRightPanelFrame.frame.visible: false
 
-    onSendRequestChanged: if(sendRequest) timeout.start()
-
-    Timer{
-        id: timeout
-        interval: 10000; running: false; repeat: false;
-        onTriggered: {
-            messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
-            sendRequest = false
-        }
-    }
-
-    Timer {
-        id: updateSettingsTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
-        onTriggered:
-        {
-            if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
-                logicMainApp.requestToService("DapVersionController", "version node")
-
-        }
-    }
-
-    Component.onCompleted:
+    DapMessagePopup
     {
-        logicMainApp.requestToService("DapVersionController", "version node")
-        updateSettingsTimer.start()
+        id: clearMessagePopup
+        dapButtonCancel.visible: true
+        onSignalAccept: if(accept)settingsModule.clearNodeData()
     }
-
-    Component.onDestruction:
-        updateSettingsTimer.stop()
-
 
     Connections
     {
-        target: dapServiceController
+        target: settingsModule
 
-        function onVersionControllerResult(versionResult)
+        function onSigVersionInfo(versionResult)
         {
-            if(sendRequest)
+            if(settingsModule.guiRequest)
             {
-//                sendRequest = false
-                timeout.stop()
-                if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+                if(versionResult.message === "Service not found")
+                {
+                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
+                }
+                else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
                 else if(versionResult.message !== "" && versionResult.hasUpdate)
                 {
-                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + dapServiceController.Version +"\n"+
+                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + settingsModule.dashboardVersion +"\n"+
                                                                            "Last version - " + versionResult.lastVersion +"\n" +
                                                                            "Go to website to download?"))
                 }
             }
         }
-    }
-    Connections
-    {
-        target: messagePopupVersion
-        function onClick() {sendRequest = false}
+        function onSigNodeDataRemoved()
+        {
+            dapMainWindow.infoItem.showInfo(
+                        200,0,
+                        dapMainWindow.width*0.5,
+                        8,
+                        "Node data cleared",
+                        "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+        }
     }
 }

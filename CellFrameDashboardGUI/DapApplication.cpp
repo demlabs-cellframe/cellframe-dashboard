@@ -22,7 +22,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
 //    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , configWorker(new ConfigWorker(this))
-    , stringWorker(new StringWorker(this))
+//    , stringWorker(new StringWorker(this))
     , dateWorker(new DateWorker(this))
 {
     this->setOrganizationName("Cellframe Network");
@@ -97,7 +97,7 @@ DapApplication::~DapApplication()
     delete stockDataWorker;
     delete configWorker;
 //    delete m_diagnosticWorker;
-    delete stringWorker;
+//    delete stringWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
