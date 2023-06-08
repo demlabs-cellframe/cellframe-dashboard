@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.9
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 2.5
 import "qrc:/widgets"
@@ -36,6 +36,39 @@ DapRectangleLitAndShaded
     radius: currTheme.frameRadius
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
+
+    Shortcut {
+       context: Qt.ApplicationShortcut
+       sequence: "Ctrl+V"
+
+       onActivated: {
+            if(logicWallet.walletRecoveryType === "Words" && logicWallet.restoreWalletMode)
+            {
+                dapButtonNext.enabled = true
+                walletHashManager.pasteWordsFromClipboard(walletInfo.password)
+            }
+       }
+    }
+
+    Shortcut {
+       context: Qt.ApplicationShortcut
+       sequence: "Ctrl+C"
+
+       onActivated: {
+            if(logicWallet.walletRecoveryType === "Words" && !logicWallet.restoreWalletMode && actionButton.enabled)
+            {
+                dapButtonNext.enabled = true
+                walletHashManager.copyWordsToClipboard()
+
+                dapMainWindow.infoItem.showInfo(
+                            0,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            "Words copied",
+                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+            }
+       }
+    }
 
     contentData:
     ColumnLayout

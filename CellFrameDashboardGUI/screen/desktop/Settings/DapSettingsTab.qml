@@ -84,7 +84,7 @@ DapPage
     {
         id: clearMessagePopup
         dapButtonCancel.visible: true
-        onSignalAccept: settingsModule.clearNodeData()
+        onSignalAccept: if(accept)settingsModule.clearNodeData()
     }
 
     Connections

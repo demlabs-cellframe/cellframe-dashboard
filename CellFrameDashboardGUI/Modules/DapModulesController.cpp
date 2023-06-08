@@ -142,6 +142,8 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
 
         emit walletsListUpdated();
     }
+    else
+        restoreIndex();
 }
 
 void DapModulesController::rcvNetList(const QVariant &rcvData)

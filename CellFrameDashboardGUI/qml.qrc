@@ -313,7 +313,7 @@
         <file>screen/desktop/Dashboard/DapDashboardWalletsShowScreen.qml</file>
         <file>Resources/BlackTheme/Illustratons/wallet_illustration.svg</file>
         <file>screen/desktop/Dashboard/DapDashboardCreateWalletsScreen.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanelForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWalletForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>

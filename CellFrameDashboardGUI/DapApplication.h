@@ -77,7 +77,7 @@ private:
 
     StockDataWorker *stockDataWorker;
     ConfigWorker *configWorker;
-    StringWorker *stringWorker;
+//    StringWorker *stringWorker;
     DateWorker   *dateWorker;
 };
 

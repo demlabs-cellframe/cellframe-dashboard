@@ -69,6 +69,7 @@ void WalletHashManager::copyWordsToClipboard()
 void WalletHashManager::pasteWordsFromClipboard(QString pass)
 {
     QString allWords = clipboard->text();
+    allWords = allWords.simplified();
 
     currentWords = allWords.split(" ");
 
