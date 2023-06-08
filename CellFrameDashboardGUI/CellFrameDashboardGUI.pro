@@ -29,6 +29,9 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/Tokens/DapModuleTokens.h \
     Modules/TxExplorer/DapModuleTxExplorer.h \
     Modules/Wallet/DapModuleWallet.h \
+    Modules/Wallet/WalletRestore/randomfile.h \
+    Modules/Wallet/WalletRestore/randomwords.h \
+    Modules/Wallet/WalletRestore/wallethashmanager.h \
     Modules/dApps/DapModuledApps.h \
     NotifyController/DapNotifyController.h \
     PluginsController/DapNetworkManager.h \
@@ -41,9 +44,6 @@ HEADERS += $$PWD/DapServiceController.h \
     StockDataWorker/stockdataworker.h \
     StockDataWorker/tokenpairinfo.h \
     StockDataWorker/tokenpairsworker.h \
-    WalletRestore/randomfile.h \
-    WalletRestore/randomwords.h \
-    WalletRestore/wallethashmanager.h \
     Workers/dateworker.h \
     Workers/mathworker.h \
     Workers/stringworker.h \
@@ -80,6 +80,9 @@ SOURCES += $$PWD/main.cpp \
     Modules/Tokens/DapModuleTokens.cpp \
     Modules/TxExplorer/DapModuleTxExplorer.cpp \
     Modules/Wallet/DapModuleWallet.cpp \
+    Modules/Wallet/WalletRestore/randomfile.cpp \
+    Modules/Wallet/WalletRestore/randomwords.cpp \
+    Modules/Wallet/WalletRestore/wallethashmanager.cpp \
     Modules/dApps/DapModuledApps.cpp \
     NotifyController/DapNotifyController.cpp \
     PluginsController/DapFilesFunctions.cpp \
@@ -89,9 +92,6 @@ SOURCES += $$PWD/main.cpp \
     StockDataWorker/orderbookworker.cpp \
     StockDataWorker/stockdataworker.cpp \
     StockDataWorker/tokenpairsworker.cpp \
-    WalletRestore/randomfile.cpp \
-    WalletRestore/randomwords.cpp \
-    WalletRestore/wallethashmanager.cpp \
     Workers/dateworker.cpp \
     Workers/mathworker.cpp \
     Workers/stringworker.cpp \
