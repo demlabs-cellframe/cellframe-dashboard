@@ -34,7 +34,6 @@
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
         <file>screen/desktop/UnderConstructions.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
-        <file>WalletRestore/english_words.txt</file>
         <file>screen/desktop/VPNClient/DapVpnClientScreen.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTab.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTopPanel.qml</file>
@@ -322,5 +321,6 @@
         <file>screen/desktop/Settings/MenuBlocks/DapSupportBlock.qml</file>
         <file>Resources/BlackTheme/icons/other/icon_link.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_linkHover.svg</file>
+        <file>Modules/Wallet/WalletRestore/english_words.txt</file>
     </qresource>
 </RCC>

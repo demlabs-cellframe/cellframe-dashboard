@@ -5,7 +5,7 @@
 
 RandomWords::RandomWords()
 {
-    QFile file("://WalletRestore/english_words.txt");
+    QFile file("://Modules/Wallet/WalletRestore/english_words.txt");
 
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
