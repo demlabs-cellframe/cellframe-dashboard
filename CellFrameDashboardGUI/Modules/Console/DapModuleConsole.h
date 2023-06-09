@@ -2,21 +2,24 @@
 #define DAPMODULECONSOLE_H
 
 #include <QObject>
-#include <QDebug>
-
-#include "DapServiceController.h"
+#include <QQmlContext>
 #include "../DapAbstractModule.h"
-#include "../DapModulesController.h"
 
 class DapModuleConsole : public DapAbstractModule
 {
     Q_OBJECT
 public:
-    explicit DapModuleConsole(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
+    explicit DapModuleConsole(QQmlContext *context, QObject *parent);
+
+    Q_INVOKABLE void runCommand(const QString &command);
+
+private slots:
+    void getAnswer(const QVariant &answer);
 
 private:
-    DapServiceController  *s_serviceCtrl;
-    DapModulesController  *s_modulesCtrl;
+    QQmlContext *s_context;
+
+    QVariantList model;
 };
 
 #endif // DAPMODULECONSOLE_H

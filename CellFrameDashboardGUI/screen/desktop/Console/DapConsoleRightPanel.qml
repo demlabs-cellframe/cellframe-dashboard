@@ -93,6 +93,8 @@ Page
             currentIndex: count - 1
             highlightFollowsCurrentItem: true
             highlightRangeMode: ListView.ApplyRange
+
+//            onModelChanged: positionViewAtBeginning()
         }
     }
 
@@ -131,6 +133,8 @@ Page
         //History is limited by historySize and realized as FIFO
         if(historySize < modelHistoryConsole.count)
             modelHistoryConsole.remove(modelHistoryConsole.count-1);
+
+        listViewHistoryConsole.positionViewAtBeginning()
     }
 
     //Handler for the doubleClick on right history panel

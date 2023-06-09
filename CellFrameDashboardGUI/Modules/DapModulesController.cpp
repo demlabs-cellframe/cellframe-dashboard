@@ -37,6 +37,10 @@ DapModulesController::~DapModulesController()
 void DapModulesController::initModules()
 {
     addModule("walletModule", new DapModuleWallet(this));
+    addModule("consoleModule",
+              new DapModuleConsole(s_appEngine->rootContext(), this));
+    addModule("logsModule",
+              new DapModuleLog(s_appEngine->rootContext(), this));
 //    addModule("dexModule", new DapModuleDex(s_modulesCtrl));
 //    addModule("txExplorerModule", new DapModuleTxExplorer(s_modulesCtrl));
 //    addModule("certificatesModule", new DapModuleCertificates(s_modulesCtrl));

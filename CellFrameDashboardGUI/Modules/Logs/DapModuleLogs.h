@@ -2,21 +2,51 @@
 #define DAPMODULELOGS_H
 
 #include <QObject>
-#include <QDebug>
-
-#include "DapServiceController.h"
+#include <QQmlContext>
 #include "../DapAbstractModule.h"
-#include "../DapModulesController.h"
+#include "logreader.h"
+#include "logmodel.h"
 
-class DapModuleLogs : public DapAbstractModule
+class DapModuleLog : public DapAbstractModule
 {
     Q_OBJECT
 public:
-    explicit DapModuleLogs(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
+    explicit DapModuleLog(QQmlContext *context, QObject *parent);
+
+    Q_INVOKABLE void selectLog(const QString &name);
+
+    Q_INVOKABLE void setPosition(double pos);
+
+    Q_INVOKABLE void changePosition(double step);
+
+    Q_INVOKABLE double getPosition();
+
+    Q_INVOKABLE double getScrollSize();
+
+    Q_INVOKABLE QString getLineText(qint64 index);
+
+    static QString getNodeLogPath();
+
+    static QString getBrandLogPath();
 
 private:
-    DapServiceController  *s_serviceCtrl;
-    DapModulesController  *s_modulesCtrl;
+    LogModel::Item parseLine(const QString &line);
+
+    void outModel();
+
+    QQmlContext *s_context;
+
+    LogModel model;
+
+    LogReader nodeLog;
+    LogReader guiLog;
+    LogReader serviceLog;
+
+    LogReader *currentLog;
+
+    qint64 bufferSize {20};
+
+    qint64 currentIndex {0};
 };
 
 #endif // DAPMODULELOGS_H

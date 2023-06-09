@@ -22,11 +22,15 @@ HEADERS += $$PWD/DapServiceController.h \
     ImportCertificate/ImportCertificate.h \
     Modules/Certificates/DapModuleCertificates.h \
     Modules/Console/DapModuleConsole.h \
+    Modules/Console/consoleitem.h \
     Modules/DapAbstractModule.h \
     Modules/DapModulesController.h \
     Modules/Dex/DapModuleDex.h \
     Modules/Diagnostics/DapModuledDiagnostics.h \
     Modules/Logs/DapModuleLogs.h \
+    Modules/Logs/loginfo.h \
+    Modules/Logs/logmodel.h \
+    Modules/Logs/logreader.h \
     Modules/Settings/DapModuleSettings.h \
     Modules/Test/DapModuleTest.h \
     Modules/Tokens/DapModuleTokens.h \
@@ -79,6 +83,8 @@ SOURCES += $$PWD/main.cpp \
     Modules/Dex/DapModuleDex.cpp \
     Modules/Diagnostics/DapModuledDiagnostics.cpp \
     Modules/Logs/DapModuleLogs.cpp \
+    Modules/Logs/logmodel.cpp \
+    Modules/Logs/logreader.cpp \
     Modules/Settings/DapModuleSettings.cpp \
     Modules/Test/DapModuleTest.cpp \
     Modules/Tokens/DapModuleTokens.cpp \

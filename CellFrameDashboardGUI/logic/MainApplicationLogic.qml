@@ -612,6 +612,8 @@ QtObject {
 
     function requestToService()
     {
+//        console.log("MainApplicationLogic", arguments[0], arguments)
+
         var service
         var args = []
 
