@@ -45,6 +45,13 @@ DapModuleLog::DapModuleLog(QQmlContext *context, QObject *parent)
     //             << DAP_BRAND_LO;
 }
 
+void DapModuleLog::fullUpdate()
+{
+    nodeLog.updateAll();
+    guiLog.updateAll();
+    serviceLog.updateAll();
+}
+
 void DapModuleLog::selectLog(const QString &name)
 {
     if (name == "Node")
@@ -58,7 +65,7 @@ void DapModuleLog::selectLog(const QString &name)
 
     currentLog->updateLines(currentIndex, bufferSize);
 
-    outModel();
+    updateModel();
 }
 
 void DapModuleLog::setPosition(double pos)
@@ -76,7 +83,7 @@ void DapModuleLog::setPosition(double pos)
 
     currentLog->updateLines(currentIndex, bufferSize);
 
-    outModel();
+    updateModel();
 }
 
 void DapModuleLog::changePosition(double step)
@@ -94,7 +101,7 @@ void DapModuleLog::changePosition(double step)
 
     currentLog->updateLines(currentIndex, bufferSize);
 
-    outModel();
+    updateModel();
 }
 
 double DapModuleLog::getPosition()
@@ -116,6 +123,11 @@ QString DapModuleLog::getLineText(qint64 index)
         return QString();
     else
         return lines.at(index);
+}
+
+void DapModuleLog::updateLog()
+{
+    currentLog->updateLog();
 }
 
 QString DapModuleLog::getNodeLogPath()
@@ -195,7 +207,7 @@ LogModel::Item DapModuleLog::parseLine(const QString &line)
     return item;
 }
 
-void DapModuleLog::outModel()
+void DapModuleLog::updateModel()
 {
     s_logModel->clear();
 

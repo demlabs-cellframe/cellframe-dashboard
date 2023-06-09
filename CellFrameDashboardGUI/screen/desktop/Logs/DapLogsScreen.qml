@@ -33,9 +33,68 @@ Page
 
     property date today: new Date()
     property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
+//    property date today: new Date(new Date().setDate(new Date().getDate()-1))
+//    property date yesterday: new Date(new Date().setDate(new Date().getDate()-2))
 
     QMLClipboard{
         id: clipboard
+    }
+
+    Timer {
+        id: updateTimer
+        interval: 5000;
+        running: true;
+        repeat: true
+
+        property int count: 0
+
+        onTriggered:
+        {
+            ++count
+
+            var currentDate = new Date()
+
+            console.info("Log updateTimer", count)
+
+            console.log("today.getDate()", today.getDate(),
+                        "currentDate.getDate()", currentDate.getDate())
+
+            var pos = logsModule.getPosition()
+
+            console.log("logsModule.getPosition()", logsModule.getPosition(),
+                        "vertBar.position", vertBar.position)
+
+            if (currentDate.getDate() !==  today.getDate())
+            {
+                today = new Date()
+                yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+                logsModule.fullUpdate()
+                vertBar.position = 0
+            }
+            else
+            {
+//                logsModule.fullUpdate()
+//                vertBar.position = 0
+                logsModule.updateLog()
+            }
+
+            vertBar.size = logsModule.getScrollSize()
+
+            if (!vertBar.position > 0)
+            {
+                vertBar.position = 0
+                logsModule.setPosition(0)
+            }
+            else
+            {
+                console.log("logsModule.getPosition()", logsModule.getPosition(),
+                            "vertBar.position", vertBar.position)
+
+                vertBar.position = logsModule.getPosition()
+//                logsModule.setPosition(pos)
+            }
+        }
     }
 
     LogicTxExplorer
@@ -396,8 +455,11 @@ Page
 
         logsModule.selectLog(name)
 
+        logsModule.updateLog()
+
         vertBar.size = logsModule.getScrollSize()
         vertBar.position = 0
+        logsModule.setPosition(0)
 
         dapLogsListViewIndex = -1;
     }

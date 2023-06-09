@@ -7,6 +7,7 @@ ColumnLayout
     id: main
     property alias text: textItem.text
     property bool current: true
+    property int margin: 26
 
     signal itemClicked()
 
@@ -14,29 +15,27 @@ ColumnLayout
     {
         id: textItem
         Layout.fillHeight: true
-        Layout.leftMargin: 16
-        Layout.rightMargin: 16
+        Layout.leftMargin: margin
+        Layout.rightMargin: margin
         font: mainFont.dapFont.bold14
         color: current ? currTheme.white : currTheme.gray
         verticalAlignment: Qt.AlignVCenter
+
+        MouseArea
+        {
+            anchors.fill: parent
+
+            onClicked:
+            {
+                itemClicked()
+            }
+        }
     }
 
     Rectangle
     {
         Layout.minimumHeight: 2
-        width: textItem.width + 32
+        width: textItem.width + margin*2
         color: current ? "#DBFF71" : "transparent"
     }
-
-    MouseArea
-    {
-        anchors.fill: parent
-
-        onClicked:
-        {
-            itemClicked()
-        }
-    }
-
 }
-

@@ -13,11 +13,20 @@ LogReader::LogReader(const QString &file_path,
     getFullLength();
 }
 
-void LogReader::updateLog()
+void LogReader::updateAll()
+{
+    logLines.clear();
+    linePosition.clear();
+    fileSize.clear();
+
+    getFullLength();
+}
+
+void LogReader::readFullLog()
 {
     logLines.clear();
 
-    getFileNames();
+    getFileNames(false);
 
     for (auto file_name : fileNames)
         readFile(file_name);
@@ -31,13 +40,64 @@ void LogReader::updateLines(qint64 begin, qint64 size)
 
     logLines.clear();
 
-    getFileNames();
+    getFileNames(true);
 
     for (auto file_name : fileNames)
         readLines(file_name);
 }
 
-void LogReader::getFileNames()
+void LogReader::updateLog()
+{
+    getFileNames(false);
+
+    QString file_name = fileNames.last();
+
+    QFile file(file_name);
+
+    qint64 fileLength = 0;
+
+    if (fileSize.contains(file_name))
+        fileLength = fileSize.value(file_name);
+
+    if (file.open(QFile::ReadOnly))
+    {
+        char buf[1024];
+        qint64 lineLength;
+
+//        linePosition.append(0);
+
+        qint64 pos = file.pos();
+
+        file.seek(linePosition.last());
+        file.readLine(buf, sizeof(buf));
+
+        forever
+        {
+            lineLength = file.readLine(buf, sizeof(buf));
+
+            if (lineLength > 0 && pos != file.pos())
+            {
+                linePosition.append(file.pos());
+                ++fileLength;
+                ++m_logLength;
+            }
+            else
+                if (lineLength == -1)
+                    break;
+        }
+
+        linePosition.removeLast();
+
+        file.close();
+    }
+
+    fileSize.insert(file_name, fileLength);
+
+//    qDebug() << "updateLog" << file_name << fileLength;
+//    qDebug() << "sizeof(linePosition)" << qtContainerSize(linePosition);
+}
+
+void LogReader::getFileNames(bool reverse)
 {
     fileNames.clear();
 
@@ -91,11 +151,25 @@ void LogReader::getFileNames()
 
         }
 
-        for (auto date : dates)
+        if (reverse)
         {
-            if (names.contains(date))
-                fileNames.append(m_filePath + "/" + names.value(date));
+            for (auto i = dates.size()-1; i >= 0; --i)
+            {
+                if (names.contains(dates.at(i)))
+                    fileNames.append(m_filePath + "/" + names.value(dates.at(i)));
+            }
         }
+        else
+        {
+            for (auto date : dates)
+            {
+                if (names.contains(date))
+                    fileNames.append(m_filePath + "/" + names.value(date));
+            }
+        }
+
+//        qDebug() << "LogReader::getFileNames" << fileNames;
+
 
 //        for (auto file_name : cfglist)
 //        {
@@ -108,7 +182,7 @@ void LogReader::getFullLength()
 {
     m_logLength = 0;
 
-    getFileNames();
+    getFileNames(false);
 
     for (auto file_name : fileNames)
         m_logLength += getLogLength(file_name);
@@ -152,12 +226,6 @@ qint64 LogReader::getLogLength(const QString &file_name)
         file.close();
     }
 
-//    if (fileLength > 0)
-//    {
-//        --fileLength;
-//        linePosition.removeLast();
-//    }
-
     fileSize.insert(file_name, fileLength);
 
     qDebug() << "getLogLength" << file_name << fileLength;
@@ -196,6 +264,10 @@ void LogReader::readLines(const QString &file_name)
         return;
     }
 
+//    qDebug() << "LogReader::readLines"
+//             << file_name
+//             << m_begin << size << m_current;
+
     QFile file(file_name);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
@@ -205,19 +277,38 @@ void LogReader::readLines(const QString &file_name)
 
     QString line;
 
-    file.seek(linePosition.at(m_current));
+    qint64 index = linePosition.size() - m_current - 1;
+
+    file.seek(linePosition.at(index));
 
     while (!file.atEnd())
     {
         line = file.readLine();
 
-        if (m_current < m_begin + m_size)
-            logLines.append(line);
+//        qDebug() << index << m_current
+//                 << "linePosition" << linePosition.at(index)
+//                 << "line" << line << line.isEmpty();
+
+        if (!line.isEmpty())
+        {
+            if (m_current < m_begin + m_size)
+                logLines.append(line);
+        }
+
+        if (linePosition.at(index) == 0)
+            break;
 
         ++m_current;
 
         if (m_current >= m_begin + m_size)
             break;
+
+        index = linePosition.size() - m_current - 1;
+
+        if (index < 0)
+            break;
+
+        file.seek(linePosition.at(index));
     }
 
     file.close();

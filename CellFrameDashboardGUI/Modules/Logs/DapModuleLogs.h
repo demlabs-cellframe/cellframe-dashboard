@@ -13,6 +13,8 @@ class DapModuleLog : public DapAbstractModule
 public:
     explicit DapModuleLog(QQmlContext *context, QObject *parent);
 
+    Q_INVOKABLE void fullUpdate();
+
     Q_INVOKABLE void selectLog(const QString &name);
 
     Q_INVOKABLE void setPosition(double pos);
@@ -25,6 +27,8 @@ public:
 
     Q_INVOKABLE QString getLineText(qint64 index);
 
+    Q_INVOKABLE void updateLog();
+
     static QString getNodeLogPath();
 
     static QString getBrandLogPath();
@@ -32,7 +36,7 @@ public:
 private:
     LogModel::Item parseLine(const QString &line);
 
-    void outModel();
+    void updateModel();
 
     QQmlContext *s_context;
 

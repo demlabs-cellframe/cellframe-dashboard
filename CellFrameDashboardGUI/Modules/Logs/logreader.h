@@ -10,9 +10,13 @@ public:
     LogReader(const QString &file_path,
               const QString &file_name, bool with_data = false);
 
-    void updateLog();
+    void updateAll();
+
+    void readFullLog();
 
     void updateLines(qint64 begin, qint64 size);
+
+    void updateLog();
 
     qint64 getLength()
     {
@@ -25,7 +29,7 @@ public:
     }
 
 private:
-    void getFileNames();
+    void getFileNames(bool reverse);
 
     void getFullLength();
 
@@ -35,15 +39,15 @@ private:
 
     void readLines(const QString &file_name);
 
+    QString m_fileName;
+    QString m_filePath;
+    bool m_withData;
+
     QStringList logLines;
 
     QVector <qint64> linePosition;
 
     QMap <QString, qint64> fileSize;
-
-    QString m_fileName;
-    QString m_filePath;
-    bool m_withData;
 
     QStringList fileNames;
 
