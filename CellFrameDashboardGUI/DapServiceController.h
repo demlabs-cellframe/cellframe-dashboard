@@ -269,6 +269,8 @@ signals:
 
     void rcvRemoveResult(const QVariant& rcvData);
 
+    void exportLogs(const QVariant& rcvData);
+
 private slots:
     /// Register command.
     void registerCommand();

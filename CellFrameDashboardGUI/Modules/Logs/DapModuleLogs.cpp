@@ -33,12 +33,15 @@ DapModuleLog::DapModuleLog(DapModulesController *parent)
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
         m_configLog.first = LogType::NodeLog;
-        m_configLog.second = getLogPath(m_configLog.first);
+        m_configLog.second = getLogFileName(getNodeLogPath(), m_configLog.first);
         m_logReader->setLogType(m_configLog.second);
         setStatusInit(true);
     });
 
-
+    connect(s_serviceCtrl, &DapServiceController::exportLogs, [=] (const QVariant& rcvData)
+    {
+        emit logsExported(rcvData.toBool());
+    });
 
 
 //    nodeLog.updateLog();
@@ -77,11 +80,14 @@ void DapModuleLog::setFlagLogUpdate(bool flag)
     emit flagLogUpdateChanged();
 }
 
-void DapModuleLog::exportLog(QString path, int type, QString period)
+void DapModuleLog::exportLog(QString newPath, int type, QString period)
 {
-    qDebug()<< path << type << period;
-
-    emit logsExported(QFile::copy(getLogPath(LogType(type)), path));
+    qDebug()<< newPath << type << period;
+    QString originPath = getLogPath(LogType(type));
+    s_serviceCtrl->requestToService("DapExportLogCommand",QStringList()
+                                    <<QString(originPath)
+                                    <<QString(newPath)
+                                    <<QString(period));
 }
 
 void DapModuleLog::fullUpdate()
@@ -120,20 +126,14 @@ QString DapModuleLog::getLogPath(LogType type)
     QString path;
     switch (type) {
     case LogType::NodeLog:
-        path = getNodeLogPath();
+        path = getLogFileName(getNodeLogPath(), type);
         break;
     case LogType::ServiceLog:
-    {
-        QString folder = getBrandLogPath();
-        path = getLogFileName(folder, true);
+        path = getLogFileName(getBrandLogPath(), type);
         break;
-    }
     case LogType::GuiLog:
-    {
-        QString folder = getBrandLogPath();
-        path = getLogFileName(folder, false);
+        path = getLogFileName(getBrandLogPath(), type);
         break;
-    }
     default:
         break;
     }
@@ -141,7 +141,7 @@ QString DapModuleLog::getLogPath(LogType type)
     return path;
 }
 
-QString DapModuleLog::getLogFileName(QString folder, bool isService)
+QString DapModuleLog::getLogFileName(QString folder, LogType type)
 {
     QDir currentFolder(folder);
 
@@ -150,8 +150,9 @@ QString DapModuleLog::getLogFileName(QString folder, bool isService)
 
     QFileInfoList folderitems(currentFolder.entryInfoList());
 
-    QString fileName = isService ? "Cellframe-DashboardService"
-                                 : "Cellframe-DashboardGUI";
+    QString fileName = type == LogType::NodeLog    ? "cellframe-node"
+                     : type == LogType::ServiceLog ? "Cellframe-DashboardService"
+                                                   : "Cellframe-DashboardGUI";
 
     QStringList filesList;
 
@@ -169,7 +170,7 @@ QString DapModuleLog::getLogFileName(QString folder, bool isService)
 
     if(filesList.count() == 1)
         return filesList.first();
-    else
+    else if(filesList.count() > 1)
     {
         quint64 dates[filesList.count()];
 
@@ -189,6 +190,8 @@ QString DapModuleLog::getLogFileName(QString folder, bool isService)
 
         return filesList.at(maxIdx);
     }
+    else
+        return QString();
 }
 
 void DapModuleLog::setPosition(double pos)
@@ -263,7 +266,7 @@ void DapModuleLog::updateLog()
 QString DapModuleLog::getNodeLogPath()
 {
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-    return QString("/opt/%1-node/var/log/%1-node.log").arg(DAP_BRAND_BASE_LO);
+    return QString("/opt/%1-node/var/log").arg(DAP_BRAND_BASE_LO);
 #elif defined (Q_OS_MACOS)
     char * l_username = NULL;
     exec_with_ret(&l_username,"whoami|tr -d '\n'");
@@ -272,11 +275,11 @@ QString DapModuleLog::getNodeLogPath()
         qWarning() << "Fatal Error: Can't obtain username";
         return QString();
     }
-    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log/%1-node.log").arg(l_username);
+    return QString("/Users/%1/Applications/Cellframe.app/Contents/Resources/var/log").arg(l_username);
 #elif defined (Q_OS_WIN)
-    return QString("%1/cellframe-node/var/log/%1-node.log").arg(regWGetUsrPath());
+    return QString("%1/cellframe-node/var/log").arg(regWGetUsrPath());
 #elif defined Q_OS_ANDROID
-    return QString("/sdcard/cellframe-node/var/log/%1-node.log");
+    return QString("/sdcard/cellframe-node/var/log");
 #else
     return QString();
 #endif

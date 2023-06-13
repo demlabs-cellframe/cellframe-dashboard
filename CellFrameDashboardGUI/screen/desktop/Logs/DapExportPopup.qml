@@ -302,7 +302,7 @@ DapMessagePopup {
                             dapMainWindow.width*0.5,
                             8,
                             qsTr("Fail exported logs"),
-                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+                            "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
 
             root.close();
         }

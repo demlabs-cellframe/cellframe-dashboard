@@ -85,7 +85,7 @@ private:
     void updateModel();
     void readLog();
 
-    QString getLogFileName(QString folder, bool isService);
+    QString getLogFileName(QString folder, LogType type);
 
 signals:
     void currentTypeChanged();
