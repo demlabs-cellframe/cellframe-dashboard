@@ -50,6 +50,7 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     else
     {
 //        objRes["hasUpdate"] = true;
+//        emit sigVersionInfo(objRes);
         emit sigVersionInfo(result);
         m_guiVersionRequest = false;
         emit guiRequestChanged();

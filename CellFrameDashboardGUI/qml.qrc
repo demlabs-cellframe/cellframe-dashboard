@@ -322,5 +322,6 @@
         <file>Resources/BlackTheme/icons/other/icon_link.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_linkHover.svg</file>
         <file>Modules/Wallet/WalletRestore/english_words.txt</file>
+        <file>screen/desktop/controls/DapVersionPopup.qml</file>
     </qresource>
 </RCC>

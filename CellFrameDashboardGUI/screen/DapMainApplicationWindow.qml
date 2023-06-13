@@ -82,7 +82,7 @@ Rectangle {
 //        id: messageWebConnect
 //        onSignalAccept: webControl.rcvAccept(accept, index)
 //    }
-    DapMessagePopup
+    DapVersionPopup
     {
         id: messagePopupVersion
 
