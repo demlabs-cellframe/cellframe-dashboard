@@ -119,13 +119,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    DapLogger dapLogger(QCoreApplication::instance(), "GUI");
-
-    DapConfigReader configReader;
-    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
-    qDebug() << "debug_dashboard_mode" << debug_mode;
-
     //dApps config file
     QString filePluginConfig;
     QString pluginPath;

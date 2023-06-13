@@ -7,20 +7,21 @@ import QtQuick.Layouts 1.3
 import "../controls"
 import "qrc:/widgets"
 import "../../"
-import "qrc:/resources/JS/TimeFunctions.js" as TimeFunction
+import "../History/logic"
+import qmlclipboard 1.0
 
 Page
 {
     id:dapLogsScreenForm
 
     ///@detalis firstMarginList First indent in the delegate to the first word.
-    property int firstMarginList: 16 
+    property int firstMarginList: 16
     ///@detalis secondMarginList Second indent between the first and second word.
-    property int secondMarginList: 18 
+    property int secondMarginList: 18
     ///@detalis thirdMarginList Third indent between the second and third word and the following.
-    property int thirdMarginList: 40 
+    property int thirdMarginList: 40
     ///@detalis fifthMarginList Fifth indent between the second and third word and the following.
-    property int fifthMarginList: 20 
+    property int fifthMarginList: 20
     ///@detalis Font color.
     property string fontColor: "#070023"
 
@@ -28,7 +29,73 @@ Page
     property alias dapLogsListViewIndex: dapLogsList.currentIndex
     ///@detalis dapLogsListView Log list widget.
     property alias dapLogsListView: dapLogsList
-    property bool isModelLoaded: false
+    property bool isModelLoaded: true
+
+//    property date today: new Date()
+//    property date yesterday: new Date(new Date().setDate(new Date().getDate()-1))
+//    property date today: new Date(new Date().setDate(new Date().getDate()-1))
+//    property date yesterday: new Date(new Date().setDate(new Date().getDate()-2))
+
+    QMLClipboard{
+        id: clipboard
+    }
+
+//    Timer {
+//        id: updateTimer
+//        interval: 5000;
+//        running: true;
+//        repeat: true
+
+//        property int count: 0
+
+//        onTriggered:
+//        {
+//            ++count
+
+//            var currentDate = new Date()
+
+//            console.info("Log updateTimer", count)
+
+//            console.log("today.getDate()", today.getDate(),
+//                        "currentDate.getDate()", currentDate.getDate())
+
+//            var pos = logsModule.getPosition()
+
+////            console.log("logsModule.getPosition()", logsModule.getPosition(),
+////                        "vertBar.position", vertBar.position)
+
+//            if (currentDate.getDate() !==  today.getDate())
+//            {
+//                today = new Date()
+//                yesterday = new Date(new Date().setDate(new Date().getDate()-1))
+
+//                logsModule.fullUpdate()
+//                vertBar.position = 0
+//            }
+//            else
+//            {
+////                logsModule.fullUpdate()
+////                vertBar.position = 0
+//                logsModule.updateLog()
+//            }
+
+//            vertBar.size = logsModule.getScrollSize()
+
+//            if (!vertBar.position > 0)
+//            {
+//                vertBar.position = 0
+//                logsModule.setPosition(0)
+//            }
+//            else
+//            {
+//                console.log("logsModule.getPosition()", logsModule.getPosition(),
+//                            "vertBar.position", vertBar.position)
+
+//                vertBar.position = logsModule.getPosition()
+////                logsModule.setPosition(pos)
+//            }
+//        }
+//    }
 
     background: Rectangle
     {
@@ -48,22 +115,56 @@ Page
             {
                 anchors.fill: parent
                 spacing: 0
-                // Title
-                Item
+                visible: logsModule.statusInit
+
+                RowLayout
                 {
-                    Layout.fillWidth: true
-                    height: 42
+                    id: titleItem
+                    Layout.minimumHeight: 45
+                    Layout.maximumHeight: 45
+//                    Layout.leftMargin: 16
 
-                    Text
+                    spacing: 0
+
+                    SelectorItem
                     {
-                        anchors.fill: parent
-                        anchors.leftMargin: 16
-                        anchors.verticalCenter: parent.verticalCenter
+                        id: selectorNode
+                        text: qsTr("Cellframe node logs")
+                        current: true
+                        onItemClicked:
+                        {
+                            if (!current)
+                              selectLog("Node")
+                        }
+                    }
 
-                        font: mainFont.dapFont.bold14
-                        color: currTheme.white
-                        verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Node data logs")
+                    SelectorItem
+                    {
+                        id: selectorService
+                        text: qsTr("Dashboard service logs")
+                        current: false
+                        onItemClicked:
+                        {
+                            if (!current)
+                                selectLog("Service")
+                        }
+                    }
+
+                    SelectorItem
+                    {
+                        id: selectorGUI
+                        text: qsTr("Dashboard GUI logs")
+                        current: false
+                        onItemClicked:
+                        {
+                            if (!current)
+                                selectLog("GUI")
+                        }
+                    }
+
+                    Item
+                    {
+                        Layout.fillWidth: true
                     }
                 }
 
@@ -73,112 +174,179 @@ Page
                     Layout.fillWidth: true
                     Layout.fillHeight: true
                     clip: true
-                    model: dapLogsModel
+//                    model: dapLogsModel
+                    model: logModel
+
+//                    highlight: Rectangle{color: currTheme.rowHover; opacity: 0.12}
+//                    highlightMoveDuration: 0
+
                     delegate: delegateLogs
+
                     section.property: "date"
                     section.criteria: ViewSection.FullString
                     section.delegate: delegateLogsHeader
-                    cacheBuffer: 15000
-                    highlight: Rectangle{color: currTheme.gray; opacity: 0.12}
-                    highlightMoveDuration: 0
+//                    cacheBuffer: 15000
 
                     ScrollBar.vertical: ScrollBar {
                         active: true
                     }
+
+                    onCurrentIndexChanged: {
+                        if(currentIndex >= 0)
+                            //stop update
+                            logsModule.flagLogUpdate = false
+                        else
+                            //start update
+                            logsModule.flagLogUpdate = true
+                    }
                 }
             }
 
-//        DapBusyIndicator
-//        {
-//            x: parent.width / 2
-//            y: parent.height / 2
-//            busyPointNum: 8
-//            busyPointRounding: 50
-//            busyPointWidth: 12
-//            busyPointHeight: 12
-//            busyPointMinScale: 1.0
-//            busyPointMaxScale: 1.0
-//            busyIndicatorWidth: 40
-//            busyIndicatorHeight: 40
-//            busyIndicatorDelay: 125
-//            busyIndicatorDarkColor: currTheme.hilightColorComboBox
-//            busyIndicatorLightColor: currTheme.backgroundElements
-//            running: !isModelLoaded
+        ColumnLayout{
+            anchors.fill: parent
+            spacing: 16
+            visible: !logsModule.statusInit
+
+            Item{Layout.fillHeight: true}
+
+            DapLoadIndicator {
+                Layout.alignment: Qt.AlignHCenter
+
+                indicatorSize: 64
+                countElements: 8
+                elementSize: 10
+
+                running: !logsModule.statusInit
+            }
+
+
+            Text
+            {
+                Layout.alignment: Qt.AlignHCenter
+
+                font: mainFont.dapFont.medium18
+                color: currTheme.white
+                text: qsTr("Logs data loading...")
+            }
+            Item{Layout.fillHeight: true}
+        }
+
+//        DapLoadIndicator {
+////            x: parent.width / 2
+////            y: parent.height / 2
+
+//            anchors.centerIn: parent
+
+//            indicatorSize: 64
+//            countElements: 8
+//            elementSize: 10
+
+//            running: !logsModule.statusInit
 //        }
 
-        DapLoadIndicator {
-//            x: parent.width / 2
-//            y: parent.height / 2
+//        ScrollBar {
+//            id: vertBar
+//            hoverEnabled: true
+//            active: true
+//            orientation: Qt.Vertical
+////            size: frame.height / content.height
+//            anchors.top: parent.top
+//            anchors.right: parent.right
+//            anchors.bottom: parent.bottom
+//            anchors.topMargin: titleItem.height
+//            policy: ScrollBar.AlwaysOn
 
-            anchors.centerIn: parent
+//            Component.onCompleted:
+//            {
+//                size = logsModule.getScrollSize()
+//            }
 
-            indicatorSize: 64
-            countElements: 8
-            elementSize: 10
+//            onPositionChanged:
+//            {
+//                if (pressed)
+//                {
+////                    console.log("ScrollBar onPositionChanged", position)
+//                    logsModule.setPosition(position)
+//                }
+//            }
+//        }
 
-            running: !isModelLoaded
-        }
+//        MouseArea
+//        {
+//            anchors.top: parent.top
+//            anchors.bottom: parent.bottom
+//            anchors.left: parent.left
+//            anchors.right: vertBar.left
+//            preventStealing: true
+//            acceptedButtons: Qt.NoButton
+//            onWheel:
+//            {
+//                var change = -0.125*wheel.angleDelta.y/120
+
+////                console.log("MouseArea onWheel", wheel.angleDelta.y, change)
+
+//                logsModule.changePosition(change)
+
+//                vertBar.position = logsModule.getPosition()
+
+////                console.log("vertBar.position", vertBar.position,
+////                            logsModule.getPosition())
+//            }
+////            onPositionChanged:
+////            {
+////                console.log("MouseArea onDragChanged", wheel.angleDelta)
+////            }
+//        }
     }
 
     //Creates a list model for the example
     Component.onCompleted:
     {
-        dapLogsListViewIndex = -1;
-        privateDate.today = new Date();
-        privateDate.todayDay = privateDate.today.getDate();
-        privateDate.todayMonth = privateDate.today.getMonth();
-        privateDate.todayYear = privateDate.today.getFullYear();
-        var timeString = new Date();
-        var day = new Date(86400);
+        isModelLoaded = true
+        dapLogsListViewIndex = -1
+
+        selectorNode.current = (logsModule.currentType === 0)
+        selectorService.current = (logsModule.currentType === 1)
+        selectorGUI.current = (logsModule.currentType === 2)
+//        var timeString = new Date();
+//        var day = new Date(86400);
     }
 
-    //Slot for updating data in the model. The signal comes from C++.
-    Connections
+    Component.onDestruction:
     {
-        target: dapServiceController
-        function onLogUpdated(logs)
-        {
-//            dapLogsList.enabled = false
-            isModelLoaded = false;
-            isModelLoaded = updateLogsModel(logs);
-//            dapLogsListView.currentIndex = -1
-//            dapLogsListView.update()
-//            dapLogsList.enabled = true
-        }
+        dapLogsListViewIndex = -1
     }
 
-    //The Component Header
     Component
     {
-        id:delegateLogsHeader
-
+        id: delegateLogsHeader
         Rectangle
         {
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 30 
+            height: 30
+            width: parent.width
             color: currTheme.mainBackground
-            z:10
 
             Text
             {
                 anchors.fill: parent
                 anchors.leftMargin: 16
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.rightMargin: 16
                 verticalAlignment: Qt.AlignVCenter
-                font:  mainFont.dapFont.medium12
+                horizontalAlignment: Qt.AlignLeft
                 color: currTheme.white
-                text: section
+                text: {
+//                    console.log(dateWorker.getDateString(section), section)
+                    return dateWorker.getDateString(section)
+                }
+                font: mainFont.dapFont.regular12
             }
         }
     }
 
-
     //The component delegate
     Component
     {
-        id:delegateLogs
+        id: delegateLogs
 
         //Frame delegate
         Rectangle
@@ -186,8 +354,14 @@ Page
 //            anchors.left: parent.left
 //            anchors.right: parent.right
             width: dapLogsList.width
-            color: "transparent"
+            color: area.containsMouse || dapLogsList.currentIndex === index  ? currTheme.rowHover :"transparent"
             height: row.implicitHeight < 36 ? 50 : row.implicitHeight + 27
+
+            MouseArea{
+                id: area
+                anchors.fill: parent
+                hoverEnabled: true
+            }
 
             //Event container
             RowLayout{
@@ -210,7 +384,8 @@ Page
                     font:  mainFont.dapFont.regular14
                     color: type === "WRN" ? currTheme.darkYellow :
                            type === "ERR" ? currTheme.red :
-                           type === "INF" || type === " * " ?
+                           type === "DBG" ? currTheme.gray :
+                           type === "INF" || type === "*" ?
                            currTheme.neon : currTheme.white
                     text: type
                 }
@@ -218,7 +393,6 @@ Page
                 Text
                 {
                     id: textLog
-//                    Layout.preferredWidth: 280
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 30
@@ -232,10 +406,12 @@ Page
                 Text
                 {
                     id: fileLog
-                    Layout.minimumWidth: 200
+                    Layout.minimumWidth: 150
+                    Layout.maximumWidth: 150
                     Layout.alignment: Qt.AlignLeft
                     Layout.leftMargin: 40
                     verticalAlignment: Qt.AlignVCenter
+                    wrapMode: Text.WrapAnywhere
                     font:  mainFont.dapFont.regular13
                     color: currTheme.white
                     text: file
@@ -271,60 +447,85 @@ Page
                 anchors.fill: parent
                 onClicked:
                 {
-                   dapLogsListViewIndex = index;
+                    if (dapLogsListViewIndex !== index)
+                        dapLogsListViewIndex = index
+                    else
+                        dapLogsListViewIndex = -1
                 }
             }
-        }
-    }
 
-    ///In this block, the properties are only auxiliary for internal use.
-    QtObject
-    {
-        id: privateDate
-        //Day
-        property int day: 86400
-        //Current time
-        property var today
-        property var todayDay
-        property var todayMonth
-        property var todayYear
-        property var stringTime
-    }
+            Rectangle{
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.margins: 16
 
-    function updateLogsModel(logList)
-    {
-        if(logList.length > 0)
-        {
-            dapLogsModel.clear();
-            var count = Object.keys(logList).length
-            console.log(count);
-            var thisDay = new Date();
-            var privateDate = {'today' : thisDay,
-                                'todayDay': thisDay.getDate(),
-                                'todayMonth': thisDay.getMonth(),
-                                'todayYear': thisDay.getFullYear()};
+                width: 32
+                height: 32
 
-            for (var ind = count-1; ind >= 0; ind--)
-            {
-                var arrLogString = TimeFunction.parceStringFromLog(logList[ind]);
-                var stringTime = TimeFunction.parceTime(arrLogString[1]);
+                color: copyArea.containsMouse ? currTheme.lime
+                                              : currTheme.mainBackground
+                radius: 4
 
-                if(stringTime !== "error" && arrLogString[2] !== "")
+                visible: dapLogsList.currentIndex === index
+
+                MouseArea
                 {
-                    var info = arrLogString[4]
-                    if(info[0] === " ")
-                        info = info.substring(1)
+                    id: copyArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked:
+                    {
+                        console.log("copyButton text",
+                                    logsModule.getLineText(index))
 
-                    dapLogsModel.append({"type": arrLogString[2],
-                                         "info": info,
-                                         "file": arrLogString[3],
-                                         "time": TimeFunction.getTime(stringTime),
-                                         "date": TimeFunction.getDay(stringTime, privateDate),
-                                         "momentTime": stringTime});
+                        clipboard.setText(logsModule.getLineText(index))
+
+                        dapMainWindow.infoItem.showInfo(
+                                    196,0,
+                                    dapMainWindow.width*0.5,
+                                    8,
+                                    qsTr("Copied to clipboard"),
+                                    "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+                    }
+                }
+
+                Image
+                {
+                    id: copyButton
+
+                    anchors.centerIn: parent
+                    smooth: false
+                    antialiasing: true
+                    fillMode: Image.PreserveAspectFit
+
+                    source: copyArea.containsMouse ? "qrc:/Resources/"+ pathTheme +"/icons/other/icon_copy_black.svg"
+                                                   : "qrc:/Resources/"+ pathTheme +"/icons/other/icon_copy_white.svg"
+
+
+                    mipmap: true
                 }
             }
-            return true
         }
-        return false
+    }
+
+    function selectLog(name)
+    {
+        selectorNode.current = (name === "Node")
+        selectorService.current = (name === "Service")
+        selectorGUI.current = (name === "GUI")
+
+        logsModule.selectLog(name)
+
+        dapLogsListViewIndex = -1;
+        dapLogsList.positionViewAtIndex(0, ListView.Beginning)
+
+
+//        logsModule.updateLog()
+
+//        vertBar.size = logsModule.getScrollSize()
+//        vertBar.position = 0
+//        logsModule.setPosition(0)
+
+//        dapLogsListViewIndex = -1;
     }
 }

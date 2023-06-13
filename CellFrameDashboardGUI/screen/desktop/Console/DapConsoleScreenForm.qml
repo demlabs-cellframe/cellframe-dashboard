@@ -68,6 +68,11 @@ Page
                 ScrollBar.vertical: ScrollBar {
                     active: true
                 }
+
+                onModelChanged:
+                {
+                    positionViewAtEnd()
+                }
             }
 
             SuggestionBox

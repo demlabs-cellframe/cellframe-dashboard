@@ -125,7 +125,7 @@ void DapApplication::createDapLogger()
 #endif
 
 #ifdef QT_DEBUG
-  logPath = DapLogger::currentLogFilePath (DAP_BRAND, "Service");
+  logPath = DapLogger::currentLogFilePath (DAP_BRAND, "GUI");
   DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QApplication::instance());
 
   QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()

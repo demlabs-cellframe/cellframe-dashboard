@@ -61,8 +61,8 @@ void DapModulesController::initModules()
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
 //    addModule("certificatesModule", new DapModuleCertificates(s_modulesCtrl));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
-//    addModule("consoleModule", new DapModuleConsole(s_modulesCtrl));
-//    addModule("logsModule", new DapModuleLogs(s_modulesCtrl));
+    addModule("consoleModule", new DapModuleConsole(this));
+    addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
 //    addModule("dAppsModule", new DapModuledApps(s_modulesCtrl));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
