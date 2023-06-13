@@ -82,8 +82,10 @@ void DapModuleLog::setFlagLogUpdate(bool flag)
 
 void DapModuleLog::exportLog(QString newPath, int type, QString period)
 {
+#ifdef Q_OS_WIN
     if(newPath[0] == "/" || newPath[0] == "\\" )
             newPath.remove(0,1);
+#endif
     qDebug()<< newPath << type << period;
     QString originPath = getLogPath(LogType(type));
     s_serviceCtrl->requestToService("DapExportLogCommand",QStringList()
