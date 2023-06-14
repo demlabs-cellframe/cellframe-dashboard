@@ -40,7 +40,7 @@ Page
         lightColor: currTheme.reflectionLight
 
         contentData:
-            Item
+        Item
         {
             anchors.fill: parent
 
@@ -50,7 +50,7 @@ Page
                 anchors.fill: parent
                 anchors.bottomMargin: 40
                 anchors.leftMargin: 20 *pt
-                anchors.topMargin: 24 
+                anchors.topMargin: 24
                 height: (contentHeight < consoleRectangle.height - inputCommand.height) ?
                             contentHeight :
                             (consoleRectangle.height - inputCommand.height)
@@ -73,6 +73,7 @@ Page
                 {
                     positionViewAtEnd()
                 }
+                Component.onCompleted: positionViewAtEnd()
             }
 
             SuggestionBox

@@ -166,6 +166,84 @@ Page
                     {
                         Layout.fillWidth: true
                     }
+
+                    Image{
+                        id: indicator
+                        Layout.alignment: Qt.AlignRight
+                        Layout.rightMargin: 16
+                        mipmap: true
+                        source: logsModule.flagLogUpdate ? "qrc:/Resources/BlackTheme/icons/other/icon_reload.svg"
+                                                         : "qrc:/Resources/BlackTheme/icons/other/icon_pause.svg"
+
+                        function reset()
+                        {
+                            if(logsModule.flagLogUpdate)
+                            {
+                                indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_reload.svg"
+                                animation.start()
+                            }
+                            else
+                            {
+                                indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_pause.svg"
+                                animation.stop()
+                            }
+                        }
+
+                        RotationAnimator {
+                            id: animation
+                            target: indicator
+                            running: logsModule.flagLogUpdate
+                            from: 0
+                            to: 360
+                            loops: Animation.Infinite
+                            duration: 1000
+
+                            onRunningChanged: if(!running) indicator.rotation = 0
+                        }
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: {
+                                logsModule.flagLogUpdate = !logsModule.flagLogUpdate
+                                animation.stop()
+
+                                if(logsModule.flagLogUpdate)
+                                {
+                                    indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_pause_hover.svg"
+                                }
+                                else
+                                {
+                                    indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_reload_hover.svg"
+                                }
+                            }
+
+                            onEntered:
+                            {
+                                if(logsModule.flagLogUpdate)
+                                {
+                                    animation.stop()
+                                    indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_pause_hover.svg"
+                                }
+                                else
+                                {
+                                    indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_reload_hover.svg"
+                                }
+                            }
+                            onExited:
+                            {
+                                if(logsModule.flagLogUpdate)
+                                {
+                                    animation.start()
+                                    indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_reload.svg"
+                                }
+                                else
+                                {
+                                    indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_pause.svg"
+                                }
+                            }
+                        }
+                    }
                 }
 
                 ListView
@@ -198,6 +276,8 @@ Page
                         else
                             //start update
                             logsModule.flagLogUpdate = true
+
+                        indicator.reset()
                     }
                 }
             }
@@ -519,6 +599,8 @@ Page
         dapLogsListViewIndex = -1;
         dapLogsList.positionViewAtIndex(0, ListView.Beginning)
 
+        indicator.source = "qrc:/Resources/BlackTheme/icons/other/icon_reload.svg"
+        animation.start()
 
 //        logsModule.updateLog()
 

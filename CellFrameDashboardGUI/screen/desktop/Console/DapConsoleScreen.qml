@@ -24,7 +24,10 @@ DapConsoleScreenForm
     }
 
     Component.onDestruction:
+    {
+        consoleModule.clearModel()
         commandCmdController.StatusPage = false
+    }
 
     Component
     {

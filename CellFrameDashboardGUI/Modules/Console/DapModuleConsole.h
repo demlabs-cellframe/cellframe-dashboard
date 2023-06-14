@@ -12,6 +12,7 @@ public:
     explicit DapModuleConsole(DapModulesController *parent);
 
     Q_INVOKABLE void runCommand(const QString &command);
+    Q_INVOKABLE void clearModel();
 
 private slots:
     void getAnswer(const QVariant &answer);
