@@ -82,6 +82,8 @@ void DapModuleLog::setFlagLogUpdate(bool flag)
 
 void DapModuleLog::exportLog(QString newPath, int type, QString period)
 {
+    if(newPath[0] == "/" || newPath[0] == "\\" )
+            newPath.remove(0,1);
     qDebug()<< newPath << type << period;
     QString originPath = getLogPath(LogType(type));
     s_serviceCtrl->requestToService("DapExportLogCommand",QStringList()
@@ -309,14 +311,26 @@ QString DapModuleLog::getBrandLogPath()
 
 LogModel::Item DapModuleLog::parseLine(const QString &line)
 {
+    bool apTimeFormat = false;
     QRegularExpression regex(
         R"(\[(\S+)-(\S+)\] \[\s*(\S+)\s*\] \[(\S*)\] (.*)\n?)");
     QRegularExpressionMatch match = regex.match(line);
 
+    if(!match.hasMatch())
+    {
+        QRegularExpression regex2(
+            R"(\[(\S+)-(\S+)\ (.+)] \[\s*(\S+)\s*\] \[(\S*)\] (.*)\n?)");
+        match = regex2.match(line);
+
+        apTimeFormat = match.hasMatch();
+    }
+
+    int idx = apTimeFormat ? 1 : 0;
+
     LogModel::Item item;
-    item.type = match.captured(3);
-    item.info = match.captured(5);
-    item.file = match.captured(4);
+    item.type = match.captured(idx+3);
+    item.info = match.captured(idx+5);
+    item.file = match.captured(idx+4);
     item.time = match.captured(2);
 //    item.date = match.captured(1);
 
