@@ -228,7 +228,7 @@ qint64 LogReader::getLogLength(const QString &file_name)
 
     fileSize.insert(file_name, fileLength);
 
-    qDebug() << "getLogLength" << file_name << fileLength;
+//    qDebug() << "getLogLength" << file_name << fileLength;
 //    qDebug() << "sizeof(linePosition)" << qtContainerSize(linePosition);
 
     return fileLength;

@@ -15,7 +15,7 @@ DapModuleConsole::DapModuleConsole(DapModulesController *parent)
 
 void DapModuleConsole::runCommand(const QString &command)
 {
-    qDebug() << "DapModuleConsole::runCommand" << command;
+//    qDebug() << "DapModuleConsole::runCommand" << command;
 
     QVariantList args;
     args.append(command);

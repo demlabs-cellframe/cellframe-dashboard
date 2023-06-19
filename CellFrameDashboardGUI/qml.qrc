@@ -332,5 +332,6 @@
         <file>Resources/BlackTheme/icons/other/icon_pause.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_reload_hover.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_pause_hover.svg</file>
+        <file>screen/desktop/Dashboard/DapWalletComboBox.qml</file>
     </qresource>
 </RCC>

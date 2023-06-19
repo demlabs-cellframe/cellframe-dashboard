@@ -365,26 +365,26 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
     {
-        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
-        QList<DapWalletHistoryEvent> tempWalletHistory;
+//        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
+//        QList<DapWalletHistoryEvent> tempWalletHistory;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempWalletHistory;
+//        QDataStream in(&array, QIODevice::ReadOnly);
+//        in >> tempWalletHistory;
 
-        QList<QObject*> walletHistory;
-        auto begin = tempWalletHistory.begin();
-        auto end = tempWalletHistory.end();
-        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
-        for(;begin != end; ++begin)
-        {
-            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
-            walletHistory.append(wallethistoryEvent);
-        }
+//        QList<QObject*> walletHistory;
+//        auto begin = tempWalletHistory.begin();
+//        auto end = tempWalletHistory.end();
+//        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
+//        for(;begin != end; ++begin)
+//        {
+//            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
+//            walletHistory.append(wallethistoryEvent);
+//        }
 
-        qDebug() << "DapServiceController::registerCommand"
-                 << "DapServiceController::historyReceived" << walletHistory.size();
+//        qDebug() << "DapServiceController::registerCommand"
+//                 << "DapServiceController::historyReceived" << walletHistory.size();
 
-        emit walletHistoryReceived(walletHistory);
+//        emit walletHistoryReceived(walletHistory);
     });
 
 //    connect(this, &DapServiceController::allHistoryReceived, [=] (const QVariant& wallethistory)

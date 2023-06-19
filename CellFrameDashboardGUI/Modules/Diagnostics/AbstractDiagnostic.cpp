@@ -152,7 +152,7 @@ QString AbstractDiagnostic::get_memory_string(size_t num)
 
 void AbstractDiagnostic::start_write(bool isStart)
 {
-    qDebug()<<"AbstractDiagnostic::start_write " << isStart;
+//    qDebug()<<"AbstractDiagnostic::start_write " << isStart;
 
     if(isStart && !s_timer_write->isActive()){
         write_data();
@@ -174,14 +174,14 @@ void AbstractDiagnostic::remove_data()
     proc.waitForFinished(5000);
     QString res = proc.readAll();
 
-    qDebug()<<res;
+//    qDebug()<<res;
 }
 
 QJsonDocument AbstractDiagnostic::get_list_nodes()
 {
     QJsonDocument nodes;
 
-    qDebug()<<"AbstractDiagnostic::get_list_nodes";
+//    qDebug()<<"AbstractDiagnostic::get_list_nodes";
 
     QProcess proc;
     QString program = QString(CLI_PATH);
@@ -239,7 +239,7 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 
 void AbstractDiagnostic::write_data()
 {
-    qDebug()<<"AbstractDiagnostic::write_data";
+//    qDebug()<<"AbstractDiagnostic::write_data";
 
     QString key = s_mac.toString();
 
@@ -252,7 +252,7 @@ void AbstractDiagnostic::write_data()
     proc.waitForFinished(5000);
     QString res = proc.readAll();
 
-    qDebug()<<res;
+//    qDebug()<<res;
 }
 
 QJsonDocument AbstractDiagnostic::read_data()
@@ -260,7 +260,7 @@ QJsonDocument AbstractDiagnostic::read_data()
     QJsonArray nodes_array;
     QJsonDocument nodes_doc;
 
-    qDebug()<<"AbstractDiagnostic::read_data";
+//    qDebug()<<"AbstractDiagnostic::read_data";
 
     for(QJsonValue mac : s_selected_nodes_list)
     {

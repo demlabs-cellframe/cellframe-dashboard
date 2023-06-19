@@ -70,7 +70,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
     connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-        qDebug() << "networkStatusReceived" << a_stateMap;
+//        qDebug() << "networkStatusReceived" << a_stateMap;
         networks()->setNetworkProperties(a_stateMap.toMap());
     });
 
@@ -79,7 +79,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     });
 
     connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-        qDebug() << "newTargetNetworkStateReceived" << a_state;
+//        qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 
     m_serviceController->requestWalletList();

@@ -14,8 +14,10 @@ HEADERS += $$PWD/DapServiceController.h \
     DapApplication.h \
     ImportCertificate/ImportCertificate.h \
     Models/AbstractModels/DapAbstractDiagnosticModel.h \
+    Models/AbstractModels/DapAbstractWalletList.h \
     Models/DapDiagnosticModel.h \
     Models/DapHistoryModel.h \
+    Models/DapWalletListModel.h \
     Modules/Certificates/DapModuleCertificates.h \
     Modules/Console/DapModuleConsole.h \
     Modules/Console/consoleitem.h \
@@ -70,8 +72,10 @@ SOURCES += $$PWD/main.cpp \
     DapApplication.cpp \
     ImportCertificate/ImportCertificate.cpp \
     Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
+    Models/AbstractModels/DapAbstractWalletList.cpp \
     Models/DapDiagnosticModel.cpp \
     Models/DapHistoryModel.cpp \
+    Models/DapWalletListModel.cpp \
     Modules/Certificates/DapModuleCertificates.cpp \
     Modules/Console/DapModuleConsole.cpp \
     Modules/DapAbstractModule.cpp \

@@ -17,6 +17,10 @@
 
 #include "Test/DapModuleTest.h"
 
+#include "Models/DapWalletListModel.h"
+
+static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
+
 DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
     : QObject(parent)
     , s_appEngine(appEngine)
@@ -69,6 +73,8 @@ void DapModulesController::initModules()
     addModule("testModule", new DapModuleTest(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
+    s_appEngine->rootContext()->setContextProperty("walletListModel", m_walletListModel);
+
     s_appEngine->rootContext()->setContextProperty("modulesController", this);
 }
 
@@ -102,22 +108,25 @@ DapAbstractModule *DapModulesController::getModule(const QString &key)
 
 void DapModulesController::getWalletList()
 {
-    s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
+    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
 }
 
 void DapModulesController::getNetworkList()
 {
-    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
+    s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
 }
 
 void DapModulesController::rcvWalletList(const QVariant &rcvData)
 {
 //    qDebug()<<"rcvWalletList";
-    if(rcvData.toList().isEmpty() || m_walletList != rcvData.toList())
+    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+
+    if(doc.isEmpty() || m_walletList != doc.toJson())
     {
         if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
         {
-            m_walletList = rcvData.toList();
+            m_walletList = doc.toJson();
+            DapWalletListModel().setModel(&doc);
 
             //--------------------------------------//
             /* The first load of the settings.
@@ -134,7 +143,10 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
             //--------------------------------------//
         }
         else
-            m_walletList = rcvData.toList();
+        {
+            m_walletList = doc.toJson();
+            DapWalletListModel().setModel(&doc);
+        }
 
         restoreIndex();
         static_cast<DapModuleWallet*>(m_listModules.value("walletModule"))
@@ -155,13 +167,14 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
 void DapModulesController::setCurrentWalletIndex(int newIndex)
 {
 //    qDebug()<<"setCurrentWalletIndex";
-    if(m_walletList.count() - 1 < newIndex
-        || m_walletList.isEmpty()
+
+    if(m_walletListModel->size() - 1 < newIndex
+        || m_walletListModel->isEmpty()
         || newIndex == m_currentWalletIndex)
         return ;
 
     m_currentWalletIndex = newIndex;
-    m_currentWalletName = m_walletList.at(newIndex).toString();
+    m_currentWalletName = m_walletListModel->at(newIndex).name;
 
     s_settings->setValue("walletName", m_currentWalletName);
     emit currentWalletIndexChanged();
@@ -176,11 +189,12 @@ void DapModulesController::restoreIndex()
 
     if(!prevName.isEmpty())
     {
-        for(int i = 0; i < m_walletList.count(); i++)
+        for(int i = 0; i < m_walletListModel->size(); i++)
         {
-            if(m_walletList.at(i).toString() == prevName)
+            if(m_walletListModel->at(i).name == prevName)
             {
-                setCurrentWalletIndex(i);
+                if(i != m_currentWalletIndex)
+                    setCurrentWalletIndex(i);
                 return ;
             }
         }

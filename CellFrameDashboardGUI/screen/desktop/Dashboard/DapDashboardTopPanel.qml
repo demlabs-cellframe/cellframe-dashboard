@@ -26,7 +26,7 @@ Controls.DapTopPanel
             Layout.leftMargin: 21
         }
 
-        Widgets.DapCustomComboBox
+        DapWalletComboBox
         {
             id: comboBoxCurrentWallet
 
@@ -38,7 +38,7 @@ Controls.DapTopPanel
 
             font: mainFont.dapFont.regular14
 
-            model: dapModelWallets
+            model: walletListModel
 
             enabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_activate.svg"
             disabledIcon: "qrc:/Resources/BlackTheme/icons/other/icon_deactivate.svg"
@@ -56,8 +56,9 @@ Controls.DapTopPanel
 
                 console.log("DapDashboardTopPanel onItemSelected",
                             "currentWalletName", modulesController.currentWalletName,
-                            "currentWalletIndex", modulesController.currentWalletIndex)
+                            "currentWalletIndex", modulesController.currentWalletIndex,)
                 changeWalletIndex()
+
             }
 
             defaultText: qsTr("Wallets")
