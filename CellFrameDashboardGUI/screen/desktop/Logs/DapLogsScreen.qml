@@ -555,8 +555,8 @@ Page
                     hoverEnabled: true
                     onClicked:
                     {
-                        console.log("copyButton text",
-                                    logsModule.getLineText(index))
+//                        console.log("copyButton text",
+//                                    logsModule.getLineText(index))
 
                         clipboard.setText(logsModule.getLineText(index))
 

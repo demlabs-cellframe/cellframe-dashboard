@@ -314,7 +314,7 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
 
                     QString fstr = str.toLower();
 
-                    if(item.network.isEmpty() || item.token.isEmpty() || item.tx_status.isEmpty() ||
+                    if(item.network.isEmpty() || ( item.token.isEmpty() && item.tx_status != "PROCESSING") || item.tx_status.isEmpty() ||
                        item.status.isEmpty() || item.value.isEmpty() || item.date.isEmpty())
                         return false;
 
