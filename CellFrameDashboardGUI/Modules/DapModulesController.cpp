@@ -121,7 +121,10 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
 //    qDebug()<<"rcvWalletList";
     QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
 
-    if(doc.isEmpty() || m_walletList != doc.toJson())
+    if(doc.array().isEmpty())
+        setCurrentWalletIndex(-1);
+
+    if(m_walletList != doc.toJson())
     {
         if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
         {
@@ -168,13 +171,22 @@ void DapModulesController::setCurrentWalletIndex(int newIndex)
 {
 //    qDebug()<<"setCurrentWalletIndex";
 
-    if(m_walletListModel->size() - 1 < newIndex
-        || m_walletListModel->isEmpty()
-        || newIndex == m_currentWalletIndex)
-        return ;
+    if(newIndex == -1)
+    {
+        m_currentWalletIndex = newIndex;
+        m_currentWalletName = "";
+    }
+    else
+    {
+        if(m_walletListModel->size() - 1 < newIndex
+            || m_walletListModel->isEmpty()
+            || (newIndex == m_currentWalletIndex &&
+               m_walletListModel->at(newIndex).name == m_currentWalletName))
+            return ;
 
-    m_currentWalletIndex = newIndex;
-    m_currentWalletName = m_walletListModel->at(newIndex).name;
+        m_currentWalletIndex = newIndex;
+        m_currentWalletName = m_walletListModel->at(newIndex).name;
+    }
 
     s_settings->setValue("walletName", m_currentWalletName);
     emit currentWalletIndexChanged();

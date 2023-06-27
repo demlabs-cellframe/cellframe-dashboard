@@ -44,7 +44,8 @@ Item
     onModelChanged:
     {
         print("DapCustomComboBox", "onModelChanged",
-              "popupListView.currentIndex", popupListView.currentIndex)
+              "popupListView.currentIndex", popupListView.currentIndex,
+              "name", model.get(modulesController.currentWalletIndex).name)
 
         if (popupListView.currentIndex < 0)
 //            displayText = getModelData(0, mainTextRole)

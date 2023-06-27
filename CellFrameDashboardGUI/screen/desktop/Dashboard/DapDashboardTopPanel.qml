@@ -161,7 +161,11 @@ Controls.DapTopPanel
                         "currentWalletName", modulesController.currentWalletName,
                         "currentWalletIndex", modulesController.currentWalletIndex)
 
-            comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
+            if(modulesController.currentWalletIndex >= 0)
+            {
+                comboBoxCurrentWallet.setCurrentIndex(modulesController.currentWalletIndex)
+                comboBoxCurrentWallet.displayText = modulesController.currentWalletName
+            }
         }
     }
 }

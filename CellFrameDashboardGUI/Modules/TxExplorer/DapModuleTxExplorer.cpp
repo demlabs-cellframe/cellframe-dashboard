@@ -381,6 +381,10 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
+    QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+    if(doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
+        return ;
+
     m_timerHistoryUpdate->stop();
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
     m_timerHistoryUpdate->start(5000);
