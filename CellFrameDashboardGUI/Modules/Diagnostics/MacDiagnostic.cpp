@@ -11,7 +11,9 @@ MacDiagnostic::MacDiagnostic(AbstractDiagnostic *parent)
             Qt::QueuedConnection);
 }
 
-void MacDiagnostic::info_update(){
+void MacDiagnostic::info_update()
+{
+    qInfo()<<"MacDiagnostic::info_update ";
 
     QJsonObject proc_info;
     QJsonObject sys_info;
@@ -36,6 +38,7 @@ void MacDiagnostic::info_update(){
 
 QJsonObject MacDiagnostic::get_sys_info()
 {
+    qInfo()<<"MacDiagnostic::get_sys_info ";
     QJsonObject obj_sys_data, obj_cpu, obj_memory;
 
     //get memory data
@@ -124,6 +127,7 @@ QJsonObject MacDiagnostic::get_sys_info()
 
 float MacDiagnostic::calculate_cpu_load(unsigned long long idleTicks, unsigned long long totalTicks)
 {
+    qInfo()<<"MacDiagnostic::calculate_cpu_load ";
     unsigned long long totalTicksSinceLastTime = totalTicks-_previousTotalTicks;
     unsigned long long idleTicksSinceLastTime  = idleTicks-_previousIdleTicks;
     float ret = 1.0f-((totalTicksSinceLastTime > 0) ? ((float)idleTicksSinceLastTime)/totalTicksSinceLastTime : 0);
@@ -138,6 +142,7 @@ float MacDiagnostic::calculate_cpu_load(unsigned long long idleTicks, unsigned l
 /// ---------------------------------------------------------------
 QJsonObject MacDiagnostic::get_process_info(int totalRam)
 {
+    qInfo()<<"MacDiagnostic::get_process_info ";
     QJsonObject process_info;
 
     QProcess proc;

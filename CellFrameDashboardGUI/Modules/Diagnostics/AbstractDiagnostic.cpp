@@ -38,6 +38,7 @@ void AbstractDiagnostic::stop_diagnostic()
 
 QJsonValue AbstractDiagnostic::get_mac()
 {
+    qInfo()<<"AbstractDiagnostic::get_mac ";
     QString MAC{"unknown"};
     foreach(QNetworkInterface netInterface, QNetworkInterface::allInterfaces())
     {
@@ -56,6 +57,8 @@ QJsonValue AbstractDiagnostic::get_mac()
 
 QString AbstractDiagnostic::get_uptime_string(long sec)
 {
+    qInfo()<<"AbstractDiagnostic::get_uptime_string " << sec;
+
     QTime time(0, 0);
     time = time.addSecs(sec);
     int fullHours = sec/3600;
@@ -71,7 +74,9 @@ QString AbstractDiagnostic::get_uptime_string(long sec)
     return uptime;
 }
 
-quint64 AbstractDiagnostic::get_file_size (QString flag, QString path ) {
+quint64 AbstractDiagnostic::get_file_size (QString flag, QString path )
+{
+    qInfo()<<"AbstractDiagnostic::get_file_size " << flag << path;
 
     if(flag == "log")
         path += "/var/log";
@@ -117,6 +122,7 @@ quint64 AbstractDiagnostic::get_file_size (QString flag, QString path ) {
 
 QString AbstractDiagnostic::get_memory_string(size_t num)
 {
+    qInfo()<<"AbstractDiagnostic::get_memory_string " << num;
     size_t bytes = num * 1024;
     if (bytes == 0) return "0 KB";
     int k = 1024,
@@ -152,7 +158,7 @@ QString AbstractDiagnostic::get_memory_string(size_t num)
 
 void AbstractDiagnostic::start_write(bool isStart)
 {
-//    qDebug()<<"AbstractDiagnostic::start_write " << isStart;
+    qInfo()<<"AbstractDiagnostic::start_write " << isStart;
 
     if(isStart && !s_timer_write->isActive()){
         write_data();
@@ -165,6 +171,8 @@ void AbstractDiagnostic::start_write(bool isStart)
 
 void AbstractDiagnostic::remove_data()
 {
+    qInfo()<<"AbstractDiagnostic::remove_data";
+
     QString key = s_mac.toString();
     QProcess proc;
     QString program = QString(CLI_PATH);
@@ -179,10 +187,9 @@ void AbstractDiagnostic::remove_data()
 
 QJsonDocument AbstractDiagnostic::get_list_nodes()
 {
+    qInfo()<<"AbstractDiagnostic::get_list_nodes";
+
     QJsonDocument nodes;
-
-//    qDebug()<<"AbstractDiagnostic::get_list_nodes";
-
     QProcess proc;
     QString program = QString(CLI_PATH);
     QStringList arguments;
@@ -239,7 +246,7 @@ QJsonDocument AbstractDiagnostic::get_list_nodes()
 
 void AbstractDiagnostic::write_data()
 {
-//    qDebug()<<"AbstractDiagnostic::write_data";
+    qInfo()<<"AbstractDiagnostic::write_data";
 
     QString key = s_mac.toString();
 
@@ -257,10 +264,10 @@ void AbstractDiagnostic::write_data()
 
 QJsonDocument AbstractDiagnostic::read_data()
 {
+    qInfo()<<"AbstractDiagnostic::read_data";
+
     QJsonArray nodes_array;
     QJsonDocument nodes_doc;
-
-//    qDebug()<<"AbstractDiagnostic::read_data";
 
     for(QJsonValue mac : s_selected_nodes_list)
     {
@@ -319,11 +326,13 @@ QJsonDocument AbstractDiagnostic::read_data()
 }
 
 void AbstractDiagnostic::set_node_list(QJsonDocument arr){
+    qInfo()<<"AbstractDiagnostic::set_node_list" << arr;
     s_selected_nodes_list = arr.array();
 }
 
 bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString flag)
 {
+    qInfo()<<"AbstractDiagnostic::check_contains" << array << item << flag;
     for (auto itr = array.begin(); itr != array.end(); itr++)
     {
         QJsonObject obj = itr->toObject();
@@ -336,6 +345,7 @@ bool AbstractDiagnostic::check_contains(QJsonArray array, QString item, QString 
 
 QJsonObject AbstractDiagnostic::roles_processing()
 {
+    qInfo()<<"AbstractDiagnostic::roles_processing";
     QJsonObject rolesObject;
 
     QDir currentFolder("/opt/cellframe-node/etc/network");
