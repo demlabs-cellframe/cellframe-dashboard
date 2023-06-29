@@ -7,7 +7,7 @@ linux {
         node_targets.files = $$OUT_PWD/build_linux_rwd/dist/opt        
     }
     CONFIG(release, debug|release) {
-        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=ON
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_EN=ON
         node_targets.files = $$OUT_PWD/build_linux_release/dist/opt
     }
 }
