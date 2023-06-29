@@ -234,15 +234,16 @@ DapPage
         }
         function onSigWalletInfo(model)
         {
-//            console.log(modulesController.currentWalletIndex, modulesController.currentWalletName)
 
             var item = dapModelWallets.get(modulesController.currentWalletIndex);
 
+//            console.log(modulesController.currentWalletIndex, item.status)
+
+            logicWallet.updateWallet(model)
+
             if(modulesController.currentWalletIndex >= 0 && item.status)
-            {
-                logicWallet.updateWallet(model)
                 logicWallet.walletStatus = item.status || ""
-            }
+
         }
     }
 

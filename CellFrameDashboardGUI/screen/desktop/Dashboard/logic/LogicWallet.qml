@@ -70,10 +70,12 @@ QtObject {
 
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
+//            console.log(dapModelWallets.get(i).name === jsonDocument.name)
             if (dapModelWallets.get(i).name === jsonDocument.name)
             {
                 dapModelWallets.get(i).status = jsonDocument.status
 
+//                console.log(jsonDocument.status)
                 if(jsonDocument.status === "" || jsonDocument.status === "Active")
                 {
 //                    console.log(jsonDocument.networks)
@@ -84,6 +86,10 @@ QtObject {
 //                    console.log(dapModelWallets.get(i).networks)
 //                    }
                 }
+
+//                console.log("update model")
+//                dapModelWallets.set(i, jsonDocument)
+//                dashboardScreen.listViewWallet.update()
                 return
             }
         }
