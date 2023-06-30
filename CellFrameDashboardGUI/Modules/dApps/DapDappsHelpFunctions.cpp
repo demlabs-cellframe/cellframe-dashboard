@@ -1,10 +1,10 @@
-#include "DapPluginsController.h"
+#include "DapModuledApps.h"
 
 #define UNIT_KB 1024            //KB
 #define UNIT_MB 1024*1024       //MB
 #define UNIT_GB 1024*1024*1024  //GB
 
-void DapPluginsController::readPluginsFile(QString *path)
+void DapModuledApps::readPluginsFile(QString *path)
 {
     QFile file(*path);
     QString readFile;
@@ -48,7 +48,7 @@ void DapPluginsController::readPluginsFile(QString *path)
     }
 }
 
-void DapPluginsController::updateFileConfig()
+void DapModuledApps::updateFileConfig()
 {
     QFile file(m_pathPluginsConfigFile);
 
@@ -72,7 +72,7 @@ void DapPluginsController::updateFileConfig()
         qWarning() << "dApps Config not open. " << file.errorString();
 }
 
-QString DapPluginsController::transformUnit(double bytes, bool isSpeed)
+QString DapModuledApps::transformUnit(double bytes, bool isSpeed)
 {
     QString strUnit = " B";
 
@@ -106,60 +106,60 @@ QString DapPluginsController::transformUnit(double bytes, bool isSpeed)
     return QString("%1%2").arg(QString::number(bytes, 'f',2)).arg(strUnit);
 }
 
-QString DapPluginsController::transformTime(quint64 seconds)
+QString DapModuledApps::transformTime(quint64 seconds)
 {
-   QString strValue;
-   QString strSpacing(" ");
-   if (seconds <= 0)
-   {
-       strValue = QString("%1s").arg(0);
-   }
-   else if (seconds < 60)
-   {
-       strValue = QString("%1s").arg(seconds);
-   }
-   else if (seconds < 60 * 60)
-   {
-       int nMinute = seconds / 60;
-       int nSecond = seconds - nMinute * 60;
+    QString strValue;
+    QString strSpacing(" ");
+    if (seconds <= 0)
+    {
+        strValue = QString("%1s").arg(0);
+    }
+    else if (seconds < 60)
+    {
+        strValue = QString("%1s").arg(seconds);
+    }
+    else if (seconds < 60 * 60)
+    {
+        int nMinute = seconds / 60;
+        int nSecond = seconds - nMinute * 60;
 
-       strValue = QString("%1m").arg(nMinute);
+        strValue = QString("%1m").arg(nMinute);
 
-       if (nSecond > 0)
-           strValue += strSpacing + QString("%1s").arg(nSecond);
-   }
-   else if (seconds < 60 * 60 * 24)
-   {
-       int nHour = seconds / (60 * 60);
-       int nMinute = (seconds - nHour * 60 * 60) / 60;
-       int nSecond = seconds - nHour * 60 * 60 - nMinute * 60;
+        if (nSecond > 0)
+            strValue += strSpacing + QString("%1s").arg(nSecond);
+    }
+    else if (seconds < 60 * 60 * 24)
+    {
+        int nHour = seconds / (60 * 60);
+        int nMinute = (seconds - nHour * 60 * 60) / 60;
+        int nSecond = seconds - nHour * 60 * 60 - nMinute * 60;
 
-       strValue = QString("%1h").arg(nHour);
+        strValue = QString("%1h").arg(nHour);
 
-       if (nMinute > 0)
-           strValue += strSpacing + QString("%1m").arg(nMinute);
+        if (nMinute > 0)
+            strValue += strSpacing + QString("%1m").arg(nMinute);
 
-       if (nSecond > 0)
-           strValue += strSpacing + QString("%1s").arg(nSecond);
-   }
-   else
-   {
-       int nDay = seconds / (60 * 60 * 24);
-       int nHour = (seconds - nDay * 60 * 60 * 24) / (60 * 60);
-       int nMinute = (seconds - nDay * 60 * 60 * 24 - nHour * 60 * 60) / 60;
-       int nSecond = seconds - nDay * 60 * 60 * 24 - nHour * 60 * 60 - nMinute * 60;
+        if (nSecond > 0)
+            strValue += strSpacing + QString("%1s").arg(nSecond);
+    }
+    else
+    {
+        int nDay = seconds / (60 * 60 * 24);
+        int nHour = (seconds - nDay * 60 * 60 * 24) / (60 * 60);
+        int nMinute = (seconds - nDay * 60 * 60 * 24 - nHour * 60 * 60) / 60;
+        int nSecond = seconds - nDay * 60 * 60 * 24 - nHour * 60 * 60 - nMinute * 60;
 
-       strValue = QString("%1d").arg(nDay);
+        strValue = QString("%1d").arg(nDay);
 
-       if (nHour > 0)
-           strValue += strSpacing + QString("%1h").arg(nHour);
+        if (nHour > 0)
+            strValue += strSpacing + QString("%1h").arg(nHour);
 
-       if (nMinute > 0)
-           strValue += strSpacing + QString("%1m").arg(nMinute);
+        if (nMinute > 0)
+            strValue += strSpacing + QString("%1m").arg(nMinute);
 
-       if (nSecond > 0)
-           strValue += strSpacing + QString("%1s").arg(nSecond);
-   }
+        if (nSecond > 0)
+            strValue += strSpacing + QString("%1s").arg(nSecond);
+    }
 
-   return strValue;
+    return strValue;
 }

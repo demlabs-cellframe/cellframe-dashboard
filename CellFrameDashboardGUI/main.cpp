@@ -7,6 +7,7 @@
 #include <QSystemSemaphore>
 #include <QSharedMemory>
 #include <QScreen>
+#include <sys/stat.h>
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -14,27 +15,11 @@
 #include <QAndroidIntent>
 #endif
 
-//#include "DapHelper.h"
-//#include "serviceClient/DapServiceClient.h"
-//#include "DapServiceController.h"
-#include "DapLogger.h"
-//#include "DapLogMessage.h"
-//#include "DapWallet.h"
+
 #include "DapApplication.h"
-#include "PluginsController/DapPluginsController.h"
-#include "ImportCertificate/ImportCertificate.h"
-
-#include "dapconfigreader.h"
-
 #include "systemtray.h"
-
 #include "resizeimageprovider.h"
-
 #include "windowframerect.h"
-
-#include "models/VpnOrdersModel.h"
-
-#include <sys/stat.h>
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -77,22 +62,48 @@ bool SingleApplicationTest(const QString &appName)
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.setText(QObject::tr("The application '%1' is already running.").arg(appName));
         msgBox.exec();
-
-// Restore the application for the Windows system:
-//        QTextCodec *codec = QTextCodec::codecForName("UTF-8");
-//        QString s = codec->toUnicode(appName.toUtf8());
-//        LPCWSTR lps = (LPCWSTR)s.utf16();
-
-//        HWND hWnd = FindWindow(nullptr, lps);
-//        if (hWnd)
-//        {
-//            ShowWindow(hWnd, SW_RESTORE);
-//            SetForegroundWindow(hWnd);
-//        }
         return false;
     }
 
     return true;
+}
+
+void createDapLogger()
+{
+    DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI");
+    QString logPath = DapDataLocal::instance()->getLogFilePath();
+
+#if defined(QT_DEBUG) && defined(ANDROID)
+    DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QApplication::instance());
+
+    QObject::connect (logHandlerGui, &DapLogHandler::logChanged, [logHandlerGui]()
+                     {
+                         for (QString &msg : logHandlerGui->request())
+#ifdef ANDROID
+                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "*** Gui ***", "%s\n", qPrintable (msg));
+#else
+                std::cout << ":=== Srv ===" << qPrintable (msg) << "\n";
+#endif
+
+                     });
+#endif
+
+#ifdef QT_DEBUG
+    logPath = DapLogger::currentLogFilePath (DAP_BRAND, "GUI");
+    DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QApplication::instance());
+
+    QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()
+                     {
+                         for (QString &msg : serviceLogHandler->request())
+                         {
+#ifdef ANDROID
+                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "=== Srv ===", "%s\n", qPrintable (msg));
+#else
+                std::cout << "=== Srv ===" << qPrintable (msg) << "\n";
+#endif
+                         }
+                     });
+#endif
 }
 
 const int RESTART_CODE = 12345;
@@ -104,135 +115,100 @@ const int DEFAULT_WIDTH = 1280;
 const int DEFAULT_HEIGHT = 720;
 
 #ifndef Q_OS_WIN
-    const int OS_WIN_FLAG = 0;
+const int OS_WIN_FLAG = 0;
 #else
-    const int OS_WIN_FLAG = 1;
+const int OS_WIN_FLAG = 1;
 #endif
 
 #ifdef Q_OS_MAC
-    const int USING_NOTIFY = 0;
+const int USING_NOTIFY = 0;
 #else
-    const int USING_NOTIFY = 1;
+const int USING_NOTIFY = 1;
 #endif
+
+QByteArray scaleCalculate(int argc, char *argv[])
+{
+    QApplication *temp = new QApplication(argc, argv);
+
+    int maxWidth = DapApplication::primaryScreen()->availableGeometry().width();
+    int maxHeight = DapApplication::primaryScreen()->availableGeometry().height();
+
+    qDebug()<<"maxWidth" << maxWidth << "maxHeight" << maxHeight;
+
+    double scale = QSettings().value("window_scale", 1.0).toDouble();
+
+    qDebug() << "window_scale" << QString::number(scale).toDouble();
+
+    if(scale <= 0.6)
+        scale = 0.6;
+
+    if (MIN_WIDTH * scale > maxWidth)
+    {
+        scale = (double)maxWidth/MIN_WIDTH;
+        qDebug() << "Maximum scale for current resolution: " << QString::number(scale, 'f', 1).toDouble();
+        QSettings().setValue("window_scale", QString::number(scale, 'f', 1).toDouble());
+    }
+    if (MIN_HEIGHT * scale > maxHeight)
+    {
+        scale = (double)maxHeight/MIN_HEIGHT;
+        qDebug() << "Maximum scale for current resolution: " << QString::number(scale, 'f', 1).toDouble();
+        QSettings().setValue("window_scale", QString::number(scale, 'f', 1).toDouble());
+    }
+
+    temp->quit();
+    delete temp;
+
+    qDebug() << "window_scale" << QString::number(scale, 'f', 1).toDouble();
+
+    return QString::number(scale, 'f', 1).toLocal8Bit();
+}
 
 int main(int argc, char *argv[])
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 
-    //dApps config file
-    QString filePluginConfig;
-    QString pluginPath;
-    #ifdef Q_OS_LINUX
-        filePluginConfig = QString("/opt/%1/dapps/config_dApps.ini").arg(DAP_BRAND_LO);
-        pluginPath = QString("/opt/%1/dapps").arg(DAP_BRAND_LO);
-    #elif defined Q_OS_MACOS
-        mkdir("/tmp/Cellframe-Dashboard_dapps",0777);
-        filePluginConfig = QString("/tmp/Cellframe-Dashboard_dapps/config_dApps.ini");
-        pluginPath = QString("/tmp/Cellframe-Dashboard_dapps");
-    #elif defined Q_OS_WIN
-        filePluginConfig = QString("%1/%2/dapps/config_dApps.ini").arg(regGetUsrPath()).arg(DAP_BRAND);
-        pluginPath = QString("%1/%2/dapps").arg(regGetUsrPath()).arg(DAP_BRAND);
-    #endif
+    QCoreApplication::setOrganizationName("Cellframe Network");
+    QCoreApplication::setOrganizationDomain("cellframe.net");
+    QCoreApplication::setApplicationName(DAP_BRAND);
 
-    QFile filePlugin(filePluginConfig);
-    if(!filePlugin.exists())
-    {
-        if(filePlugin.open(QIODevice::WriteOnly))
-            filePlugin.close();
-    }
+    createDapLogger();
 
     int result = RESTART_CODE;
 
+
+    if (!SingleApplicationTest(DAP_BRAND))
+        return 1;
+
     while (result == RESTART_CODE)
     {
-        qputenv("QT_SCALE_FACTOR", "1.0");
-
-        QGuiApplication *testapp = new QGuiApplication(argc, argv);
-        qDebug() << "availableGeometry" << QGuiApplication::primaryScreen()->availableGeometry();
-        int maxWidtn = QGuiApplication::primaryScreen()->availableGeometry().width();
-        int maxheight = QGuiApplication::primaryScreen()->availableGeometry().height();
-        testapp->quit();
-        delete testapp;
-
-        QCoreApplication::setOrganizationName("Cellframe Network");
-        QCoreApplication::setApplicationName(DAP_BRAND);
-
-        double scale = QSettings().value("window_scale", 1.0).toDouble();
-
-        qDebug() << "window_scale" << scale << QString::number(scale);
-
-        if (MIN_WIDTH * scale > maxWidtn*1.25)
-        {
-            scale = (double)maxWidtn*1.25 / MIN_WIDTH;
-            qDebug() << "Max correct scale" << scale;
-
-            QSettings().setValue("window_scale", scale);
-        }
-        if (MIN_HEIGHT * scale > maxheight)
-        {
-            scale = (double)maxheight/MIN_HEIGHT;
-            qDebug() << "Max correct scale" << scale;
-
-            QSettings().setValue("window_scale", scale);
-        }
-
-        if (scale < 1.0)
-        {
-            qputenv("QT_SCALE_FACTOR", "1.0");
-        }
-        else
-        {
-            qputenv("QT_SCALE_FACTOR", QString::number(scale).toLocal8Bit());
-        }
-
-        DapApplication app(argc, argv);
-
-        if (!SingleApplicationTest(app.applicationName()))
-            return 1;
-
-        QQmlContext * context = app.qmlEngine()->rootContext();
-
-//        SystemTray * systemTray = new SystemTray();
-//        context->setContextProperty("systemTray", systemTray);
-
-        //For plugins
-        DapPluginsController pluginsManager(filePluginConfig,pluginPath);
-        context->setContextProperty("pluginsManager", &pluginsManager);
-
-        //For cert
-        ImportCertificate importCertifiacte(CellframeNodeConfig::instance()->getDefaultCADir());
-        context->setContextProperty("importCertificate", &importCertifiacte);
-
-        // For Stock
-//        StockDataWorker stockDataWorker(context);
-//        context->setContextProperty("stockDataWorker", &stockDataWorker);
-//        stockDataWorker.setContext(context);
-
+        qDebug() << "New app start";
+        qputenv("QT_SCALE_FACTOR",  scaleCalculate(argc, argv));
+        DapApplication * app = new DapApplication(argc, argv);
+        app->qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
         qmlRegisterType<WindowFrameRect>("windowframerect", 1,0, "WindowFrameRect");
 
-        app.qmlEngine()->addImageProvider("resize", new ResizeImageProvider);
-
+        QQmlContext * context = app->qmlEngine()->rootContext();
         context->setContextProperty("RESTART_CODE", QVariant::fromValue(RESTART_CODE));
-
         context->setContextProperty("MIN_WIDTH", QVariant::fromValue(MIN_WIDTH));
         context->setContextProperty("MIN_HEIGHT", QVariant::fromValue(MIN_HEIGHT));
-
         context->setContextProperty("DEFAULT_WIDTH", QVariant::fromValue(DEFAULT_WIDTH));
         context->setContextProperty("DEFAULT_HEIGHT", QVariant::fromValue(DEFAULT_HEIGHT));
-
-
         context->setContextProperty("OS_WIN_FLAG", QVariant::fromValue(OS_WIN_FLAG));
-
         context->setContextProperty("USING_NOTIFY", QVariant::fromValue(USING_NOTIFY));
 
-        app.qmlEngine()->load(QUrl("qrc:/main.qml"));
+        const QUrl url(QStringLiteral("qrc:/main.qml"));
+        QObject::connect(app->qmlEngine(), &QQmlApplicationEngine::objectCreated,
+            app, [url](QObject *obj, const QUrl &objUrl) {
+                if (!obj && url == objUrl)
+                    QCoreApplication::exit(-1);
+            }, Qt::QueuedConnection);
 
-        Q_ASSERT(!app.qmlEngine()->rootObjects().isEmpty());
+        app->qmlEngine()->load(url);
 
-        result = app.exec();
-
-//        systemTray->hideIconTray();
-//        delete systemTray;
+        result = app->exec();
+        delete app;
     }
 
     return result;

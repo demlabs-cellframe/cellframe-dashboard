@@ -1,7 +1,7 @@
-#ifndef DAPNETWORKMANAGER_H
-#define DAPNETWORKMANAGER_H
+#ifndef DAPDAPPSNETWORKMANAGER_H
+#define DAPDAPPSNETWORKMANAGER_H
 
-#include <QObject>
+#include <QWidget>
 #include <QDebug>
 #include <QTextCodec>
 #include <QFile>
@@ -12,26 +12,18 @@
 #include <QNetworkReply>
 #include <QTimer>
 
-class DapNetworkManager : public QWidget
+class DapDappsNetworkManager : public QWidget
 {
     Q_OBJECT
-public:
-    explicit DapNetworkManager(QString path, QString pathPlugins, QWidget *parent = nullptr);
 
 public:
+    explicit DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent = nullptr);
+
     void downloadFile(QString name);
     void uploadFile();
     void getFiles();
 
     void cancelDownload(bool ok, bool reload);
-
-signals:
-    void downloadCompleted(QString path);
-    void downloadProgress(quint64,quint64,QString,QString);
-
-    void aborted();
-    void uploadCompleted();
-    void filesReceived();
 
 private slots:
     void onDownloadCompleted();
@@ -63,6 +55,14 @@ public:
 
     QTimer * m_reconnectTimer;
 
+signals:
+    void sigDownloadCompleted(QString path);
+    void sigDownloadProgress(quint64,quint64,QString,QString);
+
+    void sigAborted();
+    void sigUploadCompleted();
+    void sigFilesReceived();
+
 };
 
-#endif // DAPNETWORKMANAGER_H
+#endif // DAPDAPPSNETWORKMANAGER_H

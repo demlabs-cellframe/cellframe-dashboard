@@ -12,7 +12,6 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
-    ImportCertificate/ImportCertificate.h \
     Models/AbstractModels/DapAbstractDiagnosticModel.h \
     Models/AbstractModels/DapAbstractWalletList.h \
     Models/DapDiagnosticModel.h \
@@ -39,10 +38,9 @@ HEADERS += $$PWD/DapServiceController.h \
     Modules/Wallet/WalletRestore/randomfile.h \
     Modules/Wallet/WalletRestore/randomwords.h \
     Modules/Wallet/WalletRestore/wallethashmanager.h \
+    Modules/dApps/DapDappsNetworkManager.h \
     Modules/dApps/DapModuledApps.h \
     NotifyController/DapNotifyController.h \
-    PluginsController/DapNetworkManager.h \
-    PluginsController/DapPluginsController.h \
     StockDataWorker/candlechartworker.h \
     StockDataWorker/candleinfo.h \
     StockDataWorker/orderbookworker.h \
@@ -70,7 +68,6 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
-    ImportCertificate/ImportCertificate.cpp \
     Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
     Models/AbstractModels/DapAbstractWalletList.cpp \
     Models/DapDiagnosticModel.cpp \
@@ -95,11 +92,10 @@ SOURCES += $$PWD/main.cpp \
     Modules/Wallet/WalletRestore/randomfile.cpp \
     Modules/Wallet/WalletRestore/randomwords.cpp \
     Modules/Wallet/WalletRestore/wallethashmanager.cpp \
+    Modules/dApps/DapDappsHelpFunctions.cpp \
+    Modules/dApps/DapDappsNetworkManager.cpp \
     Modules/dApps/DapModuledApps.cpp \
     NotifyController/DapNotifyController.cpp \
-    PluginsController/DapFilesFunctions.cpp \
-    PluginsController/DapNetworkManager.cpp \
-    PluginsController/DapPluginsController.cpp \
     StockDataWorker/candlechartworker.cpp \
     StockDataWorker/orderbookworker.cpp \
     StockDataWorker/stockdataworker.cpp \
