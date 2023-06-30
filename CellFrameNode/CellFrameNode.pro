@@ -3,11 +3,11 @@ TEMPLATE = aux
 
 linux {
     CONFIG(debug, debug|release) {
-        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux rwd -DBUILD_WITH_PYTHON_ENV=OFF
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux rwd -DBUILD_WITH_PYTHON_ENV=ON
         node_targets.files = $$OUT_PWD/build_linux_rwd/dist/opt        
     }
     CONFIG(release, debug|release) {
-        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=OFF
+        node_build.commands = $$PWD/../cellframe-node/prod_build/build.sh --target linux release -DBUILD_WITH_PYTHON_ENV=ON
         node_targets.files = $$OUT_PWD/build_linux_release/dist/opt
     }
 }

@@ -1,4 +1,5 @@
 #include "DapModuledApps.h"
+#include <sys/stat.h>
 
 #define TIME_INTERVAL 500
 
@@ -10,6 +11,7 @@ DapModuledApps::DapModuledApps(DapModulesController *parent)
 //    {
         setStatusInit(true);
         init();
+
 //    });
 }
 
