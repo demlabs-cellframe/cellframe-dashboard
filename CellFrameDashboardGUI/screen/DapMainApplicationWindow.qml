@@ -82,7 +82,7 @@ Rectangle {
 //        id: messageWebConnect
 //        onSignalAccept: webControl.rcvAccept(accept, index)
 //    }
-    DapMessagePopup
+    DapVersionPopup
     {
         id: messagePopupVersion
 
@@ -378,6 +378,7 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
+                        pathScreen: page
                         onPushPage: {
                             if(pageUrl !== mainScreenStack.currPage)
                                 mainScreenStack.setInitialItem(pageUrl)
@@ -478,7 +479,7 @@ Rectangle {
 
 
 
-        pluginsManager.getListPlugins();
+        dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
@@ -492,42 +493,55 @@ Rectangle {
 
     Connections
     {
+        target: settingsModule
+
+        function onSigVersionInfo(versionResult)
+        {
+            if(versionResult.hasUpdate && versionResult.message === "Reply version")
+                logicMainApp.rcvNewVersion(settingsModule.dashboardVersion, versionResult)
+            else
+                console.log(versionResult.message)
+        }
+    }
+
+    Connections
+    {
         target: dapServiceController
 
         function onNetworksListReceived(networksList) { logicMainApp.rcvNetList(networksList)}
         function onSignalStateSocket(state, isError, isFirst) {logicMainApp.rcvStateNotify(isError, isFirst)}
 
-        function onVersionControllerResult(versionResult)
-        {
-            if(versionResult.hasUpdate && versionResult.message === "Reply version")
-                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult)
-            else if(versionResult.message === "Reply node version")
-            {
-                if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
-                logicMainApp.nodeVersion = versionResult.lastVersion
-            }
-            else
-                console.log(versionResult.message)
-//            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
-//                logicMainApp.rcvReplyVersion()
-//            else if(versionResult.message !== "Reply version")
-//                logicMainApp.updatingDashboard()
+//        function onVersionControllerResult(versionResult)
+//        {
+//            if(versionResult.hasUpdate && versionResult.message === "Reply version")
+//                logicMainApp.rcvNewVersion(dapServiceController.Version, versionResult)
+//            else if(versionResult.message === "Reply node version")
+//            {
+//                if(logicMainApp.nodeVersion === "" || logicMainApp.nodeVersion !== versionResult.lastVersion)
+//                logicMainApp.nodeVersion = versionResult.lastVersion
+//            }
+//            else
+//                console.log(versionResult.message)
+////            else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+////                logicMainApp.rcvReplyVersion()
+////            else if(versionResult.message !== "Reply version")
+////                logicMainApp.updatingDashboard()
 
 
 
-//            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
-        }
+////            console.log(dapServiceController.Version, versionResult.lastVersion, versionResult.hasUpdate, versionResult.message)
+//        }
 
-        function onWalletsReceived(walletList)
-        {
-            console.log("onWalletsReceived")
-            logicMainApp.rcvWallets(walletList)
-        }
-        function onWalletReceived(wallet)
-        {
-            console.log("onWalletReceived")
-            logicMainApp.rcvWallet(wallet)
-        }
+//        function onWalletsReceived(walletList)
+//        {
+//            console.log("onWalletsReceived")
+//            logicMainApp.rcvWallets(walletList)
+//        }
+//        function onWalletReceived(wallet)
+//        {
+//            console.log("onWalletReceived")
+//            logicMainApp.rcvWallet(wallet)
+//        }
 
         function onCurrentNetworkChanged()
         {
@@ -593,17 +607,17 @@ Rectangle {
 
     }
 
-    Connections{
-        target: diagnostic
-        function onSignalDiagnosticData(diagnosticData){
-            var jsonDocument = JSON.parse(diagnosticData)
-            diagnosticDataModel.clear();
-            diagnosticDataModel.append(jsonDocument);
-        }
-    }
+//    Connections{
+//        target: diagnostic
+//        function onSignalDiagnosticData(diagnosticData){
+//            var jsonDocument = JSON.parse(diagnosticData)
+//            diagnosticDataModel.clear();
+//            diagnosticDataModel.append(jsonDocument);
+//        }
+//    }
 
     Connections{
-        target: pluginsManager
+        target: dAppsModule
         function onRcvListPlugins(m_pluginsList)
         {
             console.log("onRcvListPlugins")

@@ -3,7 +3,8 @@
 
 #include <QApplication>
 #include "DapNetworksList.h"
-#include "DiagnosticWorker/DiagnosticWorker.h"
+//#include "DiagnosticWorker/DiagnosticWorker.h"
+#include "Modules/DapModulesController.h"
 #include "QQmlApplicationEngine"
 #include "DapServiceController.h"
 #include "DapWalletBalanceModel.h"
@@ -11,9 +12,8 @@
 #include "mobile/QMLClipboard.h"
 #include "mobile/testcontroller.h"
 #include "Autocomplete/CommandCmdController.h"
-#include "DapMath.h"
-#include "HistoryWorker/historyworker.h"
-#include "DiagnosticWorker/models/NodeModel.h"
+//#include "DapMath.h"
+//#include "DiagnosticWorker/models/NodeModel.h"
 
 #include "DapLogger.h"
 #include "DapDataLocal.h"
@@ -23,6 +23,8 @@
 #include "StockDataWorker/stockdataworker.h"
 
 #include "ConfigWorker/configworker.h"
+//#include "Workers/stringworker.h"
+//#include "Workers/dateworker.h"
 
 #ifdef Q_OS_ANDROID
 #include <QtAndroid>
@@ -39,8 +41,6 @@ public:
 
     ~DapApplication();
 
-    void createDapLogger();
-
     DapNetworksList *networks();
 
     QQmlApplicationEngine *qmlEngine();
@@ -55,6 +55,8 @@ public:
     DapVpnOrdersModel* getVpnOrdersModel();
     CommandCmdController *commandCmdController;
 
+    DapModulesController *s_modulesInit;
+
 signals:
 //    void currentWalletChanged(DapWallet* a_currentWallet);
 private:
@@ -68,12 +70,13 @@ private:
     DapServiceClient m_serviceClient;
     DapServiceController* m_serviceController;
     DapVpnOrdersModel m_vpnOrders;
-    DapMath *m_mathBigNumbers;
-    DiagnosticWorker *m_diagnosticWorker;
+//    DapMath *m_mathBigNumbers;
+//    DiagnosticWorker *m_diagnosticWorker;
 
     StockDataWorker *stockDataWorker;
-    HistoryWorker * m_historyWorker;
     ConfigWorker *configWorker;
+//    StringWorker *stringWorker;
+    DateWorker   *dateWorker;
 };
 
 #endif // DAPAPPLICATION_H

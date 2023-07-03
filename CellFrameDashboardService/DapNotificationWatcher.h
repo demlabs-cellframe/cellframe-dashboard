@@ -18,6 +18,9 @@ class DapNotificationWatcher : public QObject
 
 public:
     DapNotificationWatcher(QObject *parent = 0);
+    ~DapNotificationWatcher();
+
+    bool initWatcher();
 public slots:
     void slotError();
     void socketConnected();
@@ -44,6 +47,7 @@ private:
     QString m_listenAddr;
     uint16_t m_listenPort;
     QTimer * m_reconnectTimer;
+    QTimer * m_initTimer;
 
 public:
     QString m_socketState;

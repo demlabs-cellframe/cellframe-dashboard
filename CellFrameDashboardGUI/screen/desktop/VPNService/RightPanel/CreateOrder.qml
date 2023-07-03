@@ -305,8 +305,6 @@ Page {
                     {
                         dapPriceOrder = comboBoxPrice.currentIndex.toString()
                     }
-
-
                 }
             }
             DapDoubleSpinBox {

@@ -20,8 +20,10 @@ DapApplication::DapApplication(int &argc, char **argv)
     , m_serviceClient(DAP_SERVICE_NAME)
     , m_serviceController(&DapServiceController::getInstance())
     , stockDataWorker(new StockDataWorker(m_engine.rootContext(), this))
+//    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
     , configWorker(new ConfigWorker(this))
-    , m_historyWorker(new HistoryWorker(m_engine.rootContext(), this))
+//    , stringWorker(new StringWorker(this))
+    , dateWorker(new DateWorker(this))
 {
     this->setOrganizationName("Cellframe Network");
     this->setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
@@ -29,7 +31,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
 
     qDebug()<<QString(DAP_SERVICE_NAME);
-    createDapLogger();
 
 #ifdef Q_OS_ANDROID
     QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
@@ -42,8 +43,8 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     m_serviceController->init(&m_serviceClient);
     m_serviceClient.init();
-    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
-    m_diagnosticWorker->start();
+//    m_diagnosticWorker = new DiagnosticWorker(&DapServiceController::getInstance(),this);
+//    m_diagnosticWorker->start();
 
     connect(m_serviceController, &DapServiceController::rcvXchangeTokenPriceHistory,
             stockDataWorker, &StockDataWorker::rcvXchangeTokenPriceHistory);
@@ -52,14 +53,14 @@ DapApplication::DapApplication(int &argc, char **argv)
     connect(m_serviceController, &DapServiceController::signalXchangeTokenPairReceived,
             stockDataWorker, &StockDataWorker::signalXchangeTokenPairReceived);
 
-    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
-            m_historyWorker, &HistoryWorker::setHistoryModel,
-            Qt::QueuedConnection);
+//    connect(m_serviceController, &DapServiceController::allWalletHistoryReceived,
+//            m_historyWorker, &HistoryWorker::setHistoryModel,
+//            Qt::QueuedConnection);
 
     commandCmdController = new CommandCmdController();
     commandCmdController->dapServiceControllerInit(&DapServiceController::getInstance());
 
-    m_mathBigNumbers = new DapMath();
+//    m_mathBigNumbers = new DapMath();
 
     this->registerQmlTypes();
     this->setContextProperties();
@@ -68,7 +69,7 @@ DapApplication::DapApplication(int &argc, char **argv)
 
     connect(&DapServiceController::getInstance(), &DapServiceController::networksListReceived, this->networks(), &DapNetworksList::fill);
     connect(&DapServiceController::getInstance(), &DapServiceController::networkStatusReceived, [this](const QVariant & a_stateMap){
-        qDebug() << "networkStatusReceived" << a_stateMap;
+//        qDebug() << "networkStatusReceived" << a_stateMap;
         networks()->setNetworkProperties(a_stateMap.toMap());
     });
 
@@ -77,7 +78,7 @@ DapApplication::DapApplication(int &argc, char **argv)
     });
 
     connect(&DapServiceController::getInstance(), &DapServiceController::newTargetNetworkStateReceived, [this](const QVariant & a_state){
-        qDebug() << "newTargetNetworkStateReceived" << a_state;
+//        qDebug() << "newTargetNetworkStateReceived" << a_state;
     });
 
     m_serviceController->requestWalletList();
@@ -85,55 +86,21 @@ DapApplication::DapApplication(int &argc, char **argv)
     m_serviceController->requestNetworksList();
 //    m_serviceController->requestToService("DapGetXchangeTokenPair", "full_info");
 //    m_serviceController->requestToService("DapGetXchangeOrdersList");
+
+
+    s_modulesInit = new DapModulesController(qmlEngine());
 }
 
 DapApplication::~DapApplication()
 {
     delete stockDataWorker;
     delete configWorker;
-    delete m_diagnosticWorker;
+//    delete m_diagnosticWorker;
+//    delete stringWorker;
 
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
     m_serviceController->disconnectAll();
-}
-
-void DapApplication::createDapLogger()
-{
-  DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI");
-  QString logPath = DapDataLocal::instance()->getLogFilePath();
-
-#if defined(QT_DEBUG) && defined(ANDROID)
-  DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QApplication::instance());
-
-  QObject::connect (logHandlerGui, &DapLogHandler::logChanged, [logHandlerGui]()
-  {
-    for (QString &msg : logHandlerGui->request())
-#ifdef ANDROID
-      __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "*** Gui ***", "%s\n", qPrintable (msg));
-#else
-      std::cout << ":=== Srv ===" << qPrintable (msg) << "\n";
-#endif
-
-  });
-#endif
-
-#ifdef QT_DEBUG
-  logPath = DapLogger::currentLogFilePath (DAP_BRAND, "Service");
-  DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QApplication::instance());
-
-  QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()
-  {
-    for (QString &msg : serviceLogHandler->request())
-      {
-#ifdef ANDROID
-        __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "=== Srv ===", "%s\n", qPrintable (msg));
-#else
-        std::cout << "=== Srv ===" << qPrintable (msg) << "\n";
-#endif
-      }
-  });
-#endif
 }
 
 DapNetworksList *DapApplication::networks()
@@ -221,14 +188,9 @@ void DapApplication::setContextProperties()
     m_engine.rootContext()->setContextProperty("dapServiceController", &DapServiceController::getInstance());
     m_engine.rootContext()->setContextProperty("pt", 1);
 
-    m_engine.rootContext()->setContextProperty("networks", this->networks());
-    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
+//    m_engine.rootContext()->setContextProperty("networks", this->networks());
+//    m_engine.rootContext()->setContextProperty("vpnOrders", this->getVpnOrdersModel());
 
     m_engine.rootContext()->setContextProperty("commandCmdController", commandCmdController);
-    m_engine.rootContext()->setContextProperty("dapMath", m_mathBigNumbers);
-    m_engine.rootContext()->setContextProperty("historyWorker", m_historyWorker);
-
     m_engine.rootContext()->setContextProperty("configWorker", configWorker);
-    m_engine.rootContext()->setContextProperty("diagnostic", m_diagnosticWorker);
-    m_engine.rootContext()->setContextProperty("diagnosticNodeModel", NodeModel::global());
 }

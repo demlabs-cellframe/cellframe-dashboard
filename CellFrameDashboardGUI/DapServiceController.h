@@ -11,11 +11,6 @@
 #include <QJsonDocument>
 #include "json.h"
 
-#include "NotifyController/DapNotifyController.h"
-#include "serviceClient/DapServiceClient.h"
-#include "DapServiceClientMessage.h"
-#include "DapWallet.h"
-#include "handlers/DapAbstractCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
@@ -58,6 +53,14 @@
 #include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
+#include "handlers/DapRemoveChainsOrGdbCommand.h"
+
+#include "NotifyController/DapNotifyController.h"
+#include "serviceClient/DapServiceClient.h"
+#include "DapServiceClientMessage.h"
+#include "DapWallet.h"
+#include "handlers/DapAbstractCommand.h"
+
 
 #include "serviceimitator.h"
 
@@ -263,6 +266,10 @@ signals:
     void rcvWordBook(const QVariant& rcvData);
 
     void nodeRestart();
+
+    void rcvRemoveResult(const QVariant& rcvData);
+
+    void exportLogs(const QVariant& rcvData);
 
 private slots:
     /// Register command.

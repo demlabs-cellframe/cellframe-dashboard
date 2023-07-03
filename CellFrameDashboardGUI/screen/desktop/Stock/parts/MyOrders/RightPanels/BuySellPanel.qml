@@ -131,8 +131,8 @@ DapRectangleLitAndShaded {
             onEdited: {
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
                 if(amount.textValue !== "0")
-                    total.textValue = dapMath.multCoins(dapMath.coinsToBalance(amount.textValue),
-                                                    dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+                    total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(amount.textValue),
+                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
             }
         }
 
@@ -169,8 +169,8 @@ DapRectangleLitAndShaded {
             textValue: "0.0"
             onEdited:
             {
-                total.textValue = dapMath.multCoins(dapMath.coinsToBalance(textValue),
-                                                    dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+                total.textValue = mathWorker.multCoins(mathWorker.coinsToBalance(textValue),
+                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
 
                 button25.selected = false
                 button50.selected = false
@@ -323,8 +323,8 @@ DapRectangleLitAndShaded {
                 button75.selected = false
                 button100.selected = false
 
-                amount.textValue = dapMath.divCoins(dapMath.coinsToBalance(textValue),
-                                                    dapMath.coinsToBalance(logicMainApp.tokenPrice),false)
+                amount.textValue = mathWorker.divCoins(mathWorker.coinsToBalance(textValue),
+                                                    mathWorker.coinsToBalance(logicMainApp.tokenPrice),false)
                 createButton.enabled = setStatusCreateButton(total.textValue , price.textValue)
             }
             onTextValueChanged: createButton.enabled = setStatusCreateButton(total.textValue, logicMainApp.tokenPrice)
@@ -353,11 +353,11 @@ DapRectangleLitAndShaded {
                 var currentWallet = dapModelWallets.get(logicMainApp.currentWalletIndex).name
 >>>>>>> 04b3a0bdd7e314a710a5aff7e1f5d26907280ca8
 
-                var amountBuy = isSell ? dapMath.coinsToBalance(total.textValue) :
-                                          dapMath.coinsToBalance(amount.textValue)
+                var amountBuy = isSell ? mathWorker.coinsToBalance(total.textValue) :
+                                          mathWorker.coinsToBalance(amount.textValue)
 
-                var amountSell = isSell ? dapMath.coinsToBalance(amount.textValue) :
-                                         dapMath.coinsToBalance(total.textValue)
+                var amountSell = isSell ? mathWorker.coinsToBalance(amount.textValue) :
+                                         mathWorker.coinsToBalance(total.textValue)
 
                 var priceValue = isSell? price.textValue : 1/price.textValue
 

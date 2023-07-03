@@ -242,75 +242,83 @@ QtObject {
         }
     }
 
-    function rcvWallets(walletList)
-    {
-        if(walletList == "isEqual")
-            return
+//    function rcvWallets(walletList)
+//    {
+//        if(walletList == "isEqual")
+//            return
 
 
-        var jsonDocument = JSON.parse(walletList)
+//        var jsonDocument = JSON.parse(walletList)
 
-        if(!jsonDocument)
-        {
-            dapModelWallets.clear()
-            return
-        }
+//        if(!jsonDocument)
+//        {
+//            dapModelWallets.clear()
+//            return
+//        }
 
 
 
-        dapModelWallets.clear()
-        dapModelWallets.append(jsonDocument)
+//        dapModelWallets.clear()
+//        dapModelWallets.append(jsonDocument)
 
-        console.log("rcvWallets", "currentWalletName", currentWalletName)
+//        console.log("rcvWallets", "currentWalletName", currentWalletName)
 
-        var nameIndex = -1
+//        var nameIndex = -1
 
-        for (var i = 0; i < dapModelWallets.count; ++i)
-        {
-            if (dapModelWallets.get(i).name === currentWalletName)
-                nameIndex = i
-        }
+//        for (var i = 0; i < dapModelWallets.count; ++i)
+//        {
+//            if (dapModelWallets.get(i).name === currentWalletName)
+//                nameIndex = i
+//        }
 
-        console.log("rcvWallets", "nameIndex", nameIndex)
+//        console.log("rcvWallets", "nameIndex", nameIndex)
 
-        if (nameIndex >= 0)
-            currentWalletIndex = nameIndex
+//        if (nameIndex >= 0)
+//            currentWalletIndex = nameIndex
 
-        if (currentWalletIndex < 0 && dapModelWallets.count > 0)
-            currentWalletIndex = 0
-        if (dapModelWallets.count < 0)
-            currentWalletIndex = -1
+//        if (currentWalletIndex < 0 && dapModelWallets.count > 0)
+//            currentWalletIndex = 0
+//        if (dapModelWallets.count < 0)
+//            currentWalletIndex = -1
 
-        modelWalletsUpdated()
-    }
+//        modelWalletsUpdated()
+//    }
 
-    function rcvWallet(wallet)
-    {
-        var jsonDocument = JSON.parse(wallet)
+//    function rcvWallet(wallet)
+//    {
+//        var jsonDocument = JSON.parse(wallet)
 
-        if(!jsonDocument)
-        {
-            dapModelWallets.clear()
-            return
-        }
+////        console.log("AAAAAAAAAAAAA", dapModelWallets.count, wallet)
 
-        for (var i = 0; i < dapModelWallets.count; ++i)
-        {
-            if (dapModelWallets.get(i).name === jsonDocument.name)
-            {
-                dapModelWallets.get(i).status = jsonDocument.status
+//        if(!jsonDocument || (!jsonDocument.status && !jsonDocument.networks.length))
+//        {
+//            dapModelWallets.clear()
+//            return
+//        }
 
-                if(jsonDocument.status === "" || jsonDocument.status === "Active")
-                {
-//                    console.log(jsonDocument.networks)
-                    dapModelWallets.get(i).networks.clear()
-                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
-//                    dapModelWallets.get(i).networks = jsonDocument.networks
-//                    console.log(dapModelWallets.get(i).networks)
-                }
-            }
-        }
-    }
+
+//        for (var i = 0; i < dapModelWallets.count; ++i)
+//        {
+//            if (dapModelWallets.get(i).name === jsonDocument.name)
+//            {
+//                dapModelWallets.set(i, jsonDocument)
+
+//                return
+
+
+////                dapModelWallets.get(i).status = jsonDocument.status
+
+////                if(jsonDocument.status === "" || jsonDocument.status === "Active")
+////                {
+//////                    console.log(jsonDocument.networks)
+////                    dapModelWallets.get(i).networks.clear()
+////                    dapModelWallets.get(i).networks.append(jsonDocument.networks)
+//////                    dapModelWallets.get(i).networks = jsonDocument.networks
+//////                    console.log(dapModelWallets.get(i).networks)
+////                }
+//            }
+//        }
+//    }
 
     function rcvOrders(orderList)
     {
@@ -466,35 +474,35 @@ QtObject {
         }
     }
 
-    function getAllWalletHistory(index, update, isLastActions)
-    {
+//    function getAllWalletHistory(index, update, isLastActions)
+//    {
 
-        if (index < 0 || index >= dapModelWallets.count)
-            return
+//        if (index < 0 || index >= dapModelWallets.count)
+//            return
 
-        var network_array = ""
+//        var network_array = ""
 
-        var name = dapModelWallets.get(index).name
+//        var name = dapModelWallets.get(index).name
 
-        var model = dapModelWallets.get(index).networks
+//        var model = dapModelWallets.get(index).networks
 
-        if(model)
-        {
-            for (var i = 0; i < model.count; ++i)
-            {
-                network_array += model.get(i).name + ":"
-                network_array += model.get(i).address + ":"
-                network_array += name + "/"
-            }
-            requestToService("DapGetAllWalletHistoryCommand",
-                             network_array, update ? "true": "false", isLastActions ? "true": "false")
-        }
-    }
+//        if(model)
+//        {
+//            for (var i = 0; i < model.count; ++i)
+//            {
+//                network_array += model.get(i).name + ":"
+//                network_array += model.get(i).address + ":"
+//                network_array += name + "/"
+//            }
+//            requestToService("DapGetAllWalletHistoryCommand",
+//                             network_array, update ? "true": "false", isLastActions ? "true": "false")
+//        }
+//    }
 
     function rcvWebConnectRequest(rcvData)
     {
         var data = JSON.parse(rcvData)
-        console.log(data, rcvData, data[0], data[1], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+//        console.log(data, rcvData, data[0], data[1], "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         var isEqual = false
         //filtering equeal sites requests
         for(var i = 0; i < dapMessageBuffer.count; i++)
@@ -561,9 +569,7 @@ QtObject {
         messagePopupVersion.dapButtonOk.textButton = "Update"
         messagePopupVersion.dapButtonCancel.textButton = "Cancel"
 
-        messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + currVer +"\n"+
-                                                   "Last version - " + lastVersion +"\n" +
-                                                   "Go to website to download?"))
+        messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), currVer, lastVersion, "")
     }
 
     function rcvReplyVersion()
@@ -571,7 +577,7 @@ QtObject {
         messagePopupVersion.dapButtonCancel.visible = false
         messagePopupVersion.dapButtonOk.textButton = "Ok"
 
-        messagePopupVersion.smartOpen("Dashboard update", qsTr("You have the latest version installed."))
+        messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), "", "", qsTr("You have the latest version installed."))
     }
 
     function updateDashboard()
@@ -581,14 +587,14 @@ QtObject {
 //        updatingDashboard("The update process has started.")
     }
 
-    function updatingDashboard(message)
-    {
-        messagePopupVersion.dapButtonCancel.visible = false
-        messagePopupVersion.dapButtonOk.textButton = "Ok"
-        messagePopupVersion.smartOpen("New version", qsTr(message))
+//    function updatingDashboard(message)
+//    {
+//        messagePopupVersion.dapButtonCancel.visible = false
+//        messagePopupVersion.dapButtonOk.textButton = "Ok"
+//        messagePopupVersion.smartOpen("New version", qsTr(message))
 
-        delay(5000,function() {Qt.quit()} )
-    }
+//        delay(5000,function() {Qt.quit()} )
+//    }
 
     function delay(delayTime, cb) {
         timer.interval = delayTime;
@@ -600,6 +606,31 @@ QtObject {
     function getDate(format){
         var date = new Date()
         return date.toLocaleString(Qt.locale("en_EN"),format)
+    }
+
+    function createRequestToService()
+    {
+        var service
+        var args = []
+
+        for(var i = 0; i < arguments.length; i++)
+        {
+            if(i == 0)
+                service = arguments[i]
+            else
+            {
+                args.push(arguments[i])
+            }
+        }
+
+        var count  = args.length ? 10 - args.length : 0
+        while(count)
+        {
+            args.push("");
+            count--;
+        }
+
+        return args;
     }
 
     function requestToService()

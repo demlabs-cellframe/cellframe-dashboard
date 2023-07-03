@@ -28,7 +28,7 @@ ColumnLayout
             font: mainFont.dapFont.bold14
             color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Linked")
+            text: qsTr("Connections")
         }
     }
 
@@ -46,7 +46,7 @@ ColumnLayout
             font: mainFont.dapFont.medium12
             color: currTheme.white
             verticalAlignment: Qt.AlignVCenter
-            text: qsTr("Linked with wallet")
+            text: qsTr("Connected with wallet")
         }
     }
 
