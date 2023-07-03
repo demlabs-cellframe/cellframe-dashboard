@@ -88,9 +88,11 @@ Item
     Connections
     {
         target: dapMainWindow
-        function onCheckWebRequest(page) {
-            if(page === settingsScreenPath)
+        function onCheckWebRequest() {
+            console.log(pathScreen, settingsScreenPath)
+            if(pathScreen === settingsScreenPath)
             {
+//                console.log(buttonDelegate.isPushed)
                 if(!buttonDelegate.isPushed)
                 {
                     mainButtonsList.currentIndex = index;

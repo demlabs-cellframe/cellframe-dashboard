@@ -141,7 +141,7 @@ Item {
                 onAccepted:
                 {
                     var ind = 0;
-                    importCertificate.import(importFileDialog.files[ind])
+                    certificatesModule.import(importFileDialog.files[ind])
                 }
             }
 

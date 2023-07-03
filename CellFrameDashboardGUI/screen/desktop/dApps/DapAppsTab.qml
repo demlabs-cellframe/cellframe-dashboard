@@ -29,16 +29,16 @@ DapPage {
 
         dapDownloadPanel.reloadButton.onClicked:
         {
-            pluginsManager.reloadDownload();
+            dAppsModule.reloadDownload();
         }
 
         dapDownloadPanel.canceledButton.onClicked:
         {
-            pluginsManager.cancelDownload();
+            dAppsModule.cancelDownload();
         }
         dapDownloadPanel.closeButton.onClicked:
         {
-            pluginsManager.cancelDownload();
+            dAppsModule.cancelDownload();
         }
     }
     onRightPanel: false
@@ -52,7 +52,7 @@ DapPage {
     }
 
     Connections{
-        target:pluginsManager
+        target: dAppsModule
         function onRcvProgressDownload(completed, error, progress, name, download, total, time, speed)
         {
             dAppsLogic.rcvProgressDownload(completed, error, progress, name, download, total, time, speed)
@@ -64,7 +64,7 @@ DapPage {
     }
 
     Component.onCompleted:{
-        pluginsManager.updatePluginsRepository()
+        dAppsModule.updatePluginsRepository()
         dAppsLogic.updateFiltrApps(dAppsScreen.currentFiltr)
     }
 }

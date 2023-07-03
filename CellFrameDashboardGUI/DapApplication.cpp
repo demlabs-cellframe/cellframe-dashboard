@@ -31,7 +31,6 @@ DapApplication::DapApplication(int &argc, char **argv)
     this->setWindowIcon(QIcon(":/Resources/icon.ico"));
 
     qDebug()<<QString(DAP_SERVICE_NAME);
-    createDapLogger();
 
 #ifdef Q_OS_ANDROID
     QAndroidIntent serviceIntent(QtAndroid::androidActivity().object(),
@@ -102,44 +101,6 @@ DapApplication::~DapApplication()
     qDebug() << "DapApplication::~DapApplication" << "disconnectAll";
 
     m_serviceController->disconnectAll();
-}
-
-void DapApplication::createDapLogger()
-{
-  DapLogger *dapLogger = new DapLogger (QApplication::instance(), "GUI");
-  QString logPath = DapDataLocal::instance()->getLogFilePath();
-
-#if defined(QT_DEBUG) && defined(ANDROID)
-  DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QApplication::instance());
-
-  QObject::connect (logHandlerGui, &DapLogHandler::logChanged, [logHandlerGui]()
-  {
-    for (QString &msg : logHandlerGui->request())
-#ifdef ANDROID
-      __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "*** Gui ***", "%s\n", qPrintable (msg));
-#else
-      std::cout << ":=== Srv ===" << qPrintable (msg) << "\n";
-#endif
-
-  });
-#endif
-
-#ifdef QT_DEBUG
-  logPath = DapLogger::currentLogFilePath (DAP_BRAND, "GUI");
-  DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QApplication::instance());
-
-  QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()
-  {
-    for (QString &msg : serviceLogHandler->request())
-      {
-#ifdef ANDROID
-        __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "=== Srv ===", "%s\n", qPrintable (msg));
-#else
-        std::cout << "=== Srv ===" << qPrintable (msg) << "\n";
-#endif
-      }
-  });
-#endif
 }
 
 DapNetworksList *DapApplication::networks()

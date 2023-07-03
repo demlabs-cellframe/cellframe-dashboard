@@ -2,6 +2,7 @@
 #define DAPMODULECERTIFICATES_H
 
 #include <QObject>
+#include <QWidget>
 #include <QDebug>
 
 #include "DapServiceController.h"
@@ -12,11 +13,19 @@ class DapModuleCertificates : public DapAbstractModule
 {
     Q_OBJECT
 public:
-    explicit DapModuleCertificates(DapModulesController * modulesCtrl, DapAbstractModule *parent = nullptr);
+    explicit DapModuleCertificates(DapModulesController *parent);
+    Q_INVOKABLE void import(QString);
+
 
 private:
-    DapServiceController  *s_serviceCtrl;
-    DapModulesController  *s_modulesCtrl;
+    DapModulesController  *m_modulesCtrl;
+    QString m_pathCert;
+    QString m_filePrefix;
+
+//public slots:
+
+signals:
+    void signalImportFinished(QVariant status);
 };
 
 #endif // DAPMODULECERTIFICATES_H

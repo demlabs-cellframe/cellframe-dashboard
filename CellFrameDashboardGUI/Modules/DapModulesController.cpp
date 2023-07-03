@@ -63,12 +63,12 @@ void DapModulesController::initModules()
     addModule("walletModule", new DapModuleWallet(this));
 //    addModule("dexModule", new DapModuleDex(s_modulesCtrl));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
-//    addModule("certificatesModule", new DapModuleCertificates(s_modulesCtrl));
+    addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
     addModule("consoleModule", new DapModuleConsole(this));
     addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
-//    addModule("dAppsModule", new DapModuledApps(s_modulesCtrl));
+    addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("testModule", new DapModuleTest(this));
 

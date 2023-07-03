@@ -41,8 +41,6 @@ public:
 
     ~DapApplication();
 
-    void createDapLogger();
-
     DapNetworksList *networks();
 
     QQmlApplicationEngine *qmlEngine();

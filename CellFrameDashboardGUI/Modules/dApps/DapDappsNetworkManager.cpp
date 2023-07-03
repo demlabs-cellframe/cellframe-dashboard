@@ -1,6 +1,6 @@
-#include "DapNetworkManager.h"
+#include "DapDappsNetworkManager.h"
 
-DapNetworkManager::DapNetworkManager(QString path, QString pathPlugins, QWidget *parent)
+DapDappsNetworkManager::DapDappsNetworkManager(QString path, QString pathPlugins, QWidget *parent)
     : QWidget{parent}
 {
     m_path = path;
@@ -11,7 +11,7 @@ DapNetworkManager::DapNetworkManager(QString path, QString pathPlugins, QWidget 
     connect(m_reconnectTimer, SIGNAL(timeout()), this, SLOT(onReconnect()));
 }
 
-void DapNetworkManager::downloadFile(QString name)
+void DapDappsNetworkManager::downloadFile(QString name)
 {
     QNetworkRequest request;
     request.setUrl(QUrl(m_path + name));
@@ -46,13 +46,13 @@ void DapNetworkManager::downloadFile(QString name)
     m_currentReply = m_networkManager->get(request);
 
     m_file->open(QIODevice::ReadWrite | QIODevice::Append);
-    connect(m_currentReply, &QNetworkReply::finished,this, &DapNetworkManager::onDownloadCompleted);
-    connect(m_currentReply, &QNetworkReply::readyRead, this, &DapNetworkManager::onReadyRead);
-    connect(m_currentReply, &QNetworkReply::downloadProgress, this, &DapNetworkManager::onDownloadProgress);
+    connect(m_currentReply, &QNetworkReply::finished,this, &DapDappsNetworkManager::onDownloadCompleted);
+    connect(m_currentReply, &QNetworkReply::readyRead, this, &DapDappsNetworkManager::onReadyRead);
+    connect(m_currentReply, &QNetworkReply::downloadProgress, this, &DapDappsNetworkManager::onDownloadProgress);
     connect(m_currentReply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(onDownloadError(QNetworkReply::NetworkError)));
 }
 
-void DapNetworkManager::onDownloadCompleted()
+void DapDappsNetworkManager::onDownloadCompleted()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
@@ -65,10 +65,10 @@ void DapNetworkManager::onDownloadCompleted()
         m_file->close();
         m_fileName = "";
 
-        emit downloadCompleted(path);
+        emit sigDownloadCompleted(path);
     }
     else if(statusCode.toInt() == 416) // file download
-        emit downloadCompleted(path);
+        emit sigDownloadCompleted(path);
 
     qInfo()<<"Reply finished. Status code: " << statusCode.toInt();
 
@@ -76,16 +76,16 @@ void DapNetworkManager::onDownloadCompleted()
     m_file->deleteLater();
 }
 
-void DapNetworkManager::onReadyRead()
+void DapDappsNetworkManager::onReadyRead()
 {
     m_error = "Connected";
     if(m_file->exists())
     {
-       if(m_currentReply->size())
-       {
-           QByteArray data = m_currentReply->readAll();
-           m_file->write(data);
-       }
+        if(m_currentReply->size())
+        {
+            QByteArray data = m_currentReply->readAll();
+            m_file->write(data);
+        }
     }
     else
     {
@@ -94,7 +94,7 @@ void DapNetworkManager::onReadyRead()
     }
 }
 
-void DapNetworkManager::onDownloadProgress(quint64 load, quint64 total)
+void DapDappsNetworkManager::onDownloadProgress(quint64 load, quint64 total)
 {
     quint64 prog;
     quint64 tot;
@@ -114,10 +114,10 @@ void DapNetworkManager::onDownloadProgress(quint64 load, quint64 total)
         prog = 0;
     }
 
-    emit downloadProgress(prog, tot, m_fileName, m_error);
+    emit sigDownloadProgress(prog, tot, m_fileName, m_error);
 }
 
-void DapNetworkManager::cancelDownload(bool ok, bool reload)
+void DapDappsNetworkManager::cancelDownload(bool ok, bool reload)
 {
     if(m_currentReply)
     {
@@ -127,7 +127,7 @@ void DapNetworkManager::cancelDownload(bool ok, bool reload)
             m_currentReply->abort();
 
         if(!reload)
-            emit aborted();
+            emit sigAborted();
         if(ok)
         {
             m_reconnectTimer->stop();
@@ -138,7 +138,7 @@ void DapNetworkManager::cancelDownload(bool ok, bool reload)
     }
 }
 
-void DapNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
+void DapDappsNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
 {
     QVariant statusCode = m_currentReply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
     if(!(statusCode.toInt() == 416)) // !file download
@@ -152,17 +152,17 @@ void DapNetworkManager::onDownloadError(QNetworkReply::NetworkError code)
         }
 
         onDownloadProgress(0,0);
-//        else
-    }
+        //        else
+        }
 }
 
-void DapNetworkManager::onReconnect()
+void DapDappsNetworkManager::onReconnect()
 {
     m_reconnectTimer->stop();
     downloadFile(m_fileName);
 }
 
-void DapNetworkManager::uploadFile()
+void DapDappsNetworkManager::uploadFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Get Any file");
     m_file = new QFile(fileName);
@@ -178,7 +178,7 @@ void DapNetworkManager::uploadFile()
     }
 }
 
-void DapNetworkManager::onUploadCompleted(QNetworkReply *reply)
+void DapDappsNetworkManager::onUploadCompleted(QNetworkReply *reply)
 {
     if (!reply->error())
         qDebug()<< "good";
@@ -190,14 +190,14 @@ void DapNetworkManager::onUploadCompleted(QNetworkReply *reply)
     reply->deleteLater();
 }
 
-void DapNetworkManager::getFiles()
+void DapDappsNetworkManager::getFiles()
 {
     QNetworkReply *reply;
     reply = m_networkManager->get(QNetworkRequest(QUrl(m_path)));
     connect(reply, SIGNAL(finished()),this,SLOT(onFilesReceived()));
 }
 
-void DapNetworkManager::onFilesReceived()
+void DapDappsNetworkManager::onFilesReceived()
 {
     QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 
@@ -221,5 +221,5 @@ void DapNetworkManager::onFilesReceived()
 
     reply->deleteLater();
 
-    emit filesReceived();
+    emit sigFilesReceived();
 }
