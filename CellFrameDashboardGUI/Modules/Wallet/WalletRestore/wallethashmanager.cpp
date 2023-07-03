@@ -26,7 +26,7 @@ void WalletHashManager::generateNewWords(QString pass)
 
     getHashForWords(pass);
 
-    qDebug() << "WalletHashManager::generateNewWords" << currentWords;
+//    qDebug() << "WalletHashManager::generateNewWords" << currentWords;
 
     updateWordsModelAndHash();
 }
@@ -37,7 +37,7 @@ void WalletHashManager::clearWords()
     currentWords.clear();
     currentHash.clear();
 
-    qDebug() << "WalletHashManager::clearWords" << currentWords;
+//    qDebug() << "WalletHashManager::clearWords" << currentWords;
 
     updateWordsModelAndHash();
 }
@@ -54,14 +54,14 @@ void WalletHashManager::getHashForWords(QString pass)
 
     currentHash = "0x" + cryptographicHash.result().toHex();
 
-    qDebug() << "WalletHashManager::getHashForWords" << currentHash;
+//    qDebug() << "WalletHashManager::getHashForWords" << currentHash;
 }
 
 void WalletHashManager::copyWordsToClipboard()
 {
     QString allWords = currentWords.join(" ");
 
-    qDebug() << "WalletHashManager::copyWordsToClipboard" << allWords;
+//    qDebug() << "WalletHashManager::copyWordsToClipboard" << allWords;
 
     clipboard->setText(allWords);
 }
@@ -83,7 +83,7 @@ void WalletHashManager::pasteWordsFromClipboard(QString pass)
     else
         getHashForWords(pass);
 
-    qDebug() << "WalletHashManager::pasteWordsFromClipboard" << currentWords;
+//    qDebug() << "WalletHashManager::pasteWordsFromClipboard" << currentWords;
 
 
     updateWordsModelAndHash();
@@ -109,7 +109,7 @@ void WalletHashManager::getHashForFile(QString pass)
 
     currentHash = "0x" + cryptographicHash.result().toHex();
 
-    qDebug() << "WalletHashManager::getHashForFile" << currentHash;
+//    qDebug() << "WalletHashManager::getHashForFile" << currentHash;
 }
 
 void WalletHashManager::saveFile(const QString &fileName)
@@ -122,7 +122,7 @@ void WalletHashManager::saveFile(const QString &fileName)
     tempName.remove("file://");
     #endif
 
-    qDebug() << "WalletHashManager::saveFile" << tempName;
+//    qDebug() << "WalletHashManager::saveFile" << tempName;
 
     if (!randomFile.saveDataToFile(tempName, currentData))
         emit fileError();
@@ -140,7 +140,7 @@ void WalletHashManager::openFile(const QString &fileName, QString pass)
     tempName.remove("file://");
     #endif
 
-    qDebug() << "WalletHashManager::openFile" << tempName;
+//    qDebug() << "WalletHashManager::openFile" << tempName;
 
     QByteArray data = randomFile.loadDataFromFile(tempName);
 

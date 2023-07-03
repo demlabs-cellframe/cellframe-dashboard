@@ -36,7 +36,7 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
 {
     QJsonObject objRes = result.toJsonObject();
 
-    qDebug()<<objRes["message"].toString();
+//    qDebug()<<objRes["message"].toString();
 
     if(objRes["message"].toString().contains("error"))
     {
@@ -50,6 +50,7 @@ void DapModuleSettings::rcvVersionInfo(const QVariant& result)
     else
     {
 //        objRes["hasUpdate"] = true;
+//        emit sigVersionInfo(objRes);
         emit sigVersionInfo(result);
         m_guiVersionRequest = false;
         emit guiRequestChanged();
@@ -100,5 +101,5 @@ void DapModuleSettings::resultCrearData(const QVariant& result)
     m_clearDataProcessing = false;
     clearDataProcessingChanged();
 //    emit sigNodeDataRemoved();
-    qDebug()<<result;
+//    qDebug()<<result;
 }

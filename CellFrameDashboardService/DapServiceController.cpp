@@ -91,7 +91,7 @@ bool DapServiceController::start()
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
     watcher = new DapNotificationWatcher(this);
-    m_syncControll = new DapNetSyncController(watcher, this);
+//    m_syncControll = new DapNetSyncController(watcher, this);
     m_web3Controll = new DapWebControll(this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID

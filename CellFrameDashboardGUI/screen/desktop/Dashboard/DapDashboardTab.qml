@@ -227,12 +227,23 @@ DapPage
                 }
             }
             walletsUpdated()
-            logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
+
+            var item = dapModelWallets.get(modulesController.currentWalletIndex);
+            if(modulesController.currentWalletIndex >= 0 && item.status)
+                logicWallet.walletStatus = item.status || ""
         }
         function onSigWalletInfo(model)
         {
+
+            var item = dapModelWallets.get(modulesController.currentWalletIndex);
+
+//            console.log(modulesController.currentWalletIndex, item.status)
+
             logicWallet.updateWallet(model)
-            logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
+
+            if(modulesController.currentWalletIndex >= 0 && item.status)
+                logicWallet.walletStatus = item.status || ""
+
         }
     }
 

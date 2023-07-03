@@ -337,6 +337,7 @@ Item{
                 {
                     logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"activate", textInputPasswordWallet.text, ttl)
                     walletModule.getWalletsInfo("true")
+                    modulesController.getWalletList()
 //                    activatingSignal(nameWallet)
 
 //                    hide()

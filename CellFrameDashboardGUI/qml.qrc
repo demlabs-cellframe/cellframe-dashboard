@@ -322,5 +322,16 @@
         <file>Resources/BlackTheme/icons/other/icon_link.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_linkHover.svg</file>
         <file>Modules/Wallet/WalletRestore/english_words.txt</file>
+        <file>screen/desktop/controls/DapVersionPopup.qml</file>
+        <file>screen/desktop/Logs/SelectorItem.qml</file>
+        <file>screen/desktop/Logs/fillModelScript.js</file>
+        <file>Resources/BlackTheme/icons/other/icon_copy_white.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_copy_black.svg</file>
+        <file>screen/desktop/Logs/DapExportPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_reload.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_pause.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_reload_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_pause_hover.svg</file>
+        <file>screen/desktop/Dashboard/DapWalletComboBox.qml</file>
     </qresource>
 </RCC>

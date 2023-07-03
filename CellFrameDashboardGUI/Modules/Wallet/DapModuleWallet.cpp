@@ -118,7 +118,8 @@ void DapModuleWallet::rcvHistory(const QVariant &rcvData)
 void DapModuleWallet::slotUpdateWallet()
 {
 //    qDebug()<<"slotUpdateWallet";
-    if(m_modulesCtrl->m_walletList.isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
+    QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+    if(doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
         return ;
 
     m_timerUpdateWallet->stop();

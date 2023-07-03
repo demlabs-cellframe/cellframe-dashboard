@@ -99,8 +99,7 @@ DapRectangleLitAndShaded {
                 delegate:
                     ColumnLayout{
                         id: delegateItem
-                        anchors.left: parent.left
-                        anchors.right: parent.right
+                        width: view.width
 //                        height: preferredHeight
 //                        height: 133
                         z: 10

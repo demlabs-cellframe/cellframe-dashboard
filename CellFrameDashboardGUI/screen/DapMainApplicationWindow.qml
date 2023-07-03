@@ -82,7 +82,7 @@ Rectangle {
 //        id: messageWebConnect
 //        onSignalAccept: webControl.rcvAccept(accept, index)
 //    }
-    DapMessagePopup
+    DapVersionPopup
     {
         id: messagePopupVersion
 
@@ -378,6 +378,7 @@ Rectangle {
                     model: modelMenuTab
 
                     delegate: DapMenuButton {
+                        pathScreen: page
                         onPushPage: {
                             if(pageUrl !== mainScreenStack.currPage)
                                 mainScreenStack.setInitialItem(pageUrl)
@@ -478,7 +479,7 @@ Rectangle {
 
 
 
-        pluginsManager.getListPlugins();
+        dAppsModule.getListPlugins();
 
         if (logicMainApp.menuTabStates)
             logicMainApp.loadSettingsTab()
@@ -616,7 +617,7 @@ Rectangle {
 //    }
 
     Connections{
-        target: pluginsManager
+        target: dAppsModule
         function onRcvListPlugins(m_pluginsList)
         {
             console.log("onRcvListPlugins")

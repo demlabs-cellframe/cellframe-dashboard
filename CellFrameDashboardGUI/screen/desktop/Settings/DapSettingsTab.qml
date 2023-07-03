@@ -97,15 +97,13 @@ DapPage
             {
                 if(versionResult.message === "Service not found")
                 {
-                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
+                    messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), "", "", qsTr("Service not found"))
                 }
                 else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
                 else if(versionResult.message !== "" && versionResult.hasUpdate)
                 {
-                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + settingsModule.dashboardVersion +"\n"+
-                                                                           "Last version - " + versionResult.lastVersion +"\n" +
-                                                                           "Go to website to download?"))
+                    messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), settingsModule.dashboardVersion, versionResult.lastVersion, "")
                 }
             }
         }

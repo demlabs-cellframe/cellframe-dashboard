@@ -60,6 +60,7 @@ DapPage
                 currentString = text
                 txExplorerModule.setFilterString(text)
             }
+
         }
 
     dapScreen.initialItem: DapHistoryScreen
@@ -101,6 +102,7 @@ DapPage
 
     Component.onCompleted:
     {
+        txExplorerModule.setFilterString("")
         txExplorerModule.setCurrentStatus(currentStatus)
         txExplorerModule.setLastActions(false)
         logicExplorer.historyUpdate()

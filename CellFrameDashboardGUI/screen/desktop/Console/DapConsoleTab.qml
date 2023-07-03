@@ -29,8 +29,8 @@ DapPage
             onRunCommand:
             {
                 isConsoleRequest = true
-                logicMainApp.requestToService("DapRunCmdCommand", command, "isConsole");
-                logicMainApp.notifyService("DapSaveHistoryExecutedCmdCommand", command);
+
+                consoleModule.runCommand(command)
             }
         }
 
@@ -46,15 +46,6 @@ DapPage
     Connections
     {
         target: dapServiceController
-        function onCmdRunned(asAnswer)
-        {
-            if (isConsoleRequest)
-            {
-                consoleScreen.dapModelConsoleCommand.append({query: asAnswer[0], response: asAnswer[1]});
-                isConsoleRequest = false
-                consoleScreen.listView.positionViewAtEnd()
-            }
-        }
         function onHistoryExecutedCmdReceived(aHistory)
         {
             for(var x=0; x < aHistory.length; ++x)

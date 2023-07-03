@@ -17,6 +17,10 @@
 
 #include "Test/DapModuleTest.h"
 
+#include "Models/DapWalletListModel.h"
+
+static DapAbstractWalletList * m_walletListModel = DapWalletListModel::global();
+
 DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QObject *parent)
     : QObject(parent)
     , s_appEngine(appEngine)
@@ -59,16 +63,18 @@ void DapModulesController::initModules()
     addModule("walletModule", new DapModuleWallet(this));
 //    addModule("dexModule", new DapModuleDex(s_modulesCtrl));
     addModule("txExplorerModule", new DapModuleTxExplorer(this));
-//    addModule("certificatesModule", new DapModuleCertificates(s_modulesCtrl));
+    addModule("certificatesModule", new DapModuleCertificates(this));
 //    addModule("tokensModule", new DapModuleTokens(s_modulesCtrl));
-//    addModule("consoleModule", new DapModuleConsole(s_modulesCtrl));
-//    addModule("logsModule", new DapModuleLogs(s_modulesCtrl));
+    addModule("consoleModule", new DapModuleConsole(this));
+    addModule("logsModule", new DapModuleLog(this));
     addModule("settingsModule", new DapModuleSettings(this));
-//    addModule("dAppsModule", new DapModuledApps(s_modulesCtrl));
+    addModule("dAppsModule", new DapModuledApps(this));
     addModule("diagnosticsModule", new DapModuleDiagnostics(this));
     addModule("testModule", new DapModuleTest(this));
 
     s_appEngine->rootContext()->setContextProperty("diagnosticNodeModel", DapDiagnosticModel::global());
+    s_appEngine->rootContext()->setContextProperty("walletListModel", m_walletListModel);
+
     s_appEngine->rootContext()->setContextProperty("modulesController", this);
 }
 
@@ -102,22 +108,28 @@ DapAbstractModule *DapModulesController::getModule(const QString &key)
 
 void DapModulesController::getWalletList()
 {
-    s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
+    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
 }
 
 void DapModulesController::getNetworkList()
 {
-    s_serviceCtrl->requestToService("DapGetListWalletsCommand","");
+    s_serviceCtrl->requestToService("DapGetListNetworksCommand","");
 }
 
 void DapModulesController::rcvWalletList(const QVariant &rcvData)
 {
 //    qDebug()<<"rcvWalletList";
-    if(rcvData.toList().isEmpty() || m_walletList != rcvData.toList())
+    QJsonDocument doc = QJsonDocument::fromJson(rcvData.toByteArray());
+
+    if(doc.array().isEmpty())
+        setCurrentWalletIndex(-1);
+
+    if(m_walletList != doc.toJson())
     {
         if(m_walletList.isEmpty() && m_currentWalletName.isEmpty())
         {
-            m_walletList = rcvData.toList();
+            m_walletList = doc.toJson();
+            DapWalletListModel().setModel(&doc);
 
             //--------------------------------------//
             /* The first load of the settings.
@@ -134,7 +146,10 @@ void DapModulesController::rcvWalletList(const QVariant &rcvData)
             //--------------------------------------//
         }
         else
-            m_walletList = rcvData.toList();
+        {
+            m_walletList = doc.toJson();
+            DapWalletListModel().setModel(&doc);
+        }
 
         restoreIndex();
         static_cast<DapModuleWallet*>(m_listModules.value("walletModule"))
@@ -155,13 +170,23 @@ void DapModulesController::rcvNetList(const QVariant &rcvData)
 void DapModulesController::setCurrentWalletIndex(int newIndex)
 {
 //    qDebug()<<"setCurrentWalletIndex";
-    if(m_walletList.count() - 1 < newIndex
-        || m_walletList.isEmpty()
-        || newIndex == m_currentWalletIndex)
-        return ;
 
-    m_currentWalletIndex = newIndex;
-    m_currentWalletName = m_walletList.at(newIndex).toString();
+    if(newIndex == -1)
+    {
+        m_currentWalletIndex = newIndex;
+        m_currentWalletName = "";
+    }
+    else
+    {
+        if(m_walletListModel->size() - 1 < newIndex
+            || m_walletListModel->isEmpty()
+            || (newIndex == m_currentWalletIndex &&
+               m_walletListModel->at(newIndex).name == m_currentWalletName))
+            return ;
+
+        m_currentWalletIndex = newIndex;
+        m_currentWalletName = m_walletListModel->at(newIndex).name;
+    }
 
     s_settings->setValue("walletName", m_currentWalletName);
     emit currentWalletIndexChanged();
@@ -176,11 +201,12 @@ void DapModulesController::restoreIndex()
 
     if(!prevName.isEmpty())
     {
-        for(int i = 0; i < m_walletList.count(); i++)
+        for(int i = 0; i < m_walletListModel->size(); i++)
         {
-            if(m_walletList.at(i).toString() == prevName)
+            if(m_walletListModel->at(i).name == prevName)
             {
-                setCurrentWalletIndex(i);
+                if(i != m_currentWalletIndex)
+                    setCurrentWalletIndex(i);
                 return ;
             }
         }

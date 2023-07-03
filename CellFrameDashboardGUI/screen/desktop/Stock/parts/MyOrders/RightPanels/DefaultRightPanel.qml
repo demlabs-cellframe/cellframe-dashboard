@@ -287,6 +287,8 @@ Item
                 selected: true
                 onClicked:
                 {
+                    resetButtons()
+
                     button1Day.selected = true
                     button1Week.selected = false
                     button1Month.selected = false
@@ -310,6 +312,8 @@ Item
                 selected: false
                 onClicked:
                 {
+                    resetButtons()
+
                     button1Day.selected = false
                     button1Week.selected = true
                     button1Month.selected = false
@@ -333,6 +337,8 @@ Item
                 selected: false
                 onClicked:
                 {
+                    resetButtons()
+
                     button1Day.selected = false
                     button1Week.selected = false
                     button1Month.selected = true
@@ -366,6 +372,8 @@ Item
                 selected: false
                 onClicked:
                 {
+                    resetButtons()
+
                     button1Day.selected = false
                     button1Week.selected = false
                     button1Month.selected = false
@@ -389,6 +397,8 @@ Item
                 selected: false
                 onClicked:
                 {
+                    resetButtons()
+
                     button1Day.selected = false
                     button1Week.selected = false
                     button1Month.selected = false
@@ -412,6 +422,8 @@ Item
                 selected: false
                 onClicked:
                 {
+                    resetButtons()
+
                     button1Day.selected = false
                     button1Week.selected = false
                     button1Month.selected = false
@@ -513,6 +525,23 @@ Item
             Layout.fillHeight: true
             color: "transparent"
         }
+    }
+
+    function resetButtons(){
+        button1Day  .focus = false
+        button1Week .focus = false
+        button1Month.focus = false
+        button3Month.focus = false
+        button6Month.focus = false
+        button1Year .focus = false
+
+        button1Day.selected = false
+        button1Week.selected = false
+        button1Month.selected = false
+        button3Month.selected = false
+        button6Month.selected = false
+        button1Year.selected = false
+
     }
 
     Connections{

@@ -34,8 +34,8 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
 
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 {
-    qDebug() << "DapModuleTxExplorer::setHistoryModel"
-             << "isEqual" << (rcvData.toString() == "isEqual");
+//    qDebug() << "DapModuleTxExplorer::setHistoryModel"
+//             << "isEqual" << (rcvData.toString() == "isEqual");
 
     if(rcvData.toString() == "isEqual")
         return;
@@ -57,15 +57,15 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
         return;
     }
 
-    qDebug() << "walletName" << doc["walletName"].toString()
-            << "isLastActions" << doc["isLastActions"].toBool();
+//    qDebug() << "walletName" << doc["walletName"].toString()
+//            << "isLastActions" << doc["isLastActions"].toBool();
 
 //    historyModel.clear();
     fullModel.clear();
 
     QJsonArray historyArray = doc["history"].toArray();
 
-    qDebug() << "historyArray.size()" << historyArray.size();
+//    qDebug() << "historyArray.size()" << historyArray.size();
 
     for(auto i = 0; i < historyArray.size(); i++)
     {
@@ -137,7 +137,7 @@ void DapModuleTxExplorer::clearHistory()
 
 void DapModuleTxExplorer::setLastActions(bool flag)
 {
-    qDebug() << "DapModuleTxExplorer::setLastActions" << flag;
+//    qDebug() << "DapModuleTxExplorer::setLastActions" << flag;
 
     if (m_isLastActions != flag)
     {
@@ -149,7 +149,7 @@ void DapModuleTxExplorer::setLastActions(bool flag)
 
 void DapModuleTxExplorer::setWalletName(QString str)
 {
-    qDebug() << "DapModuleTxExplorer::setWalletName" << str;
+//    qDebug() << "DapModuleTxExplorer::setWalletName" << str;
 
     if (m_walletName != str)
     {
@@ -162,7 +162,7 @@ void DapModuleTxExplorer::setWalletName(QString str)
 
 void DapModuleTxExplorer::setCurrentStatus(QString str)
 {
-    qDebug() << "DapModuleTxExplorer::setCurrentStatus" << str;
+//    qDebug() << "DapModuleTxExplorer::setCurrentStatus" << str;
 
     if (m_currentStatus != str)
     {
@@ -174,7 +174,7 @@ void DapModuleTxExplorer::setCurrentStatus(QString str)
 
 void DapModuleTxExplorer::setFilterString(QString str)
 {
-    qDebug() << "DapModuleTxExplorer::setFilterString" << str;
+//    qDebug() << "DapModuleTxExplorer::setFilterString" << str;
 
     if (m_filterString != str)
     {
@@ -186,7 +186,7 @@ void DapModuleTxExplorer::setFilterString(QString str)
 
 void DapModuleTxExplorer::setCurrentPeriod(QVariant str)
 {
-    qDebug() << "DapModuleTxExplorer::setCurrentPeriod" << str;
+//    qDebug() << "DapModuleTxExplorer::setCurrentPeriod" << str;
 
     if (m_currentPeriod != str.toStringList()[0] || m_isRange != (str.toStringList()[1] == "true" ))
     {
@@ -249,9 +249,9 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
         }
     }
 
-    qDebug() << "DapModuleTxExplorer::sendCurrentHistoryModel"
-             << "lastDate" << lastDate
-             << "prevDate" << prevDate;
+//    qDebug() << "DapModuleTxExplorer::sendCurrentHistoryModel"
+//             << "lastDate" << lastDate
+//             << "prevDate" << prevDate;
 
     bool lastDateUsed = false;
     bool prevDateUsed = false;
@@ -314,7 +314,7 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
 
                     QString fstr = str.toLower();
 
-                    if(item.network.isEmpty() || item.token.isEmpty() || item.tx_status.isEmpty() ||
+                    if(item.network.isEmpty() || ( item.token.isEmpty() && item.tx_status != "PROCESSING") || item.tx_status.isEmpty() ||
                        item.status.isEmpty() || item.value.isEmpty() || item.date.isEmpty())
                         return false;
 
@@ -381,6 +381,10 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
+    QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+    if(doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
+        return ;
+
     m_timerHistoryUpdate->stop();
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
     m_timerHistoryUpdate->start(5000);

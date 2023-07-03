@@ -26,7 +26,8 @@ public:
 
     DapServiceController *s_serviceCtrl;
 
-    QVariantList m_netList, m_walletList;
+    QVariantList m_netList;
+    QByteArray m_walletList;
     int m_currentWalletIndex{-1};
     QString m_currentWalletName{""};
 
@@ -65,8 +66,8 @@ private:
     bool m_firstDataLoad{false};
 
 public slots:
-    void getWalletList();
-    void getNetworkList();
+    Q_INVOKABLE void getWalletList();
+    Q_INVOKABLE void getNetworkList();
 
 private slots:
 

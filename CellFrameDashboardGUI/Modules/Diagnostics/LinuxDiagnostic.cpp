@@ -129,7 +129,7 @@ QString LinuxDiagnostic::get_running(char* pid)
 
     c = cp[2];
     close(fd);
-    qDebug()<<c;
+//    qDebug()<<c;
 
     if (c=='R') {
       return "running";

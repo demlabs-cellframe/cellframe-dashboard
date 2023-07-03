@@ -569,9 +569,7 @@ QtObject {
         messagePopupVersion.dapButtonOk.textButton = "Update"
         messagePopupVersion.dapButtonCancel.textButton = "Cancel"
 
-        messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + currVer +"\n"+
-                                                   "Last version - " + lastVersion +"\n" +
-                                                   "Go to website to download?"))
+        messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), currVer, lastVersion, "")
     }
 
     function rcvReplyVersion()
@@ -579,7 +577,7 @@ QtObject {
         messagePopupVersion.dapButtonCancel.visible = false
         messagePopupVersion.dapButtonOk.textButton = "Ok"
 
-        messagePopupVersion.smartOpen("Dashboard update", qsTr("You have the latest version installed."))
+        messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), "", "", qsTr("You have the latest version installed."))
     }
 
     function updateDashboard()
@@ -589,14 +587,14 @@ QtObject {
 //        updatingDashboard("The update process has started.")
     }
 
-    function updatingDashboard(message)
-    {
-        messagePopupVersion.dapButtonCancel.visible = false
-        messagePopupVersion.dapButtonOk.textButton = "Ok"
-        messagePopupVersion.smartOpen("New version", qsTr(message))
+//    function updatingDashboard(message)
+//    {
+//        messagePopupVersion.dapButtonCancel.visible = false
+//        messagePopupVersion.dapButtonOk.textButton = "Ok"
+//        messagePopupVersion.smartOpen("New version", qsTr(message))
 
-        delay(5000,function() {Qt.quit()} )
-    }
+//        delay(5000,function() {Qt.quit()} )
+//    }
 
     function delay(delayTime, cb) {
         timer.interval = delayTime;

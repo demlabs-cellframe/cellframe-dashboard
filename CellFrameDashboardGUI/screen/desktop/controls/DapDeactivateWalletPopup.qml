@@ -181,6 +181,7 @@ Item{
                 {
                     logicMainApp.requestToService("DapWalletActivateOrDeactivateCommand", nameWallet,"deactivate", textInputPasswordWallet.text)
                     walletModule.getWalletsInfo("true")
+                    modulesController.getWalletList()
                 }
             }
 
