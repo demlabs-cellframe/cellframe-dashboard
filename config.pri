@@ -69,8 +69,7 @@ unix {
 	    -Wno-unused-function \
 	    -Wno-implicit-fallthrough \
 	    -Wno-unused-variable \
-	    -Wno-unused-parameter \
-	    -Wno-unused-but-set-variable
+            -Wno-unused-parameter
 
         QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing -gdwarf-2
 	QMAKE_CXXFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing -gdwarf-2
