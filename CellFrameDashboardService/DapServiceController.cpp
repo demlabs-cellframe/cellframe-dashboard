@@ -1,4 +1,49 @@
 #include "DapServiceController.h"
+
+#include "handlers/DapAbstractCommand.h"
+#include "handlers/DapQuitApplicationCommand.h"
+#include "handlers/DapActivateClientCommand.h"
+#include "handlers/DapUpdateLogsCommand.h"
+#include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapGetListNetworksCommand.h"
+#include "handlers/DapGetNetworkStatusCommand.h"
+#include "handlers/DapNetworkGoToCommand.h"
+#include "handlers/DapGetWalletInfoCommand.h"
+#include "handlers/DapGetWalletsInfoCommand.h"
+#include "handlers/DapGetWalletAddressesCommand.h"
+#include "handlers/DapExportLogCommand.h"
+#include "handlers/DapGetWalletTokenInfoCommand.h"
+#include "handlers/DapCreateTransactionCommand.h"
+#include "handlers/DapMempoolProcessCommand.h"
+#include "handlers/DapGetWalletHistoryCommand.h"
+#include "handlers/DapGetAllWalletHistoryCommand.h"
+#include "handlers/DapRunCmdCommand.h"
+#include "handlers/DapGetHistoryExecutedCmdCommand.h"
+#include "handlers/DapSaveHistoryExecutedCmdCommand.h"
+#include "handlers/DapCertificateManagerCommands.h"
+#include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetNetworksStateCommand.h"
+#include "handlers/DapNetworkSingleSyncCommand.h"
+#include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapVersionController.h"
+#include "handlers/DapRcvNotify.h"
+#include "handlers/DapNodeConfigController.h"
+#include "handlers/DapGetListTokensCommand.h"
+#include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapTokenEmissionCommand.h"
+#include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
+#include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapXchangeOrderPurchase.h"
+#include "handlers/DapGetXchangeOrdersList.h"
+#include "handlers/DapGetXchangeTokenPair.h"
+#include "handlers/DapGetXchangeTokenPriceAverage.h"
+#include "handlers/DapGetXchangeTokenPriceHistory.h"
+#include "handlers/DapGetWordBook.h"
+#include "handlers/DapWalletActivateOrDeactivateCommand.h"
+#include "handlers/DapNodeRestart.h"
+#include "handlers/DapRemoveChainsOrGdbCommand.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
@@ -46,31 +91,31 @@ bool DapServiceController::start()
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
     watcher = new DapNotificationWatcher(this);
-    m_syncControll = new DapNetSyncController(watcher, this);
+//    m_syncControll = new DapNetSyncController(watcher, this);
     m_web3Controll = new DapWebControll(this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
-        connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
-        connect(m_pServer, SIGNAL(onClientDisconnected()), SIGNAL(onClientDisconnected()));
+        connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
         registerCommand();
     }
 #else
     m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     if(m_pServer->listen(DAP_BRAND)) 
     {
-        connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
-        connect(m_pServer, SIGNAL(onClientDisconnected()), SIGNAL(onClientDisconnected()));
+        connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onNewClientConnected);
         // Register command
         registerCommand();
         // Send data from notify socket to client
-        connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
-        connect(watcher, SIGNAL(rcvNotify(QVariant)), m_web3Controll, SLOT(rcvNodeStatus(QVariant)));
+        connect(watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
+        connect(watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
         // Channel req\rep for web 3 API
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
-        connect(transceiver, SIGNAL(clientResponded(QVariant)), this, SLOT(rcvReplyFromClient(QVariant)));
-        connect(m_web3Controll, SIGNAL(signalConnectRequest(QString, int)), this, SLOT(sendConnectRequest(QString, int)));
+        connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
+        connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
 
         DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
         initBook->respondToClient("init");
@@ -195,6 +240,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapNodeRestart("DapNodeRestart", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand", m_pServer, CLI_PATH));
 
 
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));

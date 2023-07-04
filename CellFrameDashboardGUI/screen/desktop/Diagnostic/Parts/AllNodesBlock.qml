@@ -20,7 +20,7 @@ ColumnLayout {
         if(data)
             obj = JSON.parse(data)
         else
-            obj = JSON.parse(diagnostic.nodeList)
+            obj = JSON.parse(diagnosticsModule.nodeList)
 
         nodeListModel.clear()
         nodeListModel.append(obj)
@@ -29,11 +29,11 @@ ColumnLayout {
     Component.onCompleted: updateModel()
 
     Connections{
-        target: diagnostic
+        target: diagnosticsModule
         function onNodeListChanged(){
             updateModel()
             if(filtr != "")
-                diagnostic.searchAllNodes(filtr)
+                diagnosticsModule.searchAllNodes(filtr)
         }
         function onFiltrAllNodesDone(data){
             updateModel(data)
@@ -56,7 +56,7 @@ ColumnLayout {
         Text{
             font: mainFont.dapFont.bold14
             color: currTheme.gray
-            text: "("+(diagnostic? diagnostic.allNodesCount : 0)+")"
+            text: "("+(diagnosticsModule? diagnosticsModule.allNodesCount : 0)+")"
             verticalAlignment: Text.AlignVCenter
         }
         Item{Layout.fillWidth: true}
@@ -95,7 +95,7 @@ ColumnLayout {
 
             onEditingFinished: {
                 filtering.clear()
-                diagnostic.searchAllNodes(text)
+                diagnosticsModule.searchAllNodes(text)
                 filtr = text
 //                root.findHandler(text)
             }
@@ -103,7 +103,7 @@ ColumnLayout {
             filtering.waitInputInterval: 100
             filtering.minimumSymbol: 0
             filtering.onAwaitingFinished: {
-                diagnostic.searchAllNodes(text)
+                diagnosticsModule.searchAllNodes(text)
                 filtr = text
 //                root.findHandler(text)
             }
@@ -149,7 +149,7 @@ ColumnLayout {
                     x: rectImg.x
                     y: rectImg.y
                     hoverEnabled: true
-                    onClicked: diagnostic.addNodeToList(mac)
+                    onClicked: diagnosticsModule.addNodeToList(mac)
 
                 }
             }

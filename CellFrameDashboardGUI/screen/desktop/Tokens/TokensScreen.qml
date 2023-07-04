@@ -126,7 +126,7 @@ Page
                                         anchors.fill: parent
                                         textFont: mainFont.dapFont.regular14
                                         textColor: logicTokens.selectTokenIndex === index && logicTokens.selectNetworkIndex === delegateTokenView.idx || mouseArea.containsMouse ? currTheme.lime : currTheme.white
-                                        fullText: dapMath.balanceToCoins(current_supply)
+                                        fullText: mathWorker.balanceToCoins(current_supply)
                                         horizontalAlign: Text.AlignRight
                                     }
                                 }

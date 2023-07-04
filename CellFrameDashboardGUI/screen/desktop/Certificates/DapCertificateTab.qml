@@ -91,13 +91,31 @@ DapPage
     dapRightPanelFrame.visible: false
 
     Connections{
-        target:importCertificate
+        target:certificatesModule
         function onSignalImportFinished(status)
         {
+
             if(status)
+            {
+                dapMainWindow.infoItem.showInfo(
+                            220,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            "Certificate is imported",
+                            "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+
                 logicMainApp.requestToService(DapCertificateCommands.serviceName
-                                                      , DapCertificateCommands.GetSertificateList
-                                                      );
+                                            , DapCertificateCommands.GetSertificateList);
+            }
+            else
+            {
+                dapMainWindow.infoItem.showInfo(
+                            240,0,
+                            dapMainWindow.width*0.5,
+                            8,
+                            "Certificate is not imported",
+                            "qrc:/Resources/" + pathTheme + "/icons/other/no_icon.png")
+            }
         }
     }
 }

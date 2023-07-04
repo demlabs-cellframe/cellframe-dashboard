@@ -10,60 +10,23 @@ import "MenuBlocks"
 
 DapPage
 {
-    ///@detalis Path to the right panel of input name wallet.
-    readonly property string inputNameWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of node settings.
     readonly property string nodeSettingsPanel: path + "/Settings/NodeSettings/NodeBlock.qml"
-    ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
-    ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
     ///@detalis Path to the right panel of requests.
     readonly property string requestsPanel: path + "/Settings/RightPanel/DapRequestsRightPanel.qml"
 
     id: settingsTab
 //    property int dapIndexCurrentWallet: -1
     property alias dapSettingsScreen: settingsScreen
-    property bool sendRequest: false
 
     Timer{id:timer}
-
-    property var walletInfo:
-    {
-        "name": "",
-        "network": "",
-        "chain": "",
-        "signature_type": "",
-        "recovery_hash": "",
-        "password": ""
-    }
-    property var commandResult:
-    {
-        "success": "",
-        "message": ""
-    }
 
     QtObject {
         id: navigator
 
-        function createWallet() {
-            dapRightPanelFrame.frame.visible = true
-            dapRightPanel.push(inputNameWallet)
-        }
-
         function openNodeSettings() {
             dapRightPanelFrame.frame.visible = true
             dapRightPanel.push(nodeSettingsPanel)
-        }
-
-        function doneWalletFunc(){
-            dapRightPanel.push(doneWallet)
-        }
-
-        function recoveryWalletFunc()
-        {
-            dapRightPanelFrame.frame.visible = true
-            dapRightPanel.push(recoveryWallet)
         }
 
         function openRequests() {
@@ -82,13 +45,6 @@ DapPage
 
     dapScreen.initialItem: DapSettingsScreen {
         id: settingsScreen
-
-        onCreateWalletSignal:
-        {
-            dapRightPanel.pop()
-            logicMainApp.restoreWalletMode = restoreMode
-            navigator.createWallet()
-        }
 
         onNodeSettingsSignal:
         {
@@ -124,86 +80,41 @@ DapPage
     dapRightPanelFrame.visible: true
     dapRightPanelFrame.frame.visible: false
 
-    onSendRequestChanged: if(sendRequest) timeout.start()
-
-    Timer{
-        id: timeout
-        interval: 10000; running: false; repeat: false;
-        onTriggered: {
-            messagePopupVersion.smartOpen("Dashboard update", qsTr("Service not found"))
-            sendRequest = false
-        }
-    }
-
-    Timer {
-        id: updateSettingsTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
-        onTriggered:
-        {
-            logicMainApp.requestToService("DapGetListWalletsCommand")
-//            dapServiceController.requestToService("DapGetListNetworksCommand")
-
-//            if(!settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.stopUpdate)
-//                settingsScreen.dapGeneralBlock.dapContent.dapAutoOnlineCheckBox.checkState = dapServiceController.getAutoOnlineValue()
-
-            if(!logicMainApp.stateNotify || logicMainApp.nodeVersion === "")
-                logicMainApp.requestToService("DapVersionController", "version node")
-//            if(!dapNetworkModel.count)
-//            {
-//                dapServiceController.requestToService("DapGetListNetworksCommand")
-////                dapNetworkComboBox.mainLineText = dapNetworkModel.get(logicMainApp.currentNetwork).name
-//            }
-        }
-    }
-
-    Component.onCompleted:
+    DapMessagePopup
     {
-        logicMainApp.requestToService("DapVersionController", "version node")
-        updateSettingsTimer.start()
+        id: clearMessagePopup
+        dapButtonCancel.visible: true
+        onSignalAccept: if(accept)settingsModule.clearNodeData()
     }
-
-    Component.onDestruction:
-        updateSettingsTimer.stop()
-
 
     Connections
     {
-        target: dapServiceController
+        target: settingsModule
 
-        function onWalletCreated()
+        function onSigVersionInfo(versionResult)
         {
-//            dapIndexCurrentWallet = settingsScreen.dapGeneralBlock.dapContent.dapCurrentWallet
-        }
-        function onWalletsListReceived(walletsList)
-        {
-//            if(dapModelWallets)
-//            {
-//                if(walletsList.length !== dapModelWallets.count)
-//                    dapServiceController.requestToService("DapGetWalletsInfoCommand","true")
-//            }
-//            else
-                logicMainApp.requestToService("DapGetWalletsInfoCommand","")
-        }
-        function onVersionControllerResult(versionResult)
-        {
-            if(sendRequest)
+            if(settingsModule.guiRequest)
             {
-//                sendRequest = false
-                timeout.stop()
-                if(!versionResult.hasUpdate && versionResult.message === "Reply version")
+                if(versionResult.message === "Service not found")
+                {
+                    messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), "", "", qsTr("Service not found"))
+                }
+                else if(!versionResult.hasUpdate && versionResult.message === "Reply version")
                     logicMainApp.rcvReplyVersion()
                 else if(versionResult.message !== "" && versionResult.hasUpdate)
                 {
-                    messagePopupVersion.smartOpen("Dashboard update", qsTr("Current version - " + dapServiceController.Version +"\n"+
-                                                                           "Last version - " + versionResult.lastVersion +"\n" +
-                                                                           "Go to website to download?"))
+                    messagePopupVersion.smartOpenVersion(qsTr("Dashboard update"), settingsModule.dashboardVersion, versionResult.lastVersion, "")
                 }
             }
         }
-    }
-    Connections
-    {
-        target: messagePopupVersion
-        function onClick() {sendRequest = false}
+        function onSigNodeDataRemoved()
+        {
+            dapMainWindow.infoItem.showInfo(
+                        200,0,
+                        dapMainWindow.width*0.5,
+                        8,
+                        "Node data cleared",
+                        "qrc:/Resources/" + pathTheme + "/icons/other/check_icon.png")
+        }
     }
 }

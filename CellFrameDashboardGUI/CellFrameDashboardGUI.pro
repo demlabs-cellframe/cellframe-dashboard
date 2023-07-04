@@ -12,17 +12,35 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
-    DapMath.h \
-    DiagnosticWorker/DiagnosticWorker.h \
-    DiagnosticWorker/AbstractDiagnostic.h \
-    DiagnosticWorker/models/AbstractNodeModel.h \
-    DiagnosticWorker/models/NodeModel.h \
-    HistoryWorker/historymodel.h \
-    HistoryWorker/historyworker.h \
-    ImportCertificate/ImportCertificate.h \
+    Models/AbstractModels/DapAbstractDiagnosticModel.h \
+    Models/AbstractModels/DapAbstractWalletList.h \
+    Models/DapDiagnosticModel.h \
+    Models/DapHistoryModel.h \
+    Models/DapWalletListModel.h \
+    Modules/Certificates/DapModuleCertificates.h \
+    Modules/Console/DapModuleConsole.h \
+    Modules/Console/consoleitem.h \
+    Modules/DapAbstractModule.h \
+    Modules/DapModulesController.h \
+    Modules/Dex/DapModuleDex.h \
+    Modules/Diagnostics/AbstractDiagnostic.h \
+    Modules/Diagnostics/DapModuleDiagnostics.h \
+    Modules/Logs/DapLogsReader.h \
+    Modules/Logs/DapModuleLogs.h \
+    Modules/Logs/loginfo.h \
+    Modules/Logs/logmodel.h \
+    Modules/Logs/logreader.h \
+    Modules/Settings/DapModuleSettings.h \
+    Modules/Test/DapModuleTest.h \
+    Modules/Tokens/DapModuleTokens.h \
+    Modules/TxExplorer/DapModuleTxExplorer.h \
+    Modules/Wallet/DapModuleWallet.h \
+    Modules/Wallet/WalletRestore/randomfile.h \
+    Modules/Wallet/WalletRestore/randomwords.h \
+    Modules/Wallet/WalletRestore/wallethashmanager.h \
+    Modules/dApps/DapDappsNetworkManager.h \
+    Modules/dApps/DapModuledApps.h \
     NotifyController/DapNotifyController.h \
-    PluginsController/DapNetworkManager.h \
-    PluginsController/DapPluginsController.h \
     StockDataWorker/candlechartworker.h \
     StockDataWorker/candleinfo.h \
     StockDataWorker/orderbookworker.h \
@@ -31,9 +49,9 @@ HEADERS += $$PWD/DapServiceController.h \
     StockDataWorker/stockdataworker.h \
     StockDataWorker/tokenpairinfo.h \
     StockDataWorker/tokenpairsworker.h \
-    WalletRestore/randomfile.h \
-    WalletRestore/randomwords.h \
-    WalletRestore/wallethashmanager.h \
+    Workers/dateworker.h \
+    Workers/mathworker.h \
+    Workers/stringworker.h \
     dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
@@ -50,25 +68,41 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
-    DapMath.cpp \
-    DiagnosticWorker/DiagnosticWorker.cpp \
-    DiagnosticWorker/AbstractDiagnostic.cpp \
-    DiagnosticWorker/models/AbstractNodeModel.cpp \
-    DiagnosticWorker/models/NodeModel.cpp \
-    HistoryWorker/historymodel.cpp \
-    HistoryWorker/historyworker.cpp \
-    ImportCertificate/ImportCertificate.cpp \
+    Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
+    Models/AbstractModels/DapAbstractWalletList.cpp \
+    Models/DapDiagnosticModel.cpp \
+    Models/DapHistoryModel.cpp \
+    Models/DapWalletListModel.cpp \
+    Modules/Certificates/DapModuleCertificates.cpp \
+    Modules/Console/DapModuleConsole.cpp \
+    Modules/DapAbstractModule.cpp \
+    Modules/DapModulesController.cpp \
+    Modules/Dex/DapModuleDex.cpp \
+    Modules/Diagnostics/AbstractDiagnostic.cpp \
+    Modules/Diagnostics/DapModuleDiagnostics.cpp \
+    Modules/Logs/DapLogsReader.cpp \
+    Modules/Logs/DapModuleLogs.cpp \
+    Modules/Logs/logmodel.cpp \
+    Modules/Logs/logreader.cpp \
+    Modules/Settings/DapModuleSettings.cpp \
+    Modules/Test/DapModuleTest.cpp \
+    Modules/Tokens/DapModuleTokens.cpp \
+    Modules/TxExplorer/DapModuleTxExplorer.cpp \
+    Modules/Wallet/DapModuleWallet.cpp \
+    Modules/Wallet/WalletRestore/randomfile.cpp \
+    Modules/Wallet/WalletRestore/randomwords.cpp \
+    Modules/Wallet/WalletRestore/wallethashmanager.cpp \
+    Modules/dApps/DapDappsHelpFunctions.cpp \
+    Modules/dApps/DapDappsNetworkManager.cpp \
+    Modules/dApps/DapModuledApps.cpp \
     NotifyController/DapNotifyController.cpp \
-    PluginsController/DapFilesFunctions.cpp \
-    PluginsController/DapNetworkManager.cpp \
-    PluginsController/DapPluginsController.cpp \
     StockDataWorker/candlechartworker.cpp \
     StockDataWorker/orderbookworker.cpp \
     StockDataWorker/stockdataworker.cpp \
     StockDataWorker/tokenpairsworker.cpp \
-    WalletRestore/randomfile.cpp \
-    WalletRestore/randomwords.cpp \
-    WalletRestore/wallethashmanager.cpp \
+    Workers/dateworker.cpp \
+    Workers/mathworker.cpp \
+    Workers/stringworker.cpp \
     dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
@@ -79,20 +113,20 @@ SOURCES += $$PWD/main.cpp \
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
-    HEADERS += $$PWD/DiagnosticWorker/WinDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/WinDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/WinDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/WinDiagnostic.cpp
 }
 
 mac {
     ICON = Resources/CellframeDashboard.icns
-    HEADERS += $$PWD/DiagnosticWorker/MacDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/MacDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/MacDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/MacDiagnostic.cpp
 }
 else: !win32 {
     ICON = qrc:/Resources/icon.ico
 
-    HEADERS += $$PWD/DiagnosticWorker/LinuxDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/LinuxDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/LinuxDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/LinuxDiagnostic.cpp
 }
 
 

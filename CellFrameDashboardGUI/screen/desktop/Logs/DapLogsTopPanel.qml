@@ -22,19 +22,21 @@ Controls.DapTopPanel
         implicitWidth: 164
         fontButton: mainFont.dapFont.medium14
         horizontalAligmentText: Text.AlignHCenter
+
+        onClicked: exportPopup.open()
     }
 
-    ///Handler for clicking the button exportLogButton
-    Connections
-    {
-        target: exportLogButton
-        function onClicked()
-        {
-            grub();
-            exportLogButton.colorBackgroundNormal = "#D2145D"
-            saveWindow.sourceComponent = saveFile;
-        }
-    }
+//    ///Handler for clicking the button exportLogButton
+//    Connections
+//    {
+//        target: exportLogButton
+//        function onClicked()
+//        {
+//            grub();
+//            exportLogButton.colorBackgroundNormal = "#D2145D"
+//            saveWindow.sourceComponent = saveFile;
+//        }
+//    }
 
 
     ///@detalis filterFileArray Array with filters for the file saving window.

@@ -44,9 +44,9 @@ void StockDataWorker::rcvXchangeTokenPriceHistory(const QVariant &rcvData)
 
 void StockDataWorker::signalXchangeTokenPairReceived(const QVariant &rcvData)
 {
-    qDebug() << "StockDataWorker::signalXchangeTokenPairReceived"
-             << rcvData << rcvData.typeName()
-             <<strncmp(rcvData.typeName(), "QByteArray", 10);
+//    qDebug() << "StockDataWorker::signalXchangeTokenPairReceived"
+//             << rcvData << rcvData.typeName()
+//             <<strncmp(rcvData.typeName(), "QByteArray", 10);
 //    if (strncmp(rcvData.toByteArray(), "QByteArray", 10) == 0)
     if(rcvData.toString() != "isEqual")
         tokenPairsWorker->setPairModel(rcvData.toByteArray());

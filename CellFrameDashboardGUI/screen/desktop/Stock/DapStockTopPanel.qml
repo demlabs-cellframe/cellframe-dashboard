@@ -80,7 +80,7 @@ Controls.DapTopPanel
 //            currentIndex: logicMainApp.currentWalletIndex
 //            model: dapModelWallets
 
-//            backgroundColor: currTheme.backgroundMainScreen
+//            backgroundColorShow: currTheme.backgroundMainScreen
 
 //            onCurrentIndexChanged: updateBalance()
 //        }
