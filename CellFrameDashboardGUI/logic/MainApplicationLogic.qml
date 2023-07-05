@@ -192,6 +192,7 @@ QtObject {
 
     function rcvNetList(networksList)
     {
+//        console.log("net list rcv", networksList, dapNetworkModel.count, networksList.length)
         if (!networksList.length)
             console.error("networksList is empty")
         else

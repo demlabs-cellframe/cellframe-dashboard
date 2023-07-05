@@ -44,6 +44,7 @@ RowLayout{
         Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
         Layout.preferredHeight: 26
         Layout.preferredWidth: 46
+        indicatorSize: 30
 //        Layout.rightMargin: 16
 
         backgroundColor: currTheme.mainBackground

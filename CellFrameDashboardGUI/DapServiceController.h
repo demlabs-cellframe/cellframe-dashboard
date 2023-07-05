@@ -234,7 +234,7 @@ signals:
     void ordersReceived(QList<QObject*> orderList);
 
     void networkStatesListReceived(const QVariant& networksStateList);
-    void networksStatesReceived(QList<QObject*> networksStatesList);
+//    void networksStatesReceived(QList<QObject*> networksStatesList);
 
     void networksReceived(QList<QObject*> networksList);
 

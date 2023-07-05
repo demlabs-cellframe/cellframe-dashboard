@@ -120,11 +120,14 @@ const int OS_WIN_FLAG = 0;
 const int OS_WIN_FLAG = 1;
 #endif
 
-#ifdef Q_OS_MAC
+//#ifdef Q_OS_MAC
+//const int USING_NOTIFY = 0;
+//#else
+//const int USING_NOTIFY = 1;
+//#endif
+
+
 const int USING_NOTIFY = 0;
-#else
-const int USING_NOTIFY = 1;
-#endif
 
 QByteArray scaleCalculate(int argc, char *argv[])
 {

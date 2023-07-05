@@ -57,7 +57,7 @@ QtObject {
     }
 
     function updateWallet(wallet)
-    {
+    {        
         var jsonDocument = JSON.parse(wallet)
 
 //        console.log("AAAAAAAAAAAAA", dapModelWallets.count, wallet, jsonDocument)

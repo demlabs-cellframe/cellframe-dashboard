@@ -92,6 +92,8 @@ QByteArray DapModuleWallet::getWalletsModel()
 void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 {
 //    qDebug()<<rcvData;
+    if(rcvData == "isEqual")
+        return;
     emit sigWalletInfo(rcvData);
 }
 
