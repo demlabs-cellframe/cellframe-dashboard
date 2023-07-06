@@ -14,12 +14,52 @@
 #include "DapHelper.h"
 #include "DapServiceController.h"
 #include "DapLogger.h"
+#include "DapDataLocal.h"
+#include "DapLogHandler.h"
 #include "DapPluginsPathControll.h"
 #include "dapconfigreader.h"
 #include <sys/stat.h>
 
 #include <DapNotificationWatcher.h>
 void processArgs();
+
+void createDapLogger()
+{
+    DapLogger *dapLogger = new DapLogger (QCoreApplication::instance(), "Service");
+    QString logPath = DapDataLocal::instance()->getLogFilePath();
+
+#if defined(QT_DEBUG) && defined(ANDROID)
+    DapLogHandler *logHandlerGui = new DapLogHandler (logPath, QCoreApplication::instance());
+
+    QObject::connect (logHandlerGui, &DapLogHandler::logChanged, [logHandlerGui]()
+                     {
+                         for (QString &msg : logHandlerGui->request())
+#ifdef ANDROID
+                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "*** Gui ***", "%s\n", qPrintable (msg));
+#else
+                std::cout << ":=== Srv ===" << qPrintable (msg) << "\n";
+#endif
+
+                     });
+#endif
+
+#ifdef QT_DEBUG
+    logPath = DapLogger::currentLogFilePath (DAP_BRAND, "Service");
+    DapLogHandler *serviceLogHandler = new DapLogHandler (logPath, QCoreApplication::instance());
+
+    QObject::connect (serviceLogHandler, &DapLogHandler::logChanged, [serviceLogHandler]()
+                     {
+                         for (QString &msg : serviceLogHandler->request())
+                         {
+#ifdef ANDROID
+                             __android_log_print (ANDROID_LOG_DEBUG, DAP_BRAND "=== Srv ===", "%s\n", qPrintable (msg));
+#else
+                std::cout << "=== Srv ===" << qPrintable (msg) << "\n";
+#endif
+                         }
+                     });
+#endif
+}
 
 #if defined(Q_OS_WIN) && !defined(QT_DEBUG)
 #include "registry.h"
@@ -31,7 +71,7 @@ void ServiceMain(int argc, char *argv[]) {
         a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
         a.setApplicationName(DAP_BRAND "Service");
 
-        DapLogger *dapLogger = new DapLogger(QCoreApplication::instance(), "Service");
+        createDapLogger();
 
         DapPluginsPathControll dapPlugins;
         dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
@@ -52,12 +92,6 @@ void ServiceMain(int argc, char *argv[]) {
             QString str = "chmod 777 " + dapPlugins.getPathToPluginsDownload();
             system(str.toUtf8().data());
         }
-
-        DapConfigReader configReader;
-        bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-        qDebug() << "debug_dashboard_mode" << debug_mode;
-//        dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
-        dapLogger->setLogLevel(L_DEBUG);
 
         ServiceProcClass *s = ServiceProcClass::me();
         s->serviceStatusHandle = RegisterServiceCtrlHandler(ServiceProcClass::serviceName, (LPHANDLER_FUNCTION)ControlHandler);
@@ -158,14 +192,9 @@ int main(int argc, char *argv[])
     a.setOrganizationDomain(DAP_BRAND_BASE_LO ".net");
     a.setApplicationName(DAP_BRAND "Service");
 
-    DapLogger *dapLogger = new DapLogger(QCoreApplication::instance(), "Service");
-    DapPluginsPathControll dapPlugins;
+    createDapLogger();
 
-    DapConfigReader configReader;
-//    bool debug_mode = configReader.getItemBool("general", "debug_dashboard_mode", false);
-//    qDebug() << "debug_dashboard_mode" << debug_mode;
-////    dapLogger.setLogLevel(debug_mode ? L_DEBUG : L_INFO);
-//    dapLogger->setLogLevel(L_DEBUG);
+    DapPluginsPathControll dapPlugins;
 
     //plugins path
     dapPlugins.setPathToPlugin(DapPluginsPathControll::defaultPluginPath(DAP_BRAND_LO));
