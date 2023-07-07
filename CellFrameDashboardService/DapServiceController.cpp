@@ -106,7 +106,7 @@ bool DapServiceController::start()
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
-        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
         // Register command
         registerCommand();
         // Send data from notify socket to client
