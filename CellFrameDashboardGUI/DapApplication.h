@@ -14,11 +14,10 @@
 #include "Autocomplete/CommandCmdController.h"
 //#include "DapMath.h"
 //#include "DiagnosticWorker/models/NodeModel.h"
-
+#include <iostream>
 #include "DapLogger.h"
 #include "DapDataLocal.h"
 #include "DapLogHandler.h"
-#include <iostream>
 
 #include "StockDataWorker/stockdataworker.h"
 
