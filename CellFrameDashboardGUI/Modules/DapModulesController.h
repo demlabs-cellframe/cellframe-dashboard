@@ -37,7 +37,7 @@ public:
     Q_PROPERTY (QString currentWalletName READ currentWalletName NOTIFY currentWalletNameChanged)
     QString currentWalletName(){return m_currentWalletName;};
 
-    Q_INVOKABLE QString getComission(QString token, QString network);
+    Q_INVOKABLE void getComission(QString network);
 
     QString testData{"test data"};
 
@@ -73,6 +73,7 @@ private slots:
 
     void rcvWalletList(const QVariant &rcvData);
     void rcvNetList(const QVariant &rcvData);
+    void rcvFee(const QVariant &rcvData);
 
 signals:
     void initDone();
@@ -81,6 +82,7 @@ signals:
     void netListUpdated();
     void currentWalletIndexChanged();
     void currentWalletNameChanged();
+    void sigFeeRcv(const QVariant &rcvData);
 
 };
 

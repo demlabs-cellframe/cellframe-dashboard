@@ -113,9 +113,9 @@ DapNewPaymentMainRightPanelForm
                 console.log("dapWalletMessagePopup.smartOpen")
                 dapWalletMessagePopup.smartOpen(
                             qsTr("Confirming the transaction"),
-                            qsTr("Attention, the transaction fee will be ")
-                            + modulesController.getComission("","")
-                            + " " + dapComboBoxToken.displayText )
+                            qsTr("Attention, the transaction fee will be "))
+
+                modulesController.getComission(dapComboboxNetwork.displayText)
 
             }
         }
@@ -140,10 +140,12 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-
                 var amount = mathWorker.coinsToBalance(dapTextInputAmountPayment.text)
-                var commission = modulesController.getComission(dapComboBoxToken.displayText, dapComboboxNetwork.displayText)
-                var amountWithCommission = mathWorker.sumCoins(dapTextInputAmountPayment.text, commission, false)
+                var commission = mathWorker.sumCoins(dapWalletMessagePopup.feeStruct.network_fee.fee_datoshi,
+                                                     dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi,
+                                                     false)
+                var fee = dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi
+                var amountWithCommission = mathWorker.sumCoins(dapTextInputAmountPayment.text, commission, true)
 
                 commission = mathWorker.coinsToBalance(commission)
                 var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
@@ -171,7 +173,7 @@ DapNewPaymentMainRightPanelForm
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                     console.log("   token:", dapComboBoxToken.displayText)
                     console.log("   amount:", amount)
-                    console.log("   comission:", commission)
+                    console.log("   fee:", fee)
 
 
 
@@ -179,7 +181,7 @@ DapNewPaymentMainRightPanelForm
                         dapComboboxNetwork.displayText,
                         walletInfo.name,
                         dapTextInputRecipientWalletAddress.text,
-                        dapComboBoxToken.displayText, amount, commission)
+                        dapComboBoxToken.displayText, amount, fee)
 
                     walletModule.createTx(argsRequest);
                 }

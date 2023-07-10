@@ -54,6 +54,7 @@
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
+#include "handlers/DapGetFeeCommand.h"
 
 #include "NotifyController/DapNotifyController.h"
 #include "serviceClient/DapServiceClient.h"
@@ -256,6 +257,8 @@ signals:
     void rcvXchangeTokenPriceHistory(const QVariant& rcvData);
 
     void rcvActivateOrDeactivateReply(const QVariant& rcvData);
+
+    void rcvFee(const QVariant& rcvData);
 
 
     void dapRcvNotify(const QVariant& rcvData);

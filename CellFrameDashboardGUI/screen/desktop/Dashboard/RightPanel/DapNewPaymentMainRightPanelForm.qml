@@ -45,7 +45,6 @@ DapRectangleLitAndShaded
     property alias dapTextInputRecipientWalletAddress: textInputRecipientWalletAddress
 
     property alias balance: balance
-
 //    signal calculatePrecentAmount(var precent)
 
     color: currTheme.secondaryBackground
@@ -53,10 +52,20 @@ DapRectangleLitAndShaded
     shadowColor: currTheme.shadowColor
     lightColor: currTheme.reflectionLight
 
-    DapMessagePopup
+    DapFeePopup
     {
         id: walletMessagePopup
         dapButtonCancel.visible: true
+
+        Connections
+        {
+            target: modulesController
+            function onSigFeeRcv(feeDoc)
+            {
+                walletMessagePopup.feeStruct = JSON.parse(feeDoc)
+                walletMessagePopup.isLoading = true
+            }
+        }
     }
 
     contentData:
