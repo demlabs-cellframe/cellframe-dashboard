@@ -64,6 +64,8 @@ DapRectangleLitAndShaded
             {
                 walletMessagePopup.feeStruct = JSON.parse(feeDoc)
                 walletMessagePopup.isLoading = true
+
+//                console.log(walletMessagePopup.feeStruct, feeDoc)
             }
         }
     }

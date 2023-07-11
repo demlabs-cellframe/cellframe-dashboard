@@ -33,7 +33,7 @@ Popup {
         "network_fee": {
             "fee_addr": "",
             "fee_coins": "0.0",
-            "fee_datoshi": "",
+            "fee_datoshi": "0",
             "fee_ticker": ""
         },
         "validator_fee": {
@@ -41,9 +41,9 @@ Popup {
             "average_fee_datoshi": "0",
             "fee_ticker": "",
             "max_fee_coins": "0.0",
-            "max_fee_datoshi": "",
+            "max_fee_datoshi": "0",
             "min_fee_coins": "0.0",
-            "min_fee_datoshi": ""
+            "min_fee_datoshi": "0"
         }
     }
 
@@ -134,7 +134,7 @@ Popup {
             visible: !isLoading
             Layout.alignment: Qt.AlignHCenter
 
-            indicatorSize: 41
+            indicatorSize: 45
             countElements: 8
             elementSize: 7
 
@@ -162,14 +162,19 @@ Popup {
                     horizontalAlignment: Text.AlignLeft
                 }
 
-                Text{
-                    id:fee1Value
-                    Layout.alignment: Qt.AlignRight
-                    text: feeStruct.network_fee.fee_coins + " " + feeStruct.network_fee.fee_ticker
-                    color: currTheme.white
-                    font: mainFont.dapFont.medium14
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignRight
+                Item{
+                    Layout.minimumWidth: 150
+                    height: 20
+
+                    DapBigText
+                    {
+                        id: fee1Value
+                        anchors.fill: parent
+                        textFont: mainFont.dapFont.medium14
+                        textColor: currTheme.white
+                        fullText: feeStruct.network_fee.fee_coins + " " + feeStruct.network_fee.fee_ticker
+                        horizontalAlign: Text.AlignRight
+                    }
                 }
             }
 
@@ -189,14 +194,19 @@ Popup {
                     horizontalAlignment: Text.AlignLeft
                 }
 
-                Text{
-                    id:fee2Value
-                    Layout.alignment: Qt.AlignRight
-                    text: feeStruct.validator_fee.average_fee_coins + " " + feeStruct.validator_fee.fee_ticker
-                    color: currTheme.white
-                    font: mainFont.dapFont.medium14
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignRight
+                Item{
+                    Layout.minimumWidth: 150
+                    height: 20
+
+                    DapBigText
+                    {
+                        id: fee2Value
+                        anchors.fill: parent
+                        textFont: mainFont.dapFont.medium14
+                        textColor: currTheme.white
+                        fullText: feeStruct.validator_fee.average_fee_coins + " " + feeStruct.validator_fee.fee_ticker
+                        horizontalAlign: Text.AlignRight
+                    }
                 }
             }
 
@@ -217,13 +227,19 @@ Popup {
                     horizontalAlignment: Text.AlignLeft
                 }
 
-                Text{
-                    id:fee3Value
-                    Layout.alignment: Qt.AlignRight
-                    text: "0.0 CELL"
-                    color: currTheme.white
-                    font: mainFont.dapFont.medium14
-                    horizontalAlignment: Text.AlignRight
+                Item{
+                    Layout.minimumWidth: 150
+                    height: 20
+
+                    DapBigText
+                    {
+                        id: fee3Value
+                        anchors.fill: parent
+                        textFont: mainFont.dapFont.medium14
+                        textColor: currTheme.white
+                        fullText: "0.0 CELL"
+                        horizontalAlign: Text.AlignRight
+                    }
                 }
             }
         }
