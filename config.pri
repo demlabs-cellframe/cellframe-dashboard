@@ -3,7 +3,10 @@ QMAKE_CFLAGS += -std=gnu11
 QMAKE_CFLAGS_DEBUG += -DDAP_DEBUG
 QMAKE_CXXFLAGS_DEBUG += -DDAP_DEBUG
 
-LIBS += -ldl
+! win32 {
+        LIBS += -ldl
+}
+
 
 # version.mk should look just-like .pro file (and it does if there is only variables`)
 VER_MAJ = $$fromfile(version.mk, VERSION_MAJOR)
