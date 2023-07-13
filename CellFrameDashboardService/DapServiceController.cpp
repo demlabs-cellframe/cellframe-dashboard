@@ -43,6 +43,7 @@
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
 #include "handlers/DapRemoveChainsOrGdbCommand.h"
+#include "handlers/DapGetFeeCommand.h"
 
 #ifdef Q_OS_WIN
 #include "registry.h"
@@ -106,7 +107,7 @@ bool DapServiceController::start()
     if(m_pServer->listen(DAP_BRAND)) 
     {
         connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
-        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
         // Register command
         registerCommand();
         // Send data from notify socket to client
@@ -242,6 +243,8 @@ void DapServiceController::registerCommand()
     m_pServer->addService(new DapNodeRestart("DapNodeRestart", m_pServer, CLI_PATH));
 
     m_pServer->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand", m_pServer, CLI_PATH));
+
+    m_pServer->addService(new DapGetFeeCommand("DapGetFeeCommand", m_pServer, CLI_PATH));
 
 
     m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
