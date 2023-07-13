@@ -151,6 +151,7 @@ Controls.DapTopPanel {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
             Layout.preferredHeight: 26
             Layout.preferredWidth: 46
+            indicatorSize: 30
 
             backgroundColor: currTheme.mainBackground
             borderColor: currTheme.reflectionLight

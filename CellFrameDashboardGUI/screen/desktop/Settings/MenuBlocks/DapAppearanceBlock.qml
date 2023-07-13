@@ -272,6 +272,7 @@ ColumnLayout
                         Layout.preferredHeight: 26
                         Layout.preferredWidth: 46
 //                        Layout.rightMargin: 19
+                        indicatorSize: 30
 
                         backgroundColor: currTheme.mainBackground
                         borderColor: currTheme.reflectionLight

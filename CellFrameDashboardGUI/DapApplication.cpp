@@ -3,7 +3,6 @@
 #include <DapLogMessage.h>
 #include <QIcon>
 #include <QClipboard>
-#include <iostream>
 #include "quickcontrols/qrcodequickitem.h"
 #include "DapVpnOrdersModel.h"
 #include "dapvpnorderscontroller.h"

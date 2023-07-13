@@ -35,6 +35,8 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     connect(m_timerUpdateData, &QTimer::timeout, this, &DapModulesController::getNetworkList);
     connect(s_serviceCtrl, &DapServiceController::walletsListReceived, this, &DapModulesController::rcvWalletList);
     connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList);
+    connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModulesController::rcvFee);
+
     m_timerUpdateData->start(10);
     m_timerUpdateData->start(5000);
 
@@ -215,8 +217,14 @@ void DapModulesController::restoreIndex()
     setCurrentWalletIndex(0);
 }
 
-QString DapModulesController::getComission(QString token, QString network)
+void DapModulesController::getComission(QString network)
 {
 //    qDebug()<<"get comisson" << token << network;
-    return "0.05";
+    s_serviceCtrl->requestToService("DapGetFeeCommand",QStringList()<<QString(network));
+}
+
+void DapModulesController::rcvFee(const QVariant &rcvData)
+{
+//    qDebug()<<rcvData;
+    emit sigFeeRcv(rcvData);
 }

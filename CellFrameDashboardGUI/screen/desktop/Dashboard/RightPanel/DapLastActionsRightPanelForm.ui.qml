@@ -143,18 +143,15 @@ DapRectangleLitAndShaded
                         toolTip.x: -toolTip.width/2 + 8
 
                         enabled: tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
-                                  network === "subzero" || network === "Backbone" ||
-                                  network === "mileena" || network === "kelvpn-minkowski"  ?
+                                  network !== "private"?
                                   true : false
 
                         indicatorSrcNormal: tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
-                                                network === "subzero" || network === "Backbone" ||
-                                                network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                network !== "private"?
                                                 normalIcon : disabledIcon
 
                         indicatorSrcHover: tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
-                                                network === "subzero" || network === "Backbone" ||
-                                                network === "mileena" || network === "kelvpn-minkowski"  ?
+                                                network !== "private"?
                                                 hoverIcon : disabledIcon
 
                         onClicked: Qt.openUrlExternally("https://explorer.cellframe.net/transaction/" + network + "/" + tx_hash)

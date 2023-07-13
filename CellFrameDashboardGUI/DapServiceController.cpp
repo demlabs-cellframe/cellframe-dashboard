@@ -291,6 +291,7 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",m_DAPRpcSocket))), QString("rcvRemoveResult")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetFeeCommand("DapGetFeeCommand",m_DAPRpcSocket))), QString("rcvFee")));
 
 
 #ifdef SERVICE_IMITATOR
@@ -429,26 +430,26 @@ void DapServiceController::registerCommand()
         emit ordersReceived(orders);
     });
 
-    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
-    {
-        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
-        QList<DapNetworkStr> tempNetworks;
+//    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
+//    {
+//        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
+//        QList<DapNetworkStr> tempNetworks;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempNetworks;
+//        QDataStream in(&array, QIODevice::ReadOnly);
+//        in >> tempNetworks;
 
-        QList<QObject*> networks;
-        auto begin = tempNetworks.begin();
-        auto end = tempNetworks.end();
-        DapNetworkStr * network = nullptr;
-        for(;begin != end; ++begin)
-        {
-            network = new DapNetworkStr(*begin);
-            networks.append(network);
-        }
+//        QList<QObject*> networks;
+//        auto begin = tempNetworks.begin();
+//        auto end = tempNetworks.end();
+//        DapNetworkStr * network = nullptr;
+//        for(;begin != end; ++begin)
+//        {
+//            network = new DapNetworkStr(*begin);
+//            networks.append(network);
+//        }
 
-        emit networksStatesReceived(networks);
-    });
+//        emit networksStatesReceived(networks);
+//    });
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {

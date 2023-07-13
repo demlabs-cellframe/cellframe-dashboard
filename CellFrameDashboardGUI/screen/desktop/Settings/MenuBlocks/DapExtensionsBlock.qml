@@ -140,6 +140,7 @@ Page
                                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                                     Layout.preferredHeight: 26
                                     Layout.preferredWidth: 46
+                                    indicatorSize: 30
 
                                     backgroundColor: currTheme.mainBackground
                                     borderColor: currTheme.reflectionLight

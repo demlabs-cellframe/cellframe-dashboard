@@ -170,7 +170,9 @@ Item
             visible: false
             Layout.topMargin: 10
             height: 35
-            itemHorisontalBorder: 41
+            itemHorisontalBorder: 40
+
+            radius: 30
 
             selectorModel: sideModel
 

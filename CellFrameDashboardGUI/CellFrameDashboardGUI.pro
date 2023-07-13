@@ -213,7 +213,7 @@ INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/crypto/include/ \
     $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/common
 
 INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
-LIBS += $$NODE_BUILD_PATH/dap-sdk/deps/lib/libdap_json-c.a
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)

@@ -90,7 +90,7 @@ INCLUDEPATH += $$_PRO_FILE_PWD_/../cellframe-node/ \
                $$_PRO_FILE_PWD_/../dapRPCProtocol/
 
 INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
-LIBS += $$NODE_BUILD_PATH/dap-sdk/deps/lib/libdap_json-c.a
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
 
 linux-* {

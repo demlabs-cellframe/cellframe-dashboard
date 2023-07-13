@@ -237,7 +237,7 @@ DapPage
 
             var item = dapModelWallets.get(modulesController.currentWalletIndex);
 
-//            console.log(modulesController.currentWalletIndex, item.status)
+//            console.log(model)
 
             logicWallet.updateWallet(model)
 

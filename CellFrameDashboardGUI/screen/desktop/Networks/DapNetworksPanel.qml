@@ -180,12 +180,18 @@ Item {
                 logicNet.notifyModelUpdate(netState)
         }
 
-        function onNetworksStatesReceived(networksStatesList)
+        function onNetworkStatesListReceived(rcvData)
         {
-            if (!logicNet.isNetworkListsEqual(networksModel, networksStatesList)) {
+
+            var jsonDocument = JSON.parse(rcvData)
+//            console.log("RCV NET STATES", jsonDocument, rcvData)
+
+            if (!logicNet.isNetworkListsEqual(networksModel, jsonDocument)) {
                 networkList.closePopups()
             }
-            logicNet.modelUpdate(networksStatesList)
+
+
+            logicNet.modelUpdate(jsonDocument)
             logicNet.updateContentInAllOpenedPopups(networksModel)
         }
     }
