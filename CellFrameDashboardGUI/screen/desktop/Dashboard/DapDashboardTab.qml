@@ -249,6 +249,29 @@ DapPage
 
     Component.onCompleted:
     {
-        walletModule.getWalletsInfo("true")
+//        console.log(dashboardScreen.listViewWallet.model)
+//        console.log(dapModelWallets.get(modulesController.currentWalletIndex).networks)
+//        dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+//
+
+        if(dapModelWallets.count)
+        {
+            dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+            if(dashboardTab.state != "WALLETCREATE")
+                dashboardTab.state = "WALLETSHOW"
+        }
+        else
+        {
+            walletModule.getWalletsInfo("true")
+        }
+
+        walletModule.statusProcessing = true
+        txExplorerModule.statusProcessing = true
+    }
+
+    Component.onDestruction:
+    {
+        walletModule.statusProcessing = false
+        txExplorerModule.statusProcessing = false
     }
 }

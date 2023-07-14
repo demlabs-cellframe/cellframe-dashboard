@@ -32,14 +32,41 @@ DapModuleWallet::~DapModuleWallet()
 
 void DapModuleWallet::initConnect()
 {
-    connect(s_serviceCtrl, &DapServiceController::walletsReceived,          this, &DapModuleWallet::rcvWalletsInfo);
-    connect(s_serviceCtrl, &DapServiceController::walletReceived,           this, &DapModuleWallet::rcvWalletInfo);
-    connect(s_serviceCtrl, &DapServiceController::transactionCreated,       this, &DapModuleWallet::rcvCreateTx);
-    connect(s_serviceCtrl, &DapServiceController::walletCreated,            this, &DapModuleWallet::rcvCreateWallet);
-    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived, this, &DapModuleWallet::rcvHistory);
+    connect(s_serviceCtrl, &DapServiceController::walletsReceived,
+            this, &DapModuleWallet::rcvWalletsInfo,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletReceived,
+            this, &DapModuleWallet::rcvWalletInfo,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::transactionCreated,
+            this, &DapModuleWallet::rcvCreateTx,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::walletCreated,
+            this, &DapModuleWallet::rcvCreateWallet,
+            Qt::QueuedConnection);
+    connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
+            this, &DapModuleWallet::rcvHistory,
+            Qt::QueuedConnection);
 
 
-    connect(m_timerUpdateWallet, &QTimer::timeout, this, &DapModuleWallet::slotUpdateWallet);
+    connect(m_timerUpdateWallet, &QTimer::timeout,
+            this, &DapModuleWallet::slotUpdateWallet,
+            Qt::QueuedConnection);
+
+    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+    {
+        qDebug()<<"m_statusProcessing" << m_statusProcessing;
+        if(m_statusProcessing)
+        {
+            QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+            if(!doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex >= 0))
+                getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName) << "true");
+
+            m_timerUpdateWallet->start(5000);
+        }
+        else
+            m_timerUpdateWallet->stop();
+    });
 
 
     s_serviceCtrl->requestToService("DapGetWalletsInfoCommand", QStringList()<<"true");
@@ -92,8 +119,8 @@ QByteArray DapModuleWallet::getWalletsModel()
 void DapModuleWallet::rcvWalletInfo(const QVariant &rcvData)
 {
 //    qDebug()<<rcvData;
-    if(rcvData == "isEqual")
-        return;
+//    if(rcvData == "isEqual")
+//        return;
     emit sigWalletInfo(rcvData);
 }
 
@@ -107,7 +134,7 @@ void DapModuleWallet::rcvCreateWallet(const QVariant &rcvData)
 {
 //    qDebug()<<rcvData;
     m_modulesCtrl->getWalletList();
-    m_timerUpdateWallet->start(2000);
+    m_timerUpdateWallet->start(5000);
     emit sigWalletCreate(rcvData);
 }
 
@@ -125,6 +152,6 @@ void DapModuleWallet::slotUpdateWallet()
         return ;
 
     m_timerUpdateWallet->stop();
-    getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName));
-    m_timerUpdateWallet->start(2000);
+    getWalletInfo(QStringList()<<QString(m_modulesCtrl->m_currentWalletName) <<"false");
+    m_timerUpdateWallet->start(5000);
 }

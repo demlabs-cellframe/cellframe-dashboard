@@ -7,16 +7,16 @@ DapAbstractModule::DapAbstractModule(QObject *parent)
 
 }
 
-void DapAbstractModule::setStatusProcessing(bool status)
-{
-    m_statusProcessing = status;
-    emit statusChanged();
-}
-
-bool DapAbstractModule::getStatusProcessing()
+bool DapAbstractModule::statusProcessing()
 {
     return m_statusProcessing;
 }
+void DapAbstractModule::setStatusProcessing(bool status)
+{
+    m_statusProcessing = status;
+    emit statusProcessingChanged();
+}
+
 
 void DapAbstractModule::setName(QString name)
 {

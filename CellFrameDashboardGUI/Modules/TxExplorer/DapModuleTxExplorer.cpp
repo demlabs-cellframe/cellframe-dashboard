@@ -27,6 +27,16 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
 
     connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
     {
+
+        connect(this, &DapAbstractModule::statusProcessingChanged, [=]
+        {
+//            qDebug()<<"m_statusProcessing" << m_statusProcessing;
+            if(m_statusProcessing)
+                m_timerHistoryUpdate->start(10000);
+            else
+                m_timerHistoryUpdate->stop();
+        });
+
         updateHistory(true);
         setStatusInit(true);
     });
@@ -387,5 +397,5 @@ void DapModuleTxExplorer::updateHistory(bool flag)
 
     m_timerHistoryUpdate->stop();
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
-    m_timerHistoryUpdate->start(5000);
+    m_timerHistoryUpdate->start(10000);
 }

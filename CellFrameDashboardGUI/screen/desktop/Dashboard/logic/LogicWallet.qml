@@ -67,6 +67,7 @@ QtObject {
             dapModelWallets.clear()
             return
         }
+//        console.log("bbbbbbbbbbbb")
 
         for (var i = 0; i < dapModelWallets.count; ++i)
         {
