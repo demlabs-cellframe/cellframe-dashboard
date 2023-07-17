@@ -24,49 +24,6 @@ typedef class DapRpcTCPServer DapUiService;
 typedef class DapRpcLocalServer DapUiService;
 #endif
 
-#include "handlers/DapAbstractCommand.h"
-#include "handlers/DapQuitApplicationCommand.h"
-#include "handlers/DapActivateClientCommand.h"
-#include "handlers/DapUpdateLogsCommand.h"
-#include "handlers/DapAddWalletCommand.h"
-#include "handlers/DapGetListNetworksCommand.h"
-#include "handlers/DapGetNetworkStatusCommand.h"
-#include "handlers/DapNetworkGoToCommand.h"
-#include "handlers/DapGetWalletInfoCommand.h"
-#include "handlers/DapGetWalletsInfoCommand.h"
-#include "handlers/DapGetWalletAddressesCommand.h"
-#include "handlers/DapExportLogCommand.h"
-#include "handlers/DapGetWalletTokenInfoCommand.h"
-#include "handlers/DapCreateTransactionCommand.h"
-#include "handlers/DapMempoolProcessCommand.h"
-#include "handlers/DapGetWalletHistoryCommand.h"
-#include "handlers/DapGetAllWalletHistoryCommand.h"
-#include "handlers/DapRunCmdCommand.h"
-#include "handlers/DapGetHistoryExecutedCmdCommand.h"
-#include "handlers/DapSaveHistoryExecutedCmdCommand.h"
-#include "handlers/DapCertificateManagerCommands.h"
-#include "handlers/DapGetListOdersCommand.h"
-#include "handlers/DapGetNetworksStateCommand.h"
-#include "handlers/DapNetworkSingleSyncCommand.h"
-#include "handlers/DapGetListWalletsCommand.h"
-#include "handlers/DapVersionController.h"
-#include "handlers/DapRcvNotify.h"
-#include "handlers/DapNodeConfigController.h"
-#include "handlers/DapGetListTokensCommand.h"
-#include "handlers/DapWebConnectRequest.h"
-#include "handlers/DapTokenEmissionCommand.h"
-#include "handlers/DapTokenDeclCommand.h"
-#include "handlers/DapGetXchangeTxList.h"
-#include "handlers/DapXchangeOrderCreate.h"
-#include "handlers/DapXchangeOrderPurchase.h"
-#include "handlers/DapGetXchangeOrdersList.h"
-#include "handlers/DapGetXchangeTokenPair.h"
-#include "handlers/DapGetXchangeTokenPriceAverage.h"
-#include "handlers/DapGetXchangeTokenPriceHistory.h"
-#include "handlers/DapGetWordBook.h"
-#include "handlers/DapWalletActivateOrDeactivateCommand.h"
-#include "handlers/DapNodeRestart.h"
-
 #include "DapWebControll.h"
 
 #include "DapNotificationWatcher.h"
@@ -101,10 +58,16 @@ public:
     /// @return Returns true if the service starts successfully, otherwise false.
     bool start();
 
-
-
     ///TEST
     QTimer * m_testTimer;
+
+
+private:
+    QList<QThread*>       m_threadPool;
+    QList<DapRpcService*> m_servicePool;
+
+private:
+    void initServices();
     
 signals:
     /// The signal is emitted in case of successful connection of a new client.
@@ -112,8 +75,6 @@ signals:
     void onClientDisconnected();
     
 private slots:
-    /// Register command.
-    void registerCommand();
     void sendNotifyDataToGui(QVariant);
     void rcvReplyFromClient(QVariant);
     void sendConnectRequest(QString site, int index);

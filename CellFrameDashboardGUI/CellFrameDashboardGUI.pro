@@ -12,17 +12,35 @@ HEADERS += $$PWD/DapServiceController.h \
     ConfigWorker/configfile.h \
     ConfigWorker/configworker.h \
     DapApplication.h \
-    DapMath.h \
-    DiagnosticWorker/DiagnosticWorker.h \
-    DiagnosticWorker/AbstractDiagnostic.h \
-    DiagnosticWorker/models/AbstractNodeModel.h \
-    DiagnosticWorker/models/NodeModel.h \
-    HistoryWorker/historymodel.h \
-    HistoryWorker/historyworker.h \
-    ImportCertificate/ImportCertificate.h \
+    Models/AbstractModels/DapAbstractDiagnosticModel.h \
+    Models/AbstractModels/DapAbstractWalletList.h \
+    Models/DapDiagnosticModel.h \
+    Models/DapHistoryModel.h \
+    Models/DapWalletListModel.h \
+    Modules/Certificates/DapModuleCertificates.h \
+    Modules/Console/DapModuleConsole.h \
+    Modules/Console/consoleitem.h \
+    Modules/DapAbstractModule.h \
+    Modules/DapModulesController.h \
+    Modules/Dex/DapModuleDex.h \
+    Modules/Diagnostics/AbstractDiagnostic.h \
+    Modules/Diagnostics/DapModuleDiagnostics.h \
+    Modules/Logs/DapLogsReader.h \
+    Modules/Logs/DapModuleLogs.h \
+    Modules/Logs/loginfo.h \
+    Modules/Logs/logmodel.h \
+    Modules/Logs/logreader.h \
+    Modules/Settings/DapModuleSettings.h \
+    Modules/Test/DapModuleTest.h \
+    Modules/Tokens/DapModuleTokens.h \
+    Modules/TxExplorer/DapModuleTxExplorer.h \
+    Modules/Wallet/DapModuleWallet.h \
+    Modules/Wallet/WalletRestore/randomfile.h \
+    Modules/Wallet/WalletRestore/randomwords.h \
+    Modules/Wallet/WalletRestore/wallethashmanager.h \
+    Modules/dApps/DapDappsNetworkManager.h \
+    Modules/dApps/DapModuledApps.h \
     NotifyController/DapNotifyController.h \
-    PluginsController/DapNetworkManager.h \
-    PluginsController/DapPluginsController.h \
     StockDataWorker/candlechartworker.h \
     StockDataWorker/candleinfo.h \
     StockDataWorker/orderbookworker.h \
@@ -31,9 +49,9 @@ HEADERS += $$PWD/DapServiceController.h \
     StockDataWorker/stockdataworker.h \
     StockDataWorker/tokenpairinfo.h \
     StockDataWorker/tokenpairsworker.h \
-    WalletRestore/randomfile.h \
-    WalletRestore/randomwords.h \
-    WalletRestore/wallethashmanager.h \
+    Workers/dateworker.h \
+    Workers/mathworker.h \
+    Workers/stringworker.h \
     dapvpnorderscontroller.h \
     mobile/QMLClipboard.h \
     mobile/testcontroller.h \
@@ -50,25 +68,41 @@ SOURCES += $$PWD/main.cpp \
     ConfigWorker/configfile.cpp \
     ConfigWorker/configworker.cpp \
     DapApplication.cpp \
-    DapMath.cpp \
-    DiagnosticWorker/DiagnosticWorker.cpp \
-    DiagnosticWorker/AbstractDiagnostic.cpp \
-    DiagnosticWorker/models/AbstractNodeModel.cpp \
-    DiagnosticWorker/models/NodeModel.cpp \
-    HistoryWorker/historymodel.cpp \
-    HistoryWorker/historyworker.cpp \
-    ImportCertificate/ImportCertificate.cpp \
+    Models/AbstractModels/DapAbstractDiagnosticModel.cpp \
+    Models/AbstractModels/DapAbstractWalletList.cpp \
+    Models/DapDiagnosticModel.cpp \
+    Models/DapHistoryModel.cpp \
+    Models/DapWalletListModel.cpp \
+    Modules/Certificates/DapModuleCertificates.cpp \
+    Modules/Console/DapModuleConsole.cpp \
+    Modules/DapAbstractModule.cpp \
+    Modules/DapModulesController.cpp \
+    Modules/Dex/DapModuleDex.cpp \
+    Modules/Diagnostics/AbstractDiagnostic.cpp \
+    Modules/Diagnostics/DapModuleDiagnostics.cpp \
+    Modules/Logs/DapLogsReader.cpp \
+    Modules/Logs/DapModuleLogs.cpp \
+    Modules/Logs/logmodel.cpp \
+    Modules/Logs/logreader.cpp \
+    Modules/Settings/DapModuleSettings.cpp \
+    Modules/Test/DapModuleTest.cpp \
+    Modules/Tokens/DapModuleTokens.cpp \
+    Modules/TxExplorer/DapModuleTxExplorer.cpp \
+    Modules/Wallet/DapModuleWallet.cpp \
+    Modules/Wallet/WalletRestore/randomfile.cpp \
+    Modules/Wallet/WalletRestore/randomwords.cpp \
+    Modules/Wallet/WalletRestore/wallethashmanager.cpp \
+    Modules/dApps/DapDappsHelpFunctions.cpp \
+    Modules/dApps/DapDappsNetworkManager.cpp \
+    Modules/dApps/DapModuledApps.cpp \
     NotifyController/DapNotifyController.cpp \
-    PluginsController/DapFilesFunctions.cpp \
-    PluginsController/DapNetworkManager.cpp \
-    PluginsController/DapPluginsController.cpp \
     StockDataWorker/candlechartworker.cpp \
     StockDataWorker/orderbookworker.cpp \
     StockDataWorker/stockdataworker.cpp \
     StockDataWorker/tokenpairsworker.cpp \
-    WalletRestore/randomfile.cpp \
-    WalletRestore/randomwords.cpp \
-    WalletRestore/wallethashmanager.cpp \
+    Workers/dateworker.cpp \
+    Workers/mathworker.cpp \
+    Workers/stringworker.cpp \
     dapvpnorderscontroller.cpp \
     mobile/testcontroller.cpp \
     quickcontrols/qrcodequickitem.cpp \
@@ -79,20 +113,20 @@ SOURCES += $$PWD/main.cpp \
 
 win32 {
     RC_ICONS = $$PWD/Resources/icon_win32.ico
-    HEADERS += $$PWD/DiagnosticWorker/WinDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/WinDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/WinDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/WinDiagnostic.cpp
 }
 
 mac {
     ICON = Resources/CellframeDashboard.icns
-    HEADERS += $$PWD/DiagnosticWorker/MacDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/MacDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/MacDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/MacDiagnostic.cpp
 }
 else: !win32 {
     ICON = qrc:/Resources/icon.ico
 
-    HEADERS += $$PWD/DiagnosticWorker/LinuxDiagnostic.h
-    SOURCES += $$PWD/DiagnosticWorker/LinuxDiagnostic.cpp
+    HEADERS += $$PWD/Modules/Diagnostics/LinuxDiagnostic.h
+    SOURCES += $$PWD/Modules/Diagnostics/LinuxDiagnostic.cpp
 }
 
 
@@ -122,64 +156,64 @@ else: unix:!android: !mac: target.path = /opt/$${BRAND_LO}/bin
 include (../dap-ui-sdk/qml/libdap-qt-ui-qml.pri)
 include (../dap-ui-sdk/core/libdap-qt.pri)
 
-LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/ -ldap_core
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/libdap_core.a
-INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/ -ldap_core
+#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/core/libdap_core.a
+INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/include/ \
+    $$PWD/../cellframe-node/dap-sdk/3rdparty/uthash/src/
 
 unix {
-    INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/unix/
+    INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/src/unix/
 }
 
 win32 {
-    LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/core/src/win32/ -ldap_core_win32
-    INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/include/ \
-        $$PWD/../cellframe-node/cellframe-sdk/3rdparty/uthash/src/ \
-	$$PWD/../cellframe-node/cellframe-sdk/dap-sdk/core/src/win32/ \
-	$$PWD/../cellframe-node/cellframe-sdk/3rdparty/wepoll/
+    LIBS += -L$$NODE_BUILD_PATH/dap-sdk/core/src/win32/ -ldap_core_win32
+    INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/core/src/win32/ \
+        $$PWD/../cellframe-node/dap-sdk/3rdparty/wepoll/
 }
 
-LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/client/ -ldap_client \
-    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/core/ -ldap_server_core \
-    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/enc_server/ -ldap_enc_server \
-    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/http_server/ -ldap_http_server \
-    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
-    -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/notify_server/ -ldap_notify_srv
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/net/client/ -ldap_client \
+    -L$$NODE_BUILD_PATH/dap-sdk/io/ -ldap_io \
+    -L$$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/ -ldap_enc_server \
+    -L$$NODE_BUILD_PATH/dap-sdk/net/server/http_server/ -ldap_http_server \
+    -L$$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/ -ldap_json_rpc \
+    -L$$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/ -ldap_notify_srv
 
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/client/libdap_client.a \
-#    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/core/libdap_server_core.a \
-#    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/enc_server/libdap_enc_server.a \
-#    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/http_server/libdap_http_server.a \
-#    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
-#    $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/net/server/notify_server/libdap_notify_srv.a
+#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/net/client/libdap_client.a \
+#    $$NODE_BUILD_PATH/dap-sdk/net/core/libdap_server_core.a \
+#    $$NODE_BUILD_PATH/dap-sdk/net/server/enc_server/libdap_enc_server.a \
+#    $$NODE_BUILD_PATH/dap-sdk/net/server/http_server/libdap_http_server.a \
+#    $$NODE_BUILD_PATH/dap-sdk/net/server/json_rpc/libdap_json_rpc.a \
+#    $$NODE_BUILD_PATH/dap-sdk/net/server/notify_server/libdap_notify_srv.a
 
 
-INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/client/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/core/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/server/enc_server/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/server/http_server/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/server/http_server/http_client/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/server/json_rpc/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/server/notify_server/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/stream/ch/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/stream/stream/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/net/stream/session/include/
+INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/net/client/include/ \
+    $$PWD/../cellframe-node/dap-sdk/io/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/server/enc_server/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/server/http_server/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/server/http_server/http_client/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/server/json_rpc/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/server/notify_server/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/stream/ch/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/stream/stream/include/ \
+    $$PWD/../cellframe-node/dap-sdk/net/stream/session/include/
 
 LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/modules/common/ -ldap_chain_common
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/modules/common/libdap_chain_common.a
 INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/modules/common/include/
 
-LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/crypto/ -ldap_crypto
-#PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/dap-sdk/crypto/libdap_crypto.a
-INCLUDEPATH += $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/include/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/rand/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/ \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/XKCP/lib/high/Keccak/FIPS202 \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/XKCP/lib/high/common \
-    $$PWD/../cellframe-node/cellframe-sdk/dap-sdk/crypto/src/XKCP/lib/common
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/ -ldap_crypto
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized/ -ldap_crypto_kyber512
+#PRE_TARGETDEPS += $$NODE_BUILD_PATH/dap-sdk/crypto/libdap_crypto.a
+INCLUDEPATH += $$PWD/../cellframe-node/dap-sdk/crypto/include/ \
+    $$PWD/../cellframe-node/dap-sdk/crypto/src/rand/ \
+    $$PWD/../cellframe-node/dap-sdk/crypto/src/ \
+    $$PWD/../cellframe-node/dap-sdk/crypto/src/Kyber/crypto_kem/kyber512/optimized \
+    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/high/Keccak/FIPS202 \
+    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/high/common \
+    $$PWD/../cellframe-node/dap-sdk/crypto/src/XKCP/lib/common
 
-INCLUDEPATH += $$NODE_BUILD_PATH/cellframe-sdk/deps/include/json-c/
-LIBS += -L$$NODE_BUILD_PATH/cellframe-sdk/deps/lib/ -ldap_json-c
+INCLUDEPATH += $$NODE_BUILD_PATH/dap-sdk/deps/include/json-c/
+LIBS += -L$$NODE_BUILD_PATH/dap-sdk/deps/lib/ -ldap_json-c
 #PRE_TARGETDEPS += $$NODE_BUILD_PATH/cellframe-sdk/deps/lib/libdap_json-c.a
 
 include (../cellframe-ui-sdk/chain/wallet/libdap-qt-chain-wallet.pri)
@@ -194,7 +228,7 @@ linux-* {
 }
 
 win32  {
-    LIBS += -lntdll -lpsapi -ljson-c -lmagic -lmqrt -lshlwapi -lregex -ltre -lintl -liconv -lbcrypt -lcrypt32 -lsecur32 -luser32 -lws2_32 -lole32
+    LIBS += -lntdll -lpsapi -lmagic -lmqrt -lshlwapi -lregex -ltre -lintl -liconv -lbcrypt -lcrypt32 -lsecur32 -luser32 -lws2_32 -lole32
     CONFIG(debug, debug|release) {
             TARGET_PATH = $$OUT_PWD/debug/$${TARGET}.exe
     }

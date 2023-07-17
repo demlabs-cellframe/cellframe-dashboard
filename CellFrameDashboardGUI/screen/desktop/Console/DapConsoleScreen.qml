@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 
 DapConsoleScreenForm
 {
-    property alias dapModelConsoleCommand: modelConsoleCommand
     ///@detalis sendCommand Text of command from the inputCommand
     property string sendCommand
     ///@detalis historyCommand Text of command from the command history
@@ -25,11 +24,9 @@ DapConsoleScreenForm
     }
 
     Component.onDestruction:
-        commandCmdController.StatusPage = false
-
-    ListModel
     {
-        id: modelConsoleCommand
+        consoleModule.clearModel()
+        commandCmdController.StatusPage = false
     }
 
     Component
@@ -44,7 +41,7 @@ DapConsoleScreenForm
                 readOnly: true
                 selectByMouse: true
                 id: textQuery
-                text: "> " + query + "\n" + response
+                text: "> " + modelData.query + "\n" + modelData.response
                 wrapMode: TextEdit.Wrap
                 font:  mainFont.dapFont.regular13
                 color: currTheme.white

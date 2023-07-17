@@ -195,6 +195,7 @@ Item
                                 Layout.preferredHeight: 26 * pt
                                 Layout.preferredWidth: 46 * pt
                                 Layout.rightMargin: 10 * pt
+                                indicatorSize: 30
 
                                 backgroundColor: currTheme.backgroundMainScreen
                                 borderColor: currTheme.reflectionLight

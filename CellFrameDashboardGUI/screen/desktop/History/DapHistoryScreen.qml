@@ -66,12 +66,6 @@ Page
 
     }
 
-    Component.onCompleted:
-    {
-        today = new Date()
-        yesterday = new Date(new Date().setDate(new Date().getDate()-1))
-    }
-
     Component
     {
         id: delegateDate
@@ -81,7 +75,7 @@ Page
             width: parent.width
             color: currTheme.mainBackground
 
-            property date payDate: new Date(Date.parse(section))
+//            property date payDate: new Date(Date.parse(section))
 
             Text
             {
@@ -91,7 +85,7 @@ Page
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignLeft
                 color: currTheme.white
-                text: logicExplorer.getDateString(payDate)
+                text: dateWorker.getDateString(section)
                 font: mainFont.dapFont.regular12
             }
         }
@@ -129,8 +123,9 @@ Page
                 {
                     id: textSatus
                     Layout.minimumWidth: 80
-                    text: tx_status === "ACCEPTED" ? status : "Declined"
+                    text: tx_status === "ACCEPTED" || tx_status === "PROCESSING" ? status : "Declined"
                     color: text === "Sent" ?      currTheme.orange :
+                           text === "Pending" ?   currTheme.neon :
                            text === "Error" ||
                            text === "Declined" ?  currTheme.red :
                            text === "Received"  ? currTheme.lightGreen :
@@ -150,7 +145,7 @@ Page
                     DapBigText
                     {
                         id: lblAmount
-                        property string sign: (status === "Sent" || status === "Pending") ? "- " : "+ "
+                        property string sign: direction === "to"? "- " : "+ "
                         anchors.fill: parent
                         textFont: mainFont.dapFont.regular14
                         fullText: sign + value + " " + token
@@ -187,20 +182,17 @@ Page
                     toolTip.width: text.implicitWidth + 16
                     toolTip.x: -toolTip.width/2 + 8
 
-                    enabled: tx_status === "DECLINED" ? false :
-                                network === "subzero" || network === "Backbone" ||
-                                network === "mileena" || network === "kelvpn-minkowski"  ?
-                                true : false
+                    enabled: tx_status === "DECLINED" || tx_status === "PROCESSING" ? false :
+                              network !== "private"?
+                              true : false
 
-                    indicatorSrcNormal: tx_status === "DECLINED" ? disabledIcon :
-                                            network === "subzero" || network === "Backbone" ||
-                                            network === "mileena" || network === "kelvpn-minkowski"  ?
+                    indicatorSrcNormal: tx_status === "DECLINED"  || tx_status === "PROCESSING" ? disabledIcon :
+                                            network !== "private"?
                                             normalIcon : disabledIcon
 
-                    indicatorSrcHover: tx_status === "DECLINED" ? disabledIcon :
-                                                                  network === "subzero" || network === "Backbone" ||
-                                                                  network === "mileena" || network === "kelvpn-minkowski"  ?
-                                                                  hoverIcon : disabledIcon
+                    indicatorSrcHover: tx_status === "DECLINED"   || tx_status === "PROCESSING" ? disabledIcon :
+                                            network !== "private"?
+                                            hoverIcon : disabledIcon
                 }
             }
 

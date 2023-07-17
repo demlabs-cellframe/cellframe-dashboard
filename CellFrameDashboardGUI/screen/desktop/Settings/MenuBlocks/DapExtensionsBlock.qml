@@ -53,7 +53,7 @@ Page
                         font: mainFont.dapFont.bold14
                         color: currTheme.white
                         verticalAlignment: Qt.AlignVCenter
-                        text: qsTr("Extensions")
+                        text: qsTr("dApps")
                     }
                 }
                 Rectangle
@@ -140,6 +140,7 @@ Page
                                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                                     Layout.preferredHeight: 26
                                     Layout.preferredWidth: 46
+                                    indicatorSize: 30
 
                                     backgroundColor: currTheme.mainBackground
                                     borderColor: currTheme.reflectionLight

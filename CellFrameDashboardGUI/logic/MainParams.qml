@@ -12,7 +12,7 @@ QtObject {
     property var mainWindow
     property var component
 
-    readonly property real minWindowScale: 0.25
+    readonly property real minWindowScale: 0.6
     readonly property real maxWindowScale: 4.0
 
     readonly property real maxCorrectScale: 1.25

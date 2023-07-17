@@ -95,7 +95,7 @@ DapRectangleLitAndShaded {
 
                     content.color: detailsModel.get(0).tx_status === "DECLINED" ?
                                            currTheme.red :
-                                           currTheme.green
+                                           currTheme.lightGreen
                 }
                 TextDetailsTx {
                     title.text: "Date"
@@ -111,22 +111,23 @@ DapRectangleLitAndShaded {
                     title.text: "Status"
                     content.text: detailsModel.get(0).status
                     title.color: currTheme.gray
-                    content.color: detailsModel.get(0).status === "Sent"  ?  currTheme.orange :
-                                       detailsModel.get(0).status === "Error" ?  currTheme.red :
-                                       detailsModel.get(0).status === "Received"  ? currTheme.lightGreen :
-                                                                                currTheme.white
+                    content.color: detailsModel.get(0).status === "Sent"     ?  currTheme.orange :
+                                   detailsModel.get(0).status === "Pending"  ?  currTheme.neon :
+                                   detailsModel.get(0).status === "Error"    ?  currTheme.red :
+                                   detailsModel.get(0).status === "Received" ?  currTheme.lightGreen :
+                                                                         currTheme.white
                 }
                 TextDetailsTx {
                     title.text: "From"
-                    content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).wallet_name : detailsModel.get(0).address
+                    content.text: detailsModel.get(0).direction === "to" ? detailsModel.get(0).wallet_name : detailsModel.get(0).address
                     title.color: currTheme.gray
-                    copyButton.visible: detailsModel.get(0).status === "Sent" ? false : detailsModel.get(0).address.length === 104 ? true : false
+                    copyButton.visible: detailsModel.get(0).direction === "to" ? false : detailsModel.get(0).address.length === 104 ? true : false
                 }
                 TextDetailsTx {
                     title.text: "To"
-                    content.text: detailsModel.get(0).status === "Sent" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
+                    content.text: detailsModel.get(0).direction === "to" ? detailsModel.get(0).address : detailsModel.get(0).wallet_name
                     title.color: currTheme.gray
-                    copyButton.visible: detailsModel.get(0).status === "Sent" ? true : false
+                    copyButton.visible: detailsModel.get(0).direction === "to" ? true : false
                 }
                 TextDetailsTx {
                     title.text: "Token"

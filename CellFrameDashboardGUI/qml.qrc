@@ -20,7 +20,7 @@
         <file>screen/desktop/Console/DapConsoleTab.qml</file>
         <file>screen/desktop/Console/DapConsoleRightPanel.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml</file>
-        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.ui.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentMainRightPanelForm.qml</file>
         <file>screen/desktop/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml</file>
         <file>screen/desktop/Logs/JS/DapLogScreenScripts.js</file>
         <file>screen/desktop/Certificates/parts/SearchInputBox.qml</file>
@@ -34,12 +34,6 @@
         <file>screen/desktop/Certificates/parts/Utils.qml</file>
         <file>screen/desktop/UnderConstructions.qml</file>
         <file>screen/desktop/Settings/RightPanel/DapEmptyRightPanel.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapCreateWallet.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapCreateWalletForm.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapDoneCreateWallet.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanel.qml</file>
-        <file>screen/desktop/Settings/RightPanel/DapRecoveryWalletRightPanelForm.ui.qml</file>
-        <file>WalletRestore/english_words.txt</file>
         <file>screen/desktop/VPNClient/DapVpnClientScreen.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTab.qml</file>
         <file>screen/desktop/VPNClient/DapVpnClientTopPanel.qml</file>
@@ -314,5 +308,31 @@
         <file>Resources/BlackTheme/icons/other/indicator_offline.svg</file>
         <file>Resources/BlackTheme/icons/other/indicator_error.svg</file>
         <file>Resources/BlackTheme/icons/other/icon_arrow_hover.svg</file>
+        <file>screen/desktop/Dashboard/DapDashboardNoWalletsScreen.qml</file>
+        <file>screen/desktop/Dashboard/DapDashboardWalletsShowScreen.qml</file>
+        <file>Resources/BlackTheme/Illustratons/wallet_illustration.svg</file>
+        <file>screen/desktop/Dashboard/DapDashboardCreateWalletsScreen.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanelForm.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapCreateWalletForm.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapCreateWallet.qml</file>
+        <file>screen/desktop/Dashboard/RightPanel/DapDoneCreateWallet.qml</file>
+        <file>Resources/BlackTheme/Illustratons/lock_illustration.svg</file>
+        <file>screen/desktop/Settings/MenuBlocks/DapSupportBlock.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_link.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_linkHover.svg</file>
+        <file>Modules/Wallet/WalletRestore/english_words.txt</file>
+        <file>screen/desktop/controls/DapVersionPopup.qml</file>
+        <file>screen/desktop/Logs/SelectorItem.qml</file>
+        <file>screen/desktop/Logs/fillModelScript.js</file>
+        <file>Resources/BlackTheme/icons/other/icon_copy_white.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_copy_black.svg</file>
+        <file>screen/desktop/Logs/DapExportPopup.qml</file>
+        <file>Resources/BlackTheme/icons/other/icon_reload.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_pause.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_reload_hover.svg</file>
+        <file>Resources/BlackTheme/icons/other/icon_pause_hover.svg</file>
+        <file>screen/desktop/Dashboard/DapWalletComboBox.qml</file>
+        <file>screen/desktop/controls/DapFeePopup.qml</file>
     </qresource>
 </RCC>

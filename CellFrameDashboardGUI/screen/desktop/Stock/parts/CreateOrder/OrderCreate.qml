@@ -256,8 +256,8 @@ Page
         if(price === "0" || total === "0" || total === "" || price === "")
             return false
 
-        var totalValue = isSell ? dapMath.divCoins(dapMath.coinsToBalance(total),
-                                                   dapMath.coinsToBalance(price),false):
+        var totalValue = isSell ? mathWorker.divCoins(mathWorker.coinsToBalance(total),
+                                                   mathWorker.coinsToBalance(price),false):
                                   total
 
         var nameToken = isSell ? tokenPairsWorker.tokenBuy :
@@ -280,7 +280,7 @@ Page
 
         if(logicStock.selectedTokenNameWallet === nameToken)
         {
-            str = dapMath.subCoins(dapMath.coinsToBalance(logicStock.selectedTokenBalanceWallet), dapMath.coinsToBalance(totalValue), false)
+            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.selectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
 
             if(str.length < 70)
                 return true
@@ -289,7 +289,7 @@ Page
         }
         else if(logicStock.unselectedTokenNameWallet === nameToken)
         {
-            str = dapMath.subCoins(dapMath.coinsToBalance(logicStock.unselectedTokenBalanceWallet), dapMath.coinsToBalance(totalValue), false)
+            str = mathWorker.subCoins(mathWorker.coinsToBalance(logicStock.unselectedTokenBalanceWallet), mathWorker.coinsToBalance(totalValue), false)
 
             if(str.length < 70)
                 return true

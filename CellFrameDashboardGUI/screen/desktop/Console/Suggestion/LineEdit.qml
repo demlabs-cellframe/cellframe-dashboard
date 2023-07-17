@@ -23,7 +23,6 @@ FocusScope {
 //        wrapMode: TextField.WrapAnywhere
         validator: RegExpValidator { regExp: /[0-9A-Za-z\-\_\:\.\(\)\?\<\>\@\[\]\{\}\+\s*]+/ }
         placeholderText: qsTr("Type here...")
-
 //        background: Rectangle
 //        {
 //            color: currTheme.backgroundElements
@@ -43,6 +42,7 @@ FocusScope {
 
         Keys.onReturnPressed: {
             enterPressed()
+            focus = true
         }
 
         onTextChanged:{

@@ -52,13 +52,13 @@ QtObject {
             networksModel.clear()
             for (var i = 0; i < networksStatesList.length; ++i)
             {
-                networksModel.append({ "name" : networksStatesList[i].name,
-                                                "networkState" : networksStatesList[i].networkState,
-                                                "targetState" : networksStatesList[i].targetState,
-                                                "errorMessage" : networksStatesList[i].errorMessage,
-                                                "linksCount" : networksStatesList[i].linksCount,
-                                                "activeLinksCount" : networksStatesList[i].activeLinksCount,
-                                                "nodeAddress" : networksStatesList[i].nodeAddress})
+                networksModel.append({  "name" : networksStatesList[i].name,
+                                        "networkState" : networksStatesList[i].networkState,
+                                        "targetState" : networksStatesList[i].targetState,
+                                        "errorMessage" : networksStatesList[i].errorMessage,
+                                        "linksCount" : networksStatesList[i].linksCount,
+                                        "activeLinksCount" : networksStatesList[i].activeLinksCount,
+                                        "nodeAddress" : networksStatesList[i].nodeAddress})
             }
         } else {
             updateContentForExistingModel(networksModel, networksStatesList)

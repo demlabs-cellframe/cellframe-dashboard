@@ -37,4 +37,13 @@ DapPage
             popupInfo.show(flag)
         }
     }
+
+    Connections{
+        target: diagnosticsModule
+        function onSignalDiagnosticData(diagnosticData){
+            var jsonDocument = JSON.parse(diagnosticData)
+            diagnosticDataModel.clear();
+            diagnosticDataModel.append(jsonDocument);
+        }
+    }
 }

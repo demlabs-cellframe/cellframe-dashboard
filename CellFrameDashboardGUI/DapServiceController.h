@@ -11,11 +11,6 @@
 #include <QJsonDocument>
 #include "json.h"
 
-#include "NotifyController/DapNotifyController.h"
-#include "serviceClient/DapServiceClient.h"
-#include "DapServiceClientMessage.h"
-#include "DapWallet.h"
-#include "handlers/DapAbstractCommand.h"
 #include "handlers/DapQuitApplicationCommand.h"
 #include "handlers/DapActivateClientCommand.h"
 #include "handlers/DapCertificateManagerCommands.h"
@@ -58,6 +53,15 @@
 #include "handlers/DapXchangeOrderPurchase.h"
 #include "handlers/DapWalletActivateOrDeactivateCommand.h"
 #include "handlers/DapNodeRestart.h"
+#include "handlers/DapRemoveChainsOrGdbCommand.h"
+#include "handlers/DapGetFeeCommand.h"
+
+#include "NotifyController/DapNotifyController.h"
+#include "serviceClient/DapServiceClient.h"
+#include "DapServiceClientMessage.h"
+#include "DapWallet.h"
+#include "handlers/DapAbstractCommand.h"
+
 
 #include "serviceimitator.h"
 
@@ -231,7 +235,7 @@ signals:
     void ordersReceived(QList<QObject*> orderList);
 
     void networkStatesListReceived(const QVariant& networksStateList);
-    void networksStatesReceived(QList<QObject*> networksStatesList);
+//    void networksStatesReceived(QList<QObject*> networksStatesList);
 
     void networksReceived(QList<QObject*> networksList);
 
@@ -254,6 +258,8 @@ signals:
 
     void rcvActivateOrDeactivateReply(const QVariant& rcvData);
 
+    void rcvFee(const QVariant& rcvData);
+
 
     void dapRcvNotify(const QVariant& rcvData);
     void notifyReceived(const QVariant& rcvData);
@@ -263,6 +269,10 @@ signals:
     void rcvWordBook(const QVariant& rcvData);
 
     void nodeRestart();
+
+    void rcvRemoveResult(const QVariant& rcvData);
+
+    void exportLogs(const QVariant& rcvData);
 
 private slots:
     /// Register command.

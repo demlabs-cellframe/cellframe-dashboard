@@ -123,7 +123,7 @@ Rectangle {
     Component.onCompleted:
     {
         modelLastActions.clear()
-        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
+//        logicMainApp.requestToService("DapGetWalletsInfoCommand", "true");
     }
 
     InnerShadow {

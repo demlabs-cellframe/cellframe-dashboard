@@ -1,5 +1,6 @@
 #include "DapServiceController.h"
 
+
 #include "DapNetworkStr.h"
 
 #include "dapconfigreader.h"
@@ -288,6 +289,10 @@ void DapServiceController::registerCommand()
 
     m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapWebConnectRequest("DapWebConnectRequest",m_DAPRpcSocket))), QString("dapWebConnectRequest")));
 
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapRemoveChainsOrGdbCommand("DapRemoveChainsOrGdbCommand",m_DAPRpcSocket))), QString("rcvRemoveResult")));
+
+    m_transceivers.append(qMakePair(dynamic_cast<DapAbstractCommand*>(m_DAPRpcSocket->addService(new DapGetFeeCommand("DapGetFeeCommand",m_DAPRpcSocket))), QString("rcvFee")));
+
 
 #ifdef SERVICE_IMITATOR
     connect(imitator, &ServiceImitator::versionControllerResult,
@@ -361,26 +366,26 @@ void DapServiceController::registerCommand()
 
     connect(this, &DapServiceController::historyReceived, [=] (const QVariant& wallethistory)
     {
-        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
-        QList<DapWalletHistoryEvent> tempWalletHistory;
+//        QByteArray  array = QByteArray::fromHex(wallethistory.toByteArray());
+//        QList<DapWalletHistoryEvent> tempWalletHistory;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempWalletHistory;
+//        QDataStream in(&array, QIODevice::ReadOnly);
+//        in >> tempWalletHistory;
 
-        QList<QObject*> walletHistory;
-        auto begin = tempWalletHistory.begin();
-        auto end = tempWalletHistory.end();
-        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
-        for(;begin != end; ++begin)
-        {
-            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
-            walletHistory.append(wallethistoryEvent);
-        }
+//        QList<QObject*> walletHistory;
+//        auto begin = tempWalletHistory.begin();
+//        auto end = tempWalletHistory.end();
+//        DapWalletHistoryEvent * wallethistoryEvent = nullptr;
+//        for(;begin != end; ++begin)
+//        {
+//            wallethistoryEvent = new DapWalletHistoryEvent(*begin);
+//            walletHistory.append(wallethistoryEvent);
+//        }
 
-        qDebug() << "DapServiceController::registerCommand"
-                 << "DapServiceController::historyReceived" << walletHistory.size();
+//        qDebug() << "DapServiceController::registerCommand"
+//                 << "DapServiceController::historyReceived" << walletHistory.size();
 
-        emit walletHistoryReceived(walletHistory);
+//        emit walletHistoryReceived(walletHistory);
     });
 
 //    connect(this, &DapServiceController::allHistoryReceived, [=] (const QVariant& wallethistory)
@@ -425,26 +430,26 @@ void DapServiceController::registerCommand()
         emit ordersReceived(orders);
     });
 
-    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
-    {
-        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
-        QList<DapNetworkStr> tempNetworks;
+//    connect(this, &DapServiceController::networkStatesListReceived, [=] (const QVariant& networkList)
+//    {
+//        QByteArray  array = QByteArray::fromHex(networkList.toByteArray());
+//        QList<DapNetworkStr> tempNetworks;
 
-        QDataStream in(&array, QIODevice::ReadOnly);
-        in >> tempNetworks;
+//        QDataStream in(&array, QIODevice::ReadOnly);
+//        in >> tempNetworks;
 
-        QList<QObject*> networks;
-        auto begin = tempNetworks.begin();
-        auto end = tempNetworks.end();
-        DapNetworkStr * network = nullptr;
-        for(;begin != end; ++begin)
-        {
-            network = new DapNetworkStr(*begin);
-            networks.append(network);
-        }
+//        QList<QObject*> networks;
+//        auto begin = tempNetworks.begin();
+//        auto end = tempNetworks.end();
+//        DapNetworkStr * network = nullptr;
+//        for(;begin != end; ++begin)
+//        {
+//            network = new DapNetworkStr(*begin);
+//            networks.append(network);
+//        }
 
-        emit networksStatesReceived(networks);
-    });
+//        emit networksStatesReceived(networks);
+//    });
 
     connect(this, &DapServiceController::networksListReceived, [=] (const QVariant& networksList)
     {

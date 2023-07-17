@@ -1,4 +1,50 @@
 #include "DapServiceController.h"
+
+#include "handlers/DapAbstractCommand.h"
+#include "handlers/DapQuitApplicationCommand.h"
+#include "handlers/DapActivateClientCommand.h"
+#include "handlers/DapUpdateLogsCommand.h"
+#include "handlers/DapAddWalletCommand.h"
+#include "handlers/DapGetListNetworksCommand.h"
+#include "handlers/DapGetNetworkStatusCommand.h"
+#include "handlers/DapNetworkGoToCommand.h"
+#include "handlers/DapGetWalletInfoCommand.h"
+#include "handlers/DapGetWalletsInfoCommand.h"
+#include "handlers/DapGetWalletAddressesCommand.h"
+#include "handlers/DapExportLogCommand.h"
+#include "handlers/DapGetWalletTokenInfoCommand.h"
+#include "handlers/DapCreateTransactionCommand.h"
+#include "handlers/DapMempoolProcessCommand.h"
+#include "handlers/DapGetWalletHistoryCommand.h"
+#include "handlers/DapGetAllWalletHistoryCommand.h"
+#include "handlers/DapRunCmdCommand.h"
+#include "handlers/DapGetHistoryExecutedCmdCommand.h"
+#include "handlers/DapSaveHistoryExecutedCmdCommand.h"
+#include "handlers/DapCertificateManagerCommands.h"
+#include "handlers/DapGetListOdersCommand.h"
+#include "handlers/DapGetNetworksStateCommand.h"
+#include "handlers/DapNetworkSingleSyncCommand.h"
+#include "handlers/DapGetListWalletsCommand.h"
+#include "handlers/DapVersionController.h"
+#include "handlers/DapRcvNotify.h"
+#include "handlers/DapNodeConfigController.h"
+#include "handlers/DapGetListTokensCommand.h"
+#include "handlers/DapWebConnectRequest.h"
+#include "handlers/DapTokenEmissionCommand.h"
+#include "handlers/DapTokenDeclCommand.h"
+#include "handlers/DapGetXchangeTxList.h"
+#include "handlers/DapXchangeOrderCreate.h"
+#include "handlers/DapXchangeOrderPurchase.h"
+#include "handlers/DapGetXchangeOrdersList.h"
+#include "handlers/DapGetXchangeTokenPair.h"
+#include "handlers/DapGetXchangeTokenPriceAverage.h"
+#include "handlers/DapGetXchangeTokenPriceHistory.h"
+#include "handlers/DapGetWordBook.h"
+#include "handlers/DapWalletActivateOrDeactivateCommand.h"
+#include "handlers/DapNodeRestart.h"
+#include "handlers/DapRemoveChainsOrGdbCommand.h"
+#include "handlers/DapGetFeeCommand.h"
+
 #ifdef Q_OS_WIN
 #include "registry.h"
 #define LOG_FILE    QString("%1/cellframe-node/var/log/cellframe-node.log").arg(regGetUsrPath())
@@ -37,6 +83,17 @@ DapServiceController::DapServiceController(QObject *parent) : QObject(parent)
 DapServiceController::~DapServiceController()
 {
 
+//    for(auto *thread : qAsConst(m_threadPool))
+//    {
+//        thread->exit();
+//        delete thread;
+//    }
+//    m_threadPool.clear();
+
+    for(auto *service : qAsConst(m_servicePool))
+        delete service;
+
+    m_servicePool.clear();
 }
 
 /// Start service: creating server and socket.
@@ -46,31 +103,31 @@ bool DapServiceController::start()
     qInfo() << "DapChainDashboardService::start()";
     m_pServer = new DapUiService(this);
     watcher = new DapNotificationWatcher(this);
-    m_syncControll = new DapNetSyncController(watcher, this);
+//    m_syncControll = new DapNetSyncController(watcher, this);
     m_web3Controll = new DapWebControll(this);
 //    m_versionController = new DapUpdateVersionController(this);
 #ifdef Q_OS_ANDROID
     if (m_pServer->listen("127.0.0.1", 22150)) {
         qDebug() << "Listen for UI on 127.0.0.1: " << 22150;
-        connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
-        connect(m_pServer, SIGNAL(onClientDisconnected()), SIGNAL(onClientDisconnected()));
-        registerCommand();
+        connect(m_pServer, &DapUiService::onClientConnected, &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, &DapServiceController::onNewClientConnected);
+        initServices();
     }
 #else
     m_pServer->setSocketOptions(QLocalServer::WorldAccessOption);
     if(m_pServer->listen(DAP_BRAND)) 
     {
-        connect(m_pServer, SIGNAL(onClientConnected()), SIGNAL(onNewClientConnected()));
-        connect(m_pServer, SIGNAL(onClientDisconnected()), SIGNAL(onClientDisconnected()));
+        connect(m_pServer, &DapUiService::onClientConnected, this,  &DapServiceController::onNewClientConnected);
+        connect(m_pServer, &DapUiService::onClientDisconnected, this, &DapServiceController::onClientDisconnected);
         // Register command
-        registerCommand();
+        initServices();
         // Send data from notify socket to client
-        connect(watcher, SIGNAL(rcvNotify(QVariant)), this, SLOT(sendNotifyDataToGui(QVariant)));
-        connect(watcher, SIGNAL(rcvNotify(QVariant)), m_web3Controll, SLOT(rcvNodeStatus(QVariant)));
+        connect(watcher, &DapNotificationWatcher::rcvNotify, this, &DapServiceController::sendNotifyDataToGui);
+        connect(watcher, &DapNotificationWatcher::rcvNotify, m_web3Controll, &DapWebControll::rcvNodeStatus);
         // Channel req\rep for web 3 API
         DapAbstractCommand * transceiver = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapWebConnectRequest"));
-        connect(transceiver, SIGNAL(clientResponded(QVariant)), this, SLOT(rcvReplyFromClient(QVariant)));
-        connect(m_web3Controll, SIGNAL(signalConnectRequest(QString, int)), this, SLOT(sendConnectRequest(QString, int)));
+        connect(transceiver,    &DapAbstractCommand::clientResponded,  this, &DapServiceController::rcvReplyFromClient);
+        connect(m_web3Controll, &DapWebControll::signalConnectRequest, this, &DapServiceController::sendConnectRequest);
 
         DapAbstractCommand * initBook = dynamic_cast<DapAbstractCommand*>(m_pServer->findService("DapGetWordBook"));
         initBook->respondToClient("init");
@@ -108,95 +165,63 @@ void DapServiceController::rcvReplyFromClient(QVariant result)
     m_web3Controll->rcvAccept(arr.at(0).toBool(), arr.at(1).toInt());
 }
 
-/// Register command.
-void DapServiceController::registerCommand()
+void DapServiceController::initServices()
 {
-    //all certificates commands for module certificate in
-    m_pServer->addService(new DapCertificateManagerCommands("DapCertificateManagerCommands", m_pServer, CLI_PATH, TOOLS_PATH));
+    m_servicePool.append(new DapCertificateManagerCommands        ("DapCertificateManagerCommands"        , m_pServer, CLI_PATH, TOOLS_PATH));
+    m_servicePool.append(new DapQuitApplicationCommand            ("DapQuitApplicationCommand"            , m_pServer));
+    m_servicePool.append(new DapActivateClientCommand             ("DapActivateClientCommand"             , m_pServer));
+    m_servicePool.append(new DapUpdateLogsCommand                 ("DapUpdateLogsCommand"                 , m_pServer, LOG_FILE));
+    m_servicePool.append(new DapAddWalletCommand                  ("DapAddWalletCommand"                  , m_pServer));
+    m_servicePool.append(new DapGetWalletInfoCommand              ("DapGetWalletInfoCommand"              , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetWalletsInfoCommand             ("DapGetWalletsInfoCommand"             , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetListNetworksCommand            ("DapGetListNetworksCommand"            , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetNetworkStatusCommand           ("DapGetNetworkStatusCommand"           , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapNetworkGoToCommand                ("DapNetworkGoToCommand"                , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapExportLogCommand                  ("DapExportLogCommand"                  , m_pServer));
+    m_servicePool.append(new DapGetWalletAddressesCommand         ("DapGetWalletAddressesCommand"         , m_pServer));
+    m_servicePool.append(new DapGetListOrdersCommand              ("DapGetListOrdersCommand"              , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetListNetworksCommand            ("DapGetListNetworksCommand"            , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetNetworksStateCommand           ("DapGetNetworksStateCommand"           , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapNetworkSingleSyncCommand          ("DapNetworkSingleSyncCommand"          , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetWalletTokenInfoCommand         ("DapGetWalletTokenInfoCommand"         , m_pServer));
+    m_servicePool.append(new DapGetListWalletsCommand             ("DapGetListWalletsCommand"             , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapCreateTransactionCommand          ("DapCreateTransactionCommand"          , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetWalletHistoryCommand           ("DapGetWalletHistoryCommand"           , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetAllWalletHistoryCommand        ("DapGetAllWalletHistoryCommand"        , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapRunCmdCommand                     ("DapRunCmdCommand"                     , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetHistoryExecutedCmdCommand      ("DapGetHistoryExecutedCmdCommand"      , m_pServer, CMD_HISTORY));
+    m_servicePool.append(new DapSaveHistoryExecutedCmdCommand     ("DapSaveHistoryExecutedCmdCommand"     , m_pServer, CMD_HISTORY));
+    m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer));
+    m_servicePool.append(new DapRcvNotify                         ("DapRcvNotify"                         , m_pServer));
+    m_servicePool.append(new DapNodeConfigController              ("DapNodeConfigController"              , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetListTokensCommand              ("DapGetListTokensCommand"              , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapTokenEmissionCommand              ("DapTokenEmissionCommand"              , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapTokenDeclCommand                  ("DapTokenDeclCommand"                  , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetXchangeTxList                  ("DapGetXchangeTxList"                  , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapXchangeOrderCreate                ("DapXchangeOrderCreate"                , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetXchangeOrdersList              ("DapGetXchangeOrdersList"              , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetXchangeTokenPair               ("DapGetXchangeTokenPair"               , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetXchangeTokenPriceAverage       ("DapGetXchangeTokenPriceAverage"       , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetXchangeTokenPriceHistory       ("DapGetXchangeTokenPriceHistory"       , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetWordBook                       ("DapGetWordBook"                       , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapXchangeOrderPurchase              ("DapXchangeOrderPurchase"              , m_pServer));
+    m_servicePool.append(new DapWalletActivateOrDeactivateCommand ("DapWalletActivateOrDeactivateCommand" , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapNodeRestart                       ("DapNodeRestart"                       , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapRemoveChainsOrGdbCommand          ("DapRemoveChainsOrGdbCommand"          , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapGetFeeCommand                     ("DapGetFeeCommand"                     , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapWebConnectRequest                 ("DapWebConnectRequest"                 , m_pServer));
 
-    // Application shutdown team
-    m_pServer->addService(new DapQuitApplicationCommand("DapQuitApplicationCommand", m_pServer));
-    // GUI client activation command in case it is minimized/expanded
-    m_pServer->addService(new DapActivateClientCommand("DapActivateClientCommand", m_pServer));
-    // Log update command on the Logs tab
-    m_pServer->addService(new DapUpdateLogsCommand("DapUpdateLogsCommand", m_pServer, LOG_FILE));
-    // The team to create a new wallet on the Dashboard tab
-    m_pServer->addService(new DapAddWalletCommand("DapAddWalletCommand", m_pServer));
-    // Team to get information about wallet
-    m_pServer->addService(new DapGetWalletInfoCommand("DapGetWalletInfoCommand", m_pServer, CLI_PATH));
-    // Team to get information on all available wallets
-    m_pServer->addService(new DapGetWalletsInfoCommand("DapGetWalletsInfoCommand", m_pServer, CLI_PATH));
-    // The command to get a list of available networks
-    m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
-    // The command to get a network status
-    m_pServer->addService(new DapGetNetworkStatusCommand("DapGetNetworkStatusCommand", m_pServer, CLI_PATH));
-    // The command to get a network status
-    m_pServer->addService(new DapNetworkGoToCommand("DapNetworkGoToCommand", m_pServer, CLI_PATH));
-    // Saving the file with the logs
-    m_pServer->addService(new DapExportLogCommand("DapExportLogCommand", m_pServer));
+    for(auto service: qAsConst(m_servicePool))
+    {
+//        service->setParent(nullptr);
 
-    m_pServer->addService(new DapGetWalletAddressesCommand("DapGetWalletAddressesCommand", m_pServer));
+//        QThread * thread = new QThread(m_pServer);
+//        service->moveToThread(thread);
+//        thread->start();
 
-    // The command to get a list of available orders
-    m_pServer->addService(new DapGetListOrdersCommand("DapGetListOrdersCommand", m_pServer, CLI_PATH));
+//        m_threadPool.append(thread);
 
-    m_pServer->addService(new DapGetListNetworksCommand("DapGetListNetworksCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetNetworksStateCommand("DapGetNetworksStateCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapNetworkSingleSyncCommand("DapNetworkSingleSyncCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetWalletTokenInfoCommand("DapGetWalletTokenInfoCommand", m_pServer));
-
-    m_pServer->addService(new DapGetListWalletsCommand("DapGetListWalletsCommand", m_pServer, CLI_PATH));
-    // Creating a token transfer transaction between wallets
-    m_pServer->addService(new DapCreateTransactionCommand("DapCreateTransactionCommand", m_pServer, CLI_PATH));
-    // Transaction confirmation
-    m_pServer->addService(new DapMempoolProcessCommand("DapMempoolProcessCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetWalletHistoryCommand("DapGetWalletHistoryCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetAllWalletHistoryCommand("DapGetAllWalletHistoryCommand", m_pServer, CLI_PATH));
-    // Run cli command
-    m_pServer->addService(new DapRunCmdCommand("DapRunCmdCommand", m_pServer, CLI_PATH));
-    // Get history of commands executed by cli handler
-    m_pServer->addService(new DapGetHistoryExecutedCmdCommand("DapGetHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
-    // Save cmd command in file
-    m_pServer->addService(new DapSaveHistoryExecutedCmdCommand("DapSaveHistoryExecutedCmdCommand", m_pServer, CMD_HISTORY));
-
-    m_pServer->addService(new DapVersionController("DapVersionController", m_pServer));
-
-    m_pServer->addService(new DapRcvNotify("DapRcvNotify", m_pServer));
-
-    m_pServer->addService(new DapNodeConfigController("DapNodeConfigController", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetListTokensCommand("DapGetListTokensCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapTokenEmissionCommand("DapTokenEmissionCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapTokenDeclCommand("DapTokenDeclCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetXchangeTxList("DapGetXchangeTxList", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapXchangeOrderCreate("DapXchangeOrderCreate", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetXchangeOrdersList("DapGetXchangeOrdersList", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetXchangeTokenPair("DapGetXchangeTokenPair", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetXchangeTokenPriceAverage("DapGetXchangeTokenPriceAverage", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetXchangeTokenPriceHistory("DapGetXchangeTokenPriceHistory", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapGetWordBook("DapGetWordBook", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapXchangeOrderPurchase("DapXchangeOrderPurchase", m_pServer));
-
-    m_pServer->addService(new DapWalletActivateOrDeactivateCommand("DapWalletActivateOrDeactivateCommand", m_pServer, CLI_PATH));
-
-    m_pServer->addService(new DapNodeRestart("DapNodeRestart", m_pServer, CLI_PATH));
-
-
-    m_pServer->addService(new DapWebConnectRequest("DapWebConnectRequest", m_pServer));
-
+        m_pServer->addService(service);
+    }
 }

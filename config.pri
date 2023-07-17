@@ -3,7 +3,10 @@ QMAKE_CFLAGS += -std=gnu11
 QMAKE_CFLAGS_DEBUG += -DDAP_DEBUG
 QMAKE_CXXFLAGS_DEBUG += -DDAP_DEBUG
 
-LIBS += -ldl
+! win32 {
+        LIBS += -ldl
+}
+
 
 # version.mk should look just-like .pro file (and it does if there is only variables`)
 VER_MAJ = $$fromfile(version.mk, VERSION_MAJOR)
@@ -69,8 +72,7 @@ unix {
 	    -Wno-unused-function \
 	    -Wno-implicit-fallthrough \
 	    -Wno-unused-variable \
-	    -Wno-unused-parameter \
-	    -Wno-unused-but-set-variable
+            -Wno-unused-parameter
 
         QMAKE_CFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing -gdwarf-2
 	QMAKE_CXXFLAGS_DEBUG += -Wall -g3 -ggdb -fno-strict-aliasing -gdwarf-2

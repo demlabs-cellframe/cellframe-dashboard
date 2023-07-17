@@ -2,13 +2,10 @@ import QtQuick 2.4
 
 DapNewPaymentMainRightPanelForm
 {
-    property var walletName: ""
-
     Component.onCompleted:
     {
-        updateWalletTimer.stop()
-
-        walletName = dapModelWallets.get(logicMainApp.currentWalletIndex).name
+//        updateWalletTimer.stop()
+        walletModule.timerUpdateFlag(false);
 
         logicWallet.initNetworks()
 
@@ -27,6 +24,8 @@ DapNewPaymentMainRightPanelForm
         dapComboBoxChainModel = networksModel.
             get(dapComboboxNetwork.currentIndex).chains
 
+        balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
+
 //        dapTextInputAmountPayment.text = "0.0"
     }
     dapComboboxNetwork.onCurrentIndexChanged:
@@ -37,7 +36,7 @@ DapNewPaymentMainRightPanelForm
         }
         else
         {
-            print("dapComboboxNetwork.onCurrentIndexChanged")
+            console.log("dapComboboxNetwork.onCurrentIndexChanged")
 
             dapComboBoxTokenModel = networksModel.
                 get(dapComboboxNetwork.currentIndex).tokens
@@ -45,7 +44,7 @@ DapNewPaymentMainRightPanelForm
             dapComboBoxChainModel = networksModel.
                 get(dapComboboxNetwork.currentIndex).chains
 
-            print("dapComboBoxTokenModel length", dapComboBoxTokenModel.count)
+            console.log("dapComboBoxTokenModel length", dapComboBoxTokenModel.count)
 
             if (dapComboBoxTokenModel.count === 0)
             {
@@ -66,22 +65,23 @@ DapNewPaymentMainRightPanelForm
                 dapButtonSend.visible = true
             }
 
-            dapTextInputAmountPayment.text = ""
+//            dapTextInputAmountPayment.text = ""
+            balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
+
         }
     }
 
     dapComboBoxToken.onCurrentIndexChanged:
     {
-        dapTextInputAmountPayment.text = ""
+//        dapTextInputAmountPayment.text = ""
+        balance.fullText = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins + " " + dapComboBoxToken.displayText
+
     }
 
     dapButtonClose.onClicked:
     {
-//        previousActivated(lastActionsWallet)
-        updateWalletTimer.start()
+        walletModule.timerUpdateFlag(true);
         pop()
-        //DmitriyT Removed this code below. Will see reaction of app.
-        //dapDashboardScreen.dapButtonNewPayment.colorBackgroundNormal = "#070023"
     }
 
     dapButtonSend.onClicked:
@@ -97,7 +97,7 @@ DapNewPaymentMainRightPanelForm
             console.log("wallet address:", dapTextInputRecipientWalletAddress.text.length)
 
             if (dapTextInputAmountPayment.text === "" ||
-                logicWallet.testAmount("0.0", dapTextInputAmountPayment.text))
+                stringWorker.testAmount("0.0", dapTextInputAmountPayment.text))
             {
                 console.log("Zero value")
                 dapTextNotEnoughTokensWarning.text = qsTr("Zero value.")
@@ -112,8 +112,10 @@ DapNewPaymentMainRightPanelForm
             {
                 console.log("dapWalletMessagePopup.smartOpen")
                 dapWalletMessagePopup.smartOpen(
-                            "Confirming the transaction",
-                            "Attention, the transaction fee will be 0.05 " + dapComboBoxToken.displayText )
+                            qsTr("Confirming the transaction"),
+                            qsTr("Attention, the transaction fee will be "))
+
+                modulesController.getComission(dapComboboxNetwork.displayText)
 
             }
         }
@@ -138,52 +140,98 @@ DapNewPaymentMainRightPanelForm
             }
             else
             {
-                var amountWithCommission = (parseFloat(logicWallet.clearZeros(dapTextInputAmountPayment.text)) + 0.05).toString()
-                print("amountWithCommission", amountWithCommission)
-                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
-                print("full_balance", full_balance)
+                var amount = mathWorker.coinsToBalance(dapTextInputAmountPayment.text)
+                var commission = mathWorker.sumCoins(dapWalletMessagePopup.feeStruct.network_fee.fee_datoshi,
+                                                     dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi,
+                                                     false)
+                var fee = dapWalletMessagePopup.feeStruct.validator_fee.average_fee_datoshi
+                var amountWithCommission = mathWorker.sumCoins(dapTextInputAmountPayment.text, commission, true)
 
-                if (!logicWallet.testAmount(full_balance, amountWithCommission))
+                commission = mathWorker.coinsToBalance(commission)
+                var full_balance = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins
+
+                console.log("amount_datoshi", amount)
+                console.log("comission_datoshi", commission)
+                console.log("amountWithCommission_coins", amountWithCommission)
+                console.log("full_balance_coins", full_balance)
+
+                if (!stringWorker.testAmount(full_balance, amountWithCommission))
                 {
-                    print("Not enough tokens")
+                    console.log("Not enough tokens")
                     dapTextNotEnoughTokensWarning.text =
                         qsTr("Not enough available tokens. Maximum value = %1. Enter a lower value. Current value with comission = %2").
                         arg(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins).arg(amountWithCommission)
                 }
                 else
                 {
-                    print("Enough tokens. Correct address length.")
+                    console.log("Enough tokens. Correct address length.")
                     dapTextNotEnoughTokensWarning.text = ""
-
-                    var amount = logicWallet.toDatoshi(dapTextInputAmountPayment.text)
 
                     console.log("DapCreateTransactionCommand:")
                     console.log("   network:", dapComboboxNetwork.displayText)
-//                    console.log("   chain:", dapComboBoxChainModel.get(dapComboboxChain.currentIndex).name)
-                    console.log("   wallet from:", walletName)
+                    console.log("   wallet from:", walletInfo.name)
                     console.log("   wallet to:", dapTextInputRecipientWalletAddress.text)
                     console.log("   token:", dapComboBoxToken.displayText)
                     console.log("   amount:", amount)
+                    console.log("   fee:", fee)
 
-                    var commission = logicWallet.toDatoshi("0.05")
 
-                    logicMainApp.requestToService("DapCreateTransactionCommand",
+
+                    var argsRequest = logicMainApp.createRequestToService("DapCreateTransactionCommand",
                         dapComboboxNetwork.displayText,
-                        walletName,
+                        walletInfo.name,
                         dapTextInputRecipientWalletAddress.text,
-                        dapComboBoxToken.displayText, amount, commission)
+                        dapComboBoxToken.displayText, amount, fee)
+
+                    walletModule.createTx(argsRequest);
                 }
             }
         }
     }
+    function calculatePrecentAmount(percent)
+    {
+        var commission = 0.05
+
+        if(!stringWorker.testAmount(dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).coins, commission))
+            return "0.00"
+
+        var balanceDatoshi = dapComboBoxTokenModel.get(dapComboBoxToken.currentIndex).datoshi
+        var precentDatoshi = mathWorker.coinsToBalance(percent)
+        var comissionDatoshi = mathWorker.coinsToBalance(commission)
+
+        var availBalance = mathWorker.subCoins(balanceDatoshi, comissionDatoshi, true)
+
+        var resAmount = mathWorker.multCoins(availBalance, precentDatoshi, false)
+
+
+        //down fixed
+        var digits = 6
+        const factor = 10 ** digits;
+        var abtAmount = (Math.round(parseFloat(resAmount) * factor - 0.5) / factor).toFixed(digits);
+        abtAmount = stringWorker.clearZeros(abtAmount)
+
+        var resAbt
+        if(abtAmount[0]=== ".")
+            resAbt = "~0"+abtAmount
+        else
+            resAbt = "~"+abtAmount
+
+        var res = [resAmount, resAbt]
+//        console.log(res[0], res[1])
+
+
+
+        return res
+    }
+
 
     Connections
     {
-        target: dapServiceController
-        function onTransactionCreated(aResult)
+        target: walletModule
+        function onSigTxCreate(aResult)
         {
             commandResult = aResult
-            updateWalletTimer.start()
+            walletModule.timerUpdateFlag(true);
             navigator.doneNewPayment()
         }
     }

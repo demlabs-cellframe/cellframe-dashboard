@@ -13,11 +13,11 @@ Item
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: 0 
+        spacing: 0
 
         Text {
-            Layout.minimumHeight: 35 
-            Layout.maximumHeight: 35 
+            Layout.minimumHeight: 35
+            Layout.maximumHeight: 35
             Layout.leftMargin: 16
             verticalAlignment: Text.AlignVCenter
             font: mainFont.dapFont.bold14
@@ -27,7 +27,7 @@ Item
 
         ColumnLayout
         {
-//            Layout.margins: 3 
+//            Layout.margins: 3
             Layout.leftMargin: 3
             Layout.topMargin: 5
             spacing: 6
@@ -38,8 +38,8 @@ Item
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("All statuses")
                 checked: true
-                indicatorInnerSize: 46 
-                spaceIndicatorText: 3 
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -53,8 +53,8 @@ Item
                 id: buttonSelectionPending
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Pending")
-                indicatorInnerSize: 46 
-                spaceIndicatorText: 3 
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -68,8 +68,8 @@ Item
                 id: buttonSelectionSent
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Sent")
-                indicatorInnerSize: 46 
-                spaceIndicatorText: 3 
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -83,8 +83,8 @@ Item
                 id: buttonSelectionReceived
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Received")
-                indicatorInnerSize: 46 
-                spaceIndicatorText: 3 
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -98,8 +98,8 @@ Item
                 id: buttonSelectionError
                 Layout.fillWidth: true
                 nameRadioButton: qsTr("Declined")
-                indicatorInnerSize: 46 
-                spaceIndicatorText: 3 
+                indicatorInnerSize: 46
+                spaceIndicatorText: 3
                 fontRadioButton: mainFont.dapFont.regular16
                 implicitHeight: indicatorInnerSize
                 onClicked: {
@@ -147,14 +147,14 @@ Item
 
                 anchors.centerIn: parent
                 anchors.fill: parent
-                anchors.margins: 10 
-                anchors.leftMargin: 15 
+                anchors.margins: 10
+                anchors.leftMargin: 15
                 anchors.rightMargin: 15
 
                 dapIndicatorImageNormal: "qrc:/Resources/"+pathTheme+"/icons/other/icon_arrow_down.png"
                 dapIndicatorImageActive: "qrc:/Resources/"+pathTheme+"/icons/other/ic_arrow_up.png"
-                dapSidePaddingNormal: 10 
-                dapSidePaddingActive: 10 
+                dapSidePaddingNormal: 10
+                dapSidePaddingActive: 10
                 dapNormalColorText: currTheme.white
                 dapHilightColorText: currTheme.mainBackground
                 dapNormalColorTopText: currTheme.white
@@ -163,26 +163,26 @@ Item
                 dapHilightTopColor: currTheme.secondaryBackground //"blue" //currTheme.backgroundMainScreen
                 dapNormalColor: currTheme.secondaryBackground
                 dapNormalTopColor: currTheme.secondaryBackground //"blue" //currTheme.backgroundMainScreen
-                dapWidthPopupComboBoxNormal: 318 
-                dapWidthPopupComboBoxActive: 318 
-                dapHeightComboBoxNormal: 46 
-                dapHeightComboBoxActive: 46 
-    //            dapBottomIntervalListElement: 8 
+                dapWidthPopupComboBoxNormal: 318
+                dapWidthPopupComboBoxActive: 318
+                dapHeightComboBoxNormal: 46
+                dapHeightComboBoxActive: 46
+    //            dapBottomIntervalListElement: 8
                 dapTopEffect: false
                 x: popup.visible ? dapSidePaddingActive * (-1) : dapSidePaddingNormal
-                dapPaddingTopItemDelegate: 8 
-                dapHeightListElement: 42 
-    //            dapIntervalListElement: 10 
-                dapIndicatorWidth: 24 
+                dapPaddingTopItemDelegate: 8
+                dapHeightListElement: 42
+    //            dapIntervalListElement: 10
+                dapIndicatorWidth: 24
                 dapIndicatorHeight: dapIndicatorWidth
-                dapIndicatorLeftInterval: 16 
+                dapIndicatorLeftInterval: 16
                 dapColorTopNormalDropShadow: "#00000000"
                 dapColorDropShadow: currTheme.shadowColor
                 dapTextFont:  mainFont.dapFont.regular16
                 dapDefaultMainLineText: "All time"
                 dapIsDefaultNeedToAppend: true
-                dapRangeElementWidth: 74 
-                dapRangeSpacing: 6 
+                dapRangeElementWidth: 74
+                dapRangeSpacing: 6
                 dapRangeDefaultText: "dd.mm.yyyy"
                 dapInactiveRangeTextFont:  mainFont.dapFont.regular14
                 dapUnselectedRangeColorTopText: "#ACAAB5"
@@ -192,18 +192,18 @@ Item
                 dapCalendars:
                     DapCalendar
                     {
-                        dapLeftPadding: 16 
-                        dapRightPadding: 16 
-                        dapTopPadding: 0 
-                        dapBottomPadding: 16 
-                        dapTitleTopPadding: 20 
-                        dapTitleBottomPadding: 14 
-                        dapButtonInterval: 8 
-                        dapTitleWidth: 108 
-                        dapDayWidth: 24 
-                        dapDayHeight: 24 
-                        dapDayLeftInterval: 8 
-                        dapDayTopInterval: 2 
+                        dapLeftPadding: 16
+                        dapRightPadding: 16
+                        dapTopPadding: 0
+                        dapBottomPadding: 16
+                        dapTitleTopPadding: 20
+                        dapTitleBottomPadding: 14
+                        dapButtonInterval: 8
+                        dapTitleWidth: 108
+                        dapDayWidth: 24
+                        dapDayHeight: 24
+                        dapDayLeftInterval: 8
+                        dapDayTopInterval: 2
                         dapCalendarFont:  mainFont.dapFont.regular14
 
                         dapCalendarBackgroundColor: currTheme.mainBackground
@@ -230,6 +230,37 @@ Item
                 }
             }
         }
+
+        //TODO
+//        Text {
+//            Layout.topMargin: 40
+//            Layout.leftMargin: 16
+//            Layout.minimumHeight: 18
+//            Layout.maximumHeight: 18
+//            verticalAlignment: Text.AlignVCenter
+//            font: mainFont.dapFont.bold14
+//            color: currTheme.white
+//            text: qsTr("Network")
+//        }
+
+//        DapCustomComboBox
+//        {
+//            id: comboboxNetwork
+//            Layout.fillWidth: true
+//            Layout.topMargin: 20
+//            Layout.leftMargin: 15
+//            Layout.rightMargin: 15
+//            height: 40
+
+//            backgroundColorShow: currTheme.secondaryBackground
+//            backgroundColorNormal: currTheme.secondaryBackground
+//            background.radius: 4
+//            model: dapNetworkModel
+
+//            font: mainFont.dapFont.regular16
+
+//            defaultText: qsTr("Networks")
+//        }
 
         Item
         {

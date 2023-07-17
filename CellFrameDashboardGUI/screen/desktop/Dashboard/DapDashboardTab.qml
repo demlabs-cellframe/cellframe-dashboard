@@ -12,17 +12,17 @@ DapPage
     ///@detalis Path to the right panel of transaction history.
     readonly property string transactionHistoryWallet: path + "/Dashboard/RightPanel/DapTransactionHistoryRightPanel.qml"
     ///@detalis Path to the right panel of input name wallet.
-    readonly property string createNewWallet: path + "/Settings/RightPanel/DapCreateWallet.qml"
+    readonly property string createNewWallet:          path + "/Dashboard/RightPanel/DapCreateWallet.qml"
     ///@detalis Path to the right panel of recovery.
-    readonly property string recoveryWallet: path + "/Settings/RightPanel/DapRecoveryWalletRightPanel.qml"
+    readonly property string recoveryWallet:           path + "/Dashboard/RightPanel/DapRecoveryWalletRightPanel.qml"
     ///@detalis Path to the right panel of done.
-    readonly property string doneWallet: path + "/Settings/RightPanel/DapDoneCreateWallet.qml"
+    readonly property string doneWallet:               path + "/Dashboard/RightPanel/DapDoneCreateWallet.qml"
     ///@detalis Path to the right panel of last actions.
-    readonly property string lastActionsWallet: path + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
+    readonly property string lastActionsWallet:        path + "/Dashboard/RightPanel/DapLastActionsRightPanel.qml"
     ///@detalis Path to the right panel of new payment.
-    readonly property string newPaymentMain: path + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
+    readonly property string newPaymentMain:           path + "/Dashboard/RightPanel/DapNewPaymentMainRightPanel.qml"
     ///@detalis Path to the right panel of new payment done.
-    readonly property string newPaymentDone: path + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
+    readonly property string newPaymentDone:           path + "/Dashboard/RightPanel/DapNewPaymentDoneRightPanel.qml"
 
     id: dashboardTab
 
@@ -43,21 +43,33 @@ DapPage
         "message": ""
     }
 
+    signal walletsUpdated()
+
     ListModel {id: networksModel}
     LogicWallet{id: logicWallet}
 
     QtObject {
         id: navigator
 
-        function createWallet() {
-            if(state !== "WALLETSHOW")
-                state = "WALLETCREATE"
+        function createWallet()
+        {
+            state = "WALLETCREATE"
+
+            logicWallet.restoreWalletMode = false
             dapRightPanel.push(createNewWallet)
         }
 
-        function doneWalletFunc(){
+        function doneWalletFunc()
+        {
             dapRightPanel.push(doneWallet)
-            dashboardTopPanel.dapNewPayment.enabled = true
+        }
+
+        function restoreWalletFunc()
+        {
+            state = "WALLETCREATE"
+
+            logicWallet.restoreWalletMode = true
+            dapRightPanel.push(createNewWallet)
         }
 
         function recoveryWalletFunc()
@@ -81,17 +93,22 @@ DapPage
 
             if(!dapModelWallets.count)
                 state = "WALLETDEFAULT"
+            else
+                state = "WALLETSHOW"
+
         }
     }
 
-    dapHeader.initialItem: DapDashboardTopPanel
+    dapHeader.initialItem:
+        DapDashboardTopPanel
         {
             id: dashboardTopPanel
-            dapNewPayment.onClicked:
-            {
-                walletInfo.name = dapModelWallets.get(logicMainApp.currentWalletIndex).name
-                dapRightPanel.pop()
-                navigator.newPayment()
+            onChangeWalletIndex:{
+                dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+                txExplorerModule.setWalletName(modulesController.currentWalletName)
+                txExplorerModule.updateHistory(true)
+                navigator.popPage()
+                logicWallet.walletStatus = dapModelWallets.get(modulesController.currentWalletIndex).status
             }
         }
 
@@ -99,16 +116,13 @@ DapPage
         DapDashboardScreen
         {
             id: dashboardScreen
-            dapAddWalletButton.onClicked:
-            {
-                logicMainApp.restoreWalletMode = false
-                navigator.createWallet()
-                dashboardScreen.dapWalletCreateFrame.visible = false
-                dashboardTopPanel.dapNewPayment.enabled = false
-            }
         }
 
-    dapRightPanel.initialItem: DapLastActionsRightPanel{id: lastActions}
+    dapRightPanel.initialItem:
+        DapLastActionsRightPanel
+        {
+            id: lastActions
+        }
 
     state: "WALLETDEFAULT"
 
@@ -119,27 +133,24 @@ DapPage
             name: "WALLETDEFAULT"
             PropertyChanges
             {
-                target: dashboardScreen.dapWalletCreateFrame;
+                target: dashboardScreen.walletDefaultFrame
                 visible: true
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapMainFrameDashboard;
+                target: dashboardScreen.walletShowFrame
                 visible: false
             }
             PropertyChanges
             {
-                target: dapRightPanelFrame;
+                target: dashboardTopPanel.layout
                 visible: false
             }
+
+            //...
             PropertyChanges
             {
-                target: dapHeaderFrame
-                visible: false
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapFrameTitleCreateWallet;
+                target: dashboardScreen.walletCreateFrame;
                 visible: false
             }
         },
@@ -148,37 +159,25 @@ DapPage
             name: "WALLETSHOW"
             PropertyChanges
             {
-                target: dashboardScreen.dapWalletCreateFrame;
+                target: dashboardScreen.walletDefaultFrame
                 visible: false
             }
             PropertyChanges
             {
-                target: dashboardScreen.dapMainFrameDashboard;
+                target: dashboardScreen.walletShowFrame
                 visible: true
             }
+
             PropertyChanges
             {
-                target: dapRightPanelFrame;
+                target: dashboardTopPanel.layout
                 visible: true
             }
+
+            //...
             PropertyChanges
             {
-                target: dapHeaderFrame
-                visible: true
-            }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapNewPayment
-//                visible: true
-//            }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapFrameTitle
-//                visible: true
-//            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapFrameTitleCreateWallet;
+                target: dashboardScreen.walletCreateFrame;
                 visible: false
             }
         },
@@ -187,48 +186,36 @@ DapPage
             name: "WALLETCREATE"
             PropertyChanges
             {
-                target: dashboardScreen.dapWalletCreateFrame;
-                visible: true
-            }
-            PropertyChanges
-            {
-                target: dashboardScreen.dapMainFrameDashboard;
+                target: dashboardScreen.walletDefaultFrame;
                 visible: false
             }
             PropertyChanges
             {
-                target: dapRightPanelFrame;
-                visible: true
+                target: dashboardScreen.walletShowFrame
+                visible: false
             }
             PropertyChanges
             {
-                target: dapHeaderFrame
-                visible: true
+                target: dashboardTopPanel.layout
+                visible: false
             }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapNewPayment
-//                visible: false
-//            }
-//            PropertyChanges
-//            {
-//                target: dashboardTopPanel.dapFrameTitle
-//                visible: false
-//            }
+
+            //...
             PropertyChanges
             {
-                target: dashboardScreen.dapFrameTitleCreateWallet;
+                target: dashboardScreen.walletCreateFrame;
                 visible: true
             }
         }
     ]
 
-    Timer {
-        id: updateWalletTimer
-        interval: logicMainApp.autoUpdateInterval; running: false; repeat: true
-        onTriggered:
+
+    Connections
+    {
+        target: walletModule
+        function onSigWalletsInfo(model)
         {
-            console.log("WALLETS TIMER TICK")
+            logicWallet.updateWalletsModel(model)
 
             if(!dapModelWallets.count)
             {
@@ -236,64 +223,55 @@ DapPage
                 {
                     state = "WALLETDEFAULT"
                     navigator.popPage()
+                    txExplorerModule.clearHistory()
                 }
-
-                logicWallet.updateAllWallets()
             }
-            else
-            {
-                logicWallet.updateCurrentWallet()
-//                console.log(!walletActivatePopup.isOpen, dapModelWallets.get(logicMainApp.currentWalletIndex).status)
+            walletsUpdated()
 
-                if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                {
-                    walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
-                }
-                else if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "Active" && walletActivatePopup.isOpen)
-                    walletActivatePopup.hide()
-            }
+            var item = dapModelWallets.get(modulesController.currentWalletIndex);
+            if(modulesController.currentWalletIndex >= 0 && item.status)
+                logicWallet.walletStatus = item.status || ""
         }
-    }
-
-    Connections
-    {
-        target: dapMainWindow
-        function onModelWalletsUpdated()
+        function onSigWalletInfo(model)
         {
-            logicWallet.updateWalletModel()
 
-            // FOR DEBUG
-//            logicWallet.updateCurrentWallet()
-        }
-    }
+            var item = dapModelWallets.get(modulesController.currentWalletIndex);
 
-    Connections
-    {
-        target: dapServiceController
-        function onWalletCreated()
-        {
-            logicWallet.updateAllWallets()
+//            console.log(model)
+
+            logicWallet.updateWallet(model)
+
+            if(modulesController.currentWalletIndex >= 0 && item.status)
+                logicWallet.walletStatus = item.status || ""
+
         }
     }
 
     Component.onCompleted:
     {
-
-        logicWallet.updateWalletModel() 
-
-//        console.log(logicMainApp.currentWalletIndex, dapModelWallets.count, dapModelWallets.get(logicMainApp.currentWalletIndex).name, "AAAAAAAAAAAAAAAAAAAAAAAAAA")
-
-        if (!updateWalletTimer.running)
-            updateWalletTimer.start()
+//        console.log(dashboardScreen.listViewWallet.model)
+//        console.log(dapModelWallets.get(modulesController.currentWalletIndex).networks)
+//        dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+//
 
         if(dapModelWallets.count)
-            if(dapModelWallets.get(logicMainApp.currentWalletIndex).status === "non-Active" && !walletActivatePopup.isOpen)
-                walletActivatePopup.show(dapModelWallets.get(logicMainApp.currentWalletIndex).name, true)
+        {
+            dashboardScreen.listViewWallet.model = dapModelWallets.get(modulesController.currentWalletIndex).networks
+            if(dashboardTab.state != "WALLETCREATE")
+                dashboardTab.state = "WALLETSHOW"
+        }
+        else
+        {
+            walletModule.getWalletsInfo("true")
+        }
 
+        walletModule.statusProcessing = true
+        txExplorerModule.statusProcessing = true
     }
 
     Component.onDestruction:
     {
-        updateWalletTimer.stop()
+        walletModule.statusProcessing = false
+        txExplorerModule.statusProcessing = false
     }
 }

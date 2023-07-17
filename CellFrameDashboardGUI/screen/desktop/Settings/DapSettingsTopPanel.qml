@@ -36,7 +36,7 @@ Controls.DapTopPanel
                     id: requestsBut
                     text: qsTr("Requests")
                     font: mainFont.dapFont.medium14
-                    color: mouseArea.containsMouse ? currTheme.darkYellow : logicMainApp.requestsMessageCounter > 0 ? currTheme.lime : currTheme.white
+                    color: mouseArea.containsMouse ? currTheme.orange : logicMainApp.requestsMessageCounter > 0 ? currTheme.lime : currTheme.white
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
 
@@ -48,7 +48,7 @@ Controls.DapTopPanel
                     width: value.implicitWidth > 8 ? value.implicitWidth + 12  : 20
                     radius: 20
                     visible: logicMainApp.requestsMessageCounter > 0
-                    color: mouseArea.containsMouse ? currTheme.darkYellow : currTheme.lime
+                    color: mouseArea.containsMouse ? currTheme.orange : currTheme.lime
 
                     Text{
                         id: value
@@ -82,32 +82,82 @@ Controls.DapTopPanel
 
         Item{Layout.fillWidth: true}
 
-
-        RowLayout{
+        ColumnLayout{
             Layout.alignment: Qt.AlignRight
-            spacing: 8
+            spacing: 2
 
-            Text {
-                id: notifyStateText
+            RowLayout{
+                spacing: 8
 
-                Layout.alignment: Qt.AlignLeft
+                Text {
+                    id: notifyStateText
 
-                text: qsTr( "Node connection status:" )
-                font: mainFont.dapFont.regular13
-                color: currTheme.white
-                elide: Text.ElideMiddle
+                    Layout.alignment: Qt.AlignLeft
+
+                    text: qsTr( "Node connection status:" )
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.white
+                    elide: Text.ElideMiddle
+                }
+
+                Widgets.DapImageLoader {
+                    id: notifyState
+                    Layout.preferredHeight: 8
+                    Layout.preferredWidth: 8
+
+                    innerWidth: 8
+                    innerHeight: 8
+
+                    source: logicMainApp.stateNotify? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
+                                                      "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                }
             }
 
-            Widgets.DapImageLoader {
-                id: notifyState
-                Layout.preferredHeight: 8
-                Layout.preferredWidth: 8
+            RowLayout{
+                spacing: 8
 
-                innerWidth: 8
-                innerHeight: 8
+                Text {
+                    Layout.alignment: Qt.AlignLeft
 
-                source: logicMainApp.stateNotify? "qrc:/Resources/" + pathTheme + "/icons/other/indicator_online.png":
-                                                  "qrc:/Resources/" + pathTheme + "/icons/other/indicator_error.png"
+                    text: qsTr( "Node settings" )
+                    font: mainFont.dapFont.regular13
+                    color: settingsArea.containsMouse ? currTheme.orange
+                                                      : currTheme.lime
+                    elide: Text.ElideMiddle
+
+                    MouseArea{
+                        id: settingsArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: navigator.openNodeSettings()
+                    }
+                }
+                Text {
+                    Layout.alignment: Qt.AlignLeft
+
+                    text: qsTr( "|" )
+                    font: mainFont.dapFont.regular13
+                    color: currTheme.gray
+                    elide: Text.ElideMiddle
+                }
+                Text {
+                    Layout.alignment: Qt.AlignLeft
+
+                    text: qsTr( "Clear node data" )
+                    font: mainFont.dapFont.regular13
+                    color: clearArea.containsMouse ? currTheme.orange
+                                                      : currTheme.lime
+                    elide: Text.ElideMiddle
+
+                    MouseArea{
+                        id: clearArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: clearMessagePopup.smartOpen(
+                                       qsTr("Clear node data"),
+                                       qsTr("Confirming will clear all chain and GDB data. It will take time to reload data and synchronize"))
+                    }
+                }
             }
         }
 
@@ -123,7 +173,7 @@ Controls.DapTopPanel
                 Layout.alignment: Qt.AlignLeft
                 horizontalAlignment: Text.AlignLeft
 
-                text: qsTr( "Dashboard version " + dapServiceController.Version)
+                text: qsTr( "Dashboard version " + settingsModule.dashboardVersion)
                 font: mainFont.dapFont.regular13
                 color: currTheme.gray
 
@@ -133,7 +183,7 @@ Controls.DapTopPanel
                 Layout.alignment: Qt.AlignLeft
                 horizontalAlignment: Text.AlignLeft
 
-                text: qsTr( "Node version " + logicMainApp.nodeVersion)
+                text: qsTr( "Node version " + settingsModule.nodeVersion)
                 font: mainFont.dapFont.regular13
                 color: currTheme.gray
 
@@ -163,12 +213,11 @@ Controls.DapTopPanel
                 countElements: 5
                 elementSize: 4
 
-                running: sendRequest
+                running: settingsModule.guiRequest
             }
             onClicked:
             {
-                sendRequest = true
-                logicMainApp.requestToService("DapVersionController", "version")
+                settingsModule.guiVersionRequest()
             }
         }
 

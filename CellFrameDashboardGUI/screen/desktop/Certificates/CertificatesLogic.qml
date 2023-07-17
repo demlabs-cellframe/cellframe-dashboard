@@ -24,7 +24,7 @@ Item {
                 return
             }
 
-            utils.beatifulerJSONKeys(result, "onCertificateManagerOperationResult");    //for test
+//            utils.beatifulerJSONKeys(result, "onCertificateManagerOperationResult");    //for test
 
 //            requestRunning = false
 

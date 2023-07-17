@@ -185,7 +185,7 @@ Page {
                 fontButton: mainFont.dapFont.regular14
                 horizontalAligmentText: Text.AlignHCenter
                 onClicked: {
-                    logicMainApp.notifyService("DapWebConnectRequest",true, indexUser)
+                    logicMainApp.notifyService("DapWebConnectRequest",false, indexUser)
                     eventMessage("Denied")
                 }
             }

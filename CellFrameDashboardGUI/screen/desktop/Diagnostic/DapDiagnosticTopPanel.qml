@@ -151,13 +151,14 @@ Controls.DapTopPanel {
             Layout.alignment: Qt.AlignVCenter | Qt.AlignLeft
             Layout.preferredHeight: 26
             Layout.preferredWidth: 46
+            indicatorSize: 30
 
             backgroundColor: currTheme.mainBackground
             borderColor: currTheme.reflectionLight
             shadowColor: currTheme.shadowColor
 
-            onToggled: diagnostic.flagSendData = swithSendData.checked
-            Component.onCompleted: swithSendData.state = diagnostic.flagSendData ? "on" : "off"
+            onToggled: diagnosticsModule.flagSendData = swithSendData.checked
+            Component.onCompleted: swithSendData.state = diagnosticsModule.flagSendData ? "on" : "off"
         }
 
         Item{width: 24}

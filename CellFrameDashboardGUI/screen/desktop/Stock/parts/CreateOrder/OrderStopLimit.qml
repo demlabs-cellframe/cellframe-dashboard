@@ -118,7 +118,7 @@ ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 2
                 font: mainFont.dapFont.regular16
-                backgroundColor: currTheme.secondaryBackground
+                backgroundColorShow: currTheme.secondaryBackground
 
                 model: expiresModel
             }
