@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import "qrc:/widgets"
 import "../../../"
+import "../../controls"
 
 DapRectangleLitAndShaded
 {
@@ -26,6 +27,7 @@ DapRectangleLitAndShaded
         {
             Layout.fillWidth: true
             height: 42 
+            visible: txExplorerModule.statusInit
 
             Text
             {
@@ -39,6 +41,37 @@ DapRectangleLitAndShaded
             }
         }
 
+        ColumnLayout{
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignHCenter
+            spacing: 16
+            visible: !txExplorerModule.statusInit
+
+            Item{Layout.fillHeight: true}
+
+            DapLoadIndicator {
+                Layout.alignment: Qt.AlignHCenter
+
+                indicatorSize: 64
+                countElements: 8
+                elementSize: 10
+
+                running: !txExplorerModule.statusInit
+            }
+
+
+            Text
+            {
+                Layout.alignment: Qt.AlignHCenter
+
+                font: mainFont.dapFont.medium16
+                color: currTheme.white
+                text: qsTr("Last Actions data loading...")
+            }
+            Item{Layout.fillHeight: true}
+        }
+
         ListView
         {
             id: lastActionsView
@@ -49,6 +82,7 @@ DapRectangleLitAndShaded
             ScrollBar.vertical: ScrollBar {
                 active: true
             }
+            visible: txExplorerModule.statusInit
 
             section.property: "date"
             section.criteria: ViewSection.FullString

@@ -4,6 +4,7 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import "qrc:/widgets"
+import "../controls"
 
 Page
 {
@@ -33,25 +34,59 @@ Page
             lightColor: currTheme.reflectionLight
 
             contentData:
-            ListView
-            {
-                id: listViewHistory
+            Item{
                 anchors.fill: parent
-                model: modelHistory
-                clip: true
+                ListView
+                {
+                    id: listViewHistory
+                    anchors.fill: parent
+                    visible: txExplorerModule.statusInit
+                    model: modelHistory
+                    clip: true
 
-                delegate: delegateToken
+                    delegate: delegateToken
 
-                section.property: "date"
-                section.criteria: ViewSection.FullString
-                section.delegate: delegateDate
+                    section.property: "date"
+                    section.criteria: ViewSection.FullString
+                    section.delegate: delegateDate
 
-                ScrollBar.vertical: ScrollBar {
-                    id: historyVerticalScrollBar
-                    active: true
+                    ScrollBar.vertical: ScrollBar {
+                        id: historyVerticalScrollBar
+                        active: true
+                    }
+                    currentIndex: logicExplorer.selectTxIndex
                 }
-                currentIndex: logicExplorer.selectTxIndex
+
+                ColumnLayout{
+                    anchors.fill: parent
+                    spacing: 16
+                    visible: !txExplorerModule.statusInit
+
+                    Item{Layout.fillHeight: true}
+
+                    DapLoadIndicator {
+                        Layout.alignment: Qt.AlignHCenter
+
+                        indicatorSize: 64
+                        countElements: 8
+                        elementSize: 10
+
+                        running: !txExplorerModule.statusInit
+                    }
+
+
+                    Text
+                    {
+                        Layout.alignment: Qt.AlignHCenter
+
+                        font: mainFont.dapFont.medium18
+                        color: currTheme.white
+                        text: qsTr("History data loading...")
+                    }
+                    Item{Layout.fillHeight: true}
+                }
             }
+
 
         }
 
