@@ -85,6 +85,7 @@ DapModuleDiagnostics::~DapModuleDiagnostics()
 
 void DapModuleDiagnostics::slot_diagnostic_data(QJsonDocument data)
 {
+    qDebug()<<"DapModuleDiagnostics::slot_diagnostic_data";
     //insert uptime dashboard into system info
     QJsonObject obj = data.object();
     QJsonObject system = data["system"].toObject();
@@ -144,6 +145,7 @@ void DapModuleDiagnostics::slot_uptime()
 }
 void DapModuleDiagnostics::slot_update_node_list()
 {
+    qDebug()<<"DapModuleDiagnostics::slot_update_node_list";
     QJsonDocument buff = m_diagnostic->get_list_nodes();
     if(buff.toJson() != s_node_list.toJson())
     {
@@ -171,6 +173,7 @@ void DapModuleDiagnostics::slot_update_node_list()
 
 void DapModuleDiagnostics::addNodeToList(QString mac)
 {
+    qDebug()<<"DapModuleDiagnostics::addNodeToList";
     QJsonArray arr = s_node_list_selected.array();
     QJsonObject obj;
     obj.insert("mac", mac);
@@ -186,6 +189,7 @@ void DapModuleDiagnostics::addNodeToList(QString mac)
 
 void DapModuleDiagnostics::removeNodeFromList(QString mac)
 {
+    qDebug()<<"DapModuleDiagnostics::removeNodeFromList";
     QJsonArray arr = s_node_list_selected.array();
 
     for (auto itr = arr.begin(); itr != arr.end(); itr++)
@@ -209,6 +213,7 @@ void DapModuleDiagnostics::removeNodeFromList(QString mac)
 
 void DapModuleDiagnostics::searchSelectedNodes(QString filtr)
 {
+    qDebug()<<"DapModuleDiagnostics::searchSelectedNodes";
     QJsonArray arr = s_node_list_selected.array();
 
     for (auto itr = arr.begin(); itr != arr.end(); itr++)
@@ -229,6 +234,7 @@ void DapModuleDiagnostics::searchSelectedNodes(QString filtr)
 
 void DapModuleDiagnostics::searchAllNodes(QString filtr)
 {
+    qDebug()<<"DapModuleDiagnostics::searchAllNodes";
     QJsonArray arr = s_node_list.array();
 
     for (auto itr = arr.begin(); itr != arr.end(); itr++)
