@@ -409,6 +409,13 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
     QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
+
+    if(doc.array().isEmpty())
+    {
+        setStatusInit(true);
+        setWalletName("");
+    }
+
     if((doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0)) || isSendReqeust)
         return ;
 
