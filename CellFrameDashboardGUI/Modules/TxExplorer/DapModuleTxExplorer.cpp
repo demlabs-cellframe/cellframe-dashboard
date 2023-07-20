@@ -173,9 +173,11 @@ void DapModuleTxExplorer::setWalletName(QString str)
     {
         m_walletName = str;
 
-        s_historyModel->clear();
+        fullModel.clear();
+        isSendReqeust = false;
         updateHistory(true);
         setStatusInit(false);
+        sendCurrentHistoryModel();
     }
 }
 
@@ -221,6 +223,9 @@ void DapModuleTxExplorer::setCurrentPeriod(QVariant str)
 void DapModuleTxExplorer::sendCurrentHistoryModel()
 {
 //    model.clear();
+
+    if(m_walletName != m_modulesCtrl->m_currentWalletName || !fullModel.size())
+        return;
 
     QDateTime currDate = QDateTime::currentDateTime();
 
