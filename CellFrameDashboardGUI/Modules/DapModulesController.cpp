@@ -37,7 +37,8 @@ DapModulesController::DapModulesController(QQmlApplicationEngine *appEngine, QOb
     connect(s_serviceCtrl, &DapServiceController::networksListReceived, this, &DapModulesController::rcvNetList);
     connect(s_serviceCtrl, &DapServiceController::rcvFee, this, &DapModulesController::rcvFee);
 
-    m_timerUpdateData->start(10);
+    getNetworkList();
+    getWalletList();
     m_timerUpdateData->start(5000);
 
 //    DapModuleTest *test = static_cast<DapModuleTest*>(getModule("testModule"));

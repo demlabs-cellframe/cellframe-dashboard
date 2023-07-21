@@ -248,6 +248,9 @@ void AbstractDiagnostic::write_data()
 {
 //    qInfo()<<"AbstractDiagnostic::write_data";
 
+    if(s_full_info.isEmpty())
+        return;
+
     QString key = s_mac.toString();
 
     QProcess proc;

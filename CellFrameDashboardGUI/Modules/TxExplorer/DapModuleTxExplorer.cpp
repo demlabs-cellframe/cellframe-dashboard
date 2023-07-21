@@ -18,6 +18,15 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelLastActions", s_historyModel);
     m_modulesCtrl->s_appEngine->rootContext()->setContextProperty("modelHistory", s_historyModel);
 
+    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    {
+        initConnect();
+        updateHistory(true);
+    });
+}
+
+void DapModuleTxExplorer::initConnect()
+{
     connect(s_serviceCtrl, &DapServiceController::allWalletHistoryReceived,
             this, &DapModuleTxExplorer::setHistoryModel,
             Qt::QueuedConnection);
@@ -25,25 +34,22 @@ DapModuleTxExplorer::DapModuleTxExplorer(DapModulesController *parent)
             this, &DapModuleTxExplorer::slotHistoryUpdate,
             Qt::QueuedConnection);
 
-    connect(m_modulesCtrl, &DapModulesController::initDone, [=] ()
+    connect(this, &DapAbstractModule::statusProcessingChanged, [=]
     {
-
-        connect(this, &DapAbstractModule::statusProcessingChanged, [=]
-        {
 //            qDebug()<<"m_statusProcessing" << m_statusProcessing;
-            if(m_statusProcessing)
-                m_timerHistoryUpdate->start(10000);
-            else
-                m_timerHistoryUpdate->stop();
-        });
-
-        updateHistory(true);
-        setStatusInit(true);
+        if(m_statusProcessing)
+            m_timerHistoryUpdate->start(10000);
+        else
+        {
+            m_timerHistoryUpdate->stop();
+            setStatusInit(false);
+        }
     });
 }
 
 void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
 {
+    isSendReqeust = false;
 //    qDebug() << "DapModuleTxExplorer::setHistoryModel"
 //             << "isEqual" << (rcvData.toString() == "isEqual");
 
@@ -58,8 +64,8 @@ void DapModuleTxExplorer::setHistoryModel(const QVariant &rcvData)
     if (!doc.isObject())
         return;
 
-    if (doc["walletName"].toString() != m_walletName ||
-        doc["isLastActions"].toBool() != m_isLastActions )
+    if (doc["walletName"].toString() != m_walletName /*||
+        doc["isLastActions"].toBool() != m_isLastActions */)
     {
         qWarning() << "ERROR"
                    << "walletName" << doc["walletName"].toString() << m_walletName
@@ -152,8 +158,10 @@ void DapModuleTxExplorer::setLastActions(bool flag)
     if (m_isLastActions != flag)
     {
         m_isLastActions = flag;
+        sendCurrentHistoryModel();
 
-        s_historyModel->clear();
+//        s_historyModel->clear();
+//        setStatusInit(false);
     }
 }
 
@@ -165,7 +173,11 @@ void DapModuleTxExplorer::setWalletName(QString str)
     {
         m_walletName = str;
 
-        s_historyModel->clear();
+        fullModel.clear();
+        isSendReqeust = false;
+        updateHistory(true);
+        setStatusInit(false);
+        sendCurrentHistoryModel();
     }
 }
 
@@ -211,6 +223,9 @@ void DapModuleTxExplorer::setCurrentPeriod(QVariant str)
 void DapModuleTxExplorer::sendCurrentHistoryModel()
 {
 //    model.clear();
+
+    if(m_walletName != m_modulesCtrl->m_currentWalletName || !fullModel.size())
+        return;
 
     QDateTime currDate = QDateTime::currentDateTime();
 
@@ -376,6 +391,8 @@ void DapModuleTxExplorer::sendCurrentHistoryModel()
 
     emit historyMore15Changed(m_historyMore15);
 
+    setStatusInit(true);
+
 //    qDebug() << "DapModuleTxExplorer::sendCurrentHistoryModel" << s_historyModel->size();
 
 //    if (m_isLastActions)
@@ -392,10 +409,18 @@ void DapModuleTxExplorer::slotHistoryUpdate()
 void DapModuleTxExplorer::updateHistory(bool flag)
 {
     QJsonDocument doc = QJsonDocument::fromJson(m_modulesCtrl->m_walletList);
-    if(doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0))
+
+    if(doc.array().isEmpty())
+    {
+        setStatusInit(true);
+        setWalletName("");
+    }
+
+    if((doc.array().isEmpty() && (m_modulesCtrl->m_currentWalletIndex < 0)) || isSendReqeust)
         return ;
 
     m_timerHistoryUpdate->stop();
     s_serviceCtrl->requestToService("DapGetAllWalletHistoryCommand", QVariantList()<<m_modulesCtrl->m_currentWalletName << flag << m_isLastActions);
     m_timerHistoryUpdate->start(10000);
+    isSendReqeust = true;
 }

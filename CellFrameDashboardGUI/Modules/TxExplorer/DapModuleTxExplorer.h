@@ -45,6 +45,7 @@ public:
 private:
     DapModulesController  *m_modulesCtrl;
     QTimer *m_timerHistoryUpdate;
+    bool isSendReqeust{false};
 
 signals:
     void updateHistoryModel();
@@ -64,6 +65,7 @@ public slots:
 
 private:
     void sendCurrentHistoryModel();
+    void initConnect();
 
 private:
     QQmlContext *context;
