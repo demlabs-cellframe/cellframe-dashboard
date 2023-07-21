@@ -102,11 +102,11 @@ DapPage
 
     Component.onCompleted:
     {
-        txExplorerModule.statusProcessing = true
         txExplorerModule.setFilterString("")
         txExplorerModule.setCurrentStatus(currentStatus)
         txExplorerModule.setLastActions(false)
         logicExplorer.historyUpdate()
+        txExplorerModule.statusProcessing = true
     }
 
     Component.onDestruction:

@@ -448,7 +448,7 @@ Rectangle {
     Component.onCompleted:
     {
 //        dapServiceController.requestToService("DapGetNetworksStateCommand")
-        logicMainApp.requestToService("DapVersionController", "version")
+//        logicMainApp.requestToService("DapVersionController", "version")
 
 //        var timeTo = 10
 //        var timeFrom = 20

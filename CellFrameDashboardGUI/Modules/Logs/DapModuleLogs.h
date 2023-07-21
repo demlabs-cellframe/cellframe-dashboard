@@ -65,11 +65,11 @@ private:
 
     LogModel model;
 
-    LogReader nodeLog;
-    LogReader guiLog;
-    LogReader serviceLog;
+//    LogReader nodeLog;
+//    LogReader guiLog;
+//    LogReader serviceLog;
 
-    LogReader *currentLog;
+//    LogReader *currentLog;
 
     qint64 bufferSize {1000};
 

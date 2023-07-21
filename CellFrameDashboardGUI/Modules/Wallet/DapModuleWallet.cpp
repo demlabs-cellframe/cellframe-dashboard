@@ -13,7 +13,7 @@ DapModuleWallet::DapModuleWallet(DapModulesController *parent)
 
         initConnect();
         m_timerUpdateWallet->start(2000);
-        setStatusInit(true);
+//        setStatusInit(true);
     });
 }
 DapModuleWallet::~DapModuleWallet()
@@ -65,7 +65,10 @@ void DapModuleWallet::initConnect()
             m_timerUpdateWallet->start(5000);
         }
         else
+        {
             m_timerUpdateWallet->stop();
+            setStatusInit(false);
+        }
     });
 
 
@@ -110,6 +113,7 @@ void DapModuleWallet::rcvWalletsInfo(const QVariant &rcvData)
 {
     m_walletsModel = QJsonDocument::fromJson(rcvData.toByteArray());
     emit sigWalletsInfo(m_walletsModel.toJson());
+    setStatusInit(true);
 }
 QByteArray DapModuleWallet::getWalletsModel()
 {
