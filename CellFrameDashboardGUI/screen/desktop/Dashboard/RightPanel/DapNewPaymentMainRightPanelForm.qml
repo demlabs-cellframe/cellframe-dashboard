@@ -68,6 +68,12 @@ DapRectangleLitAndShaded
 //                console.log(walletMessagePopup.feeStruct, feeDoc)
             }
         }
+
+//        Component.onCompleted:
+//        {
+//            console.log("NETWORK SELECTED ", dapComboboxNetwork.displayText)
+//            modulesController.getComission(dapComboboxNetwork.displayText)
+//        }
     }
 
     contentData:
@@ -159,6 +165,14 @@ DapRectangleLitAndShaded
                     font: mainFont.dapFont.regular16
 
                     defaultText: qsTr("Networks")
+
+                    Component.onCompleted:
+                    {
+//                        console.log("NETWORK INIT ", displayText)
+                        modulesController.getComission(displayText)
+                    }
+
+
                 }
             }
 

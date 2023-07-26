@@ -171,7 +171,7 @@ void AbstractDiagnostic::start_write(bool isStart)
 
 void AbstractDiagnostic::remove_data()
 {
-    qInfo()<<"AbstractDiagnostic::remove_data";
+//    qInfo()<<"AbstractDiagnostic::remove_data";
 
     QString key = s_mac.toString();
     QProcess proc;
@@ -248,8 +248,10 @@ void AbstractDiagnostic::write_data()
 {
 //    qInfo()<<"AbstractDiagnostic::write_data";
 
-    if(s_full_info.isEmpty())
+    if(s_full_info.isEmpty() || s_full_info.isNull())
         return;
+
+    QJsonDocument docBuff = s_full_info;
 
     QString key = s_mac.toString();
 
@@ -257,7 +259,7 @@ void AbstractDiagnostic::write_data()
     QString program = QString(CLI_PATH);
     QStringList arguments;
     arguments << "global_db" << "write" << "-group" << QString(group)
-              << "-key" << QString(key) << "-value" << QByteArray(s_full_info.toJson());
+              << "-key" << QString(key) << "-value" << QByteArray(docBuff.toJson());
     proc.start(program, arguments);
     proc.waitForFinished(5000);
     QString res = proc.readAll();

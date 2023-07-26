@@ -189,7 +189,7 @@ void DapServiceController::initServices()
     m_servicePool.append(new DapMempoolProcessCommand             ("DapMempoolProcessCommand"             , m_pServer, CLI_PATH));
     m_servicePool.append(new DapGetWalletHistoryCommand           ("DapGetWalletHistoryCommand"           , m_pServer, CLI_PATH));
     m_servicePool.append(new DapGetAllWalletHistoryCommand        ("DapGetAllWalletHistoryCommand"        , m_pServer, CLI_PATH));
-    m_servicePool.append(new DapRunCmdCommand                     ("DapRunCmdCommand"                     , m_pServer, CLI_PATH));
+    m_servicePool.append(new DapRunCmdCommand                     ("DapRunCmdCommand"                     , m_pServer, CLI_PATH, TOOLS_PATH));
     m_servicePool.append(new DapGetHistoryExecutedCmdCommand      ("DapGetHistoryExecutedCmdCommand"      , m_pServer, CMD_HISTORY));
     m_servicePool.append(new DapSaveHistoryExecutedCmdCommand     ("DapSaveHistoryExecutedCmdCommand"     , m_pServer, CMD_HISTORY));
     m_servicePool.append(new DapVersionController                 ("DapVersionController"                 , m_pServer));
